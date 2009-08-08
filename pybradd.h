@@ -20,25 +20,6 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
                                           stip_length_type min_length,
                                           slice_index next);
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * Assumes slice_must_starter_resign(si)
- * @param si slice index
- */
-void branch_d_defender_write_unsolvability(slice_index si);
-
-/* Let the next slice write the solution starting with the key just played
- * @param si slice index
- */
-void branch_d_defender_write_solution_next(slice_index si);
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
-
 /* Is there no chance left for the starting side at the move to win?
  * E.g. did the defender just capture that attacker's last potential
  * mating piece?
@@ -47,14 +28,12 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
  */
 boolean branch_d_defender_must_starter_resign(slice_index si);
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
  */
-boolean branch_d_defender_has_starter_apriori_lost(slice_index si);
+boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
 
 /* Is the defense just played a refutation?
  * @param si slice index
@@ -75,13 +54,6 @@ boolean branch_d_defender_is_refuted(slice_index si,
  */
 boolean branch_d_defender_has_starter_won(slice_index si);
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean branch_d_defender_has_starter_reached_goal(slice_index si);
-
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index
  * @param n (odd) number of half moves until goal
@@ -92,13 +64,6 @@ boolean branch_d_defender_has_starter_reached_goal(slice_index si);
 boolean branch_d_defender_does_defender_win(slice_index si,
                                             stip_length_type n,
                                             int curr_max_nr_nontrivial);
-
-/* Determine whether a slice.has just been solved with the just played
- * move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean branch_d_defender_has_non_starter_solved(slice_index si);
 
 /* Solve postkey play play after the move that has just
  * been played in the current ply.

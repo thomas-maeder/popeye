@@ -89,7 +89,7 @@ slice_index alloc_direct_branch(branch_level level,
  */
 void branch_d_write_unsolvability(slice_index si)
 {
-  slice_write_unsolvability(slices[si].u.pipe.next);
+  slice_write_unsolvability(slices[si].u.pipe.u.branch_d.fork);
 }
 
 /* Determine whether a side has reached the goal
@@ -105,7 +105,7 @@ boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_is_goal_reached(just_moved,slices[si].u.pipe.next);
+  result = slice_is_goal_reached(just_moved,slices[si].u.pipe.u.branch_d.fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -122,9 +122,18 @@ boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
  */
 boolean branch_d_has_starter_apriori_lost(slice_index si)
 {
-  return slice_has_starter_apriori_lost(slices[si].u.pipe.next);
+  return slice_has_starter_apriori_lost(slices[si].u.pipe.u.branch_d.fork);
 }
  
+/* Determine whether a slice.has just been solved with the just played
+ * move by the non-starter
+ * @param si slice identifier
+ * @return true iff the non-starting side has just solved
+ */
+boolean branch_d_has_non_starter_solved(slice_index si)
+{
+  return slice_has_non_starter_solved(slices[si].u.pipe.u.branch_d.fork);
+}
 
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
@@ -144,7 +153,7 @@ boolean branch_d_has_starter_won(slice_index si)
  */
 boolean branch_d_has_starter_reached_goal(slice_index si)
 {
-  return slice_has_starter_reached_goal(slices[si].u.pipe.next);
+  return slice_has_starter_reached_goal(slices[si].u.pipe.u.branch_d.fork);
 }
 
 /* Determine whether this slice has a solution in n half moves
@@ -160,6 +169,7 @@ static boolean have_we_solution_in_n(slice_index si,
 {
   Side const attacker = slices[si].starter;
   slice_index const peer = slices[si].u.pipe.next;
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
   boolean solution_found = false;
 
   TraceFunctionEntry(__func__);
@@ -177,7 +187,7 @@ static boolean have_we_solution_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker))
     {
-      if (slice_has_starter_apriori_lost(peer))
+      if (slice_has_starter_apriori_lost(fork))
         /* nothing */;
       else if (!direct_defender_does_defender_win(peer,
                                                   n-1,
@@ -371,6 +381,7 @@ void branch_d_solve_continuations_in_n(table continuations,
 {
   Side const attacker = slices[si].starter;
   slice_index const peer = slices[si].u.pipe.next;
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -388,7 +399,7 @@ void branch_d_solve_continuations_in_n(table continuations,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,attacker))
     {
-      if (slice_has_starter_apriori_lost(peer))
+      if (slice_has_starter_apriori_lost(fork))
         ; /* nothing */
       else if (!direct_defender_does_defender_win(peer,n-1,max_nr_nontrivial))
       {
@@ -516,6 +527,7 @@ boolean branch_d_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
   slice_index const peer = slices[si].u.pipe.next;
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -530,7 +542,7 @@ boolean branch_d_root_solve(slice_index si)
   if (echecc(nbply,advers(attacker)))
     ErrorMsg(KingCapture);
   else if (slice_must_starter_resign(peer))
-    slice_write_unsolvability(peer);
+    slice_write_unsolvability(fork);
   else
   {
     solutions = 0;

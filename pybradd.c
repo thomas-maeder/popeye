@@ -65,24 +65,6 @@ boolean branch_d_defender_must_starter_resign(slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * Assumes slice_must_starter_resign(si)
- * @param si slice index
- */
-void branch_d_defender_write_unsolvability(slice_index si)
-{
-  slice_write_unsolvability(slices[si].u.pipe.next);
-}
-
-/* Let the next slice write the solution starting with the key just played
- * @param si slice index
- */
-void branch_d_defender_write_solution_next(slice_index si)
-{
-  slice_solve_postkey(slices[si].u.pipe.next);
-}
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
@@ -103,30 +85,6 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean branch_d_defender_has_starter_apriori_lost(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_apriori_lost(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 
 /* Is the defense just played a refutation?
  * @param si slice index
@@ -503,48 +461,6 @@ boolean branch_d_defender_has_starter_won(slice_index si)
   return has_starter_won_in_n(si,
                               slices[si].u.pipe.u.branch.length,
                               max_nr_nontrivial);
-}
-
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean branch_d_defender_has_starter_reached_goal(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_reached_goal(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice.has just been solved with the just played
- * move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean branch_d_defender_has_non_starter_solved(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_non_starter_solved(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether the defense just played defends against the threats.

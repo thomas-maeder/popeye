@@ -46,6 +46,13 @@ boolean branch_d_is_goal_reached(Side just_moved, slice_index si);
  */
 boolean branch_d_has_starter_apriori_lost(slice_index si);
 
+/* Determine whether a slice.has just been solved with the just played
+ * move by the non-starter
+ * @param si slice identifier
+ * @return true iff the non-starting side has just solved
+ */
+boolean branch_d_has_non_starter_solved(slice_index si);
+
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
  * current slice.
