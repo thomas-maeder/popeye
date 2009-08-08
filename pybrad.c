@@ -658,7 +658,6 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
     hash_slice_is_derived_from(next_in_setplay,si);
 
     slices[next_in_setplay].u.pipe.next = next_in_setplay_peer;
-    slices[next_in_setplay_peer].u.pipe.next = fork;
   }
 
   result = alloc_help_branch(toplevel_branch,
