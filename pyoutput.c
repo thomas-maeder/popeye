@@ -153,6 +153,8 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_fork,        /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
+  &output_mode_treemode,    /* STDirectRoot */
+  &output_mode_treemode,    /* STDirectAdapter */
   &output_mode_help_root,   /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
@@ -420,12 +422,16 @@ void output_start_continuation_level(void)
  */
 void output_end_continuation_level(void)
 {
+  ply const start_ply = 2;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
-    if (move_depth==2 && nr_continuations_written[move_depth]==0)
+    if (nr_color_inversions_in_ply[start_ply]==0
+        && move_depth==2
+        && nr_continuations_written[move_depth]==0)
       write_refutation_mark();
 
     move_depth--;

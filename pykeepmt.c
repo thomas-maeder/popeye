@@ -329,6 +329,8 @@ static slice_operation const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_quodlibet,   /* STQuodlibet */
   &slice_traverse_children,                /* STNot */
   &slice_traverse_children,                /* STMoveInverter */
+  &slice_traverse_children,                /* STDirectRoot */
+  &slice_traverse_children,                /* STDirectAdapter */
   &keepmating_guards_inserter_branch,      /* STHelpRoot */
   &slice_traverse_children,                /* STHelpAdapter */
   &slice_traverse_children,                /* STHelpHashed */

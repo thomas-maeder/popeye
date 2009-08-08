@@ -41,6 +41,9 @@
                                                                         \
     ENUMERATOR(STMoveInverter),    /* 0 length, inverts side at move */ \
                                                                         \
+    ENUMERATOR(STDirectRoot),      /* root level of direct play */        \
+    ENUMERATOR(STDirectAdapter),   /* direct play after branch fork */    \
+                                                                        \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
@@ -407,6 +410,8 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STQuodlibet */
   &get_max_nr_moves_other,           /* STNot */
   &get_max_nr_moves_other,           /* STMoveInverter */
+  &get_max_nr_moves_other,           /* STDirectRoot */
+  &get_max_nr_moves_other,           /* STDirectAdapter */
   &get_max_nr_moves_other,           /* STHelpRoot */
   &get_max_nr_moves_other,           /* STHelpAdapter */
   &get_max_nr_moves_other,           /* STHelpHashed */
@@ -490,6 +495,8 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STDirectAdapter */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
@@ -599,6 +606,8 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,             /* STQuodlibet */
   0,                                    /* STNot */
   0,                                    /* STMoveInverter */
+  &slice_traverse_children,             /* STDirectRoot */
+  &slice_traverse_children,             /* STDirectAdapter */
   0,                                    /* STHelpRoot */
   &transform_to_quodlibet_help_adapter, /* STHelpAdapter */
   0,                                    /* STHelpHashed */
@@ -690,6 +699,8 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STDirectAdapter */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
@@ -761,6 +772,8 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STQuodlibet */
   &slice_traverse_children,   /* STNot */
   &slice_traverse_children,   /* STMoveInverter */
+  &slice_traverse_children,   /* STDirectRoot */
+  &slice_traverse_children,   /* STDirectAdapter */
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpAdapter */
   &slice_traverse_children,   /* STHelpHashed */
@@ -838,6 +851,8 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
+  &make_exact_branch,                 /* STDirectRoot */
+  &make_exact_branch,                 /* STDirectAdapter */
   &make_exact_branch,                 /* STHelpRoot */
   &make_exact_branch,                 /* STHelpAdapter */
   0,                                  /* STHelpHashed */
@@ -882,6 +897,8 @@ static slice_operation const starter_imposers[] =
   &quodlibet_impose_starter,     /* STQuodlibet */
   &pipe_impose_starter,          /* STNot */
   &pipe_impose_inverted_starter, /* STMoveInverter */
+  &pipe_impose_inverted_starter, /* STDirectRoot */
+  &pipe_impose_starter,          /* STDirectAdapter */
   &pipe_impose_inverted_starter, /* STHelpRoot */
   &pipe_impose_starter,          /* STHelpAdapter */
   &pipe_impose_starter,          /* STHelpHashed */
@@ -1116,6 +1133,8 @@ static slice_operation const traversers[] =
   &traverse_fork,         /* STQuodlibet */
   &traverse_pipe,         /* STNot */
   &traverse_pipe,         /* STMoveInverter */
+  &traverse_pipe,         /* STDirectRoot */
+  &traverse_pipe,         /* STDirectAdapter */
   &traverse_pipe,         /* STHelpRoot */
   &traverse_pipe,         /* STHelpAdapter */
   &traverse_pipe,         /* STHelpHashed */

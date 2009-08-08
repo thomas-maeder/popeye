@@ -284,6 +284,8 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STQuodlibet */
   &slice_property_offset_shifter, /* STNot */
   &slice_property_offset_shifter, /* STMoveInverter */
+  &slice_property_offset_shifter, /* STDirectRoot */
+  &slice_property_offset_shifter, /* STDirectAdapter */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
   &slice_property_offset_shifter, /* STHelpHashed */
@@ -555,6 +557,32 @@ static boolean init_slice_properties_fork(slice_index fork,
 }
 
 /* Initialise the slice_properties array according to a subtree of the
+ * current stipulation slices
+ * @param si root slice of subtree
+ * @param st address of structure defining traversal
+ * @return true iff the properties for si and its children have been
+ *         successfully initialised
+ */
+static boolean init_slice_properties_direct_adapter(slice_index si,
+                                                    slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a direct branch
  * @param si root slice of subtree
  * @param st address of structure defining traversal
@@ -564,23 +592,17 @@ static boolean init_slice_properties_fork(slice_index fork,
 static boolean init_slice_properties_branch_direct(slice_index branch,
                                                    slice_traversal *st)
 {
-  boolean result1;
-  boolean result2 = true;
+  boolean const result = true;
   slice_index const base = base_slice[branch];
 
   if (base==no_slice)
   {
     stip_length_type const length = slices[branch].u.pipe.u.branch_d.length;
-    slice_index const fork = slices[branch].u.pipe.u.branch_d.fork;
-    slice_index const togoal = slices[fork].u.pipe.u.branch_fork.towards_goal;
     init_slice_property_direct(branch,length,st->param);
-    result1 = slice_traverse_children(branch,st);
-    result2 = traverse_slices(togoal,st);
+    slice_traverse_children(branch,st);
   }
-  else
-    result1 = true;
 
-  return result1 && result2;
+  return result;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -597,6 +619,9 @@ boolean init_slice_properties_branch_direct_defender(slice_index branch,
   slice_index const next = slices[branch].u.pipe.next;
   boolean const result = traverse_slices(next,st);
   init_slice_properties_pipe(branch,st);
+  init_slice_properties_direct_adapter(branch,st);
+//   should be:
+//   slice_traverse_children(branch,st);
   return result;
 }
 
@@ -767,6 +792,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_fork,                   /* STQuodlibet */
   &init_slice_properties_pipe,                   /* STNot */
   &init_slice_properties_pipe,                   /* STMoveInverter */
+  &init_slice_properties_direct_adapter,         /* STDirectRoot */
+  &init_slice_properties_direct_adapter,         /* STDirectAdapter */
   &init_slice_properties_help_adapter,           /* STHelpRoot */
   &init_slice_properties_help_adapter,           /* STHelpAdapter */
   &init_slice_properties_hashed_help,            /* STHelpHashed */
@@ -823,6 +850,8 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STQuodlibet */
   &slice_traverse_children,             /* STNot */
   &slice_traverse_children,             /* STMoveInverter */
+  &slice_traverse_children,             /* STDirectRoot */
+  &slice_traverse_children,             /* STDirectAdapter */
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpAdapter */
   &slice_traverse_children,             /* STHelpHashed */
@@ -855,6 +884,33 @@ static boolean  non_standard_length_finder_branch_direct(slice_index branch,
     *nonstandard = true;
 
   slice_traverse_children(branch,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find out whether a branch has a non-standard length (i.e. is exact)
+ * @param branch identifies branch
+ */
+static boolean non_standard_length_finder_direct_adapter(slice_index si,
+                                                         slice_traversal *st)
+{
+  boolean const result = true;
+  boolean * const nonstandard = st->param;
+  stip_length_type const length = slices[si].u.pipe.u.branch_d.length;
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.pipe.u.branch_d.min_length==length
+      && length>slack_length_direct+1)
+    *nonstandard = true;
+
+  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -930,6 +986,8 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                   /* STQuodlibet */
   &slice_traverse_children,                   /* STNot */
   &slice_traverse_children,                   /* STMoveInverter */
+  &slice_traverse_children,                   /* STDirectRoot */
+  &non_standard_length_finder_direct_adapter, /* STDirectAdapter */
   &slice_traverse_children,                   /* STHelpRoot */
   &non_standard_length_finder_help_adapter,   /* STHelpAdapter */
   &non_standard_length_finder_help_adapter,   /* STHelpHashed */
@@ -966,7 +1024,7 @@ static boolean findMinimalValueOffset(slice_index si, slice_traversal *st)
 
 static slice_operation const min_valueOffset_finders[] =
 {
-  &findMinimalValueOffset,  /* STBranchDirect */
+  &findMinimalValueOffset, /* STBranchDirect */
   &findMinimalValueOffset,  /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STBranchSeries */
@@ -979,6 +1037,8 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STDirectAdapter */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &findMinimalValueOffset,  /* STHelpHashed */
@@ -1027,6 +1087,8 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
+  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STDirectAdapter */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &reduceValueOffset,       /* STHelpHashed */
@@ -1849,7 +1911,7 @@ static boolean number_of_holes_estimator_hashed_help(slice_index si,
 
 static slice_operation const number_of_holes_estimators[] =
 {
-  &number_of_holes_estimator_branch_direct,         /* STBranchDirect */
+  &slice_traverse_children,                         /* STBranchDirect */
   &number_of_holes_estimator_branch_direct_defender,/* STBranchDirectDefender*/
   &slice_traverse_children,                         /* STBranchHelp */
   &slice_traverse_children,                         /* STBranchSeries */
@@ -1862,6 +1924,8 @@ static slice_operation const number_of_holes_estimators[] =
   &number_of_holes_estimator_fork,                  /* STQuodlibet */
   &slice_traverse_children,                         /* STNot */
   &slice_traverse_children,                         /* STMoveInverter */
+  &number_of_holes_estimator_branch_direct,         /* STDirectRoot */
+  &number_of_holes_estimator_branch_direct,         /* STDirectAdapter */
   &slice_traverse_children,                         /* STHelpRoot */
   &slice_traverse_children,                         /* STHelpAdapter */
   &number_of_holes_estimator_hashed_help,           /* STHelpHashed */
@@ -2227,6 +2291,8 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
   if (he==dhtNilElement)
     result = false;
   else
+  {
+    TraceEnumerator(SliceType,slices[si].type,"\n");
     switch (slices[si].type)
     {
       case STLeafDirect:
@@ -2335,6 +2401,7 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
         assert(0);
         break;
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2533,6 +2600,8 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STQuodlibet */
   &slice_traverse_children,    /* STNot */
   &slice_traverse_children,    /* STMoveInverter */
+  &slice_traverse_children,    /* STDirectRoot */
+  &slice_traverse_children,    /* STDirectAdapter */
   &slice_traverse_children,    /* STHelpRoot */
   &slice_traverse_children,    /* STHelpAdapter */
   &init_element_hashed_help,   /* STHelpHashed */

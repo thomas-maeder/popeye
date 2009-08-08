@@ -405,6 +405,8 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STQuodlibet */
   &slice_traverse_children,                 /* STNot */
   &selfcheck_guards_inserter_move_inverter, /* STMoveInverter */
+  &slice_traverse_children,                 /* STDirectRoot */
+  &slice_traverse_children,                 /* STDirectAdapter */
   &selfcheck_guards_inserter_help_root,     /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpAdapter */
   &slice_traverse_children,                 /* STHelpHashed */

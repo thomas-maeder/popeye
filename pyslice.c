@@ -57,10 +57,6 @@ boolean slice_must_starter_resign(slice_index si)
       result = leaf_forced_must_starter_resign(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_must_starter_resign(si);
-      break;
-
     case STReciprocal:
       result = reci_must_starter_resign(si);
       break;
@@ -71,6 +67,11 @@ boolean slice_must_starter_resign(slice_index si)
       
     case STNot:
       result = false;
+      break;
+
+    case STDirectRoot:
+    case STDirectAdapter:
+      result = direct_adapter_must_starter_resign(si);
       break;
 
     case STHelpRoot:
@@ -197,8 +198,8 @@ void slice_solve_continuations(table continuations, slice_index si)
       not_solve_continuations(continuations,si);
       break;
 
-    case STBranchDirect:
-      branch_d_solve_continuations(continuations,si);
+    case STDirectAdapter:
+      direct_adapter_solve_continuations(continuations,si);
       break;
 
     case STHelpAdapter:
@@ -241,8 +242,8 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       result = help_root_make_setplay_slice(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_root_make_setplay_slice(si);
+    case STDirectRoot:
+      result = direct_root_make_setplay_slice(si);
       break;
 
     case STSeriesRoot:
@@ -293,8 +294,8 @@ void slice_root_write_key(slice_index si, attack_type type)
       quodlibet_root_write_key(si,type);
       break;
 
-    case STBranchDirect:
-      branch_d_root_write_key(si,type);
+    case STDirectAdapter:
+      direct_adapter_root_write_key(si,type);
       break;
 
     case STHelpAdapter:
@@ -363,8 +364,8 @@ boolean slice_solve(slice_index si)
       solution_found = quodlibet_solve(si);
       break;
 
-    case STBranchDirect:
-      solution_found = branch_d_solve(si);
+    case STDirectAdapter:
+      solution_found = direct_adapter_solve(si);
       break;
 
     case STHelpAdapter:
@@ -445,8 +446,8 @@ boolean slice_root_solve(slice_index si)
       result = not_root_solve(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_root_solve(si);
+    case STDirectRoot:
+      result = direct_root_solve(si);
       break;
 
     case STBranchDirectDefender:
@@ -563,6 +564,7 @@ boolean slice_has_solution(slice_index si)
       result = not_has_solution(si);
       break;
 
+    case STDirectRoot:
     case STBranchDirect:
       result = branch_d_has_solution(si);
       break;
@@ -583,6 +585,7 @@ boolean slice_has_solution(slice_index si)
       result = branch_fork_has_solution(si);
       break;
 
+    case STDirectAdapter:
     case STSelfCheckGuard:
       result = pipe_has_solution(si);
       break;
@@ -682,8 +685,8 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = leaf_h_has_non_starter_solved(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_has_non_starter_solved(si);
+    case STDirectAdapter:
+      result = direct_adapter_has_non_starter_solved(si);
       break;
 
     case STHelpAdapter:
@@ -751,8 +754,8 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       result = leaf_h_has_starter_apriori_lost(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_has_starter_apriori_lost(si);
+    case STDirectAdapter:
+      result = direct_adapter_has_starter_apriori_lost(si);
       break;
 
     case STHelpAdapter:
@@ -819,6 +822,7 @@ boolean slice_has_starter_won(slice_index si)
       result = leaf_h_has_starter_won(si);
       break;
 
+    case STDirectAdapter:
     case STBranchDirect:
       result = branch_d_has_starter_won(si);
       break;
@@ -890,8 +894,8 @@ boolean slice_has_starter_reached_goal(slice_index si)
       result = leaf_h_has_starter_reached_goal(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_has_starter_reached_goal(si);
+    case STDirectAdapter:
+      result = direct_adapter_has_starter_reached_goal(si);
       break;
 
     case STHelpAdapter:
@@ -952,18 +956,13 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       result = leaf_is_goal_reached(just_moved,si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_is_goal_reached(just_moved,si);
+    case STDirectRoot:
+    case STDirectAdapter:
+      result = direct_adapter_is_goal_reached(just_moved,si);
       break;
 
     case STBranchDirectDefender:
       result = branch_d_defender_is_goal_reached(just_moved,si);
-      break;
-
-    case STBranchHelp:
-    case STHelpHashed:
-    case STSelfCheckGuard:
-      result = branch_h_is_goal_reached(just_moved,si);
       break;
 
     case STHelpRoot:
@@ -978,6 +977,13 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
 
     case STBranchFork:
       result = branch_fork_is_goal_reached(just_moved,si);
+      break;
+
+    case STBranchDirect:
+    case STBranchHelp:
+    case STHelpHashed:
+    case STSelfCheckGuard:
+      result = branch_h_is_goal_reached(just_moved,si);
       break;
 
     default:
@@ -1012,8 +1018,8 @@ void slice_write_unsolvability(slice_index si)
       leaf_write_unsolvability(si);
       break;
 
-    case STBranchDirect:
-      branch_d_write_unsolvability(si);
+    case STDirectAdapter:
+      direct_adapter_write_unsolvability(si);
       break;
 
     case STHelpAdapter:
@@ -1083,8 +1089,9 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = leaf_h_detect_starter(si,same_side_as_root);
       break;
 
-    case STBranchDirect:
-      result = branch_d_detect_starter(si,same_side_as_root);
+    case STDirectRoot:
+    case STDirectAdapter:
+      result = direct_adapter_detect_starter(si,same_side_as_root);
       break;
 
     case STBranchDirectDefender:

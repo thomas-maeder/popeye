@@ -53,6 +53,148 @@ static slice_index alloc_branch_d_slice(stip_length_type length,
   return result;
 }
 
+/* Allocate a STBranchDirect slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @param fork index of branch fork
+ * @return index of allocated slice
+ */
+static slice_index alloc_direct_root_branch(stip_length_type length,
+                                            stip_length_type min_length,
+                                            slice_index defender,
+                                            slice_index fork)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",defender);
+  TraceFunctionParamListEnd();
+
+  assert(length>=slack_length_direct+2);
+  assert(min_length>=slack_length_direct);
+  assert((length%2)==0);
+  assert((min_length%2)==0);
+
+  slices[result].type = STDirectRoot; 
+  slices[result].starter = no_side; 
+  slices[result].u.pipe.next = defender;
+  slices[result].u.pipe.u.branch_d.length = length;
+  slices[result].u.pipe.u.branch_d.min_length = min_length;
+  slices[result].u.pipe.u.branch_d.fork = fork;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STBranchDirect slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @param fork index of branch fork
+ * @return index of allocated slice
+ */
+static slice_index alloc_direct_adapter_branch(stip_length_type length,
+                                               stip_length_type min_length,
+                                               slice_index branch_d,
+                                               slice_index fork)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",branch_d);
+  TraceFunctionParamListEnd();
+
+  assert(length>=slack_length_direct+2);
+  assert(min_length>=slack_length_direct);
+  assert((length%2)==0);
+  assert((min_length%2)==0);
+
+  slices[result].type = STDirectAdapter; 
+  slices[result].starter = no_side; 
+  slices[result].u.pipe.next = branch_d;
+  slices[result].u.pipe.u.branch_d.length = length;
+  slices[result].u.pipe.u.branch_d.min_length = min_length;
+  slices[result].u.pipe.u.branch_d.fork = fork;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_index alloc_toplevel_direct_branch(stip_length_type length,
+                                                stip_length_type min_length,
+                                                slice_index next)
+{
+  slice_index defender;
+  slice_index result;
+  slice_index fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  fork = alloc_branch_fork_slice(no_slice,next);
+  defender = alloc_branch_d_defender_slice(length-1,min_length-1,fork);
+
+  if (length-slack_length_direct==2)
+    result = alloc_direct_root_branch(length,min_length,defender,fork);
+  else
+  {
+    stip_length_type const branch_min_length = (min_length>slack_length_direct
+                                                ? min_length-2
+                                                : slack_length_direct);
+    slice_index const branch_d = alloc_branch_d_slice(length-2,branch_min_length,
+                                                      defender,fork);
+    slices[fork].u.pipe.next = branch_d;
+    result = alloc_direct_root_branch(length,min_length,defender,fork);
+  }
+     
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_index alloc_nested_direct_branch(stip_length_type length,
+                                              stip_length_type min_length,
+                                              slice_index next)
+{
+  slice_index branch_d;
+  slice_index defender;
+  slice_index result;
+  slice_index fork;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  fork = alloc_branch_fork_slice(no_slice,next);
+  defender = alloc_branch_d_defender_slice(length-1,min_length-1,fork);
+  branch_d = alloc_branch_d_slice(length,min_length,defender,fork);
+
+  if (length-slack_length_direct>2)
+    slices[fork].u.pipe.next = branch_d;
+
+  result = alloc_direct_adapter_branch(length,min_length,branch_d,fork);
+     
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a branch that represents direct play
  * @param level is this a top-level branch or one nested into another
  *              branch?
@@ -66,9 +208,7 @@ slice_index alloc_direct_branch(branch_level level,
                                 stip_length_type min_length,
                                 slice_index next)
 {
-  slice_index defender;
   slice_index result;
-  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",level);
@@ -77,68 +217,18 @@ slice_index alloc_direct_branch(branch_level level,
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  fork = alloc_branch_fork_slice(no_slice,next);
-  defender = alloc_branch_d_defender_slice(length-1,min_length-1,fork);
-  result = alloc_branch_d_slice(length,min_length,defender,fork);
-  slices[fork].u.pipe.next = result;
+  assert(length%2==0);
+  assert(length>slack_length_direct);
+
+  if (level==toplevel_branch)
+    result = alloc_toplevel_direct_branch(length,min_length,next);
+  else
+    result = alloc_nested_direct_branch(length,min_length,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * Assumes slice_must_starter_resign(si)
- * @param si slice index
- */
-void branch_d_write_unsolvability(slice_index si)
-{
-  slice_write_unsolvability(slices[si].u.pipe.u.branch_d.fork);
-}
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_is_goal_reached(just_moved,slices[si].u.pipe.u.branch_d.fork);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean branch_d_has_starter_apriori_lost(slice_index si)
-{
-  return slice_has_starter_apriori_lost(slices[si].u.pipe.u.branch_d.fork);
-}
- 
-/* Determine whether a slice.has just been solved with the just played
- * move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean branch_d_has_non_starter_solved(slice_index si)
-{
-  return slice_has_non_starter_solved(slices[si].u.pipe.u.branch_d.fork);
 }
 
 /* Determine whether the attacker has won with his move just played
@@ -150,28 +240,6 @@ boolean branch_d_has_non_starter_solved(slice_index si)
 boolean branch_d_has_starter_won(slice_index si)
 {
   return slice_has_starter_won(slices[si].u.pipe.next);
-}
-
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean branch_d_has_starter_reached_goal(slice_index si)
-{
-  return slice_has_starter_reached_goal(slices[si].u.pipe.u.branch_d.fork);
-}
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * Tests do not rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean branch_d_must_starter_resign(slice_index si)
-{
-  return slice_must_starter_resign(slices[si].u.pipe.u.branch_d.fork);
 }
 
 /* Determine whether this slice has a solution in n half moves
@@ -437,20 +505,97 @@ void branch_d_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/**************** adapter ***********************/
+
+/* Write a priori unsolvability (if any) of a slice (e.g. forced
+ * reflex mates).
+ * Assumes slice_must_starter_resign(si)
+ * @param si slice index
+ */
+void direct_adapter_write_unsolvability(slice_index si)
+{
+  slice_write_unsolvability(slices[si].u.pipe.u.branch_d.fork);
+}
+
+/* Determine whether a side has reached the goal
+ * @param just_moved side that has just moved
+ * @param si slice index
+ * @return true iff just_moved has reached the goal
+ */
+boolean direct_adapter_is_goal_reached(Side just_moved, slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_is_goal_reached(just_moved,slices[si].u.pipe.u.branch_d.fork);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating piece of
+ * the defender?
+ * @param si slice identifier
+ * @return true iff starter has lost
+ */
+boolean direct_adapter_has_starter_apriori_lost(slice_index si)
+{
+  return slice_has_starter_apriori_lost(slices[si].u.pipe.u.branch_d.fork);
+}
+ 
+/* Determine whether a slice.has just been solved with the just played
+ * move by the non-starter
+ * @param si slice identifier
+ * @return true iff the non-starting side has just solved
+ */
+boolean direct_adapter_has_non_starter_solved(slice_index si)
+{
+  return slice_has_non_starter_solved(slices[si].u.pipe.u.branch_d.fork);
+}
+
+/* Determine whether the attacker has reached slice si's goal with his
+ * move just played.
+ * @param si slice identifier
+ * @return true iff the starter reached the goal
+ */
+boolean direct_adapter_has_starter_reached_goal(slice_index si)
+{
+  return slice_has_starter_reached_goal(slices[si].u.pipe.u.branch_d.fork);
+}
+
+/* Is there no chance left for the starting side at the move to win?
+ * E.g. did the defender just capture that attacker's last potential
+ * mating piece?
+ * Tests do not rely on the current position being hash-encoded.
+ * @param si slice index
+ * @return true iff starter must resign
+ */
+boolean direct_adapter_must_starter_resign(slice_index si)
+{
+  return slice_must_starter_resign(slices[si].u.pipe.u.branch_d.fork);
+}
+
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).
  * @param continuations table where to store continuing moves (i.e. threats)
  * @param si slice index
  */
-void branch_d_solve_continuations(table continuations, slice_index si)
+void direct_adapter_solve_continuations(table continuations, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   branch_d_solve_continuations_in_n(continuations,
-                                    si,
+                                    slices[si].u.pipe.next,
                                     slices[si].u.pipe.u.branch_d.length);
 
   TraceFunctionExit(__func__);
@@ -461,7 +606,7 @@ void branch_d_solve_continuations(table continuations, slice_index si)
  * @param si slice index
  * @param type type of attack
  */
-void branch_d_root_write_key(slice_index si, attack_type type)
+void direct_adapter_root_write_key(slice_index si, attack_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -478,7 +623,7 @@ void branch_d_root_write_key(slice_index si, attack_type type)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean branch_d_solve(slice_index si)
+boolean direct_adapter_solve(slice_index si)
 {
   boolean result = false;
   stip_length_type const n = slices[si].u.pipe.u.branch_d.length;
@@ -507,26 +652,30 @@ boolean branch_d_solve(slice_index si)
     free_table();
     result = true;
   }
-  else if (branch_d_has_solution_in_n(si,n,max_nr_nontrivial))
+  else
   {
-    stip_length_type i;
-    table const continuations = allocate_table();
-    stip_length_type min_len = slices[si].u.pipe.u.branch_d.min_length;
-
-    if (min_len==slack_length_direct)
-      min_len = slack_length_direct+2;
-
-    output_start_continuation_level();
-  
-    for (i = min_len; i<=n && !result; i += 2)
+    slice_index const next = slices[si].u.pipe.next;
+    if (branch_d_has_solution_in_n(next,n,max_nr_nontrivial))
     {
-      branch_d_solve_continuations_in_n(continuations,si,i);
-      result = table_length(continuations)>0;
+      stip_length_type i;
+      table const continuations = allocate_table();
+      stip_length_type min_len = slices[si].u.pipe.u.branch_d.min_length;
+
+      if (min_len==slack_length_direct)
+        min_len = slack_length_direct+2;
+
+      output_start_continuation_level();
+  
+      for (i = min_len; i<=n && !result; i += 2)
+      {
+        branch_d_solve_continuations_in_n(continuations,next,i);
+        result = table_length(continuations)>0;
+      }
+
+      output_end_continuation_level();
+
+      free_table();
     }
-
-    output_end_continuation_level();
-
-    free_table();
   }
 
   TraceFunctionExit(__func__);
@@ -535,11 +684,37 @@ boolean branch_d_solve(slice_index si)
   return result;
 }
 
+/* Detect starter field with the starting side if possible. 
+ * @param si identifies slice
+ * @param same_side_as_root does si start with the same side as root?
+ * @return does the leaf decide on the starter?
+ */
+who_decides_on_starter direct_adapter_detect_starter(slice_index si,
+                                                     boolean same_side_as_root)
+{
+  who_decides_on_starter const result = leaf_decides_on_starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].starter==no_side)
+    slices[si].starter = White;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/****************** root ************************/
+
 /* Solve at root level
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean branch_d_root_solve(slice_index si)
+boolean direct_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
   slice_index const peer = slices[si].u.pipe.next;
@@ -630,7 +805,7 @@ boolean branch_d_root_solve(slice_index si)
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
  */
-slice_index branch_d_root_make_setplay_slice(slice_index si)
+slice_index direct_root_make_setplay_slice(slice_index si)
 {
   slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
   slice_index next_in_setplay;
@@ -646,49 +821,29 @@ slice_index branch_d_root_make_setplay_slice(slice_index si)
   {
     slice_index const peer = branch_find_slice(STBranchDirectDefender,si);
 
-    slice_index const next_in_setplay_peer = copy_slice(peer);
-    slices[next_in_setplay_peer].u.pipe.u.branch.length -= 2;
+    slice_index const setplay_defender = copy_slice(peer);
+    slice_index const setplay_branch = copy_slice(si);
+
+    slices[setplay_defender].u.pipe.u.branch.length -= 2;
     if (slices[peer].u.pipe.u.branch.min_length>slack_length_direct)
-      slices[next_in_setplay_peer].u.pipe.u.branch.min_length -= 2;
+      slices[setplay_defender].u.pipe.u.branch.min_length -= 2;
 
-    assert(peer!=no_slice);
-    next_in_setplay = copy_slice(si);
-    slices[next_in_setplay].u.pipe.u.branch.length -= 2;
+    slices[setplay_branch].type = STBranchDirect;
+    slices[setplay_branch].u.pipe.next = setplay_defender;
+    slices[setplay_branch].u.pipe.u.branch.length -= 2;
     if (slices[si].u.pipe.u.branch.min_length>slack_length_direct)
-      slices[next_in_setplay].u.pipe.u.branch.min_length -= 2;
-    hash_slice_is_derived_from(next_in_setplay,si);
+      slices[setplay_branch].u.pipe.u.branch.min_length -= 2;
+    hash_slice_is_derived_from(setplay_branch,si);
 
-    slices[next_in_setplay].u.pipe.next = next_in_setplay_peer;
+    next_in_setplay = copy_slice(setplay_branch);
+    slices[next_in_setplay].type = STDirectAdapter;
+    slices[next_in_setplay].u.pipe.next = setplay_branch;
   }
 
   result = alloc_help_branch(toplevel_branch,
                              slack_length_help+1,slack_length_help+1,
                              next_in_setplay);
   slices[result].starter = advers(slices[si].starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- */
-who_decides_on_starter branch_d_detect_starter(slice_index si,
-                                               boolean same_side_as_root)
-{
-  who_decides_on_starter const result = leaf_decides_on_starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",same_side_as_root);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-    slices[si].starter = White;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

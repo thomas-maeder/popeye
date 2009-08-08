@@ -197,6 +197,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     fprintf(stdout,"%s ",Side_names[slices[si].starter]);
     switch (slices[si].type)
     {
+      case STDirectRoot:
+      case STDirectAdapter:
       case STBranchDirect:
         fprintf(stdout,"length:%u ",slices[si].u.pipe.u.branch_d.length);
         fprintf(stdout,"min_length:%u ",slices[si].u.pipe.u.branch_d.min_length);

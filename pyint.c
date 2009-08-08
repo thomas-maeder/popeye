@@ -2767,6 +2767,8 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STQuodlibet */
   0,                                /* STNot */
   &slice_traverse_children,         /* STMoveInverter */
+  0,                                /* STDirectRoot */
+  0,                                /* STDirectAdapter */
   0,                                /* STHelpRoot */
   &init_moves_left_help_adapter,    /* STHelpAdapter */
   &slice_traverse_children,         /* STHelpHashed */
@@ -3089,6 +3091,8 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,              /* STQuodlibet */
   &slice_traverse_children,              /* STNot */
   &slice_traverse_children,              /* STMoveInverter */
+  &slice_traverse_children,              /* STDirectRoot */
+  &slice_traverse_children,              /* STDirectAdapter */
   &goalreachable_guards_inserter_branch, /* STHelpRoot */
   &slice_traverse_children,              /* STHelpAdapter */
   &slice_traverse_children,              /* STHelpHashed */
@@ -3293,7 +3297,7 @@ static boolean intelligent_mode_support_none(slice_index si,
 
 static slice_operation const intelligent_mode_support_detectors[] =
 {
-  &intelligent_mode_support_none,                /* STBranchDirect */
+  0,                                             /* STBranchDirect */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
   0,                                             /* STBranchHelp */
   0,                                             /* STBranchSeries */
@@ -3306,6 +3310,8 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_quodlibet,  /* STQuodlibet */
   &intelligent_mode_support_none,                /* STNot */
   &slice_traverse_children,                      /* STMoveInverter */
+  &intelligent_mode_support_none,                /* STDirectRoot */
+  &intelligent_mode_support_none,                /* STDirectAdapter */
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
   &slice_traverse_children,                      /* STHelpHashed */

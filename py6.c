@@ -487,10 +487,10 @@ static boolean root_slice_type_found(slice_index si, slice_traversal *st)
 
 static slice_operation const slice_type_finders[] =
 {
-  &root_slice_type_found,             /* STBranchDirect */
+  0,                                  /* STBranchDirect */
   0,                                  /* STBranchDirectDefender */
   0,                                  /* STBranchHelp */
-  &root_slice_type_found,             /* STBranchSeries */
+  0,                                  /* STBranchSeries */
   0,                                  /* STBranchFork */
   &root_slice_type_found,             /* STLeafDirect */
   &root_slice_type_found,             /* STLeafHelp */
@@ -500,6 +500,8 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
+  &root_slice_type_found,             /* STDirectRoot */
+  0,                                  /* STDirectAdapter */
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
@@ -2419,7 +2421,7 @@ static boolean root_slice_apply_postkeyplay(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (slices[root_slice].type==STBranchDirect)
+  if (slices[root_slice].type==STDirectRoot)
   {
     slice_index const root_peer = slices[root_slice].u.pipe.next;
     root_slice = alloc_move_inverter_slice(root_peer);
@@ -2497,6 +2499,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
+  &slice_traverse_children,           /* STDirectRoot */
+  &slice_traverse_children,           /* STDirectAdapter */
   &slice_traverse_children,           /* STHelpRoot */
   &slice_traverse_children,           /* STHelpAdapter */
   &slice_traverse_children,           /* STHelpHashed */

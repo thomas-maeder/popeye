@@ -615,6 +615,8 @@ static slice_operation const slice_to_fork_deallocators[] =
   0,                                    /* STQuodlibet */
   0,                                    /* STNot */
   0,                                    /* STMoveInverter */
+  &traverse_and_deallocate,             /* STDirectRoot */
+  &traverse_and_deallocate,             /* STDirectAdapter */
   &traverse_and_deallocate,             /* STHelpRoot */
   &traverse_and_deallocate,             /* STHelpAdapter */
   &traverse_and_deallocate,             /* STHelpHashed */
