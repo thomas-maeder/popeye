@@ -39,17 +39,6 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
  */
 boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
 
-/* Is the defense just played a refutation?
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff the defense is a refutation
- */
-boolean branch_d_defender_is_refuted(slice_index si,
-                                     stip_length_type n,
-                                     int curr_max_nr_nontrivial);
-
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
  * current slice.

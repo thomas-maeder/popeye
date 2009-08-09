@@ -126,42 +126,6 @@ boolean direct_defender_does_defender_win(slice_index si,
   return result;
 }
 
-/* Is the defense just played a refutation?
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff the defense is a refutation
- */
-boolean direct_defender_is_refuted(slice_index si,
-                                   stip_length_type n,
-                                   int curr_max_nr_nontrivial)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STBranchDirectDefender:
-      result = branch_d_defender_is_refuted(si,n,curr_max_nr_nontrivial);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index

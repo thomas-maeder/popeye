@@ -465,13 +465,11 @@ boolean branch_d_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_must_starter_resign(fork)
-      || slice_must_starter_resign_hashed(fork))
-    result = false;
-  else
-    result = !direct_defender_is_refuted(slices[si].u.pipe.next,
-                                         slices[si].u.pipe.u.branch_d.length,
-                                         max_nr_nontrivial);
+  result = (!slice_must_starter_resign(fork)
+            && !slice_must_starter_resign_hashed(fork)
+            && direct_has_solution_in_n(si,
+                                        slices[si].u.pipe.u.branch_d.length,
+                                        max_nr_nontrivial));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

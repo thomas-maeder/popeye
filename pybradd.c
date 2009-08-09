@@ -86,45 +86,7 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result =  slice_is_goal_reached(just_moved,slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Is the defense just played a refutation?
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff the defense is a refutation
- */
-boolean branch_d_defender_is_refuted(slice_index si,
-                                     stip_length_type n,
-                                     int curr_max_nr_nontrivial)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const moves_played = slices[si].u.pipe.u.branch.length-n;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==0);
-
-  if (moves_played+slack_length_direct>min_length
-      && slice_has_non_starter_solved(next))
-    result = false;
-  else if (direct_has_solution_in_n(next,n,curr_max_nr_nontrivial))
-    result = false;
-  else
-    result = true;
+  result = slice_is_goal_reached(just_moved,slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -179,7 +141,7 @@ has_defender_refutation(slice_index si,
       result = defender_has_no_refutation;
       if (slice_must_starter_resign(next)
           || slice_must_starter_resign_hashed(next)
-          || branch_d_defender_is_refuted(si,n-1,curr_max_nr_nontrivial))
+          || !direct_has_solution_in_n(next,n-1,curr_max_nr_nontrivial))
       {
         result = defender_has_refutation;
         coupfort();
@@ -227,10 +189,10 @@ static int count_all_nontrivial_defenses(slice_index si)
         && (min_length_nontrivial==0
             || slice_must_starter_resign(next)
             || slice_must_starter_resign_hashed(next)
-            || branch_d_defender_is_refuted(si,
-                                            2*min_length_nontrivial
-                                            +slack_length_direct,
-                                            max_nr_nontrivial)))
+            || !direct_has_solution_in_n(next,
+                                         2*min_length_nontrivial
+                                         +slack_length_direct,
+                                         max_nr_nontrivial)))
         ++result;
 
     repcoup();
@@ -276,10 +238,10 @@ static int count_enough_nontrivial_defenses(slice_index si,
         && (min_length_nontrivial==0
             || slice_must_starter_resign(next)
             || slice_must_starter_resign_hashed(next)
-            || branch_d_defender_is_refuted(si,
-                                            2*min_length_nontrivial
-                                            +slack_length_direct,
-                                            curr_max_nr_nontrivial)))
+            || !direct_has_solution_in_n(next,
+                                         2*min_length_nontrivial
+                                         +slack_length_direct,
+                                         curr_max_nr_nontrivial)))
       ++result;
 
     repcoup();
@@ -342,6 +304,7 @@ static boolean is_threat_too_long(slice_index si,
                                   int curr_max_nr_nontrivial)
 {
   Side const defender = slices[si].starter;
+  slice_index const next = slices[si].u.pipe.next;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -354,9 +317,9 @@ static boolean is_threat_too_long(slice_index si,
   TraceValue("%u\n",2*max_len_threat);
   if (n>=2*max_len_threat+slack_length_direct
       && !echecc(nbply,defender))
-    result = branch_d_defender_is_refuted(si,
-                                          2*max_len_threat,
-                                          curr_max_nr_nontrivial);
+    result = !direct_has_solution_in_n(next,
+                                       2*max_len_threat,
+                                       curr_max_nr_nontrivial);
   else
     /* remainder of play is too short for max_len_threat to apply */
     result = false;
@@ -532,6 +495,7 @@ static boolean is_defense_relevant(int len_threat,
                                    stip_length_type n,
                                    int curr_max_nr_nontrivial)
 {
+  slice_index const next = slices[si].u.pipe.next;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -543,13 +507,13 @@ static boolean is_defense_relevant(int len_threat,
   assert(n%2==0);
 
   if (n>slack_length_direct && OptFlag[noshort]
-      && !branch_d_defender_is_refuted(si,n-2,curr_max_nr_nontrivial))
+      && direct_has_solution_in_n(next,n-2,curr_max_nr_nontrivial))
     /* variation shorter than stip */
     result = false;
   else if (len_threat>slack_length_direct
-           && !branch_d_defender_is_refuted(si,
-                                            len_threat-2,
-                                            curr_max_nr_nontrivial))
+           && direct_has_solution_in_n(next,
+                                       len_threat-2,
+                                       curr_max_nr_nontrivial))
     /* variation shorter than threat */
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
@@ -948,7 +912,7 @@ static boolean root_collect_refutations(table refutations,
       is_defender_immobile = false;
       if (slice_must_starter_resign(next)
           || slice_must_starter_resign_hashed(next)
-          || branch_d_defender_is_refuted(si,n-1,curr_max_nr_nontrivial))
+          || !direct_has_solution_in_n(next,n-1,curr_max_nr_nontrivial))
       {
         append_to_top_table();
         coupfort();

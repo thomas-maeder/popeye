@@ -318,7 +318,10 @@ boolean branch_fork_has_solution_in_n(slice_index si,
                                       int curr_max_nr_nontrivial)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const moves_played = slices[si].u.pipe.u.branch_fork.length-n;
+  slice_index const togoal = slices[si].u.pipe.u.branch_fork.towards_goal;
+  stip_length_type const moves_played = (slices[si].u.pipe.u.branch_fork.length
+                                         -n
+                                         +slack_length_direct);
   stip_length_type const min_length = slices[si].u.pipe.u.branch_fork.min_length;
   boolean result = false;
 
@@ -328,8 +331,11 @@ boolean branch_fork_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
-  if (moves_played+slack_length_direct>=min_length
-      && slice_has_solution(slices[si].u.pipe.u.branch_fork.towards_goal))
+  TraceValue("%u\n",moves_played);
+  
+  if (moves_played>min_length && slice_has_non_starter_solved(togoal))
+    result = true;
+  else if (moves_played>=min_length && slice_has_solution(togoal))
     result = true;
   else if (n>slack_length_direct
            && direct_has_solution_in_n(next,n,curr_max_nr_nontrivial))

@@ -48,17 +48,6 @@ boolean direct_defender_does_defender_win(slice_index si,
                                           stip_length_type n,
                                           int curr_max_nr_nontrivial);
 
-/* Is the defense just played a refutation?
- * @param si slice index
- * @param n (even) number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff the defense is a refutation
- */
-boolean direct_defender_is_refuted(slice_index si,
-                                   stip_length_type n,
-                                   int curr_max_nr_nontrivial);
-
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index
