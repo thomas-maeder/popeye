@@ -883,7 +883,7 @@ static slice_index alloc_toplevel_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(no_slice,next);
+  fork = alloc_branch_fork_slice(length-1,min_length,no_slice,next);
   result = alloc_series_root_slice(length,min_length,fork);
 
   if (length-slack_length_series>1)
@@ -921,7 +921,7 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(no_slice,next);
+  fork = alloc_branch_fork_slice(length-1,min_length,no_slice,next);
   branch = alloc_branch_ser_slice(length,min_length,fork);
   result = alloc_series_adapter_slice(length,min_length,fork,branch);
 

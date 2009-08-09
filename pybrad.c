@@ -142,7 +142,7 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  fork = alloc_branch_fork_slice(no_slice,next);
+  fork = alloc_branch_fork_slice(length-2,min_length,no_slice,next);
 
   if (length-slack_length_direct==2)
   {
@@ -193,7 +193,7 @@ static slice_index alloc_nested_direct_branch(stip_length_type length,
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  fork = alloc_branch_fork_slice(no_slice,next);
+  fork = alloc_branch_fork_slice(length-2,min_length,no_slice,next);
   defender = alloc_branch_d_defender_slice(length-1,min_length-1,fork);
   branch_d = alloc_branch_d_slice(length,min_length,defender,fork);
 

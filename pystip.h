@@ -188,6 +188,8 @@ typedef struct
 
                 struct /* for type==STBranchFork */
                 {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
                     slice_index towards_goal;
                 } branch_fork;
 

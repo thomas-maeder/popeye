@@ -12,7 +12,9 @@
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_branch_fork_slice(slice_index next,
+slice_index alloc_branch_fork_slice(stip_length_type length,
+                                    stip_length_type min_length,
+                                    slice_index next,
                                     slice_index towards_goal);
 
 /* Solve in a number of half-moves

@@ -11,7 +11,10 @@
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_branch_fork_slice(slice_index next, slice_index towards_goal)
+slice_index alloc_branch_fork_slice(stip_length_type length,
+                                    stip_length_type min_length,
+                                    slice_index next,
+                                    slice_index towards_goal)
 {
   slice_index const result = alloc_slice_index();
 
@@ -23,6 +26,8 @@ slice_index alloc_branch_fork_slice(slice_index next, slice_index towards_goal)
   slices[result].type = STBranchFork;
   slices[result].starter = slices[towards_goal].starter;
   slices[result].u.pipe.next = next;
+  slices[result].u.pipe.u.branch_fork.length = length;
+  slices[result].u.pipe.u.branch_fork.min_length = min_length;
   slices[result].u.pipe.u.branch_fork.towards_goal = towards_goal;
   
   TraceFunctionExit(__func__);

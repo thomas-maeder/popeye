@@ -279,6 +279,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STBranchFork:
+        fprintf(stdout,"length:%u ",
+                slices[si].u.pipe.u.branch_fork.length);
+        fprintf(stdout,"min_length:%u ",
+                slices[si].u.pipe.u.branch_fork.min_length);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"towards_goal:%u ",
                 slices[si].u.pipe.u.branch_fork.towards_goal);
