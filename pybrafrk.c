@@ -19,6 +19,8 @@ slice_index alloc_branch_fork_slice(stip_length_type length,
   slice_index const result = alloc_slice_index();
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",next);
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
@@ -315,7 +317,10 @@ boolean branch_fork_has_solution_in_n(slice_index si,
                                       stip_length_type n,
                                       int curr_max_nr_nontrivial)
 {
-  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const moves_played = slices[si].u.pipe.u.branch_fork.length-n;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch_fork.min_length;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -323,9 +328,12 @@ boolean branch_fork_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
-  result = direct_has_solution_in_n(slices[si].u.pipe.next,
-                                    n,
-                                    curr_max_nr_nontrivial);
+  if (moves_played+slack_length_direct>=min_length
+      && slice_has_solution(slices[si].u.pipe.u.branch_fork.towards_goal))
+    result = true;
+  else if (n>slack_length_direct
+           && direct_has_solution_in_n(next,n,curr_max_nr_nontrivial))
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

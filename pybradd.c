@@ -121,18 +121,10 @@ boolean branch_d_defender_is_refuted(slice_index si,
   if (moves_played+slack_length_direct>min_length
       && slice_has_non_starter_solved(next))
     result = false;
-  else if (moves_played+slack_length_direct>=min_length
-           && slice_has_solution(next))
+  else if (direct_has_solution_in_n(next,n,curr_max_nr_nontrivial))
     result = false;
   else
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    if (n>slack_length_direct
-        && direct_has_solution_in_n(next,n,curr_max_nr_nontrivial))
-      result = false;
-    else
-      result = true;
-  }
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

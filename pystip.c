@@ -836,7 +836,7 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STBranchDirectDefender */
   &make_exact_branch,       /* STBranchHelp */
   &make_exact_branch,       /* STBranchSeries */
-  &slice_traverse_children, /* STBranchFork */
+  &make_exact_branch,       /* STBranchFork */
   &slice_traverse_children, /* STLeafDirect */
   &slice_traverse_children, /* STLeafHelp */
   &slice_traverse_children, /* STLeafSelf */

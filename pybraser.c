@@ -874,6 +874,9 @@ static slice_index alloc_toplevel_series_branch(stip_length_type length,
 {
   slice_index result;
   slice_index fork;
+  stip_length_type const fork_min_length = (min_length==slack_length_series
+                                            ? slack_length_series
+                                            : min_length-1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -883,7 +886,7 @@ static slice_index alloc_toplevel_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(length-1,min_length,no_slice,next);
+  fork = alloc_branch_fork_slice(length-1,fork_min_length,no_slice,next);
   result = alloc_series_root_slice(length,min_length,fork);
 
   if (length-slack_length_series>1)
@@ -912,6 +915,9 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
   slice_index result;
   slice_index fork;
   slice_index branch;
+  stip_length_type const fork_min_length = (min_length==slack_length_series
+                                            ? slack_length_series
+                                            : min_length-1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -921,7 +927,7 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(length-1,min_length,no_slice,next);
+  fork = alloc_branch_fork_slice(length-1,fork_min_length,no_slice,next);
   branch = alloc_branch_ser_slice(length,min_length,fork);
   result = alloc_series_adapter_slice(length,min_length,fork,branch);
 

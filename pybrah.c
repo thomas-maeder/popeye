@@ -1017,7 +1017,10 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
 
   if (length%2==0)
   {
-    slice_index const fork = alloc_branch_fork_slice(length-2,min_length,
+    stip_length_type const fork_min_length = (min_length==slack_length_help
+                                              ? slack_length_help
+                                              : min_length-2);
+    slice_index const fork = alloc_branch_fork_slice(length-2,fork_min_length,
                                                      no_slice,next);
     if (length-slack_length_help==2)
     {
@@ -1043,7 +1046,11 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
   }
   else
   {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length,
+    /* TODO this <=slack_length_help+1 thing looks fishy */
+    stip_length_type const fork_min_length = (min_length<=slack_length_help+1
+                                              ? slack_length_help
+                                              : min_length-2);
+    slice_index const fork = alloc_branch_fork_slice(length-1,fork_min_length,
                                                      no_slice,next);
     if (length-slack_length_help==1)
     {
