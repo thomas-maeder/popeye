@@ -155,6 +155,7 @@ static slice_operation const output_mode_detectors[] =
   &slice_traverse_children, /* STMoveInverter */
   &output_mode_treemode,    /* STDirectRoot */
   &output_mode_treemode,    /* STDirectAdapter */
+  &output_mode_treemode,    /* STDirectDefenderRoot */
   &output_mode_help_root,   /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */

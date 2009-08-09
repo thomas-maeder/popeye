@@ -450,7 +450,7 @@ boolean slice_root_solve(slice_index si)
       result = direct_root_solve(si);
       break;
 
-    case STBranchDirectDefender:
+    case STDirectDefenderRoot:
       result = branch_d_defender_root_solve(si);
       break;
 
@@ -961,6 +961,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       result = direct_adapter_is_goal_reached(just_moved,si);
       break;
 
+    case STDirectDefenderRoot:
     case STBranchDirectDefender:
       result = branch_d_defender_is_goal_reached(just_moved,si);
       break;
@@ -1094,8 +1095,8 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = direct_adapter_detect_starter(si,same_side_as_root);
       break;
 
-    case STBranchDirectDefender:
-      result = branch_d_defender_detect_starter(si,same_side_as_root);
+    case STDirectDefenderRoot:
+      result = branch_d_defender_root_detect_starter(si,same_side_as_root);
       break;
 
     case STHelpRoot:

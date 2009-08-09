@@ -2148,21 +2148,22 @@ static boolean to_toplevel_promoters_series_adapter(slice_index si,
 
 static slice_operation const to_toplevel_promoters[] =
 {
-  &slice_traverse_children,              /* STBranchDirect */
-  &slice_traverse_children,              /* STBranchDirectDefender */
+  0,                                     /* STBranchDirect */
+  0,                                     /* STBranchDirectDefender */
   0,                                     /* STBranchHelp */
-  &slice_traverse_children,              /* STBranchSeries */
+  0,                                     /* STBranchSeries */
   &slice_traverse_children,              /* STBranchFork */
-  &slice_traverse_children,              /* STLeafDirect */
-  &slice_traverse_children,              /* STLeafHelp */
-  &slice_traverse_children,              /* STLeafSelf */
-  &slice_traverse_children,              /* STLeafForced */
+  &slice_operation_noop,                 /* STLeafDirect */
+  &slice_operation_noop,                 /* STLeafHelp */
+  &slice_operation_noop,                 /* STLeafSelf */
+  &slice_operation_noop,                 /* STLeafForced */
   &slice_traverse_children,              /* STReciprocal */
   &slice_traverse_children,              /* STQuodlibet */
   &slice_traverse_children,              /* STNot */
   &slice_traverse_children,              /* STMoveInverter */
-  &slice_traverse_children,              /* STDirectRoot */
+  0,                                     /* STDirectRoot */
   &slice_traverse_children,              /* STDirectAdapter */
+  0,                                     /* STDirectDefenderRoot */
   0,                                     /* STHelpRoot */
   &to_toplevel_promoters_help_adapter,   /* STHelpAdapter */
   0,                                     /* STHelpHashed */

@@ -331,6 +331,7 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STMoveInverter */
   &slice_traverse_children,                /* STDirectRoot */
   &slice_traverse_children,                /* STDirectAdapter */
+  &slice_traverse_children,                /* STDirectDefenderRoot */
   &keepmating_guards_inserter_branch,      /* STHelpRoot */
   &slice_traverse_children,                /* STHelpAdapter */
   &slice_traverse_children,                /* STHelpHashed */

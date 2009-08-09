@@ -10,7 +10,7 @@
 
 #include <assert.h>
 
-/* Allocate a STBranchDirect defender slice.
+/* Allocate a STBranchDirectDefender defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies next slice
@@ -33,6 +33,39 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   slices[result].u.pipe.u.branch.length = length;
   slices[result].u.pipe.u.branch.min_length = min_length;
   slices[result].u.pipe.next = next;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STDirectDefenderRoot defender slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @param fork identifies fork slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
+                                               stip_length_type min_length,
+                                               slice_index next,
+                                               slice_index fork)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParamListEnd();
+
+  slices[result].type = STDirectDefenderRoot; 
+  slices[result].starter = no_side; 
+  slices[result].u.pipe.next = next;
+  slices[result].u.pipe.u.branch_d.length = length;
+  slices[result].u.pipe.u.branch_d.min_length = min_length;
+  slices[result].u.pipe.u.branch_d.fork = fork;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -800,6 +833,8 @@ boolean branch_d_defender_finish_solution_next(slice_index si)
   return result;
 }
 
+/****************** root *******************/
+
 /* Determine and write at root level the threat and variations after
  * the move that has just been played in the current ply
  * We have already determined that this move doesn't have more
@@ -1028,8 +1063,8 @@ static unsigned int root_collect_nontrivial(table nontrivial,
  *               as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
-unsigned int branch_d_defender_find_refutations(table refutations,
-                                                slice_index si)
+unsigned int branch_d_defender_root_find_refutations(table refutations,
+                                                     slice_index si)
 {
   Side const defender = slices[si].starter;
   unsigned int result;
@@ -1065,7 +1100,7 @@ unsigned int branch_d_defender_find_refutations(table refutations,
  * @return does the leaf decide on the starter?
  */
 who_decides_on_starter
-branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root)
+branch_d_defender_root_detect_starter(slice_index si, boolean same_side_as_root)
 {
   who_decides_on_starter const result = leaf_decides_on_starter;
 

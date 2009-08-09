@@ -269,7 +269,7 @@ void direct_defender_root_solve_postkey(table refutations, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchDirectDefender:
+    case STDirectDefenderRoot:
       branch_d_defender_root_solve_postkey(refutations,si);
       break;
 
@@ -298,6 +298,7 @@ boolean direct_defender_finish_solution_next(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STDirectDefenderRoot:
     case STBranchDirectDefender:
       result = branch_d_defender_finish_solution_next(si);
       break;
@@ -324,8 +325,8 @@ boolean direct_defender_finish_solution_next(slice_index si)
  *               as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
-unsigned int direct_defender_find_refutations(table refutations,
-                                              slice_index si)
+unsigned int direct_defender_root_find_refutations(table refutations,
+                                                   slice_index si)
 {
   unsigned int result = UINT_MAX;
 
@@ -336,8 +337,8 @@ unsigned int direct_defender_find_refutations(table refutations,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchDirectDefender:
-      result = branch_d_defender_find_refutations(refutations,si);
+    case STDirectDefenderRoot:
+      result = branch_d_defender_root_find_refutations(refutations,si);
       break;
 
     default:

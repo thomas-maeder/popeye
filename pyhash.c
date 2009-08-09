@@ -286,6 +286,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverter */
   &slice_property_offset_shifter, /* STDirectRoot */
   &slice_property_offset_shifter, /* STDirectAdapter */
+  &slice_property_offset_shifter, /* STDirectDefenderRoot */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
   &slice_property_offset_shifter, /* STHelpHashed */
@@ -606,26 +607,6 @@ static boolean init_slice_properties_branch_direct(slice_index branch,
 }
 
 /* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a direct branch defender
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff the properties for branch and its children have been
- *         successfully initialised
- */
-static
-boolean init_slice_properties_branch_direct_defender(slice_index branch,
-                                                     slice_traversal *st)
-{
-  slice_index const next = slices[branch].u.pipe.next;
-  boolean const result = traverse_slices(next,st);
-  init_slice_properties_pipe(branch,st);
-  init_slice_properties_direct_adapter(branch,st);
-//   should be:
-//   slice_traverse_children(branch,st);
-  return result;
-}
-
-/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices
  * @param si root slice of subtree
  * @param st address of structure defining traversal
@@ -779,32 +760,33 @@ static boolean init_slice_properties_branch_fork(slice_index branch_fork,
 
 static slice_operation const slice_properties_initalisers[] =
 {
-  &init_slice_properties_branch_direct,          /* STBranchDirect */
-  &init_slice_properties_branch_direct_defender, /* STBranchDirectDefender */
-  &init_slice_properties_pipe,                   /* STBranchHelp */
-  &init_slice_properties_pipe,                   /* STBranchSeries */
-  &init_slice_properties_branch_fork,            /* STBranchFork */
-  &init_slice_properties_leaf_direct,            /* STLeafDirect */
-  &init_slice_properties_leaf_help,              /* STLeafHelp */
-  &init_slice_properties_leaf_direct,            /* STLeafSelf */
-  &init_slice_properties_leaf_forced,            /* STLeafForced */
-  &init_slice_properties_fork,                   /* STReciprocal */
-  &init_slice_properties_fork,                   /* STQuodlibet */
-  &init_slice_properties_pipe,                   /* STNot */
-  &init_slice_properties_pipe,                   /* STMoveInverter */
-  &init_slice_properties_direct_adapter,         /* STDirectRoot */
-  &init_slice_properties_direct_adapter,         /* STDirectAdapter */
-  &init_slice_properties_help_adapter,           /* STHelpRoot */
-  &init_slice_properties_help_adapter,           /* STHelpAdapter */
-  &init_slice_properties_hashed_help,            /* STHelpHashed */
-  &init_slice_properties_series_adapter,         /* STSeriesRoot */
-  &init_slice_properties_series_adapter,         /* STSeriesAdapter */
-  &init_slice_properties_hashed_series,          /* STSeriesHashed */
-  &init_slice_properties_pipe,                   /* STSelfCheckGuard */
-  &init_slice_properties_pipe,                   /* STReflexGuard */
-  &init_slice_properties_pipe,                   /* STRestartGuard */
-  &init_slice_properties_pipe,                   /* STGoalReachableGuard */
-  &init_slice_properties_pipe                    /* STKeepMatingGuard */
+  &init_slice_properties_branch_direct,  /* STBranchDirect */
+  &init_slice_properties_pipe,           /* STBranchDirectDefender */
+  &init_slice_properties_pipe,           /* STBranchHelp */
+  &init_slice_properties_pipe,           /* STBranchSeries */
+  &init_slice_properties_branch_fork,    /* STBranchFork */
+  &init_slice_properties_leaf_direct,    /* STLeafDirect */
+  &init_slice_properties_leaf_help,      /* STLeafHelp */
+  &init_slice_properties_leaf_direct,    /* STLeafSelf */
+  &init_slice_properties_leaf_forced,    /* STLeafForced */
+  &init_slice_properties_fork,           /* STReciprocal */
+  &init_slice_properties_fork,           /* STQuodlibet */
+  &init_slice_properties_pipe,           /* STNot */
+  &init_slice_properties_pipe,           /* STMoveInverter */
+  &init_slice_properties_direct_adapter, /* STDirectRoot */
+  &init_slice_properties_direct_adapter, /* STDirectAdapter */
+  &init_slice_properties_direct_adapter, /* STDirectDefenderRoot */
+  &init_slice_properties_help_adapter,   /* STHelpRoot */
+  &init_slice_properties_help_adapter,   /* STHelpAdapter */
+  &init_slice_properties_hashed_help,    /* STHelpHashed */
+  &init_slice_properties_series_adapter, /* STSeriesRoot */
+  &init_slice_properties_series_adapter, /* STSeriesAdapter */
+  &init_slice_properties_hashed_series,  /* STSeriesHashed */
+  &init_slice_properties_pipe,           /* STSelfCheckGuard */
+  &init_slice_properties_pipe,           /* STReflexGuard */
+  &init_slice_properties_pipe,           /* STRestartGuard */
+  &init_slice_properties_pipe,           /* STGoalReachableGuard */
+  &init_slice_properties_pipe            /* STKeepMatingGuard */
 };
 
 /* Callback for traverse_slices() that copies slice_properties from
@@ -852,6 +834,7 @@ static slice_operation const slice_properties_inheriters[] =
   &slice_traverse_children,             /* STMoveInverter */
   &slice_traverse_children,             /* STDirectRoot */
   &slice_traverse_children,             /* STDirectAdapter */
+  &slice_traverse_children,             /* STDirectDefenderRoot */
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpAdapter */
   &slice_traverse_children,             /* STHelpHashed */
@@ -973,7 +956,7 @@ static boolean non_standard_length_finder_series_adapter(slice_index si,
 
 static slice_operation const non_standard_length_finders[] =
 {
-  &non_standard_length_finder_branch_direct,  /* STBranchDirect */
+  &slice_traverse_children,                   /* STBranchDirect */
   &slice_traverse_children,                   /* STBranchDirectDefender */
   &slice_traverse_children,                   /* STBranchHelp */
   &slice_traverse_children,                   /* STBranchSeries */
@@ -988,6 +971,7 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                   /* STMoveInverter */
   &slice_traverse_children,                   /* STDirectRoot */
   &non_standard_length_finder_direct_adapter, /* STDirectAdapter */
+  &non_standard_length_finder_branch_direct,  /* STDirectDefenderRoot */
   &slice_traverse_children,                   /* STHelpRoot */
   &non_standard_length_finder_help_adapter,   /* STHelpAdapter */
   &non_standard_length_finder_help_adapter,   /* STHelpHashed */
@@ -1039,6 +1023,7 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STDirectRoot */
   &slice_traverse_children, /* STDirectAdapter */
+  &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &findMinimalValueOffset,  /* STHelpHashed */
@@ -1089,6 +1074,7 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STDirectRoot */
   &slice_traverse_children, /* STDirectAdapter */
+  &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &reduceValueOffset,       /* STHelpHashed */
@@ -1912,7 +1898,7 @@ static boolean number_of_holes_estimator_hashed_help(slice_index si,
 static slice_operation const number_of_holes_estimators[] =
 {
   &slice_traverse_children,                         /* STBranchDirect */
-  &number_of_holes_estimator_branch_direct_defender,/* STBranchDirectDefender*/
+  &slice_traverse_children,                         /* STBranchDirectDefender*/
   &slice_traverse_children,                         /* STBranchHelp */
   &slice_traverse_children,                         /* STBranchSeries */
   &slice_traverse_children,                         /* STBranchFork */
@@ -1926,6 +1912,7 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STMoveInverter */
   &number_of_holes_estimator_branch_direct,         /* STDirectRoot */
   &number_of_holes_estimator_branch_direct,         /* STDirectAdapter */
+  &number_of_holes_estimator_branch_direct_defender,/* STDirectDefenderRoot */
   &slice_traverse_children,                         /* STHelpRoot */
   &slice_traverse_children,                         /* STHelpAdapter */
   &number_of_holes_estimator_hashed_help,           /* STHelpHashed */
@@ -2602,6 +2589,7 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STMoveInverter */
   &slice_traverse_children,    /* STDirectRoot */
   &slice_traverse_children,    /* STDirectAdapter */
+  &slice_traverse_children,    /* STDirectDefenderRoot */
   &slice_traverse_children,    /* STHelpRoot */
   &slice_traverse_children,    /* STHelpAdapter */
   &init_element_hashed_help,   /* STHelpHashed */

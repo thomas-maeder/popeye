@@ -92,7 +92,7 @@ boolean direct_defender_finish_solution_next(slice_index si);
  *               as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
-unsigned int direct_defender_find_refutations(table refutations,
-                                              slice_index si);
+unsigned int direct_defender_root_find_refutations(table refutations,
+                                                   slice_index si);
 
 #endif

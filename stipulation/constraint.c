@@ -266,6 +266,7 @@ static slice_operation const reflex_guards_inserters[] =
   &slice_traverse_children,            /* STMoveInverter */
   &slice_traverse_children,            /* STDirectRoot */
   &slice_traverse_children,            /* STDirectAdapter */
+  &slice_traverse_children,            /* STDirectDefenderRoot */
   &reflex_guards_inserter_branch,      /* STHelpRoot */
   &slice_traverse_children,            /* STHelpAdapter */
   &slice_traverse_children,            /* STHelpHashed */

@@ -208,6 +208,15 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
+      case STDirectDefenderRoot:
+        fprintf(stdout,"length:%u ",slices[si].u.pipe.u.branch.length);
+        fprintf(stdout,"min_length:%u ",slices[si].u.pipe.u.branch.min_length);
+        fprintf(stdout,"fork:%u ",slices[si].u.pipe.u.branch_d.fork);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
       case STBranchDirectDefender:
         fprintf(stdout,"length:%u ",slices[si].u.pipe.u.branch.length);
         fprintf(stdout,"min_length:%u ",slices[si].u.pipe.u.branch.min_length);

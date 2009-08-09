@@ -37,6 +37,8 @@
     ENUMERATOR(STDirectRoot),      /* root level of direct play */        \
     ENUMERATOR(STDirectAdapter),   /* direct play after branch fork */    \
                                                                         \
+    ENUMERATOR(STDirectDefenderRoot), /* root level of postkey direct play */ \
+                                                                        \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \

@@ -407,6 +407,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_move_inverter, /* STMoveInverter */
   &slice_traverse_children,                 /* STDirectRoot */
   &slice_traverse_children,                 /* STDirectAdapter */
+  &slice_traverse_children,                 /* STDirectDefenderRoot */
   &selfcheck_guards_inserter_help_root,     /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpAdapter */
   &slice_traverse_children,                 /* STHelpHashed */

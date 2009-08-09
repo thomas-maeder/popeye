@@ -133,7 +133,6 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
                                                 stip_length_type min_length,
                                                 slice_index next)
 {
-  slice_index defender;
   slice_index result;
   slice_index fork;
 
@@ -144,19 +143,33 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   fork = alloc_branch_fork_slice(no_slice,next);
-  defender = alloc_branch_d_defender_slice(length-1,min_length-1,fork);
 
   if (length-slack_length_direct==2)
-    result = alloc_direct_root_branch(length,min_length,defender,fork);
+  {
+    slice_index const
+        defender_root = alloc_branch_d_defender_root_slice(length-1,
+                                                           min_length-1,
+                                                           fork,
+                                                           fork);
+    result = alloc_direct_root_branch(length,min_length,defender_root,fork);
+  }
   else
   {
+    slice_index const defender = alloc_branch_d_defender_slice(length-1,
+                                                               min_length-1,
+                                                               fork);
     stip_length_type const branch_min_length = (min_length>slack_length_direct
                                                 ? min_length-2
                                                 : slack_length_direct);
     slice_index const branch_d = alloc_branch_d_slice(length-2,branch_min_length,
                                                       defender,fork);
+    slice_index const
+        defender_root = alloc_branch_d_defender_root_slice(length-1,
+                                                           min_length-1,
+                                                           fork,
+                                                           fork);
     slices[fork].u.pipe.next = branch_d;
-    result = alloc_direct_root_branch(length,min_length,defender,fork);
+    result = alloc_direct_root_branch(length,min_length,defender_root,fork);
   }
      
   TraceFunctionExit(__func__);
@@ -755,7 +768,7 @@ boolean direct_root_solve(slice_index si)
         table refutations = allocate_table();
 
         unsigned int const nr_refutations =
-            direct_defender_find_refutations(refutations,peer);
+            direct_defender_root_find_refutations(refutations,peer);
         if (nr_refutations<=max_nr_refutations)
         {
           write_attack(nr_refutations==0 ? attack_key : attack_try);

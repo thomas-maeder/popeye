@@ -10,7 +10,7 @@
  * in STBranchDirect stipulation slices.
  */
 
-/* Allocate a STBranchDirect defender slice.
+/* Allocate a STBranchDirectDefender defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param next identifies next slice
@@ -19,6 +19,18 @@
 slice_index alloc_branch_d_defender_slice(stip_length_type length,
                                           stip_length_type min_length,
                                           slice_index next);
+
+/* Allocate a STDirectDefenderRoot defender slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @param fork identifies fork slice
+ * @return index of allocated slice
+ */
+slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
+                                               stip_length_type min_length,
+                                               slice_index next,
+                                               slice_index fork);
 
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
@@ -101,8 +113,8 @@ boolean branch_d_defender_root_solve(slice_index si);
  *               as entered by the user
  *         number (0..max_nr_refutations) of refutations otherwise
  */
-unsigned int branch_d_defender_find_refutations(table refutations,
-                                                slice_index si);
+unsigned int branch_d_defender_root_find_refutations(table refutations,
+                                                     slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
@@ -110,6 +122,6 @@ unsigned int branch_d_defender_find_refutations(table refutations,
  * @return does the leaf decide on the starter?
  */
 who_decides_on_starter
-branch_d_defender_detect_starter(slice_index si, boolean same_side_as_root);
+branch_d_defender_root_detect_starter(slice_index si, boolean same_side_as_root);
 
 #endif

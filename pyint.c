@@ -2769,6 +2769,7 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverter */
   0,                                /* STDirectRoot */
   0,                                /* STDirectAdapter */
+  0,                                /* STDirectDefenderRoot */
   0,                                /* STHelpRoot */
   &init_moves_left_help_adapter,    /* STHelpAdapter */
   &slice_traverse_children,         /* STHelpHashed */
@@ -3078,8 +3079,8 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
 
 static slice_operation const goalreachable_guards_inserters[] =
 {
-  &slice_traverse_children,              /* STBranchDirect */
-  &slice_traverse_children,              /* STBranchDirectDefender */
+  0,                                     /* STBranchDirect */
+  0,                                     /* STBranchDirectDefender */
   &goalreachable_guards_inserter_branch, /* STBranchHelp */
   &goalreachable_guards_inserter_branch, /* STBranchSeries */
   &slice_traverse_children,              /* STBranchFork */
@@ -3087,12 +3088,13 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_operation_noop,                 /* STLeafHelp */
   &slice_operation_noop,                 /* STLeafSelf */
   &slice_operation_noop,                 /* STLeafForced */
-  &slice_traverse_children,              /* STReciprocal */
+  0,                                     /* STReciprocal */
   &slice_traverse_children,              /* STQuodlibet */
-  &slice_traverse_children,              /* STNot */
+  0,                                     /* STNot */
   &slice_traverse_children,              /* STMoveInverter */
-  &slice_traverse_children,              /* STDirectRoot */
-  &slice_traverse_children,              /* STDirectAdapter */
+  0,                                     /* STDirectRoot */
+  0,                                     /* STDirectAdapter */
+  0,                                     /* STDirectDefenderRoot */
   &goalreachable_guards_inserter_branch, /* STHelpRoot */
   &slice_traverse_children,              /* STHelpAdapter */
   &slice_traverse_children,              /* STHelpHashed */
@@ -3298,7 +3300,7 @@ static boolean intelligent_mode_support_none(slice_index si,
 static slice_operation const intelligent_mode_support_detectors[] =
 {
   0,                                             /* STBranchDirect */
-  &intelligent_mode_support_none,                /* STBranchDirectDefender */
+  0,                                             /* STBranchDirectDefender */
   0,                                             /* STBranchHelp */
   0,                                             /* STBranchSeries */
   &slice_traverse_children,                      /* STBranchFork */
@@ -3312,6 +3314,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMoveInverter */
   &intelligent_mode_support_none,                /* STDirectRoot */
   &intelligent_mode_support_none,                /* STDirectAdapter */
+  &intelligent_mode_support_none,                /* STDirectDefenderRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
   &slice_traverse_children,                      /* STHelpHashed */
