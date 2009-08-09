@@ -800,39 +800,6 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to finish the solution of the next slice starting with the key
- * move just played. 
- * @param si slice index
- * @return true iff finishing the solution was successful.
- */
-boolean branch_d_defender_finish_solution_next(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.u.branch.min_length<slack_length_direct)
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    if (slice_has_starter_won(next))
-    {
-      slice_root_write_key(next,attack_key);
-      output_start_postkey_level();
-      slice_solve_postkey(next);
-      output_end_postkey_level();
-      write_end_of_solution();
-      result = true;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /****************** root *******************/
 
 /* Determine and write at root level the threat and variations after

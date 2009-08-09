@@ -77,13 +77,6 @@ boolean branch_d_defender_does_defender_win(slice_index si,
  */
 boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
 
-/* Try to finish the solution of the next slice starting with the key
- * move just played. 
- * @param si slice index
- * @return true iff finishing the solution was successful.
- */
-boolean branch_d_defender_finish_solution_next(slice_index si);
-
 /* Find solutions in next slice
  * @param si slice index
  * @return true iff >=1 solution has been found

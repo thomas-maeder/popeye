@@ -723,6 +723,37 @@ who_decides_on_starter direct_adapter_detect_starter(slice_index si,
 
 /****************** root ************************/
 
+/* Attempt to use the move just played as key of the next branch/leaf.
+ * @param root identifies STDirectRoot slice which played the move
+ */
+static boolean fork_finish_solution(slice_index root)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  if (slices[root].u.pipe.u.branch.min_length==slack_length_direct)
+  {
+    slice_index const fork = slices[root].u.pipe.u.branch_d.fork;
+    if (slice_has_starter_won(fork))
+    {
+      slice_root_write_key(fork,attack_key);
+      output_start_postkey_level();
+      slice_solve_postkey(fork);
+      output_end_postkey_level();
+      write_end_of_solution();
+      result = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -763,7 +794,7 @@ boolean direct_root_solve(slice_index si)
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && !echecc(nbply,attacker)
-          && !direct_defender_finish_solution_next(peer))
+          && !fork_finish_solution(si))
       {
         table refutations = allocate_table();
 

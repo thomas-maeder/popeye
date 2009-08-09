@@ -12,66 +12,6 @@
 
 #include <assert.h>
 
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
- */
-/*boolean direct_solve_in_n(slice_index si, stip_length_type n)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STBranchDirect:
-      result = branch_d_solve_in_n(si,n);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_direct_solve_in_n(si,n);
-      break;
-
-    case STDirectHashed:
-      result = hashed_direct_solve_in_n(si,n);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_direct_solve_in_n(si,n);
-      break;
-
-    case STKeepMatingGuard:
-      result = keepmating_guard_direct_solve_in_n(si,n);
-      break;
-
-    case STGoalReachableGuard:
-      result = goalreachable_guard_direct_solve_in_n(si,n);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_direct_solve_in_n(si,n);
-      break;
-
-    case STRestartGuard:
-      result = restart_guard_direct_solve_in_n(si,n);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}*/
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
@@ -280,38 +220,6 @@ void direct_defender_root_solve_postkey(table refutations, slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Try to finish the solution of the next slice starting with the key
- * move just played. 
- * @param si slice index
- * @return true iff finishing the solution was successful.
- */
-boolean direct_defender_finish_solution_next(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STDirectDefenderRoot:
-    case STBranchDirectDefender:
-      result = branch_d_defender_finish_solution_next(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Find refutations after a move of the attacking side at root level.

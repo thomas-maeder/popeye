@@ -74,13 +74,6 @@ boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
 /* TODO get rid of this */
 void direct_defender_root_solve_postkey(table refutations, slice_index si);
 
-/* Try to finish the solution of the next slice starting with the key
- * move just played. 
- * @param si slice index
- * @return true iff finishing the solution was successful.
- */
-boolean direct_defender_finish_solution_next(slice_index si);
-
 /* Find refutations after a move of the attacking side at root level.
  * @param t table where to store refutations
  * @param si slice index
