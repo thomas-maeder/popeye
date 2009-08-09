@@ -371,30 +371,6 @@ boolean branch_d_defender_does_defender_win(slice_index si,
 }
 
 /* Determine whether the attacker has won with his move just played
- * @param si slice index
- * @param n (odd) number of moves until goal (after the move just
- *          played)
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff attacker has won
- */
-static boolean has_starter_won_in_n(slice_index si,
-                                    stip_length_type n,
-                                    int curr_max_nr_nontrivial)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  boolean result;
-
-  if (slices[si].u.pipe.u.branch.length-n>slices[si].u.pipe.u.branch.min_length
-      && slice_has_starter_reached_goal(next))
-    result = false;
-  else
-    result = !branch_d_defender_does_defender_win(si,n,curr_max_nr_nontrivial);
-
-  return result;
-}
-
-/* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
  * current slice.
  * @param si slice identifier
@@ -402,9 +378,9 @@ static boolean has_starter_won_in_n(slice_index si,
  */
 boolean branch_d_defender_has_starter_won(slice_index si)
 {
-  return has_starter_won_in_n(si,
-                              slices[si].u.pipe.u.branch.length,
-                              max_nr_nontrivial);
+  return !branch_d_defender_does_defender_win(si,
+                                              slices[si].u.pipe.u.branch.length,
+                                              max_nr_nontrivial);
 }
 
 /* Determine whether the defense just played defends against the threats.
@@ -453,8 +429,14 @@ static boolean defends_against_threats(table threats,
           defense_found = true;
         else if (n==slack_length_direct)
           defense_found = !slice_has_starter_won(slices[si].u.pipe.next);
+        else if (slices[si].u.pipe.u.branch.length-(n-1)
+                 >slices[si].u.pipe.u.branch.min_length
+                 && slice_has_starter_reached_goal(next))
+          defense_found = true;
         else
-          defense_found = !has_starter_won_in_n(si,n-1,curr_max_nr_nontrivial);
+          defense_found = branch_d_defender_does_defender_win(si,
+                                                              n-1,
+                                                              curr_max_nr_nontrivial);
 
         if (defense_found)
         {

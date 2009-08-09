@@ -135,9 +135,6 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
 {
   slice_index result;
   slice_index fork;
-  stip_length_type const fork_min_length = (min_length==slack_length_direct
-                                            ? slack_length_direct
-                                            : min_length-2);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -148,7 +145,7 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
   assert(length%2==0);
   assert(length>slack_length_direct);
 
-  fork = alloc_branch_fork_slice(length-2,fork_min_length,no_slice,next);
+  fork = alloc_branch_fork_slice(length-2,min_length-2,no_slice,next);
 
   if (length-slack_length_direct==2)
   {
@@ -192,9 +189,6 @@ static slice_index alloc_nested_direct_branch(stip_length_type length,
   slice_index defender;
   slice_index result;
   slice_index fork;
-  stip_length_type const fork_min_length = (min_length==slack_length_direct
-                                            ? slack_length_direct
-                                            : min_length-2);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -205,7 +199,7 @@ static slice_index alloc_nested_direct_branch(stip_length_type length,
   assert(min_length>=slack_length_direct);
   assert(min_length%2==0);
 
-  fork = alloc_branch_fork_slice(length-2,fork_min_length,no_slice,next);
+  fork = alloc_branch_fork_slice(length-2,min_length-2,no_slice,next);
   defender = alloc_branch_d_defender_slice(length-1,min_length-1,fork);
   branch_d = alloc_branch_d_slice(length,min_length,defender,fork);
 
