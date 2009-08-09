@@ -322,7 +322,8 @@ boolean branch_fork_has_solution_in_n(slice_index si,
   stip_length_type const moves_played = (slices[si].u.pipe.u.branch_fork.length
                                          -n
                                          +slack_length_direct);
-  stip_length_type const min_length = slices[si].u.pipe.u.branch_fork.min_length;
+  stip_length_type const
+      min_length = slices[si].u.pipe.u.branch_fork.min_length;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
