@@ -39,14 +39,6 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
  */
 boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return true iff the starter has won
- */
-boolean branch_d_defender_has_starter_won(slice_index si);
-
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index
  * @param n (odd) number of half moves until goal

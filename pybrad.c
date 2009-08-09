@@ -250,17 +250,6 @@ slice_index alloc_direct_branch(branch_level level,
   return result;
 }
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return true iff the starter has won
- */
-boolean branch_d_has_starter_won(slice_index si)
-{
-  return slice_has_starter_won(slices[si].u.pipe.next);
-}
-
 /* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n (even) number of half moves until goal
@@ -531,6 +520,17 @@ void branch_d_solve_continuations_in_n(table continuations,
 void direct_adapter_write_unsolvability(slice_index si)
 {
   slice_write_unsolvability(slices[si].u.pipe.u.branch_d.fork);
+}
+
+/* Determine whether the attacker has won with his move just played
+ * independently of the non-starter's possible further play during the
+ * current slice.
+ * @param si slice identifier
+ * @return true iff the starter has won
+ */
+boolean direct_adapter_has_starter_won(slice_index si)
+{
+  return slice_has_starter_won(slices[si].u.pipe.u.branch_d.fork);
 }
 
 /* Determine whether a side has reached the goal

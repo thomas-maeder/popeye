@@ -23,14 +23,6 @@ slice_index alloc_direct_branch(branch_level level,
                                 stip_length_type min_length,
                                 slice_index next);
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return true iff the starter has won
- */
-boolean branch_d_has_starter_won(slice_index si);
-
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves
@@ -65,6 +57,14 @@ void branch_d_solve_continuations_in_n(table continuations,
  * @param si slice index
  */
 void direct_adapter_write_unsolvability(slice_index si);
+
+/* Determine whether the attacker has won with his move just played
+ * independently of the non-starter's possible further play during the
+ * current slice.
+ * @param si slice identifier
+ * @return true iff the starter has won
+ */
+boolean direct_adapter_has_starter_won(slice_index si);
 
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved

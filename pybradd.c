@@ -370,19 +370,6 @@ boolean branch_d_defender_does_defender_win(slice_index si,
   return result;
 }
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return true iff the starter has won
- */
-boolean branch_d_defender_has_starter_won(slice_index si)
-{
-  return !branch_d_defender_does_defender_win(si,
-                                              slices[si].u.pipe.u.branch.length,
-                                              max_nr_nontrivial);
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

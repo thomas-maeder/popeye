@@ -826,12 +826,7 @@ boolean slice_has_starter_won(slice_index si)
       break;
 
     case STDirectAdapter:
-    case STBranchDirect:
-      result = branch_d_has_starter_won(si);
-      break;
-
-    case STBranchDirectDefender:
-      result = branch_d_defender_has_starter_won(si);
+      result = direct_adapter_has_starter_won(si);
       break;
  
     case STHelpAdapter:
