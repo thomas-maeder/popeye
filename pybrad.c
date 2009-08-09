@@ -267,7 +267,7 @@ static boolean have_we_solution_in_n(slice_index si,
                                      int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].starter;
-  slice_index const peer = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.pipe.next;
   slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
   boolean solution_found = false;
 
@@ -284,17 +284,13 @@ static boolean have_we_solution_in_n(slice_index si,
   while (!solution_found && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,attacker))
+        && !echecc(nbply,attacker)
+        && !slice_has_starter_apriori_lost(fork)
+        && !slice_must_starter_resign(fork)
+        && !direct_defender_does_defender_win(next,n-1,curr_max_nr_nontrivial))
     {
-      if (slice_has_starter_apriori_lost(fork))
-        /* nothing */;
-      else if (!direct_defender_does_defender_win(peer,
-                                                  n-1,
-                                                  curr_max_nr_nontrivial))
-      {
-        solution_found = true;
-        coupfort();
-      }
+      solution_found = true;
+      coupfort();
     }
 
     repcoup();
@@ -451,14 +447,19 @@ boolean branch_d_has_solution_in_n(slice_index si,
 boolean branch_d_has_solution(slice_index si)
 {
   boolean result;
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !direct_defender_is_refuted(slices[si].u.pipe.next,
-                                       slices[si].u.pipe.u.branch_d.length,
-                                       max_nr_nontrivial);
+  if (slice_must_starter_resign(fork)
+      || slice_must_starter_resign_hashed(fork))
+    result = false;
+  else
+    result = !direct_defender_is_refuted(slices[si].u.pipe.next,
+                                         slices[si].u.pipe.u.branch_d.length,
+                                         max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -479,7 +480,7 @@ void branch_d_solve_continuations_in_n(table continuations,
                                        stip_length_type n)
 {
   Side const attacker = slices[si].starter;
-  slice_index const peer = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.pipe.next;
   slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
 
   TraceFunctionEntry(__func__);
@@ -496,17 +497,15 @@ void branch_d_solve_continuations_in_n(table continuations,
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,attacker))
+        && !echecc(nbply,attacker)
+        && !slice_has_starter_apriori_lost(fork)
+        && !slice_must_starter_resign(fork)
+        && !direct_defender_does_defender_win(next,n-1,max_nr_nontrivial))
     {
-      if (slice_has_starter_apriori_lost(fork))
-        ; /* nothing */
-      else if (!direct_defender_does_defender_win(peer,n-1,max_nr_nontrivial))
-      {
-        write_attack(attack_regular);
-        direct_defender_solve_postkey_in_n(peer,n-1);
-        append_to_top_table();
-        coupfort();
-      }
+      write_attack(attack_regular);
+      direct_defender_solve_postkey_in_n(next,n-1);
+      append_to_top_table();
+      coupfort();
     }
 
     repcoup();
@@ -764,7 +763,7 @@ static boolean fork_finish_solution(slice_index root)
 boolean direct_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
-  slice_index const peer = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.pipe.next;
   slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
   boolean result = false;
 
@@ -797,16 +796,18 @@ boolean direct_root_solve(slice_index si)
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && !(OptFlag[restart] && MoveNbr<RestartNbr)
           && !echecc(nbply,attacker)
+          && !slice_has_starter_apriori_lost(fork)
+          && !slice_must_starter_resign(fork)
           && !fork_finish_solution(si))
       {
         table refutations = allocate_table();
 
         unsigned int const nr_refutations =
-            direct_defender_root_find_refutations(refutations,peer);
+            direct_defender_root_find_refutations(refutations,next);
         if (nr_refutations<=max_nr_refutations)
         {
           write_attack(nr_refutations==0 ? attack_key : attack_try);
-          direct_defender_root_solve_postkey(refutations,peer);
+          direct_defender_root_solve_postkey(refutations,next);
           write_end_of_solution();
 
           if (nr_refutations==0)
@@ -866,13 +867,14 @@ slice_index direct_root_make_setplay_slice(slice_index si)
     next_in_setplay = slices[fork].u.pipe.u.branch_fork.towards_goal;
   else
   {
-    slice_index const peer = branch_find_slice(STBranchDirectDefender,si);
+    slice_index const
+        defender_slice = branch_find_slice(STBranchDirectDefender,si);
 
-    slice_index const setplay_defender = copy_slice(peer);
+    slice_index const setplay_defender = copy_slice(defender_slice);
     slice_index const setplay_branch = copy_slice(si);
 
     slices[setplay_defender].u.pipe.u.branch.length -= 2;
-    if (slices[peer].u.pipe.u.branch.min_length>slack_length_direct)
+    if (slices[defender_slice].u.pipe.u.branch.min_length>slack_length_direct)
       slices[setplay_defender].u.pipe.u.branch.min_length -= 2;
 
     slices[setplay_branch].type = STBranchDirect;
