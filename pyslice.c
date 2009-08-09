@@ -286,6 +286,9 @@ void slice_root_write_key(slice_index si, attack_type type)
       leaf_d_root_write_key(si,type);
       break;
 
+    case STLeafHelp:
+      break;
+
     case STLeafSelf:
       leaf_s_root_write_key(si,type);
       break;

@@ -621,12 +621,14 @@ void direct_adapter_solve_continuations(table continuations, slice_index si)
  */
 void direct_adapter_root_write_key(slice_index si, attack_type type)
 {
+  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
-  write_attack(type);
+  slice_root_write_key(fork,type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -725,6 +727,7 @@ who_decides_on_starter direct_adapter_detect_starter(slice_index si,
 
 /* Attempt to use the move just played as key of the next branch/leaf.
  * @param root identifies STDirectRoot slice which played the move
+ * @return true iff successful
  */
 static boolean fork_finish_solution(slice_index root)
 {

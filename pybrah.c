@@ -380,12 +380,14 @@ void help_adapter_solve_continuations(table continuations, slice_index si)
  */
 void help_adapter_root_write_key(slice_index si, attack_type type)
 {
+  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
-  write_attack(type);
+  slice_root_write_key(fork,type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
