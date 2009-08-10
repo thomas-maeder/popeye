@@ -28,21 +28,21 @@
           2.Dc8-c7 # 
           2.Sc5-b7 # 
       1...Lb5*c4 
+          2.Dc8-c7 # 
           2.Dc8-d7 # 
           2.Dc8-c6 # 
-          2.Dc8-c7 # 
           2.Sc5-b7 # 
       1...Lb5-d7 
           2.Dc8*d7 # 
           2.Dc8-c7 # 
       1...Lb5-c6 
+          2.Dc8-c7 # 
           2.Dc8-e6 # 
           2.Dc8*c6 # 
-          2.Dc8-c7 # 
       1...Lb5-a6 
+          2.Dc8-c6 # 
           2.Dc8-e6 # 
           2.Dc8-d7 # 
-          2.Dc8-c6 # 
           2.Dc8-c7 # 
       1...Tf8-f6 
           2.Dc8-c7 # 
@@ -302,7 +302,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                         14 + 7
 
-a)
+a) 
 
   1.Kg5*g6 ? Drohung:
           2.Se4-g5 # 

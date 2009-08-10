@@ -23,6 +23,20 @@ slice_index alloc_direct_branch(branch_level level,
                                 stip_length_type min_length,
                                 slice_index next);
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @param n (even) number of moves until goal (after the defense)
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean branch_d_are_threats_refuted_in_n(table threats,
+                                          slice_index si,
+                                          stip_length_type n,
+                                          int curr_max_nr_nontrivial);
+
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves

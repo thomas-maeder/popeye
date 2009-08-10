@@ -370,86 +370,6 @@ boolean branch_d_defender_does_defender_win(slice_index si,
   return result;
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @param n (even) number of moves until goal (after the defense)
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-static boolean defends_against_threats(table threats,
-                                       slice_index si,
-                                       stip_length_type n,
-                                       int curr_max_nr_nontrivial)
-{
-  Side const defender = slices[si].starter;
-  Side const attacker = advers(defender);
-  slice_index const next = slices[si].u.pipe.next;
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==0);
-
-  if (table_length(threats)>0)
-  {
-    unsigned int nr_successful_threats = 0;
-    boolean defense_found = false;
-
-    active_slice[nbply+1] = si;
-    genmove(attacker);
-
-    while (encore() && !defense_found)
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && is_current_move_in_table(threats)
-          && !echecc(nbply,attacker))
-      {
-        if (slice_has_starter_apriori_lost(next)
-            || slice_must_starter_resign(next))
-          defense_found = true;
-        else if (n==slack_length_direct)
-          defense_found = !slice_has_starter_won(slices[si].u.pipe.next);
-        else if (slices[si].u.pipe.u.branch.length-(n-1)
-                 >slices[si].u.pipe.u.branch.min_length
-                 && slice_has_starter_reached_goal(next))
-          defense_found = true;
-        else
-          defense_found = branch_d_defender_does_defender_win(si,
-                                                              n-1,
-                                                              curr_max_nr_nontrivial);
-
-        if (defense_found)
-        {
-          coupfort();
-        }
-        else
-          ++nr_successful_threats;
-      }
-
-      repcoup();
-    }
-
-    finply();
-
-    /* this happens if >=1 threat no longer works or some threats can
-     * no longer be played after the defense.
-     */
-    result = nr_successful_threats<table_length(threats);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played is relevant
  * @param len_threat length of threat
  * @param table containing threats
@@ -489,14 +409,11 @@ static boolean is_defense_relevant(int len_threat,
   else if (slice_has_non_starter_solved(slices[si].u.pipe.next))
     /* "defense" has reached goal in self/reflex play */
     result = false;
-  else if (!defends_against_threats(threats,
-                                    si,
-                                    len_threat,
-                                    curr_max_nr_nontrivial))
-    /* defense doesn't defend against threat */
-    result = false;
   else
-    result = true;
+    result = direct_are_threats_refuted_in_n(threats,
+                                             next,
+                                             len_threat,
+                                             curr_max_nr_nontrivial);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

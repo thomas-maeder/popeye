@@ -70,6 +70,14 @@ boolean leaf_s_has_starter_won(slice_index leaf);
  */
 boolean leaf_s_has_starter_reached_goal(slice_index leaf);
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param leaf slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean leaf_s_are_threats_refuted(table threats, slice_index leaf);
+
 /* Determine whether there is a solution in a leaf.
  * @param leaf slice index of leaf slice
  * @return true iff leaf has >=1 solution

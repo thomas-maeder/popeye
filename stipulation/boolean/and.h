@@ -33,6 +33,17 @@ boolean reci_must_starter_resign(slice_index si);
  */
 boolean reci_must_starter_resign_hashed(slice_index si);
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @param n number of moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean reci_are_threats_refuted(table threats, slice_index si);
+
 /* Determine whether there is a solution at the end of a reciprocal
  * slice. 
  * @param si slice index

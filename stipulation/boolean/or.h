@@ -64,6 +64,17 @@ void quodlibet_root_write_key(slice_index si, attack_type type);
  */
 void quodlibet_solve_postkey(slice_index si);
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @param n number of moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean quodlibet_are_threats_refuted(table threats, slice_index si);
+
 /* Determine whether a quodlibet slice jas a solution
  * @param si slice index
  * @return true iff slice si has a solution

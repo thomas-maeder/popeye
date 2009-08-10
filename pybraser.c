@@ -190,6 +190,56 @@ void branch_ser_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean branch_ser_are_threats_refuted(table threats, slice_index si)
+{
+  Side const attacker = slices[si].starter;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",table_length(threats));
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (table_length(threats)>0)
+  {
+    unsigned int nr_successful_threats = 0;
+    boolean defense_found = false;
+
+    active_slice[nbply+1] = si;
+    genmove(attacker);
+
+    while (encore() && !defense_found)
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && is_current_move_in_table(threats)
+          && series_has_solution_in_n(next,n-1))
+        ++nr_successful_threats;
+
+      repcoup();
+    }
+
+    finply();
+
+    /* this happens if >=1 threat no longer works or some threats can
+     * no longer be played after the defense.
+     */
+    result = nr_successful_threats<table_length(threats);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
@@ -557,6 +607,30 @@ boolean series_adapter_is_goal_reached(Side just_moved, slice_index si)
   TraceFunctionParamListEnd();
 
   result = slice_is_goal_reached(just_moved,to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean series_adapter_are_threats_refuted(table threats, slice_index si)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",table_length(threats));
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_are_threats_refuted(threats,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

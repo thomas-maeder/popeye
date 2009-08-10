@@ -33,6 +33,63 @@ boolean leaf_s_must_starter_resign(slice_index leaf)
   return result;
 }
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param leaf slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean leaf_s_are_threats_refuted(table threats, slice_index leaf)
+{
+  Side const attacker = slices[leaf].starter;
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",table_length(threats));
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  if (table_length(threats)>0)
+  {
+    unsigned int nr_successful_threats = 0;
+    boolean defense_found = false;
+
+    active_slice[nbply+1] = leaf;
+    genmove(attacker);
+
+    while (encore() && !defense_found)
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && is_current_move_in_table(threats)
+          && !echecc(nbply,attacker))
+      {
+        if (leaf_s_has_starter_apriori_lost(leaf)
+            || leaf_s_must_starter_resign(leaf))
+          defense_found = true;
+        else
+          defense_found = !leaf_s_has_starter_won(leaf);
+
+        if (!defense_found)
+          ++nr_successful_threats;
+      }
+
+      repcoup();
+    }
+
+    finply();
+
+    /* this happens if >=1 threat no longer works or some threats can
+     * no longer be played after the defense.
+     */
+    result = nr_successful_threats<table_length(threats);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a solution in a self leaf.
  * @param leaf slice index of leaf slice
  * @return true iff attacker wins

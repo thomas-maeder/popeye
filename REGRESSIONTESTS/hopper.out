@@ -93,7 +93,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         6 + 4
 
-a)
+a) 
 
   1.Td2*f2 G2f1-b5   2.Tf2-f1 G2b5*f1 # 
   1.Td2-e2 f2-f3   2.Te2*e4 f3*e4 # 
@@ -381,7 +381,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#4                         2 + 1
 
-a)
+a) 
 
   1.Kd5-c5 Sc6-e7   2.Kc5-b6 KGf7-b7   3.Kb6-a7 Se7-c6 +   4.Ka7-a8 KGb7-d5 # 
 
@@ -508,8 +508,8 @@ Loesung beendet.
           2.Sb4-d3 # 
           2.Se1-d3 # 
       1...VAb3-c4 
-          2.Sb4-d3 # 
           2.Se1-d3 # 
+          2.Sb4-d3 # 
       1...VAc3-d4 
           2.Sb4-a6 # 
       1...EKf5*e4 
@@ -518,16 +518,16 @@ Loesung beendet.
           2.CAa7-d8 # 
           2.Sb4-a6 # 
       1...EKf5-e6 
-          2.CAa7-d8 # 
           2.Sb4-a6 # 
+          2.CAa7-d8 # 
       1...EKf5-f4 
           2.CAa7-d8 # 
       1...EKf5*e5 
           2.CAa7-d8 # 
           2.Sb4-a6 # 
       1...EKf5-f6 
-          2.CAa7-d8 # 
           2.Sb4-a6 # 
+          2.CAa7-d8 # 
       1...EKf5-g5 
           2.CAa7-d8 # 
           2.Sb4-a6 # 
@@ -639,7 +639,7 @@ ehrende Erw"ahnung, Andernach-Grashoppers-Tourney 2000
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 4
 
-a)
+a) 
 
   1.AGe7-g7 AGg1-g8 +   2.Ke6-e5 AGg7-e7 # 
 
@@ -714,7 +714,7 @@ Lob, Andernach-Grashoppers-Tourney 2000
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 5
 
-a)
+a) 
 
   1.AGc1-c3 Lc2-e4   2.AGc3-e5 Ld4*e5 # 
 
@@ -876,7 +876,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 7
 
-a)
+a) 
 
   1.KAa8*d5 Ke1-d2   2.b7-b6 DEe2-c2 # 
 
@@ -912,7 +912,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 6
 
-a)
+a) 
 
   1.CAg6*h3 DEf3-d1   2.g7-g6 Sh4-f3 # 
 

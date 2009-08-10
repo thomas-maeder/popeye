@@ -31,12 +31,31 @@ boolean selfcheck_guard_solve(slice_index si);
  */
 boolean selfcheck_guard_help_solve_in_n(slice_index si, stip_length_type n);
 
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating piece of
+ * the defender?
+ * @param si slice identifier
+ * @return true iff starter has lost
+ */
+boolean selfcheck_guard_has_starter_apriori_lost(slice_index si);
+
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating piece of
+ * the defender?
+ * @param si slice identifier
+ * @return true iff starter has lost
+ */
+boolean selfcheck_guard_has_starter_won(slice_index si);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean selfcheck_guard_help_has_solution_in_n(slice_index si, stip_length_type n);
+boolean selfcheck_guard_help_has_solution_in_n(slice_index si,
+                                               stip_length_type n);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
@@ -81,5 +100,14 @@ void selfcheck_guard_series_solve_continuations_in_n(table continuations,
  * @return true iff no chance is left
  */
 boolean selfcheck_guard_must_starter_resign_hashed(slice_index si);
+
+/* Determine whether the starting side has made such a bad move that
+ * it is clear without playing further that it is not going to win.
+ * E.g. in s# or r#, has it taken the last potential mating piece of
+ * the defender?
+ * @param si slice identifier
+ * @return true iff starter has lost
+ */
+boolean slice_has_starter_apriori_lost(slice_index si);
 
 #endif

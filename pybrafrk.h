@@ -129,6 +129,20 @@ void branch_fork_solve_continuations(table continuations, slice_index si);
  */
 boolean branch_fork_has_solution(slice_index si);
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @param n number of moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean branch_fork_are_threats_refuted_in_n(table threats,
+                                             slice_index si,
+                                             stip_length_type n,
+                                             int curr_max_nr_nontrivial);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached

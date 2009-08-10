@@ -91,6 +91,34 @@ boolean reci_must_starter_resign_hashed(slice_index si)
   return result;
 }
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @param n number of moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean reci_are_threats_refuted(table threats, slice_index si)
+{
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = (slice_are_threats_refuted(threats,op1)
+            && slice_are_threats_refuted(threats,op2));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
 /* Determine whether there is a solution at the end of a quodlibet
  * slice. 
  * @param si slice index

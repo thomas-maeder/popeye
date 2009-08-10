@@ -260,16 +260,16 @@ Loesung beendet.
   #2                          9 + 5
                 Masand
 
-  1...Sh4-f3 [sSg1] + 
-      2.Dg3-f4 [wSf3, wBe4, sBf5, wLb8] # 
-  1...Lb8*g3 [wSh4] + 
-      2.Sg1-e2 [wLg3] # 
-  1...Lb8-e5 
-      2.Dg3-c3 [wLe5] # 
-  1...Lb8-d6 
-      2.Dg3-a3 [sBa4, wLd6] # 
-  1...Lb8-c7 
-      2.Dg3-c3 [wLc7] # 
+      1...Sh4-f3 [sSg1] + 
+          2.Dg3-f4 [wSf3, wBe4, sBf5, wLb8] # 
+      1...Lb8*g3 [wSh4] + 
+          2.Sg1-e2 [wLg3] # 
+      1...Lb8-e5 
+          2.Dg3-c3 [wLe5] # 
+      1...Lb8-d6 
+          2.Dg3-a3 [sBa4, wLd6] # 
+      1...Lb8-c7 
+          2.Dg3-c3 [wLc7] # 
 
   1.Tb6-b5 ! Drohung:
           2.Dg3-c7 [wBa7, wLb8] # 
@@ -294,8 +294,8 @@ Loesung beendet.
           2.Dg3-a3 [sBa4] # 
           2.Dg3-c3 # 
       1...Sh4*f5 
-          2.Dg3-a3 [sBa4] # 
           2.Dg3-c3 # 
+          2.Dg3-a3 [sBa4] # 
     Aber
       1...Sh4-f3 [sSg1] +  !
 

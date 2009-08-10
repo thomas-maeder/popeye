@@ -54,6 +54,14 @@ boolean branch_ser_is_goal_reached(Side just_moved, slice_index si);
  */
 boolean branch_ser_solve_in_n(slice_index si, stip_length_type n);
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean branch_ser_are_threats_refuted(table threats, slice_index si);
+
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
@@ -196,6 +204,14 @@ boolean series_adapter_has_starter_reached_goal(slice_index si);
  * @return true iff just_moved has reached the goal
  */
 boolean series_adapter_is_goal_reached(Side just_moved, slice_index si);
+
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean series_adapter_are_threats_refuted(table threats, slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index

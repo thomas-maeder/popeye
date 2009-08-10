@@ -25,25 +25,25 @@ The Problemist 1998 and Sachova skladba 1997
   #2                         11 + 7
                  MAFF
 
-  1...Qe2-f3 
-      2.Ba1-e5 # 
-  1...Qe2*e4 
-      2.Sg7-h5 # 
-  1...Qe2-e3 
-      2.f2*e3 # 
-  1...Qe2*f2 
-      2.Sg7-h5 # 
-      2.Ba1-e5 # 
-  1...h3*g2 
-      2.Ba1-e5 # 
-  1...Sg5*e4 
-      2.Ba1-e5 # 
-  1...Sg5-f3 
-      2.Sg7-h5 # 
-  1...Sg5-e6 
-      2.Re7*f7 # 
-  1...Bf7-e6 
-      2.Ba1-e5 # 
+      1...Qe2-f3 
+          2.Ba1-e5 # 
+      1...Qe2*e4 
+          2.Sg7-h5 # 
+      1...Qe2-e3 
+          2.f2*e3 # 
+      1...Qe2*f2 
+          2.Sg7-h5 # 
+          2.Ba1-e5 # 
+      1...h3*g2 
+          2.Ba1-e5 # 
+      1...Sg5*e4 
+          2.Ba1-e5 # 
+      1...Sg5-f3 
+          2.Sg7-h5 # 
+      1...Sg5-e6 
+          2.Re7*f7 # 
+      1...Bf7-e6 
+          2.Ba1-e5 # 
 
   1.Sg7-e6 + ! 
       1...Sg5*e6 
@@ -61,7 +61,7 @@ The Problemist 1998 and Sachova skladba 1997
           2.Ba1-e5 # 
 
 
-solution finished.
+solution finished. 
 
 
 
@@ -93,8 +93,8 @@ solution finished.
   1.Bd2-f4 ! threat:
           2.Re7-d7 # 
       1...Bd4-e5 
-          2.Rc7-c5 # 
           2.Bd3-c4 # 
+          2.Rc7-c5 # 
       1...Bd4-c5 
           2.Rc7*c5 # 
           2.Sb5-c3 # 
@@ -110,15 +110,15 @@ solution finished.
           2.Re7*e5 # 
           2.Bd3-c4 # 
       1...Bd4-c5 
-          2.Re7-e5 # 
           2.Bd3-c4 # 
+          2.Re7-e5 # 
       1...Sd8-c6 
           2.Bd3-c4 # 
       1...Sd8-e6 
           2.Re7-d7 # 
 
 
-solution finished.
+solution finished. 
 
 
 
@@ -261,6 +261,6 @@ solution finished.
           2.Qd6*d4 # 
 
 
-solution finished.
+solution finished. 
 
 

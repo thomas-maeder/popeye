@@ -528,6 +528,73 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
 }
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param si slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean slice_are_threats_refuted(table threats, slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",table_length(threats));
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafDirect:
+      result = leaf_d_are_threats_refuted(threats,si);
+      break;
+
+    case STLeafSelf:
+      result = leaf_s_are_threats_refuted(threats,si);
+      break;
+
+    case STReciprocal:
+      result = reci_are_threats_refuted(threats,si);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_are_threats_refuted(threats,si);
+      break;
+
+    case STHelpAdapter:
+    case STHelpHashed:
+      result = help_adapter_are_threats_refuted(threats,si);
+      break;
+
+    case STBranchHelp:
+      result = branch_h_are_threats_refuted(threats,si);
+      break;
+
+    case STSeriesAdapter:
+    case STSeriesHashed:
+      result = series_adapter_are_threats_refuted(threats,si);
+      break;
+
+    case STBranchSeries:
+      result = branch_ser_are_threats_refuted(threats,si);
+      break;
+
+    case STNot:
+      result = true;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return true iff slice si has a solution
@@ -785,6 +852,10 @@ boolean slice_has_starter_apriori_lost(slice_index si)
       result = not_has_starter_apriori_lost(si);
       break;
 
+    case STSelfCheckGuard:
+      result = selfcheck_guard_has_starter_apriori_lost(si);
+      break;
+
     default:
       assert(0);
       break;
@@ -851,6 +922,10 @@ boolean slice_has_starter_won(slice_index si)
 
     case STBranchFork:
       result = branch_fork_has_starter_won(si);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_has_starter_won(si);
       break;
 
     default:
