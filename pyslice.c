@@ -847,16 +847,8 @@ boolean slice_has_non_starter_solved(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafDirect:
-      result = leaf_d_has_non_starter_solved(si);
-      break;
-
     case STLeafForced:
       result = leaf_forced_has_non_starter_solved(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_has_non_starter_solved(si);
       break;
 
     case STBranchDirect:

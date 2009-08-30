@@ -11,13 +11,6 @@
  * stipulation slices.
  */
 
-/* Determine whether a leaf slice has just been solved with the just
- * played move by the non-starter 
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean leaf_d_has_non_starter_solved(slice_index leaf);
-
 /* Find and write post key play
  * @param leaf slice index
  * @return true iff >=1 solution was found

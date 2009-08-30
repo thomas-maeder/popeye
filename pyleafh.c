@@ -82,32 +82,6 @@ has_solution_type leaf_h_has_solution(slice_index leaf)
   return result;
 }
 
-/* Determine whether a leaf slice.has just been solved with the just
- * played move by the non-starter 
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean leaf_h_has_non_starter_solved(slice_index leaf)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  assert(slices[leaf].starter!=no_side);
-
-  TraceValue("%u\n",slices[leaf].starter);
-
-  result = leaf_is_goal_reached(slices[leaf].starter,leaf)==goal_reached;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
 /* Determine and find final moves of a help leaf
  * @param side_at_move side to perform the final move
  * @param leaf slice index

@@ -138,28 +138,6 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
   return hash_value==DirSucc ? has_solution : has_no_solution;
 }
 
-/* Determine whether a leaf slice.has just been solved with the just
- * played move by the non-starter 
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean leaf_d_has_non_starter_solved(slice_index leaf)
-{
-  Side const defender = slices[leaf].starter;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = leaf_is_goal_reached(defender,leaf)==goal_reached;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write keys leading to a double-mate
  * @param leaf leaf's slice index
  * @return true iff >=1 key was found and written
