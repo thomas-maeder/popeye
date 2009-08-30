@@ -2,7 +2,6 @@
 #include "pybrad.h"
 #include "pybradd.h"
 #include "pybrafrk.h"
-#include "pyleafd.h"
 #include "pyleaff.h"
 #include "pyleafh.h"
 #include "pyhash.h"
@@ -379,12 +378,6 @@ boolean direct_defender_root_solve_postkey(table refutations, slice_index si)
   {
     case STDirectDefenderRoot:
       result = branch_d_defender_root_solve_postkey(refutations,si);
-      break;
-
-    case STLeafDirect:
-      /* we don't output refutations of #1
-       */
-      result = leaf_d_root_solve_postkey(si);
       break;
 
     case STLeafHelp:
