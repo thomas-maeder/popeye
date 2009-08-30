@@ -840,12 +840,12 @@ boolean direct_root_solve(slice_index si)
       table refutations = allocate_table();
 
       /* do *not* invoke direct_defender_root_find_refutations_in_n()
-       * here.  direct_defender_root_find_refutations_in_n() will
+       * here. direct_defender_root_find_refutations_in_n() will
        * always stop finding refutations once one was found, while
        * direct_defender_root_find_refutations() may look for more if
        * the user instructs us to
        */
-      switch (direct_defender_root_find_refutations(refutations,next))
+      switch (slice_root_find_refutations(refutations,next))
       {
         case attacker_has_solved_next_slice:
         {
@@ -859,7 +859,8 @@ boolean direct_root_solve(slice_index si)
 
         case found_no_refutation:
           write_attack(attack_key);
-          direct_defender_root_solve_postkey(refutations,next);
+          slice_root_solve_postkey(refutations,next);
+          write_refutations(refutations);
           write_end_of_solution();
           result = true;
           break;
@@ -869,7 +870,8 @@ boolean direct_root_solve(slice_index si)
           if (table_length(refutations)<=max_nr_refutations)
           {
             write_attack(attack_try);
-            direct_defender_root_solve_postkey(refutations,next);
+            slice_root_solve_postkey(refutations,next);
+            write_refutations(refutations);
             write_end_of_solution();
           }
           break;

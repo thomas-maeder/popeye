@@ -181,7 +181,7 @@ selfcheck_guard_root_find_refutations(table refutations, slice_index si)
   if (echecc(nbply,advers(slices[si].starter)))
     result = attacker_has_reached_deadend;
   else
-    result = direct_defender_root_find_refutations(refutations,next);
+    result = slice_root_find_refutations(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(quantity_of_refutations_type,result,"");
@@ -203,7 +203,7 @@ boolean selfcheck_guard_root_solve_postkey(table refutations, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = direct_defender_root_solve_postkey(refutations,next);
+  result = slice_root_solve_postkey(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

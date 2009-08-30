@@ -162,8 +162,7 @@ keepmating_guard_root_find_refutations(table refutations,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_root_find_refutations(refutations,
-                                                   slices[si].u.pipe.next);
+    result = slice_root_find_refutations(refutations,slices[si].u.pipe.next);
   else
     result = attacker_has_reached_deadend;
 
@@ -230,8 +229,7 @@ boolean keepmating_guard_root_solve_postkey(table refutations, slice_index si)
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_root_solve_postkey(refutations,
-                                                slices[si].u.pipe.next);
+    result = slice_root_solve_postkey(refutations,slices[si].u.pipe.next);
   else
     result = false;
 

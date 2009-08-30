@@ -208,7 +208,7 @@ boolean direct_attack_root_solve_postkey(table refutations, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = direct_defender_root_solve_postkey(refutations,next);
+  result = slice_root_solve_postkey(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -381,7 +381,7 @@ direct_attack_root_find_refutations(table refutations, slice_index si)
     switch (slice_has_starter_won(togoal))
     {
       case starter_has_not_won:
-        result = direct_defender_root_find_refutations(refutations,next);
+        result = slice_root_find_refutations(refutations,next);
         break;
 
       case starter_has_not_won_selfcheck:
@@ -398,7 +398,7 @@ direct_attack_root_find_refutations(table refutations, slice_index si)
         break;
     }
   else
-    result = direct_defender_root_find_refutations(refutations,next);
+    result = slice_root_find_refutations(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

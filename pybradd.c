@@ -764,8 +764,6 @@ boolean branch_d_defender_root_solve_postkey(table refutations, slice_index si)
     free_table();
   }
 
-  write_refutations(refutations);
-
   output_end_postkey_level();
 
   TraceFunctionExit(__func__);

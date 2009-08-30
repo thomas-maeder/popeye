@@ -579,11 +579,10 @@ leaf_forced_root_find_refutations(table refutations,
 }
 
 /* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  * @return true iff >=1 solution was found
  */
-boolean leaf_forced_root_solve_postkey(table refutations, slice_index leaf)
+boolean leaf_forced_root_solve_postkey(slice_index leaf)
 {
   boolean result = false;
 
@@ -592,7 +591,6 @@ boolean leaf_forced_root_solve_postkey(table refutations, slice_index leaf)
   TraceFunctionParamListEnd();
 
   result = solve_final_move(leaf);
-  write_refutations(refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

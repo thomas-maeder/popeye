@@ -81,11 +81,10 @@ unsigned int leaf_forced_root_find_refutations(table refutations,
                                                slice_index leaf);
 
 /* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
  * @param leaf slice index
  * @return true iff >=1 solution was found
  */
-boolean leaf_forced_root_solve_postkey(table refutations, slice_index leaf);
+boolean leaf_forced_root_solve_postkey(slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

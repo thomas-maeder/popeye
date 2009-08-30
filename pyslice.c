@@ -48,6 +48,18 @@
 #include "pyenum.h"
 
 
+#define ENUMERATION_TYPENAME quantity_of_refutations_type
+#define ENUMERATORS                             \
+  ENUMERATOR(attacker_has_solved_next_slice),   \
+    ENUMERATOR(found_no_refutation),            \
+    ENUMERATOR(found_refutations),              \
+    ENUMERATOR(attacker_has_reached_deadend)
+
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
+
+
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves (i.e. threats)
  * @param si index of branch slice
@@ -100,6 +112,140 @@ void slice_solve_continuations(table continuations, slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Solve postkey play at root level.
+ * @param refutations table containing the refutations (if any)
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean slice_root_solve_postkey(table refutations, slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STDirectDefenderRoot:
+      result = branch_d_defender_root_solve_postkey(refutations,si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_solve(si);
+      break;
+
+    case STLeafForced:
+      result = leaf_forced_root_solve_postkey(si);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STDirectAttack:
+      result = direct_attack_root_solve_postkey(refutations,si);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_root_solve_postkey(refutations,si);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STKeepMatingGuard:
+      result = keepmating_guard_root_solve_postkey(refutations,si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param refutations table where to store refutations
+ * @param si slice index
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *            the attacking move is to be considered to have failed, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has
+ *            solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
+ */
+quantity_of_refutations_type slice_root_find_refutations(table refutations,
+                                                         slice_index si)
+{
+  quantity_of_refutations_type result = attacker_has_reached_deadend;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STDirectDefenderRoot:
+      result = branch_d_defender_root_find_refutations(refutations,si);
+      break;
+
+    case STLeafDirect:
+      /* no need to fill refutations; we don't output refutations of #1
+       */
+      result = leaf_d_root_find_refutations(si);
+      break;
+
+    case STLeafHelp:
+      /* no need to fill refutations; we don't output refutations of r#1
+       */
+      result = leaf_h_root_find_refutations(si);
+      break;
+
+    case STLeafForced:
+      result = leaf_forced_root_find_refutations(refutations,si);
+      break;
+
+    case STDirectAttack:
+      result = direct_attack_root_find_refutations(refutations,si);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_root_find_refutations(refutations,si);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_root_find_refutations(refutations,si);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_root_find_refutations(refutations,si);
+      break;
+
+    case STKeepMatingGuard:
+      result = keepmating_guard_root_find_refutations(refutations,si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Spin off a set play slice at root level

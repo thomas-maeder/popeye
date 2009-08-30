@@ -222,7 +222,7 @@ reflex_guard_root_find_refutations(table refutations, slice_index si)
 
       case has_no_solution:
         if (length>slack_length_direct)
-          result = direct_defender_root_find_refutations(refutations,next);
+          result = slice_root_find_refutations(refutations,next);
         else
           result = attacker_has_reached_deadend;
         break;
@@ -233,7 +233,7 @@ reflex_guard_root_find_refutations(table refutations, slice_index si)
         break;
     }
   else
-    result = direct_defender_root_find_refutations(refutations,next);
+    result = slice_root_find_refutations(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(quantity_of_refutations_type,result,"");
@@ -654,7 +654,7 @@ boolean reflex_guard_root_solve_postkey(table refutations, slice_index si)
     result = slice_solve_postkey(avoided);
 
   if (!result)
-    result = direct_defender_root_solve_postkey(refutations,next);
+    result = slice_root_solve_postkey(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -64,18 +64,6 @@ void direct_solve_continuations_in_n(table continuations,
                                      slice_index si,
                                      stip_length_type n);
 
-
-#define ENUMERATION_TYPENAME quantity_of_refutations_type
-#define ENUMERATORS \
-  ENUMERATOR(attacker_has_solved_next_slice), \
-  ENUMERATOR(found_no_refutation), \
-  ENUMERATOR(found_refutations), \
-  ENUMERATOR(attacker_has_reached_deadend)
-
-#define ENUMERATION_DECLARE
-
-#include "pyenum.h"
-
 /* Find refutations after a move of the attacking side at a nested level.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -101,27 +89,5 @@ direct_defender_find_refutations_in_n(slice_index si,
  * @return true iff >=1 solution was found
  */
 boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
-
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean direct_defender_root_solve_postkey(table refutations, slice_index si);
-
-/* Find refutations after a move of the attacking side at root level.
- * @param refutations table where to store refutations
- * @param si slice index
- * @return attacker_has_reached_deadend if we are in a situation where
- *              the position after the attacking move is to be
- *              considered hopeless for the attacker, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *         attacker_has_solved_next_slice if the attacking move has solved the branch
- *         found_refutations if refutations contains some refutations
- *         found_no_refutation otherwise
- */
-quantity_of_refutations_type
-direct_defender_root_find_refutations(table refutations, slice_index si);
 
 #endif

@@ -319,9 +319,9 @@ boolean self_attack_root_solve_postkey(table refutations, slice_index si)
   TraceFunctionParamListEnd();
 
   if (length==slack_length_direct)
-    result = direct_defender_root_solve_postkey(refutations,to_goal);
+    result = slice_root_solve_postkey(refutations,to_goal);
   else
-    result = direct_defender_root_solve_postkey(refutations,next);
+    result = slice_root_solve_postkey(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -486,11 +486,11 @@ self_attack_root_find_refutations(table refutations, slice_index si)
   TraceFunctionParamListEnd();
 
   if (length==slack_length_direct)
-    result = direct_defender_root_find_refutations(refutations,to_goal);
+    result = slice_root_find_refutations(refutations,to_goal);
   else if (min_length==slack_length_direct && slice_has_starter_won(to_goal))
     result = attacker_has_solved_next_slice;
   else
-    result = direct_defender_root_find_refutations(refutations,next);
+    result = slice_root_find_refutations(refutations,next);
         
   TraceFunctionExit(__func__);
   TraceEnumerator(quantity_of_refutations_type,result,"");
