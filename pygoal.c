@@ -3,35 +3,52 @@
 #include "pyproof.h"
 #include "trace.h"
 
-boolean testdblmate= false;
 
-boolean goal_checker_target(Side just_moved, square target)
+#define ENUMERATION_TYPENAME goal_checker_result_type
+#define ENUMERATORS                             \
+  ENUMERATOR(goal_not_reached),                 \
+    ENUMERATOR(goal_not_reached_selfcheck),     \
+    ENUMERATOR(goal_reached)
+
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
+
+
+boolean testdblmate = false;
+
+goal_checker_result_type goal_checker_target(Side just_moved, square target)
 {
-  return (move_generation_stack[nbcou].arrival==target
-          && crenkam[nbply]==initsquare
-          && !echecc(nbply,just_moved));
+  if (move_generation_stack[nbcou].arrival==target
+      && crenkam[nbply]==initsquare)
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+  else
+    return goal_not_reached;
 }
 
-boolean goal_checker_circuit(Side just_moved)
+goal_checker_result_type goal_checker_circuit(Side just_moved)
 {
   square const cazz = move_generation_stack[nbcou].arrival;
   square const renkam = crenkam[nbply];
 
-  return (((renkam==initsquare && DiaRen(spec[cazz])==cazz)
-           || (renkam!=initsquare && DiaRen(spec[renkam])==renkam))
-          && !echecc(nbply,just_moved));
+  if ((renkam==initsquare && DiaRen(spec[cazz])==cazz)
+      || (renkam!=initsquare && DiaRen(spec[renkam])==renkam))
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+  else
+    return goal_not_reached;
 }
 
-boolean goal_checker_circuitB(Side just_moved)
+goal_checker_result_type goal_checker_circuitB(Side just_moved)
 {
   square const sqren = sqrenais[nbply];
 
-  return (sqren!=initsquare
-          && DiaRen(spec[sqren])==sqren
-          && !echecc(nbply,just_moved));
+  if (sqren!=initsquare && DiaRen(spec[sqren])==sqren)
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+  else
+    return goal_not_reached;
 }
 
-boolean goal_checker_exchange(Side just_moved)
+goal_checker_result_type goal_checker_exchange(Side just_moved)
 {
   square const sq_rebirth_kamikaze = crenkam[nbply];
   if (sq_rebirth_kamikaze==initsquare)
@@ -41,7 +58,11 @@ boolean goal_checker_exchange(Side just_moved)
     if (DiaRen(spec[sq_rebirth])==sq_arrival
         && (just_moved==White ? e[sq_rebirth]>=roib : e[sq_rebirth]<=roin)
         && sq_rebirth!=sq_arrival)
-      return !echecc(nbply,just_moved);
+      return (echecc(nbply,just_moved)
+              ? goal_not_reached_selfcheck
+              : goal_reached);
+    else
+      return goal_not_reached;
   }
   else
   {
@@ -49,62 +70,82 @@ boolean goal_checker_exchange(Side just_moved)
     if (DiaRen(spec[sq_rebirth])==sq_rebirth_kamikaze
         && (just_moved==White ? e[sq_rebirth]>=roib : e[sq_rebirth]<=roin)
         && sq_rebirth!=sq_rebirth_kamikaze)
-      return !echecc(nbply,just_moved);
+      return (echecc(nbply,just_moved)
+              ? goal_not_reached_selfcheck
+              : goal_reached);
+    else
+      return goal_not_reached;
   }
-
-  return false;
 }
 
-boolean goal_checker_exchangeB(Side just_moved)
+goal_checker_result_type goal_checker_exchangeB(Side just_moved)
 {
   square const sqren = sqrenais[nbply];
 
-  if (sqren!=initsquare)
+  if (sqren==initsquare)
+    return goal_not_reached;
+  else
   {
     square const sq = DiaRen(spec[sqren]);
     if (DiaRen(spec[sq])==sqren
         && (just_moved==Black ? e[sq]>=roib : e[sq]<=roin)
-        && sq!=sqren
-        && !echecc(nbply,just_moved))
-      return true;
+        && sq!=sqren)
+      return (echecc(nbply,just_moved)
+              ? goal_not_reached_selfcheck
+              : goal_reached);
+    else
+      return goal_not_reached;
   }
-
-  return false;
 }
 
-boolean goal_checker_capture(Side just_moved)
+goal_checker_result_type goal_checker_capture(Side just_moved)
 {
-  return pprise[nbply]!=vide && !echecc(nbply,just_moved);
-}
-
-boolean goal_checker_mate(Side just_moved)
-{
-  boolean flag;
-  Side ad= advers(just_moved);
-
-  if (CondFlag[amu] && !att_1[nbply])
-    return false;
-
-  if (TSTFLAG(PieSpExFlags,Paralyse))
-  {
-    if (!echecc(nbply,ad) || echecc(nbply,just_moved) || !immobile(ad))
-      return false;
-    genmove(ad);
-    flag= encore();
-    finply();
-    return flag;
-  }
+  if (pprise[nbply]==vide)
+    return goal_not_reached;
   else
-    return echecc(nbply,ad) && !echecc(nbply,just_moved) && immobile(ad);
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+}
+
+goal_checker_result_type goal_checker_mate(Side just_moved)
+{
+  if (CondFlag[amu] && !att_1[nbply])
+    return goal_not_reached;
+  else
+  {
+    Side const ad = advers(just_moved);
+    if (echecc(nbply,ad))
+    {
+      if (echecc(nbply,just_moved))
+        return goal_not_reached_selfcheck;
+      else if (immobile(ad))
+      {
+        if (TSTFLAG(PieSpExFlags,Paralyse))
+        {
+          /* try to find a defender's move that paralyses the checking piece */
+          goal_checker_result_type result;
+          genmove(ad);
+          result = encore() ? goal_reached : goal_not_reached;
+          finply();
+          return result;
+        }
+        else
+          return goal_reached;
+      }
+      else
+        return goal_not_reached;
+    }
+    else
+      return goal_not_reached;
+  }
 }
 
 /* ultraschachzwang is supspended in mates */
-boolean goal_checker_mate_ultraschachzwang(Side just_moved)
+goal_checker_result_type goal_checker_mate_ultraschachzwang(Side just_moved)
 {
-  int cond = (just_moved==White
-              ? blackultraschachzwang
-              : whiteultraschachzwang);
-  boolean saveflag = CondFlag[cond];
+  int const cond = (just_moved==White
+                    ? blackultraschachzwang
+                    : whiteultraschachzwang);
+  boolean const saveflag = CondFlag[cond];
   boolean result;
   
   CondFlag[cond] = false;
@@ -114,37 +155,35 @@ boolean goal_checker_mate_ultraschachzwang(Side just_moved)
   return result;
 }
 
-static boolean para_immobile(Side camp)
+static boolean para_stalemate(Side camp)
 {
   if (echecc(nbply,camp))
   {
-    boolean flag;
+    boolean result;
     genmove(camp);
-    flag= !encore();
+    result = !encore();
     finply();
-    return flag;
+    return result;
   }
   else
     return immobile(camp);
 }
 
-boolean goal_checker_stale(Side just_moved)
+goal_checker_result_type goal_checker_stale(Side just_moved)
 {
-  /* modifiziert fuer paralysierende Steine */
-  Side ad= advers(just_moved);
-  boolean result = false;
+  Side const ad = advers(just_moved);
+  goal_checker_result_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",just_moved);
   TraceFunctionParamListEnd();
 
-  if (!echecc(nbply,just_moved))
-  {
-    if (TSTFLAG(PieSpExFlags, Paralyse))
-      result = para_immobile(ad);
-    else
-      result = !echecc(nbply,ad) && immobile(ad);
-  }
+  if (echecc(nbply,just_moved))
+    result = goal_not_reached_selfcheck;
+  else if (TSTFLAG(PieSpExFlags, Paralyse))
+    result = para_stalemate(ad) ? goal_reached : goal_not_reached;
+  else
+    result = !echecc(nbply,ad) && immobile(ad) ? goal_reached : goal_not_reached;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",result);
@@ -152,98 +191,120 @@ boolean goal_checker_stale(Side just_moved)
   return result;
 }
 
-boolean goal_checker_dblstale(Side just_moved)
+goal_checker_result_type goal_checker_dblstale(Side just_moved)
 {
-  /* ich glaube, fuer paral. Steine sind hier keine
-     Modifizierungen erforderlich  TLi */
-
-  Side ad= advers(just_moved);
+  Side const ad = advers(just_moved);
   if (TSTFLAG(PieSpExFlags, Paralyse))
-    return (para_immobile(ad) && para_immobile(just_moved));
+    return (para_stalemate(ad) && para_stalemate(just_moved)
+            ? goal_reached
+            : goal_not_reached);
+  else if (echecc(nbply,ad))
+    return goal_not_reached;
+  else if (echecc(nbply,just_moved))
+    return goal_not_reached_selfcheck;
   else
-    return (!echecc(nbply,ad) && !echecc(nbply,just_moved)
-            && immobile(ad) && immobile(just_moved));
+    return (immobile(ad) && immobile(just_moved)
+            ? goal_reached
+            : goal_not_reached);
 }
 
-boolean goal_checker_autostale(Side just_moved)
+goal_checker_result_type goal_checker_autostale(Side just_moved)
 {
   if (echecc(nbply,advers(just_moved)))
-    return false;
-
-  if (TSTFLAG(PieSpExFlags, Paralyse))
-    return para_immobile(just_moved);
+    return goal_not_reached;
+  else if (TSTFLAG(PieSpExFlags, Paralyse))
+    return para_stalemate(just_moved) ? goal_reached : goal_not_reached;
+  else if (echecc(nbply,just_moved))
+    return goal_not_reached_selfcheck;
   else
-    return !echecc(nbply,just_moved) && immobile(just_moved);
+    return immobile(just_moved) ? goal_reached : goal_not_reached;
 }
 
-boolean goal_checker_check(Side just_moved)
+goal_checker_result_type goal_checker_check(Side just_moved)
 {
-  return echecc(nbply,advers(just_moved)) && !echecc(nbply,just_moved);
-}
-
-boolean goal_checker_steingewinn(Side just_moved)
-{
-  return (pprise[nbply]!=vide
-          && (!anycirce || sqrenais[nbply]==initsquare)
-          && !echecc(nbply,just_moved));
-}
-
-boolean goal_checker_ep(Side just_moved)
-{
-  return ((move_generation_stack[nbcou].arrival
-           !=move_generation_stack[nbcou].capture)
-          && is_pawn(pjoue[nbply])
-          && !echecc(nbply,just_moved));
-}
-
-boolean goal_checker_doublemate(Side just_moved)
-{
-  boolean flag;
-  Side ad= advers(just_moved);
-
-  if (!echecc(nbply,ad) || !echecc(nbply,just_moved))
-    return false;
-
-  if (TSTFLAG(PieSpExFlags, Paralyse))
+  if (echecc(nbply,advers(just_moved)))
   {
-    genmove(ad);
-    flag = encore();
-    finply();
-    if (!flag)
-      return false;
-    genmove(just_moved);
-    flag = encore();
-    finply();
-    if (!flag)
-      return false;
+    if (echecc(nbply,just_moved))
+      return goal_not_reached_selfcheck;
+    else
+      return goal_reached;
   }
-  testdblmate= flag_nk;
-  /* modified to allow isardam + ##  */
-  /* may still have problem with isardam + nK + ##  !*/
-  flag=immobile(ad) && immobile(just_moved);
-  testdblmate=false;
-  return flag;
+  else
+    return goal_not_reached;
 }
 
-boolean goal_checker_castling(Side just_moved)
+goal_checker_result_type goal_checker_steingewinn(Side just_moved)
+{
+  if (pprise[nbply]==vide || (anycirce && sqrenais[nbply]!=initsquare))
+    return goal_not_reached;
+  else
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+}
+
+goal_checker_result_type goal_checker_ep(Side just_moved)
+{
+  if (move_generation_stack[nbcou].arrival!=move_generation_stack[nbcou].capture
+      && is_pawn(pjoue[nbply]))
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+  else
+    return goal_not_reached;
+}
+
+goal_checker_result_type goal_checker_doublemate(Side just_moved)
+{
+  Side const ad = advers(just_moved);
+
+  if (echecc(nbply,ad) && echecc(nbply,just_moved))
+  {
+    boolean flag;
+    if (TSTFLAG(PieSpExFlags,Paralyse))
+    {
+      genmove(ad);
+      flag = encore();
+      finply();
+      if (!flag)
+        return goal_not_reached;
+
+      genmove(just_moved);
+      flag = encore();
+      finply();
+      if (!flag)
+        return goal_not_reached;
+    }
+
+    testdblmate = flag_nk;
+    /* modified to allow isardam + ##  */
+    /* may still have problem with isardam + nK + ##  !*/
+    flag = immobile(ad) && immobile(just_moved);
+    testdblmate = false;
+    return flag ? goal_reached : goal_not_reached;
+  }
+  else
+    return goal_not_reached;
+}
+
+goal_checker_result_type goal_checker_castling(Side just_moved)
 {
   unsigned char const diff = castling_flag[nbply-1]-castling_flag[nbply];
 
-  return ((diff == whk_castling
-           || diff == whq_castling
-           || diff == blk_castling
-           || diff == blq_castling)
-          && !echecc(nbply,just_moved));
+  if (diff==whk_castling || diff==whq_castling
+      || diff==blk_castling || diff==blq_castling)
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+  else
+    return goal_not_reached;
 }
 
-boolean goal_checker_any(Side just_moved)
+goal_checker_result_type goal_checker_any(Side just_moved)
 {
-  return !echecc(nbply,just_moved);
+  return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
 }
 
-boolean goal_checker_proof(Side just_moved)
+goal_checker_result_type goal_checker_proof(Side just_moved)
 {
-  return ProofIdentical() && !echecc(nbply,just_moved);
+  if (ProofIdentical())
+    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+  else
+    return goal_not_reached;
 }
   
 char const *goal_end_marker[nr_goals] =

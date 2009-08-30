@@ -21,35 +21,35 @@
 +---a---b---c---d---e---f---g---h---+
   #3                         12 + 9
 
-  1...Rb1*b3 + 
-      2.Sd4*b3 threat:
-              3.Sb3-d2 # 
-          2...B/Rc1-c3 
-              3.Qe2-c2 # 
-  1...B/Rc1*c4 
-      2.Qe2-c2 + 
-          2...B/Rc4-d3 
-              3.Sd4-e6 # 
-  1...B/Rc1-c3 
-      2.Qe2-c2 # 
-  1...B/Rc1-c2 
-      2.Qe2*c2 # 
-  1...Bh6-f4 
-      2.Rf6*f4 # 
-  1...Bh6-f8 
-      2.Rf6-f4 # 
-  1...Bh6-g7 
-      2.Rf6-f4 # 
-  1...B/Sg8*c4 
-      2.Rf6-e6 + 
-          2...B/Sc4-e5 
-              3.Re6*e5 # 
-  1...B/Sg8-d5 
-      2.Rf6-e6 # 
-  1...B/Sg8-e6 
-      2.Rf6*e6 # 
-  1...B/Sg8-h7 
-      2.Rf6-e6 # 
+      1...Rb1*b3 + 
+          2.Sd4*b3 threat:
+                  3.Sb3-d2 # 
+              2...B/Rc1-c3 
+                  3.Qe2-c2 # 
+      1...B/Rc1*c4 
+          2.Qe2-c2 + 
+              2...B/Rc4-d3 
+                  3.Sd4-e6 # 
+      1...B/Rc1-c3 
+          2.Qe2-c2 # 
+      1...B/Rc1-c2 
+          2.Qe2*c2 # 
+      1...Bh6-f4 
+          2.Rf6*f4 # 
+      1...Bh6-f8 
+          2.Rf6-f4 # 
+      1...Bh6-g7 
+          2.Rf6-f4 # 
+      1...B/Sg8*c4 
+          2.Rf6-e6 + 
+              2...B/Sc4-e5 
+                  3.Re6*e5 # 
+      1...B/Sg8-d5 
+          2.Rf6-e6 # 
+      1...B/Sg8-e6 
+          2.Rf6*e6 # 
+      1...B/Sg8-h7 
+          2.Rf6-e6 # 
 
   1.g3-g4 ! threat:
           2.S/Bb8-g3 + 
@@ -69,8 +69,7 @@
               2...B/Sc4-e5 
                   3.Sd4-c2 # 
 
-
-solution finished.
+solution finished. 
 
 
 
@@ -131,7 +130,6 @@ solution finished.
     but
       1...g3*f2  !
 
-
-solution finished.
+solution finished. 
 
 

@@ -12,9 +12,10 @@
 /* Determine whether a side has reached the goal of a leaf slice.
  * @param just_moved side that has just moved
  * @param leaf slice index of leaf slice
- * @return true iff just_moved has reached leaf's goal
+ * @return whether just_moved has reached leaf's goal
  */
-boolean leaf_is_goal_reached(Side just_moved, slice_index leaf);
+goal_checker_result_type leaf_is_goal_reached(Side just_moved,
+                                              slice_index leaf);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
@@ -37,11 +38,5 @@ boolean is_a_mating_piece_left(Side mating_side);
  * @param side_at_move side for which to generate moves
  */
 void generate_move_reaching_goal(slice_index leaf, Side side_at_move);
-
-/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
- * mates)
- * @param leaf leaf's slice index
- */
-void leaf_write_unsolvability(slice_index leaf);
 
 #endif

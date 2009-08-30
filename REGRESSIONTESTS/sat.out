@@ -199,7 +199,6 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                          56.Sb5-d4 + 
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 # 
 
-
 Loesung beendet. 
 
 
@@ -321,7 +320,6 @@ Loesung beendet.
               2...g7-g6 
                   3.Tg2*g6 [+sBg7] # 
 
-
 Loesung beendet. 
 
 
@@ -391,7 +389,6 @@ Loesung beendet.
       1...Sd2-b3 
           2.Te2*c2 # 
 
-
 Loesung beendet. 
 
 
@@ -425,7 +422,6 @@ Loesung beendet.
       1...a3-a2 
           2.Lb1-h7 # 
 
-
 Loesung beendet. 
 
 
@@ -455,7 +451,7 @@ Loesung beendet.
   s#3                         2 + 4
                  SAT
 
-a)
+a) 
 
   1.Th4-g4 ! Zugzwang.
       1...f4-f3 
@@ -463,7 +459,6 @@ a)
               2...f3-f2 
                   3.Tf4*f2 
                       3...g3*f2 # 
-
 
 b) wSh4 
 
@@ -476,7 +471,6 @@ b) wSh4
                       3...g2*f1=S # 
                       3...g2*f1=T # 
                       3...g2*f1=L # 
-
 
 Loesung beendet. 
 
@@ -631,7 +625,6 @@ Loesung beendet.
               2...g3-g2 # 
     Aber
       1...Kd1-e1  !
-
 
 Loesung beendet. 
 

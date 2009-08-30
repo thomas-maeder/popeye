@@ -29,28 +29,6 @@ slice_index alloc_move_inverter_slice(slice_index next)
   return result;
 }
 
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean move_inverter_must_starter_resign_hashed(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_must_starter_resign_hashed(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable
@@ -93,9 +71,11 @@ boolean move_inverter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  output_start_continuation_level();
   output_start_move_inverted_level();
   result = slice_root_solve(slices[si].u.pipe.next);
   output_end_move_inverted_level();
+  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

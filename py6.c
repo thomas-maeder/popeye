@@ -494,14 +494,12 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STBranchFork */
   &root_slice_type_found,             /* STLeafDirect */
   &root_slice_type_found,             /* STLeafHelp */
-  &root_slice_type_found,             /* STLeafSelf */
   &root_slice_type_found,             /* STLeafForced */
   &slice_traverse_children,           /* STReciprocal */
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
   &root_slice_type_found,             /* STDirectRoot */
-  0,                                  /* STDirectAdapter */
   &root_slice_type_found,             /* STDirectDefenderRoot */
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
@@ -510,7 +508,11 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STSeriesAdapter */
   0,                                  /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
+  0,                                  /* STDirectAttack */
+  0,                                  /* STDirectDefense */
   0,                                  /* STReflexGuard */
+  0,                                  /* STSelfAttack */
+  0,                                  /* STSelfDefense */
   0,                                  /* STRestartGuard */
   0,                                  /* STGoalReachableGuard */
   0                                   /* STKeepMatingGuard */
@@ -636,8 +638,7 @@ static boolean verify_position(void)
 
     if (slices[root_slice].u.pipe.u.branch.length<1
         && max_nr_refutations>0
-        && !(slices[next].type==STLeafSelf
-             || slices[next].type==STLeafHelp))
+        && slices[next].type!=STLeafHelp)
     {
       ErrorMsg(TryInLessTwo);
       max_nr_refutations = 0;
@@ -2134,7 +2135,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STLeafDirect:
-    case STLeafSelf:
     case STLeafForced:
       result = whitetoplay_means_shorten_root_slice;
       break;
@@ -2151,7 +2151,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STBranchFork:
     {
-      slice_index const to_goal = slices[si].u.pipe.u.branch_fork.towards_goal;
+      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
       result = detect_meaning_of_whitetoplay(to_goal);
       break;
     }
@@ -2399,9 +2399,11 @@ static boolean root_slice_apply_setplay(void)
     result = false;
   else
   {
-    slice_index const mi = alloc_move_inverter_slice(setplay);
-    slices[mi].starter = advers(slices[setplay].starter);
-    TraceValue("%u\n",slices[mi].starter);
+    slice_index const sc = alloc_selfcheck_guard_slice(setplay);
+
+    slice_index const mi = alloc_move_inverter_slice(sc);
+    slices[mi].starter = advers(slices[sc].starter);
+
     root_slice = alloc_quodlibet_slice(mi,root_slice);
     slices[root_slice].starter = slices[mi].starter;
     TraceValue("->%u\n",root_slice);
@@ -2415,17 +2417,47 @@ static boolean root_slice_apply_setplay(void)
   return result;
 }
 
+static slice_index find_first_postkeyplay_slice(slice_index si)
+{
+  slice_index result = si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  while (result!=no_slice
+         && slices[result].type!=STDirectDefenderRoot
+         && slices[result].type!=STReflexGuard)
+    result = slices[result].u.pipe.next;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
 static boolean root_slice_apply_postkeyplay(void)
 {
   boolean result = false;
+  slice_index slice = root_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (slices[root_slice].type==STDirectRoot)
+  TraceStipulation();
+
+  /* TODO traversal? */
+  if (slices[slice].type==STReflexGuard)
+    slice = slices[slice].u.pipe.next;
+  
+  if (slices[slice].type==STDirectRoot)
   {
-    slice_index const root_peer = slices[root_slice].u.pipe.next;
-    root_slice = alloc_move_inverter_slice(root_peer);
+    slice_index const postkeyplay_slice = find_first_postkeyplay_slice(slice);
+    if (postkeyplay_slice==no_slice)
+      /* post key play of r#1 */
+      root_slice = alloc_move_inverter_slice(slices[slice].u.pipe.u.branch.towards_goal);
+    else
+      root_slice = alloc_move_inverter_slice(postkeyplay_slice);
     result = true;
   }
 
@@ -2494,14 +2526,12 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STBranchFork */
   &slice_traverse_children,           /* STLeafDirect */
   &slice_traverse_children,           /* STLeafHelp */
-  &slice_traverse_children,           /* STLeafSelf */
   &slice_traverse_children,           /* STLeafForced */
   &slice_traverse_children,           /* STReciprocal */
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverter */
   &slice_traverse_children,           /* STDirectRoot */
-  &slice_traverse_children,           /* STDirectAdapter */
   &slice_traverse_children,           /* STDirectDefenderRoot */
   &slice_traverse_children,           /* STHelpRoot */
   &slice_traverse_children,           /* STHelpAdapter */
@@ -2510,7 +2540,11 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STSeriesAdapter */
   &slice_traverse_children,           /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
+  &slice_traverse_children,           /* STDirectAttack */
+  &slice_traverse_children,           /* STDirectDefense */
   &slice_traverse_children,           /* STReflexGuard */
+  &slice_traverse_children,           /* STSelfAttack */
+  &slice_traverse_children,           /* STSelfDefense */
   &slice_traverse_children,           /* STRestartGuard */
   &slice_traverse_children,           /* STGoalReachableGuard */
   &slice_traverse_children            /* STKeepMatingGuard */
@@ -2606,18 +2640,18 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
       if (end_of_twin_token==TwinProblem)
       {
+        Message(NewLine);
+
         if (LaTeXout)
         {
           LaTeXout = false;
           WriteTwinNumber();
-          StdString("\n\n");
           LaTeXout = true;
         }
         else
-        {
           WriteTwinNumber();
-          StdString("\n\n");
-        }
+
+        Message(NewLine);
       }
     }
 
@@ -2640,6 +2674,8 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
       fini_duplex();
     }
+
+    Message(NewLine);
   }
 }
 
@@ -2690,8 +2726,6 @@ static Token iterate_twins(Token prev_token)
     {
       boolean const same_starter_as_root = true;
 
-      hash_reset_derivations();
-
       if (OptFlag[postkeyplay] && !root_slice_apply_postkeyplay())
         Message(PostKeyPlayNotApplicable);
 
@@ -2715,18 +2749,6 @@ static Token iterate_twins(Token prev_token)
       }
       TraceValue("%u\n",isIntelligentModeActive);
 
-      /* intelligent AND duplex means that the board is mirrored and
-       * the colors swapped by swapcolors() and reflectboard() ->
-       * start with the regular side. */
-      if (OptFlag[halfduplex] && !isIntelligentModeActive)
-      {
-        Side const non_duplex_starter = slices[root_slice].starter;
-        stip_impose_starter(advers(non_duplex_starter));
-      }
-      else
-        stip_impose_starter(slices[root_slice].starter);
-
-
       if (OptFlag[whitetoplay])
       {
         slice_index const new_root = apply_whitetoplay(root_slice);
@@ -2738,12 +2760,17 @@ static Token iterate_twins(Token prev_token)
           stip_impose_starter(slices[root_slice].starter);
         }
       }
+      
+      stip_insert_selfcheck_guards();
 
+      /* Add slices responsible for setplay only *after* those
+       * responsible for detecting selfchecks, beause otherwise, we
+       * would test for illegal selfchecks twice at the beginning of
+       * setplay.
+       */
       if (OptFlag[solapparent] && !OptFlag[restart]
           && !root_slice_apply_setplay())
         Message(SetPlayNotApplicable);
-
-      stip_insert_selfcheck_guards();
 
       insert_hash_slices();
 
@@ -2755,6 +2782,17 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();
+
+      /* intelligent AND duplex means that the board is mirrored and
+       * the colors swapped by swapcolors() and reflectboard() ->
+       * start with the regular side. */
+      if (OptFlag[halfduplex] && !isIntelligentModeActive)
+      {
+        Side const non_duplex_starter = slices[root_slice].starter;
+        stip_impose_starter(advers(non_duplex_starter));
+      }
+      else
+        stip_impose_starter(slices[root_slice].starter);
 
       TraceStipulation();
     }

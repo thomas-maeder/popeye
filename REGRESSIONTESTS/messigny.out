@@ -162,33 +162,33 @@ Loesung beendet.
   r#2                         7 + 8
      MessignySchach RexExklusive
 
-  1...Ke3*d3 
-      2.Lg7-c3 
-          2...La7<->Lc3 # 
-  1...La7-b8 
-      2.Lg7-c3 
-          2...Lb8<->Lc3 # 
-  1...Dd8<->Df8 
-      2.Dd8-a5 
-          2...Df8*f2 # 
-      2.Tf2-f1 
-          2...e2*f1=T # 
-  1...Dd8-a5 + 
-      2.Df8<->Da5 
-          2...Df8*f2 # 
-  1...Dd8-b6 
-      2.Lg7-c3 
-          2...La7<->Lc3 # 
-  1...Dd8-f6 
-      2.Df8-b4 
-          2...Df6*f2 # 
-      2.Tf2-f1 
-          2...e2*f1=T # 
-  1...Te8*f8 
-      2.Tf2-f1 
-          2...e2*f1=D # 
-          2...e2*f1=T # 
-          2...Tf8*f1 # 
+      1...Ke3*d3 
+          2.Lg7-c3 
+              2...La7<->Lc3 # 
+      1...La7-b8 
+          2.Lg7-c3 
+              2...Lb8<->Lc3 # 
+      1...Dd8<->Df8 
+          2.Dd8-a5 
+              2...Df8*f2 # 
+          2.Tf2-f1 
+              2...e2*f1=T # 
+      1...Dd8-a5 + 
+          2.Df8<->Da5 
+              2...Df8*f2 # 
+      1...Dd8-b6 
+          2.Lg7-c3 
+              2...La7<->Lc3 # 
+      1...Dd8-f6 
+          2.Df8-b4 
+              2...Df6*f2 # 
+          2.Tf2-f1 
+              2...e2*f1=T # 
+      1...Te8*f8 
+          2.Tf2-f1 
+              2...e2*f1=D # 
+              2...e2*f1=T # 
+              2...Tf8*f1 # 
 
   1.Df8-a3 ! Drohung:
           2.Da3-c1 + 
@@ -205,7 +205,6 @@ Loesung beendet.
       1...Dd8-e7 
           2.Tf2-f1 
               2...Te8<->Tf1 # 
-
 
 Loesung beendet. 
 
@@ -249,7 +248,6 @@ Loesung beendet.
       1...b2-b1=L 
           2.Lg5-f6 
               2...Lb1<->Lf6 # 
-
 
 Loesung beendet. 
 
@@ -307,7 +305,6 @@ Loesung beendet.
       1...Sh8-f7 
           2.g7-g8=S # 
 
-
 Loesung beendet. 
 
 
@@ -356,7 +353,6 @@ Loesung beendet.
           2.Dh1*h2 
               2...Df7*g6 # 
 
-
 Loesung beendet. 
 
 
@@ -397,7 +393,6 @@ Loesung beendet.
       1...g2-g1=L 
           2.De8-a8 # 
 
-
 Loesung beendet. 
 
 
@@ -427,45 +422,45 @@ Loesung beendet.
   #2                         11 + 9
             MessignySchach
 
-  1...Dd1-f3 
-      2.Lb2-d4 # 
-  1...Dd1-e2 
-      2.Lb2-d4 # 
-  1...Dd1-c2 
-      2.Lb2-d4 # 
-  1...Dd1-b1 
-      2.Lb2-d4 # 
-  1...Dd1-c1 
-      2.Lb2-d4 # 
-  1...Dd1-d4 + 
-      2.Lb2*d4 # 
-  1...Dd1-f1 
-      2.Lb2-d4 # 
-  1...Dd1-e1 
-      2.Lb2-d4 # 
-  1...Bb3<->Bg6 
-      2.Tb6-b5 # 
-  1...Bb3<->Ba5 
-      2.Tb6-b5 # 
-  1...Bb3<->Bc4 
-      2.Tb6-b5 # 
-  1...Bg4<->Bc4 
-      2.Tb6-b5 # 
-  1...Bd5<->Bc4 
-      2.Tb6-b5 # 
-  1...d5*c4 
-      2.Tb6-b5 # 
-  1...Bf5<->Bc4 
-      2.Tb6-b5 # 
-  1...Bg5<->Bg6 
-      2.Lb2-a3 # 
-  1...Bg5<->Ba5 
-      2.Lb2-a3 # 
-  1...Bg5<->Bc4 
-      2.Tb6-b5 # 
-      2.Lb2-a3 # 
-  1...Bb7<->Bc4 
-      2.Tb6-b5 # 
+      1...Dd1-f3 
+          2.Lb2-d4 # 
+      1...Dd1-e2 
+          2.Lb2-d4 # 
+      1...Dd1-c2 
+          2.Lb2-d4 # 
+      1...Dd1-b1 
+          2.Lb2-d4 # 
+      1...Dd1-c1 
+          2.Lb2-d4 # 
+      1...Dd1-d4 + 
+          2.Lb2*d4 # 
+      1...Dd1-f1 
+          2.Lb2-d4 # 
+      1...Dd1-e1 
+          2.Lb2-d4 # 
+      1...Bb3<->Bg6 
+          2.Tb6-b5 # 
+      1...Bb3<->Ba5 
+          2.Tb6-b5 # 
+      1...Bb3<->Bc4 
+          2.Tb6-b5 # 
+      1...Bg4<->Bc4 
+          2.Tb6-b5 # 
+      1...Bd5<->Bc4 
+          2.Tb6-b5 # 
+      1...d5*c4 
+          2.Tb6-b5 # 
+      1...Bf5<->Bc4 
+          2.Tb6-b5 # 
+      1...Bg5<->Bg6 
+          2.Lb2-a3 # 
+      1...Bg5<->Ba5 
+          2.Lb2-a3 # 
+      1...Bg5<->Bc4 
+          2.Tb6-b5 # 
+          2.Lb2-a3 # 
+      1...Bb7<->Bc4 
+          2.Tb6-b5 # 
 
   1.Sc6-e5 ! Drohung:
           2.Kf6<->Kc5 # 
@@ -488,7 +483,6 @@ Loesung beendet.
           2.Tb6-b5 # 
       1...Bg5<->Bc4 
           2.Tb6-b5 # 
-
 
 Loesung beendet. 
 
@@ -532,7 +526,6 @@ Loesung beendet.
           2.La2<->La3 # 
       1...Kc5-c4 
           2.Kh8<->Kc4 # 
-
 
 Loesung beendet. 
 
@@ -580,7 +573,6 @@ Loesung beendet.
       1...Da7-c7 
           2.Lc5-f2 
               2...Lb8<->Lf2 # 
-
 
 Loesung beendet. 
 

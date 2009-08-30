@@ -40,7 +40,6 @@
                   3.Se5*d7 
                       3...Sg8-e7 # 
 
-
 Loesung beendet. 
 
 
@@ -69,77 +68,84 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#3                       14 + 11
 
-  1...Sa1-c2 
-      2.Ta7-a6 + 
-          2...Kf6-e7 
-              3.Db3*b4 + 
-                  3...La3*b4 # 
-                  3...Sc2*b4 # 
-                  3...Tb2*b4 # 
-  1...Sa1*b3 
-      2.Sg5-e4 + 
-          2...Kf6-e6 
-              3.Se4-c5 + 
-                  3...Sb3*c5 # 
-  1...Sb1-c3 # 
-  1...Ld1-h5 
-      2.Ta7-a6 + 
-          2...Kf6-e7 
-              3.Db3*b4 + 
-                  3...La3*b4 # 
-                  3...Tb2*b4 # 
-      2.Db3-c3 + 
-          2...b4*c3 
-              3.f7-f8=D + 
-                  3...La3*f8 # 
-              3.f7-f8=T + 
-                  3...La3*f8 # 
-  1...Ld1-g4 
-      2.Db3-c3 + 
-          2...b4*c3 
-              3.f7-f8=D + 
-                  3...La3*f8 # 
-              3.f7-f8=T + 
-                  3...La3*f8 # 
-  1...Ld1-f3 
-      2.Db3-c3 + 
-          2...b4*c3 
-              3.f7-f8=D + 
-                  3...La3*f8 # 
-              3.f7-f8=T + 
-                  3...La3*f8 # 
-      2.Ta7-a6 + 
-          2...Kf6-e7 
-              3.Db3*b4 + 
-                  3...La3*b4 # 
-                  3...Tb2*b4 # 
-  1...Ld1-e2 
-      2.Ta7-a6 + 
-          2...Kf6-e7 
-              3.Db3*b4 + 
-                  3...La3*b4 # 
-                  3...Tb2*b4 # 
-      2.Db3-c3 + 
-          2...b4*c3 
-              3.f7-f8=D + 
-                  3...La3*f8 # 
-              3.f7-f8=T + 
-                  3...La3*f8 # 
-  1...Ld1*b3 # 
-  1...Tb2*b3 
-      2.Td5-d6 + 
-          2...Kf6-f5 
-              3.Sf1-e3 + 
-                  3...Tb3*e3 # 
-  1...Tb2-c2 
-      2.Db3-c3 + 
-          2...b4*c3 
-              3.f7-f8=D + 
-                  3...La3*f8 # 
-              3.f7-f8=T + 
-                  3...La3*f8 # 
+      1...Sa1-c2 
+          2.Ta7-a6 + 
+              2...Kf6-e7 
+                  3.Db3*b4 + 
+                      3...La3*b4 # 
+                      3...Sc2*b4 # 
+                      3...Tb2*b4 # 
+      1...Sa1*b3 
+          2.Sg5-e4 + 
+              2...Kf6-e6 
+                  3.Se4-c5 + 
+                      3...Sb3*c5 # 
+      1...Sb1-c3 # 
+      1...Ld1-h5 
+          2.Ta7-a6 + 
+              2...Kf6-e7 
+                  3.Db3*b4 + 
+                      3...La3*b4 # 
+                      3...Tb2*b4 # 
+          2.Db3-c3 + 
+              2...b4*c3 
+                  3.f7-f8=D + 
+                      3...La3*f8 # 
+                  3.f7-f8=T + 
+                      3...La3*f8 # 
+      1...Ld1-g4 
+          2.Db3-c3 + 
+              2...b4*c3 
+                  3.f7-f8=D + 
+                      3...La3*f8 # 
+                  3.f7-f8=T + 
+                      3...La3*f8 # 
+      1...Ld1-f3 
+          2.Db3-c3 + 
+              2...b4*c3 
+                  3.f7-f8=D + 
+                      3...La3*f8 # 
+                  3.f7-f8=T + 
+                      3...La3*f8 # 
+          2.Ta7-a6 + 
+              2...Kf6-e7 
+                  3.Db3*b4 + 
+                      3...La3*b4 # 
+                      3...Tb2*b4 # 
+      1...Ld1-e2 
+          2.Ta7-a6 + 
+              2...Kf6-e7 
+                  3.Db3*b4 + 
+                      3...La3*b4 # 
+                      3...Tb2*b4 # 
+          2.Db3-c3 + 
+              2...b4*c3 
+                  3.f7-f8=D + 
+                      3...La3*f8 # 
+                  3.f7-f8=T + 
+                      3...La3*f8 # 
+      1...Ld1*b3 # 
+      1...Tb2*b3 
+          2.Td5-d6 + 
+              2...Kf6-f5 
+                  3.Sf1-e3 + 
+                      3...Tb3*e3 # 
+      1...Tb2-c2 
+          2.Db3-c3 + 
+              2...b4*c3 
+                  3.f7-f8=D + 
+                      3...La3*f8 # 
+                  3.f7-f8=T + 
+                      3...La3*f8 # 
 
   1.Db3-c2 ! Zugzwang.
+      1...Tb2-b3 
+          2.Dc2-c3 + 
+              2...b4*c3 
+                  3.f7-f8=D + 
+                      3...La3*f8 # 
+                  3.f7-f8=T + 
+                      3...La3*f8 # 
       1...Sa1*c2 
           2.Td5-d6 + 
               2...Kf6-f5 
@@ -178,13 +184,6 @@ Loesung beendet.
                       3...La3*f8 # 
                   3.f7-f8=T + 
                       3...La3*f8 # 
-      1...Tb2-b3 
-          2.Dc2-c3 + 
-              2...b4*c3 
-                  3.f7-f8=D + 
-                      3...La3*f8 # 
-                  3.f7-f8=T + 
-                      3...La3*f8 # 
       1...Tb2*c2 
           2.Sg5-e4 + 
               2...Kf6-e6 
@@ -201,7 +200,6 @@ Loesung beendet.
               2...La3-d6 # 
           2.Dc2-c3 + 
               2...Sb1*c3 # 
-
 
 Loesung beendet. 
 
@@ -362,7 +360,6 @@ Loesung beendet.
           2.Sb3-d2 
               2...Ta7-b7 # 
 
-
 Loesung beendet. 
 
 
@@ -392,7 +389,7 @@ Loesung beendet.
   r#3                        9 + 16
 
   1.Sc6-d8 + ! 
-      1...Kf7*g7 
+      1...Kf7-e7 
           2.Kh3-g2 Drohung:
                   3.Kg2-f1 
                       3...d2-d1=D # 
@@ -406,7 +403,7 @@ Loesung beendet.
               2...d2-d1=L + 
                   3.Kg2-h1 
                       3...Ld1-f3 # 
-      1...Kf7-e7 
+      1...Kf7*g7 
           2.Kh3-g2 Drohung:
                   3.Kg2-f1 
                       3...d2-d1=D # 
@@ -463,7 +460,6 @@ Loesung beendet.
                   3.Kg2-h1 
                       3...Ld1-f3 # 
 
-
 Loesung beendet. 
 
 
@@ -514,7 +510,6 @@ Loesung beendet.
                       3...Le6*d7 
                           4.Db4-d6 + 
                               4...Sf5*d6 # 
-
 
 Loesung beendet. 
 

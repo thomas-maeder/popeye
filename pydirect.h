@@ -6,66 +6,82 @@
  */
 
 #include "py.h"
-#include "pystip.h"
+#include "pyslice.h"
 #include "pytable.h"
 
-/* Solve in a number of half-moves
- * @param si identifies slice
- * @param n number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
- */
-boolean direct_solve_in_n(slice_index si, stip_length_type n);
+#include <limits.h>
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
  * @param si slice index
- * @param n number of moves until goal
+ * @param n maximum number of half moves until goal
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean direct_are_threats_refuted_in_n(table threats,
+                                        stip_length_type len_threat,
                                         slice_index si,
                                         stip_length_type n,
                                         int curr_max_nr_nontrivial);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff >= 1 solution has been found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean direct_has_solution_in_n(slice_index si,
-                                 stip_length_type n,
-                                 int curr_max_nr_nontrivial);
+has_solution_type direct_has_solution_in_n(slice_index si,
+                                           stip_length_type n,
+                                           int curr_max_nr_nontrivial);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n maximum number of half moves until end state has to be reached
  */
 void direct_solve_continuations_in_n(table continuations,
                                      slice_index si,
                                      stip_length_type n);
 
-/* Determine whether the defender wins after a move by the attacker
+
+#define ENUMERATION_TYPENAME quantity_of_refutations_type
+#define ENUMERATORS \
+  ENUMERATOR(attacker_has_solved_next_slice), \
+  ENUMERATOR(found_no_refutation), \
+  ENUMERATOR(found_refutations), \
+  ENUMERATOR(attacker_has_reached_deadend)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
+
+/* Find refutations after a move of the attacking side at a nested level.
  * @param si slice index
- * @param n (odd) number of half moves until goal
+ * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff defender wins
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *              the position after the attacking move is to be
+ *              considered hopeless for the attacker
+ *         attacker_has_solved_next_slice if the attacking move has
+ *              solved the branch
+ *         found_refutations if there is a refutation
+ *         found_no_refutation otherwise
  */
-boolean direct_defender_does_defender_win(slice_index si,
-                                          stip_length_type n,
-                                          int curr_max_nr_nontrivial);
+quantity_of_refutations_type
+direct_defender_find_refutations_in_n(slice_index si,
+                                      stip_length_type n,
+                                      int curr_max_nr_nontrivial);
 
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index
- * @param n (odd) number of half moves until goal
+ * @param n maximum number of half moves until goal
  * @return true iff >=1 solution was found
  */
 boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
@@ -73,22 +89,23 @@ boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
 /* Solve postkey play at root level.
  * @param refutations table containing the refutations (if any)
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-/* TODO get rid of this */
-void direct_defender_root_solve_postkey(table refutations, slice_index si);
+boolean direct_defender_root_solve_postkey(table refutations, slice_index si);
 
 /* Find refutations after a move of the attacking side at root level.
- * @param t table where to store refutations
+ * @param refutations table where to store refutations
  * @param si slice index
- * @return max_nr_refutations+1 if
- *            if the defending side is immobile (it shouldn't be here!)
- *            if the defending side has more non-trivial moves than allowed
- *            if the defending king has more flights than allowed
- *            if there is no threat in <= the maximal threat length
- *               as entered by the user
- *         number (0..max_nr_refutations) of refutations otherwise
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *              the position after the attacking move is to be
+ *              considered hopeless for the attacker, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
  */
-unsigned int direct_defender_root_find_refutations(table refutations,
-                                                   slice_index si);
+quantity_of_refutations_type
+direct_defender_root_find_refutations(table refutations, slice_index si);
 
 #endif

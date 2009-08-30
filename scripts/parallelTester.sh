@@ -9,6 +9,6 @@ _cmd="../py -maxmem 1G -maxtrace 0 -regression"
 PMAX=3
 
 # create and dispatch jobs
-for item in ../REGRESSIONS/*.inp ../EXAMPLES/*inp ../BEISPIEL/*inp; do
+for item in ../TESTS/*.inp ../REGRESSIONS/*.inp ../EXAMPLES/*inp ../BEISPIEL/*inp; do
   echo "$item"
 done | dispatchWork

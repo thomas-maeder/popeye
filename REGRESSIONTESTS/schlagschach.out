@@ -26,7 +26,6 @@
 
   1.Ka1*a2 ! 
 
-
 Loesung beendet. 
 
 
@@ -54,7 +53,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                     1 + 0
              Schlagschach
-
 Initial (Weiss ->):
 
            Umwandlung in K
@@ -110,7 +108,6 @@ keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
 +---a---b---c---d---e---f---g---h---+
   a=>b1                     13 + 11
              Schlagschach
-
 Initial (Schwarz ->):
 
 keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige

@@ -7,6 +7,10 @@
 
 #include <assert.h>
 
+
+/* **************** Initialisation ***************
+ */
+
 /* Initialise a STKeepMatingGuard slice
  * @param si identifies slice to be initialised
  * @param side mating side
@@ -26,9 +30,251 @@ static void init_keepmating_guard_slice(slice_index si, Side mating)
   TraceFunctionResultEnd();
 }
 
+
+/* **************** Implementation of interface Direct ***************
+ */
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type
+keepmating_guard_direct_has_solution_in_n(slice_index si,
+                                          stip_length_type n,
+                                          int curr_max_nr_nontrivial)
+{
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  has_solution_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,mating,"\n");
+
+  if (is_a_mating_piece_left(mating))
+    result = direct_has_solution_in_n(slices[si].u.pipe.next,
+                                      n,
+                                      curr_max_nr_nontrivial);
+  else
+    result = has_no_solution;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
+ * @param si slice index
+ * @param n maximum number of moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean keepmating_guard_are_threats_refuted_in_n(table threats,
+                                                  stip_length_type len_threat,
+                                                  slice_index si,
+                                                  stip_length_type n,
+                                                  int curr_max_nr_nontrivial)
+{
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,mating,"\n");
+
+  if (is_a_mating_piece_left(mating))
+    result = direct_are_threats_refuted_in_n(threats,
+                                             len_threat,
+                                             slices[si].u.pipe.next,
+                                             n,
+                                             curr_max_nr_nontrivial);
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ */
+void keepmating_guard_direct_solve_continuations_in_n(table continuations,
+                                                      slice_index si,
+                                                      stip_length_type n)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  direct_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+/* **************** Implementation of interface DirectDefender **********
+ */
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param refutations table where to store refutations
+ * @param si slice index
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *            the attacking move is to be considered to have failed, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has
+ *            solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
+ */
+quantity_of_refutations_type
+keepmating_guard_root_find_refutations(table refutations,
+                                       slice_index si)
+{
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  quantity_of_refutations_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,mating,"\n");
+
+  if (is_a_mating_piece_left(mating))
+    result = direct_defender_root_find_refutations(refutations,
+                                                   slices[si].u.pipe.next);
+  else
+    result = attacker_has_reached_deadend;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find refutations after a move of the attacking side at a nested level.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *              the position after the attacking move is to be
+ *              considered hopeless for the attacker
+ *         attacker_has_solved_next_slice if the attacking move has
+ *              solved the branch
+ *         found_refutations if there is a refutation
+ *         found_no_refutation otherwise
+ */
+quantity_of_refutations_type
+keepmating_guard_find_refutations_in_n(slice_index si,
+                                       stip_length_type n,
+                                       int curr_max_nr_nontrivial)
+{
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  quantity_of_refutations_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,mating,"\n");
+
+  if (is_a_mating_piece_left(mating))
+    result = direct_defender_find_refutations_in_n(slices[si].u.pipe.next,
+                                                   n,
+                                                   curr_max_nr_nontrivial);
+  else
+    result = attacker_has_reached_deadend;
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve postkey play at root level.
+ * @param refutations table containing the refutations (if any)
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean keepmating_guard_root_solve_postkey(table refutations, slice_index si)
+{
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,mating,"\n");
+
+  if (is_a_mating_piece_left(mating))
+    result = direct_defender_root_solve_postkey(refutations,
+                                                slices[si].u.pipe.next);
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve postkey play play after the move that has just
+ * been played in the current ply.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ */
+boolean keepmating_guard_solve_postkey_in_n(slice_index si, stip_length_type n)
+{
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,mating,"\n");
+
+  if (is_a_mating_piece_left(mating))
+    result = direct_defender_solve_postkey_in_n(slices[si].u.pipe.next,n);
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+/* **************** Implementation of interface Help ***************
+ */
+
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean keepmating_guard_help_solve_in_n(slice_index si, stip_length_type n)
@@ -54,7 +300,7 @@ boolean keepmating_guard_help_solve_in_n(slice_index si, stip_length_type n)
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean keepmating_guard_help_has_solution_in_n(slice_index si,
@@ -83,7 +329,7 @@ boolean keepmating_guard_help_has_solution_in_n(slice_index si,
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void keepmating_guard_help_solve_continuations_in_n(table continuations,
                                                     slice_index si,
@@ -105,9 +351,13 @@ void keepmating_guard_help_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+
+/* **************** Implementation of interface Series ***************
+ */
+
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean keepmating_guard_series_solve_in_n(slice_index si, stip_length_type n)
@@ -133,7 +383,7 @@ boolean keepmating_guard_series_solve_in_n(slice_index si, stip_length_type n)
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean keepmating_guard_series_has_solution_in_n(slice_index si,
@@ -162,7 +412,7 @@ boolean keepmating_guard_series_has_solution_in_n(slice_index si,
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void keepmating_guard_series_solve_continuations_in_n(table continuations,
                                                       slice_index si,
@@ -184,6 +434,34 @@ void keepmating_guard_series_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+
+/* **************** Implementation of interface Slice ***************
+ */
+
+/* Write the key just played
+ * @param si slice index
+ * @param type type of attack
+ */
+void keepmating_guard_root_write_key(slice_index si, attack_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
+
+  slice_root_write_key(slices[si].u.pipe.next,type);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+/* **************** Stipulation instrumentation ***************
+ */
+
+/* Data structure for remembering the side(s) that needs to keep >= 1
+ * piece that could deliver mate
+ */
 typedef boolean keepmating_type[nr_sides];
 
 static boolean keepmating_guards_inserter_leaf(slice_index si,
@@ -275,7 +553,7 @@ static boolean keepmating_guards_inserter_branch_fork(slice_index si,
    * would use; instead make sure that we first traverse towards the
    * goal(s).
    */
-  traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
   traverse_slices(slices[si].u.pipe.next,st);
   
   TraceFunctionExit(__func__);
@@ -316,22 +594,20 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
 
 static slice_operation const keepmating_guards_inserters[] =
 {
-  &slice_traverse_children,                /* STBranchDirect */
-  &slice_traverse_children,                /* STBranchDirectDefender */
+  &keepmating_guards_inserter_branch,      /* STBranchDirect */
+  &keepmating_guards_inserter_branch,      /* STBranchDirectDefender */
   &keepmating_guards_inserter_branch,      /* STBranchHelp */
   &slice_traverse_children,                /* STBranchSeries */
   &keepmating_guards_inserter_branch_fork, /* STBranchFork */
   &keepmating_guards_inserter_leaf,        /* STLeafDirect */
   &keepmating_guards_inserter_leaf,        /* STLeafHelp */
-  &slice_traverse_children,                /* STLeafSelf */
   &keepmating_guards_inserter_leaf,        /* STLeafForced */
   &keepmating_guards_inserter_reciprocal,  /* STReciprocal */
   &keepmating_guards_inserter_quodlibet,   /* STQuodlibet */
   &slice_traverse_children,                /* STNot */
   &slice_traverse_children,                /* STMoveInverter */
-  &slice_traverse_children,                /* STDirectRoot */
-  &slice_traverse_children,                /* STDirectAdapter */
-  &slice_traverse_children,                /* STDirectDefenderRoot */
+  &keepmating_guards_inserter_branch,      /* STDirectRoot */
+  &keepmating_guards_inserter_branch,      /* STDirectDefenderRoot */
   &keepmating_guards_inserter_branch,      /* STHelpRoot */
   &slice_traverse_children,                /* STHelpAdapter */
   &slice_traverse_children,                /* STHelpHashed */
@@ -339,7 +615,11 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STSeriesAdapter */
   &slice_traverse_children,                /* STSeriesHashed */
   &slice_traverse_children,                /* STSelfCheckGuard */
-  0,                                       /* STReflexGuard */
+  &slice_traverse_children,                /* STDirectAttack */
+  &slice_traverse_children,                /* STDirectDefense */
+  &slice_traverse_children,                /* STReflexGuard */
+  &slice_traverse_children,                /* STSelfAttack */
+  &slice_traverse_children,                /* STSelfDefense */
   &slice_traverse_children,                /* STRestartGuard */
   0,                                       /* STGoalReachableGuard */
   0                                        /* STKeepMatingGuard */

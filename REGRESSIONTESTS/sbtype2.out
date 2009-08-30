@@ -21,7 +21,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          3 + 5
-       NurPartiesatzSteine	Typ2
+     NurPartiesatzSteine    Typ2
 
   1.Sh4*f3 [h1=S] + ! 
 
@@ -44,7 +44,6 @@
   1.Se3*g2 [h1=T] + ! 
 
   1.Se3*g2 [h1=L] + ! 
-
 
 Loesung beendet. 
 
@@ -72,7 +71,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h+1                         9 + 4
-       NurPartiesatzSteine	Typ2
+     NurPartiesatzSteine    Typ2
 
   1.g5*f4 [a8=S] Tg6*g1 + 
 
@@ -102,7 +101,7 @@ Schlagende Seite entscheidet "uber Bauernumwandlung -> Ta1 darf schlagen
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                        15 + 3
-       NurPartiesatzSteine	Typ2
+     NurPartiesatzSteine    Typ2
 
   1.Ta1*a2 [h8=T] Lc8-d7 # 
   1.Ta1*b1 [h8=T] Lc8-d7 # 
@@ -134,12 +133,11 @@ Nicht verwirrt werden mit mehr als einem latenten Bauern
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 12
-       NurPartiesatzSteine	Typ2
+     NurPartiesatzSteine    Typ2
 
   1.Sc4-e3 + ! 
       1...Sf1*e3 [e8=S] 
           2.Se8*c7 # 
-
 
 Loesung beendet. 
 
@@ -167,7 +165,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         10 + 9
-       NurPartiesatzSteine	Typ2
+     NurPartiesatzSteine    Typ2
 
   1.d7-d8 ! Zugzwang.
       1...Df2*g1 [d8=L] 
@@ -192,7 +190,6 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
           2.Db2-d2 # 
       1...Sd6-b7 
           2.Db2-d2 # 
-
 
 Loesung beendet. 
 
@@ -220,7 +217,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 11
-       NurPartiesatzSteine	Typ2
+     NurPartiesatzSteine    Typ2
 
   1.f7-f8 ! Drohung:
           2.Dh1*e4 + 
@@ -263,7 +260,6 @@ Loesung beendet.
     Aber
       1...d5*e4  !
 
-
 Loesung beendet. 
 
 
@@ -290,7 +286,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 12
-       NurPartiesatzSteine	Typ2
+     NurPartiesatzSteine    Typ2
 
   1.Dg1-d4 + ! 
       1...c5*d4 [e8=D] 
@@ -299,7 +295,6 @@ Loesung beendet.
   1.Dg1-d1 + ! 
       1...e2*d1=T [e8=D] 
           2.De8-e5 # 
-
 
 Loesung beendet. 
 

@@ -24,7 +24,6 @@ Direktes Blatt mit Ziel matt (d.h. forderung #1)
 
   1.h5*g6 ep. # ! 
 
-
 Loesung beendet. 
 
 
@@ -50,9 +49,9 @@ Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
 1   .   .  -D  -L   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss s#                  13 + 14
+  schwarz s#                13 + 14
 
-  1.Tb4*b6 # 
+      1...Tb4*b6 # 
 
 Loesung beendet. 
 
@@ -82,7 +81,6 @@ direktes Blatt mit Ziel Zielfeld a7 (d.h. forderung za71)
   weiss dza7                  1 + 0
 
   1.a6-a7 z ! 
-
 
 Loesung beendet. 
 
@@ -124,7 +122,6 @@ direktes Blatt mit Ziel matt
           2.f7-f8=L # 
       1...Ke7-e6 
           2.f7-f8=D # 
-
 
 Loesung beendet. 
 
@@ -220,7 +217,6 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   weiss !d#                  13 + 3
-
 
 Loesung beendet. 
 
@@ -324,14 +320,12 @@ zweimal eine Anzuginversion (-)
   1.e7-e8=S ! Drohung:
           2.Se8*c7 # 
 
-
   1...e6-e5   2.e7-e8=D e5-e4 +   3.De8*e4 # 
 
   1.e7-e8=L ! Zugzwang.
       1...e6-e5 
           2.La4-c2 
               2...e5-e4 # 
-
 
   1...e6-e5   2.e7-e8=T e5-e4 +   3.Te8*e4 = 
 
@@ -362,7 +356,7 @@ eigentlich semi-r#2
 1  -D  -L   .   .   .   D   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 2d 1h d#              8 + 7
+  weiss 3d d#                 8 + 7
                Isardam
 
   1.Ld4-h8 ! Zugzwang.
@@ -384,7 +378,6 @@ eigentlich semi-r#2
       1...Tb8-d8 
           2.Lh7-d3 
               2...Td8*d3 # 
-
 
 Loesung beendet. 
 
@@ -439,7 +432,6 @@ die ganze Forderung ist somit aequivalent zu r#2
       1...Le6-f5 
           2.b7*a8=S[wSa8->b1] 
               2...Lf5*b1[sLb1->c8] # 
-
 
 Loesung beendet. 
 
@@ -496,7 +488,6 @@ effizienten Reihenfolge ausgewertet)
       1...Le6-f5 
           2.b7*a8=S[wSa8->b1] 
               2...Lf5*b1[sLb1->c8] # 
-
 
 Loesung beendet. 
 
@@ -718,13 +709,11 @@ a)
 
   1.d7-d8=D # ! 
 
-
 b) weiss 2,2d d# 
 
   1.d7-d8=T + ! 
       1...Sb7*d8 [+wTa1] 
           2.Ta1-d1 # 
-
 
 c) weiss 4,4d d# 
 
@@ -734,7 +723,6 @@ c) weiss 4,4d d#
           2.Lc1-f4 + 
               2...g5*f4 [+wLc1] 
                   3.Lc1*f4 [+sBf7] # 
-
 
 d) weiss 6,6d d# 
 
@@ -755,7 +743,6 @@ d) weiss 6,6d d#
               2...Sd8-e6 
                   3.Sf3-d2 Drohung:
                           4.Sd2-e4 # 
-
 
 Loesung beendet. 
 

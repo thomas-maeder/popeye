@@ -2619,7 +2619,7 @@ boolean pos_legal(void)
          be a good idea to cache si */
       /* input validation makes sure that si!=no_goal */
       slice_index const si = find_unique_goal(root_slice);
-      if (leaf_is_goal_reached(trait[nbply],si))
+      if (leaf_is_goal_reached(trait[nbply],si)==goal_reached)
         return false;
     }
   }

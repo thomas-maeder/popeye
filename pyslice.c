@@ -3,7 +3,6 @@
 #include "trace.h"
 #include "pyleaf.h"
 #include "pyleafd.h"
-#include "pyleafs.h"
 #include "pyleaff.h"
 #include "pyleafh.h"
 #include "pybrad.h"
@@ -17,153 +16,37 @@
 #include "pymovein.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
+#include "pydirctg.h"
+#include "pyselfgd.h"
 #include "pyselfcg.h"
+#include "pykeepmt.h"
 #include "pypipe.h"
 
 #include <assert.h>
 #include <stdlib.h>
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * Tests do not rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean slice_must_starter_resign(slice_index si)
-{
-  boolean result = true;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
+#define ENUMERATION_TYPENAME has_solution_type
+#define ENUMERATORS                             \
+  ENUMERATOR(defender_self_check),              \
+    ENUMERATOR(has_solution),                   \
+    ENUMERATOR(has_no_solution)
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      result = leaf_d_must_starter_resign(si);
-      break;
+#define ENUMERATION_MAKESTRINGS
 
-    case STLeafHelp:
-      result = leaf_h_must_starter_resign(si);
-      break;
+#include "pyenum.h"
 
-    case STLeafSelf:
-      result = leaf_s_must_starter_resign(si);
-      break;
 
-    case STLeafForced:
-      result = leaf_forced_must_starter_resign(si);
-      break;
+#define ENUMERATION_TYPENAME has_starter_won_result_type
+#define ENUMERATORS                             \
+  ENUMERATOR(starter_has_not_won),              \
+    ENUMERATOR(starter_has_not_won_selfcheck),  \
+    ENUMERATOR(starter_has_won)
 
-    case STReciprocal:
-      result = reci_must_starter_resign(si);
-      break;
-      
-    case STQuodlibet:
-      result = quodlibet_must_starter_resign(si);
-      break;
-      
-    case STNot:
-      result = false;
-      break;
+#define ENUMERATION_MAKESTRINGS
 
-    case STDirectRoot:
-    case STDirectAdapter:
-      result = direct_adapter_must_starter_resign(si);
-      break;
+#include "pyenum.h"
 
-    case STHelpRoot:
-    case STHelpAdapter:
-      result = help_adapter_must_starter_resign(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_must_starter_resign(si);
-      break;
-
-    case STSeriesRoot:
-    case STSeriesAdapter:
-    case STMoveInverter:
-    case STSelfCheckGuard:
-    case STGoalReachableGuard:
-      result = pipe_must_starter_resign(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean slice_must_starter_resign_hashed(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STReciprocal:
-      result = reci_must_starter_resign_hashed(si);
-      break;
-      
-    case STQuodlibet:
-      result = quodlibet_must_starter_resign_hashed(si);
-      break;
-      
-    case STNot:
-      result = not_must_starter_resign_hashed(si);
-      break;
-
-    case STMoveInverter:
-      result = move_inverter_must_starter_resign_hashed(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_must_starter_resign_hashed(si);
-      break;
-
-    case STHelpHashed:
-      result = hashed_help_must_starter_resign_hashed(si);
-      break;
-
-    case STBranchDirect:
-    case STHelpAdapter:
-    case STBranchHelp:
-    case STSeriesAdapter:
-    case STBranchSeries:
-    case STLeafDirect:
-    case STLeafHelp:
-    case STLeafSelf:
-    case STLeafForced:
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves (i.e. threats)
@@ -182,10 +65,6 @@ void slice_solve_continuations(table continuations, slice_index si)
       leaf_d_solve_continuations(si);
       break;
     
-    case STLeafSelf:
-      leaf_s_solve_continuations(si);
-      break;
-    
     case STQuodlibet:
       quodlibet_solve_continuations(continuations,si);
       break;
@@ -198,8 +77,8 @@ void slice_solve_continuations(table continuations, slice_index si)
       not_solve_continuations(continuations,si);
       break;
 
-    case STDirectAdapter:
-      direct_adapter_solve_continuations(continuations,si);
+    case STBranchDirect:
+      branch_d_solve_continuations(continuations,si);
       break;
 
     case STHelpAdapter:
@@ -210,8 +89,8 @@ void slice_solve_continuations(table continuations, slice_index si)
       series_adapter_solve_continuations(continuations,si);
       break;
 
-    case STBranchFork:
-      branch_fork_solve_continuations(continuations,si);
+    case STSelfCheckGuard:
+      selfcheck_guard_solve_continuations(continuations,si);
       break;
 
     default:
@@ -250,12 +129,16 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       result = series_root_make_setplay_slice(si);
       break;
 
-    case STLeafSelf:
-      result = leaf_s_root_make_setplay_slice(si);
-      break;
-
     case STMoveInverter:
       result = move_inverter_root_make_setplay_slice(si);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_root_make_setplay_slice(si);
+      break;
+
+    case STSelfCheckGuard:
+      result = slice_root_make_setplay_slice(slices[si].u.pipe.next);
       break;
 
     default:
@@ -289,16 +172,16 @@ void slice_root_write_key(slice_index si, attack_type type)
     case STLeafHelp:
       break;
 
-    case STLeafSelf:
-      leaf_s_root_write_key(si,type);
+    case STLeafForced:
+      leaf_forced_root_write_key(si,type);
       break;
 
     case STQuodlibet:
       quodlibet_root_write_key(si,type);
       break;
 
-    case STDirectAdapter:
-      direct_adapter_root_write_key(si,type);
+    case STBranchDirect:
+      branch_d_root_write_key(si,type);
       break;
 
     case STHelpAdapter:
@@ -309,18 +192,32 @@ void slice_root_write_key(slice_index si, attack_type type)
       series_adapter_root_write_key(si,type);
       break;
 
-    case STBranchFork:
-      branch_fork_root_write_key(si,type);
-      break;
-
     case STReciprocal:
-    {
       reci_root_write_key(si,type);
       break;
-    }
 
     case STNot:
       /* STNot doesn't have got a key by definition */
+      break;
+
+    case STDirectAttack:
+      direct_attack_root_write_key(si,type);
+      break;
+
+    case STSelfAttack:
+      self_attack_root_write_key(si,type);
+      break;
+
+    case STSelfCheckGuard:
+      selfcheck_guard_root_write_key(si,type);
+      break;
+
+    case STReflexGuard:
+      reflex_guard_root_write_key(si,type);
+      break;
+
+    case STKeepMatingGuard:
+      keepmating_guard_root_write_key(si,type);
       break;
 
     default:
@@ -359,16 +256,12 @@ boolean slice_solve(slice_index si)
       solution_found = leaf_h_solve(si);
       break;
 
-    case STLeafSelf:
-      solution_found = leaf_s_solve(si);
-      break;
-
     case STQuodlibet:
       solution_found = quodlibet_solve(si);
       break;
 
-    case STDirectAdapter:
-      solution_found = direct_adapter_solve(si);
+    case STBranchDirect:
+      solution_found = branch_d_solve(si);
       break;
 
     case STHelpAdapter:
@@ -393,6 +286,18 @@ boolean slice_solve(slice_index si)
 
     case STSelfCheckGuard:
       solution_found = selfcheck_guard_solve(si);
+      break;
+
+    case STDirectDefense:
+      solution_found = direct_defense_solve(si);
+      break;
+
+    case STSelfDefense:
+      solution_found = self_defense_solve(si);
+      break;
+
+    case STReflexGuard:
+      solution_found = reflex_guard_solve(si);
       break;
 
     default:
@@ -427,10 +332,6 @@ boolean slice_root_solve(slice_index si)
 
     case STLeafHelp:
       result = leaf_h_root_solve(si);
-      break;
-
-    case STLeafSelf:
-      result = leaf_s_root_solve(si);
       break;
 
     case STLeafForced:
@@ -469,12 +370,24 @@ boolean slice_root_solve(slice_index si)
       result = move_inverter_root_solve(si);
       break;
 
+    case STDirectAttack:
+      result = direct_guard_root_solve(si);
+      break;
+
+    case STSelfAttack:
+      result = self_guard_root_solve(si);
+      break;
+
     case STReflexGuard:
       result = reflex_guard_root_solve(si);
       break;
 
     case STSelfCheckGuard:
       result = selfcheck_guard_root_solve(si);
+      break;
+
+    case STBranchFork:
+      result = branch_fork_root_solve(si);
       break;
 
     default:
@@ -550,10 +463,6 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
       result = leaf_d_are_threats_refuted(threats,si);
       break;
 
-    case STLeafSelf:
-      result = leaf_s_are_threats_refuted(threats,si);
-      break;
-
     case STReciprocal:
       result = reci_are_threats_refuted(threats,si);
       break;
@@ -580,6 +489,10 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
       result = branch_ser_are_threats_refuted(threats,si);
       break;
 
+    case STSelfCheckGuard:
+      result = selfcheck_guard_are_threats_refuted(threats,si);
+      break;
+
     case STNot:
       result = true;
       break;
@@ -597,11 +510,11 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
 
 /* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean slice_has_solution(slice_index si)
+has_solution_type slice_has_solution(slice_index si)
 {
-  boolean result = false;
+  has_solution_type result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -612,10 +525,6 @@ boolean slice_has_solution(slice_index si)
   {
     case STLeafDirect:
       result = leaf_d_has_solution(si);
-      break;
-
-    case STLeafSelf:
-      result = leaf_s_has_solution(si);
       break;
 
     case STLeafHelp:
@@ -655,9 +564,8 @@ boolean slice_has_solution(slice_index si)
       result = branch_fork_has_solution(si);
       break;
 
-    case STDirectAdapter:
     case STSelfCheckGuard:
-      result = pipe_has_solution(si);
+      result = selfcheck_guard_has_solution(si);
       break;
 
     default:
@@ -666,52 +574,52 @@ boolean slice_has_solution(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
 
 /* Find and write post key play
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void slice_solve_postkey(slice_index si)
+boolean slice_solve_postkey(slice_index si)
 {
+  boolean result = false;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_solve_postkey(si);
+      result = leaf_d_solve_postkey(si);
       break;
 
-    case STLeafSelf:
-      leaf_s_solve_postkey(si);
+    case STLeafForced:
+      result = leaf_forced_solve_postkey(si);
       break;
 
     case STLeafHelp:
-      leaf_h_solve_postkey(si);
+      result = leaf_h_solve_postkey(si);
       break;
 
     case STQuodlibet:
-      quodlibet_solve_postkey(si);
+      result = quodlibet_solve_postkey(si);
       break;
 
     case STHelpAdapter:
-      help_adapter_solve_postkey(si);
+      result = help_adapter_solve_postkey(si);
       break;
 
     case STSeriesAdapter:
-      series_adapter_solve_postkey(si);
-      break;
-
-    case STBranchFork:
-      branch_fork_solve_postkey(si);
+      result = series_adapter_solve_postkey(si);
       break;
 
     case STReciprocal:
-      reci_solve_postkey(si);
+      result = reci_solve_postkey(si);
       break;
 
     case STNot:
@@ -724,7 +632,9 @@ void slice_solve_postkey(slice_index si)
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether a slice.has just been solved with the just played
@@ -747,16 +657,16 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = leaf_d_has_non_starter_solved(si);
       break;
 
-    case STLeafSelf:
-      result = leaf_s_has_non_starter_solved(si);
+    case STLeafForced:
+      result = leaf_forced_has_non_starter_solved(si);
       break;
 
     case STLeafHelp:
       result = leaf_h_has_non_starter_solved(si);
       break;
 
-    case STDirectAdapter:
-      result = direct_adapter_has_non_starter_solved(si);
+    case STBranchDirect:
+      result = branch_d_has_non_starter_solved(si);
       break;
 
     case STHelpAdapter:
@@ -765,10 +675,6 @@ boolean slice_has_non_starter_solved(slice_index si)
 
     case STSeriesAdapter:
       result = series_adapter_has_non_starter_solved(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:
@@ -794,88 +700,15 @@ boolean slice_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean slice_has_starter_apriori_lost(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      result = leaf_d_has_starter_apriori_lost(si);
-      break;
-
-    case STLeafSelf:
-      result = leaf_s_has_starter_apriori_lost(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_has_starter_apriori_lost(si);
-      break;
-
-    case STDirectAdapter:
-      result = direct_adapter_has_starter_apriori_lost(si);
-      break;
-
-    case STHelpAdapter:
-      result = help_adapter_has_starter_apriori_lost(si);
-      break;
-
-    case STSeriesAdapter:
-      result = series_adapter_has_starter_apriori_lost(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_has_starter_apriori_lost(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_has_starter_apriori_lost(si);
-      break;
-
-    case STReciprocal:
-      result = reci_has_starter_apriori_lost(si);
-      break;
-
-    case STNot:
-      result = not_has_starter_apriori_lost(si);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_has_starter_apriori_lost(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
  * current slice.
  * @param si slice identifier
  * @return true iff the starter has won
  */
-boolean slice_has_starter_won(slice_index si)
+has_starter_won_result_type slice_has_starter_won(slice_index si)
 {
-  boolean result = false;
+  has_starter_won_result_type result = starter_has_not_won;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -888,16 +721,16 @@ boolean slice_has_starter_won(slice_index si)
       result = leaf_d_has_starter_won(si);
       break;
 
-    case STLeafSelf:
-      result = leaf_s_has_starter_won(si);
+    case STLeafForced:
+      result = leaf_forced_has_starter_won(si);
       break;
 
     case STLeafHelp:
       result = leaf_h_has_starter_won(si);
       break;
 
-    case STDirectAdapter:
-      result = direct_adapter_has_starter_won(si);
+    case STBranchDirect:
+      result = branch_d_has_starter_won(si);
       break;
  
     case STHelpAdapter:
@@ -920,21 +753,13 @@ boolean slice_has_starter_won(slice_index si)
       result = not_has_starter_won(si);
       break;
 
-    case STBranchFork:
-      result = branch_fork_has_starter_won(si);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_has_starter_won(si);
-      break;
-
     default:
       assert(0);
       break;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_starter_won_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -959,16 +784,16 @@ boolean slice_has_starter_reached_goal(slice_index si)
       result = leaf_d_has_starter_reached_goal(si);
       break;
 
-    case STLeafSelf:
-      result = leaf_s_has_starter_reached_goal(si);
+    case STLeafForced:
+      leaf_forced_has_starter_reached_goal(si);
       break;
 
     case STLeafHelp:
       result = leaf_h_has_starter_reached_goal(si);
       break;
 
-    case STDirectAdapter:
-      result = direct_adapter_has_starter_reached_goal(si);
+    case STBranchDirect:
+      result = branch_d_has_starter_reached_goal(si);
       break;
 
     case STHelpAdapter:
@@ -977,10 +802,6 @@ boolean slice_has_starter_reached_goal(slice_index si)
 
     case STSeriesAdapter:
       result = series_adapter_has_starter_reached_goal(si);
-      break;
-
-    case STBranchFork:
-      result = branch_fork_has_starter_reached_goal(si);
       break;
 
     case STQuodlibet:
@@ -1023,15 +844,14 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
   switch (slices[si].type)
   {
     case STLeafDirect:
-    case STLeafSelf:
     case STLeafForced:
     case STLeafHelp:
-      result = leaf_is_goal_reached(just_moved,si);
+      result = leaf_is_goal_reached(just_moved,si)==goal_reached;
       break;
 
     case STDirectRoot:
-    case STDirectAdapter:
-      result = direct_adapter_is_goal_reached(just_moved,si);
+    case STBranchDirect:
+      result = branch_d_is_goal_reached(just_moved,si);
       break;
 
     case STDirectDefenderRoot:
@@ -1049,11 +869,6 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       result = series_adapter_is_goal_reached(just_moved,si);
       break;
 
-    case STBranchFork:
-      result = branch_fork_is_goal_reached(just_moved,si);
-      break;
-
-    case STBranchDirect:
     case STBranchHelp:
     case STHelpHashed:
     case STSelfCheckGuard:
@@ -1074,7 +889,6 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice in direct play
  * (e.g. forced reflex mates).
- * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void slice_write_unsolvability(slice_index si)
@@ -1087,13 +901,15 @@ void slice_write_unsolvability(slice_index si)
   switch (slices[si].type)
   {
     case STLeafDirect:
-    case STLeafSelf:
-    case STLeafHelp:
-      leaf_write_unsolvability(si);
+      leaf_d_write_unsolvability(si);
       break;
 
-    case STDirectAdapter:
-      direct_adapter_write_unsolvability(si);
+    case STLeafHelp:
+      leaf_h_write_unsolvability(si);
+      break;
+
+    case STBranchDirect:
+      branch_d_write_unsolvability(si);
       break;
 
     case STHelpAdapter:
@@ -1102,10 +918,6 @@ void slice_write_unsolvability(slice_index si)
 
     case STSeriesAdapter:
       series_adapter_write_unsolvability(si);
-      break;
-
-    case STBranchFork:
-      branch_fork_write_unsolvability(si);
       break;
 
     case STQuodlibet:
@@ -1151,10 +963,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       result = leaf_d_detect_starter(si,same_side_as_root);
       break;
 
-    case STLeafSelf:
-      result = leaf_s_detect_starter(si,same_side_as_root);
-      break;
-
     case STLeafForced:
       result = leaf_forced_detect_starter(si,same_side_as_root);
       break;
@@ -1164,8 +972,8 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       break;
 
     case STDirectRoot:
-    case STDirectAdapter:
-      result = direct_adapter_detect_starter(si,same_side_as_root);
+    case STBranchDirect:
+      result = branch_d_detect_starter(si,same_side_as_root);
       break;
 
     case STDirectDefenderRoot:
@@ -1202,6 +1010,8 @@ who_decides_on_starter slice_detect_starter(slice_index si,
     case STHelpAdapter:
     case STReflexGuard:
     case STSeriesAdapter:
+    case STDirectAttack:
+    case STSelfAttack:
       result = pipe_detect_starter(si,same_side_as_root);
       break;
       
@@ -1228,12 +1038,8 @@ void slice_write_non_starter_has_solved(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafSelf:
-      leaf_s_write_non_starter_has_solved(si);
-      break;
-
-    case STBranchFork:
-      branch_fork_write_non_starter_has_solved(si);
+    case STLeafForced:
+      leaf_forced_write_non_starter_has_solved(si);
       break;
 
     default:
@@ -1243,4 +1049,46 @@ void slice_write_non_starter_has_solved(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Determine whether the defender wins after a move by the attacker
+ * @param si slice index
+ * @return true iff defender wins
+ */
+boolean slice_does_defender_win(slice_index si)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafForced:
+      result = leaf_forced_does_defender_win(si);
+      break;
+
+    case STLeafDirect:
+      result = leaf_d_does_defender_win(si);
+      break;
+
+    case STLeafHelp:
+      result = leaf_h_does_defender_win(si);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_does_defender_win(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

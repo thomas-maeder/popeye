@@ -49,7 +49,7 @@ void pipe_insert_after(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].u.pipe.next = alloc_slice_index();
+  slices[si].u.pipe.next = copy_slice(curr_next);
   TraceValue("%u",curr_next);
   TraceValue("%u\n",slices[si].u.pipe.next);
   slices[slices[si].u.pipe.next].u.pipe.next = curr_next;
@@ -125,7 +125,7 @@ boolean pipe_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  slice_traverse_children(si,st);
+  traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -153,7 +153,7 @@ boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st)
   slices[si].starter = *starter;
 
   *starter = advers(*starter);
-  slice_traverse_children(si,st);
+  traverse_slices(slices[si].u.pipe.next,st);
   *starter = slices[si].starter;
 
   TraceFunctionExit(__func__);
@@ -162,36 +162,13 @@ boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st)
   return result;
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * Tests do not rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean pipe_must_starter_resign(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_must_starter_resign(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean pipe_has_solution(slice_index si)
+has_solution_type pipe_has_solution(slice_index si)
 {
-  boolean result = false;
+  has_solution_type result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -200,13 +177,14 @@ boolean pipe_has_solution(slice_index si)
   result = slice_has_solution(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
 
 /* Determine whether a slice has a solution
  * @param si slice index
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff slice si has a solution
  */
 boolean pipe_series_solve_in_n(slice_index si, stip_length_type n)

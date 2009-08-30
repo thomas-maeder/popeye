@@ -17,7 +17,7 @@
 16= pieces kamikazees + neutres ou pieces kamikazees + circe + pieces feeriques interdites.
 17= echecs chromatiques ou echecs grille ou echecs koeko ou bordcoups ou neutre et volage incompatibles
 18= on ne peut pas melanger minimum/maximum/duelliste/alphabetique et priseforce pour le meme camp
-19= le camp au trait peut prendre le roi
+19= \nle camp au trait peut prendre le roi
 20= on ne peut pas melanger monochromatique et bichromatique
 21= charactere inconnue: `%s'
 22= plus d'un roi interdit
@@ -56,9 +56,9 @@
 55= pas debut probleme
 56= Erreur interne de popeye dans le commutateur de tk
 57= solution terminee.
-58= blocus.\n
-59= menace:\n
-60= mais\n
+58= blocus.
+59= menace:
+60= mais
 61= Temps = 
 62= on mate en un coup par\n
 63= \n
@@ -83,7 +83,7 @@
 82= Rotation/Miroir impossible.
 83= \nUne piece est deplacee hors de l'echiquier.
 84= Enplus doit immediatement suivre jumeau.\n
-85= Refute.\n
+85= Refute.
 86= FrischAufCirce: piece n'est pas une piece promue.\n
 87= certaines conditions feeriques et plus courte jeux justificative interdit.\n
 88= Isardam et Madrasi/Eiffel interdit

@@ -22,10 +22,8 @@ short play after key in reflex stipulations was missed
 +---a---b---c---d---e---f---g---h---+
   r#2                         3 + 1
 
-
   1.a3-a4 ! 
       1...c2-c1=Q # 
-
 
 solution finished. 
 
@@ -101,7 +99,6 @@ erroneous maxflight numbers weren't completely ignored
 
   1.g2-g3 ! 
 
-
 solution finished. 
 
 
@@ -130,8 +127,8 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
   reci-h#1                   9 + 12
 
   1.0-0-0 Sa4-b6 # 
-  1.e4*d3 ep. # ! 
 
+  1.e4*d3 ep. # ! 
 
 solution finished. 
 
@@ -358,7 +355,6 @@ cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=i
 
   1.b6-b7 # ! 
 
-
 solution finished. 
 
 
@@ -509,7 +505,6 @@ duplex didn't work in a=>b or proof games
   a=>b0.5                     1 + 1
                  PWC
                 Duplex
-
 Initial (Black ->):
 
 

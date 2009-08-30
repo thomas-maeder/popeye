@@ -21,7 +21,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          3 + 5
-           SingleBox	Type2
+          SingleBox    Type2
 
   1.Sh4*f3 [h1=S] + ! 
 
@@ -45,8 +45,7 @@
 
   1.Se3*g2 [h1=B] + ! 
 
-
-solution finished.
+solution finished. 
 
 
 
@@ -72,11 +71,11 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h+1                         9 + 4
-           SingleBox	Type2
+          SingleBox    Type2
 
   1.g5*f4 [a8=S] Rg6*g1 + 
 
-solution finished.
+solution finished. 
 
 
 
@@ -102,13 +101,13 @@ capturing side selects which pawn to promote -> Ra1 can capture
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                        15 + 3
-           SingleBox	Type2
+          SingleBox    Type2
 
   1.Ra1*a2 [h8=R] Bc8-d7 # 
   1.Ra1*b1 [h8=R] Bc8-d7 # 
   1.a4-a3 Bc8-d7 # 
 
-solution finished.
+solution finished. 
 
 
 
@@ -134,14 +133,13 @@ don't get confused with >1 latent pawn
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 12
-           SingleBox	Type2
+          SingleBox    Type2
 
   1.Sc4-e3 + ! 
       1...Sf1*e3 [e8=S] 
           2.Se8*c7 # 
 
-
-solution finished.
+solution finished. 
 
 
 
@@ -167,7 +165,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         10 + 9
-           SingleBox	Type2
+          SingleBox    Type2
 
   1.d7-d8 ! zugzwang.
       1...Qf2*g1 [d8=B] 
@@ -193,8 +191,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
       1...Sd6-b7 
           2.Qb2-d2 # 
 
-
-solution finished.
+solution finished. 
 
 
 
@@ -220,7 +217,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 11
-           SingleBox	Type2
+          SingleBox    Type2
 
   1.f7-f8 ! threat:
           2.Qh1*e4 + 
@@ -263,8 +260,7 @@ solution finished.
     but
       1...d5*e4  !
 
-
-solution finished.
+solution finished. 
 
 
 
@@ -290,7 +286,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 12
-           SingleBox	Type2
+          SingleBox    Type2
 
   1.Qg1-d4 + ! 
       1...c5*d4 [e8=Q] 
@@ -300,7 +296,6 @@ solution finished.
       1...e2*d1=R [e8=Q] 
           2.Qe8-e5 # 
 
-
-solution finished.
+solution finished. 
 
 

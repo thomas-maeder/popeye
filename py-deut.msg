@@ -48,7 +48,7 @@
 16= Kamikaze + Neutrale Steine oder Kamikaze + Circe + Maerchenfiguren nicht gleichzeitig erlaubt
 17= Chromes Schach, Gitterschach, Koeko, Randzueger oder Neutral unvereinbar mit Volage
 18= Laengst-/Kuerzestzueger/Schlagzwang/Duellantenschach/AlphabetischesSchach gleichzeitig fuer die gleiche Partei ?
-19= Die am Zug befindliche Partei kann den Koenig schlagen
+19= \nDie am Zug befindliche Partei kann den Koenig schlagen
 20= Monochromes und Bichromes Schach gleichzeitig ergibt keinen Sinn
 21= Unzulaessiges Zeichen: `%s'
 22= Nur ein Koenig erlaubt
@@ -87,9 +87,9 @@
 55= Kein AnfangProblem
 56= Interner Popeye Fehler in tk switch
 57= Loesung beendet.
-58= Zugzwang.\n
-59= Drohung:\n
-60= Aber\n
+58= Zugzwang.
+59= Drohung:
+60= Aber
 61= Zeit = 
 62= Matt in einem Zug durch\n
 63= \n
@@ -114,7 +114,7 @@
 82= Drehung/Spiegelung nicht erlaubt: 
 83= \nEin Stein wird ueber den Brettrand verschoben.
 84= Ferner muss als erstes nach Zwilling angegeben werden.\n
-85= Widerlegt.\n
+85= Widerlegt.
 86= FrischAufCirce: Stein ist keine Umwandlungsfigur, gg. Steine zuerst eingeben.\n
 87= Manche Maerchenbedingungen in Beweispartien nicht erlaubt.\n
 88= Isardam und Madrasi/Eiffelschach nicht erlaubt

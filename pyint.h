@@ -41,14 +41,14 @@ void stip_insert_goalreachable_guards(void);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean goalreachable_guard_help_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean goalreachable_guard_help_has_solution_in_n(slice_index si,
@@ -58,7 +58,7 @@ boolean goalreachable_guard_help_has_solution_in_n(slice_index si,
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void goalreachable_guard_help_solve_continuations_in_n(table continuations,
                                                   slice_index si,
@@ -66,7 +66,7 @@ void goalreachable_guard_help_solve_continuations_in_n(table continuations,
 
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean goalreachable_guard_series_solve_in_n(slice_index si,
@@ -74,7 +74,7 @@ boolean goalreachable_guard_series_solve_in_n(slice_index si,
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean goalreachable_guard_series_has_solution_in_n(slice_index si,
@@ -84,7 +84,7 @@ boolean goalreachable_guard_series_has_solution_in_n(slice_index si,
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void goalreachable_guard_series_solve_continuations_in_n(table continuations,
                                                          slice_index si,

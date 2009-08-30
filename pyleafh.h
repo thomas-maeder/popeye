@@ -3,19 +3,12 @@
 
 #include "boolean.h"
 #include "pyslice.h"
+#include "pydirect.h"
 #include "py.h"
 
 /* This module provides functionality dealing with leaf stipulation
  * slices.
  */
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean leaf_h_must_starter_resign(slice_index leaf);
 
 /* Determine whether a leaf slice has just been solved with the just
  * played move by the non-starter 
@@ -26,24 +19,16 @@ boolean leaf_h_has_non_starter_solved(slice_index leaf);
 
 /* Find and write post key play
  * @param leaf slice index
+ * @return true iff >=1 solution was found
  */
-void leaf_h_solve_postkey(slice_index leaf);
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param leaf slice identifier
- * @return true iff starter has lost
- */
-boolean leaf_h_has_starter_apriori_lost(slice_index leaf);
+boolean leaf_h_solve_postkey(slice_index leaf);
 
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
- * @return true iff starter has won
+ * @return whether starter has won
  */
-boolean leaf_h_has_starter_won(slice_index leaf);
+has_starter_won_result_type leaf_h_has_starter_won(slice_index leaf);
 
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
@@ -52,11 +37,17 @@ boolean leaf_h_has_starter_won(slice_index leaf);
  */
 boolean leaf_h_has_starter_reached_goal(slice_index si);
 
+/* Determine whether the defender wins after a move by the attacker
+ * @param leaf identifies leaf
+ * @return true iff the defender wins
+ */
+boolean leaf_h_does_defender_win(slice_index leaf);
+
 /* Determine whether there is a solution in a leaf.
  * @param leaf slice index of leaf slice
- * @return true iff leaf has >=1 solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean leaf_h_has_solution(slice_index leaf);
+has_solution_type leaf_h_has_solution(slice_index leaf);
 
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice
@@ -69,6 +60,31 @@ boolean leaf_h_solve(slice_index leaf);
  * @return true iff >=1 solution was found
  */
 boolean leaf_h_root_solve(slice_index leaf);
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param si slice index
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *            the attacking move is to be considered to have failed, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has
+ *            solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
+ */
+quantity_of_refutations_type leaf_h_root_find_refutations(slice_index leaf);
+
+/* Solve postkey play at root level.
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_h_root_solve_postkey(slice_index leaf);
+
+/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
+ * mates)
+ * @param leaf leaf's slice index
+ */
+void leaf_h_write_unsolvability(slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

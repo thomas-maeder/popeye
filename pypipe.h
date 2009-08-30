@@ -59,23 +59,15 @@ boolean pipe_impose_starter(slice_index si, slice_traversal *st);
  */
 boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * Tests do not rely on the current position being hash-encoded.
+/* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff starter must resign
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean pipe_must_starter_resign(slice_index si);
+has_solution_type pipe_has_solution(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
- */
-boolean pipe_has_solution(slice_index si);
-
-/* Determine whether a slice has a solution
- * @param si slice index
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff slice si has a solution
  */
 boolean pipe_series_solve_in_n(slice_index si, stip_length_type n);

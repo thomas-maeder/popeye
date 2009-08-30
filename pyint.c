@@ -2569,6 +2569,7 @@ static void IntelligentRegularGoals(stip_length_type n)
   if (OptFlag[movenbr]
       && periods_counter<nr_periods)
   {
+    StdString("\n");
     sprintf(GlobalStr, "%ld %s %d+%d",
             MatesMax, GetMsgString(PotentialMates),
             MovesLeft[White],MovesLeft[Black]);
@@ -2578,7 +2579,6 @@ static void IntelligentRegularGoals(stip_length_type n)
       PrintTime();
       StdString(")");
     }
-    StdString("\n");
   }
 
   castling_supported= is_cast_supp;
@@ -2669,9 +2669,8 @@ static boolean init_moves_left_help_adapter(slice_index si,
                                             slice_traversal *st)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.help_adapter.length;
-  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
-  slice_index to_goal;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  slice_index towards_goal = slices[si].u.pipe.u.branch.towards_goal;
       
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2682,8 +2681,7 @@ static boolean init_moves_left_help_adapter(slice_index si,
   if ((n-slack_length_help)%2==1)
     ++MovesLeft[slices[si].starter];
 
-  to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
-  result = traverse_slices(to_goal,st);
+  result = traverse_slices(towards_goal,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2704,9 +2702,8 @@ static boolean init_moves_left_series_adapter(slice_index si,
                                               slice_traversal *st)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.help_adapter.length;
-  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
-  slice_index to_goal;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  slice_index towards_goal = slices[si].u.pipe.u.branch.towards_goal;
       
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2714,8 +2711,7 @@ static boolean init_moves_left_series_adapter(slice_index si,
 
   MovesLeft[slices[si].starter] += n-slack_length_series;
 
-  to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
-  result = traverse_slices(to_goal,st);
+  result = traverse_slices(towards_goal,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2741,7 +2737,7 @@ static boolean init_moves_left_branch_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.pipe.u.branch_fork.towards_goal,st);
+  result = traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2761,14 +2757,12 @@ static slice_operation const moves_left_initialisers[] =
   &init_moves_left_branch_fork,     /* STBranchFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
   &init_moves_left_leaf_help,       /* STLeafHelp */
-  0,                                /* STLeafSelf */
   0,                                /* STLeafForced */
   0,                                /* STReciprocal */
   0,                                /* STQuodlibet */
   0,                                /* STNot */
   &slice_traverse_children,         /* STMoveInverter */
   0,                                /* STDirectRoot */
-  0,                                /* STDirectAdapter */
   0,                                /* STDirectDefenderRoot */
   0,                                /* STHelpRoot */
   &init_moves_left_help_adapter,    /* STHelpAdapter */
@@ -2777,7 +2771,11 @@ static slice_operation const moves_left_initialisers[] =
   &init_moves_left_series_adapter,  /* STSeriesAdapter */
   &slice_traverse_children,         /* STSeriesHashed */
   &slice_traverse_children,         /* STSelfCheckGuard */
+  0,                                /* STDirectAttack */
+  0,                                /* STDirectDefense */
   0,                                /* STReflexGuard */
+  0,                                /* STSelfAttack */
+  0,                                /* STSelfDefense */
   &slice_traverse_children,         /* STRestartGuard */
   0,                                /* STGoalReachableGuard */
   &slice_traverse_children          /* STKeepMatingGuard */
@@ -2805,13 +2803,12 @@ static void init_moves_left(slice_index si, stip_length_type n)
   {
     case STHelpRoot:
     {
-      slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
-      slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
       MovesLeft[Black] = (n-slack_length_help)/2;
       MovesLeft[White] = (n-slack_length_help)/2;
       if ((n-slack_length_help)%2==1)
       {
-        assert((slices[si].u.pipe.u.help_adapter.length-slack_length_help)%2
+        assert((slices[si].u.pipe.u.branch.length-slack_length_help)%2
                ==1);
         ++MovesLeft[slices[si].starter];
       }
@@ -2821,8 +2818,7 @@ static void init_moves_left(slice_index si, stip_length_type n)
 
     case STSeriesRoot:
     {
-      slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
-      slice_index const to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
+      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
       MovesLeft[Black] = 0;
       MovesLeft[White] = 0;
       MovesLeft[slices[si].starter] = n-slack_length_series;
@@ -2866,7 +2862,7 @@ static void init_goalreachable_guard_slice(slice_index si)
 
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean goalreachable_guard_help_solve_in_n(slice_index si, stip_length_type n)
@@ -2902,10 +2898,11 @@ boolean goalreachable_guard_help_solve_in_n(slice_index si, stip_length_type n)
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
+boolean goalreachable_guard_help_has_solution_in_n(slice_index si,
+                                                   stip_length_type n)
 {
   boolean result;
   Side const just_moved = advers(slices[si].starter);
@@ -2934,7 +2931,7 @@ boolean goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_t
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void goalreachable_guard_help_solve_continuations_in_n(table continuations,
                                           slice_index si,
@@ -2962,7 +2959,7 @@ void goalreachable_guard_help_solve_continuations_in_n(table continuations,
 
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean goalreachable_guard_series_solve_in_n(slice_index si, stip_length_type n)
@@ -2998,7 +2995,7 @@ boolean goalreachable_guard_series_solve_in_n(slice_index si, stip_length_type n
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean goalreachable_guard_series_has_solution_in_n(slice_index si,
@@ -3031,7 +3028,7 @@ boolean goalreachable_guard_series_has_solution_in_n(slice_index si,
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void goalreachable_guard_series_solve_continuations_in_n(table continuations,
                                                          slice_index si,
@@ -3086,14 +3083,12 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,              /* STBranchFork */
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
-  &slice_operation_noop,                 /* STLeafSelf */
   &slice_operation_noop,                 /* STLeafForced */
   0,                                     /* STReciprocal */
   &slice_traverse_children,              /* STQuodlibet */
   0,                                     /* STNot */
   &slice_traverse_children,              /* STMoveInverter */
   0,                                     /* STDirectRoot */
-  0,                                     /* STDirectAdapter */
   0,                                     /* STDirectDefenderRoot */
   &goalreachable_guards_inserter_branch, /* STHelpRoot */
   &slice_traverse_children,              /* STHelpAdapter */
@@ -3102,7 +3097,11 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,              /* STSeriesAdapter */
   &slice_traverse_children,              /* STSeriesHashed */
   &slice_traverse_children,              /* STSelfCheckGuard */
+  0,                                     /* STDirectAttack */
+  0,                                     /* STDirectDefense */
   0,                                     /* STReflexGuard */
+  0,                                     /* STSelfAttack */
+  0,                                     /* STSelfDefense */
   &slice_traverse_children,              /* STRestartGuard */
   0,                                     /* STGoalReachableGuard */
   &slice_traverse_children               /* STKeepMatingGuard */
@@ -3181,13 +3180,13 @@ static boolean intelligent_mode_support_detector_branch_h(slice_index si,
                                                           slice_traversal *st)
 {
   boolean const result = true;
-  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(to_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3200,13 +3199,13 @@ boolean intelligent_mode_support_detector_branch_ser(slice_index si,
                                                      slice_traversal *st)
 {
   boolean const result = true;
-  slice_index fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(to_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3299,21 +3298,19 @@ static boolean intelligent_mode_support_none(slice_index si,
 
 static slice_operation const intelligent_mode_support_detectors[] =
 {
-  0,                                             /* STBranchDirect */
+  &intelligent_mode_support_none,                /* STBranchDirect */
   0,                                             /* STBranchDirectDefender */
   0,                                             /* STBranchHelp */
   0,                                             /* STBranchSeries */
   &slice_traverse_children,                      /* STBranchFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,       /* STLeafHelp */
-  &intelligent_mode_support_none,                /* STLeafSelf */
   &intelligent_mode_support_none,                /* STLeafForced */
   &intelligent_mode_support_none,                /* STReciprocal */
   &intelligent_mode_support_detector_quodlibet,  /* STQuodlibet */
   &intelligent_mode_support_none,                /* STNot */
   &slice_traverse_children,                      /* STMoveInverter */
   &intelligent_mode_support_none,                /* STDirectRoot */
-  &intelligent_mode_support_none,                /* STDirectAdapter */
   &intelligent_mode_support_none,                /* STDirectDefenderRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
@@ -3322,11 +3319,17 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_branch_ser, /* STSeriesAdapter */
   &slice_traverse_children,                      /* STSeriesHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
+  &intelligent_mode_support_none,                /* STDirectAttack */
+  &intelligent_mode_support_none,                /* STDirectDefense */
   &intelligent_mode_support_none,                /* STReflexGuard */
+  &intelligent_mode_support_none,                /* STSelfAttack */
+  &intelligent_mode_support_none,                /* STSelfDefense */
   &slice_traverse_children,                      /* STRestartGuard */
   0,                                             /* STGoalReachableGuard */
   &slice_traverse_children                       /* STKeepMatingGuard */
 };
+/* TODO some of these could be 0 but are not currently
+ */
 
 support_for_intelligent_mode stip_supports_intelligent(void)
 {

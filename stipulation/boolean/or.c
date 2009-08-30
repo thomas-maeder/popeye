@@ -49,65 +49,8 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
   return result;
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean quodlibet_must_starter_resign(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  result = (slice_must_starter_resign(op1)
-            && slice_must_starter_resign(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean quodlibet_must_starter_resign_hashed(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  result = (slice_must_starter_resign_hashed(op1)
-            && slice_must_starter_resign_hashed(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void quodlibet_write_unsolvability(slice_index si)
@@ -162,12 +105,8 @@ void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!slice_must_starter_resign(op1) && !slice_must_starter_resign(op2))
-  {
-    slice_root_solve_in_n(op1,n);
-    write_end_of_solution_phase();
-    slice_root_solve_in_n(op2,n);
-  }
+  slice_root_solve_in_n(op1,n);
+  slice_root_solve_in_n(op2,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -179,6 +118,8 @@ void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
 boolean quodlibet_root_solve(slice_index si)
 {
   boolean result = false;
+  boolean result1;
+  boolean result2;
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
 
@@ -186,13 +127,9 @@ boolean quodlibet_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!slice_must_starter_resign(op1) && !slice_must_starter_resign(op2))
-  {
-    result = true;
-    slice_root_solve(op1);
-    write_end_of_solution_phase();
-    slice_root_solve(op2);
-  }
+  result1 = slice_root_solve(op1);
+  result2 = slice_root_solve(op2);
+  result = result1 || result2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -207,8 +144,10 @@ boolean quodlibet_root_solve(slice_index si)
  */
 void quodlibet_root_write_key(slice_index si, attack_type type)
 {
-  slice_root_write_key(slices[si].u.fork.op1,type);
-  slice_root_write_key(slices[si].u.fork.op2,type);
+  if (slice_has_starter_won(slices[si].u.fork.op1))
+    slice_root_write_key(slices[si].u.fork.op1,type);
+  if (slice_has_starter_won(slices[si].u.fork.op2))
+    slice_root_write_key(slices[si].u.fork.op2,type);
 }
 
 /* Determine whether the defense just played defends against the threats.
@@ -242,32 +181,37 @@ boolean quodlibet_are_threats_refuted(table threats, slice_index si)
 
 /* Determine whether a quodlibet slice jas a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean quodlibet_has_solution(slice_index si)
+has_solution_type quodlibet_has_solution(slice_index si)
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* use shortcut evaluation */
-  result = slice_has_solution(op1) || slice_has_solution(op2);
+  result = slice_has_solution(op1);
+  if (result==has_no_solution)
+    result = slice_has_solution(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionParamListEnd();
   return result;
 }
 
 /* Find and write post key play
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void quodlibet_solve_postkey(slice_index si)
+boolean quodlibet_solve_postkey(slice_index si)
 {
+  boolean result;
+  boolean result1;
+  boolean result2;
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
 
@@ -275,10 +219,15 @@ void quodlibet_solve_postkey(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_postkey(op1);
-  slice_solve_postkey(op2);
+  result1 = slice_solve_postkey(op1);
+  result2 = slice_solve_postkey(op2);
+
+  result = result1 || result2;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether a quodlibet slice.has just been solved with the
@@ -309,11 +258,11 @@ boolean quodlibet_has_non_starter_solved(slice_index si)
  * independently of the non-starter's possible further play during the
  * current slice.
  * @param si slice identifier
- * @return true iff the starter has won
+ * @return whether the starter has won
  */
-boolean quodlibet_has_starter_won(slice_index si)
+has_starter_won_result_type quodlibet_has_starter_won(slice_index si)
 {
-  boolean result = true;
+  has_starter_won_result_type result;
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
 
@@ -321,10 +270,12 @@ boolean quodlibet_has_starter_won(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_starter_won(op1) || slice_has_starter_won(op2);
+  result = slice_has_starter_won(op1);
+  if (result==starter_has_not_won)
+    result = slice_has_starter_won(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_starter_won_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -353,16 +304,13 @@ boolean quodlibet_has_starter_reached_goal(slice_index si)
   return result;
 }
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
+/* Determine whether the defender wins after a move by the attacker
+ * @param si slice index
+ * @return true iff defender wins
  */
-boolean quodlibet_has_starter_apriori_lost(slice_index si)
+boolean quodlibet_does_defender_win(slice_index si)
 {
-  boolean result = true;
+  boolean result;
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
 
@@ -370,8 +318,8 @@ boolean quodlibet_has_starter_apriori_lost(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (slice_has_starter_apriori_lost(op1)
-            || slice_has_starter_apriori_lost(op2));
+  result = (slice_does_defender_win(op1)
+            && slice_does_defender_win(op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

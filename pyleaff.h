@@ -2,34 +2,24 @@
 #define PYLEAFF_H
 
 #include "pyslice.h"
+#include "pydirect.h"
 
 /* This module provides functionality dealing with leaf slices that
  * find forced half-moves reaching the goal.
  */
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param leaf identifies leaf
- * @return true iff starter must resign
+/* Write the key
+ * @param leaf slice index
+ * @param type type of attack
  */
-boolean leaf_forced_must_starter_resign(slice_index leaf);
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param leaf slice identifier
- * @return true iff starter has lost
- */
-boolean leaf_forced_has_starter_apriori_lost(slice_index leaf);
+void leaf_forced_root_write_key(slice_index leaf, attack_type type);
 
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
- * @return true iff starter has won
+ * @return whether starter has won
  */
-boolean leaf_forced_has_starter_won(slice_index leaf);
+has_starter_won_result_type leaf_forced_has_starter_won(slice_index leaf);
 
 /* Determine whether the attacker has reached slice leaf's goal with
  * his move just played.
@@ -60,8 +50,9 @@ void leaf_forced_write_non_starter_has_solved(slice_index leaf);
  * been played in the current ply.
  * We have already determined that >=1 move reaching the goal is forced
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void leaf_forced_solve_postkey(slice_index leaf);
+boolean leaf_forced_solve_postkey(slice_index leaf);
 
 /* Solve at non-root level
  * @param leaf slice index
@@ -74,6 +65,27 @@ boolean leaf_forced_solve(slice_index leaf);
  * @return true iff >=1 solution was found
  */
 boolean leaf_forced_root_solve(slice_index leaf);
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param refutations table where to store refutations
+ * @param si slice index
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *            the attacking move is to be considered to have failed, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
+ */
+unsigned int leaf_forced_root_find_refutations(table refutations,
+                                               slice_index leaf);
+
+/* Solve postkey play at root level.
+ * @param refutations table containing the refutations (if any)
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_forced_root_solve_postkey(table refutations, slice_index leaf);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

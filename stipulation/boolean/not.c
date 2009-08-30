@@ -43,28 +43,6 @@ void not_write_unsolvability(slice_index si)
   output_end_unsolvability_level();
 }
 
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean not_must_starter_resign_hashed(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_solution(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -80,7 +58,8 @@ boolean not_solve(slice_index si)
   /* Don't write anything, but return the correct value so that it can
    * be written to the hash table!
    */
-  result = !slice_has_solution(slices[si].u.pipe.next);
+
+  result = slice_has_solution(slices[si].u.pipe.next)!=has_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -90,20 +69,34 @@ boolean not_solve(slice_index si)
 
 /* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean not_has_solution(slice_index si)
+has_solution_type not_has_solution(slice_index si)
 {
-  boolean result;
+  has_solution_type result = has_no_solution;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !slice_has_solution(slices[si].u.pipe.next);
+  switch (slice_has_solution(slices[si].u.pipe.next))
+  {
+    case defender_self_check:
+      result = defender_self_check;
+      break;
+
+    case has_solution:
+      result = has_no_solution;
+      break;
+
+    case has_no_solution:
+      result = has_solution;
+      break;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -121,29 +114,6 @@ void not_solve_continuations(table continuations, slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean not_has_starter_apriori_lost(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_won(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether the attacker has reached slice si's goal with his
@@ -169,20 +139,37 @@ boolean not_has_starter_reached_goal(slice_index si)
 
 /* Determine whether the attacker has won with his move just played
  * @param si slice identifier
- * @return true iff the starter has won
+ * @return whether the starter has won
  */
-boolean not_has_starter_won(slice_index si)
+has_starter_won_result_type not_has_starter_won(slice_index si)
 {
-  boolean result;
+  has_starter_won_result_type result = starter_has_not_won;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !slice_has_starter_won(slices[si].u.pipe.next);
+  switch (slice_has_starter_won(slices[si].u.pipe.next))
+  {
+    case starter_has_not_won:
+      result = starter_has_won;
+      break;
+
+    case starter_has_not_won_selfcheck:
+      result = starter_has_not_won_selfcheck;
+      break;
+
+    case starter_has_won:
+      result = starter_has_not_won;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_starter_won_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -218,7 +205,7 @@ boolean not_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = !slice_has_solution(slices[si].u.pipe.next);
+  result = slice_has_solution(slices[si].u.pipe.next)==has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

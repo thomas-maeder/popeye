@@ -5,36 +5,11 @@
 #include "pyoutput.h"
 #include "pyleaf.h"
 #include "pyhash.h"
-#include "pymsg.h"
 #include "pyoutput.h"
+#include "pymsg.h"
 
 #include <assert.h>
 #include <stdlib.h>
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param leaf leaf's slice index
- * @return true iff starter must resign
- */
-boolean leaf_d_must_starter_resign(slice_index leaf)
-{
-  boolean result = false;
-  Side const attacker = slices[leaf].starter;
-
-  assert(slices[leaf].starter!=no_side);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = OptFlag[keepmating] && !is_a_mating_piece_left(attacker);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -62,17 +37,12 @@ boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
     while (encore() && !defense_found)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && is_current_move_in_table(threats)
-          && !echecc(nbply,attacker))
+          && is_current_move_in_table(threats))
       {
-        if (leaf_d_has_starter_apriori_lost(leaf)
-            || leaf_d_must_starter_resign(leaf))
-          defense_found = true;
-        else
-          defense_found = !leaf_d_has_starter_won(leaf);
-
-        if (!defense_found)
+        if (leaf_d_has_starter_won(leaf)==starter_has_won)
           ++nr_successful_threats;
+        else
+          defense_found = true;
       }
 
       repcoup();
@@ -94,11 +64,11 @@ boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
 
 /* Determine whether there is a solution in a direct leaf.
  * @param leaf slice index of leaf slice
- * @return true iff attacker can end in 1 move
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean leaf_d_has_solution(slice_index leaf)
+has_solution_type leaf_d_has_solution(slice_index leaf)
 {
-  hashwhat result = nr_hashwhat;
+  hashwhat hash_value = nr_hashwhat;
   Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
@@ -115,19 +85,19 @@ boolean leaf_d_has_solution(slice_index leaf)
     if (inhash(leaf,DirNoSucc,1))
     {
       assert(!inhash(leaf,DirSucc,0));
-      result = DirNoSucc;
+      hash_value = DirNoSucc;
     }
     else if (inhash(leaf,DirSucc,0))
-      result = DirSucc;
+      hash_value = DirSucc;
   }
 
-  if (result==nr_hashwhat)
+  if (hash_value==nr_hashwhat)
   {
     if (OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
     {
       TraceText("!is_a_mating_piece_left\n");
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%u\n",false);
+      TraceFunctionResult("%u\n",has_no_solution);
       return false;
     }
 
@@ -136,18 +106,18 @@ boolean leaf_d_has_solution(slice_index leaf)
     {
       TraceText("attacker is immobile\n");
       TraceFunctionExit(__func__);
-      TraceFunctionResult("%u\n",false);
+      TraceFunctionResult("%u\n",has_no_solution);
       return false;
     }
 
     generate_move_reaching_goal(leaf,attacker);
 
-    while (encore() && result!=DirSucc)
+    while (encore() && hash_value!=DirSucc)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && leaf_is_goal_reached(attacker,leaf))
+          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
       {
-        result = DirSucc;
+        hash_value = DirSucc;
         coupfort();
       }
 
@@ -161,7 +131,7 @@ boolean leaf_d_has_solution(slice_index leaf)
 
     if (!FlagMoveOrientatedStip)
     {
-      if (result==DirSucc)
+      if (hash_value==DirSucc)
         addtohash(leaf,DirSucc,0);
       else
         addtohash(leaf,DirNoSucc,1);
@@ -169,8 +139,11 @@ boolean leaf_d_has_solution(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",result==DirSucc);
-  return result==DirSucc;
+  TraceEnumerator(has_solution_type,
+                  hash_value==DirSucc ? has_solution : has_no_solution,
+                  "");
+  TraceFunctionResultEnd();
+  return hash_value==DirSucc ? has_solution : has_no_solution;
 }
 
 /* Determine whether a leaf slice.has just been solved with the just
@@ -180,11 +153,14 @@ boolean leaf_d_has_solution(slice_index leaf)
  */
 boolean leaf_d_has_non_starter_solved(slice_index leaf)
 {
-  boolean const result = false;
+  Side const defender = slices[leaf].starter;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
+
+  result = leaf_is_goal_reached(defender,leaf)==goal_reached;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -205,7 +181,9 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (!immobile(starter))
+  if (echecc(nbply,advers(slices[leaf].starter)))
+    ErrorMsg(KingCapture);
+  else if (!immobile(starter))
   {
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
@@ -215,7 +193,7 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
     while (encore())
     {
       if (jouecoup(nbply,first_play)
-          && leaf_is_goal_reached(starter,leaf))
+          && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
         result = true;
         write_final_attack(goal_doublemate,attack_key);
@@ -228,13 +206,8 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
 
       if (OptFlag[maxsols] && solutions>=maxsolutions)
       {
-        TraceValue("%u",maxsolutions);
-        TraceValue("%u",solutions);
-        TraceText("aborting\n");
-
         /* signal maximal number of solutions reached to outer world */
         FlagMaxSolsReached = true;
-
         break;
       }
     }
@@ -263,7 +236,7 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
   TraceFunctionParamListEnd();
 
   /* TODO can this be generalised to non-mate goals? */
-  if (goal_checker_mate(non_starter))
+  if (goal_checker_mate(non_starter)==goal_reached)
   {
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
@@ -273,7 +246,7 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
     while (encore())
     {
       if (jouecoup(nbply,first_play)
-          && leaf_is_goal_reached(starter,leaf))
+          && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
         result = true;
         write_final_attack(goal_countermate,attack_key);
@@ -286,13 +259,8 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
 
       if (OptFlag[maxsols] && solutions>=maxsolutions)
       {
-        TraceValue("%u",maxsolutions);
-        TraceValue("%u",solutions);
-        TraceText("aborting\n");
-
         /* signal maximal number of solutions reached to outer world */
         FlagMaxSolsReached = true;
-
         break;
       }
     }
@@ -319,39 +287,39 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,attacker);
-
-  solutions = 0;
-
-  while (encore())
+  if (echecc(nbply,advers(slices[leaf].starter)))
+    ErrorMsg(KingCapture);
+  else
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(attacker,leaf))
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(leaf,attacker);
+
+    solutions = 0;
+
+    while (encore())
     {
-      result = true;
-      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
-      output_start_leaf_variation_level();
-      output_end_leaf_variation_level();
-      write_end_of_solution();
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+      {
+        result = true;
+        write_final_attack(slices[leaf].u.leaf.goal,attack_key);
+        output_start_leaf_variation_level();
+        output_end_leaf_variation_level();
+        write_end_of_solution();
+      }
+
+      repcoup();
+
+      if (OptFlag[maxsols] && solutions>=maxsolutions)
+      {
+        /* signal maximal number of solutions reached to outer world */
+        FlagMaxSolsReached = true;
+        break;
+      }
     }
 
-    repcoup();
-
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
-    {
-      TraceValue("%u",maxsolutions);
-      TraceValue("%u",solutions);
-      TraceText("aborting\n");
-
-      /* signal maximal number of solutions reached to outer world */
-      FlagMaxSolsReached = true;
-
-      break;
-    }
+    finply();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -365,7 +333,6 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
  */
 boolean leaf_d_root_solve(slice_index leaf)
 {
-  Side const attacker = slices[leaf].starter;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -376,31 +343,67 @@ boolean leaf_d_root_solve(slice_index leaf)
 
   output_start_continuation_level();
 
-  if (echecc(nbply,advers(attacker)))
+  switch (slices[leaf].u.leaf.goal)
   {
-    ErrorMsg(KingCapture);
-    result = false;
+    case goal_countermate:
+      result = leaf_d_root_cmate_solve(leaf);
+      break;
+
+    case goal_doublemate:
+      result = leaf_d_root_dmate_solve(leaf);
+      break;
+
+    default:
+      result = leaf_d_root_regulargoals_solve(leaf);
+      break;
   }
-  else
-    switch (slices[leaf].u.leaf.goal)
-    {
-      case goal_countermate:
-        result = leaf_d_root_cmate_solve(leaf);
-        break;
-
-      case goal_doublemate:
-        result = leaf_d_root_dmate_solve(leaf);
-        break;
-
-      default:
-        result = leaf_d_root_regulargoals_solve(leaf);
-        break;
-    }
 
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param t table where to store refutations
+ * @param si slice index
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *            the attacking move is to be considered to have failed, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
+ */
+quantity_of_refutations_type leaf_d_root_find_refutations(slice_index leaf)
+{
+  quantity_of_refutations_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  switch (leaf_d_has_solution(leaf))
+  {
+    case defender_self_check:
+    case has_no_solution:
+      result = attacker_has_reached_deadend;
+      break;
+      
+    case has_solution:
+      result = found_no_refutation;
+      break;
+
+    default:
+      assert(0);
+      result = attacker_has_reached_deadend;
+      break;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceEnumerator(quantity_of_refutations_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -422,14 +425,10 @@ static boolean leaf_d_dmate_solve(slice_index leaf)
     while (encore())
     {
       if (jouecoup(nbply,first_play)
-          && leaf_is_goal_reached(starter,leaf))
+          && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
         solution_found = true;
-        output_start_continuation_level();
         write_final_attack(goal_doublemate,attack_key);
-        output_start_leaf_variation_level();
-        output_end_leaf_variation_level();
-        output_end_continuation_level();
       }
 
       repcoup();
@@ -452,7 +451,7 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
   Side const non_starter = advers(starter);
 
   /* TODO can this be generalised to non-mate goals? */
-  if (goal_checker_mate(non_starter))
+  if (goal_checker_mate(non_starter)==goal_reached)
   {
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
@@ -460,14 +459,10 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
     while (encore())
     {
       if (jouecoup(nbply,first_play)
-          && leaf_is_goal_reached(starter,leaf))
+          && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
         solution_found = true;
-        output_start_continuation_level();
         write_final_attack(goal_countermate,attack_key);
-        output_start_leaf_variation_level();
-        output_end_leaf_variation_level();
-        output_end_continuation_level();
       }
       repcoup();
     }
@@ -497,14 +492,10 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(attacker,leaf))
+        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
       solution_found = true;
-      output_start_continuation_level();
       write_final_attack(slices[leaf].u.leaf.goal,attack_key);
-      output_start_leaf_variation_level();
-      output_end_leaf_variation_level();
-      output_end_continuation_level();
     }
 
     repcoup();
@@ -540,6 +531,8 @@ boolean leaf_d_solve(slice_index leaf)
   }
   else
   {
+    output_start_continuation_level();
+
     switch (slices[leaf].u.leaf.goal)
     {
       case goal_countermate:
@@ -554,6 +547,159 @@ boolean leaf_d_solve(slice_index leaf)
         result = leaf_d_regulargoals_solve(leaf);
         break;
     }
+
+    output_end_continuation_level();
+
+    if (result)
+      addtohash(leaf,DirSucc,0);
+    else
+      addtohash(leaf,DirNoSucc,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write keys leading to a double-mate
+ * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
+ */
+static boolean leaf_d_dmate_root_solve_postkey(slice_index leaf)
+{
+  boolean solution_found = false;
+  Side const starter = slices[leaf].starter;
+
+  if (!immobile(starter))
+  {
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(leaf,starter);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(starter,leaf)==goal_reached)
+      {
+        solution_found = true;
+        write_final_defense(goal_doublemate);
+      }
+
+      repcoup();
+    }
+
+    finply();
+  }
+
+  return solution_found;
+}
+
+/* Determine and write keys leading to counter-mate
+ * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
+ */
+static boolean leaf_d_cmate_root_solve_postkey(slice_index leaf)
+{
+  boolean solution_found = false;
+  Side const starter = slices[leaf].starter;
+  Side const non_starter = advers(starter);
+
+  /* TODO can this be generalised to non-mate goals? */
+  if (goal_checker_mate(non_starter)==goal_reached)
+  {
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(leaf,starter);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && leaf_is_goal_reached(starter,leaf)==goal_reached)
+      {
+        solution_found = true;
+        write_final_defense(goal_countermate);
+      }
+      repcoup();
+    }
+
+    finply();
+  }
+
+  return solution_found;
+}
+
+/* Determine and write keys leading to "regular goals"
+ * @param leaf leaf's slice index
+ * @return true iff >=1 key was found and written
+ */
+static boolean leaf_d_regulargoals_root_solve_postkey(slice_index leaf)
+{
+  Side const attacker = slices[leaf].starter;
+  boolean solution_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(leaf,attacker);
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+    {
+      solution_found = true;
+      write_final_defense(slices[leaf].u.leaf.goal);
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",solution_found);
+  TraceFunctionResultEnd();
+  return solution_found;
+}
+
+/* Solve postkey play at root level.
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_d_root_solve_postkey(slice_index leaf)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  /* Only check for DirNoSucc - we also have to write the solution if
+   * we already know that there is one!
+   */
+  if (inhash(leaf,DirNoSucc,1))
+  {
+    assert(!inhash(leaf,DirSucc,0));
+    result = false;
+  }
+  else
+  {
+    switch (slices[leaf].u.leaf.goal)
+    {
+      case goal_countermate:
+        result = leaf_d_cmate_root_solve_postkey(leaf);
+        break;
+
+      case goal_doublemate:
+        result = leaf_d_dmate_root_solve_postkey(leaf);
+        break;
+
+      default:
+        result = leaf_d_regulargoals_root_solve_postkey(leaf);
+        break;
+    }
+
     if (result)
       addtohash(leaf,DirSucc,0);
     else
@@ -575,44 +721,41 @@ void leaf_d_root_write_key(slice_index leaf, attack_type type)
   write_final_attack(slices[leaf].u.leaf.goal,type);
 }
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param leaf slice identifier
- * @return true iff starter has lost
- */
-boolean leaf_d_has_starter_apriori_lost(slice_index leaf)
-{
-  boolean const result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
- * @return true iff starter has won
+ * @return whether starter has won
  */
-boolean leaf_d_has_starter_won(slice_index leaf)
+has_starter_won_result_type leaf_d_has_starter_won(slice_index leaf)
 {
-  boolean result;
+  has_starter_won_result_type result;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = leaf_is_goal_reached(slices[leaf].starter,leaf);
+  switch (leaf_is_goal_reached(slices[leaf].starter,leaf))
+  {
+    case goal_not_reached:
+      result = starter_has_not_won;
+      break;
+
+    case goal_not_reached_selfcheck:
+      result = starter_has_not_won_selfcheck;
+      break;
+
+    case goal_reached:
+      result = starter_has_won;
+      break;
+
+    default:
+      assert(0);
+      result = starter_has_not_won;
+      break;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_starter_won_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -630,7 +773,27 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = leaf_is_goal_reached(slices[leaf].starter,leaf);
+  result = leaf_is_goal_reached(slices[leaf].starter,leaf)==goal_reached;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether the defender wins after a move by the attacker
+ * @param leaf identifies leaf
+ * @return true iff the defender wins
+ */
+boolean leaf_d_does_defender_win(slice_index leaf)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  result = leaf_d_has_solution(leaf)==has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -640,11 +803,20 @@ boolean leaf_d_has_starter_reached_goal(slice_index leaf)
 
 /* Find and write post key play
  * @param leaf slice index
+ * @return true iff >=1 solution was found
  */
-void leaf_d_solve_postkey(slice_index leaf)
+boolean leaf_d_solve_postkey(slice_index leaf)
 {
-  output_start_leaf_variation_level();
-  output_end_leaf_variation_level();
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Find and write continuations and append them to the top table
@@ -663,10 +835,8 @@ void leaf_d_solve_continuations(slice_index leaf)
 
   while (encore())
   {
-    /* TODO optimise echecc() check into leaf_is_goal_reached? */
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,attacker)
-        && leaf_is_goal_reached(attacker,leaf))
+        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
       write_final_attack(slices[leaf].u.leaf.goal,attack_regular);
       output_start_leaf_variation_level();
@@ -682,6 +852,18 @@ void leaf_d_solve_continuations(slice_index leaf)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
+ * mates)
+ * @param leaf leaf's slice index
+ */
+void leaf_d_write_unsolvability(slice_index leaf)
+{
+  output_start_continuation_level();
+  leaf_d_solve_continuations(leaf);
+  output_end_continuation_level();
+  write_end_of_solution();
 }
 
 /* Detect starter field with the starting side if possible. 

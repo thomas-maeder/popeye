@@ -623,11 +623,12 @@ boolean is_a_mating_piece_left(Side mating_side)
 /* Determine whether a side has reached the goal of a leaf slice.
  * @param camp side
  * @param leaf slice index of leaf slice
- * @return true iff camp has reached leaf's goal
+ * @return whether camp has reached leaf's goal
  */
-boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
+goal_checker_result_type leaf_is_goal_reached(Side just_moved,
+                                              slice_index leaf)
 {
-  boolean result = false;
+  boolean result = goal_not_reached;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",just_moved);
@@ -720,17 +721,9 @@ boolean leaf_is_goal_reached(Side just_moved, slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(goal_checker_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
- * mates)
- * @param leaf leaf's slice index
- */
-void leaf_write_unsolvability(slice_index leaf)
-{
 }
 
 /* Impose the starting side on a stipulation

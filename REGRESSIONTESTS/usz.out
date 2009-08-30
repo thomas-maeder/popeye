@@ -23,15 +23,13 @@ Test Problem - =1 durch 1.Kb4, oder S=1 durch 1.b4 b5?
   =1                          2 + 2
       SchwarzerUltraSchachZwang
 
-a)
+a) 
 
   1.Ka4-b4 = ! 
 
   1.Ka4-b5 = ! 
 
-
 b) s=1
-
 
 Loesung beendet. 
 
@@ -257,7 +255,6 @@ test case for stalemate in Ultraschachzwang
            UltraSchachZwang
 
   1.Ka1-b2 = ! 
-
 
 Loesung beendet. 
 

@@ -17,7 +17,7 @@
 16= kamikaze pieces + neutral pieces or kamikaze pieces + circe + fairy pieces not allowed
 17= chrome chess, gridchess, koekochess, edgemover or neutral is incompatible with volage
 18= maxi-/minimummer/mustcapture/duellistchess/alphabeticchess at the same time for the same side not allowed
-19= the side to play can capture the king
+19= \nthe side to play can capture the king
 20= monochrom + bichrom chess gives no sense
 21= wrong character: `%s'
 22= only one king allowed
@@ -56,9 +56,9 @@
 55= no begin of problem
 56= internal popeye error in tk switch
 57= solution finished.
-58= zugzwang.\n
-59= threat:\n
-60= but\n
+58= zugzwang.
+59= threat:
+60= but
 61= Time = 
 62= mate in one move with\n
 63= \n
@@ -83,7 +83,7 @@
 82= This rotation/mirroring is not supported: 
 83= \nA piece will be moved outside.
 84= Continued must be given immediately after twin.\n
-85= refutes.\n
+85= refutes.
 86= FrischAufCirce: piece is not a promoted piece. Enter the pieces first.\n
 87= Some fairy conditions in proof games not allowed.\n
 88= Isardam and Madrasi/Eiffel not allowed

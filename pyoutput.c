@@ -54,7 +54,7 @@ static boolean output_mode_treemode(slice_index si, slice_traversal *st)
 static boolean output_mode_linemode(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
-  output_mode * const mode = st->param;
+  output_mode * const mode = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -72,13 +72,17 @@ static boolean output_mode_linemode(slice_index si, slice_traversal *st)
 static boolean output_mode_help_root(slice_index si, slice_traversal *st)
 {
   boolean result;
-  output_mode * const mode = st->param;
+  output_mode * const mode = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
+  TraceValue("%u\n",nr_color_inversions_in_ply[nbply+1]);
+
+  if (nr_color_inversions_in_ply[nbply+1]==1
+      && slices[si].u.pipe.u.branch.length==slack_length_help+1)
+    /* set play -> delegate decision */
     result = slice_traverse_children(si,st);
   else
   {
@@ -96,7 +100,7 @@ static boolean output_mode_help_root(slice_index si, slice_traversal *st)
 static boolean output_mode_series_root(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
-  output_mode * const mode = st->param;
+  output_mode * const mode = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -114,7 +118,7 @@ static boolean output_mode_series_root(slice_index si, slice_traversal *st)
 static boolean output_mode_fork(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
-  output_mode * const mode = st->param;
+  output_mode * const mode = st->param;;
   output_mode mode1;
   output_mode mode2;
 
@@ -140,33 +144,35 @@ static boolean output_mode_fork(slice_index si, slice_traversal *st)
 
 static slice_operation const output_mode_detectors[] =
 {
-  &output_mode_treemode,    /* STBranchDirect */
-  &output_mode_treemode,    /* STBranchDirectDefender */
-  &output_mode_linemode,    /* STBranchHelp */
-  &output_mode_linemode,    /* STBranchSeries */
-  &slice_traverse_children, /* STBranchFork */
-  &output_mode_treemode,    /* STLeafDirect */
-  &output_mode_linemode,    /* STLeafHelp */
-  &output_mode_treemode,    /* STLeafSelf */
-  &output_mode_linemode,    /* STLeafForced */
-  &output_mode_fork,        /* STReciprocal */
-  &output_mode_fork,        /* STQuodlibet */
-  &slice_traverse_children, /* STNot */
-  &slice_traverse_children, /* STMoveInverter */
-  &output_mode_treemode,    /* STDirectRoot */
-  &output_mode_treemode,    /* STDirectAdapter */
-  &output_mode_treemode,    /* STDirectDefenderRoot */
-  &output_mode_help_root,   /* STHelpRoot */
-  &slice_traverse_children, /* STHelpAdapter */
-  &slice_traverse_children, /* STHelpHashed */
-  &output_mode_series_root, /* STSeriesRoot */
-  &slice_traverse_children, /* STSeriesAdapter */
-  &slice_traverse_children, /* STSeriesHashed */
-  &slice_traverse_children, /* STSelfCheckGuard */
-  &slice_traverse_children, /* STReflexGuard */
-  &slice_traverse_children, /* STRestartGuard */
-  &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children  /* STKeepMatingGuard */
+  &output_mode_treemode,      /* STBranchDirect */
+  &output_mode_treemode,      /* STBranchDirectDefender */
+  &output_mode_linemode,      /* STBranchHelp */
+  &output_mode_linemode,      /* STBranchSeries */
+  &slice_traverse_children,   /* STBranchFork */
+  &output_mode_treemode,      /* STLeafDirect */
+  &output_mode_linemode,      /* STLeafHelp */
+  &output_mode_treemode,      /* STLeafForced */
+  &output_mode_fork,          /* STReciprocal */
+  &output_mode_fork,          /* STQuodlibet */
+  &slice_traverse_children,   /* STNot */
+  &slice_traverse_children,   /* STMoveInverter */
+  &output_mode_treemode,      /* STDirectRoot */
+  &output_mode_treemode,      /* STDirectDefenderRoot */
+  &output_mode_help_root,     /* STHelpRoot */
+  &slice_traverse_children,   /* STHelpAdapter */
+  &slice_traverse_children,   /* STHelpHashed */
+  &output_mode_series_root,   /* STSeriesRoot */
+  &slice_traverse_children,   /* STSeriesAdapter */
+  &slice_traverse_children,   /* STSeriesHashed */
+  &slice_traverse_children,   /* STSelfCheckGuard */
+  &slice_traverse_children,   /* STDirectAttack */
+  &slice_traverse_children,   /* STDirectDefense */
+  &slice_traverse_children,   /* STReflexGuard */
+  &slice_traverse_children,   /* STSelfAttack */
+  &slice_traverse_children,   /* STSelfDefense */
+  &slice_traverse_children,   /* STRestartGuard */
+  &slice_traverse_children,   /* STGoalReachableGuard */
+  &slice_traverse_children    /* STKeepMatingGuard */
 };
 
 /* Initialize based on the stipulation
@@ -293,7 +299,6 @@ void output_end_half_duplex(void)
   se_end_half_duplex();  
 #endif
 
-  Message(NewLine);
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -372,6 +377,8 @@ void output_end_threat_level(void)
   {
     if (nr_continuations_written[move_depth]==0)
     {
+      if (nr_continuations_written[move_depth-1]==0)
+        Message(NewLine);
       Message(Zugzwang);
       ++nr_continuations_written[move_depth];
     }
@@ -423,20 +430,12 @@ void output_start_continuation_level(void)
  */
 void output_end_continuation_level(void)
 {
-  ply const start_ply = 2;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
-    if (nr_color_inversions_in_ply[start_ply]==0
-        && move_depth==2
-        && nr_continuations_written[move_depth]==0)
-      write_refutation_mark();
-
     move_depth--;
-    TraceValue("%u\n",move_depth);
 
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
@@ -457,7 +456,7 @@ void output_start_leaf_variation_level(void)
   TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
-    Message(NewLine);
+    nr_defenses_written[move_depth] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -507,6 +506,8 @@ static void linesolution(void)
       
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  Message(NewLine);
 
   slice = active_slice[start_ply];
   starting_side = slices[root_slice].starter;
@@ -584,8 +585,6 @@ static void linesolution(void)
   se_forsyth();
 #endif
 
-  Message(NewLine);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -608,7 +607,13 @@ static void write_numbered_indented_attack(ply current_ply,
 
   if (output_attack_types[current_ply]==threat_attack
       && nr_continuations_written[move_depth]==0)
+  {
+    if (nr_continuations_written[move_depth-1]==0)
+      Message(NewLine);
     Message(Threat);
+  }
+
+  Message(NewLine);
 
   ++nr_continuations_written[move_depth];
 
@@ -656,12 +661,13 @@ static void write_numbered_indented_attack(ply current_ply,
  */
 static void write_numbered_indented_defense(ply current_ply, Goal goal)
 {
+  Message(NewLine);
+
   sprintf(GlobalStr,"%*c",(int)(8*move_depth-4),blank);
   StdString(GlobalStr);
   sprintf(GlobalStr,"%3u...",move_depth);
   StdString(GlobalStr);
   ecritcoup(current_ply,goal);
-  Message(NewLine);
 
   capture_ply(&captured_ply[current_ply],current_ply);
   invalidate_ply_snapshot(&captured_ply[current_ply+1]);
@@ -732,10 +738,7 @@ static void catchup_with_attack(ply current_ply)
   TraceCurrentMove(current_ply);
 
   if (!is_ply_equal_to_captured(&captured_ply[current_ply],current_ply))
-  {
     write_numbered_indented_attack(current_ply,no_goal,attack_key);
-    Message(NewLine);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -749,6 +752,8 @@ void write_attack(attack_type type)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",move_depth);
 
   if (current_mode==output_mode_tree)
   {
@@ -842,12 +847,9 @@ void write_defense(void)
   if (current_mode==output_mode_tree)
   {
     TraceValue("%u",nbply);
+    TraceValue("%u",move_depth);
     TraceValue("%u",nr_defenses_written[move_depth]);
     TraceValue("%u\n",nr_continuations_written[move_depth+1]);
-
-    if (nr_defenses_written[move_depth]==0
-        && nr_continuations_written[move_depth+1]==0)
-      Message(NewLine);
 
     write_numbered_indented_defense(nbply,no_goal);
   }
@@ -870,7 +872,9 @@ void write_final_defense(Goal goal)
   if (current_mode==output_mode_tree)
   {
     stip_length_type const save_move_depth = move_depth;
+    TraceValue("%u",move_depth);
     TraceValue("%u",nr_continuations_written[move_depth]);
+    TraceValue("%u",nr_defenses_written[move_depth]);
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[parent_ply[nbply]]);
 
@@ -891,8 +895,6 @@ void write_final_defense(Goal goal)
         jouecoup_no_test(nbply);
       }
     }
-    else if (nr_defenses_written[move_depth]==0)
-      Message(NewLine);
 
     write_numbered_indented_defense(nbply,goal);
 
@@ -930,7 +932,8 @@ void write_final_help_move(Goal goal)
  */
 void write_refutation_mark(void)
 {
-  sprintf(GlobalStr,"%*c",(int)(8*move_depth-2),blank);
+  Message(NewLine);
+  sprintf(GlobalStr,"%*c",(int)(8*move_depth),blank);
   StdString(GlobalStr);
   Message(Refutation);
 }
@@ -1262,9 +1265,9 @@ void ecritcoup(ply ply_id, Goal goal)
  */
 static void write_refutation(coup *c)
 {
-  StdString("      1...");
+  StdString("\n      1...");
   editcoup(nbply,c,no_goal);
-  StdString(" !\n");
+  StdString(" !");
 
   ++nr_defenses_written[move_depth];
 }
@@ -1277,12 +1280,9 @@ void write_refutations(table refutations)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nr_defenses_written[move_depth]==0
-      && nr_continuations_written[move_depth+1]==0)
-    Message(NewLine);
-
   if (table_length(refutations)!=0)
   {
+    Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
     Message(But);

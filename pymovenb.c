@@ -57,7 +57,7 @@ void IncrementMoveNbr(void)
 {
   if (MoveNbr>=RestartNbr)
   {
-    sprintf(GlobalStr,"%3u  (", MoveNbr);
+    sprintf(GlobalStr,"\n%3u  (", MoveNbr);
     StdString(GlobalStr);
     ecritcoup(nbply,no_goal);
 
@@ -67,7 +67,7 @@ void IncrementMoveNbr(void)
       PrintTime();
     }
 
-    StdString(")\n");
+    StdString(")");
   }
 
   ++MoveNbr;
@@ -92,7 +92,7 @@ static void init_restart_guard_slice(slice_index si)
 
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
@@ -121,7 +121,7 @@ boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
 
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n)
@@ -175,14 +175,12 @@ static slice_operation const restart_guards_inserters[] =
   &slice_operation_noop,         /* STBranchFork */
   &slice_operation_noop,         /* STLeafDirect */
   &slice_operation_noop,         /* STLeafHelp */
-  &slice_operation_noop,         /* STLeafSelf */
   &slice_operation_noop,         /* STLeafForced */
   &slice_traverse_children,      /* STReciprocal */
   &slice_traverse_children,      /* STQuodlibet */
   &slice_traverse_children,      /* STNot */
   &slice_traverse_children,      /* STMoveInverter */
   &slice_operation_noop,         /* STDirectRoot */
-  &slice_operation_noop,         /* STDirectAdapter */
   &slice_operation_noop,         /* STDirectDefenderRoot */
   &restart_guards_inserter_root, /* STHelpRoot */
   &slice_traverse_children,      /* STHelpAdapter */
@@ -191,7 +189,11 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STSeriesAdapter */
   &slice_traverse_children,      /* STSeriesHashed */
   &slice_traverse_children,      /* STSelfCheckGuard */
+  &slice_traverse_children,      /* STDirectAttack */
+  &slice_traverse_children,      /* STDirectDefense */
   &slice_traverse_children,      /* STReflexGuard */
+  0,                             /* STSelfAttack */
+  0,                             /* STSelfDefense */
   0,                             /* STRestartGuard */
   0,                             /* STGoalReachableGuard */
   0                              /* STKeepMatingGuard */

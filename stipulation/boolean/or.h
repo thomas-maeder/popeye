@@ -23,25 +23,8 @@ void make_quodlibet_slice(slice_index si, slice_index op1, slice_index op2);
  */
 slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2);
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean quodlibet_must_starter_resign(slice_index si);
-
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean quodlibet_must_starter_resign_hashed(slice_index si);
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void quodlibet_write_unsolvability(slice_index si);
@@ -61,8 +44,9 @@ void quodlibet_root_write_key(slice_index si, attack_type type);
 
 /* Find and write post key play
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void quodlibet_solve_postkey(slice_index si);
+boolean quodlibet_solve_postkey(slice_index si);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -77,9 +61,9 @@ boolean quodlibet_are_threats_refuted(table threats, slice_index si);
 
 /* Determine whether a quodlibet slice jas a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean quodlibet_has_solution(slice_index si);
+has_solution_type quodlibet_has_solution(slice_index si);
 
 /* Determine whether a quodlibet slice.has just been solved with the
  * just played move by the non-starter
@@ -92,9 +76,9 @@ boolean quodlibet_has_non_starter_solved(slice_index si);
  * independently of the non-starter's possible further play during the
  * current slice.
  * @param si slice identifier
- * @return true iff the starter has won
+ * @return whether the starter has won
  */
-boolean quodlibet_has_starter_won(slice_index si);
+has_starter_won_result_type quodlibet_has_starter_won(slice_index si);
 
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
@@ -103,14 +87,11 @@ boolean quodlibet_has_starter_won(slice_index si);
  */
 boolean quodlibet_has_starter_reached_goal(slice_index si);
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
+/* Determine whether the defender wins after a move by the attacker
+ * @param si slice index
+ * @return true iff defender wins
  */
-boolean quodlibet_has_starter_apriori_lost(slice_index si);
+boolean quodlibet_does_defender_win(slice_index si);
 
 /* Solve a quodlibet slice
  * @param si slice index

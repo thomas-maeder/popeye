@@ -21,7 +21,6 @@ some solutions were not found in ser-a=>b without black king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b2                   1 + 1
-
 Initial (White ->):
 
 some solutions were not found in ser-a=>b without black king
@@ -75,7 +74,6 @@ used to take several minutes in releases 4.37 to 4.43
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b12                  2 + 1
-
 Initial (White ->):
 
 used to take several minutes in releases 4.37 to 4.43
@@ -128,7 +126,6 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b11                  2 + 1
-
 Initial (White ->):
 
 
@@ -181,7 +178,6 @@ Test for StopOnShortSolutions in proof games and a=>b
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b12                  2 + 1
-
 Initial (White ->):
 
 

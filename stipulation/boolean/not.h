@@ -23,14 +23,6 @@ slice_index alloc_not_slice(slice_index op);
  */
 void not_write_unsolvability(slice_index si);
 
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean not_must_starter_resign_hashed(slice_index si);
-
 /* Determine and write the solution
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -39,9 +31,9 @@ boolean not_solve(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean not_has_solution(slice_index si);
+has_solution_type not_has_solution(slice_index si);
 
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves
@@ -50,20 +42,11 @@ boolean not_has_solution(slice_index si);
  */
 void not_solve_continuations(table continuations, slice_index si);
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean not_has_starter_apriori_lost(slice_index si);
-
 /* Determine whether the attacker has won with his move just played
  * @param si slice identifier
- * @return true iff the starter has won
+ * @return whether the starter has won
  */
-boolean not_has_starter_won(slice_index si);
+has_starter_won_result_type not_has_starter_won(slice_index si);
 
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.

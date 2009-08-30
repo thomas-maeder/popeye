@@ -65,7 +65,6 @@
       1...Lh8-b2 
           2.Kb1-a2 # 
 
-
 Loesung beendet. 
 
 
@@ -110,7 +109,6 @@ Loesung beendet.
           2.Sg3*f1[wSf1->b1] # 
       1...Dc8-e6 
           2.Sg3*h1[wSh1->b1] # 
-
 
 Loesung beendet. 
 
@@ -159,7 +157,6 @@ Loesung beendet.
           2.Sc8-e7 # 
       1...Sc1*d3[sSd3->g8] 
           2.Lf3*h1[wLh1->f1] # 
-
 
 Loesung beendet. 
 
@@ -241,7 +238,6 @@ Loesung beendet.
     Aber
       1...Sd1*b2[sSb2->b8]  !
 
-
 Loesung beendet. 
 
 
@@ -282,7 +278,6 @@ Loesung beendet.
           2.e7*d8=D[wDd8->d1] # 
       1...De2*f2[sDf2->d8] 
           2.e7*d8=S[wSd8->g1] # 
-
 
 Loesung beendet. 
 
@@ -351,7 +346,6 @@ Loesung beendet.
           2.Tg1-g2 # 
       1...Tf7-f4 
           2.g7-g8=T # 
-
 
 Loesung beendet. 
 
@@ -519,7 +513,6 @@ Loesung beendet.
     Aber
       1...d6*e5[sBe5->e7]  !
 
-
 Loesung beendet. 
 
 
@@ -566,7 +559,6 @@ Loesung beendet.
       1...Le6-f5 
           2.b7*a8=S[wSa8->b1] 
               2...Lf5*b1[sLb1->c8] # 
-
 
 Loesung beendet. 
 
@@ -628,7 +620,6 @@ Loesung beendet.
       1...Da8*b8[sDb8->d8] 
           2.b7-b8=S # 
 
-
 Loesung beendet. 
 
 
@@ -669,7 +660,6 @@ Loesung beendet.
           2.Kd4-c4 # 
       1...Tc8-d8 
           2.Kd4-c5 # 
-
 
 Loesung beendet. 
 
@@ -712,7 +702,6 @@ Loesung beendet.
       1...e2*d1=L[sLd1->c8] 
           2.Sd4*f5[wSf5->b1] # 
 
-
 Loesung beendet. 
 
 
@@ -752,7 +741,6 @@ Loesung beendet.
       1...Tg8-e8 
           2.Kg1-f2 + 
               2...Te8-e1 # 
-
 
 Loesung beendet. 
 
@@ -800,7 +788,6 @@ Loesung beendet.
           2.Sf8-g6 + 
               2...De3-g1 # 
 
-
 Loesung beendet. 
 
 
@@ -843,7 +830,6 @@ Loesung beendet.
           2.Se6-f8 # 
       1...Da7*d7[sDd7->d8] 
           2.Se6-f8 # 
-
 
 Loesung beendet. 
 
@@ -901,7 +887,6 @@ Loesung beendet.
     Aber
       1...c6*b5[sBb5->b7]  !
 
-
 Loesung beendet. 
 
 
@@ -940,7 +925,6 @@ Loesung beendet.
           2.Dc5-e5 # 
       1...b5*c4[sBc4->c7] 
           2.Dc5-f8 # 
-
 
 Loesung beendet. 
 
@@ -1002,7 +986,6 @@ Loesung beendet.
   1.Th1*e1[wTe1->a1] + ? 
     Aber
       1...Te2-e1  !
-
 
 Loesung beendet. 
 
@@ -1082,7 +1065,6 @@ Loesung beendet.
           2.Dh4*g4[wDg4->d1] 
               2...e2*d1=S[sSd1->g8] # 
 
-
 Loesung beendet. 
 
 
@@ -1124,7 +1106,6 @@ Loesung beendet.
       1...e2*d1=L[sLd1->c8] 
           2.Tf6*f5[wTf5->h1] # 
 
-
 Loesung beendet. 
 
 
@@ -1165,7 +1146,6 @@ Loesung beendet.
       1...Dd1-d8 
           2.Tc1-e1 + 
               2...Dd8*e7[sDe7->d8] # 
-
 
 Loesung beendet. 
 
@@ -1219,7 +1199,6 @@ Loesung beendet.
           2.Td1-e1 # 
       1...Ke6-d5 
           2.Td1-e1 # 
-
 
 Loesung beendet. 
 
@@ -1356,7 +1335,6 @@ Loesung beendet.
     Aber
       1...Tc5-c7  !
 
-
 Loesung beendet. 
 
 
@@ -1432,7 +1410,6 @@ Loesung beendet.
           2.Se6-g7 
               2...Ld4-e5 # 
 
-
 Loesung beendet. 
 
 
@@ -1464,17 +1441,16 @@ Loesung beendet.
               AntiCirce
 
   1.Lc5-b4 ! Zugzwang.
-      1...a5*b4[sBb4->b7] 
-          2.g7-g8=L + 
-              2...Th7-f7 
-                  3.Th6*h8[wTh8->a1] 
-                      3...Tf7-f1 # 
       1...Lh8*g7[sLg7->f8] 
           2.c7-c8=D + 
               2...Th7-d7 
                   3.Lb4*f8[wLf8->c1] 
                       3...Td7-d1 # 
-
+      1...a5*b4[sBb4->b7] 
+          2.g7-g8=L + 
+              2...Th7-f7 
+                  3.Th6*h8[wTh8->a1] 
+                      3...Tf7-f1 # 
 
 Loesung beendet. 
 
@@ -1530,7 +1506,6 @@ Loesung beendet.
               2...Sf6-d7 
                   3.Lc8-b7 # 
 
-
 Loesung beendet. 
 
 
@@ -1583,7 +1558,6 @@ Loesung beendet.
               2...Kh3*g2[sKg2->e8] 
                   3.c7-c8=D # 
 
-
 Loesung beendet. 
 
 
@@ -1625,7 +1599,6 @@ Loesung beendet.
               2...c3-c2 
                   3.Tc1-b1 
                       3...c2-c1=L # 
-
 
 Loesung beendet. 
 
@@ -1699,7 +1672,6 @@ Loesung beendet.
               2...Sc3*e2[sSe2->g8] 
                   3.h7*g8=L[wLg8->f1] # 
 
-
 Loesung beendet. 
 
 
@@ -1741,7 +1713,6 @@ Loesung beendet.
           2.g7*h8=T[wTh8->a1] # 
       1...f2*e1=L[sLe1->f8] 
           2.g7*f8=T[wTf8->a1] # 
-
 
 Loesung beendet. 
 
@@ -1857,7 +1828,6 @@ Loesung beendet.
           2.Df5-e6 Drohung:
                   3.De6-e1 
                       3...Dd1-b3 # 
-
 
 Loesung beendet. 
 
@@ -2071,7 +2041,6 @@ Loesung beendet.
                   3.Th1-h7 # 
               2...Kg2-h3 
                   3.Th1-g1 # 
-
 
 Loesung beendet. 
 
@@ -2419,7 +2388,6 @@ Loesung beendet.
     Aber
       1...Sb1*c3[sSc3->b8]  !
 
-
 Loesung beendet. 
 
 
@@ -2479,7 +2447,6 @@ Loesung beendet.
           2.Le8-f7 # 
     Aber
       1...Sd6*e8[sSe8->g8]  !
-
 
 Loesung beendet. 
 
@@ -2564,7 +2531,6 @@ Loesung beendet.
   1.La1-e5 + ? 
     Aber
       1...Kd6*e5[sKe5->e8]  !
-
 
 Loesung beendet. 
 
@@ -2691,7 +2657,6 @@ Loesung beendet.
       1...Sa4-b2 
           2.Ta1-c1 # 
 
-
 Loesung beendet. 
 
 
@@ -2731,7 +2696,6 @@ Loesung beendet.
           2.Dh6*f4[wDf4->d1] # 
       1...a2*b1=L[sLb1->c8] 
           2.Tg6-g3 # 
-
 
 Loesung beendet. 
 

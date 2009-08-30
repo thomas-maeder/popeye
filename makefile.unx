@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.82 2009/08/07 04:30:45 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.83 2009/08/30 09:17:54 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -255,10 +255,11 @@ INCLUDES =      pyenum.h \
 		pygoal.h pystip.h pyslice.h \
 		pydirect.h pyhelp.h pyseries.h \
 		pypipe.h \
-		pybrafrk.h pyreflxg.h pykeepmt.h pyselfcg.h \
+		pydirctg.h pyselfgd.h pyreflxg.h \
+		pybrafrk.h pykeepmt.h pyselfcg.h \
 		pyquodli.h pyrecipr.h pynot.h \
 		pybrad.h pybradd.h pybrah.h pybraser.h \
-		pyleaf.h pyleafd.h pyleafs.h pyleaff.h pyleafh.h \
+		pyleaf.h pyleafd.h pyleaff.h pyleafh.h \
 		pymovein.h \
 		pymovenb.h \
 		boolean.h trace.h
@@ -272,10 +273,11 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		pygoal.c pystip.c pyslice.c \
 		pydirect.c pyhelp.c pyseries.c \
 		pypipe.c \
-		pybrafrk.c pyreflxg.c pykeepmt.c pyselfcg.c \
+		pydirctg.c pyselfgd.c pyreflxg.c \
+		pybrafrk.c pykeepmt.c pyselfcg.c \
 		pyquodli.c pyrecipr.c pynot.c \
 		pybrad.c pybradd.c pybrah.c pybraser.c \
-		pyleaf.c pyleafd.c pyleafs.c pyleaff.c pyleafh.c \
+		pyleaf.c pyleafd.c pyleaff.c pyleafh.c \
 		pymovein.c \
 		pymovenb.c \
 		trace.c \

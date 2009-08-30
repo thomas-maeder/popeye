@@ -34,63 +34,6 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
   return result;
 }
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * Tests do not rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean reci_must_starter_resign(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  result = (slice_must_starter_resign(op1)
-            || slice_must_starter_resign(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean reci_must_starter_resign_hashed(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  result = (slice_must_starter_resign_hashed(op1)
-            || slice_must_starter_resign_hashed(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index
@@ -122,22 +65,24 @@ boolean reci_are_threats_refuted(table threats, slice_index si)
 /* Determine whether there is a solution at the end of a quodlibet
  * slice. 
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean reci_has_solution(slice_index si)
+has_solution_type reci_has_solution(slice_index si)
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(op1) && slice_has_solution(op2);
+  result = slice_has_solution(op1);
+  if (result==has_solution)
+    result = slice_has_solution(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionParamListEnd();
   return result;
 }
@@ -168,41 +113,13 @@ boolean reci_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean reci_has_starter_apriori_lost(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  result = (slice_has_starter_apriori_lost(op1)
-            || slice_has_starter_apriori_lost(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the attacker has won with his move just played
  * independently of the non-starter's possible further play during the
  * current slice.
  * @param si slice identifier
- * @return true iff the starter has won
+ * @return whether the starter has won
  */
-boolean reci_has_starter_won(slice_index si)
+has_starter_won_result_type reci_has_starter_won(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.fork.op1;
@@ -214,10 +131,12 @@ boolean reci_has_starter_won(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  result = slice_has_starter_won(op1) && slice_has_starter_won(op2);
+  result = slice_has_starter_won(op1);
+  if (result==starter_has_won)
+    result = slice_has_starter_won(op2);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_starter_won_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -248,7 +167,6 @@ boolean reci_has_starter_reached_goal(slice_index si)
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void reci_write_unsolvability(slice_index si)
@@ -269,17 +187,23 @@ void reci_write_unsolvability(slice_index si)
 
 /* Find and write post key play
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void reci_solve_postkey(slice_index si)
+boolean reci_solve_postkey(slice_index si)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_postkey(slices[si].u.fork.op1);
-  slice_solve_postkey(slices[si].u.fork.op2);
+  result = (slice_solve_postkey(slices[si].u.fork.op1)
+            && slice_solve_postkey(slices[si].u.fork.op2));
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write continuations at end of reciprocal slice
@@ -317,7 +241,7 @@ boolean reci_root_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  if (slice_has_solution(op2) && slice_root_solve(op1))
+  if (slice_has_solution(op2)==has_solution && slice_root_solve(op1))
   {
     boolean const result2 = slice_root_solve(op2);
     assert(result2);
@@ -358,7 +282,7 @@ boolean reci_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  if (slice_has_solution(op2) && slice_solve(op1))
+  if (slice_has_solution(op2)==has_solution && slice_solve(op1))
   {
     boolean const result2 = slice_solve(op2);
     assert(result2);

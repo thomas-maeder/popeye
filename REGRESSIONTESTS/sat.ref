@@ -199,7 +199,6 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                          56.Sb5-d4 + 
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 # 
 
-
 solution finished. 
 
 
@@ -321,7 +320,6 @@ solution finished.
               2...g7-g6 
                   3.Rg2*g6 [+bPg7] # 
 
-
 solution finished. 
 
 
@@ -391,7 +389,6 @@ solution finished.
       1...Sd2-b3 
           2.Re2*c2 # 
 
-
 solution finished. 
 
 
@@ -425,7 +422,6 @@ solution finished.
       1...a3-a2 
           2.Bb1-h7 # 
 
-
 solution finished. 
 
 
@@ -455,7 +451,7 @@ solution finished.
   s#3                         2 + 4
                  SAT
 
-a)
+a) 
 
   1.Rh4-g4 ! zugzwang.
       1...f4-f3 
@@ -463,7 +459,6 @@ a)
               2...f3-f2 
                   3.Rf4*f2 
                       3...g3*f2 # 
-
 
 b) wSh4 
 
@@ -476,7 +471,6 @@ b) wSh4
                       3...g2*f1=S # 
                       3...g2*f1=R # 
                       3...g2*f1=B # 
-
 
 solution finished. 
 
@@ -631,7 +625,6 @@ solution finished.
               2...g3-g2 # 
     but
       1...Kd1-e1  !
-
 
 solution finished. 
 

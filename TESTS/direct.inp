@@ -1,0 +1,303 @@
+begin
+
+protocol direct.tst
+
+title #1 - Black in check
+pieces white ka6 sc7
+       black ka8
+stipulation #1
+option vari
+
+next
+
+title #1
+pieces white ka6 se8 pa7
+       black ka8
+stipulation #1
+option vari
+
+next
+
+title #1.5
+pieces white kb6 sd5 pa7
+       black ka8 se8
+stipulation #2
+option postkey
+
+next
+
+title #2 with short solution
+pieces white ka6 se8 pa7
+       black ka8 ph6
+stipulation #2
+option vari
+
+next
+
+title ##!2 with short solution
+pieces white kc8 rb8
+       black ka7 qc5 rd5
+stip ##!2
+
+next
+
+title #2 with variation
+pieces white kb6 sa4 pa7
+       black ka8 pc7
+stipulation #2
+option vari
+
+next
+
+title #2 with setplay
+pieces white ka6 rc6
+       black kb8 pc5
+stipulation #2
+option set vari
+
+next
+
+title #2 with setplay, White in check
+pieces white ka6 rc6
+       black kb8 sc5
+stipulation #2
+option set vari
+
+next
+
+title #2.5
+pieces white ka6 se6 pa7c3
+       black ka8 se8 pc6
+stip #3
+option postkey vari
+
+next
+
+title #3 with short setplay
+pieces white ka6 se6 pa7b2
+       black ka8 se8 pc3c6
+stip #3
+option set vari
+
+next
+
+title s#0.5
+pieces white ka1 rh4
+       black ka3 pa2b3
+stipulation s#1
+option postkey vari
+
+next
+
+title s#1
+pieces white ka1 rh3
+       black ka3 pa2b3
+stipulation s#1
+option vari
+
+next
+
+title s#1 with incomplete set play (not given)
+pieces white ka1 rc3
+       black ka3 pa2b3c5
+stipulation s#1
+option vari set
+
+next
+
+title s#1 with complete set play
+pieces white ka1 rc4 ph3
+       black ka3 pa2b3c5
+stipulation s#1
+option vari set
+
+next
+
+title s#1 with tries
+pieces white ka1 rc4 pf4
+       black ka3 pa2b3c5
+stipulation s#1
+option vari try
+
+next
+
+title s#1.5
+pieces white ka1 qd1
+       black ka3 pa2b4
+stipulation s#2
+option postkey vari
+
+next
+
+title s#2
+pieces white ka1 qg4
+       black ka3 pa2b4
+stipulation s#2
+option vari
+
+next
+
+title s#2 with short solution
+pieces white ka1 rc3
+       black ka3 pa2b3c5
+stipulation s#2
+option vari
+
+next
+
+title s#2 with set play
+pieces white ka1 qc2
+       black ka3 pa2b4
+stipulation s#2
+option vari set
+
+next
+
+title s#2 with complete short set play
+pieces white ka1 rc4 pg4
+       black ka3 pa2b3c5g5
+stip s#2
+option set vari nothreat
+
+next
+
+title exact s#2 with refutation by s#1
+pieces white ka1 qe1 sd1 pc3e2
+       black kc2 bb1 pa2b3a4
+stipulation exact-s#2
+option try vari
+
+next
+
+title r#0.5
+pieces white ka1
+       black ka3 se1 pa2
+stipulation r#1
+option postkey
+
+next
+
+title r#1
+pieces white kb1
+       black ka3 se1 pa2
+stipulation r#1
+
+next
+
+title r#1 with set play
+pieces white ka1 ph3
+       black ka3 se1 pa2
+stipulation r#1
+option set
+
+next
+
+title r#1, but White must deliver mate
+pieces white ka1 bg7
+       black ka3 pa2a4b3
+stip r#1
+
+next
+
+title r#1.5
+pieces white ka1 sc1
+       black ka3 pa2a4b4
+stipulation r#2
+option postkey
+
+next
+
+title r#2
+pieces white ka1 bh7
+       black ka3 pa4b4
+stipulation r#2
+option vari
+
+next
+
+title exact r#2 that would have a solution in 1
+pieces white ka1 ra2 pf6
+       black kh8 pc2
+stipulation exact-r#2
+option vari
+
+next
+
+title r#2, but White must deliver mate immediately
+pieces white ka1 bg7
+       black ka3 pa2a4b3
+stip r#2
+
+next
+
+title r#2.5
+pieces white ka1 bd1 sa6 pb4
+       black ka3 pa4a5
+stipulation r#3
+option postkey
+
+next
+
+title r#3
+pieces white ka1 bd1 sd8 pb4
+       black ka3 pa4a5
+stipulation r#3
+option vari
+
+next
+
+title r#3, but White must deliver mate immediately
+pieces white ka1 bg7
+       black ka3 pa2a4b3
+stip r#3
+
+next
+
+title a r#2 solution does not solve an exact r#3
+pieces white kc1 pa2
+       black pc3
+stip exact-r#3
+option vari nobk
+
+next
+
+title r#2 - there is no threat, because White at the move
+title would have to deliver mate (issue 2843251)
+pieces white kc1 rd1 pb2
+       black kh6 pb3d2g5g6g7
+stipulation r#2
+option vari
+
+next
+
+title semi-r#0.5
+pieces white ka1
+       black ka3 pa2b3
+stipulation semi-r#1
+option postkey
+
+next
+
+title semi-r#1
+pieces white ka1 bg7
+       black ka3 pa2a4b3
+stip semi-r#1
+option vari
+
+next
+
+title semi-r##! with setplay
+pieces white ka1 qa5 rc3
+       black ka3 bc1
+stip semi-r##!1
+option vari set
+
+next
+
+title semi-r#2 with short solution; White needn't deliver mate immediately
+pieces white ka1 bg7
+       black ka3 pa2a4b3
+stip semi-r#2
+option vari
+
+end

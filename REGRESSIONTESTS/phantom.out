@@ -137,7 +137,6 @@ Loesung beendet.
     Aber
       1...Ka8-a7  !
 
-
 Loesung beendet. 
 
 
@@ -225,7 +224,6 @@ Loesung beendet.
   1.f5-f3 ? Zugzwang.
     Aber
       1...f6-f5  !
-
 
 Loesung beendet. 
 
@@ -320,22 +318,19 @@ Loesung beendet.
   +1                          1 + 1
             PhantomSchach
 
-a)
+a) 
 
   1.g7-g8=S + ! 
 
   1.g7-g8=T + ! 
 
-
 b) =1
 
   1.g7-g8=D = ! 
 
-
 c) #1
 
   1.g7-g8=T # ! 
-
 
 Loesung beendet. 
 

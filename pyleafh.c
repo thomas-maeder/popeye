@@ -10,30 +10,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param leaf leaf's slice index
- * @return true iff starter must resign
- */
-boolean leaf_h_must_starter_resign(slice_index leaf)
-{
-  boolean result = false;
-  Side const starter = slices[leaf].starter;
-
-  assert(starter!=no_side);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = OptFlag[keepmating] && !is_a_mating_piece_left(starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Determine whether a side has an end in 1.
  * @param side_at_move
@@ -59,7 +35,7 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && (!isIntelligentModeActive || isGoalReachable())
-        && leaf_is_goal_reached(side_at_move,leaf))
+        && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
     {
       end_found = true;
       coupfort();
@@ -83,11 +59,11 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 
 /* Determine whether there is a solution in a help leaf.
  * @param leaf slice index of leaf slice
- * @return true iff attacker wins
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean leaf_h_has_solution(slice_index leaf)
+has_solution_type leaf_h_has_solution(slice_index leaf)
 {
-  boolean result = false;
+  has_solution_type result = has_no_solution;
   Side const starter = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
@@ -97,12 +73,12 @@ boolean leaf_h_has_solution(slice_index leaf)
   if (!(OptFlag[keepmating] && !is_a_mating_piece_left(starter))
       && is_end_in_1_possible(starter,leaf))
   {
-    result = true;
+    result = has_solution;
     coupfort();
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -124,7 +100,7 @@ boolean leaf_h_has_non_starter_solved(slice_index leaf)
 
   TraceValue("%u\n",slices[leaf].starter);
 
-  result = leaf_is_goal_reached(slices[leaf].starter,leaf);
+  result = leaf_is_goal_reached(slices[leaf].starter,leaf)==goal_reached;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -158,7 +134,7 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !(isIntelligentModeActive && !isGoalReachable())
-        && leaf_is_goal_reached(side_at_move,leaf))
+        && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
     {
       final_move_found = true;
       write_final_help_move(slices[leaf].u.leaf.goal);
@@ -183,21 +159,25 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
  */
 static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
 {
-  boolean found_solution = false;
+  boolean result = false;
   Side const just_moved = advers(slices[leaf].starter);
   Side const side_at_move = slices[leaf].starter;
 
-  if (goal_checker_mate(just_moved))
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  if (goal_checker_mate(just_moved)==goal_reached)
   {
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,side_at_move);
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play)
-          && leaf_is_goal_reached(side_at_move,leaf))
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
       {
-        found_solution = true;
+        result = true;
         write_final_help_move(goal_countermate);
       }
       repcoup();
@@ -206,7 +186,10 @@ static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
     finply();
   }
 
-  return found_solution;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve the final move for a doublemate
@@ -215,8 +198,12 @@ static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
  */
 static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
 {
-  boolean found_solution = false;
+  boolean result = false;
   Side const side_at_move = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (!immobile(side_at_move))
   {
@@ -225,10 +212,10 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
 
     while (encore())
     {
-      if (jouecoup(nbply,first_play)
-          && leaf_is_goal_reached(side_at_move,leaf))
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
       {
-        found_solution = true;
+        result = true;
         write_final_help_move(goal_doublemate);
       }
 
@@ -238,7 +225,10 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
     finply();
   }
 
-  return found_solution;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write the solution of a help leaf slice without
@@ -292,7 +282,66 @@ boolean leaf_h_root_solve(slice_index leaf)
 
   isIntelligentModeActive = false;
   result = leaf_h_solve_nohash(leaf);
+  write_end_of_solution_phase();
   isIntelligentModeActive = save_isIntelligentModeActive;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param si slice index
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *            the attacking move is to be considered to have failed, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has
+ *            solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
+ */
+quantity_of_refutations_type leaf_h_root_find_refutations(slice_index leaf)
+{
+  quantity_of_refutations_type result;
+  Side const starter = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  if (inhash(leaf,hash_help_insufficient_nr_half_moves,1))
+    result = attacker_has_reached_deadend;
+  else if (is_end_in_1_possible(starter,leaf))
+    result = found_no_refutation;
+  else
+  {
+    result = attacker_has_reached_deadend;
+    addtohash(leaf,hash_help_insufficient_nr_half_moves,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve postkey play at root level.
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_h_root_solve_postkey(slice_index leaf)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  output_start_postkey_level();
+  result = leaf_h_solve_nohash(leaf);
+  output_end_postkey_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -328,40 +377,14 @@ boolean leaf_h_solve(slice_index leaf)
   return result;
 }
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param leaf slice identifier
- * @return true iff starter has lost
- */
-boolean leaf_h_has_starter_apriori_lost(slice_index leaf)
-{
-  boolean result = false;
-  Side const final = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  assert(slices[leaf].starter!=no_side);
-
-  result = OptFlag[keepmating] && !is_a_mating_piece_left(final);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
- * @return true iff starter has won
+ * @return whether starter has won
  */
-boolean leaf_h_has_starter_won(slice_index leaf)
+has_starter_won_result_type leaf_h_has_starter_won(slice_index leaf)
 {
-  boolean result;
+  has_starter_won_result_type result;
   Side const final = slices[leaf].starter;
   
   TraceFunctionEntry(__func__);
@@ -371,10 +394,12 @@ boolean leaf_h_has_starter_won(slice_index leaf)
   assert(slices[leaf].starter!=no_side);
 
   result = (!(OptFlag[keepmating] && !is_a_mating_piece_left(final))
-            && is_end_in_1_possible(final,leaf));
+            && is_end_in_1_possible(final,leaf)
+            ? starter_has_won
+            : starter_has_not_won);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_starter_won_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -400,16 +425,51 @@ boolean leaf_h_has_starter_reached_goal(slice_index leaf)
   return result;
 }
 
+/* Determine whether the defender wins after a move by the attacker
+ * @param leaf identifies leaf
+ * @return true iff the defender wins
+ */
+boolean leaf_h_does_defender_win(slice_index leaf)
+{
+  boolean result;
+  Side const starter = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  result = !is_end_in_1_possible(starter,leaf);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
 /* Find and write post key play
  * @param leaf slice index
+ * @return true iff >=1 solution was found
  */
-void leaf_h_solve_postkey(slice_index leaf)
+boolean leaf_h_solve_postkey(slice_index leaf)
 {
-  assert(slices[leaf].starter!=no_side);
+  boolean result;
 
+  assert(slices[leaf].starter!=no_side);
+  result = leaf_h_solve_final_move(leaf);
+  return result;
+}
+
+/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
+ * mates)
+ * @param leaf leaf's slice index
+ */
+void leaf_h_write_unsolvability(slice_index leaf)
+{
   output_start_leaf_variation_level();
   leaf_h_solve_final_move(leaf);
   output_end_leaf_variation_level();
+  write_end_of_solution_phase();
 }
 
 /* Detect starter field with the starting side if possible. 

@@ -25,7 +25,6 @@
                                                                         \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
-    ENUMERATOR(STLeafSelf),        /* self-goal in 1 */                 \
     ENUMERATOR(STLeafForced),      /* forced goal in 1 half move */     \
                                                                         \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -35,23 +34,25 @@
     ENUMERATOR(STMoveInverter),    /* 0 length, inverts side at move */ \
                                                                         \
     ENUMERATOR(STDirectRoot),      /* root level of direct play */        \
-    ENUMERATOR(STDirectAdapter),   /* direct play after branch fork */    \
-                                                                        \
     ENUMERATOR(STDirectDefenderRoot), /* root level of postkey direct play */ \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
-    ENUMERATOR(STSeriesRoot),        /* root level of series play */        \
-    ENUMERATOR(STSeriesAdapter),     /* series play after branch fork */    \
-    ENUMERATOR(STSeriesHashed),      /* series play with hash table */      \
+    ENUMERATOR(STSeriesRoot),      /* root level of series play */        \
+    ENUMERATOR(STSeriesAdapter),   /* series play after branch fork */    \
+    ENUMERATOR(STSeriesHashed),    /* series play with hash table */      \
                                                                         \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \
+    ENUMERATOR(STDirectAttack),    /* direct play, just played attack */ \
+    ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STSelfAttack),      /* self play, just played attack */  \
+    ENUMERATOR(STSelfDefense),     /* self play, just played defense */  \
                                                                         \
-    ENUMERATOR(STRestartGuard),     /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STRestartGuard),    /* stop when wrong side can reach goal */ \
                                                                         \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
@@ -92,8 +93,8 @@
  * s#=2:
  *     type           starter goal
  *     type           op1 op2
- * [0] STLeafSelf     White   goal_stale
- * [1] STLeafSelf     White   goal_mate
+ * [0] STLeafForced   White   goal_stale
+ * [1] STLeafForced   White   goal_mate
  * [2] STQuodlibet    0   0
  *
  * reci-h#3:
@@ -155,29 +156,16 @@ typedef struct
                 {
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
+                    slice_index towards_goal;
                 } branch;
 
                 struct
                 {
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
-                    slice_index fork;
-                } branch_d;
-
-                struct
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    slice_index fork;
+                    slice_index towards_goal;
                     slice_index short_sols;
-                } help_adapter;
-
-                struct
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    slice_index fork;
-                } series_adapter;
+                } help_root;
 
                 struct
                 {
@@ -186,16 +174,12 @@ typedef struct
                     Side mating;
                 } keepmating_guard;
 
-                struct /* for type==STBranchFork */
+                struct /* for type==STReflexGuard */
                 {
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
-                    slice_index towards_goal;
-                } branch_fork;
-
-                struct /* for type==STReflexGuard */
-                {
-                    slice_index not_slice;
+                    slice_index avoided;
+                    slice_index avoided_advers;
                 } reflex_guard;
             } u;
         } pipe;
@@ -219,7 +203,7 @@ typedef enum
 /* slice identification */
 enum
 {
-  max_nr_slices = 40,
+  max_nr_slices = 60,
   no_slice = max_nr_slices
 };
 

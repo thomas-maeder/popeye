@@ -36,7 +36,6 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
       1...kBd2*c1=L [+wkDd1][skLc1->f8=skL] 
           2.kLd3*e2 [+skBe7][wkLe2->f1] # 
 
-
 Loesung beendet. 
 
 
@@ -84,7 +83,6 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
           2.kBb7*a8=skS [+skTa8][wkSa8->b1=wkS] # 
       1...kBc2*b1=L [+wkLf1][skLb1->c8=skL] 
           2.kBb7*c8=skS [+skLc8][wkSc8->b1=wkS] # 
-
 
 Loesung beendet. 
 
@@ -175,7 +173,6 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
           2.kDd1*b1 [+skLc8][wkDb1->d1] # 
       1...kDh7*h5 [+wkTh1][skDh5->d8] 
           2.kTh1*b1 [+skLc8][wkTb1->h1] # 
-
 
 Loesung beendet. 
 
@@ -313,7 +310,6 @@ Loesung beendet.
                   3.Dd1*d2 [+sBd7] + 
                       3...Tc2*d2 [+wDd1] 
                           4.Dd1*d2 [+sTh8] # 
-
 
 Loesung beendet. 
 

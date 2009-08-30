@@ -188,20 +188,6 @@ typedef struct
     data_type data;
 } element_t;
 
-static slice_index base_slice[max_nr_slices];
-
-void hash_reset_derivations(void)
-{
-  slice_index si;
-  for (si = 0; si!=max_nr_slices; ++si)
-    base_slice[si] = no_slice;
-}
-
-void hash_slice_is_derived_from(slice_index derived, slice_index base)
-{
-  base_slice[derived] = base;
-}
-
 /* Hashing properties of stipulation slices
  */
 typedef struct
@@ -278,14 +264,12 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STBranchFork */
   &slice_property_offset_shifter, /* STLeafDirect */
   &slice_property_offset_shifter, /* STLeafHelp */
-  &slice_property_offset_shifter, /* STLeafSelf */
   &slice_property_offset_shifter, /* STLeafForced */
   &slice_property_offset_shifter, /* STReciprocal */
   &slice_property_offset_shifter, /* STQuodlibet */
   &slice_property_offset_shifter, /* STNot */
   &slice_property_offset_shifter, /* STMoveInverter */
   &slice_property_offset_shifter, /* STDirectRoot */
-  &slice_property_offset_shifter, /* STDirectAdapter */
   &slice_property_offset_shifter, /* STDirectDefenderRoot */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
@@ -294,7 +278,11 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STSeriesAdapter */
   &slice_property_offset_shifter, /* STSeriesHashed */
   &slice_property_offset_shifter, /* STSelfCheckGuard */
+  &slice_property_offset_shifter, /* STDirectAttack */
+  &slice_property_offset_shifter, /* STDirectDefense */
   &slice_property_offset_shifter, /* STReflexGuard */
+  &slice_property_offset_shifter, /* STSelfAttack */
+  &slice_property_offset_shifter, /* STSelfDefense */
   &slice_property_offset_shifter, /* STRestartGuard */
   &slice_property_offset_shifter, /* STGoalReachableGuard */
   &slice_property_offset_shifter  /* STKeepMatingGuard */
@@ -564,18 +552,17 @@ static boolean init_slice_properties_fork(slice_index fork,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_direct_adapter(slice_index si,
-                                                    slice_traversal *st)
+static boolean init_slice_properties_direct_root(slice_index si,
+                                                 slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   slice_traverse_children(si,st);
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -594,14 +581,10 @@ static boolean init_slice_properties_branch_direct(slice_index branch,
                                                    slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const base = base_slice[branch];
 
-  if (base==no_slice)
-  {
-    stip_length_type const length = slices[branch].u.pipe.u.branch_d.length;
-    init_slice_property_direct(branch,length,st->param);
-    slice_traverse_children(branch,st);
-  }
+  stip_length_type const length = slices[branch].u.pipe.u.branch.length;
+  init_slice_property_direct(branch,length,st->param);
+  slice_traverse_children(branch,st);
 
   return result;
 }
@@ -646,7 +629,7 @@ static boolean init_slice_properties_help_adapter(slice_index si,
 {
   boolean const result = true;
   slice_initializer_state * const sis = st->param;
-  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -670,7 +653,7 @@ static boolean init_slice_properties_help_adapter(slice_index si,
 
   slice_traverse_children(si,st);
 
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -717,14 +700,14 @@ static boolean init_slice_properties_series_adapter(slice_index si,
                                                     slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   slice_traverse_children(si,st);
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -748,6 +731,7 @@ static boolean init_slice_properties_branch_fork(slice_index branch_fork,
   TraceFunctionParam("%u",branch_fork);
   TraceFunctionParamListEnd();
 
+  
   init_slice_properties_pipe(branch_fork,st);
 
   /* not traversing towards goal - slice adapter has to do that */
@@ -767,15 +751,13 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_branch_fork,    /* STBranchFork */
   &init_slice_properties_leaf_direct,    /* STLeafDirect */
   &init_slice_properties_leaf_help,      /* STLeafHelp */
-  &init_slice_properties_leaf_direct,    /* STLeafSelf */
   &init_slice_properties_leaf_forced,    /* STLeafForced */
   &init_slice_properties_fork,           /* STReciprocal */
   &init_slice_properties_fork,           /* STQuodlibet */
   &init_slice_properties_pipe,           /* STNot */
   &init_slice_properties_pipe,           /* STMoveInverter */
-  &init_slice_properties_direct_adapter, /* STDirectRoot */
-  &init_slice_properties_direct_adapter, /* STDirectAdapter */
-  &init_slice_properties_direct_adapter, /* STDirectDefenderRoot */
+  &init_slice_properties_direct_root,    /* STDirectRoot */
+  &init_slice_properties_direct_root,    /* STDirectDefenderRoot */
   &init_slice_properties_help_adapter,   /* STHelpRoot */
   &init_slice_properties_help_adapter,   /* STHelpAdapter */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
@@ -783,69 +765,14 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_series_adapter, /* STSeriesAdapter */
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
   &init_slice_properties_pipe,           /* STSelfCheckGuard */
-  &init_slice_properties_pipe,           /* STReflexGuard */
+  &init_slice_properties_direct_root,    /* STDirectAttack */
+  &slice_traverse_children,              /* STDirectDefense */
+  &slice_traverse_children,              /* STReflexGuard */
+  &init_slice_properties_direct_root,    /* STSelfAttack */
+  &init_slice_properties_direct_root,    /* STSelfDefense */
   &init_slice_properties_pipe,           /* STRestartGuard */
   &init_slice_properties_pipe,           /* STGoalReachableGuard */
   &init_slice_properties_pipe            /* STKeepMatingGuard */
-};
-
-/* Callback for traverse_slices() that copies slice_properties from
- * base to derived slice.
- * @param si identifies potentially derived slice
- * @param dummy - necessary to conform to callback interface
- * @return true iff the properties of all the slices that require it
- *         have been successfully inherited
- */
-static boolean inherit_slice_properties_from_base(slice_index si,
-                                                  slice_traversal *st)
-{
-  boolean result;
-  slice_index const base = base_slice[si];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (base!=no_slice)
-    slice_properties[si] = slice_properties[base];
-
-  result = slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const slice_properties_inheriters[] =
-{
-  &inherit_slice_properties_from_base,  /* STBranchDirect */
-  &slice_traverse_children,             /* STBranchDirectDefender */
-  &slice_traverse_children,             /* STBranchHelp */
-  &slice_traverse_children,             /* STBranchSeries */
-  &slice_traverse_children,             /* STBranchFork */
-  &slice_traverse_children,             /* STLeafDirect */
-  &slice_traverse_children,             /* STLeafHelp */
-  &slice_traverse_children,             /* STLeafSelf */
-  &slice_traverse_children,             /* STLeafForced */
-  &slice_traverse_children,             /* STReciprocal */
-  &slice_traverse_children,             /* STQuodlibet */
-  &slice_traverse_children,             /* STNot */
-  &slice_traverse_children,             /* STMoveInverter */
-  &slice_traverse_children,             /* STDirectRoot */
-  &slice_traverse_children,             /* STDirectAdapter */
-  &slice_traverse_children,             /* STDirectDefenderRoot */
-  &slice_traverse_children,             /* STHelpRoot */
-  &slice_traverse_children,             /* STHelpAdapter */
-  &slice_traverse_children,             /* STHelpHashed */
-  &slice_traverse_children,             /* STSeriesRoot */
-  &slice_traverse_children,             /* STSeriesAdapter */
-  &slice_traverse_children,             /* STSeriesHashed */
-  &slice_traverse_children,             /* STSelfCheckGuard */
-  &slice_traverse_children,             /* STReflexGuard */
-  &slice_traverse_children,             /* STRestartGuard */
-  &slice_traverse_children,             /* STGoalReachableGuard */
-  &slice_traverse_children              /* STKeepMatingGuard */
 };
 
 /* Find out whether a branch has a non-standard length (i.e. is exact)
@@ -877,50 +804,23 @@ static boolean  non_standard_length_finder_branch_direct(slice_index branch,
 /* Find out whether a branch has a non-standard length (i.e. is exact)
  * @param branch identifies branch
  */
-static boolean non_standard_length_finder_direct_adapter(slice_index si,
-                                                         slice_traversal *st)
-{
-  boolean const result = true;
-  boolean * const nonstandard = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch_d.length;
-  slice_index const fork = slices[si].u.pipe.u.branch_d.fork;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.u.branch_d.min_length==length
-      && length>slack_length_direct+1)
-    *nonstandard = true;
-
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find out whether a branch has a non-standard length (i.e. is exact)
- * @param branch identifies branch
- */
 static boolean non_standard_length_finder_help_adapter(slice_index si,
                                                       slice_traversal *st)
 {
   boolean const result = true;
   boolean * const nonstandard = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.help_adapter.length;
-  slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.help_adapter.min_length==length
+  if (slices[si].u.pipe.u.branch.min_length==length
       && length>slack_length_help+1)
     *nonstandard = true;
 
-  traverse_slices(slices[fork].u.pipe.u.branch_fork.towards_goal,st);
+  traverse_slices(towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -935,14 +835,14 @@ static boolean non_standard_length_finder_series_adapter(slice_index si,
                                                          slice_traversal *st)
 {
   boolean const result = true;
-  stip_length_type const length = slices[si].u.pipe.u.series_adapter.length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
   boolean * const nonstandard = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.series_adapter.min_length==length
+  if (slices[si].u.pipe.u.branch.min_length==length
       && length>slack_length_series+1)
     *nonstandard = true;
 
@@ -963,14 +863,12 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                   /* STBranchFork */
   &slice_traverse_children,                   /* STLeafDirect */
   &slice_traverse_children,                   /* STLeafHelp */
-  &slice_traverse_children,                   /* STLeafSelf */
   &slice_traverse_children,                   /* STLeafForced */
   &slice_traverse_children,                   /* STReciprocal */
   &slice_traverse_children,                   /* STQuodlibet */
   &slice_traverse_children,                   /* STNot */
   &slice_traverse_children,                   /* STMoveInverter */
   &slice_traverse_children,                   /* STDirectRoot */
-  &non_standard_length_finder_direct_adapter, /* STDirectAdapter */
   &non_standard_length_finder_branch_direct,  /* STDirectDefenderRoot */
   &slice_traverse_children,                   /* STHelpRoot */
   &non_standard_length_finder_help_adapter,   /* STHelpAdapter */
@@ -979,7 +877,11 @@ static slice_operation const non_standard_length_finders[] =
   &non_standard_length_finder_series_adapter, /* STSeriesAdapter */
   &non_standard_length_finder_series_adapter, /* STSeriesHashed */
   &slice_traverse_children,                   /* STSelfCheckGuard */
+  &slice_traverse_children,                   /* STDirectAttack */
+  &slice_traverse_children,                   /* STDirectDefense */
   &slice_traverse_children,                   /* STReflexGuard */
+  &slice_traverse_children,                   /* STSelfAttack */
+  &slice_traverse_children,                   /* STSelfDefense */
   &slice_traverse_children,                   /* STRestartGuard */
   &slice_traverse_children,                   /* STGoalReachableGuard */
   &slice_traverse_children                    /* STKeepMatingGuard */
@@ -1015,14 +917,12 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STBranchFork */
   &findMinimalValueOffset,  /* STLeafDirect */
   &findMinimalValueOffset,  /* STLeafHelp */
-  &findMinimalValueOffset,  /* STLeafSelf */
   &findMinimalValueOffset,  /* STLeafForced */
   &slice_traverse_children, /* STReciprocal */
   &slice_traverse_children, /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STDirectRoot */
-  &slice_traverse_children, /* STDirectAdapter */
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
@@ -1031,7 +931,11 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STSeriesAdapter */
   &findMinimalValueOffset,  /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
+  &slice_traverse_children, /* STDirectAttack */
+  &slice_traverse_children, /* STDirectDefense */
   &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STSelfAttack */
+  &slice_traverse_children, /* STSelfDefense */
   &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
@@ -1066,14 +970,12 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STBranchFork */
   &reduceValueOffset,       /* STLeafDirect */
   &reduceValueOffset,       /* STLeafHelp */
-  &reduceValueOffset,       /* STLeafSelf */
   &reduceValueOffset,       /* STLeafForced */
   &slice_traverse_children, /* STReciprocal */
   &slice_traverse_children, /* STQuodlibet */
   &slice_traverse_children, /* STNot */
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STDirectRoot */
-  &slice_traverse_children, /* STDirectAdapter */
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
@@ -1082,7 +984,11 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STSeriesAdapter */
   &reduceValueOffset,       /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
+  &slice_traverse_children, /* STDirectAttack */
+  &slice_traverse_children, /* STDirectDefense */
   &slice_traverse_children, /* STReflexGuard */
+  &slice_traverse_children, /* STSelfAttack */
+  &slice_traverse_children, /* STSelfDefense */
   &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children  /* STKeepMatingGuard */
@@ -1107,9 +1013,6 @@ static void init_slice_properties(void)
   slice_traversal_init(&st,&slice_properties_initalisers,&sis);
   traverse_slices(root_slice,&st);
 
-  slice_traversal_init(&st,&slice_properties_inheriters,0);
-  traverse_slices(root_slice,&st);
-  
   is_there_slice_with_nonstandard_min_length = false;
   slice_traversal_init(&st,
                        &non_standard_length_finders,
@@ -1395,7 +1298,6 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
       return own_value_of_data_help(he,leaf);
 
     case STLeafDirect:
-    case STLeafSelf:
       return own_value_of_data_direct(he,leaf,1);
 
     case STLeafForced:
@@ -1458,103 +1360,97 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
                                                slice_index si)
 {
   hash_value_type result = 0;
+  unsigned int const offset = slice_properties[si].valueOffset;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",he);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (base_slice[si]==no_slice)
+  TraceEnumerator(SliceType,slices[si].type," ");
+  TraceValue("%u\n",slice_properties[si].valueOffset);
+
+  switch (slices[si].type)
   {
-    unsigned int const offset = slice_properties[si].valueOffset;
-    TraceEnumerator(SliceType,slices[si].type," ");
-    TraceValue("%u\n",slice_properties[si].valueOffset);
-
-    switch (slices[si].type)
+    case STLeafDirect:
+    case STLeafHelp:
     {
-      case STLeafSelf:
-      case STLeafDirect:
-      case STLeafHelp:
-      {
-        result = own_value_of_data_leaf(he,si) << offset;
-        break;
-      }
-
-      case STLeafForced:
-        result = 0;
-        break;
-
-      case STQuodlibet:
-      case STReciprocal:
-      {
-        slice_index const op1 = slices[si].u.fork.op1;
-        slice_index const op2 = slices[si].u.fork.op2;
-
-        hash_value_type const nested_value1 = value_of_data_recursive(he,op1);
-        hash_value_type const nested_value2 = value_of_data_recursive(he,op2);
-
-        result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
-        break;
-      }
-
-      case STNot:
-      case STMoveInverter:
-      case STSelfCheckGuard:
-      case STBranchDirectDefender:
-      {
-        slice_index const next = slices[si].u.pipe.next;
-        result = value_of_data_recursive(he,next);
-        break;
-      }
-
-      case STHelpRoot:
-      case STHelpAdapter:
-      {
-        slice_index const fork = slices[si].u.pipe.u.help_adapter.fork;
-        slice_index const
-            to_goal = slices[fork].u.pipe.u.branch_fork.towards_goal;
-
-        slice_index const anchor = slice_properties[si].u.h.anchor;
-        slice_index next = anchor;
-
-        result = value_of_data_recursive(he,to_goal);
-
-        do
-        {
-          if (slices[next].type==STHelpHashed)
-            result += own_value_of_data_composite(he,next) << offset;
-          next = slices[next].u.pipe.next;
-        } while (next!=no_slice && next!=anchor);
-
-        break;
-      }
-
-      case STBranchDirect:
-      {
-        hash_value_type const own_value = own_value_of_data_composite(he,si);
-        slice_index const peer = slices[si].u.pipe.next;
-        hash_value_type const nested_value = value_of_data_recursive(he,peer);
-        result = (own_value << offset) + nested_value;
-        break;
-      }
-
-      case STBranchSeries:
-      {
-        hash_value_type const own_value = own_value_of_data_composite(he,si);
-
-        slice_index const next = slices[si].u.pipe.next;
-        hash_value_type const nested_value = value_of_data_recursive(he,next);
-        TraceValue("%x ",own_value);
-        TraceValue("%x\n",nested_value);
-
-        result = (own_value << offset) + nested_value;
-        break;
-      }
-
-      default:
-        assert(0);
-        break;
+      result = own_value_of_data_leaf(he,si) << offset;
+      break;
     }
+
+    case STLeafForced:
+      result = 0;
+      break;
+
+    case STQuodlibet:
+    case STReciprocal:
+    {
+      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op2 = slices[si].u.fork.op2;
+
+      hash_value_type const nested_value1 = value_of_data_recursive(he,op1);
+      hash_value_type const nested_value2 = value_of_data_recursive(he,op2);
+
+      result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
+      break;
+    }
+
+    case STNot:
+    case STMoveInverter:
+    case STSelfCheckGuard:
+    case STBranchDirectDefender:
+    {
+      slice_index const next = slices[si].u.pipe.next;
+      result = value_of_data_recursive(he,next);
+      break;
+    }
+
+    case STHelpRoot:
+    case STHelpAdapter:
+    {
+      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+
+      slice_index const anchor = slice_properties[si].u.h.anchor;
+      slice_index next = anchor;
+
+      result = value_of_data_recursive(he,to_goal);
+
+      do
+      {
+        if (slices[next].type==STHelpHashed)
+          result += own_value_of_data_composite(he,next) << offset;
+        next = slices[next].u.pipe.next;
+      } while (next!=no_slice && next!=anchor);
+
+      break;
+    }
+
+    case STBranchDirect:
+    {
+      hash_value_type const own_value = own_value_of_data_composite(he,si);
+      slice_index const peer = slices[si].u.pipe.next;
+      hash_value_type const nested_value = value_of_data_recursive(he,peer);
+      result = (own_value << offset) + nested_value;
+      break;
+    }
+
+    case STBranchSeries:
+    {
+      hash_value_type const own_value = own_value_of_data_composite(he,si);
+
+      slice_index const next = slices[si].u.pipe.next;
+      hash_value_type const nested_value = value_of_data_recursive(he,next);
+      TraceValue("%x ",own_value);
+      TraceValue("%x\n",nested_value);
+
+      result = (own_value << offset) + nested_value;
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -1904,14 +1800,12 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STBranchFork */
   &slice_traverse_children,                         /* STLeafDirect */
   &slice_traverse_children,                         /* STLeafHelp */
-  &slice_traverse_children,                         /* STLeafSelf */
   &slice_traverse_children,                         /* STLeafForced */
   &number_of_holes_estimator_fork,                  /* STReciprocal */
   &number_of_holes_estimator_fork,                  /* STQuodlibet */
   &slice_traverse_children,                         /* STNot */
   &slice_traverse_children,                         /* STMoveInverter */
   &number_of_holes_estimator_branch_direct,         /* STDirectRoot */
-  &number_of_holes_estimator_branch_direct,         /* STDirectAdapter */
   &number_of_holes_estimator_branch_direct_defender,/* STDirectDefenderRoot */
   &slice_traverse_children,                         /* STHelpRoot */
   &slice_traverse_children,                         /* STHelpAdapter */
@@ -1920,7 +1814,11 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STSeriesAdapter */
   &number_of_holes_estimator_hashed_series,         /* STSeriesHashed */
   &slice_traverse_children,                         /* STSelfCheckGuard */
+  &slice_traverse_children,                         /* STDirectAttack */
+  &slice_traverse_children,                         /* STDirectDefense */
   &slice_traverse_children,                         /* STReflexGuard */
+  &slice_traverse_children,                         /* STSelfAttack */
+  &slice_traverse_children,                         /* STSelfDefense */
   &slice_traverse_children,                         /* STRestartGuard */
   0,                                                /* STGoalReachableGuard */
   &slice_traverse_children                          /* STKeepMatingGuard */
@@ -2283,7 +2181,6 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
     switch (slices[si].type)
     {
       case STLeafDirect:
-      case STLeafSelf:
         if (what==DirNoSucc)
         {
           hash_value_type const nosucc = get_value_direct_nosucc(he,si);
@@ -2512,13 +2409,8 @@ boolean init_element_branch_d(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (base_slice[si]==no_slice)
-  {
-    init_element_direct(he,si,slices[si].u.pipe.u.branch.length);
-    result = slice_traverse_children(si,st);
-  }
-  else
-    result = true;
+  init_element_direct(he,si,slices[si].u.pipe.u.branch.length);
+  result = slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2581,14 +2473,12 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STBranchFork */
   &init_element_leaf_d,        /* STLeafDirect */
   &init_element_leaf_h,        /* STLeafHelp */
-  &init_element_leaf_d,        /* STLeafSelf */
   &slice_operation_noop,       /* STLeafForced */
   &slice_traverse_children,    /* STReciprocal */
   &slice_traverse_children,    /* STQuodlibet */
   &slice_traverse_children,    /* STNot */
   &slice_traverse_children,    /* STMoveInverter */
   &slice_traverse_children,    /* STDirectRoot */
-  &slice_traverse_children,    /* STDirectAdapter */
   &slice_traverse_children,    /* STDirectDefenderRoot */
   &slice_traverse_children,    /* STHelpRoot */
   &slice_traverse_children,    /* STHelpAdapter */
@@ -2597,7 +2487,11 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STSeriesAdapter */
   &init_element_hashed_series, /* STSeriesHashed */
   &slice_traverse_children,    /* STSelfCheckGuard */
+  &slice_traverse_children,    /* STDirectAttack */
+  &slice_traverse_children,    /* STDirectDefense */
   &slice_traverse_children,    /* STReflexGuard */
+  &slice_traverse_children,    /* STSelfAttack */
+  &slice_traverse_children,    /* STSelfDefense */
   &slice_traverse_children,    /* STRestartGuard */
   &slice_traverse_children,    /* STGoalReachableGuard */
   &slice_traverse_children     /* STKeepMatingGuard */
@@ -2957,7 +2851,7 @@ void insert_serieshashed_slice(slice_index si)
 
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean hashed_help_solve_in_n(slice_index si, stip_length_type n)
@@ -2990,7 +2884,7 @@ boolean hashed_help_solve_in_n(slice_index si, stip_length_type n)
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean hashed_help_has_solution_in_n(slice_index si, stip_length_type n)
@@ -3028,7 +2922,7 @@ boolean hashed_help_has_solution_in_n(slice_index si, stip_length_type n)
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void hashed_help_solve_continuations_in_n(table continuations,
                                           slice_index si,
@@ -3055,31 +2949,9 @@ void hashed_help_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean hashed_help_must_starter_resign_hashed(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_must_starter_resign_hashed(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
 boolean hashed_series_solve_in_n(slice_index si, stip_length_type n)
@@ -3112,7 +2984,7 @@ boolean hashed_series_solve_in_n(slice_index si, stip_length_type n)
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean hashed_series_has_solution_in_n(slice_index si, stip_length_type n)
@@ -3150,7 +3022,7 @@ boolean hashed_series_has_solution_in_n(slice_index si, stip_length_type n)
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
 void hashed_series_solve_continuations_in_n(table continuations,
                                             slice_index si,
@@ -3175,28 +3047,6 @@ void hashed_series_solve_continuations_in_n(table continuations,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Is there no chance left for reaching the solution?
- * E.g. did the series side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean hashed_series_must_starter_resign_hashed(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_must_starter_resign_hashed(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* assert()s below this line must remain active even in "productive"

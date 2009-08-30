@@ -11,26 +11,8 @@
  * appropriate function of the slice type-specific module.
  */
 
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * Tests do not rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean slice_must_starter_resign(slice_index si);
-
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @return true iff no chance is left
- */
-boolean slice_must_starter_resign_hashed(slice_index si);
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void slice_write_unsolvability(slice_index si);
@@ -79,11 +61,21 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n);
  */
 boolean slice_are_threats_refuted(table threats, slice_index si);
 
+#define ENUMERATION_TYPENAME has_solution_type
+#define ENUMERATORS                             \
+  ENUMERATOR(defender_self_check),              \
+    ENUMERATOR(has_solution),                   \
+    ENUMERATOR(has_no_solution)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
+
 /* Determine whether a composite slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean slice_has_solution(slice_index si);
+has_solution_type slice_has_solution(slice_index si);
 
 /* Determine whether a slice.has just been solved with the just played
  * move by the non-starter
@@ -92,20 +84,21 @@ boolean slice_has_solution(slice_index si);
  */
 boolean slice_has_non_starter_solved(slice_index si);
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean slice_has_starter_apriori_lost(slice_index si);
+#define ENUMERATION_TYPENAME has_starter_won_result_type
+#define ENUMERATORS                             \
+  ENUMERATOR(starter_has_not_won),              \
+    ENUMERATOR(starter_has_not_won_selfcheck),  \
+    ENUMERATOR(starter_has_won)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
 
 /* Determine whether the attacker has won with his move just played.
  * @param si slice identifier
- * @return true iff the starter has won
+ * @return whether the starter has won
  */
-boolean slice_has_starter_won(slice_index si);
+has_starter_won_result_type slice_has_starter_won(slice_index si);
 
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
@@ -123,8 +116,9 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si);
 
 /* Find and write post key play
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void slice_solve_postkey(slice_index si);
+boolean slice_solve_postkey(slice_index si);
 
 typedef enum
 {
@@ -144,5 +138,11 @@ who_decides_on_starter slice_detect_starter(slice_index si,
  * @param si slice index
  */
 void slice_write_non_starter_has_solved(slice_index si);
+
+/* Determine whether the defender wins after a move by the attacker
+ * @param si slice index
+ * @return true iff defender wins
+ */
+boolean slice_does_defender_win(slice_index si);
 
 #endif

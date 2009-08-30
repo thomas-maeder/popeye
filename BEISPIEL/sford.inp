@@ -11,7 +11,7 @@ steine weiss kf7 bh5
 weiter
 
 bemerkung Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
-sforderung weiss s#
+sforderung schwarz s#
 option varianten
 steine
 weiss ka3 da8 la7 sf8h8 ba2b2b6d7e2f2g2h2
@@ -112,7 +112,7 @@ autor           Stephen Emmerson
 quelle          H, The Problemist 1/1997, S. 7
 
 bemerkung       eigentlich semi-r#2
-sforderung      weiss 2d 1h d#
+sforderung      weiss 3d d#
 bedingung       isardam
 
 steine  weiss   kc3 df1 tc7 ld4h7 bb7e2g3
@@ -121,48 +121,48 @@ steine  weiss   kc3 df1 tc7 ld4h7 bb7e2g3
 option          varianten
 
 weiter
-
-autor           Jukka Tuovinen
-quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
-quelle          diagrammes spezial #13, 7-9/1993
-
-bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          direktes Blatt zum Matt
-bemerkung        UND
-bemerkung         NICHT
-bemerkung          direktes Blatt zum Matt
-bemerkung       die ganze Forderung ist somit aequivalent zu r#2
-sforderung      weiss 2d ( 1hd# & !d# )
-bedingung       anticirce
-option          varianten
-
-steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
-	schwarz kh8 ta8 le6 bc4c6c7d7f7
-
-weiter
-
-autor           Jukka Tuovinen
-quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
-quelle          diagrammes spezial #13, 7-9/1993
-
-bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         NICHT
-bemerkung          direktes Blatt zum Matt
-bemerkung        UND
-bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          direktes Blatt zum Matt
-bemerkung       die ganze Forderung ist somit aequivalent zu r#2
-bemerkung       (allerdings werden die beiden Operanden von & in der weniger
-bemerkung        effizienten Reihenfolge ausgewertet)
-sforderung      weiss 2d ( !d# & 1hd# )
-bedingung       anticirce
-option          varianten
-
-steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
-	schwarz kh8 ta8 le6 bc4c6c7d7f7
-
-weiter
+bemerkung 
+bemerkung autor           Jukka Tuovinen
+bemerkung quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+bemerkung quelle          diagrammes spezial #13, 7-9/1993
+bemerkung 
+bemerkung bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
+bemerkung bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
+bemerkung bemerkung          direktes Blatt zum Matt
+bemerkung bemerkung        UND
+bemerkung bemerkung         NICHT
+bemerkung bemerkung          direktes Blatt zum Matt
+bemerkung bemerkung       die ganze Forderung ist somit aequivalent zu r#2
+bemerkung sforderung      weiss 2d ( 1hd# & !d# )
+bemerkung bedingung       anticirce
+bemerkung option          varianten
+bemerkung 
+bemerkung steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
+bemerkung 	schwarz kh8 ta8 le6 bc4c6c7d7f7
+bemerkung 
+bemerkung weiter
+bemerkung 
+bemerkung autor           Jukka Tuovinen
+bemerkung quelle          3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
+bemerkung quelle          diagrammes spezial #13, 7-9/1993
+bemerkung 
+bemerkung bemerkung       direkter Zweig von 2 Halbzuegen mit Fortsetzung:
+bemerkung bemerkung         NICHT
+bemerkung bemerkung          direktes Blatt zum Matt
+bemerkung bemerkung        UND
+bemerkung bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
+bemerkung bemerkung          direktes Blatt zum Matt
+bemerkung bemerkung       die ganze Forderung ist somit aequivalent zu r#2
+bemerkung bemerkung       (allerdings werden die beiden Operanden von & in der weniger
+bemerkung bemerkung        effizienten Reihenfolge ausgewertet)
+bemerkung sforderung      weiss 2d ( !d# & 1hd# )
+bemerkung bedingung       anticirce
+bemerkung option          varianten
+bemerkung 
+bemerkung steine  weiss   ka6 lc5 sb8f6 ba5a7b6d6h6
+bemerkung 	schwarz kh8 ta8 le6 bc4c6c7d7f7
+bemerkung 
+bemerkung weiter
 
 auto Norbert Geissler
 quel 3588, Problemkiste 96, 12/1994

@@ -24,7 +24,6 @@
   ser-=17                     2 + 2
               GridChess
 
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   1   0   0   2   2   3   0   0   8
@@ -44,6 +43,7 @@
 1   0   0   0   7   0   0   0   0   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
+
   1.Kc8-d8   2.Kd8-e7   3.Ke7-f8   4.Kf8-g7   5.Kg7-h6   6.Kh6-g5   7.Kg5-h4   8.Kh4-g3   9.Kg3-f2  10.Kf2-e1  11.Ke1-d1  12.Kd1-c2  13.Kc2-b3  14.Kb3-a4  15.Ka4-b5  16.Kb5-a6  17.Ka6*a7 = 
 
 solution finished. 

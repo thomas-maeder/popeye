@@ -78,6 +78,8 @@
 #include "pyproof.h"
 #include "pymovenb.h"
 #include "pyreflxg.h"
+#include "pydirctg.h"
+#include "pyselfgd.h"
 #include "pyint.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
@@ -1869,10 +1871,6 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
       {
         *si = alloc_target_leaf_slice(type,SquareNum(tok[1],tok[2]));
 
-        if (type==STLeafSelf)
-          slices[*si].u.leafself.next = alloc_target_leaf_slice(STLeafForced,
-                                                                SquareNum(tok[1],tok[2]));
-
         if (slices[*si].u.leaf.target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
@@ -1886,13 +1884,6 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
       {
         slice_index const leaf_mate = alloc_leaf_slice(type,goal_mate);
         slice_index const leaf_stale = alloc_leaf_slice(type,goal_stale);
-        if (type==STLeafSelf)
-        {
-          slices[leaf_mate].u.leafself.next = alloc_leaf_slice(STLeafForced,
-                                                               goal_mate);
-          slices[leaf_stale].u.leafself.next = alloc_leaf_slice(STLeafForced,
-                                                                goal_stale);
-        }
         *si = alloc_quodlibet_slice(leaf_mate,leaf_stale);
         tok += 2;
         break;
@@ -1901,10 +1892,6 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
       {
         *si = alloc_leaf_slice(type,gic->goal);
 
-        if (type==STLeafSelf)
-          slices[*si].u.leafself.next = alloc_leaf_slice(STLeafForced,
-                                                         gic->goal);
-        
         if (gic->goal==goal_atob)
         {
           int i;
@@ -2023,26 +2010,6 @@ static char *ParseReciEnd(char *tok,
   return tok;
 }
 
-static char *ParseReflexEnd(char *tok, branch_level level, slice_index *si)
-{
-  slice_index leaf;
-  tok = ParseGoal(tok,STLeafHelp,&leaf);
-  if (tok!=0 && leaf!=no_slice)
-  {
-    slice_index const help = alloc_help_branch(level,
-                                               slack_length_help+1,
-                                               slack_length_help+1,
-                                               leaf);
-    slice_index const direct = alloc_leaf_slice(STLeafDirect,
-                                                slices[leaf].u.leaf.goal);
-    slice_index const not = alloc_not_slice(direct);
-    *si = alloc_reciprocal_slice(help,not);
-    slices[*si].starter = White;
-  }
-
-  return tok;
-}
-
 static char *ParseEnd(char *tok, branch_level level, slice_index *si)
 {
   TraceFunctionEntry(__func__);
@@ -2057,27 +2024,6 @@ static char *ParseEnd(char *tok, branch_level level, slice_index *si)
   else if (strncmp("a=>b", tok, 4) == 0)
     tok = ParseGoal(tok,STLeafHelp,si);
 
-  else if (strncmp("semi-r", tok, 6) == 0)
-  {
-    slice_index leaf;
-    tok = ParseGoal(tok+6,STLeafHelp,&leaf);
-    *si = alloc_help_branch(level,slack_length_help+1,slack_length_help+1,leaf);
-    /* the end of a sermi-r problem is hX1 with reversed coulours. */
-    slices[*si].starter = White;
-  }
-
-  else if (strncmp("hs", tok, 2) == 0)
-    tok = ParseGoal(tok+2,STLeafForced,si);
-
-  else if (strncmp("ser-s", tok, 5) == 0)
-    tok = ParseGoal(tok+5,STLeafForced,si);
-
-  else if (strncmp("hr", tok, 2) == 0)
-    tok = ParseGoal(tok+2,STLeafHelp,si);
-
-  else if (strncmp("ser-r", tok, 5) == 0)
-    tok = ParseGoal(tok+5,STLeafHelp,si);
-
   else
     switch (*tok)
     {
@@ -2086,11 +2032,13 @@ static char *ParseEnd(char *tok, branch_level level, slice_index *si)
         break;
 
       case 'r':
-        tok = ParseReflexEnd(tok+1,level,si);
+        tok = ParseGoal(tok+1,STLeafHelp,si);
+        if (*si!=no_slice)
+          slices[*si].starter = Black;
         break;
 
       case 's':
-        tok = ParseGoal(tok+1,STLeafSelf,si);
+        tok = ParseGoal(tok+1,STLeafForced,si);
         break;
 
       default:
@@ -2117,7 +2065,6 @@ static boolean to_toplevel_promoters_help_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   help_adapter_promote_to_toplevel(si);
-  traverse_slices(slices[si].u.pipe.u.help_adapter.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2138,7 +2085,6 @@ static boolean to_toplevel_promoters_series_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   series_adapter_promote_to_toplevel(si);
-  traverse_slices(slices[si].u.pipe.u.help_adapter.fork,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2155,14 +2101,12 @@ static slice_operation const to_toplevel_promoters[] =
   &slice_traverse_children,              /* STBranchFork */
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
-  &slice_operation_noop,                 /* STLeafSelf */
   &slice_operation_noop,                 /* STLeafForced */
   &slice_traverse_children,              /* STReciprocal */
   &slice_traverse_children,              /* STQuodlibet */
   &slice_traverse_children,              /* STNot */
   &slice_traverse_children,              /* STMoveInverter */
   0,                                     /* STDirectRoot */
-  &slice_traverse_children,              /* STDirectAdapter */
   0,                                     /* STDirectDefenderRoot */
   0,                                     /* STHelpRoot */
   &to_toplevel_promoters_help_adapter,   /* STHelpAdapter */
@@ -2171,7 +2115,11 @@ static slice_operation const to_toplevel_promoters[] =
   &to_toplevel_promoters_series_adapter, /* STSeriesAdapter */
   0,                                     /* STSeriesHashed */
   0,                                     /* STSelfCheckGuard */
+  0,                                     /* STDirectAttack */
+  0,                                     /* STDirectDefense */
   0,                                     /* STReflexGuard */
+  0,                                     /* STSelfAttack */
+  0,                                     /* STSelfDefense */
   0,                                     /* STRestartGuard */
   0,                                     /* STGoalReachableGuard */
   0                                      /* STKeepMatingGuard */
@@ -2260,7 +2208,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseReciEnd(tok+10,nested_branch,&next); /* skip over "ser-reci-h" */
+    tok = ParseReciEnd(tok+10,nested_branch,&next);/* skip over "ser-reci-h" */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2308,7 +2256,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("ser-h",tok,5) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok+4,nested_branch,&next);
+    tok = ParseEnd(tok+4,nested_branch,&next); /* skip over "ser-" */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2322,7 +2270,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("ser-s",tok,5) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,nested_branch,&next);
+    tok = ParseEnd(tok+4,nested_branch,&next); /* skip over "ser-" */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2336,7 +2284,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("ser-r",tok,5) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,nested_branch,&next);
+    tok = ParseEnd(tok+4,nested_branch,&next); /* skip over "ser-" */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2354,7 +2302,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("ser-",tok,4) == 0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok+4,nested_branch,&next);
+    tok = ParseEnd(tok+4,nested_branch,&next); /* skip over "ser-" */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2461,7 +2409,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("hs",tok,2)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,nested_branch,&next);
+    tok = ParseEnd(tok+1,nested_branch,&next); /* skip over 'h' */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2488,7 +2436,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("hr",tok,2)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok,nested_branch,&next);
+    tok = ParseEnd(tok+1,nested_branch,&next); /* skip over 'h' */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2542,6 +2490,63 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
     }
   }
 
+  else if (strncmp("semi-r",tok,6)==0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+5,nested_branch,&next); /* skip over "semi-" */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      if (result!=0)
+      {
+        ++length;
+        ++min_length;
+        *si = alloc_direct_branch(level,length,min_length,next);
+        slice_insert_reflex_guards_semi(*si,next);
+      }
+    }
+  }
+
+  else if (*tok=='s')
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,nested_branch,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      if (result!=0)
+      {
+        ++length;
+        ++min_length;
+        *si = alloc_direct_branch(level,length,min_length,next);
+        slice_insert_self_guards(*si,next);
+      }
+    }
+  }
+
+  else if (*tok=='r')
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,nested_branch,&next);
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      if (result!=0)
+      {
+        ++length;
+        ++min_length;
+        *si = alloc_direct_branch(level,length,min_length,next);
+        slice_insert_reflex_guards(*si,next);
+      }
+    }
+  }
+
   else
   {
     slice_index next = no_slice;
@@ -2562,6 +2567,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         }
         else
           *si = alloc_direct_branch(level,length,min_length,next);
+
+        slice_insert_direct_guards(*si,next);
       }
     }
   }
@@ -2763,21 +2770,13 @@ static char *ParseStructuredStip_branch_d(char *tok,
                                       nextStartLikeBranch);
     if (tok!=0)
     {
-      slice_index next;
-
-      if (nextStartLikeBranch)
-        next = operand;
-      else
-      {
-        /* Temporary hack to get selfmates working */
-        next = alloc_leaf_slice(STLeafSelf,slices[operand].u.leaf.goal);
-        slices[next].u.leafself.next = operand;
-        --max_length;
-      }
-
-      min_length += slack_length_direct;
+      min_length += slack_length_direct+max_length%2;
       max_length += slack_length_direct;
-      *result = alloc_direct_branch(level,max_length,min_length,next);
+      *result = alloc_direct_branch(level,max_length,min_length,operand);
+      if ((max_length-slack_length_direct)%2==0)
+        slice_insert_direct_guards(*result,operand);
+      else
+        slice_insert_self_guards(*result,operand);
     }
   }
   else
@@ -5309,7 +5308,7 @@ static char *ParseTwinning(boolean *stipChanged)
         || tk==NextProblem
         || tk==EndProblem)
     {
-      StdString("\n\n");
+      Message(NewLine);
       if (LaTeXout)
         strcat(ActTwinning, "{\\newline}");
       return tok;
@@ -5523,6 +5522,7 @@ Token ReadTwin(Token tk, boolean *stipChanged)
   {
     if (tk==ZeroPosition)
     {
+      StdString("\n");
       StdString(TokenTab[ZeroPosition]);
       StdString("\n\n");
       TwinNumber= 0;
@@ -5962,8 +5962,6 @@ void WritePosition() {
 
   if (OptFlag[quodlibet])
     CenterLine(OptString[UserLanguage][quodlibet]);
-
-  StdChar('\n');
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid();

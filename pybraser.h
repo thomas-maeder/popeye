@@ -22,16 +22,6 @@ slice_index alloc_series_branch(branch_level level,
                                 stip_length_type min_length,
                                 slice_index next);
 
-/* Allocate a STBranchSeries slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @return index of allocated slice
- */
-slice_index alloc_branch_ser_slice(stip_length_type length,
-                                   stip_length_type min_length,
-                                   slice_index next);
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?
@@ -49,7 +39,7 @@ boolean branch_ser_is_goal_reached(Side just_moved, slice_index si);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
 boolean branch_ser_solve_in_n(slice_index si, stip_length_type n);
@@ -101,28 +91,16 @@ boolean series_root_solve(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean series_root_has_solution(slice_index si);
+has_solution_type series_root_has_solution(slice_index si);
 
 /* Solve a branch in exactly n moves at root level
  * @param si slice index
- * @param n exact number of moves
+ * @param n exact exact number of moves
  * @return true iff >=1 solution was found
  */
 boolean series_root_solve_in_n(slice_index si, stip_length_type n);
-
-/* Allocate a STSeriesAdapter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param fork identifies fork slice of branch
- * @param next identifies next slice
- * @return index of allocated slice
- */
-slice_index alloc_series_adapter_slice(stip_length_type length,
-                                       stip_length_type min_length,
-                                       slice_index fork,
-                                       slice_index next);
 
 /* Promote a slice that was created as STHelpAdapter to STHelpRoot
  * because the assumption that the slice is nested in some other slice
@@ -139,8 +117,9 @@ boolean series_adapter_solve(slice_index si);
 
 /* Find and write post key play
  * @param leaf slice index
+ * @return true iff >=1 solution was found
  */
-void series_adapter_solve_postkey(slice_index si);
+boolean series_adapter_solve_postkey(slice_index si);
 
 /* Determine and write continuations of a slice
  * @param continuations table where to store continuing moves (i.e. threats)
@@ -156,18 +135,9 @@ void series_adapter_root_write_key(slice_index si, attack_type type);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
- * Assumes slice_must_starter_resign(si)
  * @param si slice index
  */
 void series_adapter_write_unsolvability(slice_index si);
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-boolean series_adapter_must_starter_resign(slice_index si);
 
 /* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter
@@ -176,20 +146,11 @@ boolean series_adapter_must_starter_resign(slice_index si);
  */
 boolean series_adapter_has_non_starter_solved(slice_index si);
 
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param si slice identifier
- * @return true iff starter has lost
- */
-boolean series_adapter_has_starter_apriori_lost(slice_index si);
-
 /* Determine whether the attacker has won with his move just played
  * @param si slice identifier
- * @return true iff the starter has won
+ * @return whether the starter has won
  */
-boolean series_adapter_has_starter_won(slice_index si);
+has_starter_won_result_type series_adapter_has_starter_won(slice_index si);
 
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
@@ -215,8 +176,8 @@ boolean series_adapter_are_threats_refuted(table threats, slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
- * @return true iff slice si has a solution
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean series_adapter_has_solution(slice_index si);
+has_solution_type series_adapter_has_solution(slice_index si);
 
 #endif

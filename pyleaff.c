@@ -1,5 +1,4 @@
 #include "pyleaff.h"
-#include "pyleafs.h"
 #include "pyleaf.h"
 #include "pydata.h"
 #include "pyoutput.h"
@@ -11,57 +10,6 @@
  * find forced half-moves reaching the goal.
  */
 
-
-/* Is there no chance left for the starting side at the move to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param leaf leaf's slice index
- * @return true iff starter must resign
- */
-boolean leaf_forced_must_starter_resign(slice_index leaf)
-{
-  boolean result = false;
-  Side const defender = slices[leaf].starter;
-
-  assert(slices[leaf].starter!=no_side);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = OptFlag[keepmating] && !is_a_mating_piece_left(defender);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the starting side has made such a bad move that
- * it is clear without playing further that it is not going to win.
- * E.g. in s# or r#, has it taken the last potential mating piece of
- * the defender?
- * @param leaf slice identifier
- * @return true iff starter has lost
- */
-boolean leaf_forced_has_starter_apriori_lost(slice_index leaf)
-{
-  boolean result = false;
-  Side const defender = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  assert(slices[leaf].starter!=no_side);
-
-  result = OptFlag[keepmating] && !is_a_mating_piece_left(defender);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Generate (piece by piece) candidate moves for the last move of a s#.
  * Do *not* generate moves for the piece on square
@@ -157,7 +105,7 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
         is_defender_immobile = false;
         /* TODO this checks for echecc(nbply,defender) again (in most cases
          * anyway); optimise? */
-        escape_found = !leaf_is_goal_reached(defender,leaf);
+        escape_found = leaf_is_goal_reached(defender,leaf)!=goal_reached;
         if (escape_found)
           coupfort();
       }
@@ -221,7 +169,7 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
         is_defender_immobile = false;
         /* TODO this checks for echecc(nbply,defender) again (in most cases
          * anyway); optimise? */
-        if (!leaf_is_goal_reached(defender,leaf))
+        if (leaf_is_goal_reached(defender,leaf)!=goal_reached)
         {
           TraceText("escape_found\n");
           escape_found = true;
@@ -240,12 +188,21 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
   return !(escape_found || is_defender_immobile);
 }
 
+/* Write the key
+ * @param leaf slice index
+ * @param type type of attack
+ */
+void leaf_forced_root_write_key(slice_index leaf, attack_type type)
+{
+  write_attack(type);
+}
+
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
- * @return true iff starter has won
+ * @return whether starter has won
  */
-boolean leaf_forced_has_starter_won(slice_index leaf)
+has_starter_won_result_type leaf_forced_has_starter_won(slice_index leaf)
 {
   boolean result;
   Side const defender = slices[leaf].starter;
@@ -256,10 +213,12 @@ boolean leaf_forced_has_starter_won(slice_index leaf)
 
   assert(slices[leaf].starter!=no_side);
 
-  result = is_end_in_1_forced(defender,leaf);
+  result = (is_end_in_1_forced(defender,leaf)
+            ? starter_has_won
+            : starter_has_not_won);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_starter_won_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -327,7 +286,7 @@ boolean leaf_forced_has_non_starter_solved(slice_index leaf)
 
   TraceValue("%u\n",defender);
 
-  result = leaf_is_goal_reached(defender,leaf);
+  result = leaf_is_goal_reached(defender,leaf)==goal_reached;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -357,13 +316,15 @@ static boolean solve_final_move(slice_index leaf)
   TraceFunctionParam("%u",defender);
   TraceFunctionParamListEnd();
 
+  output_start_leaf_variation_level();
+
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,defender);
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(defender,leaf))
+        && leaf_is_goal_reached(defender,leaf)==goal_reached)
     {
       final_move_found = true;
       write_final_defense(slices[leaf].u.leaf.goal);
@@ -373,6 +334,8 @@ static boolean solve_final_move(slice_index leaf)
   }
 
   finply();
+
+  output_end_leaf_variation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",final_move_found);
@@ -384,19 +347,22 @@ static boolean solve_final_move(slice_index leaf)
  * been played in the current ply.
  * We have already determined that >=1 move reaching the goal is forced
  * @param si slice index
+ * @return true iff >=1 solution was found
  */
-void leaf_forced_solve_postkey(slice_index leaf)
+boolean leaf_forced_solve_postkey(slice_index leaf)
 {
+  boolean result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  output_start_postkey_level();
-  solve_final_move(leaf);
-  output_end_postkey_level();
+  result = solve_final_move(leaf);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve at non-root level
@@ -450,6 +416,184 @@ boolean leaf_forced_root_solve(slice_index leaf)
     solve_final_move(leaf);
     output_end_postkey_level();
   }
+
+  write_end_of_solution_phase();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find refutations after a move of the attacking side at root level.
+ * @param refutations table where to store refutations
+ * @param si slice index
+ * @return attacker_has_reached_deadend if we are in a situation where
+ *            the attacking move is to be considered to have failed, e.g.:
+ *            if the defending side is immobile and shouldn't be
+ *            if some optimisation tells us so
+ *         attacker_has_solved_next_slice if the attacking move has
+ *            solved the branch
+ *         found_refutations if refutations contains some refutations
+ *         found_no_refutation otherwise
+ */
+quantity_of_refutations_type
+leaf_forced_root_find_refutations(table refutations,
+                                  slice_index leaf)
+{
+  Side const defender = slices[leaf].starter;
+  quantity_of_refutations_type result = attacker_has_reached_deadend;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",defender);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",slices[leaf].u.leaf.goal);
+
+  if (!echecc(nbply,advers(defender)))
+  {
+    if (defender==Black ? flagblackmummer : flagwhitemummer)
+    {
+      move_generation_mode = move_generation_optimized_by_killer_move;
+      genmove(defender);
+      move_generation_mode = move_generation_optimized_by_killer_move;
+
+      while (table_length(refutations)<=max_nr_refutations
+             && encore())
+      {
+        if (jouecoup(nbply,first_play))
+          switch (leaf_is_goal_reached(defender,leaf))
+          {
+            case goal_reached:
+              if (result==attacker_has_reached_deadend)
+                result = found_no_refutation;
+              break;
+
+            case goal_not_reached:
+              if (!echecc(nbply,defender))
+              {
+                append_to_top_table();
+                coupfort();
+                result = found_refutations;
+              }
+              break;
+
+            case goal_not_reached_selfcheck:
+              /* nothing */
+              break;
+
+            default:
+              assert(0);
+          }
+
+        repcoup();
+      }
+      finply();
+    }
+    else if (slices[leaf].u.leaf.goal==goal_ep
+             && ep[nbply]==initsquare
+             && ep2[nbply]==initsquare)
+    {
+      /* a little optimization if end "state" is en passant capture,
+       * but no en passant capture is possible */
+      /* TODO Should we play the same trick for castling? Other end
+       * states? */
+    }
+    else
+    {
+      piece p;
+      square const *selfbnp = boardnum;
+      square initiallygenerated = initsquare;
+      Side const attacker = advers(defender);
+
+      active_slice[nbply+1] = leaf;
+      nextply(nbply);
+      init_move_generation_optimizer();
+      trait[nbply]= defender;
+      if (TSTFLAG(PieSpExFlags,Neutral))
+        initneutre(attacker);
+
+      p = e[current_killer_state.move.departure];
+      if (p!=vide)
+      {
+        if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
+          p = -p;
+        if (defender==White)
+        {
+          if (p>obs)
+          {
+            initiallygenerated = current_killer_state.move.departure;
+            gen_wh_piece(initiallygenerated,p);
+          }
+        }
+        else
+        {
+          if (p<-obs)
+          {
+            initiallygenerated = current_killer_state.move.departure;
+            gen_bl_piece(initiallygenerated,p);
+          }
+        }
+      }
+      finish_move_generation_optimizer();
+
+      while (table_length(refutations)<=max_nr_refutations
+             && selflastencore(&selfbnp,initiallygenerated,defender))
+      {
+        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+          switch (leaf_is_goal_reached(defender,leaf))
+          {
+            case goal_reached:
+              if (result==attacker_has_reached_deadend)
+                result = found_no_refutation;
+              break;
+
+            case goal_not_reached:
+              if (!echecc(nbply,defender))
+              {
+                append_to_top_table();
+                coupfort();
+                result = found_refutations;
+              }
+              break;
+
+            case goal_not_reached_selfcheck:
+              /* nothing */
+              break;
+
+            default:
+              assert(0);
+          }
+
+        repcoup();
+      }
+
+      finply();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve postkey play at root level.
+ * @param refutations table containing the refutations (if any)
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+boolean leaf_forced_root_solve_postkey(table refutations, slice_index leaf)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  result = solve_final_move(leaf);
+  write_refutations(refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

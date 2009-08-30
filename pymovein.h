@@ -14,15 +14,6 @@
  */
 slice_index alloc_move_inverter_slice(slice_index next);
 
-/* Is there no chance left for reaching the solution?
- * E.g. did the help side just allow a mate in 1 in a hr#N?
- * Tests may rely on the current position being hash-encoded.
- * @param si slice index
- * @param just_moved side that has just moved
- * @return true iff no chance is left
- */
-boolean move_inverter_must_starter_resign_hashed(slice_index si);
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable

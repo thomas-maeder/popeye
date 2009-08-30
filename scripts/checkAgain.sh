@@ -18,7 +18,17 @@ _cmd="../py -maxmem 1G -maxtrace 0 -regression"
 # number of processors
 PMAX=3
 
-(for f in *.reg
+(for f in *.tst
+do
+    # only true if *.tst isn't expanded because there is no matching file
+    if [ -f $f ]
+    then
+        stem=`echo $f | sed -e 's/[.]reg$//'`
+        echo ../TESTS/$stem.inp
+    fi
+done
+
+for f in *.reg
 do
     # only true if *.reg isn't expanded because there is no matching file
     if [ -f $f ]
