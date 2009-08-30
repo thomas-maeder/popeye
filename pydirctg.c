@@ -390,6 +390,8 @@ direct_attack_root_find_refutations(table refutations, slice_index si)
 
       case starter_has_won:
         result = attacker_has_solved_next_slice;
+        slice_root_write_key(togoal,attack_key);
+        slice_solve_postkey(togoal);
         break;
 
       default:

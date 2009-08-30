@@ -849,9 +849,6 @@ boolean direct_root_solve(slice_index si)
       {
         case attacker_has_solved_next_slice:
         {
-          slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-          slice_root_write_key(to_goal,attack_key);
-          slice_solve_postkey(to_goal);
           write_end_of_solution();
           result = true;
           break;
@@ -860,13 +857,11 @@ boolean direct_root_solve(slice_index si)
         case found_no_refutation:
           write_attack(attack_key);
           slice_root_solve_postkey(refutations,next);
-          write_refutations(refutations);
           write_end_of_solution();
           result = true;
           break;
 
         case found_refutations:
-          TraceValue("%u\n",table_length(refutations));
           if (table_length(refutations)<=max_nr_refutations)
           {
             write_attack(attack_try);

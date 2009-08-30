@@ -488,7 +488,11 @@ self_attack_root_find_refutations(table refutations, slice_index si)
   if (length==slack_length_direct)
     result = slice_root_find_refutations(refutations,to_goal);
   else if (min_length==slack_length_direct && slice_has_starter_won(to_goal))
+  {
     result = attacker_has_solved_next_slice;
+    slice_root_write_key(to_goal,attack_key);
+    slice_solve_postkey(to_goal);
+  }
   else
     result = slice_root_find_refutations(refutations,next);
         

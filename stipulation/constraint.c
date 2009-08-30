@@ -218,6 +218,8 @@ reflex_guard_root_find_refutations(table refutations, slice_index si)
 
       case has_solution:
         result = attacker_has_solved_next_slice;
+        slice_root_write_key(avoided,attack_key);
+        slice_solve_postkey(avoided);
         break;
 
       case has_no_solution:
@@ -260,6 +262,8 @@ reflex_guard_find_refutations_in_n(slice_index si,
                                    int curr_max_nr_nontrivial)
 {
   quantity_of_refutations_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const
       min_length = slices[si].u.pipe.u.reflex_guard.min_length;
@@ -273,7 +277,7 @@ reflex_guard_find_refutations_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n<=max_n_for_avoided)
-    switch (slice_has_solution(slices[si].u.pipe.u.reflex_guard.avoided))
+    switch (slice_has_solution(avoided))
     {
       case defender_self_check:
         result = attacker_has_reached_deadend;
@@ -285,7 +289,7 @@ reflex_guard_find_refutations_in_n(slice_index si,
 
       case has_no_solution:
         if (n>slack_length_direct)
-          result = direct_defender_find_refutations_in_n(slices[si].u.pipe.next,
+          result = direct_defender_find_refutations_in_n(next,
                                                          n,
                                                          curr_max_nr_nontrivial);
         else
@@ -298,7 +302,7 @@ reflex_guard_find_refutations_in_n(slice_index si,
         break;
     }
   else
-    result = direct_defender_find_refutations_in_n(slices[si].u.pipe.next,
+    result = direct_defender_find_refutations_in_n(next,
                                                    n,
                                                    curr_max_nr_nontrivial);
 
