@@ -570,9 +570,9 @@ has_solution_type branch_d_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = direct_has_solution_in_n(si,
-                                    slices[si].u.pipe.u.branch.length,
-                                    max_nr_nontrivial);
+  result = branch_d_has_solution_in_n(si,
+                                      slices[si].u.pipe.u.branch.length,
+                                      max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
