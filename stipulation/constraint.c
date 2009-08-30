@@ -157,6 +157,7 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
