@@ -21,13 +21,6 @@ void leaf_forced_root_write_key(slice_index leaf, attack_type type);
  */
 has_starter_won_result_type leaf_forced_has_starter_won(slice_index leaf);
 
-/* Determine whether the attacker has reached slice leaf's goal with
- * his move just played.
- * @param leaf slice identifier
- * @return true iff the starter reached the goal
- */
-boolean leaf_forced_has_starter_reached_goal(slice_index leaf);
-
 /* Determine whether the defender wins after a move by the attacker
  * @param leaf identifies leaf
  * @return true iff the defender wins

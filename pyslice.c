@@ -970,14 +970,6 @@ boolean slice_has_starter_reached_goal(slice_index si)
       result = leaf_d_has_starter_reached_goal(si);
       break;
 
-    case STLeafForced:
-      leaf_forced_has_starter_reached_goal(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_has_starter_reached_goal(si);
-      break;
-
     case STBranchDirect:
       result = branch_d_has_starter_reached_goal(si);
       break;

@@ -223,27 +223,6 @@ has_starter_won_result_type leaf_forced_has_starter_won(slice_index leaf)
   return result;
 }
 
-/* Determine whether the attacker has reached slice leaf's goal with
- * his move just played.
- * @param leaf slice identifier
- * @return true iff the starter reached the goal
- */
-boolean leaf_forced_has_starter_reached_goal(slice_index leaf)
-{
-  boolean const result = false;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  assert(slices[leaf].starter!=no_side);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defender wins after a move by the attacker
  * @param leaf identifies leaf
  * @return true iff the defender wins
