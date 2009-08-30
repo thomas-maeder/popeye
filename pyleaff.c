@@ -259,8 +259,7 @@ boolean leaf_forced_does_defender_win(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = ((OptFlag[keepmating] && !is_a_mating_piece_left(defender))
-            || !is_end_in_1_forced(defender,leaf));
+  result = !is_end_in_1_forced(defender,leaf);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

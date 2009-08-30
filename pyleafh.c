@@ -70,8 +70,7 @@ has_solution_type leaf_h_has_solution(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (!(OptFlag[keepmating] && !is_a_mating_piece_left(starter))
-      && is_end_in_1_possible(starter,leaf))
+  if (is_end_in_1_possible(starter,leaf))
   {
     result = has_solution;
     coupfort();
@@ -393,8 +392,7 @@ has_starter_won_result_type leaf_h_has_starter_won(slice_index leaf)
 
   assert(slices[leaf].starter!=no_side);
 
-  result = (!(OptFlag[keepmating] && !is_a_mating_piece_left(final))
-            && is_end_in_1_possible(final,leaf)
+  result = (is_end_in_1_possible(final,leaf)
             ? starter_has_won
             : starter_has_not_won);
 

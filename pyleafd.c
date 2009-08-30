@@ -93,14 +93,6 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
 
   if (hash_value==nr_hashwhat)
   {
-    if (OptFlag[keepmating] && !is_a_mating_piece_left(attacker))
-    {
-      TraceText("!is_a_mating_piece_left\n");
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%u\n",has_no_solution);
-      return false;
-    }
-
     if (slices[leaf].u.leaf.goal==goal_doublemate
         && immobile(attacker))
     {
