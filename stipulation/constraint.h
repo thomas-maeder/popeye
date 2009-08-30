@@ -165,6 +165,14 @@ void reflex_guard_series_solve_continuations_in_n(table continuations,
  */
 slice_index reflex_guard_root_make_setplay_slice(slice_index si);
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index reflex_guard_root_reduce_to_postkey_play(slice_index si);
+
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal

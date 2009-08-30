@@ -428,6 +428,32 @@ void direct_attack_root_write_key(slice_index si, attack_type type)
   TraceFunctionResultEnd();
 }
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index direct_attack_root_reduce_to_postkey_play(slice_index si)
+{
+  slice_index result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_root_reduce_to_postkey_play(next);
+
+  if (result!=no_slice)
+    dealloc_slice_index(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal

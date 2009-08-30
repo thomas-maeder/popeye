@@ -979,3 +979,23 @@ branch_d_defender_root_detect_starter(slice_index si, boolean same_side_as_root)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index branch_d_defender_root_reduce_to_postkey_play(slice_index si)
+{
+  slice_index const result = si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

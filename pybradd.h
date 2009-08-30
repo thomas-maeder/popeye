@@ -108,4 +108,12 @@ unsigned int branch_d_defender_root_find_refutations(table refutations,
 who_decides_on_starter
 branch_d_defender_root_detect_starter(slice_index si, boolean same_side_as_root);
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index branch_d_defender_root_reduce_to_postkey_play(slice_index si);
+
 #endif

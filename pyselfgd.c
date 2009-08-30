@@ -359,6 +359,43 @@ boolean self_attack_solve_postkey_in_n(slice_index si, stip_length_type n)
 /* **************** Implementation of interface Slice ***************
  */
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index self_attack_root_reduce_to_postkey_play(slice_index si)
+{
+  slice_index result;
+  slice_index const length = slices[si].u.pipe.u.branch.length;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (length==slack_length_direct)
+  {
+    /* we are reducing from s#1 to s#0.5 */
+    result = towards_goal;
+    dealloc_slice_index(si);
+  }
+  else
+  {
+    result = slice_root_reduce_to_postkey_play(next);
+
+    if (result!=no_slice)
+      dealloc_slice_index(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

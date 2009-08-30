@@ -277,6 +277,11 @@ slice_index copy_slice(slice_index original);
  */
 void release_slices(void);
 
+/* Make sure that there are now allocated slices that are not
+ * reachable
+ */
+void assert_no_leaked_slice_indices(void);
+
 /* Set the min_length field of a composite slice.
  * @param si index of composite slice
  * @param min_length value to be set

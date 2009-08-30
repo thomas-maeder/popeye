@@ -3,6 +3,7 @@
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pypipe.h"
+#include "pyslice.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -675,6 +676,48 @@ slice_index reflex_guard_root_make_setplay_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   result = slice_root_make_setplay_slice(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index reflex_guard_root_reduce_to_postkey_play(slice_index si)
+{
+  slice_index result;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (next==no_slice)
+  {
+    assert(avoided!=no_slice);
+    result = avoided;
+    dealloc_slice_index(si);
+  }
+  else
+  {
+    result = slice_root_reduce_to_postkey_play(next);
+
+    if (result!=no_slice)
+    {
+      if ((length-slack_length_direct)%2==1
+          && length<=slack_length_direct+2)
+        dealloc_slice_index(avoided);
+      dealloc_slice_index(si);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -2417,48 +2417,22 @@ static boolean root_slice_apply_setplay(void)
   return result;
 }
 
-static slice_index find_first_postkeyplay_slice(slice_index si)
-{
-  slice_index result = si;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  while (result!=no_slice
-         && slices[result].type!=STDirectDefenderRoot
-         && slices[result].type!=STReflexGuard)
-    result = slices[result].u.pipe.next;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
-}
-
 static boolean root_slice_apply_postkeyplay(void)
 {
   boolean result = false;
-  slice_index slice = root_slice;
+  slice_index postkey_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation();
 
-  /* TODO traversal? */
-  if (slices[slice].type==STReflexGuard)
-    slice = slices[slice].u.pipe.next;
-  
-  if (slices[slice].type==STDirectRoot)
+  postkey_slice = slice_root_reduce_to_postkey_play(root_slice);
+
+  if (postkey_slice!=no_slice)
   {
-    slice_index const postkeyplay_slice = find_first_postkeyplay_slice(slice);
-    if (postkeyplay_slice==no_slice)
-      /* post key play of r#1 */
-      root_slice = alloc_move_inverter_slice(slices[slice].u.pipe.u.branch.towards_goal);
-    else
-      root_slice = alloc_move_inverter_slice(postkeyplay_slice);
     result = true;
+    root_slice = alloc_move_inverter_slice(postkey_slice);
   }
 
   TraceFunctionExit(__func__);
@@ -2795,6 +2769,8 @@ static Token iterate_twins(Token prev_token)
         stip_impose_starter(slices[root_slice].starter);
 
       TraceStipulation();
+
+      assert_no_leaked_slice_indices();
     }
 
     if (slices[root_slice].starter==no_side)

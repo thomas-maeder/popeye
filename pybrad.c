@@ -942,3 +942,29 @@ slice_index direct_root_make_setplay_slice(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index direct_root_reduce_to_postkey_play(slice_index si)
+{
+  slice_index result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_root_reduce_to_postkey_play(next);
+
+  if (result!=no_slice)
+    dealloc_slice_index(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

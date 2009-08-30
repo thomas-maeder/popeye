@@ -82,6 +82,89 @@ static slice_index free_indices[max_nr_slices];
 
 static slice_index first_free_index;
 
+static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  boolean (* const leaked)[max_nr_slices] = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*leaked)[si] = false;
+  slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const reachable_slices_markers[] =
+{
+  &mark_reachable_slice, /* STBranchDirect */
+  &mark_reachable_slice, /* STBranchDirectDefender */
+  &mark_reachable_slice, /* STBranchHelp */
+  &mark_reachable_slice, /* STBranchSeries */
+  &mark_reachable_slice, /* STBranchFork */
+  &mark_reachable_slice, /* STLeafDirect */
+  &mark_reachable_slice, /* STLeafHelp */
+  &mark_reachable_slice, /* STLeafForced */
+  &mark_reachable_slice, /* STReciprocal */
+  &mark_reachable_slice, /* STQuodlibet */
+  &mark_reachable_slice, /* STNot */
+  &mark_reachable_slice, /* STMoveInverter */
+  &mark_reachable_slice, /* STDirectRoot */
+  &mark_reachable_slice, /* STDirectDefenderRoot */
+  &mark_reachable_slice, /* STHelpRoot */
+  &mark_reachable_slice, /* STHelpAdapter */
+  &mark_reachable_slice, /* STHelpHashed */
+  &mark_reachable_slice, /* STSeriesRoot */
+  &mark_reachable_slice, /* STSeriesAdapter */
+  &mark_reachable_slice, /* STSeriesHashed */
+  &mark_reachable_slice, /* STSelfCheckGuard */
+  &mark_reachable_slice, /* STDirectAttack */
+  &mark_reachable_slice, /* STDirectDefense */
+  &mark_reachable_slice, /* STReflexGuard */
+  &mark_reachable_slice, /* STSelfAttack */
+  &mark_reachable_slice, /* STSelfDefense */
+  &mark_reachable_slice, /* STRestartGuard */
+  &mark_reachable_slice, /* STGoalReachableGuard */
+  &mark_reachable_slice  /* STKeepMatingGuard */
+};
+
+/* Make sure that there are now allocated slices that are not
+ * reachable
+ */
+void assert_no_leaked_slice_indices(void)
+{
+  boolean leaked[max_nr_slices];
+  unsigned int i;
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=max_nr_slices; ++i)
+    leaked[i] = true;
+
+  for (i = first_free_index; i!=max_nr_slices; ++i)
+    leaked[free_indices[i]] = false;
+
+  slice_traversal_init(&st,&reachable_slices_markers,&leaked);
+  traverse_slices(root_slice,&st);
+
+  for (i = 0; i!=max_nr_slices; ++i)
+  {
+    TraceValue("%u ",i);
+    assert(!leaked[i]);
+  }
+  TraceText("\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Initialize the slice allocation machinery. To be called once at
  * program start
  */
@@ -96,6 +179,7 @@ void init_slice_index_allocator(void)
 slice_index alloc_slice_index(void)
 {
   slice_index const result = free_indices[first_free_index++];
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -210,6 +294,10 @@ void release_slices(void)
     free_indices[si] = si;
 
   first_free_index = 0;
+
+  root_slice = no_slice;
+
+  assert_no_leaked_slice_indices();
 }
 
 /* Set the min_length field of a slice.
