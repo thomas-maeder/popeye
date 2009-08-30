@@ -365,7 +365,8 @@ boolean leaf_d_root_solve(slice_index leaf)
  *            the attacking move is to be considered to have failed, e.g.:
  *            if the defending side is immobile and shouldn't be
  *            if some optimisation tells us so
- *         attacker_has_solved_next_slice if the attacking move has solved the branch
+ *         attacker_has_solved_next_slice if the attacking move has
+ *            solved the branch
  *         found_refutations if refutations contains some refutations
  *         found_no_refutation otherwise
  */
