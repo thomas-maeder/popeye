@@ -4,7 +4,6 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
-#include "pyhash.h"
 #include "pyoutput.h"
 #include "trace.h"
 
