@@ -11,21 +11,11 @@
 
 #include <limits.h>
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
+ * @return true iff the defender can successfully defend
  */
-slice_index direct_attack_root_reduce_to_postkey_play(slice_index si);
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
- */
-slice_index direct_defense_root_reduce_to_postkey_play(slice_index si);
+boolean direct_defender_root_defend(slice_index si);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -64,23 +54,28 @@ void direct_solve_continuations_in_n(table continuations,
                                      slice_index si,
                                      stip_length_type n);
 
-/* Find refutations after a move of the attacking side at a nested level.
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return attacker_has_reached_deadend if we are in a situation where
- *              the position after the attacking move is to be
- *              considered hopeless for the attacker
- *         attacker_has_solved_next_slice if the attacking move has
- *              solved the branch
- *         found_refutations if there is a refutation
- *         found_no_refutation otherwise
+ * @return true iff the defender can successfully defend
  */
-quantity_of_refutations_type
-direct_defender_find_refutations_in_n(slice_index si,
-                                      stip_length_type n,
-                                      int curr_max_nr_nontrivial);
+boolean direct_defender_defend_in_n(slice_index si,
+                                    stip_length_type n,
+                                    int curr_max_nr_nontrivial);
+
+/* Determine whether there is a defense after an attempted key move at
+ * non-root level 
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defender can successfully defend
+ */
+boolean direct_defender_can_defend_in_n(slice_index si,
+                                        stip_length_type n,
+                                        int curr_max_nr_nontrivial);
 
 /* Solve postkey play play after the move that has just
  * been played in the current ply.

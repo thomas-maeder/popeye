@@ -8,12 +8,6 @@
  * find forced half-moves reaching the goal.
  */
 
-/* Write the key
- * @param leaf slice index
- * @param type type of attack
- */
-void leaf_forced_root_write_key(slice_index leaf, attack_type type);
-
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
@@ -70,8 +64,8 @@ boolean leaf_forced_root_solve(slice_index leaf);
  *         found_refutations if refutations contains some refutations
  *         found_no_refutation otherwise
  */
-unsigned int leaf_forced_root_find_refutations(table refutations,
-                                               slice_index leaf);
+quantity_of_refutations_type
+leaf_forced_root_find_refutations(table refutations, slice_index leaf);
 
 /* Solve postkey play at root level.
  * @param leaf slice index

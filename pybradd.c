@@ -346,26 +346,19 @@ static boolean is_threat_too_long(slice_index si,
   return result;
 }
 
-/* Find refutations after a move of the attacking side at a nested level.
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return attacker_has_reached_deadend if we are in a situation where
- *              the position after the attacking move is to be
- *              considered hopeless for the attacker
- *         attacker_has_solved_next_slice if the attacking move has
- *              solved the branch
- *         found_refutations if there is a refutation
- *         found_no_refutation otherwise
+ * @return true iff the defender can successfully defend
  */
-quantity_of_refutations_type
-branch_d_defender_find_refutations_in_n(slice_index si,
-                                        stip_length_type n,
-                                        int curr_max_nr_nontrivial)
+boolean branch_d_defender_defend_in_n(slice_index si,
+                                      stip_length_type n,
+                                      int curr_max_nr_nontrivial)
 {
   Side const defender = slices[si].starter;
-  quantity_of_refutations_type result;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -378,21 +371,62 @@ branch_d_defender_find_refutations_in_n(slice_index si,
        && n-2>slack_length_direct
        && has_too_many_flights(defender))
       || is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
-    result = attacker_has_reached_deadend;
+    result = true;
   else if (n>2*min_length_nontrivial+slack_length_direct)
-    result = (too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial)
-              ? found_refutations
-              : found_no_refutation);
+    result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
+  else
+    result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
+              !=defender_has_no_refutation);
+
+  if (!result)
+  {
+    write_attack(attack_regular);
+    branch_d_defender_solve_postkey_in_n(si,n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a defense after an attempted key move at
+ * non-root level 
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defender can successfully defend
+ */
+boolean branch_d_defender_can_defend_in_n(slice_index si,
+                                          stip_length_type n,
+                                          int curr_max_nr_nontrivial)
+{
+  Side const defender = slices[si].starter;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if ((OptFlag[solflights]
+       && n-2>slack_length_direct
+       && has_too_many_flights(defender))
+      || is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
+    result = true;
+  else if (n>2*min_length_nontrivial+slack_length_direct)
+    result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
   /* TODO shouldn't we continue with the next condition if we have
    * failed to detect too many nontrivial defenses? */
   else
     result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
-              ==defender_has_no_refutation
-              ? found_no_refutation
-              : found_refutations);
+              !=defender_has_no_refutation);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -804,22 +838,16 @@ boolean branch_d_defender_root_solve(slice_index si)
  * @param maximum number of half moves until goal
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *         found_refutations if refutations contains some refutations
- *         found_no_refutation otherwise
+ * @return true if defender is immobile
  */
-static
-quantity_of_refutations_type root_collect_refutations(table refutations,
-                                                      slice_index si,
-                                                      stip_length_type n,
-                                                      int curr_max_nr_nontrivial)
+static boolean root_collect_refutations(table refutations,
+                                        slice_index si,
+                                        stip_length_type n,
+                                        int curr_max_nr_nontrivial)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  quantity_of_refutations_type result = attacker_has_reached_deadend;
+  boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -846,14 +874,13 @@ quantity_of_refutations_type root_collect_refutations(table refutations,
           break;
 
         case has_solution:
-          if (result==attacker_has_reached_deadend)
-            result = found_no_refutation;
+          result = false;
           break;
 
         case has_no_solution:
+          result = false;
           append_to_top_table();
           coupfort();
-          result = found_refutations;
           break;
 
         default:
@@ -867,7 +894,7 @@ quantity_of_refutations_type root_collect_refutations(table refutations,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -876,18 +903,13 @@ quantity_of_refutations_type root_collect_refutations(table refutations,
  * @param nontrivial table where to add non-trivial defenses
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *         found_refutations if refutations contains some refutations
- *         found_no_refutation otherwise
+ * @return true if defender is immobile
  */
-static quantity_of_refutations_type root_collect_nontrivial(table nontrivial,
-                                                            slice_index si,
-                                                            stip_length_type n)
+static boolean root_collect_nontrivial(table nontrivial,
+                                       slice_index si,
+                                       stip_length_type n)
 {
-  unsigned int result;
+  boolean result;
   int nontrivial_count;
 
   TraceFunctionEntry(__func__);
@@ -899,7 +921,7 @@ static quantity_of_refutations_type root_collect_nontrivial(table nontrivial,
 
   nontrivial_count = count_enough_nontrivial_defenses(si,max_nr_nontrivial);
   if (max_nr_nontrivial<nontrivial_count)
-    result = attacker_has_reached_deadend;
+    result = true;
   else
     result = root_collect_refutations(nontrivial,
                                       si,
@@ -907,31 +929,22 @@ static quantity_of_refutations_type root_collect_nontrivial(table nontrivial,
                                       max_nr_nontrivial-nontrivial_count);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-/* Find refutations after a move of the attacking side at root level.
- * @param t table where to store refutations
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *         attacker_has_solved_next_slice if the attacking move has solved the branch
- *         found_refutations if refutations contains some refutations
- *         found_no_refutation otherwise
+ * @return true iff the defender can successfully defend
  */
-quantity_of_refutations_type
-branch_d_defender_root_find_refutations(table refutations, slice_index si)
+boolean branch_d_defender_root_defend(slice_index si)
 {
   Side const defender = slices[si].starter;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
-  quantity_of_refutations_type result;
+  boolean result = true;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",table_length(refutations));
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -939,17 +952,47 @@ branch_d_defender_root_find_refutations(table refutations, slice_index si)
   TraceValue("%u\n",min_length_nontrivial);
 
   if (is_threat_too_long(si,n-1,max_nr_nontrivial))
-    result = attacker_has_reached_deadend;
+    ;
   else if (n-1>slack_length_direct+2
            && OptFlag[solflights] && has_too_many_flights(defender))
-    result = attacker_has_reached_deadend;
-  else if (n>2*min_length_nontrivial+slack_length_direct)
-    result = root_collect_nontrivial(refutations,si,n);
+    ;
   else
-    result = root_collect_refutations(refutations,si,n,max_nr_nontrivial);
+  {
+    table refutations = allocate_table();
+
+    boolean defender_is_immobile;
+
+    if (n>2*min_length_nontrivial+slack_length_direct)
+      defender_is_immobile = root_collect_nontrivial(refutations,si,n);
+    else
+      defender_is_immobile = root_collect_refutations(refutations,
+                                                      si,
+                                                      n,
+                                                      max_nr_nontrivial);
+
+    if (!defender_is_immobile)
+    {
+      if (table_length(refutations)==0)
+      {
+        result = false;
+        write_attack(attack_key);
+        branch_d_defender_root_solve_postkey(refutations,si);
+        write_end_of_solution();
+      }
+      else if (table_length(refutations)<=max_nr_refutations)
+      {
+        write_attack(attack_try);
+        branch_d_defender_root_solve_postkey(refutations,si);
+        write_refutations(refutations);
+        write_end_of_solution();
+      }
+    }
+
+    free_table();
+  }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

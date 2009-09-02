@@ -47,19 +47,6 @@ boolean leaf_h_solve(slice_index leaf);
  */
 boolean leaf_h_root_solve(slice_index leaf);
 
-/* Find refutations after a move of the attacking side at root level.
- * @param si slice index
- * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *         attacker_has_solved_next_slice if the attacking move has
- *            solved the branch
- *         found_refutations if refutations contains some refutations
- *         found_no_refutation otherwise
- */
-quantity_of_refutations_type leaf_h_root_find_refutations(slice_index leaf);
-
 /* Solve postkey play at root level.
  * @param leaf slice index
  * @return true iff >=1 solution was found

@@ -318,24 +318,14 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && is_current_move_in_table(threats))
-        switch (direct_defender_find_refutations_in_n(next,
-                                                      len_threat-1,
-                                                      curr_max_nr_nontrivial))
-        {
-          case attacker_has_solved_next_slice:
-          case found_no_refutation:
-            ++nr_successful_threats;
-            break;
-
-          case found_refutations:
-          case attacker_has_reached_deadend:
-            defense_found = true;
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
+      {
+        if (direct_defender_can_defend_in_n(next,
+                                            len_threat-1,
+                                            curr_max_nr_nontrivial))
+          defense_found = true;
+        else
+          ++nr_successful_threats;
+      }
 
       repcoup();
     }
@@ -382,26 +372,12 @@ static boolean have_we_solution_in_n(slice_index si,
 
   while (!solution_found && encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_defender_find_refutations_in_n(next,
-                                                    n-1,
-                                                    curr_max_nr_nontrivial))
-      {
-        case attacker_has_solved_next_slice:
-        case found_no_refutation:
-          solution_found = true;
-          coupfort();
-          break;
-
-        case found_refutations:
-        case attacker_has_reached_deadend:
-          /* nothing */
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !direct_defender_can_defend_in_n(next,n-1,curr_max_nr_nontrivial))
+    {
+      solution_found = true;
+      coupfort();
+    }
 
     repcoup();
 
@@ -594,7 +570,6 @@ void branch_d_solve_continuations_in_n(table continuations,
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -608,34 +583,12 @@ void branch_d_solve_continuations_in_n(table continuations,
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_defender_find_refutations_in_n(next,
-                                                    n-1,
-                                                    max_nr_nontrivial))
-      {
-        case attacker_has_solved_next_slice:
-          slice_root_write_key(next,attack_regular);
-          slice_solve_postkey(to_goal);
-          append_to_top_table();
-          coupfort();
-          break;
-
-        case found_no_refutation:
-          write_attack(attack_regular);
-          direct_defender_solve_postkey_in_n(next,n-1);
-          append_to_top_table();
-          coupfort();
-          break;
-
-        case found_refutations:
-        case attacker_has_reached_deadend:
-          /* nothing */
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !direct_defender_defend_in_n(next,n-1,max_nr_nontrivial))
+    {
+      append_to_top_table();
+      coupfort();
+    }
 
     repcoup();
   }
@@ -835,49 +788,9 @@ boolean direct_root_solve(slice_index si)
     extern unsigned int MoveNbr; /* TODO remove */
     extern unsigned int RestartNbr; /* TODO remove */
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !(OptFlag[restart] && MoveNbr<RestartNbr))
-    {
-      table refutations = allocate_table();
-
-      /* do *not* invoke direct_defender_root_find_refutations_in_n()
-       * here. direct_defender_root_find_refutations_in_n() will
-       * always stop finding refutations once one was found, while
-       * direct_defender_root_find_refutations() may look for more if
-       * the user instructs us to
-       */
-      switch (slice_root_find_refutations(refutations,next))
-      {
-        case attacker_has_solved_next_slice:
-        {
-          write_end_of_solution();
-          result = true;
-          break;
-        }
-
-        case found_no_refutation:
-          write_attack(attack_key);
-          slice_root_solve_postkey(refutations,next);
-          write_end_of_solution();
-          result = true;
-          break;
-
-        case found_refutations:
-          if (table_length(refutations)<=max_nr_refutations)
-          {
-            write_attack(attack_try);
-            slice_root_solve_postkey(refutations,next);
-            write_refutations(refutations);
-            write_end_of_solution();
-          }
-          break;
-
-        case attacker_has_reached_deadend:
-          /* let's stay silent about such a bad move! */
-          break;
-      }
-
-      free_table();
-    }
+        && !(OptFlag[restart] && MoveNbr<RestartNbr)
+        && !direct_defender_root_defend(next))
+      result = true;
 
     if (OptFlag[movenbr])
       IncrementMoveNbr();

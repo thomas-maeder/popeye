@@ -336,49 +336,6 @@ boolean leaf_d_root_solve(slice_index leaf)
   return result;
 }
 
-/* Find refutations after a move of the attacking side at root level.
- * @param t table where to store refutations
- * @param si slice index
- * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *         attacker_has_solved_next_slice if the attacking move has
- *            solved the branch
- *         found_refutations if refutations contains some refutations
- *         found_no_refutation otherwise
- */
-quantity_of_refutations_type leaf_d_root_find_refutations(slice_index leaf)
-{
-  quantity_of_refutations_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  switch (leaf_d_has_solution(leaf))
-  {
-    case defender_self_check:
-    case has_no_solution:
-      result = attacker_has_reached_deadend;
-      break;
-      
-    case has_solution:
-      result = found_no_refutation;
-      break;
-
-    default:
-      assert(0);
-      result = attacker_has_reached_deadend;
-      break;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write keys leading to a double-mate
  * @param leaf leaf's slice index
  * @return true iff >=1 key was found and written

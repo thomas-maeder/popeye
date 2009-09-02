@@ -197,44 +197,8 @@ quantity_of_refutations_type slice_root_find_refutations(table refutations,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectDefenderRoot:
-      result = branch_d_defender_root_find_refutations(refutations,si);
-      break;
-
-    case STLeafDirect:
-      /* no need to fill refutations; we don't output refutations of #1
-       */
-      result = leaf_d_root_find_refutations(si);
-      break;
-
-    case STLeafHelp:
-      /* no need to fill refutations; we don't output refutations of r#1
-       */
-      result = leaf_h_root_find_refutations(si);
-      break;
-
     case STLeafForced:
       result = leaf_forced_root_find_refutations(refutations,si);
-      break;
-
-    case STDirectAttack:
-      result = direct_attack_root_find_refutations(refutations,si);
-      break;
-
-    case STSelfAttack:
-      result = self_attack_root_find_refutations(refutations,si);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_root_find_refutations(refutations,si);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_root_find_refutations(refutations,si);
-      break;
-
-    case STKeepMatingGuard:
-      result = keepmating_guard_root_find_refutations(refutations,si);
       break;
 
     default:
@@ -363,13 +327,6 @@ void slice_root_write_key(slice_index si, attack_type type)
       leaf_d_root_write_key(si,type);
       break;
 
-    case STLeafHelp:
-      break;
-
-    case STLeafForced:
-      leaf_forced_root_write_key(si,type);
-      break;
-
     case STQuodlibet:
       quodlibet_root_write_key(si,type);
       break;
@@ -392,26 +349,6 @@ void slice_root_write_key(slice_index si, attack_type type)
 
     case STNot:
       /* STNot doesn't have got a key by definition */
-      break;
-
-    case STDirectAttack:
-      direct_attack_root_write_key(si,type);
-      break;
-
-    case STSelfAttack:
-      self_attack_root_write_key(si,type);
-      break;
-
-    case STSelfCheckGuard:
-      selfcheck_guard_root_write_key(si,type);
-      break;
-
-    case STReflexGuard:
-      reflex_guard_root_write_key(si,type);
-      break;
-
-    case STKeepMatingGuard:
-      keepmating_guard_root_write_key(si,type);
       break;
 
     default:

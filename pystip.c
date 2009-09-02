@@ -142,9 +142,6 @@ void assert_no_leaked_slice_indices(void)
   unsigned int i;
   slice_traversal st;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
   for (i = 0; i!=max_nr_slices; ++i)
     leaked[i] = true;
 
@@ -155,14 +152,7 @@ void assert_no_leaked_slice_indices(void)
   traverse_slices(root_slice,&st);
 
   for (i = 0; i!=max_nr_slices; ++i)
-  {
-    TraceValue("%u ",i);
     assert(!leaked[i]);
-  }
-  TraceText("\n");
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Initialize the slice allocation machinery. To be called once at

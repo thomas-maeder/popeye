@@ -183,22 +183,13 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Find refutations after a move of the attacking side at root level.
- * @param refutations table where to store refutations
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *         attacker_has_solved_next_slice if the attacking move has
- *            solved the branch
- *         found_refutations if refutations contains some refutations
- *         found_no_refutation otherwise
+ * @return true iff the defender can successfully defend
  */
-quantity_of_refutations_type
-reflex_guard_root_find_refutations(table refutations, slice_index si)
+boolean reflex_guard_root_defend(slice_index si)
 {
-  quantity_of_refutations_type result;
+  boolean result = true;
   stip_length_type const length = slices[si].u.pipe.u.reflex_guard.length;
   stip_length_type const
       min_length = slices[si].u.pipe.u.reflex_guard.min_length;
@@ -213,55 +204,44 @@ reflex_guard_root_find_refutations(table refutations, slice_index si)
     switch (slice_has_solution(avoided))
     {
       case defender_self_check:
-        result = attacker_has_reached_deadend;
         break;
 
       case has_solution:
-        result = attacker_has_solved_next_slice;
-        slice_root_write_key(avoided,attack_key);
+        result = false;
         slice_solve_postkey(avoided);
+        write_end_of_solution();
         break;
 
       case has_no_solution:
         if (length>slack_length_direct)
-          result = slice_root_find_refutations(refutations,next);
-        else
-          result = attacker_has_reached_deadend;
+          result = direct_defender_root_defend(next);
         break;
 
       default:
         assert(0);
-        result = attacker_has_reached_deadend;
         break;
     }
   else
-    result = slice_root_find_refutations(refutations,next);
+    result = direct_defender_root_defend(next);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-/* Find refutations after a move of the attacking side at a nested level.
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return attacker_has_reached_deadend if we are in a situation where
- *              the position after the attacking move is to be
- *              considered hopeless for the attacker
- *         attacker_has_solved_next_slice if the attacking move has
- *              solved the branch
- *         found_refutations if there is a refutation
- *         found_no_refutation otherwise
+ * @return true iff the defender can successfully defend
  */
-quantity_of_refutations_type
-reflex_guard_find_refutations_in_n(slice_index si,
-                                   stip_length_type n,
-                                   int curr_max_nr_nontrivial)
+boolean reflex_guard_defend_in_n(slice_index si,
+                                 stip_length_type n,
+                                 int curr_max_nr_nontrivial)
 {
-  quantity_of_refutations_type result;
+  boolean result = true;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -279,35 +259,79 @@ reflex_guard_find_refutations_in_n(slice_index si,
   if (n<=max_n_for_avoided)
     switch (slice_has_solution(avoided))
     {
-      case defender_self_check:
-        result = attacker_has_reached_deadend;
-        break;
-
       case has_solution:
-        result = attacker_has_solved_next_slice;
+        result = false;
+        slice_solve_postkey(avoided);
         break;
 
       case has_no_solution:
         if (n>slack_length_direct)
-          result = direct_defender_find_refutations_in_n(next,
-                                                         n,
-                                                         curr_max_nr_nontrivial);
-        else
-          result = attacker_has_reached_deadend;
+          result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
         break;
 
       default:
         assert(0);
-        result = attacker_has_reached_deadend;
         break;
     }
   else
-    result = direct_defender_find_refutations_in_n(next,
-                                                   n,
-                                                   curr_max_nr_nontrivial);
+    result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a defense after an attempted key move at
+ * non-root level 
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defender can successfully defend
+ */
+boolean reflex_guard_can_defend_in_n(slice_index si,
+                                     stip_length_type n,
+                                     int curr_max_nr_nontrivial)
+{
+  boolean result = true;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const
+      min_length = slices[si].u.pipe.u.reflex_guard.min_length;
+  stip_length_type const max_n_for_avoided = (length-min_length
+                                              +slack_length_direct);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
+
+  if (n<=max_n_for_avoided)
+    switch (slice_has_solution(avoided))
+    {
+      case has_solution:
+        result = false;
+        break;
+
+      case has_no_solution:
+        if (n>slack_length_direct)
+          result = direct_defender_can_defend_in_n(next,
+                                                   n,
+                                                   curr_max_nr_nontrivial);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  else
+    result = direct_defender_can_defend_in_n(next,n,curr_max_nr_nontrivial);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -574,24 +598,6 @@ boolean reflex_guard_root_solve(slice_index si)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void reflex_guard_root_write_key(slice_index si, attack_type type)
-{
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_root_write_key(avoided,type);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Solve a slice at root level

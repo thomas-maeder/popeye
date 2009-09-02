@@ -16,6 +16,56 @@
 
 #include <assert.h>
 
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defender can successfully defend
+ */
+boolean direct_defender_root_defend(slice_index si)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STDirectDefenderRoot:
+      result = branch_d_defender_root_defend(si);
+      break;
+
+    case STDirectAttack:
+      result = direct_attack_root_defend(si);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_root_defend(si);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_root_defend(si);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_root_defend(si);
+      break;
+
+    case STKeepMatingGuard:
+      result = keepmating_guard_root_defend(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
@@ -221,24 +271,18 @@ void direct_solve_continuations_in_n(table continuations,
 }
 
 
-/* Find refutations after a move of the attacking side at a nested level.
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return attacker_has_reached_deadend if we are in a situation where
- *              the position after the attacking move is to be
- *              considered hopeless for the attacker
- *         attacker_has_solved_next_slice if the attacking move has solved the branch
- *         found_refutations if there is a refutation
- *         found_no_refutation otherwise
+ * @return true iff the defender can successfully defend
  */
-quantity_of_refutations_type
-direct_defender_find_refutations_in_n(slice_index si,
-                                      stip_length_type n,
-                                      int curr_max_nr_nontrivial)
+boolean direct_defender_defend_in_n(slice_index si,
+                                    stip_length_type n,
+                                    int curr_max_nr_nontrivial)
 {
-  quantity_of_refutations_type result = found_refutations;
+  boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -250,37 +294,27 @@ direct_defender_find_refutations_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STBranchDirectDefender:
-      result = branch_d_defender_find_refutations_in_n(si,
-                                                       n,
-                                                       curr_max_nr_nontrivial);
+      result = branch_d_defender_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_find_refutations_in_n(si,
-                                                     n,
-                                                     curr_max_nr_nontrivial);
+      result = selfcheck_guard_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
     case STDirectAttack:
-      result = direct_attack_find_refutations_in_n(si,
-                                                   n,
-                                                   curr_max_nr_nontrivial);
+      result = direct_attack_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
     case STSelfAttack:
-      result = self_attack_find_refutations_in_n(si,
-                                                 n,
-                                                 curr_max_nr_nontrivial);
+      result = self_attack_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_find_refutations_in_n(si,n,curr_max_nr_nontrivial);
+      result = reflex_guard_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_find_refutations_in_n(si,
-                                                      n,
-                                                      curr_max_nr_nontrivial);
+      result = keepmating_guard_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
     default:
@@ -289,7 +323,65 @@ direct_defender_find_refutations_in_n(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a defense after an attempted key move at
+ * non-root level 
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defender can successfully defend
+ */
+boolean direct_defender_can_defend_in_n(slice_index si,
+                                        stip_length_type n,
+                                        int curr_max_nr_nontrivial)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%d",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STBranchDirectDefender:
+      result = branch_d_defender_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    case STDirectAttack:
+      result = direct_attack_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    case STKeepMatingGuard:
+      result = keepmating_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
