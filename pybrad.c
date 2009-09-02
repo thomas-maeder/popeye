@@ -785,15 +785,9 @@ boolean direct_root_solve(slice_index si)
 
   while (encore())
   {
-    extern unsigned int MoveNbr; /* TODO remove */
-    extern unsigned int RestartNbr; /* TODO remove */
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !(OptFlag[restart] && MoveNbr<RestartNbr)
         && !direct_defender_root_defend(next))
       result = true;
-
-    if (OptFlag[movenbr])
-      IncrementMoveNbr();
 
     repcoup();
 

@@ -25,12 +25,15 @@ unsigned int get_restart_number(void);
  */
 boolean read_restart_number(char const *optionValue);
 
-/* TODO hide from pyproc.h and this file */
-void IncrementMoveNbr(void);
-
 /* Instrument stipulation with STRestartGuard slices
  */
 void stip_insert_restart_guards(void);
+
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defender can successfully defend
+ */
+boolean restart_guard_root_defend(slice_index si);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

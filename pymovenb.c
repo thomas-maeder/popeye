@@ -1,5 +1,6 @@
 #include "pymovenb.h"
 #include "pypipe.h"
+#include "pydirect.h"
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pyproc.h"
@@ -11,16 +12,13 @@
 #include <limits.h>
 #include <stdlib.h>
 
-/* TODO rename variables to more meaningful names */
-/* TODO make variables static */
-
 /* number of current move at root level
  */
-unsigned int MoveNbr;
+static unsigned int MoveNbr;
 
 /* number of first move at root level to be considered
  */
-unsigned int RestartNbr;
+static unsigned int RestartNbr;
 
 /* Reset the restart number setting.
  */
@@ -53,7 +51,11 @@ boolean read_restart_number(char const *optionValue)
   return result;
 }
 
-void IncrementMoveNbr(void)
+/* Increase the current move number; write the previous move number
+ * provided it is above the number where the user asked us to restart
+ * solving.
+ */
+static void IncrementMoveNbr(void)
 {
   if (MoveNbr>=RestartNbr)
   {
@@ -88,6 +90,31 @@ static void init_restart_guard_slice(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defender can successfully defend
+ */
+boolean restart_guard_root_defend(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (MoveNbr<RestartNbr)
+    result = true;
+  else
+    result = direct_defender_root_defend(slices[si].u.pipe.next);
+
+  IncrementMoveNbr();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve in a number of half-moves
@@ -180,7 +207,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STQuodlibet */
   &slice_traverse_children,      /* STNot */
   &slice_traverse_children,      /* STMoveInverter */
-  &slice_operation_noop,         /* STDirectRoot */
+  &restart_guards_inserter_root, /* STDirectRoot */
   &slice_operation_noop,         /* STDirectDefenderRoot */
   &restart_guards_inserter_root, /* STHelpRoot */
   &slice_traverse_children,      /* STHelpAdapter */

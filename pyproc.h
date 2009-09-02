@@ -415,7 +415,6 @@ char *ReadPieces(int cond);
 
 boolean eval_isardam(square departure, square arrival, square capture);
 boolean pos_legal(void);                              
-void IncrementMoveNbr(void);
 square rendiametral(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void    gequi(square i, Side camp);
