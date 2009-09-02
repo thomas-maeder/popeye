@@ -77,6 +77,7 @@
 #include "pymovein.h"
 #include "pyproof.h"
 #include "pymovenb.h"
+#include "pyflight.h"
 #include "pyreflxg.h"
 #include "pydirctg.h"
 #include "pyselfgd.h"
@@ -2123,7 +2124,8 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STSelfDefense */
   0,                                     /* STRestartGuard */
   0,                                     /* STGoalReachableGuard */
-  0                                      /* STKeepMatingGuard */
+  0,                                     /* STKeepMatingGuard */
+  0                                      /* STMaxFlightsquares */
 };
 
 /* Promote a slice to toplevel that was initialised under the wrong
@@ -4635,7 +4637,7 @@ static char *ParseOpt(void)
         tok = ReadNextTokStr();
         if (!read_restart_number(tok))
         {
-          OptFlag[restart]= false;
+          OptFlag[restart] = false;
           IoErrorMsg(WrongInt,0);
           return ReadNextTokStr();
         }
@@ -4655,11 +4657,10 @@ static char *ParseOpt(void)
 
       case solflights:
         tok = ReadNextTokStr();
-        max_nr_flights= strtol(tok, &ptr, 10);
-        if (tok==ptr || max_nr_flights<0)
+        if (!read_max_flights(tok))
         {
-          IoErrorMsg(WrongInt, 0);
-          max_nr_flights = INT_MAX;
+          OptFlag[solflights] = false;
+          IoErrorMsg(WrongInt,0);
           return ReadNextTokStr();
         }
         break;
@@ -5927,11 +5928,11 @@ void WritePosition() {
   if (max_len_threat<maxply)
   {
     sprintf(StipOptStr+strlen(StipOptStr), "/%u", max_len_threat);
-    if (max_nr_flights<INT_MAX)
-      sprintf(StipOptStr+strlen(StipOptStr), "/%d", max_nr_flights);
+    if (OptFlag[solflights])
+      sprintf(StipOptStr+strlen(StipOptStr), "/%d", get_max_flights());
   }
-  else if (max_nr_flights<INT_MAX)
-    sprintf(StipOptStr+strlen(StipOptStr), "//%d", max_nr_flights);
+  else if (OptFlag[solflights])
+    sprintf(StipOptStr+strlen(StipOptStr), "//%d", get_max_flights());
 
   if (min_length_nontrivial<maxply)
     sprintf(StipOptStr+strlen(StipOptStr),

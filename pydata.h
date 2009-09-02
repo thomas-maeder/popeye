@@ -137,8 +137,6 @@ EXTERN  killer_state const null_killer_state;
 EXTERN  pilecase        kpilcd;
 EXTERN  pilecase        kpilca;
 
-EXTERN  int        max_nr_flights;
-
 /* magic pieces */
 enum
 {

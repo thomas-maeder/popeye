@@ -738,7 +738,8 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STSelfDefense */
   0,                                        /* STRestartGuard */
   &slice_traverse_children,                 /* STGoalReachableGuard */
-  0                                         /* STKeepMatingGuard */
+  0,                                        /* STKeepMatingGuard */
+  0                                         /* STMaxFlightsquares */
 };
 /* element STSelfCheckGuard is not 0 because we may reach a
  * STSelfCheckGuard slice inserted early later on a different path
@@ -839,7 +840,8 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STSelfDefense */
   0,                                             /* STRestartGuard */
   0,                                             /* STGoalReachableGuard */
-  0                                              /* STKeepMatingGuard */
+  0,                                             /* STKeepMatingGuard */
+  0                                              /* STMaxFlightsquares */
 };
 
 /* Instrument stipulation with STSelfCheckGuard slices

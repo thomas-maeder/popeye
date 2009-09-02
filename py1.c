@@ -55,6 +55,7 @@
 #include "pyhash.h"
 #include "pytable.h"
 #include "pymovenb.h"
+#include "pyflight.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -312,7 +313,7 @@ void InitOpt(void)
 
   resetOptionMaxtime();
 
-  max_nr_flights = INT_MAX;
+  reset_max_fligths();
   max_nr_refutations = 0;
 
   reset_restart_number();
@@ -329,7 +330,6 @@ void InitOpt(void)
   pprise[1] = vide;
   pprispec[1] = EmptySpec;
   move_generation_stack[1].capture = initsquare;
-
 }
 
 void InitCheckDir(void)

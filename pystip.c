@@ -65,6 +65,7 @@
                                                                         \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
@@ -131,7 +132,8 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STSelfDefense */
   &mark_reachable_slice, /* STRestartGuard */
   &mark_reachable_slice, /* STGoalReachableGuard */
-  &mark_reachable_slice  /* STKeepMatingGuard */
+  &mark_reachable_slice, /* STKeepMatingGuard */
+  &mark_reachable_slice  /* STMaxFlightsquares */
 };
 
 /* Make sure that there are now allocated slices that are not
@@ -486,7 +488,8 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STSelfDefense */
   &get_max_nr_moves_other,           /* STRestartGuard */
   &get_max_nr_moves_other,           /* STGoalReachableGuard */
-  &get_max_nr_moves_other            /* STKeepMatingGuard */
+  &get_max_nr_moves_other,           /* STKeepMatingGuard */
+  &get_max_nr_moves_other            /* STMaxFlightsquares */
 };
 
 /* Determine the maximally possible number of half-moves until the
@@ -575,7 +578,8 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STSelfDefense */
   &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children  /* STKeepMatingGuard */
+  &slice_traverse_children, /* STKeepMatingGuard */
+  &slice_traverse_children  /* STMaxFlightsquares */
 };
 
 /* Determine whether the current stipulation has a unique goal, and
@@ -670,6 +674,7 @@ static void deep_copy_recursive(slice_index *si, copies_type *copies)
       case STRestartGuard:
       case STGoalReachableGuard:
       case STKeepMatingGuard:
+      case STMaxFlightsquares:
         deep_copy_recursive(&slices[*si].u.pipe.next,copies);
         break;
 
@@ -769,7 +774,8 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STSelfDefense */
   &slice_traverse_children,   /* STRestartGuard */
   &slice_traverse_children,   /* STGoalReachableGuard */
-  &slice_traverse_children    /* STKeepMatingGuard */
+  &slice_traverse_children,   /* STKeepMatingGuard */
+  &slice_traverse_children    /* STMaxFlightsquares */
 };
 
 /* Convert all leaves of a stipulation sub-tree to STLeafDirect
@@ -914,7 +920,8 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,              /* STSelfDefense */
   0,                                     /* STRestartGuard */
   0,                                     /* STGoalReachableGuard */
-  0                                      /* STKeepMatingGuard */
+  0,                                     /* STKeepMatingGuard */
+  0                                      /* STMaxFlightsquares */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -1014,7 +1021,8 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STSelfDefense */
   &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children  /* STKeepMatingGuard */
+  &slice_traverse_children, /* STKeepMatingGuard */
+  &slice_traverse_children  /* STMaxFlightsquares */
 };
 
 /* Do all leaves of the current stipulation have one of a set of goals?
@@ -1091,7 +1099,8 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STSelfDefense */
   &slice_traverse_children,   /* STRestartGuard */
   &slice_traverse_children,   /* STGoalReachableGuard */
-  &slice_traverse_children    /* STKeepMatingGuard */
+  &slice_traverse_children,   /* STKeepMatingGuard */
+  &slice_traverse_children    /* STMaxFlightsquares */
 };
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
@@ -1161,7 +1170,8 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STSelfDefense */
   &make_exact_branch,       /* STRestartGuard */
   &make_exact_branch,       /* STGoalReachableGuard */
-  &make_exact_branch        /* STKeepMatingGuard */
+  &make_exact_branch,       /* STKeepMatingGuard */
+  &make_exact_branch        /* STMaxFlightsquares */
 };
 
 /* Make the stipulation exact
@@ -1211,7 +1221,8 @@ static slice_operation const starter_imposers[] =
   &self_defense_impose_starter,   /* STSelfDefense */
   &pipe_impose_starter,           /* STRestartGuard */
   &pipe_impose_starter,           /* STGoalReachableGuard */
-  &pipe_impose_starter            /* STKeepMatingGuard */
+  &pipe_impose_starter,           /* STKeepMatingGuard */
+  &pipe_impose_starter            /* STMaxFlightsquares */
 };
 
 /* Set the starting side of the stipulation
@@ -1465,7 +1476,8 @@ static slice_operation const traversers[] =
   &traverse_guard,        /* STSelfDefense */
   &traverse_pipe,         /* STRestartGuard */
   &traverse_pipe,         /* STGoalReachableGuard */
-  &traverse_pipe          /* STKeepMatingGuard */
+  &traverse_pipe,         /* STKeepMatingGuard */
+  &traverse_pipe          /* STMaxFlightsquares */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

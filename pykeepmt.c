@@ -619,7 +619,8 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STSelfDefense */
   &slice_traverse_children,                /* STRestartGuard */
   0,                                       /* STGoalReachableGuard */
-  0                                        /* STKeepMatingGuard */
+  0,                                       /* STKeepMatingGuard */
+  0                                        /* STMaxFlightsquares */
 };
 
 /* Instrument stipulation with STKeepMatingGuard slices

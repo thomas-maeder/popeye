@@ -224,7 +224,8 @@ static slice_operation const restart_guards_inserters[] =
   0,                             /* STSelfDefense */
   0,                             /* STRestartGuard */
   0,                             /* STGoalReachableGuard */
-  0                              /* STKeepMatingGuard */
+  0,                             /* STKeepMatingGuard */
+  0                              /* STMaxFlightsquares */
 };
 
 /* Instrument stipulation with STRestartGuard slices

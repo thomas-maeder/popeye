@@ -286,7 +286,8 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STSelfDefense */
   &slice_property_offset_shifter, /* STRestartGuard */
   &slice_property_offset_shifter, /* STGoalReachableGuard */
-  &slice_property_offset_shifter  /* STKeepMatingGuard */
+  &slice_property_offset_shifter, /* STKeepMatingGuard */
+  &slice_property_offset_shifter  /* STMaxFlightsquares */
 };
 
 typedef struct
@@ -774,7 +775,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_direct_root,    /* STSelfDefense */
   &init_slice_properties_pipe,           /* STRestartGuard */
   &init_slice_properties_pipe,           /* STGoalReachableGuard */
-  &init_slice_properties_pipe            /* STKeepMatingGuard */
+  &init_slice_properties_pipe,           /* STKeepMatingGuard */
+  &init_slice_properties_pipe            /* STMaxFlightsquares */
 };
 
 /* Find out whether a branch has a non-standard length (i.e. is exact)
@@ -887,7 +889,8 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                   /* STSelfDefense */
   &slice_traverse_children,                   /* STRestartGuard */
   &slice_traverse_children,                   /* STGoalReachableGuard */
-  &slice_traverse_children                    /* STKeepMatingGuard */
+  &slice_traverse_children,                   /* STKeepMatingGuard */
+  &slice_traverse_children                    /* STMaxFlightsquares */
 };
 
 static boolean findMinimalValueOffset(slice_index si, slice_traversal *st)
@@ -942,7 +945,8 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STSelfDefense */
   &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children  /* STKeepMatingGuard */
+  &slice_traverse_children, /* STKeepMatingGuard */
+  &slice_traverse_children  /* STMaxFlightsquares */
 };
 
 static boolean reduceValueOffset(slice_index si, slice_traversal *st)
@@ -996,7 +1000,8 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STSelfDefense */
   &slice_traverse_children, /* STRestartGuard */
   &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children  /* STKeepMatingGuard */
+  &slice_traverse_children, /* STKeepMatingGuard */
+  &slice_traverse_children  /* STMaxFlightsquares */
 };
 
 /* Initialise the slice_properties array according to the current
@@ -1827,7 +1832,8 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STSelfDefense */
   &slice_traverse_children,                         /* STRestartGuard */
   0,                                                /* STGoalReachableGuard */
-  &slice_traverse_children                          /* STKeepMatingGuard */
+  &slice_traverse_children,                         /* STKeepMatingGuard */
+  &slice_traverse_children                          /* STMaxFlightsquares */
 };
 
 static unsigned int estimateNumberOfHoles(slice_index si)
@@ -2501,7 +2507,8 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STSelfDefense */
   &slice_traverse_children,    /* STRestartGuard */
   &slice_traverse_children,    /* STGoalReachableGuard */
-  &slice_traverse_children     /* STKeepMatingGuard */
+  &slice_traverse_children,    /* STKeepMatingGuard */
+  &slice_traverse_children     /* STMaxFlightsquares */
 };
 
 /* Initialise the bits representing all slices in a hash table

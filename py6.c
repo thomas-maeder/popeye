@@ -109,6 +109,7 @@
 #include "pykeepmt.h"
 #include "pyselfcg.h"
 #include "pymovenb.h"
+#include "pyflight.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -516,7 +517,8 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STSelfDefense */
   0,                                  /* STRestartGuard */
   0,                                  /* STGoalReachableGuard */
-  0                                   /* STKeepMatingGuard */
+  0,                                  /* STKeepMatingGuard */
+  0                                   /* STMaxFlightsquares */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -1975,37 +1977,6 @@ boolean WriteSpec(Flags sp, boolean printcolours) {
   return ret;
 }
 
-/* Determine whether the defending side has more flights than allowed
- * by the user.
- * @param defender defending side
- * @return true iff the defending side has too many flights.
- */
-boolean has_too_many_flights(Side defender)
-{
-  boolean result = false;
-  square save_rbn = defender==Black ? rn : rb;
-  if (save_rbn!=initsquare)
-  {
-    int nrflleft = max_nr_flights+1;
-    genmove(defender);
-    while (encore() && nrflleft>0)
-    {
-      if (jouecoup(nbply,first_play))
-      {
-        square const rbn = defender==Black ? rn : rb;
-        if (save_rbn!=rbn && !echecc(nbply,defender))
-          nrflleft--;
-      }
-      repcoup();
-    }
-    finply();
-
-    result =  nrflleft==0;
-  }
-
-  return result;
-}
-
 static void swapcolors(void)
 {
   square const *bnp;
@@ -2548,7 +2519,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STSelfDefense */
   &slice_traverse_children,           /* STRestartGuard */
   &slice_traverse_children,           /* STGoalReachableGuard */
-  &slice_traverse_children            /* STKeepMatingGuard */
+  &slice_traverse_children,           /* STKeepMatingGuard */
+  &slice_traverse_children            /* STMaxFlightsquares */
 };
 
 static void insert_hash_slices(void)
@@ -2783,6 +2755,9 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();
+
+      if (OptFlag[solflights])
+        stip_insert_maxflight_guards();
 
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->

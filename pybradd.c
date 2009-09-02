@@ -356,7 +356,6 @@ boolean branch_d_defender_defend_in_n(slice_index si,
                                       stip_length_type n,
                                       int curr_max_nr_nontrivial)
 {
-  Side const defender = slices[si].starter;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -366,10 +365,7 @@ boolean branch_d_defender_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if ((OptFlag[solflights]
-       && n-2>slack_length_direct
-       && has_too_many_flights(defender))
-      || is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
+  if (is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
     result = true;
   else if (n>2*min_length_nontrivial+slack_length_direct)
     result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
@@ -401,7 +397,6 @@ boolean branch_d_defender_can_defend_in_n(slice_index si,
                                           stip_length_type n,
                                           int curr_max_nr_nontrivial)
 {
-  Side const defender = slices[si].starter;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -411,10 +406,7 @@ boolean branch_d_defender_can_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if ((OptFlag[solflights]
-       && n-2>slack_length_direct
-       && has_too_many_flights(defender))
-      || is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
+  if (is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
     result = true;
   else if (n>2*min_length_nontrivial+slack_length_direct)
     result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
@@ -939,7 +931,6 @@ static boolean root_collect_nontrivial(table nontrivial,
  */
 boolean branch_d_defender_root_defend(slice_index si)
 {
-  Side const defender = slices[si].starter;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
   boolean result = true;
 
@@ -951,9 +942,6 @@ boolean branch_d_defender_root_defend(slice_index si)
   TraceValue("%u\n",min_length_nontrivial);
 
   if (is_threat_too_long(si,n-1,max_nr_nontrivial))
-    ;
-  else if (n-1>slack_length_direct+2
-           && OptFlag[solflights] && has_too_many_flights(defender))
     ;
   else
   {

@@ -57,6 +57,7 @@
                                                                         \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)

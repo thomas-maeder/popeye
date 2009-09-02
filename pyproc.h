@@ -296,8 +296,6 @@ boolean rrfouech(square sq, square sqtest, numvec k, piece p, int x, evalfunctio
 boolean rubiech(square sq, square sqtest, piece p,  echiquier e_ub, evalfunction_t *evaluate );
 boolean soutenu(square departure, square arrival, square capture);
 
-boolean has_too_many_flights(Side defender);
-
 extern void   (*gen_bl_piece)(square a, piece b);
 void    singleboxtype3_gen_bl_piece(square a, piece b);
 extern void   (*gen_wh_piece)(square a, piece b);

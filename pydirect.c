@@ -11,6 +11,7 @@
 #include "pyreflxg.h"
 #include "pymovenb.h"
 #include "pykeepmt.h"
+#include "pyflight.h"
 #include "pyint.h"
 #include "trace.h"
 
@@ -53,6 +54,10 @@ boolean direct_defender_root_defend(slice_index si)
 
     case STKeepMatingGuard:
       result = keepmating_guard_root_defend(si);
+      break;
+
+    case STMaxFlightsquares:
+      result = maxflight_guard_root_defend(si);
       break;
 
     case STRestartGuard:
@@ -337,6 +342,10 @@ boolean direct_defender_defend_in_n(slice_index si,
       result = keepmating_guard_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
+    case STMaxFlightsquares:
+      result = maxflight_guard_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
     default:
       assert(0);
       break;
@@ -393,6 +402,10 @@ boolean direct_defender_can_defend_in_n(slice_index si,
 
     case STKeepMatingGuard:
       result = keepmating_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    case STMaxFlightsquares:
+      result = maxflight_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
     default:
