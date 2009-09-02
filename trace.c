@@ -199,6 +199,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STDirectRoot:
       case STBranchDirect:
+      case STDirectHashed:
       case STDirectDefenderRoot:
       case STBranchDirectDefender:
       case STHelpAdapter:

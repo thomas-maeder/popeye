@@ -271,6 +271,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverter */
   &slice_property_offset_shifter, /* STDirectRoot */
   &slice_property_offset_shifter, /* STDirectDefenderRoot */
+  &slice_property_offset_shifter, /* STDirectHashed */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpAdapter */
   &slice_property_offset_shifter, /* STHelpHashed */
@@ -577,7 +578,7 @@ static boolean init_slice_properties_direct_root(slice_index si,
  * @return true iff the properties for branch and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_branch_direct(slice_index branch,
+static boolean init_slice_properties_hashed_direct(slice_index branch,
                                                    slice_traversal *st)
 {
   boolean const result = true;
@@ -744,7 +745,7 @@ static boolean init_slice_properties_branch_fork(slice_index branch_fork,
 
 static slice_operation const slice_properties_initalisers[] =
 {
-  &init_slice_properties_branch_direct,  /* STBranchDirect */
+  &init_slice_properties_pipe,           /* STBranchDirect */
   &init_slice_properties_pipe,           /* STBranchDirectDefender */
   &init_slice_properties_pipe,           /* STBranchHelp */
   &init_slice_properties_pipe,           /* STBranchSeries */
@@ -758,6 +759,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMoveInverter */
   &init_slice_properties_direct_root,    /* STDirectRoot */
   &init_slice_properties_direct_root,    /* STDirectDefenderRoot */
+  &init_slice_properties_hashed_direct,  /* STDirectHashed */
   &init_slice_properties_help_adapter,   /* STHelpRoot */
   &init_slice_properties_help_adapter,   /* STHelpAdapter */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
@@ -870,6 +872,7 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                   /* STMoveInverter */
   &slice_traverse_children,                   /* STDirectRoot */
   &non_standard_length_finder_branch_direct,  /* STDirectDefenderRoot */
+  &non_standard_length_finder_branch_direct,  /* STDirectHashed */
   &slice_traverse_children,                   /* STHelpRoot */
   &non_standard_length_finder_help_adapter,   /* STHelpAdapter */
   &non_standard_length_finder_help_adapter,   /* STHelpHashed */
@@ -910,8 +913,8 @@ static boolean findMinimalValueOffset(slice_index si, slice_traversal *st)
 
 static slice_operation const min_valueOffset_finders[] =
 {
-  &findMinimalValueOffset, /* STBranchDirect */
-  &findMinimalValueOffset,  /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STBranchSeries */
   &slice_traverse_children, /* STBranchFork */
@@ -924,6 +927,7 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STDirectRoot */
   &slice_traverse_children, /* STDirectDefenderRoot */
+  &findMinimalValueOffset,  /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &findMinimalValueOffset,  /* STHelpHashed */
@@ -963,8 +967,8 @@ static boolean reduceValueOffset(slice_index si, slice_traversal *st)
 
 static slice_operation const valueOffset_reducers[] =
 {
-  &reduceValueOffset,       /* STBranchDirect */
-  &reduceValueOffset,       /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STBranchSeries */
   &slice_traverse_children, /* STBranchFork */
@@ -977,6 +981,7 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STMoveInverter */
   &slice_traverse_children, /* STDirectRoot */
   &slice_traverse_children, /* STDirectDefenderRoot */
+  &reduceValueOffset,       /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpAdapter */
   &reduceValueOffset,       /* STHelpHashed */
@@ -1807,6 +1812,7 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STMoveInverter */
   &number_of_holes_estimator_branch_direct,         /* STDirectRoot */
   &number_of_holes_estimator_branch_direct_defender,/* STDirectDefenderRoot */
+  &number_of_holes_estimator_branch_direct,         /* STDirectHashed */
   &slice_traverse_children,                         /* STHelpRoot */
   &slice_traverse_children,                         /* STHelpAdapter */
   &number_of_holes_estimator_hashed_help,           /* STHelpHashed */
@@ -2207,7 +2213,7 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
         }
         break;
 
-      case STBranchDirect:
+      case STDirectHashed:
         if (what==DirNoSucc)
         {
           hash_value_type const nosucc = get_value_direct_nosucc(he,si);
@@ -2466,7 +2472,7 @@ boolean init_element_hashed_series(slice_index si, slice_traversal *st)
 
 static slice_operation const element_initialisers[] =
 {
-  &init_element_branch_d,      /* STBranchDirect */
+  &slice_traverse_children,    /* STBranchDirect */
   &slice_traverse_children,    /* STBranchDirectDefender */
   &slice_traverse_children,    /* STBranchHelp */
   &slice_traverse_children,    /* STBranchSeries */
@@ -2480,6 +2486,7 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STMoveInverter */
   &slice_traverse_children,    /* STDirectRoot */
   &slice_traverse_children,    /* STDirectDefenderRoot */
+  &init_element_branch_d,      /* STDirectHashed */
   &slice_traverse_children,    /* STHelpRoot */
   &slice_traverse_children,    /* STHelpAdapter */
   &init_element_hashed_help,   /* STHelpHashed */
@@ -2807,6 +2814,27 @@ void closehash(void)
 #endif /*TESTHASH,FXF*/
 } /* closehash */
 
+/* Allocate a STDirectHashed slice for a STBranch* slice and insert
+ * it at the STBranch* slice's position. 
+ * The STDirectHashed takes the place of the STBranch* slice.
+ * @param si identifies STBranch* slice
+ */
+void insert_directhashed_slice(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[si].type!=STDirectHashed);
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+
+  slices[si].u.pipe.next = copy_slice(si);
+  slices[si].type = STDirectHashed;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Allocate a STHelpHashed slice for a STBranch* slice and insert
  * it at the STBranch* slice's position. 
  * The STHelpHashed takes the place of the STBranch* slice.
@@ -2847,6 +2875,137 @@ void insert_serieshashed_slice(slice_index si)
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ */
+void direct_hashed_solve_continuations_in_n(table continuations,
+                                            slice_index si,
+                                            stip_length_type n)
+{
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  direct_solve_continuations_in_n(continuations,next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
+ * @param si slice index
+ * @param n maximum number of moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean direct_hashed_are_threats_refuted_in_n(table threats,
+                                               stip_length_type len_threat,
+                                               slice_index si,
+                                               stip_length_type n,
+                                               int curr_max_nr_nontrivial)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
+
+  result = direct_are_threats_refuted_in_n(threats,
+                                           len_threat,
+                                           next,
+                                           n,
+                                           curr_max_nr_nontrivial);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type direct_hashed_has_solution_in_n(slice_index si,
+                                                  stip_length_type n,
+                                                  int curr_max_nr_nontrivial)
+{
+  has_solution_type result = has_no_solution;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  /* It is more likely that a position has no solution. */
+  /* Therefore let's check for "no solution" first.  TLi */
+  if (inhash(si,DirNoSucc,n/2))
+  {
+    TraceText("inhash(si,DirNoSucc,n/2)\n");
+    assert(!inhash(si,DirSucc,n/2-1));
+  }
+  else if (inhash(si,DirSucc,n/2-1))
+  {
+    TraceText("inhash(si,DirSucc,n/2-1)\n");
+    result = has_solution;
+  }
+  else
+  {
+    result = direct_has_solution_in_n(next,n,curr_max_nr_nontrivial);
+    if (result==has_solution)
+      addtohash(si,DirSucc,n/2-1);
+    else
+      addtohash(si,DirNoSucc,n/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_hashed_solve(slice_index si)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_solve(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve in a number of half-moves

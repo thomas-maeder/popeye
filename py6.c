@@ -501,6 +501,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMoveInverter */
   &root_slice_type_found,             /* STDirectRoot */
   &root_slice_type_found,             /* STDirectDefenderRoot */
+  0,                                  /* STDirectHashed */
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
@@ -2446,6 +2447,31 @@ static boolean root_slice_apply_postkeyplay(void)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
+boolean insert_hash_element_branch_direct(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* First traverse childen, then insert STDirectHashed slice;
+   * otherwise the STDirectHashed will be traversed as well.
+   */
+  slice_traverse_children(si,st);
+  insert_directhashed_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
 boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
@@ -2455,7 +2481,7 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   /* First traverse childen, then insert STHelpHashed slice;
-   * otherweise the STHelpHashed will be traversed as well.
+   * otherwise the STHelpHashed will be traversed as well.
    */
   slice_traverse_children(si,st);
   insert_helphashed_slice(si);
@@ -2480,7 +2506,7 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   /* First traverse childen, then insert STSeriesHashed slice;
-   * otherweise the STSeriesHashed will be traversed as well.
+   * otherwise the STSeriesHashed will be traversed as well.
    */
   slice_traverse_children(si,st);
   insert_serieshashed_slice(si);
@@ -2493,7 +2519,7 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 
 static slice_operation const hash_element_inserters[] =
 {
-  &slice_traverse_children,           /* STBranchDirect */
+  &insert_hash_element_branch_direct, /* STBranchDirect */
   &slice_traverse_children,           /* STBranchDirectDefender */
   &insert_hash_element_branch_help,   /* STBranchHelp */
   &insert_hash_element_branch_series, /* STBranchSeries */
@@ -2507,6 +2533,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STMoveInverter */
   &slice_traverse_children,           /* STDirectRoot */
   &slice_traverse_children,           /* STDirectDefenderRoot */
+  &slice_traverse_children,           /* STDirectHashed */
   &slice_traverse_children,           /* STHelpRoot */
   &slice_traverse_children,           /* STHelpAdapter */
   &slice_traverse_children,           /* STHelpHashed */

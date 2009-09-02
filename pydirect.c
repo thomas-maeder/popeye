@@ -107,6 +107,14 @@ boolean direct_are_threats_refuted_in_n(table threats,
                                                  curr_max_nr_nontrivial);
       break;
 
+    case STDirectHashed:
+      result = direct_hashed_are_threats_refuted_in_n(threats,
+                                                      len_threat,
+                                                      si,
+                                                      n,
+                                                      curr_max_nr_nontrivial);
+      break;
+
     case STDirectDefense:
       result = direct_defense_are_threats_refuted_in_n(threats,
                                                        len_threat,
@@ -184,6 +192,10 @@ has_solution_type direct_has_solution_in_n(slice_index si,
       result = branch_d_has_solution_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
+    case STDirectHashed:
+      result = direct_hashed_has_solution_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
     case STSelfCheckGuard:
       result = selfcheck_guard_direct_has_solution_in_n(si,
                                                         n,
@@ -243,6 +255,10 @@ void direct_solve_continuations_in_n(table continuations,
   {
     case STBranchDirect:
       branch_d_solve_continuations_in_n(continuations,si,n);
+      break;
+
+    case STDirectHashed:
+      direct_hashed_solve_continuations_in_n(continuations,si,n);
       break;
 
     case STDirectDefense:

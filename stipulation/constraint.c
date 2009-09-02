@@ -878,12 +878,13 @@ static slice_operation const reflex_guards_inserters[] =
   &slice_traverse_children,            /* STMoveInverter */
   &reflex_guards_inserter_branch,      /* STDirectRoot */
   &reflex_guards_inserter_branch,      /* STDirectDefenderRoot */
+  0,                                   /* STDirectHashed */
   &reflex_guards_inserter_branch,      /* STHelpRoot */
   &slice_traverse_children,            /* STHelpAdapter */
-  &slice_traverse_children,            /* STHelpHashed */
+  0,                                   /* STHelpHashed */
   &reflex_guards_inserter_series,      /* STSeriesRoot */
   &slice_traverse_children,            /* STSeriesAdapter */
-  &slice_traverse_children,            /* STSeriesHashed */
+  0,                                   /* STSeriesHashed */
   0,                                   /* STSelfCheckGuard */
   0,                                   /* STDirectAttack */
   0,                                   /* STDirectDefense */
@@ -974,12 +975,13 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &slice_traverse_children,            /* STMoveInverter */
   &reflex_guards_inserter_branch_semi, /* STDirectRoot */
   &reflex_guards_inserter_branch,      /* STDirectDefenderRoot */
+  0,                                   /* STDirectHashed */
   &slice_traverse_children,            /* STHelpRoot */
   &slice_traverse_children,            /* STHelpAdapter */
-  &slice_traverse_children,            /* STHelpHashed */
+  0,                                   /* STHelpHashed */
   &slice_traverse_children,            /* STSeriesRoot */
   &slice_traverse_children,            /* STSeriesAdapter */
-  &slice_traverse_children,            /* STSeriesHashed */
+  0,                                   /* STSeriesHashed */
   0,                                   /* STSelfCheckGuard */
   0,                                   /* STDirectAttack */
   0,                                   /* STDirectDefense */

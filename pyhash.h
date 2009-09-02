@@ -12,6 +12,7 @@
 #include "DHT/dhtbcmem.h"
 #include "py.h"
 #include "pytable.h"
+#include "pydirect.h"
 
 /* typedefs */
 typedef enum {
@@ -76,6 +77,56 @@ void addtohash(slice_index si,
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
+
+/* Allocate a STDirectHashed slice for a STBranch* slice and insert
+ * it at the STBranch* slice's position. 
+ * The STDirectHashed takes the place of the STBranch* slice.
+ * @param si identifies STBranch* slice
+ */
+void insert_directhashed_slice(slice_index si);
+
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ */
+void direct_hashed_solve_continuations_in_n(table continuations,
+                                            slice_index si,
+                                            stip_length_type n);
+
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
+ * @param si slice index
+ * @param n maximum number of moves until goal
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean direct_hashed_are_threats_refuted_in_n(table threats,
+                                               stip_length_type len_threat,
+                                               slice_index si,
+                                               stip_length_type n,
+                                               int curr_max_nr_nontrivial);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type direct_hashed_has_solution_in_n(slice_index si,
+                                                  stip_length_type n,
+                                                  int curr_max_nr_nontrivial);
+
+/* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_hashed_solve(slice_index si);
 
 /* Allocate a STHelpHashed slice for a STBranch* slice and insert
  * it at the STBranch* slice's position. 

@@ -42,8 +42,8 @@ pypiece.h:
 pyenum.h:
 py1$(OBJ_SUFFIX): py1.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pymsg.h py1.h pyproc.h py4.h pygoal.h pydata.h \
-  pystip.h pyhash.h DHT/dhtbcmem.h pytable.h pymovenb.h pyhelp.h \
-  pyslice.h trace.h platform/maxtime.h
+  pystip.h pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h \
+  pymovenb.h pyhelp.h trace.h platform/maxtime.h
 
 py.h:
 
@@ -81,11 +81,13 @@ DHT/dhtbcmem.h:
 
 pytable.h:
 
+pydirect.h:
+
+pyslice.h:
+
 pymovenb.h:
 
 pyhelp.h:
-
-pyslice.h:
 
 trace.h:
 
@@ -190,8 +192,8 @@ pystip.h:
 trace.h:
 py5$(OBJ_SUFFIX): py5.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
-  pytable.h pydata.h pymsg.h pyslice.h pystip.h pyleaf.h pyoutput.h \
-  trace.h
+  pytable.h pydirect.h pyslice.h pystip.h pydata.h pymsg.h pyleaf.h \
+  pyoutput.h trace.h
 
 py.h:
 
@@ -221,13 +223,15 @@ DHT/dhtbcmem.h:
 
 pytable.h:
 
-pydata.h:
-
-pymsg.h:
+pydirect.h:
 
 pyslice.h:
 
 pystip.h:
+
+pydata.h:
+
+pymsg.h:
 
 pyleaf.h:
 
@@ -236,11 +240,10 @@ pyoutput.h:
 trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h py1.h pyproc.h py4.h pygoal.h pydata.h pymsg.h \
-  pyhash.h DHT/dhtbcmem.h pytable.h pyint.h pyproof.h pymovein.h \
-  pyslice.h pystip.h pybrah.h pyquodli.h pykeepmt.h pyhelp.h pydirect.h \
-  pyselfcg.h pymovenb.h platform/maxmem.h platform/../boolean.h \
-  platform/maxtime.h platform/pytime.h platform/priority.h trace.h \
-  pyoutput.h
+  pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h pyint.h \
+  pyproof.h pymovein.h pybrah.h pyquodli.h pykeepmt.h pyhelp.h pyselfcg.h \
+  pymovenb.h platform/maxmem.h platform/../boolean.h platform/maxtime.h \
+  platform/pytime.h platform/priority.h trace.h pyoutput.h
 
 py.h:
 
@@ -276,15 +279,17 @@ DHT/dhtbcmem.h:
 
 pytable.h:
 
+pydirect.h:
+
+pyslice.h:
+
+pystip.h:
+
 pyint.h:
 
 pyproof.h:
 
 pymovein.h:
-
-pyslice.h:
-
-pystip.h:
 
 pybrah.h:
 
@@ -293,8 +298,6 @@ pyquodli.h:
 pykeepmt.h:
 
 pyhelp.h:
-
-pydirect.h:
 
 pyselfcg.h:
 
@@ -434,8 +437,8 @@ pylang$(OBJ_SUFFIX): pylang.c pylang.h
 pylang.h:
 pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h \
-  pyhash.h DHT/dhtbcmem.h pytable.h pyint.h DHT/dhtvalue.h DHT/fxf.h \
-  DHT/dht.h pyproof.h pystip.h pybrafrk.h pyslice.h pydirect.h pyhelp.h \
+  pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h pyint.h \
+  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h pybrafrk.h pyhelp.h \
   pyseries.h platform/maxtime.h platform/maxmem.h platform/../boolean.h \
   trace.h
 
@@ -471,6 +474,12 @@ DHT/dhtbcmem.h:
 
 pytable.h:
 
+pydirect.h:
+
+pyslice.h:
+
+pystip.h:
+
 pyint.h:
 
 DHT/dhtvalue.h:
@@ -481,13 +490,7 @@ DHT/dht.h:
 
 pyproof.h:
 
-pystip.h:
-
 pybrafrk.h:
-
-pyslice.h:
-
-pydirect.h:
 
 pyhelp.h:
 
@@ -502,8 +505,8 @@ platform/../boolean.h:
 trace.h:
 pyproof$(OBJ_SUFFIX): pyproof.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h pytable.h pyproof.h pymsg.h pyslice.h pystip.h pyint.h \
-  platform/maxtime.h trace.h
+  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h pyproof.h \
+  pymsg.h pyint.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -535,13 +538,15 @@ DHT/dhtbcmem.h:
 
 pytable.h:
 
-pyproof.h:
-
-pymsg.h:
+pydirect.h:
 
 pyslice.h:
 
 pystip.h:
+
+pyproof.h:
+
+pymsg.h:
 
 pyint.h:
 
@@ -626,7 +631,9 @@ platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
   platform/../boolean.h platform/../pyhash.h platform/../DHT/dhtbcmem.h \
   platform/../py.h platform/../boolean.h platform/../pyposit.h \
   platform/../pyboard.h platform/../pybitmsk.h platform/../pypiece.h \
-  platform/../pyenum.h platform/../pylang.h platform/../pytable.h
+  platform/../pyenum.h platform/../pylang.h platform/../pytable.h \
+  platform/../pydirect.h platform/../pyslice.h platform/../pystip.h \
+  platform/../pygoal.h
 
 platform/maxmem.h:
 
@@ -653,6 +660,14 @@ platform/../pyenum.h:
 platform/../pylang.h:
 
 platform/../pytable.h:
+
+platform/../pydirect.h:
+
+platform/../pyslice.h:
+
+platform/../pystip.h:
+
+platform/../pygoal.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime.h \
   platform/../pydata.h platform/../pyproc.h platform/../py4.h \
   platform/../py.h platform/../boolean.h platform/../pyposit.h \
@@ -710,8 +725,8 @@ pylang.h:
 pygoal.h:
 pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
-  pytable.h pymsg.h pyint.h pydata.h pyslice.h pystip.h pybrah.h \
-  pybrafrk.h pydirect.h pyproof.h pyhelp.h pyseries.h pypipe.h \
+  pytable.h pydirect.h pyslice.h pystip.h pymsg.h pyint.h pydata.h \
+  pybrah.h pybrafrk.h pyproof.h pyhelp.h pyseries.h pypipe.h \
   platform/maxtime.h trace.h
 
 py.h:
@@ -742,21 +757,21 @@ DHT/dhtbcmem.h:
 
 pytable.h:
 
+pydirect.h:
+
+pyslice.h:
+
+pystip.h:
+
 pymsg.h:
 
 pyint.h:
 
 pydata.h:
 
-pyslice.h:
-
-pystip.h:
-
 pybrah.h:
 
 pybrafrk.h:
-
-pydirect.h:
 
 pyproof.h:
 
@@ -771,7 +786,7 @@ platform/maxtime.h:
 trace.h:
 pygoal$(OBJ_SUFFIX): pygoal.c pygoal.h boolean.h py.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pydata.h pyproc.h py4.h pyproof.h pyhash.h \
-  DHT/dhtbcmem.h pytable.h trace.h
+  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h trace.h
 
 pygoal.h:
 
@@ -804,6 +819,12 @@ pyhash.h:
 DHT/dhtbcmem.h:
 
 pytable.h:
+
+pydirect.h:
+
+pyslice.h:
+
+pystip.h:
 
 trace.h:
 pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard.h \
@@ -1212,8 +1233,8 @@ pyoutput.h:
 trace.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
-  pygoal.h pytable.h pybrafrk.h pybrah.h pyhelp.h pypipe.h pyoutput.h \
-  trace.h
+  pygoal.h pytable.h pybrafrk.h pybrah.h pyhelp.h pypipe.h pydata.h \
+  pyproc.h py4.h pyoutput.h trace.h
 
 pyselfgd.h:
 
@@ -1250,6 +1271,12 @@ pybrah.h:
 pyhelp.h:
 
 pypipe.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
 
 pyoutput.h:
 
@@ -1992,8 +2019,8 @@ pydata.h:
 trace.h:
 pymovenb$(OBJ_SUFFIX): pymovenb.c pymovenb.h pyhelp.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h \
-  pytable.h pyslice.h pypipe.h pyseries.h pyproc.h py4.h pydata.h pymsg.h \
-  trace.h
+  pytable.h pyslice.h pypipe.h pydirect.h pyseries.h pyproc.h py4.h \
+  pydata.h pymsg.h trace.h
 
 pymovenb.h:
 
@@ -2025,6 +2052,8 @@ pyslice.h:
 
 pypipe.h:
 
+pydirect.h:
+
 pyseries.h:
 
 pyproc.h:
@@ -2038,7 +2067,7 @@ pymsg.h:
 trace.h:
 trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h pytable.h pystip.h
+  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
 
 trace.h:
 
@@ -2072,6 +2101,10 @@ DHT/dhtbcmem.h:
 
 pytable.h:
 
+pydirect.h:
+
+pyslice.h:
+
 pystip.h:
 platform/$(PLATFORM)/maxmem$(OBJ_SUFFIX): platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/../maxmem.h \
   platform/$(PLATFORM)/../../boolean.h
@@ -2089,7 +2122,8 @@ platform/$(PLATFORM)/maxtime$(OBJ_SUFFIX): platform/$(PLATFORM)/maxtime.c \
   platform/$(PLATFORM)/../../pyproc.h platform/$(PLATFORM)/../../py4.h \
   platform/$(PLATFORM)/../../py.h platform/$(PLATFORM)/../../pygoal.h \
   platform/$(PLATFORM)/../../pyhash.h platform/$(PLATFORM)/../../DHT/dhtbcmem.h \
-  platform/$(PLATFORM)/../../pytable.h
+  platform/$(PLATFORM)/../../pytable.h platform/$(PLATFORM)/../../pydirect.h \
+  platform/$(PLATFORM)/../../pyslice.h platform/$(PLATFORM)/../../pystip.h
 
 platform/$(PLATFORM)/../maxtime.h:
 
@@ -2128,6 +2162,12 @@ platform/$(PLATFORM)/../../pyhash.h:
 platform/$(PLATFORM)/../../DHT/dhtbcmem.h:
 
 platform/$(PLATFORM)/../../pytable.h:
+
+platform/$(PLATFORM)/../../pydirect.h:
+
+platform/$(PLATFORM)/../../pyslice.h:
+
+platform/$(PLATFORM)/../../pystip.h:
 platform/$(PLATFORM)/pytime$(OBJ_SUFFIX): platform/$(PLATFORM)/pytime.c platform/$(PLATFORM)/../pytime.h
 
 platform/$(PLATFORM)/../pytime.h:

@@ -456,46 +456,13 @@ static boolean have_we_solution_in_n_short(slice_index si,
  * @param n maximum number of half moves until goal
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff attacker can end in n half moves
- */
-static boolean have_we_solution_in_n_nohash(slice_index si,
-                                            stip_length_type n,
-                                            int curr_max_nr_nontrivial)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  if (have_we_solution_in_n_short(si,n,curr_max_nr_nontrivial))
-    result = true;
-  else if (periods_counter<nr_periods
-           && have_we_solution_in_n(si,n,curr_max_nr_nontrivial))
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether attacker can end in n half moves.
- * May consult the hash table.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type branch_d_has_solution_in_n(slice_index si,
                                              stip_length_type n,
                                              int curr_max_nr_nontrivial)
 {
-  has_solution_type result = has_no_solution;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -505,28 +472,13 @@ has_solution_type branch_d_has_solution_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  /* It is more likely that a position has no solution. */
-  /* Therefore let's check for "no solution" first.  TLi */
-  if (inhash(si,DirNoSucc,n/2))
-  {
-    TraceText("inhash(si,DirNoSucc,n/2)\n");
-    assert(!inhash(si,DirSucc,n/2-1));
-  }
-  else if (inhash(si,DirSucc,n/2-1))
-  {
-    TraceText("inhash(si,DirSucc,n/2-1)\n");
-    result = true;
-  }
+  if (have_we_solution_in_n_short(si,n,curr_max_nr_nontrivial))
+    result = has_solution;
+  else if (periods_counter<nr_periods
+           && have_we_solution_in_n(si,n,curr_max_nr_nontrivial))
+    result = has_solution;
   else
-  {
-    result = (have_we_solution_in_n_nohash(si,n,curr_max_nr_nontrivial)
-              ? has_solution
-              : has_no_solution);
-    if (result==has_solution)
-      addtohash(si,DirSucc,n/2-1);
-    else
-      addtohash(si,DirNoSucc,n/2);
-  }
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

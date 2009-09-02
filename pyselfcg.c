@@ -723,6 +723,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_move_inverter, /* STMoveInverter */
   &selfcheck_guards_inserter_branch_direct, /* STDirectRoot */
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
+  &slice_traverse_children,                 /* STDirectHashed */
   &selfcheck_guards_inserter_branch,        /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpAdapter */
   &slice_traverse_children,                 /* STHelpHashed */
@@ -823,6 +824,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_operation_noop,                         /* STMoveInverter */
   &selfcheck_guards_inserter_toplevel_root,      /* STDirectRoot */
   0,                                             /* STDirectDefenderRoot */
+  0,                                             /* STDirectHashed */
   &selfcheck_guards_inserter_toplevel_root,      /* STHelpRoot */
   0,                                             /* STHelpAdapter */
   0,                                             /* STHelpHashed */

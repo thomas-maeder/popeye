@@ -395,6 +395,10 @@ boolean slice_solve(slice_index si)
       solution_found = branch_d_solve(si);
       break;
 
+    case STDirectHashed:
+      solution_found = direct_hashed_solve(si);
+      break;
+
     case STHelpAdapter:
       solution_found = help_adapter_solve(si);
       break;
