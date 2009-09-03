@@ -4703,9 +4703,11 @@ static char *ParseOpt(void)
         if (tok==ptr)
         {
           IoErrorMsg(WrongInt, 0);
-          min_length_nontrivial = maxply;
+          min_length_nontrivial = 2*maxply+slack_length_direct;
           return ReadNextTokStr();
         }
+        else
+          min_length_nontrivial = 2*min_length_nontrivial+slack_length_direct;
         break;
 
       case postkeyplay:
@@ -5935,11 +5937,11 @@ void WritePosition() {
   else if (OptFlag[solflights])
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", get_max_flights());
 
-  if (min_length_nontrivial<maxply)
+  if ((min_length_nontrivial-slack_length_direct)/2<maxply)
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%u",
             max_nr_nontrivial,
-            min_length_nontrivial);
+            (min_length_nontrivial-slack_length_direct)/2);
 
   {
     size_t const stipOptLength = strlen(StipOptStr);

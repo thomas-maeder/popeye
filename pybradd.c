@@ -192,18 +192,15 @@ static int count_all_nontrivial_defenses(slice_index si)
   TraceValue("%u",nbcou);
   TraceValue("%u",nbply);
   TraceValue("%u",repere[nbply]);
-  TraceValue("%u",min_length_nontrivial);
-  TraceValue("%d\n",result);
+  TraceValue("%u\n",result);
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender) /* TODO rearrange slices */
-        && (min_length_nontrivial==0
+        && (min_length_nontrivial==slack_length_direct
             || (direct_has_solution_in_n(next,
-                                         2*min_length_nontrivial
-                                         +slack_length_direct
-                                         +parity-1,
+                                         min_length_nontrivial+parity-1,
                                          max_nr_nontrivial)
                 ==has_no_solution)))
       ++result;
@@ -242,18 +239,13 @@ static int count_enough_nontrivial_defenses(slice_index si,
   active_slice[nbply+1] = si;
   genmove(defender);
 
-  TraceValue("%u",max_nr_nontrivial);
-  TraceValue("%u\n",min_length_nontrivial);
-
   while (encore() && curr_max_nr_nontrivial>=result)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !echecc(nbply,defender) /* TODO rearrange slices */
-        && (min_length_nontrivial==0
+        && (min_length_nontrivial==slack_length_direct
             || (direct_has_solution_in_n(next,
-                                         2*min_length_nontrivial
-                                         +slack_length_direct
-                                         +parity-1,
+                                         min_length_nontrivial+parity-1,
                                          curr_max_nr_nontrivial)
                 ==has_no_solution)))
       ++result;
@@ -327,7 +319,7 @@ boolean branch_d_defender_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (n>2*min_length_nontrivial+slack_length_direct)
+  if (n>min_length_nontrivial)
     result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
   else
     result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
@@ -366,7 +358,7 @@ boolean branch_d_defender_can_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (n>2*min_length_nontrivial+slack_length_direct)
+  if (n>min_length_nontrivial)
     result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
   /* TODO shouldn't we continue with the next condition if we have
    * failed to detect too many nontrivial defenses? */
@@ -619,7 +611,7 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si,
   output_start_postkey_level();
 
   len_threat = solve_threats(threats,si,n-1);
-  if (n>2*min_length_nontrivial+slack_length_direct)
+  if (n>min_length_nontrivial)
   {
     int const nontrivial_count = count_all_nontrivial_defenses(si);
     result = solve_variations_in_n(len_threat,
@@ -719,7 +711,7 @@ boolean branch_d_defender_root_solve_postkey(table refutations, slice_index si)
     TraceValue("%u",n);
     TraceValue("%u\n",len_threat);
 
-    if (n>2*min_length_nontrivial+slack_length_direct)
+    if (n>min_length_nontrivial)
     {
       int const nontrivial_count =
           count_enough_nontrivial_defenses(si,max_nr_nontrivial);
@@ -892,10 +884,7 @@ boolean branch_d_defender_root_defend(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",n);
-  TraceValue("%u\n",min_length_nontrivial);
-
-  if (n>2*min_length_nontrivial+slack_length_direct)
+  if (n>min_length_nontrivial)
     defender_is_immobile = root_collect_nontrivial(refutations,si,n);
   else
     defender_is_immobile = root_collect_refutations(refutations,

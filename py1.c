@@ -320,7 +320,7 @@ void InitOpt(void)
   reset_restart_number();
   reset_max_threat_length();
 
-  min_length_nontrivial = maxply;
+  min_length_nontrivial = 2*maxply+slack_length_direct;
 
   {
     unsigned int i;

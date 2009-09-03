@@ -424,11 +424,10 @@ static boolean have_we_solution_in_n_short(slice_index si,
   if (n_min<=slack_length_direct)
     n_min += 2;
 
-  if (n_max>=2*min_length_nontrivial+slack_length_direct)
-    n_max = 2*min_length_nontrivial+slack_length_direct-parity;
+  if (n_max>=min_length_nontrivial)
+    n_max = min_length_nontrivial-parity;
 
   TraceValue("%u",min_length);
-  TraceValue("%u",min_length_nontrivial);
   TraceValue("%u",n_min);
   TraceValue("%u\n",n_max);
 
