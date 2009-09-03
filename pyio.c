@@ -5926,9 +5926,9 @@ void WritePosition() {
 
   strcpy(StipOptStr, AlphaStip);
 
-  if (max_len_threat<maxply)
+  if (OptFlag[solmenaces])
   {
-    sprintf(StipOptStr+strlen(StipOptStr), "/%u", max_len_threat);
+    sprintf(StipOptStr+strlen(StipOptStr), "/%u", get_max_threat_length());
     if (OptFlag[solflights])
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", get_max_flights());
   }

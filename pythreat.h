@@ -8,8 +8,6 @@
 
 #include "pyslice.h"
 
-extern stip_length_type max_len_threat;
-
 /* Reset the max threats setting to off
  */
 void reset_max_threat_length(void);

@@ -638,8 +638,8 @@ static boolean verify_position(void)
       return false;
     }
 
-    if (slices[root_slice].u.pipe.u.branch.length<=max_len_threat)
-      max_len_threat = maxply;
+    if (slices[root_slice].u.pipe.u.branch.length<=get_max_threat_length())
+      reset_max_threat_length();
 
     if (slices[root_slice].u.pipe.u.branch.length<1
         && max_nr_refutations>0

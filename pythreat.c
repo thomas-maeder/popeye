@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-stip_length_type max_len_threat;
+static stip_length_type max_len_threat;
 
 /* Reset the max threats setting to off
  */
