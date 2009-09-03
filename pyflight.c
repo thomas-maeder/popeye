@@ -11,12 +11,12 @@ static unsigned int max_nr_flights;
 
 /* Reset the max flights setting to off
  */
-void reset_max_fligths(void)
+void reset_max_flights(void)
 {
   max_nr_flights = INT_MAX;
 }
 
-/* Read the requested max fligth setting from a text token entered by
+/* Read the requested max flight setting from a text token entered by
  * the user
  * @param textToken text token from which to read
  * @return true iff max flight setting was successfully read

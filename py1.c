@@ -313,7 +313,7 @@ void InitOpt(void)
 
   resetOptionMaxtime();
 
-  reset_max_fligths();
+  reset_max_flights();
   max_nr_refutations = 0;
 
   reset_restart_number();
