@@ -169,8 +169,6 @@ enum
   max_castling = queenside_castling
 };
 
-typedef unsigned int stip_length_type;
-
 enum
 {
 #if defined(__unix)
@@ -192,6 +190,13 @@ enum
 #endif/* SIXTEEN */
 #endif /* _WIN32 */
 #endif /* __unix */
+};
+
+typedef unsigned int stip_length_type;
+
+enum
+{
+  no_stip_length = maxply
 };
 
 enum

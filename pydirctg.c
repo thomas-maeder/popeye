@@ -635,7 +635,8 @@ static slice_operation const direct_guards_inserters[] =
   0,                                              /* STRestartGuard */
   0,                                              /* STGoalReachableGuard */
   0,                                              /* STKeepMatingGuard */
-  0                                               /* STMaxFlightsquares */
+  0,                                              /* STMaxFlightsquares */
+  0                                               /* STMaxThreatLength */
 };
 
 /* Instrument a branch with STDirectAttack and STDirectDefense slices

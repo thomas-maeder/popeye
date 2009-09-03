@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.84 2009/09/02 19:28:34 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.85 2009/09/03 17:53:39 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -256,7 +256,7 @@ INCLUDES =      pyenum.h \
 		pydirect.h pyhelp.h pyseries.h \
 		pypipe.h \
 		pydirctg.h pyselfgd.h pyreflxg.h \
-		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
+		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h pythreat.h \
 		pyquodli.h pyrecipr.h pynot.h \
 		pybrad.h pybradd.h pybrah.h pybraser.h \
 		pyleaf.h pyleafd.h pyleaff.h pyleafh.h \
@@ -274,7 +274,7 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		pydirect.c pyhelp.c pyseries.c \
 		pypipe.c \
 		pydirctg.c pyselfgd.c pyreflxg.c \
-		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \
+		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c pythreat.c \
 		pyquodli.c pyrecipr.c pynot.c \
 		pybrad.c pybradd.c pybrah.c pybraser.c \
 		pyleaf.c pyleafd.c pyleaff.c pyleafh.c \

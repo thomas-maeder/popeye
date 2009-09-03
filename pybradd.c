@@ -307,44 +307,6 @@ static boolean too_many_nontrivial_defenses(slice_index si,
   return result;
 }
 
-/* Determine whether the threat after the attacker's move just played
- * is too long respective to user input.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff threat is too long
- */
-static boolean is_threat_too_long(slice_index si,
-                                  stip_length_type n,
-                                  int curr_max_nr_nontrivial)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2!=slices[si].u.pipe.u.branch.length%2);
-
-  TraceValue("%u\n",2*max_len_threat);
-  if (n>=2*max_len_threat+slack_length_direct)
-    result = (direct_has_solution_in_n(next,
-                                       2*max_len_threat,
-                                       curr_max_nr_nontrivial)
-              ==has_no_solution);
-  else
-    /* remainder of play is too short for max_len_threat to apply */
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -365,9 +327,7 @@ boolean branch_d_defender_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
-    result = true;
-  else if (n>2*min_length_nontrivial+slack_length_direct)
+  if (n>2*min_length_nontrivial+slack_length_direct)
     result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
   else
     result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
@@ -406,9 +366,7 @@ boolean branch_d_defender_can_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (is_threat_too_long(si,n-1,curr_max_nr_nontrivial))
-    result = true;
-  else if (n>2*min_length_nontrivial+slack_length_direct)
+  if (n>2*min_length_nontrivial+slack_length_direct)
     result = too_many_nontrivial_defenses(si,n,curr_max_nr_nontrivial);
   /* TODO shouldn't we continue with the next condition if we have
    * failed to detect too many nontrivial defenses? */
@@ -608,14 +566,8 @@ static stip_length_type solve_threats(table threats,
 
   assert(n%2!=slices[si].u.pipe.u.branch.length%2);
 
-  stip_length_type const
-      max_threat_length = (n>2*max_len_threat+slack_length_direct
-                           ? 2*max_len_threat+slack_length_direct+parity
-                           : n);
-  TraceValue("%u\n",max_threat_length);
-
   if (OptFlag[nothreat])
-    result = max_threat_length+2;
+    result = n+2;
   else if (echecc(nbply,defender))
     result = (n-slack_length_direct)%2;
   else
@@ -624,7 +576,7 @@ static stip_length_type solve_threats(table threats,
 
     result = slack_length_direct+parity;
 
-    while (result<=max_threat_length)
+    while (result<=n)
     {
       direct_solve_continuations_in_n(threats,next,result);
       TraceValue("%u",result);
@@ -933,6 +885,8 @@ boolean branch_d_defender_root_defend(slice_index si)
 {
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
   boolean result = true;
+  table refutations = allocate_table();
+  boolean defender_is_immobile;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -941,42 +895,33 @@ boolean branch_d_defender_root_defend(slice_index si)
   TraceValue("%u",n);
   TraceValue("%u\n",min_length_nontrivial);
 
-  if (is_threat_too_long(si,n-1,max_nr_nontrivial))
-    ;
+  if (n>2*min_length_nontrivial+slack_length_direct)
+    defender_is_immobile = root_collect_nontrivial(refutations,si,n);
   else
+    defender_is_immobile = root_collect_refutations(refutations,
+                                                    si,
+                                                    n,
+                                                    max_nr_nontrivial);
+
+  if (!defender_is_immobile)
   {
-    table refutations = allocate_table();
-
-    boolean defender_is_immobile;
-
-    if (n>2*min_length_nontrivial+slack_length_direct)
-      defender_is_immobile = root_collect_nontrivial(refutations,si,n);
-    else
-      defender_is_immobile = root_collect_refutations(refutations,
-                                                      si,
-                                                      n,
-                                                      max_nr_nontrivial);
-
-    if (!defender_is_immobile)
+    if (table_length(refutations)==0)
     {
-      if (table_length(refutations)==0)
-      {
-        result = false;
-        write_attack(attack_key);
-        branch_d_defender_root_solve_postkey(refutations,si);
-        write_end_of_solution();
-      }
-      else if (table_length(refutations)<=max_nr_refutations)
-      {
-        write_attack(attack_try);
-        branch_d_defender_root_solve_postkey(refutations,si);
-        write_refutations(refutations);
-        write_end_of_solution();
-      }
+      result = false;
+      write_attack(attack_key);
+      branch_d_defender_root_solve_postkey(refutations,si);
+      write_end_of_solution();
     }
-
-    free_table();
+    else if (table_length(refutations)<=max_nr_refutations)
+    {
+      write_attack(attack_try);
+      branch_d_defender_root_solve_postkey(refutations,si);
+      write_refutations(refutations);
+      write_end_of_solution();
+    }
   }
+
+  free_table();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

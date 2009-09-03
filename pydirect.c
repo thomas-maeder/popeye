@@ -12,6 +12,7 @@
 #include "pymovenb.h"
 #include "pykeepmt.h"
 #include "pyflight.h"
+#include "pythreat.h"
 #include "pyint.h"
 #include "trace.h"
 
@@ -58,6 +59,10 @@ boolean direct_defender_root_defend(slice_index si)
 
     case STMaxFlightsquares:
       result = maxflight_guard_root_defend(si);
+      break;
+
+    case STMaxThreatLength:
+      result = maxthreatlength_guard_root_defend(si);
       break;
 
     case STRestartGuard:
@@ -346,6 +351,10 @@ boolean direct_defender_defend_in_n(slice_index si,
       result = maxflight_guard_defend_in_n(si,n,curr_max_nr_nontrivial);
       break;
 
+    case STMaxThreatLength:
+      result = maxthreatlength_guard_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
     default:
       assert(0);
       break;
@@ -406,6 +415,12 @@ boolean direct_defender_can_defend_in_n(slice_index si,
 
     case STMaxFlightsquares:
       result = maxflight_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      break;
+
+    case STMaxThreatLength:
+      result = maxthreatlength_guard_can_defend_in_n(si,
+                                                     n,
+                                                     curr_max_nr_nontrivial);
       break;
 
     default:

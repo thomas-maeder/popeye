@@ -226,7 +226,16 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STSelfCheckGuard:
+      case STMaxFlightsquares:
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STMaxThreatLength:
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"to_attacker:%u ",
+                slices[si].u.pipe.u.maxthreatlength_guard.to_attacker);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;

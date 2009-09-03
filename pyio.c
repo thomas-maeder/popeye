@@ -78,6 +78,7 @@
 #include "pyproof.h"
 #include "pymovenb.h"
 #include "pyflight.h"
+#include "pythreat.h"
 #include "pyreflxg.h"
 #include "pydirctg.h"
 #include "pyselfgd.h"
@@ -2125,7 +2126,8 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STRestartGuard */
   0,                                     /* STGoalReachableGuard */
   0,                                     /* STKeepMatingGuard */
-  0                                      /* STMaxFlightsquares */
+  0,                                     /* STMaxFlightsquares */
+  0                                      /* STMaxThreatLength */
 };
 
 /* Promote a slice to toplevel that was initialised under the wrong
@@ -4646,10 +4648,9 @@ static char *ParseOpt(void)
 
       case solmenaces:
         tok = ReadNextTokStr();
-        max_len_threat = strtoul(tok,&ptr,10);
-        if (tok==ptr)
+        if (!read_max_threat_length(tok))
         {
-          max_len_threat= maxply;
+          OptFlag[solmenaces] = false;
           IoErrorMsg(WrongInt,0);
           return ReadNextTokStr();
         }

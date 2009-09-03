@@ -22,8 +22,7 @@
 static void init_reflex_guard_slice(slice_index si,
                                     stip_length_type length,
                                     stip_length_type min_length,
-                                    slice_index to_be_avoided,
-                                    slice_index to_be_avoided_advers)
+                                    slice_index to_be_avoided)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -36,7 +35,6 @@ static void init_reflex_guard_slice(slice_index si,
   slices[si].u.pipe.u.reflex_guard.length = length;
   slices[si].u.pipe.u.reflex_guard.min_length = min_length;
   slices[si].u.pipe.u.reflex_guard.avoided = to_be_avoided;
-  slices[si].u.pipe.u.reflex_guard.avoided_advers = to_be_avoided_advers;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -166,7 +164,8 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
-  assert(slice_has_solution(avoided)==has_no_solution);
+  assert(slice_has_solution(slices[si].u.pipe.u.reflex_guard.avoided)
+         ==has_no_solution);
   result = direct_are_threats_refuted_in_n(threats,
                                            len_threat,
                                            next,
@@ -793,15 +792,13 @@ static boolean reflex_guards_inserter_branch(slice_index si,
     pipe_insert_after(si);
     init_reflex_guard_slice(slices[si].u.pipe.next,
                             length-1,min_length-1,
-                            param->to_be_avoided[1-length%2],
-                            param->to_be_avoided[length%2]);
+                            param->to_be_avoided[1-length%2]);
   }
 
   pipe_insert_before(si);
   init_reflex_guard_slice(si,
                           length,min_length,
-                          param->to_be_avoided[length%2],
-                          param->to_be_avoided[1-length%2]);
+                          param->to_be_avoided[length%2]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -830,8 +827,7 @@ static boolean reflex_guards_inserter_series(slice_index si,
   pipe_insert_before(si);
   init_reflex_guard_slice(si,
                           length,min_length,
-                          param->to_be_avoided[1],
-                          param->to_be_avoided[0]);
+                          param->to_be_avoided[1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -893,7 +889,8 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STRestartGuard */
   0,                                   /* STGoalReachableGuard */
   0,                                   /* STKeepMatingGuard */
-  0                                    /* STMaxFlightsquares */
+  0,                                   /* STMaxFlightsquares */
+  0                                    /* STMaxThreatLength */
 };
 
 /* Instrument a branch with STReflexGuard slices for a (non-semi)
@@ -949,8 +946,7 @@ static boolean reflex_guards_inserter_branch_semi(slice_index si,
     pipe_insert_after(si);
     init_reflex_guard_slice(slices[si].u.pipe.next,
                             length-1,min_length-1,
-                            param->to_be_avoided[1-length%2],
-                            param->to_be_avoided[length%2]);
+                            param->to_be_avoided[1-length%2]);
   }
 
   TraceFunctionExit(__func__);
@@ -991,7 +987,8 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                   /* STRestartGuard */
   0,                                   /* STGoalReachableGuard */
   0,                                   /* STKeepMatingGuard */
-  0                                    /* STMaxFlightsquares */
+  0,                                   /* STMaxFlightsquares */
+  0                                    /* STMaxThreatLength */
 };
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex

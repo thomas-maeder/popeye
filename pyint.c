@@ -2780,7 +2780,8 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,         /* STRestartGuard */
   0,                                /* STGoalReachableGuard */
   &slice_traverse_children,         /* STKeepMatingGuard */
-  &slice_traverse_children          /* STMaxFlightsquares */
+  &slice_traverse_children,         /* STMaxFlightsquares */
+  &slice_traverse_children          /* STMaxThreatLength */
 };
 
 /* Calculate the number of moves of each side, starting at the root
@@ -3108,7 +3109,8 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,              /* STRestartGuard */
   0,                                     /* STGoalReachableGuard */
   &slice_traverse_children,              /* STKeepMatingGuard */
-  &slice_traverse_children               /* STMaxFlightsquares */
+  &slice_traverse_children,              /* STMaxFlightsquares */
+  &slice_traverse_children               /* STMaxThreatLength */
 };
 
 /* Instrument stipulation with STGoalreachableGuard slices
@@ -3332,7 +3334,8 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STRestartGuard */
   0,                                             /* STGoalReachableGuard */
   &slice_traverse_children,                      /* STKeepMatingGuard */
-  &slice_traverse_children                       /* STMaxFlightsquares */
+  &slice_traverse_children,                      /* STMaxFlightsquares */
+  &slice_traverse_children                       /* STMaxThreatLength */
 };
 /* TODO some of these could be 0 but are not currently
  */

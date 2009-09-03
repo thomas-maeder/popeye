@@ -58,6 +58,7 @@
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
+    ENUMERATOR(STMaxThreatLength), /* deals with option Threat */ \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
@@ -169,7 +170,7 @@ typedef struct
                     slice_index short_sols;
                 } help_root;
 
-                struct
+                struct /* for type==STKeepMatingGuard */
                 {
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
@@ -181,8 +182,14 @@ typedef struct
                     stip_length_type length;     /* half moves */
                     stip_length_type min_length; /* half moves */
                     slice_index avoided;
-                    slice_index avoided_advers;
                 } reflex_guard;
+
+                struct /* for type==STMaxThreatLength */
+                {
+                    stip_length_type length;     /* half moves */
+                    stip_length_type min_length; /* half moves */
+                    slice_index to_attacker;
+                } maxthreatlength_guard;
             } u;
         } pipe;
 

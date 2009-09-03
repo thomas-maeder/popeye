@@ -56,6 +56,7 @@
 #include "pytable.h"
 #include "pymovenb.h"
 #include "pyflight.h"
+#include "pythreat.h"
 #include "trace.h"
 #include "platform/maxtime.h"
 
@@ -317,8 +318,8 @@ void InitOpt(void)
   max_nr_refutations = 0;
 
   reset_restart_number();
+  reset_max_threat_length();
 
-  max_len_threat = maxply;
   min_length_nontrivial = maxply;
 
   {

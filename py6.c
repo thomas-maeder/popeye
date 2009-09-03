@@ -110,6 +110,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "pyflight.h"
+#include "pythreat.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -518,7 +519,8 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STRestartGuard */
   0,                                  /* STGoalReachableGuard */
   0,                                  /* STKeepMatingGuard */
-  0                                   /* STMaxFlightsquares */
+  0,                                  /* STMaxFlightsquares */
+  0                                   /* STMaxThreatLength */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -629,7 +631,7 @@ static boolean verify_position(void)
     slice_index const next = slices[peer].u.pipe.next;
     assert(slices[peer].type==STBranchDirectDefender);
 
-    if (2*max_len_threat+slack_length_direct
+    if (2*get_max_threat_length()+slack_length_direct
         <slices[root_slice].u.pipe.u.branch.min_length)
     {
       VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
@@ -2520,7 +2522,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STRestartGuard */
   &slice_traverse_children,           /* STGoalReachableGuard */
   &slice_traverse_children,           /* STKeepMatingGuard */
-  &slice_traverse_children            /* STMaxFlightsquares */
+  &slice_traverse_children,           /* STMaxFlightsquares */
+  &slice_traverse_children            /* STMaxThreatLength */
 };
 
 static void insert_hash_slices(void)
@@ -2758,6 +2761,9 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[solflights])
         stip_insert_maxflight_guards();
+
+      if (OptFlag[solmenaces])
+        stip_insert_maxthreatlength_guards();
 
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->

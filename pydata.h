@@ -352,8 +352,6 @@ typedef unsigned int ghost_index_type;
 EXTERN ghost_index_type nr_ghosts;
 
 
-EXTERN  stip_length_type max_len_threat;
-
 EXTERN  stip_length_type min_length_nontrivial;
 EXTERN  int max_nr_nontrivial;
 

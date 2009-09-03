@@ -690,7 +690,8 @@ static slice_operation const self_guards_inserters[] =
   0,                                            /* STRestartGuard */
   0,                                            /* STGoalReachableGuard */
   0,                                            /* STKeepMatingGuard */
-  0                                             /* STMaxFlightsquares */
+  0,                                            /* STMaxFlightsquares */
+  0                                             /* STMaxThreatLength */
 };
 
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
