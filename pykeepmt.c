@@ -44,7 +44,7 @@ static void init_keepmating_guard_slice(slice_index si, Side mating)
 has_solution_type
 keepmating_guard_direct_has_solution_in_n(slice_index si,
                                           stip_length_type n,
-                                          int curr_max_nr_nontrivial)
+                                          unsigned int curr_max_nr_nontrivial)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   has_solution_type result;
@@ -82,7 +82,7 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
                                                   stip_length_type len_threat,
                                                   slice_index si,
                                                   stip_length_type n,
-                                                  int curr_max_nr_nontrivial)
+                                                  unsigned int curr_max_nr_nontrivial)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   boolean result;
@@ -171,7 +171,7 @@ boolean keepmating_guard_root_defend(slice_index si)
  */
 boolean keepmating_guard_defend_in_n(slice_index si,
                                      stip_length_type n,
-                                     int curr_max_nr_nontrivial)
+                                     unsigned int curr_max_nr_nontrivial)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -204,7 +204,7 @@ boolean keepmating_guard_defend_in_n(slice_index si,
  */
 boolean keepmating_guard_can_defend_in_n(slice_index si,
                                          stip_length_type n,
-                                         int curr_max_nr_nontrivial)
+                                         unsigned int curr_max_nr_nontrivial)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;

@@ -30,7 +30,7 @@ boolean keepmating_guard_root_defend(slice_index si);
 has_solution_type
 keepmating_guard_direct_has_solution_in_n(slice_index si,
                                           stip_length_type n,
-                                          int curr_max_nr_nontrivial);
+                                          unsigned int curr_max_nr_nontrivial);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
@@ -41,7 +41,7 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
  */
 boolean keepmating_guard_defend_in_n(slice_index si,
                                      stip_length_type n,
-                                     int curr_max_nr_nontrivial);
+                                     unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether there is a defense after an attempted key move at
  * non-root level 
@@ -53,7 +53,7 @@ boolean keepmating_guard_defend_in_n(slice_index si,
  */
 boolean keepmating_guard_can_defend_in_n(slice_index si,
                                          stip_length_type n,
-                                         int curr_max_nr_nontrivial);
+                                         unsigned int curr_max_nr_nontrivial);
 
 /* Solve postkey play at root level.
  * @param refutations table containing the refutations (if any)
@@ -76,7 +76,7 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
                                                   stip_length_type len_threat,
                                                   slice_index si,
                                                   stip_length_type n,
-                                                  int curr_max_nr_nontrivial);
+                                                  unsigned int curr_max_nr_nontrivial);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.

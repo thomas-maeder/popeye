@@ -71,7 +71,7 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
                                                  stip_length_type len_threat,
                                                  slice_index si,
                                                  stip_length_type n,
-                                                 int curr_max_nr_nontrivial)
+                                                 unsigned int curr_max_nr_nontrivial)
 {
   boolean result;
 
@@ -130,7 +130,7 @@ void selfcheck_guard_direct_solve_continuations_in_n(table continuations,
 has_solution_type
 selfcheck_guard_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         int curr_max_nr_nontrivial)
+                                         unsigned int curr_max_nr_nontrivial)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -233,7 +233,7 @@ boolean self_guard_solve_postkey_in_n(slice_index si, stip_length_type n)
  */
 boolean selfcheck_guard_defend_in_n(slice_index si,
                                     stip_length_type n,
-                                    int curr_max_nr_nontrivial)
+                                    unsigned int curr_max_nr_nontrivial)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -265,7 +265,7 @@ boolean selfcheck_guard_defend_in_n(slice_index si,
  */
 boolean selfcheck_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
-                                        int curr_max_nr_nontrivial)
+                                        unsigned int curr_max_nr_nontrivial)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;

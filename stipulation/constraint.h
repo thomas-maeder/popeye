@@ -31,7 +31,7 @@ boolean reflex_guard_solve(slice_index si);
 has_solution_type
 reflex_guard_direct_has_solution_in_n(slice_index si,
                                       stip_length_type n,
-                                      int curr_max_nr_nontrivial);
+                                      unsigned int curr_max_nr_nontrivial);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
@@ -65,7 +65,7 @@ boolean reflex_guard_root_solve_postkey(table refutations, slice_index si);
  */
 boolean reflex_guard_defend_in_n(slice_index si,
                                  stip_length_type n,
-                                 int curr_max_nr_nontrivial);
+                                 unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether there is a defense after an attempted key move at
  * non-root level 
@@ -77,7 +77,7 @@ boolean reflex_guard_defend_in_n(slice_index si,
  */
 boolean reflex_guard_can_defend_in_n(slice_index si,
                                      stip_length_type n,
-                                     int curr_max_nr_nontrivial);
+                                     unsigned int curr_max_nr_nontrivial);
 
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
@@ -124,7 +124,7 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
                                               stip_length_type len_threat,
                                               slice_index si,
                                               stip_length_type n,
-                                              int curr_max_nr_nontrivial);
+                                              unsigned int curr_max_nr_nontrivial);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

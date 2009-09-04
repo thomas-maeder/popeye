@@ -94,7 +94,7 @@ boolean direct_are_threats_refuted_in_n(table threats,
                                         stip_length_type len_threat,
                                         slice_index si,
                                         stip_length_type n,
-                                        int curr_max_nr_nontrivial)
+                                        unsigned int curr_max_nr_nontrivial)
 {
   boolean result = false;
 
@@ -185,7 +185,7 @@ boolean direct_are_threats_refuted_in_n(table threats,
  */
 has_solution_type direct_has_solution_in_n(slice_index si,
                                            stip_length_type n,
-                                           int curr_max_nr_nontrivial)
+                                           unsigned int curr_max_nr_nontrivial)
 {
   has_solution_type result = has_no_solution;
 
@@ -310,7 +310,7 @@ void direct_solve_continuations_in_n(table continuations,
  */
 boolean direct_defender_defend_in_n(slice_index si,
                                     stip_length_type n,
-                                    int curr_max_nr_nontrivial)
+                                    unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
 
@@ -376,7 +376,7 @@ boolean direct_defender_defend_in_n(slice_index si,
  */
 boolean direct_defender_can_defend_in_n(slice_index si,
                                         stip_length_type n,
-                                        int curr_max_nr_nontrivial)
+                                        unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
 

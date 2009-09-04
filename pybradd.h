@@ -51,7 +51,7 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
  */
 boolean branch_d_defender_defend_in_n(slice_index si,
                                       stip_length_type n,
-                                      int curr_max_nr_nontrivial);
+                                      unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether there is a defense after an attempted key move at
  * non-root level 
@@ -63,7 +63,7 @@ boolean branch_d_defender_defend_in_n(slice_index si,
  */
 boolean branch_d_defender_can_defend_in_n(slice_index si,
                                           stip_length_type n,
-                                          int curr_max_nr_nontrivial);
+                                          unsigned int curr_max_nr_nontrivial);
 
 /* Solve postkey play play after the move that has just
  * been played in the current ply.

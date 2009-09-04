@@ -290,7 +290,7 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
                                           stip_length_type len_threat,
                                           slice_index si,
                                           stip_length_type n,
-                                          int curr_max_nr_nontrivial)
+                                          unsigned int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -353,7 +353,7 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
  */
 static boolean have_we_solution_in_n(slice_index si,
                                      stip_length_type n,
-                                     int curr_max_nr_nontrivial)
+                                     unsigned int curr_max_nr_nontrivial)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -403,7 +403,7 @@ static boolean have_we_solution_in_n(slice_index si,
  */
 static boolean have_we_solution_in_n_short(slice_index si,
                                            stip_length_type n,
-                                           int curr_max_nr_nontrivial)
+                                           unsigned int curr_max_nr_nontrivial)
 {
   boolean result = false;
 
@@ -455,7 +455,7 @@ static boolean have_we_solution_in_n_short(slice_index si,
  */
 has_solution_type branch_d_has_solution_in_n(slice_index si,
                                              stip_length_type n,
-                                             int curr_max_nr_nontrivial)
+                                             unsigned int curr_max_nr_nontrivial)
 {
   has_solution_type result;
 

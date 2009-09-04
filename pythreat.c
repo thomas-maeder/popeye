@@ -66,7 +66,7 @@ stip_length_type get_max_threat_length(void)
  */
 static boolean is_threat_too_long(slice_index si,
                                   stip_length_type n,
-                                  int curr_max_nr_nontrivial)
+                                  unsigned int curr_max_nr_nontrivial)
 {
   slice_index const
       to_attacker = slices[si].u.pipe.u.maxthreatlength_guard.to_attacker;
@@ -155,7 +155,7 @@ boolean maxthreatlength_guard_root_defend(slice_index si)
  */
 boolean maxthreatlength_guard_defend_in_n(slice_index si,
                                           stip_length_type n,
-                                          int curr_max_nr_nontrivial)
+                                          unsigned int curr_max_nr_nontrivial)
 {
   slice_index const next = slices[si].u.pipe.next;
   boolean result;
@@ -186,7 +186,7 @@ boolean maxthreatlength_guard_defend_in_n(slice_index si,
  */
 boolean maxthreatlength_guard_can_defend_in_n(slice_index si,
                                               stip_length_type n,
-                                              int curr_max_nr_nontrivial)
+                                              unsigned int curr_max_nr_nontrivial)
 {
   slice_index const next = slices[si].u.pipe.next;
   boolean result;

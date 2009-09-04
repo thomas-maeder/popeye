@@ -64,7 +64,7 @@ boolean self_attack_solve_postkey_in_n(slice_index si, stip_length_type n);
 has_solution_type
 self_defense_direct_has_solution_in_n(slice_index si,
                                       stip_length_type n,
-                                      int curr_max_nr_nontrivial);
+                                      unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -80,7 +80,7 @@ boolean self_defense_are_threats_refuted_in_n(table threats,
                                               stip_length_type len_threat,
                                               slice_index si,
                                               stip_length_type n,
-                                              int curr_max_nr_nontrivial);
+                                              unsigned int curr_max_nr_nontrivial);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
@@ -107,7 +107,7 @@ boolean self_defense_solve(slice_index si);
  */
 boolean self_attack_defend_in_n(slice_index si,
                                 stip_length_type n,
-                                int curr_max_nr_nontrivial);
+                                unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether there is a defense after an attempted key move at
  * non-root level 
@@ -119,7 +119,7 @@ boolean self_attack_defend_in_n(slice_index si,
  */
 boolean self_attack_can_defend_in_n(slice_index si,
                                     stip_length_type n,
-                                    int curr_max_nr_nontrivial);
+                                    unsigned int curr_max_nr_nontrivial);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch

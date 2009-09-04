@@ -155,7 +155,7 @@ boolean maxflight_guard_root_defend(slice_index si)
  */
 boolean maxflight_guard_defend_in_n(slice_index si,
                                      stip_length_type n,
-                                     int curr_max_nr_nontrivial)
+                                     unsigned int curr_max_nr_nontrivial)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -189,7 +189,7 @@ boolean maxflight_guard_defend_in_n(slice_index si,
  */
 boolean maxflight_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
-                                        int curr_max_nr_nontrivial)
+                                        unsigned int curr_max_nr_nontrivial)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;

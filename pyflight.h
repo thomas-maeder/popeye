@@ -44,7 +44,7 @@ boolean maxflight_guard_root_defend(slice_index si);
  */
 boolean maxflight_guard_defend_in_n(slice_index si,
                                     stip_length_type n,
-                                    int curr_max_nr_nontrivial);
+                                    unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether there is a defense after an attempted key move at
  * non-root level 
@@ -56,6 +56,6 @@ boolean maxflight_guard_defend_in_n(slice_index si,
  */
 boolean maxflight_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
-                                        int curr_max_nr_nontrivial);
+                                        unsigned int curr_max_nr_nontrivial);
 
 #endif

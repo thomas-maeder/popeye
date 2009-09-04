@@ -109,7 +109,7 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
                                                stip_length_type len_threat,
                                                slice_index si,
                                                stip_length_type n,
-                                               int curr_max_nr_nontrivial);
+                                               unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -120,7 +120,7 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
  */
 has_solution_type direct_hashed_has_solution_in_n(slice_index si,
                                                   stip_length_type n,
-                                                  int curr_max_nr_nontrivial);
+                                                  unsigned int curr_max_nr_nontrivial);
 
 /* Solve a slice
  * @param si slice index

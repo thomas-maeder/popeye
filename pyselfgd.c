@@ -112,7 +112,7 @@ slice_index alloc_self_attack_slice(stip_length_type length,
 has_solution_type
 self_defense_direct_has_solution_in_n(slice_index si,
                                       stip_length_type n,
-                                      int curr_max_nr_nontrivial)
+                                      unsigned int curr_max_nr_nontrivial)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -157,7 +157,7 @@ boolean self_defense_are_threats_refuted_in_n(table threats,
                                               stip_length_type len_threat,
                                               slice_index si,
                                               stip_length_type n,
-                                              int curr_max_nr_nontrivial)
+                                              unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
   slice_index const next = slices[si].u.pipe.next;
@@ -226,7 +226,7 @@ void self_defense_direct_solve_continuations_in_n(table continuations,
  */
 boolean self_attack_defend_in_n(slice_index si,
                                 stip_length_type n,
-                                int curr_max_nr_nontrivial)
+                                unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -279,7 +279,7 @@ boolean self_attack_defend_in_n(slice_index si,
  */
 boolean self_attack_can_defend_in_n(slice_index si,
                                     stip_length_type n,
-                                    int curr_max_nr_nontrivial)
+                                    unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;

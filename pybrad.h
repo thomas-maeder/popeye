@@ -48,7 +48,7 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
                                           stip_length_type len_threat,
                                           slice_index si,
                                           stip_length_type n,
-                                          int curr_max_nr_nontrivial);
+                                          unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether a branch slice has a solution
  * @param si slice index
@@ -59,7 +59,7 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
  */
 has_solution_type branch_d_has_solution_in_n(slice_index si,
                                              stip_length_type n,
-                                             int curr_max_nr_nontrivial);
+                                             unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether a slice has a solution
  * @param si slice index

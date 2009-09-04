@@ -54,7 +54,7 @@ static void init_reflex_guard_slice(slice_index si,
 has_solution_type
 reflex_guard_direct_has_solution_in_n(slice_index si,
                                       stip_length_type n,
-                                      int curr_max_nr_nontrivial)
+                                      unsigned int curr_max_nr_nontrivial)
 {
   has_solution_type result = has_no_solution;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -152,7 +152,7 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
                                               stip_length_type len_threat,
                                               slice_index si,
                                               stip_length_type n,
-                                              int curr_max_nr_nontrivial)
+                                              unsigned int curr_max_nr_nontrivial)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -237,7 +237,7 @@ boolean reflex_guard_root_defend(slice_index si)
  */
 boolean reflex_guard_defend_in_n(slice_index si,
                                  stip_length_type n,
-                                 int curr_max_nr_nontrivial)
+                                 unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
   slice_index const next = slices[si].u.pipe.next;
@@ -290,7 +290,7 @@ boolean reflex_guard_defend_in_n(slice_index si,
  */
 boolean reflex_guard_can_defend_in_n(slice_index si,
                                      stip_length_type n,
-                                     int curr_max_nr_nontrivial)
+                                     unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
   slice_index const next = slices[si].u.pipe.next;

@@ -353,7 +353,7 @@ EXTERN ghost_index_type nr_ghosts;
 
 
 EXTERN  stip_length_type min_length_nontrivial;
-EXTERN  int max_nr_nontrivial;
+EXTERN  unsigned int max_nr_nontrivial;
 
 EXTERN  unsigned int max_nr_refutations;
 EXTERN  Side         neutcoul;
