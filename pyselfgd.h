@@ -34,13 +34,6 @@ slice_index self_attack_root_reduce_to_postkey_play(slice_index si);
  */
 boolean self_guard_root_solve(slice_index si);
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_attack_root_solve_postkey(table refutations, slice_index si);
-
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @return true iff the defender can successfully defend

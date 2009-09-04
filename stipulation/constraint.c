@@ -638,38 +638,6 @@ boolean reflex_guard_solve(slice_index si)
   return result;
 }
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reflex_guard_root_solve_postkey(table refutations, slice_index si)
-{
-  boolean result = false;
-  stip_length_type const next = slices[si].u.pipe.next;
-  stip_length_type const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-  stip_length_type const length = slices[si].u.pipe.u.reflex_guard.length;
-  stip_length_type const
-      min_length = slices[si].u.pipe.u.reflex_guard.min_length;
-  stip_length_type const max_n_for_avoided = (length-min_length
-                                              +slack_length_direct);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length<=max_n_for_avoided)
-    result = slice_solve_postkey(avoided);
-
-  if (!result)
-    result = slice_root_solve_postkey(refutations,next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @return set play slice spun off; no_slice if not applicable

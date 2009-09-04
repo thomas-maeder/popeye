@@ -47,12 +47,6 @@ boolean leaf_h_solve(slice_index leaf);
  */
 boolean leaf_h_root_solve(slice_index leaf);
 
-/* Solve postkey play at root level.
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_h_root_solve_postkey(slice_index leaf);
-
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates)
  * @param leaf leaf's slice index

@@ -609,7 +609,7 @@ static void root_solve_variations_in_n(stip_length_type len_threat,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean branch_d_defender_root_solve_postkey(table refutations, slice_index si)
+static boolean root_solve_postkey(table refutations, slice_index si)
 {
   boolean const result = true;
 
@@ -770,13 +770,13 @@ boolean branch_d_defender_root_defend(slice_index si)
     {
       result = false;
       write_attack(attack_key);
-      branch_d_defender_root_solve_postkey(refutations,si);
+      root_solve_postkey(refutations,si);
       write_end_of_solution();
     }
     else if (table_length(refutations)<=max_nr_refutations)
     {
       write_attack(attack_try);
-      branch_d_defender_root_solve_postkey(refutations,si);
+      root_solve_postkey(refutations,si);
       write_refutations(refutations);
       write_end_of_solution();
     }

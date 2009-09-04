@@ -180,28 +180,6 @@ boolean selfcheck_guard_root_defend(slice_index si)
   return result;
 }
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean selfcheck_guard_root_solve_postkey(table refutations, slice_index si)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_root_solve_postkey(refutations,next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index

@@ -194,28 +194,6 @@ void direct_defense_direct_solve_continuations_in_n(table continuations,
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean direct_attack_root_solve_postkey(table refutations, slice_index si)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_root_solve_postkey(refutations,next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached

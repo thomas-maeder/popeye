@@ -31,13 +31,6 @@ boolean selfcheck_guard_root_solve(slice_index si);
  */
 boolean selfcheck_guard_root_defend(slice_index si);
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean selfcheck_guard_root_solve_postkey(table refutations, slice_index si);
-
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index

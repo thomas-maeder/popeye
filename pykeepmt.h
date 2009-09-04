@@ -55,13 +55,6 @@ boolean keepmating_guard_can_defend_in_n(slice_index si,
                                          stip_length_type n,
                                          unsigned int curr_max_nr_nontrivial);
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean keepmating_guard_root_solve_postkey(table refutations, slice_index si);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats

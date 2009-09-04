@@ -130,36 +130,8 @@ boolean slice_root_solve_postkey(table refutations, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectDefenderRoot:
-      result = branch_d_defender_root_solve_postkey(refutations,si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_solve(si);
-      break;
-
     case STLeafForced:
       result = leaf_forced_root_solve_postkey(si);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_root_solve_postkey(refutations,si);
-      break;
-
-    case STDirectAttack:
-      result = direct_attack_root_solve_postkey(refutations,si);
-      break;
-
-    case STSelfAttack:
-      result = self_attack_root_solve_postkey(refutations,si);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_root_solve_postkey(refutations,si);
-      break;
-
-    case STKeepMatingGuard:
-      result = keepmating_guard_root_solve_postkey(refutations,si);
       break;
 
     default:

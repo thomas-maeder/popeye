@@ -322,33 +322,6 @@ boolean self_attack_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_attack_root_solve_postkey(table refutations, slice_index si)
-{
-  boolean result = false;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length==slack_length_direct)
-    result = slice_root_solve_postkey(refutations,to_goal);
-  else
-    result = slice_root_solve_postkey(refutations,next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index
@@ -457,15 +430,16 @@ boolean self_guard_root_solve(slice_index si)
 {
   boolean result = false;
   table refutations = allocate_table();
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* We arrive here when solving a sXN.5
+  /* We only arrive here when solving a sX0.5
    */
   init_output(si);
-  if (self_attack_root_solve_postkey(refutations,si))
+  if (slice_root_solve_postkey(refutations,towards_goal))
   {
     write_end_of_solution();
     result = true;

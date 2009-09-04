@@ -264,28 +264,6 @@ boolean leaf_h_root_solve(slice_index leaf)
   return result;
 }
 
-/* Solve postkey play at root level.
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_h_root_solve_postkey(slice_index leaf)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  output_start_postkey_level();
-  result = leaf_h_solve_nohash(leaf);
-  output_end_postkey_level();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution of a help leaf slice.
  * @param leaf slice index
  * @return true iff >=1 solution was found

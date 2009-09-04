@@ -49,13 +49,6 @@ void reflex_guard_direct_solve_continuations_in_n(table continuations,
  */
 boolean reflex_guard_root_defend(slice_index si);
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reflex_guard_root_solve_postkey(table refutations, slice_index si);
-
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached

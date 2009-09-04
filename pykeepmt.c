@@ -227,33 +227,6 @@ boolean keepmating_guard_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean keepmating_guard_root_solve_postkey(table refutations, slice_index si)
-{
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,mating,"\n");
-
-  if (is_a_mating_piece_left(mating))
-    result = slice_root_solve_postkey(refutations,slices[si].u.pipe.next);
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index

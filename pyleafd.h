@@ -68,12 +68,6 @@ has_solution_type leaf_d_has_solution(slice_index leaf);
  */
 boolean leaf_d_root_solve(slice_index leaf);
 
-/* Solve postkey play at root level.
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_d_root_solve_postkey(slice_index leaf);
-
 /* Determine and write the solution of a leaf slice.
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found

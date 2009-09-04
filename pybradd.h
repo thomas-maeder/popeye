@@ -79,13 +79,6 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
  */
 boolean branch_d_defender_solve_next(slice_index si);
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean branch_d_defender_root_solve_postkey(table refutations, slice_index si);
-
 /* Solve at root level.
  * @param si slice index
  * @return true iff >=1 solution was found
