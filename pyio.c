@@ -78,6 +78,7 @@
 #include "pyproof.h"
 #include "pymovenb.h"
 #include "pyflight.h"
+#include "pynontrv.h"
 #include "pythreat.h"
 #include "pyreflxg.h"
 #include "pydirctg.h"
@@ -2127,6 +2128,7 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STGoalReachableGuard */
   0,                                     /* STKeepMatingGuard */
   0,                                     /* STMaxFlightsquares */
+  0,                                     /* STMaxNrNonTrivial */
   0                                      /* STMaxThreatLength */
 };
 
@@ -4691,10 +4693,10 @@ static char *ParseOpt(void)
       case nontrivial:
         tok = ReadNextTokStr();
         max_nr_nontrivial = strtol(tok, &ptr, 10);
-        if (tok==ptr || max_nr_nontrivial<0)
+        if (tok==ptr)
         {
           IoErrorMsg(WrongInt, 0);
-          max_nr_nontrivial = INT_MAX;
+          max_nr_nontrivial = UINT_MAX;
           return ReadNextTokStr();
         }
 

@@ -7,6 +7,7 @@
 #include "pyproc.h"
 #include "pymsg.h"
 #include "pyhash.h"
+#include "pynontrv.h"
 #include "pyoutput.h"
 #include "pyslice.h"
 #include "pytable.h"

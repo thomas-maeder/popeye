@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pydirect.h"
+#include "pynontrv.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -265,6 +266,7 @@ static slice_operation const maxthreatlength_guards_inserters[] =
   &slice_traverse_children,        /* STGoalReachableGuard */
   &slice_traverse_children,        /* STKeepMatingGuard */
   &slice_traverse_children,        /* STMaxFlightsquares */
+  &slice_traverse_children,        /* STMaxNrNonTrivial */
   &slice_traverse_children         /* STMaxThreatLength */
 };
 

@@ -890,6 +890,7 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STGoalReachableGuard */
   0,                                   /* STKeepMatingGuard */
   0,                                   /* STMaxFlightsquares */
+  0,                                   /* STMaxNrNonTrivial */
   0                                    /* STMaxThreatLength */
 };
 
@@ -988,6 +989,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                   /* STGoalReachableGuard */
   0,                                   /* STKeepMatingGuard */
   0,                                   /* STMaxFlightsquares */
+  0,                                   /* STMaxNrNonTrivial */
   0                                    /* STMaxThreatLength */
 };
 

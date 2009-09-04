@@ -104,6 +104,7 @@
 #include "pybrafrk.h"
 #include "pyhelp.h"
 #include "pyseries.h"
+#include "pynontrv.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -288,6 +289,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STGoalReachableGuard */
   &slice_property_offset_shifter, /* STKeepMatingGuard */
   &slice_property_offset_shifter, /* STMaxFlightsquares */
+  &slice_property_offset_shifter, /* STMaxNrNonTrivial */
   &slice_property_offset_shifter  /* STMaxThreatLength */
 };
 
@@ -778,6 +780,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STGoalReachableGuard */
   &init_slice_properties_pipe,           /* STKeepMatingGuard */
   &init_slice_properties_pipe,           /* STMaxFlightsquares */
+  &init_slice_properties_pipe,           /* STMaxNrNonTrivial */
   &init_slice_properties_pipe            /* STMaxThreatLength */
 };
 
@@ -893,6 +896,7 @@ static slice_operation const non_standard_length_finders[] =
   &slice_traverse_children,                   /* STGoalReachableGuard */
   &slice_traverse_children,                   /* STKeepMatingGuard */
   &slice_traverse_children,                   /* STMaxFlightsquares */
+  &slice_traverse_children,                   /* STMaxNrNonTrivial */
   &slice_traverse_children                    /* STMaxThreatLength */
 };
 
@@ -950,6 +954,7 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children, /* STKeepMatingGuard */
   &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children  /* STMaxThreatLength */
 };
 
@@ -1006,6 +1011,7 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children, /* STKeepMatingGuard */
   &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children  /* STMaxThreatLength */
 };
 
@@ -1839,6 +1845,7 @@ static slice_operation const number_of_holes_estimators[] =
   0,                                                /* STGoalReachableGuard */
   &slice_traverse_children,                         /* STKeepMatingGuard */
   &slice_traverse_children,                         /* STMaxFlightsquares */
+  &slice_traverse_children,                         /* STMaxNrNonTrivial */
   &slice_traverse_children                          /* STMaxThreatLength */
 };
 
@@ -2515,6 +2522,7 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STGoalReachableGuard */
   &slice_traverse_children,    /* STKeepMatingGuard */
   &slice_traverse_children,    /* STMaxFlightsquares */
+  &slice_traverse_children,    /* STMaxNrNonTrivial */
   &slice_traverse_children     /* STMaxThreatLength */
 };
 

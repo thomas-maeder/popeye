@@ -4,6 +4,7 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
+#include "pynontrv.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -237,27 +238,15 @@ boolean branch_d_defender_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (n>min_length_nontrivial)
-  {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,curr_max_nr_nontrivial);
-    if (curr_max_nr_nontrivial+1<nr_nontrivial)
-      result = true;
-    else
-      result = (has_defender_refutation(si,
-                                        n,
-                                        curr_max_nr_nontrivial+1-nr_nontrivial)
-                !=defender_has_no_refutation);
-  }
-  else
-    result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
-              !=defender_has_no_refutation);
-
-  if (!result)
+  if (has_defender_refutation(si,n,curr_max_nr_nontrivial)
+      ==defender_has_no_refutation)
   {
     write_attack(attack_regular);
     branch_d_defender_solve_postkey_in_n(si,n);
+    result = false;
   }
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -286,21 +275,8 @@ boolean branch_d_defender_can_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (n>min_length_nontrivial)
-  {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,curr_max_nr_nontrivial);
-    if (curr_max_nr_nontrivial+1<nr_nontrivial)
-      result = true;
-    else
-      result = (has_defender_refutation(si,
-                                        n,
-                                        curr_max_nr_nontrivial+1-nr_nontrivial)
-                !=defender_has_no_refutation);
-  }
-  else
-    result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
-              !=defender_has_no_refutation);
+  result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
+            !=defender_has_no_refutation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -788,50 +764,21 @@ boolean branch_d_defender_root_defend(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (n>min_length_nontrivial)
+  if (!root_collect_refutations(refutations,si,n,max_nr_nontrivial))
   {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,max_nr_nontrivial);
-    if (max_nr_nontrivial+1>=nr_nontrivial
-        && !root_collect_refutations(refutations,
-                                     si,
-                                     n,
-                                     max_nr_nontrivial+1-nr_nontrivial))
+    if (table_length(refutations)==0)
     {
-      if (table_length(refutations)==0)
-      {
-        result = false;
-        write_attack(attack_key);
-        branch_d_defender_root_solve_postkey(refutations,si);
-        write_end_of_solution();
-      }
-      else if (table_length(refutations)<=max_nr_refutations)
-      {
-        write_attack(attack_try);
-        branch_d_defender_root_solve_postkey(refutations,si);
-        write_refutations(refutations);
-        write_end_of_solution();
-      }
+      result = false;
+      write_attack(attack_key);
+      branch_d_defender_root_solve_postkey(refutations,si);
+      write_end_of_solution();
     }
-  }
-  else
-  {
-    if (!root_collect_refutations(refutations,si,n,max_nr_nontrivial))
+    else if (table_length(refutations)<=max_nr_refutations)
     {
-      if (table_length(refutations)==0)
-      {
-        result = false;
-        write_attack(attack_key);
-        branch_d_defender_root_solve_postkey(refutations,si);
-        write_end_of_solution();
-      }
-      else if (table_length(refutations)<=max_nr_refutations)
-      {
-        write_attack(attack_try);
-        branch_d_defender_root_solve_postkey(refutations,si);
-        write_refutations(refutations);
-        write_end_of_solution();
-      }
+      write_attack(attack_try);
+      branch_d_defender_root_solve_postkey(refutations,si);
+      write_refutations(refutations);
+      write_end_of_solution();
     }
   }
 

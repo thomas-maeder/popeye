@@ -66,6 +66,7 @@
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
+    ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
@@ -135,6 +136,7 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STGoalReachableGuard */
   &mark_reachable_slice, /* STKeepMatingGuard */
   &mark_reachable_slice, /* STMaxFlightsquares */
+  &mark_reachable_slice, /* STMaxNrNonTrivial */
   &mark_reachable_slice  /* STMaxThreatLength */
 };
 
@@ -492,6 +494,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STGoalReachableGuard */
   &get_max_nr_moves_other,           /* STKeepMatingGuard */
   &get_max_nr_moves_other,           /* STMaxFlightsquares */
+  &get_max_nr_moves_other,           /* STMaxNrNonTrivial */
   &get_max_nr_moves_other            /* STMaxThreatLength */
 };
 
@@ -583,6 +586,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children, /* STKeepMatingGuard */
   &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children  /* STMaxThreatLength */
 };
 
@@ -679,6 +683,7 @@ static void deep_copy_recursive(slice_index *si, copies_type *copies)
       case STGoalReachableGuard:
       case STKeepMatingGuard:
       case STMaxFlightsquares:
+      case STMaxNrNonTrivial:
       case STMaxThreatLength:
         deep_copy_recursive(&slices[*si].u.pipe.next,copies);
         break;
@@ -781,6 +786,7 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STGoalReachableGuard */
   &slice_traverse_children,   /* STKeepMatingGuard */
   &slice_traverse_children,   /* STMaxFlightsquares */
+  &slice_traverse_children,   /* STMaxNrNonTrivial */
   &slice_traverse_children    /* STMaxThreatLength */
 };
 
@@ -928,6 +934,7 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                     /* STGoalReachableGuard */
   0,                                     /* STKeepMatingGuard */
   0,                                     /* STMaxFlightsquares */
+  0,                                     /* STMaxNrNonTrivial */
   0                                      /* STMaxThreatLength */
 };
 
@@ -1030,6 +1037,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children, /* STKeepMatingGuard */
   &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children  /* STMaxThreatLength */
 };
 
@@ -1109,6 +1117,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STGoalReachableGuard */
   &slice_traverse_children,   /* STKeepMatingGuard */
   &slice_traverse_children,   /* STMaxFlightsquares */
+  &slice_traverse_children,   /* STMaxNrNonTrivial */
   &slice_traverse_children    /* STMaxThreatLength */
 };
 
@@ -1181,6 +1190,7 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STGoalReachableGuard */
   &make_exact_branch,       /* STKeepMatingGuard */
   &make_exact_branch,       /* STMaxFlightsquares */
+  &make_exact_branch,       /* STMaxNrNonTrivial */
   &make_exact_branch        /* STMaxThreatLength */
 };
 
@@ -1233,6 +1243,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,           /* STGoalReachableGuard */
   &pipe_impose_starter,           /* STKeepMatingGuard */
   &pipe_impose_starter,           /* STMaxFlightsquares */
+  &pipe_impose_starter,           /* STMaxNrNonTrivial */
   &pipe_impose_starter            /* STMaxThreatLength */
 };
 
@@ -1489,6 +1500,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STGoalReachableGuard */
   &traverse_pipe,         /* STKeepMatingGuard */
   &traverse_pipe,         /* STMaxFlightsquares */
+  &traverse_pipe,         /* STMaxNrNonTrivial */
   &traverse_pipe          /* STMaxThreatLength */
 };
 

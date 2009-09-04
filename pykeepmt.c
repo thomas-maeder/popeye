@@ -621,6 +621,7 @@ static slice_operation const keepmating_guards_inserters[] =
   0,                                       /* STGoalReachableGuard */
   0,                                       /* STKeepMatingGuard */
   0,                                       /* STMaxFlightsquares */
+  0,                                       /* STMaxNrNonTrivial */
   0                                        /* STMaxThreatLength */
 };
 

@@ -56,6 +56,7 @@
 #include "pytable.h"
 #include "pymovenb.h"
 #include "pyflight.h"
+#include "pynontrv.h"
 #include "pythreat.h"
 #include "trace.h"
 #include "platform/maxtime.h"

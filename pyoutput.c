@@ -175,6 +175,7 @@ static slice_operation const output_mode_detectors[] =
   &slice_traverse_children,   /* STGoalReachableGuard */
   &slice_traverse_children,   /* STKeepMatingGuard */
   &slice_traverse_children,   /* STMaxFlightsquares */
+  &slice_traverse_children,   /* STMaxNrNonTrivial */
   &slice_traverse_children    /* STMaxThreatLength */
 };
 
