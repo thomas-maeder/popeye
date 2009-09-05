@@ -707,9 +707,12 @@ attack_result_type branch_d_defender_root_defend(table refutations,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (root_collect_refutations(refutations,si,length,max_nr_nontrivial)
-            ? attack_has_reached_deadend
-            : attack_has_full_length_play);
+  if (root_collect_refutations(refutations,si,length,max_nr_nontrivial))
+    result = attack_has_reached_deadend;
+  else if (table_length(refutations)==0)
+    result = attack_solves_full_length;
+  else
+    result = attack_refuted_full_length;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(attack_result_type,result,"");

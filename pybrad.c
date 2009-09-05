@@ -749,6 +749,31 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
 
 /****************** root ************************/
 
+/* Write the postkey play at root level (if the user hasn't opted it
+ * out)
+ * @param si slice index
+ * @param refutations table containing refutations
+ */
+static void root_write_postkey(slice_index si, table refutations)
+{
+  output_start_postkey_level();
+
+  if (OptFlag[solvariantes])
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    table const threats = allocate_table();
+    stip_length_type const len_threat =
+        direct_defender_solve_threats(threats,next,length-2);
+    direct_defender_root_solve_variations(threats,len_threat,
+                                          refutations,
+                                          next);
+    free_table();
+  }
+
+  output_end_postkey_level();
+}
+
 /* Solve at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -779,37 +804,21 @@ boolean direct_root_solve(slice_index si)
       table const refutations = allocate_table();
       switch (direct_defender_root_defend(refutations,next))
       {
-        case attack_has_full_length_play:
+        case attack_refuted_full_length:
           if (table_length(refutations)<=max_nr_refutations)
           {
-            if (table_length(refutations)==0)
-            {
-              result = true;
-              write_attack(attack_key);
-            }
-            else
-              write_attack(attack_try);
-
-            output_start_postkey_level();
-
-            if (OptFlag[solvariantes])
-            {
-              stip_length_type const length = slices[si].u.pipe.u.branch.length;
-              table const threats = allocate_table();
-              stip_length_type const len_threat =
-                  direct_defender_solve_threats(threats,next,length-2);
-              direct_defender_root_solve_variations(threats,len_threat,
-                                                    refutations,
-                                                    next);
-              free_table();
-            }
-
-            output_end_postkey_level();
-
+            write_attack(attack_try);
+            root_write_postkey(si,refutations);
             write_refutations(refutations);
-
             write_end_of_solution();
           }
+          break;
+
+        case attack_solves_full_length:
+          result = true;
+          write_attack(attack_key);
+          root_write_postkey(si,refutations);
+          write_end_of_solution();
           break;
 
         case attack_has_solved_next_branch:

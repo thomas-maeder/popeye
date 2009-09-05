@@ -22,7 +22,8 @@
 #define ENUMERATION_TYPENAME attack_result_type
 #define ENUMERATORS \
   ENUMERATOR(attack_has_reached_deadend),       \
-    ENUMERATOR(attack_has_full_length_play),    \
+    ENUMERATOR(attack_refuted_full_length),    \
+    ENUMERATOR(attack_solves_full_length),    \
     ENUMERATOR(attack_has_solved_next_branch)
 
 #define ENUMERATION_MAKESTRINGS
