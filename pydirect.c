@@ -387,13 +387,14 @@ stip_length_type direct_solve_threats_in_n(table threats,
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return success of key move
  */
-boolean direct_defender_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    unsigned int curr_max_nr_nontrivial)
+attack_result_type
+direct_defender_defend_in_n(slice_index si,
+                            stip_length_type n,
+                            unsigned int curr_max_nr_nontrivial)
 {
-  boolean result = true;
+  attack_result_type result = attack_has_reached_deadend;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -448,7 +449,7 @@ boolean direct_defender_defend_in_n(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

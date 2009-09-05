@@ -252,13 +252,14 @@ stip_length_type self_defense_direct_solve_threats_in_n(table threats,
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return success of key move
  */
-boolean self_attack_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                unsigned int curr_max_nr_nontrivial)
+attack_result_type
+self_attack_defend_in_n(slice_index si,
+                        stip_length_type n,
+                        unsigned int curr_max_nr_nontrivial)
 {
-  boolean result = true;
+  boolean result = attack_has_reached_deadend;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   stip_length_type const n_max_for_goal
@@ -281,7 +282,7 @@ boolean self_attack_defend_in_n(slice_index si,
         break;
 
       case starter_has_won:
-        result = false;
+        result = attack_has_solved_next_branch;
         write_attack(attack_regular);
         slice_solve_postkey(to_goal);
         break;
@@ -294,7 +295,7 @@ boolean self_attack_defend_in_n(slice_index si,
     result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

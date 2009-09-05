@@ -288,13 +288,14 @@ attack_result_type reflex_guard_root_defend(table refutations, slice_index si)
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return success of key move
  */
-boolean reflex_guard_defend_in_n(slice_index si,
-                                 stip_length_type n,
-                                 unsigned int curr_max_nr_nontrivial)
+attack_result_type
+reflex_guard_defend_in_n(slice_index si,
+                         stip_length_type n,
+                         unsigned int curr_max_nr_nontrivial)
 {
-  boolean result = true;
+  attack_result_type result = attack_has_reached_deadend;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -313,7 +314,7 @@ boolean reflex_guard_defend_in_n(slice_index si,
     switch (slice_has_solution(avoided))
     {
       case has_solution:
-        result = false;
+        result = attack_has_solved_next_branch;
         slice_solve_postkey(avoided);
         break;
 

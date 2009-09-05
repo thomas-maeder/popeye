@@ -39,11 +39,12 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return success of key move
  */
-boolean keepmating_guard_defend_in_n(slice_index si,
-                                     stip_length_type n,
-                                     unsigned int curr_max_nr_nontrivial);
+attack_result_type
+keepmating_guard_defend_in_n(slice_index si,
+                             stip_length_type n,
+                             unsigned int curr_max_nr_nontrivial);
 
 /* Determine whether there is a defense after an attempted key move at
  * non-root level 

@@ -272,11 +272,12 @@ void selfcheck_guard_root_solve_variations(table threats,
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return success of key move
  */
-boolean selfcheck_guard_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    unsigned int curr_max_nr_nontrivial)
+attack_result_type
+selfcheck_guard_defend_in_n(slice_index si,
+                            stip_length_type n,
+                            unsigned int curr_max_nr_nontrivial)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -288,12 +289,12 @@ boolean selfcheck_guard_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = true;
+    result = attack_has_reached_deadend;
   else
     result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

@@ -531,12 +531,18 @@ void branch_d_solve_continuations_in_n(table continuations,
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_defend_in_n(next,n-1,max_nr_nontrivial))
-    {
-      append_to_top_table();
-      coupfort();
-    }
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+      switch (direct_defender_defend_in_n(next,n-1,max_nr_nontrivial))
+      {
+        case attack_has_solved_next_branch:
+        case attack_solves_full_length:
+          append_to_top_table();
+          coupfort();
+          break;
+
+        default:
+          break;
+      }
 
     repcoup();
   }

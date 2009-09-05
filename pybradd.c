@@ -468,13 +468,14 @@ static boolean branch_d_defender_solve_postkey_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return success of key move
  */
-boolean branch_d_defender_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      unsigned int curr_max_nr_nontrivial)
+attack_result_type
+branch_d_defender_defend_in_n(slice_index si,
+                              stip_length_type n,
+                              unsigned int curr_max_nr_nontrivial)
 {
-  boolean result;
+  attack_result_type result = attack_has_reached_deadend;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -483,18 +484,28 @@ boolean branch_d_defender_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (has_defender_refutation(si,n,curr_max_nr_nontrivial)
-      ==defender_has_no_refutation)
+  switch (has_defender_refutation(si,n,curr_max_nr_nontrivial))
   {
-    write_attack(attack_regular);
-    branch_d_defender_solve_postkey_in_n(si,n);
-    result = false;
+    case defender_has_no_refutation:
+      write_attack(attack_regular);
+      branch_d_defender_solve_postkey_in_n(si,n);
+      result = attack_solves_full_length;
+      break;
+
+    case defender_has_refutation:
+      result = attack_refuted_full_length;
+      break;
+
+    case defender_is_immobile:
+      break;
+
+    default:
+      assert(0);
+      break;
   }
-  else
-    result = true;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
