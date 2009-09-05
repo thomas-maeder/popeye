@@ -107,7 +107,7 @@ attack_result_type restart_guard_root_defend(table refutations, slice_index si)
 
   IncrementMoveNbr();
 
-  if (MoveNbr<RestartNbr)
+  if (MoveNbr<=RestartNbr)
     result = attack_has_reached_deadend;
   else
     result = direct_defender_root_defend(refutations,slices[si].u.pipe.next);
@@ -151,12 +151,12 @@ boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  if (MoveNbr<RestartNbr)
+  IncrementMoveNbr();
+
+  if (MoveNbr<=RestartNbr)
     result = false;
   else
     result = help_solve_in_n(slices[si].u.pipe.next,n);
-
-  IncrementMoveNbr();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -180,12 +180,12 @@ boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_series);
 
-  if (MoveNbr<RestartNbr)
+  IncrementMoveNbr();
+
+  if (MoveNbr<=RestartNbr)
     result = false;
   else
     result = series_solve_in_n(slices[si].u.pipe.next,n);
-
-  IncrementMoveNbr();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

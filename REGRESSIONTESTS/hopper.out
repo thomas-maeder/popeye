@@ -32,8 +32,8 @@
   6  (Lg2-c6 )
   7  (Lg2-d5 + )
   8  (Lg2-e4 )
-  1.Lg2-f3 Ke6-e7   2.Kh4-h3 Ke7-d6   3.Sf6-d5 DGa8-c6 # 
   9  (Lg2-f3 )
+  1.Lg2-f3 Ke6-e7   2.Kh4-h3 Ke7-d6   3.Sf6-d5 DGa8-c6 # 
  10  (h2-h1=D )
  11  (h2-h1=S )
  12  (h2-h1=T )
@@ -42,9 +42,9 @@
  15  (Lg3-e1 )
  16  (Lg3-f2 )
  17  (Lg3-f4 )
+ 18  (c4-c3 )
   1.c4-c3 DGa8-h3   2.Sf6-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 # 
   1.c4-c3 DGa8-h3   2.DGc8-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 # 
- 18  (c4-c3 )
  19  (Kh4-h5 )
  20  (Kh4-h3 )
  21  (Kh4-g5 )
@@ -53,13 +53,13 @@
  24  (Sf6-e4 )
  25  (Sf6-h5 )
  26  (Sf6-h7 )
-  1.Sf6-g8 Ke6-f5   2.DGc8-f6 DGa8-f8   3.Kh4-h3 Kf5-g5 # 
  27  (Sf6-g8 )
+  1.Sf6-g8 Ke6-f5   2.DGc8-f6 DGa8-f8   3.Kh4-h3 Kf5-g5 # 
  28  (Sf6-e8 )
  29  (Sf6-d7 )
  30  (DGc8-h3 )
-  1.DGc8-c5 DGa8-h3   2.Sf6-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 # 
  31  (DGc8-c5 )
+  1.DGc8-c5 DGa8-h3   2.Sf6-d5 DGh3-c6 +   3.Kh4-h3 Ke6-d6 # 
  32  (DGc8-f7 )
  33  (DGc8-d5 )
  34  (DGc8-d7 )
@@ -247,8 +247,8 @@ Loesung beendet.
   1  (Ka1-b1 )
   2  (Ka1-a2 )
   3  (Ka1*b2 )
-  1.a7-a5 g2-g4   2.a5-a4 g4-g5   3.a4-a3 g5-g6   4.a3*b2 g6-g7   5.b2-b1=OR g7-g8=OR # 
   4  (a7-a5 )
+  1.a7-a5 g2-g4   2.a5-a4 g4-g5   3.a4-a3 g5-g6   4.a3*b2 g6-g7   5.b2-b1=OR g7-g8=OR # 
   5  (a7-a6 )
 
 Loesung beendet. 

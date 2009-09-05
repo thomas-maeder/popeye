@@ -158,8 +158,8 @@ S. 100, Lsg. zu Nr. 100, Das Vielvaeterproblem, 1989
   3  (Kc8-c7 )
   4  (Kc8-d7 )
   5  (Kc8-b7 )
-  1.b6-b7   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D # 
   6  (b6-b7 )
+  1.b6-b7   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D # 
 
 Loesung beendet. 
 
@@ -196,8 +196,8 @@ Loesung beendet.
   3  (Kc8-c7 )
   4  (Kc8-d7 )
   5  (Kc8-b7 )
-  1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8*a7 [+sBb8] # 
   6  (b6-b7 )
+  1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8*a7 [+sBb8] # 
 
 Loesung beendet. 
 
@@ -234,22 +234,22 @@ Loesung beendet.
   1  (a7*b6 )
   2  (a7-a5 )
   3  (a7-a6 )
-  1.Ka8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 b6-b7 == 
   4  (Ka8-b8 )
-  1.Ka8-b7   2.Kb7-c7   3.Kc7-b8   4.a7-a5   5.a5-a4   6.a4-a3 b6*a3 == 
+  1.Ka8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 b6-b7 == 
   5  (Ka8-b7 )
+  1.Ka8-b7   2.Kb7-c7   3.Kc7-b8   4.a7-a5   5.a5-a4   6.a4-a3 b6*a3 == 
 
   6  (Kc8-d8 )
+  7  (Kc8-b8 )
   1.Kc8-b8   2.Kb8-b7   3.Kb7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 a7*b6 == 
   1.Kc8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a6   6.Ka6-b7 a7*b6 == 
-  7  (Kc8-b8 )
-  1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a6   5.Ka6-b7   6.Kb7-b8 a7*b6 == 
   8  (Kc8-c7 )
+  1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a6   5.Ka6-b7   6.Kb7-b8 a7*b6 == 
   9  (Kc8-d7 )
-  1.Kc8-b7   2.Kb7-a6   3.Ka6-b5   4.Kb5-c6   5.Kc6-c7   6.Kc7-b8 a7*b6 == 
  10  (Kc8-b7 )
-  1.b6-b7   2.b7-b8=L   3.Lb8-c7   4.Lc7-d6   5.Ld6-b4   6.Lb4-a5 a7-a6 == 
+  1.Kc8-b7   2.Kb7-a6   3.Ka6-b5   4.Kb5-c6   5.Kc6-c7   6.Kc7-b8 a7*b6 == 
  11  (b6-b7 )
+  1.b6-b7   2.b7-b8=L   3.Lb8-c7   4.Lc7-d6   5.Ld6-b4   6.Lb4-a5 a7-a6 == 
 
 Loesung beendet. 
 

@@ -2822,8 +2822,8 @@ Loesung beendet.
               OhneSchach
 
   1  (e2-e1=D )
-  1.e2-e1=S h7-h8=D   2.Se1-g2 Dh8-d8   3.h2-h1=L g7-g8=T = 
   2  (e2-e1=S )
+  1.e2-e1=S h7-h8=D   2.Se1-g2 Dh8-d8   3.h2-h1=L g7-g8=T = 
   3  (e2-e1=T )
   4  (e2-e1=L )
   5  (h2-h1=S )
@@ -3549,8 +3549,8 @@ Loesung beendet.
   3  (Kc8-d8 )
   4  (Kc8-b8 )
   5  (Kc8-c7 )
-  1.Kc8-d7 Kh3-g4   2.f2-f1=L f5-f6   3.Lf1-a6 f6-f7   4.La6-c8 f7-f8=S # 
   6  (Kc8-d7 )
+  1.Kc8-d7 Kh3-g4   2.f2-f1=L f5-f6   3.Lf1-a6 f6-f7   4.La6-c8 f7-f8=S # 
   7  (Kc8-b7 )
 
 Loesung beendet. 
@@ -4186,8 +4186,8 @@ Loesung beendet.
   2  (c2-c1=T )
   3  (c2-c1=L )
   4  (c2-c1=N )
-  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=N f7-f8=N = 
   5  (a7-a5 )
+  1.a7-a5 f2-f4   2.a5-a4 f4-f5   3.a4-a3 f5-f6   4.a3-a2 f6-f7   5.a2-a1=N f7-f8=N = 
   6  (a7-a6 )
 
 Loesung beendet. 
@@ -4228,8 +4228,8 @@ Loesung beendet.
   6  (Kd2-e1 )
   7  (Kd2-c1 )
   8  (d4-d3 )
-  1.c7-c5 a2-a4   2.c5-c4 a4-a5   3.c4-c3 a5-a6   4.c3-c2 a6-a7   5.c2-c1=L a7-a8=N # 
   9  (c7-c5 )
+  1.c7-c5 a2-a4   2.c5-c4 a4-a5   3.c4-c3 a5-a6   4.c3-c2 a6-a7   5.c2-c1=L a7-a8=N # 
  10  (c7-c6 )
 
 Loesung beendet. 
@@ -4271,8 +4271,8 @@ Loesung beendet.
   7  (Ke2-d1 )
   8  (Gf3-d1 )
   9  (Gf3-h5 )
-  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=G h7-h8=N # 
  10  (d7-d5 )
+  1.d7-d5 h2-h4   2.d5-d4 h4-h5   3.d4-d3 h5-h6   4.d3-d2 h6-h7   5.d2-d1=G h7-h8=N # 
  11  (d7-d6 )
 
 Loesung beendet. 
@@ -4313,8 +4313,8 @@ Loesung beendet.
   6  (Ke2*f3 )
   7  (Ke2-f1 )
   8  (Ke2-d1 )
-  1.d7-d5 b2-b4   2.d5-d4 b4-b5   3.d4-d3 b5-b6   4.d3-d2 b6-b7   5.d2-d1=G2 b7-b8=N # 
   9  (d7-d5 )
+  1.d7-d5 b2-b4   2.d5-d4 b4-b5   3.d4-d3 b5-b6   4.d3-d2 b6-b7   5.d2-d1=G2 b7-b8=N # 
  10  (d7-d6 )
 
 Loesung beendet. 
@@ -4352,8 +4352,8 @@ Loesung beendet.
   2  (nBg2-g1=nS )
   3  (nBg2-g1=nT )
   4  (nBg2-g1=nL )
-  1.vBh2-h1=wD Dh1*h5 [+nBh1=nT]   2.nBg2*h1=nL [+nTg2] c7-c8=S = 
   5  (vBh2-h1=wD )
+  1.vBh2-h1=wD Dh1*h5 [+nBh1=nT]   2.nBg2*h1=nL [+nTg2] c7-c8=S = 
   6  (vBh2-h1=wS )
   7  (vBh2-h1=wT )
   8  (vBh2-h1=wL )

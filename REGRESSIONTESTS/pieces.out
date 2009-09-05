@@ -706,8 +706,8 @@ NG11, 1. NG-ST, Problemkiste 109, 2/1997
   h==6                        1 + 1
            Koeniglich h7 a2
 
-  1.k16h7-b6 kBa2-a3   2.k16b6-h5 kBa3-a4   3.k16h5-b4 kBa4-a5   4.k16b4-h3 kBa5-a6   5.k16h3-b2 kBa6-a7   6.k16b2-h1 kBa7-a8=k16 == 
   1  (k16h7-b6 )
+  1.k16h7-b6 kBa2-a3   2.k16b6-h5 kBa3-a4   3.k16h5-b4 kBa4-a5   4.k16b4-h3 kBa5-a6   5.k16h3-b2 kBa6-a7   6.k16b2-h1 kBa7-a8=k16 == 
   2  (k16h7-g1 + )
   3  (k16h7-b8 + )
 
@@ -744,10 +744,10 @@ NG23, 1. NG-ST, Problemkiste 109, 2/1997
   3  (Kc2-d2 )
   4  (Kc2-c3 )
   5  (Kc2-b2 + )
-  1...Kc2-c1   2.16g7-a6 16b8-c2   3.16a6-g5 16c2-d8   4.16g5-a4 16d8-e2   5.16a4-g3 16e2-f8   6.16g3-a2 16f8-g2 # 
   6  (Kc2-c1 )
-  1...Kc2-b3   2.16g7-f1 16b8-c2   3.16f1-e7 16c2-d8   4.16e7-d1 16d8-e2   5.16d1-c7 16e2-f8   6.16c7-b1 16f8-g2 # 
+  1...Kc2-c1   2.16g7-a6 16b8-c2   3.16a6-g5 16c2-d8   4.16g5-a4 16d8-e2   5.16a4-g3 16e2-f8   6.16g3-a2 16f8-g2 # 
   7  (Kc2-b3 )
+  1...Kc2-b3   2.16g7-f1 16b8-c2   3.16f1-e7 16c2-d8   4.16e7-d1 16d8-e2   5.16d1-c7 16e2-f8   6.16c7-b1 16f8-g2 # 
   8  (Kc2-d3 )
   9  (Kc2-d1 )
  10  (Kc2-b1 + )

@@ -1626,8 +1626,8 @@ Loesung beendet.
   ser-h=16                    3 + 4
                 Circe
 
-  1.Ke1-f1   2.Kf1-g1   3.Kg1-h2   4.Kh2-h3   5.Kh3-h4   6.Kh4*h5 [+wLf1]   7.Kh5-g6   8.Kg6-f7   9.Kf7-e6  10.Ke6*d5 [+wSb1]  11.Kd5-c5  12.Kc5-b4  13.Kb4-b3  14.Kb3-c2  15.Kc2-d1  16.Kd1-e1 Lf1-e2 = 
   1  (Ke1-f1 )
+  1.Ke1-f1   2.Kf1-g1   3.Kg1-h2   4.Kh2-h3   5.Kh3-h4   6.Kh4*h5 [+wLf1]   7.Kh5-g6   8.Kg6-f7   9.Kf7-e6  10.Ke6*d5 [+wSb1]  11.Kd5-c5  12.Kc5-b4  13.Kb4-b3  14.Kb3-c2  15.Kc2-d1  16.Kd1-e1 Lf1-e2 = 
   2  (Ke1-e2 + )
   3  (Ke1-d1 )
   4  (Ke1-d2 )
@@ -2419,10 +2419,12 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 +---a---b---c---d---e---f---g---h---+
   exact-ser-h0010             5 + 2
 
-  1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-a8   2.La8-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   2  (Lh1-b7 )
-  1.Lh1-c6   2.Lc6-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   3  (Lh1-c6 )
+  1.Lh1-c6   2.Lc6-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  4  (Lh1-d5 )
   1.Lh1-d5   2.Ld5-a2   3.Kb4-a4   4.Ka4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-d5   2.Ld5-a2   3.Kb4-a3   4.Ka3-b2   5.La2-b1   6.Kb2*c1   7.Kc1-b2   8.Lb1-a2   9.Kb2-a3  10.Ka3-a4 0-0-0 
   1.Lh1-d5   2.Ld5-a2   3.Kb4-a3   4.Ka3-b2   5.La2-b1   6.Kb2*c1   7.Kc1-b2   8.Lb1-a2   9.Kb2-a3  10.Ka3-b4 0-0-0 
@@ -2431,14 +2433,13 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
   1.Lh1-d5   2.Ld5-g8   3.Lg8-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-d5   2.Ld5-f7   3.Lf7-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-d5   2.Ld5-e6   3.Le6-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
-  4  (Lh1-d5 )
+  5  (Lh1-e4 )
   1.Lh1-e4   2.Le4-b1   3.Lb1-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-e4   2.Le4-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
-  5  (Lh1-e4 )
-  1.Lh1-f3   2.Lf3-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   6  (Lh1-f3 )
-  1.Lh1-g2   2.Lg2-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-f3   2.Lf3-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   7  (Lh1-g2 )
+  1.Lh1-g2   2.Lg2-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   8  (Kb4-c4 )
   9  (Kb4-b5 )
  10  (Kb4-a4 )

@@ -146,9 +146,9 @@ Janez Nastran, 203 Sahovska misel 6/2005
   1  (d2-d1=K )
   2  (d2-d1=D )
   3  (d2-d1=S + )
+  4  (d2-d1=T )
   1.d2-d1=T Dh7-g8 +   2.Kc4-c3 Dg8-b3 # 
   1.d2-d1=T Dh7-f7 +   2.Kc4-c3 Df7-b3 # 
-  4  (d2-d1=T )
   5  (d2-d1=L )
   6  (Sf2-d1 + )
   7  (Sf2-h1 )
@@ -159,9 +159,9 @@ Janez Nastran, 203 Sahovska misel 6/2005
  12  (Kc4-d4 + )
  13  (Kc4-c5 )
  14  (Kc4-b4 )
+ 15  (Kc4-c3 )
   1.Kc4-c3 Dh7-g8   2.d2-d1=T Dg8-b3 # 
   1.Kc4-c3 Dh7-f7   2.d2-d1=T Df7-b3 # 
- 15  (Kc4-c3 )
  16  (Kc4-b5 )
  17  (Kc4-d5 )
  18  (Kc4-d3 + )
@@ -170,16 +170,16 @@ Janez Nastran, 203 Sahovska misel 6/2005
  21  (Tf5-f4 )
  22  (Tf5-a5 )
  23  (Tf5-b5 )
-  1.Tf5-c5 Dh7-b1   2.d2-d1=T Db1-b3 # 
  24  (Tf5-c5 )
+  1.Tf5-c5 Dh7-b1   2.d2-d1=T Db1-b3 # 
  25  (Tf5-d5 )
  26  (Tf5-e5 + )
  27  (Tf5-h5 )
  28  (Tf5-g5 )
  29  (d6-d5 )
  30  (Ld7-a4 )
-  1.Ld7-b5 Dh7-a7   2.d2-d1=L Da7-d4 # 
  31  (Ld7-b5 )
+  1.Ld7-b5 Dh7-a7   2.d2-d1=L Da7-d4 # 
  32  (Ld7-c6 )
  33  (Ld7-e6 )
  34  (Ld7-e8 )
@@ -213,8 +213,8 @@ Janez Nastran, 204 Sahovska misel 6/2005
   h#2                         4 + 4
            KoenigsDynastie
 
-  1.d2-d1=K Tg2*f2   2.Kf4-e3 Ke1*d1 # 
   1  (d2-d1=K )
+  1.d2-d1=K Tg2*f2   2.Kf4-e3 Ke1*d1 # 
   2  (d2-d1=D )
   3  (d2-d1=S )
   4  (d2-d1=T )
@@ -224,6 +224,7 @@ Janez Nastran, 204 Sahovska misel 6/2005
   8  (d2*e1=S )
   9  (d2*e1=T + )
  10  (d2*e1=L )
+ 11  (f2-f1=K )
   1.f2-f1=K Lc3*d2   2.Kf4-g4 Tg2*g4 # 
   1.f2-f1=K Lc3*d2   2.Kf4-f3 Ke2*f3 # 
   1.f2-f1=K Lc3*d2   2.Kf4-f3 Ke1*f1 # 
@@ -238,7 +239,6 @@ Janez Nastran, 204 Sahovska misel 6/2005
   1.f2-f1=K Ke1*d2   2.Kf4-g4 Tg2*g4 # 
   1.f2-f1=K Ke1*d2   2.Kf4-g5 Tg2*g5 # 
   1.f2-f1=K Ke1*d2   2.Kf4-g3 Tg2*g3 # 
- 11  (f2-f1=K )
  12  (f2-f1=D )
  13  (f2-f1=S )
  14  (f2-f1=T )
@@ -285,8 +285,8 @@ Janez Nastran, 205 Sahovska misel 6/2005
   h#5                         4 + 2
            KoenigsDynastie
 
-  1.g7-g5 f2-f4   2.g5-g4 f4-f5   3.g4-g3 f5-f6   4.g3*h2 f6-f7 +   5.h2-h1=K + f7*g8=K # 
   1  (g7-g5 )
+  1.g7-g5 f2-f4   2.g5-g4 f4-f5   3.g4-g3 f5-f6   4.g3*h2 f6-f7 +   5.h2-h1=K + f7*g8=K # 
   2  (g7-g6 )
   3  (Kg8-h8 )
   4  (Kg8-f8 )
@@ -334,14 +334,14 @@ Marko Klasinc, 206 Sahovska misel 6/2005
  11  (Kd7-c7 )
  12  (Kd7-d6 )
  13  (Kd7-c8 )
-  1.Kd7-e8 Se5*f7   2.0-0 Sf7-h6 # 
  14  (Kd7-e8 )
+  1.Kd7-e8 Se5*f7   2.0-0 Sf7-h6 # 
  15  (Kf7-g7 )
  16  (Kf7-f8 )
  17  (Kf7-e7 )
  18  (Kf7-f6 )
-  1.Kf7-e8 Se5*d7   2.0-0-0 Dc3*c6 # 
  19  (Kf7-e8 )
+  1.Kf7-e8 Se5*d7   2.0-0-0 Dc3*c6 # 
  20  (Kf7-g8 )
  21  (Kf7-g6 )
  22  (Sh7-f6 )

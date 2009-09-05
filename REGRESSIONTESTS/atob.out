@@ -106,8 +106,8 @@ Initial (Weiss ->):
   1  (g7-g8=D )
   2  (g7-g8=S )
   3  (g7-g8=T )
-  1.g7-g8=L a2-a1=S   2.Lg8-a2 Sa1-b3   3.La2-b1 a3-a2   4.b6-b7 a2-a1=D   5.b7-b8=T Da1-a3   6.Tb8-h8 Da3-f8   7.e4-e5 a4-a3   8.e5-e6 a3-a2   9.e6-e7 a2-a1=T  10.e7-e8=D Ta1-a4  11.De8-e3 Ta4-e4  12.d3-d4 a5-a4  13.d4-d5 a4-a3  14.d5-d6 a3-a2  15.d6-d7 a2-a1=L  16.d7-d8=S La1-d4 a=>b 
   4  (g7-g8=L )
+  1.g7-g8=L a2-a1=S   2.Lg8-a2 Sa1-b3   3.La2-b1 a3-a2   4.b6-b7 a2-a1=D   5.b7-b8=T Da1-a3   6.Tb8-h8 Da3-f8   7.e4-e5 a4-a3   8.e5-e6 a3-a2   9.e6-e7 a2-a1=T  10.e7-e8=D Ta1-a4  11.De8-e3 Ta4-e4  12.d3-d4 a5-a4  13.d4-d5 a4-a3  14.d5-d6 a3-a2  15.d6-d7 a2-a1=L  16.d7-d8=S La1-d4 a=>b 
   5  (Kg6-h6 )
   6  (Kg6-f6 )
   7  (Kg6-g5 )
@@ -179,8 +179,8 @@ Initial (Schwarz ->):
   5  (h2-h1=D + )
   6  (h2-h1=S )
   7  (h2-h1=T + )
-  1.h2-h1=L a7-a8=D   2.Lh1*d5 Da8*d5 +   3.Kd7*c7 Dd5-d1   4.c2*d1=T f7-f8=S   5.Td1-d7 Sf8*d7   6.Kc7*d7 a=>b 
   8  (h2-h1=L )
+  1.h2-h1=L a7-a8=D   2.Lh1*d5 Da8*d5 +   3.Kd7*c7 Dd5-d1   4.c2*d1=T f7-f8=S   5.Td1-d7 Sf8*d7   6.Kc7*d7 a=>b 
   9  (Kd7-e7 )
  10  (Kd7-d8 )
  11  (Kd7*c7 )
