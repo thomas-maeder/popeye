@@ -305,6 +305,69 @@ void direct_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type direct_solve_threats_in_n(table threats,
+                                           slice_index si,
+                                           stip_length_type n)
+{
+  stip_length_type result = n+2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STBranchDirect:
+      result = branch_d_solve_threats_in_n(threats,si,n);
+      break;
+
+    case STDirectHashed:
+      result = direct_hashed_solve_threats_in_n(threats,si,n);
+      break;
+
+    case STDirectDefense:
+      result = direct_defense_direct_solve_threats_in_n(threats,si,n);
+      break;
+
+    case STSelfDefense:
+      result = self_defense_direct_solve_threats_in_n(threats,si,n);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_direct_solve_threats_in_n(threats,si,n);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_direct_solve_threats_in_n(threats,si,n);
+      break;
+
+    case STKeepMatingGuard:
+      result = keepmating_guard_direct_solve_threats_in_n(threats,si,n);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index

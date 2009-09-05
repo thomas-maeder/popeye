@@ -450,18 +450,17 @@ static boolean solve_variations_in_n(stip_length_type len_threat,
  * @param threats table where to add threats
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @return (n-slack_length_direct)%2 if the defender is in check
- *         a value >max_threat_length if there is no threat nor check
- *         the length of the shortest threat(s) otherwise
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
  */
 static stip_length_type solve_threats(table threats,
                                       slice_index si,
                                       stip_length_type n)
 {
-  Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
-  unsigned int const parity = (n-slack_length_direct)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -472,27 +471,8 @@ static stip_length_type solve_threats(table threats,
 
   if (OptFlag[nothreat])
     result = n+2;
-  else if (echecc(nbply,defender))
-    result = (n-slack_length_direct)%2;
   else
-  {
-    output_start_threat_level();
-
-    result = slack_length_direct+parity;
-
-    while (result<=n)
-    {
-      direct_solve_continuations_in_n(threats,next,result);
-      TraceValue("%u",result);
-      TraceValue("%u\n",table_length(threats));
-      if (table_length(threats)>0)
-        break;
-      else
-        result += 2;
-    }
-
-    output_end_threat_level();
-  }
+    result = direct_solve_threats_in_n(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

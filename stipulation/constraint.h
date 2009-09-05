@@ -43,6 +43,20 @@ void reflex_guard_direct_solve_continuations_in_n(table continuations,
                                                   slice_index si,
                                                   stip_length_type n);
 
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
+                                                        slice_index si,
+                                                        stip_length_type n);
+
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @return true iff the defender can successfully defend

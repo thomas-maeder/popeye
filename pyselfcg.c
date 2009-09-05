@@ -120,6 +120,41 @@ void selfcheck_guard_direct_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type selfcheck_guard_direct_solve_threats_in_n(table threats,
+                                                           slice_index si,
+                                                           stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (echecc(nbply,advers(slices[si].starter)))
+    result = (n-slack_length_direct)%2;
+  else
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    result = direct_solve_threats_in_n(threats,next,n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached

@@ -138,6 +138,59 @@ void reflex_guard_direct_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
+                                                        slice_index si,
+                                                        stip_length_type n)
+{
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  switch (slice_has_solution(avoided))
+  {
+    case has_solution:
+      /* no continuations to be found because of reflex obligations;
+       * cf. issue 2843251 */
+      output_start_threat_level();
+      output_end_threat_level();
+      result = n+2;
+      break;
+
+    case has_no_solution:
+    {
+      slice_index const next = slices[si].u.pipe.next;
+      result = direct_solve_threats_in_n(threats,next,n);
+      break;
+    }
+
+    case defender_self_check:
+      /* must already have been dealt with in an earlier slice */
+    default:
+      assert(0);
+      result = n+2;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats

@@ -132,6 +132,42 @@ void keepmating_guard_direct_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type keepmating_guard_direct_solve_threats_in_n(table threats,
+                                                            slice_index si,
+                                                            stip_length_type n)
+{
+  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (is_a_mating_piece_left(mating))
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    result = direct_solve_threats_in_n(threats,next,n);
+  }
+  else
+    result = n+2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* **************** Implementation of interface DirectDefender **********
  */

@@ -547,6 +547,47 @@ void branch_d_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type branch_d_solve_threats_in_n(table threats,
+                                             slice_index si,
+                                             stip_length_type n)
+{
+  unsigned int const parity = (n-slack_length_direct)%2;
+  stip_length_type result = slack_length_direct+parity;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  output_start_threat_level();
+
+  while (result<=n)
+  {
+    branch_d_solve_continuations_in_n(threats,si,result);
+    if (table_length(threats)>0)
+      break;
+    else
+      result += 2;
+  }
+
+  output_end_threat_level();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /**************** slice interface ***********************/
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced

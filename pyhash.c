@@ -105,6 +105,7 @@
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pynontrv.h"
+#include "pyoutput.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -2922,6 +2923,50 @@ void direct_hashed_solve_continuations_in_n(table continuations,
   TraceFunctionResultEnd();
 }
 
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type direct_hashed_solve_threats_in_n(table threats,
+                                                  slice_index si,
+                                                  stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (inhash(si,DirNoSucc,n/2))
+  {
+    assert(!inhash(si,DirSucc,n/2-1));
+    result = n+2;
+    output_start_threat_level();
+    output_end_threat_level();
+  }
+  else
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    result = direct_solve_threats_in_n(threats,next,n);
+    if (table_length(threats)>0)
+      addtohash(si,DirSucc,result/2-1);
+    else
+      addtohash(si,DirNoSucc,result/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
@@ -2967,9 +3012,10 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
  *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type direct_hashed_has_solution_in_n(slice_index si,
-                                                  stip_length_type n,
-                                                  unsigned int curr_max_nr_nontrivial)
+has_solution_type
+direct_hashed_has_solution_in_n(slice_index si,
+                                stip_length_type n,
+                                unsigned int curr_max_nr_nontrivial)
 {
   has_solution_type result = has_no_solution;
   slice_index const next = slices[si].u.pipe.next;
