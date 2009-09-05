@@ -504,6 +504,35 @@ has_solution_type branch_d_has_solution(slice_index si)
   return result;
 }
 
+/* Solve postkey play play after the move that has just
+ * been played in the current ply.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ */
+static void solve_postkey_in_n(slice_index si, stip_length_type n)
+{
+  table const threats = allocate_table();
+  stip_length_type len_threat;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  output_start_postkey_level();
+
+  len_threat = direct_defender_solve_threats(threats,next,n-2);
+  direct_defender_solve_variations_in_n(threats,len_threat,next,n-1);
+
+  output_end_postkey_level();
+
+  free_table();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Determine and write the continuations in the current position
  * (i.e. attacker's moves winning after a defender's move that refuted
  * the threat).
@@ -535,7 +564,13 @@ void branch_d_solve_continuations_in_n(table continuations,
       switch (direct_defender_defend_in_n(next,n-1,max_nr_nontrivial))
       {
         case attack_has_solved_next_branch:
+          append_to_top_table();
+          coupfort();
+          break;
+
         case attack_solves_full_length:
+          write_attack(attack_regular);
+          solve_postkey_in_n(si,n);
           append_to_top_table();
           coupfort();
           break;

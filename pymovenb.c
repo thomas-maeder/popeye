@@ -148,6 +148,33 @@ stip_length_type restart_guard_solve_threats(table threats,
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats
  * @param len_threat length of threats
+ * @param si slice index
+ * @param n maximum length of variations to be solved
+ * @return true iff >= 1 variation was found
+ */
+boolean restart_guard_solve_variations_in_n(table threats,
+                                            stip_length_type len_threat,
+                                            slice_index si,
+                                            stip_length_type n)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = direct_defender_solve_variations_in_n(threats,len_threat,next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
  * @param refutations table containing refutations to move just played
  * @param si slice index
  */

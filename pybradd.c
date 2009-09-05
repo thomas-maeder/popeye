@@ -172,52 +172,6 @@ has_defender_refutation(slice_index si,
   return result;
 }
 
-/* Count non-trivial moves of the defending side. Whether a
- * particular move is non-trivial is determined by user input.
- * Stop counting when more than max_nr_nontrivial have been found
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return number of defender's non-trivial moves
- */
-static
-unsigned int count_nontrivial_defenses(slice_index si,
-                                       unsigned int curr_max_nr_nontrivial)
-{
-  Side const defender = slices[si].starter;
-  unsigned int result = 0;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const parity = slices[si].u.pipe.u.branch.length%2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
-  TraceFunctionParamListEnd();
-
-  active_slice[nbply+1] = si;
-  genmove(defender);
-
-  while (encore() && curr_max_nr_nontrivial+1>=result)
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,defender) /* TODO rearrange slices */
-        && (min_length_nontrivial==slack_length_direct
-            || (direct_has_solution_in_n(next,
-                                         min_length_nontrivial+parity-1,
-                                         curr_max_nr_nontrivial)
-                ==has_no_solution)))
-      ++result;
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played is relevant
  * @param table containing threats
  * @param len_threat length of threat
@@ -319,64 +273,6 @@ static boolean write_variation(slice_index si, stip_length_type n)
   return !is_refutation;
 }
 
-/* Determine and write the variations after the move that has just
- * been played in the current ply.
- * We have already determined that this move doesn't have refutations
- * @param len_threat length of threats
- * @param threats table containing threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff >=1 solution was found
- */
-static boolean solve_variations_in_n(stip_length_type len_threat,
-                                     table threats,
-                                     slice_index si,
-                                     stip_length_type n,
-                                     unsigned int curr_max_nr_nontrivial)
-{
-  Side const defender = slices[si].starter;
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  active_slice[nbply+1] = si;
-  genmove(defender);
-
-  while(encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && is_defense_relevant(threats,
-                               len_threat,
-                               si,
-                               n-1,
-                               curr_max_nr_nontrivial))
-    {
-      if (write_variation(si,n))
-        result = true;
-      else
-        write_refutation_mark();
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the threats after the move that has just been
  * played in the current ply.
  * We have already determined that this move doesn't have more
@@ -414,48 +310,51 @@ static stip_length_type solve_threats(table threats,
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
+/* Solve variations after an attacker's move
+ * @param threats table containing the threats after the attacker's move
+ * @param len_threat length of threats
  * @param si slice index
- * @param n maximum number of half moves until goal
- * @return true iff >=1 solution was found
+ * @param n maximum length of variations to be solved
+ * @return true iff >=1 variation was found
  */
-static boolean branch_d_defender_solve_postkey_in_n(slice_index si,
-                                                    stip_length_type n)
+boolean branch_d_defender_solve_variations_in_n(table threats,
+                                                stip_length_type len_threat,
+                                                slice_index si,
+                                                stip_length_type n)
 {
-  table const threats = allocate_table();
-  stip_length_type len_threat;
-  boolean result;
+  Side const defender = slices[si].starter;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  output_start_postkey_level();
+  active_slice[nbply+1] = si;
+  genmove(defender);
 
-  len_threat = solve_threats(threats,si,n-1);
-  if (n>min_length_nontrivial)
+  while(encore())
   {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,max_nr_nontrivial);
-    if (max_nr_nontrivial+1<nr_nontrivial)
-      result = false;
-    else
-      result = solve_variations_in_n(len_threat,
-                                     threats,
-                                     si,
-                                     n,
-                                     max_nr_nontrivial+1-nr_nontrivial);
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && is_defense_relevant(threats,
+                               len_threat,
+                               si,
+                               n-1,
+                               max_nr_nontrivial))
+    {
+      if (write_variation(si,n))
+        result = true;
+      else
+        write_refutation_mark();
+    }
+
+    repcoup();
   }
-  else
-    result = solve_variations_in_n(len_threat,threats,si,n,max_nr_nontrivial);
 
-  output_end_postkey_level();
-
-  free_table();
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -487,8 +386,6 @@ branch_d_defender_defend_in_n(slice_index si,
   switch (has_defender_refutation(si,n,curr_max_nr_nontrivial))
   {
     case defender_has_no_refutation:
-      write_attack(attack_regular);
-      branch_d_defender_solve_postkey_in_n(si,n);
       result = attack_solves_full_length;
       break;
 
@@ -610,6 +507,40 @@ void branch_d_defender_root_solve_variations(table threats,
   TraceFunctionResultEnd();
 }
 
+/* Solve postkey play play after the move that has just
+ * been played in the current ply.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return true iff >=1 solution was found
+ */
+static boolean solve_postkey_in_n(slice_index si, stip_length_type n)
+{
+  table const threats = allocate_table();
+  stip_length_type len_threat;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  output_start_postkey_level();
+
+  len_threat = branch_d_defender_solve_threats(threats,si,n-1);
+  result = branch_d_defender_solve_variations_in_n(threats,len_threat,si,n);
+
+  output_end_postkey_level();
+
+  free_table();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve at root level.
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -624,7 +555,7 @@ boolean branch_d_defender_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   init_output(si);
-  if (branch_d_defender_solve_postkey_in_n(si,length))
+  if (solve_postkey_in_n(si,length))
   {
     write_end_of_solution();
     result = true;

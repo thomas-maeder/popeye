@@ -286,6 +286,50 @@ stip_length_type max_nr_nontrivial_guard_solve_threats(table threats,
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats
  * @param len_threat length of threats
+ * @param si slice index
+ * @param n maximum length of variations to be solved
+ * @return true iff >= 1 variation was found
+ */
+boolean
+max_nr_nontrivial_guard_solve_variations_in_n(table threats,
+                                              stip_length_type len_threat,
+                                              slice_index si,
+                                              stip_length_type n)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (n>min_length_nontrivial)
+  {
+    unsigned int const nr_nontrivial =
+        count_nontrivial_defenses(si,max_nr_nontrivial);
+    if (max_nr_nontrivial+1<nr_nontrivial)
+      result = false;
+    else
+    {
+      ++max_nr_nontrivial;
+      max_nr_nontrivial -= nr_nontrivial;
+      result = direct_defender_solve_variations_in_n(threats,len_threat,next,n);
+      max_nr_nontrivial += nr_nontrivial;
+      --max_nr_nontrivial;
+    }
+  }
+  else
+    result = direct_defender_solve_variations_in_n(threats,len_threat,next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
  * @param refutations table containing refutations to move just played
  * @param si slice index
  */

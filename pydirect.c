@@ -552,6 +552,7 @@ stip_length_type direct_defender_solve_threats(table threats,
   switch (slices[si].type)
   {
     case STDirectDefenderRoot:
+    case STBranchDirectDefender:
       result = branch_d_defender_solve_threats(threats,si,n);
       break;
 
@@ -689,4 +690,79 @@ void direct_defender_root_solve_variations(table threats,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
+ * @param si slice index
+ * @param n maximum length of variations to be solved
+ * @return true iff >= 1 variation was found
+ */
+boolean direct_defender_solve_variations_in_n(table threats,
+                                              stip_length_type len_threat,
+                                              slice_index si,
+                                              stip_length_type n)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STBranchDirectDefender:
+      result = branch_d_defender_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    case STDirectAttack:
+      result = direct_attack_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    case STKeepMatingGuard:
+      result = keepmating_guard_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    case STMaxThreatLength:
+      result = maxthreatlength_guard_solve_variations_in_n(threats,len_threat,
+                                                           si,n);
+      break;
+
+    case STMaxFlightsquares:
+      result = maxflight_guard_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    case STMaxNrNonTrivial:
+      result = max_nr_nontrivial_guard_solve_variations_in_n(threats,len_threat,
+                                                             si,n);
+      break;
+
+    case STRestartGuard:
+      result = restart_guard_solve_variations_in_n(threats,len_threat,si,n);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

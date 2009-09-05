@@ -82,6 +82,19 @@ stip_length_type max_nr_nontrivial_guard_solve_threats(table threats,
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats
  * @param len_threat length of threats
+ * @param si slice index
+ * @param n maximum length of variations to be solved
+ * @return true iff >= 1 variation was found
+ */
+boolean
+max_nr_nontrivial_guard_solve_variations_in_n(table threats,
+                                              stip_length_type len_threat,
+                                              slice_index si,
+                                              stip_length_type n);
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
  * @param refutations table containing refutations to move just played
  * @param si slice index
  */
