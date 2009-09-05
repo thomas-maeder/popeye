@@ -531,59 +531,6 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si,
 
 /****************** root *******************/
 
-/* Determine and write at root level the threat and variations after
- * the move that has just been played in the current ply
- * We have already determined that this move doesn't have more
- * refutations than allowed.
- * @param len_threat length of threats
- * @param threats table containing threats
- * @param refutations table containing refutations after move just
- *                    played
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- */
-static void root_solve_variations_in_n(stip_length_type len_threat,
-                                       table threats,
-                                       table refutations,
-                                       slice_index si,
-                                       stip_length_type n,
-                                       unsigned int curr_max_nr_nontrivial)
-{
-  Side const defender = slices[si].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  active_slice[nbply+1] = si;
-  genmove(defender);
-
-  while(encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !is_current_move_in_table(refutations)
-        && is_defense_relevant(threats,
-                               len_threat,
-                               si,
-                               n-1,
-                               curr_max_nr_nontrivial))
-      write_variation(si,n);
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index
@@ -622,32 +569,33 @@ void branch_d_defender_root_solve_variations(table threats,
                                              table refutations,
                                              slice_index si)
 {
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  Side const defender = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (n>min_length_nontrivial)
-  {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,max_nr_nontrivial);
-    root_solve_variations_in_n(len_threat,
-                               threats,
-                               refutations,
-                               si,
-                               n,
-                               max_nr_nontrivial+1-nr_nontrivial);
-  }
-  else
-    root_solve_variations_in_n(len_threat,
-                               threats,
-                               refutations,
-                               si,
-                               n,
-                               max_nr_nontrivial);
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
+  active_slice[nbply+1] = si;
+  genmove(defender);
+
+  while(encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !is_current_move_in_table(refutations)
+        && is_defense_relevant(threats,len_threat,
+                               si,
+                               length-1,
+                               max_nr_nontrivial))
+      write_variation(si,length);
+
+    repcoup();
+  }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -659,7 +607,7 @@ void branch_d_defender_root_solve_variations(table threats,
  */
 boolean branch_d_defender_root_solve(slice_index si)
 {
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -667,7 +615,7 @@ boolean branch_d_defender_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   init_output(si);
-  if (branch_d_defender_solve_postkey_in_n(si,n))
+  if (branch_d_defender_solve_postkey_in_n(si,length))
   {
     write_end_of_solution();
     result = true;
@@ -754,14 +702,14 @@ static boolean root_collect_refutations(table refutations,
 attack_result_type branch_d_defender_root_defend(table refutations,
                                                  slice_index si)
 {
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
   attack_result_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (root_collect_refutations(refutations,si,n,max_nr_nontrivial)
+  result = (root_collect_refutations(refutations,si,length,max_nr_nontrivial)
             ? attack_has_reached_deadend
             : attack_has_full_length_play);
 

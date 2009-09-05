@@ -293,13 +293,31 @@ void max_nr_nontrivial_guard_root_solve_variations(table threats,
                                                    table refutations,
                                                    slice_index si)
 {
+  stip_length_type const n = slices[si].u.pipe.u.maxthreatlength_guard.length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  direct_defender_root_solve_variations(threats,len_threat,
-                                        refutations,
-                                        slices[si].u.pipe.next);
+  if (n>min_length_nontrivial)
+  {
+    unsigned int const nr_nontrivial =
+        count_nontrivial_defenses(si,max_nr_nontrivial);
+    if (max_nr_nontrivial+1>=nr_nontrivial)
+    {
+      ++max_nr_nontrivial;
+      max_nr_nontrivial -= nr_nontrivial;
+      direct_defender_root_solve_variations(threats,len_threat,
+                                            refutations,
+                                            slices[si].u.pipe.next);
+      max_nr_nontrivial += nr_nontrivial;
+      --max_nr_nontrivial;
+    }
+  }
+  else
+    direct_defender_root_solve_variations(threats,len_threat,
+                                          refutations,
+                                          slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
