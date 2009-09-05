@@ -17,10 +17,10 @@ void stip_insert_keepmating_guards(void);
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean keepmating_guard_root_defend(table refutations, slice_index si);
+attack_result_type keepmating_guard_root_defend(table refutations,
+                                                slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -155,5 +155,12 @@ boolean keepmating_guard_series_has_solution_in_n(slice_index si,
 void keepmating_guard_series_solve_continuations_in_n(table continuations,
                                                       slice_index si,
                                                       stip_length_type n);
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void keepmating_guard_root_solve_postkey(table refutations, slice_index si);
 
 #endif

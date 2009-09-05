@@ -113,10 +113,16 @@ boolean direct_guard_root_solve(slice_index si);
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean direct_attack_root_defend(table refutations, slice_index si);
+attack_result_type direct_attack_root_defend(table refutations, slice_index si);
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void direct_attack_root_solve_postkey(table refutations, slice_index si);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch

@@ -123,12 +123,11 @@ static void init_maxflight_guard_slice(slice_index si)
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean maxflight_guard_root_defend(table refutations, slice_index si)
+attack_result_type maxflight_guard_root_defend(table refutations, slice_index si)
 {
-  boolean result;
+  attack_result_type result;
   Side const defender = slices[si].starter;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
   slice_index const next = slices[si].u.pipe.next;
@@ -138,12 +137,12 @@ boolean maxflight_guard_root_defend(table refutations, slice_index si)
   TraceFunctionParamListEnd();
 
   if (n-1>slack_length_direct+2 && has_too_many_flights(defender))
-    result = true;
+    result = attack_has_reached_deadend;
   else
     result = direct_defender_root_defend(refutations,next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -212,6 +211,23 @@ boolean maxflight_guard_can_defend_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void maxflight_guard_root_solve_postkey(table refutations, slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  direct_defender_root_solve_postkey(refutations,slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 

@@ -9,7 +9,7 @@
  */
 
 #include "pyhelp.h"
-#include "pyslice.h"
+#include "pydirect.h"
 
 /* Reset the restart number setting.
  */
@@ -32,10 +32,17 @@ void stip_insert_restart_guards(void);
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean restart_guard_root_defend(table refutations, slice_index si);
+attack_result_type restart_guard_root_defend(table refutations,
+                                             slice_index si);
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void restart_guard_root_solve_postkey(table refutations, slice_index si);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

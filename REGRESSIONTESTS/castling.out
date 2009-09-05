@@ -957,11 +957,11 @@ Loesung beendet.
   7  (Lf5-h7 )
   8  (Lf5-g6 )
   9  (Lf5-c8 )
+ 10  (Lf5-d7 + )
   1.Lf5-d7 + ? 
     Aber
       1...Ke8-d8  !
 
- 10  (Lf5-d7 + )
  11  (Lf5-e6 )
  12  (Lc5*b4 )
  13  (Lc5-g1 )
@@ -976,6 +976,7 @@ Loesung beendet.
  22  (Sg3-e2 )
  23  (Sg3-f1 )
  24  (Sg3-h1 )
+ 25  (Sg3-h5 )
   1.Sg3-h5 ! Drohung:
           2.Sh5*g7 # 
       1...Ld1*h5 
@@ -1000,22 +1001,22 @@ Loesung beendet.
       1...f7-f6 
           2.Lf5-g6 # 
 
- 25  (Sg3-h5 )
  26  (Sg3-e4 )
  27  (Td2*d1 )
  28  (Td2-a2 )
  29  (Td2-b2 )
  30  (Td2-c2 )
+ 31  (Td2-d8 + )
   1.Td2-d8 + ? 
     Aber
       1...Ke8*d8  !
 
- 31  (Td2-d8 + )
  32  (Td2-d7 )
  33  (Td2-d6 )
  34  (Td2-d5 )
  35  (Td2-d4 )
  36  (Td2-d3 )
+ 37  (Td2-h2 )
   1.Td2-h2 ? Drohung:
           2.Th2-h8 # 
       1...Ld1-h5 
@@ -1057,7 +1058,6 @@ Loesung beendet.
     Aber
       1...b4-b3 +  !
 
- 37  (Td2-h2 )
  38  (Td2-g2 )
  39  (Td2-f2 )
  40  (Td2-e2 )
@@ -1067,6 +1067,7 @@ Loesung beendet.
  44  (Ke1-f2 )
  45  (Ta1*a3 )
  46  (Ta1-a2 )
+ 47  (Ta1*d1 )
   1.Ta1*d1 ? Drohung:
           2.Td2-d8 # 
       1...c7-c6 
@@ -1082,7 +1083,6 @@ Loesung beendet.
     Aber
       1...b4-b3  !
 
- 47  (Ta1*d1 )
  48  (Ta1-c1 )
  49  (Ta1-b1 )
 Loesung beendet. 
@@ -1114,6 +1114,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #4/2                       5 + 11
 
+  1  (La8-h1 )
   1.La8-h1 ! Drohung:
           2.Da4-a8 # 
       1...Sb5-d6 
@@ -1187,7 +1188,6 @@ Loesung beendet.
               2...Tf8-e8 
                   3.Da8*e8 # 
 
-  1  (La8-h1 )
   2  (La8-g2 )
   3  (La8-f3 )
   4  (La8-e4 )
@@ -1267,6 +1267,7 @@ Loesung beendet.
   8  (Th7-e7 + )
   9  (Th7-f7 )
  10  (Th7-g7 )
+ 11  (Th7-h8 + )
   1.Th7-h8 + ? 
       1...Ke8-e7 
           2.Dc7-d6 + 
@@ -1275,8 +1276,8 @@ Loesung beendet.
     Aber
       1...Ke8-f7  !
 
- 11  (Th7-h8 + )
  12  (Dc7*b6 )
+ 13  (Dc7-d6 )
   1.Dc7-d6 ? Drohung:
           2.Dd6-e7 # 
       1...Ke8-d8 
@@ -1284,17 +1285,17 @@ Loesung beendet.
     Aber
       1...0-0-0  !
 
- 13  (Dc7-d6 )
  14  (Dc7-d8 + )
+ 15  (Dc7-b8 + )
   1.Dc7-b8 + ? 
     Aber
       1...Ta8*b8  !
 
- 15  (Dc7-b8 + )
  16  (Dc7-c1 )
  17  (Dc7-c2 )
  18  (Dc7-c3 )
  19  (Dc7-c4 )
+ 20  (Dc7-c5 )
   1.Dc7-c5 ? Drohung:
           2.Dc5-e7 # 
       1...d7-d6 + 
@@ -1307,15 +1308,15 @@ Loesung beendet.
     Aber
       1...b6*c5  !
 
- 20  (Dc7-c5 )
  21  (Dc7-c6 )
  22  (Dc7-a7 )
  23  (Dc7-b7 )
+ 24  (Dc7-c8 + )
   1.Dc7-c8 + ? 
     Aber
       1...Ta8*c8  !
 
- 24  (Dc7-c8 + )
+ 25  (Dc7*d7 + )
   1.Dc7*d7 + ? 
       1...Ke8-f8 
           2.Th7-h8 # 
@@ -1323,7 +1324,6 @@ Loesung beendet.
     Aber
       1...Lb5*d7  !
 
- 25  (Dc7*d7 + )
  26  (Ke5-f5 )
  27  (Ke5-e6 )
  28  (Ke5-d5 )
@@ -1331,6 +1331,7 @@ Loesung beendet.
  30  (Ke5-d6 )
  31  (Ke5-f6 )
  32  (Ke5-f4 )
+ 33  (Ke5-d4 )
   1.Ke5-d4 ! Drohung:
           2.Dc7-e5 + 
               2...Ke8-f8 
@@ -1444,7 +1445,6 @@ Loesung beendet.
               2...Kf8-e8 
                   3.Dd6-e7 # 
 
- 33  (Ke5-d4 )
 Loesung beendet. 
 
 
@@ -1657,6 +1657,7 @@ Loesung beendet.
  13  (Th7-g7 )
  14  (Th7-h8 + )
  15  (a5-a6 )
+ 16  (0-0-0 )
   1.0-0-0 ! Drohung:
           2.Td1-d8 # 
       1...Sb5-d4 
@@ -1892,7 +1893,6 @@ Loesung beendet.
               2...Ke8-f8 
                   3.Td1-d8 # 
 
- 16  (0-0-0 )
  17  (Ke1-f1 )
  18  (Ke1-e2 )
  19  (Ke1-d1 )
@@ -1901,6 +1901,7 @@ Loesung beendet.
  22  (Ta1-a4 )
  23  (Ta1-a3 )
  24  (Ta1-a2 )
+ 25  (Ta1-d1 )
   1.Ta1-d1 ? Drohung:
           2.Td1-d8 # 
       1...Sb5-d4 
@@ -2110,8 +2111,8 @@ Loesung beendet.
     Aber
       1...Kf8-e8  !
 
- 25  (Ta1-d1 )
  26  (Ta1-c1 )
+ 27  (Ta1-b1 )
   1.Ta1-b1 ? Drohung:
           2.Tb1*b5 Drohung:
                   3.Tb5-b8 # 
@@ -2146,7 +2147,6 @@ Loesung beendet.
     Aber
       1...Kf8-g8  !
 
- 27  (Ta1-b1 )
 Loesung beendet. 
 
 
@@ -2823,6 +2823,7 @@ Loesung beendet.
   5  (Th1*h4 )
   6  (Th1-h3 )
   7  (Th1-h2 )
+  8  (0-0 )
   1.0-0 ! Drohung:
           2.g3-g4 Drohung:
                   3.g4-g5 Drohung:
@@ -3096,7 +3097,6 @@ Loesung beendet.
                                                   7.g5-g6 Drohung:
                                                           8.g6-g7 # 
 
-  8  (0-0 )
   9  (Ke1-f1 )
  10  (Ke1-e2 )
  11  (Ke1-d1 )
@@ -3149,6 +3149,7 @@ Loesung beendet.
  16  (Lg3-e5 )
  17  (Lg3-f4 )
  18  (Th1-f1 )
+ 19  (Th1-g1 + )
   1.Th1-g1 + ! 
       1...Kg2*g1 [+wTa1] 
           2.0-0-0 + 
@@ -3159,7 +3160,6 @@ Loesung beendet.
                               4...Kg1-g2 
                                   5.Ta1-g1 # 
 
- 19  (Th1-g1 + )
  20  (Th1-h8 )
  21  (Th1-h7 )
  22  (Th1-h6 )
@@ -3305,11 +3305,12 @@ Loesung beendet.
   1  (Kd6-e6 )
   2  (Kd6*d7 + )
   3  (Kd6-c6 )
+  4  (Kd6-d5 )
   1.Kd6-d5 ? Zugzwang.
     Aber
       1...0-0-0  !
 
-  4  (Kd6-d5 )
+  5  (Kd6-c7 )
   1.Kd6-c7 ! Zugzwang.
       1...Ta8-d8 
           2.Kc7-d6 Drohung:
@@ -3320,18 +3321,17 @@ Loesung beendet.
                                           6.Kg7-f6 
                                               6...0-0 # 
 
-  5  (Kd6-c7 )
   6  (Kd6-e7 + )
+  7  (Kd6*e5 [+sSb8] )
   1.Kd6*e5 [+sSb8] ? Zugzwang.
     Aber
       1...Sb8-c6 +  !
 
-  7  (Kd6*e5 [+sSb8] )
+  8  (Kd6-c5 )
   1.Kd6-c5 ? Zugzwang.
     Aber
       1...0-0-0  !
 
-  8  (Kd6-c5 )
 Loesung beendet. 
 
 

@@ -589,52 +589,41 @@ static void root_solve_variations_in_n(stip_length_type len_threat,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-static boolean root_solve_postkey(table refutations, slice_index si)
+void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
 {
-  boolean const result = true;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  table const threats = allocate_table();
+  stip_length_type len_threat;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_start_postkey_level();
+  len_threat = solve_threats(threats,si,n-1);
 
-  if (OptFlag[solvariantes])
+  if (n>min_length_nontrivial)
   {
-    stip_length_type const n = slices[si].u.pipe.u.branch.length;
-    table const threats = allocate_table();
-    stip_length_type const len_threat = solve_threats(threats,si,n-1);
-    TraceValue("%u",n);
-    TraceValue("%u\n",len_threat);
-
-    if (n>min_length_nontrivial)
-    {
-      unsigned int const nr_nontrivial =
-          count_nontrivial_defenses(si,max_nr_nontrivial);
-      root_solve_variations_in_n(len_threat,
-                                 threats,
-                                 refutations,
-                                 si,
-                                 n,
-                                 max_nr_nontrivial+1-nr_nontrivial);
-    }
-    else
-      root_solve_variations_in_n(len_threat,
-                                 threats,
-                                 refutations,
-                                 si,
-                                 n,
-                                 max_nr_nontrivial);
-
-    free_table();
+    unsigned int const nr_nontrivial =
+        count_nontrivial_defenses(si,max_nr_nontrivial);
+    root_solve_variations_in_n(len_threat,
+                               threats,
+                               refutations,
+                               si,
+                               n,
+                               max_nr_nontrivial+1-nr_nontrivial);
   }
+  else
+    root_solve_variations_in_n(len_threat,
+                               threats,
+                               refutations,
+                               si,
+                               n,
+                               max_nr_nontrivial);
 
-  output_end_postkey_level();
+  free_table();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve at root level.
@@ -733,38 +722,24 @@ static boolean root_collect_refutations(table refutations,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean branch_d_defender_root_defend(table refutations, slice_index si)
+attack_result_type branch_d_defender_root_defend(table refutations,
+                                                 slice_index si)
 {
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
-  boolean result;
+  attack_result_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = root_collect_refutations(refutations,si,n,max_nr_nontrivial);
-  if (!result)
-  {
-    if (table_length(refutations)==0)
-    {
-      write_attack(attack_key);
-      root_solve_postkey(refutations,si);
-      write_end_of_solution();
-    }
-    else if (table_length(refutations)<=max_nr_refutations)
-    {
-      write_attack(attack_try);
-      root_solve_postkey(refutations,si);
-      write_refutations(refutations);
-      write_end_of_solution();
-    }
-  }
+  result = (root_collect_refutations(refutations,si,n,max_nr_nontrivial)
+            ? attack_has_reached_deadend
+            : attack_has_full_length_play);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

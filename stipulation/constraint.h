@@ -60,10 +60,9 @@ stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean reflex_guard_root_defend(table refutations, slice_index si);
+attack_result_type reflex_guard_root_defend(table refutations, slice_index si);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
@@ -195,5 +194,12 @@ void slice_insert_reflex_guards(slice_index si, slice_index tobeavoided);
  * @param tobeavoided identifies what branch needs to be guarded from
  */
 void slice_insert_reflex_guards_semi(slice_index si, slice_index tobeavoided);
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void reflex_guard_root_solve_postkey(table refutations, slice_index si);
 
 #endif

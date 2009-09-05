@@ -669,6 +669,7 @@ N.Y. State Chess Association, 16.8.1894
  18  (Tg6*e6 )
  19  (Tg6-f6 )
  20  (Tg6*g7 )
+ 21  (g5*f6 ep. + )
   1.g5*f6 ep. + ! 
       1...Kg4-f5 
           2.Tg6-g5 + 
@@ -678,7 +679,6 @@ N.Y. State Chess Association, 16.8.1894
                           4.Dg6-d3 # 
                           4.c2-c3 # 
 
- 21  (g5*f6 ep. + )
  22  (b4-b5 )
  23  (h2-h4 )
  24  (h2-h3 + )
@@ -742,6 +742,7 @@ Loesung beendet.
  24  (Dg6-f6 )
  25  (Lh5-f3 )
  26  (Lh5-g4 )
+ 27  (g5*f6 ep. + )
   1.g5*f6 ep. + ! 
       1...Kc2*d1 
           2.Dg6-g1 + 
@@ -758,7 +759,6 @@ Loesung beendet.
                                   5.Dg1-c5 + 
                                       5...Sa4*c5 # 
 
- 27  (g5*f6 ep. + )
  28  (Sd5-b4 + )
  29  (Sd5-c3 )
  30  (Sd5-e3 + )

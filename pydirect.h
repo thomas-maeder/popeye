@@ -11,13 +11,23 @@
 
 #include <limits.h>
 
+#define ENUMERATION_TYPENAME attack_result_type
+#define ENUMERATORS \
+  ENUMERATOR(attack_has_reached_deadend),       \
+    ENUMERATOR(attack_has_full_length_play),    \
+    ENUMERATOR(attack_has_solved_next_branch)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
+
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean direct_defender_root_defend(table refutations, slice_index si);
+attack_result_type direct_defender_root_defend(table refutations,
+                                               slice_index si);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -100,5 +110,12 @@ boolean direct_defender_can_defend_in_n(slice_index si,
  * @return true iff >=1 solution was found
  */
 boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void direct_defender_root_solve_postkey(table refutations, slice_index si);
 
 #endif

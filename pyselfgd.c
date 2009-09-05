@@ -378,6 +378,25 @@ boolean self_attack_solve_postkey_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void self_attack_root_solve_postkey(table refutations, slice_index si)
+{
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  direct_defender_root_solve_postkey(refutations,next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 
 /* **************** Implementation of interface Slice ***************
  */
@@ -486,12 +505,11 @@ boolean self_guard_root_solve(slice_index si)
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean self_attack_root_defend(table refutations, slice_index si)
+attack_result_type self_attack_root_defend(table refutations, slice_index si)
 {
-  boolean result = false;
+  attack_result_type result = attack_has_reached_deadend;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -505,12 +523,14 @@ boolean self_attack_root_defend(table refutations, slice_index si)
     switch (slice_root_find_refutations(refutations,to_goal))
     {
       case found_no_refutation:
+        result = attack_has_solved_next_branch;
         write_attack(attack_key);
         slice_root_solve_postkey(refutations,to_goal);
         write_end_of_solution();
         break;
 
       case found_refutations:
+        result = attack_has_solved_next_branch;
         if (table_length(refutations)<=max_nr_refutations)
         {
           write_attack(attack_try);
@@ -525,6 +545,7 @@ boolean self_attack_root_defend(table refutations, slice_index si)
     }
   else if (min_length==slack_length_direct && slice_has_starter_won(to_goal))
   {
+    result = attack_has_solved_next_branch;
     write_attack(attack_key);
     slice_solve_postkey(to_goal);
     write_end_of_solution();
@@ -533,7 +554,7 @@ boolean self_attack_root_defend(table refutations, slice_index si)
     result = direct_defender_root_defend(refutations,next);
         
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

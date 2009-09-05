@@ -6,7 +6,7 @@
  * squares
  */
 
-#include "pyslice.h"
+#include "pydirect.h"
 
 /* Reset the max flights setting to off
  */
@@ -32,10 +32,10 @@ void stip_insert_maxflight_guards(void);
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean maxflight_guard_root_defend(table refutations, slice_index si);
+attack_result_type maxflight_guard_root_defend(table refutations,
+                                               slice_index si);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
@@ -59,5 +59,12 @@ boolean maxflight_guard_defend_in_n(slice_index si,
 boolean maxflight_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
                                         unsigned int curr_max_nr_nontrivial);
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void maxflight_guard_root_solve_postkey(table refutations, slice_index si);
 
 #endif

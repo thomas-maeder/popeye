@@ -776,10 +776,41 @@ boolean direct_root_solve(slice_index si)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      table refutations = allocate_table();
-      if (!direct_defender_root_defend(refutations,next)
-          && table_length(refutations)==0)
-        result = true;
+      table const refutations = allocate_table();
+      switch (direct_defender_root_defend(refutations,next))
+      {
+        case attack_has_full_length_play:
+          if (table_length(refutations)<=max_nr_refutations)
+          {
+            attack_type const type = (table_length(refutations)==0
+                                      ? attack_key
+                                      : attack_try);
+            write_attack(type);
+
+            output_start_postkey_level();
+
+            if (OptFlag[solvariantes])
+              direct_defender_root_solve_postkey(refutations,next);
+
+            output_end_postkey_level();
+
+            if (table_length(refutations)==0)
+              result = true;
+            else
+              write_refutations(refutations);
+
+            write_end_of_solution();
+          }
+          break;
+
+        case attack_has_solved_next_branch:
+          result = true;
+          break;
+
+        default:
+          break;
+      }
+
       free_table();
     }
 

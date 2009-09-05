@@ -5,6 +5,7 @@
 #include "pybrah.h"
 #include "pypipe.h"
 #include "pyoutput.h"
+#include "pydata.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -341,6 +342,25 @@ boolean direct_attack_solve_postkey_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void direct_attack_root_solve_postkey(table refutations, slice_index si)
+{
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  direct_defender_root_solve_postkey(refutations,next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 
 /* **************** Implementation of interface Slice **********
  */
@@ -414,12 +434,12 @@ boolean direct_guard_root_solve(slice_index si)
  * @return true iff the attacker has reached a deadend (e.g. by
  *         immobilising the defender in a non-stalemate stipulation)
  */
-boolean direct_attack_root_defend(table refutations, slice_index si)
+attack_result_type direct_attack_root_defend(table refutations, slice_index si)
 {
-  boolean result = false;
+  attack_result_type result = attack_has_reached_deadend;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -433,10 +453,10 @@ boolean direct_attack_root_defend(table refutations, slice_index si)
         break;
 
       case starter_has_not_won_selfcheck:
-        result = true;
         break;
 
       case starter_has_won:
+        result = attack_has_solved_next_branch;
         slice_root_write_key(togoal,attack_key);
         write_end_of_solution();
         break;
@@ -449,7 +469,7 @@ boolean direct_attack_root_defend(table refutations, slice_index si)
     result = direct_defender_root_defend(refutations,next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

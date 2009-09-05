@@ -19,15 +19,25 @@
 
 #include <assert.h>
 
+#define ENUMERATION_TYPENAME attack_result_type
+#define ENUMERATORS \
+  ENUMERATOR(attack_has_reached_deadend),       \
+    ENUMERATOR(attack_has_full_length_play),    \
+    ENUMERATOR(attack_has_solved_next_branch)
+
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
+
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean direct_defender_root_defend(table refutations, slice_index si)
+attack_result_type direct_defender_root_defend(table refutations,
+                                               slice_index si)
 {
-  boolean result = false;
+  attack_result_type result = attack_has_reached_deadend;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -82,7 +92,7 @@ boolean direct_defender_root_defend(table refutations, slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -566,4 +576,69 @@ boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+#include <stdio.h>
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void direct_defender_root_solve_postkey(table refutations, slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STDirectDefenderRoot:
+      branch_d_defender_root_solve_postkey(refutations,si);
+      break;
+
+    case STSelfCheckGuard:
+      selfcheck_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STDirectAttack:
+      direct_attack_root_solve_postkey(refutations,si);
+      break;
+
+    case STSelfAttack:
+      self_attack_root_solve_postkey(refutations,si);
+      break;
+
+    case STReflexGuard:
+      reflex_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STKeepMatingGuard:
+      keepmating_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STMaxThreatLength:
+      maxthreatlength_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STMaxFlightsquares:
+      maxflight_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STMaxNrNonTrivial:
+      max_nr_nontrivial_guard_root_solve_postkey(refutations,si);
+      break;
+
+    case STRestartGuard:
+      restart_guard_root_solve_postkey(refutations,si);
+      break;
+
+    default:
+      fprintf(stderr,"%s\n",SliceType_names[slices[si].type]);
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

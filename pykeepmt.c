@@ -175,13 +175,13 @@ stip_length_type keepmating_guard_direct_solve_threats_in_n(table threats,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
+ * @return success of key move
  */
-boolean keepmating_guard_root_defend(table refutations, slice_index si)
+attack_result_type keepmating_guard_root_defend(table refutations,
+                                                slice_index si)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
-  boolean result;
+  attack_result_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -192,10 +192,10 @@ boolean keepmating_guard_root_defend(table refutations, slice_index si)
   if (is_a_mating_piece_left(mating))
     result = direct_defender_root_defend(refutations,slices[si].u.pipe.next);
   else
-    result = true;
+    result = attack_has_reached_deadend;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -290,6 +290,23 @@ boolean keepmating_guard_solve_postkey_in_n(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Solve postkey play play after the move that has just
+ * been played at root level
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void keepmating_guard_root_solve_postkey(table refutations, slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  direct_defender_root_solve_postkey(refutations,slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 

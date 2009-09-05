@@ -32,6 +32,7 @@
   6  (Nf7-g5 )
   7  (Nf7-h6 )
   8  (Nf7-h8 )
+  9  (Nf7-d8 + )
   1.Nf7-d8 + ! 
       1...Kb4-b5 
           2.Ld5-c6 + 
@@ -108,7 +109,6 @@
                                                                                                                                                                                          24.Tc1-b1 + 
                                                                                                                                                                                              24...De1*b1 # 
 
-  9  (Nf7-d8 + )
  10  (Ld5-b3 )
  11  (Ld5-c4 )
  12  (Ld5-h1 )
@@ -209,6 +209,7 @@ Loesung beendet.
  28  (Lb3-c2 )
  29  (Lb3-g8 )
  30  (Lb3-f7 )
+ 31  (Lb3-e6 + )
   1.Lb3-e6 + ! 
       1...Kg4-f4 
           2.Le6-f7 + 
@@ -260,7 +261,6 @@ Loesung beendet.
                                                                                                                                                                                                  25.Lb3-d1 + 
                                                                                                                                                                                                      25...Nb5*d1 # 
 
- 31  (Lb3-e6 + )
  32  (Lb3-d5 )
  33  (Lb3-c4 )
  34  (Lb3-a4 )
@@ -310,6 +310,7 @@ Loesung beendet.
   3  (Nc6-e2 )
   4  (Nc6-d4 )
   5  (Nc6-g4 )
+  6  (Nc6-e5 + )
   1.Nc6-e5 + ! 
       1...Ka3-a2 
           2.Na5-c6 + 
@@ -357,7 +358,6 @@ Loesung beendet.
                                                                                                                                                                                  23.Tf4-f3 + 
                                                                                                                                                                                      23...Sg1*f3 # 
 
-  6  (Nc6-e5 + )
   7  (Nc6*g8 )
   8  (Nc6-e7 )
   9  (Nc6-d8 )
@@ -431,6 +431,7 @@ Loesung beendet.
   4  (Ke8-e7 )
   5  (Ke8-f7 )
   6  (Ke8*d7 )
+  7  (Tg7-g6 + )
   1.Tg7-g6 + ! 
       1...Kh8-h7 
           2.Tg6-f6 + 
@@ -474,7 +475,6 @@ Loesung beendet.
                                                                                                                                                                  21.EQf4-f6 + 
                                                                                                                                                                      21...Sd7*f6 # 
 
-  7  (Tg7-g6 + )
   8  (Tg7*d7 )
   9  (Tg7-e7 )
  10  (Tg7-f7 )
@@ -560,6 +560,7 @@ Loesung beendet.
  30  (Tg3-g7 )
  31  (Tg3-g6 )
  32  (Tg3-g5 )
+ 33  (Tg3-g4 + )
   1.Tg3-g4 + ! 
       1...Kh4-h3 
           2.Tg4-g1 + 
@@ -607,7 +608,6 @@ Loesung beendet.
                                                                                                                                                                                  23.Ge4-e1 + 
                                                                                                                                                                                      23...Sh1-f2 # 
 
- 33  (Tg3-g4 + )
  34  (Tg3-h3 + )
  35  (Se2-g1 )
  36  (Se2-f4 )
@@ -691,6 +691,7 @@ Loesung beendet.
  39  (Tb2-e2 )
  40  (Tb2-d2 + )
  41  (Tb2-c2 )
+ 42  (La2-b1 + )
   1.La2-b1 + ! 
       1...Kd3-c4 
           2.Sd5-e3 + 
@@ -734,7 +735,6 @@ Loesung beendet.
                                                                                                                                                                  21.Tf2-f3 + 
                                                                                                                                                                      21...Sh2*f3 # 
 
- 42  (La2-b1 + )
  43  (La2-c4 + )
  44  (La2-b3 )
 Loesung beendet. 
@@ -775,6 +775,7 @@ Loesung beendet.
   8  (Se4*f6 )
   9  (Se4-d6 )
  10  (Se4*c5 )
+ 11  (a3-a4 )
   1.a3-a4 ! 
       1...f5*e4 
           2.Sc2-e3 
@@ -819,7 +820,6 @@ Loesung beendet.
                                                                                                              14...f4-f3 
                                                                                                                  15.Sd6-c8 # 
 
- 11  (a3-a4 )
  12  (g2-g4 )
  13  (g2-g3 )
  14  (Ke2-f2 )
