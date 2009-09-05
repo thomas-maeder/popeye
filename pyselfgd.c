@@ -484,10 +484,11 @@ boolean self_guard_root_solve(slice_index si)
 }
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean self_attack_root_defend(slice_index si)
+boolean self_attack_root_defend(table refutations, slice_index si)
 {
   boolean result = true;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -536,7 +537,7 @@ boolean self_attack_root_defend(slice_index si)
     write_end_of_solution();
   }
   else
-    result = direct_defender_root_defend(next);
+    result = direct_defender_root_defend(refutations,next);
         
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

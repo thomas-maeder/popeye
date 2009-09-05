@@ -111,10 +111,11 @@ boolean direct_defense_solve(slice_index si);
 boolean direct_guard_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean direct_attack_root_defend(slice_index si);
+boolean direct_attack_root_defend(table refutations, slice_index si);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch

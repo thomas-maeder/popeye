@@ -30,10 +30,11 @@ boolean read_restart_number(char const *optionValue);
 void stip_insert_restart_guards(void);
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean restart_guard_root_defend(slice_index si);
+boolean restart_guard_root_defend(table refutations, slice_index si);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

@@ -12,10 +12,11 @@
 #include <limits.h>
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean direct_defender_root_defend(slice_index si);
+boolean direct_defender_root_defend(table refutations, slice_index si);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

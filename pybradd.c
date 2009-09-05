@@ -731,14 +731,14 @@ static boolean root_collect_refutations(table refutations,
 }
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean branch_d_defender_root_defend(slice_index si)
+boolean branch_d_defender_root_defend(table refutations, slice_index si)
 {
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
   boolean result = true;
-  table refutations = allocate_table();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -761,8 +761,6 @@ boolean branch_d_defender_root_defend(slice_index si)
       write_end_of_solution();
     }
   }
-
-  free_table();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

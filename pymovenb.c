@@ -93,10 +93,11 @@ static void init_restart_guard_slice(slice_index si)
 }
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean restart_guard_root_defend(slice_index si)
+boolean restart_guard_root_defend(table refutations, slice_index si)
 {
   boolean result;
 
@@ -107,7 +108,7 @@ boolean restart_guard_root_defend(slice_index si)
   if (MoveNbr<RestartNbr)
     result = true;
   else
-    result = direct_defender_root_defend(slices[si].u.pipe.next);
+    result = direct_defender_root_defend(refutations,slices[si].u.pipe.next);
 
   IncrementMoveNbr();
 

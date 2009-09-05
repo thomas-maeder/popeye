@@ -173,10 +173,11 @@ stip_length_type keepmating_guard_direct_solve_threats_in_n(table threats,
  */
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean keepmating_guard_root_defend(slice_index si)
+boolean keepmating_guard_root_defend(table refutations, slice_index si)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   boolean result;
@@ -188,7 +189,7 @@ boolean keepmating_guard_root_defend(slice_index si)
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_root_defend(slices[si].u.pipe.next);
+    result = direct_defender_root_defend(refutations,slices[si].u.pipe.next);
   else
     result = true;
 

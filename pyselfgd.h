@@ -35,10 +35,11 @@ slice_index self_attack_root_reduce_to_postkey_play(slice_index si);
 boolean self_guard_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean self_attack_root_defend(slice_index si);
+boolean self_attack_root_defend(table refutations, slice_index si);
 
 /* Solve postkey play play after the move that has just
  * been played in the current ply.

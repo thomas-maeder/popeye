@@ -58,10 +58,11 @@ stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
                                                         stip_length_type n);
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean reflex_guard_root_defend(slice_index si);
+boolean reflex_guard_root_defend(table refutations, slice_index si);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index

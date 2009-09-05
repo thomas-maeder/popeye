@@ -222,6 +222,8 @@ stip_length_type direct_defense_direct_solve_threats_in_n(table threats,
     output_end_threat_level();
     if (table_length(threats)>0)
       result = slack_length_direct;
+    else
+      result = slack_length_direct+2;
   }
   else
   {
@@ -407,10 +409,11 @@ boolean direct_guard_root_solve(slice_index si)
 }
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean direct_attack_root_defend(slice_index si)
+boolean direct_attack_root_defend(table refutations, slice_index si)
 {
   boolean result = true;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
@@ -425,7 +428,7 @@ boolean direct_attack_root_defend(slice_index si)
     switch (slice_has_starter_won(togoal))
     {
       case starter_has_not_won:
-        result = direct_defender_root_defend(next);
+        result = direct_defender_root_defend(refutations,next);
         break;
 
       case starter_has_not_won_selfcheck:
@@ -443,7 +446,7 @@ boolean direct_attack_root_defend(slice_index si)
         break;
     }
   else
-    result = direct_defender_root_defend(next);
+    result = direct_defender_root_defend(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

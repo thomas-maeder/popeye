@@ -20,10 +20,11 @@
 #include <assert.h>
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean direct_defender_root_defend(slice_index si)
+boolean direct_defender_root_defend(table refutations, slice_index si)
 {
   boolean result = true;
 
@@ -35,43 +36,43 @@ boolean direct_defender_root_defend(slice_index si)
   switch (slices[si].type)
   {
     case STDirectDefenderRoot:
-      result = branch_d_defender_root_defend(si);
+      result = branch_d_defender_root_defend(refutations,si);
       break;
 
     case STDirectAttack:
-      result = direct_attack_root_defend(si);
+      result = direct_attack_root_defend(refutations,si);
       break;
 
     case STSelfAttack:
-      result = self_attack_root_defend(si);
+      result = self_attack_root_defend(refutations,si);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_root_defend(si);
+      result = reflex_guard_root_defend(refutations,si);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_root_defend(si);
+      result = selfcheck_guard_root_defend(refutations,si);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_root_defend(si);
+      result = keepmating_guard_root_defend(refutations,si);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_root_defend(si);
+      result = maxflight_guard_root_defend(refutations,si);
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_root_defend(si);
+      result = maxthreatlength_guard_root_defend(refutations,si);
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_root_defend(si);
+      result = max_nr_nontrivial_guard_root_defend(refutations,si);
       break;
 
     case STRestartGuard:
-      result = restart_guard_root_defend(si);
+      result = restart_guard_root_defend(refutations,si);
       break;
 
     default:

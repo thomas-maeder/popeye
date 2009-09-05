@@ -34,10 +34,11 @@ extern unsigned int max_nr_nontrivial;
 void stip_insert_max_nr_nontrivial_guards(void);
 
 /* Try to defend after an attempted key move at root level
+ * @param table table where to add refutations
  * @param si slice index
  * @return true iff the defender can successfully defend
  */
-boolean max_nr_nontrivial_guard_root_defend(slice_index si);
+boolean max_nr_nontrivial_guard_root_defend(table refutations, slice_index si);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
