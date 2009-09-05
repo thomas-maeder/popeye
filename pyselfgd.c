@@ -378,20 +378,51 @@ boolean self_attack_solve_postkey_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played at root level
- * @param refutations table containing refutations to move just played
+/* Solve threats after an attacker's move
+ * @param threats table where to add threats
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
  */
-void self_attack_root_solve_postkey(table refutations, slice_index si)
+stip_length_type self_attack_solve_threats(table threats,
+                                           slice_index si,
+                                           stip_length_type n)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  direct_defender_root_solve_postkey(refutations,next);
+  result = direct_defender_solve_threats(threats,slices[si].u.pipe.next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void self_attack_root_solve_variations(table threats,
+                                       stip_length_type len_threat,
+                                       table refutations,
+                                       slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  direct_defender_root_solve_variations(threats,len_threat,
+                                        refutations,
+                                        slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

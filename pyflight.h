@@ -60,11 +60,28 @@ boolean maxflight_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
                                         unsigned int curr_max_nr_nontrivial);
 
-/* Solve postkey play play after the move that has just
- * been played at root level
+/* Solve threats after an attacker's move
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type maxflight_guard_solve_threats(table threats,
+                                               slice_index si,
+                                               stip_length_type n);
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
  * @param refutations table containing refutations to move just played
  * @param si slice index
  */
-void maxflight_guard_root_solve_postkey(table refutations, slice_index si);
+void maxflight_guard_root_solve_variations(table threats,
+                                           stip_length_type len_threat,
+                                           table refutations,
+                                           slice_index si);
 
 #endif

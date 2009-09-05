@@ -584,22 +584,50 @@ static void root_solve_variations_in_n(stip_length_type len_threat,
   TraceFunctionResultEnd();
 }
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
+/* Solve threats after an attacker's move
+ * @param threats table where to add threats
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
  */
-void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
+stip_length_type branch_d_defender_solve_threats(table threats,
+                                                 slice_index si,
+                                                 stip_length_type n)
 {
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
-  table const threats = allocate_table();
-  stip_length_type len_threat;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  len_threat = solve_threats(threats,si,n-1);
+  result = solve_threats(threats,si,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
+ * @param refutations table containing refutations to move just played
+ * @param si slice index
+ */
+void branch_d_defender_root_solve_variations(table threats,
+                                             stip_length_type len_threat,
+                                             table refutations,
+                                             slice_index si)
+{
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   if (n>min_length_nontrivial)
   {
@@ -620,7 +648,6 @@ void branch_d_defender_root_solve_postkey(table refutations, slice_index si)
                                n,
                                max_nr_nontrivial);
 
-  free_table();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

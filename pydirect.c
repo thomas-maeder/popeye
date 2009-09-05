@@ -578,15 +578,94 @@ boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-#include <stdio.h>
-/* Solve postkey play play after the move that has just
- * been played at root level
+/* Solve threats after an attacker's move
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type direct_defender_solve_threats(table threats,
+                                               slice_index si,
+                                               stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STDirectDefenderRoot:
+      result = branch_d_defender_solve_threats(threats,si,n);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_solve_threats(threats,si,n);
+      break;
+
+    case STDirectAttack:
+      result = direct_attack_solve_threats(threats,si,n);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_solve_threats(threats,si,n);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_solve_threats(threats,si,n);
+      break;
+
+    case STKeepMatingGuard:
+      result = keepmating_guard_solve_threats(threats,si,n);
+      break;
+
+    case STMaxThreatLength:
+      result = maxthreatlength_guard_solve_threats(threats,si,n);
+      break;
+
+    case STMaxFlightsquares:
+      result = maxflight_guard_solve_threats(threats,si,n);
+      break;
+
+    case STMaxNrNonTrivial:
+      result = max_nr_nontrivial_guard_solve_threats(threats,si,n);
+      break;
+
+    case STRestartGuard:
+      result = restart_guard_solve_threats(threats,si,n);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+/* Solve variations after the move that has just been played at root level
+ * @param threats table containing threats
+ * @param len_threat length of threats
  * @param refutations table containing refutations to move just played
  * @param si slice index
  */
-void direct_defender_root_solve_postkey(table refutations, slice_index si)
+void direct_defender_root_solve_variations(table threats,
+                                           stip_length_type len_threat,
+                                           table refutations,
+                                           slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -594,47 +673,66 @@ void direct_defender_root_solve_postkey(table refutations, slice_index si)
   switch (slices[si].type)
   {
     case STDirectDefenderRoot:
-      branch_d_defender_root_solve_postkey(refutations,si);
+      branch_d_defender_root_solve_variations(threats,len_threat,
+                                              refutations,
+                                              si);
       break;
 
     case STSelfCheckGuard:
-      selfcheck_guard_root_solve_postkey(refutations,si);
+      selfcheck_guard_root_solve_variations(threats,len_threat,
+                                            refutations,
+                                            si);
       break;
 
     case STDirectAttack:
-      direct_attack_root_solve_postkey(refutations,si);
+      direct_attack_root_solve_variations(threats,len_threat,
+                                          refutations,
+                                          si);
       break;
 
     case STSelfAttack:
-      self_attack_root_solve_postkey(refutations,si);
+      self_attack_root_solve_variations(threats,len_threat,
+                                        refutations,
+                                        si);
       break;
 
     case STReflexGuard:
-      reflex_guard_root_solve_postkey(refutations,si);
+      reflex_guard_root_solve_variations(threats,len_threat,
+                                         refutations,
+                                         si);
       break;
 
     case STKeepMatingGuard:
-      keepmating_guard_root_solve_postkey(refutations,si);
+      keepmating_guard_root_solve_variations(threats,len_threat,
+                                             refutations,
+                                             si);
       break;
 
     case STMaxThreatLength:
-      maxthreatlength_guard_root_solve_postkey(refutations,si);
+      maxthreatlength_guard_root_solve_variations(threats,len_threat,
+                                                  refutations,
+                                                  si);
       break;
 
     case STMaxFlightsquares:
-      maxflight_guard_root_solve_postkey(refutations,si);
+      maxflight_guard_root_solve_variations(threats,len_threat,
+                                            refutations,
+                                            si);
       break;
 
     case STMaxNrNonTrivial:
-      max_nr_nontrivial_guard_root_solve_postkey(refutations,si);
+      max_nr_nontrivial_guard_root_solve_variations(threats,len_threat,
+                                                    refutations,
+                                                    si);
       break;
 
     case STRestartGuard:
-      restart_guard_root_solve_postkey(refutations,si);
+      restart_guard_root_solve_variations(threats,len_threat,
+                                          refutations,
+                                          si);
       break;
 
     default:
-      fprintf(stderr,"%s\n",SliceType_names[slices[si].type]);
       assert(0);
       break;
   }

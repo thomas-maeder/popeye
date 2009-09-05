@@ -782,22 +782,31 @@ boolean direct_root_solve(slice_index si)
         case attack_has_full_length_play:
           if (table_length(refutations)<=max_nr_refutations)
           {
-            attack_type const type = (table_length(refutations)==0
-                                      ? attack_key
-                                      : attack_try);
-            write_attack(type);
+            if (table_length(refutations)==0)
+            {
+              result = true;
+              write_attack(attack_key);
+            }
+            else
+              write_attack(attack_try);
 
             output_start_postkey_level();
 
             if (OptFlag[solvariantes])
-              direct_defender_root_solve_postkey(refutations,next);
+            {
+              stip_length_type const length = slices[si].u.pipe.u.branch.length;
+              table const threats = allocate_table();
+              stip_length_type const len_threat =
+                  direct_defender_solve_threats(threats,next,length-2);
+              direct_defender_root_solve_variations(threats,len_threat,
+                                                    refutations,
+                                                    next);
+              free_table();
+            }
 
             output_end_postkey_level();
 
-            if (table_length(refutations)==0)
-              result = true;
-            else
-              write_refutations(refutations);
+            write_refutations(refutations);
 
             write_end_of_solution();
           }
