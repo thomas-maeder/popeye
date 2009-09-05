@@ -486,11 +486,12 @@ boolean self_guard_root_solve(slice_index si)
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the defender can successfully defend
+ * @return true iff the attacker has reached a deadend (e.g. by
+ *         immobilising the defender in a non-stalemate stipulation)
  */
 boolean self_attack_root_defend(table refutations, slice_index si)
 {
-  boolean result = true;
+  boolean result = false;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -501,13 +502,9 @@ boolean self_attack_root_defend(table refutations, slice_index si)
   TraceFunctionParamListEnd();
 
   if (length==slack_length_direct)
-  {
-    table refutations = allocate_table();
-
     switch (slice_root_find_refutations(refutations,to_goal))
     {
       case found_no_refutation:
-        result = false;
         write_attack(attack_key);
         slice_root_solve_postkey(refutations,to_goal);
         write_end_of_solution();
@@ -526,12 +523,8 @@ boolean self_attack_root_defend(table refutations, slice_index si)
       default:
         break;
     }
-
-    free_table();
-  }
   else if (min_length==slack_length_direct && slice_has_starter_won(to_goal))
   {
-    result = false;
     write_attack(attack_key);
     slice_solve_postkey(to_goal);
     write_end_of_solution();

@@ -777,7 +777,8 @@ boolean direct_root_solve(slice_index si)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       table refutations = allocate_table();
-      if (!direct_defender_root_defend(refutations,next))
+      if (!direct_defender_root_defend(refutations,next)
+          && table_length(refutations)==0)
         result = true;
       free_table();
     }

@@ -237,11 +237,12 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the defender can successfully defend
+ * @return true iff the attacker has reached a deadend (e.g. by
+ *         immobilising the defender in a non-stalemate stipulation)
  */
 boolean reflex_guard_root_defend(table refutations, slice_index si)
 {
-  boolean result = true;
+  boolean result = false;
   stip_length_type const length = slices[si].u.pipe.u.reflex_guard.length;
   stip_length_type const
       min_length = slices[si].u.pipe.u.reflex_guard.min_length;
@@ -259,7 +260,6 @@ boolean reflex_guard_root_defend(table refutations, slice_index si)
         break;
 
       case has_solution:
-        result = false;
         slice_solve_postkey(avoided);
         write_end_of_solution();
         break;

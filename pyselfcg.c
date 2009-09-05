@@ -194,7 +194,8 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the defender can successfully defend
+ * @return true iff the attacker has reached a deadend (e.g. by
+ *         immobilising the defender in a non-stalemate stipulation)
  */
 boolean selfcheck_guard_root_defend(table refutations, slice_index si)
 {

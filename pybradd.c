@@ -733,22 +733,23 @@ static boolean root_collect_refutations(table refutations,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return true iff the defender can successfully defend
+ * @return true iff the attacker has reached a deadend (e.g. by
+ *         immobilising the defender in a non-stalemate stipulation)
  */
 boolean branch_d_defender_root_defend(table refutations, slice_index si)
 {
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
-  boolean result = true;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!root_collect_refutations(refutations,si,n,max_nr_nontrivial))
+  result = root_collect_refutations(refutations,si,n,max_nr_nontrivial);
+  if (!result)
   {
     if (table_length(refutations)==0)
     {
-      result = false;
       write_attack(attack_key);
       root_solve_postkey(refutations,si);
       write_end_of_solution();
