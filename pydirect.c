@@ -526,58 +526,6 @@ boolean direct_defender_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STBranchDirectDefender:
-      result = branch_d_defender_solve_postkey_in_n(si,n);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_solve_postkey_in_n(si,n);
-      break;
-
-    case STDirectAttack:
-      result = direct_attack_solve_postkey_in_n(si,n);
-      break;
-
-    case STSelfAttack:
-      result = self_attack_solve_postkey_in_n(si,n);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_solve_postkey_in_n(si,n);
-      break;
-
-    case STKeepMatingGuard:
-      result = keepmating_guard_solve_postkey_in_n(si,n);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index

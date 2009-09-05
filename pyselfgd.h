@@ -41,13 +41,6 @@ boolean self_guard_root_solve(slice_index si);
  */
 attack_result_type self_attack_root_defend(table refutations, slice_index si);
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean self_attack_solve_postkey_in_n(slice_index si, stip_length_type n);
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached

@@ -389,33 +389,6 @@ boolean reflex_guard_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean reflex_guard_solve_postkey_in_n(slice_index si, stip_length_type n)
-{
-  boolean result = false;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (n==slack_length_direct)
-    result = slice_solve_postkey(avoided);
-  else
-    result = direct_defender_solve_postkey_in_n(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index

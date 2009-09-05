@@ -265,33 +265,6 @@ boolean keepmating_guard_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean keepmating_guard_solve_postkey_in_n(slice_index si, stip_length_type n)
-{
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,mating,"\n");
-
-  if (is_a_mating_piece_left(mating))
-    result = direct_defender_solve_postkey_in_n(slices[si].u.pipe.next,n);
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index

@@ -352,32 +352,6 @@ boolean self_attack_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean self_attack_solve_postkey_in_n(slice_index si, stip_length_type n)
-{
-  boolean result = false;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (n==slack_length_direct)
-    result = slice_solve_postkey(to_goal);
-  else
-    direct_defender_solve_postkey_in_n(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index

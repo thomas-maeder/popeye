@@ -103,14 +103,6 @@ boolean direct_defender_can_defend_in_n(slice_index si,
                                         stip_length_type n,
                                         unsigned int curr_max_nr_nontrivial);
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return true iff >=1 solution was found
- */
-boolean direct_defender_solve_postkey_in_n(slice_index si, stip_length_type n);
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index

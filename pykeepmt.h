@@ -98,14 +98,6 @@ keepmating_guard_direct_solve_threats_in_n(table threats,
                                            slice_index si,
                                            stip_length_type n);
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean keepmating_guard_solve_postkey_in_n(slice_index si,
-                                            stip_length_type n);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

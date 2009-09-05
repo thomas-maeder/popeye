@@ -91,13 +91,6 @@ boolean direct_attack_can_defend_in_n(slice_index si,
                                       stip_length_type n,
                                       unsigned int curr_max_nr_nontrivial);
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean direct_attack_solve_postkey_in_n(slice_index si, stip_length_type n);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

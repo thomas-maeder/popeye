@@ -218,72 +218,6 @@ unsigned int count_nontrivial_defenses(slice_index si,
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
- */
-boolean branch_d_defender_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      unsigned int curr_max_nr_nontrivial)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  if (has_defender_refutation(si,n,curr_max_nr_nontrivial)
-      ==defender_has_no_refutation)
-  {
-    write_attack(attack_regular);
-    branch_d_defender_solve_postkey_in_n(si,n);
-    result = false;
-  }
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
- */
-boolean branch_d_defender_can_defend_in_n(slice_index si,
-                                          stip_length_type n,
-                                          unsigned int curr_max_nr_nontrivial)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
-            !=defender_has_no_refutation);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played is relevant
  * @param table containing threats
  * @param len_threat length of threat
@@ -486,8 +420,8 @@ static stip_length_type solve_threats(table threats,
  * @param n maximum number of half moves until goal
  * @return true iff >=1 solution was found
  */
-boolean branch_d_defender_solve_postkey_in_n(slice_index si,
-                                             stip_length_type n)
+static boolean branch_d_defender_solve_postkey_in_n(slice_index si,
+                                                    stip_length_type n)
 {
   table const threats = allocate_table();
   stip_length_type len_threat;
@@ -522,6 +456,72 @@ boolean branch_d_defender_solve_postkey_in_n(slice_index si,
   output_end_postkey_level();
 
   free_table();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attempted key move at non-root level
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defender can successfully defend
+ */
+boolean branch_d_defender_defend_in_n(slice_index si,
+                                      stip_length_type n,
+                                      unsigned int curr_max_nr_nontrivial)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (has_defender_refutation(si,n,curr_max_nr_nontrivial)
+      ==defender_has_no_refutation)
+  {
+    write_attack(attack_regular);
+    branch_d_defender_solve_postkey_in_n(si,n);
+    result = false;
+  }
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a defense after an attempted key move at
+ * non-root level 
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param curr_max_nr_nontrivial remaining maximum number of
+ *                               allowed non-trivial variations
+ * @return true iff the defender can successfully defend
+ */
+boolean branch_d_defender_can_defend_in_n(slice_index si,
+                                          stip_length_type n,
+                                          unsigned int curr_max_nr_nontrivial)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
+            !=defender_has_no_refutation);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -576,8 +576,6 @@ void branch_d_defender_root_solve_variations(table threats,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
   active_slice[nbply+1] = si;
   genmove(defender);

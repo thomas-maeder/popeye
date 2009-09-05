@@ -33,13 +33,6 @@ boolean selfcheck_guard_root_solve(slice_index si);
 attack_result_type selfcheck_guard_root_defend(table refutations,
                                                slice_index si);
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean self_guard_solve_postkey_in_n(slice_index si, stip_length_type n);
-
 /* Solve a slice at non-root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -164,13 +157,6 @@ has_solution_type
 selfcheck_guard_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
                                          unsigned int curr_max_nr_nontrivial);
-
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-boolean selfcheck_guard_solve_postkey_in_n(slice_index si, stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
