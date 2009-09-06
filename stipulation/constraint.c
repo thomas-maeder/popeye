@@ -103,7 +103,6 @@ void reflex_guard_direct_solve_continuations_in_n(table continuations,
                                                   slice_index si,
                                                   stip_length_type n)
 {
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -111,29 +110,7 @@ void reflex_guard_direct_solve_continuations_in_n(table continuations,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* TODO this switch is only necessary if
-   * reflex_guard_direct_solve_continuations_in_n() is used for
-   * finding threats or if we are solving postkey (otherwise
-   * has_solution would make the defense just played a refutation).
-   * Should we use separate operations for finding threats and regular
-   * continuations?
-   */
-  switch (slice_has_solution(avoided))
-  {
-    case defender_self_check:
-      /* must already have been dealt with in an earlier slice */
-      assert(0);
-      break;
-
-    case has_solution:
-      /* no continuations to be found because of reflex obligations;
-       * cf. issue 2843251 */
-      break;
-
-    case has_no_solution:
-      direct_solve_continuations_in_n(continuations,next,n);
-      break;
-  }
+  direct_solve_continuations_in_n(continuations,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -164,7 +141,7 @@ stip_length_type reflex_guard_direct_solve_threats(table threats,
   switch (slice_has_solution(avoided))
   {
     case has_solution:
-      /* no continuations to be found because of reflex obligations;
+      /* no threats to be found because of reflex obligations;
        * cf. issue 2843251 */
       output_start_threat_level();
       output_end_threat_level();
