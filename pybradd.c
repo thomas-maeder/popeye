@@ -187,7 +187,7 @@ static boolean is_defense_relevant(table threats,
     result = false;
   else if (len_threat>slack_length_direct+1
            && len_threat<=n
-           && (direct_has_solution_in_n(next,len_threat-2)!=has_no_solution))
+           && direct_has_solution_in_n(next,len_threat-2)!=has_no_solution)
     /* there are threats and the variation is shorter than them */
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
