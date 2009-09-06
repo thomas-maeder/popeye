@@ -370,7 +370,7 @@ stip_length_type branch_d_defender_solve_threats(table threats,
 
   assert(n%2!=slices[si].u.pipe.u.branch.length%2);
 
-  result = direct_solve_threats_in_n(threats,next,n);
+  result = direct_solve_threats(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

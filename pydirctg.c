@@ -202,9 +202,9 @@ void direct_defense_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type direct_defense_direct_solve_threats_in_n(table threats,
-                                                          slice_index si,
-                                                          stip_length_type n)
+stip_length_type direct_defense_direct_solve_threats(table threats,
+                                                     slice_index si,
+                                                     stip_length_type n)
 {
   stip_length_type result;
 
@@ -229,7 +229,7 @@ stip_length_type direct_defense_direct_solve_threats_in_n(table threats,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
-    result = direct_solve_threats_in_n(threats,next,n);
+    result = direct_solve_threats(threats,next,n);
   }
 
   TraceFunctionExit(__func__);
