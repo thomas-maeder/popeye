@@ -500,7 +500,7 @@ stip_length_type direct_defender_solve_threats(table threats,
                                                slice_index si,
                                                stip_length_type n)
 {
-  stip_length_type result;
+  stip_length_type result = n+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
