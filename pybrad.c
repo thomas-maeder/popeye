@@ -522,7 +522,9 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
 
   output_start_postkey_level();
 
-  len_threat = direct_defender_solve_threats(threats,next,n-2);
+  len_threat = (OptFlag[nothreat]
+                ? n
+                : direct_defender_solve_threats(threats,next,n-2));
   direct_defender_solve_variations_in_n(threats,len_threat,next,n-1);
 
   output_end_postkey_level();
@@ -805,7 +807,9 @@ static void root_write_postkey(slice_index si, table refutations)
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
     table const threats = allocate_table();
     stip_length_type const len_threat =
-        direct_defender_solve_threats(threats,next,length-2);
+        (OptFlag[nothreat]
+         ? length
+         : direct_defender_solve_threats(threats,next,length-2));
     direct_defender_root_solve_variations(threats,len_threat,
                                           refutations,
                                           next);

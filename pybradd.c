@@ -264,43 +264,6 @@ static boolean write_variation(slice_index si, stip_length_type n)
   return !is_refutation;
 }
 
-/* Determine and write the threats after the move that has just been
- * played in the current ply.
- * We have already determined that this move doesn't have more
- * refutations than allowed.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-static stip_length_type solve_threats(table threats,
-                                      slice_index si,
-                                      stip_length_type n)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2!=slices[si].u.pipe.u.branch.length%2);
-
-  if (OptFlag[nothreat])
-    result = n+2;
-  else
-    result = direct_solve_threats_in_n(threats,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve variations after an attacker's move
  * @param threats table containing the threats after the attacker's move
  * @param len_threat length of threats
@@ -398,13 +361,16 @@ stip_length_type branch_d_defender_solve_threats(table threats,
                                                  slice_index si,
                                                  stip_length_type n)
 {
+  slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = solve_threats(threats,si,n);
+  assert(n%2!=slices[si].u.pipe.u.branch.length%2);
+
+  result = direct_solve_threats_in_n(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -474,7 +440,9 @@ static boolean solve_postkey_in_n(slice_index si, stip_length_type n)
 
   output_start_postkey_level();
 
-  len_threat = branch_d_defender_solve_threats(threats,si,n-1);
+  len_threat = (OptFlag[nothreat]
+                ? n+1
+                : branch_d_defender_solve_threats(threats,si,n-1));
   result = branch_d_defender_solve_variations_in_n(threats,len_threat,si,n);
 
   output_end_postkey_level();
