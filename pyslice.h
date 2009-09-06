@@ -126,6 +126,14 @@ has_solution_type slice_has_solution(slice_index si);
  */
 boolean slice_has_non_starter_solved(slice_index si);
 
+/* Determine whether there are refutations
+ * @param leaf slice index
+ * @param max_result how many refutations should we look for
+ * @return number of refutations found (0..max_result+1)
+ */
+unsigned int slice_count_refutations(slice_index si,
+                                     unsigned int max_result);
+
 #define ENUMERATION_TYPENAME has_starter_won_result_type
 #define ENUMERATORS                             \
   ENUMERATOR(starter_has_not_won),              \

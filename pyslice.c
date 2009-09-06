@@ -863,6 +863,42 @@ has_starter_won_result_type slice_has_starter_won(slice_index si)
   return result;
 }
 
+/* Determine whether there are refutations
+ * @param leaf slice index
+ * @param max_result how many refutations should we look for
+ * @return number of refutations found (0..max_result+1)
+ */
+unsigned int slice_count_refutations(slice_index si,
+                                     unsigned int max_result)
+{
+  unsigned int result = max_result+1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafForced:
+      result = leaf_forced_count_refutations(si,max_result);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_count_refutations(si,max_result);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_starter_won_result_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

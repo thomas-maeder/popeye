@@ -15,6 +15,14 @@
  */
 has_starter_won_result_type leaf_forced_has_starter_won(slice_index leaf);
 
+/* Determine whether there are refutations
+ * @param leaf slice index
+ * @param max_result how many refutations should we look for
+ * @return number of refutations found (0..max_result+1)
+ */
+unsigned int leaf_forced_count_refutations(slice_index leaf,
+                                           unsigned int max_result);
+
 /* Determine whether the defender wins after a move by the attacker
  * @param leaf identifies leaf
  * @return true iff the defender wins

@@ -2739,6 +2739,9 @@ static Token iterate_twins(Token prev_token)
           stip_impose_starter(slices[root_slice].starter);
         }
       }
+
+      if (OptFlag[nontrivial])
+        stip_insert_max_nr_nontrivial_guards();
       
       stip_insert_selfcheck_guards();
 
@@ -2767,9 +2770,6 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[solmenaces])
         stip_insert_maxthreatlength_guards();
-
-      if (OptFlag[nontrivial])
-        stip_insert_max_nr_nontrivial_guards();
 
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->

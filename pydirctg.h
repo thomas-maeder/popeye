@@ -83,17 +83,20 @@ direct_attack_defend_in_n(slice_index si,
                           stip_length_type n,
                           unsigned int curr_max_nr_nontrivial);
 
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param max_result how many refutations should we look for
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return number of refutations found (0..max_result+1)
  */
-boolean direct_attack_can_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      unsigned int curr_max_nr_nontrivial);
+unsigned int
+direct_attack_can_defend_in_n(slice_index si,
+                              stip_length_type n,
+                              unsigned int max_result,
+                              unsigned int curr_max_nr_nontrivial);
 
 /* Solve a slice
  * @param si slice index

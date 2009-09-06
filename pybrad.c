@@ -295,6 +295,7 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
+  unsigned int const nr_refutations_allowed = 0;
   boolean result = true;
 
   TraceFunctionEntry(__func__);
@@ -322,7 +323,9 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
       {
         if (direct_defender_can_defend_in_n(next,
                                             len_threat-1,
-                                            curr_max_nr_nontrivial))
+                                            nr_refutations_allowed,
+                                            curr_max_nr_nontrivial)
+            >nr_refutations_allowed)
           defense_found = true;
         else
           ++nr_successful_threats;
@@ -359,6 +362,7 @@ static boolean have_we_solution_in_n(slice_index si,
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   boolean solution_found = false;
+  unsigned int const nr_refutations_allowed = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -374,7 +378,9 @@ static boolean have_we_solution_in_n(slice_index si,
   while (!solution_found && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_can_defend_in_n(next,n-1,curr_max_nr_nontrivial))
+        && (direct_defender_can_defend_in_n(next,n-1,nr_refutations_allowed,
+                                            curr_max_nr_nontrivial)
+            <=nr_refutations_allowed))
     {
       solution_found = true;
       coupfort();

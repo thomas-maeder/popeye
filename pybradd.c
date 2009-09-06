@@ -300,19 +300,25 @@ boolean branch_d_defender_solve_variations_in_n(table threats,
   return result;
 }
 
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param max_result how many refutations should we look for
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return number of refutations found (0..max_result+1)
  */
-boolean branch_d_defender_can_defend_in_n(slice_index si,
-                                          stip_length_type n,
-                                          unsigned int curr_max_nr_nontrivial)
+unsigned int
+branch_d_defender_can_defend_in_n(slice_index si,
+                                  stip_length_type n,
+                                  unsigned int max_result,
+                                  unsigned int curr_max_nr_nontrivial)
 {
-  boolean result;
+  Side const defender = slices[si].starter;
+  unsigned int result = 0;
+  slice_index const next = slices[si].u.pipe.next;
+  boolean isDefenderImmobile = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -321,8 +327,45 @@ boolean branch_d_defender_can_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  result = (branch_d_defender_defend_in_n(si,n,curr_max_nr_nontrivial)
-            !=attack_solves_full_length);
+  active_slice[nbply+1] = si;
+  move_generation_mode =
+      n-1>slack_length_direct
+      ? move_generation_mode_opti_per_side[defender]
+      : move_generation_optimized_by_killer_move;
+  genmove(defender);
+  move_generation_mode= move_generation_optimized_by_killer_move;
+
+  while (result<=max_result && encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+      switch (direct_has_solution_in_n(next,n-1,curr_max_nr_nontrivial))
+      {
+        case defender_self_check:
+          /* nothing */ ;
+          break;
+
+        case has_no_solution:
+          ++result;
+          coupfort();
+          isDefenderImmobile = false;
+          break;
+
+        case has_solution:
+          isDefenderImmobile = false;
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
+
+    repcoup();
+  }
+
+  finply();
+
+  if (isDefenderImmobile)
+    result = max_result+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

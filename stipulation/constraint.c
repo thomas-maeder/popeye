@@ -319,19 +319,22 @@ reflex_guard_defend_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param max_result how many refutations should we look for
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return number of refutations found (0..max_result+1)
  */
-boolean reflex_guard_can_defend_in_n(slice_index si,
-                                     stip_length_type n,
-                                     unsigned int curr_max_nr_nontrivial)
+unsigned int
+reflex_guard_can_defend_in_n(slice_index si,
+                             stip_length_type n,
+                             unsigned int max_result,
+                             unsigned int curr_max_nr_nontrivial)
 {
-  boolean result = true;
+  unsigned int result = max_result+1;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -350,13 +353,14 @@ boolean reflex_guard_can_defend_in_n(slice_index si,
     switch (slice_has_solution(avoided))
     {
       case has_solution:
-        result = false;
+        result = 0;
         break;
 
       case has_no_solution:
         if (n>slack_length_direct)
           result = direct_defender_can_defend_in_n(next,
                                                    n,
+                                                   max_result,
                                                    curr_max_nr_nontrivial);
         break;
 
@@ -365,7 +369,10 @@ boolean reflex_guard_can_defend_in_n(slice_index si,
         break;
     }
   else
-    result = direct_defender_can_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,
+                                             n,
+                                             max_result,
+                                             curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -466,66 +466,94 @@ direct_defender_defend_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param max_result how many refutations should we look for
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return number of refutations found (0..max_result+1)
  */
-boolean direct_defender_can_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        unsigned int curr_max_nr_nontrivial)
+unsigned int
+direct_defender_can_defend_in_n(slice_index si,
+                                stip_length_type n,
+                                unsigned int max_result,
+                                unsigned int curr_max_nr_nontrivial)
 {
   boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
+  TraceFunctionParam("%u",max_result);
+  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STDirectDefenderRoot:
     case STBranchDirectDefender:
-      result = branch_d_defender_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      result = branch_d_defender_can_defend_in_n(si,
+                                                 n,
+                                                 max_result,
+                                                 curr_max_nr_nontrivial);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      result = selfcheck_guard_can_defend_in_n(si,
+                                               n,
+                                               max_result,
+                                               curr_max_nr_nontrivial);
       break;
 
     case STDirectAttack:
-      result = direct_attack_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      result = direct_attack_can_defend_in_n(si,
+                                             n,
+                                             max_result,
+                                             curr_max_nr_nontrivial);
       break;
 
     case STSelfAttack:
-      result = self_attack_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      result = self_attack_can_defend_in_n(si,
+                                           n,
+                                           max_result,
+                                           curr_max_nr_nontrivial);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      result = reflex_guard_can_defend_in_n(si,
+                                            n,
+                                            max_result,
+                                            curr_max_nr_nontrivial);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      result = keepmating_guard_can_defend_in_n(si,
+                                                n,
+                                                max_result,
+                                                curr_max_nr_nontrivial);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_can_defend_in_n(si,n,curr_max_nr_nontrivial);
+      result = maxflight_guard_can_defend_in_n(si,
+                                               n,
+                                               max_result,
+                                               curr_max_nr_nontrivial);
       break;
 
     case STMaxThreatLength:
       result = maxthreatlength_guard_can_defend_in_n(si,
                                                      n,
+                                                     max_result,
                                                      curr_max_nr_nontrivial);
       break;
 
     case STMaxNrNonTrivial:
       result = max_nr_nontrivial_guard_can_defend_in_n(si,
                                                        n,
+                                                       max_result,
                                                        curr_max_nr_nontrivial);
       break;
 

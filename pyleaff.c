@@ -188,6 +188,127 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
   return !(escape_found || is_defender_immobile);
 }
 
+/* Determine whether there are refutations
+ * @param leaf slice index
+ * @param max_result how many refutations should we look for
+ * @return number of refutations found (0..max_result+1)
+ */
+unsigned int leaf_forced_count_refutations(slice_index leaf,
+                                           unsigned int max_result)
+{
+  Side const defender = slices[leaf].starter;
+  boolean is_defender_immobile = true;
+  unsigned int result = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",max_result);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",slices[leaf].u.leaf.goal);
+
+  if (defender==Black ? flagblackmummer : flagwhitemummer)
+  {
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    genmove(defender);
+    move_generation_mode = move_generation_optimized_by_killer_move;
+
+    while (result<=max_result && encore())
+    {
+      if (jouecoup(nbply,first_play)
+          && !echecc(nbply,defender))
+      {
+        is_defender_immobile = false;
+        /* TODO this checks for echecc(nbply,defender) again (in most cases
+         * anyway); optimise? */
+        if (leaf_is_goal_reached(defender,leaf)!=goal_reached)
+        {
+          coupfort();
+          ++result;
+        }
+      }
+
+      repcoup();
+    }
+
+    finply();
+  }
+  else if (slices[leaf].u.leaf.goal==goal_ep
+           && ep[nbply]==initsquare
+           && ep2[nbply]==initsquare)
+  {
+    /* a little optimization if end "state" is en passant capture,
+     * but no en passant capture is possible */
+    /* TODO Should we play the same trick for castling? Other end
+     * states? */
+  }
+  else
+  {
+    piece p;
+    square const *selfbnp = boardnum;
+    square initiallygenerated = initsquare;
+    Side const attacker = advers(defender);
+
+    active_slice[nbply+1] = leaf;
+    nextply(nbply);
+    init_move_generation_optimizer();
+    trait[nbply]= defender;
+    if (TSTFLAG(PieSpExFlags,Neutral))
+      initneutre(attacker);
+
+    p = e[current_killer_state.move.departure];
+    if (p!=vide)
+    {
+      if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
+        p = -p;
+      if (defender==White)
+      {
+        if (p>obs)
+        {
+          initiallygenerated = current_killer_state.move.departure;
+          gen_wh_piece(initiallygenerated,p);
+        }
+      }
+      else
+      {
+        if (p<-obs)
+        {
+          initiallygenerated = current_killer_state.move.departure;
+          gen_bl_piece(initiallygenerated,p);
+        }
+      }
+    }
+    finish_move_generation_optimizer();
+    while (result<=max_result
+           && selflastencore(&selfbnp,initiallygenerated,defender))
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !echecc(nbply,defender))
+      {
+        is_defender_immobile = false;
+        /* TODO this checks for echecc(nbply,defender) again (in most cases
+         * anyway); optimise? */
+        if (leaf_is_goal_reached(defender,leaf)!=goal_reached)
+        {
+          TraceText("escape_found\n");
+          ++result;
+          coupfort();
+        }
+      }
+      repcoup();
+    }
+    finply();
+  }
+
+  if (is_defender_immobile)
+    result = max_result+1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
@@ -425,7 +546,6 @@ leaf_forced_root_find_refutations(table refutations,
     move_generation_mode = move_generation_optimized_by_killer_move;
     genmove(defender);
     move_generation_mode = move_generation_optimized_by_killer_move;
-
     while (table_length(refutations)<=max_nr_refutations
            && encore())
     {

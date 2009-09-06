@@ -241,21 +241,24 @@ keepmating_guard_defend_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param max_result how many refutations should we look for
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return number of refutations found (0..max_result+1)
  */
-boolean keepmating_guard_can_defend_in_n(slice_index si,
-                                         stip_length_type n,
-                                         unsigned int curr_max_nr_nontrivial)
+unsigned int
+keepmating_guard_can_defend_in_n(slice_index si,
+                                 stip_length_type n,
+                                 unsigned int max_result,
+                                 unsigned int curr_max_nr_nontrivial)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
-  boolean result;
+  unsigned int result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -264,9 +267,12 @@ boolean keepmating_guard_can_defend_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_can_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,
+                                             n,
+                                             max_result,
+                                             curr_max_nr_nontrivial);
   else
-    result = true;
+    result = max_result+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -691,7 +697,7 @@ static slice_operation const keepmating_guards_inserters[] =
   0,                                       /* STGoalReachableGuard */
   0,                                       /* STKeepMatingGuard */
   0,                                       /* STMaxFlightsquares */
-  0,                                       /* STMaxNrNonTrivial */
+  &slice_traverse_children,                /* STMaxNrNonTrivial */
   0                                        /* STMaxThreatLength */
 };
 

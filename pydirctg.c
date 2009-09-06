@@ -291,19 +291,22 @@ direct_attack_defend_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param max_result how many refutations should we look for
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return number of refutations found (0..max_result+1)
  */
-boolean direct_attack_can_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      unsigned int curr_max_nr_nontrivial)
+unsigned int
+direct_attack_can_defend_in_n(slice_index si,
+                              stip_length_type n,
+                              unsigned int max_result,
+                              unsigned int curr_max_nr_nontrivial)
 {
-  boolean result = true;
+  unsigned int result = max_result+1;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   stip_length_type const n_max_for_goal = length-min_length+slack_length_direct;
@@ -319,9 +322,12 @@ boolean direct_attack_can_defend_in_n(slice_index si,
   TraceValue("%u\n",n_max_for_goal);
 
   if (n<=n_max_for_goal && slice_has_starter_reached_goal(togoal))
-    result = false;
+    result = 0;
   else if (n>=slack_length_direct)
-    result = direct_defender_can_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,
+                                             n,
+                                             max_result,
+                                             curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

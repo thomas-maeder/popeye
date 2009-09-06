@@ -69,35 +69,20 @@ static
 unsigned int count_nontrivial_defenses(slice_index si,
                                        unsigned int curr_max_nr_nontrivial)
 {
-  Side const defender = slices[si].starter;
-  unsigned int result = 0;
-  slice_index const to_attacker =
-      slices[si].u.pipe.u.maxthreatlength_guard.to_attacker;
+  unsigned int result;
+  slice_index const next = slices[si].u.pipe.next;
   stip_length_type const parity = slices[si].u.pipe.u.branch.length%2;
+  unsigned int const nr_refutations_allowed = curr_max_nr_nontrivial+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
-  active_slice[nbply+1] = si;
-  genmove(defender);
-
-  while (encore() && curr_max_nr_nontrivial+1>=result)
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !echecc(nbply,defender) /* TODO rearrange slices */
-        && (min_length_nontrivial==slack_length_direct
-            || (direct_has_solution_in_n(to_attacker,
-                                         min_length_nontrivial+parity-1,
-                                         curr_max_nr_nontrivial)
-                ==has_no_solution)))
-      ++result;
-
-    repcoup();
-  }
-
-  finply();
+  result = direct_defender_can_defend_in_n(next,
+                                           min_length_nontrivial+parity,
+                                           nr_refutations_allowed,
+                                           curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",result);
@@ -112,8 +97,7 @@ unsigned int count_nontrivial_defenses(slice_index si,
  * @param si identifies slice to be initialised
  * @param side mating side
  */
-static void init_max_nr_nontrivial_guard_slice(slice_index si,
-                                               slice_index to_attacker)
+static void init_max_nr_nontrivial_guard_slice(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -121,7 +105,6 @@ static void init_max_nr_nontrivial_guard_slice(slice_index si,
 
   slices[si].type = STMaxNrNonTrivial; 
   slices[si].starter = no_side; 
-  slices[si].u.pipe.u.maxthreatlength_guard.to_attacker = to_attacker; 
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -140,7 +123,7 @@ attack_result_type max_nr_nontrivial_guard_root_defend(table refutations,
                                                        slice_index si)
 {
   attack_result_type result;
-  stip_length_type const n = slices[si].u.pipe.u.maxthreatlength_guard.length;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -213,21 +196,23 @@ max_nr_nontrivial_guard_defend_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a defense after an attempted key move at
- * non-root level 
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param max_result how many refutations should we look for
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return true iff the defender can successfully defend
+ * @return number of refutations found (0..max_result+1)
  */
-boolean
+unsigned int
 max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
+                                        unsigned int max_result,
                                         unsigned int curr_max_nr_nontrivial)
 {
   slice_index const next = slices[si].u.pipe.next;
-  boolean result;
+  unsigned int result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -242,13 +227,17 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
     if (curr_max_nr_nontrivial+1>=nr_nontrivial)
       result = direct_defender_can_defend_in_n(next,
                                                n,
+                                               max_result,
                                                curr_max_nr_nontrivial+1
                                                -nr_nontrivial);
     else
-      result = true;
+      result = max_result+1;
   }
   else
-    result = direct_defender_can_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,
+                                             n,
+                                             max_result,
+                                             curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -338,7 +327,7 @@ void max_nr_nontrivial_guard_root_solve_variations(table threats,
                                                    table refutations,
                                                    slice_index si)
 {
-  stip_length_type const n = slices[si].u.pipe.u.maxthreatlength_guard.length;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -372,11 +361,30 @@ void max_nr_nontrivial_guard_root_solve_variations(table threats,
 /* **************** Stipulation instrumentation ***************
  */
 
-static boolean max_nr_nontrivial_guard_inserter(slice_index si,
-                                                slice_traversal *st)
+static boolean nontrivial_guard_inserter_direct_attack(slice_index si,
+                                                       slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const to_attacker = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  pipe_insert_after(si);
+  init_max_nr_nontrivial_guard_slice(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean nontrivial_guard_inserter_self_attack(slice_index si,
+                                                     slice_traversal *st)
+{
+  boolean const result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -385,7 +393,7 @@ static boolean max_nr_nontrivial_guard_inserter(slice_index si,
   slice_traverse_children(si,st);
 
   pipe_insert_before(si);
-  init_max_nr_nontrivial_guard_slice(si,to_attacker);
+  init_max_nr_nontrivial_guard_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -395,39 +403,39 @@ static boolean max_nr_nontrivial_guard_inserter(slice_index si,
 
 static slice_operation const max_nr_nontrivial_guards_inserters[] =
 {
-  &slice_traverse_children,          /* STBranchDirect */
-  &max_nr_nontrivial_guard_inserter, /* STBranchDirectDefender */
-  &slice_traverse_children,          /* STBranchHelp */
-  &slice_traverse_children,          /* STBranchSeries */
-  &slice_traverse_children,          /* STBranchFork */
-  &slice_traverse_children,          /* STLeafDirect */
-  &slice_traverse_children,          /* STLeafHelp */
-  &slice_traverse_children,          /* STLeafForced */
-  &slice_traverse_children,          /* STReciprocal */
-  &slice_traverse_children,          /* STQuodlibet */
-  &slice_traverse_children,          /* STNot */
-  &slice_traverse_children,          /* STMoveInverter */
-  &slice_traverse_children,          /* STDirectRoot */
-  &max_nr_nontrivial_guard_inserter, /* STDirectDefenderRoot */
-  &slice_traverse_children,          /* STDirectHashed */
-  &slice_traverse_children,          /* STHelpRoot */
-  &slice_traverse_children,          /* STHelpAdapter */
-  &slice_traverse_children,          /* STHelpHashed */
-  &slice_traverse_children,          /* STSeriesRoot */
-  &slice_traverse_children,          /* STSeriesAdapter */
-  &slice_traverse_children,          /* STSeriesHashed */
-  &slice_traverse_children,          /* STSelfCheckGuard */
-  &slice_traverse_children,          /* STDirectAttack */
-  &slice_traverse_children,          /* STDirectDefense */
-  &slice_traverse_children,          /* STReflexGuard */
-  &slice_traverse_children,          /* STSelfAttack */
-  &slice_traverse_children,          /* STSelfDefense */
-  &slice_traverse_children,          /* STRestartGuard */
-  &slice_traverse_children,          /* STGoalReachableGuard */
-  &slice_traverse_children,          /* STKeepMatingGuard */
-  &slice_traverse_children,          /* STMaxFlightsquares */
-  &slice_traverse_children,          /* STMaxNrNonTrivial */
-  &slice_traverse_children           /* STMaxThreatLength */
+  &slice_traverse_children,                 /* STBranchDirect */
+  &slice_traverse_children,                 /* STBranchDirectDefender */
+  &slice_traverse_children,                 /* STBranchHelp */
+  &slice_traverse_children,                 /* STBranchSeries */
+  &slice_traverse_children,                 /* STBranchFork */
+  &slice_traverse_children,                 /* STLeafDirect */
+  &slice_traverse_children,                 /* STLeafHelp */
+  &slice_traverse_children,                 /* STLeafForced */
+  &slice_traverse_children,                 /* STReciprocal */
+  &slice_traverse_children,                 /* STQuodlibet */
+  &slice_traverse_children,                 /* STNot */
+  &slice_traverse_children,                 /* STMoveInverter */
+  &slice_traverse_children,                 /* STDirectRoot */
+  &slice_traverse_children,                 /* STDirectDefenderRoot */
+  &slice_traverse_children,                 /* STDirectHashed */
+  &slice_traverse_children,                 /* STHelpRoot */
+  &slice_traverse_children,                 /* STHelpAdapter */
+  &slice_traverse_children,                 /* STHelpHashed */
+  &slice_traverse_children,                 /* STSeriesRoot */
+  &slice_traverse_children,                 /* STSeriesAdapter */
+  &slice_traverse_children,                 /* STSeriesHashed */
+  &slice_traverse_children,                 /* STSelfCheckGuard */
+  &nontrivial_guard_inserter_direct_attack, /* STDirectAttack */
+  &slice_traverse_children,                 /* STDirectDefense */
+  &slice_traverse_children,                 /* STReflexGuard */
+  &nontrivial_guard_inserter_self_attack,   /* STSelfAttack */
+  &slice_traverse_children,                 /* STSelfDefense */
+  &slice_traverse_children,                 /* STRestartGuard */
+  &slice_traverse_children,                 /* STGoalReachableGuard */
+  &slice_traverse_children,                 /* STKeepMatingGuard */
+  &slice_traverse_children,                 /* STMaxFlightsquares */
+  &slice_traverse_children,                 /* STMaxNrNonTrivial */
+  &slice_traverse_children                  /* STMaxThreatLength */
 };
 
 /* Instrument stipulation with STKeepMatingGuard slices
