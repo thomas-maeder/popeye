@@ -282,16 +282,13 @@ slice_index alloc_direct_branch(branch_level level,
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of moves until goal (after the defense)
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean branch_d_are_threats_refuted_in_n(table threats,
                                           stip_length_type len_threat,
                                           slice_index si,
-                                          stip_length_type n,
-                                          unsigned int curr_max_nr_nontrivial)
+                                          stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -303,7 +300,6 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
@@ -323,8 +319,7 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
       {
         if (direct_defender_can_defend_in_n(next,
                                             len_threat-1,
-                                            nr_refutations_allowed,
-                                            curr_max_nr_nontrivial)
+                                            nr_refutations_allowed)
             >nr_refutations_allowed)
           defense_found = true;
         else
@@ -351,13 +346,9 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
 /* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the attacking side wins
  */
-static boolean have_we_solution_in_n(slice_index si,
-                                     stip_length_type n,
-                                     unsigned int curr_max_nr_nontrivial)
+static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -367,7 +358,6 @@ static boolean have_we_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
@@ -378,8 +368,7 @@ static boolean have_we_solution_in_n(slice_index si,
   while (!solution_found && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && (direct_defender_can_defend_in_n(next,n-1,nr_refutations_allowed,
-                                            curr_max_nr_nontrivial)
+        && (direct_defender_can_defend_in_n(next,n-1,nr_refutations_allowed)
             <=nr_refutations_allowed))
     {
       solution_found = true;
@@ -404,13 +393,9 @@ static boolean have_we_solution_in_n(slice_index si,
 /* Determine whether attacker can end short if full would be n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff attacker can end in n half moves
  */
-static boolean have_we_solution_in_n_short(slice_index si,
-                                           stip_length_type n,
-                                           unsigned int curr_max_nr_nontrivial)
+static boolean have_we_solution_in_n_short(slice_index si, stip_length_type n)
 {
   boolean result = false;
 
@@ -423,7 +408,6 @@ static boolean have_we_solution_in_n_short(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(slices[si].u.pipe.u.branch.length%2 == parity);
@@ -439,7 +423,7 @@ static boolean have_we_solution_in_n_short(slice_index si,
   TraceValue("%u\n",n_max);
 
   for (i = n_min; i<=n_max; i += 2)
-    if (have_we_solution_in_n(si,i,curr_max_nr_nontrivial))
+    if (have_we_solution_in_n(si,i))
     {
       result = true;
       break;
@@ -456,28 +440,23 @@ static boolean have_we_solution_in_n_short(slice_index si,
 /* Determine whether attacker can end in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type branch_d_has_solution_in_n(slice_index si,
-                                             stip_length_type n,
-                                             unsigned int curr_max_nr_nontrivial)
+has_solution_type branch_d_has_solution_in_n(slice_index si, stip_length_type n)
 {
   has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (have_we_solution_in_n_short(si,n,curr_max_nr_nontrivial))
+  if (have_we_solution_in_n_short(si,n))
     result = has_solution;
   else if (periods_counter<nr_periods
-           && have_we_solution_in_n(si,n,curr_max_nr_nontrivial))
+           && have_we_solution_in_n(si,n))
     result = has_solution;
   else
     result = has_no_solution;
@@ -500,9 +479,7 @@ has_solution_type branch_d_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = branch_d_has_solution_in_n(si,
-                                      slices[si].u.pipe.u.branch.length,
-                                      max_nr_nontrivial);
+  result = branch_d_has_solution_in_n(si,slices[si].u.pipe.u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -585,7 +562,7 @@ stip_length_type branch_d_solve_continuations_in_n(table continuations,
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-        switch (direct_defender_defend_in_n(next,result-1,max_nr_nontrivial))
+        switch (direct_defender_defend_in_n(next,result-1))
         {
           case attack_has_solved_next_branch:
             append_to_top_table();

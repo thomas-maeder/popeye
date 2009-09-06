@@ -4,7 +4,6 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
-#include "pynontrv.h"
 #include "pyoutput.h"
 #include "pymsg.h"
 #include "trace.h"
@@ -102,14 +101,10 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-branch_d_defender_defend_in_n(slice_index si,
-                              stip_length_type n,
-                              unsigned int curr_max_nr_nontrivial)
+attack_result_type branch_d_defender_defend_in_n(slice_index si,
+                                                 stip_length_type n)
 {
   Side const defender = slices[si].starter;
   attack_result_type result = attack_has_reached_deadend;
@@ -133,7 +128,7 @@ branch_d_defender_defend_in_n(slice_index si,
   while (result!=attack_refuted_full_length && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1,curr_max_nr_nontrivial))
+      switch (direct_has_solution_in_n(next,n-1))
       {
         case defender_self_check:
           /* nothing */ ;
@@ -169,14 +164,11 @@ branch_d_defender_defend_in_n(slice_index si,
  * @param len_threat length of threat
  * @param si slice index
  * @param n maximum number of half moves until goal after the defense
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  */
 static boolean is_defense_relevant(table threats,
                                    stip_length_type len_threat,
                                    slice_index si,
-                                   stip_length_type n,
-                                   unsigned int curr_max_nr_nontrivial)
+                                   stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   boolean result;
@@ -185,31 +177,22 @@ static boolean is_defense_relevant(table threats,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(n%2!=slices[si].u.pipe.u.branch.length%2);
 
   if (n>slack_length_direct && OptFlag[noshort]
-      && (direct_has_solution_in_n(next,n-2,curr_max_nr_nontrivial)
-          !=has_no_solution))
+      && direct_has_solution_in_n(next,n-2)!=has_no_solution)
     /* variation shorter than stip */
     result = false;
   else if (len_threat>slack_length_direct+1
            && len_threat<=n
-           && (direct_has_solution_in_n(next,
-                                       len_threat-2,
-                                       curr_max_nr_nontrivial)
-               !=has_no_solution))
+           && (direct_has_solution_in_n(next,len_threat-2)!=has_no_solution))
     /* there are threats and the variation is shorter than them */
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
   else
-    result = direct_are_threats_refuted_in_n(threats,
-                                             len_threat,
-                                             next,
-                                             n,
-                                             curr_max_nr_nontrivial);
+    result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -277,11 +260,7 @@ boolean branch_d_defender_solve_variations_in_n(table threats,
   while(encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && is_defense_relevant(threats,
-                               len_threat,
-                               si,
-                               n-1,
-                               max_nr_nontrivial))
+        && is_defense_relevant(threats,len_threat,si,n-1))
     {
       if (write_variation(si,n))
         result = true;
@@ -305,15 +284,11 @@ boolean branch_d_defender_solve_variations_in_n(table threats,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-branch_d_defender_can_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  unsigned int max_result,
-                                  unsigned int curr_max_nr_nontrivial)
+unsigned int branch_d_defender_can_defend_in_n(slice_index si,
+                                               stip_length_type n,
+                                               unsigned int max_result)
 {
   Side const defender = slices[si].starter;
   unsigned int result = 0;
@@ -338,7 +313,7 @@ branch_d_defender_can_defend_in_n(slice_index si,
   while (result<=max_result && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1,curr_max_nr_nontrivial))
+      switch (direct_has_solution_in_n(next,n-1))
       {
         case defender_self_check:
           /* nothing */ ;
@@ -432,10 +407,7 @@ void branch_d_defender_root_solve_variations(table threats,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !is_current_move_in_table(refutations)
-        && is_defense_relevant(threats,len_threat,
-                               si,
-                               length-1,
-                               max_nr_nontrivial))
+        && is_defense_relevant(threats,len_threat,si,length-1))
       write_variation(si,length);
 
     repcoup();
@@ -521,14 +493,11 @@ boolean branch_d_defender_root_solve(slice_index si)
  * @param t table where to add refutations
  * @param si slice index
  * @param maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true if defender is immobile
  */
 static boolean root_collect_refutations(table refutations,
                                         slice_index si,
-                                        stip_length_type n,
-                                        unsigned int curr_max_nr_nontrivial)
+                                        stip_length_type n)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -537,7 +506,6 @@ static boolean root_collect_refutations(table refutations,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
@@ -552,7 +520,7 @@ static boolean root_collect_refutations(table refutations,
          && table_length(refutations)<=max_nr_refutations)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1,curr_max_nr_nontrivial))
+      switch (direct_has_solution_in_n(next,n-1))
       {
         case defender_self_check:
           /* nothing */ ;
@@ -599,7 +567,7 @@ attack_result_type branch_d_defender_root_defend(table refutations,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (root_collect_refutations(refutations,si,length,max_nr_nontrivial))
+  if (root_collect_refutations(refutations,si,length))
     result = attack_has_reached_deadend;
   else if (table_length(refutations)==0)
     result = attack_solves_full_length;

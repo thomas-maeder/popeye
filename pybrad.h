@@ -39,27 +39,21 @@ slice_index alloc_nested_direct_branch(stip_length_type length,
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean branch_d_are_threats_refuted_in_n(table threats,
                                           stip_length_type len_threat,
                                           slice_index si,
-                                          stip_length_type n,
-                                          unsigned int curr_max_nr_nontrivial);
+                                          stip_length_type n);
 
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type branch_d_has_solution_in_n(slice_index si,
-                                             stip_length_type n,
-                                             unsigned int curr_max_nr_nontrivial);
+                                             stip_length_type n);
 
 /* Determine whether a slice has a solution
  * @param si slice index

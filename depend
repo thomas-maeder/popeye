@@ -1585,7 +1585,7 @@ pyoutput.h:
 trace.h:
 pythreat$(OBJ_SUFFIX): pythreat.c pythreat.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
-  pygoal.h pytable.h pydata.h pyproc.h py4.h pypipe.h pynontrv.h trace.h
+  pygoal.h pytable.h pydata.h pyproc.h py4.h pypipe.h trace.h
 
 pythreat.h:
 
@@ -1622,8 +1622,6 @@ pyproc.h:
 py4.h:
 
 pypipe.h:
-
-pynontrv.h:
 
 trace.h:
 pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pyposit.h pyboard.h \
@@ -1798,8 +1796,8 @@ trace.h:
 platform/maxtime.h:
 pybradd$(OBJ_SUFFIX): pybradd.c pybradd.h boolean.h pystip.h pygoal.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pytable.h \
-  pydirect.h pybrad.h pydata.h pyproc.h py4.h pybrafrk.h pynontrv.h \
-  pyoutput.h trace.h
+  pydirect.h pybrad.h pydata.h pyproc.h py4.h pybrafrk.h pyoutput.h \
+  pymsg.h trace.h
 
 pybradd.h:
 
@@ -1839,9 +1837,9 @@ py4.h:
 
 pybrafrk.h:
 
-pynontrv.h:
-
 pyoutput.h:
+
+pymsg.h:
 
 trace.h:
 pybrah$(OBJ_SUFFIX): pybrah.c pybrah.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \

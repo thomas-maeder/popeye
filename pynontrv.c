@@ -61,28 +61,23 @@ unsigned int max_nr_nontrivial;
 /* Count non-trivial moves of the defending side. Whether a
  * particular move is non-trivial is determined by user input.
  * Stop counting when more than max_nr_nontrivial have been found
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of defender's non-trivial moves
  */
 static
-unsigned int count_nontrivial_defenses(slice_index si,
-                                       unsigned int curr_max_nr_nontrivial)
+unsigned int count_nontrivial_defenses(slice_index si)
 {
   unsigned int result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const parity = slices[si].u.pipe.u.branch.length%2;
-  unsigned int const nr_refutations_allowed = curr_max_nr_nontrivial+1;
+  unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   result = direct_defender_can_defend_in_n(next,
                                            min_length_nontrivial+parity,
-                                           nr_refutations_allowed,
-                                           curr_max_nr_nontrivial);
+                                           nr_refutations_allowed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",result);
@@ -133,8 +128,7 @@ attack_result_type max_nr_nontrivial_guard_root_defend(table refutations,
 
   if (n>min_length_nontrivial)
   {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,max_nr_nontrivial);
+    unsigned int const nr_nontrivial = count_nontrivial_defenses(si);
     if (max_nr_nontrivial+1>=nr_nontrivial)
     {
       ++max_nr_nontrivial;
@@ -158,14 +152,10 @@ attack_result_type max_nr_nontrivial_guard_root_defend(table refutations,
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-max_nr_nontrivial_guard_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    unsigned int curr_max_nr_nontrivial)
+attack_result_type max_nr_nontrivial_guard_defend_in_n(slice_index si,
+                                                       stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   attack_result_type result;
@@ -177,18 +167,20 @@ max_nr_nontrivial_guard_defend_in_n(slice_index si,
 
   if (n>min_length_nontrivial)
   {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,curr_max_nr_nontrivial);
-    if (curr_max_nr_nontrivial+1>=nr_nontrivial)
-      result = direct_defender_defend_in_n(next,
-                                           n,
-                                           curr_max_nr_nontrivial+1
-                                           -nr_nontrivial);
+    unsigned int const nr_nontrivial = count_nontrivial_defenses(si);
+    if (max_nr_nontrivial+1>=nr_nontrivial)
+    {
+      ++max_nr_nontrivial;
+      max_nr_nontrivial -= nr_nontrivial;
+      result = direct_defender_defend_in_n(next,n);
+      max_nr_nontrivial += nr_nontrivial;
+      --max_nr_nontrivial;
+    }
     else
       result = attack_has_reached_deadend;
   }
   else
-    result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(attack_result_type,result,"");
@@ -201,15 +193,11 @@ max_nr_nontrivial_guard_defend_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        unsigned int max_result,
-                                        unsigned int curr_max_nr_nontrivial)
+unsigned int max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
+                                                     stip_length_type n,
+                                                     unsigned int max_result)
 {
   slice_index const next = slices[si].u.pipe.next;
   unsigned int result;
@@ -217,27 +205,24 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   if (n>min_length_nontrivial)
   {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,curr_max_nr_nontrivial);
-    if (curr_max_nr_nontrivial+1>=nr_nontrivial)
-      result = direct_defender_can_defend_in_n(next,
-                                               n,
-                                               max_result,
-                                               curr_max_nr_nontrivial+1
-                                               -nr_nontrivial);
+    unsigned int const nr_nontrivial = count_nontrivial_defenses(si);
+    if (max_nr_nontrivial+1>=nr_nontrivial)
+    {
+      ++max_nr_nontrivial;
+      max_nr_nontrivial -= nr_nontrivial;
+      result = direct_defender_can_defend_in_n(next,n,max_result);
+      max_nr_nontrivial += nr_nontrivial;
+      --max_nr_nontrivial;
+    }
     else
       result = max_result+1;
   }
   else
-    result = direct_defender_can_defend_in_n(next,
-                                             n,
-                                             max_result,
-                                             curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -294,8 +279,7 @@ max_nr_nontrivial_guard_solve_variations_in_n(table threats,
 
   if (n>min_length_nontrivial)
   {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,max_nr_nontrivial);
+    unsigned int const nr_nontrivial = count_nontrivial_defenses(si);
     if (max_nr_nontrivial+1<nr_nontrivial)
       result = false;
     else
@@ -335,8 +319,7 @@ void max_nr_nontrivial_guard_root_solve_variations(table threats,
 
   if (n>min_length_nontrivial)
   {
-    unsigned int const nr_nontrivial =
-        count_nontrivial_defenses(si,max_nr_nontrivial);
+    unsigned int const nr_nontrivial = count_nontrivial_defenses(si);
     if (max_nr_nontrivial+1>=nr_nontrivial)
     {
       ++max_nr_nontrivial;

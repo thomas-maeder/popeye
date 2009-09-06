@@ -45,29 +45,21 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-branch_d_defender_defend_in_n(slice_index si,
-                              stip_length_type n,
-                              unsigned int curr_max_nr_nontrivial);
+attack_result_type branch_d_defender_defend_in_n(slice_index si,
+                                                 stip_length_type n);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-branch_d_defender_can_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  unsigned int max_result,
-                                  unsigned int curr_max_nr_nontrivial);
+unsigned int branch_d_defender_can_defend_in_n(slice_index si,
+                                               stip_length_type n,
+                                               unsigned int max_result);
 
 /* Find solutions in next slice
  * @param si slice index

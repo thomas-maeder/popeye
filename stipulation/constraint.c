@@ -48,14 +48,10 @@ static void init_reflex_guard_slice(slice_index si,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type
-reflex_guard_direct_has_solution_in_n(slice_index si,
-                                      stip_length_type n,
-                                      unsigned int curr_max_nr_nontrivial)
+has_solution_type reflex_guard_direct_has_solution_in_n(slice_index si,
+                                                        stip_length_type n)
 {
   has_solution_type result = has_no_solution;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -63,7 +59,6 @@ reflex_guard_direct_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   switch (slice_has_solution(avoided))
@@ -77,9 +72,7 @@ reflex_guard_direct_has_solution_in_n(slice_index si,
       break;
 
     case has_no_solution:
-      result = direct_has_solution_in_n(slices[si].u.pipe.next,
-                                        n,
-                                        curr_max_nr_nontrivial);
+      result = direct_has_solution_in_n(slices[si].u.pipe.next,n);
       break;
 
     default:
@@ -180,16 +173,13 @@ stip_length_type reflex_guard_direct_solve_threats(table threats,
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean reflex_guard_are_threats_refuted_in_n(table threats,
                                               stip_length_type len_threat,
                                               slice_index si,
-                                              stip_length_type n,
-                                              unsigned int curr_max_nr_nontrivial)
+                                              stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -198,16 +188,11 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(slice_has_solution(slices[si].u.pipe.u.reflex_guard.avoided)
          ==has_no_solution);
-  result = direct_are_threats_refuted_in_n(threats,
-                                           len_threat,
-                                           next,
-                                           n,
-                                           curr_max_nr_nontrivial);
+  result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -269,14 +254,10 @@ attack_result_type reflex_guard_root_defend(table refutations, slice_index si)
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-reflex_guard_defend_in_n(slice_index si,
-                         stip_length_type n,
-                         unsigned int curr_max_nr_nontrivial)
+attack_result_type reflex_guard_defend_in_n(slice_index si,
+                                            stip_length_type n)
 {
   attack_result_type result = attack_has_reached_deadend;
   slice_index const next = slices[si].u.pipe.next;
@@ -290,7 +271,6 @@ reflex_guard_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   if (n<=max_n_for_avoided)
@@ -303,7 +283,7 @@ reflex_guard_defend_in_n(slice_index si,
 
       case has_no_solution:
         if (n>slack_length_direct)
-          result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
+          result = direct_defender_defend_in_n(next,n);
         break;
 
       default:
@@ -311,7 +291,7 @@ reflex_guard_defend_in_n(slice_index si,
         break;
     }
   else
-    result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -324,15 +304,11 @@ reflex_guard_defend_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-reflex_guard_can_defend_in_n(slice_index si,
-                             stip_length_type n,
-                             unsigned int max_result,
-                             unsigned int curr_max_nr_nontrivial)
+unsigned int reflex_guard_can_defend_in_n(slice_index si,
+                                          stip_length_type n,
+                                          unsigned int max_result)
 {
   unsigned int result = max_result+1;
   slice_index const next = slices[si].u.pipe.next;
@@ -346,7 +322,6 @@ reflex_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   if (n<=max_n_for_avoided)
@@ -358,10 +333,7 @@ reflex_guard_can_defend_in_n(slice_index si,
 
       case has_no_solution:
         if (n>slack_length_direct)
-          result = direct_defender_can_defend_in_n(next,
-                                                   n,
-                                                   max_result,
-                                                   curr_max_nr_nontrivial);
+          result = direct_defender_can_defend_in_n(next,n,max_result);
         break;
 
       default:
@@ -369,10 +341,7 @@ reflex_guard_can_defend_in_n(slice_index si,
         break;
     }
   else
-    result = direct_defender_can_defend_in_n(next,
-                                             n,
-                                             max_result,
-                                             curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

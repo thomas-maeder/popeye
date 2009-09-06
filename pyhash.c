@@ -2977,16 +2977,13 @@ stip_length_type direct_hashed_solve_threats(table threats,
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean direct_hashed_are_threats_refuted_in_n(table threats,
                                                stip_length_type len_threat,
                                                slice_index si,
-                                               stip_length_type n,
-                                               unsigned int curr_max_nr_nontrivial)
+                                               stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -2995,14 +2992,9 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
-  result = direct_are_threats_refuted_in_n(threats,
-                                           len_threat,
-                                           next,
-                                           n,
-                                           curr_max_nr_nontrivial);
+  result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3013,14 +3005,10 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type
-direct_hashed_has_solution_in_n(slice_index si,
-                                stip_length_type n,
-                                unsigned int curr_max_nr_nontrivial)
+has_solution_type direct_hashed_has_solution_in_n(slice_index si,
+                                                  stip_length_type n)
 {
   has_solution_type result = has_no_solution;
   slice_index const next = slices[si].u.pipe.next;
@@ -3028,7 +3016,6 @@ direct_hashed_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
@@ -3047,7 +3034,7 @@ direct_hashed_has_solution_in_n(slice_index si,
   }
   else
   {
-    result = direct_has_solution_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_has_solution_in_n(next,n);
     if (result==has_solution)
       addtohash(si,DirSucc,n/2-1);
     else

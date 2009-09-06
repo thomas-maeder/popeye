@@ -100,16 +100,13 @@ void selfcheck_guard_root_solve_variations(table threats,
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
                                                  stip_length_type len_threat,
                                                  slice_index si,
-                                                 stip_length_type n,
-                                                 unsigned int curr_max_nr_nontrivial);
+                                                 stip_length_type n);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
@@ -141,41 +138,29 @@ stip_length_type selfcheck_guard_direct_solve_threats(table threats,
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-selfcheck_guard_defend_in_n(slice_index si,
-                            stip_length_type n,
-                            unsigned int curr_max_nr_nontrivial);
+attack_result_type selfcheck_guard_defend_in_n(slice_index si,
+                                               stip_length_type n);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-selfcheck_guard_can_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                unsigned int max_result,
-                                unsigned int curr_max_nr_nontrivial);
+unsigned int selfcheck_guard_can_defend_in_n(slice_index si,
+                                             stip_length_type n,
+                                             unsigned int max_result);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type
-selfcheck_guard_direct_has_solution_in_n(slice_index si,
-                                         stip_length_type n,
-                                         unsigned int curr_max_nr_nontrivial);
+has_solution_type selfcheck_guard_direct_has_solution_in_n(slice_index si,
+                                                           stip_length_type n);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

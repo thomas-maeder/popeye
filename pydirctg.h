@@ -21,28 +21,21 @@ slice_index direct_attack_root_reduce_to_postkey_play(slice_index si);
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean direct_defense_are_threats_refuted_in_n(table threats,
                                                 stip_length_type len_threat,
                                                 slice_index si,
-                                                stip_length_type n,
-                                                unsigned int curr_max_nr_nontrivial);
+                                                stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type
-direct_defense_direct_has_solution_in_n(slice_index si,
-                                        stip_length_type n,
-                                        unsigned int curr_max_nr_nontrivial);
+has_solution_type direct_defense_direct_has_solution_in_n(slice_index si,
+                                                          stip_length_type n);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
@@ -74,29 +67,21 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-direct_attack_defend_in_n(slice_index si,
-                          stip_length_type n,
-                          unsigned int curr_max_nr_nontrivial);
+attack_result_type direct_attack_defend_in_n(slice_index si,
+                                             stip_length_type n);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-direct_attack_can_defend_in_n(slice_index si,
-                              stip_length_type n,
-                              unsigned int max_result,
-                              unsigned int curr_max_nr_nontrivial);
+unsigned int direct_attack_can_defend_in_n(slice_index si,
+                                           stip_length_type n,
+                                           unsigned int max_result);
 
 /* Solve a slice
  * @param si slice index

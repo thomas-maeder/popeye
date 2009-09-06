@@ -52,8 +52,6 @@ boolean quodlibet_solve_postkey(slice_index si);
  * @param threats table containing the threats
  * @param si slice index
  * @param n number of moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */

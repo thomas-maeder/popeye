@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pydirect.h"
-#include "pynontrv.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -61,13 +60,9 @@ stip_length_type get_max_threat_length(void)
  * is too long respective to user input.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff threat is too long
  */
-static boolean is_threat_too_long(slice_index si,
-                                  stip_length_type n,
-                                  unsigned int curr_max_nr_nontrivial)
+static boolean is_threat_too_long(slice_index si, stip_length_type n)
 {
   slice_index const
       to_attacker = slices[si].u.pipe.u.maxthreatlength_guard.to_attacker;
@@ -82,9 +77,7 @@ static boolean is_threat_too_long(slice_index si,
 
   TraceValue("%u\n",2*max_len_threat);
   if (n-1>=2*max_len_threat+slack_length_direct)
-    result = (direct_has_solution_in_n(to_attacker,
-                                       2*max_len_threat,
-                                       curr_max_nr_nontrivial)
+    result = (direct_has_solution_in_n(to_attacker,2*max_len_threat)
               ==has_no_solution);
   else
     /* remainder of play is too short for max_len_threat to apply */
@@ -138,7 +131,7 @@ attack_result_type maxthreatlength_guard_root_defend(table refutations,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_threat_too_long(si,n,max_nr_nontrivial))
+  if (is_threat_too_long(si,n))
     result = attack_has_reached_deadend;
   else
     result = direct_defender_root_defend(refutations,next);
@@ -152,14 +145,10 @@ attack_result_type maxthreatlength_guard_root_defend(table refutations,
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-maxthreatlength_guard_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  unsigned int curr_max_nr_nontrivial)
+attack_result_type maxthreatlength_guard_defend_in_n(slice_index si,
+                                                     stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   boolean result;
@@ -169,10 +158,10 @@ maxthreatlength_guard_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_threat_too_long(si,n,max_nr_nontrivial))
+  if (is_threat_too_long(si,n))
     result = attack_has_reached_deadend;
   else
-    result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(attack_result_type,result,"");
@@ -185,15 +174,11 @@ maxthreatlength_guard_defend_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-maxthreatlength_guard_can_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      unsigned int max_result,
-                                      unsigned int curr_max_nr_nontrivial)
+unsigned int maxthreatlength_guard_can_defend_in_n(slice_index si,
+                                                   stip_length_type n,
+                                                   unsigned int max_result)
 {
   slice_index const next = slices[si].u.pipe.next;
   unsigned int result;
@@ -201,16 +186,12 @@ maxthreatlength_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
-  if (is_threat_too_long(si,n,max_nr_nontrivial))
+  if (is_threat_too_long(si,n))
     result = max_result+1;
   else
-    result = direct_defender_can_defend_in_n(next,
-                                             n,
-                                             max_result,
-                                             curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -37,14 +37,10 @@ static void init_keepmating_guard_slice(slice_index si, Side mating)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type
-keepmating_guard_direct_has_solution_in_n(slice_index si,
-                                          stip_length_type n,
-                                          unsigned int curr_max_nr_nontrivial)
+has_solution_type keepmating_guard_direct_has_solution_in_n(slice_index si,
+                                                            stip_length_type n)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   has_solution_type result;
@@ -56,9 +52,7 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_has_solution_in_n(slices[si].u.pipe.next,
-                                      n,
-                                      curr_max_nr_nontrivial);
+    result = direct_has_solution_in_n(slices[si].u.pipe.next,n);
   else
     result = has_no_solution;
 
@@ -73,16 +67,13 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of moves until goal
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return true iff the defense defends against at least one of the
  *         threats
  */
 boolean keepmating_guard_are_threats_refuted_in_n(table threats,
                                                   stip_length_type len_threat,
                                                   slice_index si,
-                                                  stip_length_type n,
-                                                  unsigned int curr_max_nr_nontrivial)
+                                                  stip_length_type n)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   boolean result;
@@ -91,17 +82,14 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_are_threats_refuted_in_n(threats,
-                                             len_threat,
+    result = direct_are_threats_refuted_in_n(threats,len_threat,
                                              slices[si].u.pipe.next,
-                                             n,
-                                             curr_max_nr_nontrivial);
+                                             n);
   else
     result = true;
 
@@ -211,14 +199,10 @@ attack_result_type keepmating_guard_root_defend(table refutations,
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-keepmating_guard_defend_in_n(slice_index si,
-                             stip_length_type n,
-                             unsigned int curr_max_nr_nontrivial)
+attack_result_type keepmating_guard_defend_in_n(slice_index si,
+                                                stip_length_type n)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -231,7 +215,7 @@ keepmating_guard_defend_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_defend_in_n(next,n);
   else
     result = attack_has_reached_deadend;
 
@@ -246,15 +230,11 @@ keepmating_guard_defend_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-keepmating_guard_can_defend_in_n(slice_index si,
-                                 stip_length_type n,
-                                 unsigned int max_result,
-                                 unsigned int curr_max_nr_nontrivial)
+unsigned int keepmating_guard_can_defend_in_n(slice_index si,
+                                              stip_length_type n,
+                                              unsigned int max_result)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -267,10 +247,7 @@ keepmating_guard_can_defend_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_can_defend_in_n(next,
-                                             n,
-                                             max_result,
-                                             curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,n,max_result);
   else
     result = max_result+1;
 

@@ -150,14 +150,10 @@ attack_result_type maxflight_guard_root_defend(table refutations, slice_index si
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return success of key move
  */
-attack_result_type
-maxflight_guard_defend_in_n(slice_index si,
-                            stip_length_type n,
-                            unsigned int curr_max_nr_nontrivial)
+attack_result_type maxflight_guard_defend_in_n(slice_index si,
+                                               stip_length_type n)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -173,7 +169,7 @@ maxflight_guard_defend_in_n(slice_index si,
   if (n>slack_length_direct+2 && has_too_many_flights(defender))
     result = attack_has_reached_deadend;
   else
-    result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
+    result = direct_defender_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(attack_result_type,result,"");
@@ -186,15 +182,11 @@ maxflight_guard_defend_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_result how many refutations should we look for
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int
-maxflight_guard_can_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                unsigned int max_result,
-                                unsigned int curr_max_nr_nontrivial)
+unsigned int maxflight_guard_can_defend_in_n(slice_index si,
+                                             stip_length_type n,
+                                             unsigned int max_result)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -203,16 +195,12 @@ maxflight_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
   if (n>slack_length_direct+2 && has_too_many_flights(defender))
     result = max_result+1;
   else
-    result = direct_defender_can_defend_in_n(next,
-                                             n,
-                                             max_result,
-                                             curr_max_nr_nontrivial);
+    result = direct_defender_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
