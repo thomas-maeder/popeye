@@ -835,6 +835,27 @@ static void make_successor_direct_attack(slice_index successor,
   TraceFunctionResultEnd();
 }
 
+static void make_successor_direct_defense(slice_index successor,
+                                          slice_index towards_goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",successor);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParamListEnd();
+
+  if (slices[successor].type==STDirectDefense)
+    /* already done*/ ;
+  else
+  {
+    slices[successor].u.pipe.next = copy_slice(successor);
+    slices[successor].type = STDirectDefense;
+    slices[successor].u.pipe.u.branch.towards_goal = towards_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean transform_to_quodlibet_direct_root(slice_index si,
                                                   slice_traversal *st)
 {
@@ -872,9 +893,41 @@ static boolean transform_to_quodlibet_branch_direct(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  slice_traverse_children(si,st);
+
   assert(*new_to_goal!=no_slice);
   make_successor_direct_attack(next,*new_to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
+                                                             slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index successor = slices[si].u.pipe.next;
+  slice_index const * const new_to_goal = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   slice_traverse_children(si,st);
+
+  assert(*new_to_goal!=no_slice);
+
+  /* If we are instrumenting a s#N, append a STDirectDefense slice
+   * after each STSelfDefense.
+   * Otherwise (i.e. if we are instrumenting a semi-r#n), insert the
+   * STDirectDefense slice directly after each STBranchDirectDefender
+   * slice.
+   */
+  if (slices[successor].type==STSelfDefense)
+    successor = slices[successor].u.pipe.next;
+  make_successor_direct_defense(successor,*new_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -903,39 +956,39 @@ static boolean transform_to_quodlibet_branch_fork(slice_index si,
 
 static slice_operation const to_quodlibet_transformers[] =
 {
-  &transform_to_quodlibet_branch_direct, /* STBranchDirect */
-  &slice_traverse_children,              /* STBranchDirectDefender */
-  0,                                     /* STBranchHelp */
-  &slice_traverse_children,              /* STBranchSeries */
-  &transform_to_quodlibet_branch_fork,   /* STBranchFork */
-  &slice_operation_noop,                 /* STLeafDirect */
-  &slice_operation_noop,                 /* STLeafHelp */
-  &slice_operation_noop,                 /* STLeafForced */
-  &slice_traverse_children,              /* STReciprocal */
-  &slice_traverse_children,              /* STQuodlibet */
-  0,                                     /* STNot */
-  0,                                     /* STMoveInverter */
-  &transform_to_quodlibet_direct_root,   /* STDirectRoot */
-  &slice_traverse_children,              /* STDirectDefenderRoot */
-  0,                                     /* STDirectHashed */
-  0,                                     /* STHelpRoot */
-  0,                                     /* STHelpAdapter */
-  0,                                     /* STHelpHashed */
-  0,                                     /* STSeriesRoot */
-  &slice_traverse_children,              /* STSeriesAdapter */
-  0,                                     /* STSeriesHashed */
-  0,                                     /* STSelfCheckGuard */
-  &slice_traverse_children,              /* STDirectAttack */
-  &slice_traverse_children,              /* STDirectDefense */
-  &transform_to_quodlibet_branch_fork,   /* STReflexGuard */
-  &slice_traverse_children,              /* STSelfAttack */
-  &slice_traverse_children,              /* STSelfDefense */
-  0,                                     /* STRestartGuard */
-  0,                                     /* STGoalReachableGuard */
-  0,                                     /* STKeepMatingGuard */
-  0,                                     /* STMaxFlightsquares */
-  0,                                     /* STMaxNrNonTrivial */
-  0                                      /* STMaxThreatLength */
+  &transform_to_quodlibet_branch_direct,          /* STBranchDirect */
+  &transform_to_quodlibet_branch_direct_defender, /* STBranchDirectDefender */
+  0,                                              /* STBranchHelp */
+  &slice_traverse_children,                       /* STBranchSeries */
+  &transform_to_quodlibet_branch_fork,            /* STBranchFork */
+  &slice_operation_noop,                          /* STLeafDirect */
+  &slice_operation_noop,                          /* STLeafHelp */
+  &slice_operation_noop,                          /* STLeafForced */
+  &slice_traverse_children,                       /* STReciprocal */
+  &slice_traverse_children,                       /* STQuodlibet */
+  0,                                              /* STNot */
+  0,                                              /* STMoveInverter */
+  &transform_to_quodlibet_direct_root,            /* STDirectRoot */
+  &transform_to_quodlibet_branch_direct_defender, /* STDirectDefenderRoot */
+  0,                                              /* STDirectHashed */
+  0,                                              /* STHelpRoot */
+  0,                                              /* STHelpAdapter */
+  0,                                              /* STHelpHashed */
+  0,                                              /* STSeriesRoot */
+  &slice_traverse_children,                       /* STSeriesAdapter */
+  0,                                              /* STSeriesHashed */
+  0,                                              /* STSelfCheckGuard */
+  &slice_traverse_children,                       /* STDirectAttack */
+  &slice_traverse_children,                       /* STDirectDefense */
+  &transform_to_quodlibet_branch_fork,            /* STReflexGuard */
+  &slice_traverse_children,                       /* STSelfAttack */
+  &slice_traverse_children,                       /* STSelfDefense */
+  0,                                              /* STRestartGuard */
+  0,                                              /* STGoalReachableGuard */
+  0,                                              /* STKeepMatingGuard */
+  0,                                              /* STMaxFlightsquares */
+  0,                                              /* STMaxNrNonTrivial */
+  0                                               /* STMaxThreatLength */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",

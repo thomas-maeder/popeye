@@ -380,12 +380,7 @@ void output_end_threat_level(void)
   if (current_mode==output_mode_tree)
   {
     if (nr_continuations_written[move_depth]==0)
-    {
-      if (nr_continuations_written[move_depth-1]==0)
-        Message(NewLine);
-      Message(Zugzwang);
       ++nr_continuations_written[move_depth];
-    }
   
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
@@ -611,11 +606,7 @@ static void write_numbered_indented_attack(ply current_ply,
 
   if (output_attack_types[current_ply]==threat_attack
       && nr_continuations_written[move_depth]==0)
-  {
-    if (nr_continuations_written[move_depth-1]==0)
-      Message(NewLine);
     Message(Threat);
-  }
 
   Message(NewLine);
 

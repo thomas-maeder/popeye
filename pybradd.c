@@ -6,6 +6,7 @@
 #include "pybrafrk.h"
 #include "pynontrv.h"
 #include "pyoutput.h"
+#include "pymsg.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -225,43 +226,26 @@ static boolean is_defense_relevant(table threats,
  */
 static boolean write_variation(slice_index si, stip_length_type n)
 {
-  boolean is_refutation = true; /* until we prove otherwise */
-  stip_length_type i;
+  boolean result;
   slice_index const next = slices[si].u.pipe.next;
   table const continuations = allocate_table();
-
-  stip_length_type const length_span = (slices[si].u.pipe.u.branch.length
-                                        -slices[si].u.pipe.u.branch.min_length);
-
-  stip_length_type const i_min = (n<=slack_length_direct+length_span
-                                  ? (slack_length_direct+2
-                                     -(n-slack_length_direct)%2)
-                                  : n-length_span);
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
   write_defense();
 
   output_start_continuation_level();
-
-  for (i = i_min; i<=n && is_refutation; i += 2)
-  {
-    direct_solve_continuations_in_n(continuations,next,i-1);
-    is_refutation = table_length(continuations)==0;
-  }
-
+  result = direct_solve_continuations_in_n(continuations,next,n-1)<=n-1;
   output_end_continuation_level();
 
   free_table();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",!is_refutation);
-  return !is_refutation;
+  TraceFunctionResult("%u\n",result);
+  return result;
 }
 
 /* Solve variations after an attacker's move
@@ -366,6 +350,7 @@ stip_length_type branch_d_defender_solve_threats(table threats,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(n%2!=slices[si].u.pipe.u.branch.length%2);
@@ -440,9 +425,16 @@ static boolean solve_postkey_in_n(slice_index si, stip_length_type n)
 
   output_start_postkey_level();
 
-  len_threat = (OptFlag[nothreat]
-                ? n+1
-                : branch_d_defender_solve_threats(threats,si,n-1));
+  if (OptFlag[nothreat])
+    len_threat = n+1;
+  else
+  {
+    Message(NewLine);
+    len_threat = branch_d_defender_solve_threats(threats,si,n-1);
+    if (len_threat==n+1)
+      Message(Zugzwang);
+  }
+
   result = branch_d_defender_solve_variations_in_n(threats,len_threat,si,n);
 
   output_end_postkey_level();
@@ -469,6 +461,7 @@ boolean branch_d_defender_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   init_output(si);
+
   if (solve_postkey_in_n(si,length))
   {
     write_end_of_solution();

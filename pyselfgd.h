@@ -74,10 +74,13 @@ boolean self_defense_are_threats_refuted_in_n(table threats,
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @return number of half moves effectively used
+ *         n+2 if no continuation was found
  */
-void self_defense_direct_solve_continuations_in_n(table continuations,
-                                                  slice_index si,
-                                                  stip_length_type n);
+stip_length_type
+self_defense_direct_solve_continuations_in_n(table continuations,
+                                             slice_index si,
+                                             stip_length_type n);
 
 /* Determine and write the threats after the move that has just been
  * played.

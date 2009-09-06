@@ -167,13 +167,19 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @return number of half moves effectively used
+ *         n+2 if no continuation was found
  */
-void direct_defense_direct_solve_continuations_in_n(table continuations,
-                                                    slice_index si,
-                                                    stip_length_type n)
+stip_length_type
+direct_defense_direct_solve_continuations_in_n(table continuations,
+                                               slice_index si,
+                                               stip_length_type n)
 {
+  stip_length_type result = n+2;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const n_max_for_goal = length-min_length+slack_length_direct;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -182,14 +188,22 @@ void direct_defense_direct_solve_continuations_in_n(table continuations,
 
   assert(n>=slack_length_direct);
 
-  if (n==slack_length_direct)
+  if (n<n_max_for_goal+2)
+  {
+    slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
     slice_solve_continuations(continuations,togoal);
-
-  if (n>slack_length_direct)
-    direct_solve_continuations_in_n(continuations,next,n);
+    if (table_length(continuations)>0)
+      result = slack_length_direct;
+    else if (n>slack_length_direct)
+      result = direct_solve_continuations_in_n(continuations,next,n);
+  }
+  else if (n>slack_length_direct)
+    result = direct_solve_continuations_in_n(continuations,next,n);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write the threats after the move that has just been
@@ -206,7 +220,11 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
                                                      slice_index si,
                                                      stip_length_type n)
 {
-  stip_length_type result;
+  stip_length_type result = n+2;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const n_max_for_goal = length-min_length+slack_length_direct;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -215,7 +233,7 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
 
   assert(n>=slack_length_direct);
   
-  if (n==slack_length_direct)
+  if (n<n_max_for_goal+2)
   {
     slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
     output_start_threat_level();
@@ -223,14 +241,11 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
     output_end_threat_level();
     if (table_length(threats)>0)
       result = slack_length_direct;
-    else
-      result = slack_length_direct+2;
+    else if (n>slack_length_direct)
+      result = direct_solve_threats(threats,next,n);
   }
   else
-  {
-    slice_index const next = slices[si].u.pipe.next;
     result = direct_solve_threats(threats,next,n);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -254,10 +269,6 @@ direct_attack_defend_in_n(slice_index si,
                           unsigned int curr_max_nr_nontrivial)
 {
   attack_result_type result = attack_has_reached_deadend;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const n_max_for_goal = length-min_length+slack_length_direct;
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -266,16 +277,13 @@ direct_attack_defend_in_n(slice_index si,
   TraceFunctionParam("%d",curr_max_nr_nontrivial);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",n_max_for_goal);
-
-  if (n<=n_max_for_goal && slice_has_starter_reached_goal(togoal))
-  {
-    result = attack_has_solved_next_branch;
-    slice_root_write_key(togoal,attack_regular);
-    slice_solve_postkey(togoal);
-  }
-  else if (n>=slack_length_direct)
-    result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
+  /* No need to check whether we have found a short end; they have
+   * already been dealt with by
+   * direct_defense_direct_solve_continuations_in_n() before the
+   * attempted key move was attempted.
+   */
+  
+  result = direct_defender_defend_in_n(next,n,curr_max_nr_nontrivial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -522,9 +522,15 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
 
   output_start_postkey_level();
 
-  len_threat = (OptFlag[nothreat]
-                ? n
-                : direct_defender_solve_threats(threats,next,n-2));
+  if (OptFlag[nothreat])
+    len_threat = n;
+  else
+  {
+    len_threat = direct_defender_solve_threats(threats,next,n-2);
+    if (len_threat==n)
+      Message(Zugzwang);
+  }
+
   direct_defender_solve_variations_in_n(threats,len_threat,next,n-1);
 
   output_end_postkey_level();
@@ -535,20 +541,24 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-/* Determine and write the continuations in the current position
- * (i.e. attacker's moves winning after a defender's move that refuted
- * the threat).
- * @param attacker attacking side
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si slice index
- * @param n maximum number of half moves until goal
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @return number of half moves effectively used
+ *         n+2 if no continuation was found
  */
-void branch_d_solve_continuations_in_n(table continuations,
-                                       slice_index si,
-                                       stip_length_type n)
+stip_length_type branch_d_solve_continuations_in_n(table continuations,
+                                                   slice_index si,
+                                                   stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const parity = (length-slack_length_direct)%2;
+  stip_length_type result = slack_length_direct+2-parity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -557,37 +567,51 @@ void branch_d_solve_continuations_in_n(table continuations,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
+  if (n+min_length>result+length)
+    result = n-(length-min_length);
+
   active_slice[nbply+1] = si;
-  genmove(attacker);
 
-  while (encore())
+  while (result<=n)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_defender_defend_in_n(next,n-1,max_nr_nontrivial))
-      {
-        case attack_has_solved_next_branch:
-          append_to_top_table();
-          coupfort();
-          break;
+    genmove(attacker);
 
-        case attack_solves_full_length:
-          write_attack(attack_regular);
-          solve_postkey_in_n(si,n);
-          append_to_top_table();
-          coupfort();
-          break;
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+        switch (direct_defender_defend_in_n(next,result-1,max_nr_nontrivial))
+        {
+          case attack_has_solved_next_branch:
+            append_to_top_table();
+            coupfort();
+            break;
 
-        default:
-          break;
-      }
+          case attack_solves_full_length:
+            write_attack(attack_regular);
+            solve_postkey_in_n(si,result);
+            append_to_top_table();
+            coupfort();
+            break;
 
-    repcoup();
+          default:
+            break;
+        }
+
+      repcoup();
+    }
+
+    finply();
+
+    if (table_length(continuations)>0)
+      break;
+    else
+      result += 2;
   }
 
-  finply();
-
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write the threats after the move that has just been
@@ -601,11 +625,10 @@ void branch_d_solve_continuations_in_n(table continuations,
  *         n+2 if there is no threat
  */
 stip_length_type branch_d_solve_threats(table threats,
-                                             slice_index si,
-                                             stip_length_type n)
+                                        slice_index si,
+                                        stip_length_type n)
 {
-  unsigned int const parity = (n-slack_length_direct)%2;
-  stip_length_type result = slack_length_direct+parity;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -613,16 +636,7 @@ stip_length_type branch_d_solve_threats(table threats,
   TraceFunctionParamListEnd();
 
   output_start_threat_level();
-
-  while (result<=n)
-  {
-    branch_d_solve_continuations_in_n(threats,si,result);
-    if (table_length(threats)>0)
-      break;
-    else
-      result += 2;
-  }
-
+  result = branch_d_solve_continuations_in_n(threats,si,n);
   output_end_threat_level();
 
   TraceFunctionExit(__func__);
@@ -738,32 +752,24 @@ void branch_d_root_write_key(slice_index si, attack_type type)
  */
 boolean branch_d_solve(slice_index si)
 {
-  boolean result = false;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
-  stip_length_type i;
   table const continuations = allocate_table();
-  stip_length_type const min_len = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type length_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   output_start_continuation_level();
-  
-  for (i = min_len; i<=n && !result; i += 2)
-  {
-    direct_solve_continuations_in_n(continuations,si,i);
-    result = table_length(continuations)>0;
-  }
-
+  length_needed = branch_d_solve_continuations_in_n(continuations,si,length);
   output_end_continuation_level();
 
   free_table();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",length_needed<=length);
   TraceFunctionResultEnd();
-  return result;
+  return length_needed<=length;
 }
 
 /* Detect starter field with the starting side if possible. 
@@ -806,10 +812,17 @@ static void root_write_postkey(slice_index si, table refutations)
     slice_index const next = slices[si].u.pipe.next;
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
     table const threats = allocate_table();
-    stip_length_type const len_threat =
-        (OptFlag[nothreat]
-         ? length
-         : direct_defender_solve_threats(threats,next,length-2));
+    stip_length_type len_threat;
+
+    if (OptFlag[nothreat])
+      len_threat = length;
+    else
+    {
+      len_threat = direct_defender_solve_threats(threats,next,length-2);
+      if (len_threat==length)
+        Message(Zugzwang);
+    }
+
     direct_defender_root_solve_variations(threats,len_threat,
                                           refutations,
                                           next);

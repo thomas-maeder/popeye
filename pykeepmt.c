@@ -116,20 +116,28 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
  * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @return number of half moves effectively used
+ *         n+2 if no continuation was found
  */
-void keepmating_guard_direct_solve_continuations_in_n(table continuations,
-                                                      slice_index si,
-                                                      stip_length_type n)
+stip_length_type
+keepmating_guard_direct_solve_continuations_in_n(table continuations,
+                                                 slice_index si,
+                                                 stip_length_type n)
 {
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  direct_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
+  result = direct_solve_continuations_in_n(continuations,next,n);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write the threats after the move that has just been

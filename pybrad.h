@@ -67,16 +67,17 @@ has_solution_type branch_d_has_solution_in_n(slice_index si,
  */
 has_solution_type branch_d_has_solution(slice_index si);
 
-/* Determine and write the continuations in the current position
- * (i.e. attacker's moves winning after a defender's move that refuted
- * the threat).
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si slice index
- * @param n maximum maximal number of moves
+/* Determine and write solution(s): add first moves to table (as
+ * threats for the parent slice. First consult hash table.
+ * @param continuations table where to add first moves
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @return number of half moves effectively used
+ *         n+2 if no continuation was found
  */
-void branch_d_solve_continuations_in_n(table continuations,
-                                       slice_index si,
-                                       stip_length_type n);
+stip_length_type branch_d_solve_continuations_in_n(table continuations,
+                                                   slice_index si,
+                                                   stip_length_type n);
 
 /* Determine and write the threats after the move that has just been
  * played.
