@@ -98,29 +98,20 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
   return result;
 }
 
-/* TODO is this equivalent to has_solution_type? */
-typedef enum
-{
-  defender_is_immobile,
-  defender_has_refutation,
-  defender_has_no_refutation
-} defender_has_refutation_type;
-
-/* Determine whether the defender has a refutation (including being
- * immobile) 
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n maximum number of half moves until end state has to be reached
  * @param curr_max_nr_nontrivial remaining maximum number of
  *                               allowed non-trivial variations
- * @return information about defender's possibilities
+ * @return success of key move
  */
-static defender_has_refutation_type
-has_defender_refutation(slice_index si,
-                        stip_length_type n,
-                        unsigned int curr_max_nr_nontrivial)
+attack_result_type
+branch_d_defender_defend_in_n(slice_index si,
+                              stip_length_type n,
+                              unsigned int curr_max_nr_nontrivial)
 {
   Side const defender = slices[si].starter;
-  defender_has_refutation_type result = defender_is_immobile;
+  attack_result_type result = attack_has_reached_deadend;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -138,7 +129,7 @@ has_defender_refutation(slice_index si,
   genmove(defender);
   move_generation_mode= move_generation_optimized_by_killer_move;
 
-  while (result!=defender_has_refutation && encore())
+  while (result!=attack_refuted_full_length && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
       switch (direct_has_solution_in_n(next,n-1,curr_max_nr_nontrivial))
@@ -148,12 +139,12 @@ has_defender_refutation(slice_index si,
           break;
 
         case has_no_solution:
-          result = defender_has_refutation;
+          result = attack_refuted_full_length;
           coupfort();
           break;
 
         case has_solution:
-          result = defender_has_no_refutation;
+          result = attack_solves_full_length;
           break;
 
         default:
@@ -167,7 +158,7 @@ has_defender_refutation(slice_index si,
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -362,51 +353,6 @@ boolean branch_d_defender_solve_variations_in_n(table threats,
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param curr_max_nr_nontrivial remaining maximum number of
- *                               allowed non-trivial variations
- * @return success of key move
- */
-attack_result_type
-branch_d_defender_defend_in_n(slice_index si,
-                              stip_length_type n,
-                              unsigned int curr_max_nr_nontrivial)
-{
-  attack_result_type result = attack_has_reached_deadend;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  switch (has_defender_refutation(si,n,curr_max_nr_nontrivial))
-  {
-    case defender_has_no_refutation:
-      result = attack_solves_full_length;
-      break;
-
-    case defender_has_refutation:
-      result = attack_refuted_full_length;
-      break;
-
-    case defender_is_immobile:
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a defense after an attempted key move at
  * non-root level 
  * @param si slice index
@@ -428,8 +374,8 @@ boolean branch_d_defender_can_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  result = (has_defender_refutation(si,n,curr_max_nr_nontrivial)
-            !=defender_has_no_refutation);
+  result = (branch_d_defender_defend_in_n(si,n,curr_max_nr_nontrivial)
+            !=attack_solves_full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
