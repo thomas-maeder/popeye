@@ -96,7 +96,7 @@ has_solution_type direct_defense_direct_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_direct);
 
-  if (n<=n_max_for_goal)
+  if (n<n_max_for_goal+2)
   {
     result = slice_has_solution(togoal);
     /* somebody else should have dealt with this already: */
@@ -136,9 +136,9 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_direct);
+  assert(len_threat>=slack_length_direct);
 
-  if (n==slack_length_direct)
+  if (len_threat==slack_length_direct)
     result = slice_are_threats_refuted(threats,togoal);
   else
     result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
@@ -251,7 +251,7 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
 attack_result_type direct_attack_defend_in_n(slice_index si,
                                              stip_length_type n)
 {
-  attack_result_type result = attack_has_reached_deadend;
+  attack_result_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -260,9 +260,8 @@ attack_result_type direct_attack_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   /* No need to check whether we have found a short end; they have
-   * already been dealt with by
-   * direct_defense_direct_solve_continuations_in_n() before the
-   * attempted key move was attempted.
+   * already been dealt with by direct_defense_*() functions before
+   * the attempted key move was attempted.
    */
   
   result = direct_defender_defend_in_n(next,n);
@@ -284,11 +283,7 @@ unsigned int direct_attack_can_defend_in_n(slice_index si,
                                            stip_length_type n,
                                            unsigned int max_result)
 {
-  unsigned int result = max_result+1;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const n_max_for_goal = length-min_length+slack_length_direct;
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
+  unsigned int result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -296,12 +291,15 @@ unsigned int direct_attack_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",n_max_for_goal);
+  /* No need to check whether we have found a short end; they have
+   * already been dealt with by direct_defense_*() functions before
+   * the attempted key move was attempted.
+   */
 
-  if (n<=n_max_for_goal && slice_has_starter_reached_goal(togoal))
-    result = 0;
-  else if (n>=slack_length_direct)
+  if (n>=slack_length_direct)
     result = direct_defender_can_defend_in_n(next,n,max_result);
+  else
+    result = max_result+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

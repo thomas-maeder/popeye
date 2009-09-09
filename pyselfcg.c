@@ -80,7 +80,7 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = false;
-  else if (n>=slack_length_direct)
+  else if (slack_length_direct<=len_threat && len_threat<=n)
     result = direct_are_threats_refuted_in_n(threats,len_threat,
                                              slices[si].u.pipe.next,
                                              n);

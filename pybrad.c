@@ -401,9 +401,10 @@ static boolean have_we_solution_in_n_short(slice_index si, stip_length_type n)
 
   stip_length_type i;
   stip_length_type n_max = n-2;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type n_min = min_length;
   stip_length_type const parity = n%2;
+  stip_length_type n_min;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -412,9 +413,11 @@ static boolean have_we_solution_in_n_short(slice_index si, stip_length_type n)
 
   assert(slices[si].u.pipe.u.branch.length%2 == parity);
 
-  if (n_min<=slack_length_direct)
-    n_min += 2;
-
+  if (n+min_length>slack_length_direct+length)
+    n_min = n-(length-min_length);
+  else
+    n_min = slack_length_direct+2-parity;
+  
   if (n_max>=min_length_nontrivial)
     n_max = min_length_nontrivial-parity;
 
@@ -442,7 +445,8 @@ static boolean have_we_solution_in_n_short(slice_index si, stip_length_type n)
  * @param n maximum number of half moves until goal
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type branch_d_has_solution_in_n(slice_index si, stip_length_type n)
+has_solution_type branch_d_has_solution_in_n(slice_index si,
+                                             stip_length_type n)
 {
   has_solution_type result;
 
