@@ -409,6 +409,7 @@ static slice_operation const slice_to_fork_deallocators[] =
   0,                                    /* STGoalReachableGuard */
   &traverse_and_deallocate,             /* STKeepMatingGuard */
   &traverse_and_deallocate,             /* STMaxFlightsquares */
+  &traverse_and_deallocate,             /* STDegenerateTree */
   &traverse_and_deallocate,             /* STMaxNrNonTrivial */
   &traverse_and_deallocate              /* STMaxThreatLength */
 };

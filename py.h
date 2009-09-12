@@ -594,8 +594,9 @@ typedef enum
   writegrid,       /* 31 */
   lastcapture,     /* 32 */
   mutuallyexclusivecastling, /* 33 */
+  degeneratetree,  /* 34 */
 
-  OptCount        /* 33 */       
+  OptCount         /* 35 */       
 } Opt;
 
 /* Names for conditions */

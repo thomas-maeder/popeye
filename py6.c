@@ -521,6 +521,7 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STGoalReachableGuard */
   0,                                  /* STKeepMatingGuard */
   0,                                  /* STMaxFlightsquares */
+  0,                                  /* STDegenerateTree */
   0,                                  /* STMaxNrNonTrivial */
   0                                   /* STMaxThreatLength */
 };
@@ -2525,6 +2526,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STGoalReachableGuard */
   &slice_traverse_children,           /* STKeepMatingGuard */
   &slice_traverse_children,           /* STMaxFlightsquares */
+  &slice_traverse_children,           /* STDegenerateTree */
   &slice_traverse_children,           /* STMaxNrNonTrivial */
   &slice_traverse_children            /* STMaxThreatLength */
 };
@@ -2770,6 +2772,9 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[solmenaces])
         stip_insert_maxthreatlength_guards();
+
+      if (OptFlag[degeneratetree])
+        stip_insert_degenerate_tree_guards();
 
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->

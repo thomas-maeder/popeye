@@ -7,7 +7,6 @@
 #include "pyproc.h"
 #include "pymsg.h"
 #include "pyhash.h"
-#include "pynontrv.h"
 #include "pyoutput.h"
 #include "pyslice.h"
 #include "pytable.h"
@@ -437,7 +436,6 @@ has_solution_type branch_d_has_solution_in_n(slice_index si,
 {
   has_solution_type result;
   stip_length_type n_short_max = n-2;
-  stip_length_type const parity = n%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -448,9 +446,6 @@ has_solution_type branch_d_has_solution_in_n(slice_index si,
 
   if (n_min<=slack_length_direct)
     n_min += 2;
-
-  if (n_short_max>=min_length_nontrivial)
-    n_short_max = min_length_nontrivial-parity;
 
   if (have_we_solution_in_n_short(si,n_min,n_short_max))
     result = has_solution;

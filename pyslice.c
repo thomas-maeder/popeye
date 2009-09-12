@@ -407,6 +407,10 @@ boolean slice_solve(slice_index si)
       solution_found = reflex_guard_solve(si);
       break;
 
+    case STDegenerateTree:
+      solution_found = slice_solve(slices[si].u.pipe.next);
+      break;
+
     default:
       assert(0);
       break;

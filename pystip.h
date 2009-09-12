@@ -58,6 +58,7 @@
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
+    ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */ \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */ \
                                                                         \

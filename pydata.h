@@ -912,7 +912,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*30*/  "SansGrille",
 	/*31*/  "AjouteGrille",
 	/*32*/  "DernierePrise",
-    /*33*/  "RoquesMutuellementExclusifs"
+    /*33*/  "RoquesMutuellementExclusifs",
+    /*34*/  "optionnonpubliee"
 	},{
 	/* Deutsch German Allemand */
 	/* 0*/  "Widerlegung",
@@ -948,7 +949,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*30*/  "OhneGitter",
 	/*31*/  "ZeichneGitter",
 	/*32*/  "LetzterSchlag",
-    /*33*/  "RochadenGegenseitigAusschliessend"
+    /*33*/  "RochadenGegenseitigAusschliessend",
+    /*34*/  "nichtpublizierteoption"
 	},{
 	/* English Anglais Englisch */
 	/* 0*/  "Defence",
@@ -984,7 +986,8 @@ EXTERN boolean          flag_libre_on_generate;
 	/*30*/  "SuppressGrid",
 	/*31*/  "WriteGrid",
 	/*32*/  "LastCapture",
-    /*33*/  "CastlingMutuallyExclusive"
+    /*33*/  "CastlingMutuallyExclusive",
+    /*34*/  "unpublishedoption"
 	}
 };
 #endif

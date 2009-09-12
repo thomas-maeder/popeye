@@ -77,6 +77,7 @@
 #include "pymovein.h"
 #include "pyproof.h"
 #include "pymovenb.h"
+#include "pydegent.h"
 #include "pyflight.h"
 #include "pynontrv.h"
 #include "pythreat.h"
@@ -2128,6 +2129,7 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STGoalReachableGuard */
   0,                                     /* STKeepMatingGuard */
   0,                                     /* STMaxFlightsquares */
+  0,                                     /* STDegenerateTree */
   0,                                     /* STMaxNrNonTrivial */
   0                                      /* STMaxThreatLength */
 };
@@ -4650,7 +4652,12 @@ static char *ParseOpt(void)
 
       case solmenaces:
         tok = ReadNextTokStr();
-        if (!read_max_threat_length(tok))
+        if (read_max_threat_length(tok))
+        {
+          OptFlag[degeneratetree] = true;
+          init_degenerate_tree(get_max_threat_length());
+        }
+        else
         {
           OptFlag[solmenaces] = false;
           IoErrorMsg(WrongInt,0);
@@ -4709,7 +4716,11 @@ static char *ParseOpt(void)
           return ReadNextTokStr();
         }
         else
+        {
           min_length_nontrivial = 2*min_length_nontrivial+slack_length_direct;
+          OptFlag[degeneratetree] = true;
+          init_degenerate_tree(min_length_nontrivial);
+        }
         break;
 
       case postkeyplay:

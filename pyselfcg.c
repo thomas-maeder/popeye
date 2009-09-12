@@ -783,6 +783,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STGoalReachableGuard */
   0,                                        /* STKeepMatingGuard */
   0,                                        /* STMaxFlightsquares */
+  &slice_traverse_children,                 /* STDegenerateTree */
   &slice_traverse_children,                 /* STMaxNrNonTrivial */
   0                                         /* STMaxThreatLength */
 };
@@ -887,6 +888,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STGoalReachableGuard */
   0,                                             /* STKeepMatingGuard */
   0,                                             /* STMaxFlightsquares */
+  0,                                             /* STDegenerateTree */
   0,                                             /* STMaxNrNonTrivial */
   0                                              /* STMaxThreatLength */
 };

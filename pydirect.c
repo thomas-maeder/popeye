@@ -12,6 +12,7 @@
 #include "pymovenb.h"
 #include "pykeepmt.h"
 #include "pyflight.h"
+#include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyint.h"
@@ -154,6 +155,10 @@ boolean direct_are_threats_refuted_in_n(table threats,
                                                          n);
       break;
 
+    case STDegenerateTree:
+      result = degenerate_tree_are_threats_refuted_in_n(threats,len_threat,si,n);
+      break;
+
     default:
       assert(0);
       break;
@@ -212,6 +217,10 @@ has_solution_type direct_has_solution_in_n(slice_index si,
 
     case STKeepMatingGuard:
       result = keepmating_guard_direct_has_solution_in_n(si,n,n_min);
+      break;
+
+    case STDegenerateTree:
+      result = degenerate_tree_direct_has_solution_in_n(si,n,n_min);
       break;
 
     default:
@@ -281,6 +290,12 @@ stip_length_type direct_solve_continuations_in_n(table continuations,
                                                                 n);
       break;
 
+    case STDegenerateTree:
+      result = degenerate_tree_direct_solve_continuations_in_n(continuations,
+                                                               si,
+                                                               n);
+      break;
+
     default:
       assert(0);
       break;
@@ -342,6 +357,10 @@ stip_length_type direct_solve_threats(table threats,
 
     case STKeepMatingGuard:
       result = keepmating_guard_direct_solve_threats(threats,si,n);
+      break;
+
+    case STDegenerateTree:
+      result = degenerate_tree_direct_solve_threats(threats,si,n);
       break;
 
     default:
