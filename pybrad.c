@@ -389,41 +389,6 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   return solution_found;
 }
 
-/* Determine whether attacker can end short if full would be n half moves.
- * @param si slice index
- * @param n_min smallest number of half moves until goal to try
- * @param n_max maximum number of half moves until goal to try
- * @return true iff attacker can end in n half moves
- */
-static boolean have_we_solution_in_n_short(slice_index si,
-                                           stip_length_type n_min,
-                                           stip_length_type n_max)
-{
-  boolean result = false;
-
-  stip_length_type i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u\n",n_max);
-  TraceFunctionParamListEnd();
-
-  for (i = n_min; i<=n_max; i += 2)
-    if (have_we_solution_in_n(si,i))
-    {
-      result = true;
-      break;
-    }
-    else if (periods_counter>=nr_periods)
-      break;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether attacker can end in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -434,8 +399,8 @@ has_solution_type branch_d_has_solution_in_n(slice_index si,
                                              stip_length_type n,
                                              stip_length_type n_min)
 {
-  has_solution_type result;
-  stip_length_type n_short_max = n-2;
+  has_solution_type result = has_no_solution;
+  stip_length_type i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -447,13 +412,14 @@ has_solution_type branch_d_has_solution_in_n(slice_index si,
   if (n_min<=slack_length_direct)
     n_min += 2;
 
-  if (have_we_solution_in_n_short(si,n_min,n_short_max))
-    result = has_solution;
-  else if (periods_counter<nr_periods
-           && have_we_solution_in_n(si,n))
-    result = has_solution;
-  else
-    result = has_no_solution;
+  for (i = n_min; i<=n; i += 2)
+    if (have_we_solution_in_n(si,i))
+    {
+      result = has_solution;
+      break;
+    }
+    else if (periods_counter>=nr_periods)
+      break;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
