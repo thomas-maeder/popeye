@@ -37,22 +37,26 @@ static void init_keepmating_guard_slice(slice_index si, Side mating)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type keepmating_guard_direct_has_solution_in_n(slice_index si,
-                                                            stip_length_type n)
+has_solution_type
+keepmating_guard_direct_has_solution_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = direct_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
   else
     result = has_no_solution;
 

@@ -48,10 +48,12 @@ static void init_reflex_guard_slice(slice_index si,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type reflex_guard_direct_has_solution_in_n(slice_index si,
-                                                        stip_length_type n)
+                                                        stip_length_type n,
+                                                        stip_length_type n_min)
 {
   has_solution_type result = has_no_solution;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -59,6 +61,7 @@ has_solution_type reflex_guard_direct_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   switch (slice_has_solution(avoided))
@@ -72,7 +75,7 @@ has_solution_type reflex_guard_direct_has_solution_in_n(slice_index si,
       break;
 
     case has_no_solution:
-      result = direct_has_solution_in_n(slices[si].u.pipe.next,n);
+      result = direct_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
       break;
 
     default:

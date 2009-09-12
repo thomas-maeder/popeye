@@ -392,38 +392,23 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 
 /* Determine whether attacker can end short if full would be n half moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n_min smallest number of half moves until goal to try
+ * @param n_max maximum number of half moves until goal to try
  * @return true iff attacker can end in n half moves
  */
-static boolean have_we_solution_in_n_short(slice_index si, stip_length_type n)
+static boolean have_we_solution_in_n_short(slice_index si,
+                                           stip_length_type n_min,
+                                           stip_length_type n_max)
 {
   boolean result = false;
 
   stip_length_type i;
-  stip_length_type n_max = n-2;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const parity = n%2;
-  stip_length_type n_min;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u\n",n_max);
   TraceFunctionParamListEnd();
-
-  assert(slices[si].u.pipe.u.branch.length%2 == parity);
-
-  if (n+min_length>slack_length_direct+length)
-    n_min = n-(length-min_length);
-  else
-    n_min = slack_length_direct+2-parity;
-  
-  if (n_max>=min_length_nontrivial)
-    n_max = min_length_nontrivial-parity;
-
-  TraceValue("%u",min_length);
-  TraceValue("%u",n_min);
-  TraceValue("%u\n",n_max);
 
   for (i = n_min; i<=n_max; i += 2)
     if (have_we_solution_in_n(si,i))
@@ -443,21 +428,31 @@ static boolean have_we_solution_in_n_short(slice_index si, stip_length_type n)
 /* Determine whether attacker can end in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type branch_d_has_solution_in_n(slice_index si,
-                                             stip_length_type n)
+                                             stip_length_type n,
+                                             stip_length_type n_min)
 {
   has_solution_type result;
+  stip_length_type n_short_max = n-2;
+  stip_length_type const parity = n%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
+  
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (have_we_solution_in_n_short(si,n))
+  if (n_min<=slack_length_direct)
+    n_min += 2;
+
+  if (n_short_max>=min_length_nontrivial)
+    n_short_max = min_length_nontrivial-parity;
+
+  if (have_we_solution_in_n_short(si,n_min,n_short_max))
     result = has_solution;
   else if (periods_counter<nr_periods
            && have_we_solution_in_n(si,n))
@@ -478,12 +473,21 @@ has_solution_type branch_d_has_solution_in_n(slice_index si,
 has_solution_type branch_d_has_solution(slice_index si)
 {
   has_solution_type result;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type n_min;
+  stip_length_type const parity = length%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = branch_d_has_solution_in_n(si,slices[si].u.pipe.u.branch.length);
+  if (length+min_length>slack_length_direct+length)
+    n_min = length-(length-min_length);
+  else
+    n_min = slack_length_direct-parity;
+
+  result = branch_d_has_solution_in_n(si,length,n_min);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

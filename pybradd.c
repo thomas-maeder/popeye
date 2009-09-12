@@ -109,6 +109,10 @@ attack_result_type branch_d_defender_defend_in_n(slice_index si,
   Side const defender = slices[si].starter;
   attack_result_type result = attack_has_reached_deadend;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type n_min_next;
+  stip_length_type const parity = (n-1)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -116,6 +120,11 @@ attack_result_type branch_d_defender_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (n-1+min_length>slack_length_direct+length)
+    n_min_next = n-1-(length-min_length);
+  else
+    n_min_next = slack_length_direct-parity;
 
   active_slice[nbply+1] = si;
   move_generation_mode =
@@ -128,7 +137,7 @@ attack_result_type branch_d_defender_defend_in_n(slice_index si,
   while (result!=attack_refuted_full_length && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1))
+      switch (direct_has_solution_in_n(next,n-1,n_min_next))
       {
         case defender_self_check:
           /* nothing */ ;
@@ -159,6 +168,35 @@ attack_result_type branch_d_defender_defend_in_n(slice_index si,
   return result;
 }
 
+static boolean has_short_solution(slice_index si, stip_length_type n)
+{
+  boolean result;
+  stip_length_type n_min;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const parity = n%2;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  n -= 2;
+
+  if (n+min_length>slack_length_direct+length)
+    n_min = n-(length-min_length);
+  else
+    n_min = slack_length_direct-parity;
+
+  result = direct_has_solution_in_n(next,n,n_min)!=has_no_solution;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the defense just played is relevant
  * @param table containing threats
  * @param len_threat length of threat
@@ -181,13 +219,12 @@ static boolean is_defense_relevant(table threats,
 
   assert(n%2!=slices[si].u.pipe.u.branch.length%2);
 
-  if (n>slack_length_direct && OptFlag[noshort]
-      && direct_has_solution_in_n(next,n-2)!=has_no_solution)
+  if (n>slack_length_direct && OptFlag[noshort] && has_short_solution(si,n))
     /* variation shorter than stip */
     result = false;
   else if (len_threat>slack_length_direct+1
            && len_threat<=n
-           && direct_has_solution_in_n(next,len_threat-2)!=has_no_solution)
+           && has_short_solution(si,len_threat))
     /* there are threats and the variation is shorter than them */
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
@@ -294,6 +331,10 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
   unsigned int result = 0;
   slice_index const next = slices[si].u.pipe.next;
   boolean isDefenderImmobile = true;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type n_min_next;
+  stip_length_type const parity = (n-1)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -301,6 +342,11 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (n-1+min_length>slack_length_direct+length)
+    n_min_next = n-1-(length-min_length);
+  else
+    n_min_next = slack_length_direct-parity;
 
   active_slice[nbply+1] = si;
   move_generation_mode =
@@ -313,7 +359,7 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
   while (result<=max_result && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1))
+      switch (direct_has_solution_in_n(next,n-1,n_min_next))
       {
         case defender_self_check:
           /* nothing */ ;
@@ -502,6 +548,10 @@ static boolean root_collect_refutations(table refutations,
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   boolean result = true;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type n_min_next;
+  stip_length_type const parity = (n-1)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -509,6 +559,11 @@ static boolean root_collect_refutations(table refutations,
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (n-1+min_length>slack_length_direct+length)
+    n_min_next = n-1-(length-min_length);
+  else
+    n_min_next = slack_length_direct-parity;
 
   active_slice[nbply+1] = si;
   if (n-1>slack_length_direct+2)
@@ -520,7 +575,7 @@ static boolean root_collect_refutations(table refutations,
          && table_length(refutations)<=max_nr_refutations)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1))
+      switch (direct_has_solution_in_n(next,n-1,n_min_next))
       {
         case defender_self_check:
           /* nothing */ ;

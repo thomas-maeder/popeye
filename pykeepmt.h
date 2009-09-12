@@ -25,10 +25,13 @@ attack_result_type keepmating_guard_root_defend(table refutations,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type keepmating_guard_direct_has_solution_in_n(slice_index si,
-                                                            stip_length_type n);
+has_solution_type
+keepmating_guard_direct_has_solution_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index

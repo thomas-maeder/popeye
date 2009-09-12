@@ -160,10 +160,13 @@ stip_length_type selfcheck_guard_direct_solve_threats(table threats,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type selfcheck_guard_direct_has_solution_in_n(slice_index si,
-                                                           stip_length_type n)
+has_solution_type
+selfcheck_guard_direct_has_solution_in_n(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_min)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -171,12 +174,13 @@ has_solution_type selfcheck_guard_direct_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = defender_self_check;
   else
-    result = direct_has_solution_in_n(next,n);
+    result = direct_has_solution_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

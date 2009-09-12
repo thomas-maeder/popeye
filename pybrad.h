@@ -50,10 +50,12 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type branch_d_has_solution_in_n(slice_index si,
-                                             stip_length_type n);
+                                             stip_length_type n,
+                                             stip_length_type n_min);
 
 /* Determine whether a slice has a solution
  * @param si slice index

@@ -64,8 +64,6 @@ stip_length_type get_max_threat_length(void)
  */
 static boolean is_threat_too_long(slice_index si, stip_length_type n)
 {
-  slice_index const
-      to_attacker = slices[si].u.pipe.u.maxthreatlength_guard.to_attacker;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -75,13 +73,34 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  TraceValue("%u\n",2*max_len_threat);
-  if (n-1>=2*max_len_threat+slack_length_direct)
-    result = (direct_has_solution_in_n(to_attacker,2*max_len_threat)
-              ==has_no_solution);
+  if (max_len_threat==0)
+    result = !echecc(nbply,slices[si].starter);
   else
-    /* remainder of play is too short for max_len_threat to apply */
-    result = false;
+  {
+    slice_index const
+        to_attacker = slices[si].u.pipe.u.maxthreatlength_guard.to_attacker;
+    stip_length_type const parity = (n-1)%2;
+    stip_length_type const n_max = 2*max_len_threat+parity;
+
+    if (n-1>=n_max)
+    {
+      stip_length_type const length = slices[si].u.pipe.u.branch.length;
+      stip_length_type const
+          min_length = slices[si].u.pipe.u.branch.min_length;
+      stip_length_type n_min;
+
+      if (n_max+min_length>slack_length_direct+length)
+        n_min = n_max-(length-min_length);
+      else
+        n_min = slack_length_direct-parity;
+
+      result = (direct_has_solution_in_n(to_attacker,n_max,n_min)
+                ==has_no_solution);
+    }
+    else
+      /* remainder of play is too short for max_len_threat to apply */
+      result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

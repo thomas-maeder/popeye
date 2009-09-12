@@ -3005,10 +3005,12 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type direct_hashed_has_solution_in_n(slice_index si,
-                                                  stip_length_type n)
+                                                  stip_length_type n,
+                                                  stip_length_type n_min)
 {
   has_solution_type result = has_no_solution;
   slice_index const next = slices[si].u.pipe.next;
@@ -3016,6 +3018,7 @@ has_solution_type direct_hashed_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
@@ -3034,7 +3037,7 @@ has_solution_type direct_hashed_has_solution_in_n(slice_index si,
   }
   else
   {
-    result = direct_has_solution_in_n(next,n);
+    result = direct_has_solution_in_n(next,n,n_min);
     if (result==has_solution)
       addtohash(si,DirSucc,n/2-1);
     else

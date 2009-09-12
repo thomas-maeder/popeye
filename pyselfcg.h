@@ -157,10 +157,13 @@ unsigned int selfcheck_guard_can_defend_in_n(slice_index si,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type selfcheck_guard_direct_has_solution_in_n(slice_index si,
-                                                           stip_length_type n);
+has_solution_type
+selfcheck_guard_direct_has_solution_in_n(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_min);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
