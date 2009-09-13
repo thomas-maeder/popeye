@@ -74,25 +74,6 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
                                                      slice_index si,
                                                      stip_length_type n);
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
- */
-attack_result_type direct_attack_defend_in_n(slice_index si,
-                                             stip_length_type n);
-
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
- */
-unsigned int direct_attack_can_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           unsigned int max_result);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -124,18 +105,6 @@ attack_result_type direct_attack_root_defend(table refutations, slice_index si);
 stip_length_type direct_attack_solve_threats(table threats,
                                              slice_index si,
                                              stip_length_type n);
-
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param si slice index
- * @param n maximum length of variations to be solved
- * @return true iff >= 1 variation was found
- */
-boolean direct_attack_solve_variations_in_n(table threats,
-                                            stip_length_type len_threat,
-                                            slice_index si,
-                                            stip_length_type n);
 
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats

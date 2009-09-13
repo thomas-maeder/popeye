@@ -408,10 +408,6 @@ attack_result_type direct_defender_defend_in_n(slice_index si,
       result = selfcheck_guard_defend_in_n(si,n);
       break;
 
-    case STDirectAttack:
-      result = direct_attack_defend_in_n(si,n);
-      break;
-
     case STSelfAttack:
       result = self_attack_defend_in_n(si,n);
       break;
@@ -476,10 +472,6 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
 
     case STSelfCheckGuard:
       result = selfcheck_guard_can_defend_in_n(si,n,max_result);
-      break;
-
-    case STDirectAttack:
-      result = direct_attack_can_defend_in_n(si,n,max_result);
       break;
 
     case STSelfAttack:
@@ -709,10 +701,6 @@ boolean direct_defender_solve_variations_in_n(table threats,
 
     case STSelfCheckGuard:
       result = selfcheck_guard_solve_variations_in_n(threats,len_threat,si,n);
-      break;
-
-    case STDirectAttack:
-      result = direct_attack_solve_variations_in_n(threats,len_threat,si,n);
       break;
 
     case STSelfAttack:

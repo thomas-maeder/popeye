@@ -344,7 +344,31 @@ void max_nr_nontrivial_guard_root_solve_variations(table threats,
 /* **************** Stipulation instrumentation ***************
  */
 
-static boolean nontrivial_guard_inserter_direct_attack(slice_index si,
+static boolean nontrivial_guard_inserter_direct_root(slice_index si,
+                                                     slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index nt_pos = si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  if (slices[slices[nt_pos].u.pipe.next].type==STDirectAttack)
+    nt_pos = slices[nt_pos].u.pipe.next;
+
+  pipe_insert_after(nt_pos);
+  init_max_nr_nontrivial_guard_slice(slices[nt_pos].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
@@ -364,29 +388,9 @@ static boolean nontrivial_guard_inserter_direct_attack(slice_index si,
   return result;
 }
 
-static boolean nontrivial_guard_inserter_self_attack(slice_index si,
-                                                     slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  pipe_insert_before(si);
-  init_max_nr_nontrivial_guard_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static slice_operation const max_nr_nontrivial_guards_inserters[] =
 {
-  &slice_traverse_children,                 /* STBranchDirect */
+  &nontrivial_guard_inserter_branch_direct, /* STBranchDirect */
   &slice_traverse_children,                 /* STBranchDirectDefender */
   &slice_traverse_children,                 /* STBranchHelp */
   &slice_traverse_children,                 /* STBranchSeries */
@@ -398,7 +402,7 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STQuodlibet */
   &slice_traverse_children,                 /* STNot */
   &slice_traverse_children,                 /* STMoveInverter */
-  &slice_traverse_children,                 /* STDirectRoot */
+  &nontrivial_guard_inserter_direct_root,   /* STDirectRoot */
   &slice_traverse_children,                 /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &slice_traverse_children,                 /* STHelpRoot */
@@ -408,10 +412,10 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STSeriesAdapter */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_traverse_children,                 /* STSelfCheckGuard */
-  &nontrivial_guard_inserter_direct_attack, /* STDirectAttack */
+  &slice_traverse_children,                 /* STDirectAttack */
   &slice_traverse_children,                 /* STDirectDefense */
   &slice_traverse_children,                 /* STReflexGuard */
-  &nontrivial_guard_inserter_self_attack,   /* STSelfAttack */
+  &slice_traverse_children,                 /* STSelfAttack */
   &slice_traverse_children,                 /* STSelfDefense */
   &slice_traverse_children,                 /* STRestartGuard */
   &slice_traverse_children,                 /* STGoalReachableGuard */

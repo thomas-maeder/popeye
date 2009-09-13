@@ -887,28 +887,6 @@ static boolean transform_to_quodlibet_direct_root(slice_index si,
   return result;
 }
 
-static boolean transform_to_quodlibet_branch_direct(slice_index si,
-                                                    slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const * const new_to_goal = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  assert(*new_to_goal!=no_slice);
-  make_successor_direct_attack(next,*new_to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
                                                              slice_traversal *st)
 {
@@ -961,7 +939,7 @@ static boolean transform_to_quodlibet_branch_fork(slice_index si,
 
 static slice_operation const to_quodlibet_transformers[] =
 {
-  &transform_to_quodlibet_branch_direct,          /* STBranchDirect */
+  &slice_traverse_children,                       /* STBranchDirect */
   &transform_to_quodlibet_branch_direct_defender, /* STBranchDirectDefender */
   0,                                              /* STBranchHelp */
   &slice_traverse_children,                       /* STBranchSeries */

@@ -246,70 +246,6 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
- */
-attack_result_type direct_attack_defend_in_n(slice_index si,
-                                             stip_length_type n)
-{
-  attack_result_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  /* No need to check whether we have found a short end; they have
-   * already been dealt with by direct_defense_*() functions before
-   * the attempted key move was attempted.
-   */
-  
-  result = direct_defender_defend_in_n(next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
- */
-unsigned int direct_attack_can_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           unsigned int max_result)
-{
-  unsigned int result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  /* No need to check whether we have found a short end; they have
-   * already been dealt with by direct_defense_*() functions before
-   * the attempted key move was attempted.
-   */
-
-  if (n>=slack_length_direct)
-    result = direct_defender_can_defend_in_n(next,n,max_result);
-  else
-    result = max_result+1;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index
@@ -330,33 +266,6 @@ stip_length_type direct_attack_solve_threats(table threats,
   TraceFunctionParamListEnd();
 
   result = direct_defender_solve_threats(threats,slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param si slice index
- * @param n maximum length of variations to be solved
- * @return true iff >= 1 variation was found
- */
-boolean direct_attack_solve_variations_in_n(table threats,
-                                            stip_length_type len_threat,
-                                            slice_index si,
-                                            stip_length_type n)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = direct_defender_solve_variations_in_n(threats,len_threat,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -676,7 +585,7 @@ boolean direct_guards_inserter_branch_direct(slice_index si,
 
 static slice_operation const direct_guards_inserters[] =
 {
-  &direct_guards_inserter_branch_direct,          /* STBranchDirect */
+  &slice_traverse_children,                       /* STBranchDirect */
   &direct_guards_inserter_branch_direct_defender, /* STBranchDirectDefender */
   &slice_traverse_children,                       /* STBranchHelp */
   &slice_traverse_children,                       /* STBranchSeries */
