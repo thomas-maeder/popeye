@@ -62,14 +62,21 @@ static void init_degenerate_tree_guard_slice(slice_index si)
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return whether there is a solution and (to some extent) why not
+ * @return length of solution found, i.e.:
+ *            0 defense put defender into self-check
+ *            n_min..n length of shortest solution found
+ *            >n no solution found
+ *         (the second case includes the situation in self
+ *         stipulations where the defense just played has reached the
+ *         goal (in which case n_min<slack_length_direct and we return
+ *         n_min)
  */
-has_solution_type
+stip_length_type
 degenerate_tree_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
                                          stip_length_type n_min)
 {
-  has_solution_type result = has_no_solution;
+  stip_length_type result = n+2;
   stip_length_type const parity = n%2;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -82,17 +89,20 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
   if (n>max_length_short_solutions+parity)
   {
     if (max_length_short_solutions>=slack_length_direct+2)
-      result = direct_has_solution_in_n(next,
-                                        max_length_short_solutions-2+parity,
-                                        n_min);
-    if (result==has_no_solution)
+    {
+      stip_length_type const n_interm = max_length_short_solutions-2+parity;
+      result = direct_has_solution_in_n(next,n_interm,n_min);
+      if (result>n_interm)
+        result = direct_has_solution_in_n(next,n,n);
+    }
+    else
       result = direct_has_solution_in_n(next,n,n);
   }
   else
     result = direct_has_solution_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

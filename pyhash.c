@@ -2217,8 +2217,6 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
         {
           hash_value_type const nosucc = get_value_direct_nosucc(he,si);
           assert(val==1);
-          TraceValue("%u",slices[si].u.pipe.u.branch.length);
-          TraceValue("%u\n",slices[si].u.pipe.u.branch.min_length);
           if (nosucc>=1)
           {
             ifHASHRATE(use_pos++);
@@ -3013,13 +3011,20 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return whether there is a solution and (to some extent) why not
+ * @return length of solution found, i.e.:
+ *            0 defense put defender into self-check
+ *            n_min..n length of shortest solution found
+ *            >n no solution found
+ *         (the second case includes the situation in self
+ *         stipulations where the defense just played has reached the
+ *         goal (in which case n_min<slack_length_direct and we return
+ *         n_min)
  */
-has_solution_type direct_hashed_has_solution_in_n(slice_index si,
-                                                  stip_length_type n,
-                                                  stip_length_type n_min)
+stip_length_type direct_hashed_has_solution_in_n(slice_index si,
+                                                 stip_length_type n,
+                                                 stip_length_type n_min)
 {
-  has_solution_type result = has_no_solution;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -3036,23 +3041,24 @@ has_solution_type direct_hashed_has_solution_in_n(slice_index si,
   {
     TraceText("inhash(si,DirNoSucc,n/2)\n");
     assert(!inhash(si,DirSucc,n/2-1));
+    result = n+2;
   }
   else if (inhash(si,DirSucc,n/2-1))
   {
     TraceText("inhash(si,DirSucc,n/2-1)\n");
-    result = has_solution;
+    result = n; /* TODO return actual value */
   }
   else
   {
     result = direct_has_solution_in_n(next,n,n_min);
-    if (result==has_solution)
-      addtohash(si,DirSucc,n/2-1);
+    if (result<=n)
+      addtohash(si,DirSucc,result/2-1);
     else
       addtohash(si,DirNoSucc,n/2);
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

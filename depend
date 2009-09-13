@@ -249,9 +249,9 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   pyenum.h pylang.h py1.h pyproc.h py4.h pygoal.h pydata.h pymsg.h \
   pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h pyint.h \
   pyproof.h pymovein.h pybrah.h pyquodli.h pykeepmt.h pyhelp.h pyselfcg.h \
-  pymovenb.h pyflight.h pythreat.h pynontrv.h platform/maxmem.h \
-  platform/../boolean.h platform/maxtime.h platform/pytime.h \
-  platform/priority.h trace.h pyoutput.h
+  pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
+  platform/maxmem.h platform/../boolean.h platform/maxtime.h \
+  platform/pytime.h platform/priority.h trace.h pyoutput.h
 
 py.h:
 
@@ -312,6 +312,8 @@ pyselfcg.h:
 pymovenb.h:
 
 pyflight.h:
+
+pydegent.h:
 
 pythreat.h:
 

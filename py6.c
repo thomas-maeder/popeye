@@ -110,6 +110,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "pyflight.h"
+#include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "platform/maxmem.h"

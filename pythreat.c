@@ -94,8 +94,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
       else
         n_min = slack_length_direct-parity;
 
-      result = (direct_has_solution_in_n(to_attacker,n_max,n_min)
-                ==has_no_solution);
+      result = direct_has_solution_in_n(to_attacker,n_max,n_min)>n_max;
     }
     else
       /* remainder of play is too short for max_len_threat to apply */

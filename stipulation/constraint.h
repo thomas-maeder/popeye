@@ -25,12 +25,18 @@ boolean reflex_guard_solve(slice_index si);
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return whether there is a solution and (to some extent) why not
+ * @return length of solution found, i.e.:
+ *            0 defense put defender into self-check
+ *            n_min..n length of shortest solution found
+ *            >n no solution found
+ *         (the second case includes the situation in self
+ *         stipulations where the defense just played has reached the
+ *         goal (in which case n_min<slack_length_direct and we return
+ *         n_min)
  */
-has_solution_type
-reflex_guard_direct_has_solution_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_min);
+stip_length_type reflex_guard_direct_has_solution_in_n(slice_index si,
+                                                       stip_length_type n,
+                                                       stip_length_type n_min);
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.

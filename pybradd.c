@@ -137,25 +137,22 @@ attack_result_type branch_d_defender_defend_in_n(slice_index si,
   while (result!=attack_refuted_full_length && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1,n_min_next))
+    {
+      stip_length_type const length_sol = direct_has_solution_in_n(next,
+                                                                   n-1,
+                                                                   n_min_next);
+      if (length_sol>n-1)
       {
-        case defender_self_check:
-          /* nothing */ ;
-          break;
-
-        case has_no_solution:
-          result = attack_refuted_full_length;
-          coupfort();
-          break;
-
-        case has_solution:
-          result = attack_solves_full_length;
-          break;
-
-        default:
-          assert(0);
-          break;
+        result = attack_refuted_full_length;
+        coupfort();
       }
+      else if (length_sol>=n_min_next)
+        result = attack_solves_full_length;
+      else
+      {
+        /* self check */
+      }
+    }
 
     repcoup();
   }
@@ -189,7 +186,7 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   else
     n_min = slack_length_direct-parity;
 
-  result = direct_has_solution_in_n(next,n,n_min)!=has_no_solution;
+  result = direct_has_solution_in_n(next,n,n_min)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -359,26 +356,23 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
   while (result<=max_result && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1,n_min_next))
+    {
+      stip_length_type const length_sol = direct_has_solution_in_n(next,
+                                                                   n-1,
+                                                                   n_min_next);
+      if (length_sol>n-1)
       {
-        case defender_self_check:
-          /* nothing */ ;
-          break;
-
-        case has_no_solution:
-          ++result;
-          coupfort();
-          isDefenderImmobile = false;
-          break;
-
-        case has_solution:
-          isDefenderImmobile = false;
-          break;
-
-        default:
-          assert(0);
-          break;
+        ++result;
+        coupfort();
+        isDefenderImmobile = false;
       }
+      else if (length_sol>=n_min_next)
+        isDefenderImmobile = false;
+      else
+      {
+        /* self check */
+      }
+    }
 
     repcoup();
   }
@@ -575,26 +569,23 @@ static boolean root_collect_refutations(table refutations,
          && table_length(refutations)<=max_nr_refutations)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (direct_has_solution_in_n(next,n-1,n_min_next))
+    {
+      stip_length_type const length_sol = direct_has_solution_in_n(next,
+                                                                   n-1,
+                                                                   n_min_next);
+      if (length_sol>n-1)
       {
-        case defender_self_check:
-          /* nothing */ ;
-          break;
-
-        case has_solution:
-          result = false;
-          break;
-
-        case has_no_solution:
-          result = false;
-          append_to_top_table();
-          coupfort();
-          break;
-
-        default:
-          assert(0);
-          break;
+        result = false;
+        append_to_top_table();
+        coupfort();
       }
+      else if (length_sol>=n_min_next)
+        result = false;
+      else
+      {
+        /* self check */
+      }
+    }
 
     repcoup();
   }

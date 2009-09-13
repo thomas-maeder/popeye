@@ -106,16 +106,22 @@ slice_index alloc_self_attack_slice(stip_length_type length,
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return whether there is a solution and (to some extent) why not
+ * @return length of solution found, i.e.:
+ *            0 defense put defender into self-check
+ *            n_min..n length of shortest solution found
+ *            >n no solution found
+ *         (the second case includes the situation in self
+ *         stipulations where the defense just played has reached the
+ *         goal (in which case n_min<slack_length_direct and we return
+ *         n_min)
  */
-has_solution_type
-self_defense_direct_has_solution_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_min)
+stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
+                                                       stip_length_type n,
+                                                       stip_length_type n_min)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-  has_solution_type result = has_no_solution;
+  stip_length_type result = n+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -127,12 +133,12 @@ self_defense_direct_has_solution_in_n(slice_index si,
 
   if (n_min==slack_length_direct-1
       && slice_has_non_starter_solved(towards_goal))
-    result = has_solution;
+    result = n_min;
   else if (n>slack_length_direct)
     result = direct_has_solution_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

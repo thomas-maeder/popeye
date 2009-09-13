@@ -78,14 +78,21 @@ static void init_direct_defense_slice(slice_index si,
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return whether there is a solution and (to some extent) why not
+ * @return length of solution found, i.e.:
+ *            0 defense put defender into self-check
+ *            n_min..n length of shortest solution found
+ *            >n no solution found
+ *         (the second case includes the situation in self
+ *         stipulations where the defense just played has reached the
+ *         goal (in which case n_min<slack_length_direct and we return
+ *         n_min)
  */
-has_solution_type
+stip_length_type
 direct_defense_direct_has_solution_in_n(slice_index si,
                                         stip_length_type n,
                                         stip_length_type n_min)
 {
-  has_solution_type result = has_no_solution;
+  stip_length_type result;
   slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -95,18 +102,15 @@ direct_defense_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_direct)
-  {
-    result = slice_has_solution(togoal);
-    /* somebody else should have dealt with this already: */
-    assert(result!=defender_self_check);
-  }
-
-  if (result==has_no_solution && n>slack_length_direct)
+  if (n_min<=slack_length_direct && slice_has_solution(togoal)==has_solution)
+    result = n_min;
+  else if (n>slack_length_direct)
     result = direct_has_solution_in_n(next,n,n_min);
+  else
+    result = n+2;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
