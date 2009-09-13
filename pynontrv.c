@@ -8,52 +8,87 @@
 #include <assert.h>
 #include <stdlib.h>
 
-stip_length_type min_length_nontrivial;
+static stip_length_type min_length_nontrivial;
 unsigned int max_nr_nontrivial;
 
-// /* Reset the max threats setting to off
-//  */
-// void reset_max_nr_nontrivial_length(void)
-// {
-//   max_len_threat = no_stip_length;
-// }
+/* Reset the non-trivial optimisation setting to off
+ */
+void reset_nontrivial_settings(void)
+{
+  max_nr_nontrivial = UINT_MAX;
+  min_length_nontrivial = 2*maxply+slack_length_direct;
+}
 
-// /* Read the requested max threat length setting from a text token
-//  * entered by the user
-//  * @param textToken text token from which to read
-//  * @return true iff max threat setting was successfully read
-//  */
-// boolean read_max_nr_nontrivial_length(const char *textToken)
-// {
-//   boolean result;
-//   char *end;
-//   unsigned long const requested_max_threat_length = strtoul(textToken,&end,10);
+/* Read the requested non-trivial optimisation settings from user input
+ * @param tok text token from which to read maximum number of
+ *            acceptable non-trivial variations (apart from main variation)
+ * @return true iff setting was successfully read
+ */
+boolean read_max_nr_nontrivial(char const *tok)
+{
+  boolean result;
+  char *end;
+  unsigned long const requested_max_nr_nontrivial = strtoul(tok,&end,10);
 
-//   if (textToken!=end && requested_max_threat_length<=UINT_MAX)
-//   {
-//     max_len_threat = (stip_length_type)requested_max_threat_length;
-//     result = true;
-//   }
-//   else
-//     result = false;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-//   return result;
-// }
+  TraceValue("%s\n",tok);
 
-// /* Retrieve the current max threat length setting
-//  * @return current max threat length setting
-//  *         no_stip_length if max threats option is not active
-//  */
-// stip_length_type get_max_nr_nontrivial_length(void)
-// {
-//   TraceFunctionEntry(__func__);
-//   TraceFunctionParamListEnd();
+  if (tok!=end && requested_max_nr_nontrivial<=UINT_MAX)
+  {
+    result = true;
+    max_nr_nontrivial = (unsigned int)requested_max_nr_nontrivial;
+  }
+  else
+    result = false;
 
-//   TraceFunctionExit(__func__);
-//   TraceFunctionResult("%u",max_len_threat);
-//   TraceFunctionResultEnd();
-//   return max_len_threat;
-// }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Read the requested non-trivial optimisation settings from user input
+ * @param tok text token from which to read minimimal length of what
+ *            is to be considered a non-trivial variation
+ * @return true iff setting was successfully read
+ */
+boolean read_min_length_nontrivial(char const *tok)
+{
+  boolean result;
+  char *end;
+  unsigned long const requested_min_length_nontrivial = strtoul(tok,&end,10);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%s\n",tok);
+
+  if (tok!=end && requested_min_length_nontrivial<=UINT_MAX)
+  {
+    result = true;
+    min_length_nontrivial = (2*(unsigned int)requested_min_length_nontrivial
+                             +slack_length_direct);
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Retrieve the current minimum length (in full moves) of what is to
+ * be considered a non-trivial variation
+ * @return maximum acceptable number of non-trivial variations
+ */
+stip_length_type get_min_length_nontrivial(void)
+{
+  return (min_length_nontrivial-slack_length_direct)/2;
+}
+
 
 /* **************** Private helpers ***************
  */
@@ -63,8 +98,7 @@ unsigned int max_nr_nontrivial;
  * Stop counting when more than max_nr_nontrivial have been found
  * @return number of defender's non-trivial moves
  */
-static
-unsigned int count_nontrivial_defenses(slice_index si)
+static unsigned int count_nontrivial_defenses(slice_index si)
 {
   unsigned int result;
   slice_index const next = slices[si].u.pipe.next;
@@ -80,7 +114,7 @@ unsigned int count_nontrivial_defenses(slice_index si)
                                            nr_refutations_allowed);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

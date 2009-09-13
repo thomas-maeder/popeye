@@ -8,26 +8,35 @@
 
 #include "pydirect.h"
 
-extern stip_length_type min_length_nontrivial;
+/* NOTE: exposed for performance reasons only - DON'T WRITE TO THIS
+ * VARIABLE!!
+ */
 extern unsigned int max_nr_nontrivial;
 
 
-// /* Reset the max threats setting to off
-//  */
-// void reset_max_nr_nontrivial(void);
+/* Reset the non-trivial optimisation setting to off
+ */
+void reset_nontrivial_settings(void);
 
-// /* Read the requested max threat length setting from a text token
-//  * entered by the user
-//  * @param textToken text token from which to read
-//  * @return true iff max threat length setting was successfully read
-//  */
-// boolean read_max_nr_nontrivial(const char *textToken);
+/* Read the requested non-trivial optimisation settings from user input
+ * @param tok text token from which to read maximum number of
+ *            acceptable non-trivial variations (apart from main variation)
+ * @return true iff setting was successfully read
+ */
+boolean read_max_nr_nontrivial(char const *tok);
 
-// /* Retrieve the current max threat length setting
-//  * @return current max threat length setting
-//  *         no_stip_length if max threats option is not active
-//  */
-// stip_length_type get_max_nr_nontrivial(void);
+/* Read the requested non-trivial optimisation settings from user input
+ * @param tok text token from which to read minimimal length of what
+ *            is to be considered a non-trivial variation
+ * @return true iff setting was successfully read
+ */
+boolean read_min_length_nontrivial(char const *tok);
+
+/* Retrieve the current minimum length (in full moves) of what is to
+ * be considered a non-trivial variation
+ * @return maximum acceptable number of non-trivial variations
+ */
+stip_length_type get_min_length_nontrivial(void);
 
 /* Instrument stipulation with STKeepMatingGuard slices
  */

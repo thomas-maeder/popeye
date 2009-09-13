@@ -4698,30 +4698,31 @@ static char *ParseOpt(void)
         break;
 
       case nontrivial:
+      {
         tok = ReadNextTokStr();
-        max_nr_nontrivial = strtol(tok, &ptr, 10);
-        if (tok==ptr)
+        if (read_max_nr_nontrivial(tok))
         {
-          IoErrorMsg(WrongInt, 0);
-          max_nr_nontrivial = UINT_MAX;
-          return ReadNextTokStr();
-        }
-
-        tok = ReadNextTokStr();
-        min_length_nontrivial = strtoul(tok, &ptr, 10);
-        if (tok==ptr)
-        {
-          IoErrorMsg(WrongInt, 0);
-          min_length_nontrivial = 2*maxply+slack_length_direct;
-          return ReadNextTokStr();
+          tok = ReadNextTokStr();
+          if (read_min_length_nontrivial(tok))
+          {
+            OptFlag[degeneratetree] = true;
+            init_degenerate_tree(get_min_length_nontrivial());
+          }
+          else
+          {
+            OptFlag[nontrivial] = false;
+            IoErrorMsg(WrongInt, 0);
+            return ReadNextTokStr();
+          }
         }
         else
         {
-          min_length_nontrivial = 2*min_length_nontrivial+slack_length_direct;
-          OptFlag[degeneratetree] = true;
-          init_degenerate_tree(min_length_nontrivial);
+          OptFlag[nontrivial] = false;
+          IoErrorMsg(WrongInt, 0);
+          return ReadNextTokStr();
         }
         break;
+      }
 
       case postkeyplay:
         OptFlag[solvariantes]= true;
@@ -5950,11 +5951,10 @@ void WritePosition() {
   else if (OptFlag[solflights])
     sprintf(StipOptStr+strlen(StipOptStr), "//%d", get_max_flights());
 
-  if ((min_length_nontrivial-slack_length_direct)/2<maxply)
+  if (OptFlag[nontrivial])
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%u",
-            max_nr_nontrivial,
-            (min_length_nontrivial-slack_length_direct)/2);
+            max_nr_nontrivial,get_min_length_nontrivial());
 
   {
     size_t const stipOptLength = strlen(StipOptStr);
