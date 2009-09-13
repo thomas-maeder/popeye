@@ -282,56 +282,6 @@ slice_index slice_root_reduce_to_postkey_play(slice_index si)
   return result;
 }
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void slice_root_write_key(slice_index si, attack_type type)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      leaf_d_root_write_key(si,type);
-      break;
-
-    case STQuodlibet:
-      quodlibet_root_write_key(si,type);
-      break;
-
-    case STBranchDirect:
-      branch_d_root_write_key(si,type);
-      break;
-
-    case STHelpAdapter:
-      help_adapter_root_write_key(si,type);
-      break;
-
-    case STSeriesAdapter:
-      series_adapter_root_write_key(si,type);
-      break;
-
-    case STReciprocal:
-      reci_root_write_key(si,type);
-      break;
-
-    case STNot:
-      /* STNot doesn't have got a key by definition */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

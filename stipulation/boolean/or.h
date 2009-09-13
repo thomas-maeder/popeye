@@ -36,12 +36,6 @@ void quodlibet_write_unsolvability(slice_index si);
  */
 void quodlibet_solve_continuations(table continuations, slice_index si);
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void quodlibet_root_write_key(slice_index si, attack_type type);
-
 /* Find and write post key play
  * @param si slice index
  * @return true iff >=1 solution was found

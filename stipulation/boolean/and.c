@@ -252,17 +252,6 @@ boolean reci_root_solve(slice_index si)
   return result;
 }
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void reci_root_write_key(slice_index si, attack_type type)
-{
-  /* TODO does this make sense? */
-  slice_root_write_key(slices[si].u.fork.op1,type);
-  slice_root_write_key(slices[si].u.fork.op2,type);
-}
-
 /* Continue solving at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found

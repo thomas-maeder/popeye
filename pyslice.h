@@ -71,12 +71,6 @@ slice_index slice_root_make_setplay_slice(slice_index si);
  */
 slice_index slice_root_reduce_to_postkey_play(slice_index si);
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void slice_root_write_key(slice_index si, attack_type type);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

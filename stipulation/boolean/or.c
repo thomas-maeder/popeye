@@ -137,19 +137,6 @@ boolean quodlibet_root_solve(slice_index si)
   return result;
 }
 
-/* Write the key just played, then solve the post key play (threats,
- * variations) of a quodlibet slice.
- * @param si slice index
- * @param type type of attack
- */
-void quodlibet_root_write_key(slice_index si, attack_type type)
-{
-  if (slice_has_starter_won(slices[si].u.fork.op1))
-    slice_root_write_key(slices[si].u.fork.op1,type);
-  if (slice_has_starter_won(slices[si].u.fork.op2))
-    slice_root_write_key(slices[si].u.fork.op2,type);
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

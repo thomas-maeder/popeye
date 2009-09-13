@@ -39,7 +39,7 @@ boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && is_current_move_in_table(threats))
       {
-        if (leaf_d_has_starter_won(leaf)==starter_has_won)
+        if (leaf_is_goal_reached(attacker,leaf)==goal_reached)
           ++nr_successful_threats;
         else
           defense_found = true;
@@ -490,15 +490,6 @@ boolean leaf_d_solve(slice_index leaf)
   return result;
 }
 
-/* Write the key just played
- * @param leaf slice index
- * @param type type of attack
- */
-void leaf_d_root_write_key(slice_index leaf, attack_type type)
-{
-  write_final_attack(slices[leaf].u.leaf.goal,type);
-}
-
 /* Determine whether the starting side has won with its move just
  * played.
  * @param leaf slice identifier
@@ -524,6 +515,8 @@ has_starter_won_result_type leaf_d_has_starter_won(slice_index leaf)
 
     case goal_reached:
       result = starter_has_won;
+      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
+      write_end_of_solution();
       break;
 
     default:

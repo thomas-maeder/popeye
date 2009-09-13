@@ -392,8 +392,6 @@ attack_result_type direct_attack_root_defend(table refutations, slice_index si)
 
       case starter_has_won:
         result = attack_has_solved_next_branch;
-        slice_root_write_key(togoal,attack_key);
-        write_end_of_solution();
         break;
 
       default:

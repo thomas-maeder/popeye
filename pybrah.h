@@ -131,12 +131,6 @@ boolean help_adapter_solve_postkey(slice_index si);
  */
 void help_adapter_solve_continuations(table continuations, slice_index si);
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void help_adapter_root_write_key(slice_index si, attack_type type);
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * @param si slice index

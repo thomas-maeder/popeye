@@ -73,12 +73,6 @@ boolean reci_solve_postkey(slice_index si);
  */
 void reci_solve_continuations(table continuations, slice_index si);
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void reci_root_write_key(slice_index si, attack_type type);
-
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found

@@ -441,25 +441,6 @@ void series_adapter_solve_continuations(table continuations, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void series_adapter_root_write_key(slice_index si, attack_type type)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",type);
-  TraceFunctionParamListEnd();
-
-  slice_root_write_key(to_goal,type);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).
  * @param si slice index

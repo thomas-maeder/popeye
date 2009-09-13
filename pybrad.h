@@ -139,12 +139,6 @@ boolean branch_d_has_starter_reached_goal(slice_index si);
  */
 void branch_d_solve_continuations(table continuations, slice_index si);
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void branch_d_root_write_key(slice_index si, attack_type type);
-
 /* Solve a branch slice at non-root level.
  * @param si slice index
  * @return true iff >=1 solution was found

@@ -687,23 +687,6 @@ void branch_d_solve_continuations(table continuations, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Write the key just played
- * @param si slice index
- * @param type type of attack
- */
-void branch_d_root_write_key(slice_index si, attack_type type)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",type);
-  TraceFunctionParamListEnd();
-
-  slice_root_write_key(slices[si].u.pipe.u.branch.towards_goal,type);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve at non-root level.
  * @param si slice index
  * @return true iff >=1 solution was found

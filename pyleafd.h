@@ -17,12 +17,6 @@
  */
 boolean leaf_d_solve_postkey(slice_index leaf);
 
-/* Write the key just played
- * @param leaf slice index
- * @param type type of attack
- */
-void leaf_d_root_write_key(slice_index leaf, attack_type type);
-
 /* Find and write continuations and append them to the top table
  * @param leaf slice index
  */
