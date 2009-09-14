@@ -551,36 +551,6 @@ boolean direct_guards_inserter_branch_direct_defender(slice_index si,
   return result;
 }
 
-/* Insert a STDirectAttack after each STBranchDirect slice if an
- * attacker's move played in the STBranchDirect slice is allowed to
- * solve the following branch (as typical in a non-exact stipulation).
- */
-static
-boolean direct_guards_inserter_branch_direct(slice_index si,
-                                             slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const * const towards_goal = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  pipe_insert_before(slices[si].u.pipe.next);
-  init_direct_attack_slice(slices[si].u.pipe.next,
-                           length-1,min_length-1,
-                           *towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static slice_operation const direct_guards_inserters[] =
 {
   &slice_traverse_children,                       /* STBranchDirect */
