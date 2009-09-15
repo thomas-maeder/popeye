@@ -93,6 +93,10 @@ void slice_solve_continuations(table continuations, slice_index si)
       branch_d_solve_continuations(continuations,si);
       break;
 
+    case STDirectHashed:
+      slice_solve_continuations(continuations,slices[si].u.pipe.next);
+      break;
+
     case STHelpAdapter:
       help_adapter_solve_continuations(continuations,si);
       break;
@@ -415,6 +419,10 @@ boolean slice_root_solve(slice_index si)
       result = direct_root_solve(si);
       break;
 
+    case STDirectHashed:
+      result = slice_root_solve(slices[si].u.pipe.next);
+      break;
+
     case STDirectDefenderRoot:
       result = branch_d_defender_root_solve(si);
       break;
@@ -524,6 +532,10 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
       result = leaf_d_are_threats_refuted(threats,si);
       break;
 
+    case STDirectHashed:
+      result = slice_are_threats_refuted(threats,slices[si].u.pipe.next);
+      break;
+
     case STReciprocal:
       result = reci_are_threats_refuted(threats,si);
       break;
@@ -575,7 +587,7 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
  */
 has_solution_type slice_has_solution(slice_index si)
 {
-  has_solution_type result = false;
+  has_solution_type result = has_no_solution;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -627,6 +639,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STSelfCheckGuard:
       result = selfcheck_guard_has_solution(si);
+      break;
+
+    case STDirectHashed:
+      result = direct_hashed_has_solution(si);
       break;
 
     default:
@@ -806,6 +822,10 @@ has_starter_won_result_type slice_has_starter_won(slice_index si)
       result = not_has_starter_won(si);
       break;
 
+    case STDirectHashed:
+      result = slice_has_starter_won(slices[si].u.pipe.next);
+      break;
+
     default:
       assert(0);
       break;
@@ -935,6 +955,10 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       result = branch_d_is_goal_reached(just_moved,si);
       break;
 
+    case STDirectHashed:
+      result = slice_is_goal_reached(just_moved,slices[si].u.pipe.next);
+      break;
+
     case STDirectDefenderRoot:
     case STBranchDirectDefender:
       result = branch_d_defender_is_goal_reached(just_moved,si);
@@ -991,6 +1015,10 @@ void slice_write_unsolvability(slice_index si)
 
     case STBranchDirect:
       branch_d_write_unsolvability(si);
+      break;
+
+    case STDirectHashed:
+      slice_write_unsolvability(slices[si].u.pipe.next);
       break;
 
     case STHelpAdapter:

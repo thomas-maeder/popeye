@@ -405,7 +405,6 @@ void InitBoard(void)
 void InitStip(void)
 {
   empile_for_goal_of_leaf_slice = no_slice;
-  FlagMoveOrientatedStip = false;
 
   release_slices();
   root_slice = no_slice;

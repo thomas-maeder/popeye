@@ -4,7 +4,6 @@
 #include "platform/maxtime.h"
 #include "pyoutput.h"
 #include "pyleaf.h"
-#include "pyhash.h"
 #include "pyoutput.h"
 #include "pymsg.h"
 
@@ -68,48 +67,26 @@ boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
  */
 has_solution_type leaf_d_has_solution(slice_index leaf)
 {
-  hashwhat hash_value = nr_hashwhat;
+  has_solution_type result = has_no_solution;
   Side const attacker = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  /* In move orientated stipulations (%, z, x etc.) it's less
-   * expensive to compute an end in 1. TLi
-   */
-  if (!FlagMoveOrientatedStip)
+  if (slices[leaf].u.leaf.goal==goal_doublemate
+      && immobile(attacker))
+    TraceText("attacker is immobile\n");
+  else
   {
-    /* It is more likely that a position has no solution. */
-    /*    Therefore let's check for "no solution" first. TLi */
-    if (inhash(leaf,DirNoSucc,1))
-    {
-      assert(!inhash(leaf,DirSucc,0));
-      hash_value = DirNoSucc;
-    }
-    else if (inhash(leaf,DirSucc,0))
-      hash_value = DirSucc;
-  }
-
-  if (hash_value==nr_hashwhat)
-  {
-    if (slices[leaf].u.leaf.goal==goal_doublemate
-        && immobile(attacker))
-    {
-      TraceText("attacker is immobile\n");
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%u\n",has_no_solution);
-      return false;
-    }
-
     generate_move_reaching_goal(leaf,attacker);
 
-    while (encore() && hash_value!=DirSucc)
+    while (encore() && result==has_no_solution)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && leaf_is_goal_reached(attacker,leaf)==goal_reached)
       {
-        hash_value = DirSucc;
+        result = has_solution;
         coupfort();
       }
 
@@ -120,22 +97,12 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
     }
 
     finply();
-
-    if (!FlagMoveOrientatedStip)
-    {
-      if (hash_value==DirSucc)
-        addtohash(leaf,DirSucc,0);
-      else
-        addtohash(leaf,DirNoSucc,1);
-    }
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,
-                  hash_value==DirSucc ? has_solution : has_no_solution,
-                  "");
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
-  return hash_value==DirSucc ? has_solution : has_no_solution;
+  return result;
 }
 
 /* Determine and write keys leading to a double-mate
@@ -449,40 +416,24 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  /* Only check for DirNoSucc - we also have to write the solution if
-   * we already know that there is one!
-   */
-  if (inhash(leaf,DirNoSucc,1))
+  output_start_continuation_level();
+
+  switch (slices[leaf].u.leaf.goal)
   {
-    assert(!inhash(leaf,DirSucc,0));
-    result = false;
+    case goal_countermate:
+      result = leaf_d_cmate_solve(leaf);
+      break;
+
+    case goal_doublemate:
+      result = leaf_d_dmate_solve(leaf);
+      break;
+
+    default:
+      result = leaf_d_regulargoals_solve(leaf);
+      break;
   }
-  else
-  {
-    output_start_continuation_level();
 
-    switch (slices[leaf].u.leaf.goal)
-    {
-      case goal_countermate:
-        result = leaf_d_cmate_solve(leaf);
-        break;
-
-      case goal_doublemate:
-        result = leaf_d_dmate_solve(leaf);
-        break;
-
-      default:
-        result = leaf_d_regulargoals_solve(leaf);
-        break;
-    }
-
-    output_end_continuation_level();
-
-    if (result)
-      addtohash(leaf,DirSucc,0);
-    else
-      addtohash(leaf,DirNoSucc,1);
-  }
+  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

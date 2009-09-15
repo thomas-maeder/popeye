@@ -85,7 +85,6 @@ EXTERN boolean flag_regression;
 EXTERN char versionString[100];
 
 slice_index empile_for_goal_of_leaf_slice;
-EXTERN  boolean         FlagMoveOrientatedStip;
 EXTERN  boolean         flagpassive, flagcapture,
 			flagactive,
 			flagwhitemummer,

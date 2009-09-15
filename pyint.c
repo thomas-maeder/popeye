@@ -2764,7 +2764,7 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverter */
   0,                                /* STDirectRoot */
   0,                                /* STDirectDefenderRoot */
-  0,                                /* STDirectHashed */
+  &slice_traverse_children,         /* STDirectHashed */
   0,                                /* STHelpRoot */
   &init_moves_left_help_adapter,    /* STHelpAdapter */
   &slice_traverse_children,         /* STHelpHashed */
@@ -3095,7 +3095,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,              /* STMoveInverter */
   0,                                     /* STDirectRoot */
   0,                                     /* STDirectDefenderRoot */
-  0,                                     /* STDirectHashed */
+  &slice_traverse_children,              /* STDirectHashed */
   &goalreachable_guards_inserter_branch, /* STHelpRoot */
   &slice_traverse_children,              /* STHelpAdapter */
   &slice_traverse_children,              /* STHelpHashed */

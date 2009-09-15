@@ -85,6 +85,12 @@ void DecHashRateLevel(void);
  */
 void insert_directhashed_slice(slice_index si);
 
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type direct_hashed_has_solution(slice_index si);
+
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
  * @param continuations table where to add first moves

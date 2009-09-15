@@ -505,7 +505,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMoveInverter */
   &root_slice_type_found,             /* STDirectRoot */
   &root_slice_type_found,             /* STDirectDefenderRoot */
-  0,                                  /* STDirectHashed */
+  &slice_traverse_children,           /* STDirectHashed */
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
@@ -551,9 +551,15 @@ static SliceType findUniqueRootSliceType(void)
 
 static boolean determineRestrictedSide(void)
 {
-  SliceType const unique_slice_type = findUniqueRootSliceType();
+  boolean result;
+  SliceType unique_slice_type;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  unique_slice_type = findUniqueRootSliceType();
   if (unique_slice_type==no_slice_type)
-    return false;
+    result = false;
   else
   {
     Side const restricted_side = (unique_slice_type==STHelpRoot
@@ -589,8 +595,13 @@ static boolean determineRestrictedSide(void)
       CondFlag[whiteultraschachzwang] = restricted_side==White;
     }
 
-    return true;
+    result = true;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static Goal const proof_goals[] = { goal_proof, goal_atob };
@@ -1644,22 +1655,6 @@ static boolean verify_position(void)
     flagblackmummer = true;
   }
 
-  {
-    Goal const moveOrientatedGoals[] =
-    {
-      goal_target,
-      goal_ep,
-      goal_capture,
-      goal_steingewinn,
-      goal_castling
-    };
-    size_t const nrMoveOrientatedGoals
-        = sizeof moveOrientatedGoals / sizeof moveOrientatedGoals[0];
-    
-    FlagMoveOrientatedStip = stip_ends_only_in(moveOrientatedGoals,
-                                               nrMoveOrientatedGoals);
-  }
-
   /* check castling possibilities */
   CLEARFL(castling_flag[0]);
   /* castling_supported has to be adjusted if there are any problems */
@@ -2444,6 +2439,53 @@ boolean insert_hash_element_branch_direct(slice_index si, slice_traversal *st)
   return result;
 }
 
+static boolean is_goal_move_oriented(slice_index leaf)
+{
+  boolean result;
+  Goal const goal = slices[leaf].u.leaf.goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  result = (goal==goal_target
+            || goal==goal_ep
+            || goal==goal_capture
+            || goal==goal_steingewinn
+            || goal==goal_castling);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* In move orientated stipulations (%, z, x etc.) it's less
+   * expensive to compute an end in 1. TLi
+   */
+  if (!is_goal_move_oriented(si))
+    insert_directhashed_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -2501,7 +2543,7 @@ static slice_operation const hash_element_inserters[] =
   &insert_hash_element_branch_help,   /* STBranchHelp */
   &insert_hash_element_branch_series, /* STBranchSeries */
   &slice_traverse_children,           /* STBranchFork */
-  &slice_traverse_children,           /* STLeafDirect */
+  &insert_hash_element_leaf_direct,   /* STLeafDirect */
   &slice_traverse_children,           /* STLeafHelp */
   &slice_traverse_children,           /* STLeafForced */
   &slice_traverse_children,           /* STReciprocal */

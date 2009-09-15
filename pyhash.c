@@ -425,19 +425,6 @@ static boolean init_slice_properties_leaf_help(slice_index leaf,
 }
 
 /* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a direct leaf
- * @param leaf root slice of subtree
- * @param st address of structure defining traversal
- * @return true
- */
-static boolean init_slice_properties_leaf_direct(slice_index leaf,
-                                                 slice_traversal *st)
-{
-  init_slice_property_direct(leaf,1,st->param);
-  return true;
-}
-
-/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a forced leaf
  * @param leaf root slice of subtree
  * @param st address of structure defining traversal
@@ -756,7 +743,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STBranchHelp */
   &init_slice_properties_pipe,           /* STBranchSeries */
   &init_slice_properties_branch_fork,    /* STBranchFork */
-  &init_slice_properties_leaf_direct,    /* STLeafDirect */
+  &slice_traverse_children,              /* STLeafDirect */
   &init_slice_properties_leaf_help,      /* STLeafHelp */
   &init_slice_properties_leaf_forced,    /* STLeafForced */
   &init_slice_properties_fork,           /* STReciprocal */
@@ -932,7 +919,7 @@ static slice_operation const min_valueOffset_finders[] =
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STBranchSeries */
   &slice_traverse_children, /* STBranchFork */
-  &findMinimalValueOffset,  /* STLeafDirect */
+  &slice_traverse_children, /* STLeafDirect */
   &findMinimalValueOffset,  /* STLeafHelp */
   &findMinimalValueOffset,  /* STLeafForced */
   &slice_traverse_children, /* STReciprocal */
@@ -990,7 +977,7 @@ static slice_operation const valueOffset_reducers[] =
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STBranchSeries */
   &slice_traverse_children, /* STBranchFork */
-  &reduceValueOffset,       /* STLeafDirect */
+  &slice_traverse_children, /* STLeafDirect */
   &reduceValueOffset,       /* STLeafHelp */
   &reduceValueOffset,       /* STLeafForced */
   &slice_traverse_children, /* STReciprocal */
@@ -1324,9 +1311,6 @@ static hash_value_type own_value_of_data_leaf(dhtElement const *he,
     case STLeafHelp:
       return own_value_of_data_help(he,leaf);
 
-    case STLeafDirect:
-      return own_value_of_data_direct(he,leaf,1);
-
     case STLeafForced:
       return 0;
 
@@ -1399,13 +1383,13 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
   switch (slices[si].type)
   {
-    case STLeafDirect:
     case STLeafHelp:
     {
       result = own_value_of_data_leaf(he,si) << offset;
       break;
     }
 
+    case STLeafDirect:
     case STLeafForced:
       result = 0;
       break;
@@ -2212,31 +2196,6 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
     TraceEnumerator(SliceType,slices[si].type,"\n");
     switch (slices[si].type)
     {
-      case STLeafDirect:
-        if (what==DirNoSucc)
-        {
-          hash_value_type const nosucc = get_value_direct_nosucc(he,si);
-          assert(val==1);
-          if (nosucc>=1)
-          {
-            ifHASHRATE(use_pos++);
-            result = true;
-          } else
-            result = false;
-        }
-        else
-        {
-          hash_value_type const succ = get_value_direct_succ(he,si);
-          assert(val==0);
-          if (succ==0)
-          {
-            ifHASHRATE(use_pos++);
-            result = true;
-          } else
-            result = false;
-        }
-        break;
-
       case STDirectHashed:
         if (what==DirNoSucc)
         {
@@ -2406,28 +2365,6 @@ boolean init_element_leaf_h(slice_index si, slice_traversal *st)
 /* Traverse a slice while initialising a hash table element
  * @param si identifies slice
  * @param st address of structure holding status of traversal
- * @return true
- */
-boolean init_element_leaf_d(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  dhtElement * const he = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  init_element_direct(he,si,1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Traverse a slice while initialising a hash table element
- * @param si identifies slice
- * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
 boolean init_element_branch_d(slice_index si, slice_traversal *st)
@@ -2501,7 +2438,7 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STBranchHelp */
   &slice_traverse_children,    /* STBranchSeries */
   &slice_traverse_children,    /* STBranchFork */
-  &init_element_leaf_d,        /* STLeafDirect */
+  &slice_traverse_children,    /* STLeafDirect */
   &init_element_leaf_h,        /* STLeafHelp */
   &slice_operation_noop,       /* STLeafForced */
   &slice_traverse_children,    /* STReciprocal */
@@ -2858,6 +2795,11 @@ void insert_directhashed_slice(slice_index si)
 
   slices[si].u.pipe.next = copy_slice(si);
   slices[si].type = STDirectHashed;
+  if (slices[slices[si].u.pipe.next].type==STLeafDirect)
+  {
+    slices[si].u.pipe.u.branch.length = 2;
+    slices[si].u.pipe.u.branch.min_length = 2;
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2903,6 +2845,79 @@ void insert_serieshashed_slice(slice_index si)
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_hashed_solve(slice_index si)
+{
+  boolean result;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* Only check for DirNoSucc - we also have to write the solution if
+   * we already know that there is one!
+   */
+  if (inhash(si,DirNoSucc,n/2))
+  {
+    assert(!inhash(si,DirSucc,n/2-1));
+    result = false;
+  }
+  else
+  {
+    result = slice_solve(slices[si].u.pipe.next);
+    if (result)
+      addtohash(si,DirSucc,n/2-1);
+    else
+      addtohash(si,DirNoSucc,n/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type direct_hashed_has_solution(slice_index si)
+{
+  has_solution_type result;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* It is more likely that a position has no solution. */
+  /*    Therefore let's check for "no solution" first. TLi */
+  if (inhash(si,DirNoSucc,n/2))
+  {
+    assert(!inhash(si,DirSucc,n/2-1));
+    result = has_no_solution;
+  }
+  else if (inhash(si,DirSucc,n/2-1))
+    result = has_solution;
+  else
+  {
+    result = slice_has_solution(slices[si].u.pipe.next);
+    if (result==has_solution)
+      addtohash(si,DirSucc,n/2-1);
+    else
+      addtohash(si,DirNoSucc,n/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write solution(s): add first moves to table (as
@@ -3056,27 +3071,6 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
     else
       addtohash(si,DirNoSucc,n/2);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean direct_hashed_solve(slice_index si)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_solve(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
