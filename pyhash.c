@@ -2192,11 +2192,10 @@ static void addtohash(slice_index si, hashwhat what, hash_value_type val)
    * allocated the hash table. */
   if (pyhash!=0)
   {
-    HashBuffer *hb = &hashBuffers[nbply];
+    HashBuffer * const hb = &hashBuffers[nbply];
     dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
 
-    if (!isHashBufferValid[nbply])
-      (*encode)();
+    assert(isHashBufferValid[nbply]);
 
     if (he == dhtNilElement)
     {
