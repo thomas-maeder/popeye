@@ -2516,6 +2516,27 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
+boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  insert_helphashed_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
 boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
@@ -2544,7 +2565,7 @@ static slice_operation const hash_element_inserters[] =
   &insert_hash_element_branch_series, /* STBranchSeries */
   &slice_traverse_children,           /* STBranchFork */
   &insert_hash_element_leaf_direct,   /* STLeafDirect */
-  &slice_traverse_children,           /* STLeafHelp */
+  &insert_hash_element_leaf_help,     /* STLeafHelp */
   &slice_traverse_children,           /* STLeafForced */
   &slice_traverse_children,           /* STReciprocal */
   &slice_traverse_children,           /* STQuodlibet */

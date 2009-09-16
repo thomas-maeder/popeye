@@ -110,6 +110,16 @@
 #include "platform/maxmem.h"
 #include "trace.h"
 
+typedef enum {
+	hash_series_insufficient_nr_half_moves,
+	hash_help_insufficient_nr_half_moves,
+	DirSucc,
+	DirNoSucc,
+    nr_hashwhat
+} hashwhat;
+
+typedef unsigned int hash_value_type;
+
 static struct dht *pyhash;
 
 static char    piece_nbr[PieceCount];
@@ -125,6 +135,12 @@ static boolean is_there_slice_with_nonstandard_min_length;
  * minimalElementValueAfterCompression if necessary.
  */
 static hash_value_type minimalElementValueAfterCompression;
+
+
+/* Container of indices of hash slices
+ */
+static unsigned int nr_hash_slices;
+static slice_index hash_slices[max_nr_slices];
 
 
 HashBuffer hashBuffers[maxply+1];
@@ -400,57 +416,6 @@ static void init_slice_property_series(slice_index si,
 }
 
 /* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a help leaf
- * @param leaf root slice of subtree
- * @param st address of structure defining traversal
- * @return true
- */
-static boolean init_slice_properties_leaf_help(slice_index leaf,
-                                               slice_traversal *st)
-{
-  boolean const result = true;
-  slice_initializer_state * const sis = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  sis->valueOffset -= bit_width(1);
-  init_slice_property_help(leaf,1,st->param);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a forced leaf
- * @param leaf root slice of subtree
- * @param st address of structure defining traversal
- * @return true
- */
-static boolean init_slice_properties_leaf_forced(slice_index leaf,
-                                                 slice_traversal *st)
-{
-  boolean const result = true;
-  slice_initializer_state const * const sis = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  slice_properties[leaf].valueOffset = sis->valueOffset;
-  TraceValue("%u",leaf);
-  TraceValue("%u\n",slice_properties[leaf].valueOffset);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a pipe for which we don't
  * have a more specialised function
  * @param leaf root slice of subtree
@@ -462,11 +427,14 @@ static boolean init_slice_properties_pipe(slice_index pipe,
                                           slice_traversal *st)
 {
   boolean result;
+  slice_initializer_state const * const sis = st->param;
   slice_index const next = slices[pipe].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",sis->valueOffset);
 
   result = traverse_slices(next,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
@@ -571,14 +539,22 @@ static boolean init_slice_properties_direct_root(slice_index si,
  * @return true iff the properties for branch and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_hashed_direct(slice_index branch,
+static boolean init_slice_properties_hashed_direct(slice_index si,
                                                    slice_traversal *st)
 {
   boolean const result = true;
+  slice_initializer_state * const sis = st->param;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
 
-  stip_length_type const length = slices[branch].u.pipe.u.branch.length;
-  init_slice_property_direct(branch,length,st->param);
-  slice_traverse_children(branch,st);
+  /* TODO This is a bit of a hack - we are hashing for a leaf -> no
+   * help adapter has adjusted the valueOffset!
+   */
+  if (slices[slices[si].u.pipe.next].type==STLeafDirect)
+    --sis->valueOffset;
+
+  init_slice_property_direct(si,length,sis);
+  hash_slices[nr_hash_slices++] = si;
+  slice_traverse_children(si,st);
 
   return result;
 }
@@ -601,8 +577,14 @@ static boolean init_slice_properties_hashed_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_slice_property_help(si,length-slack_length_help,sis);
+  /* TODO This is a bit of a hack - we are hashing for a leaf -> no
+   * help adapter has adjusted the valueOffset!
+   */
+  if (slices[slices[si].u.pipe.next].type==STLeafHelp)
+    --sis->valueOffset;
 
+  init_slice_property_help(si,length-slack_length_help,sis);
+  hash_slices[nr_hash_slices++] = si;
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
@@ -636,8 +618,8 @@ static boolean init_slice_properties_help_adapter(slice_index si,
     unsigned int width = bit_width((length-slack_length_help+1)/2);
     TraceValue("%u\n",width);
     if (length-slack_length_help>1)
-      /* 1 bit more because we have two slices whose values are
-       * added for computing the value of this branch */
+      /* 1 bit more because we have two slices whose values are added
+       * for computing the value of this branch */
       ++width;
     sis->valueOffset -= width;
   }
@@ -674,7 +656,7 @@ static boolean init_slice_properties_hashed_series(slice_index si,
   TraceFunctionParamListEnd();
 
   init_slice_property_series(si,length-slack_length_series,sis);
-
+  hash_slices[nr_hash_slices++] = si;
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
@@ -743,9 +725,9 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STBranchHelp */
   &init_slice_properties_pipe,           /* STBranchSeries */
   &init_slice_properties_branch_fork,    /* STBranchFork */
-  &slice_traverse_children,              /* STLeafDirect */
-  &init_slice_properties_leaf_help,      /* STLeafHelp */
-  &init_slice_properties_leaf_forced,    /* STLeafForced */
+  &slice_operation_noop,                 /* STLeafDirect */
+  &slice_operation_noop,                 /* STLeafHelp */
+  &slice_operation_noop,                 /* STLeafForced */
   &init_slice_properties_fork,           /* STReciprocal */
   &init_slice_properties_fork,           /* STQuodlibet */
   &init_slice_properties_pipe,           /* STNot */
@@ -774,239 +756,77 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe            /* STMaxThreatLength */
 };
 
-/* Find out whether a branch has a non-standard length (i.e. is exact)
- * @param branch identifies branch
+static boolean find_slice_with_nonstandard_min_length(void)
+{
+  boolean result = false;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i<nr_hash_slices && !result; ++i)
+  {
+    slice_index const si = hash_slices[i];
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    switch (slices[si].type)
+    {
+      case STDirectHashed:
+        result = min_length==length && length>slack_length_direct+1;
+        break;
+
+      case STHelpHashed:
+        result = min_length==length && length>slack_length_help+1;
+        break;
+
+      case STSeriesHashed:
+        result = min_length==length && length>slack_length_series+1;
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Reduce the value offsets for the hash slices to the minimal
+ * possible value. This is important in order for
+ * minimalElementValueAfterCompression not to grow too high in
+ * compresshash().
  */
-static boolean  non_standard_length_finder_branch_direct(slice_index branch,
-                                                         slice_traversal *st)
+static void minimiseValueOffset(void)
 {
-  boolean const result = true;
-  stip_length_type const length = slices[branch].u.pipe.u.branch.length;
-  boolean * const nonstandard = st->param;
+  unsigned int minimalValueOffset = sizeof(data_type)*CHAR_BIT;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
   TraceFunctionParamListEnd();
 
-  if (slices[branch].u.pipe.u.branch.min_length==length
-      && length>slack_length_direct+1)
-    *nonstandard = true;
+  for (i = 0; i<nr_hash_slices; ++i)
+  {
+    slice_index const si = hash_slices[i];
+    unsigned int const valueOffset = slice_properties[si].valueOffset;
+    if (valueOffset<minimalValueOffset)
+      minimalValueOffset = valueOffset;
+  }
 
-  slice_traverse_children(branch,st);
+  TraceValue("%u\n",minimalValueOffset);
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find out whether a branch has a non-standard length (i.e. is exact)
- * @param branch identifies branch
- */
-static boolean non_standard_length_finder_help_adapter(slice_index si,
-                                                      slice_traversal *st)
-{
-  boolean const result = true;
-  boolean * const nonstandard = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.u.branch.min_length==length
-      && length>slack_length_help+1)
-    *nonstandard = true;
-
-  traverse_slices(towards_goal,st);
+  for (i = 0; i<nr_hash_slices; ++i)
+  {
+    slice_index const si = hash_slices[i];
+    slice_properties[si].valueOffset -= minimalValueOffset;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
-
-/* Find out whether a branch has a non-standard length (i.e. is exact)
- * @param branch identifies branch
- */
-static boolean non_standard_length_finder_series_adapter(slice_index si,
-                                                         slice_traversal *st)
-{
-  boolean const result = true;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  boolean * const nonstandard = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.u.branch.min_length==length
-      && length>slack_length_series+1)
-    *nonstandard = true;
-
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const non_standard_length_finders[] =
-{
-  &slice_traverse_children,                   /* STBranchDirect */
-  &slice_traverse_children,                   /* STBranchDirectDefender */
-  &slice_traverse_children,                   /* STBranchHelp */
-  &slice_traverse_children,                   /* STBranchSeries */
-  &slice_traverse_children,                   /* STBranchFork */
-  &slice_traverse_children,                   /* STLeafDirect */
-  &slice_traverse_children,                   /* STLeafHelp */
-  &slice_traverse_children,                   /* STLeafForced */
-  &slice_traverse_children,                   /* STReciprocal */
-  &slice_traverse_children,                   /* STQuodlibet */
-  &slice_traverse_children,                   /* STNot */
-  &slice_traverse_children,                   /* STMoveInverter */
-  &slice_traverse_children,                   /* STDirectRoot */
-  &non_standard_length_finder_branch_direct,  /* STDirectDefenderRoot */
-  &non_standard_length_finder_branch_direct,  /* STDirectHashed */
-  &slice_traverse_children,                   /* STHelpRoot */
-  &non_standard_length_finder_help_adapter,   /* STHelpAdapter */
-  &non_standard_length_finder_help_adapter,   /* STHelpHashed */
-  &slice_traverse_children,                   /* STSelfCheckGuard */
-  &non_standard_length_finder_series_adapter, /* STSeriesAdapter */
-  &non_standard_length_finder_series_adapter, /* STSeriesHashed */
-  &slice_traverse_children,                   /* STSelfCheckGuard */
-  &slice_traverse_children,                   /* STDirectAttack */
-  &slice_traverse_children,                   /* STDirectDefense */
-  &slice_traverse_children,                   /* STReflexGuard */
-  &slice_traverse_children,                   /* STSelfAttack */
-  &slice_traverse_children,                   /* STSelfDefense */
-  &slice_traverse_children,                   /* STRestartGuard */
-  &slice_traverse_children,                   /* STGoalReachableGuard */
-  &slice_traverse_children,                   /* STKeepMatingGuard */
-  &slice_traverse_children,                   /* STMaxFlightsquares */
-  &slice_traverse_children,                   /* STDegenerateTree */
-  &slice_traverse_children,                   /* STMaxNrNonTrivial */
-  &slice_traverse_children                    /* STMaxThreatLength */
-};
-
-static boolean findMinimalValueOffset(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  unsigned int * const minimalValueOffset = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",slice_properties[si].valueOffset);
-  if (*minimalValueOffset>slice_properties[si].valueOffset)
-    *minimalValueOffset = slice_properties[si].valueOffset;
-
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const min_valueOffset_finders[] =
-{
-  &slice_traverse_children, /* STBranchDirect */
-  &slice_traverse_children, /* STBranchDirectDefender */
-  &slice_traverse_children, /* STBranchHelp */
-  &slice_traverse_children, /* STBranchSeries */
-  &slice_traverse_children, /* STBranchFork */
-  &slice_traverse_children, /* STLeafDirect */
-  &findMinimalValueOffset,  /* STLeafHelp */
-  &findMinimalValueOffset,  /* STLeafForced */
-  &slice_traverse_children, /* STReciprocal */
-  &slice_traverse_children, /* STQuodlibet */
-  &slice_traverse_children, /* STNot */
-  &slice_traverse_children, /* STMoveInverter */
-  &slice_traverse_children, /* STDirectRoot */
-  &slice_traverse_children, /* STDirectDefenderRoot */
-  &findMinimalValueOffset,  /* STDirectHashed */
-  &slice_traverse_children, /* STHelpRoot */
-  &slice_traverse_children, /* STHelpAdapter */
-  &findMinimalValueOffset,  /* STHelpHashed */
-  &slice_traverse_children, /* STSeriesRoot */
-  &slice_traverse_children, /* STSeriesAdapter */
-  &findMinimalValueOffset,  /* STSeriesHashed */
-  &slice_traverse_children, /* STSelfCheckGuard */
-  &slice_traverse_children, /* STDirectAttack */
-  &slice_traverse_children, /* STDirectDefense */
-  &slice_traverse_children, /* STReflexGuard */
-  &slice_traverse_children, /* STSelfAttack */
-  &slice_traverse_children, /* STSelfDefense */
-  &slice_traverse_children, /* STRestartGuard */
-  &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children, /* STKeepMatingGuard */
-  &slice_traverse_children, /* STMaxFlightsquares */
-  &slice_traverse_children, /* STDegenerateTree */
-  &slice_traverse_children, /* STMaxNrNonTrivial */
-  &slice_traverse_children  /* STMaxThreatLength */
-};
-
-static boolean reduceValueOffset(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  unsigned int const * const minimalValueOffset = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_properties[si].valueOffset -= *minimalValueOffset;
-  TraceValue("%u\n",slice_properties[si].valueOffset);
-
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const valueOffset_reducers[] =
-{
-  &slice_traverse_children, /* STBranchDirect */
-  &slice_traverse_children, /* STBranchDirectDefender */
-  &slice_traverse_children, /* STBranchHelp */
-  &slice_traverse_children, /* STBranchSeries */
-  &slice_traverse_children, /* STBranchFork */
-  &slice_traverse_children, /* STLeafDirect */
-  &reduceValueOffset,       /* STLeafHelp */
-  &reduceValueOffset,       /* STLeafForced */
-  &slice_traverse_children, /* STReciprocal */
-  &slice_traverse_children, /* STQuodlibet */
-  &slice_traverse_children, /* STNot */
-  &slice_traverse_children, /* STMoveInverter */
-  &slice_traverse_children, /* STDirectRoot */
-  &slice_traverse_children, /* STDirectDefenderRoot */
-  &reduceValueOffset,       /* STDirectHashed */
-  &slice_traverse_children, /* STHelpRoot */
-  &slice_traverse_children, /* STHelpAdapter */
-  &reduceValueOffset,       /* STHelpHashed */
-  &slice_traverse_children, /* STSeriesRoot */
-  &slice_traverse_children, /* STSeriesAdapter */
-  &reduceValueOffset,       /* STSeriesHashed */
-  &slice_traverse_children, /* STSelfCheckGuard */
-  &slice_traverse_children, /* STDirectAttack */
-  &slice_traverse_children, /* STDirectDefense */
-  &slice_traverse_children, /* STReflexGuard */
-  &slice_traverse_children, /* STSelfAttack */
-  &slice_traverse_children, /* STSelfDefense */
-  &slice_traverse_children, /* STRestartGuard */
-  &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children, /* STKeepMatingGuard */
-  &slice_traverse_children, /* STMaxFlightsquares */
-  &slice_traverse_children, /* STDegenerateTree */
-  &slice_traverse_children, /* STMaxNrNonTrivial */
-  &slice_traverse_children  /* STMaxThreatLength */
-};
 
 /* Initialise the slice_properties array according to the current
  * stipulation slices.
@@ -1019,28 +839,18 @@ static void init_slice_properties(void)
     sizeof(data_type)*CHAR_BIT
   };
 
-  unsigned int minimalValueOffset = sizeof(data_type)*CHAR_BIT;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  nr_hash_slices = 0;
 
   slice_traversal_init(&st,&slice_properties_initalisers,&sis);
   traverse_slices(root_slice,&st);
 
-  is_there_slice_with_nonstandard_min_length = false;
-  slice_traversal_init(&st,
-                       &non_standard_length_finders,
-                       &is_there_slice_with_nonstandard_min_length);
-  traverse_slices(root_slice,&st);
-  TraceValue("%u\n",is_there_slice_with_nonstandard_min_length);
+  is_there_slice_with_nonstandard_min_length
+      = find_slice_with_nonstandard_min_length();
 
-  slice_traversal_init(&st,&min_valueOffset_finders,&minimalValueOffset);
-  traverse_slices(root_slice,&st);
-
-  TraceValue("%u\n",minimalValueOffset);
-
-  slice_traversal_init(&st,&valueOffset_reducers,&minimalValueOffset);
-  traverse_slices(root_slice,&st);
+  minimiseValueOffset();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1230,29 +1040,28 @@ static hash_value_type get_value_series(dhtElement const *he,
  * direct end) to the value of a hash table element node.
  * @param he address of hash table element to determine value of
  * @param si slice index of slice
- * @param length length of slice
  * @return value of contribution of slice si to *he's value
  */
 static hash_value_type own_value_of_data_direct(dhtElement const *he,
-                                                slice_index si,
-                                                stip_length_type length)
+                                                slice_index si)
 {
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
   hash_value_type result;
-
-  hash_value_type const succ = get_value_direct_succ(he,si);
-  hash_value_type const nosucc = get_value_direct_nosucc(he,si);
-  hash_value_type const succ_neg = length-succ;
+  hash_value_type succ;
+  hash_value_type nosucc;
+  hash_value_type succ_neg;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",succ);
-  TraceValue("%u\n",nosucc);
+  succ = get_value_direct_succ(he,si);
+  nosucc = get_value_direct_nosucc(he,si);
 
   assert(succ<=length);
+  succ_neg = length-succ;
+
   result = succ_neg>nosucc ? succ_neg : nosucc;
   
   TraceFunctionExit(__func__);
@@ -1297,80 +1106,16 @@ static hash_value_type own_value_of_data_series(dhtElement const *he,
   return get_value_series(he,si);
 }
 
-/* Determine the contribution of a leaf slice to the value of
- * a hash table element node.
+/* Determine the contribution of a slice to the value of a hash table
+ * element node.
  * @param he address of hash table element to determine value of
- * @param leaf slice index of composite slice
- * @return value of contribution of the leaf slice to *he's value
+ * @param si slice index
+ * @return value of contribuation of the slice to *he's value
  */
-static hash_value_type own_value_of_data_leaf(dhtElement const *he,
-                                              slice_index leaf)
+static hash_value_type value_of_data_from_slice(dhtElement const *he,
+                                                slice_index si)
 {
-  switch (slices[leaf].type)
-  {
-    case STLeafHelp:
-      return own_value_of_data_help(he,leaf);
-
-    case STLeafForced:
-      return 0;
-
-    default:
-      assert(0);
-      return 0;
-  }
-}
-
-/* Determine the contribution of a composite slice to the value of
- * a hash table element node.
- * @param he address of hash table element to determine value of
- * @param si slice index of composite slice
- * @return value of contribution of the slice si to *he's value
- */
-static hash_value_type own_value_of_data_composite(dhtElement const *he,
-                                                   slice_index si)
-{
-  hash_value_type result = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%p ",he);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  switch (slices[si].type)
-  {
-    case STBranchDirect:
-      result = own_value_of_data_direct(he,si,slices[si].u.pipe.u.branch.length);
-      break;
-
-    case STHelpHashed:
-      result = own_value_of_data_help(he,si);
-      break;
-
-    case STBranchSeries:
-      result = own_value_of_data_series(he,si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%08x",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine the contribution of a stipulation subtree to the value of
- * a hash table element node.
- * @param he address of hash table element to determine value of
- * @param si slice index of subtree root slice
- * @return value of contribuation of the subtree to *he's value
- */
-static hash_value_type value_of_data_recursive(dhtElement const *he,
-                                               slice_index si)
-{
-  hash_value_type result = 0;
+  hash_value_type result;
   unsigned int const offset = slice_properties[si].valueOffset;
 
   TraceFunctionEntry(__func__);
@@ -1383,84 +1128,21 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
 
   switch (slices[si].type)
   {
-    case STLeafHelp:
-    {
-      result = own_value_of_data_leaf(he,si) << offset;
-      break;
-    }
-
-    case STLeafDirect:
-    case STLeafForced:
-      result = 0;
+    case STDirectHashed:
+      result = own_value_of_data_direct(he,si) << offset;
       break;
 
-    case STQuodlibet:
-    case STReciprocal:
-    {
-      slice_index const op1 = slices[si].u.fork.op1;
-      slice_index const op2 = slices[si].u.fork.op2;
-
-      hash_value_type const nested_value1 = value_of_data_recursive(he,op1);
-      hash_value_type const nested_value2 = value_of_data_recursive(he,op2);
-
-      result = nested_value1>nested_value2 ? nested_value1 : nested_value2;
+    case STHelpHashed:
+      result = own_value_of_data_help(he,si) << offset;
       break;
-    }
 
-    case STNot:
-    case STMoveInverter:
-    case STSelfCheckGuard:
-    case STBranchDirectDefender:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      result = value_of_data_recursive(he,next);
+    case STSeriesHashed:
+      result = own_value_of_data_series(he,si) << offset;
       break;
-    }
-
-    case STHelpRoot:
-    case STHelpAdapter:
-    {
-      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-
-      slice_index const anchor = slice_properties[si].u.h.anchor;
-      slice_index next = anchor;
-
-      result = value_of_data_recursive(he,to_goal);
-
-      do
-      {
-        if (slices[next].type==STHelpHashed)
-          result += own_value_of_data_composite(he,next) << offset;
-        next = slices[next].u.pipe.next;
-      } while (next!=no_slice && next!=anchor);
-
-      break;
-    }
-
-    case STBranchDirect:
-    {
-      hash_value_type const own_value = own_value_of_data_composite(he,si);
-      slice_index const peer = slices[si].u.pipe.next;
-      hash_value_type const nested_value = value_of_data_recursive(he,peer);
-      result = (own_value << offset) + nested_value;
-      break;
-    }
-
-    case STBranchSeries:
-    {
-      hash_value_type const own_value = own_value_of_data_composite(he,si);
-
-      slice_index const next = slices[si].u.pipe.next;
-      hash_value_type const nested_value = value_of_data_recursive(he,next);
-      TraceValue("%x ",own_value);
-      TraceValue("%x\n",nested_value);
-
-      result = (own_value << offset) + nested_value;
-      break;
-    }
 
     default:
       assert(0);
+      result = 0;
       break;
   }
 
@@ -1478,13 +1160,15 @@ static hash_value_type value_of_data_recursive(dhtElement const *he,
  */
 static hash_value_type value_of_data(dhtElement const *he)
 {
-  hash_value_type result;
+  hash_value_type result = 0;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p",he);
   TraceFunctionParamListEnd();
 
-  result = value_of_data_recursive(he,root_slice);
+  for (i = 0; i<nr_hash_slices; ++i)
+    result += value_of_data_from_slice(he,hash_slices[i]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%08x",result);
@@ -1512,6 +1196,10 @@ static void compresshash (void)
 
   targetKeyCount = dhtKeyCount(pyhash);
   targetKeyCount -= targetKeyCount/16;
+
+  TraceValue("%u",minimalElementValueAfterCompression);
+  TraceValue("%u",dhtKeyCount(pyhash));
+  TraceValue("%u\n",targetKeyCount);
 
 #if defined(TESTHASH)
   printf("\nminimalElementValueAfterCompression: %08x\n",
@@ -1586,7 +1274,7 @@ static void compresshash (void)
     fflush(stdout);
 #endif  /* TESTHASH */
 
-    if (dhtKeyCount(pyhash)<targetKeyCount)
+    if (dhtKeyCount(pyhash)<=targetKeyCount)
       break;
     else
       ++minimalElementValueAfterCompression;
@@ -1809,9 +1497,9 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STBranchHelp */
   &slice_traverse_children,                         /* STBranchSeries */
   &slice_traverse_children,                         /* STBranchFork */
-  &slice_traverse_children,                         /* STLeafDirect */
-  &slice_traverse_children,                         /* STLeafHelp */
-  &slice_traverse_children,                         /* STLeafForced */
+  &slice_operation_noop,                            /* STLeafDirect */
+  &slice_operation_noop,                            /* STLeafHelp */
+  &slice_operation_noop,                            /* STLeafForced */
   &number_of_holes_estimator_fork,                  /* STReciprocal */
   &number_of_holes_estimator_fork,                  /* STQuodlibet */
   &slice_traverse_children,                         /* STNot */
@@ -2167,7 +1855,7 @@ static void SmallEncode(void)
   validateHashBuffer();
 }
 
-boolean inhash(slice_index si, hashwhat what, hash_value_type val)
+static boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 {
   boolean result = false;
   HashBuffer *hb = &hashBuffers[nbply];
@@ -2255,21 +1943,6 @@ boolean inhash(slice_index si, hashwhat what, hash_value_type val)
         }
         break;
 
-      case STLeafHelp:
-        {
-          hash_value_type const nosucc = get_value_help(he,si);
-          assert(what==hash_help_insufficient_nr_half_moves);
-          assert(val==1);
-          if (nosucc>=1)
-          {
-            ifHASHRATE(use_pos++);
-            result = true;
-          }
-          else
-            result = false;
-        }
-        break;
-
       default:
         assert(0);
         break;
@@ -2338,28 +2011,6 @@ static void init_element_series(dhtElement *he, slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Traverse a slice while initialising a hash table element
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- * @return true
- */
-boolean init_element_leaf_h(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  dhtElement * const he = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  init_element_help(he,si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse a slice while initialising a hash table element
@@ -2438,8 +2089,8 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STBranchHelp */
   &slice_traverse_children,    /* STBranchSeries */
   &slice_traverse_children,    /* STBranchFork */
-  &slice_traverse_children,    /* STLeafDirect */
-  &init_element_leaf_h,        /* STLeafHelp */
+  &slice_operation_noop,       /* STLeafDirect */
+  &slice_operation_noop,       /* STLeafHelp */
   &slice_operation_noop,       /* STLeafForced */
   &slice_traverse_children,    /* STReciprocal */
   &slice_traverse_children,    /* STQuodlibet */
@@ -2502,7 +2153,9 @@ static dhtElement *allocDHTelement(dhtValue hb)
     compresshash();
     if (dhtKeyCount(pyhash)==nrKeys)
     {
-      /* final attempt */
+      /* TODO find something less heavy as last resort
+       */
+      closehash();
       inithash();
       result = dhtEnterElement(pyhash, (dhtValue)hb, 0);
       break;
@@ -2525,7 +2178,7 @@ static dhtElement *allocDHTelement(dhtValue hb)
   return result;
 }
 
-void addtohash(slice_index si, hashwhat what, hash_value_type val)
+static void addtohash(slice_index si, hashwhat what, hash_value_type val)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2777,6 +2430,8 @@ void closehash(void)
 #if defined(TESTHASH) && defined(FXF)
   fxfInfo(stdout);
 #endif /*TESTHASH,FXF*/
+
+  fxfReset();
 } /* closehash */
 
 /* Allocate a STDirectHashed slice for a STBranch* slice and insert
@@ -2821,7 +2476,12 @@ void insert_helphashed_slice(slice_index si)
 
   slices[si].u.pipe.next = copy_slice(si);
   slices[si].type = STHelpHashed;
-  
+  if (slices[slices[si].u.pipe.next].type==STLeafHelp)
+  {
+    slices[si].u.pipe.u.branch.length = 3;
+    slices[si].u.pipe.u.branch.min_length = 3;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -3070,6 +2730,39 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
       addtohash(si,DirSucc,result/2-1);
     else
       addtohash(si,DirNoSucc,n/2);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean hashed_help_solve(slice_index si)
+{
+  boolean result;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const nr_half_moves = (n+1-slack_length_help)/2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_help);
+
+  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+    result = false;
+  else if (slice_solve(slices[si].u.pipe.next))
+    result = true;
+  else
+  {
+    result = false;
+    addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);

@@ -329,6 +329,10 @@ boolean slice_solve(slice_index si)
       solution_found = help_adapter_solve(si);
       break;
 
+    case STHelpHashed:
+      solution_found = hashed_help_solve(si);
+      break;
+
     case STSeriesAdapter:
       solution_found = series_adapter_solve(si);
       break;
@@ -420,6 +424,7 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STDirectHashed:
+    case STHelpHashed:
       result = slice_root_solve(slices[si].u.pipe.next);
       break;
 
@@ -629,6 +634,10 @@ has_solution_type slice_has_solution(slice_index si)
       result = help_adapter_has_solution(si);
       break;
 
+    case STHelpHashed:
+      result = slice_has_solution(slices[si].u.pipe.next);
+      break;
+
     case STSeriesAdapter:
       result = series_adapter_has_solution(si);
       break;
@@ -689,6 +698,10 @@ boolean slice_solve_postkey(slice_index si)
 
     case STHelpAdapter:
       result = help_adapter_solve_postkey(si);
+      break;
+
+    case STHelpHashed:
+      result = slice_solve_postkey(slices[si].u.pipe.next);
       break;
 
     case STSeriesAdapter:
@@ -956,6 +969,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STDirectHashed:
+    case STHelpHashed:
       result = slice_is_goal_reached(just_moved,slices[si].u.pipe.next);
       break;
 
@@ -975,7 +989,6 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STBranchHelp:
-    case STHelpHashed:
     case STSelfCheckGuard:
       result = branch_h_is_goal_reached(just_moved,si);
       break;
@@ -1018,6 +1031,7 @@ void slice_write_unsolvability(slice_index si)
       break;
 
     case STDirectHashed:
+    case STHelpHashed:
       slice_write_unsolvability(slices[si].u.pipe.next);
       break;
 

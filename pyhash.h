@@ -15,14 +15,6 @@
 #include "pydirect.h"
 
 /* typedefs */
-typedef enum {
-	hash_series_insufficient_nr_half_moves,
-	hash_help_insufficient_nr_half_moves,
-	DirSucc,
-	DirNoSucc,
-    nr_hashwhat
-} hashwhat;
-
 typedef unsigned char byte;
 
 enum
@@ -52,8 +44,6 @@ void invalidateHashBuffer(void);
 /* exported functions */
 void check_hash_assumptions(void);
 
-void hash_reset_derivations(void);
-
 /* Allocate memory for the hash table. If the requested amount of
  * memory isn't available, reduce the amount until allocation
  * succeeds. 
@@ -65,15 +55,6 @@ unsigned long allochash(unsigned long nr_kilos);
 void inithash (void);
 void closehash (void);
 void HashStats(unsigned int level, char *trailer);
-
-typedef unsigned int hash_value_type;
-
-boolean inhash(slice_index si,
-               hashwhat what,
-               hash_value_type val);
-void addtohash(slice_index si,
-               hashwhat what,
-               hash_value_type val);
 
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
@@ -159,6 +140,12 @@ boolean direct_hashed_solve(slice_index si);
  * @param si identifies STBranch* slice
  */
 void insert_helphashed_slice(slice_index si);
+
+/* Solve a slice
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean hashed_help_solve(slice_index si);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

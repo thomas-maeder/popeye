@@ -2141,7 +2141,7 @@ trace.h:
 pyleafh$(OBJ_SUFFIX): pyleafh.c pyleafh.h boolean.h pyslice.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h \
   pytable.h pydirect.h trace.h pydata.h pyproc.h py4.h platform/maxtime.h \
-  pyint.h pyleaf.h pyoutput.h pyhash.h DHT/dhtbcmem.h
+  pyint.h pyleaf.h pyoutput.h
 
 pyleafh.h:
 
@@ -2186,10 +2186,6 @@ pyint.h:
 pyleaf.h:
 
 pyoutput.h:
-
-pyhash.h:
-
-DHT/dhtbcmem.h:
 pymovein$(OBJ_SUFFIX): pymovein.c pymovein.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h pygoal.h \
   pytable.h pyproc.h py4.h pyoutput.h pydata.h trace.h

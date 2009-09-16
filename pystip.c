@@ -295,8 +295,6 @@ void release_slices(void)
   first_free_index = 0;
 
   root_slice = no_slice;
-
-  assert_no_leaked_slice_indices();
 }
 
 /* Set the min_length field of a slice.
@@ -1413,7 +1411,7 @@ boolean traverse_slices(slice_index root, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-    TraceFunctionResult("%u",st->traversed[root]==slice_traversed);
+  TraceFunctionResult("%u",st->traversed[root]==slice_traversed);
   TraceFunctionResultEnd();
   return st->traversed[root]==slice_traversed;
 }

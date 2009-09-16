@@ -5,7 +5,6 @@
 #include "pyint.h"
 #include "pyleaf.h"
 #include "pyoutput.h"
-#include "pyhash.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -276,15 +275,7 @@ boolean leaf_h_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (inhash(leaf,hash_help_insufficient_nr_half_moves,1))
-    result = false;
-  else if (leaf_h_solve_nohash(leaf))
-    result = true;
-  else
-  {
-    result = false;
-    addtohash(leaf,hash_help_insufficient_nr_half_moves,1);
-  }
+  result = leaf_h_solve_nohash(leaf);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -338,7 +329,6 @@ boolean leaf_h_does_defender_win(slice_index leaf)
   TraceFunctionResultEnd();
   return result;
 }
-
 
 /* Find and write post key play
  * @param leaf slice index
