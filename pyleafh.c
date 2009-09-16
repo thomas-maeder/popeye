@@ -203,40 +203,6 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
   return result;
 }
 
-/* Determine and write the solution of a help leaf slice without
- * consulting nor updating the hash table
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-static boolean leaf_h_solve_nohash(slice_index leaf)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  switch (slices[leaf].u.leaf.goal)
-  {
-    case goal_countermate:
-      result = leaf_h_cmate_solve_final_move(leaf);
-      break;
-
-    case goal_doublemate:
-      result = leaf_h_dmate_solve_final_move(leaf);
-      break;
-
-    default:
-      result = leaf_h_solve_final_move(leaf);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution of a leaf slice at root level
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
@@ -253,7 +219,7 @@ boolean leaf_h_root_solve(slice_index leaf)
   init_output(leaf);
 
   isIntelligentModeActive = false;
-  result = leaf_h_solve_nohash(leaf);
+  result = leaf_h_solve(leaf);
   write_end_of_solution_phase();
   isIntelligentModeActive = save_isIntelligentModeActive;
 
@@ -275,7 +241,20 @@ boolean leaf_h_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = leaf_h_solve_nohash(leaf);
+  switch (slices[leaf].u.leaf.goal)
+  {
+    case goal_countermate:
+      result = leaf_h_cmate_solve_final_move(leaf);
+      break;
+
+    case goal_doublemate:
+      result = leaf_h_dmate_solve_final_move(leaf);
+      break;
+
+    default:
+      result = leaf_h_solve_final_move(leaf);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
