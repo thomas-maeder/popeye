@@ -199,15 +199,12 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STDirectRoot:
       case STBranchDirect:
-      case STDirectHashed:
       case STDirectDefenderRoot:
       case STBranchDirectDefender:
       case STHelpAdapter:
       case STSeriesRoot:
       case STBranchHelp:
-      case STHelpHashed:
       case STBranchSeries:
-      case STSeriesHashed:
       case STDirectAttack:
       case STDirectDefense:
       case STSelfAttack:
@@ -223,6 +220,16 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         TraceStipulationRecursive(slices[si].u.pipe.u.branch.towards_goal,
                                   done_slices);
+        break;
+
+      case STDirectHashed:
+      case STHelpHashed:
+      case STSeriesHashed:
+        fprintf(stdout,"%u/",slices[si].u.pipe.u.branch.length);
+        fprintf(stdout,"%u ",slices[si].u.pipe.u.branch.min_length);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
       case STMaxNrNonTrivial:
