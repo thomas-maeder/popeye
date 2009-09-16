@@ -96,7 +96,7 @@ static SizeHead SizeData[fxfMAXSIZE+1];
 /* #define  ARENA_SEG_COUNT  ((1024*1024)/ARENA_SEG_SIZE) */
 static char *Arena[ARENA_SEG_COUNT] = { Nil(char) };
 static int ArenaSegCnt= 0;
-static int ActualSeg= 0;
+static int CurrentSeg= 0;
 #else
 static char *Arena= Nil(char);
 #endif /*SEGMENTED*/
@@ -205,9 +205,9 @@ int fxfInit(unsigned long Size) {
     }
     asize-= ARENA_SEG_SIZE;
   }
-  ActualSeg= 0;
-  BotFreePtr= Arena[ActualSeg];
-  TopFreePtr= Arena[ActualSeg]+ARENA_SEG_SIZE;
+  CurrentSeg= 0;
+  BotFreePtr= Arena[CurrentSeg];
+  TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
   GlobalSize= ArenaSegCnt*ARENA_SEG_SIZE;
 #else
   if (Arena)
@@ -235,6 +235,24 @@ int fxfInit(unsigned long Size) {
   memset(SizeData, '\0', sizeof(SizeData));
 
   return 0;
+}
+
+void fxfReset(void)
+{
+#if defined(SEGMENTED)
+  CurrentSeg= 0;
+  BotFreePtr= Arena[CurrentSeg];
+  TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
+#else
+  BotFreePtr= Arena;
+  TopFreePtr= Arena+GlobalSize;
+
+#if defined(FREEMAP)
+  memset(FreeMap, 0, GlobalSize>>3);
+#endif /*FREEMAP*/
+#endif /*SEGMENTED*/
+
+  memset(SizeData, '\0', sizeof SizeData);
 }
 
 /* we have to define the following, since some architectures cannot
@@ -295,10 +313,10 @@ void *fxfAlloc(size_t size) {
     }
     else
 #if defined(SEGMENTED)
-      if ((ActualSeg+1) < ArenaSegCnt) {
-        ActualSeg+= 1;
-        BotFreePtr= Arena[ActualSeg];
-        TopFreePtr= Arena[ActualSeg]+ARENA_SEG_SIZE;
+      if ((CurrentSeg+1) < ArenaSegCnt) {
+        CurrentSeg+= 1;
+        BotFreePtr= Arena[CurrentSeg];
+        TopFreePtr= Arena[CurrentSeg]+ARENA_SEG_SIZE;
         ptr= fxfAlloc(size);
       }
       else
@@ -388,7 +406,7 @@ void fxfInfo(FILE *f) {
   fprintf(f, "fxfArenaUsed = %lu bytes\n",
           GlobalSize-(unsigned long)(TopFreePtr-BotFreePtr)
 #if defined(SEGMENTED)
-          - (ArenaSegCnt-ActualSeg-1)*ARENA_SEG_SIZE
+          - (ArenaSegCnt-CurrentSeg-1)*ARENA_SEG_SIZE
 #endif /*SEGMENTED*/
     );
   fprintf(f, "fxfMAXSIZE   = %u bytes\n", (unsigned int)fxfMAXSIZE);
