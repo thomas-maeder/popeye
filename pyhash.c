@@ -1878,7 +1878,7 @@ static boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 
   /* TODO create hash slice(s) that are only active if we can allocate
    * the hash table. */
-  he = pyhash==0 ? dhtNilElement : dhtLookupElement(pyhash, (dhtValue)hb);
+  he = pyhash==0 ? dhtNilElement : dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
     result = false;
   else
@@ -2195,14 +2195,14 @@ static void addtohash(slice_index si, hashwhat what, hash_value_type val)
   if (pyhash!=0)
   {
     HashBuffer * const hb = &hashBuffers[nbply];
-    dhtElement *he = dhtLookupElement(pyhash, (dhtValue)hb);
+    dhtElement *he = dhtLookupElement(pyhash,hb);
 
     assert(isHashBufferValid[nbply]);
 
     if (he == dhtNilElement)
     {
       /* the position is new */
-      he = allocDHTelement((dhtValue)hb);
+      he = allocDHTelement(hb);
       he->Data = template_element.Data;
 
       switch (what)
