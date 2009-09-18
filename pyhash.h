@@ -52,6 +52,11 @@ void check_hash_assumptions(void);
  */
 unsigned long allochash(unsigned long nr_kilos);
 
+/* Determine whether the hash table has been successfully allocated
+ * @return true iff the hashtable has been allocated
+ */
+boolean is_hashtable_allocated(void);
+
 void inithash (void);
 void closehash (void);
 void HashStats(unsigned int level, char *trailer);

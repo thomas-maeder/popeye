@@ -1876,9 +1876,7 @@ static boolean inhash(slice_index si, hashwhat what, hash_value_type val)
 
   ifHASHRATE(use_all++);
 
-  /* TODO create hash slice(s) that are only active if we can allocate
-   * the hash table. */
-  he = pyhash==0 ? dhtNilElement : dhtLookupElement(pyhash,hb);
+  he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
     result = false;
   else
@@ -2182,6 +2180,9 @@ static dhtElement *allocDHTelement(dhtValue hb)
 
 static void addtohash(slice_index si, hashwhat what, hash_value_type val)
 {
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement *he;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",what);
@@ -2189,74 +2190,66 @@ static void addtohash(slice_index si, hashwhat what, hash_value_type val)
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",nbply);
+  assert(isHashBufferValid[nbply]);
 
-  /* TODO create hash slice(s) that are only active if we can
-   * allocated the hash table. */
-  if (pyhash!=0)
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
   {
-    HashBuffer * const hb = &hashBuffers[nbply];
-    dhtElement *he = dhtLookupElement(pyhash,hb);
+    /* the position is new */
+    he = allocDHTelement(hb);
+    he->Data = template_element.Data;
 
-    assert(isHashBufferValid[nbply]);
-
-    if (he == dhtNilElement)
+    switch (what)
     {
-      /* the position is new */
-      he = allocDHTelement(hb);
-      he->Data = template_element.Data;
+      case hash_series_insufficient_nr_half_moves:
+        set_value_series(he,si,val);
+        break;
 
-      switch (what)
-      {
-        case hash_series_insufficient_nr_half_moves:
-          set_value_series(he,si,val);
-          break;
+      case hash_help_insufficient_nr_half_moves:
+        set_value_help(he,si,val);
+        break;
 
-        case hash_help_insufficient_nr_half_moves:
-          set_value_help(he,si,val);
-          break;
+      case DirSucc:
+        set_value_direct_succ(he,si,val);
+        break;
 
-        case DirSucc:
-          set_value_direct_succ(he,si,val);
-          break;
+      case DirNoSucc:
+        set_value_direct_nosucc(he,si,val);
+        break;
 
-        case DirNoSucc:
-          set_value_direct_nosucc(he,si,val);
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
+      default:
+        assert(0);
+        break;
     }
-    else
-      switch (what)
-      {
-        /* TODO use optimized operation? */
-        case hash_series_insufficient_nr_half_moves:
-          if (get_value_series(he,si)<val)
-            set_value_series(he,si,val);
-          break;
-
-        case hash_help_insufficient_nr_half_moves:
-          if (get_value_help(he,si)<val)
-            set_value_help(he,si,val);
-          break;
-
-        case DirSucc:
-          if (get_value_direct_succ(he,si)>val)
-            set_value_direct_succ(he,si,val);
-          break;
-
-        case DirNoSucc:
-          if (get_value_direct_nosucc(he,si)<val)
-            set_value_direct_nosucc(he,si,val);
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
   }
+  else
+    switch (what)
+    {
+      /* TODO use optimized operation? */
+      case hash_series_insufficient_nr_half_moves:
+        if (get_value_series(he,si)<val)
+          set_value_series(he,si,val);
+        break;
+
+      case hash_help_insufficient_nr_half_moves:
+        if (get_value_help(he,si)<val)
+          set_value_help(he,si,val);
+        break;
+
+      case DirSucc:
+        if (get_value_direct_succ(he,si)>val)
+          set_value_direct_succ(he,si,val);
+        break;
+
+      case DirNoSucc:
+        if (get_value_direct_nosucc(he,si)<val)
+          set_value_direct_nosucc(he,si,val);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2269,6 +2262,12 @@ static void addtohash(slice_index si, hashwhat what, hash_value_type val)
 
 static unsigned long hashtable_kilos;
 
+/* Allocate memory for the hash table. If the requested amount of
+ * memory isn't available, reduce the amount until allocation
+ * succeeds. 
+ * @param nr_kilos number of kilo-bytes to allocate
+ * @return number of kilo-bytes actually allocated
+ */
 unsigned long allochash(unsigned long nr_kilos)
 {
 #if defined(FXF)
@@ -2291,6 +2290,14 @@ unsigned long allochash(unsigned long nr_kilos)
     return nr_kilos;
 }
 
+/* Determine whether the hash table has been successfully allocated
+ * @return true iff the hashtable has been allocated
+ */
+boolean is_hashtable_allocated(void)
+{
+  return pyhash!=0;
+}
+
 void inithash(void)
 {
   int i, j;
@@ -2303,93 +2310,96 @@ void inithash(void)
       StdString(GlobalStr)
       );
 
+  if (pyhash!=0)
+  {
 #if defined(__unix) && defined(TESTHASH)
-  OldBreak= sbrk(0);
+    OldBreak= sbrk(0);
 #endif /*__unix,TESTHASH*/
 
-  minimalElementValueAfterCompression = 2;
+    minimalElementValueAfterCompression = 2;
 
-  is_there_slice_with_nonstandard_min_length = false;
+    is_there_slice_with_nonstandard_min_length = false;
 
-  init_slice_properties();
-  template_element.Data = 0;
-  init_elements(&template_element);
+    init_slice_properties();
+    template_element.Data = 0;
+    init_elements(&template_element);
 
-  dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
-  dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
+    dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
+    dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
 
-  ifHASHRATE(use_pos = use_all = 0);
+    ifHASHRATE(use_pos = use_all = 0);
 
-  /* check whether a piece can be coded in a single byte */
-  j = 0;
-  for (i = PieceCount; Empty < i; i--)
-    if (exist[i])
-      piece_nbr[i] = j++;
+    /* check whether a piece can be coded in a single byte */
+    j = 0;
+    for (i = PieceCount; Empty < i; i--)
+      if (exist[i])
+        piece_nbr[i] = j++;
 
-  if (CondFlag[haanerchess])
-    piece_nbr[obs]= j++;
+    if (CondFlag[haanerchess])
+      piece_nbr[obs]= j++;
 
-  one_byte_hash = j<(1<<(CHAR_BIT/2)) && PieSpExFlags<(1<<(CHAR_BIT/2));
+    one_byte_hash = j<(1<<(CHAR_BIT/2)) && PieSpExFlags<(1<<(CHAR_BIT/2));
 
-  bytes_per_spec= 1;
-  if ((PieSpExFlags >> CHAR_BIT) != 0)
-    bytes_per_spec++;
-  if ((PieSpExFlags >> 2*CHAR_BIT) != 0)
-    bytes_per_spec++;
+    bytes_per_spec= 1;
+    if ((PieSpExFlags >> CHAR_BIT) != 0)
+      bytes_per_spec++;
+    if ((PieSpExFlags >> 2*CHAR_BIT) != 0)
+      bytes_per_spec++;
 
-  bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
+    bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
-  if (isIntelligentModeActive)
-  {
-    one_byte_hash = false;
-    bytes_per_spec= 5; /* TODO why so high??? */
-  }
-
-  if (slices[1].u.leaf.goal==goal_proof
-      || slices[1].u.leaf.goal==goal_atob)
-  {
-    encode = ProofEncode;
-    if (hashtable_kilos>0 && MaxPositions==0)
-      MaxPositions= hashtable_kilos/(24+sizeof(char *)+1);
-  }
-  else
-  {
-    unsigned int const Small = TellSmallEncodePosLeng();
-    unsigned int const Large = TellLargeEncodePosLeng();
-    if (Small<=Large)
+    if (isIntelligentModeActive)
     {
-      encode = SmallEncode;
+      one_byte_hash = false;
+      bytes_per_spec= 5; /* TODO why so high??? */
+    }
+
+    if (slices[1].u.leaf.goal==goal_proof
+        || slices[1].u.leaf.goal==goal_atob)
+    {
+      encode = ProofEncode;
       if (hashtable_kilos>0 && MaxPositions==0)
-        MaxPositions= hashtable_kilos/(Small+sizeof(char *)+1);
+        MaxPositions= hashtable_kilos/(24+sizeof(char *)+1);
     }
     else
     {
-      encode = LargeEncode;
-      if (hashtable_kilos>0 && MaxPositions==0)
-        MaxPositions= hashtable_kilos/(Large+sizeof(char *)+1);
+      unsigned int const Small = TellSmallEncodePosLeng();
+      unsigned int const Large = TellLargeEncodePosLeng();
+      if (Small<=Large)
+      {
+        encode = SmallEncode;
+        if (hashtable_kilos>0 && MaxPositions==0)
+          MaxPositions= hashtable_kilos/(Small+sizeof(char *)+1);
+      }
+      else
+      {
+        encode = LargeEncode;
+        if (hashtable_kilos>0 && MaxPositions==0)
+          MaxPositions= hashtable_kilos/(Large+sizeof(char *)+1);
+      }
     }
-  }
 
 #if defined(FXF)
-  ifTESTHASH(printf("MaxPositions: %7lu\n", MaxPositions));
-  assert(hashtable_kilos/1024<UINT_MAX);
-  ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
-                    (unsigned int)(hashtable_kilos/1024)));
+    ifTESTHASH(printf("MaxPositions: %7lu\n", MaxPositions));
+    assert(hashtable_kilos/1024<UINT_MAX);
+    ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
+                      (unsigned int)(hashtable_kilos/1024)));
 #else
-  ifTESTHASH(
-      printf("room for up to %lu positions in hash table\n", MaxPositions));
+    ifTESTHASH(
+        printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
 
-  dhtDestroy(pyhash);
+    dhtDestroy(pyhash);
 
 #if defined(TESTHASH) && defined(FXF)
-  fxfInfo(stdout);
+    fxfInfo(stdout);
 #endif /*TESTHASH,FXF*/
 
-  fxfReset();
+    fxfReset();
 
-  pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
-  assert(pyhash!=0);
+    pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
+    assert(pyhash!=0);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2397,41 +2407,44 @@ void inithash(void)
 
 void closehash(void)
 {
+  if (pyhash!=0)
+  {
 #if defined(TESTHASH)
-  sprintf(GlobalStr, "calling closehash\n");
-  StdString(GlobalStr);
+    sprintf(GlobalStr, "calling closehash\n");
+    StdString(GlobalStr);
 
 #if defined(HASHRATE)
-  sprintf(GlobalStr, "%ld enquiries out of %ld successful. ",
-          use_pos, use_all);
-  StdString(GlobalStr);
-  if (use_all) {
-    sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
+    sprintf(GlobalStr, "%ld enquiries out of %ld successful. ",
+            use_pos, use_all);
     StdString(GlobalStr);
-  }
+    if (use_all) {
+      sprintf(GlobalStr, "Makes %ld%%\n", (100 * use_pos) / use_all);
+      StdString(GlobalStr);
+    }
 #endif
 #if defined(__unix)
-  {
-#if defined(FXF)
-    unsigned long const HashMem = fxfTotal();
-#else
-    unsigned long const HashMem = sbrk(0)-OldBreak;
-#endif /*FXF*/
-    unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
-    if (HashCount>0)
     {
-      unsigned long const BytePerPos = (HashMem*100)/HashCount;
-      sprintf(GlobalStr,
-              "Memory for hash-table: %ld, "
-              "gives %ld.%02ld bytes per position\n",
-              HashMem, BytePerPos/100, BytePerPos%100);
-    }
-    else
-      sprintf(GlobalStr, "Nothing in hashtable\n");
-    StdString(GlobalStr);
+#if defined(FXF)
+      unsigned long const HashMem = fxfTotal();
+#else
+      unsigned long const HashMem = sbrk(0)-OldBreak;
+#endif /*FXF*/
+      unsigned long const HashCount = pyhash==0 ? 0 : dhtKeyCount(pyhash);
+      if (HashCount>0)
+      {
+        unsigned long const BytePerPos = (HashMem*100)/HashCount;
+        sprintf(GlobalStr,
+                "Memory for hash-table: %ld, "
+                "gives %ld.%02ld bytes per position\n",
+                HashMem, BytePerPos/100, BytePerPos%100);
+      }
+      else
+        sprintf(GlobalStr, "Nothing in hashtable\n");
+      StdString(GlobalStr);
 #endif /*__unix*/
-  }
+    }
 #endif /*TESTHASH*/
+  }
 } /* closehash */
 
 /* Allocate a STDirectHashed slice for a STBranch* slice and insert

@@ -2820,7 +2820,8 @@ static Token iterate_twins(Token prev_token)
           && !root_slice_apply_setplay())
         Message(SetPlayNotApplicable);
 
-      insert_hash_slices();
+      if (is_hashtable_allocated())
+        insert_hash_slices();
 
       if (isIntelligentModeActive)
         stip_insert_goalreachable_guards();
