@@ -1546,7 +1546,8 @@ static unsigned int estimateNumberOfHoles(slice_index si)
   return result;
 }
 
-static int TellCommonEncodePosLeng(unsigned int len, unsigned int nbr_p)
+static unsigned int TellCommonEncodePosLeng(unsigned int len,
+                                            unsigned int nbr_p)
 {
   len++; /* Castling_Flag */
 
@@ -1601,7 +1602,7 @@ static int TellCommonEncodePosLeng(unsigned int len, unsigned int nbr_p)
   return len;
 } /* TellCommonEncodePosLeng */
 
-static int TellLargeEncodePosLeng(void)
+static unsigned int TellLargeEncodePosLeng(void)
 {
   square const *bnp;
   unsigned int nbr_p = 0;
@@ -1622,7 +1623,7 @@ static int TellLargeEncodePosLeng(void)
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellLargeEncodePosLeng */
 
-static int TellSmallEncodePosLeng(void)
+static unsigned int TellSmallEncodePosLeng(void)
 {
   square const *bnp;
   unsigned int nbr_p = 0;
@@ -1742,6 +1743,7 @@ static byte *LargeEncodePiece(byte *bp, byte *position,
 
   return bp;
 }
+extern size_t fxfMINSIZE;
 
 static void LargeEncode(void)
 {
@@ -2146,24 +2148,24 @@ static void init_elements(dhtElement *he)
  */
 static dhtElement *allocDHTelement(dhtValue hb)
 {
-  dhtElement *result= dhtEnterElement(pyhash, (dhtValue)hb, 0);
+  dhtElement *result= dhtEnterElement(pyhash,hb,0);
   unsigned long nrKeys = dhtKeyCount(pyhash);
   while (result==dhtNilElement)
   {
     compresshash();
     if (dhtKeyCount(pyhash)==nrKeys)
     {
-      /* TODO find something less heavy as last resort
-       */
-      closehash();
-      inithash();
-      result = dhtEnterElement(pyhash, (dhtValue)hb, 0);
+      dhtDestroy(pyhash);
+      fxfReset();
+      pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
+      assert(pyhash!=0);
+      result = dhtEnterElement(pyhash,hb,0);
       break;
     }
     else
     {
       nrKeys = dhtKeyCount(pyhash);
-      result = dhtEnterElement(pyhash, (dhtValue)hb, 0);
+      result = dhtEnterElement(pyhash,hb,0);
     }
   }
 
@@ -2279,12 +2281,18 @@ unsigned long allochash(unsigned long nr_kilos)
 
   hashtable_kilos = nr_kilos;
 
-  return nr_kilos;
+  pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
+  if (pyhash==0)
+  {
+    TraceValue("%s\n",dhtErrorMsg());
+    return 0;
+  }
+  else
+    return nr_kilos;
 }
 
 void inithash(void)
 {
-  int Small, Large;
   int i, j;
 
   TraceFunctionEntry(__func__);
@@ -2309,11 +2317,6 @@ void inithash(void)
 
   dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
   dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
-  pyhash= dhtCreate(dhtBCMemValue, dhtCopy, dhtSimpleValue, dhtNoCopy);
-  if (pyhash==0)
-  {
-    TraceValue("%s\n",dhtErrorMsg());
-  }
 
   ifHASHRATE(use_pos = use_all = 0);
 
@@ -2351,16 +2354,17 @@ void inithash(void)
   }
   else
   {
-    Small= TellSmallEncodePosLeng();
-    Large= TellLargeEncodePosLeng();
-    if (Small <= Large) {
-      encode= SmallEncode;
+    unsigned int const Small = TellSmallEncodePosLeng();
+    unsigned int const Large = TellLargeEncodePosLeng();
+    if (Small<=Large)
+    {
+      encode = SmallEncode;
       if (hashtable_kilos>0 && MaxPositions==0)
         MaxPositions= hashtable_kilos/(Small+sizeof(char *)+1);
     }
     else
     {
-      encode= LargeEncode;
+      encode = LargeEncode;
       if (hashtable_kilos>0 && MaxPositions==0)
         MaxPositions= hashtable_kilos/(Large+sizeof(char *)+1);
     }
@@ -2375,6 +2379,17 @@ void inithash(void)
   ifTESTHASH(
       printf("room for up to %lu positions in hash table\n", MaxPositions));
 #endif /*FXF*/
+
+  dhtDestroy(pyhash);
+
+#if defined(TESTHASH) && defined(FXF)
+  fxfInfo(stdout);
+#endif /*TESTHASH,FXF*/
+
+  fxfReset();
+
+  pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
+  assert(pyhash!=0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2417,20 +2432,6 @@ void closehash(void)
 #endif /*__unix*/
   }
 #endif /*TESTHASH*/
-
-  /* TODO create hash slice(s) that are only active if we can
-   * allocated the hash table. */
-  if (pyhash!=0)
-  {
-    dhtDestroy(pyhash);
-    pyhash = 0;
-  }
-
-#if defined(TESTHASH) && defined(FXF)
-  fxfInfo(stdout);
-#endif /*TESTHASH,FXF*/
-
-  fxfReset();
 } /* closehash */
 
 /* Allocate a STDirectHashed slice for a STBranch* slice and insert

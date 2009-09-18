@@ -42,7 +42,6 @@ unsigned long dhtKeyCount	(struct dht *);
 char const   *dhtErrorMsg	();
 
 extern char dhtError[];
-extern  dhtStatus   dhtDupStatus;
 
 #if defined(OLD_NAMES)
 #define HashTable		struct dht

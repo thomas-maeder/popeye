@@ -7,6 +7,9 @@
  * comment with the above copyright notice is keept intact
  * and in place.
  */
+
+#include <assert.h>
+#include <limits.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -19,64 +22,76 @@
 #include "dhtbcmem.h"
 #include "dht.h"
 
-typedef unsigned long uLong;
+static unsigned long ConvertBCMemValue(dhtValue m)
+{
+  BCMemValue const * const toBeConverted = (BCMemValue *)m;
+  unsigned long const leng = toBeConverted->Leng; 
+  unsigned char const *s = toBeConverted->Data;
+  unsigned long hash = 0;
 
-static unsigned long  ConvertBCMemValue(dhtValue m) {
-  uLong leng= ((BCMemValue *)m)->Leng; 
-  uChar *s= ((BCMemValue *)m)->Data;
-  unsigned long hash= 0;
-  uLong i;
-  for (i=0; i<leng; i++) {
-    hash+= s[i];
-    hash+= hash << 10;
-    hash^= hash >> 6;
+  unsigned long i;
+  for (i=0; i<leng; i++)
+  {
+    hash += s[i];
+    hash += hash << 10;
+    hash ^= hash >> 6;
   }
-  hash+= hash << 3;
-  hash^= hash >> 11;
-  hash+= hash << 15;
+
+  hash += hash << 3;
+  hash ^= hash >> 11;
+  hash += hash << 15;
+
   return hash;
 }
 
-static int EqualBCMemValue(dhtValue v1, dhtValue v2) {
-  if (((BCMemValue *)v1)->Leng != ((BCMemValue *)v2)->Leng)
-    return 0;
-  if (memcmp(((BCMemValue *)v1)->Data,
-             ((BCMemValue *)v2)->Data, ((BCMemValue *)v1)->Leng))
-    return 0;
-  else
-    return 1;
+static int EqualBCMemValue(dhtValue v1, dhtValue v2)
+{
+  BCMemValue const * const value1 = (BCMemValue *)v1;
+  BCMemValue const * const value2 = (BCMemValue *)v2;
+  size_t const size = sizeof *value1 - 1 + value1->Leng;
+
+  return memcmp(value1,value2,size)==0;
 }
 
-static dhtValue DupBCMemValue(dhtValue v) {
-  BCMemValue *cm= NewBCMemValue(((BCMemValue *)v)->Leng);
-  if (cm) {
-    cm->Leng= ((BCMemValue *)v)->Leng;
-    memcpy(cm->Data, ((BCMemValue *)v)->Data, cm->Leng);
-    dhtDupStatus= dhtOkStatus;
-    return (dhtValue)cm;
-  }
-  dhtDupStatus= dhtFailedStatus;
-  return (dhtValue)cm;
-}
-static void FreeBCMemVal(dhtValue v) {
-  FreeBCMemValue(v);
-  return;
-}
-static void DumpBCMemValue(dhtValue v, FILE *f) {
-  int i;
-  fprintf(f, "(%d)", ((BCMemValue *)v)->Leng);
-  for (i=0; i<(int)((BCMemValue*)v)->Leng; i++)
-    fprintf(f, "%02x", ((BCMemValue*)v)->Data[i] & 0xff);
-  return;
+static dhtValue DupBCMemValue(dhtValue v)
+{
+  BCMemValue const * const original = (BCMemValue *)v;
+  size_t const size = sizeof *original - 1 + original->Leng;
+
+  BCMemValue * const result = fxfAlloc(size);
+  if (result!=0)
+    memcpy(result,original,size);
+
+  return (dhtValue)result;
 }
 
-BCMemValue *BCMemValueCreate(int n) {
-  BCMemValue *bcm= NewBCMemValue(n);  
-  bcm->Leng= n;
-  return bcm;
+static void FreeBCMemVal(dhtValue v)
+{
+  BCMemValue * const toBeFreed = (BCMemValue *)v;
+  size_t const size = sizeof *toBeFreed - 1 + toBeFreed->Leng;
+  fxfFree(toBeFreed,size);
 }
 
-dhtValueProcedures dhtBCMemoryProcs = {
+static void DumpBCMemValue(dhtValue v, FILE *f)
+{
+  BCMemValue const * const toBeDumped = (BCMemValue *)v;
+  unsigned int const length = toBeDumped->Leng;
+  unsigned int i;
+
+  fprintf(f, "(%d)", toBeDumped->Leng);
+  for (i=0; i<length; i++)
+    fprintf(f, "%02x", toBeDumped->Data[i] & 0xff);
+}
+
+static BCMemValue *BCMemValueCreate(int n)
+{
+  BCMemValue * const result = fxfAlloc(sizeof *result - 1 + n);
+  result->Leng= n;
+  return result;
+}
+
+dhtValueProcedures dhtBCMemoryProcs =
+{
   ConvertBCMemValue,
   EqualBCMemValue,
   DupBCMemValue,

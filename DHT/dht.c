@@ -816,15 +816,15 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
 {
   InternHsElement **phe, *he;
   dhtValue KeyV, DataV;
-  dhtStatus stat = dhtOkStatus;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",ht);
   TraceFunctionParam("%p ",key);
   TraceFunctionParam("%p\n",data);
 
+  assert(key!=0);
   KeyV = (ht->procs.DupKey)(key);
-  if (dhtDupStatus != dhtOkStatus)
+  if (KeyV==0)
   {
     TraceText("key duplication failed\n");
     TraceFunctionExit(__func__);
@@ -832,8 +832,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
     return dhtNilElement;
   }
 
-  DataV = (ht->procs.DupData)(data);
-  if (dhtDupStatus != dhtOkStatus)
+  DataV = data==0 ? 0 : (ht->procs.DupData)(data);
+  if (data!=0 && DataV==0)
   {
     (ht->procs.FreeKey)(KeyV);
     TraceText("data duplication failed\n");
@@ -882,8 +882,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
       fDumpHashTable(ht, stderr);
     */
     TraceValue("expanding hash table %p\n",ht);
-    stat = ExpandHashTable(ht);
-    if (stat!=dhtOkStatus)
+    if (ExpandHashTable(ht)!=dhtOkStatus)
     {
       TraceText("expansion failed\n");
       TraceFunctionExit(__func__);

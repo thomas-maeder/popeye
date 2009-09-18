@@ -49,7 +49,6 @@ static int EqualMemoryValue(dhtValue v1, dhtValue v2) {
 
 static dhtValue	DupMemoryValue(dhtValue v) {
   MemVal *mv;
-  dhtDupStatus= dhtOkStatus;
 
   mv= NewMemVal;
   if (mv) {
@@ -62,7 +61,6 @@ static dhtValue	DupMemoryValue(dhtValue v) {
       return (dhtValue)mv;
     }
   }
-  dhtDupStatus= dhtFailedStatus;
   return (dhtValue)mv;
 }
 static void	FreeMemoryValue(dhtValue v) {

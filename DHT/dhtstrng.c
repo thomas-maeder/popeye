@@ -45,12 +45,8 @@ static int EqualString(dhtValue v1, dhtValue v2) {
 static dhtValue	DupString(dhtValue v) {
 	char *nv;
 	nv= (char *)fxfAlloc(strlen((char *)v)+1);
-	if (nv == (char *)0)
-	    dhtDupStatus= dhtFailedStatus;
-	else {
-	    strcpy(nv, (char *)v);
-	    dhtDupStatus= dhtOkStatus;
-	}
+	if (nv!=0)
+      strcpy(nv, (char *)v);
 	return (dhtValue)nv;
 }
 static void	FreeString(dhtValue v) {

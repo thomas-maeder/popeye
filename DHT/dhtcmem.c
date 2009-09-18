@@ -53,10 +53,8 @@ static dhtValue DupCompactMemoryValue(dhtValue v) {
   if (cm) {
     cm->Leng= ((CompactMemVal *)v)->Leng;
     memcpy(cm->Data, ((CompactMemVal *)v)->Data, cm->Leng);
-    dhtDupStatus= dhtOkStatus;
     return (dhtValue)cm;
   }
-  dhtDupStatus= dhtFailedStatus;
   return (dhtValue)cm;
 }
 

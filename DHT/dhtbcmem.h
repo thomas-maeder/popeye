@@ -15,15 +15,9 @@
  * It is allocated via one malloc call.
  */
 
-typedef unsigned char uChar;
-
 typedef struct BCMemValue {
 	unsigned char	Leng;
 	unsigned char	Data[1];
 } BCMemValue;
-#define NilBCMemValue		(BCMemValue *)0
-#define NewBCMemValue(n)	(BCMemValue *)fxfAlloc(sizeof(BCMemValue)-1+(n)*sizeof(uChar))
-#define FreeBCMemValue(x)	fxfFree(x, (sizeof(BCMemValue)-1)+(((BCMemValue *)x)->Leng*sizeof(uChar)))
 
-BCMemValue *BCMemValueCreate(int n);
 #endif /*DHTBCMEM_INCLUDED*/
