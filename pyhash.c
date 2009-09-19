@@ -2040,25 +2040,22 @@ static void init_elements(dhtElement *he)
  */
 static dhtElement *allocDHTelement(dhtConstValue hb)
 {
-  dhtElement *result= dhtEnterElement(pyhash,hb,0);
-  unsigned long nrKeys = dhtKeyCount(pyhash);
+  dhtElement *result = dhtEnterElement(pyhash,hb,template_element.Data);
   while (result==dhtNilElement)
   {
+    unsigned long const nrKeysBeforeCompression = dhtKeyCount(pyhash);
     compresshash();
-    if (dhtKeyCount(pyhash)==nrKeys)
+    if (dhtKeyCount(pyhash)==nrKeysBeforeCompression)
     {
       dhtDestroy(pyhash);
       fxfReset();
       pyhash = dhtCreate(dhtBCMemValue,dhtCopy,dhtSimpleValue,dhtNoCopy);
       assert(pyhash!=0);
-      result = dhtEnterElement(pyhash,hb,0);
+      result = dhtEnterElement(pyhash,hb,template_element.Data);
       break;
     }
     else
-    {
-      nrKeys = dhtKeyCount(pyhash);
-      result = dhtEnterElement(pyhash,hb,0);
-    }
+      result = dhtEnterElement(pyhash,hb,template_element.Data);
   }
 
   if (result==dhtNilElement)
@@ -2448,7 +2445,6 @@ static void addtohash_dir_succ(slice_index si, hash_value_type val)
   if (he==dhtNilElement)
   {
     he = allocDHTelement(hb);
-    he->Data = template_element.Data;
     set_value_direct_succ(he,si,val);
   }
   else if (get_value_direct_succ(he,si)>val)
@@ -2485,7 +2481,6 @@ static void addtohash_dir_nosucc(slice_index si, hash_value_type val)
   if (he==dhtNilElement)
   {
     he = allocDHTelement(hb);
-    he->Data = template_element.Data;
     set_value_direct_nosucc(he,si,val);
   }
   else if (get_value_direct_nosucc(he,si)<val)
@@ -2797,7 +2792,6 @@ static void addtohash_help(slice_index si, hash_value_type val)
   if (he==dhtNilElement)
   {
     he = allocDHTelement(hb);
-    he->Data = template_element.Data;
     set_value_help(he,si,val);
   }
   else if (get_value_help(he,si)<val)
@@ -3015,7 +3009,6 @@ static void addtohash_series(slice_index si, hash_value_type val)
   if (he==dhtNilElement)
   {
     he = allocDHTelement(hb);
-    he->Data = template_element.Data;
     set_value_series(he,si,val);
   }
   else if (get_value_series(he,si)<val)
