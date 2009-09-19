@@ -110,14 +110,6 @@
 #include "platform/maxmem.h"
 #include "trace.h"
 
-typedef enum {
-	hash_series_insufficient_nr_half_moves,
-	hash_help_insufficient_nr_half_moves,
-	DirSucc,
-	DirNoSucc,
-    nr_hashwhat
-} hashwhat;
-
 typedef unsigned int hash_value_type;
 
 static struct dht *pyhash;
@@ -1857,104 +1849,6 @@ static void SmallEncode(void)
   validateHashBuffer();
 }
 
-static boolean inhash(slice_index si, hashwhat what, hash_value_type val)
-{
-  boolean result = false;
-  HashBuffer *hb = &hashBuffers[nbply];
-  dhtElement const *he;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",what);
-  TraceFunctionParam("%u",val);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",nbply);
-
-  if (!isHashBufferValid[nbply])
-    (*encode)();
-
-  ifHASHRATE(use_all++);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    result = false;
-  else
-  {
-    TraceEnumerator(SliceType,slices[si].type,"\n");
-    switch (slices[si].type)
-    {
-      case STDirectHashed:
-        if (what==DirNoSucc)
-        {
-          hash_value_type const nosucc = get_value_direct_nosucc(he,si);
-          TraceValue("%u",slices[si].u.pipe.u.branch.length);
-          TraceValue("%u\n",slices[si].u.pipe.u.branch.min_length);
-          if (nosucc>=val
-              && (nosucc+slices[si].u.pipe.u.branch.min_length
-                  <=val+slices[si].u.pipe.u.branch.length))
-          {
-            ifHASHRATE(use_pos++);
-            result = true;
-          } else
-            result = false;
-        }
-        else
-        {
-          hash_value_type const succ = get_value_direct_succ(he,si);
-          if (succ<=val
-              && (succ+slices[si].u.pipe.u.branch.length
-                  >=val+slices[si].u.pipe.u.branch.min_length))
-          {
-            ifHASHRATE(use_pos++);
-            result = true;
-          } else
-            result = false;
-        }
-        break;
-
-      case STSeriesHashed:
-      {
-        hash_value_type const nosucc = get_value_series(he,si);
-        if (nosucc>=val
-            && (nosucc+slices[si].u.pipe.u.branch.min_length
-                <=val+slices[si].u.pipe.u.branch.length))
-        {
-          ifHASHRATE(use_pos++);
-          result = true;
-        }
-        else
-          result = false;
-        break;
-      }
-
-      case STHelpHashed:
-        {
-          hash_value_type const nosucc = get_value_help(he,si);
-          if (nosucc>=val
-              && (nosucc+slices[si].u.pipe.u.branch.min_length
-                  <=val+slices[si].u.pipe.u.branch.length))
-          {
-            ifHASHRATE(use_pos++);
-            result = true;
-          }
-          else
-            result = false;
-        }
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result; /* avoid compiler warning */
-} /* inhash */
-
 /* Initialise the bits representing a direct slice in a hash table
  * element's data field with null values
  * @param he address of hash table element
@@ -2177,88 +2071,6 @@ static dhtElement *allocDHTelement(dhtValue hb)
 
   return result;
 }
-
-static void addtohash(slice_index si, hashwhat what, hash_value_type val)
-{
-  HashBuffer * const hb = &hashBuffers[nbply];
-  dhtElement *he;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",what);
-  TraceFunctionParam("%u",val);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",nbply);
-  assert(isHashBufferValid[nbply]);
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-  {
-    /* the position is new */
-    he = allocDHTelement(hb);
-    he->Data = template_element.Data;
-
-    switch (what)
-    {
-      case hash_series_insufficient_nr_half_moves:
-        set_value_series(he,si,val);
-        break;
-
-      case hash_help_insufficient_nr_half_moves:
-        set_value_help(he,si,val);
-        break;
-
-      case DirSucc:
-        set_value_direct_succ(he,si,val);
-        break;
-
-      case DirNoSucc:
-        set_value_direct_nosucc(he,si,val);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  }
-  else
-    switch (what)
-    {
-      /* TODO use optimized operation? */
-      case hash_series_insufficient_nr_half_moves:
-        if (get_value_series(he,si)<val)
-          set_value_series(he,si,val);
-        break;
-
-      case hash_help_insufficient_nr_half_moves:
-        if (get_value_help(he,si)<val)
-          set_value_help(he,si,val);
-        break;
-
-      case DirSucc:
-        if (get_value_direct_succ(he,si)>val)
-          set_value_direct_succ(he,si,val);
-        break;
-
-      case DirNoSucc:
-        if (get_value_direct_nosucc(he,si)<val)
-          set_value_direct_nosucc(he,si,val);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-
-#if defined(HASHRATE)
-  if (dhtKeyCount(pyhash)%1000 == 0)
-    HashStats(3, "\n");
-#endif /*HASHRATE*/
-} /* addtohash */
 
 static unsigned long hashtable_kilos;
 
@@ -2520,6 +2332,174 @@ void insert_serieshashed_slice(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Look up whether the current position in the hash table to find out
+ * if it has a solution in a number of half-moves
+ * @param si index slice where current position was reached
+ * @param val number of half-moves
+ * @return true iff we know that the current position has no solution
+ *         in val half-moves
+ */
+static boolean inhash_dir_no_succ(slice_index si, hash_value_type val)
+{
+  boolean result;
+  HashBuffer *hb = &hashBuffers[nbply];
+  dhtElement const *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+
+  if (!isHashBufferValid[nbply])
+    (*encode)();
+
+  ifHASHRATE(use_all++);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+    result = false;
+  else
+  {
+    hash_value_type const nosucc = get_value_direct_nosucc(he,si);
+    if (nosucc>=val
+        && (nosucc+slices[si].u.pipe.u.branch.min_length
+            <=val+slices[si].u.pipe.u.branch.length))
+    {
+      ifHASHRATE(use_pos++);
+      result = true;
+    } else
+      result = false;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Look up whether the current position in the hash table to find out
+ * if it has a solution in a number of half-moves
+ * @param si index slice where current position was reached
+ * @param val number of half-moves
+ * @return true iff we know that the current position has a solution
+ *         in val half-moves
+ */
+static boolean inhash_dir_succ(slice_index si, hash_value_type val)
+{
+  boolean result;
+  HashBuffer *hb = &hashBuffers[nbply];
+  dhtElement const *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+
+  if (!isHashBufferValid[nbply])
+    (*encode)();
+
+  ifHASHRATE(use_all++);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+    result = false;
+  else
+  {
+    hash_value_type const succ = get_value_direct_succ(he,si);
+    if (succ<=val
+        && (succ+slices[si].u.pipe.u.branch.length
+            >=val+slices[si].u.pipe.u.branch.min_length))
+    {
+      ifHASHRATE(use_pos++);
+      result = true;
+    } else
+      result = false;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Remember that the current position has a solution in a number of
+ * half-moves
+ * @param si index of slice where the current position was reached
+ * @param val number of half-moves
+ */
+static void addtohash_dir_succ(slice_index si, hash_value_type val)
+{
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+  assert(isHashBufferValid[nbply]);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+  {
+    he = allocDHTelement(hb);
+    he->Data = template_element.Data;
+    set_value_direct_succ(he,si,val);
+  }
+  else if (get_value_direct_succ(he,si)>val)
+    set_value_direct_succ(he,si,val);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
+}
+
+/* Remember that the current position does not have a solution in a
+ * number of half-moves
+ * @param si index of slice where the current position was reached
+ * @param val number of half-moves
+ */
+static void addtohash_dir_nosucc(slice_index si, hash_value_type val)
+{
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+  assert(isHashBufferValid[nbply]);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+  {
+    he = allocDHTelement(hb);
+    he->Data = template_element.Data;
+    set_value_direct_nosucc(he,si,val);
+  }
+  else if (get_value_direct_nosucc(he,si)<val)
+    set_value_direct_nosucc(he,si,val);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
+}
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -2536,18 +2516,18 @@ boolean direct_hashed_solve(slice_index si)
   /* Only check for DirNoSucc - we also have to write the solution if
    * we already know that there is one!
    */
-  if (inhash(si,DirNoSucc,n/2))
+  if (inhash_dir_no_succ(si,n/2))
   {
-    assert(!inhash(si,DirSucc,n/2-1));
+    assert(!inhash_dir_succ(si,n/2-1));
     result = false;
   }
   else
   {
     result = slice_solve(slices[si].u.pipe.next);
     if (result)
-      addtohash(si,DirSucc,n/2-1);
+      addtohash_dir_succ(si,n/2-1);
     else
-      addtohash(si,DirNoSucc,n/2);
+      addtohash_dir_nosucc(si,n/2);
   }
 
   TraceFunctionExit(__func__);
@@ -2571,20 +2551,20 @@ has_solution_type direct_hashed_has_solution(slice_index si)
 
   /* It is more likely that a position has no solution. */
   /*    Therefore let's check for "no solution" first. TLi */
-  if (inhash(si,DirNoSucc,n/2))
+  if (inhash_dir_no_succ(si,n/2))
   {
-    assert(!inhash(si,DirSucc,n/2-1));
+    assert(!inhash_dir_succ(si,n/2-1));
     result = has_no_solution;
   }
-  else if (inhash(si,DirSucc,n/2-1))
+  else if (inhash_dir_succ(si,n/2-1))
     result = has_solution;
   else
   {
     result = slice_has_solution(slices[si].u.pipe.next);
     if (result==has_solution)
-      addtohash(si,DirSucc,n/2-1);
+      addtohash_dir_succ(si,n/2-1);
     else
-      addtohash(si,DirNoSucc,n/2);
+      addtohash_dir_nosucc(si,n/2);
   }
 
   TraceFunctionExit(__func__);
@@ -2642,9 +2622,9 @@ stip_length_type direct_hashed_solve_threats(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (inhash(si,DirNoSucc,n/2))
+  if (inhash_dir_no_succ(si,n/2))
   {
-    assert(!inhash(si,DirSucc,n/2-1));
+    assert(!inhash_dir_succ(si,n/2-1));
     result = n+2;
     output_start_threat_level();
     output_end_threat_level();
@@ -2654,9 +2634,9 @@ stip_length_type direct_hashed_solve_threats(table threats,
     slice_index const next = slices[si].u.pipe.next;
     result = direct_solve_threats(threats,next,n);
     if (table_length(threats)>0)
-      addtohash(si,DirSucc,result/2-1);
+      addtohash_dir_succ(si,result/2-1);
     else
-      addtohash(si,DirNoSucc,result/2);
+      addtohash_dir_nosucc(si,result/2);
   }
 
   TraceFunctionExit(__func__);
@@ -2725,30 +2705,111 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
 
   /* It is more likely that a position has no solution. */
   /* Therefore let's check for "no solution" first.  TLi */
-  if (inhash(si,DirNoSucc,n/2))
+  if (inhash_dir_no_succ(si,n/2))
   {
-    TraceText("inhash(si,DirNoSucc,n/2)\n");
-    assert(!inhash(si,DirSucc,n/2-1));
+    assert(!inhash_dir_succ(si,n/2-1));
     result = n+2;
   }
-  else if (inhash(si,DirSucc,n/2-1))
-  {
-    TraceText("inhash(si,DirSucc,n/2-1)\n");
+  else if (inhash_dir_succ(si,n/2-1))
     result = n; /* TODO return actual value */
-  }
   else
   {
     result = direct_has_solution_in_n(next,n,n_min);
     if (result<=n)
-      addtohash(si,DirSucc,result/2-1);
+      addtohash_dir_succ(si,result/2-1);
     else
-      addtohash(si,DirNoSucc,n/2);
+      addtohash_dir_nosucc(si,n/2);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Look up whether the current position in the hash table to find out
+ * if it has a solution in a number of half-moves
+ * @param si index slice where current position was reached
+ * @param val number of half-moves
+ * @return true iff we know that the current position has no solution
+ *         in val half-moves
+ */
+static boolean inhash_help(slice_index si, hash_value_type val)
+{
+  boolean result;
+  HashBuffer *hb = &hashBuffers[nbply];
+  dhtElement const *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+
+  if (!isHashBufferValid[nbply])
+    (*encode)();
+
+  ifHASHRATE(use_all++);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+    result = false;
+  else
+  {
+    hash_value_type const nosucc = get_value_help(he,si);
+    if (nosucc>=val
+        && (nosucc+slices[si].u.pipe.u.branch.min_length
+            <=val+slices[si].u.pipe.u.branch.length))
+    {
+      ifHASHRATE(use_pos++);
+      result = true;
+    }
+    else
+      result = false;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Remember that the current position does not have a solution in a
+ * number of half-moves
+ * @param si index of slice where the current position was reached
+ * @param val number of half-moves
+ */
+static void addtohash_help(slice_index si, hash_value_type val)
+{
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+  assert(isHashBufferValid[nbply]);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+  {
+    he = allocDHTelement(hb);
+    he->Data = template_element.Data;
+    set_value_help(he,si,val);
+  }
+  else if (get_value_help(he,si)<val)
+    set_value_help(he,si,val);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
 }
 
 /* Solve a slice
@@ -2768,14 +2829,14 @@ boolean hashed_help_solve(slice_index si)
 
   assert(n>slack_length_help);
 
-  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+  if (inhash_help(si,nr_half_moves))
     result = false;
   else if (slice_solve(slices[si].u.pipe.next))
     result = true;
   else
   {
     result = false;
-    addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
+    addtohash_help(si,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);
@@ -2801,14 +2862,14 @@ boolean hashed_help_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+  if (inhash_help(si,nr_half_moves))
     result = false;
   else if (help_solve_in_n(slices[si].u.pipe.next,n))
     result = true;
   else
   {
     result = false;
-    addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
+    addtohash_help(si,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);
@@ -2834,7 +2895,7 @@ boolean hashed_help_has_solution_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_help);
 
-  if (inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+  if (inhash_help(si,nr_half_moves))
     result = false;
   else
   {
@@ -2842,7 +2903,7 @@ boolean hashed_help_has_solution_in_n(slice_index si, stip_length_type n)
       result = true;
     else
     {
-      addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
+      addtohash_help(si,nr_half_moves);
       result = false;
     }
   }
@@ -2872,16 +2933,101 @@ void hashed_help_solve_continuations_in_n(table continuations,
 
   assert(n>slack_length_help);
 
-  if (!inhash(si,hash_help_insufficient_nr_half_moves,nr_half_moves))
+  if (!inhash_help(si,nr_half_moves))
   {
     slice_index const next = slices[si].u.pipe.next;
     help_solve_continuations_in_n(continuations,next,n);
     if (table_length(continuations)==0)
-      addtohash(si,hash_help_insufficient_nr_half_moves,nr_half_moves);
+      addtohash_help(si,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Look up whether the current position in the hash table to find out
+ * if it has a solution in a number of half-moves
+ * @param si index slice where current position was reached
+ * @param val number of half-moves
+ * @return true iff we know that the current position has no solution
+ *         in val half-moves
+ */
+static boolean inhash_series(slice_index si, hash_value_type val)
+{
+  boolean result;
+  HashBuffer *hb = &hashBuffers[nbply];
+  dhtElement const *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+
+  if (!isHashBufferValid[nbply])
+    (*encode)();
+
+  ifHASHRATE(use_all++);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+    result = false;
+  else
+  {
+    hash_value_type const nosucc = get_value_series(he,si);
+    if (nosucc>=val
+        && (nosucc+slices[si].u.pipe.u.branch.min_length
+            <=val+slices[si].u.pipe.u.branch.length))
+    {
+      ifHASHRATE(use_pos++);
+      result = true;
+    }
+    else
+      result = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Remember that the current position does not have a solution in a
+ * number of half-moves
+ * @param si index of slice where the current position was reached
+ * @param val number of half-moves
+ */
+static void addtohash_series(slice_index si, hash_value_type val)
+{
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",val);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",nbply);
+  assert(isHashBufferValid[nbply]);
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+  {
+    he = allocDHTelement(hb);
+    he->Data = template_element.Data;
+    set_value_series(he,si,val);
+  }
+  else if (get_value_series(he,si)<val)
+    set_value_series(he,si,val);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
+#if defined(HASHRATE)
+  if (dhtKeyCount(pyhash)%1000 == 0)
+    HashStats(3, "\n");
+#endif /*HASHRATE*/
 }
 
 /* Solve in a number of half-moves
@@ -2901,14 +3047,14 @@ boolean hashed_series_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_series);
 
-  if (inhash(si,hash_series_insufficient_nr_half_moves,nr_half_moves))
+  if (inhash_series(si,nr_half_moves))
     result = false;
   else if (series_solve_in_n(slices[si].u.pipe.next,n))
     result = true;
   else
   {
     result = false;
-    addtohash(si,hash_series_insufficient_nr_half_moves,nr_half_moves);
+    addtohash_series(si,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);
@@ -2934,7 +3080,7 @@ boolean hashed_series_has_solution_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_series);
 
-  if (inhash(si,hash_series_insufficient_nr_half_moves,nr_half_moves))
+  if (inhash_series(si,nr_half_moves))
     result = false;
   else
   {
@@ -2942,7 +3088,7 @@ boolean hashed_series_has_solution_in_n(slice_index si, stip_length_type n)
       result = true;
     else
     {
-      addtohash(si,hash_series_insufficient_nr_half_moves,nr_half_moves);
+      addtohash_series(si,nr_half_moves);
       result = false;
     }
   }
@@ -2972,12 +3118,12 @@ void hashed_series_solve_continuations_in_n(table continuations,
 
   assert(n>slack_length_series);
 
-  if (!inhash(si,hash_series_insufficient_nr_half_moves,nr_half_moves))
+  if (!inhash_series(si,nr_half_moves))
   {
     slice_index const next = slices[si].u.pipe.next;
     series_solve_continuations_in_n(continuations,next,n);
     if (table_length(continuations)==0)
-      addtohash(si,hash_series_insufficient_nr_half_moves,nr_half_moves);
+      addtohash_series(si,nr_half_moves);
   }
 
   TraceFunctionExit(__func__);
