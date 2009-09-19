@@ -2674,6 +2674,31 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
   return result;
 }
 
+static stip_length_type delegate_has_solution_in_n(slice_index si,
+                                                   stip_length_type n,
+                                                   stip_length_type n_min)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParamListEnd();
+
+  result = direct_has_solution_in_n(next,n,n_min);
+  if (result<=n)
+    addtohash_dir_succ(si,result);
+  else
+    addtohash_dir_nosucc(si,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -2692,7 +2717,8 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
                                                  stip_length_type n_min)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement const *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2702,22 +2728,37 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  /* It is more likely that a position has no solution. */
-  /* Therefore let's check for "no solution" first.  TLi */
-  if (inhash_dir_no_succ(si,n))
-  {
-    assert(!inhash_dir_succ(si,n));
-    result = n+2;
-  }
-  else if (inhash_dir_succ(si,n))
-    result = n; /* TODO return actual value */
+  if (!isHashBufferValid[nbply])
+    (*encode)();
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+    result = delegate_has_solution_in_n(si,n,n_min);
   else
   {
-    result = direct_has_solution_in_n(next,n,n_min);
-    if (result<=n)
-      addtohash_dir_succ(si,result);
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+
+    /* It is more likely that a position has no solution. */
+    /* Therefore let's check for "no solution" first.  TLi */
+    hash_value_type const val_nosucc = n/2;
+    hash_value_type const nosucc = get_value_direct_nosucc(he,si);
+    if (nosucc>=val_nosucc && nosucc<=val_nosucc+length-min_length)
+      result = n+2;
     else
-      addtohash_dir_nosucc(si,n);
+    {
+      hash_value_type const val_succ = n/2-1;
+      hash_value_type const succ = get_value_direct_succ(he,si);
+      if (succ<=val_succ && succ+length-min_length>=val_succ)
+        result = (succ+1)*2 + n%2;
+      else
+      {
+        stip_length_type const n_min_new = 2*nosucc+n_min%2;
+        if (n_min<n_min_new)
+          n_min = n_min_new;
+        result = delegate_has_solution_in_n(si,n,n_min);
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
