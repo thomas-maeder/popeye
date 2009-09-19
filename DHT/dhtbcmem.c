@@ -56,7 +56,9 @@ static int EqualBCMemValue(dhtConstValue v1, dhtConstValue v2)
 static dhtValue DupBCMemValue(dhtConstValue v)
 {
   BCMemValue const * const original = (BCMemValue *)v;
-  size_t const size = sizeof *original - sizeof value1->Data + original->Leng;
+  size_t const size = (sizeof *original
+                       - sizeof original->Data
+                       + original->Leng);
 
   BCMemValue * const result = fxfAlloc(size);
   if (result!=0)
@@ -68,7 +70,7 @@ static dhtValue DupBCMemValue(dhtConstValue v)
 static void FreeBCMemVal(dhtValue v)
 {
   BCMemValue * const freed = (BCMemValue *)v;
-  size_t const size = sizeof *freed - sizeof value1->Data + freed->Leng;
+  size_t const size = sizeof *freed - sizeof freed->Data + freed->Leng;
   fxfFree(freed,size);
 }
 
@@ -86,7 +88,7 @@ static void DumpBCMemValue(dhtConstValue v, FILE *f)
 static BCMemValue *BCMemValueCreate(int n)
 {
   BCMemValue * const result = fxfAlloc(sizeof *result
-                                       - sizeof value1->Data
+                                       - sizeof result->Data
                                        + n);
   result->Leng= n;
   return result;
