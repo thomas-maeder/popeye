@@ -357,14 +357,14 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
 
 typedef struct
 {
-    uLong       (*Hash)(dhtValue);
-    int     (*Equal)(dhtValue, dhtValue);
-    dhtValue    (*DupKey)(dhtValue);
-    dhtValue    (*DupData)(dhtValue);
+    uLong       (*Hash)(dhtConstValue);
+    int     (*Equal)(dhtConstValue, dhtConstValue);
+    dhtValue    (*DupKey)(dhtConstValue);
+    dhtValue    (*DupData)(dhtConstValue);
     void        (*FreeKey)(dhtValue);
     void        (*FreeData)(dhtValue);
-    void        (*DumpData)(dhtValue,FILE *);
-    void        (*DumpKey)(dhtValue,FILE *);
+    void        (*DumpData)(dhtConstValue,FILE *);
+    void        (*DumpKey)(dhtConstValue,FILE *);
 } Procedures;
 
 typedef struct dht {
@@ -750,7 +750,7 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   return;
 }
 
-LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtValue key)
+LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
 {
   uLong     h;
   InternHsElement **phe;
@@ -812,7 +812,7 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
 
 dhtStatus   dhtDupStatus;
 
-dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
+dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
 {
   InternHsElement **phe, *he;
   dhtValue KeyV, DataV;
@@ -900,7 +900,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtValue key, dhtValue data)
   return &he->HsEl;
 }
 
-dhtElement *dhtLookupElement(HashTable *ht, dhtValue key)
+dhtElement *dhtLookupElement(HashTable *ht, dhtConstValue key)
 {
   InternHsElement **phe;
   dhtElement *result;

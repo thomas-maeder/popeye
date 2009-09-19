@@ -73,13 +73,14 @@ DATA char *dhtValueTypeToString[dhtValueTypeCnt]
 ;
 
 typedef void *dhtValue;
+typedef void const *dhtConstValue;
 
 typedef struct {
-	unsigned long	(*Hash)(dhtValue);
-	int		(*Equal)(dhtValue, dhtValue);
-	dhtValue	(*Dup)(dhtValue);
+	unsigned long	(*Hash)(dhtConstValue);
+	int		(*Equal)(dhtConstValue, dhtConstValue);
+	dhtValue	(*Dup)(dhtConstValue);
 	void		(*Free)(dhtValue);
-	void		(*Dump)(dhtValue, FILE *);
+	void		(*Dump)(dhtConstValue, FILE *);
 } dhtValueProcedures;
 
 #if defined(REGISTER_SIMPLE)

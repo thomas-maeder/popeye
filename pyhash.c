@@ -2038,7 +2038,7 @@ static void init_elements(dhtElement *he)
  * @param hb has value (basis for calculation of key)
  * @return address of element
  */
-static dhtElement *allocDHTelement(dhtValue hb)
+static dhtElement *allocDHTelement(dhtConstValue hb)
 {
   dhtElement *result= dhtEnterElement(pyhash,hb,0);
   unsigned long nrKeys = dhtKeyCount(pyhash);
@@ -2433,7 +2433,7 @@ static boolean inhash_dir_succ(slice_index si, hash_value_type val)
  */
 static void addtohash_dir_succ(slice_index si, hash_value_type val)
 {
-  HashBuffer * const hb = &hashBuffers[nbply];
+  HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -2470,7 +2470,7 @@ static void addtohash_dir_succ(slice_index si, hash_value_type val)
  */
 static void addtohash_dir_nosucc(slice_index si, hash_value_type val)
 {
-  HashBuffer * const hb = &hashBuffers[nbply];
+  HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -2782,7 +2782,7 @@ static boolean inhash_help(slice_index si, hash_value_type val)
  */
 static void addtohash_help(slice_index si, hash_value_type val)
 {
-  HashBuffer * const hb = &hashBuffers[nbply];
+  HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
 
   TraceFunctionEntry(__func__);
@@ -3000,7 +3000,7 @@ static boolean inhash_series(slice_index si, hash_value_type val)
  */
 static void addtohash_series(slice_index si, hash_value_type val)
 {
-  HashBuffer * const hb = &hashBuffers[nbply];
+  HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
 
   TraceFunctionEntry(__func__);

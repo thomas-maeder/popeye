@@ -22,7 +22,7 @@
 #include "dhtbcmem.h"
 #include "dht.h"
 
-static unsigned long ConvertBCMemValue(dhtValue m)
+static unsigned long ConvertBCMemValue(dhtConstValue m)
 {
   BCMemValue const * const toBeConverted = (BCMemValue *)m;
   unsigned long const leng = toBeConverted->Leng; 
@@ -44,19 +44,19 @@ static unsigned long ConvertBCMemValue(dhtValue m)
   return hash;
 }
 
-static int EqualBCMemValue(dhtValue v1, dhtValue v2)
+static int EqualBCMemValue(dhtConstValue v1, dhtConstValue v2)
 {
   BCMemValue const * const value1 = (BCMemValue *)v1;
   BCMemValue const * const value2 = (BCMemValue *)v2;
-  size_t const size = sizeof *value1 - 1 + value1->Leng;
+  size_t const size = sizeof *value1 - sizeof value1->Data + value1->Leng;
 
   return memcmp(value1,value2,size)==0;
 }
 
-static dhtValue DupBCMemValue(dhtValue v)
+static dhtValue DupBCMemValue(dhtConstValue v)
 {
   BCMemValue const * const original = (BCMemValue *)v;
-  size_t const size = sizeof *original - 1 + original->Leng;
+  size_t const size = sizeof *original - sizeof value1->Data + original->Leng;
 
   BCMemValue * const result = fxfAlloc(size);
   if (result!=0)
@@ -67,12 +67,12 @@ static dhtValue DupBCMemValue(dhtValue v)
 
 static void FreeBCMemVal(dhtValue v)
 {
-  BCMemValue * const toBeFreed = (BCMemValue *)v;
-  size_t const size = sizeof *toBeFreed - 1 + toBeFreed->Leng;
-  fxfFree(toBeFreed,size);
+  BCMemValue * const freed = (BCMemValue *)v;
+  size_t const size = sizeof *freed - sizeof value1->Data + freed->Leng;
+  fxfFree(freed,size);
 }
 
-static void DumpBCMemValue(dhtValue v, FILE *f)
+static void DumpBCMemValue(dhtConstValue v, FILE *f)
 {
   BCMemValue const * const toBeDumped = (BCMemValue *)v;
   unsigned int const length = toBeDumped->Leng;
@@ -85,7 +85,9 @@ static void DumpBCMemValue(dhtValue v, FILE *f)
 
 static BCMemValue *BCMemValueCreate(int n)
 {
-  BCMemValue * const result = fxfAlloc(sizeof *result - 1 + n);
+  BCMemValue * const result = fxfAlloc(sizeof *result
+                                       - sizeof value1->Data
+                                       + n);
   result->Leng= n;
   return result;
 }

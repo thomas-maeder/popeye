@@ -24,17 +24,15 @@ struct dht;
 #define dhtNilHashTable			(struct dht *)0
 
 /* procedures */
-struct dht *dhtCreate	
-	(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
-	 dhtValueType DtaType, dhtValuePolicy DataPolicy);
-dhtElement *dhtEnterElement
-	(struct dht *, dhtValue key, dhtValue data);
+struct dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
+                      dhtValueType DtaType, dhtValuePolicy DataPolicy);
+dhtElement *dhtEnterElement(struct dht *, dhtConstValue key, dhtValue data);
 int	      dhtBucketStat	(struct dht *, int *counter, int n);
 void	      dhtDestroy	(struct dht *);
 void	      dhtDump		(struct dht *, FILE *);
 void	      dhtDumpIndented	(int i, struct dht *, FILE *);
 void	      dhtRemoveElement	(struct dht *, dhtValue key);
-dhtElement   *dhtLookupElement	(struct dht *, dhtValue key);
+dhtElement   *dhtLookupElement	(struct dht *, dhtConstValue key);
 dhtElement   *dhtGetFirstElement(struct dht *);
 dhtElement   *dhtGetNextElement	(struct dht *);
 unsigned long dhtActualLoad	(struct dht *);
