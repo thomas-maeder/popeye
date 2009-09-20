@@ -46,53 +46,6 @@ static void init_direct_defense_slice(slice_index si,
 /* **************** Implementation of interface Direct ***************
  */
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
- */
-slice_index direct_defense_root_reduce_to_postkey_play(slice_index si)
-{
-  slice_index result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_root_reduce_to_postkey_play(next);
-
-  if (result!=no_slice)
-    dealloc_slice_index(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index direct_defense_root_make_setplay_slice(slice_index si)
-{
-  slice_index result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_root_make_setplay_slice(next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -300,30 +253,66 @@ boolean direct_defense_root_solve(slice_index si)
  */
 boolean direct_defense_solve(slice_index si)
 {
-  boolean result = false;
+  boolean result;
   table const continuations = allocate_table();
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   output_start_continuation_level();
-
-  if (min_length==slack_length_direct)
-  {
-    slice_solve_continuations(continuations,
-                              slices[si].u.pipe.u.branch.towards_goal);
-    result = table_length(continuations)>0;
-  }
-  
-  if (!result)
-    result = direct_solve_continuations_in_n(continuations,si,length)<=length;
-
+  result = direct_defense_direct_solve_continuations_in_n(continuations,si,n)<=n;
   output_end_continuation_level();
 
   free_table();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index direct_defense_root_reduce_to_postkey_play(slice_index si)
+{
+  slice_index result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_root_reduce_to_postkey_play(next);
+
+  if (result!=no_slice)
+    dealloc_slice_index(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index direct_defense_root_make_setplay_slice(slice_index si)
+{
+  slice_index result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_root_make_setplay_slice(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
