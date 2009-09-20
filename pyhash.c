@@ -1380,154 +1380,37 @@ void HashStats(unsigned int level, char *trailer)
 #endif /*HASHRATE*/
 }
 
-static boolean number_of_holes_estimator_branch_direct(slice_index si,
-                                                       slice_traversal *st)
-{
-  boolean const result = true;
-  unsigned int * const nrholes = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *nrholes = 2*slices[si].u.pipe.u.branch.length;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static
-boolean number_of_holes_estimator_branch_direct_defender(slice_index si,
-                                                         slice_traversal *st)
-{
-  boolean const result = true;
-  unsigned int * const nrholes = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *nrholes = 2*slices[si].u.pipe.u.branch.length;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean number_of_holes_estimator_hashed_series(slice_index si,
-                                                       slice_traversal *st)
-{
-  boolean const result = true;
-  unsigned int * const nrholes = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *nrholes = slices[si].u.pipe.u.branch.length;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean number_of_holes_estimator_fork(slice_index si,
-                                              slice_traversal *st)
-{
-  boolean const result = true;
-  unsigned int * const nrholes = st->param;
-  unsigned int result1 = 0;
-  unsigned int result2 = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  st->param = &result1;
-  traverse_slices(slices[si].u.fork.op1,st);
-
-  st->param = &result2;
-  traverse_slices(slices[si].u.fork.op2,st);
-
-  st->param = nrholes;
-  *nrholes = result1>result2 ? result1 : result2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean number_of_holes_estimator_hashed_help(slice_index si,
-                                                     slice_traversal *st)
-{
-  boolean const result = true;
-  unsigned int * const nrholes = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *nrholes = 2*slices[si].u.pipe.u.branch.length;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const number_of_holes_estimators[] =
-{
-  &slice_traverse_children,                         /* STBranchDirect */
-  &slice_traverse_children,                         /* STBranchDirectDefender*/
-  &slice_traverse_children,                         /* STBranchHelp */
-  &slice_traverse_children,                         /* STBranchSeries */
-  &slice_traverse_children,                         /* STBranchFork */
-  &slice_operation_noop,                            /* STLeafDirect */
-  &slice_operation_noop,                            /* STLeafHelp */
-  &slice_operation_noop,                            /* STLeafForced */
-  &number_of_holes_estimator_fork,                  /* STReciprocal */
-  &number_of_holes_estimator_fork,                  /* STQuodlibet */
-  &slice_traverse_children,                         /* STNot */
-  &slice_traverse_children,                         /* STMoveInverter */
-  &number_of_holes_estimator_branch_direct,         /* STDirectRoot */
-  &number_of_holes_estimator_branch_direct_defender,/* STDirectDefenderRoot */
-  &number_of_holes_estimator_branch_direct,         /* STDirectHashed */
-  &slice_traverse_children,                         /* STHelpRoot */
-  &slice_traverse_children,                         /* STHelpAdapter */
-  &number_of_holes_estimator_hashed_help,           /* STHelpHashed */
-  &slice_traverse_children,                         /* STSeriesRoot */
-  &slice_traverse_children,                         /* STSeriesAdapter */
-  &number_of_holes_estimator_hashed_series,         /* STSeriesHashed */
-  &slice_traverse_children,                         /* STSelfCheckGuard */
-  &slice_traverse_children,                         /* STDirectDefense */
-  &slice_traverse_children,                         /* STReflexGuard */
-  &slice_traverse_children,                         /* STSelfAttack */
-  &slice_traverse_children,                         /* STSelfDefense */
-  &slice_traverse_children,                         /* STRestartGuard */
-  0,                                                /* STGoalReachableGuard */
-  &slice_traverse_children,                         /* STKeepMatingGuard */
-  &slice_traverse_children,                         /* STMaxFlightsquares */
-  &slice_traverse_children,                         /* STDegenerateTree */
-  &slice_traverse_children,                         /* STMaxNrNonTrivial */
-  &slice_traverse_children                          /* STMaxThreatLength */
-};
-
-static unsigned int estimateNumberOfHoles(slice_index si)
+static unsigned int estimateNumberOfHoles(void)
 {
   unsigned int result = 0;
-  slice_traversal st;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&number_of_holes_estimators,&result);
-  traverse_slices(root_slice,&st);
+  for (i = 0; i<nr_hash_slices && !result; ++i)
+  {
+    slice_index const si = hash_slices[i];
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    switch (slices[si].type)
+    {
+      case STDirectHashed:
+        result += (length-slack_length_direct+1)/2;
+        break;
+
+      case STHelpHashed:
+        result += (length-slack_length_help+1)/2;
+        break;
+
+      case STSeriesHashed:
+        result += length-slack_length_series;
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1542,7 +1425,7 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
 
   if (CondFlag[haanerchess])
   {
-    unsigned int nbr_holes = estimateNumberOfHoles(root_slice);
+    unsigned int nbr_holes = estimateNumberOfHoles();
     if (nbr_holes>(nr_files_on_board*nr_rows_on_board-nbr_p)/2)
       nbr_holes = (nr_files_on_board*nr_rows_on_board-nbr_p)/2;
     len += bytes_per_piece*nbr_holes;
