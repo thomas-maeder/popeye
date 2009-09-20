@@ -301,9 +301,9 @@ boolean direct_defense_root_solve(slice_index si)
 boolean direct_defense_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
   table const continuations = allocate_table();
-  stip_length_type i = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -311,20 +311,15 @@ boolean direct_defense_solve(slice_index si)
 
   output_start_continuation_level();
 
-  if (i==slack_length_direct)
+  if (min_length==slack_length_direct)
   {
     slice_solve_continuations(continuations,
                               slices[si].u.pipe.u.branch.towards_goal);
     result = table_length(continuations)>0;
-    i += 2;
   }
   
-  while (i<=n && !result)
-  {
-    direct_solve_continuations_in_n(continuations,si,i);
-    result = table_length(continuations)>0;
-    i += 2;
-  }
+  if (!result)
+    result = direct_solve_continuations_in_n(continuations,si,length)<=length;
 
   output_end_continuation_level();
 
