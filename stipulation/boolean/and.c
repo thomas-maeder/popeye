@@ -111,34 +111,6 @@ boolean reci_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type reci_has_starter_won(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  result = slice_has_starter_won(op1);
-  if (result==starter_has_won)
-    result = slice_has_starter_won(op2);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

@@ -441,47 +441,6 @@ boolean leaf_d_solve(slice_index leaf)
   return result;
 }
 
-/* Determine whether the starting side has won with its move just
- * played.
- * @param leaf slice identifier
- * @return whether starter has won
- */
-has_starter_won_result_type leaf_d_has_starter_won(slice_index leaf)
-{
-  has_starter_won_result_type result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  switch (leaf_is_goal_reached(slices[leaf].starter,leaf))
-  {
-    case goal_not_reached:
-      result = starter_has_not_won;
-      break;
-
-    case goal_not_reached_selfcheck:
-      result = starter_has_not_won_selfcheck;
-      break;
-
-    case goal_reached:
-      result = starter_has_won;
-      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
-      write_end_of_solution();
-      break;
-
-    default:
-      assert(0);
-      result = starter_has_not_won;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param leaf slice identifier

@@ -262,32 +262,6 @@ boolean leaf_h_solve(slice_index leaf)
   return result;
 }
 
-/* Determine whether the starting side has won with its move just
- * played.
- * @param leaf slice identifier
- * @return whether starter has won
- */
-has_starter_won_result_type leaf_h_has_starter_won(slice_index leaf)
-{
-  has_starter_won_result_type result;
-  Side const final = slices[leaf].starter;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  assert(slices[leaf].starter!=no_side);
-
-  result = (is_end_in_1_possible(final,leaf)
-            ? starter_has_won
-            : starter_has_not_won);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defender wins after a move by the attacker
  * @param leaf identifies leaf
  * @return true iff the defender wins

@@ -128,22 +128,6 @@ boolean slice_has_non_starter_solved(slice_index si);
 unsigned int slice_count_refutations(slice_index si,
                                      unsigned int max_result);
 
-#define ENUMERATION_TYPENAME has_starter_won_result_type
-#define ENUMERATORS                             \
-  ENUMERATOR(starter_has_not_won),              \
-    ENUMERATOR(starter_has_not_won_selfcheck),  \
-    ENUMERATOR(starter_has_won)
-
-#define ENUMERATION_DECLARE
-
-#include "pyenum.h"
-
-/* Determine whether the attacker has won with his move just played.
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type slice_has_starter_won(slice_index si);
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

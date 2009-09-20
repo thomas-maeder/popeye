@@ -42,12 +42,6 @@ has_solution_type not_has_solution(slice_index si);
  */
 void not_solve_continuations(table continuations, slice_index si);
 
-/* Determine whether the attacker has won with his move just played
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type not_has_starter_won(slice_index si);
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

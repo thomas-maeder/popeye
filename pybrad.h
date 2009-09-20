@@ -102,14 +102,6 @@ stip_length_type branch_d_solve_threats(table threats,
  */
 void branch_d_write_unsolvability(slice_index si);
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type branch_d_has_starter_won(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index

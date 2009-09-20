@@ -309,32 +309,6 @@ unsigned int leaf_forced_count_refutations(slice_index leaf,
   return result;
 }
 
-/* Determine whether the starting side has won with its move just
- * played.
- * @param leaf slice identifier
- * @return whether starter has won
- */
-has_starter_won_result_type leaf_forced_has_starter_won(slice_index leaf)
-{
-  boolean result;
-  Side const defender = slices[leaf].starter;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  assert(slices[leaf].starter!=no_side);
-
-  result = (is_end_in_1_forced(defender,leaf)
-            ? starter_has_won
-            : starter_has_not_won);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defender wins after a move by the attacker
  * @param leaf identifies leaf
  * @return true iff the defender wins

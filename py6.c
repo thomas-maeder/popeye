@@ -514,7 +514,7 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
   0,                                  /* STDirectAttack */
-  0,                                  /* STDirectDefense */
+  &slice_traverse_children,           /* STDirectDefense */
   0,                                  /* STReflexGuard */
   0,                                  /* STSelfAttack */
   0,                                  /* STSelfDefense */

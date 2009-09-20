@@ -239,32 +239,6 @@ boolean quodlibet_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type quodlibet_has_starter_won(slice_index si)
-{
-  has_starter_won_result_type result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_won(op1);
-  if (result==starter_has_not_won)
-    result = slice_has_starter_won(op2);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there are refutations
  * @param leaf slice index
  * @param max_result how many refutations should we look for

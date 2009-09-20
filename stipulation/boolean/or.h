@@ -64,14 +64,6 @@ has_solution_type quodlibet_has_solution(slice_index si);
  */
 boolean quodlibet_has_non_starter_solved(slice_index si);
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type quodlibet_has_starter_won(slice_index si);
-
 /* Determine whether there are refutations
  * @param leaf slice index
  * @param max_result how many refutations should we look for

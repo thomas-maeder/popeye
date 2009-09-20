@@ -39,14 +39,6 @@ has_solution_type reci_has_solution(slice_index si);
  */
 boolean reci_has_non_starter_solved(slice_index si);
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type reci_has_starter_won(slice_index si);
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

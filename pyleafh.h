@@ -16,13 +16,6 @@
  */
 boolean leaf_h_solve_postkey(slice_index leaf);
 
-/* Determine whether the starting side has won with its move just
- * played.
- * @param leaf slice identifier
- * @return whether starter has won
- */
-has_starter_won_result_type leaf_h_has_starter_won(slice_index leaf);
-
 /* Determine whether the defender wins after a move by the attacker
  * @param leaf identifies leaf
  * @return true iff the defender wins

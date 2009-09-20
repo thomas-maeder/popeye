@@ -22,13 +22,6 @@ boolean leaf_d_solve_postkey(slice_index leaf);
  */
 void leaf_d_solve_continuations(slice_index leaf);
 
-/* Determine whether the starting side has won with its move just
- * played.
- * @param leaf slice identifier
- * @return whether starter has won
- */
-has_starter_won_result_type leaf_d_has_starter_won(slice_index leaf);
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

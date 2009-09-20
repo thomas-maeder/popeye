@@ -140,12 +140,6 @@ void series_adapter_write_unsolvability(slice_index si);
  */
 boolean series_adapter_has_non_starter_solved(slice_index si);
 
-/* Determine whether the attacker has won with his move just played
- * @param si slice identifier
- * @return whether the starter has won
- */
-has_starter_won_result_type series_adapter_has_starter_won(slice_index si);
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

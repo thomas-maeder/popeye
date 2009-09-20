@@ -8,13 +8,6 @@
  * find forced half-moves reaching the goal.
  */
 
-/* Determine whether the starting side has won with its move just
- * played.
- * @param leaf slice identifier
- * @return whether starter has won
- */
-has_starter_won_result_type leaf_forced_has_starter_won(slice_index leaf);
-
 /* Determine whether there are refutations
  * @param leaf slice index
  * @param max_result how many refutations should we look for

@@ -252,7 +252,7 @@ stip_length_type self_defense_direct_solve_threats(table threats,
  */
 attack_result_type self_attack_defend_in_n(slice_index si, stip_length_type n)
 {
-  boolean result = attack_has_reached_deadend;
+  boolean result;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   stip_length_type const n_max_for_goal
@@ -265,27 +265,17 @@ attack_result_type self_attack_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n<=n_max_for_goal)
-    switch (slice_has_starter_won(to_goal))
-    {
-      case starter_has_not_won:
-        if (n>slack_length_direct)
-          result = direct_defender_defend_in_n(next,n);
-        break;
-
-      case starter_has_won:
-        result = attack_has_solved_next_branch;
-        write_attack(attack_regular);
-        slice_solve_postkey(to_goal);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  else
+  if (n<=n_max_for_goal && !slice_does_defender_win(to_goal))
+  {
+    result = attack_has_solved_next_branch;
+    write_attack(attack_regular);
+    slice_solve_postkey(to_goal);
+  }
+  else if (next!=no_slice)
     result = direct_defender_defend_in_n(next,n);
-
+  else
+    result = attack_has_reached_deadend;
+  
   TraceFunctionExit(__func__);
   TraceEnumerator(attack_result_type,result,"");
   TraceFunctionResultEnd();
@@ -441,6 +431,27 @@ slice_index self_attack_root_reduce_to_postkey_play(slice_index si)
   return result;
 }
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean self_defense_root_solve(slice_index si)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_root_solve(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -546,7 +557,8 @@ attack_result_type self_attack_root_defend(table refutations, slice_index si)
       default:
         break;
     }
-  else if (min_length==slack_length_direct && slice_has_starter_won(to_goal))
+  else if (min_length==slack_length_direct
+           && !slice_does_defender_win(to_goal))
   {
     result = attack_has_solved_next_branch;
     write_attack(attack_key);
@@ -680,6 +692,35 @@ static boolean self_guards_inserter_branch_direct(slice_index si,
   return result;
 }
 
+/* Insert a STSelfAttack before anda STSelfDefense after each
+ * STDirectRoot
+ */
+static boolean self_guards_inserter_direct_root(slice_index si,
+                                                slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const * const towards_goal = st->param;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_insert_after(si);
+  init_self_attack_slice(slices[si].u.pipe.next,
+                         length-1,min_length-1,
+                         slices[slices[si].u.pipe.next].u.pipe.next,
+                         *towards_goal);
+
+  slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const self_guards_inserters[] =
 {
   &self_guards_inserter_branch_direct,          /* STBranchDirect */
@@ -694,7 +735,7 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,                     /* STQuodlibet */
   &slice_traverse_children,                     /* STNot */
   &slice_traverse_children,                     /* STMoveInverter */
-  &self_guards_inserter_branch_direct,          /* STDirectRoot */
+  &self_guards_inserter_direct_root,            /* STDirectRoot */
   &self_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                     /* STDirectHashed */
   &slice_traverse_children,                     /* STHelpRoot */

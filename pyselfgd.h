@@ -98,6 +98,12 @@ stip_length_type self_defense_direct_solve_threats(table threats,
                                                    slice_index si,
                                                    stip_length_type n);
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean self_defense_root_solve(slice_index si);
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

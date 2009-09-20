@@ -481,27 +481,6 @@ boolean series_adapter_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has won with his move just played
- * @param si slice identifier
- * @return true iff the starter has won
- */
-has_starter_won_result_type series_adapter_has_starter_won(slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-  has_starter_won_result_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_starter_won(to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
  * @param si slice identifier

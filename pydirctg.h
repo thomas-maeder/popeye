@@ -16,6 +16,20 @@
  */
 slice_index direct_attack_root_reduce_to_postkey_play(slice_index si);
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index direct_defense_root_reduce_to_postkey_play(slice_index si);
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index direct_defense_root_make_setplay_slice(slice_index si);
+
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
@@ -73,6 +87,12 @@ direct_defense_direct_solve_continuations_in_n(table continuations,
 stip_length_type direct_defense_direct_solve_threats(table threats,
                                                      slice_index si,
                                                      stip_length_type n);
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_defense_root_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index

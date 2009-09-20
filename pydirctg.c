@@ -74,6 +74,53 @@ static void init_direct_defense_slice(slice_index si,
 /* **************** Implementation of interface Direct ***************
  */
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @return index of first postkey slice; no_slice if postkey play not
+ *         applicable
+ */
+slice_index direct_defense_root_reduce_to_postkey_play(slice_index si)
+{
+  slice_index result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_root_reduce_to_postkey_play(next);
+
+  if (result!=no_slice)
+    dealloc_slice_index(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index direct_defense_root_make_setplay_slice(slice_index si)
+{
+  slice_index result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_root_make_setplay_slice(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -300,6 +347,35 @@ void direct_attack_root_solve_variations(table threats,
 /* **************** Implementation of interface Slice **********
  */
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_defense_root_solve(slice_index si)
+{
+  boolean result = false;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (min_length<=slack_length_direct && slice_root_solve(to_goal))
+    result = true;
+
+  if (next!=no_slice)
+    /* always evaluate slice_root_solve(next), even if we have found a
+     * short solution */
+    result = slice_root_solve(next) || result;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -372,34 +448,13 @@ boolean direct_guard_root_solve(slice_index si)
 attack_result_type direct_attack_root_defend(table refutations, slice_index si)
 {
   attack_result_type result = attack_has_reached_deadend;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length<slack_length_direct)
-    switch (slice_has_starter_won(togoal))
-    {
-      case starter_has_not_won:
-        result = direct_defender_root_defend(refutations,next);
-        break;
-
-      case starter_has_not_won_selfcheck:
-        break;
-
-      case starter_has_won:
-        result = attack_has_solved_next_branch;
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  else
-    result = direct_defender_root_defend(refutations,next);
+  result = direct_defender_root_defend(refutations,next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(attack_result_type,result,"");
@@ -508,6 +563,11 @@ static boolean direct_guards_inserter_branch_direct_root(slice_index si,
   TraceFunctionParamListEnd();
 
   slice_traverse_children(si,st);
+
+  pipe_insert_before(si);
+  init_direct_defense_slice(si,length,min_length,*towards_goal);
+
+  si = slices[si].u.pipe.next;
 
   pipe_insert_before(slices[si].u.pipe.next);
   init_direct_attack_slice(slices[si].u.pipe.next,

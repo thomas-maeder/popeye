@@ -37,17 +37,6 @@
 #include "pyenum.h"
 
 
-#define ENUMERATION_TYPENAME has_starter_won_result_type
-#define ENUMERATORS                             \
-  ENUMERATOR(starter_has_not_won),              \
-    ENUMERATOR(starter_has_not_won_selfcheck),  \
-    ENUMERATOR(starter_has_won)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "pyenum.h"
-
-
 #define ENUMERATION_TYPENAME quantity_of_refutations_type
 #define ENUMERATORS                             \
   ENUMERATOR(attacker_has_solved_next_slice),   \
@@ -211,6 +200,10 @@ slice_index slice_root_make_setplay_slice(slice_index si)
       result = direct_root_make_setplay_slice(si);
       break;
 
+    case STDirectDefense:
+      result = direct_defense_root_make_setplay_slice(si);
+      break;
+
     case STSeriesRoot:
       result = series_root_make_setplay_slice(si);
       break;
@@ -265,6 +258,10 @@ slice_index slice_root_reduce_to_postkey_play(slice_index si)
 
     case STDirectAttack:
       result = direct_attack_root_reduce_to_postkey_play(si);
+      break;
+
+    case STDirectDefense:
+      result = direct_defense_root_reduce_to_postkey_play(si);
       break;
 
     case STSelfAttack:
@@ -432,6 +429,10 @@ boolean slice_root_solve(slice_index si)
       result = branch_d_defender_root_solve(si);
       break;
 
+    case STDirectDefense:
+      result = direct_defense_root_solve(si);
+      break;
+
     case STHelpRoot:
       result = help_root_solve(si);
       break;
@@ -450,6 +451,10 @@ boolean slice_root_solve(slice_index si)
 
     case STSelfAttack:
       result = self_guard_root_solve(si);
+      break;
+
+    case STSelfDefense:
+      result = self_defense_root_solve(si);
       break;
 
     case STReflexGuard:
@@ -782,74 +787,6 @@ boolean slice_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether the attacker has won with his move just played
- * independently of the non-starter's possible further play during the
- * current slice.
- * @param si slice identifier
- * @return true iff the starter has won
- */
-has_starter_won_result_type slice_has_starter_won(slice_index si)
-{
-  has_starter_won_result_type result = starter_has_not_won;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      result = leaf_d_has_starter_won(si);
-      break;
-
-    case STLeafForced:
-      result = leaf_forced_has_starter_won(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_has_starter_won(si);
-      break;
-
-    case STBranchDirect:
-      result = branch_d_has_starter_won(si);
-      break;
- 
-    case STHelpAdapter:
-      result = help_adapter_has_starter_won(si);
-      break;
-
-    case STSeriesAdapter:
-      result = series_adapter_has_starter_won(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_has_starter_won(si);
-      break;
-
-    case STReciprocal:
-      result = reci_has_starter_won(si);
-      break;
-
-    case STNot:
-      result = not_has_starter_won(si);
-      break;
-
-    case STDirectHashed:
-      result = slice_has_starter_won(slices[si].u.pipe.next);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there are refutations
  * @param leaf slice index
  * @param max_result how many refutations should we look for
@@ -881,7 +818,7 @@ unsigned int slice_count_refutations(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_starter_won_result_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -1134,6 +1071,8 @@ who_decides_on_starter slice_detect_starter(slice_index si,
     case STReflexGuard:
     case STSeriesAdapter:
     case STDirectAttack:
+    case STDirectDefense:
+    case STSelfDefense:
     case STSelfAttack:
       result = pipe_detect_starter(si,same_side_as_root);
       break;
