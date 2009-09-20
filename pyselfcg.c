@@ -667,28 +667,19 @@ static boolean selfcheck_guards_inserter_branch_direct(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
-  slice_index guard_pos = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",guard_pos);
+  TraceValue("%u\n",next);
 
-  if (slices[guard_pos].type==STDirectAttack)
-    /* in direct stipulations, the last attacker's move may be allowed
-     * to expose its own king (e.g. in ##!) */
-    guard_pos = slices[guard_pos].u.pipe.next;
-
-  TraceValue("->%u\n",guard_pos);
-
-  assert(guard_pos!=no_slice);
-  if (guard_pos!=no_slice
-      && slices[guard_pos].type!=STSelfCheckGuard)
+  if (slices[next].type!=STSelfCheckGuard)
   {
-    pipe_insert_before(guard_pos);
-    init_selfcheck_guard_slice(guard_pos);
-    slice_traverse_children(guard_pos,st);
+    pipe_insert_before(next);
+    init_selfcheck_guard_slice(next);
+    slice_traverse_children(next,st);
   }
 
   TraceFunctionExit(__func__);
@@ -781,7 +772,6 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STSeriesAdapter */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_operation_noop,                    /* STSelfCheckGuard */
-  &slice_traverse_children,                 /* STDirectAttack */
   &slice_traverse_children,                 /* STDirectDefense */
   &slice_traverse_children,                 /* STReflexGuard */
   &slice_traverse_children,                 /* STSelfAttack */
@@ -886,7 +876,6 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STSeriesAdapter */
   0,                                             /* STSeriesHashed */
   0,                                             /* STSelfCheckGuard */
-  0,                                             /* STDirectAttack */
   &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefense */
   &selfcheck_guards_inserter_toplevel_reflex_guard, /* STReflexGuard */
   0,                                             /* STSelfAttack */

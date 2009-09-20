@@ -925,7 +925,6 @@ static slice_operation const reflex_guards_inserters[] =
   &slice_traverse_children,            /* STSeriesAdapter */
   0,                                   /* STSeriesHashed */
   0,                                   /* STSelfCheckGuard */
-  0,                                   /* STDirectAttack */
   0,                                   /* STDirectDefense */
   0,                                   /* STReflexGuard */
   0,                                   /* STSelfAttack */
@@ -1025,7 +1024,6 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &slice_traverse_children,            /* STSeriesAdapter */
   0,                                   /* STSeriesHashed */
   0,                                   /* STSelfCheckGuard */
-  0,                                   /* STDirectAttack */
   0,                                   /* STDirectDefense */
   0,                                   /* STReflexGuard */
   0,                                   /* STSelfAttack */

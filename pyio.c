@@ -2120,7 +2120,6 @@ static slice_operation const to_toplevel_promoters[] =
   &to_toplevel_promoters_series_adapter, /* STSeriesAdapter */
   0,                                     /* STSeriesHashed */
   0,                                     /* STSelfCheckGuard */
-  0,                                     /* STDirectAttack */
   0,                                     /* STDirectDefense */
   0,                                     /* STReflexGuard */
   0,                                     /* STSelfAttack */

@@ -55,7 +55,6 @@
                                                     \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \
-    ENUMERATOR(STDirectAttack),    /* direct play, just played attack */ \
     ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfAttack),      /* self play, just played attack */  \
@@ -128,7 +127,6 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STSeriesAdapter */
   &mark_reachable_slice, /* STSeriesHashed */
   &mark_reachable_slice, /* STSelfCheckGuard */
-  &mark_reachable_slice, /* STDirectAttack */
   &mark_reachable_slice, /* STDirectDefense */
   &mark_reachable_slice, /* STReflexGuard */
   &mark_reachable_slice, /* STSelfAttack */
@@ -485,7 +483,6 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STSeriesAdapter */
   &get_max_nr_moves_other,           /* STSeriesHashed */
   &get_max_nr_moves_other,           /* STSelfCheckGuard */
-  &get_max_nr_moves_other,           /* STDirectAttack */
   &get_max_nr_moves_other,           /* STDirectDefense */
   &get_max_nr_moves_other,           /* STReflexGuard */
   &get_max_nr_moves_other,           /* STSelfAttack */
@@ -578,7 +575,6 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STSeriesAdapter */
   &slice_traverse_children, /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
-  &slice_traverse_children, /* STDirectAttack */
   &slice_traverse_children, /* STDirectDefense */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STSelfAttack */
@@ -659,7 +655,6 @@ static void deep_copy_recursive(slice_index *si, copies_type *copies)
       case STHelpAdapter:
       case STSeriesRoot:
       case STSeriesAdapter:
-      case STDirectAttack:
       case STDirectDefense:
       case STReflexGuard:
       case STSelfAttack:
@@ -779,7 +774,6 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STSeriesAdapter */
   &slice_traverse_children,   /* STSeriesHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
-  &slice_traverse_children,   /* STDirectAttack */
   &slice_traverse_children,   /* STDirectDefense */
   &slice_traverse_children,   /* STReflexGuard */
   &slice_traverse_children,   /* STSelfAttack */
@@ -805,34 +799,6 @@ static void make_leaves_direct(slice_index si)
 
   slice_traversal_init(&st,&leaves_direct_makers,0);
   traverse_slices(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Make sure that the successor slice of a slice is of type
- * STDirectAttack. 
- * Converts STSelfAttacks or inserts slices as needed
- * @param successor identifies current successor slice
- * @param towards_goal slice towards the goal from the branch
- *                     successor is a part of
- */
-static void make_successor_direct_attack(slice_index successor,
-                                         slice_index towards_goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",successor);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParamListEnd();
-
-  if (slices[successor].type==STDirectAttack)
-    /* already done*/ ;
-  else
-  {
-    slices[successor].u.pipe.next = copy_slice(successor);
-    slices[successor].type = STDirectAttack;
-    slices[successor].u.pipe.u.branch.towards_goal = towards_goal;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -864,7 +830,6 @@ static boolean transform_to_quodlibet_direct_root(slice_index si,
 {
   boolean const result = true;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index * const new_to_goal = st->param;
 
   TraceFunctionEntry(__func__);
@@ -874,7 +839,6 @@ static boolean transform_to_quodlibet_direct_root(slice_index si,
   *new_to_goal = deep_copy(to_goal);
   make_leaves_direct(*new_to_goal);
 
-  make_successor_direct_attack(next,*new_to_goal);
   slice_traverse_children(si,st);
 
   *new_to_goal = no_slice;
@@ -959,7 +923,6 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,                       /* STSeriesAdapter */
   0,                                              /* STSeriesHashed */
   0,                                              /* STSelfCheckGuard */
-  &slice_traverse_children,                       /* STDirectAttack */
   &slice_traverse_children,                       /* STDirectDefense */
   &transform_to_quodlibet_branch_fork,            /* STReflexGuard */
   &slice_traverse_children,                       /* STSelfAttack */
@@ -1063,7 +1026,6 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STSeriesAdapter */
   &slice_traverse_children, /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
-  &slice_traverse_children, /* STDirectAttack */
   &slice_traverse_children, /* STDirectDefense */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STSelfAttack */
@@ -1144,7 +1106,6 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STSeriesAdapter */
   &slice_traverse_children,   /* STSeriesHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
-  &slice_traverse_children,   /* STDirectAttack */
   &slice_traverse_children,   /* STDirectDefense */
   &slice_traverse_children,   /* STReflexGuard */
   &slice_traverse_children,   /* STSelfAttack */
@@ -1218,7 +1179,6 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STSeriesAdapter */
   0,                        /* STSeriesHashed */
   &make_exact_branch,       /* STSelfCheckGuard */
-  &make_exact_branch,       /* STDirectAttack */
   &make_exact_branch,       /* STDirectDefense */
   &make_exact_branch,       /* STReflexGuard */
   &make_exact_branch,       /* STSelfAttack */
@@ -1272,7 +1232,6 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,           /* STSeriesAdapter */
   &pipe_impose_starter,           /* STSeriesHashed */
   &pipe_impose_starter,           /* STSelfCheckGuard */
-  &direct_attack_impose_starter,  /* STDirectAttack */
   &direct_defense_impose_starter, /* STDirectDefense */
   &reflex_guard_impose_starter,   /* STReflexGuard */
   &self_attack_impose_starter,    /* STSelfAttack */
@@ -1530,7 +1489,6 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STSeriesAdapter */
   &traverse_pipe,         /* STSeriesHashed */
   &traverse_pipe,         /* STSelfCheckGuard */
-  &traverse_guard,        /* STDirectAttack */
   &traverse_guard,        /* STDirectDefense */
   &traverse_reflex_guard, /* STReflexGuard */
   &traverse_guard,        /* STSelfAttack */

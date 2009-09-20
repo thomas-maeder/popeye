@@ -513,7 +513,6 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STSeriesAdapter */
   0,                                  /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
-  0,                                  /* STDirectAttack */
   &slice_traverse_children,           /* STDirectDefense */
   0,                                  /* STReflexGuard */
   0,                                  /* STSelfAttack */
@@ -2581,7 +2580,6 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,           /* STSeriesAdapter */
   &slice_traverse_children,           /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
-  &slice_traverse_children,           /* STDirectAttack */
   &slice_traverse_children,           /* STDirectDefense */
   &slice_traverse_children,           /* STReflexGuard */
   &slice_traverse_children,           /* STSelfAttack */

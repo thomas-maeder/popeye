@@ -382,7 +382,6 @@ static boolean nontrivial_guard_inserter_direct_root(slice_index si,
                                                      slice_traversal *st)
 {
   boolean const result = true;
-  slice_index nt_pos = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -390,11 +389,8 @@ static boolean nontrivial_guard_inserter_direct_root(slice_index si,
 
   slice_traverse_children(si,st);
 
-  if (slices[slices[nt_pos].u.pipe.next].type==STDirectAttack)
-    nt_pos = slices[nt_pos].u.pipe.next;
-
-  pipe_insert_after(nt_pos);
-  init_max_nr_nontrivial_guard_slice(slices[nt_pos].u.pipe.next);
+  pipe_insert_after(si);
+  init_max_nr_nontrivial_guard_slice(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -446,7 +442,6 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STSeriesAdapter */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_traverse_children,                 /* STSelfCheckGuard */
-  &slice_traverse_children,                 /* STDirectAttack */
   &slice_traverse_children,                 /* STDirectDefense */
   &slice_traverse_children,                 /* STReflexGuard */
   &slice_traverse_children,                 /* STSelfAttack */

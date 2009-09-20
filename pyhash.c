@@ -289,7 +289,6 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STSeriesAdapter */
   &slice_property_offset_shifter, /* STSeriesHashed */
   &slice_property_offset_shifter, /* STSelfCheckGuard */
-  &slice_property_offset_shifter, /* STDirectAttack */
   &slice_property_offset_shifter, /* STDirectDefense */
   &slice_property_offset_shifter, /* STReflexGuard */
   &slice_property_offset_shifter, /* STSelfAttack */
@@ -734,7 +733,6 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_series_adapter, /* STSeriesAdapter */
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
   &init_slice_properties_pipe,           /* STSelfCheckGuard */
-  &init_slice_properties_direct_root,    /* STDirectAttack */
   &slice_traverse_children,              /* STDirectDefense */
   &slice_traverse_children,              /* STReflexGuard */
   &init_slice_properties_direct_root,    /* STSelfAttack */
@@ -1506,7 +1504,6 @@ static slice_operation const number_of_holes_estimators[] =
   &slice_traverse_children,                         /* STSeriesAdapter */
   &number_of_holes_estimator_hashed_series,         /* STSeriesHashed */
   &slice_traverse_children,                         /* STSelfCheckGuard */
-  &slice_traverse_children,                         /* STDirectAttack */
   &slice_traverse_children,                         /* STDirectDefense */
   &slice_traverse_children,                         /* STReflexGuard */
   &slice_traverse_children,                         /* STSelfAttack */
@@ -2000,7 +1997,6 @@ static slice_operation const element_initialisers[] =
   &slice_traverse_children,    /* STSeriesAdapter */
   &init_element_hashed_series, /* STSeriesHashed */
   &slice_traverse_children,    /* STSelfCheckGuard */
-  &slice_traverse_children,    /* STDirectAttack */
   &slice_traverse_children,    /* STDirectDefense */
   &slice_traverse_children,    /* STReflexGuard */
   &slice_traverse_children,    /* STSelfAttack */

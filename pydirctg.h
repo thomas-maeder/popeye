@@ -1,20 +1,12 @@
 #if !defined(PYDIRCTG_H)
 #define PYDIRCTG_H
 
-/* STDirectAttack
+/* STDirectDefense
  * Deals with short ends in direct branches
  * Implements the direct attacker interface
  */
 
 #include "pydirect.h"
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
- */
-slice_index direct_attack_root_reduce_to_postkey_play(slice_index si);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
@@ -100,51 +92,6 @@ boolean direct_defense_root_solve(slice_index si);
  */
 boolean direct_defense_solve(slice_index si);
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean direct_guard_root_solve(slice_index si);
-
-/* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
- * @param si slice index
- * @return success of key move
- */
-attack_result_type direct_attack_root_defend(table refutations, slice_index si);
-
-/* Solve threats after an attacker's move
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type direct_attack_solve_threats(table threats,
-                                             slice_index si,
-                                             stip_length_type n);
-
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param refutations table containing refutations to move just played
- * @param si slice index
- */
-void direct_attack_root_solve_variations(table threats,
-                                         stip_length_type len_threat,
-                                         table refutations,
-                                         slice_index si);
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean direct_attack_impose_starter(slice_index si, slice_traversal *st);
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
@@ -153,7 +100,7 @@ boolean direct_attack_impose_starter(slice_index si, slice_traversal *st);
  */
 boolean direct_defense_impose_starter(slice_index si, slice_traversal *st);
 
-/* Instrument a branch with STDirectAttack and STDirectDefense slices
+/* Instrument a branch with STDirectDefense slices
  * @param si root of branch to be instrumented
  * @param towards_goal identifies slice leading towards goal
  */

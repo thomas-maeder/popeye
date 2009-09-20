@@ -256,10 +256,6 @@ slice_index slice_root_reduce_to_postkey_play(slice_index si)
       result = branch_d_defender_root_reduce_to_postkey_play(si);
       break;
 
-    case STDirectAttack:
-      result = direct_attack_root_reduce_to_postkey_play(si);
-      break;
-
     case STDirectDefense:
       result = direct_defense_root_reduce_to_postkey_play(si);
       break;
@@ -443,10 +439,6 @@ boolean slice_root_solve(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_root_solve(si);
-      break;
-
-    case STDirectAttack:
-      result = direct_guard_root_solve(si);
       break;
 
     case STSelfAttack:
@@ -1070,7 +1062,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
     case STHelpAdapter:
     case STReflexGuard:
     case STSeriesAdapter:
-    case STDirectAttack:
     case STDirectDefense:
     case STSelfDefense:
     case STSelfAttack:

@@ -14,34 +14,6 @@
 /* **************** Initialisation ***************
  */
 
-/* Initialise a STDirectAttack slice
- * @param si identifies slice to be initialised
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
- */
-static void init_direct_attack_slice(slice_index si,
-                                     stip_length_type length,
-                                     stip_length_type min_length,
-                                     slice_index towards_goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParamListEnd();
-
-  slices[si].type = STDirectAttack; 
-  slices[si].starter = no_side; 
-  slices[si].u.pipe.u.branch.length = length;
-  slices[si].u.pipe.u.branch.min_length = min_length;
-  slices[si].u.pipe.u.branch.towards_goal = towards_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Initialise a STDirectDefense slice
  * @param si identifies slice to be initialised
  * @param length maximum number of half-moves of slice (+ slack)
@@ -290,60 +262,6 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
   return result;
 }
 
-/* **************** Implementation of interface DirectDefender **********
- */
-
-/* Solve threats after an attacker's move
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type direct_attack_solve_threats(table threats,
-                                             slice_index si,
-                                             stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = direct_defender_solve_threats(threats,slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param refutations table containing refutations to move just played
- * @param si slice index
- */
-void direct_attack_root_solve_variations(table threats,
-                                         stip_length_type len_threat,
-                                         table refutations,
-                                         slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  direct_defender_root_solve_variations(threats,len_threat,
-                                        refutations,
-                                        slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 /* **************** Implementation of interface Slice **********
  */
 
@@ -418,105 +336,6 @@ boolean direct_defense_solve(slice_index si)
   return result;
 }
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean direct_guard_root_solve(slice_index si)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_root_solve(next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
- * @param si slice index
- * @return true iff the attacker has reached a deadend (e.g. by
- *         immobilising the defender in a non-stalemate stipulation)
- */
-attack_result_type direct_attack_root_defend(table refutations, slice_index si)
-{
-  attack_result_type result = attack_has_reached_deadend;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = direct_defender_root_defend(refutations,next);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
- */
-slice_index direct_attack_root_reduce_to_postkey_play(slice_index si)
-{
-  slice_index result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_root_reduce_to_postkey_play(next);
-
-  if (result!=no_slice)
-    dealloc_slice_index(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
- */
-boolean direct_attack_impose_starter(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  traverse_slices(slices[si].u.pipe.next,st);
-
-  *starter = advers(*starter);
-  traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
-  *starter = advers(*starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
@@ -546,9 +365,7 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st)
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STDirectAttack after each STDirectRoot slice if an
- * attacker's move played in the STDirectRoot slice is allowed to
- * solve the following branch (as typical in a non-exact stipulation).
+/* Insert a STDirectDefense before each STDirectRoot slice
  */
 static boolean direct_guards_inserter_branch_direct_root(slice_index si,
                                                          slice_traversal *st)
@@ -568,11 +385,6 @@ static boolean direct_guards_inserter_branch_direct_root(slice_index si,
   init_direct_defense_slice(si,length,min_length,*towards_goal);
 
   si = slices[si].u.pipe.next;
-
-  pipe_insert_before(slices[si].u.pipe.next);
-  init_direct_attack_slice(slices[si].u.pipe.next,
-                           length-1,min_length-1,
-                           *towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -635,7 +447,6 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,                       /* STSeriesAdapter */
   &slice_traverse_children,                       /* STSeriesHashed */
   0,                                              /* STSelfCheckGuard */
-  0,                                              /* STDirectAttack */
   0,                                              /* STDirectDefense */
   0,                                              /* STReflexGuard */
   0,                                              /* STSelfAttack */
@@ -649,7 +460,7 @@ static slice_operation const direct_guards_inserters[] =
   0                                               /* STMaxThreatLength */
 };
 
-/* Instrument a branch with STDirectAttack and STDirectDefense slices
+/* Instrument a branch with STDirectDefense slices
  * @param si root of branch to be instrumented
  * @param towards_goal identifies slice leading towards goal
  */

@@ -52,10 +52,6 @@ attack_result_type direct_defender_root_defend(table refutations,
       result = branch_d_defender_root_defend(refutations,si);
       break;
 
-    case STDirectAttack:
-      result = direct_attack_root_defend(refutations,si);
-      break;
-
     case STSelfAttack:
       result = self_attack_root_defend(refutations,si);
       break;
@@ -541,10 +537,6 @@ stip_length_type direct_defender_solve_threats(table threats,
       result = selfcheck_guard_defender_solve_threats(threats,si,n);
       break;
 
-    case STDirectAttack:
-      result = direct_attack_solve_threats(threats,si,n);
-      break;
-
     case STSelfAttack:
       result = self_attack_solve_threats(threats,si,n);
       break;
@@ -614,12 +606,6 @@ void direct_defender_root_solve_variations(table threats,
       selfcheck_guard_root_solve_variations(threats,len_threat,
                                             refutations,
                                             si);
-      break;
-
-    case STDirectAttack:
-      direct_attack_root_solve_variations(threats,len_threat,
-                                          refutations,
-                                          si);
       break;
 
     case STSelfAttack:

@@ -244,7 +244,6 @@ static slice_operation const degenerate_tree_guards_inserters[] =
   &slice_traverse_children,                 /* STSeriesAdapter */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_traverse_children,                 /* STSelfCheckGuard */
-  &slice_traverse_children,                 /* STDirectAttack */
   &slice_traverse_children,                 /* STDirectDefense */
   &slice_traverse_children,                 /* STReflexGuard */
   &slice_traverse_children,                 /* STSelfAttack */
