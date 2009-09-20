@@ -1845,8 +1845,6 @@ boolean is_hashtable_allocated(void)
 
 void inithash(void)
 {
-  int i, j;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -1857,20 +1855,20 @@ void inithash(void)
 
   if (pyhash!=0)
   {
+    int i, j;
+
 #if defined(__unix) && defined(TESTHASH)
     OldBreak= sbrk(0);
 #endif /*__unix,TESTHASH*/
 
     minimalElementValueAfterCompression = 2;
 
-    is_there_slice_with_nonstandard_min_length = false;
-
     init_slice_properties();
     template_element.Data = 0;
     init_elements(&template_element);
 
-    dhtRegisterValue(dhtBCMemValue, 0, &dhtBCMemoryProcs);
-    dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
+    dhtRegisterValue(dhtBCMemValue,0,&dhtBCMemoryProcs);
+    dhtRegisterValue(dhtSimpleValue,0,&dhtSimpleProcs);
 
     ifHASHRATE(use_pos = use_all = 0);
 
