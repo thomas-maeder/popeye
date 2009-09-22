@@ -125,11 +125,11 @@ boolean help_adapter_solve(slice_index si);
  */
 boolean help_adapter_solve_postkey(slice_index si);
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves (i.e. threats)
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
  * @param si index of branch slice
  */
-void help_adapter_solve_continuations(table continuations, slice_index si);
+void help_adapter_solve_threats(table threats, slice_index si);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).

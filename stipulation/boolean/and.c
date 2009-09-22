@@ -176,18 +176,18 @@ boolean reci_solve_postkey(slice_index si)
   return result;
 }
 
-/* Determine and write continuations at end of reciprocal slice
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si index of quodlibet slice
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
  */
-void reci_solve_continuations(table continuations, slice_index si)
+void reci_solve_threats(table threats, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_continuations(continuations,slices[si].u.fork.op1);
-  slice_solve_continuations(continuations,slices[si].u.fork.op2);
+  slice_solve_threats(threats,slices[si].u.fork.op1);
+  slice_solve_threats(threats,slices[si].u.fork.op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

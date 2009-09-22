@@ -132,9 +132,9 @@ selfcheck_guard_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type selfcheck_guard_direct_solve_threats(table threats,
-                                                      slice_index si,
-                                                      stip_length_type n)
+stip_length_type selfcheck_guard_direct_solve_threats_in_n(table threats,
+                                                           slice_index si,
+                                                           stip_length_type n)
 {
   stip_length_type result;
 
@@ -148,7 +148,7 @@ stip_length_type selfcheck_guard_direct_solve_threats(table threats,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
-    result = direct_solve_threats(threats,next,n);
+    result = direct_solve_threats_in_n(threats,next,n);
   }
 
   TraceFunctionExit(__func__);
@@ -234,9 +234,9 @@ attack_result_type selfcheck_guard_root_defend(table refutations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type selfcheck_guard_defender_solve_threats(table threats,
-                                                        slice_index si,
-                                                        stip_length_type n)
+stip_length_type selfcheck_guard_defender_solve_threats_in_n(table threats,
+                                                             slice_index si,
+                                                             stip_length_type n)
 {
   stip_length_type result;
 
@@ -244,7 +244,7 @@ stip_length_type selfcheck_guard_defender_solve_threats(table threats,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = direct_defender_solve_threats(threats,slices[si].u.pipe.next,n);
+  result = direct_defender_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -616,17 +616,17 @@ boolean selfcheck_guard_are_threats_refuted(table threats, slice_index si)
   return result;
 }
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves (i.e. threats)
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
  * @param si index of branch slice
  */
-void selfcheck_guard_solve_continuations(table continuations, slice_index si)
+void selfcheck_guard_solve_threats(table threats, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_continuations(continuations,slices[si].u.pipe.next);
+  slice_solve_threats(threats,slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -647,9 +647,8 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* prevent double insertion if .next has more than one predecessor
-   */
   assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
+
   pipe_insert_after(si);
   init_selfcheck_guard_slice(slices[si].u.pipe.next);
   slice_traverse_children(slices[si].u.pipe.next,st);

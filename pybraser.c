@@ -405,11 +405,11 @@ boolean series_adapter_solve_postkey(slice_index si)
   return result;
 }
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves (i.e. threats)
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
  * @param si index of branch slice
  */
-void series_adapter_solve_continuations(table continuations, slice_index si)
+void series_adapter_solve_threats(table threats, slice_index si)
 {
   boolean solution_found = false;
   stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
@@ -424,18 +424,15 @@ void series_adapter_solve_continuations(table continuations, slice_index si)
 
   while (len<full_length && !solution_found)
   {
-    series_solve_continuations_in_n(continuations,next,len);
-    if (table_length(continuations)>0)
-    {
+    series_solve_continuations_in_n(threats,next,len);
+    if (table_length(threats)>0)
       solution_found = true;
-      FlagShortSolsReached = true;
-    }
 
     ++len;
   }
 
   if (!solution_found)
-    series_solve_continuations_in_n(continuations,next,full_length);
+    series_solve_continuations_in_n(threats,next,full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -92,7 +92,7 @@ stip_length_type branch_d_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type branch_d_solve_threats(table threats,
+stip_length_type branch_d_solve_threats_in_n(table threats,
                                              slice_index si,
                                              stip_length_type n);
 
@@ -123,13 +123,11 @@ boolean branch_d_has_non_starter_solved(slice_index si);
  */
 boolean branch_d_has_starter_reached_goal(slice_index si);
 
-/* Determine and write the continuations in the current position
- * (i.e. attacker's moves winning after a defender's move that refuted
- * the threat).
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si slice index
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
  */
-void branch_d_solve_continuations(table continuations, slice_index si);
+void branch_d_solve_threats(table threats, slice_index si);
 
 /* Solve a branch slice at non-root level.
  * @param si slice index

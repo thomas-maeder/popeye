@@ -67,9 +67,9 @@ degenerate_tree_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type degenerate_tree_direct_solve_threats(table threats,
-                                                      slice_index si,
-                                                      stip_length_type n);
+stip_length_type degenerate_tree_direct_solve_threats_in_n(table threats,
+                                                           slice_index si,
+                                                           stip_length_type n);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

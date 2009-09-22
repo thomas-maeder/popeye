@@ -35,12 +35,11 @@ boolean not_solve(slice_index si);
  */
 has_solution_type not_has_solution(slice_index si);
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves
- *                      (e.g. threats)
- * @param si index of slice
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
  */
-void not_solve_continuations(table continuations, slice_index si);
+void not_solve_threats(table threats, slice_index si);
 
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.

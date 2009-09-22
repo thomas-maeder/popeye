@@ -122,7 +122,7 @@ void branch_fork_help_solve_continuations_in_n(table continuations,
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    slice_solve_continuations(continuations,to_goal);
+    slice_solve_threats(continuations,to_goal);
   else
     help_solve_continuations_in_n(continuations,next,n);
 
@@ -213,7 +213,7 @@ void branch_fork_series_solve_continuations_in_n(table continuations,
   assert(n>=slack_length_series);
 
   if (n==slack_length_series)
-    slice_solve_continuations(continuations,to_goal);
+    slice_solve_threats(continuations,to_goal);
   else
     series_solve_continuations_in_n(continuations,next,n);
 

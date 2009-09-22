@@ -320,9 +320,9 @@ stip_length_type direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type direct_solve_threats(table threats,
-                                      slice_index si,
-                                      stip_length_type n)
+stip_length_type direct_solve_threats_in_n(table threats,
+                                           slice_index si,
+                                           stip_length_type n)
 {
   stip_length_type result = n+2;
 
@@ -335,11 +335,11 @@ stip_length_type direct_solve_threats(table threats,
   switch (slices[si].type)
   {
     case STBranchDirect:
-      result = branch_d_solve_threats(threats,si,n);
+      result = branch_d_solve_threats_in_n(threats,si,n);
       break;
 
     case STDirectHashed:
-      result = direct_hashed_solve_threats(threats,si,n);
+      result = direct_hashed_solve_threats_in_n(threats,si,n);
       break;
 
     case STDirectDefense:
@@ -347,23 +347,23 @@ stip_length_type direct_solve_threats(table threats,
       break;
 
     case STSelfDefense:
-      result = self_defense_direct_solve_threats(threats,si,n);
+      result = self_defense_direct_solve_threats_in_n(threats,si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_direct_solve_threats(threats,si,n);
+      result = selfcheck_guard_direct_solve_threats_in_n(threats,si,n);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_direct_solve_threats(threats,si,n);
+      result = reflex_guard_direct_solve_threats_in_n(threats,si,n);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_direct_solve_threats(threats,si,n);
+      result = keepmating_guard_direct_solve_threats_in_n(threats,si,n);
       break;
 
     case STDegenerateTree:
-      result = degenerate_tree_direct_solve_threats(threats,si,n);
+      result = degenerate_tree_direct_solve_threats_in_n(threats,si,n);
       break;
 
     default:
@@ -514,9 +514,9 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type direct_defender_solve_threats(table threats,
-                                               slice_index si,
-                                               stip_length_type n)
+stip_length_type direct_defender_solve_threats_in_n(table threats,
+                                                    slice_index si,
+                                                    stip_length_type n)
 {
   stip_length_type result = n+2;
 
@@ -530,39 +530,39 @@ stip_length_type direct_defender_solve_threats(table threats,
   {
     case STDirectDefenderRoot:
     case STBranchDirectDefender:
-      result = branch_d_defender_solve_threats(threats,si,n);
+      result = branch_d_defender_solve_threats_in_n(threats,si,n);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_defender_solve_threats(threats,si,n);
+      result = selfcheck_guard_defender_solve_threats_in_n(threats,si,n);
       break;
 
     case STSelfAttack:
-      result = self_attack_solve_threats(threats,si,n);
+      result = self_attack_solve_threats_in_n(threats,si,n);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_defender_solve_threats(threats,si,n);
+      result = reflex_guard_defender_solve_threats_in_n(threats,si,n);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_defender_solve_threats(threats,si,n);
+      result = keepmating_guard_defender_solve_threats_in_n(threats,si,n);
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_solve_threats(threats,si,n);
+      result = maxthreatlength_guard_solve_threats_in_n(threats,si,n);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_solve_threats(threats,si,n);
+      result = maxflight_guard_solve_threats_in_n(threats,si,n);
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_solve_threats(threats,si,n);
+      result = max_nr_nontrivial_guard_solve_threats_in_n(threats,si,n);
       break;
 
     case STRestartGuard:
-      result = restart_guard_solve_threats(threats,si,n);
+      result = restart_guard_solve_threats_in_n(threats,si,n);
       break;
 
     default:

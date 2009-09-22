@@ -221,9 +221,9 @@ self_defense_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type self_defense_direct_solve_threats(table threats,
-                                                   slice_index si,
-                                                   stip_length_type n)
+stip_length_type self_defense_direct_solve_threats_in_n(table threats,
+                                                        slice_index si,
+                                                        stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
@@ -233,7 +233,7 @@ stip_length_type self_defense_direct_solve_threats(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_threats(threats,next,n);
+  result = direct_solve_threats_in_n(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -322,9 +322,9 @@ unsigned int self_attack_can_defend_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type self_attack_solve_threats(table threats,
-                                           slice_index si,
-                                           stip_length_type n)
+stip_length_type self_attack_solve_threats_in_n(table threats,
+                                                slice_index si,
+                                                stip_length_type n)
 {
   stip_length_type result;
 
@@ -332,7 +332,7 @@ stip_length_type self_attack_solve_threats(table threats,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = direct_defender_solve_threats(threats,slices[si].u.pipe.next,n);
+  result = direct_defender_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

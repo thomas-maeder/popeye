@@ -21,7 +21,7 @@ void slice_write_unsolvability(slice_index si);
  * @param table table where to store continuing moves (i.e. threats)
  * @param si index of slice
  */
-void slice_solve_continuations(table continuations, slice_index si);
+void slice_solve_threats(table continuations, slice_index si);
 
 /* Solve postkey play at root level.
  * @param refutations table containing the refutations (if any)

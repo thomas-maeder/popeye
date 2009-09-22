@@ -484,7 +484,7 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
     len_threat = n;
   else
   {
-    len_threat = direct_defender_solve_threats(threats,next,n-2);
+    len_threat = direct_defender_solve_threats_in_n(threats,next,n-2);
     if (len_threat==n)
       Message(Zugzwang);
   }
@@ -582,9 +582,9 @@ stip_length_type branch_d_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type branch_d_solve_threats(table threats,
-                                        slice_index si,
-                                        stip_length_type n)
+stip_length_type branch_d_solve_threats_in_n(table threats,
+                                             slice_index si,
+                                             stip_length_type n)
 {
   stip_length_type result;
 
@@ -656,19 +656,17 @@ boolean branch_d_has_starter_reached_goal(slice_index si)
   return slice_has_starter_reached_goal(slices[si].u.pipe.u.branch.towards_goal);
 }
 
-/* Determine and write the continuations in the current position
- * (i.e. attacker's moves winning after a defender's move that refuted
- * the threat).
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si slice index
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
  */
-void branch_d_solve_continuations(table continuations, slice_index si)
+void branch_d_solve_threats(table threats, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch_d_solve_continuations_in_n(continuations,
+  branch_d_solve_continuations_in_n(threats,
                                     slices[si].u.pipe.next,
                                     slices[si].u.pipe.u.branch.length);
 
@@ -748,7 +746,7 @@ static void root_write_postkey(slice_index si, table refutations)
       len_threat = length;
     else
     {
-      len_threat = direct_defender_solve_threats(threats,next,length-2);
+      len_threat = direct_defender_solve_threats_in_n(threats,next,length-2);
       if (len_threat==length)
         Message(Zugzwang);
     }

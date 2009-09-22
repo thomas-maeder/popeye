@@ -61,9 +61,9 @@ reflex_guard_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type reflex_guard_direct_solve_threats(table threats,
-                                                   slice_index si,
-                                                   stip_length_type n);
+stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
+                                                        slice_index si,
+                                                        stip_length_type n);
 
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
@@ -111,8 +111,8 @@ boolean reflex_guard_help_has_solution_in_n(slice_index si, stip_length_type n);
  * @param n exact number of half moves until end state has to be reached
  */
 void reflex_guard_help_solve_continuations_in_n(table continuations,
-                                           slice_index si,
-                                           stip_length_type n);
+                                                slice_index si,
+                                                stip_length_type n);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -197,9 +197,9 @@ void slice_insert_reflex_guards_semi(slice_index si, slice_index tobeavoided);
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type reflex_guard_defender_solve_threats(table threats,
-                                                     slice_index si,
-                                                     stip_length_type n);
+stip_length_type reflex_guard_defender_solve_threats_in_n(table threats,
+                                                          slice_index si,
+                                                          stip_length_type n);
 
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats

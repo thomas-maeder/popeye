@@ -53,11 +53,11 @@ has_solution_type selfcheck_guard_has_solution(slice_index si);
  */
 boolean selfcheck_guard_are_threats_refuted(table threats, slice_index si);
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves (i.e. threats)
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
  * @param si index of branch slice
  */
-void selfcheck_guard_solve_continuations(table continuations, slice_index si);
+void selfcheck_guard_solve_threats(table threats, slice_index si);
 
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
@@ -68,9 +68,9 @@ void selfcheck_guard_solve_continuations(table continuations, slice_index si);
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type selfcheck_guard_defender_solve_threats(table threats,
-                                                        slice_index si,
-                                                        stip_length_type n);
+stip_length_type selfcheck_guard_defender_solve_threats_in_n(table threats,
+                                                             slice_index si,
+                                                             stip_length_type n);
 
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats
@@ -131,7 +131,7 @@ selfcheck_guard_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type selfcheck_guard_direct_solve_threats(table threats,
+stip_length_type selfcheck_guard_direct_solve_threats_in_n(table threats,
                                                            slice_index si,
                                                            stip_length_type n);
 

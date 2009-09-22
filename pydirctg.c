@@ -153,7 +153,7 @@ direct_defense_direct_solve_continuations_in_n(table continuations,
   if (n<n_max_for_goal+2)
   {
     slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
-    slice_solve_continuations(continuations,togoal);
+    slice_solve_threats(continuations,togoal);
     if (table_length(continuations)>0)
       result = slack_length_direct;
     else if (n>slack_length_direct)
@@ -199,15 +199,15 @@ stip_length_type direct_defense_direct_solve_threats(table threats,
   {
     slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
     output_start_threat_level();
-    slice_solve_continuations(threats,togoal);
+    slice_solve_threats(threats,togoal);
     output_end_threat_level();
     if (table_length(threats)>0)
       result = slack_length_direct;
     else if (n>slack_length_direct)
-      result = direct_solve_threats(threats,next,n);
+      result = direct_solve_threats_in_n(threats,next,n);
   }
   else
-    result = direct_solve_threats(threats,next,n);
+    result = direct_solve_threats_in_n(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

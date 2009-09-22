@@ -72,11 +72,11 @@ void quodlibet_write_unsolvability(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine and write continuations of a quodlibet slice
- * @param continuations table where to store continuing moves (i.e. threats)
- * @param si index of quodlibet slice
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
  */
-void quodlibet_solve_continuations(table continuations, slice_index si)
+void quodlibet_solve_threats(table threats, slice_index si)
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
@@ -85,8 +85,8 @@ void quodlibet_solve_continuations(table continuations, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_solve_continuations(continuations,op1);
-  slice_solve_continuations(continuations,op2);
+  slice_solve_threats(threats,op1);
+  slice_solve_threats(threats,op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

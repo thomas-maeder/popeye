@@ -29,12 +29,11 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2);
  */
 void quodlibet_write_unsolvability(slice_index si);
 
-/* Determine and write continuations of a quodlibet slice
- * @param continuations table where to store continuing moves
- *                      (e.g. threats)
- * @param si index of quodlibet slice
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
  */
-void quodlibet_solve_continuations(table continuations, slice_index si);
+void quodlibet_solve_threats(table threats, slice_index si);
 
 /* Find and write post key play
  * @param si slice index

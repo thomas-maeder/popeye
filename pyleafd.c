@@ -500,10 +500,11 @@ boolean leaf_d_solve_postkey(slice_index leaf)
   return result;
 }
 
-/* Find and write continuations and append them to the top table
- * @param leaf slice index
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param leaf index of branch slice
  */
-void leaf_d_solve_continuations(slice_index leaf)
+void leaf_d_solve_threats(table threats, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
 
@@ -541,8 +542,36 @@ void leaf_d_solve_continuations(slice_index leaf)
  */
 void leaf_d_write_unsolvability(slice_index leaf)
 {
+  Side const attacker = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
   output_start_continuation_level();
-  leaf_d_solve_continuations(leaf);
+
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(leaf,attacker);
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+    {
+      write_final_attack(slices[leaf].u.leaf.goal,attack_regular);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
+      coupfort();
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+
   output_end_continuation_level();
   write_end_of_solution();
 }

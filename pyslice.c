@@ -49,11 +49,11 @@
 #include "pyenum.h"
 
 
-/* Determine and write continuations of a slice
- * @param continuations table where to store continuing moves (i.e. threats)
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
  * @param si index of branch slice
  */
-void slice_solve_continuations(table continuations, slice_index si)
+void slice_solve_threats(table threats, slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -63,39 +63,39 @@ void slice_solve_continuations(table continuations, slice_index si)
   switch (slices[si].type)
   {
     case STLeafDirect:
-      leaf_d_solve_continuations(si);
+      leaf_d_solve_threats(threats,si);
       break;
     
     case STQuodlibet:
-      quodlibet_solve_continuations(continuations,si);
+      quodlibet_solve_threats(threats,si);
       break;
 
     case STReciprocal:
-      reci_solve_continuations(continuations,si);
+      reci_solve_threats(threats,si);
       break;
 
     case STNot:
-      not_solve_continuations(continuations,si);
+      not_solve_threats(threats,si);
       break;
 
     case STBranchDirect:
-      branch_d_solve_continuations(continuations,si);
+      branch_d_solve_threats(threats,si);
       break;
 
     case STDirectHashed:
-      slice_solve_continuations(continuations,slices[si].u.pipe.next);
+      slice_solve_threats(threats,slices[si].u.pipe.next);
       break;
 
     case STHelpAdapter:
-      help_adapter_solve_continuations(continuations,si);
+      help_adapter_solve_threats(threats,si);
       break;
 
     case STSeriesAdapter:
-      series_adapter_solve_continuations(continuations,si);
+      series_adapter_solve_threats(threats,si);
       break;
 
     case STSelfCheckGuard:
-      selfcheck_guard_solve_continuations(continuations,si);
+      selfcheck_guard_solve_threats(threats,si);
       break;
 
     default:

@@ -94,9 +94,9 @@ self_defense_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type self_defense_direct_solve_threats(table threats,
-                                                   slice_index si,
-                                                   stip_length_type n);
+stip_length_type self_defense_direct_solve_threats_in_n(table threats,
+                                                        slice_index si,
+                                                        stip_length_type n);
 
 /* Solve a slice at root level
  * @param si slice index
@@ -137,9 +137,9 @@ unsigned int self_attack_can_defend_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type self_attack_solve_threats(table threats,
-                                           slice_index si,
-                                           stip_length_type n);
+stip_length_type self_attack_solve_threats_in_n(table threats,
+                                                slice_index si,
+                                                stip_length_type n);
 
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats

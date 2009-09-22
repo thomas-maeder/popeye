@@ -58,12 +58,11 @@ void reci_write_unsolvability(slice_index si);
  */
 boolean reci_solve_postkey(slice_index si);
 
-/* Determine and write continuations at end of reciprocal slice
- * @param continuations table where to store continuing moves
- *                      (e.g. threats)
- * @param si index of reciprocal slice
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
  */
-void reci_solve_continuations(table continuations, slice_index si);
+void reci_solve_threats(table threats, slice_index si);
 
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index

@@ -46,9 +46,9 @@ attack_result_type restart_guard_root_defend(table refutations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type restart_guard_solve_threats(table threats,
-                                             slice_index si,
-                                             stip_length_type n);
+stip_length_type restart_guard_solve_threats_in_n(table threats,
+                                                  slice_index si,
+                                                  stip_length_type n);
 
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats

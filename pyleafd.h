@@ -17,10 +17,11 @@
  */
 boolean leaf_d_solve_postkey(slice_index leaf);
 
-/* Find and write continuations and append them to the top table
- * @param leaf slice index
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param leaf index of branch slice
  */
-void leaf_d_solve_continuations(slice_index leaf);
+void leaf_d_solve_threats(table threats, slice_index leaf);
 
 /* Determine whether the attacker has reached slice si's goal with his
  * move just played.
