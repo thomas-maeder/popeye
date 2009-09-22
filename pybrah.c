@@ -149,15 +149,14 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
-void branch_h_solve_continuations_in_n(table continuations,
-                                       slice_index si,
-                                       stip_length_type n)
+void branch_h_solve_threats_in_n(table threats,
+                                 slice_index si,
+                                 stip_length_type n)
 {
   Side const side_at_move = slices[si].starter;
 
@@ -416,7 +415,7 @@ void help_adapter_solve_threats(table threats, slice_index si)
 
   while (len<full_length && !solution_found)
   {
-    help_solve_continuations_in_n(threats,next,len);
+    help_solve_threats_in_n(threats,next,len);
     if (table_length(threats)>0)
       solution_found = true;
 
@@ -424,7 +423,7 @@ void help_adapter_solve_threats(table threats, slice_index si)
   }
 
   if (!solution_found)
-    help_solve_continuations_in_n(threats,next,full_length);
+    help_solve_threats_in_n(threats,next,full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -104,15 +104,14 @@ boolean reflex_guard_help_solve_in_n(slice_index si, stip_length_type n);
  */
 boolean reflex_guard_help_has_solution_in_n(slice_index si, stip_length_type n);
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void reflex_guard_help_solve_continuations_in_n(table continuations,
-                                                slice_index si,
-                                                stip_length_type n);
+void reflex_guard_help_solve_threats_in_n(table threats,
+                                          slice_index si,
+                                          stip_length_type n);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

@@ -60,15 +60,14 @@ boolean branch_h_are_threats_refuted(table threats, slice_index si);
  */
 boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n);
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
+ * @param n exact number of half moves until end state has to be reached
  */
-void branch_h_solve_continuations_in_n(table continuations,
-                                       slice_index si,
-                                       stip_length_type n);
+void branch_h_solve_threats_in_n(table threats,
+                                 slice_index si,
+                                 stip_length_type n);
 
 /* Shorten a help branch by a half-move. If the branch represents a
  * half-move only, deallocates the branch.
