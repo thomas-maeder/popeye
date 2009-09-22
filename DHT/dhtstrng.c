@@ -14,7 +14,8 @@
 #include "dhtvalue.h"
 #include "dht.h"
 
-static unsigned long ConvertString(dhtValue v) {
+static unsigned long ConvertString(dhtConstValue v)
+{
     /* I found this hash function on 
      *   http://ourworld.compuserve.com/homepages/bob_jenkins/doobs.htm
      * There are other functions, but this one is has some advantages:
@@ -35,28 +36,33 @@ static unsigned long ConvertString(dhtValue v) {
     return hash;
 }
 
-static int EqualString(dhtValue v1, dhtValue v2) {
+static int EqualString(dhtConstValue v1, dhtConstValue v2)
+{
 	if (strcmp((char *)v1, (char *)v2))
 		return 0;
 	else
 		return 1;
 }
 
-static dhtValue	DupString(dhtValue v) {
+static dhtValue	DupString(dhtConstValue v)
+{
 	char *nv;
 	nv= (char *)fxfAlloc(strlen((char *)v)+1);
 	if (nv!=0)
       strcpy(nv, (char *)v);
 	return (dhtValue)nv;
 }
-static void	FreeString(dhtValue v) {
+static void	FreeString(dhtValue v)
+{
 	fxfFree(v, strlen((char *)v)+1);
 	return;
 }
-static void	DumpString(dhtValue v, FILE *f) {
+static void	DumpString(dhtConstValue v, FILE *f)
+{
 	fprintf(f, "%s", (char *)v);
 	return;
 }
+
 dhtValueProcedures dhtStringProcs = {
 	ConvertString,
 	EqualString,

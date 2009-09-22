@@ -22,7 +22,8 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-static unsigned long  ConvertCompactMemoryValue(dhtValue m) {
+static unsigned long  ConvertCompactMemoryValue(dhtConstValue m)
+{
   uLong leng= ((CompactMemVal *)m)->Leng; 
   uChar *s= ((CompactMemVal *)m)->Data;
   unsigned long hash= 0;
@@ -38,7 +39,8 @@ static unsigned long  ConvertCompactMemoryValue(dhtValue m) {
   return hash;
 }
 
-static int EqualCompactMemoryValue(dhtValue v1, dhtValue v2) {
+static int EqualCompactMemoryValue(dhtConstValue v1, dhtConstValue v2)
+{
   if (((CompactMemVal *)v1)->Leng != ((CompactMemVal *)v2)->Leng)
     return 0;
   if (memcmp(((CompactMemVal *)v1)->Data,
@@ -48,7 +50,8 @@ static int EqualCompactMemoryValue(dhtValue v1, dhtValue v2) {
     return 1;
 }
 
-static dhtValue DupCompactMemoryValue(dhtValue v) {
+static dhtValue DupCompactMemoryValue(dhtConstValue v)
+{
   CompactMemVal *cm= NewCompactMemVal(((CompactMemVal *)v)->Leng);
   if (cm) {
     cm->Leng= ((CompactMemVal *)v)->Leng;
@@ -58,12 +61,14 @@ static dhtValue DupCompactMemoryValue(dhtValue v) {
   return (dhtValue)cm;
 }
 
-static void FreeCompactMemoryValue(dhtValue v) {
+static void FreeCompactMemoryValue(dhtValue v)
+{
   FreeCompactMemVal(v);
   return;
 }
 
-static void DumpCompactMemoryValue(dhtValue v, FILE *f) {
+static void DumpCompactMemoryValue(dhtConstValue v, FILE *f)
+{
   uLong i;
   fprintf(f, "(%lu)", ((CompactMemVal *)v)->Leng);
   for (i=0; i<((CompactMemVal*)v)->Leng; i++)

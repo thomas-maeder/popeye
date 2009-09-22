@@ -23,7 +23,8 @@
 typedef unsigned long uLong;
 typedef unsigned char uChar;
 
-static unsigned long HashMemoryValue(dhtValue v) {
+static unsigned long HashMemoryValue(dhtConstValue v)
+{
   uLong leng= ((MemVal*)v)->Leng; 
   uChar *s= ((MemVal*)v)->Data;
   uLong hash= 0;
@@ -38,7 +39,8 @@ static unsigned long HashMemoryValue(dhtValue v) {
   hash+= hash << 15;
   return hash;
 }
-static int EqualMemoryValue(dhtValue v1, dhtValue v2) {
+static int EqualMemoryValue(dhtConstValue v1, dhtConstValue v2)
+{
   if (((MemVal*)v1)->Leng != ((MemVal*)v2)->Leng)
     return 0;
   if (memcmp(((MemVal*)v1)->Data, ((MemVal*)v2)->Data, ((MemVal*)v1)->Leng))
@@ -47,7 +49,8 @@ static int EqualMemoryValue(dhtValue v1, dhtValue v2) {
     return 1;
 }
 
-static dhtValue	DupMemoryValue(dhtValue v) {
+static dhtValue	DupMemoryValue(dhtConstValue v)
+{
   MemVal *mv;
 
   mv= NewMemVal;
@@ -63,17 +66,19 @@ static dhtValue	DupMemoryValue(dhtValue v) {
   }
   return (dhtValue)mv;
 }
-static void	FreeMemoryValue(dhtValue v) {
+static void	FreeMemoryValue(dhtValue v)
+{
   DeleteMemVal(v);
   return;
 }
-static void	DumpMemoryValue(dhtValue v, FILE *f) {
+static void	DumpMemoryValue(dhtConstValue v, FILE *f) {
   uLong i;
   fprintf(f, "(%lu)", ((MemVal*)v)->Leng);
   for (i=0; i<((MemVal*)v)->Leng; i++)
     fprintf(f, "%02x", ((MemVal*)v)->Data[i] & 0xff);
   return;
 }
+
 dhtValueProcedures dhtMemoryProcs = {
   HashMemoryValue,
   EqualMemoryValue,

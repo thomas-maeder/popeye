@@ -1,8 +1,8 @@
 /* This is dhtsimple.c --  Version 1.5
  * This code is copyright by
- *	Elmar Bartel 1993-99
- *	Institut fuer Informatik, TU Muenchen, Germany  
- *	bartel@informatik.tu-muenchen.de
+ *  Elmar Bartel 1993-99
+ *  Institut fuer Informatik, TU Muenchen, Germany  
+ *  bartel@informatik.tu-muenchen.de
  * You may use this code as you wish, as long as this
  * comment with the above copyright notice is keept intact
  * and in place.
@@ -13,7 +13,7 @@
 /* This code is derived from Bob Jenkins' work.
  * The original site is:
  *   http://ourworld.compuserve.com/homepages/bob_jenkins/blockcip.htm
- * 						ElB, 1999-09-16.
+ *                      ElB, 1999-09-16.
  */
 #define mix(a,b,c)                              \
   {                                             \
@@ -30,7 +30,8 @@
     b -= c; b -= a; b ^= (a<<18);               \
     c -= a; c -= b; c ^= (b>>22);               \
   }
-static unsigned long ConvertSimpleValue(dhtValue v) {
+static unsigned long ConvertSimpleValue(dhtConstValue v)
+{
   unsigned long a, b, c;
   c = 0x9e3779b97f4a7c13LL;
   a = v<<1;
@@ -39,7 +40,7 @@ static unsigned long ConvertSimpleValue(dhtValue v) {
   return c;
 }
 #else
-static unsigned long ConvertSimpleValue(dhtValue v)
+static unsigned long ConvertSimpleValue(dhtConstValue v)
 {
   size_t c = (size_t)v; 
   size_t a = 0;
@@ -58,23 +59,28 @@ static unsigned long ConvertSimpleValue(dhtValue v)
 }
 #endif /*ARCH64*/
 
-static int EqualSimpleValue(dhtValue v1, dhtValue v2) {
+static int EqualSimpleValue(dhtConstValue v1, dhtConstValue v2)
+{
   return v1 == v2;
 }
 
-static dhtValue	DupSimpleValue(dhtValue v) {
-  return v;
+static dhtValue DupSimpleValue(dhtConstValue v)
+{
+  return (dhtValue)v;
 }
 
-static void	FreeSimpleValue(dhtValue v) {
+static void FreeSimpleValue(dhtValue v)
+{
   return;
 }
 
-static void	DumpSimpleValue(dhtValue v, FILE *f) {
+static void DumpSimpleValue(dhtConstValue v, FILE *f)
+{
   fprintf(f, "%08lx", (unsigned long)(size_t)v);
 }
 
-dhtValueProcedures dhtSimpleProcs = {
+dhtValueProcedures dhtSimpleProcs =
+{
   ConvertSimpleValue,
   EqualSimpleValue,
   DupSimpleValue,
