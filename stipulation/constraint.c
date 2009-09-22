@@ -596,15 +596,14 @@ boolean reflex_guard_series_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void reflex_guard_series_solve_continuations_in_n(table continuations,
-                                                  slice_index si,
-                                                  stip_length_type n)
+void reflex_guard_series_solve_threats_in_n(table threats,
+                                            slice_index si,
+                                            stip_length_type n)
 {
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
@@ -618,7 +617,7 @@ void reflex_guard_series_solve_continuations_in_n(table continuations,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_no_solution)
-    series_solve_continuations_in_n(continuations,next,n);
+    series_solve_threats_in_n(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

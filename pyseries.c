@@ -134,15 +134,14 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void series_solve_continuations_in_n(table continuations,
-                                     slice_index si,
-                                     stip_length_type n)
+void series_solve_threats_in_n(table threats,
+                               slice_index si,
+                               stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -153,31 +152,31 @@ void series_solve_continuations_in_n(table continuations,
   switch (slices[si].type)
   {
     case STBranchSeries:
-      branch_ser_solve_continuations_in_n(continuations,si,n);
+      branch_ser_solve_threats_in_n(threats,si,n);
       break;
 
     case STBranchFork:
-      branch_fork_series_solve_continuations_in_n(continuations,si,n);
+      branch_fork_series_solve_threats_in_n(threats,si,n);
       break;
 
     case STSeriesHashed:
-      hashed_series_solve_continuations_in_n(continuations,si,n);
+      hashed_series_solve_threats_in_n(threats,si,n);
       break;
 
     case STReflexGuard:
-      reflex_guard_series_solve_continuations_in_n(continuations,si,n);
+      reflex_guard_series_solve_threats_in_n(threats,si,n);
       break;
 
     case STKeepMatingGuard:
-      keepmating_guard_series_solve_continuations_in_n(continuations,si,n);
+      keepmating_guard_series_solve_threats_in_n(threats,si,n);
       break;
 
     case STGoalReachableGuard:
-      goalreachable_guard_series_solve_continuations_in_n(continuations,si,n);
+      goalreachable_guard_series_solve_threats_in_n(threats,si,n);
       break;
 
     case STSelfCheckGuard:
-      selfcheck_guard_series_solve_continuations_in_n(continuations,si,n);
+      selfcheck_guard_series_solve_threats_in_n(threats,si,n);
       break;
 
     default:

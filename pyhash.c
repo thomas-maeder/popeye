@@ -2868,15 +2868,14 @@ boolean hashed_series_has_solution_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void hashed_series_solve_continuations_in_n(table continuations,
-                                            slice_index si,
-                                            stip_length_type n)
+void hashed_series_solve_threats_in_n(table threats,
+                                      slice_index si,
+                                      stip_length_type n)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2888,8 +2887,8 @@ void hashed_series_solve_continuations_in_n(table continuations,
   if (!inhash_series(si,n))
   {
     slice_index const next = slices[si].u.pipe.next;
-    series_solve_continuations_in_n(continuations,next,n);
-    if (table_length(continuations)==0)
+    series_solve_threats_in_n(threats,next,n);
+    if (table_length(threats)==0)
       addtohash_series(si,n);
   }
 

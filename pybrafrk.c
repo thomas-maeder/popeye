@@ -192,15 +192,14 @@ boolean branch_fork_series_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void branch_fork_series_solve_continuations_in_n(table continuations,
-                                                 slice_index si,
-                                                 stip_length_type n)
+void branch_fork_series_solve_threats_in_n(table threats,
+                                           slice_index si,
+                                           stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -213,9 +212,9 @@ void branch_fork_series_solve_continuations_in_n(table continuations,
   assert(n>=slack_length_series);
 
   if (n==slack_length_series)
-    slice_solve_threats(continuations,to_goal);
+    slice_solve_threats(threats,to_goal);
   else
-    series_solve_continuations_in_n(continuations,next,n);
+    series_solve_threats_in_n(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -3028,15 +3028,14 @@ boolean goalreachable_guard_series_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
+/* Determine and write threats
+ * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void goalreachable_guard_series_solve_continuations_in_n(table continuations,
-                                                         slice_index si,
-                                                         stip_length_type n)
+void goalreachable_guard_series_solve_threats_in_n(table threats,
+                                                   slice_index si,
+                                                   stip_length_type n)
 {
   Side const just_moved = advers(slices[si].starter);
 
@@ -3050,7 +3049,7 @@ void goalreachable_guard_series_solve_continuations_in_n(table continuations,
   --MovesLeft[just_moved];
 
   if (isGoalReachable())
-    series_solve_continuations_in_n(continuations,slices[si].u.pipe.next,n);
+    series_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
 
   ++MovesLeft[just_moved];
 
