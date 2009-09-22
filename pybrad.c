@@ -666,9 +666,7 @@ void branch_d_solve_threats(table threats, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch_d_solve_continuations_in_n(threats,
-                                    slices[si].u.pipe.next,
-                                    slices[si].u.pipe.u.branch.length);
+  branch_d_solve_threats_in_n(threats,si,slices[si].u.pipe.u.branch.length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
