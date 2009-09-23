@@ -245,7 +245,6 @@ static boolean write_variation(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  table const continuations = allocate_table();
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -255,10 +254,8 @@ static boolean write_variation(slice_index si, stip_length_type n)
   write_defense();
 
   output_start_continuation_level();
-  result = direct_solve_continuations_in_n(continuations,next,n-1)<=n-1;
+  result = direct_solve_continuations_in_n(next,n-1)<=n-1;
   output_end_continuation_level();
-
-  free_table();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -485,7 +482,9 @@ static boolean solve_postkey_in_n(slice_index si, stip_length_type n)
   else
   {
     Message(NewLine);
+    output_start_threat_level();
     len_threat = branch_d_defender_solve_threats_in_n(threats,si,n-1);
+    output_end_threat_level();
     if (len_threat==n+1)
       Message(Zugzwang);
   }

@@ -484,7 +484,9 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
     len_threat = n;
   else
   {
+    output_start_threat_level();
     len_threat = direct_defender_solve_threats_in_n(threats,next,n-2);
+    output_end_threat_level();
     if (len_threat==n)
       Message(Zugzwang);
   }
@@ -501,15 +503,89 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @return number of half moves effectively used
  *         n+2 if no continuation was found
  */
-stip_length_type branch_d_solve_continuations_in_n(table continuations,
-                                                   slice_index si,
+stip_length_type branch_d_solve_continuations_in_n(slice_index si,
                                                    stip_length_type n)
+{
+  Side const attacker = slices[si].starter;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const parity = (length-slack_length_direct)%2;
+  stip_length_type result = slack_length_direct+2-parity;
+  boolean continuation_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (n+min_length>result+length)
+    result = n-(length-min_length);
+
+  active_slice[nbply+1] = si;
+
+  while (result<=n)
+  {
+    genmove(attacker);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+        switch (direct_defender_defend_in_n(next,result-1))
+        {
+          case attack_has_solved_next_branch:
+            continuation_found = true;
+            coupfort();
+            break;
+
+          case attack_solves_full_length:
+            continuation_found = true;
+            write_attack(attack_regular);
+            solve_postkey_in_n(si,result);
+            coupfort();
+            break;
+
+          default:
+            break;
+        }
+
+      repcoup();
+    }
+
+    finply();
+
+    if (continuation_found)
+      break;
+    else
+      result += 2;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine and write the threats after the move that has just been
+ * played.
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+stip_length_type branch_d_solve_threats_in_n(table threats,
+                                             slice_index si,
+                                             stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -560,42 +636,11 @@ stip_length_type branch_d_solve_continuations_in_n(table continuations,
 
     finply();
 
-    if (table_length(continuations)>0)
+    if (table_length(threats)>0)
       break;
     else
       result += 2;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type branch_d_solve_threats_in_n(table threats,
-                                             slice_index si,
-                                             stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  output_start_threat_level();
-  result = branch_d_solve_continuations_in_n(threats,si,n);
-  output_end_threat_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -678,7 +723,6 @@ void branch_d_solve_threats(table threats, slice_index si)
  */
 boolean branch_d_solve(slice_index si)
 {
-  table const continuations = allocate_table();
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type length_needed;
 
@@ -687,10 +731,8 @@ boolean branch_d_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   output_start_continuation_level();
-  length_needed = branch_d_solve_continuations_in_n(continuations,si,length);
+  length_needed = branch_d_solve_continuations_in_n(si,length);
   output_end_continuation_level();
-
-  free_table();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",length_needed<=length);
@@ -744,7 +786,10 @@ static void root_write_postkey(slice_index si, table refutations)
       len_threat = length;
     else
     {
+      output_start_threat_level();
       len_threat = direct_defender_solve_threats_in_n(threats,next,length-2);
+      output_end_threat_level();
+
       if (len_threat==length)
         Message(Zugzwang);
     }

@@ -548,8 +548,8 @@ Loesung beendet.
                           4.Ke1-d2 # 
                           4.Ke1-e2 # 
                       3...Kh1-g1 
-                          4.Ke1-e2 # 
                           4.0-0-0 # 
+                          4.Ke1-e2 # 
                       3...Lc7*f4 
                           4.0-0-0 # 
               2...Ld8-g5 
@@ -609,8 +609,8 @@ Loesung beendet.
                       3...h2-h1=D 
                           4.0-0-0 # 
                       3...h2-h1=S 
-                          4.0-0-0 # 
                           4.Tb2-g2 # 
+                          4.0-0-0 # 
                       3...h2-h1=T 
                           4.Tb2-g2 # 
                           4.0-0-0 # 
@@ -1677,8 +1677,8 @@ Loesung beendet.
               2...Kf8-e8 
                   3.Td4-d7 Zugzwang.
                       3...Ke8-f8 
-                          4.Td7-d8 # 
                           4.Th7-h8 # 
+                          4.Td7-d8 # 
                   3.Th7-a7 Zugzwang.
                       3...Ke8-f8 
                           4.Td4-d8 # 
@@ -1743,8 +1743,8 @@ Loesung beendet.
               2...Kf8-e8 
                   3.Td6-d7 Zugzwang.
                       3...Ke8-f8 
-                          4.Td7-d8 # 
                           4.Th7-h8 # 
+                          4.Td7-d8 # 
                   3.Th7-a7 Zugzwang.
                       3...Ke8-f8 
                           4.Td6-d8 # 
@@ -1921,8 +1921,8 @@ Loesung beendet.
               2...Kf8-e8 
                   3.Td4-d7 Zugzwang.
                       3...Ke8-f8 
-                          4.Td7-d8 # 
                           4.Th7-h8 # 
+                          4.Td7-d8 # 
                   3.Th7-a7 Zugzwang.
                       3...Ke8-f8 
                           4.Td4-d8 # 
@@ -1987,8 +1987,8 @@ Loesung beendet.
               2...Kf8-e8 
                   3.Td6-d7 Zugzwang.
                       3...Ke8-f8 
-                          4.Td7-d8 # 
                           4.Th7-h8 # 
+                          4.Td7-d8 # 
                   3.Th7-a7 Zugzwang.
                       3...Ke8-f8 
                           4.Td6-d8 # 
@@ -3553,19 +3553,19 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.Dg6-f7 # 
                   3.Se5-d7 # 
               2...Da7-b7 
-                  3.Se5-d7 # 
                   3.Dg6-f7 # 
+                  3.Se5-d7 # 
               2...c7-c5 
                   3.Dg6-f7 # 
                   3.Th1-f1 # 
                   3.0-0 # 
               2...c7-c6 
+                  3.Dg6-f7 # 
+                  3.Th1-f1 # 
                   3.0-0 # 
-                  3.Dg6-f7 # 
-                  3.Th1-f1 # 
               2...Ta8-d8 
-                  3.Th1-f1 # 
                   3.Dg6-f7 # 
+                  3.Th1-f1 # 
                   3.0-0 # 
       1...Ke8-d8 
           2.De4-c6 Drohung:
@@ -3577,14 +3577,14 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.Dc6-d7 # 
                   3.Se5-f7 # 
               2...La2*b3 
-                  3.Se5-f7 # 
                   3.Dc6-d7 # 
+                  3.Se5-f7 # 
               2...b6-b5 
                   3.Dc6-d7 # 
                   3.Se5-f7 # 
               2...Da7*a6 
-                  3.Se5-f7 # 
                   3.Dc6-d7 # 
+                  3.Se5-f7 # 
               2...Th8-f8 
                   3.Dc6-d7 # 
                   3.0-0-0 # 
@@ -3651,8 +3651,8 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.De4-g6 # 
                   3.De4*a8 # 
               2...Da6-b5 
-                  3.De4*a8 # 
                   3.De4-g6 # 
+                  3.De4*a8 # 
               2...Da6-c8 
                   3.De4-g6 # 
               2...Da6-b7 
@@ -3672,8 +3672,8 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.Db7-c8 # 
                   3.Db7-b8 # 
               2...Ta8-a7 
-                  3.Db7-b8 # 
                   3.Db7-c8 # 
+                  3.Db7-b8 # 
               2...Ta8-d8 
                   3.Sa6*c7 # 
               2...Ta8-c8 
@@ -3851,8 +3851,8 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
                   3.Db7-c8 # 
                   3.Db7-b8 # 
               2...Ta8-a7 
-                  3.Db7-b8 # 
                   3.Db7-c8 # 
+                  3.Db7-b8 # 
               2...Ta8-d8 
                   3.Sa6*c7 # 
               2...Ta8-c8 

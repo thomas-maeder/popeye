@@ -55,15 +55,13 @@ direct_defense_direct_has_solution_in_n(slice_index si,
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @return number of half moves effectively used
  *         n+2 if no continuation was found
  */
 stip_length_type
-direct_defense_direct_solve_continuations_in_n(table continuations,
-                                               slice_index si,
+direct_defense_direct_solve_continuations_in_n(slice_index si,
                                                stip_length_type n);
 
 /* Determine and write the threats after the move that has just been
@@ -76,9 +74,9 @@ direct_defense_direct_solve_continuations_in_n(table continuations,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type direct_defense_direct_solve_threats(table threats,
-                                                     slice_index si,
-                                                     stip_length_type n);
+stip_length_type direct_defense_direct_solve_threats_in_n(table threats,
+                                                          slice_index si,
+                                                          stip_length_type n);
 
 /* Solve a slice at root level
  * @param si slice index

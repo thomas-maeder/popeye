@@ -36,8 +36,6 @@
                                   5.Gg7*c7 # 
                               4...Gf7-c4 
                                   5.Gg7*g3 
-                                      5...Gc4*c7 
-                                          6.Gg3*c7 # 
                                       5...Gc4-f4 
                                           6.Gg3-e5 + 
                                               6...Gf4-f7 
@@ -62,6 +60,8 @@
                                                                          10.Gg7*c7 # 
                                                               8...Gc4*c7 
                                                                   9.Gg7*c7 # 
+                                      5...Gc4*c7 
+                                          6.Gg3*c7 # 
 
 Loesung beendet. 
 
@@ -260,26 +260,26 @@ Loesung beendet.
           2.Th2-h4 # 
           2.Th2-h3 # 
       1...Tg8-g3 
-          2.Th2-h6 # 
           2.Th2-h5 # 
+          2.Th2-h6 # 
           2.Th2-h4 # 
       1...Tg8-g4 
-          2.Th2-h6 # 
           2.Th2-h5 # 
+          2.Th2-h6 # 
           2.Th2-h3 # 
       1...Tg8-g5 
-          2.Th2-h3 # 
           2.Th2-h6 # 
           2.Th2-h4 # 
+          2.Th2-h3 # 
       1...Tg8-g6 
-          2.Th2-h4 # 
           2.Th2-h5 # 
+          2.Th2-h4 # 
           2.Th2-h3 # 
       1...Tg8-a8 
-          2.Th2-h3 # 
-          2.Th2-h6 # 
           2.Th2-h5 # 
+          2.Th2-h6 # 
           2.Th2-h4 # 
+          2.Th2-h3 # 
       1...Tg8-b8 
           2.Th2-h6 + 
               2...Tb8-b6 

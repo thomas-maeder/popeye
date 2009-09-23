@@ -416,8 +416,6 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  output_start_continuation_level();
-
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_countermate:
@@ -432,8 +430,6 @@ boolean leaf_d_solve(slice_index leaf)
       result = leaf_d_regulargoals_solve(leaf);
       break;
   }
-
-  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -2308,14 +2308,12 @@ has_solution_type direct_hashed_has_solution(slice_index si)
 
 /* Determine and write solution(s): add first moves to table (as
  * threats for the parent slice. First consult hash table.
- * @param continuations table where to add first moves
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @return number of half moves effectively used
  *         n+2 if no continuation was found
  */
-stip_length_type direct_hashed_solve_continuations_in_n(table continuations,
-                                                        slice_index si,
+stip_length_type direct_hashed_solve_continuations_in_n(slice_index si,
                                                         stip_length_type n)
 {
   stip_length_type result;
@@ -2326,7 +2324,7 @@ stip_length_type direct_hashed_solve_continuations_in_n(table continuations,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_continuations_in_n(continuations,next,n);
+  result = direct_solve_continuations_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
