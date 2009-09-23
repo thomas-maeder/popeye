@@ -128,13 +128,6 @@ boolean slice_has_non_starter_solved(slice_index si);
 unsigned int slice_count_refutations(slice_index si,
                                      unsigned int max_result);
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean slice_has_starter_reached_goal(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index

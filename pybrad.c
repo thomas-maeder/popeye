@@ -691,16 +691,6 @@ boolean branch_d_has_non_starter_solved(slice_index si)
   return slice_has_non_starter_solved(slices[si].u.pipe.u.branch.towards_goal);
 }
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean branch_d_has_starter_reached_goal(slice_index si)
-{
-  return slice_has_starter_reached_goal(slices[si].u.pipe.u.branch.towards_goal);
-}
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice

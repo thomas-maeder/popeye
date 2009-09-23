@@ -115,27 +115,6 @@ void not_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean not_has_starter_reached_goal(slice_index si)
-{
-  boolean result = false;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = !slice_has_starter_reached_goal(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a slice.has just been solved with the just
  * played move by the non-starter 
  * @param si slice identifier

@@ -41,13 +41,6 @@ has_solution_type not_has_solution(slice_index si);
  */
 void not_solve_threats(table threats, slice_index si);
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean not_has_starter_reached_goal(slice_index si);
-
 /* Determine whether a slice.has just been solved with the just
  * played move by the non-starter 
  * @param si slice identifier

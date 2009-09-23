@@ -265,30 +265,6 @@ unsigned int quodlibet_count_refutations(slice_index si,
   return result;
 }
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean quodlibet_has_starter_reached_goal(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = (slice_has_starter_reached_goal(op1)
-            || slice_has_starter_reached_goal(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index
  * @return true iff defender wins

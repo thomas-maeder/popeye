@@ -479,9 +479,8 @@ boolean leaf_forced_root_solve(slice_index leaf)
     output_start_postkey_level();
     solve_final_move(leaf);
     output_end_postkey_level();
+    write_end_of_solution_phase();
   }
-
-  write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

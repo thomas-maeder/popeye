@@ -788,61 +788,6 @@ unsigned int slice_count_refutations(slice_index si,
   return result;
 }
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean slice_has_starter_reached_goal(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      result = leaf_d_has_starter_reached_goal(si);
-      break;
-
-    case STBranchDirect:
-      result = branch_d_has_starter_reached_goal(si);
-      break;
-
-    case STHelpAdapter:
-      result = help_adapter_has_starter_reached_goal(si);
-      break;
-
-    case STSeriesAdapter:
-      result = series_adapter_has_starter_reached_goal(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_has_starter_reached_goal(si);
-      break;
-
-    case STReciprocal:
-      result = reci_has_starter_reached_goal(si);
-      break;
-
-    case STNot:
-      result = not_has_starter_reached_goal(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index

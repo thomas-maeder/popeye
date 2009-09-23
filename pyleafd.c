@@ -472,27 +472,6 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
   return result;
 }
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param leaf slice identifier
- * @return true iff the starter reached the goal
- */
-boolean leaf_d_has_starter_reached_goal(slice_index leaf)
-{
-  boolean result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = leaf_is_goal_reached(slices[leaf].starter,leaf)==goal_reached;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defender wins after a move by the attacker
  * @param leaf identifies leaf
  * @return true iff the defender wins

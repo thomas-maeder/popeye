@@ -143,13 +143,6 @@ void help_adapter_write_unsolvability(slice_index si);
  */
 boolean help_adapter_has_non_starter_solved(slice_index si);
 
-/* Determine whether the attacker has reached slice si's goal with his
- * move just played.
- * @param si slice identifier
- * @return true iff the starter reached the goal
- */
-boolean help_adapter_has_starter_reached_goal(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index
