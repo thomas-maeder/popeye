@@ -2230,6 +2230,54 @@ static void addtohash_dir_succ(slice_index si, stip_length_type n)
 #endif /*HASHRATE*/
 }
 
+/* Adjust to the knowledge in the hash table the minimal number half
+ * moves to be tried in some solving operation.
+ * @param si slice index
+ * @param n maximum number of half moves allowed for the operation
+ * @param n_min minimal number of half moves to be tried
+ * @return adjusted n_min; n+2 if no solving is useful at all
+ */
+static stip_length_type adjust_n_min(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_min)
+{
+  stip_length_type result = n_min;
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement const *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParamListEnd();
+
+  if (!isHashBufferValid[nbply])
+    (*encode)();
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he!=dhtNilElement)
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+
+    hash_value_type const val_nosucc = n/2;
+    hash_value_type const nosucc = get_value_direct_nosucc(he,si);
+    if (nosucc>=val_nosucc && nosucc<=val_nosucc+length-min_length)
+      result = n+2;
+    else
+    {
+      stip_length_type const n_min_new = 2*nosucc+n_min%2;
+      if (result<n_min_new)
+        result = n_min_new;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -2323,32 +2371,17 @@ stip_length_type direct_hashed_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_continuations_in_n(next,n,n_min);
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static stip_length_type delegate_solve_threats_in_n(table threats,
-                                                    slice_index si,
-                                                    stip_length_type n,
-                                                    stip_length_type n_min)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = direct_solve_threats_in_n(threats,next,n,n_min);
-  if (table_length(threats)>0)
-    addtohash_dir_succ(si,result);
-  else
-    addtohash_dir_nosucc(si,n);
+  result = adjust_n_min(si,n,n_min);
+  if (result<=n)
+  {
+    result = direct_solve_continuations_in_n(next,n,result);
+    if (result<=n)
+      addtohash_dir_succ(si,result);
+    else
+      addtohash_dir_nosucc(si,n);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2373,8 +2406,7 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
                                                   stip_length_type n_min)
 {
   stip_length_type result;
-  HashBuffer * const hb = &hashBuffers[nbply];
-  dhtElement const *he;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2384,28 +2416,14 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (!isHashBufferValid[nbply])
-    (*encode)();
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he==dhtNilElement)
-    result = delegate_solve_threats_in_n(threats,si,n,n_min);
-  else
+  result = adjust_n_min(si,n,n_min);
+  if (result<=n)
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-
-    hash_value_type const val_nosucc = n/2;
-    hash_value_type const nosucc = get_value_direct_nosucc(he,si);
-    if (nosucc>=val_nosucc && nosucc<=val_nosucc+length-min_length)
-      result = n+2;
+    result = direct_solve_threats_in_n(threats,next,n,n_min);
+    if (table_length(threats)>0)
+      addtohash_dir_succ(si,result);
     else
-    {
-      stip_length_type const n_min_new = 2*nosucc+n_min%2;
-      if (n_min<n_min_new)
-        n_min = n_min_new;
-      result = delegate_solve_threats_in_n(threats,si,n,n_min);
-    }
+      addtohash_dir_nosucc(si,n);
   }
 
   TraceFunctionExit(__func__);
