@@ -150,8 +150,6 @@ stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
     case has_solution:
       /* no threats to be found because of reflex obligations;
        * cf. issue 2843251 */
-      output_start_threat_level();
-      output_end_threat_level();
       result = n+2;
       break;
 

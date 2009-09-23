@@ -2357,8 +2357,6 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
   {
     assert(!inhash_dir_succ(si,n));
     result = n+2;
-    output_start_threat_level();
-    output_end_threat_level();
   }
   else
   {
