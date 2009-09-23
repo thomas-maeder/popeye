@@ -250,15 +250,21 @@ boolean direct_defense_root_solve(slice_index si)
 boolean direct_defense_solve(slice_index si)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_start_continuation_level();
-  result = direct_defense_direct_solve_continuations_in_n(si,n)<=n;
-  output_end_continuation_level();
+  if (min_length<=slack_length_direct && slice_solve(towards_goal))
+    result = true;
+  else if (length>slack_length_direct && slice_solve(next))
+    result = true;
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
