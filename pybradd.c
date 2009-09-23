@@ -401,8 +401,10 @@ stip_length_type branch_d_defender_solve_threats_in_n(table threats,
                                                       stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   stip_length_type const parity = (n-slack_length_direct)%2;
-  stip_length_type const n_min = slack_length_direct-parity;
+  stip_length_type n_min = slack_length_direct-parity;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -411,6 +413,9 @@ stip_length_type branch_d_defender_solve_threats_in_n(table threats,
   TraceFunctionParamListEnd();
 
   assert(parity!=slices[si].u.pipe.u.branch.length%2);
+
+  if (n+min_length>n_min+length)
+    n_min = n-(length-min_length);
 
   result = direct_solve_threats_in_n(threats,next,n,n_min);
 

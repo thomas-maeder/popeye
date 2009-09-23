@@ -591,8 +591,6 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   stip_length_type result = n_min;
 
   TraceFunctionEntry(__func__);
@@ -603,11 +601,8 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (result<slack_length_direct)
+  if (result<=slack_length_direct)
     result += 2;
-
-  if (n+min_length>result+length)
-    result = n-(length-min_length);
 
   active_slice[nbply+1] = si;
 
