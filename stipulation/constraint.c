@@ -677,9 +677,13 @@ boolean reflex_guard_root_solve(slice_index si)
 
 /* Solve a slice at root level
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean reflex_guard_solve(slice_index si)
+boolean reflex_guard_solve_in_n(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_min)
 {
   boolean result;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -687,6 +691,8 @@ boolean reflex_guard_solve(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   switch (slice_has_solution(avoided))
@@ -700,7 +706,7 @@ boolean reflex_guard_solve(slice_index si)
       break;
 
     case has_no_solution:
-      result = slice_solve(next);
+      result = direct_solve_in_n(next,n,n_min);
       break;
 
     default:

@@ -90,9 +90,13 @@ boolean direct_defense_root_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean direct_defense_solve(slice_index si);
+boolean direct_defense_solve_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch

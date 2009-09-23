@@ -108,9 +108,13 @@ boolean self_defense_root_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean self_defense_solve(slice_index si);
+boolean self_defense_solve_in_n(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_min);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index

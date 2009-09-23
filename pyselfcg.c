@@ -571,6 +571,33 @@ boolean selfcheck_guard_solve(slice_index si)
   return result;
 }
 
+/* Solve a slice at non-root level
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return true iff >=1 solution was found
+ */
+boolean selfcheck_guard_solve_in_n(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParamListEnd();
+
+  result = (!echecc(nbply,advers(slices[si].starter))
+            && direct_solve_in_n(slices[si].u.pipe.next,n,n_min));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

@@ -87,6 +87,22 @@ stip_length_type direct_solve_threats_in_n(table threats,
                                            stip_length_type n,
                                            stip_length_type n_min);
 
+/* Solve a slice
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return true iff >=1 solution was found
+ */
+boolean direct_solve_in_n(slice_index si,
+                          stip_length_type n,
+                          stip_length_type n_min);
+
+/* Solve a slice - adapter for direct slices
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_solve(slice_index si);
+
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached

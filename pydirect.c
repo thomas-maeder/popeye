@@ -15,6 +15,7 @@
 #include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
+#include "pyleafd.h"
 #include "pyint.h"
 #include "trace.h"
 
@@ -365,6 +366,93 @@ stip_length_type direct_solve_threats_in_n(table threats,
       assert(0);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return true iff >=1 solution was found
+ */
+boolean direct_solve_in_n(slice_index si,
+                          stip_length_type n,
+                          stip_length_type n_min)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafDirect:
+      result = leaf_d_solve_in_n(si,n,n_min);
+      break;
+
+    case STBranchDirect:
+      result = branch_d_solve_in_n(si,n,n_min);
+      break;
+
+    case STDirectHashed:
+      result = direct_hashed_solve_in_n(si,n,n_min);
+      break;
+
+    case STDirectDefense:
+      result = direct_defense_solve_in_n(si,n,n_min);
+      break;
+
+    case STSelfDefense:
+      result = self_defense_solve_in_n(si,n,n_min);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_solve_in_n(si,n,n_min);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_solve_in_n(si,n,n_min);
+      break;
+
+    case STDegenerateTree:
+      result = direct_solve_in_n(slices[si].u.pipe.next,n,n_min);
+      break;
+
+    default:
+      assert(0);
+      result = false;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice - adapter for direct slices
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_solve(slice_index si)
+{
+  boolean result;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = direct_solve_in_n(si,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

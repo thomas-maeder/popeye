@@ -2005,8 +2005,8 @@ void insert_directhashed_slice(slice_index si)
   slices[si].type = STDirectHashed;
   if (slices[slices[si].u.pipe.next].type==STLeafDirect)
   {
-    slices[si].u.pipe.u.branch.length = 2;
-    slices[si].u.pipe.u.branch.min_length = 2;
+    slices[si].u.pipe.u.branch.length = slack_length_direct+1;
+    slices[si].u.pipe.u.branch.min_length = slack_length_direct+1;
   }
   
   TraceFunctionExit(__func__);
@@ -2278,35 +2278,36 @@ static stip_length_type adjust_n_min(slice_index si,
   return result;
 }
 
+
 /* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean direct_hashed_solve(slice_index si)
+boolean direct_hashed_solve_in_n(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_min)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  /* Only check for DirNoSucc - we also have to write the solution if
-   * we already know that there is one!
-   */
-  if (inhash_dir_no_succ(si,n))
+  n_min = adjust_n_min(si,n,n_min);
+  if (n_min<=n)
   {
-    assert(!inhash_dir_succ(si,n));
-    result = false;
-  }
-  else
-  {
-    result = slice_solve(slices[si].u.pipe.next);
+    result = direct_solve_in_n(slices[si].u.pipe.next,n,n_min);
     if (result)
       addtohash_dir_succ(si,n);
     else
       addtohash_dir_nosucc(si,n);
   }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

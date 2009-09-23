@@ -404,17 +404,24 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
   return solution_found;
 }
 
-/* Determine and write keys
- * @param leaf leaf's slice index
- * @return true iff >=1 key was found and written
+/* Solve a slice
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return true iff >=1 solution was found
  */
-boolean leaf_d_solve(slice_index leaf)
+boolean leaf_d_solve_in_n(slice_index leaf,
+                          stip_length_type n,
+                          stip_length_type n_min)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
+
+  assert(n==slack_length_direct+1);
+  assert(n_min==slack_length_direct+1);
 
   switch (slices[leaf].u.leaf.goal)
   {

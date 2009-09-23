@@ -56,11 +56,15 @@ has_solution_type leaf_d_has_solution(slice_index leaf);
  */
 boolean leaf_d_root_solve(slice_index leaf);
 
-/* Determine and write the solution of a leaf slice.
- * @param leaf identifies leaf slice
+/* Solve a slice
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean leaf_d_solve(slice_index leaf);
+boolean leaf_d_solve_in_n(slice_index leaf,
+                          stip_length_type n,
+                          stip_length_type n_min);
 
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates)

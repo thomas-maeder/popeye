@@ -130,11 +130,15 @@ boolean branch_d_has_starter_reached_goal(slice_index si);
  */
 void branch_d_solve_threats(table threats, slice_index si);
 
-/* Solve a branch slice at non-root level.
+/* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean branch_d_solve(slice_index si);
+boolean branch_d_solve_in_n(slice_index si,
+                            stip_length_type n,
+                            stip_length_type n_min);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

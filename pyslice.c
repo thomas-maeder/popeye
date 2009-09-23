@@ -294,10 +294,6 @@ boolean slice_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafDirect:
-      solution_found = leaf_d_solve(si);
-      break;
-
     case STLeafForced:
       solution_found = leaf_forced_solve(si);
       break;
@@ -311,11 +307,13 @@ boolean slice_solve(slice_index si)
       break;
 
     case STBranchDirect:
-      solution_found = branch_d_solve(si);
-      break;
-
     case STDirectHashed:
-      solution_found = direct_hashed_solve(si);
+    case STDirectDefense:
+    case STSelfDefense:
+    case STReflexGuard:
+    case STDegenerateTree:
+    case STLeafDirect:
+      solution_found = direct_solve(si);
       break;
 
     case STHelpAdapter:
@@ -344,22 +342,6 @@ boolean slice_solve(slice_index si)
 
     case STSelfCheckGuard:
       solution_found = selfcheck_guard_solve(si);
-      break;
-
-    case STDirectDefense:
-      solution_found = direct_defense_solve(si);
-      break;
-
-    case STSelfDefense:
-      solution_found = self_defense_solve(si);
-      break;
-
-    case STReflexGuard:
-      solution_found = reflex_guard_solve(si);
-      break;
-
-    case STDegenerateTree:
-      solution_found = slice_solve(slices[si].u.pipe.next);
       break;
 
     default:

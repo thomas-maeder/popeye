@@ -136,9 +136,13 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
 
 /* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean direct_hashed_solve(slice_index si);
+boolean direct_hashed_solve_in_n(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_min);
 
 /* Allocate a STHelpHashed slice for a STBranch* slice and insert
  * it at the STBranch* slice's position. 

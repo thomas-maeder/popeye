@@ -721,22 +721,26 @@ void branch_d_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Solve at non-root level.
+/* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean branch_d_solve(slice_index si)
+boolean branch_d_solve_in_n(slice_index si,
+                            stip_length_type n,
+                            stip_length_type n_min)
 {
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   output_start_continuation_level();
-  result = branch_d_solve_continuations_in_n(si,length,min_length)<=length;
+  result = branch_d_solve_continuations_in_n(si,n,n_min)<=n;
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);

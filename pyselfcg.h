@@ -39,6 +39,16 @@ attack_result_type selfcheck_guard_root_defend(table refutations,
  */
 boolean selfcheck_guard_solve(slice_index si);
 
+/* Solve a slice at non-root level
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return true iff >=1 solution was found
+ */
+boolean selfcheck_guard_solve_in_n(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min);
+
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

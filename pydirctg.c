@@ -241,23 +241,27 @@ boolean direct_defense_root_solve(slice_index si)
 
 /* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean direct_defense_solve(slice_index si)
+boolean direct_defense_solve_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min)
 {
   boolean result;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (min_length<=slack_length_direct && slice_solve(towards_goal))
+  if (n_min<=slack_length_direct && slice_solve(towards_goal))
     result = true;
-  else if (length>slack_length_direct && slice_solve(next))
+  else if (n>slack_length_direct && direct_solve_in_n(next,n,n_min))
     result = true;
   else
     result = false;

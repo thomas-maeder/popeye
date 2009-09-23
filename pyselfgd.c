@@ -456,30 +456,35 @@ boolean self_defense_root_solve(slice_index si)
 
 /* Solve a slice
  * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff >=1 solution was found
  */
-boolean self_defense_solve(slice_index si)
+boolean self_defense_solve_in_n(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_min)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   /* We arrive here e.g. when solving the set play of a sXN, after the
    * initial defender's "help move" has been played
    */
-  if (min_length<slack_length_direct
+  if (n_min<slack_length_direct
       && slice_has_non_starter_solved(towards_goal))
   {
     slice_write_non_starter_has_solved(towards_goal);
     result = true;
   }
   else
-    result = slice_solve(next);
+    result = direct_solve_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
