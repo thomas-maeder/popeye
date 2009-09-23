@@ -169,6 +169,6 @@ slice_index direct_root_reduce_to_postkey_play(slice_index si);
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean direct_root_solve(slice_index si);
+boolean direct_root_root_solve(slice_index si);
 
 #endif

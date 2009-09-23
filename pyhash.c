@@ -2031,8 +2031,8 @@ void insert_helphashed_slice(slice_index si)
   slices[si].type = STHelpHashed;
   if (slices[slices[si].u.pipe.next].type==STLeafHelp)
   {
-    slices[si].u.pipe.u.branch.length = 3;
-    slices[si].u.pipe.u.branch.min_length = 3;
+    slices[si].u.pipe.u.branch.length = slack_length_help+1;
+    slices[si].u.pipe.u.branch.min_length = slack_length_help+1;
   }
 
   TraceFunctionExit(__func__);

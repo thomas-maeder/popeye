@@ -106,6 +106,18 @@ stip_length_type direct_solve_in_n(slice_index si,
  */
 boolean direct_solve(slice_index si);
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found and written
+ */
+stip_length_type direct_root_solve_in_n(slice_index si);
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_root_solve(slice_index si);
+
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached

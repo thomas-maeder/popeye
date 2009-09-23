@@ -2421,6 +2421,8 @@ static boolean root_slice_apply_postkeyplay(void)
 boolean insert_hash_element_branch_direct(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+  branch_level * const level = st->param;;
+  branch_level const save_level = *level;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2429,8 +2431,10 @@ boolean insert_hash_element_branch_direct(slice_index si, slice_traversal *st)
   /* First traverse childen, then insert STDirectHashed slice;
    * otherwise the STDirectHashed will be traversed as well.
    */
+  *level = nested_branch;
   slice_traverse_children(si,st);
   insert_directhashed_slice(si);
+  *level = save_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2468,6 +2472,7 @@ static boolean is_goal_move_oriented(slice_index leaf)
 boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+  branch_level const * const level = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2476,7 +2481,7 @@ boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
   /* In move orientated stipulations (%, z, x etc.) it's less
    * expensive to compute an end in 1. TLi
    */
-  if (!is_goal_move_oriented(si))
+  if (*level==nested_branch && !is_goal_move_oriented(si))
     insert_directhashed_slice(si);
 
   TraceFunctionExit(__func__);
@@ -2493,6 +2498,8 @@ boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
 boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+  branch_level * const level = st->param;;
+  branch_level const save_level = *level;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2501,8 +2508,10 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
   /* First traverse childen, then insert STHelpHashed slice;
    * otherwise the STHelpHashed will be traversed as well.
    */
+  *level = nested_branch;
   slice_traverse_children(si,st);
   insert_helphashed_slice(si);
+  *level = save_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2518,12 +2527,14 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+  branch_level const * const level = st->param;;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_helphashed_slice(si);
+  if (*level==nested_branch)
+    insert_helphashed_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2539,6 +2550,8 @@ boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
 boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+  branch_level * const level = st->param;;
+  branch_level const save_level = *level;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2547,8 +2560,10 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
   /* First traverse childen, then insert STSeriesHashed slice;
    * otherwise the STSeriesHashed will be traversed as well.
    */
+  *level = nested_branch;
   slice_traverse_children(si,st);
   insert_serieshashed_slice(si);
+  *level = save_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2596,11 +2611,12 @@ static slice_operation const hash_element_inserters[] =
 static void insert_hash_slices(void)
 {
   slice_traversal st;
+  branch_level level = toplevel_branch;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&hash_element_inserters,0);
+  slice_traversal_init(&st,&hash_element_inserters,&level);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);

@@ -370,10 +370,6 @@ boolean slice_root_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafDirect:
-      result = leaf_d_root_solve(si);
-      break;
-
     case STLeafHelp:
       result = leaf_h_root_solve(si);
       break;
@@ -395,20 +391,17 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STDirectRoot:
+    case STDirectDefenderRoot:
+    case STLeafDirect:
+    case STDirectDefense:
+    case STSelfAttack:
+    case STSelfDefense:
+    case STDirectHashed:
       result = direct_root_solve(si);
       break;
 
-    case STDirectHashed:
     case STHelpHashed:
       result = slice_root_solve(slices[si].u.pipe.next);
-      break;
-
-    case STDirectDefenderRoot:
-      result = branch_d_defender_root_solve(si);
-      break;
-
-    case STDirectDefense:
-      result = direct_defense_root_solve(si);
       break;
 
     case STHelpRoot:
@@ -421,14 +414,6 @@ boolean slice_root_solve(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_root_solve(si);
-      break;
-
-    case STSelfAttack:
-      result = self_guard_root_solve(si);
-      break;
-
-    case STSelfDefense:
-      result = self_defense_root_solve(si);
       break;
 
     case STReflexGuard:

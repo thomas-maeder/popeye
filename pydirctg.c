@@ -231,7 +231,7 @@ boolean direct_defense_root_solve(slice_index si)
   if (next!=no_slice)
     /* always evaluate slice_root_solve(next), even if we have found a
      * short solution */
-    result = slice_root_solve(next) || result;
+    result = direct_root_solve_in_n(next) || result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

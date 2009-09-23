@@ -433,27 +433,6 @@ slice_index self_attack_root_reduce_to_postkey_play(slice_index si)
   return result;
 }
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_defense_root_solve(slice_index si)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_root_solve(next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -499,7 +478,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean self_guard_root_solve(slice_index si)
+boolean self_attack_root_solve(slice_index si)
 {
   boolean result = false;
   table refutations = allocate_table();
@@ -509,7 +488,7 @@ boolean self_guard_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* We only arrive here when solving a sX0.5
+  /* We only arrive here when solving a sX0.5 or the set play of a sX1
    */
   init_output(si);
   if (slice_root_solve_postkey(refutations,towards_goal))

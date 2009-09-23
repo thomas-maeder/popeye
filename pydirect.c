@@ -475,6 +475,85 @@ boolean direct_solve(slice_index si)
 }
 
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found and written
+ */
+stip_length_type direct_root_solve_in_n(slice_index si)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafDirect:
+      result = leaf_d_root_solve(si);
+      break;
+
+    case STDirectRoot:
+      result = direct_root_root_solve(si);
+      break;
+
+    case STDirectDefenderRoot:
+      result = branch_d_defender_root_solve(si);
+      break;
+
+    case STDirectDefense:
+      result = direct_defense_root_solve(si);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_root_solve(si);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_root_solve(si);
+      break;
+
+    case STReflexGuard:
+      result = reflex_guard_root_solve(si);
+      break;
+
+    case STDirectHashed:
+      result = direct_root_solve(slices[si].u.pipe.next);
+      break;
+
+    default:
+      assert(0);
+      result = false;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean direct_root_solve(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = direct_root_solve_in_n(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached

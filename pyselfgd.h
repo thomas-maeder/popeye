@@ -32,7 +32,7 @@ slice_index self_attack_root_reduce_to_postkey_play(slice_index si);
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean self_guard_root_solve(slice_index si);
+boolean self_attack_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
@@ -99,12 +99,6 @@ self_defense_direct_solve_threats_in_n(table threats,
                                        slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_min);
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_defense_root_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index

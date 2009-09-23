@@ -819,7 +819,7 @@ static void root_write_postkey(slice_index si, table refutations)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean direct_root_solve(slice_index si)
+boolean direct_root_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
