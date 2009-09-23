@@ -303,14 +303,25 @@ boolean leaf_d_root_solve(slice_index leaf)
   return result;
 }
 
+enum
+{
+  leaf_has_solution = slack_length_direct+1,
+  leaf_has_no_solution = slack_length_direct+3
+};
+
 /* Determine and write keys leading to a double-mate
  * @param leaf leaf's slice index
- * @return true iff >=1 key was found and written
+ * @return leaf_has_solution if >=1 key was found and written
+ *         leaf_has_no_solution otherwise
  */
-static boolean leaf_d_dmate_solve(slice_index leaf)
+static stip_length_type leaf_d_dmate_solve(slice_index leaf)
 {
-  boolean solution_found = false;
+  stip_length_type result = leaf_has_no_solution;
   Side const starter = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   if (!immobile(starter))
   {
@@ -322,7 +333,7 @@ static boolean leaf_d_dmate_solve(slice_index leaf)
       if (jouecoup(nbply,first_play)
           && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
-        solution_found = true;
+        result = leaf_has_solution;
         write_final_attack(goal_doublemate,attack_key);
       }
 
@@ -332,18 +343,26 @@ static boolean leaf_d_dmate_solve(slice_index leaf)
     finply();
   }
 
-  return solution_found;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write keys leading to counter-mate
  * @param leaf leaf's slice index
- * @return true iff >=1 key was found and written
+ * @return leaf_has_solution if >=1 key was found and written
+ *         leaf_has_no_solution otherwise
  */
-static boolean leaf_d_cmate_solve(slice_index leaf)
+static stip_length_type leaf_d_cmate_solve(slice_index leaf)
 {
-  boolean solution_found = false;
+  stip_length_type result = leaf_has_no_solution;
   Side const starter = slices[leaf].starter;
   Side const non_starter = advers(starter);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
 
   /* TODO can this be generalised to non-mate goals? */
   if (goal_checker_mate(non_starter)==goal_reached)
@@ -356,7 +375,7 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
       if (jouecoup(nbply,first_play)
           && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
-        solution_found = true;
+        result = leaf_has_solution;
         write_final_attack(goal_countermate,attack_key);
       }
       repcoup();
@@ -365,17 +384,21 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
     finply();
   }
 
-  return solution_found;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine and write keys leading to "regular goals"
  * @param leaf leaf's slice index
- * @return true iff >=1 key was found and written
+ * @return leaf_has_solution if >=1 key was found and written
+ *         leaf_has_no_solution otherwise
  */
-static boolean leaf_d_regulargoals_solve(slice_index leaf)
+static stip_length_type leaf_d_regulargoals_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
-  boolean solution_found = false;
+  stip_length_type result = leaf_has_no_solution;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -389,7 +412,7 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
-      solution_found = true;
+      result = leaf_has_solution;
       write_final_attack(slices[leaf].u.leaf.goal,attack_key);
     }
 
@@ -399,9 +422,9 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",solution_found);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return solution_found;
+  return result;
 }
 
 /* Solve a slice
@@ -431,15 +454,15 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_countermate:
-      result = leaf_d_cmate_solve(leaf) ? n : n+2;
+      result = leaf_d_cmate_solve(leaf);
       break;
 
     case goal_doublemate:
-      result = leaf_d_dmate_solve(leaf) ? n : n+2;
+      result = leaf_d_dmate_solve(leaf);
       break;
 
     default:
-      result = leaf_d_regulargoals_solve(leaf) ? n : n+2;
+      result = leaf_d_regulargoals_solve(leaf);
       break;
   }
 
