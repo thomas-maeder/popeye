@@ -1,6 +1,7 @@
 #include "pybradd.h"
 #include "pydirect.h"
 #include "pybrad.h"
+#include "pybrah.h"
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
@@ -658,6 +659,29 @@ branch_d_defender_root_detect_starter(slice_index si,
   
   if (slices[si].starter==no_side)
     slices[si].starter = Black;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index branch_d_defender_root_make_setplay_slice(slice_index si)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = alloc_help_branch(toplevel_branch,
+                             slack_length_help+1,slack_length_help+1,
+                             slices[si].u.pipe.next);
+  slices[result].starter = slices[si].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

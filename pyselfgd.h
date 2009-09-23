@@ -20,6 +20,12 @@ slice_index alloc_self_attack_slice(stip_length_type length,
                                     slice_index next,
                                     slice_index towards_goal);
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index self_attack_root_make_setplay_slice(slice_index si);
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
@@ -27,12 +33,6 @@ slice_index alloc_self_attack_slice(stip_length_type length,
  *         applicable
  */
 slice_index self_attack_root_reduce_to_postkey_play(slice_index si);
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_attack_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations

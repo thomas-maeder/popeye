@@ -396,6 +396,30 @@ void self_attack_root_solve_variations(table threats,
 /* **************** Implementation of interface Slice ***************
  */
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index self_attack_root_make_setplay_slice(slice_index si)
+{
+  slice_index result;
+  slice_index const length = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (length==slack_length_help)
+    result = slices[si].u.pipe.u.branch.towards_goal;
+  else
+    result = slice_root_make_setplay_slice(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
@@ -467,37 +491,6 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   }
   else
     result = direct_solve_in_n(next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_attack_root_solve(slice_index si)
-{
-  boolean result = false;
-  table refutations = allocate_table();
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* We only arrive here when solving a sX0.5 or the set play of a sX1
-   */
-  init_output(si);
-  if (slice_root_solve_postkey(refutations,towards_goal))
-  {
-    write_end_of_solution();
-    result = true;
-  }
-
-  free_table();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

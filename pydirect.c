@@ -506,10 +506,6 @@ stip_length_type direct_root_solve_in_n(slice_index si)
       result = direct_defense_root_solve(si);
       break;
 
-    case STSelfAttack:
-      result = self_attack_root_solve(si);
-      break;
-
     case STSelfCheckGuard:
       result = selfcheck_guard_root_solve(si);
       break;

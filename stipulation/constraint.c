@@ -731,13 +731,16 @@ stip_length_type reflex_guard_solve_in_n(slice_index si,
 slice_index reflex_guard_root_make_setplay_slice(slice_index si)
 {
   slice_index result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const length = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_root_make_setplay_slice(next);
+  if (length==slack_length_help)
+    result = slices[si].u.pipe.u.branch.towards_goal;
+  else
+    result = slice_root_make_setplay_slice(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

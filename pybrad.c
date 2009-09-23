@@ -896,41 +896,6 @@ boolean direct_root_root_solve(slice_index si)
   return result;
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index direct_root_make_setplay_slice(slice_index si)
-{
-  slice_index defender_root;
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  defender_root = branch_find_slice(STDirectDefenderRoot,si);
-  if (defender_root==no_slice)
-  {
-    /* we end up here when making the setplay slice of a r#1 or s#1 */
-    slice_index const selfcheck_guard = branch_find_slice(STSelfCheckGuard,si);
-    assert(STSelfCheckGuard!=no_slice);
-    result = slices[selfcheck_guard].u.pipe.next;
-  }
-  else
-  {
-    result = alloc_help_branch(toplevel_branch,
-                               slack_length_help+1,slack_length_help+1,
-                               slices[defender_root].u.pipe.next);
-    slices[result].starter = advers(slices[si].starter);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index

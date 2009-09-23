@@ -125,6 +125,12 @@ void branch_d_defender_root_solve_variations(table threats,
 who_decides_on_starter
 branch_d_defender_root_detect_starter(slice_index si, boolean same_side_as_root);
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @return set play slice spun off; no_slice if not applicable
+ */
+slice_index branch_d_defender_root_make_setplay_slice(slice_index si);
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
