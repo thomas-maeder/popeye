@@ -2365,7 +2365,7 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
     if (table_length(threats)>0)
       addtohash_dir_succ(si,result);
     else
-      addtohash_dir_nosucc(si,result);
+      addtohash_dir_nosucc(si,n);
   }
 
   TraceFunctionExit(__func__);
