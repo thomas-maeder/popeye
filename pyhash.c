@@ -2283,13 +2283,16 @@ static stip_length_type adjust_n_min(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return true iff >=1 solution was found
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_direct)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
  */
-boolean direct_hashed_solve_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_min)
+stip_length_type direct_hashed_solve_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2301,13 +2304,13 @@ boolean direct_hashed_solve_in_n(slice_index si,
   if (n_min<=n)
   {
     result = direct_solve_in_n(slices[si].u.pipe.next,n,n_min);
-    if (result)
-      addtohash_dir_succ(si,n);
+    if (result<=n)
+      addtohash_dir_succ(si,result);
     else
       addtohash_dir_nosucc(si,n);
   }
   else
-    result = false;
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

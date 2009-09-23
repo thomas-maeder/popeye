@@ -91,11 +91,14 @@ stip_length_type direct_solve_threats_in_n(table threats,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return true iff >=1 solution was found
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_direct)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
  */
-boolean direct_solve_in_n(slice_index si,
-                          stip_length_type n,
-                          stip_length_type n_min);
+stip_length_type direct_solve_in_n(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min);
 
 /* Solve a slice - adapter for direct slices
  * @param si slice index

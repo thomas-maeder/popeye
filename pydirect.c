@@ -377,13 +377,16 @@ stip_length_type direct_solve_threats_in_n(table threats,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return true iff >=1 solution was found
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_direct)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
  */
-boolean direct_solve_in_n(slice_index si,
-                          stip_length_type n,
-                          stip_length_type n_min)
+stip_length_type direct_solve_in_n(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -428,7 +431,7 @@ boolean direct_solve_in_n(slice_index si,
 
     default:
       assert(0);
-      result = false;
+      result = n+2;
       break;
   }
 
@@ -445,14 +448,25 @@ boolean direct_solve_in_n(slice_index si,
 boolean direct_solve(slice_index si)
 {
   boolean result;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type length;
+  stip_length_type min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_in_n(si,length,min_length);
+  if (slices[si].type==STLeafDirect)
+  {
+    length = slack_length_direct+1;
+    min_length = slack_length_direct+1;
+  }
+  else
+  {
+    length = slices[si].u.pipe.u.branch.length;
+    min_length = slices[si].u.pipe.u.branch.min_length;
+  }
+
+  result = direct_solve_in_n(si,length,min_length)<=length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

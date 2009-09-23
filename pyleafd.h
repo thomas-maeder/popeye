@@ -60,11 +60,14 @@ boolean leaf_d_root_solve(slice_index leaf);
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return true iff >=1 solution was found
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_direct)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
  */
-boolean leaf_d_solve_in_n(slice_index leaf,
-                          stip_length_type n,
-                          stip_length_type n_min);
+stip_length_type leaf_d_solve_in_n(slice_index leaf,
+                                   stip_length_type n,
+                                   stip_length_type n_min);
 
 /* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
  * mates)

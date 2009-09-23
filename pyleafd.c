@@ -408,16 +408,21 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return true iff >=1 solution was found
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_direct)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
  */
-boolean leaf_d_solve_in_n(slice_index leaf,
-                          stip_length_type n,
-                          stip_length_type n_min)
+stip_length_type leaf_d_solve_in_n(slice_index leaf,
+                                   stip_length_type n,
+                                   stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_direct+1);
@@ -426,15 +431,15 @@ boolean leaf_d_solve_in_n(slice_index leaf,
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_countermate:
-      result = leaf_d_cmate_solve(leaf);
+      result = leaf_d_cmate_solve(leaf) ? n : n+2;
       break;
 
     case goal_doublemate:
-      result = leaf_d_dmate_solve(leaf);
+      result = leaf_d_dmate_solve(leaf) ? n : n+2;
       break;
 
     default:
-      result = leaf_d_regulargoals_solve(leaf);
+      result = leaf_d_regulargoals_solve(leaf) ? n : n+2;
       break;
   }
 

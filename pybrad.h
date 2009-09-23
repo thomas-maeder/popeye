@@ -134,11 +134,14 @@ void branch_d_solve_threats(table threats, slice_index si);
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return true iff >=1 solution was found
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_direct)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
  */
-boolean branch_d_solve_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_min);
+stip_length_type branch_d_solve_in_n(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_min);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

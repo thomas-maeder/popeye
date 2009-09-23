@@ -243,13 +243,16 @@ boolean direct_defense_root_solve(slice_index si)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return true iff >=1 solution was found
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_direct)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
  */
-boolean direct_defense_solve_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_min)
+stip_length_type direct_defense_solve_in_n(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
@@ -260,11 +263,11 @@ boolean direct_defense_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n_min<=slack_length_direct && slice_solve(towards_goal))
-    result = true;
-  else if (n>slack_length_direct && direct_solve_in_n(next,n,n_min))
-    result = true;
+    result = n_min;
+  else if (n>slack_length_direct)
+    result = direct_solve_in_n(next,n,n_min);
   else
-    result = false;
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
