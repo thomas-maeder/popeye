@@ -124,40 +124,36 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
+/* Determine and write continuations
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no continuation was found
  */
 stip_length_type
 direct_defense_direct_solve_continuations_in_n(slice_index si,
-                                               stip_length_type n)
+                                               stip_length_type n,
+                                               stip_length_type n_min)
 {
-  stip_length_type result = n+2;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const n_max_for_goal = length-min_length+slack_length_direct;
+  stip_length_type result;
+  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   assert(n>=slack_length_direct);
 
-  if (n<n_max_for_goal+2)
-  {
-    slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
-    if (slice_solve(togoal))
-      result = slack_length_direct;
-    else if (n>slack_length_direct)
-      result = direct_solve_continuations_in_n(next,n);
-  }
+  if (n_min<=slack_length_direct && slice_solve(togoal))
+    result = slack_length_direct;
   else if (n>slack_length_direct)
-    result = direct_solve_continuations_in_n(next,n);
+    result = direct_solve_continuations_in_n(next,n,n_min);
+  else
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

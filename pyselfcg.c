@@ -97,12 +97,14 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
  * threats for the parent slice. First consult hash table.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no continuation was found
  */
 stip_length_type
 selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
-                                                stip_length_type n)
+                                                stip_length_type n,
+                                                stip_length_type n_min)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
@@ -110,9 +112,10 @@ selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_continuations_in_n(next,n);
+  result = direct_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

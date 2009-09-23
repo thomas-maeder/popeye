@@ -501,35 +501,34 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
+/* Determine and write continuations
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no continuation was found
  */
 stip_length_type branch_d_solve_continuations_in_n(slice_index si,
-                                                   stip_length_type n)
+                                                   stip_length_type n,
+                                                   stip_length_type n_min)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const parity = (length-slack_length_direct)%2;
-  stip_length_type result = slack_length_direct+2-parity;
+  stip_length_type result = n_min;
   boolean continuation_found = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (n+min_length>result+length)
-    result = n-(length-min_length);
-
   active_slice[nbply+1] = si;
+
+  if (result<=slack_length_direct)
+    result += 2;
 
   while (result<=n)
   {
@@ -727,21 +726,22 @@ void branch_d_solve_threats(table threats, slice_index si)
  */
 boolean branch_d_solve(slice_index si)
 {
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type length_needed;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   output_start_continuation_level();
-  length_needed = branch_d_solve_continuations_in_n(si,length);
+  result = branch_d_solve_continuations_in_n(si,length,min_length)<=length;
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",length_needed<=length);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return length_needed<=length;
+  return result;
 }
 
 /* Detect starter field with the starting side if possible. 

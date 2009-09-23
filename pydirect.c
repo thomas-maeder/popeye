@@ -237,56 +237,58 @@ stip_length_type direct_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
+/* Determine and write continuations
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no continuation was found
  */
 stip_length_type direct_solve_continuations_in_n(slice_index si,
-                                                 stip_length_type n)
+                                                 stip_length_type n,
+                                                 stip_length_type n_min)
 {
   stip_length_type result = n+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STBranchDirect:
-      result = branch_d_solve_continuations_in_n(si,n);
+      result = branch_d_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STDirectHashed:
-      result = direct_hashed_solve_continuations_in_n(si,n);
+      result = direct_hashed_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STDirectDefense:
-      result = direct_defense_direct_solve_continuations_in_n(si,n);
+      result = direct_defense_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STSelfDefense:
-      result = self_defense_direct_solve_continuations_in_n(si,n);
+      result = self_defense_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_direct_solve_continuations_in_n(si,n);
+      result = selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_direct_solve_continuations_in_n(si,n);
+      result = reflex_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_direct_solve_continuations_in_n(si,n);
+      result = keepmating_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STDegenerateTree:
-      result = degenerate_tree_direct_solve_continuations_in_n(si,n);
+      result = degenerate_tree_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     default:

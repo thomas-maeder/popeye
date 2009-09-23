@@ -245,7 +245,12 @@ static boolean write_variation(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  
+  stip_length_type const n_next = n-1;
+  stip_length_type const parity = (n_next-slack_length_direct)%2;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type n_min = slack_length_direct-parity;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
@@ -253,8 +258,11 @@ static boolean write_variation(slice_index si, stip_length_type n)
 
   write_defense();
 
+  if (n_next+min_length>n_min+length)
+    n_min = n_next-(length-min_length);
+
   output_start_continuation_level();
-  result = direct_solve_continuations_in_n(next,n-1)<=n-1;
+  result = direct_solve_continuations_in_n(next,n_next,n_min)<=n_next;
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);
