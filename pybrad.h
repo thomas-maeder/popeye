@@ -85,6 +85,7 @@ stip_length_type branch_d_solve_continuations_in_n(slice_index si,
  * @param threats table where to add threats
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return length of threats
  *         (n-slack_length_direct)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
@@ -92,7 +93,8 @@ stip_length_type branch_d_solve_continuations_in_n(slice_index si,
  */
 stip_length_type branch_d_solve_threats_in_n(table threats,
                                              slice_index si,
-                                             stip_length_type n);
+                                             stip_length_type n,
+                                             stip_length_type n_min);
 
 /* Write a priori unsolvability (if any) of a slice (e.g. forced
  * reflex mates).

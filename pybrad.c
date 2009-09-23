@@ -578,6 +578,7 @@ stip_length_type branch_d_solve_continuations_in_n(slice_index si,
  * @param threats table where to add threats
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return length of threats
  *         (n-slack_length_direct)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
@@ -585,21 +586,25 @@ stip_length_type branch_d_solve_continuations_in_n(slice_index si,
  */
 stip_length_type branch_d_solve_threats_in_n(table threats,
                                              slice_index si,
-                                             stip_length_type n)
+                                             stip_length_type n,
+                                             stip_length_type n_min)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const parity = (length-slack_length_direct)%2;
-  stip_length_type result = slack_length_direct+2-parity;
+  stip_length_type result = n_min;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (result<slack_length_direct)
+    result += 2;
 
   if (n+min_length>result+length)
     result = n-(length-min_length);
@@ -707,11 +712,15 @@ boolean branch_d_has_starter_reached_goal(slice_index si)
  */
 void branch_d_solve_threats(table threats, slice_index si)
 {
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const parity = (length-slack_length_direct)%2;
+  stip_length_type const n_min = slack_length_direct+2-parity;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch_d_solve_threats_in_n(threats,si,slices[si].u.pipe.u.branch.length);
+  branch_d_solve_threats_in_n(threats,si,length,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

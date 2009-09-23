@@ -418,14 +418,11 @@ static boolean init_slice_properties_pipe(slice_index pipe,
                                           slice_traversal *st)
 {
   boolean result;
-  slice_initializer_state const * const sis = st->param;
   slice_index const next = slices[pipe].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",sis->valueOffset);
 
   result = traverse_slices(next,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
@@ -2332,11 +2329,37 @@ stip_length_type direct_hashed_solve_continuations_in_n(slice_index si,
   return result;
 }
 
+static stip_length_type delegate_solve_threats_in_n(table threats,
+                                                    slice_index si,
+                                                    stip_length_type n,
+                                                    stip_length_type n_min)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = direct_solve_threats_in_n(threats,next,n,n_min);
+  if (table_length(threats)>0)
+    addtohash_dir_succ(si,result);
+  else
+    addtohash_dir_nosucc(si,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine and write the threats after the move that has just been
  * played.
  * @param threats table where to add threats
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return length of threats
  *         (n-slack_length_direct)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
@@ -2344,28 +2367,43 @@ stip_length_type direct_hashed_solve_continuations_in_n(slice_index si,
  */
 stip_length_type direct_hashed_solve_threats_in_n(table threats,
                                                   slice_index si,
-                                                  stip_length_type n)
+                                                  stip_length_type n,
+                                                  stip_length_type n_min)
 {
   stip_length_type result;
+  HashBuffer * const hb = &hashBuffers[nbply];
+  dhtElement const *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (inhash_dir_no_succ(si,n))
-  {
-    assert(!inhash_dir_succ(si,n));
-    result = n+2;
-  }
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (!isHashBufferValid[nbply])
+    (*encode)();
+
+  he = dhtLookupElement(pyhash,hb);
+  if (he==dhtNilElement)
+    result = delegate_solve_threats_in_n(threats,si,n,n_min);
   else
   {
-    slice_index const next = slices[si].u.pipe.next;
-    result = direct_solve_threats_in_n(threats,next,n);
-    if (table_length(threats)>0)
-      addtohash_dir_succ(si,result);
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+
+    hash_value_type const val_nosucc = n/2;
+    hash_value_type const nosucc = get_value_direct_nosucc(he,si);
+    if (nosucc>=val_nosucc && nosucc<=val_nosucc+length-min_length)
+      result = n+2;
     else
-      addtohash_dir_nosucc(si,n);
+    {
+      stip_length_type const n_min_new = 2*nosucc+n_min%2;
+      if (n_min<n_min_new)
+        n_min = n_min_new;
+      result = delegate_solve_threats_in_n(threats,si,n,n_min);
+    }
   }
 
   TraceFunctionExit(__func__);

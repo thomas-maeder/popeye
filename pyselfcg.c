@@ -125,20 +125,24 @@ selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
  * @param threats table where to add threats
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return length of threats
  *         (n-slack_length_direct)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type selfcheck_guard_direct_solve_threats_in_n(table threats,
-                                                           slice_index si,
-                                                           stip_length_type n)
+stip_length_type
+selfcheck_guard_direct_solve_threats_in_n(table threats,
+                                          slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min)
 {
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
@@ -146,7 +150,7 @@ stip_length_type selfcheck_guard_direct_solve_threats_in_n(table threats,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
-    result = direct_solve_threats_in_n(threats,next,n);
+    result = direct_solve_threats_in_n(threats,next,n,n_min);
   }
 
   TraceFunctionExit(__func__);

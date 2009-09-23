@@ -128,6 +128,7 @@ stip_length_type reflex_guard_direct_solve_continuations_in_n(slice_index si,
  * @param threats table where to add threats
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return length of threats
  *         (n-slack_length_direct)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
@@ -135,7 +136,8 @@ stip_length_type reflex_guard_direct_solve_continuations_in_n(slice_index si,
  */
 stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
                                                         slice_index si,
-                                                        stip_length_type n)
+                                                        stip_length_type n,
+                                                        stip_length_type n_min)
 {
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   stip_length_type result;
@@ -143,6 +145,7 @@ stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   switch (slice_has_solution(avoided))
@@ -156,7 +159,7 @@ stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
     case has_no_solution:
     {
       slice_index const next = slices[si].u.pipe.next;
-      result = direct_solve_threats_in_n(threats,next,n);
+      result = direct_solve_threats_in_n(threats,next,n,n_min);
       break;
     }
 
@@ -369,12 +372,14 @@ stip_length_type reflex_guard_defender_solve_threats_in_n(table threats,
                                                           stip_length_type n)
 {
   stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = direct_defender_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
+  result = direct_defender_solve_threats_in_n(threats,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

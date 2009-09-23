@@ -54,14 +54,17 @@ reflex_guard_direct_solve_continuations_in_n(slice_index si,
  * @param threats table where to add threats
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
  * @return length of threats
  *         (n-slack_length_direct)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
-                                                        slice_index si,
-                                                        stip_length_type n);
+stip_length_type
+reflex_guard_direct_solve_threats_in_n(table threats,
+                                       slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_min);
 
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations

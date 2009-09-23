@@ -68,9 +68,10 @@ void selfcheck_guard_solve_threats(table threats, slice_index si);
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type selfcheck_guard_defender_solve_threats_in_n(table threats,
-                                                             slice_index si,
-                                                             stip_length_type n);
+stip_length_type
+selfcheck_guard_defender_solve_threats_in_n(table threats,
+                                            slice_index si,
+                                            stip_length_type n);
 
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats
@@ -100,6 +101,7 @@ void selfcheck_guard_root_solve_variations(table threats,
  * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n maximum number of moves until goal
+ * @param n_min minimal number of half moves to try
  * @return true iff the defense defends against at least one of the
  *         threats
  */
@@ -129,9 +131,11 @@ selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type selfcheck_guard_direct_solve_threats_in_n(table threats,
-                                                           slice_index si,
-                                                           stip_length_type n);
+stip_length_type
+selfcheck_guard_direct_solve_threats_in_n(table threats,
+                                          slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min);
 
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
