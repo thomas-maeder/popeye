@@ -3,6 +3,7 @@
 #include "pymsg.h"
 #include "pyint.h"
 #include "pyslice.h"
+#include "pypipe.h"
 #include "py1.h"
 #include "trace.h"
 #ifdef _SE_
@@ -72,7 +73,7 @@ static boolean output_mode_linemode(slice_index si, slice_traversal *st)
 static boolean output_mode_help_root(slice_index si, slice_traversal *st)
 {
   boolean result;
-  output_mode * const mode = st->param;;
+  output_mode * const mode = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -80,8 +81,7 @@ static boolean output_mode_help_root(slice_index si, slice_traversal *st)
 
   TraceValue("%u\n",nr_color_inversions_in_ply[nbply+1]);
 
-  if (nr_color_inversions_in_ply[nbply+1]==1
-      && slices[si].u.pipe.u.branch.length==slack_length_help+1)
+  if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
     /* set play -> delegate decision */
     result = slice_traverse_children(si,st);
   else
@@ -151,7 +151,7 @@ static slice_operation const output_mode_detectors[] =
   &slice_traverse_children,   /* STBranchFork */
   &output_mode_treemode,      /* STLeafDirect */
   &output_mode_linemode,      /* STLeafHelp */
-  &output_mode_treemode,      /* STLeafForced */
+  &output_mode_linemode,      /* STLeafForced */
   &output_mode_fork,          /* STReciprocal */
   &output_mode_fork,          /* STQuodlibet */
   &slice_traverse_children,   /* STNot */
@@ -165,18 +165,18 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_series_root,   /* STSeriesRoot */
   &slice_traverse_children,   /* STSeriesAdapter */
   &slice_traverse_children,   /* STSeriesHashed */
-  &slice_traverse_children,   /* STSelfCheckGuard */
-  &slice_traverse_children,   /* STDirectDefense */
-  &slice_traverse_children,   /* STReflexGuard */
-  &slice_traverse_children,   /* STSelfAttack */
-  &slice_traverse_children,   /* STSelfDefense */
-  &slice_traverse_children,   /* STRestartGuard */
-  &slice_traverse_children,   /* STGoalReachableGuard */
-  &slice_traverse_children,   /* STKeepMatingGuard */
-  &slice_traverse_children,   /* STMaxFlightsquares */
-  &slice_traverse_children,   /* STDegenerateTree */
-  &slice_traverse_children,   /* STMaxNrNonTrivial */
-  &slice_traverse_children    /* STMaxThreatLength */
+  &pipe_traverse_next,        /* STSelfCheckGuard */
+  &output_mode_treemode,      /* STDirectDefense */
+  &pipe_traverse_next,        /* STReflexGuard */
+  &output_mode_treemode,      /* STSelfAttack */
+  &output_mode_treemode,      /* STSelfDefense */
+  &pipe_traverse_next,        /* STRestartGuard */
+  &pipe_traverse_next,        /* STGoalReachableGuard */
+  &pipe_traverse_next,        /* STKeepMatingGuard */
+  &pipe_traverse_next,        /* STMaxFlightsquares */
+  &pipe_traverse_next,        /* STDegenerateTree */
+  &pipe_traverse_next,        /* STMaxNrNonTrivial */
+  &pipe_traverse_next         /* STMaxThreatLength */
 };
 
 /* Initialize based on the stipulation

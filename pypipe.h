@@ -59,6 +59,14 @@ boolean pipe_impose_starter(slice_index si, slice_traversal *st);
  */
 boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st);
 
+/* Traverse the sub-graph starting at the successor slice of a pipe
+ * slice (but don't traverse possible other children of the pipe
+ * slice)
+ * @param pipe identifies pipe slice
+ * @return true iff the sub-graph has been successfully traversed
+ */
+boolean pipe_traverse_next(slice_index pipe, slice_traversal *st);
+
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

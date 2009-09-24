@@ -2781,10 +2781,16 @@ static char *ParseStructuredStip_branch_d(char *tok,
       min_length += slack_length_direct+max_length%2;
       max_length += slack_length_direct;
       *result = alloc_direct_branch(level,max_length,min_length,operand);
+      /* TODO get this right */
       if ((max_length-slack_length_direct)%2==0)
         slice_insert_direct_guards(*result,operand);
       else
-        slice_insert_self_guards(*result,operand);
+      {
+        if (slices[operand].type==STLeafForced)
+          slice_insert_self_guards(*result,operand);
+        else
+          slice_insert_reflex_guards_semi(*result,operand);
+      }
     }
   }
   else

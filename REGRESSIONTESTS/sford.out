@@ -49,9 +49,9 @@ Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
 1   .   .  -D  -L   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz s#                13 + 14
+  weiss - s#                13 + 14
 
-      1...Tb4*b6 # 
+  1...Tb4*b6 # 
 
 Loesung beendet. 
 
@@ -717,8 +717,7 @@ b) weiss 2,2d d#
 
 c) weiss 4,4d d# 
 
-  1.d7-d8=L ! Drohung:
-          2.Ld8-e7 # 
+  1.d7-d8=L ! Zugzwang.
       1...Sb7*d8 [+wLc1] 
           2.Lc1-f4 + 
               2...g5*f4 [+wLc1] 
@@ -727,7 +726,10 @@ c) weiss 4,4d d#
 d) weiss 6,6d d# 
 
   1.d7-d8=S ! Drohung:
-          2.Sd8-f7 # 
+          2.Sd8-e6 Drohung:
+                  3.Se6-g7 Drohung:
+                          4.Sg7-f5 # 
+                          4.Sg7-e8 # 
       1...Sb7*d8 [+wSg1] 
           2.Sg1*f3 [+sBf7] Drohung:
                   3.Sf3-d2 Drohung:
@@ -801,10 +803,11 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 +---a---b---c---d---e---f---g---h---+
   schwarz 10,10ser d00        5 + 2
 
-  1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   2  (Lh1-b7 )
-  1.Lh1-c6   2.Lc6-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-b7   2.Lb7-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   3  (Lh1-c6 )
+  1.Lh1-c6   2.Lc6-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  4  (Lh1-d5 )
   1.Lh1-d5   2.Ld5-a2   3.Kb4-a4   4.Ka4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-d5   2.Ld5-a2   3.Kb4-a3   4.Ka3-b2   5.La2-b1   6.Kb2*c1   7.Kc1-b2   8.Lb1-a2   9.Kb2-a3  10.Ka3-a4 0-0-0 
   1.Lh1-d5   2.Ld5-a2   3.Kb4-a3   4.Ka3-b2   5.La2-b1   6.Kb2*c1   7.Kc1-b2   8.Lb1-a2   9.Kb2-a3  10.Ka3-b4 0-0-0 
@@ -813,14 +816,13 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
   1.Lh1-d5   2.Ld5-g8   3.Lg8-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-d5   2.Ld5-f7   3.Lf7-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-d5   2.Ld5-e6   3.Le6-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
-  4  (Lh1-d5 )
+  5  (Lh1-e4 )
   1.Lh1-e4   2.Le4-b1   3.Lb1-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   1.Lh1-e4   2.Le4-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
-  5  (Lh1-e4 )
-  1.Lh1-f3   2.Lf3-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   6  (Lh1-f3 )
-  1.Lh1-g2   2.Lg2-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
+  1.Lh1-f3   2.Lf3-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   7  (Lh1-g2 )
+  1.Lh1-g2   2.Lg2-d5   3.Ld5-a2   4.Kb4-a3   5.Ka3-b2   6.La2-b1   7.Kb2*c1   8.Kc1-b2   9.Lb1-a2  10.Kb2-a3 0-0-0 
   8  (Kb4-c4 )
   9  (Kb4-b5 )
  10  (Kb4-a4 )

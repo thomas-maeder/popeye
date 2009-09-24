@@ -162,6 +162,28 @@ boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st)
   return result;
 }
 
+/* Traverse the sub-graph starting at the successor slice of a pipe
+ * slice (but don't traverse possible other children of the pipe
+ * slice)
+ * @param pipe identifies pipe slice
+ * @return true iff the sub-graph has been successfully traversed
+ */
+boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
+{
+  boolean const result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[pipe].u.pipe.next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return true;
+}
+
 /* Determine whether a slice has a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
