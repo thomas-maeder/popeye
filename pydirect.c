@@ -238,19 +238,17 @@ stip_length_type direct_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write continuations
+/* Determine and write continuations after the defense just played.
+ * We know that there is at least 1 continuation to the defense.
+ * Only continuations of minimal length are looked for and written.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no continuation was found
  */
-stip_length_type direct_solve_continuations_in_n(slice_index si,
-                                                 stip_length_type n,
-                                                 stip_length_type n_min)
+void direct_solve_continuations_in_n(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_min)
 {
-  stip_length_type result = n+2;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
@@ -261,35 +259,35 @@ stip_length_type direct_solve_continuations_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STBranchDirect:
-      result = branch_d_solve_continuations_in_n(si,n,n_min);
+      branch_d_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STDirectHashed:
-      result = direct_hashed_solve_continuations_in_n(si,n,n_min);
+      direct_hashed_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STDirectDefense:
-      result = direct_defense_direct_solve_continuations_in_n(si,n,n_min);
+      direct_defense_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STSelfDefense:
-      result = self_defense_direct_solve_continuations_in_n(si,n,n_min);
+      self_defense_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
+      selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_direct_solve_continuations_in_n(si,n,n_min);
+      reflex_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_direct_solve_continuations_in_n(si,n,n_min);
+      keepmating_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STDegenerateTree:
-      result = degenerate_tree_direct_solve_continuations_in_n(si,n,n_min);
+      degenerate_tree_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     default:
@@ -298,9 +296,7 @@ stip_length_type direct_solve_continuations_in_n(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine and write the threats after the move that has just been

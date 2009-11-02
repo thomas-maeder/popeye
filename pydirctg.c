@@ -124,19 +124,17 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
   return result;
 }
 
-/* Determine and write continuations
+/* Determine and write continuations after the defense just played.
+ * We know that there is at least 1 continuation to the defense.
+ * Only continuations of minimal length are looked for and written.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no continuation was found
  */
-stip_length_type
-direct_defense_direct_solve_continuations_in_n(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_min)
+void direct_defense_direct_solve_continuations_in_n(slice_index si,
+                                                    stip_length_type n,
+                                                    stip_length_type n_min)
 {
-  stip_length_type result;
   slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -149,16 +147,12 @@ direct_defense_direct_solve_continuations_in_n(slice_index si,
   assert(n>=slack_length_direct);
 
   if (n_min<=slack_length_direct && slice_solve(togoal))
-    result = slack_length_direct;
+    ;
   else if (n>slack_length_direct)
-    result = direct_solve_continuations_in_n(next,n,n_min);
-  else
-    result = n+2;
+    direct_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine and write the threats after the move that has just been

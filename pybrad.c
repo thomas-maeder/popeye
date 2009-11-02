@@ -501,21 +501,18 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-/* Determine and write continuations
+/* Determine and write continuations after the defense just played.
+ * We know that there is at least 1 continuation to the defense.
+ * Only continuations of minimal length are looked for and written.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no continuation was found
  */
-stip_length_type branch_d_solve_continuations_in_n(slice_index si,
-                                                   stip_length_type n,
-                                                   stip_length_type n_min)
+void branch_d_solve_continuations_in_n(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_min)
 {
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = n_min;
-  boolean continuation_found = false;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -523,54 +520,11 @@ stip_length_type branch_d_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  active_slice[nbply+1] = si;
-
-  if (result<=slack_length_direct)
-    result += 2;
-
-  while (result<=n)
-  {
-    genmove(attacker);
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-        switch (direct_defender_defend_in_n(next,result-1))
-        {
-          case attack_has_solved_next_branch:
-            assert(result==slack_length_direct+1);
-            continuation_found = true;
-            coupfort();
-            break;
-
-          case attack_solves_full_length:
-            continuation_found = true;
-            write_attack(attack_regular);
-            solve_postkey_in_n(si,result);
-            coupfort();
-            break;
-
-          default:
-            break;
-        }
-
-      repcoup();
-    }
-
-    finply();
-
-    if (continuation_found)
-      break;
-    else
-      result += 2;
-  }
+  result = branch_d_solve_in_n(si,n,n_min);
+  assert(result);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine and write the threats after the move that has just been
@@ -724,7 +678,10 @@ stip_length_type branch_d_solve_in_n(slice_index si,
                                      stip_length_type n,
                                      stip_length_type n_min)
 {
-  stip_length_type result;
+  Side const attacker = slices[si].starter;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result = n_min;
+  boolean continuation_found = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -732,8 +689,52 @@ stip_length_type branch_d_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
   output_start_continuation_level();
-  result = branch_d_solve_continuations_in_n(si,n,n_min);
+
+  active_slice[nbply+1] = si;
+
+  if (result<=slack_length_direct)
+    result += 2;
+
+  while (result<=n)
+  {
+    genmove(attacker);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+        switch (direct_defender_defend_in_n(next,result-1))
+        {
+          case attack_has_solved_next_branch:
+            assert(result==slack_length_direct+1);
+            continuation_found = true;
+            coupfort();
+            break;
+
+          case attack_solves_full_length:
+            continuation_found = true;
+            write_attack(attack_regular);
+            solve_postkey_in_n(si,result);
+            coupfort();
+            break;
+
+          default:
+            break;
+        }
+
+      repcoup();
+    }
+
+    finply();
+
+    if (continuation_found)
+      break;
+    else
+      result += 2;
+  }
+
   output_end_continuation_level();
 
   TraceFunctionExit(__func__);

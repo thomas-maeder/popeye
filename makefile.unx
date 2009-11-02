@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.87 2009/09/12 12:08:31 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.88 2009/11/02 17:33:56 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -133,7 +133,7 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 # turn off assert() checks                                    NDEBUG
 
 
-DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF $(DEFINEMACRO)NDEBUG
+DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 
 
 # Compiler options

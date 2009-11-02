@@ -2355,18 +2355,17 @@ has_solution_type direct_hashed_has_solution(slice_index si)
   return result;
 }
 
-/* Determine and write continuations
+/* Determine and write continuations after the defense just played.
+ * We know that there is at least 1 continuation to the defense.
+ * Only continuations of minimal length are looked for and written.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no continuation was found
  */
-stip_length_type direct_hashed_solve_continuations_in_n(slice_index si,
-                                                        stip_length_type n,
-                                                        stip_length_type n_min)
+void direct_hashed_solve_continuations_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_min)
 {
-  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -2377,20 +2376,13 @@ stip_length_type direct_hashed_solve_continuations_in_n(slice_index si,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  result = adjust_n_min(si,n,n_min);
-  if (result<=n)
-  {
-    result = direct_solve_continuations_in_n(next,n,result);
-    if (result<=n)
-      addtohash_dir_succ(si,result);
-    else
-      addtohash_dir_nosucc(si,n);
-  }
+  n_min = adjust_n_min(si,n,n_min);
+  assert(n_min<=n);
+
+  direct_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine and write the threats after the move that has just been

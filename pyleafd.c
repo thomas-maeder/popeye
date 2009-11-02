@@ -451,6 +451,8 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
   assert(n==slack_length_direct+1);
   assert(n_min==slack_length_direct+1);
 
+  output_start_continuation_level();
+
   switch (slices[leaf].u.leaf.goal)
   {
     case goal_countermate:
@@ -465,6 +467,8 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
       result = leaf_d_regulargoals_solve(leaf);
       break;
   }
+
+  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

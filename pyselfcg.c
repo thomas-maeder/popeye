@@ -93,21 +93,18 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
   return result;
 }
 
-/* Determine and write solution(s): add first moves to table (as
- * threats for the parent slice. First consult hash table.
+/* Determine and write continuations after the defense just played.
+ * We know that there is at least 1 continuation to the defense.
+ * Only continuations of minimal length are looked for and written.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no continuation was found
  */
-stip_length_type
-selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
-                                                stip_length_type n,
-                                                stip_length_type n_min)
+void selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
+                                                     stip_length_type n,
+                                                     stip_length_type n_min)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -115,12 +112,10 @@ selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_continuations_in_n(next,n,n_min);
+  direct_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine and write the threats after the move that has just been

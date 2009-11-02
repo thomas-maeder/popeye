@@ -237,12 +237,44 @@ static boolean is_defense_relevant(table threats,
 
 /* Write a variation. The defense that starts the variation has
  * already been played in the current ply.
+ * We know that there is at least 1 continuation to the defense.
+ * Only continuations of minimal length are looked for and written.
+ * @param si slice index
+ * @param n maximum number of half moves until end state is to be reached
+ */
+static void write_existing_variation(slice_index si, stip_length_type n)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const n_next = n-1;
+  stip_length_type const parity = (n_next-slack_length_direct)%2;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type n_min = slack_length_direct-parity;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  write_defense();
+
+  if (n_next+min_length>n_min+length)
+    n_min = n_next-(length-min_length);
+
+  direct_solve_continuations_in_n(next,n_next,n_min);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Write a variation. The defense that starts the variation has
+ * already been played in the current ply.
  * Only continuations of minimal length are looked for and written.
  * @param si slice index
  * @param n maximum number of half moves until end state is to be reached
  * @return true iff variation is solvable
  */
-static boolean write_variation(slice_index si, stip_length_type n)
+static boolean write_possible_variation(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -262,9 +294,7 @@ static boolean write_variation(slice_index si, stip_length_type n)
   if (n_next+min_length>n_min+length)
     n_min = n_next-(length-min_length);
 
-  output_start_continuation_level();
-  result = direct_solve_continuations_in_n(next,n_next,n_min)<=n_next;
-  output_end_continuation_level();
+  result = direct_solve_in_n(next,n_next,n_min)<=n_next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -302,10 +332,8 @@ boolean branch_d_defender_solve_variations_in_n(table threats,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && is_defense_relevant(threats,len_threat,si,n-1))
     {
-      if (write_variation(si,n))
-        result = true;
-      else
-        write_refutation_mark();
+      write_existing_variation(si,n);
+      result = true; // TODO wozu??
     }
 
     repcoup();
@@ -461,7 +489,7 @@ void branch_d_defender_root_solve_variations(table threats,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !is_current_move_in_table(refutations)
         && is_defense_relevant(threats,len_threat,si,length-1))
-      write_variation(si,length);
+      write_existing_variation(si,length);
 
     repcoup();
   }
@@ -472,13 +500,62 @@ void branch_d_defender_root_solve_variations(table threats,
   TraceFunctionResultEnd();
 }
 
+/* Solve variations after an attacker's move
+ * @param threats table containing the threats after the attacker's move
+ * @param len_threat length of threats
+ * @param si slice index
+ * @param n maximum length of variations to be solved
+ * @return true iff >=1 variation was found
+ */
+static
+boolean root_solve_postkey_mode_variations_in_n(table threats,
+                                                stip_length_type len_threat,
+                                                slice_index si,
+                                                stip_length_type n)
+{
+  Side const defender = slices[si].starter;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  active_slice[nbply+1] = si;
+  genmove(defender);
+
+  while(encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && is_defense_relevant(threats,len_threat,si,n-1))
+    {
+      if (write_possible_variation(si,n))
+        result = true;
+      else
+        write_refutation_mark();
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return true iff >=1 solution was found
  */
-static boolean solve_postkey_in_n(slice_index si, stip_length_type n)
+static boolean root_solve_postkey_mode_in_n(slice_index si, stip_length_type n)
 {
   table const threats = allocate_table();
   stip_length_type len_threat;
@@ -505,7 +582,7 @@ static boolean solve_postkey_in_n(slice_index si, stip_length_type n)
       Message(Zugzwang);
   }
 
-  result = branch_d_defender_solve_variations_in_n(threats,len_threat,si,n);
+  result = root_solve_postkey_mode_variations_in_n(threats,len_threat,si,n);
 
   output_end_postkey_level();
 
@@ -532,7 +609,7 @@ boolean branch_d_defender_root_solve(slice_index si)
 
   init_output(si);
 
-  if (solve_postkey_in_n(si,length))
+  if (root_solve_postkey_mode_in_n(si,length))
   {
     write_end_of_solution();
     result = true;
