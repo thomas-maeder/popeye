@@ -93,6 +93,45 @@ solution finished.
 
 
 
+           #1.5 incomplete
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .  -S   .   .   .   8
+|                                   |
+7   P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   K   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          3 + 3
+
+zugzwang.
+      1...h5-h4 
+        refutes.
+      1...Se8-c7 
+          2.Sd5*c7 # 
+      1...Se8-d6 
+          2.Sd5-c7 # 
+      1...Se8-f6 
+          2.Sd5-c7 # 
+      1...Se8-g7 
+          2.Sd5-c7 # 
+
+solution finished. 
+
+
+
         #2 with short solution
 
 +---a---b---c---d---e---f---g---h---+
@@ -379,7 +418,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         2 + 3
 
-      1...b3-b2 # 
+  1...b3-b2 # 
 
 solution finished. 
 
@@ -468,7 +507,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         3 + 4
 
-      1...b3-b2 # 
+  1...b3-b2 # 
 
   1.h3-h4 ! 
       1...b3-b2 # 

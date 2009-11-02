@@ -26,6 +26,14 @@ option postkey
 
 next
 
+title #1.5 incomplete
+pieces white kb6 sd5 pa7
+       black ka8 se8 ph5
+stipulation #2
+option postkey
+
+next
+
 title #2 with short solution
 pieces white ka6 se8 pa7
        black ka8 ph6
