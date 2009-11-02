@@ -26,7 +26,7 @@
   1.Lg1-e3   2.g2-g1=S   3.Sg1-h3   4.Sh3-f2   5.Tg3-h3 0-0 
   1.c2-c1=L   2.b2-b1=T   3.Tb1-b2   4.Lc1-h6   5.Tc5-g5 0-0-0 
 
-Bearbeitung abgebrochen. 
+Loesung beendet. 
 
 
 
@@ -90,6 +90,7 @@ NG24, 1. NG-ST, Problemkiste 109, 2/1997
 a) 
 
   1  (16g7-a6 )
+  1.16g7-a6   2.16a6-g5   3.16g5-a4   4.16a4-g3   5.16g3-a2   6.16a2-b8   7.16b8-c2   8.16c2-d8   9.16d8-e2  10.16e2-f8  11.16f8-g2 # 
 
 b) wKc1-->b3
 
@@ -126,8 +127,8 @@ eigentlich:  ser-h=8/3
               MarsCirce
 
   1  (a7*b6 )
-  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7   1.b6-b7   2.b7-b8=T   3.Kc8-b7 = 
   2  (a7-a5 )
+  1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7   1.b6-b7   2.b7-b8=T   3.Kc8-b7 = 
   3  (a7-a6 )
   4  (Ka8-b8 )
   5  (Ka8-b7 )
@@ -205,7 +206,6 @@ Bearbeitung abgebrochen.
 
   1  (Sh1-g3 )
   2  (Sh1-f2 )
-  3  (c3-c2 )
 
 Bearbeitung abgebrochen. 
 
@@ -680,30 +680,20 @@ a)
   6  (Tc5-c2 )
   7  (Tc5-c3 )
   8  (Tc5-c4 + )
-  9  (Tc5-a5 )
- 10  (Tc5-b5 )
- 11  (Tc5-c8 )
- 12  (Tc5-c7 )
- 13  (Tc5-c6 )
- 14  (Tc5-h5 )
 
 b) sKa7-->b1
 
- 15  (Kb1*c1 [+Sg1] )
- 16  (Kb1-b2 )
- 17  (Kb1-a1 )
- 18  (Kb1-a2 )
- 19  (Kb1-c2 )
+  9  (Kb1*c1 [+Sg1] )
+ 10  (Kb1-b2 )
+ 11  (Kb1-a1 )
+ 12  (Kb1-a2 )
+ 13  (Kb1-c2 )
+ 14  (La3*c1 [+Sg1] )
   1.La3*c1 [+Sg1] Kd4-c5   2.Tg2-g7 Sh7-g5   3.Tc5-c3 + Sb4*c6=sS [+Ta8] # 
- 20  (La3*c1 [+Sg1] )
- 21  (La3-b2 )
- 22  (La3-b4 )
- 23  (f3-f2 )
- 24  (Tc5*c1 [+Sg1] )
- 25  (Tc5-c2 )
- 26  (Tc5-c3 )
- 27  (Tc5-c4 + )
- 28  (Tc5-a5 )
+ 15  (La3-b2 )
+ 16  (La3-b4 )
+ 17  (f3-f2 )
+ 18  (Tc5*c1 [+Sg1] )
 
 Bearbeitung abgebrochen. 
 
