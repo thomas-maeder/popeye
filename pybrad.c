@@ -708,7 +708,13 @@ stip_length_type branch_d_solve_in_n(slice_index si,
         switch (direct_defender_defend_in_n(next,result-1))
         {
           case attack_has_solved_next_branch:
-            assert(result==slack_length_direct+1);
+            /* We used to have
+             * assert(result==slack_length_direct+1);
+             * here, but in certain situations (e.g. if option
+             * nontrivial is used), this condition doesn't necessrily
+             * hold because we don't for each n from
+             * slack_length_direct to full length.
+             */
             continuation_found = true;
             coupfort();
             break;
