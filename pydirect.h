@@ -60,6 +60,12 @@ stip_length_type direct_has_solution_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_min);
 
+/* Determine whether a slice has a solution - adapter for direct slices
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type direct_has_solution(slice_index si);
+
 /* Determine and write continuations after the defense just played.
  * We know that there is at least 1 continuation to the defense.
  * Only continuations of minimal length are looked for and written.
@@ -110,7 +116,7 @@ boolean direct_solve(slice_index si);
  * @param si slice index
  * @return true iff >=1 solution was found and written
  */
-stip_length_type direct_root_solve_in_n(slice_index si);
+boolean direct_root_solve_in_n(slice_index si);
 
 /* Solve a slice at root level
  * @param si slice index

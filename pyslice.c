@@ -403,6 +403,7 @@ boolean slice_root_solve(slice_index si)
     case STDirectDefense:
     case STSelfDefense:
     case STDirectHashed:
+    case STMaxThreatLength:
       result = direct_root_solve(si);
       break;
 
@@ -593,7 +594,8 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STDirectRoot:
     case STBranchDirect:
-      result = branch_d_has_solution(si);
+    case STDirectHashed:
+      result = direct_has_solution(si);
       break;
 
     case STHelpRoot:
@@ -618,10 +620,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STSelfCheckGuard:
       result = selfcheck_guard_has_solution(si);
-      break;
-
-    case STDirectHashed:
-      result = direct_hashed_has_solution(si);
       break;
 
     default:

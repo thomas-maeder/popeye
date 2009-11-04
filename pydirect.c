@@ -227,6 +227,12 @@ stip_length_type direct_has_solution_in_n(slice_index si,
       result = degenerate_tree_direct_has_solution_in_n(si,n,n_min);
       break;
 
+    case STLeafDirect:
+      assert(n==slack_length_direct+1);
+      if (leaf_d_has_solution(si)==has_solution)
+        result = n;
+      break;
+
     default:
       assert(0);
       break;
@@ -234,6 +240,37 @@ stip_length_type direct_has_solution_in_n(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type direct_has_solution(slice_index si)
+{
+  has_solution_type result = has_no_solution;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type n_min;
+  stip_length_type const parity = length%2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (length+min_length>slack_length_direct+length)
+    n_min = length-(length-min_length);
+  else
+    n_min = slack_length_direct-parity;
+
+  result = (direct_has_solution_in_n(si,length,n_min)<=length
+            ? has_solution
+            : has_no_solution);
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -475,9 +512,9 @@ boolean direct_solve(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found and written
  */
-stip_length_type direct_root_solve_in_n(slice_index si)
+boolean direct_root_solve_in_n(slice_index si)
 {
-  stip_length_type result;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -512,6 +549,10 @@ stip_length_type direct_root_solve_in_n(slice_index si)
 
     case STDirectHashed:
       result = direct_root_solve(slices[si].u.pipe.next);
+      break;
+
+    case STMaxThreatLength:
+      result = maxthreatlength_guard_root_solve(si);
       break;
 
     default:
