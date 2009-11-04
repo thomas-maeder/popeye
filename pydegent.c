@@ -118,7 +118,6 @@ void degenerate_tree_direct_solve_continuations_in_n(slice_index si,
                                                      stip_length_type n,
                                                      stip_length_type n_min)
 {
-  stip_length_type const parity = n%2;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -127,19 +126,10 @@ void degenerate_tree_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n>max_length_short_solutions+parity)
-  {
-    if (max_length_short_solutions>=slack_length_direct+2)
-    {
-      stip_length_type const n_interm = max_length_short_solutions-2+parity;
-      if (direct_solve_in_n(next,n_interm,n_min)>n_interm)
-        direct_solve_continuations_in_n(next,n,n);
-    }
-    else
-      direct_solve_continuations_in_n(next,n,n);
-  }
-  else
-    direct_solve_continuations_in_n(next,n,n_min);
+  /* don't increase n_min, or we may write continuations of
+   * full length even in the presence of a short continuation
+   */
+  direct_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
