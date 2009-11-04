@@ -29,6 +29,12 @@ stip_length_type get_max_threat_length(void);
  */
 void stip_insert_maxthreatlength_guards(void);
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found and written
+ */
+boolean maxthreatlength_guard_root_solve(slice_index si);
+
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index

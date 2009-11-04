@@ -1309,3 +1309,55 @@ semi-r#2 with short solution; White needn't deliver mate immediately
 solution finished. 
 
 
+
+  #3.5 with restricted threat length
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -K   .   .   .   8
+|                                   |
+7   .  -P  -P   .   .  -P  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -B   .   B   .  -P   B   .   R   5
+|                                   |
+4  -R   .   .   .   .   .   .   .   4
+|                                   |
+3  -P  -P   .   .   .   .   S   .   3
+|                                   |
+2   .   .   .   .   K   .   .   .   2
+|                                   |
+1   R   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4/1                       6 + 10
+
+threat:
+          2.Rh5-h8 # 
+      1...Ra4-h4 
+          2.Rh5*h4 threat:
+                  3.Rh4-h8 # 
+              2...f7-f6 
+                  3.Rh4-h8 + 
+                      3...Ke8-f7 
+                          4.Rh8-f8 # 
+                  3.Bf5-e6 threat:
+                          4.Rh4-h8 # 
+      1...Ra4-e4 + 
+          2.Sg3*e4 threat:
+                  3.Rh5-h8 # 
+              2...f7-f6 
+                  3.Rh5-h8 + 
+                      3...Ke8-f7 
+                          4.Rh8-f8 # 
+                  3.Bf5-e6 threat:
+                          4.Rh5-h8 # 
+      1...f7-f6 
+          2.Rh5-h8 + 
+              2...Ke8-f7 
+                  3.Rh8-f8 # 
+
+solution finished. 
+
+

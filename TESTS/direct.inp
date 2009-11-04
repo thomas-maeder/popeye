@@ -308,4 +308,12 @@ pieces white ka1 bg7
 stip semi-r#2
 option vari
 
+next
+
+title #3.5 with restricted threat length
+stipulation #4
+option postkey variation try threat 1
+pieces white ke2 ra1h5 bc5f5 sg3
+       black ke8 ra4 ba5 pa3b3b7c7e5f7g7
+
 end

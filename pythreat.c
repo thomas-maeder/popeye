@@ -133,6 +133,31 @@ static void init_maxthreatlength_guard_slice(slice_index si,
 /* **************** Implementation of interface DirectDefender **********
  */
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found and written
+ */
+boolean maxthreatlength_guard_root_solve(slice_index si)
+{
+  boolean result;
+  stip_length_type const max_threat_length = slices[si].u.pipe.u.maxthreatlength_guard.length;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (is_threat_too_long(si,max_threat_length))
+    result = false;
+  else
+    result = direct_root_solve_in_n(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
