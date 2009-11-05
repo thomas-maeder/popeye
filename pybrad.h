@@ -64,12 +64,6 @@ stip_length_type branch_d_has_solution_in_n(slice_index si,
                                             stip_length_type n,
                                             stip_length_type n_min);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type branch_d_has_solution(slice_index si);
-
 /* Determine and write continuations after the defense just played.
  * We know that there is at least 1 continuation to the defense.
  * Only continuations of minimal length are looked for and written.

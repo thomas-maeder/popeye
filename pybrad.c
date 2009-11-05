@@ -433,35 +433,6 @@ stip_length_type branch_d_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type branch_d_has_solution(slice_index si)
-{
-  has_solution_type result;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type n_min;
-  stip_length_type const parity = length%2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length+min_length>slack_length_direct+length)
-    n_min = length-(length-min_length);
-  else
-    n_min = slack_length_direct-parity;
-
-  result = branch_d_has_solution_in_n(si,length,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index

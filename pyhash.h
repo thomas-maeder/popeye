@@ -71,12 +71,6 @@ void DecHashRateLevel(void);
  */
 void insert_directhashed_slice(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type direct_hashed_has_solution(slice_index si);
-
 /* Determine and write continuations after the defense just played.
  * We know that there is at least 1 continuation to the defense.
  * Only continuations of minimal length are looked for and written.
