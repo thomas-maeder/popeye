@@ -293,6 +293,8 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
   slice_index const next = slices[si].u.pipe.next;
   unsigned int const nr_refutations_allowed = 0;
   boolean result = true;
+  unsigned int nr_successful_threats = 0;
+  boolean defense_found = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
@@ -303,38 +305,32 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
 
   assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
-  if (table_length(threats)>0)
+  active_slice[nbply+1] = si;
+  genmove(attacker);
+
+  while (encore() && !defense_found)
   {
-    unsigned int nr_successful_threats = 0;
-    boolean defense_found = false;
-
-    active_slice[nbply+1] = si;
-    genmove(attacker);
-
-    while (encore() && !defense_found)
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && is_current_move_in_table(threats))
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && is_current_move_in_table(threats))
-      {
-        if (direct_defender_can_defend_in_n(next,
-                                            len_threat-1,
-                                            nr_refutations_allowed)
-            >nr_refutations_allowed)
-          defense_found = true;
-        else
-          ++nr_successful_threats;
-      }
-
-      repcoup();
+      if (direct_defender_can_defend_in_n(next,
+                                          len_threat-1,
+                                          nr_refutations_allowed)
+          >nr_refutations_allowed)
+        defense_found = true;
+      else
+        ++nr_successful_threats;
     }
 
-    finply();
-
-    /* this happens if >=1 threat no longer works or some threats can
-     * no longer be played after the defense.
-     */
-    result = nr_successful_threats<table_length(threats);
+    repcoup();
   }
+
+  finply();
+
+  /* this happens if >=1 threat no longer works or some threats can
+   * no longer be played after the defense.
+   */
+  result = nr_successful_threats<table_length(threats);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
