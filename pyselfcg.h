@@ -66,12 +66,6 @@ has_solution_type selfcheck_guard_has_solution(slice_index si);
  */
 boolean selfcheck_guard_are_threats_refuted(table threats, slice_index si);
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void selfcheck_guard_solve_threats(table threats, slice_index si);
-
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index

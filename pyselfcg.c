@@ -648,22 +648,6 @@ boolean selfcheck_guard_are_threats_refuted(table threats, slice_index si)
   return result;
 }
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void selfcheck_guard_solve_threats(table threats, slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_solve_threats(threats,slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* **************** Stipulation instrumentation ***************
  */

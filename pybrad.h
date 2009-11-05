@@ -111,12 +111,6 @@ boolean branch_d_is_goal_reached(Side just_moved, slice_index si);
  */
 boolean branch_d_has_non_starter_solved(slice_index si);
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void branch_d_solve_threats(table threats, slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal

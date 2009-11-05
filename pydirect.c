@@ -395,6 +395,11 @@ stip_length_type direct_solve_threats_in_n(table threats,
       result = degenerate_tree_direct_solve_threats_in_n(threats,si,n,n_min);
       break;
 
+    case STLeafDirect:
+      assert(n==slack_length_direct+1);
+      leaf_d_solve_threats(threats,si);
+      break;
+
     default:
       assert(0);
       break;
@@ -405,6 +410,27 @@ stip_length_type direct_solve_threats_in_n(table threats,
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
+ */
+void direct_solve_threats(table threats, slice_index si)
+{
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const parity = (length-slack_length_direct)%2;
+  stip_length_type const n_min = slack_length_direct+2-parity;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  direct_solve_threats_in_n(threats,si,length,n_min);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 
 /* Solve a slice
  * @param si slice index

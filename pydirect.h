@@ -93,6 +93,12 @@ stip_length_type direct_solve_threats_in_n(table threats,
                                            stip_length_type n,
                                            stip_length_type n_min);
 
+/* Determine and write threats of a slice
+ * @param threats table where to store threats
+ * @param si index of branch slice
+ */
+void direct_solve_threats(table threats, slice_index si);
+
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal

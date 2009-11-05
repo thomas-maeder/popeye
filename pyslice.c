@@ -78,12 +78,16 @@ void slice_solve_threats(table threats, slice_index si)
       not_solve_threats(threats,si);
       break;
 
+    case STDirectRoot:
     case STBranchDirect:
-      branch_d_solve_threats(threats,si);
-      break;
-
+    case STDirectDefense:
+    case STSelfDefense:
+    case STSelfCheckGuard:
+    case STReflexGuard:
+    case STKeepMatingGuard:
+    case STDegenerateTree:
     case STDirectHashed:
-      slice_solve_threats(threats,slices[si].u.pipe.next);
+      direct_solve_threats(threats,si);
       break;
 
     case STHelpAdapter:
@@ -92,10 +96,6 @@ void slice_solve_threats(table threats, slice_index si)
 
     case STSeriesAdapter:
       series_adapter_solve_threats(threats,si);
-      break;
-
-    case STSelfCheckGuard:
-      selfcheck_guard_solve_threats(threats,si);
       break;
 
     default:
@@ -594,6 +594,11 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STDirectRoot:
     case STBranchDirect:
+    case STDirectDefense:
+    case STSelfDefense:
+    case STReflexGuard:
+    case STKeepMatingGuard:
+    case STDegenerateTree:
     case STDirectHashed:
       result = direct_has_solution(si);
       break;
