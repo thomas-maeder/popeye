@@ -2310,6 +2310,7 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type len_threat_min;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
@@ -2317,7 +2318,11 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+  len_threat_min = adjust_n_min(si,len_threat,len_threat);
+  if (len_threat_min<=len_threat)
+    result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
