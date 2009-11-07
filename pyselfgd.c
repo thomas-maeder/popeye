@@ -243,12 +243,14 @@ stip_length_type self_defense_direct_solve_threats_in_n(table threats,
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attempted key move at non-root level.
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
+ * @return true iff the defender can defend
  */
-attack_result_type self_attack_defend_in_n(slice_index si, stip_length_type n)
+boolean self_attack_defend_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
@@ -265,17 +267,17 @@ attack_result_type self_attack_defend_in_n(slice_index si, stip_length_type n)
 
   if (n<=n_max_for_goal && !slice_does_defender_win(to_goal))
   {
-    result = attack_has_solved_next_branch;
+    result = false;
     write_attack(attack_regular);
     slice_solve_postkey(to_goal);
   }
   else if (next!=no_slice)
     result = direct_defender_defend_in_n(next,n);
   else
-    result = attack_has_reached_deadend;
+    result = true;
   
   TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

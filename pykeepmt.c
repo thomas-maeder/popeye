@@ -208,17 +208,18 @@ attack_result_type keepmating_guard_root_defend(table refutations,
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attempted key move at non-root level.
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
+ * @return true iff the defender can defend
  */
-attack_result_type keepmating_guard_defend_in_n(slice_index si,
-                                                stip_length_type n)
+boolean keepmating_guard_defend_in_n(slice_index si, stip_length_type n)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
-  attack_result_type result;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -229,10 +230,10 @@ attack_result_type keepmating_guard_defend_in_n(slice_index si,
   if (is_a_mating_piece_left(mating))
     result = direct_defender_defend_in_n(next,n);
   else
-    result = attack_has_reached_deadend;
+    result = true;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

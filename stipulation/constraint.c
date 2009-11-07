@@ -259,45 +259,34 @@ attack_result_type reflex_guard_root_defend(table refutations, slice_index si)
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attempted key move at non-root level.
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
+ * @return true iff the defender can defend
  */
-attack_result_type reflex_guard_defend_in_n(slice_index si,
-                                            stip_length_type n)
+boolean reflex_guard_defend_in_n(slice_index si, stip_length_type n)
 {
-  attack_result_type result = attack_has_reached_deadend;
+  boolean result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const
-      min_length = slices[si].u.pipe.u.reflex_guard.min_length;
-  stip_length_type const max_n_for_avoided = (length-min_length
-                                              +slack_length_direct);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n<=max_n_for_avoided)
-    switch (slice_has_solution(avoided))
+  if (n==slack_length_direct)
+  {
+    if (slice_has_solution(avoided)==has_solution)
     {
-      case has_solution:
-        result = attack_has_solved_next_branch;
-        slice_solve_postkey(avoided);
-        break;
-
-      case has_no_solution:
-        if (n>slack_length_direct)
-          result = direct_defender_defend_in_n(next,n);
-        break;
-
-      default:
-        assert(0);
-        break;
+      result = false;
+      slice_solve_postkey(avoided);
     }
+    else
+      result = true;
+  }
   else
     result = direct_defender_defend_in_n(next,n);
 

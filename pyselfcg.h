@@ -145,12 +145,13 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
                                           stip_length_type n_min);
 
 /* Try to defend after an attempted key move at non-root level
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
+ * @return true iff the defender can defend
  */
-attack_result_type selfcheck_guard_defend_in_n(slice_index si,
-                                               stip_length_type n);
+boolean selfcheck_guard_defend_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level

@@ -51,12 +51,12 @@ attack_result_type max_nr_nontrivial_guard_root_defend(table refutations,
                                                        slice_index si);
 
 /* Try to defend after an attempted key move at non-root level
+ * @return true iff the defender can defend
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
+ * @return true iff the defender can defend
  */
-attack_result_type max_nr_nontrivial_guard_defend_in_n(slice_index si,
-                                                       stip_length_type n);
+boolean max_nr_nontrivial_guard_defend_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level

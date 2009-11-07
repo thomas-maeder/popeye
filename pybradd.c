@@ -99,16 +99,18 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attempted key move at non-root level.
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @return success of key move
+ * @return true iff the defender can defend
  */
-attack_result_type branch_d_defender_defend_in_n(slice_index si,
-                                                 stip_length_type n)
+boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
 {
   Side const defender = slices[si].starter;
-  attack_result_type result = attack_has_reached_deadend;
+  boolean defender_is_immobile = true;
+  boolean result = false;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
@@ -135,23 +137,23 @@ attack_result_type branch_d_defender_defend_in_n(slice_index si,
   genmove(defender);
   move_generation_mode= move_generation_optimized_by_killer_move;
 
-  while (result!=attack_refuted_full_length && encore())
+  while (!result && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       stip_length_type const length_sol = direct_has_solution_in_n(next,
                                                                    n-1,
                                                                    n_min_next);
-      if (length_sol>n-1)
-      {
-        result = attack_refuted_full_length;
-        coupfort();
-      }
-      else if (length_sol>=n_min_next)
-        result = attack_solves_full_length;
+      if (length_sol<n_min_next)
+        ; /* defense is illegal, e.g. self check */
       else
       {
-        /* self check */
+        defender_is_immobile = false;
+        if (length_sol>=n)
+        {
+          result = true;
+          coupfort();
+        }
       }
     }
 
@@ -160,8 +162,11 @@ attack_result_type branch_d_defender_defend_in_n(slice_index si,
 
   finply();
 
+  if (defender_is_immobile)
+    result = true;
+  
   TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
