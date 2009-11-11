@@ -90,8 +90,9 @@ void slice_solve_threats(table threats, slice_index si)
       direct_solve_threats(threats,si);
       break;
 
-    case STHelpAdapter:
-      help_adapter_solve_threats(threats,si);
+    case STBranchHelp:
+    case STHelpHashed:
+      help_solve_threats(threats,si);
       break;
 
     case STSeriesAdapter:
@@ -323,8 +324,8 @@ boolean slice_solve(slice_index si)
       solution_found = direct_solve(si);
       break;
 
-    case STHelpAdapter:
-      solution_found = help_adapter_solve(si);
+    case STBranchHelp:
+      solution_found = help_solve(si);
       break;
 
     case STHelpHashed:
@@ -520,9 +521,8 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
       result = quodlibet_are_threats_refuted(threats,si);
       break;
 
-    case STHelpAdapter:
     case STHelpHashed:
-      result = help_adapter_are_threats_refuted(threats,si);
+      result = help_are_threats_refuted(threats,si);
       break;
 
     case STBranchHelp:
@@ -607,8 +607,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = help_root_has_solution(si);
       break;
 
-    case STHelpAdapter:
-      result = help_adapter_has_solution(si);
+    case STBranchHelp:
+      result = help_has_solution(si);
       break;
 
     case STHelpHashed:
@@ -669,8 +669,8 @@ boolean slice_solve_postkey(slice_index si)
       result = quodlibet_solve_postkey(si);
       break;
 
-    case STHelpAdapter:
-      result = help_adapter_solve_postkey(si);
+    case STBranchHelp:
+      result = help_solve_postkey(si);
       break;
 
     case STHelpHashed:
@@ -724,8 +724,9 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = branch_d_has_non_starter_solved(si);
       break;
 
-    case STHelpAdapter:
-      result = help_adapter_has_non_starter_solved(si);
+    case STBranchHelp:
+    case STHelpHashed:
+      result = help_has_non_starter_solved(si);
       break;
 
     case STSeriesAdapter:
@@ -829,8 +830,7 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STHelpRoot:
-    case STHelpAdapter:
-      result = help_adapter_is_goal_reached(just_moved,si);
+      result = help_is_goal_reached(just_moved,si);
       break;
 
     case STSeriesRoot:
@@ -885,8 +885,8 @@ void slice_write_unsolvability(slice_index si)
       slice_write_unsolvability(slices[si].u.pipe.next);
       break;
 
-    case STHelpAdapter:
-      help_adapter_write_unsolvability(si);
+    case STBranchHelp:
+      help_write_unsolvability(si);
       break;
 
     case STSeriesAdapter:
@@ -980,7 +980,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
       break;
 
     case STNot:
-    case STHelpAdapter:
     case STReflexGuard:
     case STSeriesAdapter:
     case STDirectDefense:

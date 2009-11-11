@@ -23,6 +23,13 @@ slice_index alloc_help_branch(branch_level level,
                               stip_length_type min_length,
                               slice_index next);
 
+/* Promote a slice that was created as STBranchHelp to STHelpRoot
+ * because the assumption that the slice is nested in some other slice
+ * turned out to be wrong.
+ * @param adapter identifies slice to be promoted
+ */
+void branch_h_promote_to_toplevel(slice_index adapter);
+
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?
@@ -103,65 +110,5 @@ has_solution_type help_root_has_solution(slice_index si);
  * @return true iff >=1 solution was found
  */
 boolean help_root_solve_in_n(slice_index si, stip_length_type n);
-
-
-/* Promote a slice that was created as STHelpAdapter to STHelpRoot
- * because the assumption that the slice is nested in some other slice
- * turned out to be wrong.
- * @param adapter identifies slice to be promoted
- */
-void help_adapter_promote_to_toplevel(slice_index adapter);
-
-/* Solve a branch slice at non-root level.
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean help_adapter_solve(slice_index si);
-
-/* Find and write post key play
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean help_adapter_solve_postkey(slice_index si);
-
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void help_adapter_solve_threats(table threats, slice_index si);
-
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void help_adapter_write_unsolvability(slice_index si);
-
-/* Determine whether a branch slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean help_adapter_has_non_starter_solved(slice_index si);
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean help_adapter_is_goal_reached(Side just_moved, slice_index si);
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean help_adapter_are_threats_refuted(table threats, slice_index si);
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return true iff slice si has a solution
- */
-has_solution_type help_adapter_has_solution(slice_index si);
 
 #endif

@@ -327,7 +327,6 @@ static slice_operation const maxflight_guards_inserters[] =
   &maxflight_guard_inserter, /* STDirectDefenderRoot */
   &slice_traverse_children,  /* STDirectHashed */
   &slice_traverse_children,  /* STHelpRoot */
-  &slice_traverse_children,  /* STHelpAdapter */
   &slice_traverse_children,  /* STHelpHashed */
   &slice_traverse_children,  /* STSeriesRoot */
   &slice_traverse_children,  /* STSeriesAdapter */

@@ -283,7 +283,6 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STDirectDefenderRoot */
   &slice_property_offset_shifter, /* STDirectHashed */
   &slice_property_offset_shifter, /* STHelpRoot */
-  &slice_property_offset_shifter, /* STHelpAdapter */
   &slice_property_offset_shifter, /* STHelpHashed */
   &slice_property_offset_shifter, /* STSeriesRoot */
   &slice_property_offset_shifter, /* STSeriesAdapter */
@@ -554,27 +553,20 @@ static boolean init_slice_properties_hashed_direct(slice_index si,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_hashed_help(slice_index si,
-                                                 slice_traversal *st)
+static boolean init_slice_properties_help_root(slice_index si,
+                                               slice_traversal *st)
 {
   boolean const result = true;
-  slice_initializer_state * const sis = st->param;
-  unsigned int const length = slices[si].u.pipe.u.branch.length;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* TODO This is a bit of a hack - we are hashing for a leaf -> no
-   * help adapter has adjusted the valueOffset!
-   */
-  if (slices[slices[si].u.pipe.next].type==STLeafHelp)
-    --sis->valueOffset;
-
-  init_slice_property_help(si,length-slack_length_help,sis);
-  hash_slices[nr_hash_slices++] = si;
+    
   slice_traverse_children(si,st);
-
+  traverse_slices(towards_goal,st);
+    
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -588,37 +580,50 @@ static boolean init_slice_properties_hashed_help(slice_index si,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_help_adapter(slice_index si,
-                                                  slice_traversal *st)
+static boolean init_slice_properties_hashed_help(slice_index si,
+                                                 slice_traversal *st)
 {
   boolean const result = true;
   slice_initializer_state * const sis = st->param;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+  unsigned int const length = slices[si].u.pipe.u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_properties[si].u.h.anchor = branch_find_slice(STHelpHashed,si);
-  if (slice_properties[si].u.h.anchor!=no_slice)
+  if (slices[slices[si].u.pipe.next].type==STLeafHelp)
   {
+    --sis->valueOffset;
+    init_slice_property_help(si,length-slack_length_help,sis);
+    hash_slices[nr_hash_slices++] = si;
+    slice_traverse_children(si,st);
+  }
+  else
+  {
+    slice_index const sibling = branch_find_slice(STHelpHashed,si);
+    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+    
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    unsigned int width = bit_width((length-slack_length_help+1)/2);
-    TraceValue("%u\n",width);
-    if (length-slack_length_help>1)
+    unsigned int const width = bit_width((length-slack_length_help+1)/2);
+
+    sis->valueOffset -= width;
+
+    if (sibling!=no_slice)
+    {
       /* 1 bit more because we have two slices whose values are added
        * for computing the value of this branch */
-      ++width;
-    sis->valueOffset -= width;
+      --sis->valueOffset;
+
+      init_slice_property_help(sibling,length-1-slack_length_help,sis);
+      hash_slices[nr_hash_slices++] = sibling;
+    }
+
+    init_slice_property_help(si,length-slack_length_help,sis);
+    hash_slices[nr_hash_slices++] = si;
+
+    traverse_slices(towards_goal,st);
   }
-
-  slice_properties[si].valueOffset = sis->valueOffset;
-  TraceValue("%u\n",slice_properties[si].valueOffset);
-
-  slice_traverse_children(si,st);
-
-  traverse_slices(towards_goal,st);
-
+    
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -723,8 +728,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_direct_root,    /* STDirectRoot */
   &init_slice_properties_direct_root,    /* STDirectDefenderRoot */
   &init_slice_properties_hashed_direct,  /* STDirectHashed */
-  &init_slice_properties_help_adapter,   /* STHelpRoot */
-  &init_slice_properties_help_adapter,   /* STHelpAdapter */
+  &init_slice_properties_help_root,      /* STHelpRoot */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
   &init_slice_properties_series_adapter, /* STSeriesRoot */
   &init_slice_properties_series_adapter, /* STSeriesAdapter */
@@ -1852,6 +1856,7 @@ void inithash(void)
 
   if (pyhash!=0)
   {
+    unsigned int hash_slice_iterator;
     int i, j;
 
 #if defined(__unix) && defined(TESTHASH)
@@ -1861,6 +1866,7 @@ void inithash(void)
     minimalElementValueAfterCompression = 2;
 
     init_slice_properties();
+
     template_element.Data = 0;
     init_elements(&template_element);
 

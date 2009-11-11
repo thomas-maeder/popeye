@@ -782,7 +782,6 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &selfcheck_guards_inserter_branch,        /* STHelpRoot */
-  &slice_traverse_children,                 /* STHelpAdapter */
   &slice_traverse_children,                 /* STHelpHashed */
   &selfcheck_guards_inserter_branch,        /* STSeriesRoot */
   &slice_traverse_children,                 /* STSeriesAdapter */
@@ -886,7 +885,6 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STDirectDefenderRoot */
   0,                                             /* STDirectHashed */
   &selfcheck_guards_inserter_toplevel_root,      /* STHelpRoot */
-  0,                                             /* STHelpAdapter */
   0,                                             /* STHelpHashed */
   &selfcheck_guards_inserter_toplevel_root,      /* STSeriesRoot */
   0,                                             /* STSeriesAdapter */

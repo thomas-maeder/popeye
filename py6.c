@@ -507,7 +507,6 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STDirectDefenderRoot */
   &slice_traverse_children,           /* STDirectHashed */
   &root_slice_type_found,             /* STHelpRoot */
-  0,                                  /* STHelpAdapter */
   0,                                  /* STHelpHashed */
   &root_slice_type_found,             /* STSeriesRoot */
   0,                                  /* STSeriesAdapter */
@@ -2421,6 +2420,32 @@ static boolean root_slice_apply_postkeyplay(void)
 boolean insert_hash_element_branch_direct(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* First traverse childen, then insert STDirectHashed slice;
+   * otherwise the STDirectHashed will be traversed as well.
+   */
+  slice_traverse_children(si,st);
+  insert_directhashed_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean insert_hash_element_direct_defender_root(slice_index si,
+                                                 slice_traversal *st)
+{
+  boolean const result = true;
   branch_level * const level = st->param;;
   branch_level const save_level = *level;
 
@@ -2433,7 +2458,6 @@ boolean insert_hash_element_branch_direct(slice_index si, slice_traversal *st)
    */
   *level = nested_branch;
   slice_traverse_children(si,st);
-  insert_directhashed_slice(si);
   *level = save_level;
 
   TraceFunctionExit(__func__);
@@ -2495,9 +2519,10 @@ boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
-boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
+boolean insert_hash_element_help_root(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
   branch_level * const level = st->param;;
   branch_level const save_level = *level;
 
@@ -2510,8 +2535,35 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
    */
   *level = nested_branch;
   slice_traverse_children(si,st);
-  insert_helphashed_slice(si);
+  traverse_slices(towards_goal,st);
   *level = save_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
+boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* First traverse childen, then insert STHelpHashed slice;
+   * otherwise the STHelpHashed will be traversed as well.
+   */
+  slice_traverse_children(si,st);
+  insert_helphashed_slice(si);
+  traverse_slices(towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2547,11 +2599,39 @@ boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
+boolean insert_hash_element_series_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+  branch_level * const level = st->param;;
+  branch_level const save_level = *level;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* First traverse childen, then insert STHelpHashed slice;
+   * otherwise the STHelpHashed will be traversed as well.
+   */
+  *level = nested_branch;
+  slice_traverse_children(si,st);
+  traverse_slices(towards_goal,st);
+  *level = save_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ * @return result of traversing si's children
+ */
 boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
-  branch_level * const level = st->param;;
-  branch_level const save_level = *level;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2560,10 +2640,8 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
   /* First traverse childen, then insert STSeriesHashed slice;
    * otherwise the STSeriesHashed will be traversed as well.
    */
-  *level = nested_branch;
   slice_traverse_children(si,st);
   insert_serieshashed_slice(si);
-  *level = save_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2573,39 +2651,38 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 
 static slice_operation const hash_element_inserters[] =
 {
-  &insert_hash_element_branch_direct, /* STBranchDirect */
-  &slice_traverse_children,           /* STBranchDirectDefender */
-  &insert_hash_element_branch_help,   /* STBranchHelp */
-  &insert_hash_element_branch_series, /* STBranchSeries */
-  &slice_traverse_children,           /* STBranchFork */
-  &insert_hash_element_leaf_direct,   /* STLeafDirect */
-  &insert_hash_element_leaf_help,     /* STLeafHelp */
-  &slice_traverse_children,           /* STLeafForced */
-  &slice_traverse_children,           /* STReciprocal */
-  &slice_traverse_children,           /* STQuodlibet */
-  &slice_traverse_children,           /* STNot */
-  &slice_traverse_children,           /* STMoveInverter */
-  &slice_traverse_children,           /* STDirectRoot */
-  &slice_traverse_children,           /* STDirectDefenderRoot */
-  &slice_traverse_children,           /* STDirectHashed */
-  &slice_traverse_children,           /* STHelpRoot */
-  &slice_traverse_children,           /* STHelpAdapter */
-  &slice_traverse_children,           /* STHelpHashed */
-  &slice_traverse_children,           /* STSeriesRoot */
-  &slice_traverse_children,           /* STSeriesAdapter */
-  &slice_traverse_children,           /* STSeriesHashed */
-  &slice_traverse_children,           /* STSelfCheckGuard */
-  &slice_traverse_children,           /* STDirectDefense */
-  &slice_traverse_children,           /* STReflexGuard */
-  &slice_traverse_children,           /* STSelfAttack */
-  &slice_traverse_children,           /* STSelfDefense */
-  &slice_traverse_children,           /* STRestartGuard */
-  &slice_traverse_children,           /* STGoalReachableGuard */
-  &slice_traverse_children,           /* STKeepMatingGuard */
-  &slice_traverse_children,           /* STMaxFlightsquares */
-  &slice_traverse_children,           /* STDegenerateTree */
-  &slice_traverse_children,           /* STMaxNrNonTrivial */
-  &slice_traverse_children            /* STMaxThreatLength */
+  &insert_hash_element_branch_direct,        /* STBranchDirect */
+  &slice_traverse_children,                  /* STBranchDirectDefender */
+  &insert_hash_element_branch_help,          /* STBranchHelp */
+  &insert_hash_element_branch_series,        /* STBranchSeries */
+  &slice_traverse_children,                  /* STBranchFork */
+  &insert_hash_element_leaf_direct,          /* STLeafDirect */
+  &insert_hash_element_leaf_help,            /* STLeafHelp */
+  &slice_traverse_children,                  /* STLeafForced */
+  &slice_traverse_children,                  /* STReciprocal */
+  &slice_traverse_children,                  /* STQuodlibet */
+  &slice_traverse_children,                  /* STNot */
+  &slice_traverse_children,                  /* STMoveInverter */
+  &slice_traverse_children,                  /* STDirectRoot */
+  &insert_hash_element_direct_defender_root, /* STDirectDefenderRoot */
+  &slice_traverse_children,                  /* STDirectHashed */
+  &insert_hash_element_help_root,            /* STHelpRoot */
+  &slice_traverse_children,                  /* STHelpHashed */
+  &insert_hash_element_series_root,          /* STSeriesRoot */
+  &slice_traverse_children,                  /* STSeriesAdapter */
+  &slice_traverse_children,                  /* STSeriesHashed */
+  &slice_traverse_children,                  /* STSelfCheckGuard */
+  &slice_traverse_children,                  /* STDirectDefense */
+  &slice_traverse_children,                  /* STReflexGuard */
+  &slice_traverse_children,                  /* STSelfAttack */
+  &slice_traverse_children,                  /* STSelfDefense */
+  &slice_traverse_children,                  /* STRestartGuard */
+  &slice_traverse_children,                  /* STGoalReachableGuard */
+  &slice_traverse_children,                  /* STKeepMatingGuard */
+  &slice_traverse_children,                  /* STMaxFlightsquares */
+  &slice_traverse_children,                  /* STDegenerateTree */
+  &slice_traverse_children,                  /* STMaxNrNonTrivial */
+  &slice_traverse_children                   /* STMaxThreatLength */
 };
 
 static void insert_hash_slices(void)

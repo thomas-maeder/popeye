@@ -38,7 +38,6 @@
     ENUMERATOR(STDirectHashed),    /* direct play with hash table */      \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
-    ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */        \

@@ -46,7 +46,6 @@
     ENUMERATOR(STDirectHashed),    /* direct play with hash table */      \
                                                          \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
-    ENUMERATOR(STHelpAdapter),     /* help play after branch fork */    \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */        \
@@ -121,7 +120,6 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STDirectDefenderRoot */
   &mark_reachable_slice, /* STDirectHashed */
   &mark_reachable_slice, /* STHelpRoot */
-  &mark_reachable_slice, /* STHelpAdapter */
   &mark_reachable_slice, /* STHelpHashed */
   &mark_reachable_slice, /* STSeriesRoot */
   &mark_reachable_slice, /* STSeriesAdapter */
@@ -477,7 +475,6 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STDirectDefenderRoot */
   &get_max_nr_moves_other,           /* STDirectHashed */
   &get_max_nr_moves_other,           /* STHelpRoot */
-  &get_max_nr_moves_other,           /* STHelpAdapter */
   &get_max_nr_moves_other,           /* STHelpHashed */
   &get_max_nr_moves_other,           /* STSeriesRoot */
   &get_max_nr_moves_other,           /* STSeriesAdapter */
@@ -569,7 +566,6 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
-  &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSeriesRoot */
   &slice_traverse_children, /* STSeriesAdapter */
@@ -652,7 +648,6 @@ static void deep_copy_recursive(slice_index *si, copies_type *copies)
       case STBranchFork:
       case STDirectRoot:
       case STDirectDefenderRoot:
-      case STHelpAdapter:
       case STSeriesRoot:
       case STSeriesAdapter:
       case STDirectDefense:
@@ -768,7 +763,6 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STDirectDefenderRoot */
   &slice_traverse_children,   /* STDirectHashed */
   &slice_traverse_children,   /* STHelpRoot */
-  &slice_traverse_children,   /* STHelpAdapter */
   &slice_traverse_children,   /* STHelpHashed */
   &slice_traverse_children,   /* STSeriesRoot */
   &slice_traverse_children,   /* STSeriesAdapter */
@@ -917,7 +911,6 @@ static slice_operation const to_quodlibet_transformers[] =
   &transform_to_quodlibet_branch_direct_defender, /* STDirectDefenderRoot */
   0,                                              /* STDirectHashed */
   0,                                              /* STHelpRoot */
-  0,                                              /* STHelpAdapter */
   0,                                              /* STHelpHashed */
   0,                                              /* STSeriesRoot */
   &slice_traverse_children,                       /* STSeriesAdapter */
@@ -1020,7 +1013,6 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
-  &slice_traverse_children, /* STHelpAdapter */
   &slice_traverse_children, /* STHelpHashed */
   &slice_traverse_children, /* STSeriesRoot */
   &slice_traverse_children, /* STSeriesAdapter */
@@ -1100,7 +1092,6 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STDirectDefenderRoot */
   &slice_traverse_children,   /* STDirectHashed */
   &slice_traverse_children,   /* STHelpRoot */
-  &slice_traverse_children,   /* STHelpAdapter */
   &slice_traverse_children,   /* STHelpHashed */
   &slice_traverse_children,   /* STSeriesRoot */
   &slice_traverse_children,   /* STSeriesAdapter */
@@ -1173,7 +1164,6 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STDirectDefenderRoot */
   0,                        /* STDirectHashed */
   &make_exact_branch,       /* STHelpRoot */
-  &make_exact_branch,       /* STHelpAdapter */
   0,                        /* STHelpHashed */
   &make_exact_branch,       /* STSeriesRoot */
   &make_exact_branch,       /* STSeriesAdapter */
@@ -1226,7 +1216,6 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STDirectDefenderRoot */
   &pipe_impose_starter,           /* STDirectHashed */
   &pipe_impose_inverted_starter,  /* STHelpRoot */
-  &pipe_impose_starter,           /* STHelpAdapter */
   &pipe_impose_starter,           /* STHelpHashed */
   &pipe_impose_inverted_starter,  /* STSeriesRoot */
   &pipe_impose_starter,           /* STSeriesAdapter */
@@ -1483,7 +1472,6 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STDirectDefenderRoot */
   &traverse_pipe,         /* STDirectHashed */
   &traverse_pipe,         /* STHelpRoot */
-  &traverse_pipe,         /* STHelpAdapter */
   &traverse_pipe,         /* STHelpHashed */
   &traverse_pipe,         /* STSeriesRoot */
   &traverse_pipe,         /* STSeriesAdapter */

@@ -917,7 +917,6 @@ static slice_operation const reflex_guards_inserters[] =
   &reflex_guards_inserter_branch,      /* STDirectDefenderRoot */
   0,                                   /* STDirectHashed */
   &reflex_guards_inserter_branch,      /* STHelpRoot */
-  &slice_traverse_children,            /* STHelpAdapter */
   0,                                   /* STHelpHashed */
   &reflex_guards_inserter_series,      /* STSeriesRoot */
   &slice_traverse_children,            /* STSeriesAdapter */
@@ -1016,7 +1015,6 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &reflex_guards_inserter_branch,      /* STDirectDefenderRoot */
   0,                                   /* STDirectHashed */
   &slice_traverse_children,            /* STHelpRoot */
-  &slice_traverse_children,            /* STHelpAdapter */
   0,                                   /* STHelpHashed */
   &slice_traverse_children,            /* STSeriesRoot */
   &slice_traverse_children,            /* STSeriesAdapter */

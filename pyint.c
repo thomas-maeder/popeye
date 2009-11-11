@@ -2665,8 +2665,8 @@ static boolean init_moves_left_leaf_help(slice_index si,
  * @return true iff the number of moves left have been successfully
  *         initialised for si and its children
  */
-static boolean init_moves_left_help_adapter(slice_index si,
-                                            slice_traversal *st)
+static boolean init_moves_left_branch_help(slice_index si,
+                                           slice_traversal *st)
 {
   boolean result;
   stip_length_type const n = slices[si].u.pipe.u.branch.length;
@@ -2752,7 +2752,7 @@ static slice_operation const moves_left_initialisers[] =
 {
   0,                                /* STBranchDirect */
   0,                                /* STBranchDirectDefender */
-  0,                                /* STBranchHelp */
+  &init_moves_left_branch_help,     /* STBranchHelp */
   0,                                /* STBranchSeries */
   &init_moves_left_branch_fork,     /* STBranchFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
@@ -2766,7 +2766,6 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
   0,                                /* STHelpRoot */
-  &init_moves_left_help_adapter,    /* STHelpAdapter */
   &slice_traverse_children,         /* STHelpHashed */
   0,                                /* STSeriesRoot */
   &init_moves_left_series_adapter,  /* STSeriesAdapter */
@@ -3094,7 +3093,6 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                     /* STDirectDefenderRoot */
   &slice_traverse_children,              /* STDirectHashed */
   &goalreachable_guards_inserter_branch, /* STHelpRoot */
-  &slice_traverse_children,              /* STHelpAdapter */
   &slice_traverse_children,              /* STHelpHashed */
   &goalreachable_guards_inserter_branch, /* STSeriesRoot */
   &slice_traverse_children,              /* STSeriesAdapter */
@@ -3306,7 +3304,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
 {
   &intelligent_mode_support_none,                /* STBranchDirect */
   0,                                             /* STBranchDirectDefender */
-  0,                                             /* STBranchHelp */
+  &intelligent_mode_support_detector_branch_h,   /* STBranchHelp */
   0,                                             /* STBranchSeries */
   &slice_traverse_children,                      /* STBranchFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
@@ -3320,7 +3318,6 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STDirectDefenderRoot */
   &intelligent_mode_support_none,                /* STDirectHashed */
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
-  &intelligent_mode_support_detector_branch_h,   /* STHelpAdapter */
   &slice_traverse_children,                      /* STHelpHashed */
   &intelligent_mode_support_detector_branch_ser, /* STSeriesRoot */
   &intelligent_mode_support_detector_branch_ser, /* STSeriesAdapter */
