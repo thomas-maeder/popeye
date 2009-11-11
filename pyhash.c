@@ -643,6 +643,7 @@ static boolean init_slice_properties_hashed_series(slice_index si,
   boolean const result = true;
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -650,7 +651,9 @@ static boolean init_slice_properties_hashed_series(slice_index si,
 
   init_slice_property_series(si,length-slack_length_series,sis);
   hash_slices[nr_hash_slices++] = si;
+
   slice_traverse_children(si,st);
+  traverse_slices(towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -665,8 +668,8 @@ static boolean init_slice_properties_hashed_series(slice_index si,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_series_adapter(slice_index si,
-                                                    slice_traversal *st)
+static boolean init_slice_properties_series_root(slice_index si,
+                                                 slice_traversal *st)
 {
   boolean const result = true;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -730,8 +733,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_hashed_direct,  /* STDirectHashed */
   &init_slice_properties_help_root,      /* STHelpRoot */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
-  &init_slice_properties_series_adapter, /* STSeriesRoot */
-  &init_slice_properties_series_adapter, /* STSeriesAdapter */
+  &init_slice_properties_series_root,    /* STSeriesRoot */
+  &slice_traverse_children,              /* STSeriesAdapter */
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
   &init_slice_properties_pipe,           /* STSelfCheckGuard */
   &slice_traverse_children,              /* STDirectDefense */
@@ -1856,7 +1859,6 @@ void inithash(void)
 
   if (pyhash!=0)
   {
-    unsigned int hash_slice_iterator;
     int i, j;
 
 #if defined(__unix) && defined(TESTHASH)
