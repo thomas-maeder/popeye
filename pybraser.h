@@ -101,7 +101,7 @@ has_solution_type series_root_has_solution(slice_index si);
  */
 boolean series_root_solve_in_n(slice_index si, stip_length_type n);
 
-/* Promote a slice that was created as STHelpAdapter to STHelpRoot
+/* Promote a slice that was created as STSeriesAdapter to STSeriesRoot
  * because the assumption that the slice is nested in some other slice
  * turned out to be wrong.
  * @param adapter identifies slice to be promoted
