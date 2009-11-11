@@ -1,6 +1,8 @@
 #include "pyslice.h"
 #include "pydata.h"
 #include "trace.h"
+#include "pyhelp.h"
+#include "pyseries.h"
 #include "pyleaf.h"
 #include "pyleafd.h"
 #include "pyleaff.h"
@@ -95,8 +97,9 @@ void slice_solve_threats(table threats, slice_index si)
       help_solve_threats(threats,si);
       break;
 
-    case STSeriesAdapter:
-      series_adapter_solve_threats(threats,si);
+    case STBranchSeries:
+    case STSeriesHashed:
+      series_solve_threats(threats,si);
       break;
 
     default:
@@ -332,8 +335,9 @@ boolean slice_solve(slice_index si)
       solution_found = hashed_help_solve(si);
       break;
 
-    case STSeriesAdapter:
-      solution_found = series_adapter_solve(si);
+    case STBranchSeries:
+    case STSeriesHashed:
+      solution_found = series_solve(si);
       break;
 
     case STReciprocal:
@@ -529,13 +533,9 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
       result = branch_h_are_threats_refuted(threats,si);
       break;
 
-    case STSeriesAdapter:
-    case STSeriesHashed:
-      result = series_adapter_are_threats_refuted(threats,si);
-      break;
-
     case STBranchSeries:
-      result = branch_ser_are_threats_refuted(threats,si);
+    case STSeriesHashed:
+      result = series_are_threats_refuted(threats,si);
       break;
 
     case STSelfCheckGuard:
@@ -615,9 +615,9 @@ has_solution_type slice_has_solution(slice_index si)
       result = slice_has_solution(slices[si].u.pipe.next);
       break;
 
-    case STSeriesAdapter:
-      result = series_adapter_has_solution(si);
-      break;
+    case STBranchSeries:
+    case STSeriesHashed:
+      result = series_has_solution(si);
 
     case STBranchFork:
       result = branch_fork_has_solution(si);
@@ -677,8 +677,9 @@ boolean slice_solve_postkey(slice_index si)
       result = slice_solve_postkey(slices[si].u.pipe.next);
       break;
 
-    case STSeriesAdapter:
-      result = series_adapter_solve_postkey(si);
+    case STBranchSeries:
+    case STSeriesHashed:
+      result = series_solve_postkey(si);
       break;
 
     case STReciprocal:
@@ -729,8 +730,9 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = help_has_non_starter_solved(si);
       break;
 
-    case STSeriesAdapter:
-      result = series_adapter_has_non_starter_solved(si);
+    case STBranchSeries:
+    case STSeriesHashed:
+      result = series_has_non_starter_solved(si);
       break;
 
     case STQuodlibet:
@@ -834,8 +836,9 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
       break;
 
     case STSeriesRoot:
-    case STSeriesAdapter:
-      result = series_adapter_is_goal_reached(just_moved,si);
+    case STBranchSeries:
+    case STSeriesHashed:
+      result = series_is_goal_reached(just_moved,si);
       break;
 
     case STBranchHelp:
@@ -889,8 +892,9 @@ void slice_write_unsolvability(slice_index si)
       help_write_unsolvability(si);
       break;
 
-    case STSeriesAdapter:
-      series_adapter_write_unsolvability(si);
+    case STBranchSeries:
+    case STSeriesHashed:
+      series_write_unsolvability(si);
       break;
 
     case STQuodlibet:
@@ -981,7 +985,6 @@ who_decides_on_starter slice_detect_starter(slice_index si,
 
     case STNot:
     case STReflexGuard:
-    case STSeriesAdapter:
     case STDirectDefense:
     case STSelfDefense:
     case STSelfAttack:

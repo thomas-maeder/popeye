@@ -938,10 +938,11 @@ pypipe.h:
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h \
-  pydata.h pyproc.h py4.h trace.h pyleaf.h pyleafd.h pydirect.h pyleaff.h \
-  pyleafh.h pybrad.h pybradd.h pybrah.h pybraser.h pybrafrk.h pyquodli.h \
-  pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
-  pyhelp.h pydirctg.h pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h
+  pydata.h pyproc.h py4.h trace.h pyhelp.h pyseries.h pyleaf.h pyleafd.h \
+  pydirect.h pyleaff.h pyleafh.h pybrad.h pybradd.h pybrah.h pybraser.h \
+  pybrafrk.h pyquodli.h pyrecipr.h pynot.h pymovein.h pyhash.h \
+  DHT/dhtbcmem.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h pykeepmt.h \
+  pypipe.h
 
 pyslice.h:
 
@@ -974,6 +975,10 @@ pyproc.h:
 py4.h:
 
 trace.h:
+
+pyhelp.h:
+
+pyseries.h:
 
 pyleaf.h:
 
@@ -1008,8 +1013,6 @@ pyhash.h:
 DHT/dhtbcmem.h:
 
 pyreflxg.h:
-
-pyhelp.h:
 
 pydirctg.h:
 
@@ -1151,9 +1154,9 @@ py4.h:
 trace.h:
 pyseries$(OBJ_SUFFIX): pyseries.c pyseries.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h \
-  pybraser.h pyslice.h pybrafrk.h pydirect.h pyhash.h DHT/dhtbcmem.h \
+  pyslice.h pybraser.h pybrafrk.h pydirect.h pyhash.h DHT/dhtbcmem.h \
   pyreflxg.h pyhelp.h pykeepmt.h pyselfcg.h pymovenb.h pypipe.h pyint.h \
-  trace.h
+  pydata.h pyproc.h py4.h trace.h
 
 pyseries.h:
 
@@ -1179,9 +1182,9 @@ pygoal.h:
 
 pytable.h:
 
-pybraser.h:
-
 pyslice.h:
+
+pybraser.h:
 
 pybrafrk.h:
 
@@ -1204,6 +1207,12 @@ pymovenb.h:
 pypipe.h:
 
 pyint.h:
+
+pydata.h:
+
+pyproc.h:
+
+py4.h:
 
 trace.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
@@ -2288,15 +2297,11 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2313,6 +2318,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

@@ -439,7 +439,6 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpHashed */
   &slice_traverse_children,                 /* STSeriesRoot */
-  &slice_traverse_children,                 /* STSeriesAdapter */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_traverse_children,                 /* STSelfCheckGuard */
   &slice_traverse_children,                 /* STDirectDefense */

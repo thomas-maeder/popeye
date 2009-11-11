@@ -2768,7 +2768,6 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STHelpRoot */
   &slice_traverse_children,         /* STHelpHashed */
   0,                                /* STSeriesRoot */
-  &slice_traverse_children,         /* STSeriesAdapter */
   &slice_traverse_children,         /* STSeriesHashed */
   &slice_traverse_children,         /* STSelfCheckGuard */
   0,                                /* STDirectDefense */
@@ -3095,7 +3094,6 @@ static slice_operation const goalreachable_guards_inserters[] =
   &goalreachable_guards_inserter_branch, /* STHelpRoot */
   &slice_traverse_children,              /* STHelpHashed */
   &goalreachable_guards_inserter_branch, /* STSeriesRoot */
-  &slice_traverse_children,              /* STSeriesAdapter */
   &slice_traverse_children,              /* STSeriesHashed */
   &slice_traverse_children,              /* STSelfCheckGuard */
   0,                                     /* STDirectDefense */
@@ -3305,7 +3303,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STBranchDirect */
   0,                                             /* STBranchDirectDefender */
   &intelligent_mode_support_detector_branch_h,   /* STBranchHelp */
-  0,                                             /* STBranchSeries */
+  &intelligent_mode_support_detector_branch_ser, /* STBranchSeries */
   &slice_traverse_children,                      /* STBranchFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,       /* STLeafHelp */
@@ -3320,7 +3318,6 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &slice_traverse_children,                      /* STHelpHashed */
   &intelligent_mode_support_detector_branch_ser, /* STSeriesRoot */
-  &intelligent_mode_support_detector_branch_ser, /* STSeriesAdapter */
   &slice_traverse_children,                      /* STSeriesHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STDirectDefense */

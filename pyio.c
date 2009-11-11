@@ -2079,8 +2079,8 @@ static boolean to_toplevel_promoters_branch_help(slice_index si,
 /* Promote a slice to toplevel that was initialised under the wrong
  * assumption that it is nested in some other slice
  */
-static boolean to_toplevel_promoters_series_adapter(slice_index si,
-                                                    slice_traversal *st)
+static boolean to_toplevel_promoters_branch_series(slice_index si,
+                                                   slice_traversal *st)
 {
   boolean const result = true;
 
@@ -2088,7 +2088,7 @@ static boolean to_toplevel_promoters_series_adapter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  series_adapter_promote_to_toplevel(si);
+  branch_ser_promote_to_toplevel(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2101,7 +2101,7 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STBranchDirect */
   0,                                     /* STBranchDirectDefender */
   &to_toplevel_promoters_branch_help,    /* STBranchHelp */
-  0,                                     /* STBranchSeries */
+  &to_toplevel_promoters_branch_series,  /* STBranchSeries */
   &slice_traverse_children,              /* STBranchFork */
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
@@ -2116,7 +2116,6 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STHelpRoot */
   0,                                     /* STHelpHashed */
   0,                                     /* STSeriesRoot */
-  &to_toplevel_promoters_series_adapter, /* STSeriesAdapter */
   0,                                     /* STSeriesHashed */
   0,                                     /* STSelfCheckGuard */
   0,                                     /* STDirectDefense */

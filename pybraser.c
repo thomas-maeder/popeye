@@ -48,6 +48,26 @@ static slice_index alloc_branch_ser_slice(stip_length_type length,
   return result;
 }
 
+/* Promote a slice that was created as STBranchSeries to STSeriesRoot
+ * because the assumption that the slice is nested in some other slice
+ * turned out to be wrong.
+ * @param branch identifies slice to be promoted
+ */
+void branch_ser_promote_to_toplevel(slice_index branch)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  assert(slices[branch].u.pipe.u.help_root.length-slack_length_series==1);
+  assert(slices[branch].type==STBranchSeries);
+
+  slices[branch].type = STSeriesRoot;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?
@@ -273,280 +293,6 @@ boolean branch_ser_has_solution_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/** series adapter *****************************************************/
-
-/* Allocate a STSeriesAdapter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @return index of allocated slice
- */
-static slice_index alloc_series_adapter_slice(stip_length_type length,
-                                              stip_length_type min_length,
-                                              slice_index next,
-                                              slice_index towards_goal)
-{
-  slice_index const result = alloc_slice_index();
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
-  TraceFunctionParamListEnd();
-
-  slices[result].type = STSeriesAdapter; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.help_root.length = length;
-  slices[result].u.pipe.u.help_root.min_length = min_length;
-  slices[result].u.pipe.u.help_root.towards_goal = towards_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Promote a slice that was created as STSeriesAdapter to STSeriesRoot
- * because the assumption that the slice is nested in some other slice
- * turned out to be wrong.
- * @param adapter identifies slice to be promoted
- */
-void series_adapter_promote_to_toplevel(slice_index adapter)
-{
-  slice_index const branch = slices[adapter].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParamListEnd();
-
-  assert(slices[adapter].type==STSeriesAdapter);
-  assert(slices[adapter].u.pipe.u.help_root.length-slack_length_series==1);
-  assert(slices[branch].type==STBranchSeries);
-
-  slices[adapter].type = STSeriesRoot;
-  slices[adapter].u.pipe.next = slices[branch].u.pipe.next;
-  dealloc_slice_index(branch);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Solve a branch slice at non-root level.
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean series_adapter_solve(slice_index si)
-{
-  boolean result = false;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
-  stip_length_type len = slices[si].u.pipe.u.help_root.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>slack_length_series);
-
-  if (len==slack_length_series)
-  {
-    if (slice_solve(slices[si].u.pipe.u.help_root.towards_goal))
-    {
-      result = true;
-      FlagShortSolsReached = true;
-    }
-    else
-      ++len;
-  }
-  
-  while (len<full_length && !result)
-  {
-    if (series_solve_in_n(next,len))
-    {
-      result = true;
-      FlagShortSolsReached = true;
-    }
-
-    ++len;
-  }
-
-  result = result || series_solve_in_n(next,full_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean series_adapter_solve_postkey(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[si].u.pipe.u.help_root.length==slack_length_series+1);
-  result = slice_solve_postkey(slices[si].u.pipe.u.help_root.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void series_adapter_solve_threats(table threats, slice_index si)
-{
-  boolean solution_found = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
-  stip_length_type len = slices[si].u.pipe.u.help_root.min_length;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>=slack_length_series);
-
-  while (len<full_length && !solution_found)
-  {
-    series_solve_threats_in_n(threats,next,len);
-    if (table_length(threats)>0)
-      solution_found = true;
-
-    ++len;
-  }
-
-  if (!solution_found)
-    series_solve_threats_in_n(threats,next,full_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void series_adapter_write_unsolvability(slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_write_unsolvability(to_goal);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine whether a branch slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean series_adapter_has_non_starter_solved(slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_non_starter_solved(to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean series_adapter_is_goal_reached(Side just_moved, slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_is_goal_reached(just_moved,to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean series_adapter_are_threats_refuted(table threats, slice_index si)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_are_threats_refuted(threats,next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type series_adapter_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
-  stip_length_type len = slices[si].u.pipe.u.help_root.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>=slack_length_series);
-
-  while (len<=full_length && result==has_no_solution)
-  {
-    result = series_has_solution_in_n(slices[si].u.pipe.next,len);
-    ++len;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -873,7 +619,6 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
 {
   slice_index result;
   slice_index fork;
-  slice_index branch;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -884,11 +629,10 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
   assert(length>slack_length_series);
 
   fork = alloc_branch_fork_slice(length-1,min_length-1,no_slice,towards_goal);
-  branch = alloc_branch_ser_slice(length,min_length,fork,towards_goal);
-  result = alloc_series_adapter_slice(length,min_length,branch,towards_goal);
+  result = alloc_branch_ser_slice(length,min_length,fork,towards_goal);
 
   if (length-slack_length_series>1)
-    slices[fork].u.pipe.next = alloc_move_inverter_slice(branch);
+    slices[fork].u.pipe.next = alloc_move_inverter_slice(result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

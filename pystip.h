@@ -41,7 +41,6 @@
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */        \
-    ENUMERATOR(STSeriesAdapter),   /* series play after branch fork */    \
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */      \
                                                                         \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
