@@ -170,7 +170,7 @@ boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st)
  */
 boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
 {
-  boolean const result = false;
+  boolean const result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
@@ -181,7 +181,7 @@ boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return true;
+  return result;
 }
 
 /* Determine whether a slice has a solution
@@ -190,7 +190,7 @@ boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
  */
 has_solution_type pipe_has_solution(slice_index si)
 {
-  has_solution_type result = false;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -211,7 +211,7 @@ has_solution_type pipe_has_solution(slice_index si)
  */
 boolean pipe_series_solve_in_n(slice_index si, stip_length_type n)
 {
-  boolean result = false;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
