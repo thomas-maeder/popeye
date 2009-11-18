@@ -154,12 +154,6 @@ void insert_helphashed_slice(slice_index si);
  */
 boolean hashed_help_root_solve(slice_index si);
 
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean hashed_help_solve(slice_index si);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

@@ -328,11 +328,8 @@ boolean slice_solve(slice_index si)
       break;
 
     case STBranchHelp:
-      solution_found = help_solve(si);
-      break;
-
     case STHelpHashed:
-      solution_found = hashed_help_solve(si);
+      solution_found = help_solve(si);
       break;
 
     case STBranchSeries:

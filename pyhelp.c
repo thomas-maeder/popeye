@@ -42,6 +42,11 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = hashed_help_solve_in_n(si,n);
       break;
 
+    case STLeafHelp:
+      assert(n==slack_length_help+1);
+      result = leaf_h_solve(si);
+      break;
+
     case STReflexGuard:
       result = reflex_guard_help_solve_in_n(si,n);
       break;
