@@ -2515,6 +2515,38 @@ static void addtohash_help(slice_index si, stip_length_type n)
 #endif /*HASHRATE*/
 }
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean hashed_help_root_solve(slice_index si)
+{
+  boolean result;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>slack_length_help);
+
+  if (inhash_help(si,n))
+    result = false;
+  else if (help_root_solve(slices[si].u.pipe.next))
+    result = true;
+  else
+  {
+    result = false;
+    addtohash_help(si,n);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

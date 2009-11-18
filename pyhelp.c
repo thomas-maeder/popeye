@@ -101,7 +101,7 @@ boolean help_root_solve(slice_index si)
       break;
 
     case STHelpHashed:
-      result = help_root_solve(slices[si].u.pipe.next);
+      result = hashed_help_root_solve(si);
       break;
 
     default:
