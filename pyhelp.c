@@ -1,5 +1,6 @@
 #include "pyhelp.h"
 #include "pybrah.h"
+#include "pyleafh.h"
 #include "pybrafrk.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
@@ -63,6 +64,49 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     default:
       assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean help_root_solve(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafHelp:
+      result = leaf_h_root_solve(si);
+      break;
+
+    case STHelpRoot:
+      result = help_root_root_solve(si);
+      break;
+
+    case STBranchHelp:
+      result = help_solve(si);
+      break;
+
+    case STHelpHashed:
+      result = help_root_solve(slices[si].u.pipe.next);
+      break;
+
+    default:
+      assert(0);
+      result = false;
       break;
   }
 

@@ -382,10 +382,6 @@ boolean slice_root_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafHelp:
-      result = leaf_h_root_solve(si);
-      break;
-
     case STLeafForced:
       result = leaf_forced_root_solve(si);
       break;
@@ -412,11 +408,10 @@ boolean slice_root_solve(slice_index si)
       result = direct_root_solve(si);
       break;
 
-    case STHelpHashed:
-      result = slice_root_solve(slices[si].u.pipe.next);
-      break;
-
     case STHelpRoot:
+    case STBranchHelp:
+    case STHelpHashed:
+    case STLeafHelp:
       result = help_root_solve(si);
       break;
 

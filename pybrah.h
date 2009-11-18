@@ -96,7 +96,7 @@ slice_index help_root_make_setplay_slice(slice_index si);
  *         new root slice index (may be equal to old one) otherwise
  * @return true iff >=1 solution was found
  */
-boolean help_root_solve(slice_index si);
+boolean help_root_root_solve(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index

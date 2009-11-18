@@ -1095,9 +1095,9 @@ pyint.h:
 trace.h:
 pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h pyslice.h \
-  pybrah.h pybrafrk.h pydirect.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
-  pykeepmt.h pyselfcg.h pymovenb.h pyint.h pydata.h pyproc.h py4.h \
-  trace.h
+  pybrah.h pyleafh.h pydirect.h pybrafrk.h pyhash.h DHT/dhtbcmem.h \
+  pyreflxg.h pykeepmt.h pyselfcg.h pymovenb.h pyint.h pydata.h pyproc.h \
+  py4.h trace.h
 
 pyhelp.h:
 
@@ -1127,9 +1127,11 @@ pyslice.h:
 
 pybrah.h:
 
-pybrafrk.h:
+pyleafh.h:
 
 pydirect.h:
+
+pybrafrk.h:
 
 pyhash.h:
 

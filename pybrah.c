@@ -561,7 +561,7 @@ boolean help_root_solve_in_n(slice_index root, stip_length_type n)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean help_root_solve(slice_index root)
+boolean help_root_root_solve(slice_index root)
 {
   boolean result = false;
   slice_index const short_sols = slices[root].u.pipe.u.help_root.short_sols;

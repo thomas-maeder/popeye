@@ -10,6 +10,12 @@
 #include "pytable.h"
 #include "pyslice.h"
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean help_root_solve(slice_index si);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
