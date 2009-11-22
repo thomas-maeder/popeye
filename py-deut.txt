@@ -78,7 +78,7 @@ Kommandozeilenparameter:
 	Beschleunigung des Loesungsprozesses zur Verfuegung stellen.
 
 -maxtime
-	Angabe der maximalen Anzahl Sekunden, welche Popeye für die
+	Angabe der maximalen Anzahl Sekunden, welche Popeye fuer die
 	Loesung jedes Problems verwendet. Dieser Parameter ist
 	gleichbedeutend mit der Option maxzeit, welche innerhalb der
 	Problemdefinition verwendet werden kann (siehe unten).
@@ -372,7 +372,7 @@ Kommandos:
 		DiagonalVerschieben:	a1
 	Orthogonal gefolgt von einer Liste von Linien (links von jeder
 	vertikalen Gitterlinie) und Reihen (unterhalb jeder
-	horizontalen Gitterlinie) ohne Zwischenräumen.
+	horizontalen Gitterlinie) ohne Zwischenraeumen.
 	Unregelmaessig gefolgt von einer durch Leerzeichen getrennten
 	Liste von Feldergruppen, welche die Gitterzellen bilden. N.B. Die
 	groesste Gitterzelle kann weggelassen werden, weil aus den nicht
@@ -581,11 +581,11 @@ Kommandos:
 	"Forderung" angeben lassen, aber darueberhinaus viele mehr.
 
 	Eine mit SForderung angegebene Forderung ist wie ein Baum
-	aufgebaut: das Spiel beginnt an der Wurzel, geht über Aeste,
+	aufgebaut: das Spiel beginnt an der Wurzel, geht ueber Aeste,
 	welche sich gabeln koennen, und endet in einem oder mehreren
 	Blaettern.
 
-	Nach dem Schlüsselwort SForderung wird an der Wurzel die Seite
+	Nach dem Schluesselwort SForderung wird an der Wurzel die Seite
 	angegeben, welche am Zug ist, dann die Aeste und Blaetter in
 	der weiter unten beschriebenen Sprache.
 
@@ -782,7 +782,7 @@ Kommandos:
 	angeben lassen, aber darueberhinaus viele mehr.
 
 	Eine mit SForderung angegebene Forderung ist wie ein Baum aufgebaut:
-	das Spiel beginnt an der Wurzel, geht über Aeste, welche sich gabeln
+	das Spiel beginnt an der Wurzel, geht ueber Aeste, welche sich gabeln
 	koennen und endet in einem oder mehreren Blaettern.
 
 	Nach dem Schluesselwort SForderung wird zuerst die Seite angegeben,
