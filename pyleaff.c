@@ -94,7 +94,6 @@ static boolean is_end_in_1_forced(Side defender, slice_index leaf)
   {
     move_generation_mode = move_generation_optimized_by_killer_move;
     genmove(defender);
-    move_generation_mode = move_generation_optimized_by_killer_move;
 
     while (!escape_found
            && encore())
@@ -211,7 +210,6 @@ unsigned int leaf_forced_count_refutations(slice_index leaf,
   {
     move_generation_mode = move_generation_optimized_by_killer_move;
     genmove(defender);
-    move_generation_mode = move_generation_optimized_by_killer_move;
 
     while (result<=max_result && encore())
     {
@@ -514,123 +512,41 @@ leaf_forced_root_find_refutations(table refutations,
 
   TraceValue("%u\n",slices[leaf].u.leaf.goal);
 
-  if (defender==Black ? flagblackmummer : flagwhitemummer)
+  move_generation_mode = move_generation_optimized_by_killer_move;
+  genmove(defender);
+
+  while (table_length(refutations)<=max_nr_refutations
+         && encore())
   {
-    move_generation_mode = move_generation_optimized_by_killer_move;
-    genmove(defender);
-    move_generation_mode = move_generation_optimized_by_killer_move;
-    while (table_length(refutations)<=max_nr_refutations
-           && encore())
-    {
-      if (jouecoup(nbply,first_play))
-        switch (leaf_is_goal_reached(defender,leaf))
-        {
-          case goal_reached:
-            if (result==attacker_has_reached_deadend)
-              result = found_no_refutation;
-            break;
-
-          case goal_not_reached:
-            if (!echecc(nbply,defender))
-            {
-              append_to_top_table();
-              coupfort();
-              result = found_refutations;
-            }
-            break;
-
-          case goal_not_reached_selfcheck:
-            /* nothing */
-            break;
-
-          default:
-            assert(0);
-        }
-
-      repcoup();
-    }
-    finply();
-  }
-  else if (slices[leaf].u.leaf.goal==goal_ep
-           && ep[nbply]==initsquare
-           && ep2[nbply]==initsquare)
-  {
-    /* a little optimization if end "state" is en passant capture,
-     * but no en passant capture is possible */
-    /* TODO Should we play the same trick for castling? Other end
-     * states? */
-  }
-  else
-  {
-    piece p;
-    square const *selfbnp = boardnum;
-    square initiallygenerated = initsquare;
-    Side const attacker = advers(defender);
-
-    active_slice[nbply+1] = leaf;
-    nextply(nbply);
-    init_move_generation_optimizer();
-    trait[nbply]= defender;
-    if (TSTFLAG(PieSpExFlags,Neutral))
-      initneutre(attacker);
-
-    p = e[current_killer_state.move.departure];
-    if (p!=vide)
-    {
-      if (TSTFLAG(spec[current_killer_state.move.departure], Neutral))
-        p = -p;
-      if (defender==White)
+    if (jouecoup(nbply,first_play))
+      switch (leaf_is_goal_reached(defender,leaf))
       {
-        if (p>obs)
-        {
-          initiallygenerated = current_killer_state.move.departure;
-          gen_wh_piece(initiallygenerated,p);
-        }
+        case goal_reached:
+          if (result==attacker_has_reached_deadend)
+            result = found_no_refutation;
+          break;
+
+        case goal_not_reached:
+          if (!echecc(nbply,defender))
+          {
+            append_to_top_table();
+            coupfort();
+            result = found_refutations;
+          }
+          break;
+
+        case goal_not_reached_selfcheck:
+          /* nothing */
+          break;
+
+        default:
+          assert(0);
       }
-      else
-      {
-        if (p<-obs)
-        {
-          initiallygenerated = current_killer_state.move.departure;
-          gen_bl_piece(initiallygenerated,p);
-        }
-      }
-    }
-    finish_move_generation_optimizer();
 
-    while (table_length(refutations)<=max_nr_refutations
-           && selflastencore(&selfbnp,initiallygenerated,defender))
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-        switch (leaf_is_goal_reached(defender,leaf))
-        {
-          case goal_reached:
-            if (result==attacker_has_reached_deadend)
-              result = found_no_refutation;
-            break;
-
-          case goal_not_reached:
-            if (!echecc(nbply,defender))
-            {
-              append_to_top_table();
-              coupfort();
-              result = found_refutations;
-            }
-            break;
-
-          case goal_not_reached_selfcheck:
-            /* nothing */
-            break;
-
-          default:
-            assert(0);
-        }
-
-      repcoup();
-    }
-
-    finply();
+    repcoup();
   }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(quantity_of_refutations_type,result,"");
