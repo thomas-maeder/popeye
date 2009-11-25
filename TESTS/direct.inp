@@ -129,6 +129,14 @@ option vari try
 
 next
 
+title s##!1
+pieces white ka7 qa5
+       black kc8 rb8 dud7d8
+stipulation s##!1
+option vari
+
+next
+
 title s#1.5
 pieces white ka1 qd1
        black ka3 pa2b4
