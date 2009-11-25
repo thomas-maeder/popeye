@@ -371,4 +371,13 @@ Stipulation ser-h=10
 Condition circe immun
 option maxsol 10
 
+next
+
+title issue 2843251: there is no threat because
+title White would have to deliver mate after the key
+pieces white kc1 rd1 pb2
+       black kh6 pb3d2g5g6g7
+stipulation r#2
+option vari
+
 end
