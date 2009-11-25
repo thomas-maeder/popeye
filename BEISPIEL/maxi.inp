@@ -108,20 +108,34 @@ steine  weiss   ke5 sc6 bb4e7
 option          varianten
                 ohnedrohung
 
-weiter
-auto T.Linss
-quel f-107
-ford s#7
-stei weis ke7 td4
-stei schw kb8 th6
-bedi laengst
-opti vari duplex
-weiter
-auto T.Linss
-quel f-107
-ford s#7
-stei weis ke7 td4
-stei schw kb8 th6
-bedi laengst
-opti vari halbduplex
+weiteresproblem
+
+autor T.Linss
+quelle f-107
+forderung s#7
+steine weiss ke7 td4
+       schwarz kb8 th6
+bedingung laengstzueger
+option varianten duplex
+
+weiteresproblem
+
+autor T.Linss
+quelle f-107
+forderung s#7
+steine weiss ke7 td4
+       schwarz kb8 th6
+bedingung laengstzueger
+option varianten halbduplex
+
+weiteresproblem
+
+autor Peter Harris
+quelle F2676 The Problemist Vol 21 No 12 (Nov 2008)
+forderung h#6.5
+steine weiss ta1
+       schwarz kh8 tg8 ba7d2g6g7
+bedingung weisserlaengstzueger ultra
+option ohnewk
+
 endeproblem
