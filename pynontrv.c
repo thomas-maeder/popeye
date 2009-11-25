@@ -109,9 +109,31 @@ static unsigned int count_nontrivial_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = direct_defender_can_defend_in_n(next,
-                                           min_length_nontrivial+parity,
-                                           nr_refutations_allowed);
+  if (min_length_nontrivial+parity==slack_length_direct)
+  {
+    /* TODO can this be moved between leaf and goal? */
+    /* special case: just check for non-selfchecking moves
+     */
+    Side const attacker = slices[si].starter; 
+
+    result = 0;
+
+    genmove(attacker);
+
+    while (encore() && result<=nr_refutations_allowed)
+    {
+      if (jouecoup(nbply,first_play) && !echecc(nbply,attacker))
+        ++result;
+
+      repcoup();
+    }
+
+    finply();
+  }
+  else
+    result = direct_defender_can_defend_in_n(next,
+                                             min_length_nontrivial+parity,
+                                             nr_refutations_allowed);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -158,7 +180,6 @@ attack_result_type max_nr_nontrivial_guard_root_defend(table refutations,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
 
   if (n>min_length_nontrivial)
   {
