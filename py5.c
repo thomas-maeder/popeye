@@ -1942,7 +1942,7 @@ static void circecage_advance_cage_prom(ply ply_id,
 {
   Side const moving_side = trait[ply_id];
   Side const prisoner_side = advers(moving_side);
-  piece const save_prom = e[super[ply_id]];
+  piece const save_prom = e[cage];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_id);
