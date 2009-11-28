@@ -1439,3 +1439,45 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
 solving interrupted. 
 
 
+
+issue 2843251: there is no threat because
+White would have to deliver mate after the key
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .   .  -P  -K   6
+|                                   |
+5   .   .   .   .   .   .  -P   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   P   .  -P   .   .   .   .   2
+|                                   |
+1   .   .   K   R   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#2                         3 + 6
+
+  1.Kc1-b1 ! zugzwang.
+      1...g5-g4 
+          2.Rd1-e1 
+              2...d2*e1=Q # 
+              2...d2*e1=R # 
+      1...Kh6-h7 
+          2.Rd1-e1 
+              2...d2*e1=Q # 
+              2...d2*e1=R # 
+      1...Kh6-h5 
+          2.Rd1-e1 
+              2...d2*e1=Q # 
+              2...d2*e1=R # 
+
+solution finished. 
+
+
