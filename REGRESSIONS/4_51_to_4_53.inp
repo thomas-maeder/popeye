@@ -380,4 +380,12 @@ pieces white kc1 rd1 pb2
 stipulation r#2
 option vari
 
+next
+
+title issue 2903930: countermate used to only work in help play
+pieces white qa5 ka7
+       black kc8 rb8 dud7d8
+stipulation s##!1
+option vari
+
 end
