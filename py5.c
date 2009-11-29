@@ -1980,12 +1980,12 @@ static void circecage_advance_cage_prom(ply ply_id,
 
 static void circecage_advance_cage(ply ply_id,
                                    piece pi_captured,
-                                   square currcage,
                                    square *nextcage,
                                    piece *circecage_next_cage_prom)
 {
   Side const moving_side = trait[ply_id];
   Side const prisoner_side = advers(moving_side);
+  square const currcage = *nextcage;
   piece const prisoner = e[currcage];
 
   TraceFunctionEntry(__func__);
@@ -2049,13 +2049,13 @@ static void circecage_advance_cage(ply ply_id,
 
 static void circecage_advance_norm_prom(ply ply_id,
                                         square sq_arrival, piece pi_captured,
-                                        square currcage,
                                         square *nextcage,
                                         piece *circecage_next_cage_prom,
                                         piece *circecage_next_norm_prom)
 {
   Side const moving_side = trait[ply_id];
   piece const save_prom = e[sq_arrival];
+  square const currcage = *nextcage;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_id);
@@ -2080,7 +2080,6 @@ static void circecage_advance_norm_prom(ply ply_id,
                        : -*circecage_next_norm_prom);
       circecage_advance_cage(nbply,
                              pi_captured,
-                             currcage,
                              nextcage,
                              circecage_next_cage_prom);
       break;
@@ -2112,17 +2111,17 @@ static void circecage_find_initial_cage(ply ply_id,
   TracePiece(*circecage_next_norm_prom);
   TraceFunctionParamListEnd();
 
+  *nextcage = superbas;
+  
   if (is_pawn(pi_departing) && PromSq(trait[ply_id],sq_arrival))
     circecage_advance_norm_prom(ply_id,
                                 sq_arrival,pi_captured,
-                                superbas,
                                 nextcage,
                                 circecage_next_cage_prom,
                                 circecage_next_norm_prom);
   else
     circecage_advance_cage(ply_id,
                            pi_captured,
-                           superbas,
                            nextcage,
                            circecage_next_cage_prom);
 
@@ -3810,7 +3809,6 @@ void repcoup(void)
     piece circecage_next_norm_prom = norm_prom[nbply];
     piece circecage_next_cage_prom = cir_prom[nbply];
     square nextcage = super[nbply];
-    square const prevcage = nextcage;
 
     if (circecage_next_cage_prom!=vide)
       circecage_advance_cage_prom(nbply,nextcage,&circecage_next_cage_prom);
@@ -3819,7 +3817,6 @@ void repcoup(void)
     {
       circecage_advance_cage(nbply,
                              pi_captured,
-                             nextcage,
                              &nextcage,
                              &circecage_next_cage_prom);
 
@@ -3829,7 +3826,6 @@ void repcoup(void)
         if (circecage_next_norm_prom!=vide)
           circecage_advance_norm_prom(nbply,
                                       sq_arrival,pi_captured,
-                                      prevcage,
                                       &nextcage,
                                       &circecage_next_cage_prom,
                                       &circecage_next_norm_prom);
