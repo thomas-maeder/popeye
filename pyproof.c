@@ -373,14 +373,6 @@ void ProofInitialiseIntelligent(stip_length_type length)
     /* blank short castling impossible */
     CLRFLAGMASK(castling_flag[0],rh8_cancastle);
 
-  if (!TSTFLAGMASK(castling_flag[0],ra1_cancastle|rh1_cancastle))
-    /* no wh rook can castle, so the wh king cannot either */
-    CLRFLAGMASK(castling_flag[0],ke1_cancastle);
-
-  if (!TSTFLAGMASK(castling_flag[0],ra8_cancastle|rh8_cancastle))
-    /* no blank rook can castle, so the blank king cannot either */
-    CLRFLAGMASK(castling_flag[0],ke8_cancastle);
-
   castling_flag[2] = castling_flag[1] = castling_flag[0];
 
   /* initialise king diff_move arrays */

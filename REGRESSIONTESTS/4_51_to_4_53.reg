@@ -1511,3 +1511,60 @@ issue 2903930: countermate used to only work in help play
 solution finished. 
 
 
+
+issue 2886962: 4.51 didn't allow a reborn rook
+  to castle in proof games and a=>b
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .  -R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   R   K   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1.0                     2 + 2
+                Circe
+Initial (Black ->):
+
+issue 2886962: 4.51 didn't allow a reborn rook
+  to castle in proof games and a=>b
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K  -R   R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1.0                     2 + 2
+                Circe
+
+  1.Rb8*c8 [+wRh1] 0-0 a=>b 
+
+solution finished. 
+
+

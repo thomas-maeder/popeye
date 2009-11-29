@@ -388,4 +388,13 @@ pieces white qa5 ka7
 stipulation s##!1
 option vari
 
+next
+
+title issue 2886962: 4.51 didn't allow a reborn rook
+title to castle in proof games and a=>b
+forsyth krR5/8/8/8/8/8/8/4K3
+cond Circe
+stip A=>B 1.0
+forsyth k1r5/8/8/8/8/8/8/5RK1
+
 end
