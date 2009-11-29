@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.89 2009/11/02 17:34:44 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.90 2009/11/29 16:33:38 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -295,14 +295,14 @@ STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
 		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
-		readme.txt history.txt license.txt *.mod
+		readme.txt license.txt *.mod
 EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
 DEVELOP =       makefile.unx DHT/makefile.unx coding.txt
 TOOLCHAINS =    toolchains/*/make.incl toolchains/*/README*
 SCRIPTS =       scripts/*.sh
 DFILES  =       $(INCLUDES) $(CFILES) $(DEVELOP) $(DOCFILES)  \
 		$(MSGFILES) $(TOOLCHAINS) $(SCRIPTS)
-MINIFILES  =    py*.[ch] py*.msg py*.txt history.txt readme.txt makefile.unx
+MINIFILES  =    py*.[ch] py*.msg py*.txt readme.txt makefile.unx
 
 
 
