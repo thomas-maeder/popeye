@@ -1983,8 +1983,6 @@ static void circecage_advance_cage(ply ply_id,
 {
   Side const moving_side = trait[ply_id];
   Side const prisoner_side = advers(moving_side);
-  square const currcage = *nextcage;
-  piece const prisoner = e[currcage];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_id);
@@ -1994,13 +1992,6 @@ static void circecage_advance_cage(ply ply_id,
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",prisoner_side);
-
-  /* this is called when the captured piece (or what's it promoted to)
-   * still occupies the previous cage. Prevent it from contributing to
-   * (or disturbing) the next cage.
-   */
-  if (prisoner!=obs)
-    e[currcage] = vide;
 
   while (true)
   {
@@ -2038,8 +2029,6 @@ static void circecage_advance_cage(ply ply_id,
     }
   }
 
-  e[currcage] = prisoner;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -2062,27 +2051,20 @@ static void circecage_advance_norm_prom(ply ply_id,
   TracePiece(*circecage_next_norm_prom);
   TraceFunctionParamListEnd();
 
-  while (true)
-  {
-    *circecage_next_norm_prom = getprompiece[*circecage_next_norm_prom];
-    TracePiece(*circecage_next_norm_prom);TraceText("\n");
-    if (*circecage_next_norm_prom==vide)
-      break;
-    else
-    {
-      e[sq_arrival] = (moving_side==White
-                       ? *circecage_next_norm_prom
-                       : -*circecage_next_norm_prom);
-      circecage_advance_cage(nbply,
-                             pi_captured,
-                             nextcage,
-                             circecage_next_cage_prom);
-      break;
-    }
-  }
-  
+  *circecage_next_norm_prom = getprompiece[*circecage_next_norm_prom];
   TracePiece(*circecage_next_norm_prom);TraceText("\n");
 
+  if (*circecage_next_norm_prom!=vide)
+  {
+    e[sq_arrival] = (moving_side==White
+                     ? *circecage_next_norm_prom
+                     : -*circecage_next_norm_prom);
+    circecage_advance_cage(nbply,
+                           pi_captured,
+                           nextcage,
+                           circecage_next_cage_prom);
+  }
+  
   e[sq_arrival] = save_prom;
 
   TraceFunctionExit(__func__);
@@ -3872,6 +3854,12 @@ void repcoup(void)
     
     if (circecage_next_cage_prom==vide)
     {
+      /* prevent current prisoner from disturbing the search for the
+       * next cage
+       */
+      piece const currprisoner = e[currcage];
+      e[currcage] = vide;
+
       circecage_advance_cage(nbply,
                              pi_captured,
                              &nextcage,
@@ -3879,11 +3867,6 @@ void repcoup(void)
 
       if (nextcage>square_h8)
       {
-        /* prevent current prisoner from disturbing the search for
-         * cages after different promotions of the capturing pawn.
-         */
-        piece const currprisoner = e[currcage];
-        e[currcage] = vide;
         nextcage = superbas;
         if (circecage_next_norm_prom!=vide)
           circecage_advance_norm_prom(nbply,
@@ -3891,8 +3874,9 @@ void repcoup(void)
                                       &nextcage,
                                       &circecage_next_cage_prom,
                                       &circecage_next_norm_prom);
-        e[currcage] = currprisoner;
       }
+
+      e[currcage] = currprisoner;
     }
 
     super[nbply] = nextcage;
