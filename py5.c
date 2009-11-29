@@ -2129,6 +2129,67 @@ static void circecage_find_initial_cage(ply ply_id,
   TraceFunctionResultEnd();
 }
 
+static boolean are_we_doing_rencage = false;
+
+square rencage(ply ply_id,
+               piece p_captured, Flags p_captured_spec,
+               square sq_capture,
+               square sq_departure, square sq_arrival,
+               Side capturer)
+{
+  square result;
+  piece nextcageprom = vide;
+  piece nextnormprom = vide;
+  piece const pi_departing = e[sq_departure];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply_id);
+  TracePiece(p_captured);
+  TraceSquare(sq_capture);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",are_we_doing_rencage);
+  TracePiece(e[sq_departure]);
+  TracePiece(e[sq_capture]);
+  TracePiece(e[sq_arrival]);
+  TraceText("\n");
+
+  if (are_we_doing_rencage)
+    /* We are generating moves for finding a non-capturing move by
+     * p_captured from sq_departure.
+     * If rencage() is invoked in that process, the move currently
+     * attempted is a capture (i.e. we are not interested in it);
+     * let's filter it out by returning a rebirth square that is
+     * guaranteed to be occupied.
+     */
+    result = superbas;
+  else
+  {
+    are_we_doing_rencage = true;
+
+    e[sq_departure] = vide;
+    e[sq_capture] = vide;
+    e[sq_arrival] = pi_departing;
+
+    circecage_find_initial_cage(ply_id,
+                                pi_departing,sq_capture,p_captured,
+                                &result,&nextcageprom,&nextnormprom);
+
+    e[sq_arrival] = vide;
+    e[sq_capture] = p_captured;
+    e[sq_departure] = pi_departing;
+
+    are_we_doing_rencage = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean jouecoup(ply ply_id, joue_type jt)
 {
   square sq_rebirth = initsquare;

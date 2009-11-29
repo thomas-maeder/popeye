@@ -780,7 +780,8 @@ typedef enum
   hauntedchess,           /* 175 */
   provacateurs,           /* 176 */
   circecage,              /* 177 */
-  CondCount               /* 178 */
+  immuncage,              /* 178 */
+  CondCount               /* 179 */
 } Cond;
 
 /* Some remarks to the conditions:

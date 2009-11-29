@@ -1176,7 +1176,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*174*/ "EchecsGhost",
     /*175*/ "EchecsHantes",
     /*176*/ "EchecsProvacateurs",
-    /*177*/ "CirceCage"
+    /*177*/ "CirceCage",
+    /*178*/ "ImmunCage"
 	},{
 	/* German Condition Names */
 	/* 0*/  "RexInklusive",
@@ -1356,7 +1357,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*174*/ "Geisterschach",
     /*175*/ "Spukschach",
     /*176*/ "ProvokationSchach",
-    /*177*/ "KaefigCirce"
+    /*177*/ "KaefigCirce",
+    /*178*/ "KaefigImmunSchach"
   },{
 	/* English Condition Names */
 	/* 0*/  "RexInclusiv",
@@ -1536,7 +1538,8 @@ EXTERN boolean          flag_libre_on_generate;
     /*174*/ "GhostChess",
     /*175*/ "HauntedChess",
     /*176*/ "ProvocationChess",
-    /*177*/ "CageCirce"
+    /*177*/ "CageCirce",
+    /*178*/ "CageImmunChess"
     }
     };
 #endif
