@@ -1905,8 +1905,6 @@ static boolean find_non_capturing_move(ply ply_id,
   active_slice[nbply+1] = active_slice[ply_id];
   nextply(nbply);
 
-  trait[nbply] = moving_side;
-  
   TraceValue("%d",(int)e[sq_departure]);
   TraceValue("%u\n",nbcou);
   if (moving_side==White)
