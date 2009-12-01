@@ -16,8 +16,6 @@ its entirety - including all the files listed below.
 	py-deut.txt:    German version of this file
 	py-fran.txt:    French version of this file
 	license.txt:    Popeye License.
-	history.txt:    The developers describe here which bugs have been
-			fixed and what's new in POPEYE.
 	readme.txt:     Short hints for those who want to recompile popeye
 	pydos32.exe:    Executable file for MS-DOS (32 Bit, 80386)
 	pywin32.exe:    Executable file for MS-Windows-NT/-2000/-XP
@@ -203,6 +201,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	SymmetryImmunChess
 	AntipodeanImmunChess
 	EquipollentsImmunChess
+	CageImmunChess
 	ReversalEinsteinChess
 	SuperCirce
 	RelegationChess
@@ -397,7 +396,11 @@ commands expect further parameters. Lets start with the simpler commands:
 	as one of the pieces in the list (not as king). If no piece
 	type is given, the checked king (additionally) moves as
 	equihopper.
-		
+	
+	After the MustCapture, Maximummer and Minimummer conditions,
+	the keyword "Ultra" indicates that the respective Ultra
+	condition is intended.
+	
 
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
@@ -1058,8 +1061,5 @@ VMS:
 
 
 Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
-january 2008
 
-If you have any suggestions, any errors you know of, etc., you are
-welcome to contact us. See history.txt for contact information.
  

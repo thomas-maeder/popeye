@@ -17,8 +17,6 @@ dans la liste suivante doivent etre inclus.
 	py-deut.txt:    Version allemande de ce fichier
 	py-engl.txt:    Version anglaise de ce fichier
 	license.txt:    Licence de Popeye.
-	history.txt:    Un ancien readme - plus tout a fait a jour, mais
-			peut-etre interessant pour quelqu'un
 	readme.txt:     Remarques courtes pour ceux qui desirent compiler
 			Popeye eux-memes
 	pydos32.exe:    Fichier executable pour MS-DOS (32 Bit, 80386)
@@ -196,6 +194,7 @@ simples:
 	ImmunSymmetrique
 	ImmunAntipoden
 	ImmunEquipollents
+	ImmunCage
 	ReversEchecsEinstein
 	SuperCirce
 	Degradierung
@@ -394,6 +393,10 @@ simples:
 	(mais pas comme roi). Si aucun type de piece n'est indique,
 	les VaultingKings en echec bougent comme (des rois et) des
 	equihoppers.
+	
+	Les conditions PriseForce, Maximum et Minimum peuvent etre
+	suivies par le mot-cle "Ultra" pour indiquer qu'il s'agit de
+	la condition ultra respective.
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
@@ -1065,10 +1068,4 @@ VMS:
 
 
 Thomas Maeder, Stephen Emmerson, Norbert Geissler, Torsten Linss, Elmar Bartel
-janvier 2008
 
-Si quelqu'un veut nous envoyer des propositions, des communications
-d'erreurs etc., il trouvera des informations de contact dans le
-fichier history.txt
-
-(Traduction : Thomas Maeder)
