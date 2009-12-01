@@ -55,7 +55,7 @@ ARCHIVE_INDEXER = i686-apple-darwin9-ranlib
 # ================
 
 # Select warning level
-WARN=-W -Wall -pedantic -Wno-unused-parameter
+WARN=-W -Wall -pedantic -Wno-unused-parameter -Wdeclaration-after-statement
 
 # Select whether to produce an executable with debugging and profiling
 # info
