@@ -2445,7 +2445,7 @@ boolean insert_hash_element_direct_defender_root(slice_index si,
                                                  slice_traversal *st)
 {
   boolean const result = true;
-  branch_level * const level = st->param;;
+  branch_level * const level = st->param;
   branch_level const save_level = *level;
 
   TraceFunctionEntry(__func__);
@@ -2522,7 +2522,7 @@ boolean insert_hash_element_help_root(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-  branch_level * const level = st->param;;
+  branch_level * const level = st->param;
   branch_level const save_level = *level;
 
   TraceFunctionEntry(__func__);
@@ -2602,7 +2602,7 @@ boolean insert_hash_element_series_root(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-  branch_level * const level = st->param;;
+  branch_level * const level = st->param;
   branch_level const save_level = *level;
 
   TraceFunctionEntry(__func__);

@@ -118,7 +118,7 @@ static boolean output_mode_series_root(slice_index si, slice_traversal *st)
 static boolean output_mode_fork(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
-  output_mode * const mode = st->param;;
+  output_mode * const mode = st->param;
   output_mode mode1;
   output_mode mode2;
 

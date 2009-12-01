@@ -809,12 +809,13 @@ static boolean selfcheck_guards_inserter_toplevel_leaf(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
+  slice_index new_leaf;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_index const new_leaf = copy_slice(si);
+  new_leaf = copy_slice(si);
   slices[si].type = STSelfCheckGuard;
   slices[si].starter = slices[new_leaf].starter;
   slices[si].u.pipe.next = new_leaf;

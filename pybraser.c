@@ -382,12 +382,15 @@ slice_index series_root_make_setplay_slice(slice_index si)
  */
 static void shorten_root_branch(slice_index root)
 {
+  slice_index fork;
+  slice_index branch;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
-  slice_index const fork = branch_find_slice(STBranchFork,root);
-  slice_index const branch = slices[fork].u.pipe.next;
+  fork = branch_find_slice(STBranchFork,root);
+  branch = slices[fork].u.pipe.next;
   assert(fork!=no_slice);
   assert(slices[branch].type==STBranchSeries);
   if (slices[root].u.pipe.u.help_root.length==slack_length_series+2)

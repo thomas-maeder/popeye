@@ -769,10 +769,9 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
       result = alloc_branch_h_slice(length,min_length,fork,towards_goal);
     else
     {
-      result = alloc_branch_h_slice(length,min_length,
-                                    fork,towards_goal);
-      slice_index const branch = alloc_branch_h_slice(length,min_length,
-                                                      result,towards_goal);
+      slice_index branch;
+      result = alloc_branch_h_slice(length,min_length,fork,towards_goal);
+      branch = alloc_branch_h_slice(length,min_length,result,towards_goal);
       shorten_help_pipe(branch);
 
       slices[fork].u.pipe.next = branch;
