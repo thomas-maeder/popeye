@@ -57,6 +57,7 @@ static Goal goal_to_be_reached;
 
 stip_length_type current_length;
 
+static boolean ProofFairy;
 
 void ProofEncode(void)
 {
@@ -298,85 +299,96 @@ void ProofInitialiseIntelligent(stip_length_type length)
     ProofNbrBlackPieces += nr_piece(target)[-i];
   }
 
-  /* determine pieces blocked */
-  BlockedBishopc1 = target.board[square_c1] == fb
-    && target.board[square_b2] == pb
-    && target.board[square_d2] == pb;
+  if (!ProofFairy)
+  {
+    /* determine pieces blocked */
+    BlockedBishopc1 = target.board[square_c1] == fb
+        && target.board[square_b2] == pb
+        && target.board[square_d2] == pb;
 
-  BlockedBishopf1 = target.board[square_f1] == fb
-    && target.board[square_e2] == pb
-    && target.board[square_g2] == pb;
+    BlockedBishopf1 = target.board[square_f1] == fb
+        && target.board[square_e2] == pb
+        && target.board[square_g2] == pb;
 
-  BlockedBishopc8 = target.board[square_c8] == fn
-    && target.board[square_b7] == pn
-    && target.board[square_d7] == pn;
+    BlockedBishopc8 = target.board[square_c8] == fn
+        && target.board[square_b7] == pn
+        && target.board[square_d7] == pn;
 
-  BlockedBishopf8 = target.board[square_f8] == fn
-    && target.board[square_e7] == pn
-    && target.board[square_g7] == pn;
+    BlockedBishopf8 = target.board[square_f8] == fn
+        && target.board[square_e7] == pn
+        && target.board[square_g7] == pn;
 
-  BlockedQueend1 = BlockedBishopc1
-    && BlockedBishopf1
-    && target.board[square_d1] == db
-    && target.board[square_c2] == pb
-    && target.board[square_f2] == pb;
+    BlockedQueend1 = BlockedBishopc1
+        && BlockedBishopf1
+        && target.board[square_d1] == db
+        && target.board[square_c2] == pb
+        && target.board[square_f2] == pb;
 
-  BlockedQueend8 = BlockedBishopc8
-    && BlockedBishopf8
-    && target.board[square_d8] == dn
-    && target.board[square_c7] == pn
-    && target.board[square_f7] == pn;
+    BlockedQueend8 = BlockedBishopc8
+        && BlockedBishopf8
+        && target.board[square_d8] == dn
+        && target.board[square_c7] == pn
+        && target.board[square_f7] == pn;
 
-  /* determine pieces captured */
-  CapturedBishopc1 = target.board[square_c1] != fb
-    && target.board[square_b2] == pb
-    && target.board[square_d2] == pb;
+    /* determine pieces captured */
+    CapturedBishopc1 = target.board[square_c1] != fb
+        && target.board[square_b2] == pb
+        && target.board[square_d2] == pb;
 
-  CapturedBishopf1 = target.board[square_f1] != fb
-    && target.board[square_e2] == pb
-    && target.board[square_g2] == pb;
+    CapturedBishopf1 = target.board[square_f1] != fb
+        && target.board[square_e2] == pb
+        && target.board[square_g2] == pb;
 
-  CapturedBishopc8 = target.board[square_c8] != fn
-    && target.board[square_b7] == pn
-    && target.board[square_d7] == pn;
+    CapturedBishopc8 = target.board[square_c8] != fn
+        && target.board[square_b7] == pn
+        && target.board[square_d7] == pn;
 
-  CapturedBishopf8 = target.board[square_f8] != fn
-    && target.board[square_e7] == pn
-    && target.board[square_g7] == pn;
+    CapturedBishopf8 = target.board[square_f8] != fn
+        && target.board[square_e7] == pn
+        && target.board[square_g7] == pn;
 
-  CapturedQueend1 = BlockedBishopc1
-    && BlockedBishopf1
-    && target.board[square_d1] != db
-    && target.board[square_c2] == pb
-    && target.board[square_f2] == pb;
+    CapturedQueend1 = BlockedBishopc1
+        && BlockedBishopf1
+        && target.board[square_d1] != db
+        && target.board[square_c2] == pb
+        && target.board[square_f2] == pb;
 
-  CapturedQueend8 = BlockedBishopc8
-    && BlockedBishopf8
-    && target.board[square_d8] != dn
-    && target.board[square_c7] == pn
-    && target.board[square_f7] == pn;
+    CapturedQueend8 = BlockedBishopc8
+        && BlockedBishopf8
+        && target.board[square_d8] != dn
+        && target.board[square_c7] == pn
+        && target.board[square_f7] == pn;
 
-  /* update castling possibilities */
-  if (BlockedBishopc1)
-    /* wh long castling impossible */
-    CLRFLAGMASK(castling_flag[0],ra1_cancastle);
+    /* update castling possibilities */
+    if (BlockedBishopc1)
+      /* wh long castling impossible */
+      CLRFLAGMASK(castling_flag[0],ra1_cancastle);
 
-  if (BlockedBishopf1)
-    /* wh short castling impossible */
-    CLRFLAGMASK(castling_flag[0],rh1_cancastle);
+    if (BlockedBishopf1)
+      /* wh short castling impossible */
+      CLRFLAGMASK(castling_flag[0],rh1_cancastle);
 
-  if (BlockedBishopc8)
-    /* blank long castling impossible */
-    CLRFLAGMASK(castling_flag[0],ra8_cancastle);
+    if (BlockedBishopc8)
+      /* blank long castling impossible */
+      CLRFLAGMASK(castling_flag[0],ra8_cancastle);
 
-  if (BlockedBishopf8)
-    /* blank short castling impossible */
-    CLRFLAGMASK(castling_flag[0],rh8_cancastle);
+    if (BlockedBishopf8)
+      /* blank short castling impossible */
+      CLRFLAGMASK(castling_flag[0],rh8_cancastle);
 
-  castling_flag[2] = castling_flag[1] = castling_flag[0];
+    if (!TSTFLAGMASK(castling_flag[0],ra1_cancastle|rh1_cancastle))
+      /* no wh rook can castle, so the wh king cannot either */
+      CLRFLAGMASK(castling_flag[0],ke1_cancastle);
 
-  /* initialise king diff_move arrays */
-  ProofInitialiseKingMoves(target.rb, target.rn);
+    if (!TSTFLAGMASK(castling_flag[0],ra8_cancastle|rh8_cancastle))
+      /* no blank rook can castle, so the blank king cannot either */
+      CLRFLAGMASK(castling_flag[0],ke8_cancastle);
+
+    castling_flag[2] = castling_flag[1] = castling_flag[0];
+
+    /* initialise king diff_move arrays */
+    ProofInitialiseKingMoves(target.rb, target.rn);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1979,6 +1991,27 @@ void ProofInitialise(void)
     goal_to_be_reached = slices[leaf_unique_goal].u.leaf.goal;
     assert(goal_to_be_reached==goal_proof || goal_to_be_reached==goal_atob);
 
+    ProofFairy = (change_moving_piece
+                  || CondFlag[black_oscillatingKs]
+                  || CondFlag[white_oscillatingKs]
+                  || CondFlag[republican]
+                  || anycirce
+                  || CondFlag[sentinelles]
+                  || anyanticirce
+                  || CondFlag[singlebox]
+                  || CondFlag[blroyalsq]
+                  || CondFlag[whroyalsq]
+                  || TSTFLAG(PieSpExFlags, ColourChange)
+                  || CondFlag[actrevolving]
+                  || CondFlag[arc]
+                  || CondFlag[annan]
+                  || CondFlag[glasgow]
+                  || CondFlag[takemake]
+                  || flagAssassin
+                  || CondFlag[messigny]
+                  || CondFlag[mars]
+                  || CondFlag[castlingchess]);
+
     /* TODO Masand can't possibly be the only condition that doesn't
      * allow any optimisation at all.
      */
@@ -1991,41 +2024,17 @@ void ProofInitialise(void)
       alternateImpossible = &NeverImpossible;
       seriesImpossible = &NeverImpossible;
     }
+    else if (ProofFairy)
+    {
+      TraceText("fairy optimisation\n");
+      alternateImpossible = &ProofFairyImpossible;
+      seriesImpossible = &ProofFairyImpossible;
+    }
     else
     {
-      boolean const ProofFairy = (change_moving_piece
-                                  || CondFlag[black_oscillatingKs]
-                                  || CondFlag[white_oscillatingKs]
-                                  || CondFlag[republican]
-                                  || anycirce
-                                  || CondFlag[sentinelles]
-                                  || anyanticirce
-                                  || CondFlag[singlebox]
-                                  || CondFlag[blroyalsq]
-                                  || CondFlag[whroyalsq]
-                                  || TSTFLAG(PieSpExFlags, ColourChange)
-                                  || CondFlag[actrevolving]
-                                  || CondFlag[arc]
-                                  || CondFlag[annan]
-                                  || CondFlag[glasgow]
-                                  || CondFlag[takemake]
-                                  || flagAssassin
-                                  || CondFlag[messigny]
-                                  || CondFlag[mars]
-                                  || CondFlag[castlingchess]);
-
-      if (ProofFairy)
-      {
-        TraceText("fairy optimisation\n");
-        alternateImpossible = &ProofFairyImpossible;
-        seriesImpossible = &ProofFairyImpossible;
-      }
-      else
-      {
-        TraceText("full optimisation\n");
-        alternateImpossible = &ProofImpossible;
-        seriesImpossible = &ProofSeriesImpossible;
-      }
+      TraceText("full optimisation\n");
+      alternateImpossible = &ProofImpossible;
+      seriesImpossible = &ProofSeriesImpossible;
     }
   }
 
