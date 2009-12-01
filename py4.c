@@ -463,8 +463,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         /* Extra rule: pawns must not 'make' to their base line */
         if (is_pawn(e[sq_departure])
             && !CondFlag[normalp]
-            && ((e[sq_departure]>0 && sq_arrival<=square_h1)
-                || (e[sq_departure]<0 && sq_arrival>=square_a8)))
+            && ((traitnbply == White && sq_arrival<=square_h1)
+                || (traitnbply == Black && sq_arrival>=square_a8)))
           return true;
 
         sq_capture= takemake_capturesquare;
