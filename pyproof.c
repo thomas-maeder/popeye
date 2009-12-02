@@ -405,12 +405,51 @@ void ProofInitialiseStartPosition(void)
   {
     start.board[square_b1] = nb;
     start.board[square_g1] = nb;
+
     start.board[square_b8] = nn;
     start.board[square_g8] = nn;
-    nr_piece(start)[nb] += 2;
-    nr_piece(start)[nn] += 2;
-    nr_piece(start)[cb] -= 2;
-    nr_piece(start)[cn] -= 2;
+
+    nr_piece(start)[nb] = 2;
+    nr_piece(start)[nn] = 2;
+
+    nr_piece(start)[cb] = 0;
+    nr_piece(start)[cn] = 0;
+  }
+  else if (CondFlag[leofamily])
+  {
+    start.board[square_d1] = leob;
+    start.board[square_a1] = paob;
+    start.board[square_h1] = paob;
+    start.board[square_c1] = vaob;
+    start.board[square_f1] = vaob;
+    start.board[square_b1] = maob;
+    start.board[square_g1] = maob;
+
+    start.board[square_d8] = leon;
+    start.board[square_a8] = paon;
+    start.board[square_h8] = paon;
+    start.board[square_c8] = vaon;
+    start.board[square_f8] = vaon;
+    start.board[square_b8] = maon;
+    start.board[square_g8] = maon;
+
+    nr_piece(start)[leob] = 1;
+    nr_piece(start)[paob] = 2;
+    nr_piece(start)[vaob] = 2;
+    nr_piece(start)[maob] = 2;
+    nr_piece(start)[leon] = 1;
+    nr_piece(start)[paon] = 2;
+    nr_piece(start)[vaon] = 2;
+    nr_piece(start)[maon] = 2;
+
+    nr_piece(start)[db] = 0;
+    nr_piece(start)[tb] = 0;
+    nr_piece(start)[fb] = 0;
+    nr_piece(start)[cb] = 0;
+    nr_piece(start)[dn] = 0;
+    nr_piece(start)[tn] = 0;
+    nr_piece(start)[fn] = 0;
+    nr_piece(start)[cn] = 0;
   }
 
   TraceFunctionExit(__func__);

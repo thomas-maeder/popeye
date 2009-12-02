@@ -1569,7 +1569,7 @@ solution finished.
 
 
 
-feature request 2867301: proof games and Cavalier Majeur
+feature request 2813613: proof games and Cavalier Majeur
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1594,6 +1594,36 @@ feature request 2867301: proof games and Cavalier Majeur
             CavalierMajeur
 
   1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia 
+
+solution finished. 
+
+
+
+feature request 2813613: proof games and Leofamily
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8 -PA -MA -VA -LE  -K -VA -MA -PA   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .  VA   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   P   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   P   P   P   P   P   P   2
+|                                   |
+1  PA  MA   .  LE   K  VA  MA  PA   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia1.5                    16 + 15
+              Leofamily
+
+  1.a2-a3 h7-h6   2.VAc1*h6 dia 
 
 solution finished. 
 

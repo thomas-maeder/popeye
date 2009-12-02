@@ -399,10 +399,18 @@ forsyth k1r5/8/8/8/8/8/8/5RK1
 
 next
 
-title feature request 2867301: proof games and Cavalier Majeur
+title feature request 2813613: proof games and Cavalier Majeur
 pieces white ke1 qd1 ra1h1 bc1f1 ne5g1 pa3b2c2d2e2f2g2h2
        black ke8 qd8 ra8h8 bc8f8 nb8b4 pa7b7c7d7e7f7g7h7
 stipulation dia2.5
 condition cavaliermajeur
+
+next
+
+title feature request 2813613: proof games and Leofamily
+pieces white ke1 led1 paa1h1 vaf1h6 mab1g1 pa3b2c2d2e2f2g2h2
+       black ke8 led8 paa8h8 vac8f8 mab8g8 pa7b7c7d7e7f7g7
+stipulation dia1.5
+condition leofamily
 
 end
