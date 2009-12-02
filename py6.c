@@ -855,9 +855,6 @@ static boolean verify_position(void)
 
   if (CondFlag[cavaliermajeur])
   {
-    Goal const proof_goal = goal_proof;
-    if (stip_ends_in_one_of(&proof_goal,1))
-      ProofInitialiseCavalierMajeur();
     if (nbpiece[cb] + nbpiece[cn] > 0)
     {
       VerifieMsg(CavMajAndKnight);
@@ -2718,6 +2715,13 @@ static boolean initialise_verify_twin(void)
     if (locateRoyal())
     {
       ProofSaveTargetPosition();
+
+      {
+        Goal const proof_goal = goal_proof;
+        if (stip_ends_in_one_of(&proof_goal,1))
+          ProofInitialiseStartPosition();
+      }
+
       ProofRestoreStartPosition();
 
       countPieces();

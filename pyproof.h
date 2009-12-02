@@ -23,8 +23,6 @@ void ProofInitialise(void);
  */
 void ProofInitialiseStartPosition(void);
 
-void ProofInitialiseCavalierMajeur(void);
-
 /* a=>b: save the current piece places for the start position
  */
 void ProofSaveStartPosition(void);

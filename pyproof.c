@@ -401,29 +401,20 @@ void ProofInitialiseStartPosition(void)
 
   start = game_array;
 
+  if (CondFlag[cavaliermajeur])
+  {
+    start.board[square_b1] = nb;
+    start.board[square_g1] = nb;
+    start.board[square_b8] = nn;
+    start.board[square_g8] = nn;
+    nr_piece(start)[nb] += 2;
+    nr_piece(start)[nn] += 2;
+    nr_piece(start)[cb] -= 2;
+    nr_piece(start)[cn] -= 2;
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-void ProofInitialiseCavalierMajeur(void)
-{
-  start.board[square_b1] = nb;
-  start.board[square_g1] = nb;
-  start.board[square_b8] = nn;
-  start.board[square_g8] = nn;
-  nr_piece(start)[nb] += 2;
-  nr_piece(start)[nn] += 2;
-  nr_piece(start)[cb] -= 2;
-  nr_piece(start)[cn] -= 2;
-
-  e[square_b1] = nb;
-  e[square_g1] = nb;
-  e[square_b8] = nn;
-  e[square_g8] = nn;
-  nbpiece[nb] +=2;
-  nbpiece[nn] +=2;
-  nbpiece[cb] -=2;
-  nbpiece[cn] -=2;
 }
 
 void ProofSaveStartPosition(void)

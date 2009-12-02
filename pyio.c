@@ -1914,10 +1914,7 @@ static char *ParseGoal(char *tok, SliceType type, slice_index *si)
           tok += 4;
         }
         else if (gic->goal==goal_proof)
-        {
-          ProofInitialiseStartPosition();
           tok += 3;
-        }
         else
           tok += strlen(gic->inputText);
         break;
