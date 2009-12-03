@@ -1628,3 +1628,78 @@ feature request 2813613: proof games and Leofamily
 solution finished. 
 
 
+
+       feature request: 2907112
+up to release 4.51, Popeye gave no solution for twins b) and c)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -R   .   .   .   8
+|                                   |
+7   .   .   .   .   .   P   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .  -P   2
+|                                   |
+1   .   .   .   .   .   K   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          2 + 3
+            Take&MakeChess
+
+a) 
+
+  1.f7*e8-a8=Q # ! 
+
+  1.f7*e8-a8=B # ! 
+
+b) nPf7 
+
+  1.nPf7*e8-a8=nB # ! 
+
+c) nhPf7 
+
+  1.nhPf7*e8-a8=whQ # ! 
+
+  1.nhPf7*e8-a8=whB # ! 
+
+solution finished. 
+
+
+
+       feature request: 2907112
+up to release 4.51, Popeye gave no solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   P   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   K   .   .   .   3
+|                                   |
+2   .   .   .   .  =P   .   .  -B   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                    2 + 2 + 1n
+            Take&MakeChess
+
+
+solution finished. 
+
+

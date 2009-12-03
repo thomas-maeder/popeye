@@ -413,4 +413,24 @@ pieces white ke1 led1 paa1h1 vaf1h6 mab1g1 pa3b2c2d2e2f2g2h2
 stipulation dia1.5
 condition leofamily
 
+next
+
+title issue 2907112:
+title up to release 4.51, Popeye gave no solution for twins b) and c)
+pieces white kf1 pf7
+       black kh1 re8 ph2
+stipulation #1
+condition take
+twin add neutral pf7
+twin add neutral halfneutral pf7
+
+next
+
+title issue 2907112: up to release 4.51, Popeye gave no solution
+pieces white ke3 pf7
+       black kh1 bh2
+       neutral pe2
+stipulation h#2
+condition take
+
 end
