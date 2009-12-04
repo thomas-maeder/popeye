@@ -1629,7 +1629,7 @@ solution finished.
 
 
 
-       feature request: 2907112
+            issue 2907112:
 up to release 4.51, Popeye gave no solution for twins b) and c)
 
 +---a---b---c---d---e---f---g---h---+
@@ -1669,36 +1669,6 @@ c) nhPf7
   1.nhPf7*e8-a8=whQ # ! 
 
   1.nhPf7*e8-a8=whB # ! 
-
-solution finished. 
-
-
-
-       feature request: 2907112
-up to release 4.51, Popeye gave no solution
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   P   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .   K   .   .   .   3
-|                                   |
-2   .   .   .   .  =P   .   .  -B   2
-|                                   |
-1   .   .   .   .   .   .   .  -K   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  h#2                    2 + 2 + 1n
-            Take&MakeChess
-
 
 solution finished. 
 

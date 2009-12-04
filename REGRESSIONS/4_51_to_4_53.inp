@@ -424,13 +424,4 @@ condition take
 twin add neutral pf7
 twin add neutral halfneutral pf7
 
-next
-
-title issue 2907112: up to release 4.51, Popeye gave no solution
-pieces white ke3 pf7
-       black kh1 bh2
-       neutral pe2
-stipulation h#2
-condition take
-
 end
