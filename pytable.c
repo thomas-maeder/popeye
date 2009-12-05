@@ -45,6 +45,7 @@ table allocate_table(void)
  */
 void free_table(void)
 {
+  assert(number_of_tables>0);
   --number_of_tables;
 }
 
@@ -77,6 +78,14 @@ void append_to_top_table(void)
                         rec->square,
                         rec->pc);
   }
+}
+
+/* Remove all elements from the top table
+ */
+void clear_top_table(void)
+{
+  assert(number_of_tables>0);
+  current_position[number_of_tables] = current_position[number_of_tables-1];
 }
 
 /* Retrieve the length (number of elements) of a table.

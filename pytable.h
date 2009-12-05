@@ -38,6 +38,10 @@ unsigned int table_length(table t);
  */
 void append_to_top_table(void);
 
+/* Remove all elements from the top table
+ */
+void clear_top_table(void);
+
 /* Determine whether the move just played in ply nbply is in a table
  * @param t table identifier
  * @return true iff the move just played is in table t
