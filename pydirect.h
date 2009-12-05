@@ -11,24 +11,18 @@
 
 #include <limits.h>
 
-#define ENUMERATION_TYPENAME attack_result_type
-#define ENUMERATORS \
-  ENUMERATOR(attack_has_reached_deadend),       \
-    ENUMERATOR(attack_refuted_full_length),    \
-    ENUMERATOR(attack_solves_full_length),    \
-    ENUMERATOR(attack_has_solved_next_branch)
-
-#define ENUMERATION_DECLARE
-
-#include "pyenum.h"
-
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return success of key move
+ * @return slack_length_direct:           key solved next slice
+ *         slack_length_direct+1..length: key solved this slice in so
+ *                                        many moves
+ *         length+2:                      key allows refutations
+ *         length+4:                      key reached deadend (e.g.
+ *                                        self check)
  */
-attack_result_type direct_defender_root_defend(table refutations,
-                                               slice_index si);
+stip_length_type direct_defender_root_defend(table refutations,
+                                             slice_index si);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

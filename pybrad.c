@@ -920,6 +920,7 @@ boolean direct_root_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const n = slices[si].u.pipe.u.branch.length;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -940,32 +941,26 @@ boolean direct_root_root_solve(slice_index si)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       table const refutations = allocate_table();
-      switch (direct_defender_root_defend(refutations,next))
+      stip_length_type const
+          defense_length = direct_defender_root_defend(refutations,next);
+      if (defense_length==slack_length_direct)
+        result = true;
+      else if (defense_length<n)
       {
-        case attack_refuted_full_length:
-          if (table_length(refutations)<=max_nr_refutations)
-          {
-            write_attack(attack_try);
-            root_write_postkey(si,refutations);
-            write_refutations(refutations);
-            write_end_of_solution();
-          }
-          break;
-
-        case attack_solves_full_length:
-          result = true;
-          write_attack(attack_key);
-          root_write_postkey(si,refutations);
-          write_end_of_solution();
-          break;
-
-        case attack_has_solved_next_branch:
-          result = true;
-          break;
-
-        default:
-          break;
+        result = true;
+        write_attack(attack_key);
+        root_write_postkey(si,refutations);
+        write_end_of_solution();
       }
+      else if (defense_length==n+1)
+      {
+        write_attack(attack_try);
+        root_write_postkey(si,refutations);
+        write_refutations(refutations);
+        write_end_of_solution();
+      }
+      else
+        ; /* key reached deadend (e.g. self check)*/
 
       free_table();
     }

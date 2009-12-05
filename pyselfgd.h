@@ -37,9 +37,14 @@ slice_index self_attack_root_reduce_to_postkey_play(slice_index si);
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return success of key move
+ * @return slack_length_direct:           key solved next slice
+ *         slack_length_direct+1..length: key solved this slice in so
+ *                                        many moves
+ *         length+2:                      key allows refutations
+ *         length+4:                      key reached deadend (e.g.
+ *                                        self check)
  */
-attack_result_type self_attack_root_defend(table refutations, slice_index si);
+stip_length_type self_attack_root_defend(table refutations, slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

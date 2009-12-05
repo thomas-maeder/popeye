@@ -214,16 +214,21 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return success of key move
+ * @return slack_length_direct:           key solved next slice
+ *         slack_length_direct+1..length: key solved this slice in so
+ *                                        many moves
+ *         length+2:                      key allows refutations
+ *         length+4:                      key reached deadend (e.g.
+ *                                        self check)
  */
-attack_result_type reflex_guard_root_defend(table refutations, slice_index si)
+stip_length_type reflex_guard_root_defend(table refutations, slice_index si)
 {
-  attack_result_type result = attack_has_reached_deadend;
   stip_length_type const length = slices[si].u.pipe.u.reflex_guard.length;
   stip_length_type const
       min_length = slices[si].u.pipe.u.reflex_guard.min_length;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  stip_length_type result = length+4;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -236,7 +241,7 @@ attack_result_type reflex_guard_root_defend(table refutations, slice_index si)
         break;
 
       case has_solution:
-        result = attack_has_solved_next_branch;
+        result = slack_length_direct;
         slice_solve_postkey(avoided);
         write_end_of_solution();
         break;
@@ -254,7 +259,7 @@ attack_result_type reflex_guard_root_defend(table refutations, slice_index si)
     result = direct_defender_root_defend(refutations,next);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

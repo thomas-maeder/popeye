@@ -496,15 +496,20 @@ stip_length_type self_defense_solve_in_n(slice_index si,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return success of key move
+ * @return slack_length_direct:           key solved next slice
+ *         slack_length_direct+1..length: key solved this slice in so
+ *                                        many moves
+ *         length+2:                      key allows refutations
+ *         length+4:                      key reached deadend (e.g.
+ *                                        self check)
  */
-attack_result_type self_attack_root_defend(table refutations, slice_index si)
+stip_length_type self_attack_root_defend(table refutations, slice_index si)
 {
-  attack_result_type result = attack_has_reached_deadend;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result = length+4;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -517,7 +522,7 @@ attack_result_type self_attack_root_defend(table refutations, slice_index si)
     {
       case found_no_refutation:
       case found_refutations:
-        result = attack_has_solved_next_branch;
+        result = slack_length_direct;
         break;
 
       default:
@@ -526,12 +531,12 @@ attack_result_type self_attack_root_defend(table refutations, slice_index si)
   else if (min_length==slack_length_direct
            && (slice_root_find_refutations(refutations,to_goal,0)
                ==found_no_refutation))
-    result = attack_has_solved_next_branch;
+    result = slack_length_direct;
   else
     result = direct_defender_root_defend(refutations,next);
         
   TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

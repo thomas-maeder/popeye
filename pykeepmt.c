@@ -183,13 +183,18 @@ keepmating_guard_direct_solve_threats_in_n(table threats,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return success of key move
+ * @return slack_length_direct:           key solved next slice
+ *         slack_length_direct+1..length: key solved this slice in so
+ *                                        many moves
+ *         length+2:                      key allows refutations
+ *         length+4:                      key reached deadend (e.g.
+ *                                        self check)
  */
-attack_result_type keepmating_guard_root_defend(table refutations,
-                                                slice_index si)
+stip_length_type keepmating_guard_root_defend(table refutations,
+                                              slice_index si)
 {
   Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
-  attack_result_type result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -200,10 +205,10 @@ attack_result_type keepmating_guard_root_defend(table refutations,
   if (is_a_mating_piece_left(mating))
     result = direct_defender_root_defend(refutations,slices[si].u.pipe.next);
   else
-    result = attack_has_reached_deadend;
+    result = slices[si].u.pipe.u.branch.length+4;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

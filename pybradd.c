@@ -630,7 +630,7 @@ boolean branch_d_defender_root_solve(slice_index si)
  * @param t table where to add refutations
  * @param si slice index
  * @param maximum number of half moves until goal
- * @return true if defender is immobile
+ * @return true if defender is immobile or has too many refutations
  */
 static boolean root_collect_refutations(table refutations,
                                         slice_index si,
@@ -662,8 +662,7 @@ static boolean root_collect_refutations(table refutations,
   genmove(defender);
   move_generation_mode= move_generation_optimized_by_killer_move;
 
-  while (encore()
-         && table_length(refutations)<=max_nr_refutations)
+  while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
@@ -685,6 +684,13 @@ static boolean root_collect_refutations(table refutations,
     }
 
     repcoup();
+
+    if (table_length(refutations)>max_nr_refutations)
+    {
+      clear_top_table();
+      result = true;
+      break;
+    }
   }
 
   finply();
@@ -698,27 +704,32 @@ static boolean root_collect_refutations(table refutations,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
- * @return success of key move
+ * @return slack_length_direct:           key solved next slice
+ *         slack_length_direct+1..length: key solved this slice in so
+ *                                        many moves
+ *         length+2:                      key allows refutations
+ *         length+4:                      key reached deadend (e.g.
+ *                                        self check)
  */
-attack_result_type branch_d_defender_root_defend(table refutations,
-                                                 slice_index si)
+stip_length_type branch_d_defender_root_defend(table refutations,
+                                               slice_index si)
 {
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  attack_result_type result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (root_collect_refutations(refutations,si,length))
-    result = attack_has_reached_deadend;
-  else if (table_length(refutations)==0)
-    result = attack_solves_full_length;
+    result = length+4;
+  else if (table_length(refutations)>0)
+    result = length+2;
   else
-    result = attack_refuted_full_length;
+    result = length;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(attack_result_type,result,"");
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
