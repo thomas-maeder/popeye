@@ -620,7 +620,7 @@ void reflex_guard_series_solve_threats_in_n(table threats,
  */
 boolean reflex_guard_root_solve(slice_index si)
 {
-  boolean result;
+  boolean result = false;
   slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
@@ -632,25 +632,24 @@ boolean reflex_guard_root_solve(slice_index si)
   switch (slice_has_solution(avoided))
   {
     case defender_self_check:
-      result = defender_self_check;
+      result = false;
       break;
 
     case has_solution:
       init_output(si);
       slice_write_unsolvability(avoided);
-      result = has_no_solution;
+      result = false;
       break;
 
     case has_no_solution:
       if (length==slack_length_direct)
-        result = has_no_solution;
+        result = false;
       else
         result = slice_root_solve(next);
       break;
 
     default:
       assert(0);
-      result = false;
       break;
   }
 
