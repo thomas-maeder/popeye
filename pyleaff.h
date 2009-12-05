@@ -61,18 +61,11 @@ boolean leaf_forced_root_solve(slice_index leaf);
  * @param refutations table where to store refutations
  * @param si slice index
  * @param maximum number of refutations to be delivered
- * @return attacker_has_reached_deadend if we are in a situation where
- *              the position after the attacking move is to be
- *              considered hopeless for the attacker, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *            if there are >max_number_refutations refutations
- *         attacker_has_solved_next_slice if the attacking move has
- *            solved the branch
- *         found_refutations iff refutations contains some refutations
- *         found_no_refutation otherwise
+ * @return slack_length_direct:   key solved
+ *         slack_length_direct+2: key allows refutations
+ *         slack_length_direct+4: key reached deadend (e.g. self check)
  */
-quantity_of_refutations_type
+stip_length_type
 leaf_forced_root_find_refutations(table refutations,
                                   slice_index leaf,
                                   unsigned int max_number_refutations);

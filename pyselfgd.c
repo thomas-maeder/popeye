@@ -509,28 +509,24 @@ stip_length_type self_attack_root_defend(table refutations, slice_index si)
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = length+4;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (length==slack_length_direct)
-    switch (slice_root_find_refutations(refutations,
-                                        to_goal,
-                                        max_nr_refutations))
-    {
-      case found_no_refutation:
-      case found_refutations:
-        result = slack_length_direct;
-        break;
-
-      default:
-        break;
-    }
+  {
+    if (slice_root_find_refutations(refutations,
+                                    to_goal,
+                                    max_nr_refutations)<=slack_length_direct+2)
+      result = slack_length_direct;
+    else
+      result = length+4;
+  }
   else if (min_length==slack_length_direct
            && (slice_root_find_refutations(refutations,to_goal,0)
-               ==found_no_refutation))
+               ==slack_length_direct))
     result = slack_length_direct;
   else
     result = direct_defender_root_defend(refutations,next);

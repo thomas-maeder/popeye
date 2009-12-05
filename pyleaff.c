@@ -532,24 +532,17 @@ static boolean root_solve_postkey(slice_index leaf)
  * @param refutations table where to store refutations
  * @param si slice index
  * @param maximum number of refutations to be delivered
- * @return attacker_has_reached_deadend if we are in a situation where
- *              the position after the attacking move is to be
- *              considered hopeless for the attacker, e.g.:
- *            if the defending side is immobile and shouldn't be
- *            if some optimisation tells us so
- *            if there are >max_number_refutations refutations
- *         attacker_has_solved_next_slice if the attacking move has
- *            solved the branch
- *         found_refutations iff refutations contains some refutations
- *         found_no_refutation otherwise
+ * @return slack_length_direct:   key solved
+ *         slack_length_direct+2: key allows refutations
+ *         slack_length_direct+4: key reached deadend (e.g. self check)
  */
-quantity_of_refutations_type
+stip_length_type
 leaf_forced_root_find_refutations(table refutations,
                                   slice_index leaf,
                                   unsigned int max_number_refutations)
 {
   Side const defender = slices[leaf].starter;
-  quantity_of_refutations_type result = attacker_has_reached_deadend;
+  stip_length_type result = slack_length_direct+4;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -567,8 +560,8 @@ leaf_forced_root_find_refutations(table refutations,
       switch (leaf_is_goal_reached(defender,leaf))
       {
         case goal_reached:
-          if (result==attacker_has_reached_deadend)
-            result = found_no_refutation;
+          if (result==slack_length_direct+4)
+            result = slack_length_direct;
           break;
 
         case goal_not_reached:
@@ -576,7 +569,7 @@ leaf_forced_root_find_refutations(table refutations,
           {
             append_to_top_table();
             coupfort();
-            result = found_refutations;
+            result = slack_length_direct+2;
           }
           break;
 
@@ -593,20 +586,20 @@ leaf_forced_root_find_refutations(table refutations,
     if (table_length(refutations)>max_number_refutations)
     {
       clear_top_table();
-      result = attacker_has_reached_deadend;
+      result = slack_length_direct+4;
       break;
     }
   }
 
   finply();
 
-  if (result==found_no_refutation)
+  if (result==slack_length_direct)
   {
     write_attack(attack_key);
     root_solve_postkey(leaf);
     write_end_of_solution();
   }
-  else if (result==found_refutations)
+  else if (result==slack_length_direct+2)
   {
     write_attack(attack_try);
     root_solve_postkey(leaf);
