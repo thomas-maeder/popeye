@@ -2107,7 +2107,9 @@ boolean libre(square sq, boolean generating)
 
     if (CondFlag[disparate]
         && nbply>2
-        && p==-pjoue[parent_ply[nbply]])
+        && trait[nbply] != trait[parent_ply[nbply]] 
+        && abs(p)==abs(pjoue[parent_ply[nbply]]) 
+       )
       result = false;
 
     if (CondFlag[madras] || CondFlag[isardam])
