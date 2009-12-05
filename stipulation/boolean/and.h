@@ -18,12 +18,15 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n number of moves until goal
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean reci_are_threats_refuted(table threats, slice_index si);
+boolean reci_are_threats_refuted(table threats,
+                                 stip_length_type len_threat,
+                                 slice_index si);
 
 /* Determine whether there is a solution at the end of a reciprocal
  * slice. 

@@ -72,11 +72,14 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean slice_are_threats_refuted(table threats, slice_index si);
+boolean slice_are_threats_refuted(table threats,
+                                  stip_length_type len_threat,
+                                  slice_index si);
 
 #define ENUMERATION_TYPENAME has_solution_type
 #define ENUMERATORS                             \

@@ -150,6 +150,12 @@ boolean direct_are_threats_refuted_in_n(table threats,
       result = degenerate_tree_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
+    case STLeafDirect:
+      assert(len_threat==slack_length_direct);
+      assert(n==slack_length_direct+1);
+      result = leaf_d_are_threats_refuted(threats,si);
+      break;
+
     default:
       assert(0);
       break;
@@ -425,6 +431,39 @@ void direct_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
+ * @param si slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean direct_are_threats_refuted(table threats,
+                                   stip_length_type len_threat,
+                                   slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",table_length(threats));
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  if (slices[si].type==STLeafDirect)
+    result = leaf_d_are_threats_refuted(threats,si);
+  else
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    result = direct_are_threats_refuted_in_n(threats,len_threat,si,length);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Solve a slice
  * @param si slice index

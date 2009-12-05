@@ -475,53 +475,51 @@ void slice_root_solve_in_n(slice_index si, stip_length_type n)
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean slice_are_threats_refuted(table threats, slice_index si)
+boolean slice_are_threats_refuted(table threats,
+                                  stip_length_type len_threat,
+                                  slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
+  TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafDirect:
-      result = leaf_d_are_threats_refuted(threats,si);
-      break;
-
     case STDirectHashed:
-      result = slice_are_threats_refuted(threats,slices[si].u.pipe.next);
-      break;
-
-    case STReciprocal:
-      result = reci_are_threats_refuted(threats,si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_are_threats_refuted(threats,si);
-      break;
-
-    case STHelpHashed:
-      result = help_are_threats_refuted(threats,si);
+    case STLeafDirect:
+      result = direct_are_threats_refuted(threats,len_threat,si);
       break;
 
     case STBranchHelp:
-      result = branch_h_are_threats_refuted(threats,si);
+    case STHelpHashed:
+      result = help_are_threats_refuted(threats,len_threat,si);
       break;
 
     case STBranchSeries:
     case STSeriesHashed:
-      result = series_are_threats_refuted(threats,si);
+      result = series_are_threats_refuted(threats,len_threat,si);
+      break;
+
+    case STReciprocal:
+      result = reci_are_threats_refuted(threats,len_threat,si);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_are_threats_refuted(threats,len_threat,si);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_are_threats_refuted(threats,si);
+      result = selfcheck_guard_are_threats_refuted(threats,len_threat,si);
       break;
 
     case STNot:

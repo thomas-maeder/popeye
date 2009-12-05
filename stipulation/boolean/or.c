@@ -116,24 +116,28 @@ boolean quodlibet_root_solve(slice_index si)
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @param n number of moves until goal
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean quodlibet_are_threats_refuted(table threats, slice_index si)
+boolean quodlibet_are_threats_refuted(table threats,
+                                      stip_length_type len_threat,
+                                      slice_index si)
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   /* TODO this can't be correct */
-  result = (slice_are_threats_refuted(threats,op1)
-            && slice_are_threats_refuted(threats,op2));
+  result = (slice_are_threats_refuted(threats,len_threat,op1)
+            && slice_are_threats_refuted(threats,len_threat,op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionParam("%u",result);
