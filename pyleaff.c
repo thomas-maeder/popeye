@@ -608,7 +608,7 @@ leaf_forced_root_find_refutations(table refutations,
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator("%u",result);
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
