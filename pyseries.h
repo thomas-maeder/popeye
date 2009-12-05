@@ -73,12 +73,6 @@ boolean series_is_goal_reached(Side just_moved, slice_index si);
  */
 boolean series_are_threats_refuted(table threats, slice_index si);
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void series_write_unsolvability(slice_index si);
-
 /* Find and write post key play
  * @param si slice index
  * @return true iff >=1 solution was found

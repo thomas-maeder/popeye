@@ -62,12 +62,6 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
                                    stip_length_type n,
                                    stip_length_type n_min);
 
-/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
- * mates)
- * @param leaf leaf's slice index
- */
-void leaf_d_write_unsolvability(slice_index leaf);
-
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param same_side_as_root does si start with the same side as root?

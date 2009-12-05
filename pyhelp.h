@@ -57,12 +57,6 @@ void help_solve_threats(table threats, slice_index si);
  */
 boolean help_solve_postkey(slice_index si);
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void help_write_unsolvability(slice_index si);
-
 /* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter
  * @param si slice identifier

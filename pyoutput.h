@@ -18,6 +18,15 @@ extern slice_index active_slice[maxply];
 void write_indentation(void);
 
 
+/* Start search for reflex unsolvabilities
+ */
+void output_start_unsolvability_mode(void);
+
+/* End search for reflex unsolvabilities
+ */
+void output_end_unsolvability_mode(void);
+
+
 /* Start a new output level with inverted side at move
  */
 void output_start_move_inverted_level(void);
@@ -56,17 +65,6 @@ void output_start_continuation_level(void);
  * continuations)
  */
 void output_end_continuation_level(void);
-
-
-/* Start a new output level consisting of forced unsolvabilities
- * (e.g. reflex mates)
- */
-void output_start_unsolvability_level(void);
-
-/* End the inner-most output level (which consists of forced
- * unsolvabilities (e.g. reflex mates))
- */
-void output_end_unsolvability_level(void);
 
 
 /* Start a new output level consisting of leaf variations

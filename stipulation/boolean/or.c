@@ -49,29 +49,6 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void quodlibet_write_unsolvability(slice_index si)
-{
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",slices[si].u.fork.op1);
-  TraceValue("%u\n",slices[si].u.fork.op2);
-
-  slice_write_unsolvability(op1);
-  slice_write_unsolvability(op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice

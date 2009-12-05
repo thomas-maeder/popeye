@@ -11,12 +11,6 @@
  * appropriate function of the slice type-specific module.
  */
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void slice_write_unsolvability(slice_index si);
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice

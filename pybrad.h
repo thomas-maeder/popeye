@@ -91,12 +91,6 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
                                              stip_length_type n,
                                              stip_length_type n_min);
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void branch_d_write_unsolvability(slice_index si);
-
 /* Determine whether a side has reached the goal
  * @param just_moved side that has just moved
  * @param si slice index

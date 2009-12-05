@@ -550,46 +550,6 @@ void leaf_d_solve_threats(table threats, slice_index leaf)
   TraceFunctionResultEnd();
 }
 
-/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
- * mates)
- * @param leaf leaf's slice index
- */
-void leaf_d_write_unsolvability(slice_index leaf)
-{
-  Side const attacker = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  output_start_continuation_level();
-
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,attacker);
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
-    {
-      write_final_attack(slices[leaf].u.leaf.goal,attack_regular);
-      output_start_leaf_variation_level();
-      output_end_leaf_variation_level();
-      coupfort();
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-
-  output_end_continuation_level();
-  write_end_of_solution();
-}
-
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param same_side_as_root does si start with the same side as root?

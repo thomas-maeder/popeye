@@ -614,13 +614,38 @@ void reflex_guard_series_solve_threats_in_n(table threats,
 /* **************** Implementation of interface Slice ***************
  */
 
+/* Solve slice that is to be avoided
+ * @param avoided slice to be avoided
+ * @return true iff >=1 solution was found
+ */
+static boolean solve_avoided(slice_index avoided)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",avoided);
+  TraceFunctionParamListEnd();
+
+  output_start_unsolvability_mode();
+  result = slice_solve(avoided);
+  output_end_unsolvability_mode();
+
+  if (result)
+    write_end_of_solution();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
  */
 boolean reflex_guard_root_solve(slice_index si)
 {
-  boolean result = false;
+  boolean result;
   slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
@@ -629,29 +654,10 @@ boolean reflex_guard_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (slice_has_solution(avoided))
-  {
-    case defender_self_check:
-      result = false;
-      break;
-
-    case has_solution:
-      init_output(si);
-      slice_write_unsolvability(avoided);
-      result = false;
-      break;
-
-    case has_no_solution:
-      if (length==slack_length_direct)
-        result = false;
-      else
-        result = slice_root_solve(next);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  if (solve_avoided(avoided) || length==slack_length_direct)
+    result = false;
+  else
+    result = slice_root_solve(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

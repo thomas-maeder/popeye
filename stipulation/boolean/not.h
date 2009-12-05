@@ -15,14 +15,6 @@
  */
 slice_index alloc_not_slice(slice_index op);
 
-/* Is there no chance left for the starting side to win?
- * E.g. did the defender just capture that attacker's last potential
- * mating piece?
- * @param si slice index
- * @return true iff starter must resign
- */
-void not_write_unsolvability(slice_index si);
-
 /* Determine and write the solution
  * @param si slice index
  * @return true iff >=1 solution was found

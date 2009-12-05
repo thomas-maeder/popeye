@@ -40,12 +40,6 @@ boolean leaf_h_solve(slice_index leaf);
  */
 boolean leaf_h_root_solve(slice_index leaf);
 
-/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
- * mates)
- * @param leaf leaf's slice index
- */
-void leaf_h_write_unsolvability(slice_index leaf);
-
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param same_side_as_root does si start with the same side as root?

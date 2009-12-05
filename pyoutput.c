@@ -211,34 +211,35 @@ typedef enum
 {
   unknown_attack,
   continuation_attack,
-  threat_attack,
-  unsolvability_attack /* forced reflex mate by attacker */
+  threat_attack
 } output_attack_type;
 
 static output_attack_type output_attack_types[maxply];
+static boolean reflex[maxply];
 static unsigned int nr_continuations_written[maxply];
 static unsigned int nr_defenses_written[maxply];
 
-/* Start a new output level consisting of forced reflex mates etc.
+/* Start search for reflex unsolvabilities
  */
-void output_start_unsolvability_level(void)
+void output_start_unsolvability_mode(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree)
-    output_attack_types[nbply+1] = unsolvability_attack;
+  reflex[nbply+1] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* End the inner-most output level (which consists of post-key only play)
+/* End search for reflex unsolvabilities
  */
-void output_end_unsolvability_level(void)
+void output_end_unsolvability_mode(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  reflex[nbply+1] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -622,8 +623,7 @@ static void write_numbered_indented_attack(ply current_ply,
   capture_ply(&captured_ply[current_ply],current_ply);
   invalidate_ply_snapshot(&captured_ply[current_ply+1]);
 
-  if (move_depth==1
-      && output_attack_types[current_ply]!=unsolvability_attack)
+  if (move_depth==1 && !reflex[current_ply])
   {
     switch (type)
     {
@@ -935,8 +935,7 @@ void write_refutation_mark(void)
  */
 void write_end_of_solution(void)
 {
-  if (current_mode==output_mode_tree
-      && output_attack_types[nbply]!=unsolvability_attack)
+  if (current_mode==output_mode_tree)
     Message(NewLine);
 }
 

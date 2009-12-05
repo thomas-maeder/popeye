@@ -318,24 +318,6 @@ boolean help_solve_postkey(slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void help_write_unsolvability(slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_write_unsolvability(to_goal);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter
  * @param si slice identifier

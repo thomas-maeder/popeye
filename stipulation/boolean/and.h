@@ -39,12 +39,6 @@ has_solution_type reci_has_solution(slice_index si);
  */
 boolean reci_has_non_starter_solved(slice_index si);
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void reci_write_unsolvability(slice_index si);
-
 /* Find and write post key play
  * @param si slice index
  * @return true iff >=1 solution was found

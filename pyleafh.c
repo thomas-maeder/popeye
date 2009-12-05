@@ -296,18 +296,6 @@ boolean leaf_h_solve_postkey(slice_index leaf)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a leaf (e.g. forced reflex
- * mates)
- * @param leaf leaf's slice index
- */
-void leaf_h_write_unsolvability(slice_index leaf)
-{
-  output_start_leaf_variation_level();
-  leaf_h_solve_final_move(leaf);
-  output_end_leaf_variation_level();
-  write_end_of_solution_phase();
-}
-
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf
  * @param same_side_as_root does si start with the same side as root?

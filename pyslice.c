@@ -859,66 +859,6 @@ boolean slice_is_goal_reached(Side just_moved, slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice in direct play
- * (e.g. forced reflex mates).
- * @param si slice index
- */
-void slice_write_unsolvability(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      leaf_d_write_unsolvability(si);
-      break;
-
-    case STLeafHelp:
-      leaf_h_write_unsolvability(si);
-      break;
-
-    case STBranchDirect:
-      branch_d_write_unsolvability(si);
-      break;
-
-    case STDirectHashed:
-    case STHelpHashed:
-      slice_write_unsolvability(slices[si].u.pipe.next);
-      break;
-
-    case STBranchHelp:
-      help_write_unsolvability(si);
-      break;
-
-    case STBranchSeries:
-    case STSeriesHashed:
-      series_write_unsolvability(si);
-      break;
-
-    case STQuodlibet:
-      quodlibet_write_unsolvability(si);
-      break;
-
-    case STReciprocal:
-      reci_write_unsolvability(si);
-      break;
-
-    case STNot:
-      not_write_unsolvability(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?

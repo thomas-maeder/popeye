@@ -366,24 +366,6 @@ boolean series_are_threats_refuted(table threats, slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void series_write_unsolvability(slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_write_unsolvability(to_goal);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Find and write post key play
  * @param si slice index
  * @return true iff >=1 solution was found

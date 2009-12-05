@@ -111,26 +111,6 @@ boolean reci_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void reci_write_unsolvability(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",slices[si].u.fork.op1);
-  TraceValue("%u\n",slices[si].u.fork.op2);
-
-  slice_write_unsolvability(slices[si].u.fork.op1);
-  slice_write_unsolvability(slices[si].u.fork.op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Find and write post key play
  * @param si slice index
  * @return true iff >=1 solution was found

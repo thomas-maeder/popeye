@@ -23,12 +23,6 @@ void make_quodlibet_slice(slice_index si, slice_index op1, slice_index op2);
  */
 slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2);
 
-/* Write a priori unsolvability (if any) of a slice (e.g. forced
- * reflex mates).
- * @param si slice index
- */
-void quodlibet_write_unsolvability(slice_index si);
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice
