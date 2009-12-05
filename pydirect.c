@@ -21,17 +21,6 @@
 
 #include <assert.h>
 
-#define ENUMERATION_TYPENAME attack_result_type
-#define ENUMERATORS \
-  ENUMERATOR(attack_has_reached_deadend),       \
-    ENUMERATOR(attack_refuted_full_length),    \
-    ENUMERATOR(attack_solves_full_length),    \
-    ENUMERATOR(attack_has_solved_next_branch)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "pyenum.h"
-
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
