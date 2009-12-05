@@ -433,15 +433,14 @@ boolean leaf_forced_solve_postkey(slice_index leaf)
  */
 boolean leaf_forced_solve(slice_index leaf)
 {
+  Side const defender = slices[leaf].starter;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (leaf_forced_does_defender_win(leaf))
-    result = false;
-  else
+  if (is_end_in_1_forced(defender,leaf))
   {
     result = true;
 
@@ -449,6 +448,8 @@ boolean leaf_forced_solve(slice_index leaf)
     solve_final_move(leaf);
     output_end_postkey_level();
   }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -486,28 +487,52 @@ boolean leaf_forced_root_solve(slice_index leaf)
   return result;
 }
 
+/* Solve postkey play at root level.
+ * @param leaf slice index
+ * @return true iff >=1 solution was found
+ */
+static boolean root_solve_postkey(slice_index leaf)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  result = solve_final_move(leaf);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Find refutations after a move of the attacking side at root level.
  * @param refutations table where to store refutations
  * @param si slice index
+ * @param maximum number of refutations to be delivered
  * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
+ *              the position after the attacking move is to be
+ *              considered hopeless for the attacker, e.g.:
  *            if the defending side is immobile and shouldn't be
  *            if some optimisation tells us so
+ *            if there are >max_number_refutations refutations
  *         attacker_has_solved_next_slice if the attacking move has
  *            solved the branch
- *         found_refutations if refutations contains some refutations
+ *         found_refutations iff refutations contains some refutations
  *         found_no_refutation otherwise
  */
 quantity_of_refutations_type
 leaf_forced_root_find_refutations(table refutations,
-                                  slice_index leaf)
+                                  slice_index leaf,
+                                  unsigned int max_number_refutations)
 {
   Side const defender = slices[leaf].starter;
   quantity_of_refutations_type result = attacker_has_reached_deadend;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",defender);
   TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",slices[leaf].u.leaf.goal);
@@ -515,8 +540,7 @@ leaf_forced_root_find_refutations(table refutations,
   move_generation_mode = move_generation_optimized_by_killer_move;
   genmove(defender);
 
-  while (table_length(refutations)<=max_nr_refutations
-         && encore())
+  while (encore())
   {
     if (jouecoup(nbply,first_play))
       switch (leaf_is_goal_reached(defender,leaf))
@@ -544,32 +568,33 @@ leaf_forced_root_find_refutations(table refutations,
       }
 
     repcoup();
+
+    if (table_length(refutations)>max_number_refutations)
+    {
+      clear_top_table();
+      result = attacker_has_reached_deadend;
+      break;
+    }
   }
 
   finply();
 
+  if (result==found_no_refutation)
+  {
+    write_attack(attack_key);
+    root_solve_postkey(leaf);
+    write_end_of_solution();
+  }
+  else if (result==found_refutations)
+  {
+    write_attack(attack_try);
+    root_solve_postkey(leaf);
+    write_refutations(refutations);
+    write_end_of_solution();
+  }
+
   TraceFunctionExit(__func__);
   TraceEnumerator(quantity_of_refutations_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve postkey play at root level.
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_forced_root_solve_postkey(slice_index leaf)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = solve_final_move(leaf);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

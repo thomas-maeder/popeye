@@ -23,13 +23,6 @@ void slice_write_unsolvability(slice_index si);
  */
 void slice_solve_threats(table threats, slice_index si);
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_root_solve_postkey(table refutations, slice_index si);
-
 #define ENUMERATION_TYPENAME quantity_of_refutations_type
 #define ENUMERATORS \
   ENUMERATOR(attacker_has_solved_next_slice), \
@@ -44,18 +37,22 @@ boolean slice_root_solve_postkey(table refutations, slice_index si);
 /* Find refutations after a move of the attacking side at root level.
  * @param refutations table where to store refutations
  * @param si slice index
+ * @param maximum number of refutations to be delivered
  * @return attacker_has_reached_deadend if we are in a situation where
  *              the position after the attacking move is to be
  *              considered hopeless for the attacker, e.g.:
  *            if the defending side is immobile and shouldn't be
  *            if some optimisation tells us so
+ *            if there are >max_number_refutations refutations
  *         attacker_has_solved_next_slice if the attacking move has
  *            solved the branch
- *         found_refutations if refutations contains some refutations
+ *         found_refutations iff refutations contains some refutations
  *         found_no_refutation otherwise
  */
-quantity_of_refutations_type slice_root_find_refutations(table refutations,
-                                                         slice_index si);
+quantity_of_refutations_type
+slice_root_find_refutations(table refutations,
+                            slice_index si,
+                            unsigned int max_number_refutations);
 
 /* Spin off a set play slice at root level
  * @param si slice index

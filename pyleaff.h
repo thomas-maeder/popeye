@@ -57,22 +57,22 @@ boolean leaf_forced_root_solve(slice_index leaf);
 /* Find refutations after a move of the attacking side at root level.
  * @param refutations table where to store refutations
  * @param si slice index
+ * @param maximum number of refutations to be delivered
  * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
+ *              the position after the attacking move is to be
+ *              considered hopeless for the attacker, e.g.:
  *            if the defending side is immobile and shouldn't be
  *            if some optimisation tells us so
- *         attacker_has_solved_next_slice if the attacking move has solved the branch
- *         found_refutations if refutations contains some refutations
+ *            if there are >max_number_refutations refutations
+ *         attacker_has_solved_next_slice if the attacking move has
+ *            solved the branch
+ *         found_refutations iff refutations contains some refutations
  *         found_no_refutation otherwise
  */
 quantity_of_refutations_type
-leaf_forced_root_find_refutations(table refutations, slice_index leaf);
-
-/* Solve postkey play at root level.
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_forced_root_solve_postkey(slice_index leaf);
+leaf_forced_root_find_refutations(table refutations,
+                                  slice_index leaf,
+                                  unsigned int max_number_refutations);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

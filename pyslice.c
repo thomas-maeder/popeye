@@ -111,63 +111,40 @@ void slice_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Solve postkey play at root level.
- * @param refutations table containing the refutations (if any)
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_root_solve_postkey(table refutations, slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafForced:
-      result = leaf_forced_root_solve_postkey(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Find refutations after a move of the attacking side at root level.
  * @param refutations table where to store refutations
  * @param si slice index
+ * @param maximum number of refutations to be delivered
  * @return attacker_has_reached_deadend if we are in a situation where
- *            the attacking move is to be considered to have failed, e.g.:
+ *              the position after the attacking move is to be
+ *              considered hopeless for the attacker, e.g.:
  *            if the defending side is immobile and shouldn't be
  *            if some optimisation tells us so
+ *            if there are >max_number_refutations refutations
  *         attacker_has_solved_next_slice if the attacking move has
  *            solved the branch
- *         found_refutations if refutations contains some refutations
+ *         found_refutations iff refutations contains some refutations
  *         found_no_refutation otherwise
  */
-quantity_of_refutations_type slice_root_find_refutations(table refutations,
-                                                         slice_index si)
+quantity_of_refutations_type
+slice_root_find_refutations(table refutations,
+                            slice_index si,
+                            unsigned int max_number_refutations)
 {
   quantity_of_refutations_type result = attacker_has_reached_deadend;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STLeafForced:
-      result = leaf_forced_root_find_refutations(refutations,si);
+      result = leaf_forced_root_find_refutations(refutations,
+                                                 si,
+                                                 max_number_refutations);
       break;
 
     default:
