@@ -29,11 +29,6 @@ boolean leaf_forced_does_defender_win(slice_index leaf);
  */
 boolean leaf_forced_has_non_starter_solved(slice_index leaf);
 
-/* Write a move by the non-starter that has reached a leaf's goal
- * @param leaf slice index of leaf
- */
-void leaf_forced_write_non_starter_has_solved(slice_index leaf);
-
 /* Determine and write the postkey play after the move that has just
  * been played in the current ply.
  * We have already determined that >=1 move reaching the goal is forced
@@ -47,6 +42,14 @@ boolean leaf_forced_solve_postkey(slice_index leaf);
  * @return true iff >=1 solution was found
  */
 boolean leaf_forced_solve(slice_index leaf);
+
+/* As leaf_forced_solve(), but the key move has just been played.
+ * I.e. determine whether a slice has been solved with the move just
+ * played; if yes, write the solution including the move just played.
+ * @param si slice identifier
+ * @return true iff the slice is solved
+ */
+boolean leaf_forced_solved(slice_index leaf);
 
 /* Determine and write the solution of a leaf forced slice at root level
  * @param leaf identifies leaf slice

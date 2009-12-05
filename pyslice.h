@@ -74,6 +74,14 @@ slice_index slice_root_reduce_to_postkey_play(slice_index si);
  */
 boolean slice_solve(slice_index si);
 
+/* As slice_solve(), but the key move has just been played.
+ * I.e. determine whether a slice has been solved with the move just
+ * played; if yes, write the solution including the move just played.
+ * @param si slice identifier
+ * @return true iff the slice is solved
+ */
+boolean slice_solved(slice_index si);
+
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -151,11 +159,6 @@ typedef enum
  */
 who_decides_on_starter slice_detect_starter(slice_index si,
                                             boolean same_side_as_root);
-
-/* Write that the non-starter has solved (i.e. in a self stipulation)
- * @param si slice index
- */
-void slice_write_non_starter_has_solved(slice_index si);
 
 /* Determine whether the defender wins after a move by the attacker
  * @param si slice index

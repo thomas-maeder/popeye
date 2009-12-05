@@ -482,11 +482,8 @@ stip_length_type self_defense_solve_in_n(slice_index si,
    * initial defender's "help move" has been played
    */
   if (n_min<slack_length_direct
-      && slice_has_non_starter_solved(towards_goal))
-  {
-    slice_write_non_starter_has_solved(towards_goal);
+      && slice_solved(towards_goal))
     result = n_min;
-  }
   else
     result = direct_solve_in_n(next,n,n_min);
 

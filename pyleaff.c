@@ -356,14 +356,6 @@ boolean leaf_forced_has_non_starter_solved(slice_index leaf)
   return result;
 }
 
-/* Write a move by the non-starter that has reached a leaf's goal
- * @param leaf slice index of leaf
- */
-void leaf_forced_write_non_starter_has_solved(slice_index leaf)
-{
-  write_final_defense(slices[leaf].u.leaf.goal);
-}
-
 /* Determine and find final moves
  * @param leaf slice index
  * @return true iff >= 1 solution was found
@@ -447,6 +439,35 @@ boolean leaf_forced_solve(slice_index leaf)
     output_start_postkey_level();
     solve_final_move(leaf);
     output_end_postkey_level();
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* As leaf_forced_solve(), but the key move has just been played.
+ * I.e. determine whether a slice has been solved with the move just
+ * played; if yes, write the solution including the move just played.
+ * @param si slice identifier
+ * @return true iff the slice is solved
+ */
+boolean leaf_forced_solved(slice_index leaf)
+{
+  Side const defender = slices[leaf].starter;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  if (leaf_is_goal_reached(defender,leaf)==goal_reached)
+  {
+    result = true;
+    write_final_defense(slices[leaf].u.leaf.goal);
   }
   else
     result = false;
