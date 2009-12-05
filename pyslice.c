@@ -39,18 +39,6 @@
 #include "pyenum.h"
 
 
-#define ENUMERATION_TYPENAME quantity_of_refutations_type
-#define ENUMERATORS                             \
-  ENUMERATOR(attacker_has_solved_next_slice),   \
-    ENUMERATOR(found_no_refutation),            \
-    ENUMERATOR(found_refutations),              \
-    ENUMERATOR(attacker_has_reached_deadend)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "pyenum.h"
-
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice
@@ -146,7 +134,7 @@ slice_root_find_refutations(table refutations,
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(quantity_of_refutations_type,result,"");
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
