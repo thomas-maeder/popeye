@@ -887,12 +887,6 @@ void direct_defender_root_solve_variations(table threats,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectDefenderRoot:
-      branch_d_defender_root_solve_variations(threats,len_threat,
-                                              refutations,
-                                              si);
-      break;
-
     case STSelfCheckGuard:
       selfcheck_guard_root_solve_variations(threats,len_threat,
                                             refutations,

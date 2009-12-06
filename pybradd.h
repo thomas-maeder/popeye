@@ -115,17 +115,6 @@ boolean branch_d_defender_solve_variations_in_n(table threats,
                                                 slice_index si,
                                                 stip_length_type n);
 
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param refutations table containing refutations to move just played
- * @param si slice index
- */
-void branch_d_defender_root_solve_variations(table threats,
-                                             stip_length_type len_threat,
-                                             table refutations,
-                                             slice_index si);
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?

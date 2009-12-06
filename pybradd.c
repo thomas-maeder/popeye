@@ -473,10 +473,10 @@ stip_length_type branch_d_defender_solve_threats_in_n(table threats,
  * @param refutations table containing refutations to move just played
  * @param si slice index
  */
-void branch_d_defender_root_solve_variations(table threats,
-                                             stip_length_type len_threat,
-                                             table refutations,
-                                             slice_index si)
+static void root_solve_variations(table threats,
+                                  stip_length_type len_threat,
+                                  table refutations,
+                                  slice_index si)
 {
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   Side const defender = slices[si].starter;
@@ -724,16 +724,14 @@ static void root_write_postkey(slice_index si, table refutations)
     else
     {
       output_start_threat_level();
-      len_threat = direct_defender_solve_threats_in_n(threats,si,length-1);
+      len_threat = branch_d_defender_solve_threats_in_n(threats,si,length-1);
       output_end_threat_level();
 
       if (len_threat==length+1)
         Message(Zugzwang);
     }
 
-    direct_defender_root_solve_variations(threats,len_threat,
-                                          refutations,
-                                          si);
+    root_solve_variations(threats,len_threat,refutations,si);
     free_table();
   }
 
