@@ -704,6 +704,42 @@ static boolean root_collect_refutations(table refutations,
   return result;
 }
 
+/* Write the postkey play at root level (if the user hasn't opted it
+ * out)
+ * @param si slice index
+ * @param refutations table containing refutations
+ */
+static void root_write_postkey(slice_index si, table refutations)
+{
+  output_start_postkey_level();
+
+  if (OptFlag[solvariantes])
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    table const threats = allocate_table();
+    stip_length_type len_threat;
+
+    if (OptFlag[nothreat])
+      len_threat = length;
+    else
+    {
+      output_start_threat_level();
+      len_threat = direct_defender_solve_threats_in_n(threats,si,length-1);
+      output_end_threat_level();
+
+      if (len_threat==length+1)
+        Message(Zugzwang);
+    }
+
+    direct_defender_root_solve_variations(threats,len_threat,
+                                          refutations,
+                                          si);
+    free_table();
+  }
+
+  output_end_postkey_level();
+}
+
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
@@ -731,9 +767,20 @@ branch_d_defender_root_defend(table refutations,
   if (root_collect_refutations(refutations,si,length,max_number_refutations))
     result = length+4;
   else if (table_length(refutations)>0)
+  {
     result = length+2;
+    write_attack(attack_try);
+    root_write_postkey(si,refutations);
+    write_refutations(refutations);
+    write_end_of_solution();
+  }
   else
+  {
     result = length;
+    write_attack(attack_key);
+    root_write_postkey(si,refutations);
+    write_end_of_solution();
+  }
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

@@ -875,43 +875,6 @@ who_decides_on_starter branch_d_detect_starter(slice_index si,
 
 /****************** root ************************/
 
-/* Write the postkey play at root level (if the user hasn't opted it
- * out)
- * @param si slice index
- * @param refutations table containing refutations
- */
-static void root_write_postkey(slice_index si, table refutations)
-{
-  output_start_postkey_level();
-
-  if (OptFlag[solvariantes])
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    table const threats = allocate_table();
-    stip_length_type len_threat;
-
-    if (OptFlag[nothreat])
-      len_threat = length;
-    else
-    {
-      output_start_threat_level();
-      len_threat = direct_defender_solve_threats_in_n(threats,next,length-2);
-      output_end_threat_level();
-
-      if (len_threat==length)
-        Message(Zugzwang);
-    }
-
-    direct_defender_root_solve_variations(threats,len_threat,
-                                          refutations,
-                                          next);
-    free_table();
-  }
-
-  output_end_postkey_level();
-}
-
 /* Solve at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -945,24 +908,8 @@ boolean direct_root_root_solve(slice_index si)
           defense_length = direct_defender_root_defend(refutations,
                                                        next,
                                                        max_nr_refutations);
-      if (defense_length==slack_length_direct)
+      if (defense_length<n)
         result = true;
-      else if (defense_length<n)
-      {
-        result = true;
-        write_attack(attack_key);
-        root_write_postkey(si,refutations);
-        write_end_of_solution();
-      }
-      else if (defense_length==n+1)
-      {
-        write_attack(attack_try);
-        root_write_postkey(si,refutations);
-        write_refutations(refutations);
-        write_end_of_solution();
-      }
-      else
-        ; /* key reached deadend (e.g. self check)*/
 
       free_table();
     }
