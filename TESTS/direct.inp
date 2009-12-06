@@ -49,6 +49,13 @@ stip ##!2
 
 next
 
+title #=2 with short solution
+pieces white ka3 rc3
+       black ka1
+stip #=2
+
+next
+
 title #2 with variation
 pieces white kb6 sa4 pa7
        black ka8 pc7
