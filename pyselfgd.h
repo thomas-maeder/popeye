@@ -165,17 +165,6 @@ boolean self_attack_solve_variations_in_n(table threats,
                                           slice_index si,
                                           stip_length_type n);
 
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param refutations table containing refutations to move just played
- * @param si slice index
- */
-void self_attack_root_solve_variations(table threats,
-                                       stip_length_type len_threat,
-                                       table refutations,
-                                       slice_index si);
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal

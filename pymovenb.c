@@ -183,29 +183,6 @@ boolean restart_guard_solve_variations_in_n(table threats,
   return result;
 }
 
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param refutations table containing refutations to move just played
- * @param si slice index
- */
-void restart_guard_root_solve_variations(table threats,
-                                         stip_length_type len_threat,
-                                         table refutations,
-                                         slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  direct_defender_root_solve_variations(threats,len_threat,
-                                        refutations,
-                                        slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

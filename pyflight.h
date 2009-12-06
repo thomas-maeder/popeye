@@ -90,15 +90,4 @@ boolean maxflight_guard_solve_variations_in_n(table threats,
                                               slice_index si,
                                               stip_length_type n);
 
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param refutations table containing refutations to move just played
- * @param si slice index
- */
-void maxflight_guard_root_solve_variations(table threats,
-                                           stip_length_type len_threat,
-                                           table refutations,
-                                           slice_index si);
-
 #endif
