@@ -128,6 +128,12 @@ slice_root_find_refutations(table refutations,
                                                  max_number_refutations);
       break;
 
+    case STQuodlibet:
+      result = quodlibet_root_find_refutations(refutations,
+                                               si,
+                                               max_number_refutations);
+      break;
+
     default:
       assert(0);
       break;

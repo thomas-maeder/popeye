@@ -114,6 +114,32 @@ boolean quodlibet_root_solve(slice_index si)
   return result;
 }
 
+/* Find refutations after a move of the attacking side at root level.
+ * @param refutations table where to store refutations
+ * @param si slice index
+ * @param maximum number of refutations to be delivered
+ * @return slack_length_direct:   key solved
+ *         slack_length_direct+2: key allows refutations
+ *         slack_length_direct+4: key reached deadend (e.g. self check)
+ */
+stip_length_type
+quodlibet_root_find_refutations(table refutations,
+                                slice_index si,
+                                unsigned int max_number_refutations)
+{
+  stip_length_type const result = slack_length_direct+2;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",max_number_refutations);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
