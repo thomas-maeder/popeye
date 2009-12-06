@@ -1056,7 +1056,7 @@ boolean echecc(ply ply_id, Side camp)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply_id);
-  TraceFunctionParam("%u",camp);
+  TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
   nextply(ply_id);

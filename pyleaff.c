@@ -556,7 +556,7 @@ leaf_forced_root_find_refutations(table refutations,
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play))
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
       switch (leaf_is_goal_reached(defender,leaf))
       {
         case goal_reached:
