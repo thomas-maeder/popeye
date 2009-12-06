@@ -496,6 +496,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
+ * @param max_number_refutations maximum number of refutations to deliver
  * @return slack_length_direct:           key solved next slice
  *         slack_length_direct+1..length: key solved this slice in so
  *                                        many moves
@@ -503,33 +504,44 @@ stip_length_type self_defense_solve_in_n(slice_index si,
  *         length+4:                      key reached deadend (e.g.
  *                                        self check)
  */
-stip_length_type self_attack_root_defend(table refutations, slice_index si)
+stip_length_type self_attack_root_defend(table refutations,
+                                         slice_index si,
+                                         unsigned int max_number_refutations)
 {
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-  slice_index const next = slices[si].u.pipe.next;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   if (length==slack_length_direct)
   {
     if (slice_root_find_refutations(refutations,
                                     to_goal,
-                                    max_nr_refutations)<=slack_length_direct+2)
+                                    max_number_refutations)
+        <=slack_length_direct+2)
       result = slack_length_direct;
     else
       result = length+4;
   }
-  else if (min_length==slack_length_direct
-           && (slice_root_find_refutations(refutations,to_goal,0)
-               ==slack_length_direct))
-    result = slack_length_direct;
   else
-    result = direct_defender_root_defend(refutations,next);
+  {
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    if (min_length==slack_length_direct
+        && (slice_root_find_refutations(refutations,to_goal,0)
+            ==slack_length_direct))
+      result = slack_length_direct;
+    else
+    {
+      slice_index const next = slices[si].u.pipe.next;
+      result = direct_defender_root_defend(refutations,
+                                           next,
+                                           max_number_refutations);
+    }
+  }
         
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

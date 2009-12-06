@@ -32,6 +32,7 @@ void stip_insert_restart_guards(void);
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
+ * @param max_number_refutations maximum number of refutations to deliver
  * @return slack_length_direct:           key solved next slice
  *         slack_length_direct+1..length: key solved this slice in so
  *                                        many moves
@@ -40,7 +41,8 @@ void stip_insert_restart_guards(void);
  *                                        self check)
  */
 stip_length_type restart_guard_root_defend(table refutations,
-                                           slice_index si);
+                                           slice_index si,
+                                           unsigned int max_number_refutations);
 
 /* Solve threats after an attacker's move
  * @param threats table where to add threats

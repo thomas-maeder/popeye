@@ -76,6 +76,7 @@ reflex_guard_direct_solve_threats_in_n(table threats,
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
+ * @param max_number_refutations maximum number of refutations to deliver
  * @return slack_length_direct:           key solved next slice
  *         slack_length_direct+1..length: key solved this slice in so
  *                                        many moves
@@ -83,7 +84,9 @@ reflex_guard_direct_solve_threats_in_n(table threats,
  *         length+4:                      key reached deadend (e.g.
  *                                        self check)
  */
-stip_length_type reflex_guard_root_defend(table refutations, slice_index si);
+stip_length_type reflex_guard_root_defend(table refutations,
+                                          slice_index si,
+                                          unsigned int max_number_refutations);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't

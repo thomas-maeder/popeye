@@ -942,7 +942,9 @@ boolean direct_root_root_solve(slice_index si)
     {
       table const refutations = allocate_table();
       stip_length_type const
-          defense_length = direct_defender_root_defend(refutations,next);
+          defense_length = direct_defender_root_defend(refutations,
+                                                       next,
+                                                       max_nr_refutations);
       if (defense_length==slack_length_direct)
         result = true;
       else if (defense_length<n)

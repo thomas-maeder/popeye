@@ -32,6 +32,7 @@ void stip_insert_maxflight_guards(void);
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
+ * @param max_number_refutations maximum number of refutations to deliver
  * @return slack_length_direct:           key solved next slice
  *         slack_length_direct+1..length: key solved this slice in so
  *                                        many moves
@@ -39,8 +40,10 @@ void stip_insert_maxflight_guards(void);
  *         length+4:                      key reached deadend (e.g.
  *                                        self check)
  */
-stip_length_type maxflight_guard_root_defend(table refutations,
-                                             slice_index si);
+stip_length_type
+maxflight_guard_root_defend(table refutations,
+                            slice_index si,
+                            unsigned int max_number_refutations);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
