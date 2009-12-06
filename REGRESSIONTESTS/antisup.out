@@ -21,7 +21,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-002                     2 + 2
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
                 Duplex
 
   1.Ta5*a8[wTa8->a1]   2.0-0-0 
@@ -55,7 +55,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
 
 a) 
 
@@ -775,7 +775,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          2 + 4
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
 
 a) 
 
@@ -783,7 +783,7 @@ a)
 
   1.Kd6*c6[wKc6->c7] = ! 
 
-b) AntiSuperCirce
+b) AntiSuperCirce  Cheylan
 
   1.Kd6*c6[wKc6->c7] = ! 
 

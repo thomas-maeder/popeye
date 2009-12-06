@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 2
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
 
 a) 
 
@@ -65,7 +65,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#4                      2 + 2
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
               HalfDuplex
 
   1.a7*b6[bPb6->e1=bQ]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 # 
@@ -99,7 +99,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h=1                         2 + 2
                 Circe
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
 
   1...b6*a7=bP [+bPa7][wPa7->a6] = 
 
@@ -131,7 +131,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-002                     2 + 2
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
                 Duplex
 
   1.Ra5*a8[wRa8->a1]   2.0-0-0 
@@ -165,7 +165,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
 
 a) 
 
@@ -885,7 +885,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          2 + 4
-        AntiSuperCirce  Calvet
+            AntiSuperCirce
 
 a) 
 
@@ -893,7 +893,7 @@ a)
 
   1.Kd6*c6[wKc6->c7] = ! 
 
-b) AntiSuperCirce
+b) AntiSuperCirce  Cheylan
 
   1.Kd6*c6[wKc6->c7] = ! 
 

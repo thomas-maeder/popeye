@@ -728,15 +728,9 @@ static void WriteConditions(int alignment)
     case antispiegelfile:
     case antiantipoden:
     case antiequipollents:
+    case antisuper:
       /* AntiCirTypeCalvet is default in AntiCirce */
       if (AntiCirType != AntiCirTypeCalvet) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
-      }
-      break;
-    case antisuper:
-      /* AntiCirTypeCheylan is default in AntiSuperCirce */
-      if (AntiCirType != AntiCirTypeCheylan) {
         strcat(CondLine, "  ");
         strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
       }
