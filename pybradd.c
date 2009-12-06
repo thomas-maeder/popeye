@@ -99,78 +99,6 @@ boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level.
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return true iff the defender can defend
- */
-boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
-{
-  Side const defender = slices[si].starter;
-  boolean defender_is_immobile = true;
-  boolean result = false;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type n_min_next;
-  stip_length_type const parity = (n-1)%2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  if (n-1+min_length>slack_length_direct+length)
-    n_min_next = n-1-(length-min_length);
-  else
-    n_min_next = slack_length_direct-parity;
-
-  active_slice[nbply+1] = si;
-  move_generation_mode =
-      n-1>slack_length_direct
-      ? move_generation_mode_opti_per_side[defender]
-      : move_generation_optimized_by_killer_move;
-  genmove(defender);
-  move_generation_mode= move_generation_optimized_by_killer_move;
-
-  while (!result && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const length_sol = direct_has_solution_in_n(next,
-                                                                   n-1,
-                                                                   n_min_next);
-      if (length_sol<n_min_next)
-        ; /* defense is illegal, e.g. self check */
-      else
-      {
-        defender_is_immobile = false;
-        if (length_sol>=n)
-        {
-          result = true;
-          coupfort();
-        }
-      }
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  if (defender_is_immobile)
-    result = true;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean has_short_solution(slice_index si, stip_length_type n)
 {
   boolean result;
@@ -272,6 +200,195 @@ static void write_existing_variation(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
 }
 
+/* Solve variations after an attacker's move
+ * @param threats table containing the threats after the attacker's move
+ * @param len_threat length of threats
+ * @param si slice index
+ * @param n maximum length of variations to be solved
+ * @return true iff >=1 variation was found
+ */
+static void solve_variations_in_n(table threats,
+                                  stip_length_type len_threat,
+                                  slice_index si,
+                                  stip_length_type n)
+{
+  Side const defender = slices[si].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  active_slice[nbply+1] = si;
+  genmove(defender);
+
+  while(encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && is_defense_relevant(threats,len_threat,si,n-1))
+      write_existing_variation(si,n);
+
+    repcoup();
+  }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Solve threats after an attacker's move
+ * @param threats table where to add threats
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return length of threats
+ *         (n-slack_length_direct)%2 if the attacker has something
+ *           stronger than threats (i.e. has delivered check)
+ *         n+2 if there is no threat
+ */
+static stip_length_type solve_threats_in_n(table threats,
+                                           slice_index si,
+                                           stip_length_type n)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const parity = (n-slack_length_direct)%2;
+  stip_length_type n_min = slack_length_direct-parity;
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(parity!=slices[si].u.pipe.u.branch.length%2);
+
+  if (n+min_length>n_min+length)
+    n_min = n-(length-min_length);
+
+  output_start_threat_level();
+  result = direct_solve_threats_in_n(threats,next,n,n_min);
+  output_end_threat_level();
+
+  if (result==n+2)
+    Message(Zugzwang);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve postkey play play after the move that has just
+ * been played in the current ply.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ */
+static void solve_postkey_in_n(slice_index si, stip_length_type n)
+{
+  table const threats = allocate_table();
+  stip_length_type len_threat;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  output_start_postkey_level();
+
+  len_threat = OptFlag[nothreat] ? n+1 : solve_threats_in_n(threats,si,n-1);
+  solve_variations_in_n(threats,len_threat,si,n);
+
+  output_end_postkey_level();
+
+  free_table();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to defend after an attempted key move at non-root level.
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @return true iff the defender can defend
+ */
+boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
+{
+  Side const defender = slices[si].starter;
+  boolean defender_is_immobile = true;
+  boolean result = false;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type n_min_next;
+  stip_length_type const parity = (n-1)%2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+
+  if (n-1+min_length>slack_length_direct+length)
+    n_min_next = n-1-(length-min_length);
+  else
+    n_min_next = slack_length_direct-parity;
+
+  active_slice[nbply+1] = si;
+  move_generation_mode =
+      n-1>slack_length_direct
+      ? move_generation_mode_opti_per_side[defender]
+      : move_generation_optimized_by_killer_move;
+  genmove(defender);
+  move_generation_mode= move_generation_optimized_by_killer_move;
+
+  while (!result && encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      stip_length_type const length_sol = direct_has_solution_in_n(next,
+                                                                   n-1,
+                                                                   n_min_next);
+      if (length_sol<n_min_next)
+        ; /* defense is illegal, e.g. self check */
+      else
+      {
+        defender_is_immobile = false;
+        if (length_sol>=n)
+        {
+          result = true;
+          coupfort();
+        }
+      }
+    }
+
+    repcoup();
+  }
+
+  finply();
+
+  if (defender_is_immobile)
+    result = true;
+  else if (!result)
+  {
+    write_attack(attack_regular);
+    solve_postkey_in_n(si,n);
+    coupfort();
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Write a variation. The defense that starts the variation has
  * already been played in the current ply.
  * Only continuations of minimal length are looked for and written.
@@ -303,52 +420,6 @@ static boolean write_possible_variation(slice_index si, stip_length_type n)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
-  return result;
-}
-
-/* Solve variations after an attacker's move
- * @param threats table containing the threats after the attacker's move
- * @param len_threat length of threats
- * @param si slice index
- * @param n maximum length of variations to be solved
- * @return true iff >=1 variation was found
- */
-boolean branch_d_defender_solve_variations_in_n(table threats,
-                                                stip_length_type len_threat,
-                                                slice_index si,
-                                                stip_length_type n)
-{
-  Side const defender = slices[si].starter;
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
-  active_slice[nbply+1] = si;
-  genmove(defender);
-
-  while(encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && is_defense_relevant(threats,len_threat,si,n-1))
-    {
-      write_existing_variation(si,n);
-      result = true; // TODO wozu??
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
   return result;
 }
 
@@ -428,44 +499,6 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
 }
 
 /****************** root *******************/
-
-/* Solve threats after an attacker's move
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type branch_d_defender_solve_threats_in_n(table threats,
-                                                      slice_index si,
-                                                      stip_length_type n)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const parity = (n-slack_length_direct)%2;
-  stip_length_type n_min = slack_length_direct-parity;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(parity!=slices[si].u.pipe.u.branch.length%2);
-
-  if (n+min_length>n_min+length)
-    n_min = n-(length-min_length);
-
-  result = direct_solve_threats_in_n(threats,next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Solve variations after the move that has just been played at root level
  * @param threats table containing threats
@@ -580,11 +613,7 @@ static boolean root_solve_postkey_mode_in_n(slice_index si, stip_length_type n)
   else
   {
     Message(NewLine);
-    output_start_threat_level();
-    len_threat = branch_d_defender_solve_threats_in_n(threats,si,n-1);
-    output_end_threat_level();
-    if (len_threat==n+1)
-      Message(Zugzwang);
+    len_threat = solve_threats_in_n(threats,si,n-1);
   }
 
   result = root_solve_postkey_mode_variations_in_n(threats,len_threat,si,n);
@@ -717,20 +746,11 @@ static void root_write_postkey(slice_index si, table refutations)
   {
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
     table const threats = allocate_table();
-    stip_length_type len_threat;
-
-    if (OptFlag[nothreat])
-      len_threat = length;
-    else
-    {
-      output_start_threat_level();
-      len_threat = branch_d_defender_solve_threats_in_n(threats,si,length-1);
-      output_end_threat_level();
-
-      if (len_threat==length+1)
-        Message(Zugzwang);
-    }
-
+    stip_length_type const len_threat = (OptFlag[nothreat]
+                                         ? length
+                                         : solve_threats_in_n(threats,
+                                                              si,
+                                                              length-1));
     root_solve_variations(threats,len_threat,refutations,si);
     free_table();
   }
