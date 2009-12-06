@@ -68,11 +68,11 @@ boolean quodlibet_has_non_starter_solved(slice_index si);
 unsigned int quodlibet_count_refutations(slice_index si,
                                          unsigned int max_result);
 
-/* Determine whether the defender wins after a move by the attacker
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
- * @return true iff defender wins
+ * @return true iff the defending side can successfully defend
  */
-boolean quodlibet_does_defender_win(slice_index si);
+boolean quodlibet_defend(slice_index si);
 
 /* Solve a quodlibet slice
  * @param si slice index

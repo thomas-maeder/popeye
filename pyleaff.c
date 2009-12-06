@@ -307,11 +307,11 @@ unsigned int leaf_forced_count_refutations(slice_index leaf,
   return result;
 }
 
-/* Determine whether the defender wins after a move by the attacker
- * @param leaf identifies leaf
- * @return true iff the defender wins
+/* Try to defend after an attempted key move at non-root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
  */
-boolean leaf_forced_does_defender_win(slice_index leaf)
+boolean leaf_forced_defend(slice_index leaf)
 {
   boolean result = false;
   Side const defender = slices[leaf].starter;
@@ -322,7 +322,14 @@ boolean leaf_forced_does_defender_win(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = !is_end_in_1_forced(defender,leaf);
+  if (is_end_in_1_forced(defender,leaf))
+  {
+    result = false;
+    write_attack(attack_regular);
+    leaf_forced_solve_postkey(leaf);
+  }
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

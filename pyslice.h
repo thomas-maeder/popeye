@@ -137,10 +137,10 @@ typedef enum
 who_decides_on_starter slice_detect_starter(slice_index si,
                                             boolean same_side_as_root);
 
-/* Determine whether the defender wins after a move by the attacker
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
- * @return true iff defender wins
+ * @return true iff the defending side can successfully defend
  */
-boolean slice_does_defender_win(slice_index si);
+boolean slice_defend(slice_index si);
 
 #endif

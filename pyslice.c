@@ -921,11 +921,11 @@ who_decides_on_starter slice_detect_starter(slice_index si,
   return result;
 }
 
-/* Determine whether the defender wins after a move by the attacker
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
- * @return true iff defender wins
+ * @return true iff the defending side can successfully defend
  */
-boolean slice_does_defender_win(slice_index si)
+boolean slice_defend(slice_index si)
 {
   boolean result = true;
 
@@ -937,19 +937,19 @@ boolean slice_does_defender_win(slice_index si)
   switch (slices[si].type)
   {
     case STLeafForced:
-      result = leaf_forced_does_defender_win(si);
+      result = leaf_forced_defend(si);
       break;
 
     case STLeafDirect:
-      result = leaf_d_does_defender_win(si);
+      result = leaf_d_defend(si);
       break;
 
     case STLeafHelp:
-      result = leaf_h_does_defender_win(si);
+      result = leaf_h_defend(si);
       break;
 
     case STQuodlibet:
-      result = quodlibet_does_defender_win(si);
+      result = quodlibet_defend(si);
       break;
 
     default:

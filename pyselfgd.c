@@ -265,12 +265,8 @@ boolean self_attack_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n<=n_max_for_goal && !slice_does_defender_win(to_goal))
-  {
+  if (n<=n_max_for_goal && !slice_defend(to_goal))
     result = false;
-    write_attack(attack_regular);
-    slice_solve_postkey(to_goal);
-  }
   else if (next!=no_slice)
     result = direct_defender_defend_in_n(next,n);
   else

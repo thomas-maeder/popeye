@@ -16,11 +16,11 @@
  */
 boolean leaf_h_solve_postkey(slice_index leaf);
 
-/* Determine whether the defender wins after a move by the attacker
- * @param leaf identifies leaf
- * @return true iff the defender wins
+/* Try to defend after an attempted key move at non-root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
  */
-boolean leaf_h_does_defender_win(slice_index leaf);
+boolean leaf_h_defend(slice_index leaf);
 
 /* Determine whether there is a solution in a leaf.
  * @param leaf slice index of leaf slice

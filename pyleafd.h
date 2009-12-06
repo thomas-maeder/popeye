@@ -23,11 +23,11 @@ boolean leaf_d_solve_postkey(slice_index leaf);
  */
 void leaf_d_solve_threats(table threats, slice_index leaf);
 
-/* Determine whether the defender wins after a move by the attacker
- * @param leaf identifies leaf
- * @return true iff the defender wins
+/* Try to defend after an attempted key move at non-root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
  */
-boolean leaf_d_does_defender_win(slice_index leaf);
+boolean leaf_d_defend(slice_index leaf);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

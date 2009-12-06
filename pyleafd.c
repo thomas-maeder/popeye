@@ -476,11 +476,11 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
   return result;
 }
 
-/* Determine whether the defender wins after a move by the attacker
- * @param leaf identifies leaf
- * @return true iff the defender wins
+/* Try to defend after an attempted key move at non-root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
  */
-boolean leaf_d_does_defender_win(slice_index leaf)
+boolean leaf_d_defend(slice_index leaf)
 {
   boolean result;
 
@@ -488,7 +488,13 @@ boolean leaf_d_does_defender_win(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  result = leaf_d_has_solution(leaf)==has_no_solution;
+  if (leaf_d_has_solution(leaf)==has_no_solution)
+    result = true;
+  else
+  {
+    result = false;
+    write_attack(attack_regular);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

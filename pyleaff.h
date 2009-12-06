@@ -16,11 +16,11 @@
 unsigned int leaf_forced_count_refutations(slice_index leaf,
                                            unsigned int max_result);
 
-/* Determine whether the defender wins after a move by the attacker
- * @param leaf identifies leaf
- * @return true iff the defender wins
+/* Try to defend after an attempted key move at non-root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
  */
-boolean leaf_forced_does_defender_win(slice_index leaf);
+boolean leaf_forced_defend(slice_index leaf);
 
 /* Determine whether a leaf slice.has just been solved with the move
  * by the non-starter 

@@ -270,11 +270,11 @@ unsigned int quodlibet_count_refutations(slice_index si,
   return result;
 }
 
-/* Determine whether the defender wins after a move by the attacker
+/* Try to defend after an attempted key move at non-root level
  * @param si slice index
- * @return true iff defender wins
+ * @return true iff the defending side can successfully defend
  */
-boolean quodlibet_does_defender_win(slice_index si)
+boolean quodlibet_defend(slice_index si)
 {
   boolean result;
   slice_index const op1 = slices[si].u.fork.op1;
@@ -284,8 +284,7 @@ boolean quodlibet_does_defender_win(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (slice_does_defender_win(op1)
-            && slice_does_defender_win(op2));
+  result = slice_defend(op1) && slice_defend(op2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
