@@ -530,7 +530,7 @@ static boolean root_solve_postkey(slice_index leaf)
 
 /* Find refutations after a move of the attacking side at root level.
  * @param refutations table where to store refutations
- * @param si slice index
+ * @param leaf slice index
  * @param maximum number of refutations to be delivered
  * @return slack_length_direct:   key solved
  *         slack_length_direct+2: key allows refutations
