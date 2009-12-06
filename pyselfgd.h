@@ -35,14 +35,10 @@ slice_index self_attack_root_make_setplay_slice(slice_index si);
 slice_index self_attack_root_reduce_to_postkey_play(slice_index si);
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean self_attack_root_defend(table refutations,
-                                slice_index si,
-                                unsigned int max_number_refutations);
+boolean self_attack_root_defend(slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

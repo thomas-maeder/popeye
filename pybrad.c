@@ -853,16 +853,9 @@ boolean direct_root_root_solve(slice_index si)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      table const refutations = allocate_table();
-      if (!direct_defender_root_defend(refutations,
-                                       next,
-                                       max_nr_refutations))
-        result = true;
-
-      free_table();
-    }
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !direct_defender_root_defend(next))
+      result = true;
 
     repcoup();
 

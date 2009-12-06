@@ -115,16 +115,14 @@ boolean quodlibet_root_solve(slice_index si)
 }
 
 /* Find refutations after a move of the attacking side at root level.
- * @param refutations table where to store refutations
  * @param si slice index
- * @param maximum number of refutations to be delivered
+ * @param maximum number of refutations to be reported
  * @return slack_length_direct:   key solved
  *         slack_length_direct+2: key allows refutations
  *         slack_length_direct+4: key reached deadend (e.g. self check)
  */
 stip_length_type
-quodlibet_root_find_refutations(table refutations,
-                                slice_index si,
+quodlibet_root_find_refutations(slice_index si,
                                 unsigned int max_number_refutations)
 {
   stip_length_type const result = slack_length_direct+2;

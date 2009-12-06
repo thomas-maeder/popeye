@@ -26,14 +26,10 @@ slice_index alloc_selfcheck_guard_slice(slice_index next);
 boolean selfcheck_guard_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean selfcheck_guard_root_defend(table refutations,
-                                    slice_index si,
-                                    unsigned int max_number_refutations);
+boolean selfcheck_guard_root_defend(slice_index si);
 
 /* Solve a slice at non-root level
  * @param si slice index

@@ -159,14 +159,10 @@ boolean maxthreatlength_guard_root_solve(slice_index si)
 }
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean maxthreatlength_guard_root_defend(table refutations,
-                                          slice_index si,
-                                          unsigned int max_number_refutations)
+boolean maxthreatlength_guard_root_defend(slice_index si)
 {
   boolean result;
   stip_length_type const n = slices[si].u.pipe.u.maxthreatlength_guard.length;
@@ -174,15 +170,12 @@ boolean maxthreatlength_guard_root_defend(table refutations,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   if (is_threat_too_long(si,n))
     result = true;
   else
-    result = direct_defender_root_defend(refutations,
-                                         next,
-                                         max_number_refutations);
+    result = direct_defender_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

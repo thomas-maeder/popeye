@@ -759,15 +759,12 @@ static void root_write_postkey(slice_index si, table refutations)
 }
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean branch_d_defender_root_defend(table refutations,
-                                      slice_index si,
-                                      unsigned int max_number_refutations)
+boolean branch_d_defender_root_defend(slice_index si)
 {
+  table const refutations = allocate_table();
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   boolean result;
 
@@ -776,7 +773,7 @@ boolean branch_d_defender_root_defend(table refutations,
   TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
-  if (root_collect_refutations(refutations,si,length,max_number_refutations))
+  if (root_collect_refutations(refutations,si,length,max_nr_refutations))
     result = true;
   else if (table_length(refutations)>0)
   {
@@ -793,6 +790,8 @@ boolean branch_d_defender_root_defend(table refutations,
     root_write_postkey(si,refutations);
     write_end_of_solution();
   }
+
+  free_table();
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

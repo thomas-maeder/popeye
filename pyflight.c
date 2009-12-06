@@ -121,14 +121,10 @@ static void init_maxflight_guard_slice(slice_index si)
  */
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean maxflight_guard_root_defend(table refutations,
-                                    slice_index si,
-                                    unsigned int max_number_refutations)
+boolean maxflight_guard_root_defend(slice_index si)
 {
   boolean result;
   Side const defender = slices[si].starter;
@@ -137,15 +133,12 @@ boolean maxflight_guard_root_defend(table refutations,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   if (n-1>slack_length_direct+2 && has_too_many_flights(defender))
     result = true;
   else
-    result = direct_defender_root_defend(refutations,
-                                         next,
-                                         max_number_refutations);
+    result = direct_defender_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

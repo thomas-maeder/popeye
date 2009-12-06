@@ -417,14 +417,10 @@ stip_length_type self_defense_solve_in_n(slice_index si,
 }
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean self_attack_root_defend(table refutations,
-                                slice_index si,
-                                unsigned int max_number_refutations)
+boolean self_attack_root_defend(slice_index si)
 {
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -432,14 +428,11 @@ boolean self_attack_root_defend(table refutations,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   if (length==slack_length_direct)
   {
-    if (slice_root_find_refutations(refutations,
-                                    to_goal,
-                                    max_number_refutations)
+    if (slice_root_find_refutations(to_goal,max_nr_refutations)
         <=slack_length_direct+2)
       result = false;
     else
@@ -449,16 +442,10 @@ boolean self_attack_root_defend(table refutations,
   {
     stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
     if (min_length==slack_length_direct
-        && (slice_root_find_refutations(refutations,to_goal,0)
-            ==slack_length_direct))
+        && slice_root_find_refutations(to_goal,0)==slack_length_direct)
       result = false;
     else
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      result = direct_defender_root_defend(refutations,
-                                           next,
-                                           max_number_refutations);
-    }
+      result = direct_defender_root_defend(slices[si].u.pipe.next);
   }
         
   TraceFunctionExit(__func__);

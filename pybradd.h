@@ -75,14 +75,10 @@ boolean branch_d_defender_solve_next(slice_index si);
 boolean branch_d_defender_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean branch_d_defender_root_defend(table refutations,
-                                      slice_index si,
-                                      unsigned int max_number_refutations);
+boolean branch_d_defender_root_defend(slice_index si);
 
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice

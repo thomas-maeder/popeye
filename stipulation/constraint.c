@@ -212,14 +212,10 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
  */
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean reflex_guard_root_defend(table refutations,
-                                 slice_index si,
-                                 unsigned int max_number_refutations)
+boolean reflex_guard_root_defend(slice_index si)
 {
   stip_length_type const length = slices[si].u.pipe.u.reflex_guard.length;
   stip_length_type const
@@ -230,7 +226,6 @@ boolean reflex_guard_root_defend(table refutations,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   if (min_length==slack_length_direct)
@@ -247,9 +242,7 @@ boolean reflex_guard_root_defend(table refutations,
 
       case has_no_solution:
         if (length>slack_length_direct)
-          result = direct_defender_root_defend(refutations,
-                                               next,
-                                               max_number_refutations);
+          result = direct_defender_root_defend(next);
         break;
 
       default:
@@ -257,9 +250,7 @@ boolean reflex_guard_root_defend(table refutations,
         break;
     }
   else
-    result = direct_defender_root_defend(refutations,
-                                         next,
-                                         max_number_refutations);
+    result = direct_defender_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

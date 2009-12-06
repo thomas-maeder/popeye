@@ -529,20 +529,19 @@ static boolean root_solve_postkey(slice_index leaf)
 }
 
 /* Find refutations after a move of the attacking side at root level.
- * @param refutations table where to store refutations
  * @param leaf slice index
- * @param maximum number of refutations to be delivered
+ * @param maximum number of refutations to be reported
  * @return slack_length_direct:   key solved
  *         slack_length_direct+2: key allows refutations
  *         slack_length_direct+4: key reached deadend (e.g. self check)
  */
 stip_length_type
-leaf_forced_root_find_refutations(table refutations,
-                                  slice_index leaf,
+leaf_forced_root_find_refutations(slice_index leaf,
                                   unsigned int max_number_refutations)
 {
   Side const defender = slices[leaf].starter;
   stip_length_type result = slack_length_direct+4;
+  table const refutations = allocate_table();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -606,6 +605,8 @@ leaf_forced_root_find_refutations(table refutations,
     write_refutations(refutations);
     write_end_of_solution();
   }
+
+  free_table();
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

@@ -100,17 +100,14 @@ void slice_solve_threats(table threats, slice_index si)
 }
 
 /* Find refutations after a move of the attacking side at root level.
- * @param refutations table where to store refutations
  * @param si slice index
- * @param maximum number of refutations to be delivered
+ * @param maximum number of refutations to be reported
  * @return slack_length_direct:   key solved
  *         slack_length_direct+2: key allows refutations
  *         slack_length_direct+4: key reached deadend (e.g. self check)
  */
-stip_length_type
-slice_root_find_refutations(table refutations,
-                            slice_index si,
-                            unsigned int max_number_refutations)
+stip_length_type slice_root_find_refutations(slice_index si,
+                                             unsigned int max_number_refutations)
 {
   stip_length_type result = slack_length_direct+4;
 
@@ -123,15 +120,11 @@ slice_root_find_refutations(table refutations,
   switch (slices[si].type)
   {
     case STLeafForced:
-      result = leaf_forced_root_find_refutations(refutations,
-                                                 si,
-                                                 max_number_refutations);
+      result = leaf_forced_root_find_refutations(si,max_number_refutations);
       break;
 
     case STQuodlibet:
-      result = quodlibet_root_find_refutations(refutations,
-                                               si,
-                                               max_number_refutations);
+      result = quodlibet_root_find_refutations(si,max_number_refutations);
       break;
 
     default:

@@ -36,14 +36,10 @@ void stip_insert_maxthreatlength_guards(void);
 boolean maxthreatlength_guard_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean maxthreatlength_guard_root_defend(table refutations,
-                                          slice_index si,
-                                          unsigned int max_number_refutations);
+boolean maxthreatlength_guard_root_defend(slice_index si);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't

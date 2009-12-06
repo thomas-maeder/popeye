@@ -202,29 +202,22 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
  */
 
 /* Try to defend after an attempted key move at root level
- * @param table table where to add refutations
  * @param si slice index
- * @param max_number_refutations maximum number of refutations to deliver
  * @return true iff the defending side can successfully defend
  */
-boolean selfcheck_guard_root_defend(table refutations,
-                                    slice_index si,
-                                    unsigned int max_number_refutations)
+boolean selfcheck_guard_root_defend(slice_index si)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = true;
   else
-    result = direct_defender_root_defend(refutations,
-                                         next,
-                                         max_number_refutations);
+    result = direct_defender_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
