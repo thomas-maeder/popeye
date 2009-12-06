@@ -474,20 +474,15 @@ stip_length_type self_defense_solve_in_n(slice_index si,
  * @param table table where to add refutations
  * @param si slice index
  * @param max_number_refutations maximum number of refutations to deliver
- * @return slack_length_direct:           key solved next slice
- *         slack_length_direct+1..length: key solved this slice in so
- *                                        many moves
- *         length+2:                      key allows refutations
- *         length+4:                      key reached deadend (e.g.
- *                                        self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type self_attack_root_defend(table refutations,
-                                         slice_index si,
-                                         unsigned int max_number_refutations)
+boolean self_attack_root_defend(table refutations,
+                                slice_index si,
+                                unsigned int max_number_refutations)
 {
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-  stip_length_type result;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -500,9 +495,9 @@ stip_length_type self_attack_root_defend(table refutations,
                                     to_goal,
                                     max_number_refutations)
         <=slack_length_direct+2)
-      result = slack_length_direct;
+      result = false;
     else
-      result = length+4;
+      result = true;
   }
   else
   {
@@ -510,7 +505,7 @@ stip_length_type self_attack_root_defend(table refutations,
     if (min_length==slack_length_direct
         && (slice_root_find_refutations(refutations,to_goal,0)
             ==slack_length_direct))
-      result = slack_length_direct;
+      result = false;
     else
     {
       slice_index const next = slices[si].u.pipe.next;

@@ -883,7 +883,6 @@ boolean direct_root_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -904,11 +903,9 @@ boolean direct_root_root_solve(slice_index si)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       table const refutations = allocate_table();
-      stip_length_type const
-          defense_length = direct_defender_root_defend(refutations,
-                                                       next,
-                                                       max_nr_refutations);
-      if (defense_length<n)
+      if (!direct_defender_root_defend(refutations,
+                                       next,
+                                       max_nr_refutations))
         result = true;
 
       free_table();

@@ -39,17 +39,11 @@ boolean maxthreatlength_guard_root_solve(slice_index si);
  * @param table table where to add refutations
  * @param si slice index
  * @param max_number_refutations maximum number of refutations to deliver
- * @return slack_length_direct:           key solved next slice
- *         slack_length_direct+1..length: key solved this slice in so
- *                                        many moves
- *         length+2:                      key allows refutations
- *         length+4:                      key reached deadend (e.g.
- *                                        self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type
-maxthreatlength_guard_root_defend(table refutations,
-                                  slice_index si,
-                                  unsigned int max_number_refutations);
+boolean maxthreatlength_guard_root_defend(table refutations,
+                                          slice_index si,
+                                          unsigned int max_number_refutations);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't

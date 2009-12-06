@@ -205,18 +205,13 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
  * @param table table where to add refutations
  * @param si slice index
  * @param max_number_refutations maximum number of refutations to deliver
- * @return slack_length_direct:           key solved next slice
- *         slack_length_direct+1..length: key solved this slice in so
- *                                        many moves
- *         length+2:                      key allows refutations
- *         length+4:                      key reached deadend (e.g.
- *                                        self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type selfcheck_guard_root_defend(table refutations,
-                                             slice_index si,
-                                             unsigned int max_number_refutations)
+boolean selfcheck_guard_root_defend(table refutations,
+                                    slice_index si,
+                                    unsigned int max_number_refutations)
 {
-  stip_length_type result;
+  boolean result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -225,7 +220,7 @@ stip_length_type selfcheck_guard_root_defend(table refutations,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = slices[si].u.pipe.u.branch.length+4;
+    result = true;
   else
     result = direct_defender_root_defend(refutations,
                                          next,

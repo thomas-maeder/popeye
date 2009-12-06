@@ -215,23 +215,18 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
  * @param table table where to add refutations
  * @param si slice index
  * @param max_number_refutations maximum number of refutations to deliver
- * @return slack_length_direct:           key solved next slice
- *         slack_length_direct+1..length: key solved this slice in so
- *                                        many moves
- *         length+2:                      key allows refutations
- *         length+4:                      key reached deadend (e.g.
- *                                        self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type reflex_guard_root_defend(table refutations,
-                                          slice_index si,
-                                          unsigned int max_number_refutations)
+boolean reflex_guard_root_defend(table refutations,
+                                 slice_index si,
+                                 unsigned int max_number_refutations)
 {
   stip_length_type const length = slices[si].u.pipe.u.reflex_guard.length;
   stip_length_type const
       min_length = slices[si].u.pipe.u.reflex_guard.min_length;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-  stip_length_type result = length+4;
+  boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -245,7 +240,7 @@ stip_length_type reflex_guard_root_defend(table refutations,
         break;
 
       case has_solution:
-        result = slack_length_direct;
+        result = false;
         slice_solve_postkey(avoided);
         write_end_of_solution();
         break;
