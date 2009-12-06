@@ -215,60 +215,6 @@ unsigned int maxflight_guard_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve threats after an attacker's move
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type maxflight_guard_solve_threats_in_n(table threats,
-                                                    slice_index si,
-                                                    stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = direct_defender_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param si slice index
- * @param n maximum length of variations to be solved
- * @return true iff >= 1 variation was found
- */
-boolean maxflight_guard_solve_variations_in_n(table threats,
-                                              stip_length_type len_threat,
-                                              slice_index si,
-                                              stip_length_type n)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = direct_defender_solve_variations_in_n(threats,len_threat,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 
 /* **************** Stipulation instrumentation ***************
  */

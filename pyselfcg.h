@@ -71,32 +71,6 @@ boolean selfcheck_guard_are_threats_refuted(table threats,
                                             stip_length_type len_threat,
                                             slice_index si);
 
-/* Solve threats after an attacker's move
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-selfcheck_guard_defender_solve_threats_in_n(table threats,
-                                            slice_index si,
-                                            stip_length_type n);
-
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param si slice index
- * @param n maximum length of variations to be solved
- * @return true iff >= 1 variation was found
- */
-boolean selfcheck_guard_solve_variations_in_n(table threats,
-                                              stip_length_type len_threat,
-                                              slice_index si,
-                                              stip_length_type n);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
