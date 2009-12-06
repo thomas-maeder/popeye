@@ -168,6 +168,14 @@ option vari
 
 next
 
+title s#=2 with short solution
+pieces white ka1 rh2 cab1
+       black kb3 pa3c3
+stip s#=2
+option vari
+
+next
+
 title s#2 with set play
 pieces white ka1 qc2
        black ka3 pa2b4

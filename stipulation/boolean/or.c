@@ -114,23 +114,24 @@ boolean quodlibet_root_solve(slice_index si)
   return result;
 }
 
-/* Find refutations after a move of the attacking side at root level.
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @param maximum number of refutations to be reported
- * @return slack_length_direct:   key solved
- *         slack_length_direct+2: key allows refutations
- *         slack_length_direct+4: key reached deadend (e.g. self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type
-quodlibet_root_find_refutations(slice_index si,
-                                unsigned int max_number_refutations)
+boolean quodlibet_root_defend(slice_index si,
+                              unsigned int max_number_refutations)
 {
-  stip_length_type const result = slack_length_direct+2;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
+  boolean result;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
+
+  result = (slice_root_defend(op1,max_number_refutations)
+            && slice_root_defend(op2,max_number_refutations));
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

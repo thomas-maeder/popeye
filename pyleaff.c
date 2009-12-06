@@ -535,20 +535,17 @@ static boolean root_solve_postkey(slice_index leaf)
   return result;
 }
 
-/* Find refutations after a move of the attacking side at root level.
- * @param leaf slice index
- * @param maximum number of refutations to be reported
- * @return slack_length_direct:   key solved
- *         slack_length_direct+2: key allows refutations
- *         slack_length_direct+4: key reached deadend (e.g. self check)
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type
-leaf_forced_root_find_refutations(slice_index leaf,
-                                  unsigned int max_number_refutations)
+boolean leaf_forced_root_defend(slice_index leaf,
+                                unsigned int max_number_refutations)
 {
   Side const defender = slices[leaf].starter;
-  stip_length_type result = slack_length_direct+4;
+  boolean result = true;
   table const refutations = allocate_table();
+  boolean have_we_reached_goal = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -566,8 +563,7 @@ leaf_forced_root_find_refutations(slice_index leaf,
       switch (leaf_is_goal_reached(defender,leaf))
       {
         case goal_reached:
-          if (result==slack_length_direct+4)
-            result = slack_length_direct;
+          have_we_reached_goal = true;
           break;
 
         case goal_not_reached:
@@ -575,7 +571,6 @@ leaf_forced_root_find_refutations(slice_index leaf,
           {
             append_to_top_table();
             coupfort();
-            result = slack_length_direct+2;
           }
           break;
 
@@ -590,23 +585,27 @@ leaf_forced_root_find_refutations(slice_index leaf,
     repcoup();
 
     if (table_length(refutations)>max_number_refutations)
-    {
-      clear_top_table();
-      result = slack_length_direct+4;
       break;
-    }
   }
 
   finply();
 
-  if (result==slack_length_direct)
+  if (table_length(refutations)==0)
   {
-    write_attack(attack_key);
-    root_solve_postkey(leaf);
-    write_end_of_solution();
+    if (have_we_reached_goal)
+    {
+      result = false;
+      write_attack(attack_key);
+      root_solve_postkey(leaf);
+      write_end_of_solution();
+    }
+    else
+      /* defender immobile and goal not stalemate */
+      result = true;
   }
-  else if (result==slack_length_direct+2)
+  else if (table_length(refutations)<=max_number_refutations)
   {
+    result = true;
     write_attack(attack_try);
     root_solve_postkey(leaf);
     write_refutations(refutations);

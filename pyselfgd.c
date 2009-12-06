@@ -427,18 +427,12 @@ boolean self_attack_root_defend(slice_index si)
   TraceFunctionParamListEnd();
 
   if (length==slack_length_direct)
-  {
-    if (slice_root_find_refutations(to_goal,max_nr_refutations)
-        <=slack_length_direct+2)
-      result = false;
-    else
-      result = true;
-  }
+    result = slice_root_defend(to_goal,max_nr_refutations);
   else
   {
     stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
     if (min_length==slack_length_direct
-        && slice_root_find_refutations(to_goal,0)==slack_length_direct)
+        && !slice_root_defend(to_goal,0))
       result = false;
     else
       result = direct_defender_root_defend(slices[si].u.pipe.next);

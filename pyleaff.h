@@ -57,16 +57,12 @@ boolean leaf_forced_solved(slice_index leaf);
  */
 boolean leaf_forced_root_solve(slice_index leaf);
 
-/* Find refutations after a move of the attacking side at root level.
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @param maximum number of refutations to be reported
- * @return slack_length_direct:   key solved
- *         slack_length_direct+2: key allows refutations
- *         slack_length_direct+4: key reached deadend (e.g. self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type
-leaf_forced_root_find_refutations(slice_index leaf,
-                                  unsigned int max_number_refutations);
+boolean leaf_forced_root_defend(slice_index leaf,
+                                unsigned int max_number_refutations);
 
 /* Detect starter field with the starting side if possible. 
  * @param leaf identifies leaf

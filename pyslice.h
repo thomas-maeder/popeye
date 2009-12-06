@@ -17,16 +17,11 @@
  */
 void slice_solve_threats(table threats, slice_index si);
 
-/* Find refutations after a move of the attacking side at root level.
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @param maximum number of refutations to be reported
- * @return slack_length_direct:   key solved
- *         slack_length_direct+2: key allows refutations
- *         slack_length_direct+4: key reached deadend (e.g. self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type
-slice_root_find_refutations(slice_index si,
-                            unsigned int max_number_refutations);
+boolean slice_root_defend(slice_index si, unsigned int max_number_refutations);
 
 /* Spin off a set play slice at root level
  * @param si slice index

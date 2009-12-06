@@ -99,17 +99,13 @@ void slice_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Find refutations after a move of the attacking side at root level.
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @param maximum number of refutations to be reported
- * @return slack_length_direct:   key solved
- *         slack_length_direct+2: key allows refutations
- *         slack_length_direct+4: key reached deadend (e.g. self check)
+ * @return true iff the defending side can successfully defend
  */
-stip_length_type slice_root_find_refutations(slice_index si,
-                                             unsigned int max_number_refutations)
+boolean slice_root_defend(slice_index si, unsigned int max_number_refutations)
 {
-  stip_length_type result = slack_length_direct+4;
+  boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -120,11 +116,11 @@ stip_length_type slice_root_find_refutations(slice_index si,
   switch (slices[si].type)
   {
     case STLeafForced:
-      result = leaf_forced_root_find_refutations(si,max_number_refutations);
+      result = leaf_forced_root_defend(si,max_number_refutations);
       break;
 
     case STQuodlibet:
-      result = quodlibet_root_find_refutations(si,max_number_refutations);
+      result = quodlibet_root_defend(si,max_number_refutations);
       break;
 
     default:
