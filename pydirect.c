@@ -24,6 +24,7 @@
 /* Try to defend after an attempted key move at root level
  * @param table table where to add refutations
  * @param si slice index
+ * @param max_number_refutations maximum number of refutations to deliver
  * @return slack_length_direct:           key solved next slice
  *         slack_length_direct+1..length: key solved this slice in so
  *                                        many moves
@@ -31,52 +32,73 @@
  *         length+4:                      key reached deadend (e.g.
  *                                        self check)
  */
-stip_length_type direct_defender_root_defend(table refutations,
-                                             slice_index si)
+stip_length_type
+direct_defender_root_defend(table refutations,
+                            slice_index si,
+                            unsigned int max_number_refutations)
 {
   stip_length_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STDirectDefenderRoot:
-      result = branch_d_defender_root_defend(refutations,si);
+      result = branch_d_defender_root_defend(refutations,
+                                             si,
+                                             max_number_refutations);
       break;
 
     case STSelfAttack:
-      result = self_attack_root_defend(refutations,si);
+      result = self_attack_root_defend(refutations,
+                                       si,
+                                       max_number_refutations);
       break;
 
     case STReflexGuard:
-      result = reflex_guard_root_defend(refutations,si);
+      result = reflex_guard_root_defend(refutations,
+                                        si,
+                                        max_number_refutations);
       break;
 
     case STSelfCheckGuard:
-      result = selfcheck_guard_root_defend(refutations,si);
+      result = selfcheck_guard_root_defend(refutations,
+                                           si,
+                                           max_number_refutations);
       break;
 
     case STKeepMatingGuard:
-      result = keepmating_guard_root_defend(refutations,si);
+      result = keepmating_guard_root_defend(refutations,
+                                            si,
+                                            max_number_refutations);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_root_defend(refutations,si);
+      result = maxflight_guard_root_defend(refutations,
+                                           si,
+                                           max_number_refutations);
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_root_defend(refutations,si);
+      result = maxthreatlength_guard_root_defend(refutations,
+                                                 si,
+                                                 max_number_refutations);
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_root_defend(refutations,si);
+      result = max_nr_nontrivial_guard_root_defend(refutations,
+                                                   si,
+                                                   max_number_refutations);
       break;
 
     case STRestartGuard:
-      result = restart_guard_root_defend(refutations,si);
+      result = restart_guard_root_defend(refutations,
+                                         si,
+                                         max_number_refutations);
       break;
 
     default:
