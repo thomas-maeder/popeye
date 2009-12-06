@@ -351,7 +351,11 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
   if (slices[op1].starter==no_side)
     slices[si].starter = slices[op2].starter;
   else
+  {
+    assert(slices[op2].starter==no_side
+           || slices[op1].starter==slices[op2].starter);
     slices[si].starter = slices[op1].starter;
+  }
 
   if (result1==dont_know_who_decides_on_starter)
     result = result2;
