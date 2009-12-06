@@ -429,45 +429,6 @@ stip_length_type branch_d_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until goal
- */
-static void solve_postkey_in_n(slice_index si, stip_length_type n)
-{
-  table const threats = allocate_table();
-  stip_length_type len_threat;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  output_start_postkey_level();
-
-  if (OptFlag[nothreat])
-    len_threat = n;
-  else
-  {
-    output_start_threat_level();
-    len_threat = direct_defender_solve_threats_in_n(threats,next,n-2);
-    output_end_threat_level();
-    if (len_threat==n)
-      Message(Zugzwang);
-  }
-
-  direct_defender_solve_variations_in_n(threats,len_threat,next,n-1);
-
-  output_end_postkey_level();
-
-  free_table();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine and write continuations after the defense just played.
  * We know that there is at least 1 continuation to the defense.
  * Only continuations of minimal length are looked for and written.
@@ -558,11 +519,8 @@ static boolean solve_threats_long_in_n(slice_index si, stip_length_type n)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !direct_defender_defend_in_n(next,n-1))
     {
-      write_attack(attack_regular);
-      solve_postkey_in_n(si,n);
-      append_to_top_table();
-      coupfort();
       result = true;
+      append_to_top_table();
     }
 
     repcoup();
@@ -751,12 +709,7 @@ static boolean solve_long_in_n(slice_index si, stip_length_type n)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !direct_defender_defend_in_n(next,n-1))
-    {
       result = true;
-      write_attack(attack_regular);
-      solve_postkey_in_n(si,n);
-      coupfort();
-    }
 
     repcoup();
   }

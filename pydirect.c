@@ -813,10 +813,6 @@ stip_length_type direct_defender_solve_threats_in_n(table threats,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchDirectDefender:
-      result = branch_d_defender_solve_threats_in_n(threats,si,n);
-      break;
-
     case STSelfCheckGuard:
       result = selfcheck_guard_defender_solve_threats_in_n(threats,si,n);
       break;
@@ -882,10 +878,6 @@ boolean direct_defender_solve_variations_in_n(table threats,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchDirectDefender:
-      result = branch_d_defender_solve_variations_in_n(threats,len_threat,si,n);
-      break;
-
     case STSelfCheckGuard:
       result = selfcheck_guard_solve_variations_in_n(threats,len_threat,si,n);
       break;

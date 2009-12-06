@@ -84,31 +84,6 @@ boolean branch_d_defender_root_defend(table refutations,
                                       slice_index si,
                                       unsigned int max_number_refutations);
 
-/* Solve threats after an attacker's move
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type branch_d_defender_solve_threats_in_n(table threats,
-                                                      slice_index si,
-                                                      stip_length_type n);
-
-/* Solve variations after the move that has just been played at root level
- * @param threats table containing threats
- * @param len_threat length of threats
- * @param si slice index
- * @param n maximum length of variations to be solved
- * @return true iff >= 1 variation was found
- */
-boolean branch_d_defender_solve_variations_in_n(table threats,
-                                                stip_length_type len_threat,
-                                                slice_index si,
-                                                stip_length_type n);
-
 /* Detect starter field with the starting side if possible. 
  * @param si identifies slice
  * @param same_side_as_root does si start with the same side as root?
