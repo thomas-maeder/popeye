@@ -123,6 +123,8 @@ boolean quodlibet_root_defend(slice_index si,
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
+  boolean result1;
+  boolean result2;
   boolean result;
   
   TraceFunctionEntry(__func__);
@@ -130,8 +132,9 @@ boolean quodlibet_root_defend(slice_index si,
   TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
-  result = (slice_root_defend(op1,max_number_refutations)
-            && slice_root_defend(op2,max_number_refutations));
+  result1 = slice_root_defend(op1,max_number_refutations);
+  result2 = slice_root_defend(op2,max_number_refutations);
+  result = result1 && result2;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
