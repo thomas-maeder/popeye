@@ -1673,3 +1673,34 @@ c) nhPf7
 solution finished. 
 
 
+
+ghostchess bug; 4.51 didn't find a solution here
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  =B   .   .   .   .   8
+|                                   |
+7   .   .  =P   .   .   .   .   .   7
+|                                   |
+6  -R  -K   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                  1 + 4 + 2n
+             Uncapturable
+              GhostChess
+
+  1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] # 
+
+solution finished. 
+
+

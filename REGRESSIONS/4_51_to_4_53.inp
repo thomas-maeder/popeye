@@ -424,4 +424,13 @@ condition take
 twin add neutral pf7
 twin add neutral halfneutral pf7
 
+next
+
+title ghostchess bug; 4.51 didn't find a solution here
+pieces white Kd1
+       black Kb6 Ra6 Pb5a4
+       neutral Pc7 Bd8
+stipulation h#1.5
+condition ghostchess
+
 end
