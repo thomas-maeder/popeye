@@ -154,7 +154,7 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
