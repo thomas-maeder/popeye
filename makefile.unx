@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.91 2009/12/07 17:43:37 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.92 2009/12/08 05:59:07 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -29,7 +29,7 @@
 
 # Version numer; . separates major and minor version part
 # developer versions have minor version numbers divisible by 2
-VERSION=4.53
+VERSION=4.54
 
 
 # NOTES ON CONDITIONAL COMPILATION
@@ -288,6 +288,7 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		platform/$(PLATFORM)/pytime.c \
 		platform/$(PLATFORM)/priority.c \
 		pygmarr.c
+SPECIALCFILES = gengmarr.C
 OBJECTS =       $(PYCFILES:%.c=%$(OBJ_SUFFIX))
 CFILES  =       $(PYCFILES) DHT/*.c platform/$(PLATFORM)/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
@@ -300,8 +301,8 @@ EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
 DEVELOP =       makefile.unx DHT/makefile.unx coding.txt
 TOOLCHAINS =    toolchains/*/make.incl toolchains/*/README*
 SCRIPTS =       scripts/*.sh
-DFILES  =       $(INCLUDES) $(CFILES) $(DEVELOP) $(DOCFILES)  \
-		$(MSGFILES) $(TOOLCHAINS) $(SCRIPTS)
+DFILES  =       depend $(INCLUDES) $(CFILES) $(SPECIALCFILES) $(DEVELOP) \
+		$(DOCFILES) $(MSGFILES) $(TOOLCHAINS) $(SCRIPTS)
 MINIFILES  =    py*.[ch] py*.msg py*.txt readme.txt makefile.unx
 
 
