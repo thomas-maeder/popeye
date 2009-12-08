@@ -27,7 +27,7 @@ boolean read_max_flights(const char *textToken)
   char *end;
   unsigned long const requested_max_nr_flights = strtoul(textToken,&end,10);
 
-  if (textToken!=end && requested_max_nr_flights<=UINT_MAX)
+  if (textToken!=end && requested_max_nr_flights<=nr_squares_on_board)
   {
     max_nr_flights = (unsigned int)requested_max_nr_flights;
     result = true;
