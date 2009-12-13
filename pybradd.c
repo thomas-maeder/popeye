@@ -770,7 +770,6 @@ boolean branch_d_defender_root_defend(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
   if (root_collect_refutations(refutations,si,length,max_nr_refutations))
