@@ -1,8 +1,8 @@
 #include "pyrepubl.h"
 #include "pydata.h"
-#include "pyslice.h"
 #include "pyoutput.h"
 #include "pymsg.h"
+#include "pyleaf.h"
 
 #include <string.h>
 
@@ -10,6 +10,8 @@
 boolean is_republican_suspended;
 
 static pilecase republican_king_placement;
+
+static slice_index goal_leaf;
 
 /* TODO implement independently from SuperCirce et al.
  */
@@ -28,7 +30,7 @@ static void find_mate_square(Side camp)
       if (e[rn]==vide)
       {
         e[rn]= roin;
-        if (slice_is_goal_reached(camp,active_slice[nbply]))
+        if (leaf_is_goal_reached(camp,goal_leaf)==goal_reached)
           return;
         e[rn]= vide;
       }
@@ -48,7 +50,7 @@ static void find_mate_square(Side camp)
       if (e[rb]==vide)
       {
         e[rb]= roib;
-        if (slice_is_goal_reached(camp,active_slice[nbply]))
+        if (leaf_is_goal_reached(camp,goal_leaf)==goal_reached)
           return;
         e[rb]= vide;
       }
@@ -84,19 +86,28 @@ boolean republican_verifie_position(void)
   }
   else
   {
-    OptFlag[sansrn] = true;
-    OptFlag[sansrb] = true;
-    optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
-    is_republican_suspended = false;
-    jouegenre = true;
-    jouetestgenre = true;
-    move_generation_mode_opti_per_side[White] = 
-        move_generation_optimized_by_killer_move;
-    move_generation_mode_opti_per_side[Black] = 
-        move_generation_optimized_by_killer_move;
-    supergenre = true;
-    return true;
+    goal_leaf = find_unique_goal(root_slice);
+    if (goal_leaf==no_slice)
+    {
+      VerifieMsg(StipNotSupported);
+      return false;
+    }
+    else
+    {
+      OptFlag[sansrn] = true;
+      OptFlag[sansrb] = true;
+      optim_neutralretractable = false;
+      optim_orthomatingmoves = false;
+      is_republican_suspended = false;
+      jouegenre = true;
+      jouetestgenre = true;
+      move_generation_mode_opti_per_side[White] = 
+          move_generation_optimized_by_killer_move;
+      move_generation_mode_opti_per_side[Black] = 
+          move_generation_optimized_by_killer_move;
+      supergenre = true;
+      return true;
+    }
   }
 }
 

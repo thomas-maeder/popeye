@@ -2399,7 +2399,7 @@ pytable.h:
 trace.h:
 pyrepubl$(OBJ_SUFFIX): pyrepubl.c pyrepubl.h pyproc.h py4.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyslice.h pystip.h pytable.h pyoutput.h pymsg.h
+  pyoutput.h pystip.h pytable.h pymsg.h pyleaf.h
 
 pyrepubl.h:
 
@@ -2427,15 +2427,15 @@ pygoal.h:
 
 pydata.h:
 
-pyslice.h:
+pyoutput.h:
 
 pystip.h:
 
 pytable.h:
 
-pyoutput.h:
-
 pymsg.h:
+
+pyleaf.h:
 platform/$(PLATFORM)/maxmem$(OBJ_SUFFIX): platform/$(PLATFORM)/maxmem.c platform/$(PLATFORM)/../maxmem.h \
   platform/$(PLATFORM)/../../boolean.h
 
