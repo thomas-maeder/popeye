@@ -105,13 +105,6 @@ boolean slice_has_non_starter_solved(slice_index si);
 unsigned int slice_count_refutations(slice_index si,
                                      unsigned int max_result);
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean slice_is_goal_reached(Side just_moved, slice_index si);
-
 /* Find and write post key play
  * @param si slice index
  * @return true iff >=1 solution was found

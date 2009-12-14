@@ -317,28 +317,6 @@ boolean series_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean series_is_goal_reached(Side just_moved, slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_is_goal_reached(just_moved,to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats

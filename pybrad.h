@@ -91,13 +91,6 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
                                              stip_length_type n,
                                              stip_length_type n_min);
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_is_goal_reached(Side just_moved, slice_index si);
-
 /* Determine whether a slice.has just been solved with the just played
  * move by the non-starter
  * @param si slice identifier

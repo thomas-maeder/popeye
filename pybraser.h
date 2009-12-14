@@ -37,13 +37,6 @@ void branch_ser_promote_to_toplevel(slice_index adapter);
 who_decides_on_starter branch_ser_detect_starter(slice_index si,
                                                  boolean same_side_as_root);
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_ser_is_goal_reached(Side just_moved, slice_index si);
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

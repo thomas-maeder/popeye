@@ -615,28 +615,6 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
 }
 
 /**************** slice interface ***********************/
-
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_is_goal_reached(Side just_moved, slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_is_goal_reached(just_moved,
-                                 slices[si].u.pipe.u.branch.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
  
 /* Determine whether a slice.has just been solved with the just played
  * move by the non-starter

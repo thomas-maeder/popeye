@@ -35,13 +35,6 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
                                                slice_index next,
                                                slice_index towards_goal);
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si);
-
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

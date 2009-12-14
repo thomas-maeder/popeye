@@ -102,27 +102,6 @@ who_decides_on_starter branch_ser_detect_starter(slice_index si,
   return result;
 }
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_ser_is_goal_reached(Side just_moved, slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_is_goal_reached(just_moved,slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index
  * @param n exact number of moves to reach the end state

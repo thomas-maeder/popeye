@@ -77,28 +77,6 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
   return result;
 }
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean branch_d_defender_is_goal_reached(Side just_moved, slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_is_goal_reached(just_moved,
-                                 slices[si].u.pipe.u.branch.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean has_short_solution(slice_index si, stip_length_type n)
 {
   boolean result;

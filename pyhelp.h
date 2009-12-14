@@ -64,13 +64,6 @@ boolean help_solve_postkey(slice_index si);
  */
 boolean help_has_non_starter_solved(slice_index si);
 
-/* Determine whether a side has reached the goal
- * @param just_moved side that has just moved
- * @param si slice index
- * @return true iff just_moved has reached the goal
- */
-boolean help_is_goal_reached(Side just_moved, slice_index si);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
