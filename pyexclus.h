@@ -1,5 +1,5 @@
-#if !defined(PYREPUBL_H)
-#define PYREPUBL_H
+#if !defined(PYEXCLUS_H)
+#define PYEXCLUS_H
 
 /* This module implements Exclusive Chess
  */
