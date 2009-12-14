@@ -61,6 +61,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyleaf.h"
+#include "pyexclus.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -2610,21 +2611,8 @@ boolean pos_legal(void)
       return false;
   }
 
-  if (CondFlag[exclusive])
-  {
-    if (nbply>maxply-1)
-      FtlMsg(ChecklessUndecidable);
-
-    if (!mateallowed[nbply])
-    {
-      /* TODO once republican chess has a moudule of its own, it might
-         be a good idea to cache si */
-      /* input validation makes sure that si!=no_goal */
-      slice_index const si = find_unique_goal(root_slice);
-      if (leaf_is_goal_reached(trait[nbply],si)==goal_reached)
-        return false;
-    }
-  }
+  if (CondFlag[exclusive] && !exclusive_pos_legal())
+    return false;
 
   return true;
 }

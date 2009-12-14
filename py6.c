@@ -113,6 +113,7 @@
 #include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
+#include "pyexclus.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -1690,8 +1691,8 @@ static boolean verify_position(void)
   }
 
   {
-    Goal const castlingGoals[] = { goal_castling };
-    if (stip_ends_in_one_of(castlingGoals,1)
+    Goal const castlingGoal = goal_castling;
+    if (stip_ends_in_one_of(&castlingGoal,1)
         && !castling_supported)
     {
       VerifieMsg(StipNotSupported);
@@ -1713,17 +1714,11 @@ static boolean verify_position(void)
   /* a small hack to enable ep keys */
   trait[1] = no_side;
 
-  /* we have to know which goal has to be reached in a dual-free
-   * way */
-  if (CondFlag[exclusive] && find_unique_goal(root_slice)==no_slice)
-  {
-    VerifieMsg(StipNotSupported);
+  if (CondFlag[exclusive] && !exclusive_verifie_position())
     return false;
-  }
 
   if (CondFlag[isardam]
-      || CondFlag[ohneschach]
-      || CondFlag[exclusive])
+      || CondFlag[ohneschach])
   {
     flag_testlegality = true;
     optim_neutralretractable = false;

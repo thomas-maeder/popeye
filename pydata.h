@@ -95,7 +95,6 @@ EXTERN square bl_royal_sq, wh_royal_sq;
 
 EXTERN echiquier e, e_ubi, e_ubi_mad;
 
-EXTERN boolean mateallowed[maxply+1];
 EXTERN boolean senti[maxply+1];
 EXTERN boolean norm_cham_prom[maxply+1];
 EXTERN boolean cir_cham_prom[maxply+1];

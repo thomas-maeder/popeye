@@ -70,6 +70,7 @@
 #include "pyslice.h"
 #include "pyleaf.h"
 #include "pyoutput.h"
+#include "pyexclus.h"
 #include "trace.h"
 
 static piece linechampiece(piece p, square sq)
@@ -1200,29 +1201,7 @@ void genmove(Side camp)
   init_move_generation_optimizer();
 
   if (CondFlag[exclusive])
-  {
-    int nbrmates= 0;
-
-    mateallowed[nbply]= true;
-
-    /* TODO should we start a new ply here?
-     */
-    active_slice[nbply+1] = active_slice[nbply];
-    if (camp == White)
-      gen_wh_ply();
-    else
-      gen_bl_ply();
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play)
-          && slice_is_goal_reached(camp,active_slice[nbply]))
-        nbrmates++;
-      repcoup();
-    }
-
-    mateallowed[nbply]= nbrmates < 2;
-  }
+    exclusive_init_genmove(camp);
 
   /* exact and consequent maximummers */
   if (camp == White)
