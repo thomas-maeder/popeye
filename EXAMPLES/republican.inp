@@ -11,7 +11,7 @@ twin stipulation #1
 
 next
 
-title Type2 ist Vorgabe; RepublicananerSchach wird nicht suspendiert
+title Type2 ist Vorgabe; RepublicanerSchach wird nicht suspendiert
 pieces black ra1 be6 ph5
        white rg2g3
 condition republican
@@ -69,7 +69,7 @@ option variations
 
 next
 
-author Juraj Lörinc
+author Juraj L"orinc
 origin 9424 Die Schwalbe Dezember 1996; dedicated to my father Juraj
 pieces white qh3 rc7e7 pb2f2
        black chameleon bd1

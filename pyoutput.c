@@ -5,6 +5,7 @@
 #include "pyslice.h"
 #include "pypipe.h"
 #include "py1.h"
+#include "pyrepubl.h"
 #include "trace.h"
 #ifdef _SE_
 #include "se.h"
@@ -1099,16 +1100,8 @@ static void editcoup(ply ply_id, coup *mov, Goal goal)
       StdString("]");
     }
 
-    if (CondFlag[republican]
-        && mov->repub_k<=square_h8 && mov->repub_k>=square_a1)
-    {
-      SETFLAG(mov->ren_spec,advers(mov->tr));
-      StdString("[+");
-      WriteSpec(mov->ren_spec, true);
-      WritePiece(roib);
-      WriteSquare(mov->repub_k);
-      StdChar(']');
-    }
+    if (CondFlag[republican])
+      write_republican_king_placement(mov);
 
     if (mov->renkam) {
       StdChar('[');

@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.93 2009/12/14 19:13:39 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.94 2009/12/14 21:00:15 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -264,7 +264,7 @@ INCLUDES =      pyenum.h \
 		pymovein.h \
 		pymovenb.h \
 		boolean.h trace.h \
-		pyexclus.h
+		pyexclus.h pyrepubl.h
 PYCFILES =      pydata.c pyboard.c pyposit.c \
 		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
@@ -284,7 +284,7 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		pymovein.c \
 		pymovenb.c \
 		trace.c \
-		pyexclus.c \
+		pyexclus.c  pyrepubl.c \
 		platform/$(PLATFORM)/maxmem.c \
 		platform/$(PLATFORM)/maxtime.c \
 		platform/$(PLATFORM)/pytime.c \

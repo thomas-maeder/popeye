@@ -85,6 +85,7 @@
 #include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyint.h"
+#include "pyrepubl.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -296,7 +297,11 @@ static void CenterLine(char *s)
 static void WriteConditions(int alignment)
 {
   Cond  cond;
-  char  CondLine[256];
+  enum
+  {
+    CondLineLength = 256
+  };
+  char  CondLine[CondLineLength];
   boolean   CondPrinted= false;
 
   for (cond= 1; cond < CondCount; cond++) {
@@ -677,13 +682,8 @@ static void WriteConditions(int alignment)
         strcat(CondLine, VariantTypeString[UserLanguage][Type3]);
     }
 
-    if (CondFlag[republican])    {
-      strcat(CondLine, "    ");
-      if (RepublicanType==republican_type1)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
-      if (RepublicanType==republican_type2)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
-    }
+    if (CondFlag[republican])
+      republican_write_diagram_caption(CondLine,CondLineLength);
 
     if (cond == sentinelles) {
       char pawns[7];

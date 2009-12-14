@@ -63,6 +63,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "pyrepubl.h"
 #include "trace.h"
 
 #include <assert.h>

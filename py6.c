@@ -114,6 +114,7 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyexclus.h"
+#include "pyrepubl.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -125,8 +126,6 @@
 #ifdef _SE_
 #include "se.h"
 #endif 
-
-boolean supergenre;
 
 boolean is_rider(piece p)
 {
@@ -615,6 +614,17 @@ static boolean verify_position(void)
   int      cp, pp, tp, op;
   boolean          nonoptgenre;
 
+  jouegenre = false;
+  jouetestgenre = false;
+  nonoptgenre = false;
+  supergenre = false;
+  optim_orthomatingmoves = true;
+
+  move_generation_mode_opti_per_side[White]
+      = move_generation_optimized_by_nr_opponent_moves;
+  move_generation_mode_opti_per_side[Black]
+      = move_generation_optimized_by_nr_opponent_moves;
+
   if (CondFlag[glasgow] && CondFlag[circemalefique])
     anycirprom = true;
 
@@ -704,8 +714,10 @@ static boolean verify_position(void)
   if (TSTFLAG(PieSpExFlags, HalfNeutral))
     SETFLAG(PieSpExFlags, Neutral);
 
+  if (CondFlag[republican] && !republican_verifie_position())
+    return false;
+
   if ((bl_royal_sq!=initsquare || wh_royal_sq!=initsquare
-       || CondFlag[republican]
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
        || rex_circe
        || rex_immun)
@@ -766,8 +778,6 @@ static boolean verify_position(void)
       }
     }
   }
-
-  optim_orthomatingmoves = true;
 
   /* otherwise, the optimisation would be correct, too, but we
    * wouldn't care */
@@ -862,22 +872,6 @@ static boolean verify_position(void)
       return false;
     }
     flagfee = true;
-  }
-
-  if (CondFlag[republican])
-  {
-    if (CondFlag[masand])
-    {
-      /* TODO what else should we prohibit here? */
-      VerifieMsg(NoRepublicanWithConditionsDependingOnCheck);
-      return false;
-    }
-
-    OptFlag[sansrn] = true;
-    OptFlag[sansrb] = true;
-    optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
-    is_republican_suspended = false;
   }
 
   if (OptFlag[sansrb] && rb!=initsquare)
@@ -1001,9 +995,9 @@ static boolean verify_position(void)
     if (CondFlag[supercirce]) numsuper++;
     if (CondFlag[circecage]) numsuper++;
     if (CondFlag[april]) numsuper++;
-    if (CondFlag[republican]) numsuper++;
     if (CondFlag[antisuper]) numsuper++;
-    if (numsuper > 1)
+    if (numsuper>1
+        || (supergenre && numsuper>0))
     {
       VerifieMsg(SuperCirceAndOthers);
       return false;
@@ -1336,10 +1330,9 @@ static boolean verify_position(void)
     }
   }
 
-  jouegenre =
-      CondFlag[black_oscillatingKs]
+  jouegenre = jouegenre
+      || CondFlag[black_oscillatingKs]
       || CondFlag[white_oscillatingKs]
-      || CondFlag[republican]
       || anycirce
       || CondFlag[sentinelles]
       || anyanticirce
@@ -1732,12 +1725,11 @@ static boolean verify_position(void)
   {
     Goal const doublemate_goals[] = { goal_doublemate };
 
-    jouetestgenre=
-        flag_testlegality
+    jouetestgenre = jouetestgenre
+        || flag_testlegality
         || flagAssassin
         || stip_ends_in_one_of(doublemate_goals,1)
         || CondFlag[patience]
-        || CondFlag[republican]
         || CondFlag[blackultraschachzwang]
         || CondFlag[whiteultraschachzwang]
         || CondFlag[BGL];
@@ -1748,22 +1740,21 @@ static boolean verify_position(void)
       || CondFlag[whiteultraschachzwang];      
 
 
-  nonoptgenre = TSTFLAG(PieSpExFlags, Neutral)
+  nonoptgenre = nonoptgenre
+      || TSTFLAG(PieSpExFlags, Neutral)
       || flag_testlegality
       || anymars
       || anyantimars
       || CondFlag[brunner]
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
-      || CondFlag[republican]
       || CondFlag[takemake];
 
-  supergenre=
-      CondFlag[supercirce]
+  supergenre = supergenre
+      || CondFlag[supercirce]
       || CondFlag[circecage]
       || CondFlag[antisuper]
-      || CondFlag[april]
-      || CondFlag[republican];
+      || CondFlag[april];
 
   if (CondFlag[extinction] || flagAssassin)
   {
@@ -1821,14 +1812,13 @@ static boolean verify_position(void)
     nonoptgenre = true;
   }
 
-  move_generation_mode_opti_per_side[White]
-      = flagwhitemummer||nonoptgenre
-      ? move_generation_optimized_by_killer_move
-      : move_generation_optimized_by_nr_opponent_moves;
-  move_generation_mode_opti_per_side[Black]
-      = flagblackmummer||nonoptgenre
-      ? move_generation_optimized_by_killer_move
-      : move_generation_optimized_by_nr_opponent_moves;
+  if (flagwhitemummer || nonoptgenre)
+    move_generation_mode_opti_per_side[White] = 
+        move_generation_optimized_by_killer_move;
+
+  if (flagblackmummer || nonoptgenre)
+    move_generation_mode_opti_per_side[Black] = 
+        move_generation_optimized_by_killer_move;
 
   if (CondFlag[takemake])
   {
@@ -1854,7 +1844,7 @@ static boolean verify_position(void)
   return true;
 }
 
-boolean moves_equal(coup *move1, coup *move2)
+boolean moves_equal(coup const *move1, coup const *move2)
 {
   return (move1->cdzz==move2->cdzz
           && move1->cazz==move2->cazz
@@ -1874,7 +1864,7 @@ boolean moves_equal(coup *move1, coup *move2)
                      || CondFlag[circecage])
                    || move1->sqren==move2->sqren)
                   && (!CondFlag[republican]
-                      || move1->repub_k==move2->repub_k)
+                      || republican_moves_equal(move1,move2))
                   && (!CondFlag[antisuper]
                       || move1->renkam==move2->renkam))
               )
@@ -1913,7 +1903,8 @@ void current(ply ply_id, coup *mov)
   mov->bool_norm_cham_prom = norm_cham_prom[ply_id];
   mov->bool_cir_cham_prom = cir_cham_prom[ply_id];
   mov->pjazz =     jouearr[ply_id];
-  mov->repub_k =   repub_k[ply_id];
+  if (CondFlag[republican])
+    republican_current(ply_id,mov);
   mov->new_spec =  spec[sq];
   mov->hurdle =    chop[coup_id];
   mov->sb3where =  sb3[coup_id].where;

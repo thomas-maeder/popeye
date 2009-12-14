@@ -71,6 +71,7 @@
 #include "pyleaf.h"
 #include "pyoutput.h"
 #include "pyexclus.h"
+#include "pyrepubl.h"
 #include "trace.h"
 
 static piece linechampiece(piece p, square sq)
@@ -1329,50 +1330,6 @@ static boolean patience_legal()
       wh_last_vacated= sqdep[nply];
   return !((wh_last_vacated && e[wh_last_vacated]) ||
            (bl_last_vacated && e[bl_last_vacated]));
-}
-
-static void find_mate_square(Side camp)
-{
-  if (camp == White)
-  {
-    rn = ++super[nbply];
-    nbpiece[roin]++;
-    while (rn<=square_h8)
-    {
-      if (e[rn]==vide)
-      {
-        e[rn]= roin;
-        if (slice_is_goal_reached(camp,active_slice[nbply]))
-          return;
-        e[rn]= vide;
-      }
-
-      rn = ++super[nbply];
-    }
-
-    nbpiece[roin]--;
-    rn = initsquare;
-  }
-  else
-  {
-    rb = ++super[nbply];
-    nbpiece[roib]++;
-    while (rb<=square_h8)
-    {
-      if (e[rb]==vide)
-      {
-        e[rb]= roib;
-        if (slice_is_goal_reached(camp,active_slice[nbply]))
-          return;
-        e[rb]= vide;
-      }
-
-      rb = ++super[nbply];
-    }
-
-    nbpiece[roib]--;
-    rb = initsquare;
-  }
 }
 
 static int direction(square from, square to)
@@ -3346,52 +3303,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       rb= wh_royal_sq;
 
     if (CondFlag[republican])
-    {
-      if (jt==replay)
-      {
-        if (repub_k[ply_id]!=initsquare)
-        {
-          if (trait_ply==White)
-          {
-            rn = repub_k[ply_id];
-            e[rn] = roin;
-            nbpiece[roin]++;
-          }
-          else
-          {
-            rb = repub_k[ply_id];
-            e[rb] = roib;
-            nbpiece[roib]++;
-          }
-        }
-      }
-      else if (is_republican_suspended)
-      {
-        repub_k[ply_id] = initsquare;
-        super[ply_id] = square_h8+1;
-      }
-      else
-      {
-        is_republican_suspended = true;
-        find_mate_square(trait_ply);
-        repub_k[ply_id] = (super[ply_id]<=square_h8
-                           ? super[ply_id]
-                           : initsquare);
-        if (RepublicanType==republican_type1)
-        {
-          /* In type 1, Republican chess is suspended (and hence
-           * play is over) once a king is inserted. */
-          if (repub_k[ply_id]==initsquare)
-            is_republican_suspended = false;
-        }
-        else
-          /* In type 2, on the other hand, Republican chess is
-           * continued, and the side just "mated" can attempt to
-           * defend against the mate by inserting the opposite
-           * king. */
-          is_republican_suspended = false;
-      }
-    } /* republican */
+      republican_place_king(jt,trait_ply,ply_id);
 
     if (CondFlag[actrevolving])
       transformPosition(rot270);
@@ -3867,27 +3779,7 @@ void repcoup(void)
   }
 
   if (CondFlag[republican])
-  {
-    square sq = repub_k[nbply];
-    if (sq!=initsquare)
-    {
-      e[sq] = vide;
-      if (sq==rn)
-      {
-        rn = initsquare;
-        nbpiece[roin]--;
-      }
-      if (sq==rb)
-      {
-        rb = initsquare;
-        nbpiece[roib]--;
-      }
-
-      if (RepublicanType==republican_type1)
-        /* Republican chess was suspended when the move was played. */
-        is_republican_suspended = false;
-    }
-  }
+    republican_unplace_king();
   
   /* first delete all changes */
   if (repgenre)
@@ -4010,11 +3902,7 @@ void repcoup(void)
   /* at last modify promotion-counters and decrement nbcou */
   /* ortho- und pwc-Umwandlung getrennt */
   if (CondFlag[republican])
-  {
-    next_prom = super[nbply]>square_h8;
-    if (next_prom)
-      super[nbply] = superbas;
-  }
+    next_prom = !republican_advance_king_square();
 
   if (next_prom)
   {

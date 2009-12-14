@@ -251,7 +251,6 @@ EXTERN  boolean         pwcprom[maxply + 1];
 EXTERN  pilecase        sqrenais,
 			crenkam,        /* rebirth square for taking kamikaze pieces */
 			super;          /* supercirce */
-EXTERN  pilecase        repub_k;
 EXTERN  Flags           jouespec[maxply + 1];
 EXTERN  numecoup        repere[maxply + 1];
 EXTERN  ply             parent_ply[maxply + 1];
@@ -297,7 +296,9 @@ EXTERN  boolean         flagfee,
 			flagleofamilyonly,
 			empilegenre,
 			flaglegalsquare, jouegenre,
-			repgenre, change_moving_piece;
+            repgenre, change_moving_piece,
+            supergenre ;
+
 
 EXTERN  square          cirrenroib, cirrenroin,
 			immrenroib, immrenroin;
@@ -377,7 +378,7 @@ EXTERN  boolean         InitChamCirce;
 EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
 			flagAssassin,flag_nk,jouetestgenre;
-EXTERN boolean          flagdiastip, is_republican_suspended;
+EXTERN boolean          flagdiastip;
 EXTERN unsigned int     max_pn, max_pb, max_pt;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
 EXTERN boolean          isapril[derbla + 1];
