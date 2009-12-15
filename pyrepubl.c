@@ -97,7 +97,7 @@ boolean republican_verifie_position(void)
       OptFlag[sansrn] = true;
       OptFlag[sansrb] = true;
       optim_neutralretractable = false;
-      optim_orthomatingmoves = false;
+      add_ortho_mating_moves_generation_obstacle();
       is_republican_suspended = false;
       jouegenre = true;
       jouetestgenre = true;

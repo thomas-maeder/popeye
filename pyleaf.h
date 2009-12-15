@@ -31,8 +31,23 @@ boolean leaf_impose_starter(slice_index si, slice_traversal *st);
  */
 boolean is_a_mating_piece_left(Side mating_side);
 
+/* Reset the number of obstacles that might prevent
+ * generate_move_reaching_goal() from optimising by only generating
+ * orthodox moves
+ */
+void reset_ortho_mating_moves_generation_obstacles(void);
+
+/* Add an obstacle.
+ */
+void add_ortho_mating_moves_generation_obstacle(void);
+
+/* Remove an obstacle.
+ */
+void remove_ortho_mating_moves_generation_obstacle(void);
+
 /* Generate moves for side side_at_move; optimise for moves reaching a
- * specific goal.
+ * specific goal. If the number of obstacles is ==0, the function
+ * optimises by only generating orthodox moves.
  * @param leaf leaf slice whose goal is to be reached by generated
  *             move(s)
  * @param side_at_move side for which to generate moves

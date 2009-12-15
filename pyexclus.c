@@ -33,7 +33,7 @@ boolean exclusive_verifie_position(void)
   {
     flag_testlegality = true;
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     result = true;
   }
 
@@ -81,7 +81,9 @@ void exclusive_init_genmove(Side side)
 
   CondFlag[exclusive] = false;
   active_slice[nbply+1] = active_slice[nbply];
-  genmove(side);
+  remove_ortho_mating_moves_generation_obstacle();
+  generate_move_reaching_goal(exclusive_goal_leaf,side);
+  add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
 
   is_reaching_goal_allowed[nbply] = true;

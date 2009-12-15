@@ -481,6 +481,32 @@ static void GenMatingBishop(square sq_departure,
 } /* GenMatingBishop */
 
 
+static unsigned int nr_ortho_mating_moves_generation_obstacles;
+
+/* Reset the number of obstacles that might prevent
+ * generate_move_reaching_goal() from optimising by only generating
+ * orthodox moves
+ */
+void reset_ortho_mating_moves_generation_obstacles(void)
+{
+  nr_ortho_mating_moves_generation_obstacles = 0;
+}
+
+/* Add an obstacle.
+ */
+void add_ortho_mating_moves_generation_obstacle(void)
+{
+  ++nr_ortho_mating_moves_generation_obstacles;
+}
+
+/* Remove an obstacle.
+ */
+void remove_ortho_mating_moves_generation_obstacle(void)
+{
+  assert(nr_ortho_mating_moves_generation_obstacles>0);
+  --nr_ortho_mating_moves_generation_obstacles;
+}
+
 /* Generate moves for side side_at_move; optimise for moves reaching a
  * specific goal.
  * @param leaf leaf slice whose goal is to be reached by generated
@@ -505,8 +531,8 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
     case goal_mate:
     case goal_doublemate:
     case goal_check:
-      TraceValue("%u\n",optim_orthomatingmoves);
-      if (optim_orthomatingmoves)
+      TraceValue("%u\n",nr_ortho_mating_moves_generation_obstacles);
+      if (nr_ortho_mating_moves_generation_obstacles==0)
       {
         square square_a = square_a1;
         square const OpponentsKing = side_at_move==White ? rn : rb;

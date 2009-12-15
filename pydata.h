@@ -232,9 +232,6 @@ EXTERN  numvec          ortho_opt_queen[2*(square_h8-square_a1)+1],
  * neutral piece and the side to be mated can simply undo it?*/
 EXTERN  boolean         optim_neutralretractable;
 
-/* should we only look for orthodox mating moves? */
-EXTERN  boolean         optim_orthomatingmoves;
-
 EXTERN  unsigned int    zzzaa[derbla - dernoi + 1];     /* nbpiece */
 
 EXTERN piece pjoue[maxply+1];

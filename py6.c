@@ -618,7 +618,7 @@ static boolean verify_position(void)
   jouetestgenre = false;
   nonoptgenre = false;
   supergenre = false;
-  optim_orthomatingmoves = true;
+  reset_ortho_mating_moves_generation_obstacles();
 
   move_generation_mode_opti_per_side[White]
       = move_generation_optimized_by_nr_opponent_moves;
@@ -786,7 +786,7 @@ static boolean verify_position(void)
   if (CondFlag[sting])
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     flagfee = true;
     flagsimplehoppers = true;
   }
@@ -818,7 +818,7 @@ static boolean verify_position(void)
       return false;
     }
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[leofamily])
@@ -847,7 +847,7 @@ static boolean verify_position(void)
         || CondFlag[volage] || TSTFLAG(PieSpExFlags,Volage))
     {
       optim_neutralretractable = false;
-      optim_orthomatingmoves = false;
+      add_ortho_mating_moves_generation_obstacle();
     }
   }
 
@@ -861,7 +861,7 @@ static boolean verify_position(void)
   if (flagultraschachzwang)
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[cavaliermajeur])
@@ -922,11 +922,11 @@ static boolean verify_position(void)
       return false;
     }
     else
-      optim_orthomatingmoves = false;
+      add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[bichro] || CondFlag[monochro])
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   
   eval_2 = eval_white = eval_ortho;
   rbechec = &orig_rbechec;
@@ -966,7 +966,7 @@ static boolean verify_position(void)
 
   if (TSTFLAG(PieSpExFlags, Kamikaze))
   {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = add_ortho_mating_moves_generation_obstacle();
     if (CondFlag[haanerchess])
     {
       VerifieMsg(KamikazeAndHaaner);
@@ -1040,7 +1040,7 @@ static boolean verify_position(void)
   if (CondFlag[disparate])
   {
     eval_white = eval_black = eval_disp;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[nowhcapture] && CondFlag[noblcapture])
@@ -1066,7 +1066,7 @@ static boolean verify_position(void)
     else
     {
       optim_neutralretractable = false;
-      optim_orthomatingmoves = false;
+      add_ortho_mating_moves_generation_obstacle();
     }
   }
   if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[White]
@@ -1074,7 +1074,7 @@ static boolean verify_position(void)
     CondFlag[swappingkings] = true;
 
   if (anymars||anyantimars) {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = add_ortho_mating_moves_generation_obstacle();
     if (calc_whtrans_king
         || calc_whrefl_king
         || calc_bltrans_king
@@ -1095,7 +1095,7 @@ static boolean verify_position(void)
     BGL_whiteinfinity = BGL_white == BGL_infinity;
     BGL_blackinfinity = BGL_black == BGL_infinity;
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (flag_madrasi || CondFlag[isardam])
@@ -1125,7 +1125,7 @@ static boolean verify_position(void)
       return false;
     }
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     eval_2 = eval_white;
     eval_white = eval_wooheff;
   }
@@ -1192,7 +1192,7 @@ static boolean verify_position(void)
       return false;
     }
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     eval_2 = eval_white;
     eval_white = rbanticircech;
     eval_black = rnanticircech;
@@ -1205,14 +1205,15 @@ static boolean verify_position(void)
       return false;
     }
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     eval_2 = eval_white;
     eval_white = rbsingleboxtype1ech;
     eval_black = rnsingleboxtype1ech;
   }
 
   if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type3)) {
-    optim_neutralretractable = optim_orthomatingmoves = false;
+    optim_neutralretractable = false;
+    add_ortho_mating_moves_generation_obstacle();
     rnechec = &singleboxtype3_rnechec;
     rbechec = &singleboxtype3_rbechec;
     gen_wh_piece = &singleboxtype3_gen_wh_piece;
@@ -1471,7 +1472,7 @@ static boolean verify_position(void)
       || flag_magic)
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   superbas = CondFlag[antisuper] ? square_a1 : square_a1-1;
@@ -1515,7 +1516,7 @@ static boolean verify_position(void)
         if (p>fb && p!=dummyb) {
           /* only fairy pieces until now ! */
           optim_neutralretractable = false;
-          optim_orthomatingmoves = false;
+          add_ortho_mating_moves_generation_obstacle();
           if (p!=hamstb)
           {
             checkpieces[cp] = p;
@@ -1553,7 +1554,7 @@ static boolean verify_position(void)
   if (calc_whrefl_king || calc_blrefl_king)
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
   orphanpieces[op] = vide;
 
@@ -1598,7 +1599,7 @@ static boolean verify_position(void)
   {
     checkhopim = true;
     optim_neutralretractable = false;
-    optim_orthomatingmoves  = false;
+    add_ortho_mating_moves_generation_obstacle();
     jouegenre = true;
   }
   checkhopim |= CondFlag[imitators];
@@ -1607,13 +1608,13 @@ static boolean verify_position(void)
   {
     /* a nasty drawback */
     optim_neutralretractable = false;
-    optim_orthomatingmoves  = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[annan])
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     rbechec = &annan_rbechec;
     rnechec = &annan_rnechec;
   }
@@ -1715,7 +1716,7 @@ static boolean verify_position(void)
   {
     flag_testlegality = true;
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (!CondFlag[patience]) {           /* needed because of twinning */
@@ -1759,19 +1760,19 @@ static boolean verify_position(void)
   if (CondFlag[extinction] || flagAssassin)
   {
     optim_neutralretractable = false; /* TODO why for extinction */
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[actrevolving] || CondFlag[arc])
   {
     jouegenre = true;
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (anytraitor) {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (InitChamCirce)
@@ -1798,7 +1799,7 @@ static boolean verify_position(void)
   {
     SATCheck = true;
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     nonoptgenre = true;
     WhiteStrictSAT[1] = echecc_normal(nbply,White);
     BlackStrictSAT[1] = echecc_normal(nbply,Black);
@@ -1808,7 +1809,7 @@ static boolean verify_position(void)
   if (CondFlag[schwarzschacher])
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     nonoptgenre = true;
   }
 
@@ -1823,20 +1824,20 @@ static boolean verify_position(void)
   if (CondFlag[takemake])
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[protean])
   {
     flagfee = true;
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
   }
 
   if (CondFlag[castlingchess])
   {
     optim_neutralretractable = false;
-    optim_orthomatingmoves = false;
+    add_ortho_mating_moves_generation_obstacle();
     castling_supported = false;
     jouegenre = true;
   }
