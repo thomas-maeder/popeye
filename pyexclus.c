@@ -8,7 +8,7 @@
 
 static slice_index exclusive_goal_leaf;
 
-static boolean mateallowed[maxply+1];
+static boolean is_reaching_goal_allowed[maxply+1];
 
 /* Perform the necessary verification steps for solving an Exclusive
  * Chess problem
@@ -57,7 +57,7 @@ boolean exclusive_pos_legal(void)
   if (nbply>maxply-1)
     FtlMsg(ChecklessUndecidable);
 
-  result = (mateallowed[nbply]
+  result = (is_reaching_goal_allowed[nbply]
             || (leaf_is_goal_reached(trait[nbply],exclusive_goal_leaf)
                 !=goal_reached));
 
@@ -73,33 +73,32 @@ boolean exclusive_pos_legal(void)
  */
 void exclusive_init_genmove(Side side)
 {
-  unsigned int nbrmates = 0;
+  unsigned int nr_moves_reaching_goal = 0;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  mateallowed[nbply] = true;
-
-  /* TODO should we start a new ply here?
-   */
+  CondFlag[exclusive] = false;
   active_slice[nbply+1] = active_slice[nbply];
-  if (side==White)
-    gen_wh_ply();
-  else
-    gen_bl_ply();
+  genmove(side);
+  CondFlag[exclusive] = true;
 
-  while (encore())
+  is_reaching_goal_allowed[nbply] = true;
+
+  while (encore() && nr_moves_reaching_goal<2)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(side,exclusive_goal_leaf)==goal_reached)
-      ++nbrmates;
+      ++nr_moves_reaching_goal;
     repcoup();
   }
 
-  mateallowed[nbply] = nbrmates<2;
-  TraceValue("%u",nbrmates);
-  TraceValue("%u\n",mateallowed[nbply]);
+  finply();
+
+  is_reaching_goal_allowed[nbply] = nr_moves_reaching_goal<2;
+  TraceValue("%u",nr_moves_reaching_goal);
+  TraceValue("%u\n",is_reaching_goal_allowed[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
