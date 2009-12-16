@@ -427,35 +427,6 @@ boolean leaf_forced_solve(slice_index leaf)
   return result;
 }
 
-/* As leaf_forced_solve(), but the key move has just been played.
- * I.e. determine whether a slice has been solved with the move just
- * played; if yes, write the solution including the move just played.
- * @param si slice identifier
- * @return true iff the slice is solved
- */
-boolean leaf_forced_solved(slice_index leaf)
-{
-  Side const defender = slices[leaf].starter;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (leaf_is_goal_reached(defender,leaf)==goal_reached)
-  {
-    result = true;
-    write_final_defense(slices[leaf].u.leaf.goal);
-  }
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution of a leaf slice at root level.
  * @param leaf identifies leaf slice
  * @return true iff >=1 key was found and written

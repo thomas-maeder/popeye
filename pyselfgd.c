@@ -239,6 +239,32 @@ stip_length_type self_defense_direct_solve_threats_in_n(table threats,
   return result;
 }
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean self_defense_root_solve(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+  
+  /* We arrive here e.g. when solving the set play of a sXN
+   */
+  if (slices[si].u.pipe.u.branch.min_length<slack_length_direct
+      && slice_root_solve(slices[si].u.pipe.u.branch.towards_goal))
+    result = true;
+  else
+    result = slice_root_solve(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* **************** Implementation of interface DirectDefender **********
  */
@@ -326,10 +352,21 @@ slice_index self_attack_root_make_setplay_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",length);
+
   if (length==slack_length_help)
     result = slices[si].u.pipe.u.branch.towards_goal;
   else
+  {
+    slice_index const length = slices[si].u.pipe.u.branch.length;
+    slice_index const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
     result = slice_root_make_setplay_slice(slices[si].u.pipe.next);
+    pipe_insert_before(result);
+    init_self_defense_slice(result,
+                            length-1,min_length-1,
+                            towards_goal);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -388,8 +425,6 @@ stip_length_type self_defense_solve_in_n(slice_index si,
                                          stip_length_type n_min)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -397,14 +432,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  /* We arrive here e.g. when solving the set play of a sXN, after the
-   * initial defender's "help move" has been played
-   */
-  if (n_min<slack_length_direct
-      && slice_solved(towards_goal))
-    result = n_min;
-  else
-    result = direct_solve_in_n(next,n,n_min);
+  result = direct_solve_in_n(slices[si].u.pipe.next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -317,38 +317,6 @@ boolean slice_solve(slice_index si)
   return solution_found;
 }
 
-/* As slice_solve(), but the key move has just been played.
- * I.e. determine whether a slice has been solved with the move just
- * played; if yes, write the solution including the move just played.
- * @param si slice identifier
- * @return true iff the slice is solved
- */
-boolean slice_solved(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafForced:
-      result = leaf_forced_solved(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found

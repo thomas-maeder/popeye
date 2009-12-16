@@ -35,14 +35,6 @@ boolean leaf_forced_has_non_starter_solved(slice_index leaf);
  */
 boolean leaf_forced_solve(slice_index leaf);
 
-/* As leaf_forced_solve(), but the key move has just been played.
- * I.e. determine whether a slice has been solved with the move just
- * played; if yes, write the solution including the move just played.
- * @param si slice identifier
- * @return true iff the slice is solved
- */
-boolean leaf_forced_solved(slice_index leaf);
-
 /* Determine and write the solution of a leaf forced slice at root level
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
