@@ -476,32 +476,6 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean leaf_d_defend(slice_index leaf)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (leaf_d_has_solution(leaf)==has_no_solution)
-    result = true;
-  else
-  {
-    result = false;
-    write_attack(attack_regular);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param leaf index of branch slice

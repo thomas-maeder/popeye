@@ -17,12 +17,6 @@
  */
 void leaf_d_solve_threats(table threats, slice_index leaf);
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean leaf_d_defend(slice_index leaf);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param leaf slice index

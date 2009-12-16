@@ -584,10 +584,6 @@ boolean slice_defend(slice_index si)
       result = leaf_forced_defend(si);
       break;
 
-    case STLeafDirect:
-      result = leaf_d_defend(si);
-      break;
-
     case STLeafHelp:
       result = leaf_h_defend(si);
       break;
