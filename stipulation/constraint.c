@@ -259,15 +259,7 @@ boolean reflex_guard_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (n==slack_length_direct)
-  {
-    if (slice_has_solution(avoided)==has_solution)
-    {
-      result = false;
-      slice_solve_postkey(avoided);
-    }
-    else
-      result = true;
-  }
+    result = !slice_solve(avoided);
   else
     result = direct_defender_defend_in_n(next,n);
 
