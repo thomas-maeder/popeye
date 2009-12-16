@@ -16,9 +16,11 @@ slice_index alloc_move_inverter_slice(slice_index next);
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index move_inverter_root_make_setplay_slice(slice_index si);
+boolean move_inverter_root_make_setplay_slice(slice_index si,
+                                              struct slice_traversal *st);
 
 /* Solve a move inverter at root level
  * @param si slice index

@@ -341,12 +341,16 @@ unsigned int self_attack_can_defend_in_n(slice_index si,
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index self_attack_root_make_setplay_slice(slice_index si)
+boolean self_attack_root_make_setplay_slice(slice_index si,
+                                            struct slice_traversal *st)
 {
-  slice_index result;
+  boolean result;
+  slice_index * const next_set_slice = st->param;
   slice_index const length = slices[si].u.pipe.u.branch.length;
+  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -355,15 +359,16 @@ slice_index self_attack_root_make_setplay_slice(slice_index si)
   TraceValue("%u\n",length);
 
   if (length==slack_length_help)
-    result = slices[si].u.pipe.u.branch.towards_goal;
+  {
+    *next_set_slice = towards_goal;
+    result = true;
+  }
   else
   {
-    slice_index const length = slices[si].u.pipe.u.branch.length;
     slice_index const min_length = slices[si].u.pipe.u.branch.min_length;
-    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-    result = slice_root_make_setplay_slice(slices[si].u.pipe.next);
-    pipe_insert_before(result);
-    init_self_defense_slice(result,
+    result = traverse_slices(slices[si].u.pipe.next,st);
+    pipe_insert_before(*next_set_slice);
+    init_self_defense_slice(*next_set_slice,
                             length-1,min_length-1,
                             towards_goal);
   }

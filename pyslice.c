@@ -134,67 +134,6 @@ boolean slice_root_defend(slice_index si, unsigned int max_number_refutations)
   return result;
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index slice_root_make_setplay_slice(slice_index si)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STDirectDefenderRoot:
-      result = branch_d_defender_root_make_setplay_slice(si);
-      break;
-
-    case STHelpRoot:
-      result = help_root_make_setplay_slice(si);
-      break;
-
-    case STSeriesRoot:
-      result = series_root_make_setplay_slice(si);
-      break;
-
-    case STMoveInverter:
-      result = move_inverter_root_make_setplay_slice(si);
-      break;
-
-    case STSelfAttack:
-      result = self_attack_root_make_setplay_slice(si);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_root_make_setplay_slice(si);
-      break;
-
-    case STDirectDefense:
-    case STDirectRoot:
-    case STSelfCheckGuard:
-    case STRestartGuard:
-    case STMaxFlightsquares:
-    case STKeepMatingGuard:
-    case STMaxNrNonTrivial:
-    case STMaxThreatLength:
-      result = slice_root_make_setplay_slice(slices[si].u.pipe.next);
-      break;
-
-    default:
-      result = no_slice;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

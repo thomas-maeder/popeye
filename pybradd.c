@@ -803,20 +803,23 @@ boolean branch_d_defender_root_detect_starter(slice_index si,
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index branch_d_defender_root_make_setplay_slice(slice_index si)
+boolean branch_d_defender_root_make_setplay_slice(slice_index si,
+                                                  struct slice_traversal *st)
 {
-  slice_index result;
+  boolean const result = true;
+  slice_index * const next_set_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = alloc_help_branch(toplevel_branch,
-                             slack_length_help+1,slack_length_help+1,
-                             slices[si].u.pipe.next);
-  slices[result].starter = slices[si].starter;
+  *next_set_slice = alloc_help_branch(toplevel_branch,
+                                      slack_length_help+1,slack_length_help+1,
+                                      slices[si].u.pipe.next);
+  slices[*next_set_slice].starter = slices[si].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

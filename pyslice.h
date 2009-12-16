@@ -23,12 +23,6 @@ void slice_solve_threats(table threats, slice_index si);
  */
 boolean slice_root_defend(slice_index si, unsigned int max_number_refutations);
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
- */
-slice_index slice_root_make_setplay_slice(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

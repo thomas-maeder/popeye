@@ -343,18 +343,20 @@ static void shorten_series_pipe(slice_index pipe)
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index series_root_make_setplay_slice(slice_index si)
+boolean series_root_make_setplay_slice(slice_index si,
+                                       struct slice_traversal *st)
 {
-  slice_index result;
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
+  boolean const result = true;
+  slice_index * const next_set_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = to_goal;
+  *next_set_slice = slices[si].u.pipe.u.help_root.towards_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

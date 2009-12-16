@@ -31,26 +31,30 @@ slice_index alloc_move_inverter_slice(slice_index next)
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index move_inverter_root_make_setplay_slice(slice_index si)
+boolean move_inverter_root_make_setplay_slice(slice_index si,
+                                              struct slice_traversal *st)
 {
+  boolean result;
+  slice_index * const next_set_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index result;
-  slice_index next_set_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  next_set_slice = slice_root_make_setplay_slice(next);
-  if (next_set_slice==no_slice)
-    result = no_slice;
+  result = traverse_slices(next,st);
+  if (*next_set_slice==no_slice)
+    result = false;
   else
   {
-    result = alloc_move_inverter_slice(next_set_slice);
-    slices[result].starter = advers(slices[next_set_slice].starter);
-    TraceValue("%u\n",slices[result].starter);
+    Side const next_set_starter = slices[*next_set_slice].starter;
+    *next_set_slice = alloc_move_inverter_slice(*next_set_slice);
+    slices[*next_set_slice].starter = advers(next_set_starter);
+    TraceEnumerator(Side,slices[*next_set_slice].starter,"\n");
+    result = true;
   }
 
   TraceFunctionExit(__func__);

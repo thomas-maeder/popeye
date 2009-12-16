@@ -1012,10 +1012,45 @@ boolean stip_apply_postkeyplay(void)
   return result;
 }
 
+static slice_operation const setplay_makers[] =
+{
+  0,                                          /* STBranchDirect */
+  0,                                          /* STBranchDirectDefender */
+  0,                                          /* STBranchHelp */
+  0,                                          /* STBranchSeries */
+  0,                                          /* STBranchFork */
+  0,                                          /* STLeafDirect */
+  0,                                          /* STLeafHelp */
+  0,                                          /* STLeafForced */
+  0,                                          /* STReciprocal */
+  0,                                          /* STQuodlibet */
+  0,                                          /* STNot */
+  &move_inverter_root_make_setplay_slice,     /* STMoveInverter */
+  &pipe_traverse_next,                        /* STDirectRoot */
+  &branch_d_defender_root_make_setplay_slice, /* STDirectDefenderRoot */
+  0,                                          /* STDirectHashed */
+  &help_root_make_setplay_slice,              /* STHelpRoot */
+  0,                                          /* STHelpHashed */
+  &series_root_make_setplay_slice,            /* STSeriesRoot */
+  0,                                          /* STSeriesHashed */
+  &pipe_traverse_next,                        /* STSelfCheckGuard */
+  &pipe_traverse_next,                        /* STDirectDefense */
+  &reflex_guard_root_make_setplay_slice,      /* STReflexGuard */
+  &self_attack_root_make_setplay_slice,       /* STSelfAttack */
+  0,                                          /* STSelfDefense */
+  &pipe_traverse_next,                        /* STRestartGuard */
+  0,                                          /* STGoalReachableGuard */
+  &pipe_traverse_next,                        /* STKeepMatingGuard */
+  &pipe_traverse_next,                        /* STMaxFlightsquares */
+  0,                                          /* STDegenerateTree */
+  &pipe_traverse_next,                        /* STMaxNrNonTrivial */
+  &pipe_traverse_next                         /* STMaxThreatLength */
+};
+
 /* Combine the set play slices into the current stipulation
  * @param setplay slice index of set play
  */
-static void combine_set_play(slice_index setplay)
+static void combine_set_play(slice_index setplay_slice)
 {
   slice_index sc;
   slice_index mi;
@@ -1023,7 +1058,7 @@ static void combine_set_play(slice_index setplay)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  sc = alloc_selfcheck_guard_slice(setplay);
+  sc = alloc_selfcheck_guard_slice(setplay_slice);
 
   mi = alloc_move_inverter_slice(sc);
   slices[mi].starter = advers(slices[sc].starter);
@@ -1031,7 +1066,7 @@ static void combine_set_play(slice_index setplay)
   root_slice = alloc_quodlibet_slice(mi,root_slice);
   slices[root_slice].starter = slices[mi].starter;
   TraceValue("->%u\n",root_slice);
-  TraceValue("%u\n",slices[root_slice].starter);
+  TraceEnumerator(Side,slices[root_slice].starter,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -1043,17 +1078,22 @@ static void combine_set_play(slice_index setplay)
 boolean stip_apply_setplay(void)
 {
   boolean result;
-  slice_index setplay;
+  slice_index setplay_slice;
+  slice_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  setplay = slice_root_make_setplay_slice(root_slice);
-  if (setplay==no_slice)
+  TraceStipulation();
+
+  slice_traversal_init(&st,&setplay_makers,&setplay_slice);
+  traverse_slices(root_slice,&st);
+
+  if (setplay_slice==no_slice)
     result = false;
   else
   {
-    combine_set_play(setplay);
+    combine_set_play(setplay_slice);
     result = true;
   }
 

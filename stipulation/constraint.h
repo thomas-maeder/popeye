@@ -161,9 +161,11 @@ void reflex_guard_series_solve_threats_in_n(table threats,
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index reflex_guard_root_make_setplay_slice(slice_index si);
+boolean reflex_guard_root_make_setplay_slice(slice_index si,
+                                             struct slice_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

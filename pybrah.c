@@ -393,29 +393,28 @@ static void shorten_setplay_root_branch(slice_index root)
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index help_root_make_setplay_slice(slice_index si)
+boolean help_root_make_setplay_slice(slice_index si,
+                                     struct slice_traversal *st)
 {
-  slice_index result;
+  boolean const result = true;
+  slice_index * const next_set_slice = st->param;
   slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
-
-  assert(slices[si].type==STHelpRoot);
-
   assert(slices[si].u.pipe.u.help_root.length>slack_length_help);
 
   if (slices[si].u.pipe.u.help_root.length==slack_length_help+1)
-    result = to_goal;
+    *next_set_slice = to_goal;
   else
   {
-    result = copy_slice(si);
-    shorten_setplay_root_branch(result);
+    *next_set_slice = copy_slice(si);
+    shorten_setplay_root_branch(*next_set_slice);
   }
 
   TraceFunctionExit(__func__);

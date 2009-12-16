@@ -610,21 +610,26 @@ stip_length_type reflex_guard_solve_in_n(slice_index si,
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index reflex_guard_root_make_setplay_slice(slice_index si)
+boolean reflex_guard_root_make_setplay_slice(slice_index si,
+                                             struct slice_traversal *st)
 {
-  slice_index result;
-  slice_index const length = slices[si].u.pipe.u.branch.length;
+  boolean result;
+  slice_index * const next_set_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length==slack_length_help)
-    result = slices[si].u.pipe.u.branch.towards_goal;
+  if (slices[si].u.pipe.u.branch.length==slack_length_help)
+  {
+    *next_set_slice = slices[si].u.pipe.u.branch.towards_goal;
+    result = true;
+  }
   else
-    result = slice_root_make_setplay_slice(slices[si].u.pipe.next);
+    result = traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -22,9 +22,11 @@ slice_index alloc_self_attack_slice(stip_length_type length,
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index self_attack_root_make_setplay_slice(slice_index si);
+boolean self_attack_root_make_setplay_slice(slice_index si,
+                                            struct slice_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

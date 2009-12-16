@@ -83,9 +83,11 @@ boolean branch_d_defender_root_detect_starter(slice_index si,
 
 /* Spin off a set play slice at root level
  * @param si slice index
- * @return set play slice spun off; no_slice if not applicable
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
  */
-slice_index branch_d_defender_root_make_setplay_slice(slice_index si);
+boolean branch_d_defender_root_make_setplay_slice(slice_index si,
+                                                  struct slice_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
