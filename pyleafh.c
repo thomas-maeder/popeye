@@ -278,7 +278,6 @@ boolean leaf_h_defend(slice_index leaf)
   if (is_end_in_1_possible(starter,leaf))
   {
     result = false;
-    write_attack(attack_regular);
     leaf_h_solve_final_move(leaf);
   }
   else
