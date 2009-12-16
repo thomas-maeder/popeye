@@ -11,12 +11,6 @@
  * stipulation slices.
  */
 
-/* Find and write post key play
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_d_solve_postkey(slice_index leaf);
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param leaf index of branch slice

@@ -197,33 +197,6 @@ has_solution_type quodlibet_has_solution(slice_index si)
   return result;
 }
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean quodlibet_solve_postkey(slice_index si)
-{
-  boolean result;
-  boolean result1;
-  boolean result2;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result1 = slice_solve_postkey(op1);
-  result2 = slice_solve_postkey(op2);
-
-  result = result1 || result2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a quodlibet slice.has just been solved with the
  * just played move by the non-starter
  * @param si slice identifier

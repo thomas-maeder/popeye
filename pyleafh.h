@@ -10,12 +10,6 @@
  * slices.
  */
 
-/* Find and write post key play
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_h_solve_postkey(slice_index leaf);
-
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @return true iff the defending side can successfully defend

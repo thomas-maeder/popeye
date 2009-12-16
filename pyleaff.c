@@ -307,6 +307,40 @@ unsigned int leaf_forced_count_refutations(slice_index leaf,
   return result;
 }
 
+/* Determine and find final moves
+ * @param leaf slice index
+ */
+static void solve_final_move(slice_index leaf)
+{
+  Side const defender = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",defender);
+  TraceFunctionParamListEnd();
+
+  output_start_leaf_variation_level();
+
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(leaf,defender);
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && leaf_is_goal_reached(defender,leaf)==goal_reached)
+      write_final_defense(slices[leaf].u.leaf.goal);
+
+    repcoup();
+  }
+
+  finply();
+
+  output_end_leaf_variation_level();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @return true iff the defending side can successfully defend
@@ -326,7 +360,7 @@ boolean leaf_forced_defend(slice_index leaf)
   {
     result = false;
     write_attack(attack_regular);
-    leaf_forced_solve_postkey(leaf);
+    solve_final_move(leaf);
   }
   else
     result = true;
@@ -356,69 +390,6 @@ boolean leaf_forced_has_non_starter_solved(slice_index leaf)
   TraceValue("%u\n",defender);
 
   result = leaf_is_goal_reached(defender,leaf)==goal_reached;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and find final moves
- * @param leaf slice index
- * @return true iff >= 1 solution was found
- */
-static boolean solve_final_move(slice_index leaf)
-{
-  Side const defender = slices[leaf].starter;
-  boolean final_move_found = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u",defender);
-  TraceFunctionParamListEnd();
-
-  output_start_leaf_variation_level();
-
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,defender);
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(defender,leaf)==goal_reached)
-    {
-      final_move_found = true;
-      write_final_defense(slices[leaf].u.leaf.goal);
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  output_end_leaf_variation_level();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",final_move_found);
-  TraceFunctionResultEnd();
-  return final_move_found;
-}
-
-/* Determine and write the postkey play after the move that has just
- * been played in the current ply.
- * We have already determined that >=1 move reaching the goal is forced
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_forced_solve_postkey(slice_index leaf)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = solve_final_move(leaf);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -515,26 +486,6 @@ boolean leaf_forced_root_solve(slice_index leaf)
   return result;
 }
 
-/* Solve postkey play at root level.
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-static boolean root_solve_postkey(slice_index leaf)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  result = solve_final_move(leaf);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @return true iff the defending side can successfully defend
@@ -596,7 +547,7 @@ boolean leaf_forced_root_defend(slice_index leaf,
     {
       result = false;
       write_attack(attack_key);
-      root_solve_postkey(leaf);
+      solve_final_move(leaf);
       write_end_of_solution();
     }
     else
@@ -607,7 +558,7 @@ boolean leaf_forced_root_defend(slice_index leaf,
   {
     result = true;
     write_attack(attack_try);
-    root_solve_postkey(leaf);
+    solve_final_move(leaf);
     write_refutations(refutations);
     write_end_of_solution();
   }

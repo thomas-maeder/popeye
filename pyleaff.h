@@ -29,14 +29,6 @@ boolean leaf_forced_defend(slice_index leaf);
  */
 boolean leaf_forced_has_non_starter_solved(slice_index leaf);
 
-/* Determine and write the postkey play after the move that has just
- * been played in the current ply.
- * We have already determined that >=1 move reaching the goal is forced
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_forced_solve_postkey(slice_index leaf);
-
 /* Solve at non-root level
  * @param leaf slice index
  * @return true iff >=1 solution was found

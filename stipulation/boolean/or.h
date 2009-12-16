@@ -29,12 +29,6 @@ slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2);
  */
 void quodlibet_solve_threats(table threats, slice_index si);
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean quodlibet_solve_postkey(slice_index si);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats

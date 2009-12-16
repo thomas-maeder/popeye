@@ -338,27 +338,6 @@ boolean help_are_threats_refuted(table threats,
   return result;
 }
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean help_solve_postkey(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[si].u.pipe.u.branch.length==slack_length_help+1);
-  result = slice_solve_postkey(slices[si].u.pipe.u.branch.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter
  * @param si slice identifier

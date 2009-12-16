@@ -115,27 +115,6 @@ boolean reci_has_non_starter_solved(slice_index si)
   return result;
 }
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reci_solve_postkey(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = (slice_solve_postkey(slices[si].u.fork.op1)
-            && slice_solve_postkey(slices[si].u.fork.op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice

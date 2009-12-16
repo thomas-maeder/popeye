@@ -69,10 +69,4 @@ boolean series_are_threats_refuted(table threats,
                                    stip_length_type len_threat,
                                    slice_index si);
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean series_solve_postkey(slice_index si);
-
 #endif

@@ -42,12 +42,6 @@ has_solution_type reci_has_solution(slice_index si);
  */
 boolean reci_has_non_starter_solved(slice_index si);
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reci_solve_postkey(slice_index si);
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice

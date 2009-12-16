@@ -348,24 +348,3 @@ boolean series_are_threats_refuted(table threats,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean series_solve_postkey(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[si].u.pipe.u.help_root.length==slack_length_series+1);
-  result = slice_solve_postkey(slices[si].u.pipe.u.help_root.towards_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}

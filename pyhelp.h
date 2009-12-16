@@ -51,12 +51,6 @@ void help_solve_threats_in_n(table threats,
  */
 void help_solve_threats(table threats, slice_index si);
 
-/* Find and write post key play
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean help_solve_postkey(slice_index si);
-
 /* Determine whether a branch slice.has just been solved with the
  * just played move by the non-starter
  * @param si slice identifier

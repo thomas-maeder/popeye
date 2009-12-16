@@ -514,9 +514,6 @@ solution finished.
           2.Qc2-c4[+buRc2] 
               2...uRc2-c1 # 
       1...Ke3-f2 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-              2...uRc2*d2 # 
           2.Qc2-b1[+buRc2] 
               2...uRc2-c1 # 
           2.Qc2-h7[+buRc2] 
@@ -531,6 +528,9 @@ solution finished.
               2...uRc2-c1 # 
           2.Qc2-b3[+buRc2] 
               2...uRc2-c1 # 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+              2...uRc2*d2 # 
           2.Qc2-a2[+buRc2] 
               2...uRc2-c1 # 
           2.Qc2-b2[+buRc2] 
@@ -640,29 +640,29 @@ solution finished.
           2.Sd2-b3 
               2...Qc4-f1 # 
           2.Qc2-b1[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2-c1 # 
+              2...Qc4-e2 # 
           2.Qc2-h7[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2-c1 # 
+              2...Qc4-e2 # 
           2.Qc2-g6[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2-c1 # 
+              2...Qc4-e2 # 
           2.Qc2-f5[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2-c1 # 
+              2...Qc4-e2 # 
           2.Qc2-a4[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2-c1 # 
+              2...Qc4-e2 # 
           2.Qc2-c1[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2*c1 # 
+              2...Qc4-e2 # 
           2.Qc2-a2[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2-c1 # 
+              2...Qc4-e2 # 
           2.Qc2-b2[+buRc2] 
-              2...Qc4-e2 # 
               2...uRc2-c1 # 
+              2...Qc4-e2 # 
           2.Kd1-e1 
               2...Qc4-e2 # 
       1...Qg8-d5 

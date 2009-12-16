@@ -613,69 +613,6 @@ has_solution_type slice_has_solution(slice_index si)
   return result;
 }
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_solve_postkey(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
-      result = leaf_d_solve_postkey(si);
-      break;
-
-    case STLeafForced:
-      result = leaf_forced_solve_postkey(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_solve_postkey(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_solve_postkey(si);
-      break;
-
-    case STBranchHelp:
-      result = help_solve_postkey(si);
-      break;
-
-    case STHelpHashed:
-      result = slice_solve_postkey(slices[si].u.pipe.next);
-      break;
-
-    case STBranchSeries:
-    case STSeriesHashed:
-      result = series_solve_postkey(si);
-      break;
-
-    case STReciprocal:
-      result = reci_solve_postkey(si);
-      break;
-
-    case STNot:
-      /* STNot doesn't have postkey play by definition */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a slice.has just been solved with the just played
  * move by the non-starter
  * @param si slice identifier

@@ -502,24 +502,6 @@ boolean leaf_d_defend(slice_index leaf)
   return result;
 }
 
-/* Find and write post key play
- * @param leaf slice index
- * @return true iff >=1 solution was found
- */
-boolean leaf_d_solve_postkey(slice_index leaf)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param leaf index of branch slice

@@ -105,12 +105,6 @@ boolean slice_has_non_starter_solved(slice_index si);
 unsigned int slice_count_refutations(slice_index si,
                                      unsigned int max_result);
 
-/* Find and write post key play
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_solve_postkey(slice_index si);
-
 typedef enum
 {
   dont_know_who_decides_on_starter,
