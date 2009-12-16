@@ -6,6 +6,9 @@
 #include "pybrah.h"
 #include "pybraser.h"
 #include "pyleaf.h"
+#include "pyleafd.h"
+#include "pyleafh.h"
+#include "pyleaff.h"
 #include "pyrecipr.h"
 #include "pyquodli.h"
 #include "pybrafrk.h"
@@ -1188,12 +1191,59 @@ void stip_make_exact(void)
   TraceFunctionResultEnd();
 }
 
+static slice_operation const starter_detectors[] =
+{
+  &branch_d_detect_starter, /* STBranchDirect */
+  0,                        /* STBranchDirectDefender */
+  &branch_h_detect_starter, /* STBranchHelp */
+  &branch_ser_detect_starter,/* STBranchSeries */
+  &branch_fork_detect_starter,/* STBranchFork */
+  &leaf_d_detect_starter,   /* STLeafDirect */
+  &leaf_h_detect_starter,   /* STLeafHelp */
+  &leaf_forced_detect_starter, /* STLeafForced */
+  &reci_detect_starter,     /* STReciprocal */
+  &quodlibet_detect_starter,/* STQuodlibet */
+  &pipe_detect_starter,     /* STNot */
+  &move_inverter_detect_starter, /* STMoveInverter */
+  &branch_d_detect_starter, /* STDirectRoot */
+  &branch_d_defender_root_detect_starter, /* STDirectDefenderRoot */
+  0,                        /* STDirectHashed */
+  &branch_h_detect_starter, /* STHelpRoot */
+  0,                        /* STHelpHashed */
+  &branch_ser_detect_starter,/* STSeriesRoot */
+  0,                        /* STSeriesHashed */
+  0,                        /* STSelfCheckGuard */
+  &pipe_detect_starter,     /* STDirectDefense */
+  &pipe_detect_starter,     /* STReflexGuard */
+  &pipe_detect_starter,     /* STSelfAttack */
+  &pipe_detect_starter,     /* STSelfDefense */
+  0,                        /* STRestartGuard */
+  0,                        /* STGoalReachableGuard */
+  0,                        /* STKeepMatingGuard */
+  0,                        /* STMaxFlightsquares */
+  0,                        /* STDegenerateTree */
+  0,                        /* STMaxNrNonTrivial */
+  0                         /* STMaxThreatLength */
+};
+
 /* Detect the starting side from the stipulation
  */
 void stip_detect_starter(void)
 {
-  boolean const same_starter_as_root = true;
-  slice_detect_starter(root_slice,same_starter_as_root);
+  slice_traversal st;
+  stip_detect_starter_param_type param = { true,
+                                           dont_know_who_decides_on_starter };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation();
+
+  slice_traversal_init(&st,&starter_detectors,&param);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static slice_operation const starter_imposers[] =

@@ -38,14 +38,12 @@ void move_inverter_root_solve_in_n(slice_index si, stip_length_type n);
  */
 boolean move_inverter_solve(slice_index si);
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter
-move_inverter_detect_starter(slice_index si,
-                             boolean same_side_as_root);
+boolean move_inverter_detect_starter(slice_index si, slice_traversal *st);
 
 /* Retrieve the starting side of a slice
  * @param si slice index

@@ -335,6 +335,18 @@ slice_index find_unique_goal(slice_index si);
  */
 void stip_make_exact(void);
 
+typedef enum
+{
+  dont_know_who_decides_on_starter,
+  leaf_decides_on_starter
+} who_decides_on_starter;
+
+typedef struct
+{
+    boolean same_starter_as_root;
+    who_decides_on_starter who_decides;
+} stip_detect_starter_param_type;
+
 /* Detect the starting side from the stipulation
  */
 void stip_detect_starter(void);

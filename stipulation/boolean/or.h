@@ -93,13 +93,12 @@ boolean quodlibet_root_solve(slice_index si);
 boolean quodlibet_root_defend(slice_index si,
                               unsigned int max_number_refutations);
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter quodlibet_detect_starter(slice_index si,
-                                                boolean same_side_as_root);
+boolean quodlibet_detect_starter(slice_index si, slice_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch

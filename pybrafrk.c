@@ -242,23 +242,21 @@ has_solution_type branch_fork_has_solution(slice_index si)
   return result;
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter branch_fork_detect_starter(slice_index si,
-                                                  boolean same_side_as_root)
+boolean branch_fork_detect_starter(slice_index si, slice_traversal *st)
 {
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-  who_decides_on_starter result;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
-  result = slice_detect_starter(towards_goal,same_side_as_root);
+  result = traverse_slices(towards_goal,st);
   slices[si].starter = slices[towards_goal].starter;
   TraceValue("%u\n",slices[si].starter);
 

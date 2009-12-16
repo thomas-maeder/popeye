@@ -111,13 +111,12 @@ stip_length_type branch_d_solve_in_n(slice_index si,
                                      stip_length_type n,
                                      stip_length_type n_min);
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter branch_d_detect_starter(slice_index si,
-                                               boolean same_side_as_root);
+boolean branch_d_detect_starter(slice_index si, slice_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

@@ -64,13 +64,12 @@ void branch_fork_series_solve_threats_in_n(table threats,
                                            slice_index si,
                                            stip_length_type n);
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter branch_fork_detect_starter(slice_index si,
-                                                  boolean same_side_as_root);
+boolean branch_fork_detect_starter(slice_index si, slice_traversal *st);
 
 /* Determine whether a slice has a solution
  * @param si slice index

@@ -97,20 +97,6 @@ boolean slice_has_non_starter_solved(slice_index si);
 unsigned int slice_count_refutations(slice_index si,
                                      unsigned int max_result);
 
-typedef enum
-{
-  dont_know_who_decides_on_starter,
-  leaf_decides_on_starter
-} who_decides_on_starter;
-
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
- */
-who_decides_on_starter slice_detect_starter(slice_index si,
-                                            boolean same_side_as_root);
-
 /* Try to defend after an attempted key move at non-root level
  * @param si slice index
  * @return true iff the defending side can successfully defend

@@ -121,27 +121,28 @@ boolean move_inverter_solve(slice_index si)
   return result;
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter
-move_inverter_detect_starter(slice_index si,
-                             boolean same_side_as_root)
+boolean move_inverter_detect_starter(slice_index si, slice_traversal *st)
 {
-  who_decides_on_starter result;
-  
+  boolean result;
+  stip_detect_starter_param_type * const param = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",same_side_as_root);
   TraceFunctionParamListEnd();
 
   if (slices[si].starter==no_side)
   {
     slice_index const next = slices[si].u.pipe.next;
     Side next_starter;
-    result = slice_detect_starter(next,!same_side_as_root);
+    boolean const save_same_starter_as_root = param->same_starter_as_root;
+    param->same_starter_as_root = !save_same_starter_as_root;
+    result = slice_traverse_children(si,st);
+    param->same_starter_as_root = save_same_starter_as_root;
     next_starter = slices[next].starter;
     if (next_starter!=no_side)
       slices[si].starter = (next_starter==no_side
@@ -149,7 +150,10 @@ move_inverter_detect_starter(slice_index si,
                             advers(next_starter));
   }
   else
-    result = leaf_decides_on_starter;
+  {
+    result = true;
+    param->who_decides = leaf_decides_on_starter;
+  }
 
   TraceValue("->%u\n",slices[si].starter);
 

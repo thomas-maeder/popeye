@@ -538,25 +538,25 @@ void leaf_d_solve_threats(table threats, slice_index leaf)
   TraceFunctionResultEnd();
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param leaf identifies leaf
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
-                                             boolean same_side_as_root)
+boolean leaf_d_detect_starter(slice_index si, slice_traversal *st)
 {
-  who_decides_on_starter const result = leaf_decides_on_starter;
+  boolean const result = true;
+  stip_detect_starter_param_type * const param = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[leaf].starter==no_side)
-    slices[leaf].starter = White;
+  param->who_decides = leaf_decides_on_starter;
+  if (slices[si].starter==no_side)
+    slices[si].starter = White;
 
-  TraceValue("%u\n",slices[leaf].starter);
+  TraceEnumerator(Side,slices[si].starter,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

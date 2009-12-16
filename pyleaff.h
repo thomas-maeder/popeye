@@ -48,12 +48,11 @@ boolean leaf_forced_root_solve(slice_index leaf);
 boolean leaf_forced_root_defend(slice_index leaf,
                                 unsigned int max_number_refutations);
 
-/* Detect starter field with the starting side if possible. 
- * @param leaf identifies leaf
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter leaf_forced_detect_starter(slice_index leaf,
-                                                  boolean same_side_as_root);
+boolean leaf_forced_detect_starter(slice_index si, slice_traversal *st);
 
 #endif

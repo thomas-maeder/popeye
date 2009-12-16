@@ -34,13 +34,12 @@ void pipe_insert_after(slice_index si);
  */
 void pipe_remove_after(slice_index si);
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter pipe_detect_starter(slice_index si,
-                                           boolean same_side_as_root);
+boolean pipe_detect_starter(slice_index si, slice_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch

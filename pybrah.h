@@ -30,13 +30,12 @@ slice_index alloc_help_branch(branch_level level,
  */
 void branch_h_promote_to_toplevel(slice_index adapter);
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter branch_h_detect_starter(slice_index si,
-                                               boolean same_side_as_root);
+boolean branch_h_detect_starter(slice_index si, slice_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

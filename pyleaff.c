@@ -542,22 +542,21 @@ boolean leaf_forced_root_defend(slice_index leaf,
   return result;
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param leaf identifies leaf
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter leaf_forced_detect_starter(slice_index leaf,
-                                                  boolean same_side_as_root)
+boolean leaf_forced_detect_starter(slice_index si, slice_traversal *st)
 {
-  who_decides_on_starter result = dont_know_who_decides_on_starter;
+  boolean const result = true;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[leaf].starter = Black;
-  TraceValue("->%u\n",slices[leaf].starter);
+  slices[si].starter = Black;
+  TraceValue("->%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

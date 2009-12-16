@@ -290,40 +290,43 @@ boolean leaf_h_defend(slice_index leaf)
   return result;
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param leaf identifies leaf
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter leaf_h_detect_starter(slice_index leaf,
-                                             boolean same_side_as_root)
+boolean leaf_h_detect_starter(slice_index si, slice_traversal *st)
 {
-  who_decides_on_starter const result = leaf_decides_on_starter;
+  boolean const result = true;
+  stip_detect_starter_param_type * const param = st->param;
+  boolean const same_side_as_root = param->same_starter_as_root;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u",same_side_as_root);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[leaf].starter==no_side)
+  TraceValue("%u",same_side_as_root);
+
+  param->who_decides = leaf_decides_on_starter;
+  if (slices[si].starter==no_side)
   {
-    switch (slices[leaf].u.leaf.goal)
+    switch (slices[si].u.leaf.goal)
     {
       case goal_proof:
-        slices[leaf].starter = same_side_as_root ? White : Black;
+        slices[si].starter = same_side_as_root ? White : Black;
         break;
 
       case goal_atob:
-        slices[leaf].starter = same_side_as_root ? Black : White;
+        slices[si].starter = same_side_as_root ? Black : White;
         break;
 
       default:
-        slices[leaf].starter = White;
+        slices[si].starter = White;
         break;
     }
   }
 
-  TraceValue("%u\n",slices[leaf].starter);
+  TraceValue("%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

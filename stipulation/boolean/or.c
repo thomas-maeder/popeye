@@ -296,19 +296,24 @@ boolean quodlibet_solve(slice_index si)
   return found_solution_op1 || found_solution_op2;
 }
 
-/* Detect starter field with the starting side if possible. 
- * @param si identifies slice
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter quodlibet_detect_starter(slice_index si,
-                                                boolean same_side_as_root)
+boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
-  who_decides_on_starter result;
-  who_decides_on_starter result1;
-  who_decides_on_starter result2;
+  stip_detect_starter_param_type * const param = st->param;
+
+  boolean result;
+  boolean result1;
+  boolean result2;
+
+  who_decides_on_starter const save_who_decides = param->who_decides;
+  who_decides_on_starter who_decides_1;
+  who_decides_on_starter who_decides_2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -319,8 +324,14 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
   TraceValue("%u",slices[si].u.fork.op1);
   TraceValue("%u\n",slices[si].u.fork.op2);
 
-  result1 = slice_detect_starter(op1,same_side_as_root);
-  result2 = slice_detect_starter(op2,same_side_as_root);
+  result1 = traverse_slices(op1,st);
+  who_decides_1 = param->who_decides;
+
+  param->who_decides = save_who_decides;
+  result2 = traverse_slices(op2,st);
+  who_decides_2 = param->who_decides;
+
+  result = result1 && result2;
 
   if (slices[op1].starter==no_side)
     slices[si].starter = slices[op2].starter;
@@ -331,13 +342,13 @@ who_decides_on_starter quodlibet_detect_starter(slice_index si,
     slices[si].starter = slices[op1].starter;
   }
 
-  if (result1==dont_know_who_decides_on_starter)
-    result = result2;
+  if (who_decides_1==dont_know_who_decides_on_starter)
+    param->who_decides = who_decides_2;
   else
   {
-    assert(result2==dont_know_who_decides_on_starter
+    assert(who_decides_2==dont_know_who_decides_on_starter
            || slices[op1].starter==slices[op2].starter);
-    result = result1;
+    param->who_decides = who_decides_1;
   }
 
   TraceFunctionExit(__func__);

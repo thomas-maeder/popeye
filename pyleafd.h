@@ -56,12 +56,11 @@ stip_length_type leaf_d_solve_in_n(slice_index leaf,
                                    stip_length_type n,
                                    stip_length_type n_min);
 
-/* Detect starter field with the starting side if possible. 
- * @param leaf identifies leaf
- * @param same_side_as_root does si start with the same side as root?
- * @return does the leaf decide on the starter?
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
  */
-who_decides_on_starter leaf_d_detect_starter(slice_index leaf,
-                                             boolean same_side_as_root);
+boolean leaf_d_detect_starter(slice_index si, slice_traversal *st);
 
 #endif
