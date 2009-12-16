@@ -11,10 +11,11 @@
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
+ * @param st address of structure capturing traversal state
+ * @return true iff slice has been successfully traversed
  */
-slice_index direct_defense_root_reduce_to_postkey_play(slice_index si);
+boolean direct_defense_root_reduce_to_postkey_play(slice_index si,
+                                                   struct slice_traversal *st);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

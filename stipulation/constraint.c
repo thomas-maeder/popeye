@@ -635,15 +635,16 @@ slice_index reflex_guard_root_make_setplay_slice(slice_index si)
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
+ * @param st address of structure capturing traversal state
+ * @return true iff slice has been successfully traversed
  */
-slice_index reflex_guard_root_reduce_to_postkey_play(slice_index si)
+boolean reflex_guard_root_reduce_to_postkey_play(slice_index si,
+                                                 struct slice_traversal *st)
 {
-  slice_index result;
+  boolean result;
+  slice_index *postkey_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-  slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -652,18 +653,22 @@ slice_index reflex_guard_root_reduce_to_postkey_play(slice_index si)
   if (next==no_slice)
   {
     assert(avoided!=no_slice);
-    result = avoided;
+    *postkey_slice = avoided;
     dealloc_slice_index(si);
+    result = true;
   }
   else
   {
-    result = slice_root_reduce_to_postkey_play(next);
+    result = traverse_slices(next,st);
 
-    if (result!=no_slice)
+    if (*postkey_slice!=no_slice)
     {
+      slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
+
       if ((length-slack_length_direct)%2==1
           && length<=slack_length_direct+2)
         dealloc_slice_index(avoided);
+
       dealloc_slice_index(si);
     }
   }

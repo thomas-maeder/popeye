@@ -195,54 +195,6 @@ slice_index slice_root_make_setplay_slice(slice_index si)
   return result;
 }
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
- */
-slice_index slice_root_reduce_to_postkey_play(slice_index si)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STDirectRoot:
-      result = direct_root_reduce_to_postkey_play(si);
-      break;
-
-    case STDirectDefenderRoot:
-      result = branch_d_defender_root_reduce_to_postkey_play(si);
-      break;
-
-    case STDirectDefense:
-      result = direct_defense_root_reduce_to_postkey_play(si);
-      break;
-
-    case STSelfAttack:
-      result = self_attack_root_reduce_to_postkey_play(si);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_root_reduce_to_postkey_play(si);
-      break;
-
-    default:
-      result = no_slice;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

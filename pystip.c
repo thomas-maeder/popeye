@@ -945,6 +945,41 @@ void transform_to_quodlibet(void)
   TraceFunctionResultEnd();
 }
 
+static slice_operation const to_postkey_play_reducers[] =
+{
+  0,                                              /* STBranchDirect */
+  0,                                              /* STBranchDirectDefender */
+  0,                                              /* STBranchHelp */
+  0,                                              /* STBranchSeries */
+  0,                                              /* STBranchFork */
+  0,                                              /* STLeafDirect */
+  0,                                              /* STLeafHelp */
+  0,                                              /* STLeafForced */
+  0,                                              /* STReciprocal */
+  0,                                              /* STQuodlibet */
+  0,                                              /* STNot */
+  0,                                              /* STMoveInverter */
+  &direct_root_reduce_to_postkey_play,            /* STDirectRoot */
+  &branch_d_defender_root_reduce_to_postkey_play, /* STDirectDefenderRoot */
+  0,                                              /* STDirectHashed */
+  0,                                              /* STHelpRoot */
+  0,                                              /* STHelpHashed */
+  0,                                              /* STSeriesRoot */
+  0,                                              /* STSeriesHashed */
+  0,                                              /* STSelfCheckGuard */
+  &direct_defense_root_reduce_to_postkey_play,    /* STDirectDefense */
+  &reflex_guard_root_reduce_to_postkey_play,      /* STReflexGuard */
+  &self_attack_root_reduce_to_postkey_play,       /* STSelfAttack */
+  0,                                              /* STSelfDefense */
+  0,                                              /* STRestartGuard */
+  0,                                              /* STGoalReachableGuard */
+  0,                                              /* STKeepMatingGuard */
+  0,                                              /* STMaxFlightsquares */
+  0,                                              /* STDegenerateTree */
+  0,                                              /* STMaxNrNonTrivial */
+  0                                               /* STMaxThreatLength */
+};
+
 /* Attempt to apply the postkey play option to the current stipulation
  * @return true iff postkey play option is applicable (and has been
  *              applied)
@@ -953,13 +988,15 @@ boolean stip_apply_postkeyplay(void)
 {
   boolean result;
   slice_index postkey_slice;
+  slice_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation();
 
-  postkey_slice = slice_root_reduce_to_postkey_play(root_slice);
+  slice_traversal_init(&st,&to_postkey_play_reducers,&postkey_slice);
+  traverse_slices(root_slice,&st);
 
   if (postkey_slice==no_slice)
     result = false;

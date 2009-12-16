@@ -29,10 +29,11 @@ slice_index self_attack_root_make_setplay_slice(slice_index si);
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
+ * @param st address of structure capturing traversal state
+ * @return true iff slice has been successfully traversed
  */
-slice_index self_attack_root_reduce_to_postkey_play(slice_index si);
+boolean self_attack_root_reduce_to_postkey_play(slice_index si,
+                                                struct slice_traversal *st);
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index

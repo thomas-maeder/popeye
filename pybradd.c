@@ -827,16 +827,21 @@ slice_index branch_d_defender_root_make_setplay_slice(slice_index si)
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
+ * @param st address of structure capturing traversal state
+ * @return true iff slice has been successfully traversed
  */
-slice_index branch_d_defender_root_reduce_to_postkey_play(slice_index si)
+boolean
+branch_d_defender_root_reduce_to_postkey_play(slice_index si,
+                                              struct slice_traversal *st)
 {
-  slice_index const result = si;
+  boolean const result = true;
+  slice_index *postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  *postkey_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

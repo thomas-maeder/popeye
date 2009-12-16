@@ -29,14 +29,6 @@ boolean slice_root_defend(slice_index si, unsigned int max_number_refutations);
  */
 slice_index slice_root_make_setplay_slice(slice_index si);
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
- */
-slice_index slice_root_reduce_to_postkey_play(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found

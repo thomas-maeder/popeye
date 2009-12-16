@@ -272,21 +272,23 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
- * @return index of first postkey slice; no_slice if postkey play not
- *         applicable
+ * @param st address of structure capturing traversal state
+ * @return true iff slice has been successfully traversed
  */
-slice_index direct_defense_root_reduce_to_postkey_play(slice_index si)
+boolean direct_defense_root_reduce_to_postkey_play(slice_index si,
+                                                   struct slice_traversal *st)
 {
-  slice_index result;
+  boolean result;
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const *postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_root_reduce_to_postkey_play(next);
+  result = traverse_slices(next,st);
 
-  if (result!=no_slice)
+  if (*postkey_slice!=no_slice)
     dealloc_slice_index(si);
 
   TraceFunctionExit(__func__);
