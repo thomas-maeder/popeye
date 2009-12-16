@@ -232,6 +232,10 @@ boolean reflex_guard_root_defend(slice_index si)
     switch (slice_has_solution(avoided))
     {
       case defender_self_check:
+        /* at this point, self check in the previous move should
+         * already have been dealt with.
+         */
+        assert(0);
         break;
 
       case has_solution:
