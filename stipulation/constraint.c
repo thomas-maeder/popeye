@@ -217,44 +217,22 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
  */
 boolean reflex_guard_root_defend(slice_index si)
 {
-  stip_length_type const length = slices[si].u.pipe.u.reflex_guard.length;
-  stip_length_type const
-      min_length = slices[si].u.pipe.u.reflex_guard.min_length;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-  boolean result = true;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length==slack_length_direct)
-    switch (slice_has_solution(avoided))
-    {
-      case defender_self_check:
-        /* at this point, self check in the previous move should
-         * already have been dealt with.
-         */
-        assert(0);
-        break;
-
-      case has_solution:
-        result = false;
-        slice_solve_postkey(avoided);
-        write_end_of_solution();
-        break;
-
-      case has_no_solution:
-        if (length>slack_length_direct)
-          result = direct_defender_root_defend(next);
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+  if (slices[si].u.pipe.u.reflex_guard.min_length==slack_length_direct
+      && slice_solve(slices[si].u.pipe.u.reflex_guard.avoided))
+  {
+    write_end_of_solution();
+    result = false;
+  }
+  else if (slices[si].u.pipe.u.reflex_guard.length>slack_length_direct)
+    result = direct_defender_root_defend(slices[si].u.pipe.next);
   else
-    result = direct_defender_root_defend(next);
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
