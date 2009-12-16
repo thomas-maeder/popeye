@@ -115,6 +115,7 @@
 #include "pynontrv.h"
 #include "pyexclus.h"
 #include "pyrepubl.h"
+#include "pyleaf.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -966,7 +967,8 @@ static boolean verify_position(void)
 
   if (TSTFLAG(PieSpExFlags, Kamikaze))
   {
-    optim_neutralretractable = add_ortho_mating_moves_generation_obstacle();
+    optim_neutralretractable = false;
+    add_ortho_mating_moves_generation_obstacle();
     if (CondFlag[haanerchess])
     {
       VerifieMsg(KamikazeAndHaaner);
@@ -1074,7 +1076,8 @@ static boolean verify_position(void)
     CondFlag[swappingkings] = true;
 
   if (anymars||anyantimars) {
-    optim_neutralretractable = add_ortho_mating_moves_generation_obstacle();
+    optim_neutralretractable = false;
+    add_ortho_mating_moves_generation_obstacle();
     if (calc_whtrans_king
         || calc_whrefl_king
         || calc_bltrans_king
