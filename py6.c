@@ -2855,12 +2855,10 @@ static Token iterate_twins(Token prev_token)
     TraceValue("%u\n",shouldDetectStarter);
     if (twin_index==0 || shouldDetectStarter)
     {
-      boolean const same_starter_as_root = true;
-
       if (OptFlag[postkeyplay] && !root_slice_apply_postkeyplay())
         Message(PostKeyPlayNotApplicable);
 
-      slice_detect_starter(root_slice,same_starter_as_root);
+      stip_detect_starter();
 
       switch (stip_supports_intelligent())
       {

@@ -1188,6 +1188,14 @@ void stip_make_exact(void)
   TraceFunctionResultEnd();
 }
 
+/* Detect the starting side from the stipulation
+ */
+void stip_detect_starter(void)
+{
+  boolean const same_starter_as_root = true;
+  slice_detect_starter(root_slice,same_starter_as_root);
+}
+
 static slice_operation const starter_imposers[] =
 {
   &pipe_impose_inverted_starter,  /* STBranchDirect */

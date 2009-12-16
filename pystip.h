@@ -335,6 +335,10 @@ slice_index find_unique_goal(slice_index si);
  */
 void stip_make_exact(void);
 
+/* Detect the starting side from the stipulation
+ */
+void stip_detect_starter(void);
+
 /* Impose the starting side on the stipulation
  */
 void stip_impose_starter(Side starter);
