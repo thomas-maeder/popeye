@@ -2377,30 +2377,6 @@ static boolean root_slice_apply_setplay(void)
   return result;
 }
 
-static boolean root_slice_apply_postkeyplay(void)
-{
-  boolean result = false;
-  slice_index postkey_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation();
-
-  postkey_slice = slice_root_reduce_to_postkey_play(root_slice);
-
-  if (postkey_slice!=no_slice)
-  {
-    result = true;
-    root_slice = alloc_move_inverter_slice(postkey_slice);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
-}
-
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -2855,7 +2831,7 @@ static Token iterate_twins(Token prev_token)
     TraceValue("%u\n",shouldDetectStarter);
     if (twin_index==0 || shouldDetectStarter)
     {
-      if (OptFlag[postkeyplay] && !root_slice_apply_postkeyplay())
+      if (OptFlag[postkeyplay] && !stip_apply_postkeyplay())
         Message(PostKeyPlayNotApplicable);
 
       stip_detect_starter();

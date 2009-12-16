@@ -309,6 +309,12 @@ stip_length_type get_max_nr_moves(slice_index si);
  */
 void transform_to_quodlibet(void);
 
+/* Attempt to apply the postkey play option to the current stipulation
+ * @return true iff postkey play option is applicable (and has been
+ *              applied)
+ */
+boolean stip_apply_postkeyplay(void);
+
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals

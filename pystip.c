@@ -945,6 +945,36 @@ void transform_to_quodlibet(void)
   TraceFunctionResultEnd();
 }
 
+/* Attempt to apply the postkey play option to the current stipulation
+ * @return true iff postkey play option is applicable (and has been
+ *              applied)
+ */
+boolean stip_apply_postkeyplay(void)
+{
+  boolean result;
+  slice_index postkey_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation();
+
+  postkey_slice = slice_root_reduce_to_postkey_play(root_slice);
+
+  if (postkey_slice==no_slice)
+    result = false;
+  else
+  {
+    result = true;
+    root_slice = alloc_move_inverter_slice(postkey_slice);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
 typedef struct
 {
     Goal const * const goals;
