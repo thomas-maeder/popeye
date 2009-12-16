@@ -1012,6 +1012,57 @@ boolean stip_apply_postkeyplay(void)
   return result;
 }
 
+/* Combine the set play slices into the current stipulation
+ * @param setplay slice index of set play
+ */
+static void combine_set_play(slice_index setplay)
+{
+  slice_index sc;
+  slice_index mi;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  sc = alloc_selfcheck_guard_slice(setplay);
+
+  mi = alloc_move_inverter_slice(sc);
+  slices[mi].starter = advers(slices[sc].starter);
+
+  root_slice = alloc_quodlibet_slice(mi,root_slice);
+  slices[root_slice].starter = slices[mi].starter;
+  TraceValue("->%u\n",root_slice);
+  TraceValue("%u\n",slices[root_slice].starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParamListEnd();
+}
+
+/* Attempt to add set play to the stipulation
+ * @return true iff set play could be added
+ */
+boolean stip_apply_setplay(void)
+{
+  boolean result;
+  slice_index setplay;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  setplay = slice_root_make_setplay_slice(root_slice);
+  if (setplay==no_slice)
+    result = false;
+  else
+  {
+    combine_set_play(setplay);
+    result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
 typedef struct
 {
     Goal const * const goals;

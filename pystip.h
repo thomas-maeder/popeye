@@ -315,6 +315,11 @@ void transform_to_quodlibet(void);
  */
 boolean stip_apply_postkeyplay(void);
 
+/* Attempt to add set play to the stipulation
+ * @return true iff set play could be added
+ */
+boolean stip_apply_setplay(void);
+
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
  * @param nrGoals number of elements of goals

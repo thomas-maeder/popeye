@@ -2346,37 +2346,6 @@ static void fini_duplex(void)
   TraceFunctionResultEnd();
 }
 
-static boolean root_slice_apply_setplay(void)
-{
-  boolean result;
-  slice_index setplay;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  setplay = slice_root_make_setplay_slice(root_slice);
-  if (setplay==no_slice)
-    result = false;
-  else
-  {
-    slice_index const sc = alloc_selfcheck_guard_slice(setplay);
-
-    slice_index const mi = alloc_move_inverter_slice(sc);
-    slices[mi].starter = advers(slices[sc].starter);
-
-    root_slice = alloc_quodlibet_slice(mi,root_slice);
-    slices[root_slice].starter = slices[mi].starter;
-    TraceValue("->%u\n",root_slice);
-    TraceValue("%u\n",slices[root_slice].starter);
-    result = true;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
-}
-
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -2876,8 +2845,7 @@ static Token iterate_twins(Token prev_token)
        * would test for illegal selfchecks twice at the beginning of
        * setplay.
        */
-      if (OptFlag[solapparent] && !OptFlag[restart]
-          && !root_slice_apply_setplay())
+      if (OptFlag[solapparent] && !OptFlag[restart] && !stip_apply_setplay())
         Message(SetPlayNotApplicable);
 
       if (is_hashtable_allocated())
