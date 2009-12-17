@@ -35,12 +35,6 @@ boolean slice_solve(slice_index si);
  */
 boolean slice_root_solve(slice_index si);
 
-/* Solve a slice in exactly n moves at root level
- * @param si slice index
- * @param n exact number of moves
- */
-void slice_root_solve_in_n(slice_index si, stip_length_type n);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats

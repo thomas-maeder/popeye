@@ -288,45 +288,6 @@ boolean slice_root_solve(slice_index si)
   return result;
 }
 
-/* Solve a slice in exactly n moves at root level
- * @param si slice index
- * @param n exact number of moves
- */
-void slice_root_solve_in_n(slice_index si, stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STHelpRoot:
-      help_root_solve_in_n(si,n);
-      break;
-
-    case STSeriesRoot:
-      series_root_solve_in_n(si,n);
-      break;
-
-    case STQuodlibet:
-      quodlibet_root_solve_in_n(si,n);
-      break;
-
-    case STMoveInverter:
-      move_inverter_root_solve_in_n(si,n);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats

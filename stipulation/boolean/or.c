@@ -2,6 +2,7 @@
 #include "pyslice.h"
 #include "pyproc.h"
 #include "pyoutput.h"
+#include "pyintslv.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -82,8 +83,8 @@ void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_root_solve_in_n(op1,n);
-  slice_root_solve_in_n(op2,n);
+  intelligent_solvable_root_solve_in_n(op1,n);
+  intelligent_solvable_root_solve_in_n(op2,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

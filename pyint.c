@@ -25,6 +25,7 @@
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pypipe.h"
+#include "pyintslv.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -671,7 +672,7 @@ static void StaleStoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    slice_root_solve_in_n(current_start_slice,n);
+    intelligent_solvable_root_solve_in_n(current_start_slice,n);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -907,7 +908,7 @@ static void StoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    slice_root_solve_in_n(current_start_slice,n);
+    intelligent_solvable_root_solve_in_n(current_start_slice,n);
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -2600,7 +2601,7 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
   if (n<full_length)
     OptFlag[movenbr] = false;
     
-  slice_root_solve_in_n(current_start_slice,n);
+  intelligent_solvable_root_solve_in_n(current_start_slice,n);
 
   OptFlag[movenbr] = save_movenbr;
 }

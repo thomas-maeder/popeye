@@ -3,6 +3,7 @@
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pydata.h"
+#include "pyintslv.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -98,7 +99,7 @@ void move_inverter_root_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   output_start_move_inverted_level();
-  slice_root_solve_in_n(slices[si].u.pipe.next,n);
+  intelligent_solvable_root_solve_in_n(slices[si].u.pipe.next,n);
   output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);

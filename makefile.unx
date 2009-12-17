@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.94 2009/12/14 21:00:15 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.95 2009/12/17 20:14:17 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -247,7 +247,8 @@ LIBRARIES +=
 INCLUDES =      pyenum.h \
 		pydata.h pybitmsk.h pyboard.h pypiece.h pyposit.h \
 		py.h py1.h py4.h pyproc.h pymsg.h \
-		pymac.h pylang.h pyproof.h DHT/*.h pyint.h pyhash.h \
+		pymac.h pylang.h pyproof.h DHT/*.h \
+		pyintslv.h pyint.h pyhash.h \
 		pytable.h \
 		pyoutput.h \
 		platform/maxmem.h platform/maxtime.h \
@@ -271,7 +272,7 @@ PYCFILES =      pydata.c pyboard.c pyposit.c \
 		pytable.c \
 		pyoutput.c \
 		platform/maxmem.c platform/maxtime.c \
-		pysignal.c pyint.c \
+		pysignal.c pyintslv.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
 		pydirect.c pyhelp.c pyseries.c \
 		pypipe.c \
