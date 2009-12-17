@@ -2300,7 +2300,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       {
         *si = alloc_series_branch(level,length+1,min_length,next);
         slice_insert_reflex_guards(*si,next);
-        slices[*si].starter = White;
+        slices[next].starter = Black;
       }
     }
   }
