@@ -410,15 +410,19 @@ stip_length_type direct_solve_threats_in_n(table threats,
  */
 void direct_solve_threats(table threats, slice_index si)
 {
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const parity = (length-slack_length_direct)%2;
-  stip_length_type const n_min = slack_length_direct+2-parity;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  direct_solve_threats_in_n(threats,si,length,n_min);
+  if (slices[si].type==STLeafDirect)
+    leaf_d_solve_threats(threats,si);
+  else
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const parity = (length-slack_length_direct)%2;
+    stip_length_type const n_min = slack_length_direct+2-parity;
+    direct_solve_threats_in_n(threats,si,length,n_min);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

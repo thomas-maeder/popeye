@@ -52,8 +52,19 @@ void slice_solve_threats(table threats, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STDirectHashed:
     case STLeafDirect:
-      leaf_d_solve_threats(threats,si);
+      direct_solve_threats(threats,si);
+      break;
+
+    case STBranchHelp:
+    case STHelpHashed:
+      help_solve_threats(threats,si);
+      break;
+
+    case STBranchSeries:
+    case STSeriesHashed:
+      series_solve_threats(threats,si);
       break;
     
     case STQuodlibet:
@@ -68,26 +79,62 @@ void slice_solve_threats(table threats, slice_index si)
       not_solve_threats(threats,si);
       break;
 
-    case STDirectRoot:
-    case STBranchDirect:
-    case STDirectDefense:
-    case STSelfDefense:
-    case STSelfCheckGuard:
-    case STReflexGuard:
-    case STKeepMatingGuard:
-    case STDegenerateTree:
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether the defense just played defends against the threats.
+ * @param threats table containing the threats
+ * @param len_threat length of threat(s) in table threats
+ * @param si slice index
+ * @return true iff the defense defends against at least one of the
+ *         threats
+ */
+boolean slice_are_threats_refuted(table threats,
+                                  stip_length_type len_threat,
+                                  slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",table_length(threats));
+  TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
     case STDirectHashed:
-      direct_solve_threats(threats,si);
+    case STLeafDirect:
+      result = direct_are_threats_refuted(threats,len_threat,si);
       break;
 
     case STBranchHelp:
     case STHelpHashed:
-      help_solve_threats(threats,si);
+      result = help_are_threats_refuted(threats,len_threat,si);
       break;
 
     case STBranchSeries:
     case STSeriesHashed:
-      series_solve_threats(threats,si);
+      result = series_are_threats_refuted(threats,len_threat,si);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_are_threats_refuted(threats,len_threat,si);
+      break;
+
+    case STReciprocal:
+      result = reci_are_threats_refuted(threats,len_threat,si);
+      break;
+
+    case STNot:
+      result = true;
       break;
 
     default:
@@ -96,7 +143,9 @@ void slice_solve_threats(table threats, slice_index si)
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to defend after an attempted key move at root level
@@ -279,70 +328,6 @@ boolean slice_root_solve(slice_index si)
     default:
       assert(0);
       result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean slice_are_threats_refuted(table threats,
-                                  stip_length_type len_threat,
-                                  slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STDirectHashed:
-    case STLeafDirect:
-      result = direct_are_threats_refuted(threats,len_threat,si);
-      break;
-
-    case STBranchHelp:
-    case STHelpHashed:
-      result = help_are_threats_refuted(threats,len_threat,si);
-      break;
-
-    case STBranchSeries:
-    case STSeriesHashed:
-      result = series_are_threats_refuted(threats,len_threat,si);
-      break;
-
-    case STReciprocal:
-      result = reci_are_threats_refuted(threats,len_threat,si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_are_threats_refuted(threats,len_threat,si);
-      break;
-
-    case STSelfCheckGuard:
-      result = selfcheck_guard_are_threats_refuted(threats,len_threat,si);
-      break;
-
-    case STNot:
-      result = true;
-      break;
-
-    default:
-      assert(0);
       break;
   }
 
