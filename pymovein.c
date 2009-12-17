@@ -154,10 +154,7 @@ boolean move_inverter_detect_starter(slice_index si, slice_traversal *st)
                             advers(next_starter));
   }
   else
-  {
     result = true;
-    param->who_decides = leaf_decides_on_starter;
-  }
 
   TraceValue("->%u\n",slices[si].starter);
 

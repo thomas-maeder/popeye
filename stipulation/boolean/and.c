@@ -202,7 +202,6 @@ boolean reci_detect_starter(slice_index si, slice_traversal *st)
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
-  stip_detect_starter_param_type * const param = st->param;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -211,18 +210,11 @@ boolean reci_detect_starter(slice_index si, slice_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    who_decides_on_starter const save_who_decides = param->who_decides;
-    who_decides_on_starter who_decides_1;
     boolean result1;
-    who_decides_on_starter who_decides_2;
     boolean result2;
 
     result1 = traverse_slices(op1,st);
-    who_decides_1 = param->who_decides;
-
-    param->who_decides = save_who_decides;
     result2 = traverse_slices(op2,st);
-    who_decides_2 = param->who_decides;
 
     result = result1 && result2;
 
@@ -234,21 +226,9 @@ boolean reci_detect_starter(slice_index si, slice_traversal *st)
              || slices[op2].starter==no_side);
       slices[si].starter = slices[op1].starter;
     }
-
-    if (who_decides_1==dont_know_who_decides_on_starter)
-      param->who_decides = who_decides_2;
-    else
-    {
-      assert(who_decides_2==dont_know_who_decides_on_starter
-             || slices[op1].starter==slices[op2].starter);
-      param->who_decides = who_decides_1;
-    }
   }
   else
-  {
-    param->who_decides = leaf_decides_on_starter;
     result = true;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

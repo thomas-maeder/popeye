@@ -785,13 +785,11 @@ boolean branch_d_defender_root_detect_starter(slice_index si,
                                               slice_traversal *st)
 {
   boolean const result = true;
-  stip_detect_starter_param_type * const param = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
   
-  param->who_decides = leaf_decides_on_starter;
   if (slices[si].starter==no_side)
     slices[si].starter = Black;
 

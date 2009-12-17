@@ -98,11 +98,7 @@ boolean pipe_detect_starter(slice_index si, slice_traversal *st)
     slices[si].starter = slices[next].starter;
   }
   else
-  {
-    stip_detect_starter_param_type * const param = st->param;
-    param->who_decides = leaf_decides_on_starter;
     result = true;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

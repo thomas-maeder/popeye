@@ -297,13 +297,10 @@ boolean leaf_h_defend(slice_index leaf)
 boolean leaf_h_detect_starter(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
-  stip_detect_starter_param_type * const param = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  param->who_decides = leaf_decides_on_starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

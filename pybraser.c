@@ -94,10 +94,7 @@ boolean branch_ser_detect_starter(slice_index si, slice_traversal *st)
                           : advers(slices[next].starter));
   }
   else
-  {
     result = true;
-    param->who_decides = leaf_decides_on_starter;
-  }
 
   TraceValue("%u\n",slices[si].starter);
 

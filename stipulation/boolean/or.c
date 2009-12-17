@@ -305,15 +305,10 @@ boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
 {
   slice_index const op1 = slices[si].u.fork.op1;
   slice_index const op2 = slices[si].u.fork.op2;
-  stip_detect_starter_param_type * const param = st->param;
 
   boolean result;
   boolean result1;
   boolean result2;
-
-  who_decides_on_starter const save_who_decides = param->who_decides;
-  who_decides_on_starter who_decides_1;
-  who_decides_on_starter who_decides_2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -325,11 +320,7 @@ boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
   TraceValue("%u\n",slices[si].u.fork.op2);
 
   result1 = traverse_slices(op1,st);
-  who_decides_1 = param->who_decides;
-
-  param->who_decides = save_who_decides;
   result2 = traverse_slices(op2,st);
-  who_decides_2 = param->who_decides;
 
   result = result1 && result2;
 
@@ -340,15 +331,6 @@ boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
     assert(slices[op2].starter==no_side
            || slices[op1].starter==slices[op2].starter);
     slices[si].starter = slices[op1].starter;
-  }
-
-  if (who_decides_1==dont_know_who_decides_on_starter)
-    param->who_decides = who_decides_2;
-  else
-  {
-    assert(who_decides_2==dont_know_who_decides_on_starter
-           || slices[op1].starter==slices[op2].starter);
-    param->who_decides = who_decides_1;
   }
 
   TraceFunctionExit(__func__);
