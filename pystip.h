@@ -352,11 +352,6 @@ typedef enum
   leaf_decides_on_starter
 } who_decides_on_starter;
 
-typedef struct
-{
-    boolean same_starter_as_root;
-} stip_detect_starter_param_type;
-
 /* Detect the starting side from the stipulation
  */
 void stip_detect_starter(void);

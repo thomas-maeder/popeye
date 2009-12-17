@@ -76,7 +76,6 @@ void branch_h_promote_to_toplevel(slice_index branch)
 boolean branch_h_detect_starter(slice_index si, slice_traversal *st)
 {
   boolean result;
-  stip_detect_starter_param_type * const param = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -85,10 +84,7 @@ boolean branch_h_detect_starter(slice_index si, slice_traversal *st)
   if (slices[si].starter==no_side)
   {
     slice_index const next = slices[si].u.pipe.next;
-    boolean const save_same_starter_as_root = param->same_starter_as_root;
-    param->same_starter_as_root = !save_same_starter_as_root;
     result = slice_traverse_children(si,st);
-    param->same_starter_as_root = save_same_starter_as_root;
     slices[si].starter = (slices[next].starter==no_side
                           ? no_side
                           : advers(slices[next].starter));

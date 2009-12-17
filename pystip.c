@@ -1389,15 +1389,13 @@ static slice_operation const starter_detectors[] =
 void stip_detect_starter(void)
 {
   slice_traversal st;
-  stip_detect_starter_param_type param = { true,
-                                           dont_know_who_decides_on_starter };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation();
 
-  slice_traversal_init(&st,&starter_detectors,&param);
+  slice_traversal_init(&st,&starter_detectors,NULL);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);

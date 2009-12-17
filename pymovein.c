@@ -133,7 +133,6 @@ boolean move_inverter_solve(slice_index si)
 boolean move_inverter_detect_starter(slice_index si, slice_traversal *st)
 {
   boolean result;
-  stip_detect_starter_param_type * const param = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -143,10 +142,7 @@ boolean move_inverter_detect_starter(slice_index si, slice_traversal *st)
   {
     slice_index const next = slices[si].u.pipe.next;
     Side next_starter;
-    boolean const save_same_starter_as_root = param->same_starter_as_root;
-    param->same_starter_as_root = !save_same_starter_as_root;
     result = slice_traverse_children(si,st);
-    param->same_starter_as_root = save_same_starter_as_root;
     next_starter = slices[next].starter;
     if (next_starter!=no_side)
       slices[si].starter = (next_starter==no_side
