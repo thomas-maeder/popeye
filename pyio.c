@@ -2200,7 +2200,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         *si = alloc_series_branch(level,length,min_length,mi);
       }
 
-      slices[*si].starter = White;
+      slices[next].starter = White;
     }
   }
 
@@ -2217,9 +2217,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
         *si = alloc_series_branch(level,length,min_length,mi);
+        slices[next].starter = Black;
       }
-
-      slices[*si].starter = Black;
     }
   }
 
@@ -2248,6 +2247,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                      next);
           *si = alloc_series_branch(level,length,min_length,help);
         }
+
+        slices[next].starter = Black;
       }
     }
   }
@@ -2262,7 +2263,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
+      {
         *si = alloc_series_branch(level,length+1,min_length,next);
+        slices[next].starter = White;
+      }
     }
   }
 
@@ -2276,7 +2280,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
+      {
         *si = alloc_series_branch(level,length+1,min_length,next);
+        slices[next].starter = Black;
+      }
     }
   }
 
@@ -2321,6 +2328,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           slice_index const mi = alloc_move_inverter_slice(next);
           *si = alloc_series_branch(level,length,min_length-1,mi);
         }
+        slices[next].starter = White;
       }
     }
   }
@@ -2360,9 +2368,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           else
             *si = help;
         }
-      }
 
-      slices[*si].starter = Black;
+        slices[next].starter = Black;
+      }
     }
   }
 
@@ -2382,6 +2390,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           *si = next;
         else
           *si = alloc_help_branch(level,length,min_length,next);
+
+        slices[next].starter = (length-slack_length_help)%2==0 ? White : Black;
       }
     }
   }
@@ -2401,6 +2411,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           *si = next;
         else
           *si = alloc_help_branch(level,length,min_length,next);
+
+        slices[next].starter = (length-slack_length_help)%2==0 ? Black : White;
       }
     }
   }
@@ -2428,6 +2440,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           else
             *si = help;
         }
+
+        slices[next].starter = Black;
       }
     }
   }
@@ -2485,6 +2499,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           else
             *si = help;
         }
+
+        slices[next].starter = White;
       }
     }
   }
@@ -2504,6 +2520,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         ++min_length;
         *si = alloc_direct_branch(level,length,min_length,next);
         slice_insert_reflex_guards_semi(*si,next);
+        slices[next].starter = Black;
       }
     }
   }
@@ -2523,6 +2540,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         ++min_length;
         *si = alloc_direct_branch(level,length,min_length,next);
         slice_insert_self_guards(*si,next);
+        slices[next].starter = Black;
       }
     }
   }
@@ -2542,6 +2560,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         ++min_length;
         *si = alloc_direct_branch(level,length,min_length,next);
         slice_insert_reflex_guards(*si,next);
+        slices[next].starter = Black;
       }
     }
   }
@@ -2568,6 +2587,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
           *si = alloc_direct_branch(level,length,min_length,next);
 
         slice_insert_direct_guards(*si,next);
+
+        slices[next].starter = White;
       }
     }
   }

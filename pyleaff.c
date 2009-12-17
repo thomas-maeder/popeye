@@ -555,9 +555,6 @@ boolean leaf_forced_detect_starter(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].starter = Black;
-  TraceValue("->%u\n",slices[si].starter);
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
