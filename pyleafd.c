@@ -521,6 +521,7 @@ boolean leaf_d_detect_starter(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   stip_detect_starter_param_type * const param = st->param;
+  boolean const same_side_as_root = param->same_starter_as_root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -528,7 +529,22 @@ boolean leaf_d_detect_starter(slice_index si, slice_traversal *st)
 
   param->who_decides = leaf_decides_on_starter;
   if (slices[si].starter==no_side)
-    slices[si].starter = White;
+  {
+    switch (slices[si].u.leaf.goal)
+    {
+      case goal_proof:
+        slices[si].starter = same_side_as_root ? White : Black;
+        break;
+
+      case goal_atob:
+        slices[si].starter = same_side_as_root ? Black : White;
+        break;
+
+      default:
+        slices[si].starter = White;
+        break;
+    }
+  }
 
   TraceEnumerator(Side,slices[si].starter,"\n");
 

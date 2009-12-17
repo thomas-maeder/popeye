@@ -2199,6 +2199,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         slice_index const mi = alloc_move_inverter_slice(next);
         *si = alloc_series_branch(level,length,min_length,mi);
       }
+
+      slices[*si].starter = White;
     }
   }
 
