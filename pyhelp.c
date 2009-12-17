@@ -299,20 +299,16 @@ void help_solve_threats(table threats, slice_index si)
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean help_are_threats_refuted(table threats,
-                                 stip_length_type len_threat,
-                                 slice_index si)
+boolean help_are_threats_refuted(table threats, slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -320,11 +316,7 @@ boolean help_are_threats_refuted(table threats,
   switch (slices[si].type)
   {
     case STBranchHelp:
-      result = branch_h_are_threats_refuted(threats,len_threat,si);
-      break;
-
-    case STHelpHashed:
-      result = help_are_threats_refuted(threats,len_threat,si);
+      result = branch_h_are_threats_refuted(threats,si);
       break;
 
     default:

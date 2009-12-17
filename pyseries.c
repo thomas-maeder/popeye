@@ -319,14 +319,11 @@ boolean series_has_non_starter_solved(slice_index si)
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean series_are_threats_refuted(table threats,
-                                   stip_length_type len_threat,
-                                   slice_index si)
+boolean series_are_threats_refuted(table threats, slice_index si)
 {
   boolean result;
 
@@ -337,11 +334,9 @@ boolean series_are_threats_refuted(table threats,
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   if (slices[si].type==STBranchSeries)
-    result = branch_ser_are_threats_refuted(threats,len_threat,si);
+    result = branch_ser_are_threats_refuted(threats,si);
   else
-    result = series_are_threats_refuted(threats,
-                                        len_threat,
-                                        slices[si].u.pipe.next);
+    result = series_are_threats_refuted(threats,slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

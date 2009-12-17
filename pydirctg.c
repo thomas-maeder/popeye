@@ -114,7 +114,7 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
   assert(len_threat>=slack_length_direct);
 
   if (len_threat==slack_length_direct)
-    result = slice_are_threats_refuted(threats,len_threat,togoal);
+    result = slice_are_threats_refuted(threats,togoal);
   else
     result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
 

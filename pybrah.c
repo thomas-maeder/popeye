@@ -192,17 +192,12 @@ void branch_h_solve_threats_in_n(table threats,
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean branch_h_are_threats_refuted(table threats,
-                                     stip_length_type len_threat,
-                                     slice_index si)
+boolean branch_h_are_threats_refuted(table threats, slice_index si)
 {
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
   boolean result = true;
 
   TraceFunctionEntry(__func__);
@@ -214,6 +209,9 @@ boolean branch_h_are_threats_refuted(table threats,
   {
     unsigned int nr_successful_threats = 0;
     boolean defense_found = false;
+    Side const attacker = slices[si].starter;
+    slice_index const next = slices[si].u.pipe.next;
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
 
     active_slice[nbply+1] = si;
     genmove(attacker);
@@ -222,7 +220,7 @@ boolean branch_h_are_threats_refuted(table threats,
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && is_current_move_in_table(threats)
-          && help_has_solution_in_n(next,len_threat-1))
+          && help_has_solution_in_n(next,length-1))
         ++nr_successful_threats;
 
       repcoup();

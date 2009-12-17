@@ -90,20 +90,16 @@ void slice_solve_threats(table threats, slice_index si)
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean slice_are_threats_refuted(table threats,
-                                  stip_length_type len_threat,
-                                  slice_index si)
+boolean slice_are_threats_refuted(table threats, slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -112,25 +108,25 @@ boolean slice_are_threats_refuted(table threats,
   {
     case STDirectHashed:
     case STLeafDirect:
-      result = direct_are_threats_refuted(threats,len_threat,si);
+      result = direct_are_threats_refuted(threats,si);
       break;
 
     case STBranchHelp:
     case STHelpHashed:
-      result = help_are_threats_refuted(threats,len_threat,si);
+      result = help_are_threats_refuted(threats,si);
       break;
 
     case STBranchSeries:
     case STSeriesHashed:
-      result = series_are_threats_refuted(threats,len_threat,si);
+      result = series_are_threats_refuted(threats,si);
       break;
 
     case STQuodlibet:
-      result = quodlibet_are_threats_refuted(threats,len_threat,si);
+      result = quodlibet_are_threats_refuted(threats,si);
       break;
 
     case STReciprocal:
-      result = reci_are_threats_refuted(threats,len_threat,si);
+      result = reci_are_threats_refuted(threats,si);
       break;
 
     case STNot:

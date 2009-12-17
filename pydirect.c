@@ -430,20 +430,16 @@ void direct_solve_threats(table threats, slice_index si)
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean direct_are_threats_refuted(table threats,
-                                   stip_length_type len_threat,
-                                   slice_index si)
+boolean direct_are_threats_refuted(table threats, slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",len_threat);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
@@ -453,7 +449,8 @@ boolean direct_are_threats_refuted(table threats,
   else
   {
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    result = direct_are_threats_refuted_in_n(threats,len_threat,si,length);
+    result = direct_are_threats_refuted_in_n(threats,slack_length_direct,
+                                             si,length);
   }
 
   TraceFunctionExit(__func__);

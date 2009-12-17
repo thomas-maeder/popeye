@@ -60,14 +60,11 @@ boolean help_has_non_starter_solved(slice_index si);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
  * @param si slice index
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean help_are_threats_refuted(table threats,
-                                 stip_length_type len_threat,
-                                 slice_index si);
+boolean help_are_threats_refuted(table threats, slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
