@@ -414,14 +414,25 @@ void direct_solve_threats(table threats, slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==STLeafDirect)
-    leaf_d_solve_threats(threats,si);
-  else
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const parity = (length-slack_length_direct)%2;
-    stip_length_type const n_min = slack_length_direct+2-parity;
-    direct_solve_threats_in_n(threats,si,length,n_min);
+    case STDirectHashed:
+    {
+      stip_length_type const length = slices[si].u.pipe.u.branch.length;
+      stip_length_type const parity = (length-slack_length_direct)%2;
+      stip_length_type const n_min = slack_length_direct+2-parity;
+      direct_hashed_solve_threats_in_n(threats,si,length,n_min);
+      break;
+    }
+
+    case STLeafDirect:
+      leaf_d_solve_threats(threats,si);
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -444,13 +455,23 @@ boolean direct_are_threats_refuted(table threats, slice_index si)
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
-  if (slices[si].type==STLeafDirect)
-    result = leaf_d_are_threats_refuted(threats,si);
-  else
+  switch (slices[si].type)
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    result = direct_are_threats_refuted_in_n(threats,slack_length_direct,
-                                             si,length);
+    case STDirectHashed:
+    {
+      stip_length_type const length = slices[si].u.pipe.u.branch.length;
+      result = direct_are_threats_refuted_in_n(threats,slack_length_direct,
+                                               si,length);
+      break;
+    }
+
+    case STLeafDirect:
+      result = leaf_d_are_threats_refuted(threats,si);
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
