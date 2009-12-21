@@ -615,16 +615,6 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
 }
 
 /**************** slice interface ***********************/
- 
-/* Determine whether a slice.has just been solved with the just played
- * move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean branch_d_has_non_starter_solved(slice_index si)
-{
-  return slice_has_non_starter_solved(slices[si].u.pipe.u.branch.towards_goal);
-}
 
 /* Find short solutions (i.e. solutions where the play immediately
  * goes on in the next branch/leaf)

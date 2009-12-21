@@ -144,41 +144,6 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
   return result;
 }
 
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean slice_root_defend(slice_index si, unsigned int max_number_refutations)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafForced:
-      result = leaf_forced_root_defend(si,max_number_refutations);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_root_defend(si,max_number_refutations);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -295,7 +260,6 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STHelpRoot:
-    case STBranchHelp:
     case STHelpHashed:
     case STLeafHelp:
       result = help_root_solve(si);
@@ -414,6 +378,41 @@ has_solution_type slice_has_solution(slice_index si)
   return result;
 }
 
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
+ */
+boolean slice_root_defend(slice_index si, unsigned int max_number_refutations)
+{
+  boolean result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",max_number_refutations);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafForced:
+      result = leaf_forced_root_defend(si,max_number_refutations);
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_root_defend(si,max_number_refutations);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether a slice.has just been solved with the just played
  * move by the non-starter
  * @param si slice identifier
@@ -434,30 +433,8 @@ boolean slice_has_non_starter_solved(slice_index si)
       result = leaf_forced_has_non_starter_solved(si);
       break;
 
-    case STBranchDirect:
-      result = branch_d_has_non_starter_solved(si);
-      break;
-
-    case STBranchHelp:
-    case STHelpHashed:
-      result = help_has_non_starter_solved(si);
-      break;
-
-    case STBranchSeries:
-    case STSeriesHashed:
-      result = series_has_non_starter_solved(si);
-      break;
-
     case STQuodlibet:
       result = quodlibet_has_non_starter_solved(si);
-      break;
-
-    case STReciprocal:
-      result = reci_has_non_starter_solved(si);
-      break;
-
-    case STNot:
-      result = not_has_non_starter_solved(si);
       break;
 
     default:

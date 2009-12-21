@@ -32,13 +32,6 @@ boolean reci_are_threats_refuted(table threats, slice_index si);
  */
 has_solution_type reci_has_solution(slice_index si);
 
-/* Determine whether a reciprocal slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean reci_has_non_starter_solved(slice_index si);
-
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice

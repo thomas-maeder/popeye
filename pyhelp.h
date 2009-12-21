@@ -51,13 +51,6 @@ void help_solve_threats_in_n(table threats,
  */
 void help_solve_threats(table threats, slice_index si);
 
-/* Determine whether a branch slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean help_has_non_starter_solved(slice_index si);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

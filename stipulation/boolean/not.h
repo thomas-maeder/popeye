@@ -33,13 +33,6 @@ has_solution_type not_has_solution(slice_index si);
  */
 void not_solve_threats(table threats, slice_index si);
 
-/* Determine whether a slice.has just been solved with the just
- * played move by the non-starter 
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean not_has_non_starter_solved(slice_index si);
-
 /* Determine and write the solution of a slice
  * @param slice index
  * @return true iff >=1 solution was found

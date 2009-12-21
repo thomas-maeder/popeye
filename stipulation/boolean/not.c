@@ -102,25 +102,6 @@ void not_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a slice.has just been solved with the just
- * played move by the non-starter 
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean not_has_non_starter_solved(slice_index si)
-{
-  boolean const result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution of a slice
  * @param slice index
  * @return true iff >=1 solution was found

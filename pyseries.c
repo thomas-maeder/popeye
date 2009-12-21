@@ -295,28 +295,6 @@ void series_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a branch slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean series_has_non_starter_solved(slice_index si)
-{
-  slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_has_non_starter_solved(to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index
