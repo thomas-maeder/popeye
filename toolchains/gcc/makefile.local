@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+
+include $(BASEPWD)/makefile.rules
+
+DISTRIBUTEDFILES = 	makefile.local make.incl \
+			README-gcc-OPTIONS

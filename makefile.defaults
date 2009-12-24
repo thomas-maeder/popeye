@@ -1,0 +1,191 @@
+# -*- Makefile -*-
+#
+
+# Current Popeye version
+# ======================
+
+# Version number; . separates major and minor version part
+# developer versions have minor version numbers divisible by 2
+VERSION=4.54
+
+
+# NOTES ON CONDITIONAL COMPILATION
+# ================================
+
+# cf. http://predef.sourceforge.net/preos.html
+
+# Some parts of the Popeye executable (attempted to) being built
+# depend on whether one or more specific macros are #defined. Some of
+# these macros are implicitly #defined by the C implementation
+# depending on the operating system, architecture or the C
+# implementation itself. Others can typically be passed to the C
+# compiler using some command line switch (for gcc and a number of
+# other compilers, that switch is $(DEFINEMACRO)).
+
+# To set one or more of these macros "by hand", use the DEFS
+# variable. Example:
+DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
+
+
+# Target operating system
+# -----------------------
+
+# The target operating system is the operating system where you want
+# to run the executable. This is not necessarily equal to the host
+# operating system (i.e. the operating system used for building the
+# executable).
+
+# The following macros are typically implicitly set by the C
+# implementation.
+
+# MSDOS or compatibles          DOS  (TODO NG)
+# Windows 64-Bit environments   _WIN64
+# Windows 32-Bit environments   _WIN32
+# UNIX, Linux                   __unix (Sun cc doesn't define __unix__!)
+# BSD                  	        __bsdi__
+# FreeBSD                       __FreeBSD__
+# HP-UX                         _hpux
+# Macintosh <=9                 macintosh
+# MacOSX                        __APPLE__ & __MACH__
+# OS/2                          _OS2
+# ATARI                         ATARI
+# BS2000                        BS2000
+# C370                          C370
+# VMS                           __VMS
+
+
+# You'll probably have to pass these to the compiler "by hand":
+
+# Windows 16-Bit enviromnments  _WIN16
+# Win95, Win98 or WinME         _WIN98
+
+
+# If you inted to use Popeye in the Windows DOS box, you want to set
+#                               SHARING
+
+
+# Target architecture
+# -------------------
+
+# You'll have to pass these to the compiler "by hand":
+
+# 16-bit                        SIXTEEN
+
+
+
+# C implementation
+# ----------------
+
+# The following macros are set by the implementation.
+
+# GCC                           __GNUC__
+# MICROSOFT's C-Compiler        _MSC_VER
+#   multi-threading             _MT
+# Borland's TURBO-C             __TURBOC__
+
+# If the library of the C implementation doesn't have the Standard C
+# memset() function, you have to define
+
+#                               NOMEMSET
+
+
+# Optional Popeye features
+# ------------------------
+
+# to print some debugging information while solving           DEBUG
+# new tracing machinery                                       DOTRACE
+# to print even more debugging information                    DETAILS
+# ?                                                           DBMALLOC
+# debugging output for dynamic hash tables                    DEBUG_DHT
+# to keep all messages in memory (not in an external file)    MSG_IN_MEM
+# to suppress all output                                      QUIET
+# to produce a message after canceling Popeye with a signal   SIGNALS
+# to produce statistics about hashtable fill rate             TESTHASH
+# to use the "FiXed and Fast memory allocator"                FXF
+
+
+# Other
+# -----
+
+# turn off assert() checks                                    NDEBUG
+
+
+DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
+
+
+# Compiler options
+# ================
+
+# Options related to the target architecture
+# ------------------------------------------
+ARCH=
+
+
+# Options related to optimization
+# -------------------------------
+
+#CCOPTIM=+O4 +Oaggressive	#HP-UX
+#CCOPTIM=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
+CCOPTIM=
+
+
+# Other options
+# -------------
+
+#OTHER=-Ox -M0s -dos -i -Gs -K -W3 -CSON
+OTHER=
+
+
+# Meta information
+# ----------------
+
+OSTARGET=`uname`
+OSVERTARGET=`uname -r`
+OSCPUTARGET="`uname -p`"
+
+OSTYPE=$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)
+
+
+# Platform defaults
+# =================
+
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=
+
+# suffix for executables
+EXE_SUFFIX=
+
+# Option for indicating generated object file works
+OBJFILE_WORKS=1
+
+# Utilities
+# =========
+
+# Lint options
+# ------------
+
+# Give here flags for the lint-Tool
+#LINTFLAGS = -a -b -c -h -p -x $(DEFS)
+LINTFLAGS=
+
+
+# Strip utility to remove unnecessary symbols from executable
+# -----------------------------------------------------------
+STRIPTARGET = @echo "no need to strip"
+
+
+# Create archive index
+# -----------------------------------------------------------
+ARCHIVE_INDEXER = @echo "no need to index"
+
+
+# compress
+# --------
+
+COMPRESS = echo compress
+#COMPRESS = compress
+
+
+# include toolchain-specific settings and overriders
+
+TOOLCHAIN=gcc

@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = maxmem.c maxtime.c
+INCLUDES = maxmem.h maxtime.h priority.h pytime.h
+
+include $(BASEPWD)/makefile.rules

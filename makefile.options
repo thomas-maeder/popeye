@@ -1,0 +1,27 @@
+# -*- Makefile -*-
+#
+
+# Combined compiler options
+# -------------------------
+
+# append to those possibly set by toolchain specific make.incl
+
+CFLAGS += $(WARN) $(DBG) $(CCOPTIM) $(ARCH) $(DEFS) $(OTHER) \
+	$(INCLUDEPATHS) \
+	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
+        $(DEFINEMACRO)VERSION=$(VERSION)
+
+
+# How to determine build dependencies
+# -----------------------------------
+MAKEDEPEND = $(CCTARGET) $(DEPEND) $(DEFS) $(OTHER) $(INCLUDEPATHS) \
+	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
+        $(DEFINEMACRO)VERSION=$(VERSION)
+
+
+# Linker options
+# --------------
+
+# append to those possibly set by toolchain specific make.incl
+
+LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)

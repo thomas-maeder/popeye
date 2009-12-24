@@ -1,0 +1,60 @@
+dht$(OBJ_SUFFIX): dht.c ../boolean.h dhtvalue.h fxf.h dht.h ../trace.h
+
+../boolean.h:
+
+dhtvalue.h:
+
+fxf.h:
+
+dht.h:
+
+../trace.h:
+dhtcmem$(OBJ_SUFFIX): dhtcmem.c dhtvalue.h fxf.h dhtcmem.h dht.h
+
+dhtvalue.h:
+
+fxf.h:
+
+dhtcmem.h:
+
+dht.h:
+dhtmem$(OBJ_SUFFIX): dhtmem.c dhtvalue.h fxf.h dhtmem.h dht.h
+
+dhtvalue.h:
+
+fxf.h:
+
+dhtmem.h:
+
+dht.h:
+dhtsimpl$(OBJ_SUFFIX): dhtsimpl.c dhtvalue.h fxf.h
+
+dhtvalue.h:
+
+fxf.h:
+dhtstrng$(OBJ_SUFFIX): dhtstrng.c dhtvalue.h fxf.h dht.h
+
+dhtvalue.h:
+
+fxf.h:
+
+dht.h:
+dhtvalue$(OBJ_SUFFIX): dhtvalue.c dhtvalue.h fxf.h dht.h
+
+dhtvalue.h:
+
+fxf.h:
+
+dht.h:
+dhtbcmem$(OBJ_SUFFIX): dhtbcmem.c dhtvalue.h fxf.h dhtbcmem.h dht.h
+
+dhtvalue.h:
+
+fxf.h:
+
+dhtbcmem.h:
+
+dht.h:
+fxf$(OBJ_SUFFIX): fxf.c fxf.h
+
+fxf.h:

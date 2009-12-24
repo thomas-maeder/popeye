@@ -1,0 +1,62 @@
+# -*- Makefile -*-
+#
+
+# This file contains make rules valid in all source directories
+
+# derive object files from C files
+OBJECTS = $(CFILES:%.c=%$(OBJ_SUFFIX))
+
+# files to be included in distributed archives
+DISTRIBUTEDFILES = $(CFILES) $(INCLUDES) depend $(wildcard makefile.*)
+
+# produce an object file from a C file
+%$(OBJ_SUFFIX):	%.c
+	$(CCTARGET) $(CFLAGS) $(COMPILEONLY) $< $(OBJFILE)$@
+# work around compilers that blindly put objects in the current
+# directory
+	@if [ 0 -eq $(OBJFILE_WORKS) -a $(notdir $@) != $@ ]; then \
+		mv -f $(notdir $@) $@; \
+	fi
+
+# produce a library form the object files in the current directory
+library.$(LIB_SUFFIX): $(OBJECTS)
+	$(ARCHIVER) $(ARCHIVERFLAGS) $(LIBFILE)$@ $(^:%=$(ADDTOARCHIVE)%)
+	$(ARCHIVE_INDEXER) $@
+
+# produce a library in a nested directory
+%/library.$(LIB_SUFFIX): FORCE	
+	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir @) -C $(dir $@) -f makefile.local $(notdir $@)
+
+# clean up after ourselves
+clean:	$(NESTED:%=%/clean)
+	rm -f $(OBJECTS) library.$(LIB_SUFFIX) core
+
+# clean up after ourselves in a nested directory
+%/clean: FORCE
+	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir @) -C $(dir $@) -f makefile.local clean
+
+# generate source file dependencies file
+depend:
+
+ifdef DEPEND
+depend:	$(CFILES) $(INCLUDES) makefile.local
+	touch $@
+	chmod u+w $@
+	-for f in $(CFILES); \
+	do \
+		$(MAKEDEPEND) \
+			-MG -MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \
+			$$f \
+		| sed -e "s/[.]o:/\$$(OBJ_SUFFIX):/"; \
+	done > $@
+endif
+
+VERSIONDIR = $(BASEPWD)$(VERSION)/$(CURRPWD)
+
+$(CURRPWD)sourcedist: FORCE $(VERSIONDIR)
+	-ln $(DISTRIBUTEDFILES) $(VERSIONDIR)
+
+$(VERSIONDIR):
+	mkdir -p $(VERSIONDIR)
+
+FORCE:

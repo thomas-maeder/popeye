@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+
+CFILES = pytime.c
+
+include $(BASEPWD)/makefile.rules

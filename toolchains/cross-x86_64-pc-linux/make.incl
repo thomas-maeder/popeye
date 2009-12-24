@@ -13,7 +13,7 @@
 # - x86_64-pc-mingw32-strip
 
 # Include "regular" gcc settings
-include $(BASEPWD)toolchains/gcc/make.incl
+include $(BASEPWD)/toolchains/gcc/make.incl
 
 
 # Now override where necessary
@@ -40,7 +40,7 @@ ARCHIVE_INDEXER=x86_64-pc-mingw32-ranlib
 # --------------
 
 # enumerate libraries to link
-LIBRARIES=-lwinmm
+TARGETLIBS=-lwinmm
 # winmm = Windows Multimedia Library (we use Multimedia Timers to
 # implement option maxtime)
 

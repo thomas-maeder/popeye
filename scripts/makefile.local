@@ -1,0 +1,9 @@
+# -*- Makefile -*-
+#
+
+include $(BASEPWD)/makefile.rules
+
+DISTRIBUTEDFILES = \
+	makefile.local \
+	checkAgain.sh listDiffs.sh removeSuccessful.sh \
+	timing.sh parallelTester.sh parallelTester.lib solveExamples.sh

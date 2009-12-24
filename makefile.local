@@ -1,0 +1,194 @@
+# -*- Makefile -*-
+#
+# Common Popeye source and generated files
+# ========================================
+
+INCLUDES =      pyenum.h \
+		pydata.h pybitmsk.h pyboard.h pypiece.h pyposit.h \
+		py.h py1.h py4.h pyproc.h pymsg.h \
+		pymac.h pylang.h pyproof.h \
+		pyintslv.h pyint.h pyhash.h \
+		pytable.h \
+		pyoutput.h \
+		pygoal.h pystip.h pyslice.h \
+		pydirect.h pyhelp.h pyseries.h \
+		pypipe.h \
+		pydirctg.h pyselfgd.h pyreflxg.h \
+		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
+		pynontrv.h pythreat.h pydegent.h \
+		pyquodli.h pyrecipr.h pynot.h \
+		pybrad.h pybradd.h pybrah.h pybraser.h \
+		pyleaf.h pyleafd.h pyleaff.h pyleafh.h \
+		pymovein.h \
+		pymovenb.h \
+		boolean.h trace.h \
+		pyexclus.h pyrepubl.h
+CFILES =	pydata.c pyboard.c pyposit.c \
+		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
+		pymsg.c pylang.c pyhash.c pyproof.c	       \
+		pytable.c \
+		pyoutput.c \
+		pysignal.c pyintslv.c pyint.c \
+		pygoal.c pystip.c pyslice.c \
+		pydirect.c pyhelp.c pyseries.c \
+		pypipe.c \
+		pydirctg.c pyselfgd.c pyreflxg.c \
+		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \
+		pynontrv.c pythreat.c pydegent.c \
+		pyquodli.c pyrecipr.c pynot.c \
+		pybrad.c pybradd.c pybrah.c pybraser.c \
+		pyleaf.c pyleafd.c pyleaff.c pyleafh.c \
+		pymovein.c \
+		pymovenb.c \
+		trace.c \
+		pyexclus.c  pyrepubl.c \
+		pygmarr.c
+SPECIALCFILES = gengmarr.c
+ALLCFILES  =    $(CFILES) DHT/*.c
+MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
+STRFILES=       py-fran.str py-deut.str py-engl.str
+TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
+		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
+DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
+		readme.txt license.txt *.mod
+EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
+DEVELOP =       coding.txt
+TOOLCHAINS =    $(wildcard toolchains/*/make.incl) $(wildcard toolchains/*/README*)
+SCRIPTS =       $(wildcard scripts/*.sh)
+TOOLCHAINS =    $(filter-out toolchains/CVS,$(wildcard toolchains/*))
+PLATFORMS =     platform/other platform/windows32 platform/dos \
+		platform/unix platform/windows64
+NESTEDLIBDIRS = DHT platform platform/$(PLATFORM)
+NESTEDSRCDIRS = DHT platform $(PLATFORMS) scripts $(TOOLCHAINS)
+
+# enumerate libraries to link
+OURLIBS = $(NESTEDLIBDIRS:%=%/library.$(LIB_SUFFIX))
+
+include $(BASEPWD)/makefile.rules depend
+
+# additional distributed files
+DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
+
+
+# ===========================================================
+# default target: build executable
+
+all:		py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX)
+
+
+# ===========================================================
+# Build dependency information
+
+ifdef DEPEND
+depend: $(NESTEDLIBDIRS:%=%/depend)
+
+$(NESTEDLIBDIRS:%=%/depend): FORCE
+	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir @) -C $(dir $@) -f makefile.local depend
+endif
+
+
+# ===========================================================
+# Target for creating the popeye executable with full dynamic hashing
+
+py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX):$(OBJECTS) $(OURLIBS)
+		$(LDTARGET) $(EXEFILE)$@ $(OBJECTS) $(OURLIBS) $(LDFLAGS) $(TARGETLIBS) $(LIBRARIES)
+		$(STRIPTARGET) $@
+
+
+# ===========================================================
+# Target for compiling .c source files into object files
+
+pyio:           pyio.c pydata.h py.h pydata$(OBJ_SUFFIX) pymac.h
+		$(CCTARGET) $(DEFINEMACRO)STANDALONE $(CFLAGS) \
+			$(EXEFILE)pyio pydata$(OBJ_SUFFIX) pyio.c
+
+# pylang.c is compiled both for the host and the target.
+# pylang-host$(OBJ_SUFFIX) is the object file for the host.
+pylang-host$(OBJ_SUFFIX):  pylang.c
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pylang.c $(OBJFILE)$@
+# work around compilers that strictly derive object file name from
+# source file name
+		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
+			mv pylang$(OBJ_SUFFIX) $@; \
+		fi
+
+genpystr$(OBJ_SUFFIX):	genpystr.c
+			$(CCHOST) $(CFLAGS) \
+				$(COMPILEONLY) genpystr.c $(OBJFILE)$@
+
+
+# ===========================================================
+# Target for generating utilities for string handling
+
+genpystr$(EXE_SUFFIX):	genpystr$(OBJ_SUFFIX) pylang-host$(OBJ_SUFFIX)
+			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
+
+pyallmsg.h:	$(MSGFILES) genpystr$(EXE_SUFFIX)
+		./genpystr$(EXE_SUFFIX)
+
+# ===========================================================
+# Target for generating the module that contains the game array
+
+# pyposit.c is compiled both for the host and the target.
+# pyposit-host$(OBJ_SUFFIX) is the object file for the host.
+pyposit-host$(OBJ_SUFFIX):  pyposit.c
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pyposit.c $(OBJFILE)$@
+# work around compilers that strictly derive object file name from
+# source file name
+		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
+			mv pyposit$(OBJ_SUFFIX) $@; \
+		fi
+# pyboard.c is compiled both for the host and the target.
+# pyboard-host$(OBJ_SUFFIX) is the object file for the host.
+pyboard-host$(OBJ_SUFFIX):  pyboard.c
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pyboard.c $(OBJFILE)$@
+# work around compilers that strictly derive object file name from
+# source file name
+		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
+			mv pyboard$(OBJ_SUFFIX) $@; \
+		fi
+
+gengmarr$(OBJ_SUFFIX):	gengmarr.c
+			$(CCHOST) $(CFLAGS) \
+				$(COMPILEONLY) gengmarr.c $(OBJFILE)$@
+
+gengmarr$(EXE_SUFFIX):	gengmarr$(OBJ_SUFFIX) pyposit-host$(OBJ_SUFFIX) pyboard-host$(OBJ_SUFFIX)
+			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
+
+pygmarr.c:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
+		./gengmarr$(EXE_SUFFIX) > $@
+
+# ===========================================================
+# clean up after ourselves
+
+clean:	$(NESTEDLIBDIRS:%=%/clean)
+
+clobber:	clean
+		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES)
+
+
+# ===========================================================
+# create hard links to files to be distributed
+
+./sourcedist: $(NESTEDSRCDIRS:%=%/sourcedist)
+
+$(NESTEDSRCDIRS:%=%/sourcedist): FORCE
+	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir $@) -C $(dir $@) -f makefile.local $@
+
+
+# ===========================================================
+
+# Target for generating the purify-ed popeye exectable
+
+purify-py:      $(OBJECTS) $(OURLIBS)
+		purify $(CCTARGET) -o purify-py $(LDFLAGS) $^
+
+
+# ===========================================================
+
+# Targets for applying code analsys tools
+
+lint.out: $(ALLCFILES)
+	lint $(LINTFLAGS) $(CFLAGS) $(ALLCFILES) > lint.out
+
+lint: lint.out

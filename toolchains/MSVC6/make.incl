@@ -107,7 +107,7 @@ LIBRARIES=WINMM.LIB
 OBJ_SUFFIX=.obj
 
 # suffix for libraries
-LIB_SUFFIX=.lib
+LIB_SUFFIX=lib
 
 # Popeye executable file name stem
 EXE_PLATFORM_MARK=win32

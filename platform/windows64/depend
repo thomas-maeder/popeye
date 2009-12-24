@@ -1,0 +1,21 @@
+maxmem.obj: maxmem.c ../maxmem.h ../../boolean.h
+
+../maxmem.h:
+
+../../boolean.h:
+maxtime.obj: maxtime.c ../maxtime.h ../../boolean.h ../../pymsg.h \
+ ../../pylang.h
+
+../maxtime.h:
+
+../../boolean.h:
+
+../../pymsg.h:
+
+../../pylang.h:
+pytime.obj: pytime.c ../pytime.h
+
+../pytime.h:
+priority.obj: priority.c ../priority.h
+
+../priority.h:

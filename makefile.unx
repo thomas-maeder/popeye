@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.95 2009/12/17 20:14:17 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.96 2009/12/24 20:54:45 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -24,608 +24,102 @@
 # ++++ End Warning ++++
 
 
-# Current Popeye version
-# ======================
-
-# Version numer; . separates major and minor version part
-# developer versions have minor version numbers divisible by 2
-VERSION=4.54
-
-
-# NOTES ON CONDITIONAL COMPILATION
-# ================================
-
-# cf. http://predef.sourceforge.net/preos.html
-
-# Some parts of the Popeye executable (attempted to) being built
-# depend on whether one or more specific macros are #defined. Some of
-# these macros are implicitly #defined by the C implementation
-# depending on the operating system, architecture or the C
-# implementation itself. Others can typically be passed to the C
-# compiler using some command line switch (for gcc and a number of
-# other compilers, that switch is $(DEFINEMACRO)).
-
-# To set one or more of these macros "by hand", use the DEFS
-# variable. Example:
-DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
-
-
-# Target operating system
-# -----------------------
-
-# The target operating system is the operating system where you want
-# to run the executable. This is not necessarily equal to the host
-# operating system (i.e. the operating system used for building the
-# executable).
-
-# The following macros are typically implicitly set by the C
-# implementation.
-
-# MSDOS or compatibles          DOS  (TODO NG)
-# Windows 64-Bit environments   _WIN64
-# Windows 32-Bit environments   _WIN32
-# UNIX, Linux                   __unix (Sun cc doesn't define __unix__!)
-# BSD                  	        __bsdi__
-# FreeBSD                       __FreeBSD__
-# HP-UX                         _hpux
-# Macintosh <=9                 macintosh
-# MacOSX                        __APPLE__ & __MACH__
-# OS/2                          _OS2
-# ATARI                         ATARI
-# BS2000                        BS2000
-# C370                          C370
-# VMS                           __VMS
-
-
-# You'll probably have to pass these to the compiler "by hand":
-
-# Windows 16-Bit enviromnments  _WIN16
-# Win95, Win98 or WinME         _WIN98
-
-
-# If you inted to use Popeye in the Windows DOS box, you want to set
-#                               SHARING
-
-
-# Target architecture
-# -------------------
-
-# You'll have to pass these to the compiler "by hand":
-
-# 16-bit                        SIXTEEN
-
-
-
-# C implementation
-# ----------------
-
-# The following macros are set by the implementation.
-
-# GCC                           __GNUC__
-# MICROSOFT's C-Compiler        _MSC_VER
-#   multi-threading             _MT
-# Borland's TURBO-C             __TURBOC__
-
-# If the library of the C implementation doesn't have the Standard C
-# memset() function, you have to define
-
-#                               NOMEMSET
-
-
-# Optional Popeye features
-# ------------------------
-
-# to print some debugging information while solving           DEBUG
-# new tracing machinery                                       DOTRACE
-# to print even more debugging information                    DETAILS
-# ?                                                           DBMALLOC
-# debugging output for dynamic hash tables                    DEBUG_DHT
-# to keep all messages in memory (not in an external file)    MSG_IN_MEM
-# to suppress all output                                      QUIET
-# to produce a message after canceling Popeye with a signal   SIGNALS
-# to produce statistics about hashtable fill rate             TESTHASH
-# to use the "FiXed and Fast memory allocator"                FXF
-
-
-# Other
-# -----
-
-# turn off assert() checks                                    NDEBUG
-
-
-DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF $(DEFINEMACRO)NDEBUG
-
-
-# Compiler options
-# ================
-
-# Options related to the target architecture
-# ------------------------------------------
-ARCH=
-
-
-# Options related to optimization
-# -------------------------------
-
-#CCOPTIM=+O4 +Oaggressive	#HP-UX
-#CCOPTIM=-O4 -ansi_alias -fast -inline speed -ifo	#OS ? TLi
-CCOPTIM=
-
-
-# Other options
-# -------------
-
-#OTHER=-Ox -M0s -dos -i -Gs -K -W3 -CSON
-OTHER=
-
-
-# Meta information
-# ----------------
-
-OSTARGET=`uname`
-OSVERTARGET=`uname -r`
-OSCPUTARGET="`uname -p`"
-
-OSTYPE=$(OSTARGET)-$(OSVERTARGET)-$(OSCPUTARGET)
-
-
-# Platform defaults
-# =================
-
-# Popeye executable file name stem
-EXE_PLATFORM_MARK=
-
-# suffix for executables
-EXE_SUFFIX=
-
-# Option for indicating generated object file works
-OBJFILE_WORKS=1
-
-# Utilities
-# =========
-
-# Lint options
-# ------------
-
-# Give here flags for the lint-Tool
-#LINTFLAGS = -a -b -c -h -p -x $(DEFS)
-LINTFLAGS=
-
-
-# Strip utility to remove unnecessary symbols from executable
-# -----------------------------------------------------------
-STRIPTARGET = @echo "no need to strip"
-
-
-# compress
-# --------
-
-COMPRESS = echo compress
-#COMPRESS = compress
-
-
-# include toolchain-specific settings and overriders
-
-TOOLCHAIN=gcc
-
-include toolchains/$(TOOLCHAIN)/make.incl
-
-
-# Combined compiler options
-# -------------------------
-
-# append to those possibly set by toolchain specific make.incl
-
-CFLAGS += $(WARN) $(DBG) $(CCOPTIM) $(ARCH) $(DEFS) $(OTHER) \
-	$(INCLUDEPATHS) \
-	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
-        $(DEFINEMACRO)VERSION=$(VERSION)
-
-
-# How to determine build dependencies
-# -----------------------------------
-MAKEDEPEND = $(CCTARGET) $(DEPEND) $(DEFS) $(OTHER) $(INCLUDEPATHS) \
-	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
-        $(DEFINEMACRO)VERSION=$(VERSION)
-
-
-# Linker options
-# --------------
-
-# append to those possibly set by toolchain specific make.incl
-
-#LDFLAGS = -M0s -dos -i -F 2000       # ? (TM)
-LDFLAGS += $(DBG) $(LDOPTIM) $(ARCH) $(LIBRARYPATHS)
-
-# enumerate libraries to link
-LIBRARIES +=
-
-
-# Common Popeye source and generated files
-# ========================================
-
-INCLUDES =      pyenum.h \
-		pydata.h pybitmsk.h pyboard.h pypiece.h pyposit.h \
-		py.h py1.h py4.h pyproc.h pymsg.h \
-		pymac.h pylang.h pyproof.h DHT/*.h \
-		pyintslv.h pyint.h pyhash.h \
-		pytable.h \
-		pyoutput.h \
-		platform/maxmem.h platform/maxtime.h \
-		platform/pytime.h platform/priority.h \
-		pygoal.h pystip.h pyslice.h \
-		pydirect.h pyhelp.h pyseries.h \
-		pypipe.h \
-		pydirctg.h pyselfgd.h pyreflxg.h \
-		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
-		pynontrv.h pythreat.h pydegent.h \
-		pyquodli.h pyrecipr.h pynot.h \
-		pybrad.h pybradd.h pybrah.h pybraser.h \
-		pyleaf.h pyleafd.h pyleaff.h pyleafh.h \
-		pymovein.h \
-		pymovenb.h \
-		boolean.h trace.h \
-		pyexclus.h pyrepubl.h
-PYCFILES =      pydata.c pyboard.c pyposit.c \
-		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
-		pymsg.c pylang.c pyhash.c pyproof.c	       \
-		pytable.c \
-		pyoutput.c \
-		platform/maxmem.c platform/maxtime.c \
-		pysignal.c pyintslv.c pyint.c \
-		pygoal.c pystip.c pyslice.c \
-		pydirect.c pyhelp.c pyseries.c \
-		pypipe.c \
-		pydirctg.c pyselfgd.c pyreflxg.c \
-		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \
-		pynontrv.c pythreat.c pydegent.c \
-		pyquodli.c pyrecipr.c pynot.c \
-		pybrad.c pybradd.c pybrah.c pybraser.c \
-		pyleaf.c pyleafd.c pyleaff.c pyleafh.c \
-		pymovein.c \
-		pymovenb.c \
-		trace.c \
-		pyexclus.c  pyrepubl.c \
-		platform/$(PLATFORM)/maxmem.c \
-		platform/$(PLATFORM)/maxtime.c \
-		platform/$(PLATFORM)/pytime.c \
-		platform/$(PLATFORM)/priority.c \
-		pygmarr.c
-SPECIALCFILES = gengmarr.C
-OBJECTS =       $(PYCFILES:%.c=%$(OBJ_SUFFIX))
-CFILES  =       $(PYCFILES) DHT/*.c platform/$(PLATFORM)/*.c
-MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
-STRFILES=       py-fran.str py-deut.str py-engl.str
-TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
-		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
-DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
-		readme.txt license.txt *.mod
-EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
-DEVELOP =       makefile.unx DHT/makefile.unx coding.txt
-TOOLCHAINS =    toolchains/*/make.incl toolchains/*/README*
-SCRIPTS =       scripts/*.sh
-DFILES  =       depend $(INCLUDES) $(CFILES) $(SPECIALCFILES) $(DEVELOP) \
-		$(DOCFILES) $(MSGFILES) $(TOOLCHAINS) $(SCRIPTS)
-MINIFILES  =    py*.[ch] py*.msg py*.txt readme.txt makefile.unx
-
-
-
-# Default target
-# ==============
-
-all:		py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX)
-
-
-# Other targets
-# =============
+include makefile.defaults
+
+HERE = $(abspath .)
+
+MAKEFILES = \
+	$(HERE)/makefile.defaults \
+	$(HERE)/toolchains/$(TOOLCHAIN)/make.incl \
+	$(HERE)/makefile.options \
+#
 
 # ===========================================================
+# default target: build executable
 
-# Target for creating the popeye executable with full dynamic hashing
-
-py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX):$(OBJECTS) DHT/dht$(LIB_SUFFIX)
-		$(LDTARGET) $(EXEFILE)$@ $(LDFLAGS) $(OBJECTS) DHT/dht$(LIB_SUFFIX) $(LIBRARIES)
-		$(STRIPTARGET) $@
+default: all
 
 
-# ===========================================================
+# stem of distributed files
+DISTFILESTEM = popeye-$(VERSION)
 
-# Target for generating source file dependencies file
-
-depend:
-
-ifdef DEPEND
-depend:	$(PYCFILES) $(INCLUDES)
-	if [ ! -f pyallmsg.h ]; then touch pyallmsg.h; fi 
-	-for f in $(PYCFILES); \
-	do \
-		$(MAKEDEPEND) \
-			-MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \
-			$$f \
-		| sed -e "s/[.]o:/\$$(OBJ_SUFFIX):/" \
-		| sed -e "s@platform/[A-Za-z0-9_]*/@platform/\$$(PLATFORM)/@g"; \
-	done > $@
-endif
-
-include depend
-
-
-# ===========================================================
-
-# Target for compiling .c source files into object files
-
-pyhash$(OBJ_SUFFIX):	
-		$(CCTARGET) $(CFLAGS) $(COMPILEONLY) pyhash.c $(OBJFILE)$@
-
-%$(OBJ_SUFFIX):	%.c
-		$(CCTARGET) $(CFLAGS) $(COMPILEONLY) $< $(OBJFILE)$@
-# work around compilers that blindly put objects in the current
-# directory
-		@if [ 0 -eq $(OBJFILE_WORKS) -a $(notdir $@) != $@ ]; then \
-			mv -f $(notdir $@) $@; \
-		fi
-
-pyio:           pyio.c pydata.h py.h pydata$(OBJ_SUFFIX) pymac.h
-		$(CCTARGET) $(DEFINEMACRO)STANDALONE $(CFLAGS) \
-			$(EXEFILE)pyio pydata$(OBJ_SUFFIX) pyio.c
-
-# pylang.c is compiled both for the host and the target.
-# pylang-host$(OBJ_SUFFIX) is the object file for the host.
-pylang-host$(OBJ_SUFFIX):  pylang.c
-		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pylang.c $(OBJFILE)$@
-# work around compilers that strictly derive object file name from
-# source file name
-		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
-			mv pylang$(OBJ_SUFFIX) $@; \
-		fi
-
-genpystr$(OBJ_SUFFIX):	genpystr.c
-			$(CCHOST) $(CFLAGS) \
-				$(COMPILEONLY) genpystr.c $(OBJFILE)$@
-
-
-# ===========================================================
-
-# Target for generating utilities for string handling
-
-genpystr$(EXE_SUFFIX):	genpystr$(OBJ_SUFFIX) pylang-host$(OBJ_SUFFIX)
-			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
-
-pyallmsg.h:	$(MSGFILES) genpystr$(EXE_SUFFIX)
-		./genpystr$(EXE_SUFFIX)
-
-# ===========================================================
-
-# Target for generating header containing game array
-# pyposit.c is compiled both for the host and the target.
-# pyposit-host$(OBJ_SUFFIX) is the object file for the host.
-pyposit-host$(OBJ_SUFFIX):  pyposit.c
-		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pyposit.c $(OBJFILE)$@
-# work around compilers that strictly derive object file name from
-# source file name
-		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
-			mv pyposit$(OBJ_SUFFIX) $@; \
-		fi
-# pyboard.c is compiled both for the host and the target.
-# pyboard-host$(OBJ_SUFFIX) is the object file for the host.
-pyboard-host$(OBJ_SUFFIX):  pyboard.c
-		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pyboard.c $(OBJFILE)$@
-# work around compilers that strictly derive object file name from
-# source file name
-		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
-			mv pyboard$(OBJ_SUFFIX) $@; \
-		fi
-
-gengmarr$(OBJ_SUFFIX):	gengmarr.c
-			$(CCHOST) $(CFLAGS) \
-				$(COMPILEONLY) gengmarr.c $(OBJFILE)$@
-
-gengmarr$(EXE_SUFFIX):	gengmarr$(OBJ_SUFFIX) pyposit-host$(OBJ_SUFFIX) pyboard-host$(OBJ_SUFFIX)
-			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
-
-pygmarr.c:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
-		./gengmarr$(EXE_SUFFIX) > $@
-
-
-# ===========================================================
-
-# Target for generating the dynamic hash table (DHT) library
-
-DHT/dht$(LIB_SUFFIX):	DHT/*.c DHT/*.h
-		cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) WARN="$(WARN)" ARCH="$(ARCH)" DBG="$(DBG)" DEFS="$(DEFS)" OTHER="$(OTHER)" dht$(LIB_SUFFIX)
-
-
-# ===========================================================
-
-# Target for generating the purify-ed popeye exectable
-
-purify-py:      DHT/dht$(LIB_SUFFIX) $(OBJECTS)
-		purify $(CCTARGET) -o purify-py $(LDFLAGS) $^
-
-
-# ===========================================================
-
-# Targets for cleaning up after ourselves
-
-clean:
-		rm -f *$(OBJ_SUFFIX) platform/*$(OBJ_SUFFIX) platform/$(PLATFORM)/*$(OBJ_SUFFIX) core
-		cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
-
-clobber:	clean
-		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES); cd DHT; $(MAKE) -f makefile.unx TOOLCHAIN=$(TOOLCHAIN) $@
-
-
-# ===========================================================
-
-# Targets for conversion between enum types and an equivalent sequence
-# of #defines
-
-todef:	
-		awk -f todef.awk < py.h > py.h.def
-		awk -f todef.awk < pylang.h > pylang.h.def
-		awk -f todef.awk < pyhash.c > pyhash.c.def
-toenum:
-		awk -f toenum.awk < py.h > py.h.enum
-		awk -f toenum.awk < pylang.h > pylang.h.enum
-		awk -f toenum.awk < pyhash.c > pyhash.c.enum
-
-
-# ===========================================================
-
-# Target for testing on uniq id's on first seven chars choose the
-# right command
-
-TR_SYSV		= tr -cs '[0-9][A-Z]_[a-z]' '[\012*]'
-TR_BSD		= tr -cs '0-9A-Z_a-z' '\012'
-uniq:		
-		$(CCTARGET) -E $(CFLAGS) $(CFILES) | \
-		$(TR_SYSV) |\
-		sort -u | tee /tmp/id.all | \
-		cut -c1-7 | uniq -c | egrep -v '^ *1' > /tmp/id.mult
-
-
-# ===========================================================
-
-# Variables for repeatedly used file names
-
-VERSIONDIR = $(VERSION)
-DISTFILESTEM = popeye-$(VERSIONDIR)
+# name of tar file containing sources to be distributed
 SOURCESTARFILE = $(DISTFILESTEM)-sources.tar
 
+# name of directory used for creating archives (gz, zip, ...) 
+# containing source files
+SOURCEDISTDIR = $(VERSION)
 
 # ===========================================================
-
-# Target for comparing the source files of two releases and creating a
-# set of patches from one to the other
-
-/tmp/py.ptch: /tmp/py.ptch.sh
-		sh -x $^ > $@
-
-/tmp/py.ptch.sh: $(DFILES)
-		for f in $^; \
-		do \
-			echo diff -c ../$(VERSIONDIR)/$$f $$f; \
-		done > $@
-
-cdiff: /tmp/py.ptch
-
-
-# ===========================================================
-
-# Target for creating a tar archive containing all sources and
-# examples directly (without file system) on a floppy disk
-
-# System V
-DEVFLOPPY=rfd0
-
-# Linux
-#DEVFLOPPY=fd0
-
-/tmp/$(VERSIONDIR).tar:	$(DFILES) $(TEXFILES) $(EXAMPLES)
-		touch $@
-		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/BEISPIEL
-		mkdir $(VERSIONDIR)/EXAMPLES
-		mkdir $(VERSIONDIR)/DHT
-		mkdir $(VERSIONDIR)/LATEX
-		mkdir $(VERSIONDIR)/LATEX/FSELCH
-		mkdir $(VERSIONDIR)/LATEX/PKELCH
-		for i in $^ ; do  \
-			ln $$i $(VERSIONDIR)/$$i ;\
-		done
-		tar cfv /dev/$(DEVFLOPPY) $(VERSIONDIR)
-		rm -rf $(VERSIONDIR)
-
-tardist:	/tmp/$(VERSIONDIR).tar
-
-
-# ===========================================================
-
-# Target for creating a compressed tar file containing the sources
-
-COMPRESSDISTFILE = $(SOURCESTARFILE).Z
-
-/tmp/$(VERSIONDIR).compress:	$(DFILES)
-		touch /tmp/$(VERSIONDIR).compress
-
-compressdist:	/tmp/$(VERSIONDIR).compress
-		mkdir $(VERSIONDIR)
-		for i in $(DFILES) ; do  \
-			mkdir -p $(VERSIONDIR)/`dirname $$i` ;\
-			ln $$i $(VERSIONDIR)/$$i ;\
-		done
-		tar cfv $(SOURCESTARFILE) $(VERSIONDIR)
-		$(COMPRESS) $(SOURCESTARFILE)
-		rm -rf $(VERSIONDIR)
-
-
-# ===========================================================
-
-# Target for creating a GNU zipped tar file containing the sources
+# gzip archive of sources
 
 GZIPDISTFILE = $(SOURCESTARFILE).gz
 UUGZIPDISTFILE = $(GZIPDISTFILE).uu
 
-$(GZIPDISTFILE): $(DFILES)
-		mkdir $(VERSIONDIR)
-		for i in $^ ; do  \
-			mkdir -p $(VERSIONDIR)/`dirname $$i` ;\
-			ln $$i $(VERSIONDIR)/$$i ;\
-		done
-		tar cfv $(SOURCESTARFILE) $(VERSIONDIR)
-		gzip $(SOURCESTARFILE)
-		rm -rf $(VERSIONDIR)
+gzipdist: $(GZIPDISTFILE) $(UUGZIPDISTFILE)
+
+$(GZIPDISTFILE): ./sourcedist
+	tar cfv $(SOURCESTARFILE) $(SOURCEDISTDIR)
+	gzip $(SOURCESTARFILE)
+	rm -rf $(SOURCEDISTDIR)
 
 $(UUGZIPDISTFILE): $(GZIPDISTFILE)
 		uuencode $^ $^ > $@
 
-gzipdist:	$(GZIPDISTFILE) $(UUGZIPDISTFILE)
-
 
 # ===========================================================
-
-# Target for creating a sequence of shell archive (shar) files
-# containing the complete sources and examples; each generated file
-# fits on a floppy disk
-
-/tmp/$(VERSIONDIR).shar: $(DFILES) $(TEXFILES) $(EXAMPLES)
-		touch $@
-		mkdir $(VERSIONDIR)
-		mkdir $(VERSIONDIR)/BEISPIEL
-		mkdir $(VERSIONDIR)/EXAMPLES
-		mkdir $(VERSIONDIR)/DHT
-		mkdir $(VERSIONDIR)/LATEX
-		mkdir $(VERSIONDIR)/LATEX/FSELCH
-		mkdir $(VERSIONDIR)/LATEX/PKELCH
-		for i in $^ ; do  \
-			ln $$i $(VERSIONDIR)/$$i ;\
-		done
-		find $(VERSIONDIR) -type f -print | shar -S -l40 -o/tmp/shar
-		rm -rf $(VERSIONDIR)
-
-shardist:	/tmp/$(VERSIONDIR).shar
-
-
-# ===========================================================
-
-# Target for creating a zip file containing the sources
+# zip archive of sources
 
 SOURCESZIPFILE = $(DISTFILESTEM)-sources.zip
 
-$(SOURCESZIPFILE): $(DFILES)
-		mkdir $(VERSIONDIR)
-		for i in $^ ; do  \
-			mkdir -p $(VERSIONDIR)/`dirname $$i` ;\
-			ln $$i $(VERSIONDIR)/$$i ;\
-		done
-		zip -r $(SOURCESZIPFILE) $(VERSIONDIR)
-		rm -rf $(VERSIONDIR)
-
 zipdist:	$(SOURCESZIPFILE)
+
+$(SOURCESZIPFILE): ./sourcedist
+	zip -r $(SOURCESZIPFILE) $(SOURCEDISTDIR)
+	rm -rf $(SOURCEDISTDIR)
 
 
 # ===========================================================
+# .Z (compress) archive of sources
 
+COMPRESSDISTFILE = $(SOURCESTARFILE).Z
+
+compressdist: $(COMPRESSDISTFILE)
+
+$(COMPRESSDISTFILE): ./sourcedist
+	tar cfv $(SOURCESTARFILE) $(SOURCEDISTDIR)
+	$(COMPRESS) $(SOURCESTARFILE)
+	rm -rf $(SOURCEDISTDIR)
+
+# ===========================================================
+# Target for creating a tar archive containing all sources
+
+# System V
+DEVFLOPPY=/dev/rfd0
+
+# Linux
+#DEVFLOPPY=/dev/fd0
+
+tardist:	/tmp/$(DISTFILESTEM).tar
+
+/tmp/$(DISTFILESTEM).tar: ./sourcedist
+	tar cfv $(DEVFLOPPY) $(SOURCEDISTDIR)
+	rm -rf $(SOURCEDISTDIR)
+
+
+# ===========================================================
+# Target for creating a sequence of shell archive (shar) files
+# containing the complete sources; each generated file
+# fits on a floppy disk
+
+shardist:	/tmp/$(DISTFILESTEM).shar
+
+/tmp/$(DISTFILESTEM).shar: ./sourcedist
+	find $(SOURCEDISTDIR) -type f -print | shar -S -l40 -o$@
+	rm -rf $(SOURCEDISTDIR)
+
+
+# ===========================================================
 # Target for creating various archive files containing the example
 # input files
 
@@ -671,7 +165,6 @@ EXAMPLESdist: $(BEISPIELGZIPFILE) $(BEISPIELCOMPRESSFILE) $(BEISPIELZIPFILE)\
 
 
 # ===========================================================
-
 # Target for creating various archive files containing the LaTeX
 # utility files
 
@@ -698,73 +191,9 @@ LATEXdist: $(LATEXGZIPFILE) $(LATEXCOMPRESSFILE) $(LATEXZIPFILE)
 
 
 # ===========================================================
+# targets built using recursive makes
 
-# Targets for applying code analsys tools
+all depend ./sourcedist clean clobber: FORCE
+	$(MAKE) BASEPWD=$(HERE)/ CURRPWD=./ -C . -f makefile.local $@
 
-lint.out: $(CFILES)
-	lint $(LINTFLAGS) $(CFLAGS) $(CFILES) > lint.out
-
-lint: lint.out
-
-
-# ===========================================================
-#               OBSOLETE (?) TARGETS
-# ===========================================================
-
-# ===========================================================
-
-# Target for creating a cpio archive containing all sources
-
-/tmp/$(VERSIONDIR).cpio:	$(DFILES)
-		touch $@
-		mkdir $(VERSIONDIR)
-		ln $^ $(VERSIONDIR)
-		find $(VERSIONDIR) -print | cpio -ocv > /tmp/$(VERSIONDIR).cpio
-		rm -rf $(VERSIONDIR)
-
-cpiodist:	/tmp/$(VERSIONDIR).cpio
-
-# ===========================================================
-
-# Targets for creating DOS floppy disks containing the sources
-
-dosfdist:
-		@while true; do \
-		echo "Insert unformatted 360K Floppy - Type return when ready\\c";\
-		read answ;\
-		format -f 0 -l 39 /dev/rdsk/f0d9dt;\
-		dd if=/usr/lib/fdf/360 of=/dev/dsk/f0d9dt;\
-		echo "Writing files ... \c";\
-		MCWD=/; export MCWD;\
-		mwrite -f /dev/dsk/f0d9dt $(DFILES) $(STRFILES);\
-		mwrite -f /dev/dsk/f0d9dt -object tcconfig.tc py.exe;\
-		echo "finished\nWriting testfiles ... \c";\
-		mmd test test/py test/loe;\
-		MCWD=/test/py; mwrite -f /dev/dsk/f0d9dt ../test/py/*;\
-		MCWD=/test/loe; mwrite -f /dev/dsk/f0d9dt ../test/loe/*;\
-		echo "finished.\nRemove Floppy";done
-dosdist:
-		@while true; do \
-		echo "Insert formatted 360K Floppy - Type return when ready\\c";\
-		read answ;\
-		echo "Writing files ... \c";\
-		MCWD=/; export MCWD;\
-		mwrite -f /dev/dsk/f0d9dt $(DFILES);\
-		mwrite -f /dev/dsk/f0d9dt -object tcconfig.tc py.exe;\
-		echo "finished\nWriting testfiles ... \c";\
-		mmd test test/py test/loe;\
-		MCWD=/test/py; mwrite -f /dev/dsk/f0d9dt ../test/py/*;\
-		MCWD=/test/loe; mwrite -f /dev/dsk/f0d9dt ../test/loe/*;\
-		echo "finished.\nRemove Floppy";done
-
-/tmp/$(VERSIONDIR).mini:	$(MINIFILES)
-		touch $@
-		mkdir $(VERSIONDIR)
-		for i in $^ ; do  \
-			ln $$i $(VERSIONDIR)/$$i ;\
-		done
-		tar cfv $(VERSIONDIR).tar $(VERSIONDIR)
-		$(COMPRESS) $(VERSIONDIR).tar
-		rm -rf $(VERSIONDIR)
-
-minidist:	/tmp/$(VERSIONDIR).mini
+FORCE:

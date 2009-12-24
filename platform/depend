@@ -1,0 +1,67 @@
+maxmem$(OBJ_SUFFIX): maxmem.c maxmem.h ../boolean.h ../pyhash.h ../DHT/dhtbcmem.h \
+  ../py.h ../boolean.h ../pyposit.h ../pyboard.h ../pybitmsk.h \
+  ../pypiece.h ../pyenum.h ../pylang.h ../pytable.h ../pydirect.h \
+  ../pyslice.h ../pystip.h ../pygoal.h
+
+maxmem.h:
+
+../boolean.h:
+
+../pyhash.h:
+
+../DHT/dhtbcmem.h:
+
+../py.h:
+
+../boolean.h:
+
+../pyposit.h:
+
+../pyboard.h:
+
+../pybitmsk.h:
+
+../pypiece.h:
+
+../pyenum.h:
+
+../pylang.h:
+
+../pytable.h:
+
+../pydirect.h:
+
+../pyslice.h:
+
+../pystip.h:
+
+../pygoal.h:
+maxtime$(OBJ_SUFFIX): maxtime.c maxtime.h ../pydata.h ../pyproc.h ../py4.h ../py.h \
+  ../boolean.h ../pyposit.h ../pyboard.h ../pybitmsk.h ../pypiece.h \
+  ../pyenum.h ../pylang.h ../pygoal.h
+
+maxtime.h:
+
+../pydata.h:
+
+../pyproc.h:
+
+../py4.h:
+
+../py.h:
+
+../boolean.h:
+
+../pyposit.h:
+
+../pyboard.h:
+
+../pybitmsk.h:
+
+../pypiece.h:
+
+../pyenum.h:
+
+../pylang.h:
+
+../pygoal.h:

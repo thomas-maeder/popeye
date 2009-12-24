@@ -13,7 +13,7 @@
 # - i686-pc-mingw32-strip
 
 # Include "regular" gcc settings
-include $(BASEPWD)toolchains/gcc/make.incl
+include $(BASEPWD)/toolchains/gcc/make.incl
 
 
 # Now override where necessary
@@ -51,7 +51,7 @@ OTHER+=$(DEFINEMACRO)_WIN32_WINNT=$(_WIN32_WINNT_WIN2K)
 # --------------
 
 # enumerate libraries to link
-LIBRARIES=-lwinmm
+TARGETLIBS=-lwinmm
 # winmm = Windows Multimedia Library (we use Multimedia Timers to
 # implement option maxtime)
 
