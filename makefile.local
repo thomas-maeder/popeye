@@ -21,8 +21,7 @@ INCLUDES =      pyenum.h \
 		pyleaf.h pyleafd.h pyleaff.h pyleafh.h \
 		pymovein.h \
 		pymovenb.h \
-		boolean.h trace.h \
-		pyexclus.h pyrepubl.h
+		boolean.h trace.h
 CFILES =	pydata.c pyboard.c pyposit.c \
 		py1.c py2.c py3.c py4.c py5.c py6.c pyio.c \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
@@ -41,7 +40,6 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pymovein.c \
 		pymovenb.c \
 		trace.c \
-		pyexclus.c  pyrepubl.c \
 		pygmarr.c
 SPECIALCFILES = gengmarr.c
 ALLCFILES  =    $(CFILES) DHT/*.c
@@ -58,8 +56,8 @@ SCRIPTS =       $(wildcard scripts/*.sh)
 TOOLCHAINS =    $(filter-out toolchains/CVS,$(wildcard toolchains/*))
 PLATFORMS =     platform/other platform/windows32 platform/dos \
 		platform/unix platform/windows64
-NESTEDLIBDIRS = DHT platform platform/$(PLATFORM)
-NESTEDSRCDIRS = DHT platform $(PLATFORMS) scripts $(TOOLCHAINS)
+NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) conditions
+NESTEDSRCDIRS = DHT platform $(PLATFORMS) conditions scripts $(TOOLCHAINS)
 
 # enumerate libraries to link
 OURLIBS = $(NESTEDLIBDIRS:%=%/library.$(LIB_SUFFIX))

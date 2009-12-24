@@ -5,7 +5,7 @@
 #include "pyslice.h"
 #include "pypipe.h"
 #include "py1.h"
-#include "pyrepubl.h"
+#include "conditions/republican.h"
 #include "trace.h"
 #ifdef _SE_
 #include "se.h"

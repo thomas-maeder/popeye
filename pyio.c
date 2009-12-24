@@ -85,7 +85,7 @@
 #include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyint.h"
-#include "pyrepubl.h"
+#include "conditions/republican.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"

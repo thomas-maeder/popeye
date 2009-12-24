@@ -61,7 +61,7 @@
 #include "pymsg.h"
 #include "pystip.h"
 #include "pyleaf.h"
-#include "pyexclus.h"
+#include "conditions/exclusive.h"
 #include "trace.h"
 
 #include <assert.h>

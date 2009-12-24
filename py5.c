@@ -70,8 +70,8 @@
 #include "pyslice.h"
 #include "pyleaf.h"
 #include "pyoutput.h"
-#include "pyexclus.h"
-#include "pyrepubl.h"
+#include "conditions/exclusive.h"
+#include "conditions/republican.h"
 #include "trace.h"
 
 static piece linechampiece(piece p, square sq)
