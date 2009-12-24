@@ -7,7 +7,7 @@
 # append to those possibly set by toolchain specific make.incl
 
 CFLAGS += $(WARN) $(DBG) $(CCOPTIM) $(ARCH) $(DEFS) $(OTHER) \
-	$(INCLUDEPATHS) \
+	$(INCLUDEPATHS) -I$(BASEPWD)\
 	$(DEFINEMACRO)OSTYPE=\"$(OSTYPE)\" \
         $(DEFINEMACRO)VERSION=$(VERSION)
 
