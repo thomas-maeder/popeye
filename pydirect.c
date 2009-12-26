@@ -749,7 +749,7 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectDefenderRoot:
+    case STDirectDefenderRoot: /* case needed for nontrivial */
     case STBranchDirectDefender:
       result = branch_d_defender_can_defend_in_n(si,n,max_result);
       break;
