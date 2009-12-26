@@ -505,7 +505,9 @@ stip_length_type direct_solve_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STLeafDirect:
-      result = leaf_d_solve_in_n(si,n,n_min);
+      assert(n==slack_length_direct+1);
+      assert(n_min==slack_length_direct+1);
+      result = leaf_d_solve(si) ? n : n+2;
       break;
 
     case STBranchDirect:

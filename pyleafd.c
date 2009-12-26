@@ -311,12 +311,11 @@ enum
 
 /* Determine and write keys leading to a double-mate
  * @param leaf leaf's slice index
- * @return leaf_has_solution if >=1 key was found and written
- *         leaf_has_no_solution otherwise
+ * @return true iff >=1 key was found and written
  */
-static stip_length_type leaf_d_dmate_solve(slice_index leaf)
+static boolean leaf_d_dmate_solve(slice_index leaf)
 {
-  stip_length_type result = leaf_has_no_solution;
+  boolean result = false;
   Side const starter = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
@@ -333,7 +332,7 @@ static stip_length_type leaf_d_dmate_solve(slice_index leaf)
       if (jouecoup(nbply,first_play)
           && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
-        result = leaf_has_solution;
+        result = true;
         write_final_attack(goal_doublemate,attack_key);
       }
 
@@ -351,12 +350,11 @@ static stip_length_type leaf_d_dmate_solve(slice_index leaf)
 
 /* Determine and write keys leading to counter-mate
  * @param leaf leaf's slice index
- * @return leaf_has_solution if >=1 key was found and written
- *         leaf_has_no_solution otherwise
+ * @return true iff >=1 key was found and written
  */
-static stip_length_type leaf_d_cmate_solve(slice_index leaf)
+static boolean leaf_d_cmate_solve(slice_index leaf)
 {
-  stip_length_type result = leaf_has_no_solution;
+  boolean result = false;
   Side const starter = slices[leaf].starter;
   Side const non_starter = advers(starter);
 
@@ -375,7 +373,7 @@ static stip_length_type leaf_d_cmate_solve(slice_index leaf)
       if (jouecoup(nbply,first_play)
           && leaf_is_goal_reached(starter,leaf)==goal_reached)
       {
-        result = leaf_has_solution;
+        result = true;
         write_final_attack(goal_countermate,attack_key);
       }
       repcoup();
@@ -392,13 +390,12 @@ static stip_length_type leaf_d_cmate_solve(slice_index leaf)
 
 /* Determine and write keys leading to "regular goals"
  * @param leaf leaf's slice index
- * @return leaf_has_solution if >=1 key was found and written
- *         leaf_has_no_solution otherwise
+ * @return true iff >=1 key was found and written
  */
-static stip_length_type leaf_d_regulargoals_solve(slice_index leaf)
+static boolean leaf_d_regulargoals_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
-  stip_length_type result = leaf_has_no_solution;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -412,7 +409,7 @@ static stip_length_type leaf_d_regulargoals_solve(slice_index leaf)
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
-      result = leaf_has_solution;
+      result = true;
       write_final_attack(slices[leaf].u.leaf.goal,attack_key);
     }
 
@@ -429,27 +426,15 @@ static stip_length_type leaf_d_regulargoals_solve(slice_index leaf)
 
 /* Solve a slice
  * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
- *            dead end (e.g. self-check)
+ * @return true iff >=1 solution was found
  */
-stip_length_type leaf_d_solve_in_n(slice_index leaf,
-                                   stip_length_type n,
-                                   stip_length_type n_min)
+boolean leaf_d_solve(slice_index leaf)
 {
-  stip_length_type result;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
-
-  assert(n==slack_length_direct+1);
-  assert(n_min==slack_length_direct+1);
 
   output_start_continuation_level();
 

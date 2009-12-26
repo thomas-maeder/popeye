@@ -39,16 +39,9 @@ boolean leaf_d_root_solve(slice_index leaf);
 
 /* Solve a slice
  * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
- *            dead end (e.g. self-check)
+ * @return true iff >=1 solution was found
  */
-stip_length_type leaf_d_solve_in_n(slice_index leaf,
-                                   stip_length_type n,
-                                   stip_length_type n_min);
+boolean leaf_d_solve(slice_index leaf);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
