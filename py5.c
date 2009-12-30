@@ -1189,7 +1189,7 @@ void genmove(Side camp)
 #endif /* STOP_ON_ESC */
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",camp);
+  TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
   
   if (TSTFLAG(PieSpExFlags,Neutral))
@@ -1834,7 +1834,7 @@ static boolean find_non_capturing_move(ply ply_id,
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
-  TraceValue("%u",moving_side);
+  TraceEnumerator(Side,moving_side,"");
   TracePiece(p_moving);
   TraceFunctionParamListEnd();
 
@@ -1886,7 +1886,7 @@ static void circecage_advance_cage_prom(ply ply_id,
   TracePiece(*circecage_next_cage_prom);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",prisoner_side);
+  TraceEnumerator(Side,prisoner_side,"\n");
 
   while (true)
   {
@@ -1927,7 +1927,7 @@ static void circecage_advance_cage(ply ply_id,
   TracePiece(*circecage_next_cage_prom);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",prisoner_side);
+  TraceEnumerator(Side,prisoner_side,"\n");
 
   while (true)
   {
