@@ -187,8 +187,12 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
   boolean       flag= false;
   numecoup      sic_nbc= nbcou;
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,camp,"");
+  TraceFunctionParamListEnd();
+
   do {
-    if (jouecoup(nbply,first_play)) {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)) {
       if (!flag && !echecc(nbply,camp)) {
         Side ad= advers(camp);
         flag= true;
@@ -197,7 +201,7 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
         genmove(ad);
         move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
         while (encore()) {
-          if (jouecoup(nbply,first_play)) {
+          if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)) {
             if (!echecc(nbply,ad))
               (*nr_opponent_moves)++;
           }
@@ -209,6 +213,10 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
     repcoup();
   } while (sic_nbc == nbcou);
   nbcou= sic_nbc;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",flag);
+  TraceFunctionResultEnd();
   return flag;
 }
 
@@ -290,6 +298,12 @@ static void add_to_empile_optimization_table(square sq_departure,
 {
   int   nr_opponent_moves = 0;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceSquare(sq_capture);
+  TraceFunctionParamListEnd();
+
   /* for testempile() - mren shouldn't be relevant if we optimize by
    * number of opponent moves */
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,initsquare);
@@ -297,6 +311,7 @@ static void add_to_empile_optimization_table(square sq_departure,
   if (count_opponent_moves(&nr_opponent_moves, trait[nbply])) {
     empile_optimization_table_elmt * const
       curr_elmt = empile_optimization_table+empile_optimization_table_count;
+    TraceValue("%d\n",nr_opponent_moves);
     if (is_killer_move(sq_departure,sq_arrival,sq_capture))
       nr_opponent_moves-= empile_optimization_priorize_killmove_by;
     curr_elmt->move.departure= sq_departure;
@@ -305,6 +320,9 @@ static void add_to_empile_optimization_table(square sq_departure,
     curr_elmt->nr_opponent_moves= nr_opponent_moves;
     empile_optimization_table_count++;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void save_as_killer_move(square capture)
@@ -322,6 +340,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
       && (!nullgenre || sq_arrival != nullsquare))
     return true;
 
+  TraceValue("%u\n",empilegenre);
   if (empilegenre)
   {
     if (CondFlag[ghostchess]
@@ -371,6 +390,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     }
 
     traitnbply= trait[nbply];
+    TraceEnumerator(Side,traitnbply,"\n");
 
     if (CondFlag[takemake])
     {
@@ -513,6 +533,9 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         return true;
     }
 
+    TraceSquare(sq_capture);
+    TracePiece(e[sq_capture]);
+    TraceText("\n");
     if (e[sq_capture] != vide) {
       if (CondFlag[woozles]
           && !woohefflibre(sq_arrival, sq_departure))
@@ -749,6 +772,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         break;
     }
 
+  TraceValue("%u\n",move_generation_mode);
   switch (move_generation_mode)
   {
     case move_generation_optimized_by_nr_opponent_moves:
@@ -3124,6 +3148,11 @@ void gen_wh_ply(void)
 
 void gen_wh_piece_aux(square z, piece p) {
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(z);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[annan]) {
     piece annan_p= e[z-onerow];
     if (whannan(z-onerow, z))
@@ -3159,11 +3188,18 @@ void gen_wh_piece_aux(square z, piece p) {
     gfeerblanc(z, p);
     break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void orig_gen_wh_piece(square sq_departure, piece p) {
   piece pp;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
 
   if (flag_libre_on_generate && !libre(sq_departure, true))
     return;
@@ -3283,6 +3319,9 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       if (e[*bnp]==-p)
         empile(sq_departure,*bnp,messigny_exchange);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* orig_gen_wh_piece */
 
 void singleboxtype3_gen_wh_piece(square z, piece p)
@@ -3437,6 +3476,11 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
   /* generates move of a pawn of colour camp on departure capturing a
      piece on arrival
   */
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceEnumerator(Side,camp,"");
+  TraceFunctionParamListEnd();
 
   if (rightcolor(e[sq_arrival],camp))
     /* normal capture */
@@ -3463,6 +3507,9 @@ static void gen_p_captures(square sq_departure, square sq_arrival, Side camp) {
         empile(sq_departure,sq_arrival,prev_arrival);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* end gen_p_captures */
 
 static void gen_p_nocaptures(square sq_departure, numvec dir, int steps)
@@ -3473,16 +3520,35 @@ static void gen_p_nocaptures(square sq_departure, numvec dir, int steps)
 
   square sq_arrival= sq_departure+dir;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParam("%d",dir);
+  TraceFunctionParam("%d",steps);
+  TraceFunctionParamListEnd();
+
   while (steps--)
+  {
+    TraceSquare(sq_arrival);
+    TracePiece(e[sq_arrival]);
+    TraceText("\n");
     if (e[sq_arrival]==vide && empile(sq_departure,sq_arrival,sq_arrival))
       sq_arrival+= dir;
     else
       break;
+    TraceValue("%d\n",steps);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /****************************  white pawn  ****************************/
 void genpb(square sq_departure)
 {
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
   if (sq_departure<=square_h1)
   {
     /* pawn on first rank */
@@ -3515,6 +3581,9 @@ void genpb(square sq_departure)
       gen_p_nocaptures(sq_departure,+dir_up, sq_departure<=square_h2 ? 2 : 1);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* end of genpb */
 
 /****************************  black pawn  ****************************/
