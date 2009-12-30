@@ -1751,7 +1751,8 @@ static boolean verify_position(void)
       || CondFlag[brunner]
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
-      || CondFlag[takemake];
+      || CondFlag[takemake]
+      || CondFlag[circecage];
 
   supergenre = supergenre
       || CondFlag[supercirce]
