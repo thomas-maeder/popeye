@@ -1897,12 +1897,34 @@ static void gmoa(square i, Side camp) {
   gmaooa(i, i+dir_down+dir_left, i+dir_down+2*dir_left, i+2*dir_down+dir_left, camp);
 }
 
+/* Remove duplicate moves at the top of the move_generation_stack.
+ * @param start start position of range where to look for duplicates
+ */
+void remove_duplicate_moves(numecoup start)
+{
+  numecoup l1;
+  for (l1 = start+1; l1<=nbcou; ++l1)
+  {
+    numecoup l2 = l1+1;
+    while (l2<=nbcou)
+      if (move_generation_stack[l1].arrival==move_generation_stack[l2].arrival)
+      {
+        move_generation_stack[l2] = move_generation_stack[nbcou];
+        --nbcou;
+      }
+      else
+        ++l2;
+  }
+}
+
 static void gdoubleg(square sq_departure, Side camp) {
   numvec k,k1;
   piece hurdle;
   square sq_hurdle, past_sq_hurdle;
 
   square sq_arrival;
+
+  numecoup save_nbcou = nbcou;
 
   for (k=vec_queen_end; k>=vec_queen_start; k--) {
     finligne(sq_departure,vec[k],hurdle,sq_hurdle);
@@ -1919,6 +1941,8 @@ static void gdoubleg(square sq_departure, Side camp) {
         }
     }
   }
+
+  remove_duplicate_moves(save_nbcou);
 }
 
 typedef enum
@@ -2977,26 +3001,6 @@ void genrb_cast(void) {
     }
   }
 } /* genrb_cast */
-
-/* Remove duplicate moves at the top of the move_generation_stack.
- * @param start start position of range where to look for duplicates
- */
-void remove_duplicate_moves(numecoup start)
-{
-  numecoup l1;
-  for (l1 = start+1; l1<=nbcou; ++l1)
-  {
-    numecoup l2 = l1+1;
-    while (l2<=nbcou)
-      if (move_generation_stack[l1].arrival==move_generation_stack[l2].arrival)
-      {
-        move_generation_stack[l2] = move_generation_stack[nbcou];
-        --nbcou;
-      }
-      else
-        ++l2;
-  }
-}
 
 void genrb(square sq_departure)
 {
