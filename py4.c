@@ -3202,12 +3202,17 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
   TraceFunctionParamListEnd();
 
   if (flag_libre_on_generate && !libre(sq_departure, true))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
     return;
+  }
 
-  if (TSTFLAG(PieSpExFlags,Paralyse)) {
-    if (paralysiert(sq_departure)) {
-      return;
-    }
+  if (TSTFLAG(PieSpExFlags,Paralyse) && paralysiert(sq_departure))
+  {
+    TraceFunctionExit(__func__);
+    TraceFunctionResultEnd();
+    return;
   }
 
   if (anymars||anyantimars) {
