@@ -12,6 +12,16 @@ condition madrasi
 
 next
 
+title issue 2925255:
+title Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
+pieces white kh3 rb8
+       black kh1
+       neutral bg8
+stipulation #1
+condition eiffel
+
+next
+
 title issue 2917694:
 title "Nonsense ep square results in nonsense solution"
 pieces white Kb5 Pd5 Pa4 Pc4 Qa2 Pb2

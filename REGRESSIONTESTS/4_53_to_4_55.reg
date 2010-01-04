@@ -28,6 +28,35 @@ solution finished.
 
 
 
+            issue 2925255:
+Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   R   .   .   .   .  =B   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                     2 + 1 + 1n
+             EiffelChess
+
+solution finished. 
+
+
+
             issue 2917694:
 "Nonsense ep square results in nonsense solution"
 
