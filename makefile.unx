@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.96 2009/12/24 20:54:45 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.97 2010/01/04 06:01:48 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -26,7 +26,9 @@
 
 include makefile.defaults
 
-HERE = $(abspath .)
+# we could use $(abspath .), but abspath has only been available since
+# GNU make 3.81
+HERE = $(shell pwd)
 
 MAKEFILES = \
 	$(HERE)/makefile.defaults \
