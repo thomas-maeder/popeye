@@ -33,14 +33,15 @@
                                                                         \
     ENUMERATOR(STMoveInverter),    /* 0 length, inverts side at move */ \
                                                                         \
-    ENUMERATOR(STDirectRoot),      /* root level of direct play */        \
+    ENUMERATOR(STDirectRoot),      /* root level of direct play */      \
     ENUMERATOR(STDirectDefenderRoot), /* root level of postkey direct play */ \
-    ENUMERATOR(STDirectHashed),    /* direct play with hash table */      \
+    ENUMERATOR(STDirectHashed),    /* direct play with hash table */    \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
-    ENUMERATOR(STSeriesRoot),      /* root level of series play */        \
+    ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
+    ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */      \
                                                                         \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
@@ -48,16 +49,16 @@
     ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfAttack),      /* self play, just played attack */  \
-    ENUMERATOR(STSelfDefense),     /* self play, just played defense */  \
+    ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
                                                                         \
     ENUMERATOR(STRestartGuard),    /* stop when wrong side can reach goal */ \
                                                                         \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
-    ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */ \
-    ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */ \
-    ENUMERATOR(STMaxThreatLength), /* deals with option Threat */ \
+    ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
+    ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
+    ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
@@ -65,68 +66,6 @@
 #define ENUMERATION_DECLARE
 
 #include "pyenum.h"
-
-/* The structure of a stipulation is similar to that of a tree
- * (admittedly a degenerate one in the case of simple stipulations
- * like 'direct mate in 3').
- *
- * Branch slices have variable length and lead to another slice, the
- * 'next' slice.
- * Leaf slices have fixed length and do not lead to other slices.
- * The other slices are logical operations on 1 or 2 operand slices.
- *
- * Real world stipulations are constructed by combining the slices of
- * the different types.
- *
- * Examples:
- *
- * #3:
- *     type           starter goal
- *     type           starter length  next
- * [0] STLeafDirect   White   goal_mate
- * [1] STBranchDirect White   2       0
- *
- * h=2.5:
- *     type           starter goal
- *     type           starter length  next
- * [0] STLeafHelp     White   goal_stale
- * [1] STBranchHelp   White   5       0
- *
- * s#=2:
- *     type           starter goal
- *     type           op1 op2
- * [0] STLeafForced   White   goal_stale
- * [1] STLeafForced   White   goal_mate
- * [2] STQuodlibet    0   0
- *
- * reci-h#3:
- *     type           starter goal
- *     type           op1 op2
- * [0] STLeafHelp     Black   goal_mate
- * [1] STLeafDirect   Black   goal_mate
- * [2] STReciprocal   0   1
- *
- * r#2:
- *     type           starter goal
- *     type           op1 op2
- *     type           starter length  next
- * [0] STLeafDirect   White   goal_mate
- * [1] STNot          0
- * [2] STLeafHelp     White   goal_mate
- * [3] STReciprocal   1   2
- * [4] STBranchDirect White   1       3
- *
- * 8->ser-=3:
- *     type           starter goal
- *     type           starter length  next
- * [0] STLeafDirect   White   goal_stale
- * [1] STBranchSeries White   3       0
- * [2] STBranchSeries Black   9       1
- *
- * In all the examples, the root slice is the one last mentioned.
- *
- * As for the length of branch slices, see below.
- */
 
 typedef struct
 {
@@ -168,6 +107,11 @@ typedef struct
                     slice_index towards_goal;
                     slice_index short_sols;
                 } help_root;
+
+                struct
+                {
+                    slice_index parrying;
+                } parry_fork;
 
                 struct /* for type==STKeepMatingGuard */
                 {

@@ -113,6 +113,7 @@
 #include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
+#include "pypipe.h"
 #include "pyleaf.h"
 #include "trace.h"
 #include "pyslice.h"
@@ -509,6 +510,7 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STHelpRoot */
   0,                                  /* STHelpHashed */
   &root_slice_type_found,             /* STSeriesRoot */
+  0,                                  /* STParryFork */
   0,                                  /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuard */
   &slice_traverse_children,           /* STDirectDefense */
@@ -2603,6 +2605,7 @@ static slice_operation const hash_element_inserters[] =
   &insert_hash_element_help_root,            /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpHashed */
   &insert_hash_element_series_root,          /* STSeriesRoot */
+  &pipe_traverse_next,                       /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
   &slice_traverse_children,                  /* STSelfCheckGuard */
   &slice_traverse_children,                  /* STDirectDefense */

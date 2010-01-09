@@ -181,7 +181,7 @@ boolean branch_fork_series_has_solution_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (n==slack_length_series)
-    result = slice_has_solution(to_goal);
+    result = slice_has_solution(to_goal)==has_solution;
   else
     result = series_has_solution_in_n(next,n);
 
@@ -392,6 +392,7 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STHelpRoot */
   &traverse_and_deallocate,             /* STHelpHashed */
   &traverse_and_deallocate,             /* STSeriesRoot */
+  &traverse_and_deallocate,             /* STParryFork */
   &traverse_and_deallocate,             /* STSeriesHashed */
   &traverse_and_deallocate,             /* STSelfCheckGuard */
   &traverse_and_deallocate,             /* STDirectDefense */

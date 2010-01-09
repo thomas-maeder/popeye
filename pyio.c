@@ -2107,6 +2107,7 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STHelpRoot */
   0,                                     /* STHelpHashed */
   0,                                     /* STSeriesRoot */
+  0,                                     /* STParryFork */
   0,                                     /* STSeriesHashed */
   0,                                     /* STSelfCheckGuard */
   0,                                     /* STDirectDefense */
@@ -2270,6 +2271,27 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
     }
   }
 
+  else if (strncmp("pser-h",tok,6) == 0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+5,nested_branch,&next); /* skip over "pser-" */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+      {
+        slice_index const help = alloc_branch_h_slice(slack_length_help+1,
+                                                      slack_length_help+1,
+                                                      no_slice,
+                                                      no_slice);
+        *si = alloc_parry_series_branch(level,length+1,min_length,next,help);
+        slices[next].starter = White;
+      }
+    }
+  }
+
   else if (strncmp("ser-s",tok,5) == 0)
   {
     slice_index next = no_slice;
@@ -2282,6 +2304,28 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       if (result!=0)
       {
         *si = alloc_series_branch(level,length+1,min_length,next);
+        slices[next].starter = Black;
+      }
+    }
+  }
+
+  else if (strncmp("pser-s",tok,6) == 0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+5,nested_branch,&next); /* skip over "ser-" */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+      {
+        slice_index const dirdef =
+            alloc_branch_d_defender_slice(slack_length_direct+1,
+                                          slack_length_direct+1,
+                                          no_slice,
+                                          no_slice);
+        *si = alloc_parry_series_branch(level,length+1,min_length,next,dirdef);
         slices[next].starter = Black;
       }
     }
@@ -2317,7 +2361,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       if (result!=0)
       {
         /* This deals with stipulations such as ser-#4; these are
-         * special because the lengh includes that of the leaf that
+         * special because the length includes that of the leaf that
          * the branch to be created leads to.
          */
         assert(length>0);
@@ -2327,6 +2371,39 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         {
           slice_index const mi = alloc_move_inverter_slice(next);
           *si = alloc_series_branch(level,length,min_length-1,mi);
+        }
+        slices[next].starter = White;
+      }
+    }
+  }
+
+  else if (strncmp("pser-",tok,5) == 0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+5,nested_branch,&next); /* skip over "pser-" */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+      {
+        /* This deals with stipulations such as pser-#4; these are
+         * special because the length includes that of the leaf that
+         * the branch to be created leads to.
+         */
+        assert(length>0);
+        if (length==1)
+          *si = next;
+        else
+        {
+          slice_index const dirdef =
+              alloc_branch_d_defender_slice(slack_length_direct+1,
+                                            slack_length_direct+1,
+                                            no_slice,
+                                            no_slice);
+          slice_index const mi = alloc_move_inverter_slice(next);
+          *si = alloc_parry_series_branch(level,length,min_length-1,mi,dirdef);
         }
         slices[next].starter = White;
       }

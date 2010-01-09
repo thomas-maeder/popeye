@@ -1,5 +1,7 @@
 #include "pyseries.h"
 #include "pybraser.h"
+#include "pyhelp.h"
+#include "pydirect.h"
 #include "pybrafrk.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
@@ -33,6 +35,18 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
   {
     case STBranchSeries:
       result = branch_ser_solve_in_n(si,n);
+      break;
+
+    case STBranchHelp:
+      result = help_solve_in_n(si,n);
+      break;
+
+    case STBranchDirectDefender:
+      result = !direct_defender_defend_in_n(si,n);
+      break;
+
+    case STParryFork:
+      result = parry_move_solve_in_n(si,n);
       break;
 
     case STBranchFork:
@@ -146,6 +160,14 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
       result = branch_ser_has_solution_in_n(si,n);
       break;
 
+    case STBranchDirectDefender:
+      result = direct_defender_can_defend_in_n(si,n,0)==0;
+      break;
+
+    case STParryFork:
+      result = parry_move_has_solution_in_n(si,n);
+      break;
+
     case STBranchFork:
       result = branch_fork_series_has_solution_in_n(si,n);
       break;
@@ -168,6 +190,10 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STSelfCheckGuard:
       result = selfcheck_guard_series_has_solution_in_n(si,n);
+      break;
+
+    case STMoveInverter:
+      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
       break;
 
     default:

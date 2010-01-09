@@ -540,7 +540,7 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
     result = slice_has_solution(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -560,11 +560,12 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
-
-  pipe_insert_after(si);
-  init_selfcheck_guard_slice(slices[si].u.pipe.next);
-  slice_traverse_children(slices[si].u.pipe.next,st);
+  if (slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
+  {
+    pipe_insert_after(si);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
+    slice_traverse_children(slices[si].u.pipe.next,st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -650,7 +651,7 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   /* prevent double insertion if .next has more than one predecessor
    */
   assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
-  pipe_insert_after(si);
+  pipe_insert_before(slices[si].u.pipe.next);
   init_selfcheck_guard_slice(slices[si].u.pipe.next);
   slice_traverse_children(slices[si].u.pipe.next,st);
 
@@ -680,6 +681,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_branch,        /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpHashed */
   &selfcheck_guards_inserter_branch,        /* STSeriesRoot */
+  &slice_traverse_children,                 /* STParryFork */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_operation_noop,                    /* STSelfCheckGuard */
   &slice_traverse_children,                 /* STDirectDefense */
@@ -783,6 +785,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &selfcheck_guards_inserter_toplevel_root,      /* STHelpRoot */
   0,                                             /* STHelpHashed */
   &selfcheck_guards_inserter_toplevel_root,      /* STSeriesRoot */
+  0,                                             /* STParryFork */
   0,                                             /* STSeriesHashed */
   0,                                             /* STSelfCheckGuard */
   &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefense */

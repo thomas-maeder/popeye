@@ -2769,6 +2769,7 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STHelpRoot */
   &slice_traverse_children,         /* STHelpHashed */
   0,                                /* STSeriesRoot */
+  &slice_traverse_children,         /* STParryFork */
   &slice_traverse_children,         /* STSeriesHashed */
   &slice_traverse_children,         /* STSelfCheckGuard */
   0,                                /* STDirectDefense */
@@ -3095,6 +3096,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   &goalreachable_guards_inserter_branch, /* STHelpRoot */
   &slice_traverse_children,              /* STHelpHashed */
   &goalreachable_guards_inserter_branch, /* STSeriesRoot */
+  &slice_traverse_children,              /* STParryFork */
   &slice_traverse_children,              /* STSeriesHashed */
   &slice_traverse_children,              /* STSelfCheckGuard */
   0,                                     /* STDirectDefense */
@@ -3197,25 +3199,6 @@ static boolean intelligent_mode_support_detector_branch_h(slice_index si,
   return result;
 }
 
-static
-boolean intelligent_mode_support_detector_branch_ser(slice_index si,
-                                                     slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  traverse_slices(to_goal,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean intelligent_mode_support_detector_leaf(slice_index si,
                                                       slice_traversal *st)
 {
@@ -3226,22 +3209,23 @@ static boolean intelligent_mode_support_detector_leaf(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (slices[si].u.leaf.goal)
-  {
-    case goal_proof:
-    case goal_atob:
-      *support = intelligent_active_by_default;
-      break;
+  if (*support!=intelligent_not_supported)
+    switch (slices[si].u.leaf.goal)
+    {
+      case goal_proof:
+      case goal_atob:
+        *support = intelligent_active_by_default;
+        break;
 
-    case goal_mate:
-    case goal_stale:
-      *support = intelligent_not_active_by_default;
-      break;
+      case goal_mate:
+      case goal_stale:
+        *support = intelligent_not_active_by_default;
+        break;
 
-    default:
-      *support = intelligent_not_supported;
-      break;
-  }
+      default:
+        *support = intelligent_not_supported;
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3261,18 +3245,21 @@ static boolean intelligent_mode_support_detector_quodlibet(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.fork.op1,st);
-  support1 = *support;
+  if (*support!=intelligent_not_supported)
+  {
+    traverse_slices(slices[si].u.fork.op1,st);
+    support1 = *support;
 
-  traverse_slices(slices[si].u.fork.op2,st);
-  support2 = *support;
+    traverse_slices(slices[si].u.fork.op2,st);
+    support2 = *support;
 
-  /* enumerators are ordered so that the weakest support has the
-   * lowest enumerator etc. */
-  assert(intelligent_not_supported<intelligent_not_active_by_default);
-  assert(intelligent_not_active_by_default<intelligent_active_by_default);
+    /* enumerators are ordered so that the weakest support has the
+     * lowest enumerator etc. */
+    assert(intelligent_not_supported<intelligent_not_active_by_default);
+    assert(intelligent_not_active_by_default<intelligent_active_by_default);
 
-  *support = support1<support2 ? support1 : support2;
+    *support = support1<support2 ? support1 : support2;
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3302,9 +3289,9 @@ static boolean intelligent_mode_support_none(slice_index si,
 static slice_operation const intelligent_mode_support_detectors[] =
 {
   &intelligent_mode_support_none,                /* STBranchDirect */
-  0,                                             /* STBranchDirectDefender */
+  &intelligent_mode_support_none,                /* STBranchDirectDefender */
   &intelligent_mode_support_detector_branch_h,   /* STBranchHelp */
-  &intelligent_mode_support_detector_branch_ser, /* STBranchSeries */
+  &slice_traverse_children,                      /* STBranchSeries */
   &slice_traverse_children,                      /* STBranchFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,       /* STLeafHelp */
@@ -3318,7 +3305,8 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STDirectHashed */
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &slice_traverse_children,                      /* STHelpHashed */
-  &intelligent_mode_support_detector_branch_ser, /* STSeriesRoot */
+  &slice_traverse_children,                      /* STSeriesRoot */
+  &intelligent_mode_support_none,                /* STParryFork */
   &slice_traverse_children,                      /* STSeriesHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STDirectDefense */
@@ -3333,12 +3321,10 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMaxNrNonTrivial */
   &slice_traverse_children                       /* STMaxThreatLength */
 };
-/* TODO some of these could be 0 but are not currently
- */
 
 support_for_intelligent_mode stip_supports_intelligent(void)
 {
-  support_for_intelligent_mode result = intelligent_not_supported;
+  support_for_intelligent_mode result = intelligent_not_active_by_default;
   slice_traversal st;
 
   TraceFunctionEntry(__func__);
