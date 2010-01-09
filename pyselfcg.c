@@ -637,6 +637,37 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   return result;
 }
 
+/* Insert a STSelfCheckGuard slice after a STParryFork slice
+ */
+static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
+                                                    slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  {
+    slice_index const next = slices[si].u.pipe.next;
+    slice_index const next_next = slices[next].u.pipe.next;
+
+    assert(slices[next].type==STMoveInverter);
+    assert(slices[next_next].type==STSelfCheckGuard);
+
+    /* no need to test for check again; the STParryFork has just found
+     * out that there is no check if we take this path! */
+    slices[next].u.pipe.next = slices[next_next].u.pipe.next;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const selfcheck_guards_inserters[] =
 {
   &selfcheck_guards_inserter_branch,        /* STBranchDirect */
@@ -657,7 +688,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_branch,        /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpHashed */
   &selfcheck_guards_inserter_branch,        /* STSeriesRoot */
-  &slice_traverse_children,                 /* STParryFork */
+  &selfcheck_guards_inserter_parry_fork,    /* STParryFork */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_operation_noop,                    /* STSelfCheckGuard */
   &slice_traverse_children,                 /* STDirectDefense */
