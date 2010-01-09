@@ -320,6 +320,10 @@ has_solution_type slice_has_solution(slice_index si)
       result = leaf_h_has_solution(si);
       break;
 
+    case STLeafForced:
+      result = leaf_forced_has_solution(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_has_solution(si);
       break;
@@ -352,6 +356,7 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STHelpHashed:
+    case STMoveInverter:
       result = slice_has_solution(slices[si].u.pipe.next);
       break;
 
