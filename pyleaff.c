@@ -371,6 +371,27 @@ boolean leaf_forced_defend(slice_index leaf)
   return result;
 }
 
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+boolean leaf_forced_has_solution(slice_index leaf)
+{
+  boolean result;
+  Side const defender = slices[leaf].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  result = is_end_in_1_forced(defender,leaf);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether a leaf slice.has just been solved with the move
  * by the non-starter 
  * @param leaf slice identifier

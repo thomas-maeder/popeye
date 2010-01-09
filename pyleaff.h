@@ -22,6 +22,12 @@ unsigned int leaf_forced_count_refutations(slice_index leaf,
  */
 boolean leaf_forced_defend(slice_index leaf);
 
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+boolean leaf_forced_has_solution(slice_index leaf);
+
 /* Determine whether a leaf slice.has just been solved with the move
  * by the non-starter 
  * @param leaf slice identifier
