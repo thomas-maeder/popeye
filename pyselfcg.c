@@ -625,7 +625,7 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   /* prevent double insertion if .next has more than one predecessor
    */
   assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
-  pipe_insert_before(slices[si].u.pipe.next);
+  pipe_insert_after(si);
   init_selfcheck_guard_slice(slices[si].u.pipe.next);
   slice_traverse_children(slices[si].u.pipe.next,st);
 

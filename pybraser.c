@@ -652,11 +652,11 @@ alloc_toplevel_series_branch_next_other_starter(stip_length_type length,
   {
     slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
                                                      no_slice,towards_goal);
-    slice_index const root = alloc_series_root_slice(length,min_length,
-                                                     fork,towards_goal,
-                                                     fork);
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       fork,towards_goal);
+    slice_index const root = alloc_series_root_slice(length,min_length,
+                                                     fork,towards_goal,
+                                                     branch);
     shorten_series_pipe(branch);
     slices[fork].u.pipe.next = alloc_move_inverter_slice(branch);
 
