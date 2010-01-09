@@ -592,12 +592,14 @@ boolean selfcheck_guards_inserter_branch_direct_defender(slice_index si,
   TraceValue("%u\n",guard_pos);
 
   if (slices[guard_pos].type==STSelfDefense)
+  {
     /* in self stipulations, the last defender's move may be allowed
      * to expose its own king (e.g. in s##!) */
     guard_pos = slices[guard_pos].u.pipe.next;
+    TraceValue("->%u\n",guard_pos);
+  }
 
-  TraceValue("->%u\n",guard_pos);
-
+  TraceEnumerator(SliceType,slices[guard_pos].type,"\n");
   if (slices[guard_pos].type!=STSelfCheckGuard)
   {
     pipe_insert_before(guard_pos);
@@ -625,7 +627,7 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   /* prevent double insertion if .next has more than one predecessor
    */
   assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
-  pipe_insert_after(si);
+  pipe_insert_before(slices[si].u.pipe.next);
   init_selfcheck_guard_slice(slices[si].u.pipe.next);
   slice_traverse_children(slices[si].u.pipe.next,st);
 

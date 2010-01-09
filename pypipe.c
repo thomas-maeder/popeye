@@ -94,7 +94,7 @@ boolean pipe_detect_starter(slice_index si, slice_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    result = slice_traverse_children(si,st);
+    result = traverse_slices(slices[si].u.pipe.next,st);
     slices[si].starter = slices[next].starter;
   }
   else

@@ -1380,7 +1380,7 @@ static slice_operation const starter_detectors[] =
   &branch_h_detect_starter,               /* STHelpRoot */
   0,                                      /* STHelpHashed */
   &branch_ser_detect_starter,             /* STSeriesRoot */
-  0,                                      /* STParryFork */
+  &pipe_detect_starter,                   /* STParryFork */
   0,                                      /* STSeriesHashed */
   0,                                      /* STSelfCheckGuard */
   &pipe_detect_starter,                   /* STDirectDefense */

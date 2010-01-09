@@ -2,6 +2,13 @@ begin
 
 protocol pseries.ref
 
+title test for parry move at end of series
+pieces white kh1 qh3 rh4 bf5
+       black kh8 qg8 ph7
+stipulation pser-#2
+
+next
+
 author Dan Meinking
 origin StrateGems 47, 2009, no. 1
 pieces white kh1 ra4

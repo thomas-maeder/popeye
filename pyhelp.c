@@ -37,8 +37,11 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STBranchSeries:
     case STSeriesHashed:
-      result = series_solve_in_n(si,n);
+    {
+      stip_length_type const n_ser = n-slack_length_help+slack_length_series;
+      result = series_solve_in_n(si,n_ser);
       break;
+    }
 
     case STBranchFork:
       result = branch_fork_help_solve_in_n(si,n);

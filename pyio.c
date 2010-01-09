@@ -2293,7 +2293,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                       slack_length_help+1,
                                                       no_slice,
                                                       no_slice);
-        *si = alloc_parry_series_branch(level,length+1,min_length,next,help);
+        *si = alloc_parry_series_branch_next_other_starter(level,
+                                                           length+1,min_length,
+                                                           next,help);
         slices[next].starter = White;
       }
     }
@@ -2334,7 +2336,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                           slack_length_direct+1,
                                           no_slice,
                                           no_slice);
-        *si = alloc_parry_series_branch(level,length+1,min_length,next,dirdef);
+        *si = alloc_parry_series_branch_next_other_starter(level,
+                                                           length+1,min_length,
+                                                           next,dirdef);
         slices[next].starter = Black;
       }
     }
@@ -2412,9 +2416,13 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                             slack_length_direct+1,
                                             no_slice,
                                             no_slice);
-          slice_index const mi = alloc_move_inverter_slice(next);
-          *si = alloc_parry_series_branch(level,length,min_length-1,mi,dirdef);
+          *si = alloc_parry_series_branch_next_same_starter(level,
+                                                            length,
+                                                            min_length-1,
+                                                            next,
+                                                            dirdef);
         }
+
         slices[next].starter = White;
       }
     }

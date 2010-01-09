@@ -1,3 +1,32 @@
+ test for parry move at end of series
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -Q  -K   8
+|                                   |
+7   .   .   .   .   .   .   .  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   B   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   R   4
+|                                   |
+3   .   .   .   .   .   .   .   Q   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  pser-#2                     4 + 3
+
+  1.Rh4*h7 + Qg8*h7   2.Qh3*h7 #
+
+solution finished.
+
+
+
 
              Dan Meinking
       StrateGems 47, 2009, no. 1
