@@ -627,13 +627,15 @@ has_solution_type series_root_has_solution(slice_index si)
   return result;
 }
 
-/* Allocate a top level series branch
+/* Allocate a top level series branch where the next slice's starter
+ * is the opponent of the series's starter
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-static slice_index alloc_toplevel_series_branch(stip_length_type length,
+static slice_index
+alloc_toplevel_series_branch_next_other_starter(stip_length_type length,
                                                 stip_length_type min_length,
                                                 slice_index towards_goal)
 {
@@ -667,15 +669,17 @@ static slice_index alloc_toplevel_series_branch(stip_length_type length,
   return result;
 }
 
-/* Allocate a nested series branch
+/* Allocate a nested series branch where the next slice's starter is
+ * the opponent of the series's starter
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-static slice_index alloc_nested_series_branch(stip_length_type length,
-                                            stip_length_type min_length,
-                                            slice_index towards_goal)
+static slice_index
+alloc_nested_series_branch_next_other_starter(stip_length_type length,
+                                              stip_length_type min_length,
+                                              slice_index towards_goal)
 {
   slice_index result;
 
@@ -703,7 +707,8 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
   return result;
 }
 
-/* Allocate a series branch.
+/* Allocate a series branch where the next slice's starter is the
+ * opponent of the series's starter.
  * @param level is this a top-level branch or one nested into another
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
@@ -711,10 +716,10 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
  * @param towards_goal identifies slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
-slice_index alloc_series_branch(branch_level level,
-                                stip_length_type length,
-                                stip_length_type min_length,
-                                slice_index towards_goal)
+slice_index alloc_series_branch_next_other_starter(branch_level level,
+                                                   stip_length_type length,
+                                                   stip_length_type min_length,
+                                                   slice_index towards_goal)
 {
   slice_index result;
 
@@ -726,9 +731,130 @@ slice_index alloc_series_branch(branch_level level,
   TraceFunctionParamListEnd();
 
   if (level==toplevel_branch)
-    result = alloc_toplevel_series_branch(length,min_length,towards_goal);
+    result = alloc_toplevel_series_branch_next_other_starter(length,min_length,
+                                                             towards_goal);
   else
-    result = alloc_nested_series_branch(length,min_length,towards_goal);
+    result = alloc_nested_series_branch_next_other_starter(length,min_length,
+                                                           towards_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a top level series branch where the next slice has the
+ * same starter as the series.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param towards_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+static slice_index
+alloc_toplevel_series_branch_next_same_starter(stip_length_type length,
+                                               stip_length_type min_length,
+                                               slice_index towards_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParamListEnd();
+
+  assert(length>slack_length_series);
+
+  {
+    slice_index const branch = alloc_branch_ser_slice(length,min_length,
+                                                      no_slice,towards_goal);
+    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+                                                     branch,towards_goal);
+    slice_index const inverter = alloc_move_inverter_slice(fork);
+    slice_index const root = alloc_series_root_slice(length,min_length,
+                                                     inverter,towards_goal,
+                                                     fork);
+
+    slices[branch].u.pipe.next = inverter;
+    shorten_series_pipe(branch);
+
+    result = root;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a nested series branch where the next slice has the same
+ * starter as the series.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param towards_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+static slice_index
+alloc_nested_series_branch_next_same_starter(stip_length_type length,
+                                             stip_length_type min_length,
+                                             slice_index towards_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParamListEnd();
+
+  assert(length>slack_length_series);
+
+  {
+    slice_index const branch = alloc_branch_ser_slice(length,min_length,
+                                                      no_slice,towards_goal);
+    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+                                                     branch,towards_goal);
+    slice_index const inverter = alloc_move_inverter_slice(fork);
+
+    slices[branch].u.pipe.next = inverter;
+    result = branch;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a series branch where the next slice has the same starter
+ * as the series.
+ * @param level is this a top-level branch or one nested into another
+ *              branch?
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of adapter slice of allocated series branch
+ */
+slice_index alloc_series_branch_next_same_starter(branch_level level,
+                                                  stip_length_type length,
+                                                  stip_length_type min_length,
+                                                  slice_index towards_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",level);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParamListEnd();
+
+  if (level==toplevel_branch)
+    result = alloc_toplevel_series_branch_next_same_starter(length,min_length,
+                                                            towards_goal);
+  else
+    result = alloc_nested_series_branch_next_same_starter(length,min_length,
+                                                          towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

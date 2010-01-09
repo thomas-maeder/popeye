@@ -2167,9 +2167,11 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       {
         /* >=1 move of starting side required */
         stip_length_type const min_length = 1+slack_length_series;
-        *si = alloc_series_branch(level,
-                                  intro_len+slack_length_series,min_length,
-                                  next);
+        *si = alloc_series_branch_next_other_starter(level,
+                                                     intro_len
+                                                     +slack_length_series,
+                                                     min_length,
+                                                     next);
       }
     }
   }
@@ -2196,10 +2198,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       stip_length_type min_length;
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
-      {
-        slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_series_branch(level,length,min_length,mi);
-      }
+        *si = alloc_series_branch_next_same_starter(level,
+                                                    length,min_length,
+                                                    next);
 
       slices[next].starter = White;
     }
@@ -2217,7 +2218,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       if (result!=0)
       {
         slice_index const mi = alloc_move_inverter_slice(next);
-        *si = alloc_series_branch(level,length,min_length,mi);
+        *si = alloc_series_branch_next_other_starter(level,
+                                                     length,min_length,
+                                                     mi);
         slices[next].starter = Black;
       }
     }
@@ -2246,7 +2249,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                      help_length,
                                                      help_length,
                                                      next);
-          *si = alloc_series_branch(level,length,min_length,help);
+          *si = alloc_series_branch_next_other_starter(level,
+                                                       length,min_length,
+                                                       help);
         }
 
         slices[next].starter = Black;
@@ -2265,7 +2270,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
-        *si = alloc_series_branch(level,length+1,min_length,next);
+        *si = alloc_series_branch_next_other_starter(level,
+                                                     length+1,min_length,
+                                                     next);
         slices[next].starter = White;
       }
     }
@@ -2303,7 +2310,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
-        *si = alloc_series_branch(level,length+1,min_length,next);
+        *si = alloc_series_branch_next_other_starter(level,
+                                                     length+1,min_length,
+                                                     next);
         slices[next].starter = Black;
       }
     }
@@ -2342,7 +2351,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
-        *si = alloc_series_branch(level,length+1,min_length,next);
+        *si = alloc_series_branch_next_other_starter(level,
+                                                     length+1,min_length,
+                                                     next);
         slice_insert_reflex_guards(*si,next);
         slices[next].starter = Black;
       }
@@ -2368,10 +2379,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         if (length==1)
           *si = next;
         else
-        {
-          slice_index const mi = alloc_move_inverter_slice(next);
-          *si = alloc_series_branch(level,length,min_length-1,mi);
-        }
+          *si = alloc_series_branch_next_same_starter(level,
+                                                      length,min_length-1,
+                                                      next);
         slices[next].starter = White;
       }
     }
@@ -2972,7 +2982,9 @@ static char *ParseStructuredStip_branch_ser(char *tok,
 
       min_length += slack_length_series;
       max_length += slack_length_series;
-      *result = alloc_series_branch(level,max_length,min_length,operand);
+      *result = alloc_series_branch_next_other_starter(level,
+                                                       max_length,min_length,
+                                                       operand);
     }
   }
   

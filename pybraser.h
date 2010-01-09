@@ -9,7 +9,8 @@
  * stipulation slices.
  */
 
-/* Allocate a series branch.
+/* Allocate a series branch where the next slice's starter is the
+ * opponent of the series's starter. 
  * @param level is this a top-level branch or one nested into another
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
@@ -17,10 +18,24 @@
  * @param next identifies next slice
  * @return index of adapter slice of allocated series branch
  */
-slice_index alloc_series_branch(branch_level level,
-                                stip_length_type length,
-                                stip_length_type min_length,
-                                slice_index next);
+slice_index alloc_series_branch_next_other_starter(branch_level level,
+                                                   stip_length_type length,
+                                                   stip_length_type min_length,
+                                                   slice_index next);
+
+/* Allocate a series branch where the next slice has the same starter
+ * as the series.
+ * @param level is this a top-level branch or one nested into another
+ *              branch?
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies next slice
+ * @return index of adapter slice of allocated series branch
+ */
+slice_index alloc_series_branch_next_same_starter(branch_level level,
+                                                  stip_length_type length,
+                                                  stip_length_type min_length,
+                                                  slice_index next);
 
 /* Allocate a parry series branch.
  * @param level is this a top-level branch or one nested into another
