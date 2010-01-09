@@ -9,6 +9,14 @@ stipulation pser-#2
 
 next
 
+title test for intro series
+begin
+pieces white kc1 ra1 ba2 pd5h4
+       black kh7 bd8 sf2 pf7h6
+stipulation 2->pser-h#3
+
+next
+
 author Dan Meinking
 origin StrateGems 47, 2009, no. 1
 pieces white kh1 ra4

@@ -1,3 +1,4 @@
+
  test for parry move at end of series
 
 +---a---b---c---d---e---f---g---h---+
@@ -21,10 +22,38 @@
 +---a---b---c---d---e---f---g---h---+
   pser-#2                     4 + 3
 
-  1.Rh4*h7 + Qg8*h7   2.Qh3*h7 #
+  1.Rh4*h7 + Qg8*h7   2.Qh3*h7 # 
 
-solution finished.
+solution finished. 
 
+
+
+        test for intro series
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -B   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -P   .  -K   7
+|                                   |
+6   .   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   P   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .  -S   .   .   2
+|                                   |
+1   R   .   K   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  2->pser-h#3                 5 + 5
+
+  1.Ba2-c4   2.Ra1-a8   1.Bd8-g5 + h4*g5   2.Sf2-d3 + Bc4*d3 +   3.f7-f5 g5*f6 ep. # 
+
+solution finished. 
 
 
 
