@@ -21,10 +21,10 @@
  * @param towards_goal identifies slice theat leads towards the goal
  * @return index of allocated slice
  */
-static slice_index alloc_branch_h_slice(stip_length_type length,
-                                        stip_length_type min_length,
-                                        slice_index next,
-                                        slice_index towards_goal)
+slice_index alloc_branch_h_slice(stip_length_type length,
+                                 stip_length_type min_length,
+                                 slice_index next,
+                                 slice_index towards_goal)
 {
   slice_index const result = alloc_slice_index();
 
