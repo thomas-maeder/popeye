@@ -549,35 +549,11 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STSelfCheckGuard slice after a STBranch{Help,Series} slice
+/* Insert a STSelfCheckGuard slice after a
+ * STBranch{Help,Series,Direct} slice
  */
 static boolean selfcheck_guards_inserter_branch(slice_index si,
                                                 slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].type!=STSelfCheckGuard)
-  {
-    pipe_insert_after(si);
-    init_selfcheck_guard_slice(slices[si].u.pipe.next);
-    slice_traverse_children(slices[si].u.pipe.next,st);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STSelfCheckGuard slice after a STBranchDirect or
- * STDirectRoot slice
- */
-static boolean selfcheck_guards_inserter_branch_direct(slice_index si,
-                                                       slice_traversal *st)
 {
   boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
@@ -585,8 +561,6 @@ static boolean selfcheck_guards_inserter_branch_direct(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",next);
 
   if (slices[next].type!=STSelfCheckGuard)
   {
@@ -663,7 +637,7 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
 
 static slice_operation const selfcheck_guards_inserters[] =
 {
-  &selfcheck_guards_inserter_branch_direct, /* STBranchDirect */
+  &selfcheck_guards_inserter_branch,        /* STBranchDirect */
   &selfcheck_guards_inserter_branch_direct_defender, /* STBranchDirectDefender */
   &selfcheck_guards_inserter_branch,        /* STBranchHelp */
   &selfcheck_guards_inserter_branch,        /* STBranchSeries */
@@ -675,7 +649,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STQuodlibet */
   &slice_traverse_children,                 /* STNot */
   &selfcheck_guards_inserter_move_inverter, /* STMoveInverter */
-  &selfcheck_guards_inserter_branch_direct, /* STDirectRoot */
+  &selfcheck_guards_inserter_branch,        /* STDirectRoot */
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &selfcheck_guards_inserter_branch,        /* STHelpRoot */
