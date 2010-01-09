@@ -560,7 +560,7 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
+  if (slices[slices[si].u.pipe.next].type!=STSelfCheckGuard)
   {
     pipe_insert_after(si);
     init_selfcheck_guard_slice(slices[si].u.pipe.next);
