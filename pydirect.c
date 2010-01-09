@@ -1,4 +1,5 @@
 #include "pydirect.h"
+#include "pyseries.h"
 #include "pybrad.h"
 #include "pybradd.h"
 #include "pybrafrk.h"
@@ -196,6 +197,11 @@ stip_length_type direct_has_solution_in_n(slice_index si,
       result = direct_hashed_has_solution_in_n(si,n,n_min);
       break;
 
+    case STBranchSeries:
+    case STSeriesHashed:
+      result = series_has_solution_in_n(si,n) ? n : n+2;
+      break;
+
     case STSelfCheckGuard:
       result = selfcheck_guard_direct_has_solution_in_n(si,n,n_min);
       break;
@@ -295,6 +301,14 @@ void direct_solve_continuations_in_n(slice_index si,
     case STDirectHashed:
       direct_hashed_solve_continuations_in_n(si,n,n_min);
       break;
+
+    case STBranchSeries:
+    case STSeriesHashed:
+    {
+      boolean const result = series_solve_in_n(si,n);
+      assert(result);
+      break;
+    }
 
     case STDirectDefense:
       direct_defense_direct_solve_continuations_in_n(si,n,n_min);
