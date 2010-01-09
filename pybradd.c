@@ -126,8 +126,6 @@ static boolean is_defense_relevant(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2!=slices[si].u.pipe.u.branch.length%2);
-
   if (n>slack_length_direct && OptFlag[noshort] && has_short_solution(si,n))
     /* variation shorter than stip */
     result = false;
@@ -198,8 +196,6 @@ static void solve_variations_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
   active_slice[nbply+1] = si;
   genmove(defender);
 
@@ -242,8 +238,6 @@ static stip_length_type solve_threats_in_n(table threats,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(parity!=slices[si].u.pipe.u.branch.length%2);
 
   if (n+min_length>n_min+length)
     n_min = n-(length-min_length);
@@ -312,12 +306,12 @@ boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
-
   if (n-1+min_length>slack_length_direct+length)
     n_min_next = n-1-(length-min_length);
   else
     n_min_next = slack_length_direct-parity;
+
+  TraceValue("%u\n",n_min_next);
 
   active_slice[nbply+1] = si;
   move_generation_mode =
@@ -352,6 +346,7 @@ boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
 
   finply();
 
+  TraceValue("%u\n",defender_is_immobile);
   if (defender_is_immobile)
     result = true;
   else if (!result)
@@ -425,8 +420,6 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
 
   if (n-1+min_length>slack_length_direct+length)
     n_min_next = n-1-(length-min_length);
