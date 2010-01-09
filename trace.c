@@ -222,8 +222,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STParryFork:
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
-        fprintf(stdout,"towards_goal:%u ",
-                slices[si].u.pipe.u.parry_fork.parrying);
+        fprintf(stdout,"parrying:%u ",slices[si].u.pipe.u.parry_fork.parrying);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         TraceStipulationRecursive(slices[si].u.pipe.u.parry_fork.parrying,
