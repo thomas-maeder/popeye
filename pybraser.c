@@ -638,7 +638,6 @@ static slice_index alloc_toplevel_series_branch(stip_length_type length,
                                                 slice_index towards_goal)
 {
   slice_index result;
-  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -648,17 +647,18 @@ static slice_index alloc_toplevel_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(length-1,min_length-1,no_slice,towards_goal);
-  result = alloc_series_root_slice(length,min_length,
-                                   fork,towards_goal,
-                                   fork);
-
-  if (length-slack_length_series>1)
   {
+    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+                                                     no_slice,towards_goal);
+    slice_index const root = alloc_series_root_slice(length,min_length,
+                                                     fork,towards_goal,
+                                                     fork);
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       fork,towards_goal);
     shorten_series_pipe(branch);
     slices[fork].u.pipe.next = alloc_move_inverter_slice(branch);
+
+    result = root;
   }
 
   TraceFunctionExit(__func__);
@@ -678,7 +678,6 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
                                             slice_index towards_goal)
 {
   slice_index result;
-  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -688,11 +687,15 @@ static slice_index alloc_nested_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(length-1,min_length-1,no_slice,towards_goal);
-  result = alloc_branch_ser_slice(length,min_length,fork,towards_goal);
+  {
+    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+                                                     no_slice,towards_goal);
+    slice_index const branch = alloc_branch_ser_slice(length,min_length,
+                                                      fork,towards_goal);
+    slices[fork].u.pipe.next = alloc_move_inverter_slice(branch);
 
-  if (length-slack_length_series>1)
-    slices[fork].u.pipe.next = alloc_move_inverter_slice(result);
+    result = branch;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -747,7 +750,6 @@ slice_index alloc_toplevel_parry_series_branch(stip_length_type length,
                                                slice_index parrying)
 {
   slice_index result;
-  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -758,19 +760,21 @@ slice_index alloc_toplevel_parry_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(length-1,min_length-1,no_slice,towards_goal);
-  result = alloc_series_root_slice(length,min_length,
-                                   fork,towards_goal,
-                                   fork);
 
-  if (length-slack_length_series>1)
   {
+    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+                                                     no_slice,towards_goal);
+    slice_index const root = alloc_series_root_slice(length,min_length,
+                                                     fork,towards_goal,
+                                                     fork);
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       fork,towards_goal);
     slice_index const inverter = alloc_move_inverter_slice(branch);
     shorten_series_pipe(branch);
     slices[parrying].u.pipe.next = branch;
     slices[fork].u.pipe.next = alloc_parry_ser_slice(inverter,parrying);
+
+    result = root;
   }
 
   TraceFunctionExit(__func__);
@@ -791,7 +795,6 @@ static slice_index alloc_nested_parry_series_branch(stip_length_type length,
                                                     slice_index parrying)
 {
   slice_index result;
-  slice_index fork;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -802,14 +805,16 @@ static slice_index alloc_nested_parry_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
 
-  fork = alloc_branch_fork_slice(length-1,min_length-1,no_slice,towards_goal);
-  result = alloc_branch_ser_slice(length,min_length,fork,towards_goal);
-
-  if (length-slack_length_series>1)
   {
-    slice_index const inverter = alloc_move_inverter_slice(result);
-    slices[parrying].u.pipe.next = result;
+    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+                                                     no_slice,towards_goal);
+    slice_index const branch = alloc_branch_ser_slice(length,min_length,
+                                                      fork,towards_goal);
+    slice_index const inverter = alloc_move_inverter_slice(branch);
+    slices[parrying].u.pipe.next = branch;
     slices[fork].u.pipe.next = alloc_parry_ser_slice(inverter,parrying);
+
+    result = branch;
   }
 
   TraceFunctionExit(__func__);
