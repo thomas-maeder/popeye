@@ -1,5 +1,6 @@
 #include "pyhelp.h"
 #include "pybrah.h"
+#include "pyseries.h"
 #include "pyleafh.h"
 #include "pybrafrk.h"
 #include "pyhash.h"
@@ -32,6 +33,11 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
   {
     case STBranchHelp:
       result = branch_h_solve_in_n(si,n);
+      break;
+
+    case STBranchSeries:
+    case STSeriesHashed:
+      result = series_solve_in_n(si,n);
       break;
 
     case STBranchFork:
