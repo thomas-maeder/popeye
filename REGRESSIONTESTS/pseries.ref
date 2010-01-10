@@ -154,30 +154,30 @@ solution finished.
 
 
     Dan Meinking & George Sphicas
-StrateGems 47, 2009, no. 4 (last 7 moves of pser-h#14)
+      StrateGems 47, 2009, no. 4
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
-7   .   .   K   .   .   .   .   .   7
+7   .   K   .   .   .   .  -P   .   7
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
 5   .   .   .   .   .   .   .   .   5
 |                                   |
-4   .   .   .   .   P   .   .   .   4
+4   .   .   .   .   .   .   .   .   4
 |                                   |
 3   .   .   S   .   .   .   .   .   3
 |                                   |
-2   .  -Q   .   .   .   .   .   .   2
+2   .   .   .   .   P   .   .   .   2
 |                                   |
 1   .   .   .   .   .  -K   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  pser-h#7                    3 + 2
+  pser-h#14                   3 + 2
 
-  1.Qb2-h2 + e4-e5   2.Qh2-h7 + Kc7-c8   3.Qh7-f5 + e5-e6   4.Qf5-c5 + Kc8-d8   5.Qc5-g5 + e6-e7   6.Qg5-g8 + e7-e8=Q   7.Qg8-g1 Qe8-e2 # 
+  1.g7-g5   2.g5-g4   3.g4-g3   4.g3-g2   5.g2-g1=Q   6.Qg1-g2 + e2-e4   7.Qg2-b2 + Kb7-c7   8.Qb2-h2 + e4-e5   9.Qh2-h7 + Kc7-c8  10.Qh7-f5 + e5-e6  11.Qf5-c5 + Kc8-d8  12.Qc5-g5 + e6-e7  13.Qg5-g8 + e7-e8=Q  14.Qg8-g1 Qe8-e2 # 
 
 solution finished. 
 
@@ -278,7 +278,7 @@ solution finished.
 
 
              Mark Kirtley
-StrateGems 47, 2009, no. 9 (last 5 moves of pser-hdia10)
+      StrateGems 47, 2009, no. 9
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -299,34 +299,9 @@ StrateGems 47, 2009, no. 9 (last 5 moves of pser-hdia10)
 1   R   S   B   .   .   .   S   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  pser-ha=>b5               14 + 14
-Initial (Black ->):
+  pser-hdia10               14 + 14
 
-             Mark Kirtley
-StrateGems 47, 2009, no. 9 (last 5 moves of pser-hdia10)
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8  -R  -S  -B  -Q  -K  -B  -S  -R   8
-|                                   |
-7  -P  -P  -P  -P  -P   .  -P  -P   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   P   P   P   P   K   P   P   P   2
-|                                   |
-1   R   S   B   Q   .  -R   S   R   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  pser-ha=>b5               14 + 16
-
-  1.Rf1-e1 + Ke2-f3   2.Re1-e3 + Kf3-f4   3.g7-g5 + Kf4*g5   4.Re3-e5 + Kg5-h4   5.Re5-h5 + Qd1*h5 a=>b 
+  1.f7-f5   2.f5-f4   3.f4-f3   4.f3*e2   5.e2*f1=R + Ke1-e2   6.Rf1-e1 + Ke2-f3   7.Re1-e3 + Kf3-f4   8.g7-g5 + Kf4*g5   9.Re3-e5 + Kg5-h4  10.Re5-h5 + Qd1*h5 dia 
 
 solution finished. 
 

@@ -46,10 +46,10 @@ twin add white bd1
 next
 
 author Dan Meinking & George Sphicas
-origin StrateGems 47, 2009, no. 4 (last 7 moves of pser-h#14)
-pieces white kc7 sc3 pe4
-       black kf1 qb2
-stipulation pser-h#7
+origin StrateGems 47, 2009, no. 4
+pieces white kb7 sc3 pe2
+       black kf1 pg7
+stipulation pser-h#14
 option intelligent
 
 next
@@ -79,12 +79,10 @@ stipulation pser-s#7
 next
 
 author Mark Kirtley
-origin StrateGems 47, 2009, no. 9 (last 5 moves of pser-hdia10)
-pieces white ke2 qd1 ra1h1 bc1 sb1g1 pa2b2c2d2f2g2h2
-       black ke8 qd8 ra8h8f1 bc8f8 sb8g8 pa7b7c7d7e7g7h7
-stipulation pser-ha=>b5
+origin StrateGems 47, 2009, no. 9
 pieces white kh4 qh5 ra1h1 bc1 sb1g1 pa2b2c2d2f2g2h2
        black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d7e7h7
+stipulation pser-hdia10
 
 next
 
