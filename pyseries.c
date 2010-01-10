@@ -9,6 +9,7 @@
 #include "pyselfcg.h"
 #include "pymovenb.h"
 #include "pypipe.h"
+#include "stipulation/series_play/parry_fork.h"
 #include "pyint.h"
 #include "pydata.h"
 #include "trace.h"
@@ -52,7 +53,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
     }
 
     case STParryFork:
-      result = parry_move_solve_in_n(si,n);
+      result = parry_fork_solve_in_n(si,n);
       break;
 
     case STBranchFork:
@@ -174,7 +175,7 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
     }
 
     case STParryFork:
-      result = parry_move_has_solution_in_n(si,n);
+      result = parry_fork_has_solution_in_n(si,n);
       break;
 
     case STBranchFork:

@@ -37,12 +37,6 @@ slice_index alloc_series_branch_next_same_starter(branch_level level,
                                                   stip_length_type min_length,
                                                   slice_index next);
 
-/* Convert a series branch to a parry series branch
- * @param si identifies first slice of the series branch
- * @param parrying identifies slice responsible for parrying
- */
-void convert_to_parry_series_branch(slice_index si, slice_index parrying);
-
 /* Promote a slice that was created as STBranchSeries to STSeriesRoot
  * because the assumption that the slice is nested in some other slice
  * turned out to be wrong.
@@ -122,19 +116,5 @@ has_solution_type series_root_has_solution(slice_index si);
  * @return true iff >=1 solution was found
  */
 boolean series_root_solve_in_n(slice_index si, stip_length_type n);
-
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
- */
-boolean parry_move_solve_in_n(slice_index si, stip_length_type n);
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
- */
-boolean parry_move_has_solution_in_n(slice_index si, stip_length_type n);
 
 #endif

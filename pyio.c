@@ -85,6 +85,7 @@
 #include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyint.h"
+#include "stipulation/series_play/parry_fork.h"
 #include "conditions/republican.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"

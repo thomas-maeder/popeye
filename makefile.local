@@ -56,7 +56,9 @@ SCRIPTS =       $(wildcard scripts/*.sh)
 TOOLCHAINS =    $(filter-out toolchains/CVS,$(wildcard toolchains/*))
 PLATFORMS =     platform/other platform/windows32 platform/dos \
 		platform/unix platform/windows64
-NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) conditions
+NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) \
+		conditions \
+		stipulation/series_play
 NESTEDSRCDIRS = DHT platform $(PLATFORMS) conditions scripts $(TOOLCHAINS)
 
 # enumerate libraries to link
