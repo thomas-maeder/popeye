@@ -1,0 +1,22 @@
+parry_fork$(OBJ_SUFFIX): parry_fork.c parry_fork.h py.h pystip.h pyslice.h pydata.h \
+  pyproc.h pyseries.h pybrafrk.h pypipe.h trace.h
+
+parry_fork.h:
+
+py.h:
+
+pystip.h:
+
+pyslice.h:
+
+pydata.h:
+
+pyproc.h:
+
+pyseries.h:
+
+pybrafrk.h:
+
+pypipe.h:
+
+trace.h:
