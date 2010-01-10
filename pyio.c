@@ -2230,7 +2230,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
   else if (strncmp("ser-hs",tok,6)==0)
   {
     slice_index next = no_slice;
-    tok = ParseEnd(tok+4,nested_branch,&next);
+    tok = ParseEnd(tok+5,nested_branch,&next); /* skip over ser-h, but not s! */
     if (tok!=0 && next!=no_slice)
     {
       stip_length_type length;

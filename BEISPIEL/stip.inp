@@ -660,4 +660,15 @@ steine weiss ka6 bc7
 forderung r#2
 option vari
 
+weiter
+
+autor Peter Harris
+quelle The Problemist v/2009
+forderung ser-hs#5
+steine weiss kh3 te2 lc5 be5g5
+       schwarz kf1 de4 bc7
+option duplex
+bedingung platzwechselcirce
+zwilling forderung ser-s#6
+
 endeproblem

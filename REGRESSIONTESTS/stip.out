@@ -2556,3 +2556,45 @@ sofortiges forciertes Reflexmatt durch Weiss
 Loesung beendet. 
 
 
+
+             Peter Harris
+        The Problemist v/2009
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -B   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   L   .   B   .   B   .   5
+|                                   |
+4   .   .   .   .  -D   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   K   3
+|                                   |
+2   .   .   .   .   T   .   .   .   2
+|                                   |
+1   .   .   .   .   .  -K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-hs#5                    5 + 3
+          PlatzwechselCirce
+                Duplex
+
+a) 
+
+  1.De4*e5 [+wBe4]   2.De5-e8   3.De8*e4 [+wBe8=wS]   4.De4*e8 [+wSe4]   5.De8-e5 Se4-g3 +   6.De5*g3 [+wSe5] # 
+
+  1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6] Dd6-g3 +   6.Se4*g3 [+sDe4] # 
+
+b) ser-s#6
+
+  1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6]   6.Se4-g3 + Dd6*g3 [+wSd6] # 
+
+  1.De4*e5 [+wBe4]   2.De5-e8   3.De8*e4 [+wBe8=wS]   4.De4*e8 [+wSe4]   5.De8-e5   6.De5-g3 + Se4*g3 [+sDe4] # 
+
+Loesung beendet. 
+
+
