@@ -438,6 +438,7 @@ slice_index branch_deallocate_to_fork(slice_index branch)
 slice_index branch_find_slice(SliceType type, slice_index si)
 {
   slice_index result = si;
+  boolean slices_visited[max_nr_slices] = { false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -447,9 +448,16 @@ slice_index branch_find_slice(SliceType type, slice_index si)
   {
     TraceValue("%u\n",slices[result].u.pipe.next);
     result = slices[result].u.pipe.next;
-  } while (result!=no_slice
-           && result!=si
-           && slices[result].type!=type);
+    if (slices[result].type==type)
+      break;
+    else if (slices_visited[result])
+    {
+      result = no_slice;
+      break;
+    }
+    else
+      slices_visited[result] = true;
+  } while (true);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
