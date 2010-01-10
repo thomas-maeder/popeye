@@ -194,28 +194,29 @@ static int FroToKing(square f_sq, square t_sq) {
   return (diffcol > diffrow) ? diffcol : diffrow;
 }
 
-static int FroTo(
-  piece f_p,
-  square    f_sq,
-  piece t_p,
-  square    t_sq,
-  boolean genchk)
+static int FroTo(piece f_p,
+                 square    f_sq,
+                 piece t_p,
+                 square    t_sq,
+                 boolean genchk)
 {
   int diffcol, diffrow, withcast;
 
-  if (f_sq == t_sq && f_p == t_p) {
-    if (genchk) {
-      if (f_p == Pawn) {
+  if (f_sq==t_sq && f_p==t_p)
+  {
+    if (genchk)
+    {
+      if (f_p == Pawn)
         return maxply+1;
-      }
-      if (f_p == Knight) {
+
+      if (f_p == Knight)
         return 2;
-      }
+
       /* it's a rider */
-      if (move_diff_code[abs(rn-t_sq)] < 3) {
+      if (move_diff_code[abs(rn-t_sq)]<3)
         return 2;
-      }
     }
+
     return 0;
   }
 
@@ -413,12 +414,16 @@ static boolean isGoalReachableRegularGoals(void)
   piece f_p;
   square    t_sq;
 
+  TraceValue("%u",MovesLeft[White]);
+  TraceValue("%u\n",MovesLeft[Black]);
+
   captures= CapturesLeft[nbply-1];
 
   if (sol_per_matingpos>=maxsol_per_matingpos
       || periods_counter>=nr_periods)
   {
     FlagMaxSolsReached= true;
+    TraceText("FlagMaxSolsReached\n");
     return false;
   }
 
@@ -428,6 +433,7 @@ static boolean isGoalReachableRegularGoals(void)
   if (pprise[nbply]) {
     index= GetIndex(pprispec[nbply]);
     if (Mate[index].sq != initsquare) {
+      TraceText("Mate[index].sq != initsquare\n");
       return false;
     }
   }
@@ -443,6 +449,9 @@ static boolean isGoalReachableRegularGoals(void)
       if ( (f_p= e[f_sq]) != vide
            && (f_p != obs))
       {
+        TracePiece(f_p);
+        TraceSquare(f_sq);
+        TraceText("\n");
         index= GetIndex(spec[f_sq]);
         if ((t_sq= Mate[index].sq) != initsquare) {
           if (MovesLeft[White] && index == IndxChP) {
@@ -457,48 +466,84 @@ static boolean isGoalReachableRegularGoals(void)
                         f_sq, Mate[index].p, t_sq, false);
           }
           if (f_p > vide)
+          {
+            TraceValue("%d (->whmoves)\n",time);
             whmoves += time;
+          }
           else
+          {
+            TraceValue("%d (->blmoves)\n",time);
             blmoves += time;
+          }
         }
       }
     }
   }
-  else {
+  else
+  {
     index= GetIndex(jouespec[nbply]);
     t_sq= Mate[index].sq;
+    TraceValue("%u\n",WhMovesRequired[nbply-1]);
     whmoves= WhMovesRequired[nbply-1];
     blmoves= BlMovesRequired[nbply-1];
     if (t_sq != initsquare) {
       /* old time */
-      if (index == IndxChP) {
-        square _rn= rn;
-        rn= Mate[GetIndex(spec[rn])].sq;
-        time= -FroTo(pjoue[nbply], move_generation_stack[nbcou].departure,
-                     Mate[index].p, t_sq, true);
-        rn= _rn;
+      if (index==IndxChP)
+      {
+        square const _rn = rn;
+        rn = Mate[GetIndex(spec[rn])].sq;
+        time = -FroTo(pjoue[nbply],
+                      move_generation_stack[nbcou].departure,
+                      Mate[index].p,
+                      t_sq,
+                      true);
+        rn = _rn;
       }
-      else {
+      else
         time= -FroTo(pjoue[nbply],
-                     move_generation_stack[nbcou].departure, Mate[index].p, t_sq, false);
-      }
+                     move_generation_stack[nbcou].departure,
+                     Mate[index].p,
+                     t_sq,
+                     false);
+      TraceValue("%d (old)\n",time);
+
+      TraceValue("%d",index);
+      TraceValue("%d",IndxChP);
+      TracePiece(e[move_generation_stack[nbcou].arrival]);
+      TraceSquare(move_generation_stack[nbcou].arrival);
+      TracePiece(Mate[index].p);
+      TraceSquare(t_sq);
+      TraceText("\n");
 
       /* new time */
-      if (index == IndxChP && MovesLeft[White]) {
-        square _rn= rn;
-        rn= Mate[GetIndex(spec[rn])].sq;
-        time += FroTo(e[move_generation_stack[nbcou].arrival], move_generation_stack[nbcou].arrival,
-                      Mate[index].p, t_sq, true);
-        rn= _rn;
-      }
-      else {
+      if (index==IndxChP && MovesLeft[White])
+      {
+        square const _rn = rn;
+        rn = Mate[GetIndex(spec[rn])].sq;
         time += FroTo(e[move_generation_stack[nbcou].arrival],
-                      move_generation_stack[nbcou].arrival, Mate[index].p, t_sq, false);
+                      move_generation_stack[nbcou].arrival,
+                      Mate[index].p,
+                      t_sq,
+                      true);
+        rn = _rn;
       }
-      if (trait[nbply] == White)
-        whmoves += time;
       else
+        time += FroTo(e[move_generation_stack[nbcou].arrival],
+                      move_generation_stack[nbcou].arrival,
+                      Mate[index].p,
+                      t_sq,
+                      false);
+
+      if (trait[nbply] == White)
+      {
+        TraceValue("%d (->whmoves)\n",time);
+        whmoves += time;
+      }
+      else
+      {
+        TraceValue("%d (->blmoves)\n",time);
         blmoves += time;
+      }
     }
   }
 
@@ -507,10 +552,13 @@ static boolean isGoalReachableRegularGoals(void)
       captures--;
     }
     if (MovesLeft[White] < captures) {
+      TraceText("MovesLeft[White] < captures\n");
       return false;
     }
   }
 
+  TraceValue("%u",whmoves);
+  TraceValue("%u\n",blmoves);
   if (whmoves > MovesLeft[White] || blmoves > MovesLeft[Black])
     return false;
 
@@ -884,6 +932,11 @@ static void StoreMate(
   ResetPosition();
   castling_supported= is_cast_supp;
 
+  closehash();
+  inithash();
+
+  sol_per_matingpos= 0;
+
 #if defined(DETAILS)
   for (bnp= boardnum; *bnp; bnp++) {
     if (e[*bnp] != vide) {
@@ -899,11 +952,6 @@ static void StoreMate(
   }
   StdString("\n");
 #endif
-
-  sol_per_matingpos= 0;
-
-  closehash();
-  inithash();
 
   {
     boolean const save_movenbr = OptFlag[movenbr];
@@ -2712,6 +2760,18 @@ static boolean init_moves_left_branch_series(slice_index si,
 
   MovesLeft[slices[si].starter] += n-slack_length_series;
 
+  {
+    slice_index const parry_fork = branch_find_slice(STParryFork,si);
+    if (parry_fork!=no_slice)
+    {
+      slice_index const fork = branch_find_slice(STBranchFork,si);
+      assert(fork!=no_slice);
+      MovesLeft[advers(slices[si].starter)] += n-slack_length_series;
+      if (slices[si].starter!=slices[fork].starter)
+        --MovesLeft[advers(slices[si].starter)];
+    }
+  }
+
   result = traverse_slices(towards_goal,st);
 
   TraceValue("%u",MovesLeft[White]);
@@ -2822,10 +2882,19 @@ static void init_moves_left(slice_index si, stip_length_type n)
 
     case STSeriesRoot:
     {
+      slice_index const parry_fork = branch_find_slice(STParryFork,si);
       slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-      MovesLeft[Black] = 0;
-      MovesLeft[White] = 0;
       MovesLeft[slices[si].starter] = n-slack_length_series;
+      if (parry_fork==no_slice)
+        MovesLeft[advers(slices[si].starter)] = 0;
+      else
+      {
+        slice_index const fork = branch_find_slice(STBranchFork,si);
+        assert(fork!=no_slice);
+        MovesLeft[advers(slices[si].starter)] = n-slack_length_series;
+        if (slices[si].starter!=slices[fork].starter)
+          --MovesLeft[advers(slices[si].starter)];
+      }
       traverse_slices(to_goal,&st);
       break;
     }
@@ -3076,40 +3145,64 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
   return result;
 }
 
+static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
+                                                        slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  {
+    slice_index const inverter = slices[si].u.pipe.next;
+    assert(slices[inverter].type==STMoveInverter);
+    pipe_insert_after(inverter);
+    init_goalreachable_guard_slice(slices[inverter].u.pipe.next);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const goalreachable_guards_inserters[] =
 {
-  0,                                     /* STBranchDirect */
-  0,                                     /* STBranchDirectDefender */
-  &goalreachable_guards_inserter_branch, /* STBranchHelp */
-  &goalreachable_guards_inserter_branch, /* STBranchSeries */
-  &slice_traverse_children,              /* STBranchFork */
-  &slice_operation_noop,                 /* STLeafDirect */
-  &slice_operation_noop,                 /* STLeafHelp */
-  &slice_operation_noop,                 /* STLeafForced */
-  0,                                     /* STReciprocal */
-  &slice_traverse_children,              /* STQuodlibet */
-  0,                                     /* STNot */
-  &slice_traverse_children,              /* STMoveInverter */
-  0,                                     /* STDirectRoot */
-  0,                                     /* STDirectDefenderRoot */
-  &slice_traverse_children,              /* STDirectHashed */
-  &goalreachable_guards_inserter_branch, /* STHelpRoot */
-  &slice_traverse_children,              /* STHelpHashed */
-  &goalreachable_guards_inserter_branch, /* STSeriesRoot */
-  &slice_traverse_children,              /* STParryFork */
-  &slice_traverse_children,              /* STSeriesHashed */
-  &slice_traverse_children,              /* STSelfCheckGuard */
-  0,                                     /* STDirectDefense */
-  0,                                     /* STReflexGuard */
-  0,                                     /* STSelfAttack */
-  0,                                     /* STSelfDefense */
-  &slice_traverse_children,              /* STRestartGuard */
-  0,                                     /* STGoalReachableGuard */
-  &slice_traverse_children,              /* STKeepMatingGuard */
-  &slice_traverse_children,              /* STMaxFlightsquares */
-  &slice_traverse_children,              /* STDegenerateTree */
-  &slice_traverse_children,              /* STMaxNrNonTrivial */
-  &slice_traverse_children               /* STMaxThreatLength */
+  0,                                         /* STBranchDirect */
+  0,                                         /* STBranchDirectDefender */
+  &goalreachable_guards_inserter_branch,     /* STBranchHelp */
+  &goalreachable_guards_inserter_branch,     /* STBranchSeries */
+  &slice_traverse_children,                  /* STBranchFork */
+  &slice_operation_noop,                     /* STLeafDirect */
+  &slice_operation_noop,                     /* STLeafHelp */
+  &slice_operation_noop,                     /* STLeafForced */
+  0,                                         /* STReciprocal */
+  &slice_traverse_children,                  /* STQuodlibet */
+  0,                                         /* STNot */
+  &slice_traverse_children,                  /* STMoveInverter */
+  0,                                         /* STDirectRoot */
+  0,                                         /* STDirectDefenderRoot */
+  &slice_traverse_children,                  /* STDirectHashed */
+  &goalreachable_guards_inserter_branch,     /* STHelpRoot */
+  &slice_traverse_children,                  /* STHelpHashed */
+  &goalreachable_guards_inserter_branch,     /* STSeriesRoot */
+  &goalreachable_guards_inserter_parry_fork, /* STParryFork */
+  &slice_traverse_children,                  /* STSeriesHashed */
+  &slice_traverse_children,                  /* STSelfCheckGuard */
+  0,                                         /* STDirectDefense */
+  0,                                         /* STReflexGuard */
+  0,                                         /* STSelfAttack */
+  0,                                         /* STSelfDefense */
+  &slice_traverse_children,                  /* STRestartGuard */
+  0,                                         /* STGoalReachableGuard */
+  &slice_traverse_children,                  /* STKeepMatingGuard */
+  &slice_traverse_children,                  /* STMaxFlightsquares */
+  &slice_traverse_children,                  /* STDegenerateTree */
+  &slice_traverse_children,                  /* STMaxNrNonTrivial */
+  &slice_traverse_children                   /* STMaxThreatLength */
 };
 
 /* Instrument stipulation with STGoalreachableGuard slices
@@ -3306,7 +3399,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
   &slice_traverse_children,                      /* STHelpHashed */
   &slice_traverse_children,                      /* STSeriesRoot */
-  &intelligent_mode_support_none,                /* STParryFork */
+  &slice_traverse_children,                      /* STParryFork */
   &slice_traverse_children,                      /* STSeriesHashed */
   &slice_traverse_children,                      /* STSelfCheckGuard */
   &intelligent_mode_support_none,                /* STDirectDefense */
