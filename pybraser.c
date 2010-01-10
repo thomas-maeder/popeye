@@ -48,31 +48,6 @@ static slice_index alloc_branch_ser_slice(stip_length_type length,
   return result;
 }
 
-/* Allocate a STParryFork slice.
- * @param next identifies next slice
- * @param parrying identifies slice responsible for parrying
- * @return index of allocated slice
- */
-static slice_index alloc_parry_ser_slice(slice_index next,
-                                         slice_index parrying)
-{
-  slice_index const result = alloc_slice_index();
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
-  TraceFunctionParamListEnd();
-
-  slices[result].type = STParryFork; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.parry_fork.parrying = parrying;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Promote a slice that was created as STBranchSeries to STSeriesRoot
  * because the assumption that the slice is nested in some other slice
  * turned out to be wrong.
@@ -292,59 +267,6 @@ boolean branch_ser_has_solution_in_n(slice_index si, stip_length_type n)
   }
     
   finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and write the solution(s) in a help stipulation
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
- */
-boolean parry_move_solve_in_n(slice_index si, stip_length_type n)
-{
-  boolean result;
-  Side const side_at_move = slices[si].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,side_at_move))
-    result = series_solve_in_n(slices[si].u.pipe.u.parry_fork.parrying,n+1);
-  else
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the slice has a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
- */
-boolean parry_move_has_solution_in_n(slice_index si, stip_length_type n)
-{
-  boolean result;
-  Side const side_at_move = slices[si].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,side_at_move))
-    result = series_has_solution_in_n(slices[si].u.pipe.u.parry_fork.parrying,
-                                      n+1);
-  else
-    result = series_has_solution_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -862,133 +784,25 @@ slice_index alloc_series_branch_next_same_starter(branch_level level,
   return result;
 }
 
-/* Allocate a top level parry series branch where the next slice's
- * starter is the opponent of the series's starter
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
- * @param parrying identifies slice responsible for parrying
- * @return index of allocated slice
+/* Determine and write the solution(s)
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
  */
-static slice_index
-alloc_toplevel_parry_series_branch_next_other_starter(stip_length_type length,
-                                                      stip_length_type min_length,
-                                                      slice_index towards_goal,
-                                                      slice_index parrying)
+boolean parry_move_solve_in_n(slice_index si, stip_length_type n)
 {
-  slice_index result;
+  boolean result;
+  Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParam("%u",parrying);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(length>slack_length_series);
-
-
-  {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
-                                                     no_slice,towards_goal);
-    slice_index const root = alloc_series_root_slice(length,min_length,
-                                                     fork,towards_goal,
-                                                     fork);
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      fork,towards_goal);
-    slice_index const inverter = alloc_move_inverter_slice(branch);
-    shorten_series_pipe(branch);
-    slices[parrying].u.pipe.next = branch;
-    slices[fork].u.pipe.next = alloc_parry_ser_slice(inverter,parrying);
-
-    result = root;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a nested series branch where the next slice's starter is
- * the opponent of the series's starter
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index
-alloc_nested_parry_series_branch_next_other_starter(stip_length_type length,
-                                                    stip_length_type min_length,
-                                                    slice_index towards_goal,
-                                                    slice_index parrying)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParam("%u",parrying);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_series);
-
-  {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
-                                                     no_slice,towards_goal);
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      fork,towards_goal);
-    slice_index const inverter = alloc_move_inverter_slice(branch);
-    slices[parrying].u.pipe.next = branch;
-    slices[fork].u.pipe.next = alloc_parry_ser_slice(inverter,parrying);
-
-    result = branch;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a parry series branch where the next slice's starter is
- * the opponent of the series's starter.
- * @param level is this a top-level branch or one nested into another
- *              branch?
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
- * @param parrying identifies slice responsible for parrying
- * @return index of adapter slice of allocated series branch
- */
-slice_index
-alloc_parry_series_branch_next_other_starter(branch_level level,
-                                             stip_length_type length,
-                                             stip_length_type min_length,
-                                             slice_index towards_goal,
-                                             slice_index parrying)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",level);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParam("%u",parrying);
-  TraceFunctionParamListEnd();
-
-  if (level==toplevel_branch)
-    result = alloc_toplevel_parry_series_branch_next_other_starter(length,
-                                                                   min_length,
-                                                                   towards_goal,
-                                                                   parrying);
+  if (echecc(nbply,side_at_move))
+    result = series_solve_in_n(slices[si].u.pipe.u.parry_fork.parrying,n+1);
   else
-    result = alloc_nested_parry_series_branch_next_other_starter(length,
-                                                                 min_length,
-                                                                 towards_goal,
-                                                                 parrying);
+    result = series_solve_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -996,135 +810,77 @@ alloc_parry_series_branch_next_other_starter(branch_level level,
   return result;
 }
 
-
-/* Allocate a top level parry series branch
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
- * @param parrying identifies slice responsible for parrying
- * @return index of allocated slice
+/* Determine whether the slice has a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
  */
-static slice_index
-alloc_toplevel_parry_series_branch_next_same_starter(stip_length_type length,
-                                                     stip_length_type min_length,
-                                                     slice_index towards_goal,
-                                                     slice_index parrying)
+boolean parry_move_has_solution_in_n(slice_index si, stip_length_type n)
 {
-  slice_index result;
+  boolean result;
+  Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParam("%u",parrying);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(length>slack_length_series);
-
-
-  {
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      no_slice,towards_goal);
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
-                                                     branch,towards_goal);
-    slice_index const inverter = alloc_move_inverter_slice(fork);
-    slice_index const parry_fork = alloc_parry_ser_slice(inverter,parrying);
-    slice_index const root = alloc_series_root_slice(length,min_length,
-                                                     parry_fork,towards_goal,
-                                                     fork);
-    shorten_series_pipe(branch);
-    slices[parrying].u.pipe.next = fork;
-    slices[branch].u.pipe.next = parry_fork;
-
-    result = root;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a nested series branch
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index
-alloc_nested_parry_series_branch_next_same_starter(stip_length_type length,
-                                                   stip_length_type min_length,
-                                                   slice_index towards_goal,
-                                                   slice_index parrying)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParam("%u",parrying);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_series);
-
-  {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
-                                                     no_slice,towards_goal);
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      fork,towards_goal);
-    slice_index const inverter = alloc_move_inverter_slice(branch);
-    slices[parrying].u.pipe.next = branch;
-    slices[fork].u.pipe.next = alloc_parry_ser_slice(inverter,parrying);
-
-    result = branch;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a parry series branch.
- * @param level is this a top-level branch or one nested into another
- *              branch?
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
- * @param parrying identifies slice responsible for parrying
- * @return index of adapter slice of allocated series branch
- */
-slice_index
-alloc_parry_series_branch_next_same_starter(branch_level level,
-                                            stip_length_type length,
-                                            stip_length_type min_length,
-                                            slice_index towards_goal,
-                                            slice_index parrying)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",level);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
-  TraceFunctionParam("%u",parrying);
-  TraceFunctionParamListEnd();
-
-  if (level==toplevel_branch)
-    result = alloc_toplevel_parry_series_branch_next_same_starter(length,
-                                                                  min_length,
-                                                                  towards_goal,
-                                                                  parrying);
+  if (echecc(nbply,side_at_move))
+    result = series_has_solution_in_n(slices[si].u.pipe.u.parry_fork.parrying,
+                                      n+1);
   else
-    result = alloc_nested_parry_series_branch_next_same_starter(length,
-                                                                min_length,
-                                                                towards_goal,
-                                                                parrying);
+    result = series_has_solution_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Initialise a slice to be a STParryFork slice.
+ * @param si identifies slice to be initialised
+ * @param next identifies next slice
+ * @param parrying identifies slice responsible for parrying
+ */
+void init_parry_fork(slice_index si, slice_index next, slice_index parrying)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",parrying);
+  TraceFunctionParamListEnd();
+
+  slices[si].type = STParryFork; 
+  slices[si].starter = no_side; 
+  slices[si].u.pipe.next = next;
+  slices[si].u.pipe.u.parry_fork.parrying = parrying;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Convert a series branch to a parry series branch
+ * @param si identifies first slice of the series branch
+ * @param parrying identifies slice responsible for parrying
+ */
+void convert_to_parry_series_branch(slice_index si, slice_index parrying)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",parrying);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const inverter = branch_find_slice(STMoveInverter,si);
+    slice_index const branch = slices[inverter].u.pipe.next;
+    assert(inverter!=no_slice);
+    assert(slices[branch].type==STBranchSeries
+           || slices[branch].type==STBranchFork);
+    slices[parrying].u.pipe.next = branch;
+    pipe_insert_before(inverter);
+    init_parry_fork(inverter,slices[inverter].u.pipe.next,parrying);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
