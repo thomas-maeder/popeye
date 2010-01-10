@@ -519,8 +519,8 @@ Kommandos:
 						{%  }	    {%	 }
 						{~  }	    {~	 }
 						{ep }	    {ep  }
-				     {H }	{#  }	    {#	 }
-			   {SER- }   {S }	{=  }	    {=	 }
+			   {SER- }   {H }	{#  }	    {#	 }
+			   {PSER-}   {S }	{=  }	    {=	 }
 	{m->} + {EXACT-} + {SEMI-} + {R } + ( + {== } + ) + {==  } + n
 			   {RECI-}   {HS}	{+  }	    {+	 }
 				     {HR}	{Zxy}	    {Zxy }
@@ -576,6 +576,7 @@ Kommandos:
 	#=2             Matt oder Patt in 2 Zuegen
 	h~1		Alle moeglichen Hilfs-Zuege 
 	HR#3            Hilfsreflexmatt in 3 Zuegen
+	pser-h#6	Paraden-Serienzughilfsmatt in 6
 
 	SEMI wirkt natuerlich nur im Zusammenhang mit Reflexforderungen.
 

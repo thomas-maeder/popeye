@@ -499,8 +499,8 @@ commands expect further parameters. Lets start with the simpler commands:
 						{%  }	    {%	 }
 						{~  }	    {~	 }
 						{ep }	    {ep  }
-				     {H }	{#  }	    {#	 }
-			   {SER- }   {S }	{=  }	    {=	 }
+			   {SER- }   {H }	{#  }	    {#	 }
+			   {PSER-}   {S }	{=  }	    {=	 }
 	{m->} + {EXACT-} + {SEMI-} + {R } + ( + {== } + ) + {==  } + n
 			   {RECI-}   {HS}	{+  }	    {+	 }
 				     {HR}	{Zxy}	    {Zxy }
@@ -554,6 +554,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	#=2             mate or stalemate in 2 moves
 	h~1             any helpmove
 	HR#3            helpreflexmate in 3 moves  (= help forced reflexmate)
+	pser-h#6	Parry series helpmate in 6
 
 	SEMI is valid only in combination with direct reflex-play.
 

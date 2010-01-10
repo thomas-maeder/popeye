@@ -500,8 +500,8 @@ simples:
 						{%  }	    {%	 }
 						{~  }	    {~	 }
 						{ep }	    {ep  }
-				     {H }	{#  }	    {#	 }
-			   {SER- }   {S }	{=  }	    {=	 }
+			   {SER- }   {H }	{#  }	    {#	 }
+			   {PSER-}   {S }	{=  }	    {=	 }
 	{m->} + {EXACT-} + {SEMI-} + {R } + ( + {== } + ) + {==  } + n
 			   {RECI-}   {HS}	{+  }	    {+	 }
 				     {HR}	{Zxy}	    {Zxy }
@@ -561,6 +561,7 @@ simples:
 	#=2             mat ou pat en 2 coups
 	h~1             tous les coups aides
 	HR#3            mat reflexe aide en 3 coups   (= mat reflex aide force)
+	pser-h#6	aide serie avec parades en 6
 
  - senonce: L'enonce peut aussi etre indique sous forme
 	"structuree". Sous cette forme, toutes les enonces peuvent
