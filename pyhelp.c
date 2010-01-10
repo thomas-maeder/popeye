@@ -114,6 +114,12 @@ boolean help_root_solve(slice_index si)
       result = hashed_help_root_solve(si);
       break;
 
+    case STBranchHelp:
+      /* TODO we may arrive here when looking for short solutions of
+       * some sford stipulations */
+      result = help_solve(si);
+      break;
+
     default:
       assert(0);
       result = false;
