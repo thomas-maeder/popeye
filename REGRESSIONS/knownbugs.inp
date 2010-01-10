@@ -21,4 +21,24 @@ condition singlebox type1
 twin condition singlebox type2
 twin add white ba8
 
+next
+
+title issue 2925255:
+title Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
+pieces white kh3 rb8
+       black kh1
+       neutral ra7
+stipulation #1
+condition madrasi
+
+next
+
+title issue 2925255:
+title Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
+pieces white kh3 rb8
+       black kh1
+       neutral bg8
+stipulation #1
+condition eiffel
+
 end
