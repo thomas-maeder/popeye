@@ -438,12 +438,8 @@ boolean series_root_solve_in_n(slice_index root, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_series);
-
-  if (n==slices[root].u.pipe.u.help_root.length)
-    result = branch_ser_solve_in_n(root,n);
-  else
-    result = series_solve_in_n(slices[root].u.pipe.u.help_root.short_sols,n);
+  assert(n==slices[root].u.pipe.u.help_root.length);
+  result = branch_ser_solve_in_n(root,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -486,7 +482,7 @@ boolean series_root_solve(slice_index root)
   {
     if (isIntelligentModeActive)
     {
-      if (Intelligent(root,len,full_length))
+      if (Intelligent(short_sols,len,full_length))
         result = true;
     }
     else

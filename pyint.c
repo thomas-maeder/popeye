@@ -2880,7 +2880,13 @@ static void init_moves_left(slice_index si, stip_length_type n)
       break;
     }
 
+    case STBranchFork:
+    case STSeriesHashed:
+      init_moves_left(slices[si].u.pipe.next,n);
+      break;
+
     case STSeriesRoot:
+    case STBranchSeries:
     {
       slice_index const parry_fork = branch_find_slice(STParryFork,si);
       slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
