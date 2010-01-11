@@ -282,26 +282,26 @@ solution finished.
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
-8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+8  -R  -S  -B   .   .   .  -S  -R   8
 |                                   |
-7  -P  -P  -P  -P  -P   .   .  -P   7
+7  -P  -P  -P  -P   .  -P  -P  -P   7
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
-5   .   .   .   .   .   .   .   Q   5
+5   .   .   .   .   .   .   .  -K   5
 |                                   |
-4   .   .   .   .   .   .   .   K   4
+4   .   .   .   .   .   .   .  -Q   4
 |                                   |
 3   .   .   .   .   .   .   .   .   3
 |                                   |
-2   P   P   P   P   .   P   P   P   2
+2   P   P   P   P   P   .   .   P   2
 |                                   |
-1   R   S   B   .   .   .   S   R   1
+1   R   S   B   Q   K   B   S   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   pser-hdia10               14 + 14
 
-  1.f7-f5   2.f5-f4   3.f4-f3   4.f3*e2   5.e2*f1=R + Ke1-e2   6.Rf1-e1 + Ke2-f3   7.Re1-e3 + Kf3-f4   8.g7-g5 + Kf4*g5   9.Re3-e5 + Kg5-h4  10.Re5-h5 + Qd1*h5 dia 
+  1.f2-f4   2.f4-f5   3.f5-f6   4.f6*e7   5.e7*f8=R + Ke8-e7   6.Rf8-e8 + Ke7-f6   7.Re8-e6 + Kf6-f5   8.g2-g4 + Kf5*g4   9.Re6-e4 + Kg4-h5  10.Re4-h4 + Qd8*h4 dia 
 
 solution finished. 
 

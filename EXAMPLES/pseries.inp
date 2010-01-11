@@ -80,8 +80,8 @@ next
 
 author Mark Kirtley
 origin StrateGems 47, 2009, no. 9
-pieces white kh4 qh5 ra1h1 bc1 sb1g1 pa2b2c2d2f2g2h2
-       black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d7e7h7
+pieces black kh5 qh4 ra8h8 bc8 sb8g8 pa7b7c7d7f7g7h7
+       white ke1 qd1 ra1h1 bc1f1 sb1g1 pa2b2c2d2e2h2
 stipulation pser-hdia10
 
 next

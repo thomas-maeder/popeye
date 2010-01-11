@@ -2187,8 +2187,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
     }
   }
 
-  else if (strncmp("ser-dia",tok,7) == 0
-           || strncmp("ser-a=>b",tok,8) == 0)
+  else if (strncmp("ser-a=>b",tok,8)==0)
   {
     slice_index next = no_slice;
     tok = ParseEnd(tok,nested_branch,&next); /* do *not* skip over "ser-" */
@@ -2204,6 +2203,25 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                     next);
 
       slices[next].starter = White;
+    }
+  }
+
+  else if (strncmp("ser-dia",tok,7)==0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok,nested_branch,&next); /* do *not* skip over "ser-" */
+    /* special treatment: leaf always has type==STLeafDirect */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+        *si = alloc_series_branch_next_same_starter(level,
+                                                    length,min_length,
+                                                    next);
+
+      slices[*si].starter = White;
     }
   }
 
@@ -2256,6 +2274,25 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         }
 
         slices[next].starter = Black;
+      }
+    }
+  }
+
+  else if (strncmp("ser-hdia",tok,8) == 0)
+  {
+    slice_index next = no_slice;
+    tok = ParseEnd(tok+4,nested_branch,&next); /* skip over "ser-" */
+    if (tok!=0 && next!=no_slice)
+    {
+      stip_length_type length;
+      stip_length_type min_length;
+      result = ParseLength(tok,STBranchSeries,&length,&min_length);
+      if (result!=0)
+      {
+        *si = alloc_series_branch_next_other_starter(level,
+                                                     length+1,min_length,
+                                                     next);
+        slices[*si].starter = White;
       }
     }
   }
@@ -2431,7 +2468,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         else
           *si = alloc_help_branch(level,length,min_length,next);
 
-        slices[next].starter = (length-slack_length_help)%2==0 ? White : Black;
+        slices[*si].starter = White;
       }
     }
   }
