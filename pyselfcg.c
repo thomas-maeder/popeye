@@ -627,7 +627,7 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   /* prevent double insertion if .next has more than one predecessor
    */
   assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
-  pipe_insert_before(slices[si].u.pipe.next);
+  pipe_insert_after(si);
   init_selfcheck_guard_slice(slices[si].u.pipe.next);
   slice_traverse_children(slices[si].u.pipe.next,st);
 
@@ -648,18 +648,19 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
-
   {
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const next_next = slices[next].u.pipe.next;
+    slice_index const inverter = slices[si].u.pipe.next;
+    slice_index const parrying = slices[si].u.pipe.u.parry_fork.parrying;
 
-    assert(slices[next].type==STMoveInverter);
-    assert(slices[next_next].type==STSelfCheckGuard);
+    pipe_insert_after(parrying);
+    init_selfcheck_guard_slice(slices[parrying].u.pipe.next);
 
-    /* no need to test for check again; the STParryFork has just found
-     * out that there is no check if we take this path! */
-    slices[next].u.pipe.next = slices[next_next].u.pipe.next;
+    /* circumvent STMoveInverter to prevent it from creating a
+     * STSelfCheckGuard; if we take this path, we already know that
+     * there is no check!
+     */
+    assert(slices[inverter].type==STMoveInverter);
+    slice_traverse_children(inverter,st);
   }
 
   TraceFunctionExit(__func__);
