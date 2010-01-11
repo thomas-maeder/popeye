@@ -463,7 +463,7 @@ boolean series_root_solve(slice_index root)
   stip_length_type len = (OptFlag[restart]
                           ? full_length
                           : slices[root].u.pipe.u.help_root.min_length);
-  slice_index const fork = branch_find_slice(STBranchFork,root);
+  slice_index const short_sols = slices[root].u.pipe.u.help_root.short_sols;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -474,7 +474,6 @@ boolean series_root_solve(slice_index root)
   TraceValue("%u",slices[root].u.pipe.u.help_root.min_length);
   TraceValue("%u\n",slices[root].u.pipe.u.help_root.length);
 
-  assert(fork!=no_slice);
   assert(slices[root].u.pipe.u.help_root.min_length>=slack_length_series);
 
   move_generation_mode = move_generation_not_optimized;
@@ -492,7 +491,7 @@ boolean series_root_solve(slice_index root)
     }
     else
     {
-      if (series_solve_in_n(fork,len))
+      if (series_solve_in_n(short_sols,len))
         result = true;
     }
 
