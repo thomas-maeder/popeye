@@ -2382,6 +2382,19 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
     }
   }
 
+  else if (strncmp("phser-",tok,6) == 0)
+  {
+    result = ParsePlay(tok+2,level,si); /* skip over ph */
+    if (result!=0)
+    {
+      slice_index const help = alloc_branch_h_slice(slack_length_help+1,
+                                                    slack_length_help+1,
+                                                    no_slice,
+                                                    no_slice);
+      convert_to_parry_series_branch(*si,help);
+    }
+  }
+
   else if (strncmp("pser-h",tok,6) == 0)
   {
     result = ParsePlay(tok+1,level,si);
