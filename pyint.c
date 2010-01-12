@@ -3194,7 +3194,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,                  /* STDirectHashed */
   &goalreachable_guards_inserter_branch,     /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpHashed */
-  &goalreachable_guards_inserter_branch,     /* STSeriesRoot */
+  &slice_traverse_children,                  /* STSeriesRoot */
   &goalreachable_guards_inserter_parry_fork, /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
   &slice_traverse_children,                  /* STSelfCheckGuard */

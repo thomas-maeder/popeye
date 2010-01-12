@@ -2546,11 +2546,9 @@ boolean insert_hash_element_series_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* First traverse childen, then insert STHelpHashed slice;
-   * otherwise the STHelpHashed will be traversed as well.
-   */
   *level = nested_branch;
-  slice_traverse_children(si,st);
+  /* bypass the root STBranchSeries slice; it doesn't need hashing */
+  slice_traverse_children(slices[si].u.pipe.next,st);
   traverse_slices(towards_goal,st);
   *level = save_level;
 

@@ -688,7 +688,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STDirectHashed */
   &selfcheck_guards_inserter_branch,        /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpHashed */
-  &selfcheck_guards_inserter_branch,        /* STSeriesRoot */
+  &slice_traverse_children,                 /* STSeriesRoot */
   &selfcheck_guards_inserter_parry_fork,    /* STParryFork */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_operation_noop,                    /* STSelfCheckGuard */

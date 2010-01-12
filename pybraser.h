@@ -110,11 +110,4 @@ boolean series_root_solve(slice_index si);
  */
 has_solution_type series_root_has_solution(slice_index si);
 
-/* Solve a branch in exactly n moves at root level
- * @param si slice index
- * @param n exact exact number of moves
- * @return true iff >=1 solution was found
- */
-boolean series_root_solve_in_n(slice_index si, stip_length_type n);
-
 #endif

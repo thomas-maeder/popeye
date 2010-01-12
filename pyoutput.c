@@ -549,8 +549,7 @@ static void linesolution(void)
     TraceValue("%u\n",active_slice[current_ply]);
     if (slice!=active_slice[current_ply])
     {
-      if ((slices[slice].type==STBranchSeries
-           || slices[slice].type==STSeriesRoot)
+      if (slices[slice].type==STBranchSeries
           && slices[active_slice[current_ply]].type==STBranchSeries
           && trait[current_ply-1]!=trait[current_ply])
       {

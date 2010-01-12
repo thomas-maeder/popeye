@@ -424,29 +424,6 @@ slice_index series_root_shorten_series_play(slice_index root)
   return result;
 }
 
-/* Solve a composite slice with series play at root level
- * @param root slice index
- * @param n exact number of moves to reach the end state
- * @return true iff >= 1 solution was found
- */
-boolean series_root_solve_in_n(slice_index root, stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n==slices[root].u.pipe.u.help_root.length);
-  result = branch_ser_solve_in_n(root,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a branch slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -460,6 +437,7 @@ boolean series_root_solve(slice_index root)
                           ? full_length
                           : slices[root].u.pipe.u.help_root.min_length);
   slice_index const short_sols = slices[root].u.pipe.u.help_root.short_sols;
+  slice_index const next = slices[root].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -500,9 +478,9 @@ boolean series_root_solve(slice_index root)
     FlagShortSolsReached = true;
   }
   else if (isIntelligentModeActive)
-    result = Intelligent(root,full_length,full_length);
+    result = Intelligent(next,full_length,full_length);
   else
-    result = branch_ser_solve_in_n(root,full_length);
+    result = series_solve_in_n(next,full_length);
 
   if (OptFlag[maxsols] && solutions>=maxsolutions)
     /* signal maximal number of solutions reached to outer world */
@@ -525,6 +503,8 @@ has_solution_type series_root_has_solution(slice_index si)
   has_solution_type result = has_no_solution;
   stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
   stip_length_type len = slices[si].u.pipe.u.help_root.min_length;
+  slice_index const short_sols = slices[si].u.pipe.u.help_root.short_sols;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -532,11 +512,14 @@ has_solution_type series_root_has_solution(slice_index si)
 
   assert(full_length>=slack_length_series);
 
-  while (len<=full_length && result==has_no_solution)
+  while (len<full_length && result==has_no_solution)
   {
-    branch_ser_has_solution_in_n(si,len);
+    result = series_has_solution_in_n(short_sols,len);
     ++len;
   }
+
+  if (result==has_no_solution)
+    result = series_has_solution_in_n(next,len);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -571,11 +554,16 @@ alloc_toplevel_series_branch_next_other_starter(stip_length_type length,
                                                      no_slice,towards_goal);
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       fork,towards_goal);
+    slice_index const inverter = alloc_move_inverter_slice(branch);
+
+    slice_index const root_branch = alloc_branch_ser_slice(length,min_length,
+                                                           fork,towards_goal);
     slice_index const root = alloc_series_root_slice(length,min_length,
-                                                     fork,towards_goal,
+                                                     root_branch,towards_goal,
                                                      branch);
+    slices[fork].u.pipe.next = inverter;
+
     shorten_series_pipe(branch);
-    slices[fork].u.pipe.next = alloc_move_inverter_slice(branch);
 
     result = root;
   }
@@ -688,8 +676,11 @@ alloc_toplevel_series_branch_next_same_starter(stip_length_type length,
     slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
                                                      branch,towards_goal);
     slice_index const inverter = alloc_move_inverter_slice(fork);
+    slice_index const root_branch = alloc_branch_ser_slice(length,min_length,
+                                                           inverter,
+                                                           towards_goal);
     slice_index const root = alloc_series_root_slice(length,min_length,
-                                                     inverter,towards_goal,
+                                                     root_branch,towards_goal,
                                                      fork);
 
     slices[branch].u.pipe.next = inverter;

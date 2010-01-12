@@ -1,6 +1,6 @@
 #include "pyintslv.h"
 #include "pybrah.h"
-#include "pybraser.h"
+#include "pyseries.h"
 #include "pyquodli.h"
 #include "pymovein.h"
 #include "trace.h"
@@ -25,10 +25,6 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
   {
     case STHelpRoot:
       help_root_solve_in_n(si,n);
-      break;
-
-    case STSeriesRoot:
-      series_root_solve_in_n(si,n);
       break;
 
     case STBranchSeries:

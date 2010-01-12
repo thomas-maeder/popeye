@@ -1379,7 +1379,7 @@ static slice_operation const starter_detectors[] =
   0,                                      /* STDirectHashed */
   &branch_h_detect_starter,               /* STHelpRoot */
   0,                                      /* STHelpHashed */
-  &branch_ser_detect_starter,             /* STSeriesRoot */
+  &pipe_detect_starter,                   /* STSeriesRoot */
   &pipe_detect_starter,                   /* STParryFork */
   0,                                      /* STSeriesHashed */
   0,                                      /* STSelfCheckGuard */
@@ -1433,7 +1433,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,           /* STDirectHashed */
   &pipe_impose_inverted_starter,  /* STHelpRoot */
   &pipe_impose_starter,           /* STHelpHashed */
-  &pipe_impose_inverted_starter,  /* STSeriesRoot */
+  &pipe_impose_starter,           /* STSeriesRoot */
   &branch_fork_impose_starter,    /* STParryFork */
   &pipe_impose_starter,           /* STSeriesHashed */
   &pipe_impose_starter,           /* STSelfCheckGuard */
