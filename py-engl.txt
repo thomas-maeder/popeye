@@ -501,9 +501,9 @@ commands expect further parameters. Lets start with the simpler commands:
 						{ep }	    {ep  }
 			   {SER- }   {H }	{#  }	    {#	 }
 			   {PSER-}   {S }	{=  }	    {=	 }
-	{m->} + {EXACT-} + {SEMI-} + {R } + ( + {== } + ) + {==  } + n
-			   {RECI-}   {HS}	{+  }	    {+	 }
-				     {HR}	{Zxy}	    {Zxy }
+	{m->} + {EXACT-} + {PHSER-}+ {R } + ( + {== } + ) + {==  } + n
+			   {SEMI-}   {HS}	{+  }	    {+	 }
+			   {RECI-}   {HR}	{Zxy}	    {Zxy }
 						{x  }	    {x	 }
 						{## }	    {##  }
 						{##!}	    {##! }
@@ -555,6 +555,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	h~1             any helpmove
 	HR#3            helpreflexmate in 3 moves  (= help forced reflexmate)
 	pser-h#6	Parry series helpmate in 6
+	phser-s#6	Parry series selfmate in 6 (parry moves are help moves)
 
 	SEMI is valid only in combination with direct reflex-play.
 
