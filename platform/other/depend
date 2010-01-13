@@ -1,0 +1,1 @@
+platform/other/pytime$(OBJ_SUFFIX): platform/other/pytime.c
