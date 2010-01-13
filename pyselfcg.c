@@ -797,7 +797,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &selfcheck_guards_inserter_toplevel_root,      /* STSeriesRoot */
   0,                                             /* STParryFork */
   0,                                             /* STSeriesHashed */
-  0,                                             /* STSelfCheckGuard */
+  &slice_operation_noop,                         /* STSelfCheckGuard */
   &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefense */
   &selfcheck_guards_inserter_toplevel_reflex_guard, /* STReflexGuard */
   0,                                             /* STSelfAttack */
