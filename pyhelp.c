@@ -43,8 +43,8 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
-    case STBranchFork:
-      result = branch_fork_help_solve_in_n(si,n);
+    case STHelpFork:
+      result = help_fork_solve_in_n(si,n);
       break;
 
     case STHelpHashed:
@@ -189,8 +189,8 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = branch_h_has_solution_in_n(si,n);
       break;
 
-    case STBranchFork:
-      result = branch_fork_help_has_solution_in_n(si,n);
+    case STHelpFork:
+      result = help_fork_has_solution_in_n(si,n);
       break;
 
     case STHelpHashed:
@@ -243,8 +243,8 @@ void help_solve_threats_in_n(table threats, slice_index si, stip_length_type n)
       branch_h_solve_threats_in_n(threats,si,n);
       break;
 
-    case STBranchFork:
-      branch_fork_help_solve_threats_in_n(threats,si,n);
+    case STHelpFork:
+      help_fork_solve_threats_in_n(threats,si,n);
       break;
 
     case STHelpHashed:

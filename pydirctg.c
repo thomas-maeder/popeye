@@ -453,8 +453,9 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,                            /* STBranchDirect */
   &direct_guards_inserter_branch_direct_defender,    /* STBranchDirectDefender */
   &slice_traverse_children,                            /* STBranchHelp */
+  0,                                                   /* STBHelpFork */
   &slice_traverse_children,                            /* STBranchSeries */
-  0,                                                   /* STBranchFork */
+  0,                                                   /* STSeriesFork */
   &slice_operation_noop,                               /* STLeafDirect */
   &slice_operation_noop,                               /* STLeafHelp */
   &slice_operation_noop,                               /* STLeafForced */

@@ -2093,8 +2093,9 @@ static slice_operation const to_toplevel_promoters[] =
   0,                                     /* STBranchDirect */
   0,                                     /* STBranchDirectDefender */
   &to_toplevel_promoters_branch_help,    /* STBranchHelp */
+  &slice_traverse_children,              /* STHelpFork */
   &to_toplevel_promoters_branch_series,  /* STBranchSeries */
-  &slice_traverse_children,              /* STBranchFork */
+  &slice_traverse_children,              /* STSeriesFork */
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
   &slice_operation_noop,                 /* STLeafForced */

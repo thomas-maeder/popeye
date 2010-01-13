@@ -101,7 +101,7 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
     slice_index const branch = slices[inverter].u.pipe.next;
     assert(inverter!=no_slice);
     assert(slices[branch].type==STBranchSeries
-           || slices[branch].type==STBranchFork);
+           || slices[branch].type==STSeriesFork);
     slices[parrying].u.pipe.next = branch;
     pipe_insert_before(inverter);
     init_parry_fork(inverter,slices[inverter].u.pipe.next,parrying);

@@ -369,7 +369,7 @@ static void shorten_setplay_root_branch(slice_index root)
     slice_index const branch1 = slices[fork].u.pipe.next;
     slice_index const selfcheck2 = slices[branch1].u.pipe.next;
     assert(slices[selfcheck1].type==STSelfCheckGuard);
-    assert(slices[fork].type==STBranchFork);
+    assert(slices[fork].type==STHelpFork);
     assert(slices[branch1].type==STBranchHelp);
     assert(slices[selfcheck2].type==STSelfCheckGuard);
     slices[root].u.pipe.next = selfcheck2;
@@ -429,7 +429,7 @@ static void shorten_root_branch(slice_index root)
   {
     slice_index const branch1 = slices[root].u.pipe.next;
     slice_index const fork = slices[branch1].u.pipe.next;
-    assert(slices[fork].type==STBranchFork);
+    assert(slices[fork].type==STHelpFork);
     assert(slices[branch1].type==STBranchHelp);
     slices[root].u.pipe.next = fork;
     slices[root].u.pipe.u.help_root.short_sols = slices[fork].u.pipe.next;
@@ -449,7 +449,7 @@ static void shorten_root_branch(slice_index root)
     slice_index const fork = slices[root].u.pipe.next;
     slice_index const branch1 = slices[fork].u.pipe.next;
     slice_index const branch2 = slices[branch1].u.pipe.next;
-    assert(slices[fork].type==STBranchFork);
+    assert(slices[fork].type==STHelpFork);
     assert(slices[branch1].type==STBranchHelp);
     assert(slices[branch2].type==STBranchHelp);
     slices[root].u.pipe.next = branch2;
@@ -650,8 +650,8 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
 
   if (length%2==0)
   {
-    slice_index const fork = alloc_branch_fork_slice(length-2,min_length-2,
-                                                     no_slice,towards_goal);
+    slice_index const fork = alloc_help_fork_slice(length-2,min_length-2,
+                                                   no_slice,towards_goal);
     if (length-slack_length_help==2)
     {
       slice_index const branch = alloc_branch_h_slice(length,min_length,
@@ -676,8 +676,8 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
   }
   else
   {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
-                                                     no_slice,towards_goal);
+    slice_index const fork = alloc_help_fork_slice(length-1,min_length-1,
+                                                   no_slice,towards_goal);
     if (length-slack_length_help==1)
       result = alloc_help_root_slice(length,min_length,
                                      fork,towards_goal,no_slice);
@@ -724,8 +724,8 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
 
   if (length%2==0)
   {
-    slice_index const fork = alloc_branch_fork_slice(length-2,min_length-2,
-                                                     no_slice,towards_goal);
+    slice_index const fork = alloc_help_fork_slice(length-2,min_length-2,
+                                                   no_slice,towards_goal);
     slice_index const branch = alloc_branch_h_slice(length,min_length,
                                                     fork,towards_goal);
     result = alloc_branch_h_slice(length,min_length,
@@ -738,8 +738,8 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
   }
   else
   {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
-                                                     no_slice,towards_goal);
+    slice_index const fork = alloc_help_fork_slice(length-1,min_length-1,
+                                                   no_slice,towards_goal);
     if (length-slack_length_help==1)
       result = alloc_branch_h_slice(length,min_length,fork,towards_goal);
     else

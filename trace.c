@@ -206,7 +206,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDirectDefense:
       case STSelfAttack:
       case STSelfDefense:
-      case STBranchFork:
+      case STHelpFork:
+      case STSeriesFork:
       case STHelpHashed:
       case STSeriesHashed:
         fprintf(stdout,"%u/",slices[si].u.pipe.u.branch.length);

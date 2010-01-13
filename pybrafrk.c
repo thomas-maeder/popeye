@@ -10,12 +10,44 @@
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STBranchFork slice.
+/* Allocate a STHelpFork slice.
  * @param next identifies next slice
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_branch_fork_slice(stip_length_type length,
+slice_index alloc_help_fork_slice(stip_length_type length,
+                                  stip_length_type min_length,
+                                  slice_index next,
+                                  slice_index towards_goal)
+{
+  slice_index const result = alloc_slice_index();
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParamListEnd();
+
+  slices[result].type = STHelpFork;
+  slices[result].starter = slices[towards_goal].starter;
+  slices[result].u.pipe.next = next;
+  slices[result].u.pipe.u.branch.length = length;
+  slices[result].u.pipe.u.branch.min_length = min_length;
+  slices[result].u.pipe.u.branch.towards_goal = towards_goal;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STSeriesFork slice.
+ * @param next identifies next slice
+ * @param towards_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
                                     slice_index next,
                                     slice_index towards_goal)
@@ -29,7 +61,7 @@ slice_index alloc_branch_fork_slice(stip_length_type length,
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STBranchFork;
+  slices[result].type = STSeriesFork;
   slices[result].starter = slices[towards_goal].starter;
   slices[result].u.pipe.next = next;
   slices[result].u.pipe.u.branch.length = length;
@@ -50,7 +82,7 @@ slice_index alloc_branch_fork_slice(stip_length_type length,
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean branch_fork_help_solve_in_n(slice_index si, stip_length_type n)
+boolean help_fork_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
 
@@ -77,7 +109,7 @@ boolean branch_fork_help_solve_in_n(slice_index si, stip_length_type n)
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean branch_fork_help_has_solution_in_n(slice_index si, stip_length_type n)
+boolean help_fork_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -106,9 +138,9 @@ boolean branch_fork_help_has_solution_in_n(slice_index si, stip_length_type n)
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void branch_fork_help_solve_threats_in_n(table threats,
-                                         slice_index si,
-                                         stip_length_type n)
+void help_fork_solve_threats_in_n(table threats,
+                                  slice_index si,
+                                  stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -137,7 +169,7 @@ void branch_fork_help_solve_threats_in_n(table threats,
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean branch_fork_series_solve_in_n(slice_index si, stip_length_type n)
+boolean series_fork_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -166,7 +198,7 @@ boolean branch_fork_series_solve_in_n(slice_index si, stip_length_type n)
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean branch_fork_series_has_solution_in_n(slice_index si,
+boolean series_fork_has_solution_in_n(slice_index si,
                                              stip_length_type n)
 {
   boolean result;
@@ -196,9 +228,9 @@ boolean branch_fork_series_has_solution_in_n(slice_index si,
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void branch_fork_series_solve_threats_in_n(table threats,
-                                           slice_index si,
-                                           stip_length_type n)
+void series_fork_solve_threats_in_n(table threats,
+                                    slice_index si,
+                                    stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -377,8 +409,9 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STBranchDirect */
   &traverse_and_deallocate,             /* STBranchDirectDefender */
   &traverse_and_deallocate,             /* STBranchHelp */
+  &traverse_and_deallocate_branch_fork, /* STHelpFork */
   &traverse_and_deallocate,             /* STBranchSeries */
-  &traverse_and_deallocate_branch_fork, /* STBranchFork */
+  &traverse_and_deallocate_branch_fork, /* STSeriesFork */
   &traverse_and_deallocate_leaf,        /* STLeafDirect */
   &traverse_and_deallocate_leaf,        /* STLeafHelp */
   &traverse_and_deallocate_leaf,        /* STLeafForced */

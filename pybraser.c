@@ -368,7 +368,7 @@ static void shorten_root_branch(slice_index root)
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
-  fork = branch_find_slice(STBranchFork,root);
+  fork = branch_find_slice(STSeriesFork,root);
   branch = slices[fork].u.pipe.next;
   assert(fork!=no_slice);
   assert(slices[branch].type==STBranchSeries);
@@ -550,7 +550,7 @@ alloc_toplevel_series_branch_next_other_starter(stip_length_type length,
   assert(length>slack_length_series);
 
   {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
                                                      no_slice,towards_goal);
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       fork,towards_goal);
@@ -597,7 +597,7 @@ alloc_nested_series_branch_next_other_starter(stip_length_type length,
   assert(length>slack_length_series);
 
   {
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
                                                      no_slice,towards_goal);
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       fork,towards_goal);
@@ -673,7 +673,7 @@ alloc_toplevel_series_branch_next_same_starter(stip_length_type length,
   {
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       no_slice,towards_goal);
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
                                                      branch,towards_goal);
     slice_index const inverter = alloc_move_inverter_slice(fork);
     slice_index const root_branch = alloc_branch_ser_slice(length,min_length,
@@ -720,7 +720,7 @@ alloc_nested_series_branch_next_same_starter(stip_length_type length,
   {
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       no_slice,towards_goal);
-    slice_index const fork = alloc_branch_fork_slice(length-1,min_length-1,
+    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
                                                      branch,towards_goal);
     slice_index const inverter = alloc_move_inverter_slice(fork);
 

@@ -670,8 +670,9 @@ static slice_operation const self_guards_inserters[] =
   &self_guards_inserter_branch_direct,               /* STBranchDirect */
   &self_guards_inserter_branch_direct_defender,      /* STBranchDirectDefender */
   &slice_traverse_children,                          /* STBranchHelp */
+  0,                                                 /* STHelpFork */
   &slice_traverse_children,                          /* STBranchSeries */
-  0,                                                 /* STBranchFork */
+  0,                                                 /* STSeriesFork */
   &slice_operation_noop,                             /* STLeafDirect */
   &slice_operation_noop,                             /* STLeafHelp */
   &slice_traverse_children,                          /* STLeafForced */

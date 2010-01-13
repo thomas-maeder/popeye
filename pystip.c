@@ -31,8 +31,9 @@
   ENUMERATOR(STBranchDirect),      /* M-N moves of direct play */       \
     ENUMERATOR(STBranchDirectDefender),                                 \
     ENUMERATOR(STBranchHelp),      /* M-N moves of help play */         \
+    ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STBranchSeries),    /* M-N moves of series play */       \
-    ENUMERATOR(STBranchFork),      /* decides when play in branch is over */ \
+    ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
                                                                         \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
@@ -110,8 +111,9 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STBranchDirect */
   &mark_reachable_slice, /* STBranchDirectDefender */
   &mark_reachable_slice, /* STBranchHelp */
+  &mark_reachable_slice, /* STHelpFork */
   &mark_reachable_slice, /* STBranchSeries */
-  &mark_reachable_slice, /* STBranchFork */
+  &mark_reachable_slice, /* STSeriesFork */
   &mark_reachable_slice, /* STLeafDirect */
   &mark_reachable_slice, /* STLeafHelp */
   &mark_reachable_slice, /* STLeafForced */
@@ -465,8 +467,9 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STBranchDirect */
   &get_max_nr_moves_direct_defender, /* STBranchDirectDefender */
   &get_max_nr_moves_branch,          /* STBranchHelp */
+  &get_max_nr_moves_branch_fork,     /* STHelpFork */
   &get_max_nr_moves_branch,          /* STBranchSeries */
-  &get_max_nr_moves_branch_fork,     /* STBranchFork */
+  &get_max_nr_moves_branch_fork,     /* STSeriesFork */
   &get_max_nr_moves_leaf,            /* STLeafDirect */
   &get_max_nr_moves_leaf,            /* STLeafHelp */
   &get_max_nr_moves_leaf,            /* STLeafForced */
@@ -556,8 +559,9 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STBranchSeries */
-  &slice_traverse_children, /* STBranchFork */
+  &slice_traverse_children, /* STSeriesFork */
   &find_unique_goal_leaf,   /* STLeafDirect */
   &find_unique_goal_leaf,   /* STLeafHelp */
   &find_unique_goal_leaf,   /* STLeafForced */
@@ -647,8 +651,9 @@ static void deep_copy_recursive(slice_index *si, copies_type *copies)
       case STBranchDirect:
       case STBranchDirectDefender:
       case STBranchHelp:
+      case STHelpFork:
       case STBranchSeries:
-      case STBranchFork:
+      case STSeriesFork:
       case STDirectRoot:
       case STDirectDefenderRoot:
       case STSeriesRoot:
@@ -752,8 +757,9 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STBranchDirect */
   &slice_traverse_children,   /* STBranchDirectDefender */
   &slice_traverse_children,   /* STBranchHelp */
+  &slice_traverse_children,   /* STHelpFork */
   &slice_traverse_children,   /* STBranchSeries */
-  &slice_traverse_children,   /* STBranchFork */
+  &slice_traverse_children,   /* STSeriesFork */
   &slice_operation_noop,      /* STLeafDirect */
   &make_leaf_direct,          /* STLeafHelp */
   &make_leaf_direct,          /* STLeafForced */
@@ -900,8 +906,9 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,                       /* STBranchDirect */
   &transform_to_quodlibet_branch_direct_defender, /* STBranchDirectDefender */
   0,                                              /* STBranchHelp */
+  &transform_to_quodlibet_branch_fork,            /* STHelpFork */
   &slice_traverse_children,                       /* STBranchSeries */
-  &transform_to_quodlibet_branch_fork,            /* STBranchFork */
+  &transform_to_quodlibet_branch_fork,            /* STSeriesFork */
   &slice_operation_noop,                          /* STLeafDirect */
   &slice_operation_noop,                          /* STLeafHelp */
   &slice_operation_noop,                          /* STLeafForced */
@@ -956,8 +963,9 @@ static slice_operation const to_postkey_play_reducers[] =
   0,                                              /* STBranchDirect */
   0,                                              /* STBranchDirectDefender */
   0,                                              /* STBranchHelp */
+  0,                                              /* STHelpFork */
   0,                                              /* STBranchSeries */
-  0,                                              /* STBranchFork */
+  0,                                              /* STSeriesFork */
   0,                                              /* STLeafDirect */
   0,                                              /* STLeafHelp */
   0,                                              /* STLeafForced */
@@ -1024,8 +1032,9 @@ static slice_operation const setplay_makers[] =
   0,                                          /* STBranchDirect */
   0,                                          /* STBranchDirectDefender */
   0,                                          /* STBranchHelp */
+  0,                                          /* STHelpFork */
   0,                                          /* STBranchSeries */
-  0,                                          /* STBranchFork */
+  0,                                          /* STSeriesFork */
   0,                                          /* STLeafDirect */
   0,                                          /* STLeafHelp */
   0,                                          /* STLeafForced */
@@ -1162,8 +1171,9 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STBranchSeries */
-  &slice_traverse_children, /* STBranchFork */
+  &slice_traverse_children, /* STSeriesFork */
   &leaf_ends_only_in,       /* STLeafDirect */
   &leaf_ends_only_in,       /* STLeafHelp */
   &leaf_ends_only_in,       /* STLeafForced */
@@ -1241,8 +1251,9 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STBranchDirect */
   &slice_traverse_children,   /* STBranchDirectDefender */
   &slice_traverse_children,   /* STBranchHelp */
+  &slice_traverse_children,   /* STHelpFork */
   &slice_traverse_children,   /* STBranchSeries */
-  &slice_traverse_children,   /* STBranchFork */
+  &slice_traverse_children,   /* STSeriesFork */
   &slice_ends_in_one_of_leaf, /* STLeafDirect */
   &slice_ends_in_one_of_leaf, /* STLeafHelp */
   &slice_ends_in_one_of_leaf, /* STLeafForced */
@@ -1313,8 +1324,9 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STBranchDirect */
   &make_exact_branch,       /* STBranchDirectDefender */
   &make_exact_branch,       /* STBranchHelp */
+  &make_exact_branch,       /* STHelpFork */
   &make_exact_branch,       /* STBranchSeries */
-  &make_exact_branch,       /* STBranchFork */
+  &make_exact_branch,       /* STSeriesFork */
   &slice_traverse_children, /* STLeafDirect */
   &slice_traverse_children, /* STLeafHelp */
   &slice_traverse_children, /* STLeafForced */
@@ -1365,8 +1377,9 @@ static slice_operation const starter_detectors[] =
   &branch_d_detect_starter,               /* STBranchDirect */
   0,                                      /* STBranchDirectDefender */
   &branch_h_detect_starter,               /* STBranchHelp */
+  &branch_fork_detect_starter,            /* STHelpFork */
   &branch_ser_detect_starter,             /* STBranchSeries */
-  &branch_fork_detect_starter,            /* STBranchFork */
+  &branch_fork_detect_starter,            /* STSeriesFork */
   &leaf_d_detect_starter,                 /* STLeafDirect */
   &leaf_h_detect_starter,                 /* STLeafHelp */
   &leaf_forced_detect_starter,            /* STLeafForced */
@@ -1419,8 +1432,9 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STBranchDirect */
   &pipe_impose_inverted_starter,  /* STBranchDirectDefender */
   &pipe_impose_inverted_starter,  /* STBranchHelp */
+  &branch_fork_impose_starter,    /* STHelpFork */
   &pipe_impose_inverted_starter,  /* STBranchSeries */
-  &branch_fork_impose_starter,    /* STBranchFork */
+  &branch_fork_impose_starter,    /* STSeriesFork */
   &leaf_impose_starter,           /* STLeafDirect */
   &leaf_impose_starter,           /* STLeafHelp */
   &leaf_impose_starter,           /* STLeafForced */
@@ -1689,8 +1703,9 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STBranchDirect */
   &traverse_pipe,         /* STBranchDirectDefender */
   &traverse_pipe,         /* STBranchHelp */
+  &traverse_branch_fork,  /* STHelpFork */
   &traverse_pipe,         /* STBranchSeries */
-  &traverse_branch_fork,  /* STBranchFork */
+  &traverse_branch_fork,  /* STSeriesFork */
   &slice_operation_noop,  /* STLeafDirect */
   &slice_operation_noop,  /* STLeafHelp */
   &slice_operation_noop,  /* STLeafForced */

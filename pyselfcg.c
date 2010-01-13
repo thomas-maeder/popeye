@@ -674,8 +674,9 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_branch,        /* STBranchDirect */
   &selfcheck_guards_inserter_branch_direct_defender, /* STBranchDirectDefender */
   &selfcheck_guards_inserter_branch,        /* STBranchHelp */
+  &slice_traverse_children,                 /* STHelpFork */
   &selfcheck_guards_inserter_branch,        /* STBranchSeries */
-  &slice_traverse_children,                 /* STBranchFork */
+  &slice_traverse_children,                 /* STSeriesFork */
   &slice_operation_noop,                    /* STLeafDirect */
   &slice_operation_noop,                    /* STLeafHelp */
   &slice_operation_noop,                    /* STLeafForced */
@@ -778,8 +779,9 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STBranchDirect */
   0,                                             /* STBranchDirectDefender */
   0,                                             /* STBranchHelp */
+  0,                                             /* STHelpFork */
   0,                                             /* STBranchSeries */
-  0,                                             /* STBranchFork */
+  0,                                             /* STSeriesFork */
   &selfcheck_guards_inserter_toplevel_leaf,      /* STLeafDirect */
   &selfcheck_guards_inserter_toplevel_leaf,      /* STLeafHelp */
   &selfcheck_guards_inserter_toplevel_leaf,      /* STLeafForced */

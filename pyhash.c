@@ -284,8 +284,9 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STBranchDirect */
   &slice_property_offset_shifter, /* STBranchDirectDefender */
   &slice_property_offset_shifter, /* STBranchHelp */
+  &slice_property_offset_shifter, /* STHelpFork */
   &slice_property_offset_shifter, /* STBranchSeries */
-  &slice_property_offset_shifter, /* STBranchFork */
+  &slice_property_offset_shifter, /* STSeriesFork */
   &slice_property_offset_shifter, /* STLeafDirect */
   &slice_property_offset_shifter, /* STLeafHelp */
   &slice_property_offset_shifter, /* STLeafForced */
@@ -733,8 +734,9 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STBranchDirect */
   &init_slice_properties_pipe,           /* STBranchDirectDefender */
   &init_slice_properties_pipe,           /* STBranchHelp */
+  &init_slice_properties_branch_fork,    /* STHelpFork */
   &init_slice_properties_pipe,           /* STBranchSeries */
-  &init_slice_properties_branch_fork,    /* STBranchFork */
+  &init_slice_properties_branch_fork,    /* STSeriesFork */
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
   &slice_operation_noop,                 /* STLeafForced */

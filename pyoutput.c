@@ -148,8 +148,9 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_treemode,      /* STBranchDirect */
   &output_mode_treemode,      /* STBranchDirectDefender */
   &output_mode_linemode,      /* STBranchHelp */
+  &slice_traverse_children,   /* STHelpFork */
   &output_mode_linemode,      /* STBranchSeries */
-  &slice_traverse_children,   /* STBranchFork */
+  &slice_traverse_children,   /* STSeriesFork */
   &output_mode_treemode,      /* STLeafDirect */
   &output_mode_linemode,      /* STLeafHelp */
   &output_mode_linemode,      /* STLeafForced */

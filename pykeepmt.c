@@ -578,8 +578,9 @@ static slice_operation const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_branch,      /* STBranchDirect */
   &keepmating_guards_inserter_branch,      /* STBranchDirectDefender */
   &keepmating_guards_inserter_branch,      /* STBranchHelp */
+  &keepmating_guards_inserter_branch_fork, /* STHelpFork */
   &slice_traverse_children,                /* STBranchSeries */
-  &keepmating_guards_inserter_branch_fork, /* STBranchFork */
+  &keepmating_guards_inserter_branch_fork, /* STSeriesFork */
   &keepmating_guards_inserter_leaf,        /* STLeafDirect */
   &keepmating_guards_inserter_leaf,        /* STLeafHelp */
   &keepmating_guards_inserter_leaf,        /* STLeafForced */

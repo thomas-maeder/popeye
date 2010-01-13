@@ -198,8 +198,9 @@ static slice_operation const restart_guards_inserters[] =
   &slice_operation_noop,         /* STBranchDirect */
   &slice_operation_noop,         /* STBranchDirectDefender */
   &slice_operation_noop,         /* STBranchHelp */
+  &slice_operation_noop,         /* STHelpFork */
   &restart_guards_inserter_root, /* STBranchSeries */
-  &slice_operation_noop,         /* STBranchFork */
+  &slice_operation_noop,         /* STSeriesFork */
   &slice_operation_noop,         /* STLeafDirect */
   &slice_operation_noop,         /* STLeafHelp */
   &slice_operation_noop,         /* STLeafForced */

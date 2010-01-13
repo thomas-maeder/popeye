@@ -813,8 +813,9 @@ static slice_operation const reflex_guards_inserters[] =
   &reflex_guards_inserter_branch,      /* STBranchDirect */
   &reflex_guards_inserter_branch,      /* STBranchDirectDefender */
   &reflex_guards_inserter_branch,      /* STBranchHelp */
+  &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &reflex_guards_inserter_series,      /* STBranchSeries */
-  &reflex_guards_inserter_branch_fork, /* STBranchFork */
+  &reflex_guards_inserter_branch_fork, /* STSeriesFork */
   &slice_operation_noop,               /* STLeafDirect */
   &slice_operation_noop,               /* STLeafHelp */
   &slice_operation_noop,               /* STLeafForced */
@@ -913,8 +914,9 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &reflex_guards_inserter_branch_semi, /* STBranchDirect */
   &reflex_guards_inserter_branch,      /* STBranchDirectDefender */
   &reflex_guards_inserter_branch,      /* STBranchHelp */
+  &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &slice_traverse_children,            /* STBranchSeries */
-  &reflex_guards_inserter_branch_fork, /* STBranchFork */
+  &reflex_guards_inserter_branch_fork, /* STSeriesFork */
   &slice_operation_noop,               /* STLeafDirect */
   &slice_operation_noop,               /* STLeafHelp */
   &slice_operation_noop,               /* STLeafForced */

@@ -20,8 +20,9 @@
   ENUMERATOR(STBranchDirect),    /* M-N moves of direct play */         \
     ENUMERATOR(STBranchDirectDefender),                                 \
     ENUMERATOR(STBranchHelp),      /* M-N moves of help play */         \
+    ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STBranchSeries),    /* M-N moves of series play */       \
-    ENUMERATOR(STBranchFork),      /* decides when play in branch is over */ \
+    ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
                                                                         \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \

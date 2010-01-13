@@ -495,8 +495,9 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STBranchDirect */
   0,                                  /* STBranchDirectDefender */
   0,                                  /* STBranchHelp */
+  0,                                  /* STHelpFork */
   0,                                  /* STBranchSeries */
-  0,                                  /* STBranchFork */
+  0,                                  /* STSeriesFork */
   &root_slice_type_found,             /* STLeafDirect */
   &root_slice_type_found,             /* STLeafHelp */
   &root_slice_type_found,             /* STLeafForced */
@@ -2111,7 +2112,8 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
     }
 
-    case STBranchFork:
+    case STHelpFork:
+    case STSeriesFork:
     {
       slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
       result = detect_meaning_of_whitetoplay(to_goal);
@@ -2588,8 +2590,9 @@ static slice_operation const hash_element_inserters[] =
   &insert_hash_element_branch_direct,        /* STBranchDirect */
   &slice_traverse_children,                  /* STBranchDirectDefender */
   &insert_hash_element_branch_help,          /* STBranchHelp */
+  &slice_traverse_children,                  /* STHelpFork */
   &insert_hash_element_branch_series,        /* STBranchSeries */
-  &slice_traverse_children,                  /* STBranchFork */
+  &slice_traverse_children,                  /* STSeriesFork */
   &insert_hash_element_leaf_direct,          /* STLeafDirect */
   &insert_hash_element_leaf_help,            /* STLeafHelp */
   &slice_traverse_children,                  /* STLeafForced */

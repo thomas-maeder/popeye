@@ -281,7 +281,8 @@ boolean slice_root_solve(slice_index si)
       result = selfcheck_guard_root_solve(si);
       break;
 
-    case STBranchFork:
+    case STHelpFork:
+    case STSeriesFork:
       result = branch_fork_root_solve(si);
       break;
 
@@ -364,7 +365,8 @@ has_solution_type slice_has_solution(slice_index si)
     case STSeriesHashed:
       result = series_has_solution(si);
 
-    case STBranchFork:
+    case STHelpFork:
+    case STSeriesFork:
       result = branch_fork_has_solution(si);
       break;
 

@@ -199,7 +199,7 @@ stip_length_type direct_has_solution_in_n(slice_index si,
 
     case STBranchSeries:
     case STSeriesHashed:
-    case STBranchFork:
+    case STSeriesFork:
     {
       stip_length_type const n_ser = n-slack_length_direct+slack_length_series;
       result = series_has_solution_in_n(si,n_ser) ? n : n+2;
@@ -308,7 +308,7 @@ void direct_solve_continuations_in_n(slice_index si,
 
     case STBranchSeries:
     case STSeriesHashed:
-    case STBranchFork:
+    case STSeriesFork:
     {
       stip_length_type const n_ser = n-slack_length_direct+slack_length_series;
       boolean const result = series_solve_in_n(si,n_ser);

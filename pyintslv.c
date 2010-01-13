@@ -29,7 +29,7 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
 
     case STBranchSeries:
     case STSeriesHashed:
-    case STBranchFork:
+    case STSeriesFork:
       series_solve_in_n(si,n);
       break;
 

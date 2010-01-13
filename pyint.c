@@ -2764,7 +2764,7 @@ static boolean init_moves_left_branch_series(slice_index si,
     slice_index const parry_fork = branch_find_slice(STParryFork,si);
     if (parry_fork!=no_slice)
     {
-      slice_index const fork = branch_find_slice(STBranchFork,si);
+      slice_index const fork = branch_find_slice(STSeriesFork,si);
       assert(fork!=no_slice);
       MovesLeft[advers(slices[si].starter)] += n-slack_length_series;
       if (slices[si].starter!=slices[fork].starter)
@@ -2814,8 +2814,9 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STBranchDirect */
   0,                                /* STBranchDirectDefender */
   &init_moves_left_branch_help,     /* STBranchHelp */
+  &init_moves_left_branch_fork,     /* STHelpFork */
   &init_moves_left_branch_series,   /* STBranchSeries */
-  &init_moves_left_branch_fork,     /* STBranchFork */
+  &init_moves_left_branch_fork,     /* STSeriesFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
   &init_moves_left_leaf_help,       /* STLeafHelp */
   0,                                /* STLeafForced */
@@ -2865,6 +2866,12 @@ static void init_moves_left(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STHelpFork:
+    case STSeriesFork:
+    case STSeriesHashed:
+      init_moves_left(slices[si].u.pipe.next,n);
+      break;
+
     case STHelpRoot:
     {
       slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
@@ -2880,11 +2887,6 @@ static void init_moves_left(slice_index si, stip_length_type n)
       break;
     }
 
-    case STBranchFork:
-    case STSeriesHashed:
-      init_moves_left(slices[si].u.pipe.next,n);
-      break;
-
     case STSeriesRoot:
     case STBranchSeries:
     {
@@ -2895,7 +2897,7 @@ static void init_moves_left(slice_index si, stip_length_type n)
         MovesLeft[advers(slices[si].starter)] = 0;
       else
       {
-        slice_index const fork = branch_find_slice(STBranchFork,si);
+        slice_index const fork = branch_find_slice(STSeriesFork,si);
         assert(fork!=no_slice);
         MovesLeft[advers(slices[si].starter)] = n-slack_length_series;
         if (slices[si].starter!=slices[fork].starter)
@@ -3180,8 +3182,9 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STBranchDirect */
   0,                                         /* STBranchDirectDefender */
   &goalreachable_guards_inserter_branch,     /* STBranchHelp */
+  &slice_traverse_children,                  /* STHelpFork */
   &goalreachable_guards_inserter_branch,     /* STBranchSeries */
-  &slice_traverse_children,                  /* STBranchFork */
+  &slice_traverse_children,                  /* STSeriesFork */
   &slice_operation_noop,                     /* STLeafDirect */
   &slice_operation_noop,                     /* STLeafHelp */
   &slice_operation_noop,                     /* STLeafForced */
@@ -3390,8 +3393,9 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STBranchDirect */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
   &intelligent_mode_support_detector_branch_h,   /* STBranchHelp */
+  &slice_traverse_children,                      /* STHelpFork */
   &slice_traverse_children,                      /* STBranchSeries */
-  &slice_traverse_children,                      /* STBranchFork */
+  &slice_traverse_children,                      /* STSeriesFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,       /* STLeafHelp */
   &intelligent_mode_support_none,                /* STLeafForced */
