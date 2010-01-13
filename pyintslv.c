@@ -1,8 +1,6 @@
 #include "pyintslv.h"
 #include "pyhelp.h"
 #include "pyseries.h"
-#include "pyquodli.h"
-#include "pymovein.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -33,14 +31,6 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
     case STSeriesHashed:
     case STSeriesFork:
       series_solve_in_n(si,n);
-      break;
-
-    case STQuodlibet:
-      quodlibet_root_solve_in_n(si,n);
-      break;
-
-    case STMoveInverter:
-      move_inverter_root_solve_in_n(si,n);
       break;
 
     default:
