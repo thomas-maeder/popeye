@@ -556,18 +556,44 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
                                                 slice_traversal *st)
 {
   boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[slices[si].u.pipe.next].type!=STSelfCheckGuard)
+  {
+    pipe_insert_after(si);
+    init_selfcheck_guard_slice(slices[si].u.pipe.next);
+    slice_traverse_children(slices[si].u.pipe.next,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a STSelfCheckGuard slice after a STHelpRoot slice
+ */
+static boolean selfcheck_guards_inserter_help_root(slice_index si,
+                                                   slice_traversal *st)
+{
+  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].type!=STSelfCheckGuard)
+  if (slices[next].type==STBranchHelp)
   {
-    pipe_insert_before(next);
-    init_selfcheck_guard_slice(next);
-    slice_traverse_children(next,st);
+    pipe_insert_before(slices[next].u.pipe.next);
+    init_selfcheck_guard_slice(slices[next].u.pipe.next);
+    slice_traverse_children(slices[next].u.pipe.next,st);
   }
+  else
+    slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -687,7 +713,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_branch,        /* STDirectRoot */
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
-  &selfcheck_guards_inserter_branch,        /* STHelpRoot */
+  &selfcheck_guards_inserter_help_root,     /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpHashed */
   &slice_traverse_children,                 /* STSeriesRoot */
   &selfcheck_guards_inserter_parry_fork,    /* STParryFork */

@@ -80,6 +80,16 @@
 #include "pyenum.h"
 
 
+#define ENUMERATION_TYPENAME branch_level
+#define ENUMERATORS \
+  ENUMERATOR(toplevel_branch),                  \
+    ENUMERATOR(nested_branch)
+
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
+
+
 Slice slices[max_nr_slices];
 
 slice_index root_slice;
@@ -1390,7 +1400,7 @@ static slice_operation const starter_detectors[] =
   &branch_d_detect_starter,               /* STDirectRoot */
   &branch_d_defender_root_detect_starter, /* STDirectDefenderRoot */
   0,                                      /* STDirectHashed */
-  &branch_h_detect_starter,               /* STHelpRoot */
+  &pipe_detect_starter,                   /* STHelpRoot */
   0,                                      /* STHelpHashed */
   &pipe_detect_starter,                   /* STSeriesRoot */
   &pipe_detect_starter,                   /* STParryFork */
@@ -1445,7 +1455,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STDirectRoot */
   &pipe_impose_inverted_starter,  /* STDirectDefenderRoot */
   &pipe_impose_starter,           /* STDirectHashed */
-  &pipe_impose_inverted_starter,  /* STHelpRoot */
+  &pipe_impose_starter,           /* STHelpRoot */
   &pipe_impose_starter,           /* STHelpHashed */
   &pipe_impose_starter,           /* STSeriesRoot */
   &branch_fork_impose_starter,    /* STParryFork */

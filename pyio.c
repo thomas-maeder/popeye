@@ -2055,12 +2055,13 @@ static boolean to_toplevel_promoters_branch_help(slice_index si,
                                                  slice_traversal *st)
 {
   boolean const result = true;
+  slice_index * const result_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch_h_promote_to_toplevel(si);
+  *result_slice = branch_h_promote_to_toplevel(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2075,12 +2076,43 @@ static boolean to_toplevel_promoters_branch_series(slice_index si,
                                                    slice_traversal *st)
 {
   boolean const result = true;
+  slice_index * const result_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch_ser_promote_to_toplevel(si);
+  *result_slice = branch_ser_promote_to_toplevel(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Promote a slice to toplevel that was initialised under the wrong
+ * assumption that it is nested in some other slice
+ */
+static boolean to_toplevel_promoters_fork(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index * const toplevel_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *toplevel_slice = op1;
+  traverse_slices(op1,st);
+  slices[si].u.fork.op1 = *toplevel_slice;
+
+  *toplevel_slice = op2;
+  traverse_slices(op2,st);
+  slices[si].u.fork.op2 = *toplevel_slice;
+
+  *toplevel_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2099,8 +2131,8 @@ static slice_operation const to_toplevel_promoters[] =
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
   &slice_operation_noop,                 /* STLeafForced */
-  &slice_traverse_children,              /* STReciprocal */
-  &slice_traverse_children,              /* STQuodlibet */
+  &to_toplevel_promoters_fork,           /* STReciprocal */
+  &to_toplevel_promoters_fork,           /* STQuodlibet */
   &slice_traverse_children,              /* STNot */
   &slice_traverse_children,              /* STMoveInverter */
   0,                                     /* STDirectRoot */
@@ -2129,19 +2161,22 @@ static slice_operation const to_toplevel_promoters[] =
  * assumption that it is nested in some other slice
  * @param si identifies slice to be promoted
  */
-static void promote_to_toplevel(slice_index si)
+static slice_index promote_to_toplevel(slice_index si)
 {
   slice_traversal st;
+  slice_index result = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&to_toplevel_promoters,0);
+  slice_traversal_init(&st,&to_toplevel_promoters,&result);
   traverse_slices(si,&st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static char *ParsePlay(char *tok, branch_level level, slice_index *si)
@@ -2430,6 +2465,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
     char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
                                      nested_branch,
                                      &next);
+    TraceValue("%u\n",next);
     if (tok2!=0 && next!=no_slice)
     {
       stip_length_type length;
@@ -2442,12 +2478,14 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         ++min_length;
       if (result!=0)
       {
+        TraceValue("%u\n",length);
         if (length==slack_length_help && min_length==slack_length_help)
         {
           /* we may have speculated wrong: next is not necessarily nested */
           if (level==toplevel_branch)
-            promote_to_toplevel(next);
-          *si = next;
+            *si = promote_to_toplevel(next);
+          else
+            *si = next;
         }
         else
         {
@@ -2671,8 +2709,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
         {
           /* we may have speculated wrong: next is not necessarily nested */
           if (level==toplevel_branch)
-            promote_to_toplevel(next);
-          *si = next;
+            *si = promote_to_toplevel(next);
+          else
+            *si = next;
         }
         else
           *si = alloc_direct_branch(level,length,min_length,next);

@@ -40,9 +40,10 @@ slice_index alloc_series_branch_next_same_starter(branch_level level,
 /* Promote a slice that was created as STBranchSeries to STSeriesRoot
  * because the assumption that the slice is nested in some other slice
  * turned out to be wrong.
- * @param adapter identifies slice to be promoted
+ * @param branch identifies slice to be promoted
+ * @return identifier of toplevel slice
  */
-void branch_ser_promote_to_toplevel(slice_index adapter);
+slice_index branch_ser_promote_to_toplevel(slice_index branch);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

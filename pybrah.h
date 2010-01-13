@@ -39,8 +39,9 @@ slice_index alloc_branch_h_slice(stip_length_type length,
  * because the assumption that the slice is nested in some other slice
  * turned out to be wrong.
  * @param adapter identifies slice to be promoted
+ * @return identifier of toplevel slice
  */
-void branch_h_promote_to_toplevel(slice_index adapter);
+slice_index branch_h_promote_to_toplevel(slice_index adapter);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
@@ -110,12 +111,5 @@ boolean help_root_root_solve(slice_index si);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type help_root_has_solution(slice_index si);
-
-/* Solve a branch in exactly n moves at root level
- * @param si slice index
- * @param n exact exact number of moves
- * @return true iff >=1 solution was found
- */
-boolean help_root_solve_in_n(slice_index si, stip_length_type n);
 
 #endif

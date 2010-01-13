@@ -2638,6 +2638,11 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
 {
   boolean const save_movenbr = OptFlag[movenbr];
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",full_length);
+  TraceFunctionParamListEnd();
+
   ProofInitialiseIntelligent(n);
 
   /* Proof games and a=>b are special because there is only 1 end
@@ -2652,6 +2657,9 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
   intelligent_solvable_root_solve_in_n(current_start_slice,n);
 
   OptFlag[movenbr] = save_movenbr;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Calculate the number of moves of each side
@@ -2867,12 +2875,14 @@ static void init_moves_left(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STHelpFork:
+    case STHelpHashed:
     case STSeriesFork:
     case STSeriesHashed:
+    case STRestartGuard:
       init_moves_left(slices[si].u.pipe.next,n);
       break;
 
-    case STHelpRoot:
+    case STBranchHelp:
     {
       slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
       MovesLeft[Black] = (n-slack_length_help)/2;
@@ -2887,7 +2897,6 @@ static void init_moves_left(slice_index si, stip_length_type n)
       break;
     }
 
-    case STSeriesRoot:
     case STBranchSeries:
     {
       slice_index const parry_fork = branch_find_slice(STParryFork,si);
@@ -3144,8 +3153,11 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
 
   slice_traverse_children(si,st);
 
-  pipe_insert_after(si);
-  init_goalreachable_guard_slice(slices[si].u.pipe.next);
+  if (slices[slices[si].u.pipe.next].type!=STGoalReachableGuard)
+  {
+    pipe_insert_before(slices[si].u.pipe.next);
+    init_goalreachable_guard_slice(slices[si].u.pipe.next);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3195,7 +3207,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STDirectRoot */
   0,                                         /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
-  &goalreachable_guards_inserter_branch,     /* STHelpRoot */
+  &slice_traverse_children,                  /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpHashed */
   &slice_traverse_children,                  /* STSeriesRoot */
   &goalreachable_guards_inserter_parry_fork, /* STParryFork */
@@ -3222,6 +3234,8 @@ void stip_insert_goalreachable_guards(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceStipulation();
 
   slice_traversal_init(&st,&goalreachable_guards_inserters,0);
   traverse_slices(root_slice,&st);

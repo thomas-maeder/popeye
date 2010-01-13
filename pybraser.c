@@ -51,10 +51,12 @@ static slice_index alloc_branch_ser_slice(stip_length_type length,
 /* Promote a slice that was created as STBranchSeries to STSeriesRoot
  * because the assumption that the slice is nested in some other slice
  * turned out to be wrong.
- * @param branch identifies slice to be promoted
+ * @return identifier of toplevel slice
  */
-void branch_ser_promote_to_toplevel(slice_index branch)
+slice_index branch_ser_promote_to_toplevel(slice_index branch)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",branch);
   TraceFunctionParamListEnd();
@@ -62,10 +64,17 @@ void branch_ser_promote_to_toplevel(slice_index branch)
   assert(slices[branch].u.pipe.u.help_root.length-slack_length_series==1);
   assert(slices[branch].type==STBranchSeries);
 
-  slices[branch].type = STSeriesRoot;
+  result = copy_slice(branch);
+  slices[result].type = STSeriesRoot;
+  slices[result].u.pipe.next = copy_slice(branch);
+  slices[result].u.pipe.u.help_root.short_sols = branch;
+  --slices[branch].u.pipe.u.branch.length;
+  --slices[branch].u.pipe.u.branch.min_length;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Detect starter field with the starting side if possible.
@@ -629,7 +638,7 @@ slice_index alloc_series_branch_next_other_starter(branch_level level,
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",level);
+  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",towards_goal);
@@ -751,7 +760,7 @@ slice_index alloc_series_branch_next_same_starter(branch_level level,
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",level);
+  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",towards_goal);

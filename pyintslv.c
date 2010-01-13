@@ -1,5 +1,5 @@
 #include "pyintslv.h"
-#include "pybrah.h"
+#include "pyhelp.h"
 #include "pyseries.h"
 #include "pyquodli.h"
 #include "pymovein.h"
@@ -23,8 +23,10 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STHelpRoot:
-      help_root_solve_in_n(si,n);
+    case STBranchHelp:
+    case STHelpHashed:
+    case STHelpFork:
+      help_solve_in_n(si,n);
       break;
 
     case STBranchSeries:

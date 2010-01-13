@@ -71,7 +71,7 @@ static boolean output_mode_linemode(slice_index si, slice_traversal *st)
   return result;
 }
 
-static boolean output_mode_help_root(slice_index si, slice_traversal *st)
+static boolean output_mode_help_branch(slice_index si, slice_traversal *st)
 {
   boolean result;
   output_mode * const mode = st->param;
@@ -147,7 +147,7 @@ static slice_operation const output_mode_detectors[] =
 {
   &output_mode_treemode,      /* STBranchDirect */
   &output_mode_treemode,      /* STBranchDirectDefender */
-  &output_mode_linemode,      /* STBranchHelp */
+  &output_mode_help_branch,   /* STBranchHelp */
   &slice_traverse_children,   /* STHelpFork */
   &output_mode_linemode,      /* STBranchSeries */
   &slice_traverse_children,   /* STSeriesFork */
@@ -161,7 +161,7 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_treemode,      /* STDirectRoot */
   &output_mode_treemode,      /* STDirectDefenderRoot */
   &output_mode_treemode,      /* STDirectHashed */
-  &output_mode_help_root,     /* STHelpRoot */
+  &output_mode_help_branch,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpHashed */
   &output_mode_series_root,   /* STSeriesRoot */
   &slice_traverse_children,   /* STParryFork */

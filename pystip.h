@@ -146,11 +146,14 @@ typedef struct
 } Slice;
 
 
-typedef enum
-{
-  toplevel_branch,
-  nested_branch
-} branch_level;
+#define ENUMERATION_TYPENAME branch_level
+#define ENUMERATORS \
+  ENUMERATOR(toplevel_branch),                  \
+    ENUMERATOR(nested_branch)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
 
 
 /* slice identification */

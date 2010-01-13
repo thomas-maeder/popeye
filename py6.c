@@ -2457,51 +2457,35 @@ boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
-boolean insert_hash_element_help_root(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-  branch_level * const level = st->param;
-  branch_level const save_level = *level;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* First traverse childen, then insert STHelpHashed slice;
-   * otherwise the STHelpHashed will be traversed as well.
-   */
-  *level = nested_branch;
-  slice_traverse_children(si,st);
-  traverse_slices(towards_goal,st);
-  *level = save_level;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- * @return result of traversing si's children
- */
 boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
+  boolean result;
   slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+  branch_level * const level = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* First traverse childen, then insert STHelpHashed slice;
-   * otherwise the STHelpHashed will be traversed as well.
-   */
-  slice_traverse_children(si,st);
-  insert_helphashed_slice(si);
-  traverse_slices(towards_goal,st);
+  if (*level==nested_branch)
+  {
+    /* First traverse childen, then insert STHelpHashed slice;
+     * otherwise the STHelpHashed will be traversed as well.
+     */
+    slice_traverse_children(si,st);
+    insert_helphashed_slice(si);
+    traverse_slices(towards_goal,st);
+    /* no need to visit this leaf again in this traversal */
+    result = true;
+  }
+  else
+  {
+    *level = nested_branch;
+    slice_traverse_children(si,st);
+    *level = toplevel_branch;
+    /* on the next visit, *level might be ==nested_branch */
+    result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2516,7 +2500,7 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
  */
 boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
+  boolean result;
   branch_level const * const level = st->param;;
 
   TraceFunctionEntry(__func__);
@@ -2524,35 +2508,14 @@ boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   if (*level==nested_branch)
+  {
     insert_helphashed_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- * @return result of traversing si's children
- */
-boolean insert_hash_element_series_root(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-  branch_level * const level = st->param;
-  branch_level const save_level = *level;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *level = nested_branch;
-  /* bypass the root STBranchSeries slice; it doesn't need hashing */
-  slice_traverse_children(slices[si].u.pipe.next,st);
-  traverse_slices(towards_goal,st);
-  *level = save_level;
+    /* no need to visit this leaf again in this traversal */
+    result = true;
+  }
+  else
+    /* on the next visit, *level might be ==nested_branch */
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2567,17 +2530,31 @@ boolean insert_hash_element_series_root(slice_index si, slice_traversal *st)
  */
 boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
+  boolean result;
+  branch_level * const level = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* First traverse childen, then insert STSeriesHashed slice;
-   * otherwise the STSeriesHashed will be traversed as well.
-   */
-  slice_traverse_children(si,st);
-  insert_serieshashed_slice(si);
+  if (*level==nested_branch)
+  {
+    /* First traverse childen, then insert STSeriesHashed slice;
+     * otherwise the STSeriesHashed will be traversed as well.
+     */
+    slice_traverse_children(si,st);
+    insert_serieshashed_slice(si);
+    /* no need to visit this leaf again in this traversal */
+    result = true;
+  }
+  else
+  {
+    *level = nested_branch;
+    slice_traverse_children(si,st);
+    *level = toplevel_branch;
+    /* on the next visit, *level might be ==nested_branch */
+    result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2603,9 +2580,9 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STDirectRoot */
   &insert_hash_element_direct_defender_root, /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
-  &insert_hash_element_help_root,            /* STHelpRoot */
+  &slice_traverse_children,                  /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpHashed */
-  &insert_hash_element_series_root,          /* STSeriesRoot */
+  &slice_traverse_children,                  /* STSeriesRoot */
   &pipe_traverse_next,                       /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
   &slice_traverse_children,                  /* STSelfCheckGuard */
@@ -2629,6 +2606,8 @@ static void insert_hash_slices(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceStipulation();
 
   slice_traversal_init(&st,&hash_element_inserters,&level);
   traverse_slices(root_slice,&st);

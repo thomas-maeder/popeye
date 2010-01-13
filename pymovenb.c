@@ -197,7 +197,7 @@ static slice_operation const restart_guards_inserters[] =
 {
   &slice_operation_noop,         /* STBranchDirect */
   &slice_operation_noop,         /* STBranchDirectDefender */
-  &slice_operation_noop,         /* STBranchHelp */
+  &restart_guards_inserter_root, /* STBranchHelp */
   &slice_operation_noop,         /* STHelpFork */
   &restart_guards_inserter_root, /* STBranchSeries */
   &slice_operation_noop,         /* STSeriesFork */
@@ -211,7 +211,7 @@ static slice_operation const restart_guards_inserters[] =
   &restart_guards_inserter_root, /* STDirectRoot */
   &slice_operation_noop,         /* STDirectDefenderRoot */
   &slice_traverse_children,      /* STDirectHashed */
-  &restart_guards_inserter_root, /* STHelpRoot */
+  &slice_traverse_children,      /* STHelpRoot */
   &slice_traverse_children,      /* STHelpHashed */
   &slice_traverse_children,      /* STSeriesRoot */
   &slice_traverse_children,      /* STParryFork */

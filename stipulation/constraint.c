@@ -826,7 +826,7 @@ static slice_operation const reflex_guards_inserters[] =
   &reflex_guards_inserter_branch,      /* STDirectRoot */
   &reflex_guards_inserter_branch,      /* STDirectDefenderRoot */
   0,                                   /* STDirectHashed */
-  &reflex_guards_inserter_branch,      /* STHelpRoot */
+  &slice_traverse_children,            /* STHelpRoot */
   0,                                   /* STHelpHashed */
   &slice_traverse_children,            /* STSeriesRoot */
   0,                                   /* STParryFork */
@@ -860,6 +860,7 @@ void slice_insert_reflex_guards(slice_index si, slice_index tobeavoided)
   TraceFunctionParam("%u",tobeavoided);
   TraceFunctionParamListEnd();
 
+  root_slice = si;
   TraceStipulation();
 
   param.to_be_avoided[0] = tobeavoided;
