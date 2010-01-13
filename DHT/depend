@@ -1,4 +1,6 @@
-dht$(OBJ_SUFFIX): dht.c ../boolean.h dhtvalue.h fxf.h dht.h ../trace.h
+dht$(OBJ_SUFFIX): dht.c ../boolean.h dhtvalue.h fxf.h dht.h ../trace.h ../py.h \
+  ../boolean.h ../pyposit.h ../pyboard.h ../pybitmsk.h ../pypiece.h \
+  ../pyenum.h ../pylang.h
 
 ../boolean.h:
 
@@ -9,6 +11,22 @@ fxf.h:
 dht.h:
 
 ../trace.h:
+
+../py.h:
+
+../boolean.h:
+
+../pyposit.h:
+
+../pyboard.h:
+
+../pybitmsk.h:
+
+../pypiece.h:
+
+../pyenum.h:
+
+../pylang.h:
 dhtcmem$(OBJ_SUFFIX): dhtcmem.c dhtvalue.h fxf.h dhtcmem.h dht.h
 
 dhtvalue.h:

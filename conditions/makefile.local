@@ -3,4 +3,4 @@
 CFILES = exclusive.c republican.c
 INCLUDES = exclusive.h republican.h
 
-include $(BASEPWD)/makefile.rules
+include $(BASEPWD)/makefile.rules depend

@@ -5,4 +5,4 @@ CFILES = dht.c dhtcmem.c dhtmem.c dhtsimpl.c dhtstrng.c dhtvalue.c dhtbcmem.c \
 	fxf.c
 INCLUDES = dhtbcmem.h dhtcmem.h dht.h dhtmem.h dhtvalue.h fxf.h
 
-include $(BASEPWD)/makefile.rules
+include $(BASEPWD)/makefile.rules depend
