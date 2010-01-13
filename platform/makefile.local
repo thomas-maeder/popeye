@@ -3,4 +3,4 @@
 CFILES = maxmem.c maxtime.c
 INCLUDES = maxmem.h maxtime.h priority.h pytime.h
 
-include $(BASEPWD)/makefile.rules depend
+include makefile.rules $(CURRPWD)depend

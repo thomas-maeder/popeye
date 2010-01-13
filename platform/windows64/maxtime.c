@@ -1,6 +1,6 @@
-#include "../maxtime.h"
-#include "../../boolean.h"
-#include "../../pymsg.h"
+#include "platform/maxtime.h"
+#include "boolean.h"
+#include "pymsg.h"
 
 #include <assert.h>
 #include <limits.h>

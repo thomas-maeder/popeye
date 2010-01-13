@@ -3,4 +3,4 @@
 
 CFILES = pytime.c
 
-include $(BASEPWD)/makefile.rules depend
+include makefile.rules $(CURRPWD)depend

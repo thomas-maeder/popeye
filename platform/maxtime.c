@@ -1,5 +1,5 @@
 #include "maxtime.h"
-#include "../pydata.h"
+#include "pydata.h"
 
 static maxtime_type maxTimeCommandLine = no_time_set;
 

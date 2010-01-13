@@ -272,9 +272,8 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   pyproof.h pymovein.h pybrah.h pyquodli.h pykeepmt.h pyhelp.h pyselfcg.h \
   pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h pypipe.h \
   pyleaf.h trace.h pyoutput.h conditions/exclusive.h boolean.h pyposit.h \
-  conditions/republican.h pyproc.h platform/maxmem.h \
-  platform/../boolean.h platform/maxtime.h platform/pytime.h \
-  platform/priority.h
+  conditions/republican.h pyproc.h platform/maxmem.h platform/maxtime.h \
+  platform/pytime.h platform/priority.h
 
 py.h:
 
@@ -362,8 +361,6 @@ pyproc.h:
 
 platform/maxmem.h:
 
-platform/../boolean.h:
-
 platform/maxtime.h:
 
 platform/pytime.h:
@@ -377,7 +374,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   pythreat.h pyreflxg.h pydirctg.h pyselfgd.h pyint.h \
   stipulation/series_play/parry_fork.h py.h pystip.h pyslice.h \
   conditions/republican.h pyproc.h platform/maxtime.h platform/maxmem.h \
-  platform/../boolean.h trace.h
+  boolean.h trace.h
 
 py.h:
 
@@ -471,7 +468,7 @@ platform/maxtime.h:
 
 platform/maxmem.h:
 
-platform/../boolean.h:
+boolean.h:
 
 trace.h:
 pymsg$(OBJ_SUFFIX): pymsg.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
@@ -515,7 +512,7 @@ pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h pyint.h \
   DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h pybrafrk.h pyhelp.h \
   pyseries.h pynontrv.h pyoutput.h platform/maxtime.h platform/maxmem.h \
-  platform/../boolean.h trace.h
+  boolean.h trace.h
 
 py.h:
 
@@ -579,7 +576,7 @@ platform/maxtime.h:
 
 platform/maxmem.h:
 
-platform/../boolean.h:
+boolean.h:
 
 trace.h:
 pyproof$(OBJ_SUFFIX): pyproof.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \

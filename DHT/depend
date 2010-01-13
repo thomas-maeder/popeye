@@ -1,78 +1,63 @@
-dht$(OBJ_SUFFIX): dht.c ../boolean.h dhtvalue.h fxf.h dht.h ../trace.h ../py.h \
-  ../boolean.h ../pyposit.h ../pyboard.h ../pybitmsk.h ../pypiece.h \
-  ../pyenum.h ../pylang.h
+DHT/dht$(OBJ_SUFFIX): DHT/dht.c boolean.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h trace.h
 
-../boolean.h:
+boolean.h:
 
-dhtvalue.h:
+DHT/dhtvalue.h:
 
-fxf.h:
+DHT/fxf.h:
 
-dht.h:
+DHT/dht.h:
 
-../trace.h:
+trace.h:
+DHT/dhtcmem$(OBJ_SUFFIX): DHT/dhtcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtcmem.h \
+  DHT/dht.h
 
-../py.h:
+DHT/dhtvalue.h:
 
-../boolean.h:
+DHT/fxf.h:
 
-../pyposit.h:
+DHT/dhtcmem.h:
 
-../pyboard.h:
+DHT/dht.h:
+DHT/dhtmem$(OBJ_SUFFIX): DHT/dhtmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtmem.h \
+  DHT/dht.h
 
-../pybitmsk.h:
+DHT/dhtvalue.h:
 
-../pypiece.h:
+DHT/fxf.h:
 
-../pyenum.h:
+DHT/dhtmem.h:
 
-../pylang.h:
-dhtcmem$(OBJ_SUFFIX): dhtcmem.c dhtvalue.h fxf.h dhtcmem.h dht.h
+DHT/dht.h:
+DHT/dhtsimpl$(OBJ_SUFFIX): DHT/dhtsimpl.c DHT/dhtvalue.h DHT/fxf.h
 
-dhtvalue.h:
+DHT/dhtvalue.h:
 
-fxf.h:
+DHT/fxf.h:
+DHT/dhtstrng$(OBJ_SUFFIX): DHT/dhtstrng.c DHT/dhtvalue.h DHT/fxf.h DHT/dht.h
 
-dhtcmem.h:
+DHT/dhtvalue.h:
 
-dht.h:
-dhtmem$(OBJ_SUFFIX): dhtmem.c dhtvalue.h fxf.h dhtmem.h dht.h
+DHT/fxf.h:
 
-dhtvalue.h:
+DHT/dht.h:
+DHT/dhtvalue$(OBJ_SUFFIX): DHT/dhtvalue.c DHT/dhtvalue.h DHT/fxf.h DHT/dht.h
 
-fxf.h:
+DHT/dhtvalue.h:
 
-dhtmem.h:
+DHT/fxf.h:
 
-dht.h:
-dhtsimpl$(OBJ_SUFFIX): dhtsimpl.c dhtvalue.h fxf.h
+DHT/dht.h:
+DHT/dhtbcmem$(OBJ_SUFFIX): DHT/dhtbcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtbcmem.h \
+  DHT/dht.h
 
-dhtvalue.h:
+DHT/dhtvalue.h:
 
-fxf.h:
-dhtstrng$(OBJ_SUFFIX): dhtstrng.c dhtvalue.h fxf.h dht.h
+DHT/fxf.h:
 
-dhtvalue.h:
+DHT/dhtbcmem.h:
 
-fxf.h:
+DHT/dht.h:
+DHT/fxf$(OBJ_SUFFIX): DHT/fxf.c DHT/fxf.h
 
-dht.h:
-dhtvalue$(OBJ_SUFFIX): dhtvalue.c dhtvalue.h fxf.h dht.h
-
-dhtvalue.h:
-
-fxf.h:
-
-dht.h:
-dhtbcmem$(OBJ_SUFFIX): dhtbcmem.c dhtvalue.h fxf.h dhtbcmem.h dht.h
-
-dhtvalue.h:
-
-fxf.h:
-
-dhtbcmem.h:
-
-dht.h:
-fxf$(OBJ_SUFFIX): fxf.c fxf.h
-
-fxf.h:
+DHT/fxf.h:

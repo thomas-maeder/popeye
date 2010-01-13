@@ -1,4 +1,4 @@
-#include "../priority.h"
+#include "platform/priority.h"
 #include <windows.h>
 
 void set_nice_priority()

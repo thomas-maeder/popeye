@@ -1,5 +1,5 @@
 #include "maxmem.h"
-#include "../pyhash.h"
+#include "pyhash.h"
 
 #include <stdio.h>
 #include <stdlib.h>

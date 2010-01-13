@@ -3,4 +3,4 @@
 CFILES = parry_fork.c
 INCLUDES = parry_fork.h
 
-include $(BASEPWD)/makefile.rules depend
+include makefile.rules $(CURRPWD)depend

@@ -4,13 +4,13 @@
 # This file contains make rules valid in all source directories
 
 # derive object files from C files
-OBJECTS = $(CFILES:%.c=%$(OBJ_SUFFIX))
+OBJECTS = $(CFILES:%.c=$(CURRPWD)%$(OBJ_SUFFIX))
 
 # files to be included in distributed archives
-DISTRIBUTEDFILES = $(CFILES) $(INCLUDES) depend $(wildcard makefile.*)
+DISTRIBUTEDFILES = $(CFILES) $(INCLUDES) depend makefile.*
 
 # produce an object file from a C file
-%$(OBJ_SUFFIX):	%.c
+$(CURRPWD)%$(OBJ_SUFFIX):	$(CURRPWD)%.c
 	$(CCTARGET) $(CFLAGS) $(COMPILEONLY) $< $(OBJFILE)$@
 # work around compilers that blindly put objects in the current
 # directory
@@ -19,30 +19,30 @@ DISTRIBUTEDFILES = $(CFILES) $(INCLUDES) depend $(wildcard makefile.*)
 	fi
 
 # produce a library form the object files in the current directory
-library.$(LIB_SUFFIX): $(OBJECTS)
+$(CURRPWD)library.$(LIB_SUFFIX): $(OBJECTS)
 	$(ARCHIVER) $(ARCHIVERFLAGS) $(LIBFILE)$@ $(^:%=$(ADDTOARCHIVE)%)
 	$(ARCHIVE_INDEXER) $@
 
 # produce a library in a nested directory
 %/library.$(LIB_SUFFIX): FORCE	
-	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir @) -C $(dir $@) -f makefile.local $(notdir $@)
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 
 # clean up after ourselves
 clean:	$(NESTED:%=%/clean)
-	rm -f $(OBJECTS) library.$(LIB_SUFFIX) core
+	rm -f $(OBJECTS) $(CURRPWD)library.$(LIB_SUFFIX) $(CURRPWD)core
 
 # clean up after ourselves in a nested directory
 %/clean: FORCE
-	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir @) -C $(dir $@) -f makefile.local clean
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local clean
 
 # generate source file dependencies file
 depend:
 
 ifdef DEPEND
-depend:	$(CFILES) $(INCLUDES) makefile.local
+$(CURRPWD)depend: $(CFILES:%=$(CURRPWD)%) $(INCLUDES:%=$(CURRPWD)%) $(CURRPWD)makefile.local
 	touch $@
 	chmod u+w $@
-	-for f in $(CFILES); \
+	-for f in $(CFILES:%=$(CURRPWD)%); \
 	do \
 		$(MAKEDEPEND) \
 			-MG -MT `echo $$f | sed -e "s/[.]c$$/$(OBJ_SUFFIX)/"` \
@@ -51,10 +51,10 @@ depend:	$(CFILES) $(INCLUDES) makefile.local
 	done > $@
 endif
 
-VERSIONDIR = $(BASEPWD)$(VERSION)/$(CURRPWD)
+VERSIONDIR = $(VERSION)/$(CURRPWD)
 
 $(CURRPWD)sourcedist: FORCE $(VERSIONDIR)
-	-ln $(DISTRIBUTEDFILES) $(VERSIONDIR)
+	ln $(DISTRIBUTEDFILES:%=$(CURRPWD)%) $(VERSIONDIR)
 
 $(VERSIONDIR):
 	mkdir -p $(VERSIONDIR)

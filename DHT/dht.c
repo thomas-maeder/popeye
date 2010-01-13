@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <string.h>
-#include "../boolean.h"
+#include "boolean.h"
 
 #if defined(__unix__)
 #include <unistd.h>
@@ -30,7 +30,7 @@
 
 #include "dhtvalue.h"
 #include "dht.h"
-#include "../trace.h"
+#include "trace.h"
 
 #if defined(DEBUG_DHT)
 int dhtDebug= 0;

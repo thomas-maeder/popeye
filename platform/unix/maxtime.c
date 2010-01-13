@@ -1,6 +1,6 @@
-#include "../maxtime.h"
-#include "../../boolean.h"
-#include "../../pymsg.h"
+#include "platform/maxtime.h"
+#include "boolean.h"
+#include "pymsg.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -8,9 +8,9 @@
 #if defined(SIGNALS)
 
 #include <unistd.h>
-#include "../../py.h"
-#include "../../pydata.h"
-#include "../../pyhash.h"
+#include "py.h"
+#include "pydata.h"
+#include "pyhash.h"
 
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)

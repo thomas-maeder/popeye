@@ -65,7 +65,7 @@ NESTEDSRCDIRS = platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 # enumerate libraries to link
 OURLIBS = $(NESTEDLIBDIRS:%=%/library.$(LIB_SUFFIX))
 
-include $(BASEPWD)/makefile.rules depend
+include makefile.rules $(CURRPWD)/depend
 
 # additional distributed files
 DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
@@ -84,7 +84,7 @@ ifdef DEPEND
 depend: $(NESTEDLIBDIRS:%=%/depend)
 
 $(NESTEDLIBDIRS:%=%/depend): FORCE
-	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir @) -C $(dir $@) -f makefile.local depend
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 endif
 
 
@@ -174,7 +174,7 @@ clobber:	clean
 ./sourcedist: $(NESTEDSRCDIRS:%=%/sourcedist)
 
 $(NESTEDSRCDIRS:%=%/sourcedist): FORCE
-	$(MAKE) BASEPWD=$(BASEPWD) CURRPWD=$(dir $@) -C $(dir $@) -f makefile.local $@
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 
 
 # ===========================================================

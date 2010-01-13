@@ -13,7 +13,7 @@
 # - x86_64-pc-mingw32-strip
 
 # Include "regular" gcc settings
-include $(BASEPWD)/toolchains/gcc/make.incl
+include toolchains/gcc/make.incl
 
 
 # Now override where necessary

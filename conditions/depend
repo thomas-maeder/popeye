@@ -1,7 +1,8 @@
-exclusive$(OBJ_SUFFIX): exclusive.c exclusive.h boolean.h pyposit.h pystip.h \
-  pyleaf.h pymsg.h pydata.h pyoutput.h trace.h
+conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h \
+  boolean.h pyposit.h pystip.h pyleaf.h pymsg.h pydata.h pyoutput.h \
+  trace.h
 
-exclusive.h:
+conditions/exclusive.h:
 
 boolean.h:
 
@@ -18,10 +19,10 @@ pydata.h:
 pyoutput.h:
 
 trace.h:
-republican$(OBJ_SUFFIX): republican.c republican.h pyproc.h pydata.h pyoutput.h \
-  pymsg.h pyleaf.h
+conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republican.h \
+  pyproc.h pydata.h pyoutput.h pymsg.h pyleaf.h
 
-republican.h:
+conditions/republican.h:
 
 pyproc.h:
 

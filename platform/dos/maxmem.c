@@ -1,4 +1,4 @@
-#include "../maxmem.h"
+#include "platform/maxmem.h"
 
 /* Make a guess for a reasonable amount of memory for the hashtable
  * @return number of kilo-bytes to be used

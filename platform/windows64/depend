@@ -1,21 +1,20 @@
-maxmem.obj: maxmem.c ../maxmem.h ../../boolean.h
+platform/windows64/maxmem.obj: platform/windows64/maxmem.c \
+ platform/maxmem.h
 
-../maxmem.h:
+platform/maxmem.h:
+platform/windows64/maxtime.obj: platform/windows64/maxtime.c \
+ platform/maxtime.h boolean.h pymsg.h
 
-../../boolean.h:
-maxtime.obj: maxtime.c ../maxtime.h ../../boolean.h ../../pymsg.h \
- ../../pylang.h
+platform/maxtime.h:
 
-../maxtime.h:
+boolean.h:
 
-../../boolean.h:
+pymsg.h:
+platform/windows64/pytime.obj: platform/windows64/pytime.c \
+ platform/pytime.h
 
-../../pymsg.h:
+platform/pytime.h:
+platform/windows64/priority.obj: platform/windows64/priority.c \
+ platform/priority.h
 
-../../pylang.h:
-pytime.obj: pytime.c ../pytime.h
-
-../pytime.h:
-priority.obj: priority.c ../priority.h
-
-../priority.h:
+platform/priority.h:

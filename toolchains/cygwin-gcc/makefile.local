@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
 
-include $(BASEPWD)/makefile.rules
+include makefile.rules
 
 DISTRIBUTEDFILES = 	makefile.local make.incl

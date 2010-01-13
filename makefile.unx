@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.97 2010/01/04 06:01:48 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.98 2010/01/13 12:41:51 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -26,14 +26,10 @@
 
 include makefile.defaults
 
-# we could use $(abspath .), but abspath has only been available since
-# GNU make 3.81
-HERE = $(shell pwd)
-
 MAKEFILES = \
-	$(HERE)/makefile.defaults \
-	$(HERE)/toolchains/$(TOOLCHAIN)/make.incl \
-	$(HERE)/makefile.options \
+	makefile.defaults \
+	toolchains/$(TOOLCHAIN)/make.incl \
+	makefile.options \
 #
 
 # ===========================================================
@@ -195,7 +191,7 @@ LATEXdist: $(LATEXGZIPFILE) $(LATEXCOMPRESSFILE) $(LATEXZIPFILE)
 # ===========================================================
 # targets built using recursive makes
 
-all depend ./sourcedist clean clobber: FORCE
-	$(MAKE) BASEPWD=$(HERE)/ CURRPWD=./ -C . -f makefile.local $@
-
 FORCE:
+
+all depend ./sourcedist clean clobber: FORCE
+	$(MAKE) CURRPWD=./ -f makefile.local $@
