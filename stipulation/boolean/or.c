@@ -70,26 +70,6 @@ void quodlibet_solve_threats(table threats, slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Solve a slice in exactly n moves at root level
- * @param si slice index
- * @param n exact number of moves
- */
-void quodlibet_root_solve_in_n(slice_index si, stip_length_type n)
-{
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  intelligent_solvable_root_solve_in_n(op1,n);
-  intelligent_solvable_root_solve_in_n(op2,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a quodlibet slice at root level
  * @param si slice index
  */

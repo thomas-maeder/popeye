@@ -736,7 +736,7 @@ pylang.h:
 pygoal.h:
 pyintslv$(OBJ_SUFFIX): pyintslv.c pyintslv.h pystip.h pygoal.h boolean.h py.h \
   pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyhelp.h \
-  pytable.h pyslice.h pyseries.h pyquodli.h pymovein.h trace.h
+  pytable.h pyslice.h pyseries.h trace.h
 
 pyintslv.h:
 
@@ -767,10 +767,6 @@ pytable.h:
 pyslice.h:
 
 pyseries.h:
-
-pyquodli.h:
-
-pymovein.h:
 
 trace.h:
 pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \

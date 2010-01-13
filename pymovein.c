@@ -88,24 +88,6 @@ boolean move_inverter_root_solve(slice_index si)
   return result;
 }
 
-/* Solve a slice in exactly n moves at root level
- * @param si slice index
- * @param n exact number of moves
- */
-void move_inverter_root_solve_in_n(slice_index si, stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  output_start_move_inverted_level();
-  intelligent_solvable_root_solve_in_n(slices[si].u.pipe.next,n);
-  output_end_move_inverted_level();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
