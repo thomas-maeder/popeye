@@ -3234,7 +3234,10 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       gen_wh_piece_aux(sq_departure,p);
 
       /* Kings normally don't move from their rebirth-square */
-      if (p == e[rb] && !rex_phan) {
+      if (p == e[rb] && !rex_phan)
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResultEnd();
         return;
       }
       /* generate moves from rebirth square */
@@ -3244,7 +3247,10 @@ static void orig_gen_wh_piece(square sq_departure, piece p) {
       /* if rebirth square is where the piece stands,
          we've already generated all the relevant moves.
       */
-      if (mren==sq_departure) {
+      if (mren==sq_departure)
+      {
+        TraceFunctionExit(__func__);
+        TraceFunctionResultEnd();
         return;
       }
       if (e[mren] == vide) {
