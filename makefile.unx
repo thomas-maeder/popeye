@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.98 2010/01/13 12:41:51 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.99 2010/01/17 11:34:44 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -25,6 +25,10 @@
 
 
 include makefile.defaults
+
+# don't put this into the same include as makefile.defaults! 
+# makefile.defaults defines TOOLCHAIN
+include toolchains/$(TOOLCHAIN)/make.incl
 
 MAKEFILES = \
 	makefile.defaults \
@@ -191,7 +195,9 @@ LATEXdist: $(LATEXGZIPFILE) $(LATEXCOMPRESSFILE) $(LATEXZIPFILE)
 # ===========================================================
 # targets built using recursive makes
 
+all depend ./sourcedist clean clobber %$(OBJ_SUFFIX): FORCE
+	$(MAKE) CURRPWD=./ -f makefile.local $@
+
 FORCE:
 
-all depend ./sourcedist clean clobber: FORCE
-	$(MAKE) CURRPWD=./ -f makefile.local $@
+.SUFFIXES:
