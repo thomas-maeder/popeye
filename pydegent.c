@@ -2,6 +2,8 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pydirect.h"
+#include "pypipe.h"
+#include "stipulation/branch.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -37,21 +39,22 @@ void init_degenerate_tree(stip_length_type max_length_short)
 /* **************** Initialisation ***************
  */
 
-/* Initialise a STMaxFlightsquares slice
- * @param si identifies slice to be initialised
- * @param side mating side
+/* Allocate a STMaxFlightsquares slice
+ * @return allocated slice
  */
-static void init_degenerate_tree_guard_slice(slice_index si)
+static slice_index alloc_degenerate_tree_guard_slice()
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].type = STDegenerateTree; 
-  slices[si].starter = no_side; 
+  result = alloc_pipe(STDegenerateTree);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 
@@ -212,10 +215,14 @@ static boolean degenerate_tree_inserter_branch_direct(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
 
-  pipe_insert_before(si);
-  init_degenerate_tree_guard_slice(si);
+  {
+    slice_index const prev = slices[si].u.pipe.prev;
+    slice_index const guard = alloc_degenerate_tree_guard_slice();
+    branch_link(prev,guard);
+    branch_link(guard,si);
+    slice_traverse_children(si,st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
