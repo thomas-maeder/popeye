@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = branch.c
+INCLUDES = branch.h
+
+include makefile.rules $(CURRPWD)depend

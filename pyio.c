@@ -84,6 +84,7 @@
 #include "pyreflxg.h"
 #include "pydirctg.h"
 #include "pyselfgd.h"
+#include "stipulation/branch.h"
 #include "pyint.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "conditions/republican.h"
@@ -1999,6 +2000,8 @@ static char *ParseReciEnd(char *tok,
   tok = ParseReciGoal(tok,level,&op1,&op2);
   if (op1!=no_slice && op2!=no_slice)
     *si = alloc_reciprocal_slice(op1,op2);
+  root_slice = *si;
+  TraceStipulation();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -2272,7 +2275,8 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
-        slice_index const mi = alloc_move_inverter_slice(next);
+        slice_index const mi = alloc_move_inverter_slice();
+        branch_link(mi,next);
         *si = alloc_series_branch_next_other_starter(level,
                                                      length,min_length,
                                                      mi);
@@ -2425,7 +2429,6 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
     {
       slice_index const help = alloc_branch_h_slice(slack_length_help+1,
                                                     slack_length_help+1,
-                                                    no_slice,
                                                     no_slice);
       convert_to_parry_series_branch(*si,help);
     }
@@ -2438,7 +2441,6 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
     {
       slice_index const help = alloc_branch_h_slice(slack_length_help+1,
                                                     slack_length_help+1,
-                                                    no_slice,
                                                     no_slice);
       convert_to_parry_series_branch(*si,help);
     }
@@ -2453,7 +2455,6 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
       slice_index const dirdef =
           alloc_branch_d_defender_slice(slack_length_direct+1,
                                         slack_length_direct+1,
-                                        no_slice,
                                         no_slice);
       convert_to_parry_series_branch(*si,dirdef);
     }
@@ -2493,7 +2494,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                      length,min_length,
                                                      next);
           if (length%2==1)
-            *si = alloc_move_inverter_slice(help);
+          {
+            *si = alloc_move_inverter_slice();
+            branch_link(*si,help);
+          }
           else
             *si = help;
         }
@@ -2565,7 +2569,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                      length,min_length,
                                                      next);
           if (length%2==0)
-            *si = alloc_move_inverter_slice(help);
+          {
+            *si = alloc_move_inverter_slice();
+            branch_link(*si,help);
+          }
           else
             *si = help;
         }
@@ -2595,7 +2602,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                      next);
           slice_insert_reflex_guards(help,next);
           if (length%2==0)
-            *si = alloc_move_inverter_slice(help);
+          {
+            *si = alloc_move_inverter_slice();
+            branch_link(*si,help);
+          }
           else
             *si = help;
         }
@@ -2624,7 +2634,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index *si)
                                                      length,min_length,
                                                      next);
           if (length%2==0)
-            *si = alloc_move_inverter_slice(help);
+          {
+            *si = alloc_move_inverter_slice();
+            branch_link(*si,help);
+          }
           else
             *si = help;
         }
@@ -2865,7 +2878,7 @@ static char *ParseStructuredStip_leaf(char *tok,
       case STLeafDirect:
         *result = leaf;
         if (!startLikeBranch)
-          slices[leaf].type=STLeafHelp;
+          slices[leaf].type = STLeafHelp;
         break;
 
       case STLeafForced:
@@ -3179,7 +3192,10 @@ static char *ParseStructuredStip_move_inversion(char *tok,
   
   tok = ParseStructuredStip_operand(tok+1,level,&operand,!startLikeBranch);
   if (tok!=0 && operand!=no_slice)
-    *result =  alloc_move_inverter_slice(operand);
+  {
+    *result =  alloc_move_inverter_slice();
+    branch_link(*result,operand);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

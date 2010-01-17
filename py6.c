@@ -115,6 +115,7 @@
 #include "pynontrv.h"
 #include "pypipe.h"
 #include "pyleaf.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 #include "pyslice.h"
 #include "pyoutput.h"
@@ -2168,7 +2169,8 @@ static slice_index apply_whitetoplay(slice_index si)
       if (meaning==whitetoplay_means_shorten_root_slice)
       {
         slice_index const shortened = help_root_shorten_help_play(si);
-        result = alloc_move_inverter_slice(shortened);
+        result = alloc_move_inverter_slice();
+        branch_link(result,shortened);
         slices[result].starter = advers(slices[shortened].starter);
         TraceValue("%u\n",slices[result].starter);
       }
@@ -2190,7 +2192,7 @@ static slice_index apply_whitetoplay(slice_index si)
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(si);
       slice_index const save_si = si;
       result = slices[si].u.pipe.next;
-      dealloc_slice_index(save_si);
+      dealloc_slice(save_si);
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[result].type==STHelpRoot)
         result = help_root_shorten_help_play(result);
@@ -2865,7 +2867,7 @@ static Token iterate_twins(Token prev_token)
 
       TraceStipulation();
 
-      assert_no_leaked_slice_indices();
+      assert_no_leaked_slices();
     }
 
     if (slices[root_slice].starter==no_side)
@@ -2953,7 +2955,7 @@ int main(int argc, char *argv[])
 
   set_nice_priority();
 
-  init_slice_index_allocator();
+  init_slice_allocator();
 
   sprintf(versionString,
           "Popeye %s-%uBit v%.2f",

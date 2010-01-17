@@ -13,7 +13,7 @@
  */
 slice_index alloc_not_slice(slice_index op)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",op);
@@ -21,7 +21,7 @@ slice_index alloc_not_slice(slice_index op)
 
   assert(op!=no_slice);
 
-  slices[result].type = STNot;
+  result = alloc_slice(STNot);
   slices[result].u.pipe.next = op;
 
   TraceFunctionExit(__func__);

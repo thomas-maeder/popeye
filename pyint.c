@@ -26,6 +26,7 @@
 #include "pyseries.h"
 #include "pypipe.h"
 #include "pyintslv.h"
+#include "stipulation/branch.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -2935,19 +2936,21 @@ static void init_moves_left(slice_index si, stip_length_type n)
 }
 
 /* Initialise a STGoalReachableGuard slice
- * @param si identifies slice to be initialised
+ * @return identifier of allocated slice
  */
-static void init_goalreachable_guard_slice(slice_index si)
+static slice_index alloc_goalreachable_guard(void)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].type = STGoalReachableGuard; 
-  slices[si].starter = slices[slices[si].u.pipe.next].starter; 
+  result = alloc_pipe(STGoalReachableGuard);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Solve in a number of half-moves
@@ -3143,20 +3146,37 @@ void goalreachable_guard_series_solve_threats_in_n(table threats,
 }
 
 static boolean goalreachable_guards_inserter_branch(slice_index si,
-                                                  slice_traversal *st)
+                                                    slice_traversal *st)
 {
   boolean const result = true;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
-
-  if (slices[slices[si].u.pipe.next].type!=STGoalReachableGuard)
+  if (slices[next].u.pipe.prev==si)
   {
-    pipe_insert_before(slices[si].u.pipe.next);
-    init_goalreachable_guard_slice(slices[si].u.pipe.next);
+    slice_index const guard = alloc_goalreachable_guard();
+    branch_link(si,guard);
+    branch_link(guard,next);
+    slice_traverse_children(guard,st);
+  }
+  else
+  {
+    slice_traverse_children(si,st);
+
+    {
+      slice_index const next_prev = slices[next].u.pipe.prev;
+      if (slices[next_prev].type==STGoalReachableGuard)
+        pipe_set_successor(si,next_prev);
+      else
+      {
+        slice_index const guard = alloc_goalreachable_guard();
+        branch_link(si,guard);
+        pipe_set_successor(guard,next);
+      }
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -3178,9 +3198,10 @@ static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
 
   {
     slice_index const inverter = slices[si].u.pipe.next;
+    slice_index const guard = alloc_goalreachable_guard();
     assert(slices[inverter].type==STMoveInverter);
-    pipe_insert_after(inverter);
-    init_goalreachable_guard_slice(slices[inverter].u.pipe.next);
+    branch_link(guard,slices[inverter].u.pipe.next);
+    branch_link(inverter,guard);
   }
 
   TraceFunctionExit(__func__);

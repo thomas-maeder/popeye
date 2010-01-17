@@ -14,38 +14,22 @@
 /* Allocate a STBranchDirectDefender defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_slice(stip_length_type length,
                                           stip_length_type min_length,
-                                          slice_index next,
                                           slice_index towards_goal);
 
 /* Allocate a STDirectDefenderRoot defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
                                                stip_length_type min_length,
-                                               slice_index next,
                                                slice_index towards_goal);
-
-/* Allocate a STBranchDirectDefender defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @param towards_goal index of slice leading to goal
- * @return index of allocated slice
- */
-slice_index alloc_branch_d_defender_slice(stip_length_type length,
-                                          stip_length_type min_length,
-                                          slice_index next,
-                                          slice_index towards_goal);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't

@@ -1,5 +1,6 @@
 #include "pyrecipr.h"
 #include "pyslice.h"
+#include "pypipe.h"
 #include "pyproc.h"
 #include "trace.h"
 
@@ -13,7 +14,7 @@
  */
 slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",op1);
@@ -23,8 +24,8 @@ slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2)
   assert(op1!=no_slice);
   assert(op2!=no_slice);
 
-  slices[result].type = STReciprocal; 
-  slices[result].starter = no_side;
+  result = alloc_slice(STReciprocal);
+
   slices[result].u.fork.op1 = op1;
   slices[result].u.fork.op2 = op2;
 

@@ -6,6 +6,7 @@
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "pydata.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -40,6 +41,32 @@ static void init_direct_defense_slice(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Allocate a STDirectDefense slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param towards_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+static slice_index alloc_direct_defense(stip_length_type length,
+                                        stip_length_type min_length,
+                                        slice_index towards_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch(STDirectDefense,length,min_length,towards_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 
@@ -289,7 +316,7 @@ boolean direct_defense_root_reduce_to_postkey_play(slice_index si,
   result = traverse_slices(next,st);
 
   if (*postkey_slice!=no_slice)
-    dealloc_slice_index(si);
+    dealloc_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -328,8 +355,8 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st)
 
 /* Insert a STDirectDefense before each STDirectRoot slice
  */
-static boolean direct_guards_inserter_branch_direct_root(slice_index si,
-                                                         slice_traversal *st)
+static boolean direct_guards_inserter_branch_direct(slice_index si,
+                                                    slice_traversal *st)
 {
   boolean const result = true;
   slice_index const * const towards_goal = st->param;
@@ -344,53 +371,9 @@ static boolean direct_guards_inserter_branch_direct_root(slice_index si,
 
   pipe_insert_before(si);
   init_direct_defense_slice(si,length,min_length,*towards_goal);
-
-  si = slices[si].u.pipe.next;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STDirectDefense after each STDirectDefenderRoot slice if
- * play is allowed to continue in the following branch after moves
- * played in the STDirectDefenderRoot slice (as typical in a non-exact
- * stipulation).
- */
-static
-boolean direct_guards_inserter_branch_direct_defender_root(slice_index si,
-                                                           slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const * const towards_goal = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",length);
-  TraceValue("%u\n",min_length);
-
-  if (slices[si].u.pipe.next==no_slice)
-  {
-    pipe_insert_after(si);
-    init_direct_defense_slice(slices[si].u.pipe.next,
-                              length-1,min_length-1,
-                              *towards_goal);
-  }
-  else
-  {
-    assert(slices[slices[si].u.pipe.next].type!=STDirectDefense);
-    pipe_insert_before(slices[si].u.pipe.next);
-    init_direct_defense_slice(slices[si].u.pipe.next,
-                              length-1,min_length-1,
-                              *towards_goal);
-  }                                           
-
-  traverse_slices(slices[slices[si].u.pipe.next].u.pipe.next,st);
+  pipe_set_predecessor(slices[si].u.pipe.next,si);
+  pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
+                       slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -409,38 +392,22 @@ boolean direct_guards_inserter_branch_direct_defender(slice_index si,
 {
   boolean const result = true;
   slice_index const * const towards_goal = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",length);
-  TraceValue("%u\n",min_length);
-
-  if (slices[si].u.pipe.next==no_slice)
+  if (next==no_slice)
   {
-    pipe_insert_after(si);
-    init_direct_defense_slice(slices[si].u.pipe.next,
-                              length-1,min_length-1,
-                              *towards_goal);
-  }
-  else if (slices[slices[si].u.pipe.next].type==STDirectDefense)
-  {
-    /* nothing - we are closing a loop here; the STDirectDefense has
-     * already been inserted.
-     */
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const dirdef = alloc_direct_defense(length-1,min_length-1,
+                                                    *towards_goal);
+    branch_link(si,dirdef);
   }
   else
-  {
-    pipe_insert_before(slices[si].u.pipe.next);
-    init_direct_defense_slice(slices[si].u.pipe.next,
-                              length-1,min_length-1,
-                              *towards_goal);
-  }                                           
-
-  traverse_slices(slices[slices[si].u.pipe.next].u.pipe.next,st);
+    traverse_slices(next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -450,39 +417,39 @@ boolean direct_guards_inserter_branch_direct_defender(slice_index si,
 
 static slice_operation const direct_guards_inserters[] =
 {
-  &slice_traverse_children,                            /* STBranchDirect */
-  &direct_guards_inserter_branch_direct_defender,    /* STBranchDirectDefender */
-  &slice_traverse_children,                            /* STBranchHelp */
-  0,                                                   /* STBHelpFork */
-  &slice_traverse_children,                            /* STBranchSeries */
-  0,                                                   /* STSeriesFork */
-  &slice_operation_noop,                               /* STLeafDirect */
-  &slice_operation_noop,                               /* STLeafHelp */
-  &slice_operation_noop,                               /* STLeafForced */
-  &slice_traverse_children,                            /* STReciprocal */
-  &slice_traverse_children,                            /* STQuodlibet */
-  &slice_traverse_children,                            /* STNot */
-  &slice_traverse_children,                            /* STMoveInverter */
-  &direct_guards_inserter_branch_direct_root,          /* STDirectRoot */
-  &direct_guards_inserter_branch_direct_defender_root, /* STDirectDefenderRoot */
-  &slice_traverse_children,                            /* STDirectHashed */
-  &slice_traverse_children,                            /* STHelpRoot */
-  &slice_traverse_children,                            /* STHelpHashed */
-  &slice_traverse_children,                            /* STSeriesRoot */
-  &slice_traverse_children,                            /* STParryFork */
-  &slice_traverse_children,                            /* STSeriesHashed */
-  0,                                                   /* STSelfCheckGuard */
-  &slice_traverse_children,                            /* STDirectDefense */
-  0,                                                   /* STReflexGuard */
-  0,                                                   /* STSelfAttack */
-  0,                                                   /* STSelfDefense */
-  0,                                                   /* STRestartGuard */
-  0,                                                   /* STGoalReachableGuard */
-  0,                                                   /* STKeepMatingGuard */
-  0,                                                   /* STMaxFlightsquares */
-  0,                                                   /* STDegenerateTree */
-  0,                                                   /* STMaxNrNonTrivial */
-  0                                                    /* STMaxThreatLength */
+  &direct_guards_inserter_branch_direct,          /* STBranchDirect */
+  &direct_guards_inserter_branch_direct_defender, /* STBranchDirectDefender */
+  &slice_traverse_children,                       /* STBranchHelp */
+  0,                                              /* STBHelpFork */
+  &slice_traverse_children,                       /* STBranchSeries */
+  0,                                              /* STSeriesFork */
+  &slice_operation_noop,                          /* STLeafDirect */
+  &slice_operation_noop,                          /* STLeafHelp */
+  &slice_operation_noop,                          /* STLeafForced */
+  &slice_traverse_children,                       /* STReciprocal */
+  &slice_traverse_children,                       /* STQuodlibet */
+  &slice_traverse_children,                       /* STNot */
+  &slice_traverse_children,                       /* STMoveInverter */
+  &direct_guards_inserter_branch_direct,          /* STDirectRoot */
+  &direct_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
+  &slice_traverse_children,                       /* STDirectHashed */
+  &slice_traverse_children,                       /* STHelpRoot */
+  &slice_traverse_children,                       /* STHelpHashed */
+  &slice_traverse_children,                       /* STSeriesRoot */
+  &slice_traverse_children,                       /* STParryFork */
+  &slice_traverse_children,                       /* STSeriesHashed */
+  0,                                              /* STSelfCheckGuard */
+  &slice_traverse_children,                       /* STDirectDefense */
+  0,                                              /* STReflexGuard */
+  0,                                              /* STSelfAttack */
+  0,                                              /* STSelfDefense */
+  0,                                              /* STRestartGuard */
+  0,                                              /* STGoalReachableGuard */
+  0,                                              /* STKeepMatingGuard */
+  0,                                              /* STMaxFlightsquares */
+  0,                                              /* STDegenerateTree */
+  0,                                              /* STMaxNrNonTrivial */
+  0                                               /* STMaxThreatLength */
 };
 
 /* Instrument a branch with STDirectDefense slices

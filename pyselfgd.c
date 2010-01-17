@@ -5,6 +5,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "pyoutput.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -13,33 +14,30 @@
 /* **************** Initialisation ***************
  */
 
-/* Initialise a STSelfAttack slice
- * @param si identifies slice to be initialised
+/* Allocate a STSelfAttack slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param towards_goal identifies slice leading towards goal
+ * @return index of allocated slice
  */
-static void init_self_attack_slice(slice_index si,
-                                   stip_length_type length,
-                                   stip_length_type min_length,
-                                   slice_index next,
-                                   slice_index towards_goal)
+static slice_index alloc_self_attack(stip_length_type length,
+                                     stip_length_type min_length,
+                                     slice_index towards_goal)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  slices[si].type = STSelfAttack; 
-  slices[si].starter = no_side; 
-  slices[si].u.pipe.u.branch.length = length;
-  slices[si].u.pipe.u.branch.min_length = min_length;
-  slices[si].u.pipe.u.branch.towards_goal = towards_goal;
+  result = alloc_branch(STSelfAttack,length,min_length,towards_goal);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Initialise a STSelfDefense slice
@@ -70,6 +68,32 @@ static void init_self_defense_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Allocate a STSelfDefense slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param towards_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+static slice_index alloc_self_defense(stip_length_type length,
+                                      stip_length_type min_length,
+                                      slice_index towards_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch(STSelfDefense,length,min_length,towards_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate and initialise a STSelfAttack slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -89,8 +113,10 @@ slice_index alloc_self_attack_slice(stip_length_type length,
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice_index();
-  init_self_attack_slice(result,length,min_length,next,towards_goal);
+  result = alloc_slice(STSelfAttack);
+  slices[result].u.pipe.u.branch.length = length;
+  slices[result].u.pipe.u.branch.min_length = min_length;
+  slices[result].u.pipe.u.branch.towards_goal = towards_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -401,7 +427,7 @@ boolean self_attack_root_reduce_to_postkey_play(slice_index si,
     /* we are reducing from s#1 to s#0.5 */
     slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
     *postkey_slice = towards_goal;
-    dealloc_slice_index(si);
+    dealloc_slice(si);
     result = true;
   }
   else
@@ -409,7 +435,7 @@ boolean self_attack_root_reduce_to_postkey_play(slice_index si,
     slice_index const next = slices[si].u.pipe.next;
     result = traverse_slices(next,st);
     if (*postkey_slice!=no_slice)
-      dealloc_slice_index(si);
+      dealloc_slice(si);
   }
 
   TraceFunctionExit(__func__);
@@ -558,6 +584,8 @@ boolean self_guards_inserter_branch_direct_defender_root(slice_index si,
   init_self_defense_slice(slices[si].u.pipe.next,
                           length-1,min_length-1,
                           *towards_goal);
+  pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
+                       slices[si].u.pipe.next);
 
   slice_traverse_children(si,st);
 
@@ -576,9 +604,6 @@ boolean self_guards_inserter_branch_direct_defender(slice_index si,
                                                     slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const * const towards_goal = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -592,10 +617,13 @@ boolean self_guards_inserter_branch_direct_defender(slice_index si,
   }
   else
   {
-    pipe_insert_after(si);
-    init_self_defense_slice(slices[si].u.pipe.next,
-                            length-1,min_length-1,
-                            *towards_goal);
+    slice_index const * const towards_goal = st->param;
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const self_defense = alloc_self_defense(length-1,min_length-1,
+                                                        *towards_goal);
+    branch_link(self_defense,slices[si].u.pipe.next);
+    branch_link(si,self_defense);
   }
 
   slice_traverse_children(si,st);
@@ -617,17 +645,15 @@ static boolean self_guards_inserter_branch_direct(slice_index si,
   slice_index const * const towards_goal = st->param;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  slice_index self_attack;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_insert_after(si);
-  init_self_attack_slice(slices[si].u.pipe.next,
-                         length-1,min_length-1,
-                         slices[slices[si].u.pipe.next].u.pipe.next,
-                         *towards_goal);
-
+  self_attack = alloc_self_attack(length-1,min_length-1,*towards_goal);
+  branch_link(self_attack,slices[si].u.pipe.next);
+  branch_link(si,self_attack);
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
@@ -646,17 +672,15 @@ static boolean self_guards_inserter_direct_root(slice_index si,
   slice_index const * const towards_goal = st->param;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  slice_index self_attack;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_insert_after(si);
-  init_self_attack_slice(slices[si].u.pipe.next,
-                         length-1,min_length-1,
-                         slices[slices[si].u.pipe.next].u.pipe.next,
-                         *towards_goal);
-
+  self_attack = alloc_self_attack(length-1,min_length-1,*towards_goal);
+  branch_link(self_attack,slices[si].u.pipe.next);
+  branch_link(si,self_attack);
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);

@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "pydirect.h"
 #include "pyoutput.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -144,21 +145,24 @@ static unsigned int count_nontrivial_defenses(slice_index si)
 /* **************** Initialisation ***************
  */
 
-/* Initialise a STMaxFlightsquares slice
- * @param si identifies slice to be initialised
- * @param side mating side
+/* Allocate a STMaxFlightsquares slice
+ * @param length maximum number of half moves until goal
+ * @return identifier of allocated slice
  */
-static void init_max_nr_nontrivial_guard_slice(slice_index si)
+static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
   TraceFunctionParamListEnd();
 
-  slices[si].type = STMaxNrNonTrivial; 
-  slices[si].starter = no_side; 
+  result = alloc_branch(STMaxNrNonTrivial,length,0,no_slice);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 
@@ -197,7 +201,7 @@ boolean max_nr_nontrivial_guard_root_defend(slice_index si)
     result = direct_defender_root_defend(next);
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -288,30 +292,11 @@ unsigned int max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
-static boolean nontrivial_guard_inserter_direct_root(slice_index si,
-                                                     slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  pipe_insert_after(si);
-  init_max_nr_nontrivial_guard_slice(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
+  slice_index guard;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -319,8 +304,9 @@ static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
 
   slice_traverse_children(si,st);
 
-  pipe_insert_after(si);
-  init_max_nr_nontrivial_guard_slice(slices[si].u.pipe.next);
+  guard = alloc_max_nr_nontrivial_guard(slices[si].u.pipe.u.branch.length-1);
+  branch_link(guard,slices[si].u.pipe.next);
+  branch_link(si,guard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -343,7 +329,7 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STQuodlibet */
   &slice_traverse_children,                 /* STNot */
   &slice_traverse_children,                 /* STMoveInverter */
-  &nontrivial_guard_inserter_direct_root,   /* STDirectRoot */
+  &nontrivial_guard_inserter_branch_direct, /* STDirectRoot */
   &slice_traverse_children,                 /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &slice_traverse_children,                 /* STHelpRoot */

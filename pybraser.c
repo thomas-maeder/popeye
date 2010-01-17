@@ -11,6 +11,7 @@
 #include "pyreflxg.h"
 #include "pypipe.h"
 #include "trace.h"
+#include "stipulation/branch.h"
 #include "platform/maxtime.h"
 
 #include <assert.h>
@@ -18,29 +19,22 @@
 /* Allocate a STBranchSeries slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal identifies slice that leads towards goal
  * @return index of allocated slice
  */
 static slice_index alloc_branch_ser_slice(stip_length_type length,
                                           stip_length_type min_length,
-                                          slice_index next,
                                           slice_index towards_goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STBranchSeries; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.help_root.length = length;
-  slices[result].u.pipe.u.help_root.min_length = min_length;
-  slices[result].u.pipe.u.help_root.towards_goal = towards_goal;
+  result = alloc_branch(STBranchSeries,length,min_length,towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,10 +58,13 @@ slice_index branch_ser_promote_to_toplevel(slice_index branch)
   assert(slices[branch].u.pipe.u.help_root.length-slack_length_series==1);
   assert(slices[branch].type==STBranchSeries);
 
-  result = copy_slice(branch);
-  slices[result].type = STSeriesRoot;
-  slices[result].u.pipe.next = copy_slice(branch);
+  result = alloc_branch(STSeriesRoot,
+                        slices[branch].u.pipe.u.branch.length,
+                        slices[branch].u.pipe.u.branch.min_length,
+                        slices[branch].u.pipe.u.branch.towards_goal);
   slices[result].u.pipe.u.help_root.short_sols = branch;
+  branch_link(result,copy_slice(branch));
+
   --slices[branch].u.pipe.u.branch.length;
   --slices[branch].u.pipe.u.branch.min_length;
 
@@ -288,17 +285,15 @@ boolean branch_ser_has_solution_in_n(slice_index si, stip_length_type n)
 /* Allocate a STSeriesRoot slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_series_root_slice(stip_length_type length,
                                     stip_length_type min_length,
-                                    slice_index next,
                                     slice_index towards_goal,
                                     slice_index short_sols)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -307,12 +302,7 @@ slice_index alloc_series_root_slice(stip_length_type length,
   TraceFunctionParam("%u",short_sols);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STSeriesRoot; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.help_root.length = length;
-  slices[result].u.pipe.u.help_root.min_length = min_length;
-  slices[result].u.pipe.u.help_root.towards_goal = towards_goal;
+  result = alloc_branch(STSeriesRoot,length,min_length,towards_goal);
   slices[result].u.pipe.u.help_root.short_sols = short_sols;
 
   TraceFunctionExit(__func__);
@@ -384,7 +374,7 @@ static void shorten_root_branch(slice_index root)
   if (slices[root].u.pipe.u.help_root.length==slack_length_series+2)
   {
     slices[fork].u.pipe.next = no_slice;
-    dealloc_slice_index(branch);
+    dealloc_slice(branch);
   }
 
   shorten_series_pipe(root);
@@ -418,7 +408,7 @@ slice_index series_root_shorten_series_play(slice_index root)
     {
       slice_index const mi = result;
       result = slices[result].u.pipe.next;
-      dealloc_slice_index(mi);
+      dealloc_slice(mi);
     }
   }
   else
@@ -560,21 +550,23 @@ alloc_toplevel_series_branch_next_other_starter(stip_length_type length,
 
   {
     slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     no_slice,towards_goal);
+                                                     towards_goal);
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      fork,towards_goal);
-    slice_index const inverter = alloc_move_inverter_slice(branch);
+                                                      towards_goal);
+    slice_index const inverter = alloc_move_inverter_slice();
 
     slice_index const root_branch = alloc_branch_ser_slice(length,min_length,
-                                                           fork,towards_goal);
-    slice_index const root = alloc_series_root_slice(length,min_length,
-                                                     root_branch,towards_goal,
-                                                     branch);
-    slices[fork].u.pipe.next = inverter;
+                                                           towards_goal);
+    result = alloc_series_root_slice(length,min_length,towards_goal,branch);
 
     shorten_series_pipe(branch);
 
-    result = root;
+    branch_link(fork,inverter);
+    branch_link(inverter,branch);
+    branch_link(branch,fork);
+
+    pipe_set_successor(root_branch,fork);
+    branch_link(result,root_branch);
   }
 
   TraceFunctionExit(__func__);
@@ -606,13 +598,14 @@ alloc_nested_series_branch_next_other_starter(stip_length_type length,
   assert(length>slack_length_series);
 
   {
+    slice_index const inverter = alloc_move_inverter_slice();
     slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     no_slice,towards_goal);
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      fork,towards_goal);
-    slices[fork].u.pipe.next = alloc_move_inverter_slice(branch);
+                                                     towards_goal);
+    result = alloc_branch_ser_slice(length,min_length,towards_goal);
 
-    result = branch;
+    branch_link(result,fork);
+    branch_link(fork,inverter);
+    branch_link(inverter,result);
   }
 
   TraceFunctionExit(__func__);
@@ -681,21 +674,22 @@ alloc_toplevel_series_branch_next_same_starter(stip_length_type length,
 
   {
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      no_slice,towards_goal);
+                                                      towards_goal);
     slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     branch,towards_goal);
-    slice_index const inverter = alloc_move_inverter_slice(fork);
+                                                     towards_goal);
+    slice_index const inverter = alloc_move_inverter_slice();
     slice_index const root_branch = alloc_branch_ser_slice(length,min_length,
-                                                           inverter,
                                                            towards_goal);
-    slice_index const root = alloc_series_root_slice(length,min_length,
-                                                     root_branch,towards_goal,
-                                                     fork);
+    result = alloc_series_root_slice(length,min_length,towards_goal,fork);
 
-    slices[branch].u.pipe.next = inverter;
     shorten_series_pipe(branch);
 
-    result = root;
+    branch_link(fork,branch);
+    branch_link(branch,inverter);
+    branch_link(inverter,fork);
+
+    branch_link(result,root_branch);
+    pipe_set_successor(root_branch,inverter);
   }
 
   TraceFunctionExit(__func__);
@@ -727,14 +721,15 @@ alloc_nested_series_branch_next_same_starter(stip_length_type length,
   assert(length>slack_length_series);
 
   {
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      no_slice,towards_goal);
     slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     branch,towards_goal);
-    slice_index const inverter = alloc_move_inverter_slice(fork);
+                                                     towards_goal);
+    slice_index const inverter = alloc_move_inverter_slice();
 
-    slices[branch].u.pipe.next = inverter;
-    result = branch;
+    result = alloc_branch_ser_slice(length,min_length,towards_goal);
+
+    branch_link(result,inverter);
+    branch_link(inverter,fork);
+    branch_link(fork,result);
   }
 
   TraceFunctionExit(__func__);
@@ -749,7 +744,7 @@ alloc_nested_series_branch_next_same_starter(stip_length_type length,
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
+ * @param towards_goal identifies slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
 slice_index alloc_series_branch_next_same_starter(branch_level level,

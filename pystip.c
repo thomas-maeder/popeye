@@ -21,6 +21,7 @@
 #include "pyselfgd.h"
 #include "pydirctg.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -156,7 +157,7 @@ static slice_operation const reachable_slices_markers[] =
 /* Make sure that there are now allocated slices that are not
  * reachable
  */
-void assert_no_leaked_slice_indices(void)
+void assert_no_leaked_slices(void)
 {
   boolean leaked[max_nr_slices];
   unsigned int i;
@@ -178,22 +179,26 @@ void assert_no_leaked_slice_indices(void)
 /* Initialize the slice allocation machinery. To be called once at
  * program start
  */
-void init_slice_index_allocator(void)
+void init_slice_allocator(void)
 {
   release_slices();
 }
 
 /* Allocate a slice index
+ * @param type which type
  * @return a so far unused slice index
  */
-slice_index alloc_slice_index(void)
+slice_index alloc_slice(SliceType type)
 {
   slice_index const result = free_indices[first_free_index++];
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
   TraceFunctionParamListEnd();
 
   assert(first_free_index<=max_nr_slices);
+  slices[result].type = type; 
+  slices[result].starter = no_side; 
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -204,14 +209,14 @@ slice_index alloc_slice_index(void)
 /* Dellocate a slice index
  * @param si slice index deallocated
  */
-void dealloc_slice_index(slice_index si)
+void dealloc_slice(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (slices[si].type==STBranchDirect)
-    dealloc_slice_index(slices[si].u.pipe.next);
+    dealloc_slice(slices[si].u.pipe.next);
 
   assert(first_free_index>0);
   free_indices[--first_free_index] = si;
@@ -226,17 +231,18 @@ void dealloc_slice_index(slice_index si)
  */
 slice_index alloc_target_leaf_slice(SliceType type, square s)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceSquare(s);
   TraceFunctionParamListEnd();
 
   assert(type==STLeafDirect
          || type==STLeafHelp
          || type==STLeafForced);
 
-  slices[result].type = type; 
-  slices[result].starter = no_side; 
+  result = alloc_slice(type);
   slices[result].u.leaf.goal = goal_target;
   slices[result].u.leaf.target = s;
 
@@ -252,7 +258,7 @@ slice_index alloc_target_leaf_slice(SliceType type, square s)
  */
 slice_index alloc_leaf_slice(SliceType type, Goal goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",type);
@@ -263,8 +269,7 @@ slice_index alloc_leaf_slice(SliceType type, Goal goal)
          || type==STLeafHelp
          || type==STLeafForced);
 
-  slices[result].type = type; 
-  slices[result].starter = no_side; 
+  result = alloc_slice(type);
   slices[result].u.leaf.goal = goal;
   slices[result].u.leaf.target = initsquare;
 
@@ -286,7 +291,7 @@ slice_index copy_slice(slice_index original)
   TraceFunctionParam("%u",original);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice_index();
+  result = alloc_slice(slices[original].type);
   slices[result] = slices[original];
 
   TraceFunctionExit(__func__);
@@ -733,7 +738,6 @@ static slice_index deep_copy(slice_index si)
 
   deep_copy_recursive(&si,&copies);
 
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",si);
   TraceFunctionResultEnd();
@@ -1028,7 +1032,8 @@ boolean stip_apply_postkeyplay(void)
   else
   {
     result = true;
-    root_slice = alloc_move_inverter_slice(postkey_slice);
+    root_slice = alloc_move_inverter_slice();
+    branch_link(root_slice,postkey_slice);
   }
 
   TraceFunctionExit(__func__);
@@ -1081,19 +1086,20 @@ static void combine_set_play(slice_index setplay_slice)
 {
   slice_index sc;
   slice_index mi;
+  Side const starter = slices[root_slice].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  sc = alloc_selfcheck_guard_slice(setplay_slice);
+  sc = alloc_selfcheck_guard_slice();
+  branch_link(sc,setplay_slice);
 
-  mi = alloc_move_inverter_slice(sc);
-  slices[mi].starter = advers(slices[sc].starter);
+  mi = alloc_move_inverter_slice();
+  branch_link(mi,sc);
 
   root_slice = alloc_quodlibet_slice(mi,root_slice);
-  slices[root_slice].starter = slices[mi].starter;
+  slices[root_slice].starter = starter;
   TraceValue("->%u\n",root_slice);
-  TraceEnumerator(Side,slices[root_slice].starter,"\n");
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();

@@ -10,41 +10,36 @@
 #include "pyoutput.h"
 #include "pyslice.h"
 #include "pytable.h"
-#include "trace.h"
+#include "pypipe.h"
+#include "stipulation/branch.h"
 #include "platform/maxtime.h"
+#include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STBranchDirect slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal identifies first slice beyond branch
  * @return index of allocated slice
  */
 static slice_index alloc_branch_d_slice(stip_length_type length,
                                         stip_length_type min_length,
-                                        slice_index defender,
                                         slice_index towards_goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",defender);
+  TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_direct);
   assert(min_length>=slack_length_direct-1);
   assert((length%2)==(min_length%2));
 
-  slices[result].type = STBranchDirect; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = defender;
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.u.branch.towards_goal = towards_goal;
+  result = alloc_branch(STBranchDirect,length,min_length,towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -55,21 +50,18 @@ static slice_index alloc_branch_d_slice(stip_length_type length,
 /* Allocate a STBranchDirect slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal identifies first slice beyond branch
  * @return index of allocated slice
  */
 static slice_index alloc_direct_root_branch(stip_length_type length,
                                             stip_length_type min_length,
-                                            slice_index defender,
                                             slice_index towards_goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",defender);
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
@@ -77,12 +69,7 @@ static slice_index alloc_direct_root_branch(stip_length_type length,
   assert(min_length>=slack_length_direct);
   assert((length%2)==(min_length%2));
 
-  slices[result].type = STDirectRoot; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = defender;
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.u.branch.towards_goal = towards_goal;
+  result = alloc_branch(STDirectRoot,length,min_length,towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -116,10 +103,9 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
       slice_index const defender_root
           = alloc_branch_d_defender_root_slice(length-1,
                                                defender_root_minlength,
-                                               no_slice,
                                                towards_goal);
-      result = alloc_direct_root_branch(length,min_length,
-                                        defender_root,towards_goal);
+      result = alloc_direct_root_branch(length,min_length,towards_goal);
+      branch_link(result,defender_root);
     }
     else
     {
@@ -129,30 +115,30 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
              : min_length-3);
       slice_index const defender
           = alloc_branch_d_defender_slice(length-3,defender_min_length,
-                                          no_slice,towards_goal);
+                                          towards_goal);
       stip_length_type attacker_min_length
           = (min_length-slack_length_direct<2
              ? slack_length_direct
              : min_length-2);
       slice_index const branch_d = alloc_branch_d_slice(length-2,
                                                         attacker_min_length,
-                                                        defender,
                                                         towards_goal);
       slice_index const defender_root
           = alloc_branch_d_defender_root_slice(length-1,
                                                attacker_min_length+1,
-                                               branch_d,
                                                towards_goal);
-      slices[defender].u.pipe.next = branch_d;
-      result = alloc_direct_root_branch(length,min_length,
-                                        defender_root,towards_goal);
+      result = alloc_direct_root_branch(length,min_length,towards_goal);
+
+      branch_link(branch_d,defender);
+      branch_link(defender,branch_d);
+      pipe_set_successor(defender_root,branch_d);
+      branch_link(result,defender_root);
     }
   }
   else
   {
     if (length-slack_length_direct==1)
-      result = alloc_direct_root_branch(length,min_length,
-                                        no_slice,towards_goal);
+      result = alloc_direct_root_branch(length,min_length,towards_goal);
     else if (length-slack_length_direct==3)
     {
       stip_length_type const branch_min_length
@@ -161,14 +147,15 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
              : min_length-2);
       slice_index const branch_d = alloc_branch_d_slice(length-2,
                                                         branch_min_length,
-                                                        no_slice,
                                                         towards_goal);
+
       slice_index const defender_root
           = alloc_branch_d_defender_root_slice(length-1,min_length-1,
-                                               branch_d,towards_goal);
+                                               towards_goal);
+      branch_link(defender_root,branch_d);
 
-      result = alloc_direct_root_branch(length,min_length,
-                                        defender_root,towards_goal);
+      result = alloc_direct_root_branch(length,min_length,towards_goal);
+      branch_link(result,defender_root);
     }
     else
     {
@@ -179,22 +166,23 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
       slice_index const
           defender = alloc_branch_d_defender_slice(length-3,
                                                    defender_min_length,
-                                                   no_slice,
                                                    towards_goal);
       stip_length_type const attacker_min_length
           = (min_length-slack_length_direct<3
              ? slack_length_direct+1
              : min_length-2);
-      slice_index const branch_d
-          = alloc_branch_d_slice(length-2,attacker_min_length,
-                                 defender,towards_goal);
-
+      slice_index const branch_d = alloc_branch_d_slice(length-2,
+                                                        attacker_min_length,
+                                                        towards_goal);
       slice_index const defender_root
           = alloc_branch_d_defender_root_slice(length-1,min_length-1,
-                                               branch_d,towards_goal);
-      slices[defender].u.pipe.next = branch_d;
-      result = alloc_direct_root_branch(length,min_length,
-                                        defender_root,towards_goal);
+                                               towards_goal);
+      result = alloc_direct_root_branch(length,min_length,towards_goal);
+
+      branch_link(branch_d,defender);
+      branch_link(defender,branch_d);
+      pipe_set_successor(defender_root,branch_d);
+      branch_link(result,defender_root);
     }
   }
 
@@ -866,7 +854,7 @@ boolean direct_root_reduce_to_postkey_play(slice_index si,
   result = traverse_slices(next,st);
 
   if (*postkey_slice!=no_slice)
-    dealloc_slice_index(si);
+    dealloc_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -2,6 +2,7 @@
 #include "pydirect.h"
 #include "pyhelp.h"
 #include "pyseries.h"
+#include "stipulation/branch.h"
 #include "pydata.h"
 #include "trace.h"
 
@@ -11,30 +12,24 @@
  */
 
 /* Allocate a STHelpFork slice.
- * @param next identifies next slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_help_fork_slice(stip_length_type length,
                                   stip_length_type min_length,
-                                  slice_index next,
                                   slice_index towards_goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STHelpFork;
-  slices[result].starter = slices[towards_goal].starter;
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.u.branch.towards_goal = towards_goal;
+  result = alloc_branch(STHelpFork,length,min_length,towards_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -43,30 +38,24 @@ slice_index alloc_help_fork_slice(stip_length_type length,
 }
 
 /* Allocate a STSeriesFork slice.
- * @param next identifies next slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @param towards_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
-                                    slice_index next,
                                     slice_index towards_goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STSeriesFork;
-  slices[result].starter = slices[towards_goal].starter;
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.u.branch.towards_goal = towards_goal;
+  result = alloc_branch(STSeriesFork,length,min_length,towards_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -356,7 +345,7 @@ boolean branch_fork_impose_starter(slice_index si, slice_traversal *st)
 static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
 {
   boolean const result = slice_traverse_children(si,st);
-  dealloc_slice_index(si);
+  dealloc_slice(si);
   return result;
 }
 
@@ -378,7 +367,7 @@ static boolean traverse_and_deallocate_branch_fork(slice_index si,
   *to_be_found = slices[si].u.pipe.u.branch.towards_goal;
 
   result = traverse_slices(slices[si].u.pipe.next,st);
-  dealloc_slice_index(si);
+  dealloc_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

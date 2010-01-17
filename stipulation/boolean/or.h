@@ -9,13 +9,6 @@
  * (i.e. logical OR) stipulation slices.
  */
 
-/* Construct a quodlibet slice over an already allocated slice object
- * @param si index of slice object where to construct quodlibet slice
- * @param op1 1st operand
- * @param op2 2nd operand
- */
-void make_quodlibet_slice(slice_index si, slice_index op1, slice_index op2);
-
 /* Allocate a quodlibet slice.
  * @param op1 1st operand
  * @param op2 2nd operand

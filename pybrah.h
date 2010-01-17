@@ -15,24 +15,22 @@
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
- * @return index of adapter slice of allocated help branch
+ * @param towards_goal identifies slice leading towards the goal
+ * @return index of initial slice of allocated help branch
  */
 slice_index alloc_help_branch(branch_level level,
                               stip_length_type length,
                               stip_length_type min_length,
-                              slice_index next);
+                              slice_index towards_goal);
 
 /* Allocate a STBranchHelp slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal identifies slice theat leads towards the goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_h_slice(stip_length_type length,
                                  stip_length_type min_length,
-                                 slice_index next,
                                  slice_index towards_goal);
 
 /* Promote a slice that was created as STBranchHelp to STHelpRoot

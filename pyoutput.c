@@ -573,6 +573,7 @@ static void linesolution(void)
     end_marker = (nbply==current_ply
                   ? slices[active_slice[current_ply]].u.leaf.goal
                   : no_goal);
+    TraceValue("%u\n",end_marker);
     initneutre(advers(trait[current_ply]));
     jouecoup_no_test(current_ply);
     ecritcoup(current_ply,end_marker);

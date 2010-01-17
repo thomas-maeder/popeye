@@ -105,6 +105,7 @@
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pynontrv.h"
+#include "pypipe.h"
 #include "pyoutput.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
@@ -2048,10 +2049,17 @@ void insert_directhashed_slice(slice_index si)
   slices[si].type = STDirectHashed;
   if (slices[slices[si].u.pipe.next].type==STLeafDirect)
   {
+    pipe_set_predecessor(si,no_slice);
     slices[si].u.pipe.u.branch.length = slack_length_direct+1;
     slices[si].u.pipe.u.branch.min_length = slack_length_direct+1;
   }
-  
+  else
+  {
+    pipe_set_predecessor(slices[si].u.pipe.next,si);
+    pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
+                         slices[si].u.pipe.next);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -2074,8 +2082,15 @@ void insert_helphashed_slice(slice_index si)
   slices[si].type = STHelpHashed;
   if (slices[slices[si].u.pipe.next].type==STLeafHelp)
   {
+    pipe_set_predecessor(si,no_slice);
     slices[si].u.pipe.u.branch.length = slack_length_help+1;
     slices[si].u.pipe.u.branch.min_length = slack_length_help+1;
+  }
+  else
+  {
+    pipe_set_predecessor(slices[si].u.pipe.next,si);
+    pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
+                         slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);
@@ -2098,7 +2113,10 @@ void insert_serieshashed_slice(slice_index si)
 
   slices[si].u.pipe.next = copy_slice(si);
   slices[si].type = STSeriesHashed;
-  
+  pipe_set_predecessor(slices[si].u.pipe.next,si);
+  pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
+                       slices[si].u.pipe.next);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

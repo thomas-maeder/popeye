@@ -6,6 +6,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -32,21 +33,16 @@ static void init_selfcheck_guard_slice(slice_index si)
 }
 
 /* Allocate a STSelfCheckGuard slice
- * @param next identifies next slice in branch
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_slice(slice_index next)
+slice_index alloc_selfcheck_guard_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice_index();
-  slices[result].starter = slices[next].starter;
-  slices[result].type = STSelfCheckGuard;
-  slices[result].u.pipe.next = next;
+  result = alloc_pipe(STSelfCheckGuard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -556,44 +552,46 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
                                                 slice_traversal *st)
 {
   boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[si].u.pipe.next].type!=STSelfCheckGuard)
-  {
-    pipe_insert_after(si);
-    init_selfcheck_guard_slice(slices[si].u.pipe.next);
-    slice_traverse_children(slices[si].u.pipe.next,st);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STSelfCheckGuard slice after a STHelpRoot slice
- */
-static boolean selfcheck_guards_inserter_help_root(slice_index si,
-                                                   slice_traversal *st)
-{
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].type==STBranchHelp)
+  assert(slices[next].type!=STSelfCheckGuard);
+
+  if (slices[next].u.pipe.prev==si)
   {
-    pipe_insert_before(slices[next].u.pipe.next);
-    init_selfcheck_guard_slice(slices[next].u.pipe.next);
-    slice_traverse_children(slices[next].u.pipe.next,st);
+    /* we are part of a loop
+     */
+    slice_index const guard = alloc_selfcheck_guard_slice();
+    branch_link(guard,next);
+    branch_link(si,guard);
+    slice_traverse_children(guard,st);
   }
   else
+  {
+    /* we are attached to a loop
+     */
     slice_traverse_children(si,st);
+
+    {
+      slice_index const next_pred = slices[next].u.pipe.prev;
+      if (slices[next_pred].type==STSelfCheckGuard)
+        /* a STSelfCheckGuard slice has been inserted in the loop
+         * before next; attach to it
+         */
+        pipe_set_successor(si,next_pred);
+      else
+      {
+        /* Create a STSelfCheckGuard slice of our own
+         */
+        slice_index const guard = alloc_selfcheck_guard_slice();
+        branch_link(si,guard);
+        pipe_set_successor(guard,next);
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -609,29 +607,17 @@ boolean selfcheck_guards_inserter_branch_direct_defender(slice_index si,
                                                          slice_traversal *st)
 {
   boolean const result = true;
-  slice_index guard_pos = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",guard_pos);
-
-  if (slices[guard_pos].type==STSelfDefense)
-  {
+  if (slices[slices[si].u.pipe.next].type==STSelfDefense)
     /* in self stipulations, the last defender's move may be allowed
      * to expose its own king (e.g. in s##!) */
-    guard_pos = slices[guard_pos].u.pipe.next;
-    TraceValue("->%u\n",guard_pos);
-  }
-
-  TraceEnumerator(SliceType,slices[guard_pos].type,"\n");
-  if (slices[guard_pos].type!=STSelfCheckGuard)
-  {
-    pipe_insert_before(guard_pos);
-    init_selfcheck_guard_slice(guard_pos);
-    slice_traverse_children(guard_pos,st);
-  }
+    slice_traverse_children(si,st);
+  else
+    selfcheck_guards_inserter_branch(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -653,8 +639,13 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   /* prevent double insertion if .next has more than one predecessor
    */
   assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
-  pipe_insert_after(si);
-  init_selfcheck_guard_slice(slices[si].u.pipe.next);
+
+  {
+    slice_index const guard = alloc_selfcheck_guard_slice();
+    branch_link(guard,slices[si].u.pipe.next);
+    branch_link(si,guard);
+  }
+
   slice_traverse_children(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
@@ -678,15 +669,13 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
     slice_index const inverter = slices[si].u.pipe.next;
     slice_index const parrying = slices[si].u.pipe.u.parry_fork.parrying;
 
-    pipe_insert_after(parrying);
-    init_selfcheck_guard_slice(slices[parrying].u.pipe.next);
-
-    /* circumvent STMoveInverter to prevent it from creating a
+    /* circumvent the STMoveInverter to prevent it from creating a
      * STSelfCheckGuard; if we take this path, we already know that
      * there is no check!
      */
     assert(slices[inverter].type==STMoveInverter);
     slice_traverse_children(inverter,st);
+    traverse_slices(parrying,st);
   }
 
   TraceFunctionExit(__func__);
@@ -713,7 +702,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_branch,        /* STDirectRoot */
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
-  &selfcheck_guards_inserter_help_root,     /* STHelpRoot */
+  &slice_traverse_children,                 /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpHashed */
   &slice_traverse_children,                 /* STSeriesRoot */
   &selfcheck_guards_inserter_parry_fork,    /* STParryFork */
@@ -722,7 +711,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STDirectDefense */
   &slice_traverse_children,                 /* STReflexGuard */
   &slice_traverse_children,                 /* STSelfAttack */
-  &slice_traverse_children,                 /* STSelfDefense */
+  &selfcheck_guards_inserter_branch,        /* STSelfDefense */
   0,                                        /* STRestartGuard */
   &slice_traverse_children,                 /* STGoalReachableGuard */
   0,                                        /* STKeepMatingGuard */
@@ -774,6 +763,9 @@ static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
 
   pipe_insert_before(si);
   init_selfcheck_guard_slice(si);
+  pipe_set_predecessor(slices[si].u.pipe.next,si);
+  pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
+                       slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

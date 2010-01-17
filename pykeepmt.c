@@ -3,6 +3,7 @@
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pyleaf.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -11,25 +12,26 @@
 /* **************** Initialisation ***************
  */
 
-/* Initialise a STKeepMatingGuard slice
- * @param si identifies slice to be initialised
+/* Allocate a STKeepMatingGuard slice
  * @param side mating side
+ * @return identifier of allocated slice
  */
-static void init_keepmating_guard_slice(slice_index si, Side mating)
+static slice_index alloc_keepmating_guard(Side mating)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",mating);
-  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,mating,"");
   TraceFunctionParamListEnd();
 
-  slices[si].type = STKeepMatingGuard; 
-  slices[si].starter = no_side; 
-  slices[si].u.pipe.u.keepmating_guard.mating = mating;
+  result = alloc_pipe(STKeepMatingGuard);
+  slices[result].u.pipe.u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
-
 
 /* **************** Implementation of interface Direct ***************
  */
@@ -548,6 +550,8 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -556,15 +560,19 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
   slice_traverse_children(si,st);
 
   if ((*km)[White])
-  {
-    pipe_insert_after(si);
-    init_keepmating_guard_slice(slices[si].u.pipe.next,White);
-  }
+    guard = alloc_keepmating_guard(White);
 
   if ((*km)[Black])
+    guard = alloc_keepmating_guard(Black);
+
+  if (guard!=no_slice)
   {
-    pipe_insert_after(si);
-    init_keepmating_guard_slice(slices[si].u.pipe.next,Black);
+    branch_link(si,guard);
+
+    if (slices[next].u.pipe.prev==si)
+      branch_link(guard,next);
+    else
+      pipe_set_successor(guard,next);
   }
   
   TraceFunctionExit(__func__);

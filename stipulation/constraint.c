@@ -6,6 +6,7 @@
 #include "pyslice.h"
 #include "pyoutput.h"
 #include "pydata.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -39,6 +40,39 @@ static void init_reflex_guard_slice(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Allocate a STReflexGuard slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param towards_goal identifies slice that leads towards goal from
+ *                     the branch
+ * @param to_be_avoided prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+static slice_index alloc_reflex_guard(stip_length_type length,
+                                      stip_length_type min_length,
+                                      slice_index towards_goal,
+                                      slice_index avoided)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParam("%u",avoided);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch(STReflexGuard,
+                        length,min_length,
+                        towards_goal);
+  slices[result].u.pipe.u.reflex_guard.avoided = avoided;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 
@@ -659,7 +693,7 @@ boolean reflex_guard_root_reduce_to_postkey_play(slice_index si,
   {
     assert(avoided!=no_slice);
     *postkey_slice = avoided;
-    dealloc_slice_index(si);
+    dealloc_slice(si);
     result = true;
   }
   else
@@ -672,9 +706,9 @@ boolean reflex_guard_root_reduce_to_postkey_play(slice_index si,
 
       if ((length-slack_length_direct)%2==1
           && length<=slack_length_direct+2)
-        dealloc_slice_index(avoided);
+        dealloc_slice(avoided);
 
-      dealloc_slice_index(si);
+      dealloc_slice(si);
     }
   }
 
@@ -740,16 +774,20 @@ static boolean reflex_guards_inserter_branch(slice_index si,
   {
     /* insert an STReflexGuard slice that switches to the next branch
      */
-    pipe_insert_after(si);
-    init_reflex_guard_slice(slices[si].u.pipe.next,
-                            length-1,min_length-1,
-                            param->to_be_avoided[1-length%2]);
+    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const avoided = param->to_be_avoided[1-length%2];
+    slice_index const guard = alloc_reflex_guard(length-1,min_length-1,
+                                                 towards_goal,avoided);
+    branch_link(si,guard);
   }
 
   pipe_insert_before(si);
   init_reflex_guard_slice(si,
                           length,min_length,
                           param->to_be_avoided[length%2]);
+  pipe_set_predecessor(slices[si].u.pipe.next,si);
+  pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
+                       slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -865,8 +903,8 @@ void slice_insert_reflex_guards(slice_index si, slice_index tobeavoided)
 
   param.to_be_avoided[0] = tobeavoided;
 
-  param.to_be_avoided[1] = copy_slice(tobeavoided);
-  slices[param.to_be_avoided[1]].type = STLeafDirect;
+  param.to_be_avoided[1] = alloc_leaf_slice(STLeafDirect,
+                                            slices[tobeavoided].u.leaf.goal);
 
   slice_traversal_init(&st,&reflex_guards_inserters,&param);
   traverse_slices(si,&st);
@@ -874,7 +912,6 @@ void slice_insert_reflex_guards(slice_index si, slice_index tobeavoided)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
 
 /* In alternate play, insert a STReflexGuard slice before a slice
  * where the reflex stipulation might force the side at the move to
@@ -886,7 +923,6 @@ static boolean reflex_guards_inserter_branch_semi(slice_index si,
   boolean const result = true;
   init_param const * const param = st->param;
   stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -898,10 +934,12 @@ static boolean reflex_guards_inserter_branch_semi(slice_index si,
   {
     /* insert an STReflexGuard slice that switches to the next branch
      */
-    pipe_insert_after(si);
-    init_reflex_guard_slice(slices[si].u.pipe.next,
-                            length-1,min_length-1,
-                            param->to_be_avoided[1-length%2]);
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const avoided = param->to_be_avoided[1-length%2];
+    slice_index const guard = alloc_reflex_guard(length-1,min_length-1,
+                                                 towards_goal,avoided);
+    branch_link(si,guard);
   }
 
   TraceFunctionExit(__func__);

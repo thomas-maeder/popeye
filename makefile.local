@@ -58,9 +58,9 @@ PLATFORMS =     platform/other platform/windows32 platform/dos \
 		platform/unix platform/windows64
 NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) \
 		conditions \
-		stipulation/series_play
+		stipulation stipulation/series_play
 NESTEDSRCDIRS = platform $(PLATFORMS) $(TOOLCHAINS) scripts \
-		DHT conditions stipulation/series_play
+		DHT conditions stipulation stipulation/series_play
 
 # enumerate libraries to link
 OURLIBS = $(NESTEDLIBDIRS:%=%/library.$(LIB_SUFFIX))

@@ -3,6 +3,7 @@
 #include "pydirect.h"
 #include "pyhelp.h"
 #include "pyseries.h"
+#include "stipulation/branch.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
@@ -75,21 +76,22 @@ static void IncrementMoveNbr(void)
   ++MoveNbr;
 }
 
-/* Initialise a STRestartGuard slice into an allocated and wired
- * pipe slice 
- * @param si identifies slice
+/* Allocate a STRestartGuard slice
+ * @return allocated slice
  */
-static void init_restart_guard_slice(slice_index si)
+static slice_index alloc_restart_guard(void)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].type = STRestartGuard;
-  slices[si].starter = slices[slices[si].u.pipe.next].starter;
+  result = alloc_pipe(STRestartGuard);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Try to defend after an attempted key move at root level
@@ -112,7 +114,7 @@ boolean restart_guard_root_defend(slice_index si)
     result = direct_defender_root_defend(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -179,13 +181,21 @@ static boolean restart_guards_inserter_root(slice_index si,
                                             slice_traversal *st)
 {
   boolean const result = true;
+  slice_index guard;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_insert_after(si);
-  init_restart_guard_slice(slices[si].u.pipe.next);
+  guard = alloc_restart_guard();
+
+  if (slices[next].u.pipe.prev==si)
+    branch_link(guard,next);
+  else
+    pipe_set_successor(guard,next);
+
+  branch_link(si,guard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

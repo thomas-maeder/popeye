@@ -9,10 +9,9 @@
  */
 
 /* Allocate a move inverter slice.
- * @param next next slice
  * @return index of allocated slice
  */
-slice_index alloc_move_inverter_slice(slice_index next);
+slice_index alloc_move_inverter_slice(void);
 
 /* Spin off a set play slice at root level
  * @param si slice index

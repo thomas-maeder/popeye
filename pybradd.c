@@ -5,6 +5,7 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
+#include "stipulation/branch.h"
 #include "pyoutput.h"
 #include "pymsg.h"
 #include "trace.h"
@@ -14,29 +15,22 @@
 /* Allocate a STBranchDirectDefender defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param towards_goal index of slice leading to goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_slice(stip_length_type length,
                                           stip_length_type min_length,
-                                          slice_index next,
                                           slice_index towards_goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STBranchDirectDefender; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.u.branch.towards_goal =towards_goal;
+  result = alloc_branch(STBranchDirectDefender,length,min_length,towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -47,29 +41,22 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
 /* Allocate a STDirectDefenderRoot defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice
  * @param fork identifies fork slice
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
                                                stip_length_type min_length,
-                                               slice_index next,
                                                slice_index towards_goal)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",next);
+  TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STDirectDefenderRoot; 
-  slices[result].starter = no_side; 
-  slices[result].u.pipe.next = next;
-  slices[result].u.pipe.u.branch.length = length;
-  slices[result].u.pipe.u.branch.min_length = min_length;
-  slices[result].u.pipe.u.branch.towards_goal = towards_goal;
+  result = alloc_branch(STDirectDefenderRoot,length,min_length,towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

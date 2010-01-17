@@ -3,18 +3,19 @@
 #include "trace.h"
 
 /* Allocate a new pipe and make an existing pipe its successor
- * @param successor successor of slice to be allocated
+ * @param type which slice type
  * @return newly allocated slice
  */
-slice_index alloc_pipe(slice_index successor)
+slice_index alloc_pipe(SliceType type)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",successor);
   TraceFunctionParamListEnd();
 
-  slices[result].u.pipe.next = successor;
+  result = alloc_slice(type);
+  slices[result].u.pipe.next = no_slice;
+  slices[result].u.pipe.prev = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -22,80 +23,89 @@ slice_index alloc_pipe(slice_index successor)
   return result;
 }
 
+/* Is a slice a pipe?
+ * @param si identifies slice
+ * @return true iff si identifies a pipe
+ */
+static boolean is_pipe(slice_index si)
+{
+  return (slices[si].type!=STLeafDirect
+          && slices[si].type!=STLeafHelp
+          && slices[si].type!=STLeafForced
+          && slices[si].type!=STQuodlibet
+          && slices[si].type!=STReciprocal);
+}
+
+/* Make a slice the predecessor of a pipe
+ * @param pipe identifies the pipe
+ * @param pred slice to be made the predecessor of pipe
+ */
+void pipe_set_predecessor(slice_index pipe, slice_index pred)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParam("%u",pred);
+  TraceFunctionParamListEnd();
+
+  if (is_pipe(pipe))
+    slices[pipe].u.pipe.prev = pred;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Make a slice the successor of a pipe
+ * @param pipe identifies the pipe
+ * @param succ slice to be made the successor of pipe
+ */
+void pipe_set_successor(slice_index pipe, slice_index succ)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParam("%u",succ);
+  TraceFunctionParamListEnd();
+
+  if (is_pipe(pipe))
+    slices[pipe].u.pipe.next = succ;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Installs a pipe slice before pipe slice si. I.e. every link that
  * currently leads to slice si will now lead to the new slice.
- * @param si identifies pipe slice before which to insert a new pipe slice
+ * @param pipe identifies pipe slice before which to insert a new pipe slice
  */
-void pipe_insert_before(slice_index si)
+void pipe_insert_before(slice_index pipe)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  slices[si].u.pipe.next = copy_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Installs a pipe slice after pipe slice si.
- * @param si identifies pipe slice after which to insert a new pipe slice
- */
-void pipe_insert_after(slice_index si)
-{
-  slice_index const curr_next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slices[si].u.pipe.next = copy_slice(curr_next);
-  TraceValue("%u",curr_next);
-  TraceValue("%u\n",slices[si].u.pipe.next);
-  slices[slices[si].u.pipe.next].u.pipe.next = curr_next;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Removes a pipe slice after pipe slice si. This is the inverse
- * operation to pipe_insert_after(); if another slice references
- * slices[si].u.pipe.next, that reference will be dangling.  
- * @param si identifies pipe slice after which to insert a new pipe slice
- */
-void pipe_remove_after(slice_index si)
-{
-  slice_index const removed = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slices[si].u.pipe.next = slices[removed].u.pipe.next;
-  dealloc_slice_index(removed);
+  slices[pipe].u.pipe.next = copy_slice(pipe);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 /* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
+ * @param pipe identifies slice being traversed
  * @param st status of traversal
  * @return true iff slice has been successfully traversed
  */
-boolean pipe_detect_starter(slice_index si, slice_traversal *st)
+boolean pipe_detect_starter(slice_index pipe, slice_traversal *st)
 {
   boolean result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[pipe].u.pipe.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  if (slices[si].starter==no_side)
+  if (slices[pipe].starter==no_side)
   {
-    result = traverse_slices(slices[si].u.pipe.next,st);
-    slices[si].starter = slices[next].starter;
+    result = traverse_slices(slices[pipe].u.pipe.next,st);
+    slices[pipe].starter = slices[next].starter;
   }
   else
     result = true;
@@ -107,23 +117,23 @@ boolean pipe_detect_starter(slice_index si, slice_traversal *st)
 }
 
 /* Impose the starting side on a stipulation
- * @param si identifies branch
+ * @param pipe identifies branch
  * @param st address of structure that holds the state of the traversal
  * @return true iff the operation is successful in the subtree of
  *         which si is the root
  */
-boolean pipe_impose_starter(slice_index si, slice_traversal *st)
+boolean pipe_impose_starter(slice_index pipe, slice_traversal *st)
 {
   boolean const result = true;
   Side const * const starter = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",pipe);
   TraceFunctionParam("%u",*starter);
   TraceFunctionParamListEnd();
 
-  slices[si].starter = *starter;
-  traverse_slices(slices[si].u.pipe.next,st);
+  slices[pipe].starter = *starter;
+  traverse_slices(slices[pipe].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -133,26 +143,26 @@ boolean pipe_impose_starter(slice_index si, slice_traversal *st)
 
 /* Impose the starting side on a stipulation. Impose the inverted
  * starter on the slice's successor. 
- * @param si identifies branch
+ * @param pipe identifies branch
  * @param st address of structure that holds the state of the traversal
  * @return true iff the operation is successful in the subtree of
  *         which si is the root
  */
-boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st)
+boolean pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st)
 {
   boolean const result = true;
   Side * const starter = st->param;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",pipe);
   TraceFunctionParam("%u",*starter);
   TraceFunctionParamListEnd();
 
-  slices[si].starter = *starter;
+  slices[pipe].starter = *starter;
 
   *starter = advers(*starter);
-  traverse_slices(slices[si].u.pipe.next,st);
-  *starter = slices[si].starter;
+  traverse_slices(slices[pipe].u.pipe.next,st);
+  *starter = slices[pipe].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -183,18 +193,18 @@ boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
 }
 
 /* Determine whether a slice has a solution
- * @param si slice index
+ * @param pipe slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type pipe_has_solution(slice_index si)
+has_solution_type pipe_has_solution(slice_index pipe)
 {
   has_solution_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.pipe.next);
+  result = slice_has_solution(slices[pipe].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -203,19 +213,19 @@ has_solution_type pipe_has_solution(slice_index si)
 }
 
 /* Determine whether a slice has a solution
- * @param si slice index
+ * @param pipe slice index
  * @param n exact number of half moves until end state has to be reached
  * @return true iff slice si has a solution
  */
-boolean pipe_series_solve_in_n(slice_index si, stip_length_type n)
+boolean pipe_series_solve_in_n(slice_index pipe, stip_length_type n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  result = series_solve_in_n(slices[si].u.pipe.next,n);
+  result = series_solve_in_n(slices[pipe].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

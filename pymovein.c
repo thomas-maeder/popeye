@@ -1,5 +1,7 @@
 #include "pymovein.h"
 #include "pyslice.h"
+#include "pypipe.h"
+#include "stipulation/branch.h"
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pydata.h"
@@ -9,20 +11,16 @@
 #include <assert.h>
 
 /* Allocate a move inverter slice.
- * @param next next slice
  * @return index of allocated slice
  */
-slice_index alloc_move_inverter_slice(slice_index next)
+slice_index alloc_move_inverter_slice(void)
 {
-  slice_index const result = alloc_slice_index();
+  slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  slices[result].type = STMoveInverter; 
-  slices[result].starter = no_side;
-  slices[result].u.pipe.next = next;
+  result = alloc_pipe(STMoveInverter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -38,24 +36,20 @@ slice_index alloc_move_inverter_slice(slice_index next)
 boolean move_inverter_root_make_setplay_slice(slice_index si,
                                               struct slice_traversal *st)
 {
-  boolean result;
+  boolean const result = true;
   slice_index * const next_set_slice = st->param;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(next,st);
-  if (*next_set_slice==no_slice)
-    result = false;
-  else
+  slice_traverse_children(si,st);
+
+  if (*next_set_slice!=no_slice)
   {
-    Side const next_set_starter = slices[*next_set_slice].starter;
-    *next_set_slice = alloc_move_inverter_slice(*next_set_slice);
-    slices[*next_set_slice].starter = advers(next_set_starter);
-    TraceEnumerator(Side,slices[*next_set_slice].starter,"\n");
-    result = true;
+    slice_index const inverter = alloc_move_inverter_slice();
+    branch_link(inverter,*next_set_slice);
+    *next_set_slice = inverter;
   }
 
   TraceFunctionExit(__func__);

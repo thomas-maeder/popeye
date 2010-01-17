@@ -3,6 +3,7 @@
 #include "pyproc.h"
 #include "pyseries.h"
 #include "pybrafrk.h"
+#include "stipulation/branch.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -63,22 +64,18 @@ boolean parry_fork_has_solution_in_n(slice_index si, stip_length_type n)
 
 /* Initialise a slice to be a STParryFork slice.
  * @param si identifies slice to be initialised
- * @param next identifies next slice
  * @param parrying identifies slice responsible for parrying
  */
 static void init_parry_fork(slice_index si,
-                            slice_index next,
                             slice_index parrying)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",next);
   TraceFunctionParam("%u",parrying);
   TraceFunctionParamListEnd();
 
   slices[si].type = STParryFork; 
   slices[si].starter = no_side; 
-  slices[si].u.pipe.next = next;
   slices[si].u.pipe.u.parry_fork.parrying = parrying;
 
   TraceFunctionExit(__func__);
@@ -96,15 +93,25 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
   TraceFunctionParam("%u",parrying);
   TraceFunctionParamListEnd();
 
+  root_slice = si;
+  TraceStipulation();
+
   {
-    slice_index const inverter = branch_find_slice(STMoveInverter,si);
-    slice_index const branch = slices[inverter].u.pipe.next;
-    assert(inverter!=no_slice);
-    assert(slices[branch].type==STBranchSeries
-           || slices[branch].type==STSeriesFork);
-    slices[parrying].u.pipe.next = branch;
-    pipe_insert_before(inverter);
-    init_parry_fork(inverter,slices[inverter].u.pipe.next,parrying);
+    slice_index const pos = branch_find_slice(STMoveInverter,si);
+    slice_index const next = slices[pos].u.pipe.next;
+    assert(pos!=no_slice);
+    assert(slices[next].type==STBranchSeries
+           || slices[next].type==STSeriesFork);
+    pipe_set_successor(parrying,next);
+    pipe_insert_before(pos);
+
+    {
+      slice_index const parry_fork = pos;
+      slice_index const inverter = slices[pos].u.pipe.next;
+      init_parry_fork(parry_fork,parrying);
+      branch_link(parry_fork,inverter);
+      branch_link(inverter,next);
+    }
   }
 
   TraceFunctionExit(__func__);

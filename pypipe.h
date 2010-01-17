@@ -10,53 +10,52 @@
 #include "pyslice.h"
 
 /* Allocate a new pipe and make an existing pipe its successor
- * @param successor successor of slice to be allocated
+ * @param type which slice type
  * @return newly allocated slice
  */
-slice_index alloc_pipe(slice_index successor);
+slice_index alloc_pipe(SliceType type);
+
+/* Make a slice the predecessor of a pipe
+ * @param pipe identifies the pipe
+ * @param pred slice to be made the predecessor of pipe
+ */
+void pipe_set_predecessor(slice_index pipe, slice_index pred);
+
+/* Make a slice the successor of a pipe
+ * @param pipe identifies the pipe
+ * @param succ slice to be made the successor of pipe
+ */
+void pipe_set_successor(slice_index pipe, slice_index succ);
 
 /* Installs a pipe slice before pipe slice si. I.e. every link that
  * currently leads to slice si will now lead to the new slice.
- * @param si identifies pipe slice before which to insert a new pipe slice
+ * @param pipe identifies pipe slice before which to insert a new pipe slice
  */
-void pipe_insert_before(slice_index si);
-
-/* Installs a pipe slice between pipe slice si and its current
- * successor slice. 
- * @param si identifies pipe slice after which to insert a new pipe slice
- */
-void pipe_insert_after(slice_index si);
-
-/* Removes a pipe slice after pipe slice si. This is the inverse
- * operation to pipe_insert_after(); if another slice references
- * slices[si].u.pipe.next, that reference will be dangling.  
- * @param si identifies pipe slice after which to insert a new pipe slice
- */
-void pipe_remove_after(slice_index si);
+void pipe_insert_before(slice_index pipe);
 
 /* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
+ * @param pipe identifies slice being traversed
  * @param st status of traversal
  * @return true iff slice has been successfully traversed
  */
-boolean pipe_detect_starter(slice_index si, slice_traversal *st);
+boolean pipe_detect_starter(slice_index pipe, slice_traversal *st);
 
 /* Impose the starting side on a stipulation
- * @param si identifies branch
+ * @param pipe identifies branch
  * @param st address of structure that holds the state of the traversal
  * @return true iff the operation is successful in the subtree of
  *         which si is the root
  */
-boolean pipe_impose_starter(slice_index si, slice_traversal *st);
+boolean pipe_impose_starter(slice_index pipe, slice_traversal *st);
 
 /* Impose the starting side on a stipulation. Impose the inverted
  * starter on the slice's successor. 
- * @param si identifies branch
+ * @param pipe identifies branch
  * @param st address of structure that holds the state of the traversal
  * @return true iff the operation is successful in the subtree of
  *         which si is the root
  */
-boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st);
+boolean pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st);
 
 /* Traverse the sub-graph starting at the successor slice of a pipe
  * slice (but don't traverse possible other children of the pipe
@@ -67,16 +66,16 @@ boolean pipe_impose_inverted_starter(slice_index si, slice_traversal *st);
 boolean pipe_traverse_next(slice_index pipe, slice_traversal *st);
 
 /* Determine whether a slice has a solution
- * @param si slice index
+ * @param pipe slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type pipe_has_solution(slice_index si);
+has_solution_type pipe_has_solution(slice_index pipe);
 
 /* Determine whether a slice has a solution
- * @param si slice index
+ * @param pipe slice index
  * @param n exact number of half moves until end state has to be reached
  * @return true iff slice si has a solution
  */
-boolean pipe_series_solve_in_n(slice_index si, stip_length_type n);
+boolean pipe_series_solve_in_n(slice_index pipe, stip_length_type n);
 
 #endif

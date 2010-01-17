@@ -81,15 +81,9 @@ typedef struct
             square target; /* for goal==goal_target */
         } leaf;
 
-        struct /* for type==STLeafSelf */
-        {
-            Goal goal;
-            square target; /* for goal==goal_target */
-            slice_index next;
-        } leafself;
-
         struct /* for types with 1 principal subsequent slice */
         {
+            slice_index prev;
             slice_index next;
 
             union
@@ -198,17 +192,18 @@ typedef enum
 /* Initialize the slice allocation machinery. To be called once at
  * program start
  */
-void init_slice_index_allocator(void);
+void init_slice_allocator(void);
 
 /* Allocate a slice index
+ * @param type which slice type
  * @return a so far unused slice index
  */
-slice_index alloc_slice_index(void);
+slice_index alloc_slice(SliceType type);
 
 /* Dellocate a slice index
  * @param si slice index deallocated
  */
-void dealloc_slice_index(slice_index si);
+void dealloc_slice(slice_index si);
 
 /* Allocate a target leaf slice.
  * @param type which STLeaf* type
@@ -236,7 +231,7 @@ void release_slices(void);
 /* Make sure that there are now allocated slices that are not
  * reachable
  */
-void assert_no_leaked_slice_indices(void);
+void assert_no_leaked_slices(void);
 
 /* Set the min_length field of a composite slice.
  * @param si index of composite slice
