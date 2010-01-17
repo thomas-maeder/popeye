@@ -42,7 +42,7 @@ void init_degenerate_tree(stip_length_type max_length_short)
 /* Allocate a STMaxFlightsquares slice
  * @return allocated slice
  */
-static slice_index alloc_degenerate_tree_guard_slice()
+static slice_index alloc_degenerate_tree_guard_slice(void)
 {
   slice_index result;
 
@@ -214,7 +214,6 @@ static boolean degenerate_tree_inserter_branch_direct(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
 
   {
     slice_index const prev = slices[si].u.pipe.prev;
