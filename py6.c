@@ -2651,7 +2651,8 @@ static boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_resolve_proxy(&slices[si].u.pipe.next);
+  if (slices[si].u.pipe.next!=no_slice)
+    pipe_resolve_proxy(&slices[si].u.pipe.next);
   slice_traverse_children(si,st);
   
   TraceFunctionExit(__func__);
