@@ -605,39 +605,10 @@ boolean self_guards_inserter_branch_direct_defender(slice_index si,
   return result;
 }
 
-/* Insert a STSelfAttack after each STBranchDirect slice if play is
- * allowed to continue in the following branch after moves played in
- * the STBranchDirect slice
+/* Insert a STSelfAttack after each STBranchDirect and STDirectRoot slice
  */
 static boolean self_guards_inserter_branch_direct(slice_index si,
                                                   slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const * const proxy_to_goal = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  slice_index self_attack;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  self_attack = alloc_self_attack(length-1,min_length-1,*proxy_to_goal);
-  branch_link(self_attack,slices[si].u.pipe.next);
-  branch_link(si,self_attack);
-  slice_traverse_children(self_attack,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STSelfAttack before anda STSelfDefense after each
- * STDirectRoot
- */
-static boolean self_guards_inserter_direct_root(slice_index si,
-                                                slice_traversal *st)
 {
   boolean const result = true;
   slice_index const * const proxy_to_goal = st->param;
@@ -676,7 +647,7 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,                          /* STQuodlibet */
   &slice_traverse_children,                          /* STNot */
   &slice_traverse_children,                          /* STMoveInverter */
-  &self_guards_inserter_direct_root,                 /* STDirectRoot */
+  &self_guards_inserter_branch_direct,               /* STDirectRoot */
   &self_guards_inserter_branch_direct_defender_root, /* STDirectDefenderRoot */
   &slice_traverse_children,                          /* STDirectHashed */
   &slice_traverse_children,                          /* STHelpRoot */

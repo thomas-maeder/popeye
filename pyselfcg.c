@@ -758,29 +758,6 @@ static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
   return result;
 }
 
-static
-boolean selfcheck_guards_inserter_toplevel_reflex_guard(slice_index si,
-                                                        slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prev = slices[si].prev;
-    slice_index const guard = alloc_selfcheck_guard_slice();
-    branch_link(prev,guard);
-    branch_link(guard,si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static slice_operation const selfcheck_guards_toplevel_inserters[] =
 {
   &slice_traverse_children,                      /* STProxy */
@@ -807,7 +784,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STSeriesHashed */
   &slice_operation_noop,                         /* STSelfCheckGuard */
   &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefense */
-  &selfcheck_guards_inserter_toplevel_reflex_guard, /* STReflexGuard */
+  &selfcheck_guards_inserter_toplevel_root,      /* STReflexGuard */
   0,                                             /* STSelfAttack */
   0,                                             /* STSelfDefense */
   0,                                             /* STRestartGuard */
