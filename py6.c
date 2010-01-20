@@ -2643,6 +2643,23 @@ static boolean fork_resolve_proxies(slice_index si, slice_traversal *st)
   return result;
 }
 
+static boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_resolve_proxy(&slices[si].u.pipe.next);
+  slice_traverse_children(si,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean branch_resolve_proxies(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
@@ -2653,7 +2670,7 @@ static boolean branch_resolve_proxies(slice_index si, slice_traversal *st)
 
   if (slices[si].u.pipe.u.branch.towards_goal!=no_slice)
     pipe_resolve_proxy(&slices[si].u.pipe.u.branch.towards_goal);
-  slice_traverse_children(si,st);
+  pipe_resolve_proxies(si,st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2670,7 +2687,7 @@ static boolean reflex_guard_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   pipe_resolve_proxy(&slices[si].u.pipe.u.reflex_guard.avoided);
-  slice_traverse_children(si,st);
+  pipe_resolve_proxies(si,st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2680,40 +2697,40 @@ static boolean reflex_guard_resolve_proxies(slice_index si, slice_traversal *st)
 
 static slice_operation const proxy_resolvers[] =
 {
-  &slice_traverse_children, /* STProxy */
-  &branch_resolve_proxies,  /* STBranchDirect */
-  &branch_resolve_proxies,  /* STBranchDirectDefender */
-  &branch_resolve_proxies,  /* STBranchHelp */
-  &branch_resolve_proxies,  /* STHelpFork */
-  &branch_resolve_proxies,  /* STBranchSeries */
-  &branch_resolve_proxies,  /* STSeriesFork */
-  &slice_traverse_children, /* STLeafDirect */
-  &slice_traverse_children, /* STLeafHelp */
-  &slice_traverse_children, /* STLeafForced */
-  &fork_resolve_proxies,    /* STReciprocal */
-  &fork_resolve_proxies,    /* STQuodlibet */
-  &slice_traverse_children, /* STNot */
-  &slice_traverse_children, /* STMoveInverter */
-  &branch_resolve_proxies,  /* STDirectRoot */
-  &branch_resolve_proxies,  /* STDirectDefenderRoot */
-  &branch_resolve_proxies,  /* STDirectHashed */
-  &branch_resolve_proxies,  /* STHelpRoot */
-  &branch_resolve_proxies,  /* STHelpHashed */
-  &branch_resolve_proxies,  /* STSeriesRoot */
-  &slice_traverse_children, /* STParryFork */
-  &branch_resolve_proxies,  /* STSeriesHashed */
-  &slice_traverse_children, /* STSelfCheckGuard */
-  &branch_resolve_proxies,  /* STDirectDefense */
+  &slice_traverse_children,      /* STProxy */
+  &branch_resolve_proxies,       /* STBranchDirect */
+  &branch_resolve_proxies,       /* STBranchDirectDefender */
+  &branch_resolve_proxies,       /* STBranchHelp */
+  &branch_resolve_proxies,       /* STHelpFork */
+  &branch_resolve_proxies,       /* STBranchSeries */
+  &branch_resolve_proxies,       /* STSeriesFork */
+  &slice_traverse_children,      /* STLeafDirect */
+  &slice_traverse_children,      /* STLeafHelp */
+  &slice_traverse_children,      /* STLeafForced */
+  &fork_resolve_proxies,         /* STReciprocal */
+  &fork_resolve_proxies,         /* STQuodlibet */
+  &slice_traverse_children,      /* STNot */
+  &pipe_resolve_proxies,         /* STMoveInverter */
+  &branch_resolve_proxies,       /* STDirectRoot */
+  &branch_resolve_proxies,       /* STDirectDefenderRoot */
+  &branch_resolve_proxies,       /* STDirectHashed */
+  &branch_resolve_proxies,       /* STHelpRoot */
+  &branch_resolve_proxies,       /* STHelpHashed */
+  &branch_resolve_proxies,       /* STSeriesRoot */
+  &slice_traverse_children,      /* STParryFork */
+  &branch_resolve_proxies,       /* STSeriesHashed */
+  &pipe_resolve_proxies,         /* STSelfCheckGuard */
+  &branch_resolve_proxies,       /* STDirectDefense */
   &reflex_guard_resolve_proxies, /* STReflexGuard */
-  &branch_resolve_proxies,  /* STSelfAttack */
-  &branch_resolve_proxies,  /* STSelfDefense */
-  &slice_traverse_children, /* STRestartGuard */
-  &slice_traverse_children, /* STGoalReachableGuard */
-  &slice_traverse_children, /* STKeepMatingGuard */
-  &slice_traverse_children, /* STMaxFlightsquares */
-  &slice_traverse_children, /* STDegenerateTree */
-  &slice_traverse_children, /* STMaxNrNonTrivial */
-  &slice_traverse_children  /* STMaxThreatLength */
+  &branch_resolve_proxies,       /* STSelfAttack */
+  &branch_resolve_proxies,       /* STSelfDefense */
+  &slice_traverse_children,      /* STRestartGuard */
+  &pipe_resolve_proxies,         /* STGoalReachableGuard */
+  &slice_traverse_children,      /* STKeepMatingGuard */
+  &slice_traverse_children,      /* STMaxFlightsquares */
+  &slice_traverse_children,      /* STDegenerateTree */
+  &slice_traverse_children,      /* STMaxNrNonTrivial */
+  &slice_traverse_children       /* STMaxThreatLength */
 };
 
 /* Substitute links to proxy slices by the proxy's target

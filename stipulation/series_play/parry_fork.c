@@ -98,21 +98,24 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 
   {
     slice_index const branch = branch_find_slice(STBranchSeries,si);
-    slice_index const pos = branch_find_slice(STMoveInverter,branch);
-    slice_index const next = slices[pos].u.pipe.next;
-    slice_index const prev = slices[pos].prev;
+    slice_index const inverter = branch_find_slice(STMoveInverter,branch);
+    slice_index const next = slices[inverter].u.pipe.next;
+    slice_index const prev = slices[inverter].prev;
     slice_index const fork = alloc_parry_fork(parrying);
+    slice_index const proxy_to_next = alloc_proxy_pipe();
 
-    assert(pos!=no_slice);
+    assert(inverter!=no_slice);
     assert(slices[next].type==STBranchSeries
            || slices[next].type==STSeriesFork);
 
     branch_link(prev,fork);
-    branch_link(fork,pos);
+    branch_link(fork,inverter);
 
-    pipe_set_successor(parrying,next);
+    branch_link(inverter,proxy_to_next);
+    branch_link(proxy_to_next,next);
+    pipe_set_successor(parrying,proxy_to_next);
 
-    if (slices[branch].u.pipe.next==pos)
+    if (slices[branch].u.pipe.next==inverter)
       /* if in the playe after the branch, the same side is to move as
        * in the branch (e.g. in s pser-#N), we have to make sure that
        * the other side gets the chance to parry.
