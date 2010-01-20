@@ -24,16 +24,6 @@ slice_index alloc_direct_branch(branch_level level,
                                 stip_length_type min_length,
                                 slice_index proxy_to_goal);
 
-/* Allocate a nested (i.e. non toplevel) direct branch
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return identifier for entry slice of allocated branch
- */
-slice_index alloc_nested_direct_branch(stip_length_type length,
-                                       stip_length_type min_length,
-                                       slice_index proxy_to_goal);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
