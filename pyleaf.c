@@ -657,7 +657,7 @@ goal_checker_result_type leaf_is_goal_reached(Side just_moved,
   boolean result = goal_not_reached;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",just_moved);
+  TraceEnumerator(Side,just_moved,"");
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
   assert(slices[leaf].starter!=no_side);

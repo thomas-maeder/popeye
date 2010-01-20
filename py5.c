@@ -4051,8 +4051,9 @@ boolean immobile(Side camp)
 {
   square const *immobilesquare= boardnum;  /* local to allow recursion */
   boolean const whbl_exact= camp==White ? wh_exact : bl_exact;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",camp);
+  TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
   if (!whbl_exact && !flag_testlegality)
