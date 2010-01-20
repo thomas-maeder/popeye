@@ -98,7 +98,7 @@ static slice_index alloc_toplevel_direct_branch(stip_length_type length,
   assert(length>slack_length_direct);
   assert(min_length>=slack_length_direct);
 
-  if (length%2==0)
+  if ((length-slack_length_direct)%2==0)
   {
     if (length-slack_length_direct==2)
     {
@@ -210,7 +210,6 @@ slice_index alloc_nested_direct_branch(stip_length_type length,
                                        slice_index proxy_to_goal)
 {
   slice_index result;
-  slice_index defender;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -222,13 +221,20 @@ slice_index alloc_nested_direct_branch(stip_length_type length,
   assert(min_length>=slack_length_direct);
   assert(min_length%2==length%2);
 
-  /* TODO direct initialisation of nested branch */
-  result = alloc_toplevel_direct_branch(length,min_length,proxy_to_goal);
-  slices[result].type = STBranchDirect;
 
-  defender = branch_find_slice(STDirectDefenderRoot,result);
-  if (defender!=no_slice)
-    slices[defender].type = STBranchDirectDefender;
+  result = alloc_branch_d_slice(length,min_length,proxy_to_goal);
+
+  if (length-slack_length_direct>1)
+  {
+    stip_length_type const defender_min_length = (min_length>slack_length_direct
+                                                  ? min_length-1
+                                                  : min_length+1);
+    slice_index const def = alloc_branch_d_defender_slice(length-1,
+                                                          defender_min_length,
+                                                          proxy_to_goal);
+    branch_link(result,def);
+    branch_link(def,result);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
