@@ -180,7 +180,9 @@ void assert_no_leaked_slices(void)
   for (i = 0; i!=max_nr_slices; ++i)
   {
     if (leaked[i])
+    { /* TraceValue expands to nothing unless DOTRACE is #defined */
       TraceValue("leaked:%u\n",i);
+    }
     assert(!leaked[i]);
   }
 }
