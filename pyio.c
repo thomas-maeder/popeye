@@ -2955,8 +2955,6 @@ static char *ParseStructuredStip_leaf(char *tok,
                                       slice_index proxy,
                                       boolean startLikeBranch)
 {
-  SliceType leaf_type;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
@@ -2964,26 +2962,22 @@ static char *ParseStructuredStip_leaf(char *tok,
   TraceFunctionParamListEnd();
 
   /* e.g. d= for a direct leaf with goal stalemate */
-  leaf_type = ParseStructuredStip_leaf_type(tok[0]);
-  if (leaf_type==no_slice_type)
-    tok = 0;
-  else
+  switch (ParseStructuredStip_leaf_type(tok[0]))
   {
-    tok = ParseGoal(tok+1,leaf_type,proxy);
-    switch (leaf_type)
-    {
-      case STLeafDirect:
-        if (!startLikeBranch)
-          slices[slices[proxy].u.pipe.next].type = STLeafHelp;
-        break;
+    case STLeafDirect:
+      if (startLikeBranch)
+        tok = ParseGoal(tok+1,STLeafDirect,proxy);
+      else
+        tok = ParseGoal(tok+1,STLeafHelp,proxy);
+      break;
 
-      case STLeafForced:
-        break;
+    case STLeafForced:
+      tok = ParseGoal(tok+1,STLeafForced,proxy);
+      break;
 
-      default:
-        tok = 0;
-        break;
-    }
+    default:
+      tok = 0;
+      break;
   }
   
   TraceFunctionExit(__func__);
