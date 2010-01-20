@@ -715,18 +715,17 @@ static boolean selfcheck_guards_inserter_toplevel_leaf(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
-  slice_index new_leaf;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  new_leaf = copy_slice(si);
-  slices[si].type = STSelfCheckGuard;
-  slices[si].starter = slices[new_leaf].starter;
-  slices[si].u.pipe.next = new_leaf;
-  slices[si].u.pipe.u.branch.length = slack_length_direct;
-  slices[si].u.pipe.u.branch.min_length = slack_length_direct;
+  {
+    slice_index const prev = slices[si].prev;
+    slice_index const guard = alloc_selfcheck_guard_slice();
+    branch_link(prev,guard);
+    branch_link(guard,si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

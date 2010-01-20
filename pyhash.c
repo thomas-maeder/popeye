@@ -2007,33 +2007,41 @@ static slice_index alloc_direct_hashed_slice(stip_length_type length,
  */
 void insert_directhashed_slice(slice_index si)
 {
-  slice_index const prev = slices[si].prev;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type!=STDirectHashed);
   TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STLeafDirect:
+    {
+      slice_index const hash = alloc_direct_hashed_slice(slack_length_direct+1,
+                                                         slack_length_direct+1,
+                                                         no_slice);
+      slice_index const prev = slices[si].prev;
+      branch_link(hash,si);
+      branch_link(prev,hash);
+      break;
+    }
 
-  if (slices[si].type==STLeafDirect)
-  {
-    slice_index const hash = alloc_direct_hashed_slice(slack_length_direct+1,
-                                                       slack_length_direct+1,
-                                                       no_slice);
-    branch_link(hash,si);
-    branch_link(prev,hash);
-  }
-  else
-  {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-    slice_index const hash = alloc_direct_hashed_slice(length,
-                                                       min_length,
-                                                       to_goal);
-    branch_link(hash,si);
-    branch_link(prev,hash);
+    case STBranchDirect:
+    {
+      stip_length_type const length = slices[si].u.pipe.u.branch.length;
+      stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+      slice_index const hash = alloc_direct_hashed_slice(length,
+                                                         min_length,
+                                                         to_goal);
+      slice_index const prev = slices[si].prev;
+      branch_link(hash,si);
+      branch_link(prev,hash);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -2072,33 +2080,42 @@ static slice_index alloc_help_hashed_slice(stip_length_type length,
  */
 void insert_helphashed_slice(slice_index si)
 {
-  slice_index const prev = slices[si].prev;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type!=STHelpHashed);
   TraceEnumerator(SliceType,slices[si].type,"\n");
 
-  if (slices[si].type==STLeafHelp)
+  switch (slices[si].type)
   {
-    slice_index const hash = alloc_help_hashed_slice(slack_length_help+1,
-                                                     slack_length_help+1,
-                                                     no_slice);
-    branch_link(hash,si);
-    branch_link(prev,hash);
-  }
-  else
-  {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-    slice_index const hash = alloc_help_hashed_slice(length,
-                                                     min_length,
-                                                     to_goal);
-    branch_link(hash,si);
-    branch_link(prev,hash);
+    case STLeafHelp:
+    {
+      slice_index const hash = alloc_help_hashed_slice(slack_length_help+1,
+                                                       slack_length_help+1,
+                                                       no_slice);
+      slice_index const prev = slices[si].prev;
+      branch_link(hash,si);
+      branch_link(prev,hash);
+      break;
+    }
+
+    case STBranchHelp:
+    {
+      stip_length_type const length = slices[si].u.pipe.u.branch.length;
+      stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+      slice_index const hash = alloc_help_hashed_slice(length,
+                                                       min_length,
+                                                       to_goal);
+      slice_index const prev = slices[si].prev;
+      branch_link(hash,si);
+      branch_link(prev,hash);
+      break;
+    }
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -2115,14 +2132,20 @@ void insert_serieshashed_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type!=STSeriesHashed);
   TraceEnumerator(SliceType,slices[si].type,"\n");
+  assert(slices[si].type==STBranchSeries);
 
-  slices[si].u.pipe.next = copy_slice(si);
-  slices[si].type = STSeriesHashed;
-  pipe_set_predecessor(slices[si].u.pipe.next,si);
-  pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
-                       slices[si].u.pipe.next);
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const hash = alloc_branch(STSeriesHashed,
+                                          length,min_length,
+                                          proxy_to_goal);
+    slice_index const prev = slices[si].prev;
+    branch_link(hash,si);
+    branch_link(prev,hash);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
