@@ -15,13 +15,13 @@
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
 slice_index alloc_series_branch_next_other_starter(branch_level level,
                                                    stip_length_type length,
                                                    stip_length_type min_length,
-                                                   slice_index towards_goal);
+                                                   slice_index proxy_to_goal);
 
 /* Allocate a series branch where the next slice has the same starter
  * as the series.
@@ -29,21 +29,21 @@ slice_index alloc_series_branch_next_other_starter(branch_level level,
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
 slice_index alloc_series_branch_next_same_starter(branch_level level,
                                                   stip_length_type length,
                                                   stip_length_type min_length,
-                                                  slice_index towards_goal);
+                                                  slice_index proxy_to_goal);
 
 /* Promote a slice that was created as STBranchSeries to STSeriesRoot
  * because the assumption that the slice is nested in some other slice
  * turned out to be wrong.
- * @param branch identifies slice to be promoted
+ * @param proxy identifies proxy to slice to be promoted
  * @return identifier of toplevel slice
  */
-slice_index branch_ser_promote_to_toplevel(slice_index branch);
+void branch_ser_promote_to_toplevel(slice_index proxy);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

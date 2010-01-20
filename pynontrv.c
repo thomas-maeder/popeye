@@ -316,6 +316,7 @@ static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
 
 static slice_operation const max_nr_nontrivial_guards_inserters[] =
 {
+  &slice_traverse_children,                 /* STProxy */
   &nontrivial_guard_inserter_branch_direct, /* STBranchDirect */
   &slice_traverse_children,                 /* STBranchDirectDefender */
   &slice_traverse_children,                 /* STBranchHelp */
@@ -360,7 +361,7 @@ void stip_insert_max_nr_nontrivial_guards(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&max_nr_nontrivial_guards_inserters,0);
   traverse_slices(root_slice,&st);

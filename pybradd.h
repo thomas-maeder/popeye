@@ -14,22 +14,22 @@
 /* Allocate a STBranchDirectDefender defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_slice(stip_length_type length,
                                           stip_length_type min_length,
-                                          slice_index towards_goal);
+                                          slice_index proxy_to_goal);
 
 /* Allocate a STDirectDefenderRoot defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
                                                stip_length_type min_length,
-                                               slice_index towards_goal);
+                                               slice_index proxy_to_goal);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't

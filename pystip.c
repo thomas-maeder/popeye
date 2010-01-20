@@ -29,7 +29,9 @@
 
 #define ENUMERATION_TYPENAME SliceType
 #define ENUMERATORS \
-  ENUMERATOR(STBranchDirect),      /* M-N moves of direct play */       \
+  ENUMERATOR(STProxy),                                                  \
+                                                                        \
+    ENUMERATOR(STBranchDirect),      /* M-N moves of direct play */     \
     ENUMERATOR(STBranchDirectDefender),                                 \
     ENUMERATOR(STBranchHelp),      /* M-N moves of help play */         \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
@@ -72,6 +74,8 @@
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
+                                                                        \
+    ENUMERATOR(STProxy),                                                \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
@@ -119,6 +123,7 @@ static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
 
 static slice_operation const reachable_slices_markers[] =
 {
+  0,                     /* STProxy */
   &mark_reachable_slice, /* STBranchDirect */
   &mark_reachable_slice, /* STBranchDirectDefender */
   &mark_reachable_slice, /* STBranchHelp */
@@ -160,7 +165,7 @@ static slice_operation const reachable_slices_markers[] =
 void assert_no_leaked_slices(void)
 {
   boolean leaked[max_nr_slices];
-  unsigned int i;
+  slice_index i;
   slice_traversal st;
 
   for (i = 0; i!=max_nr_slices; ++i)
@@ -173,7 +178,11 @@ void assert_no_leaked_slices(void)
   traverse_slices(root_slice,&st);
 
   for (i = 0; i!=max_nr_slices; ++i)
+  {
+    if (leaked[i])
+      TraceValue("leaked:%u\n",i);
     assert(!leaked[i]);
+  }
 }
 
 /* Initialize the slice allocation machinery. To be called once at
@@ -291,7 +300,11 @@ slice_index copy_slice(slice_index original)
   TraceFunctionParam("%u",original);
   TraceFunctionParamListEnd();
 
-  result = alloc_slice(slices[original].type);
+  if (slices[original].type==STProxy)
+    result = alloc_proxy_pipe();
+  else
+    result = alloc_slice(slices[original].type);
+
   slices[result] = slices[original];
 
   TraceFunctionExit(__func__);
@@ -479,6 +492,7 @@ static boolean get_max_nr_moves_other(slice_index si, slice_traversal *st)
 
 static slice_operation const get_max_nr_moves_functions[] =
 {
+  &slice_traverse_children,          /* STProxy */
   &get_max_nr_moves_other,           /* STBranchDirect */
   &get_max_nr_moves_direct_defender, /* STBranchDirectDefender */
   &get_max_nr_moves_branch,          /* STBranchHelp */
@@ -571,6 +585,7 @@ static boolean find_unique_goal_leaf(slice_index si, slice_traversal *st)
 
 static slice_operation const unique_goal_finders[] =
 {
+  0,                        /* STProxy */
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
@@ -639,23 +654,25 @@ typedef slice_index copies_type[max_nr_slices];
 
 /* Recursive implementation of in-place deep copying a stipulation
  * sub-tree
- * @param si address of root of sub-tree
+ * @param si root of sub-tree
  * @param copies address of array remembering what copies have already
  *               been made
  */
-static void deep_copy_recursive(slice_index *si, copies_type *copies)
+static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
 {
+  slice_index result = (*copies)[si];
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*si);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if ((*copies)[*si]==no_slice)
+  if (result==no_slice)
   {
-    (*copies)[*si] = copy_slice(*si);
-    *si = (*copies)[*si];
+    result = copy_slice(si);
+    (*copies)[si] = result;
 
-    TraceEnumerator(SliceType,slices[*si].type,"\n");
-    switch (slices[*si].type)
+    TraceEnumerator(SliceType,slices[si].type,"\n");
+    switch (slices[si].type)
     {
       case STLeafDirect:
       case STLeafHelp:
@@ -676,16 +693,30 @@ static void deep_copy_recursive(slice_index *si, copies_type *copies)
       case STReflexGuard:
       case STSelfAttack:
       case STSelfDefense:
-        deep_copy_recursive(&slices[*si].u.pipe.u.branch.towards_goal,copies);
-        deep_copy_recursive(&slices[*si].u.pipe.next,copies);
+      {
+        slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+        slice_index const to_goal_copy = deep_copy_recursive(to_goal,copies);
+        slice_index const next = slices[si].u.pipe.next;
+        slice_index const next_copy = deep_copy_recursive(next,copies);
+        slices[result].u.pipe.u.branch.towards_goal = to_goal_copy;
+        branch_link(result,next_copy);
         break;
+      }
 
       case STHelpRoot:
-        deep_copy_recursive(&slices[*si].u.pipe.u.help_root.towards_goal,
-                            copies);
-        deep_copy_recursive(&slices[*si].u.pipe.next,copies);
-        deep_copy_recursive(&slices[*si].u.pipe.u.help_root.short_sols,copies);
+      {
+        slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
+        slice_index const to_goal_copy = deep_copy_recursive(to_goal,copies);
+        slice_index const next = slices[si].u.pipe.next;
+        slice_index const next_copy = deep_copy_recursive(next,copies);
+        slice_index const short_sols = slices[si].u.pipe.u.help_root.short_sols;
+        slice_index const short_sols_copy = deep_copy_recursive(short_sols,
+                                                                copies);
+        slices[result].u.pipe.u.help_root.towards_goal = to_goal_copy;
+        slices[result].u.pipe.u.help_root.short_sols = short_sols_copy;
+        branch_link(result,next_copy);
         break;
+      }
 
       case STNot:
       case STMoveInverter:
@@ -699,25 +730,36 @@ static void deep_copy_recursive(slice_index *si, copies_type *copies)
       case STMaxFlightsquares:
       case STMaxNrNonTrivial:
       case STMaxThreatLength:
-        deep_copy_recursive(&slices[*si].u.pipe.next,copies);
+      case STProxy:
+      {
+        slice_index const next = slices[si].u.pipe.next;
+        slice_index const next_copy = deep_copy_recursive(next,copies);
+        branch_link(result,next_copy);
         break;
+      }
 
       case STQuodlibet:
       case STReciprocal:
-        deep_copy_recursive(&slices[*si].u.fork.op1,copies);
-        deep_copy_recursive(&slices[*si].u.fork.op2,copies);
+      {
+        slice_index const op1 = slices[si].u.fork.op1;
+        slice_index const op1_copy = deep_copy_recursive(op1,copies);
+        slice_index const op2 = slices[si].u.fork.op2;
+        slice_index const op2_copy = deep_copy_recursive(op2,copies);
+        slices[result].u.fork.op1 = op1_copy;
+        slices[result].u.fork.op2 = op2_copy;
         break;
+      }
 
       default:
         assert(0);
         break;
     }
   }
-  else
-    *si = (*copies)[*si];
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* in-place deep copying a stipulation sub-tree
@@ -728,6 +770,7 @@ static slice_index deep_copy(slice_index si)
 {
   copies_type copies;
   slice_index i;
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -736,12 +779,12 @@ static slice_index deep_copy(slice_index si)
   for (i = 0; i!=max_nr_slices; ++i)
     copies[i] = no_slice;
 
-  deep_copy_recursive(&si,&copies);
+  result = deep_copy_recursive(si,&copies);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",si);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return si;
+  return result;
 }
 
 /* Convert a leaf slice to STLeafDirect as part of a traversal
@@ -768,6 +811,7 @@ static boolean make_leaf_direct(slice_index si, slice_traversal *st)
 
 static slice_operation const leaves_direct_makers[] =
 {
+  &slice_traverse_children,   /* STProxy */
   &slice_traverse_children,   /* STBranchDirect */
   &slice_traverse_children,   /* STBranchDirectDefender */
   &slice_traverse_children,   /* STBranchHelp */
@@ -820,21 +864,23 @@ static void make_leaves_direct(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void make_successor_direct_defense(slice_index successor,
-                                          slice_index towards_goal)
+static void insert_direct_defense_after(slice_index pos,
+                                        slice_index proxy_to_goal)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",successor);
-  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParam("%u",pos);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  if (slices[successor].type==STDirectDefense)
+  if (slices[slices[pos].u.pipe.next].type==STDirectDefense)
     /* already done*/ ;
   else
   {
-    slices[successor].u.pipe.next = copy_slice(successor);
-    slices[successor].type = STDirectDefense;
-    slices[successor].u.pipe.u.branch.towards_goal = towards_goal;
+    stip_length_type const length = slices[pos].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[pos].u.pipe.u.branch.min_length;
+    slice_index dirdef = alloc_direct_defense(length,min_length,proxy_to_goal);
+    branch_link(dirdef,slices[pos].u.pipe.next);
+    branch_link(pos,dirdef);
   }
 
   TraceFunctionExit(__func__);
@@ -845,19 +891,19 @@ static boolean transform_to_quodlibet_direct_root(slice_index si,
                                                   slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-  slice_index * const new_to_goal = st->param;
+  slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index * const new_proxy_to_goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *new_to_goal = deep_copy(to_goal);
-  make_leaves_direct(*new_to_goal);
+  *new_proxy_to_goal = deep_copy(proxy_to_goal);
+  make_leaves_direct(*new_proxy_to_goal);
 
   slice_traverse_children(si,st);
 
-  *new_to_goal = no_slice;
+  *new_proxy_to_goal = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -869,8 +915,8 @@ static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
                                                              slice_traversal *st)
 {
   boolean const result = true;
-  slice_index successor = slices[si].u.pipe.next;
-  slice_index const * const new_to_goal = st->param;
+  slice_index pos = si;
+  slice_index const * const new_proxy_to_goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -878,17 +924,15 @@ static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
 
   slice_traverse_children(si,st);
 
-  assert(*new_to_goal!=no_slice);
-
   /* If we are instrumenting a s#N, append a STDirectDefense slice
    * after each STSelfDefense.
    * Otherwise (i.e. if we are instrumenting a semi-r#n), insert the
    * STDirectDefense slice directly after each STBranchDirectDefender
    * slice.
    */
-  if (slices[successor].type==STSelfDefense)
-    successor = slices[successor].u.pipe.next;
-  make_successor_direct_defense(successor,*new_to_goal);
+  if (slices[slices[pos].u.pipe.next].type==STSelfDefense)
+    pos = slices[pos].u.pipe.next;
+  insert_direct_defense_after(pos,*new_proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -917,6 +961,7 @@ static boolean transform_to_quodlibet_branch_fork(slice_index si,
 
 static slice_operation const to_quodlibet_transformers[] =
 {
+  &slice_traverse_children,                       /* STProxy */
   &slice_traverse_children,                       /* STBranchDirect */
   &transform_to_quodlibet_branch_direct_defender, /* STBranchDirectDefender */
   0,                                              /* STBranchHelp */
@@ -963,7 +1008,7 @@ void transform_to_quodlibet(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&to_quodlibet_transformers,&towards_goal);
   traverse_slices(root_slice,&st);
@@ -974,6 +1019,7 @@ void transform_to_quodlibet(void)
 
 static slice_operation const to_postkey_play_reducers[] =
 {
+  &slice_traverse_children,                       /* STProxy */
   0,                                              /* STBranchDirect */
   0,                                              /* STBranchDirectDefender */
   0,                                              /* STBranchHelp */
@@ -1009,6 +1055,18 @@ static slice_operation const to_postkey_play_reducers[] =
   0                                               /* STMaxThreatLength */
 };
 
+/* Install the slice representing the postkey slice at the stipulation
+ * root
+ * @param postkey_slice identifies slice to be installed
+ */
+static void install_postkey_slice(slice_index postkey_slice)
+{
+  slice_index const inverter = alloc_move_inverter_slice();
+  branch_link(inverter,postkey_slice);
+  assert(slices[root_slice].type==STProxy);
+  pipe_set_successor(root_slice,inverter);
+}
+
 /* Attempt to apply the postkey play option to the current stipulation
  * @return true iff postkey play option is applicable (and has been
  *              applied)
@@ -1022,7 +1080,7 @@ boolean stip_apply_postkeyplay(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&to_postkey_play_reducers,&postkey_slice);
   traverse_slices(root_slice,&st);
@@ -1031,9 +1089,14 @@ boolean stip_apply_postkeyplay(void)
     result = false;
   else
   {
+    if (slices[postkey_slice].type==STProxy)
+    {
+      install_postkey_slice(slices[postkey_slice].u.pipe.next);
+      dealloc_slice(postkey_slice);
+    }
+    else
+      install_postkey_slice(postkey_slice);
     result = true;
-    root_slice = alloc_move_inverter_slice();
-    branch_link(root_slice,postkey_slice);
   }
 
   TraceFunctionExit(__func__);
@@ -1044,6 +1107,7 @@ boolean stip_apply_postkeyplay(void)
 
 static slice_operation const setplay_makers[] =
 {
+  &slice_traverse_children,                   /* STProxy */
   0,                                          /* STBranchDirect */
   0,                                          /* STBranchDirectDefender */
   0,                                          /* STBranchHelp */
@@ -1086,10 +1150,14 @@ static void combine_set_play(slice_index setplay_slice)
 {
   slice_index sc;
   slice_index mi;
-  Side const starter = slices[root_slice].starter;
+  slice_index op1;
+  slice_index op2;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",setplay_slice);
   TraceFunctionParamListEnd();
+
+  assert(slices[setplay_slice].type!=STProxy);
 
   sc = alloc_selfcheck_guard_slice();
   branch_link(sc,setplay_slice);
@@ -1097,9 +1165,14 @@ static void combine_set_play(slice_index setplay_slice)
   mi = alloc_move_inverter_slice();
   branch_link(mi,sc);
 
-  root_slice = alloc_quodlibet_slice(mi,root_slice);
-  slices[root_slice].starter = starter;
-  TraceValue("->%u\n",root_slice);
+  op1 = alloc_proxy_pipe();
+  branch_link(op1,mi);
+
+  op2 = alloc_proxy_pipe();
+  branch_link(op2,slices[root_slice].u.pipe.next);
+
+  assert(slices[root_slice].type==STProxy);
+  pipe_set_successor(root_slice,alloc_quodlibet_slice(op1,op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -1117,7 +1190,7 @@ boolean stip_apply_setplay(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&setplay_makers,&setplay_slice);
   traverse_slices(root_slice,&st);
@@ -1184,6 +1257,7 @@ static boolean leaf_ends_only_in(slice_index si, slice_traversal *st)
 
 static slice_operation const slice_ends_only_in_checkers[] =
 {
+  &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
@@ -1264,6 +1338,7 @@ static boolean slice_ends_in_one_of_leaf(slice_index si, slice_traversal *st)
 
 static slice_operation const slice_ends_in_one_of_checkers[] =
 {
+  &slice_traverse_children,   /* STProxy */
   &slice_traverse_children,   /* STBranchDirect */
   &slice_traverse_children,   /* STBranchDirectDefender */
   &slice_traverse_children,   /* STBranchHelp */
@@ -1337,6 +1412,7 @@ static boolean make_exact_branch(slice_index branch, slice_traversal *st)
 
 static slice_operation const exact_makers[] =
 {
+  &slice_traverse_children, /* STProxy */
   &make_exact_branch,       /* STBranchDirect */
   &make_exact_branch,       /* STBranchDirectDefender */
   &make_exact_branch,       /* STBranchHelp */
@@ -1390,6 +1466,7 @@ void stip_make_exact(void)
 
 static slice_operation const starter_detectors[] =
 {
+  &pipe_detect_starter,                   /* STProxy */
   &branch_d_detect_starter,               /* STBranchDirect */
   0,                                      /* STBranchDirectDefender */
   &branch_h_detect_starter,               /* STBranchHelp */
@@ -1434,7 +1511,7 @@ void stip_detect_starter(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&starter_detectors,NULL);
   traverse_slices(root_slice,&st);
@@ -1445,6 +1522,7 @@ void stip_detect_starter(void)
 
 static slice_operation const starter_imposers[] =
 {
+  &pipe_impose_starter,           /* STProxy */
   &pipe_impose_inverted_starter,  /* STBranchDirect */
   &pipe_impose_inverted_starter,  /* STBranchDirectDefender */
   &pipe_impose_inverted_starter,  /* STBranchHelp */
@@ -1716,6 +1794,7 @@ static boolean traverse_reflex_guard(slice_index branch, slice_traversal *st)
 
 static slice_operation const traversers[] =
 {
+  &traverse_pipe,         /* STProxy */
   &traverse_pipe,         /* STBranchDirect */
   &traverse_pipe,         /* STBranchDirectDefender */
   &traverse_pipe,         /* STBranchHelp */

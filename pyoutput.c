@@ -145,6 +145,7 @@ static boolean output_mode_fork(slice_index si, slice_traversal *st)
 
 static slice_operation const output_mode_detectors[] =
 {
+  0,                          /* STProxy */
   &output_mode_treemode,      /* STBranchDirect */
   &output_mode_treemode,      /* STBranchDirectDefender */
   &output_mode_help_branch,   /* STBranchHelp */

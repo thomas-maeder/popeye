@@ -124,8 +124,9 @@ void TraceFunctionResultEnd(void);
                       name)
 
 /* Trace the current stipulation structure
+ * @param start_slice identifies slice where to start tracing
  */
-void TraceStipulation(void);
+void TraceStipulation(slice_index start_slice);
 
 /* Helper functions
  */
@@ -155,7 +156,7 @@ void TraceEnumeratorImpl(char const *format,
 #define TraceFunctionResultEnd()
 #define TraceCurrentHashBuffer()
 #define TraceEnumerator(type_name,value,suffix)
-#define TraceStipulation()
+#define TraceStipulation(start_slice)
 
 #endif
 

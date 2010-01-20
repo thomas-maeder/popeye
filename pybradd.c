@@ -5,6 +5,7 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
+#include "pypipe.h"
 #include "stipulation/branch.h"
 #include "pyoutput.h"
 #include "pymsg.h"
@@ -15,22 +16,24 @@
 /* Allocate a STBranchDirectDefender defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal index of slice leading to goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_slice(stip_length_type length,
                                           stip_length_type min_length,
-                                          slice_index towards_goal)
+                                          slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STBranchDirectDefender,length,min_length,towards_goal);
+  assert(proxy_to_goal==no_slice || slices[proxy_to_goal].type==STProxy);
+
+  result = alloc_branch(STBranchDirectDefender,length,min_length,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -41,22 +44,24 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
 /* Allocate a STDirectDefenderRoot defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param fork identifies fork slice
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
                                                stip_length_type min_length,
-                                               slice_index towards_goal)
+                                               slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDirectDefenderRoot,length,min_length,towards_goal);
+  assert(slices[proxy_to_goal].type==STProxy);
+
+  result = alloc_branch(STDirectDefenderRoot,length,min_length,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,6 +69,11 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
   return result;
 }
 
+/* Determine whether there is a short solution after the defense played
+ * in a slice
+ * @param si identifies slice that just played the defense
+ * @param n maximum number of half moves until end of branch
+ */
 static boolean has_short_solution(slice_index si, stip_length_type n)
 {
   boolean result;
@@ -788,16 +798,20 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
                                                   struct slice_traversal *st)
 {
   boolean const result = true;
-  slice_index * const next_set_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *next_set_slice = alloc_help_branch(toplevel_branch,
-                                      slack_length_help+1,slack_length_help+1,
-                                      slices[si].u.pipe.next);
-  slices[*next_set_slice].starter = slices[si].starter;
+  {
+    slice_index * const next_set_slice = st->param;
+    slice_index proxy = alloc_proxy_pipe();
+    branch_link(proxy,slices[si].u.pipe.next);
+    *next_set_slice = alloc_help_branch(toplevel_branch,
+                                        slack_length_help+1,slack_length_help+1,
+                                        proxy);
+    slices[*next_set_slice].starter = slices[si].starter;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

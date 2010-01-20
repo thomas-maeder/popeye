@@ -9,11 +9,25 @@
 #include "pystip.h"
 #include "pyslice.h"
 
-/* Allocate a new pipe and make an existing pipe its successor
+/* Allocate a new non-proxy pipe
  * @param type which slice type
  * @return newly allocated slice
  */
 slice_index alloc_pipe(SliceType type);
+
+/* Allocate a proxy pipe
+ * @return newly allocated slice
+ */
+slice_index alloc_proxy_pipe(void);
+
+/* Substitute a possible link to a proxy slice by the proxy's target
+ * @param si address of slice index
+ */
+void pipe_resolve_proxy(slice_index *si);
+
+/* Deallocate all proxy pipes
+ */
+void dealloc_proxy_pipes(void);
 
 /* Make a slice the predecessor of a pipe
  * @param pipe identifies the pipe
@@ -26,12 +40,6 @@ void pipe_set_predecessor(slice_index pipe, slice_index pred);
  * @param succ slice to be made the successor of pipe
  */
 void pipe_set_successor(slice_index pipe, slice_index succ);
-
-/* Installs a pipe slice before pipe slice si. I.e. every link that
- * currently leads to slice si will now lead to the new slice.
- * @param pipe identifies pipe slice before which to insert a new pipe slice
- */
-void pipe_insert_before(slice_index pipe);
 
 /* Detect starter field with the starting side if possible.
  * @param pipe identifies slice being traversed

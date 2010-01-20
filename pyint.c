@@ -2820,6 +2820,7 @@ static boolean init_moves_left_branch_fork(slice_index si,
 
 static slice_operation const moves_left_initialisers[] =
 {
+  0,                                /* STProxy */
   0,                                /* STBranchDirect */
   0,                                /* STBranchDirectDefender */
   &init_moves_left_branch_help,     /* STBranchHelp */
@@ -3155,7 +3156,7 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].u.pipe.prev==si)
+  if (slices[next].prev==si)
   {
     slice_index const guard = alloc_goalreachable_guard();
     branch_link(si,guard);
@@ -3167,7 +3168,7 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
     slice_traverse_children(si,st);
 
     {
-      slice_index const next_prev = slices[next].u.pipe.prev;
+      slice_index const next_prev = slices[next].prev;
       if (slices[next_prev].type==STGoalReachableGuard)
         pipe_set_successor(si,next_prev);
       else
@@ -3212,6 +3213,7 @@ static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
 
 static slice_operation const goalreachable_guards_inserters[] =
 {
+  &slice_traverse_children,                  /* STProxy */
   0,                                         /* STBranchDirect */
   0,                                         /* STBranchDirectDefender */
   &goalreachable_guards_inserter_branch,     /* STBranchHelp */
@@ -3256,7 +3258,7 @@ void stip_insert_goalreachable_guards(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&goalreachable_guards_inserters,0);
   traverse_slices(root_slice,&st);
@@ -3425,6 +3427,7 @@ static boolean intelligent_mode_support_none(slice_index si,
 
 static slice_operation const intelligent_mode_support_detectors[] =
 {
+  &slice_traverse_children,                      /* STProxy */
   &intelligent_mode_support_none,                /* STBranchDirect */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
   &intelligent_mode_support_detector_branch_h,   /* STBranchHelp */

@@ -8,18 +8,6 @@
 #include "pydirect.h"
 #include "pyslice.h"
 
-/* Allocate and initialise a STSelfAttack slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param next identifies next slice in branch
- * @param towards_goal identifies slice leading towards goal
- * @return index of allocated slice
- */
-slice_index alloc_self_attack_slice(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index next,
-                                    slice_index towards_goal);
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
@@ -158,8 +146,8 @@ boolean self_defense_impose_starter(slice_index si, slice_traversal *st);
 
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented
- * @param towards_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  */
-void slice_insert_self_guards(slice_index si, slice_index towards_goal);
+void slice_insert_self_guards(slice_index si, slice_index proxy_to_goal);
 
 #endif

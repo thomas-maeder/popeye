@@ -190,7 +190,7 @@ static boolean restart_guards_inserter_root(slice_index si,
 
   guard = alloc_restart_guard();
 
-  if (slices[next].u.pipe.prev==si)
+  if (slices[next].prev==si)
     branch_link(guard,next);
   else
     pipe_set_successor(guard,next);
@@ -205,6 +205,7 @@ static boolean restart_guards_inserter_root(slice_index si,
 
 static slice_operation const restart_guards_inserters[] =
 {
+  &slice_traverse_children,      /* STProxy */
   &slice_operation_noop,         /* STBranchDirect */
   &slice_operation_noop,         /* STBranchDirectDefender */
   &restart_guards_inserter_root, /* STBranchHelp */

@@ -15,23 +15,6 @@
 /* **************** Initialisation ***************
  */
 
-/* Initialise a STSelfCheckGuard slice into an allocated and wired
- * pipe slice 
- * @param si identifies slice
- */
-static void init_selfcheck_guard_slice(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slices[si].type = STSelfCheckGuard;
-  slices[si].starter = slices[slices[si].u.pipe.next].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a STSelfCheckGuard slice
  * @return allocated slice
  */
@@ -560,7 +543,7 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
 
   assert(slices[next].type!=STSelfCheckGuard);
 
-  if (slices[next].u.pipe.prev==si)
+  if (slices[next].prev==si)
   {
     /* we are part of a loop
      */
@@ -576,7 +559,7 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
     slice_traverse_children(si,st);
 
     {
-      slice_index const next_pred = slices[next].u.pipe.prev;
+      slice_index const next_pred = slices[next].prev;
       if (slices[next_pred].type==STSelfCheckGuard)
         /* a STSelfCheckGuard slice has been inserted in the loop
          * before next; attach to it
@@ -686,6 +669,7 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
 
 static slice_operation const selfcheck_guards_inserters[] =
 {
+  &slice_traverse_children,                 /* STProxy */
   &selfcheck_guards_inserter_branch,        /* STBranchDirect */
   &selfcheck_guards_inserter_branch_direct_defender, /* STBranchDirectDefender */
   &selfcheck_guards_inserter_branch,        /* STBranchHelp */
@@ -761,11 +745,12 @@ static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_insert_before(si);
-  init_selfcheck_guard_slice(si);
-  pipe_set_predecessor(slices[si].u.pipe.next,si);
-  pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
-                       slices[si].u.pipe.next);
+  {
+    slice_index const prev = slices[si].prev;
+    slice_index const guard = alloc_selfcheck_guard_slice();
+    branch_link(prev,guard);
+    branch_link(guard,si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -783,8 +768,12 @@ boolean selfcheck_guards_inserter_toplevel_reflex_guard(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_insert_before(si);
-  init_selfcheck_guard_slice(si);
+  {
+    slice_index const prev = slices[si].prev;
+    slice_index const guard = alloc_selfcheck_guard_slice();
+    branch_link(prev,guard);
+    branch_link(guard,si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -794,6 +783,7 @@ boolean selfcheck_guards_inserter_toplevel_reflex_guard(slice_index si,
 
 static slice_operation const selfcheck_guards_toplevel_inserters[] =
 {
+  &slice_traverse_children,                      /* STProxy */
   0,                                             /* STBranchDirect */
   0,                                             /* STBranchDirectDefender */
   0,                                             /* STBranchHelp */
@@ -838,17 +828,15 @@ void stip_insert_selfcheck_guards(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&selfcheck_guards_inserters,0);
   traverse_slices(root_slice,&st);
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&selfcheck_guards_toplevel_inserters,0);
   traverse_slices(root_slice,&st);
-
-  TraceStipulation();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

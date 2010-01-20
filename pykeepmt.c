@@ -569,7 +569,7 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
   {
     branch_link(si,guard);
 
-    if (slices[next].u.pipe.prev==si)
+    if (slices[next].prev==si)
       branch_link(guard,next);
     else
       pipe_set_successor(guard,next);
@@ -583,6 +583,7 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
 
 static slice_operation const keepmating_guards_inserters[] =
 {
+  &slice_traverse_children,                /* STProxy */
   &keepmating_guards_inserter_branch,      /* STBranchDirect */
   &keepmating_guards_inserter_branch,      /* STBranchDirectDefender */
   &keepmating_guards_inserter_branch,      /* STBranchHelp */

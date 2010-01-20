@@ -62,24 +62,25 @@ boolean parry_fork_has_solution_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Initialise a slice to be a STParryFork slice.
- * @param si identifies slice to be initialised
+/* Allocate a STParryFork slice.
  * @param parrying identifies slice responsible for parrying
+ * @return allocated slice
  */
-static void init_parry_fork(slice_index si,
-                            slice_index parrying)
+static slice_index alloc_parry_fork(slice_index parrying)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",parrying);
   TraceFunctionParamListEnd();
 
-  slices[si].type = STParryFork; 
-  slices[si].starter = no_side; 
-  slices[si].u.pipe.u.parry_fork.parrying = parrying;
+  result = alloc_pipe(STParryFork); 
+  slices[result].u.pipe.u.parry_fork.parrying = parrying;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 /* Convert a series branch to a parry series branch
@@ -93,25 +94,30 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
   TraceFunctionParam("%u",parrying);
   TraceFunctionParamListEnd();
 
-  root_slice = si;
-  TraceStipulation();
+  TraceStipulation(si);
 
   {
-    slice_index const pos = branch_find_slice(STMoveInverter,si);
+    slice_index const branch = branch_find_slice(STBranchSeries,si);
+    slice_index const pos = branch_find_slice(STMoveInverter,branch);
     slice_index const next = slices[pos].u.pipe.next;
+    slice_index const prev = slices[pos].prev;
+    slice_index const fork = alloc_parry_fork(parrying);
+
     assert(pos!=no_slice);
     assert(slices[next].type==STBranchSeries
            || slices[next].type==STSeriesFork);
-    pipe_set_successor(parrying,next);
-    pipe_insert_before(pos);
 
-    {
-      slice_index const parry_fork = pos;
-      slice_index const inverter = slices[pos].u.pipe.next;
-      init_parry_fork(parry_fork,parrying);
-      branch_link(parry_fork,inverter);
-      branch_link(inverter,next);
-    }
+    branch_link(prev,fork);
+    branch_link(fork,pos);
+
+    pipe_set_successor(parrying,next);
+
+    if (slices[branch].u.pipe.next==pos)
+      /* if in the playe after the branch, the same side is to move as
+       * in the branch (e.g. in s pser-#N), we have to make sure that
+       * the other side gets the chance to parry.
+       */
+      pipe_set_successor(branch,fork);
   }
 
   TraceFunctionExit(__func__);

@@ -493,6 +493,7 @@ static boolean root_slice_type_found(slice_index si, slice_traversal *st)
 
 static slice_operation const slice_type_finders[] =
 {
+  0,                                  /* STProxy */
   0,                                  /* STBranchDirect */
   0,                                  /* STBranchDirectDefender */
   0,                                  /* STBranchHelp */
@@ -2107,6 +2108,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STBranchHelp:
     case STMoveInverter:
     case STNot:
+    case STProxy:
     {
       slice_index const next = slices[si].u.pipe.next;
       result = detect_meaning_of_whitetoplay(next);
@@ -2149,75 +2151,79 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 /* Apply the option White to play
  * @return true iff the option is applicable (and was applied)
  */
-static slice_index apply_whitetoplay(slice_index si)
+static void apply_whitetoplay(slice_index proxy)
 {
-  slice_index result;
+  slice_index const next = slices[proxy].u.pipe.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
+  TraceStipulation(proxy);
+  assert(slices[proxy].type==STProxy);
+
+  TraceEnumerator(SliceType,slices[next].type,"\n");
+  switch (slices[next].type)
   {
     case STHelpRoot:
     {
-      meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(si);
+      meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       /* calculate new starter now - shorten_root_branch_h_slice() may
        * replace si
        */
       if (meaning==whitetoplay_means_shorten_root_slice)
       {
-        slice_index const shortened = help_root_shorten_help_play(si);
-        result = alloc_move_inverter_slice();
-        branch_link(result,shortened);
-        slices[result].starter = advers(slices[shortened].starter);
-        TraceValue("%u\n",slices[result].starter);
+        slice_index const shortened = help_root_shorten_help_play(next);
+        slice_index const inverter = alloc_move_inverter_slice();
+        branch_link(inverter,shortened);
+        branch_link(proxy,inverter);
+        slices[inverter].starter = advers(slices[shortened].starter);
+        TraceValue("%u\n",slices[inverter].starter);
       }
       else
-      {
-        result = si;
-        slices[si].starter = advers(slices[si].starter);
-      }
+        slices[next].starter = advers(slices[next].starter);
       break;
     }
 
     case STLeafHelp:
-      result = si;
-      slices[si].starter = advers(slices[si].starter);
+      slices[next].starter = advers(slices[next].starter);
       break;
 
     case STMoveInverter:
     {
-      meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(si);
-      slice_index const save_si = si;
-      result = slices[si].u.pipe.next;
-      dealloc_slice(save_si);
+      meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
+      slice_index const inverter = next;
+      slice_index const next_next = slices[inverter].u.pipe.next;
+      if (slices[next_next].prev==inverter)
+        pipe_set_predecessor(next_next,slices[inverter].prev);
+      dealloc_slice(inverter);
       if (meaning==whitetoplay_means_shorten_root_slice
-          && slices[result].type==STHelpRoot)
-        result = help_root_shorten_help_play(result);
+          && slices[next_next].type==STHelpRoot)
+        pipe_set_successor(proxy,help_root_shorten_help_play(next_next));
+      else
+        pipe_set_successor(proxy,next_next);
       break;
     }
 
     case STQuodlibet:
     case STReciprocal:
-      apply_whitetoplay(slices[si].u.fork.op1);
-      apply_whitetoplay(slices[si].u.fork.op2);
-      assert(slices[slices[si].u.fork.op1].starter
-             ==slices[slices[si].u.fork.op2].starter);
-      slices[si].starter = slices[slices[si].u.fork.op1].starter;
-      result = si;
+      apply_whitetoplay(slices[next].u.fork.op1);
+      apply_whitetoplay(slices[next].u.fork.op2);
+      assert(slices[slices[next].u.fork.op1].starter
+             ==slices[slices[next].u.fork.op2].starter);
+      slices[next].starter = slices[slices[next].u.fork.op1].starter;
       break;
 
     default:
-      result = no_slice;
+      pipe_set_successor(proxy,no_slice);
       break;
   }
 
+  if (slices[proxy].u.pipe.next!=no_slice)
+    slices[proxy].starter  = slices[slices[proxy].u.pipe.next].starter;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static int parseCommandlineOptions(int argc, char *argv[])
@@ -2323,7 +2329,7 @@ static void init_duplex(void)
     TraceValue("%u\n",starter);
     stip_impose_starter(advers(starter));
 
-    TraceStipulation();
+    TraceStipulation(root_slice);
   }
 
   TraceFunctionExit(__func__);
@@ -2566,6 +2572,7 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 
 static slice_operation const hash_element_inserters[] =
 {
+  &slice_traverse_children,                  /* STProxy */
   &insert_hash_element_branch_direct,        /* STBranchDirect */
   &slice_traverse_children,                  /* STBranchDirectDefender */
   &insert_hash_element_branch_help,          /* STBranchHelp */
@@ -2609,7 +2616,7 @@ static void insert_hash_slices(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&hash_element_inserters,&level);
   traverse_slices(root_slice,&st);
@@ -2618,6 +2625,117 @@ static void insert_hash_slices(void)
   TraceFunctionResultEnd();
 }
 
+static boolean fork_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_resolve_proxy(&slices[si].u.fork.op1);
+  pipe_resolve_proxy(&slices[si].u.fork.op2);
+  slice_traverse_children(si,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean branch_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.pipe.u.branch.towards_goal!=no_slice)
+    pipe_resolve_proxy(&slices[si].u.pipe.u.branch.towards_goal);
+  slice_traverse_children(si,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean reflex_guard_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_resolve_proxy(&slices[si].u.pipe.u.reflex_guard.avoided);
+  slice_traverse_children(si,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const proxy_resolvers[] =
+{
+  &slice_traverse_children, /* STProxy */
+  &branch_resolve_proxies,  /* STBranchDirect */
+  &branch_resolve_proxies,  /* STBranchDirectDefender */
+  &branch_resolve_proxies,  /* STBranchHelp */
+  &branch_resolve_proxies,  /* STHelpFork */
+  &branch_resolve_proxies,  /* STBranchSeries */
+  &branch_resolve_proxies,  /* STSeriesFork */
+  &slice_traverse_children, /* STLeafDirect */
+  &slice_traverse_children, /* STLeafHelp */
+  &slice_traverse_children, /* STLeafForced */
+  &fork_resolve_proxies,    /* STReciprocal */
+  &fork_resolve_proxies,    /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverter */
+  &branch_resolve_proxies,  /* STDirectRoot */
+  &branch_resolve_proxies,  /* STDirectDefenderRoot */
+  &branch_resolve_proxies,  /* STDirectHashed */
+  &branch_resolve_proxies,  /* STHelpRoot */
+  &branch_resolve_proxies,  /* STHelpHashed */
+  &branch_resolve_proxies,  /* STSeriesRoot */
+  &slice_traverse_children, /* STParryFork */
+  &branch_resolve_proxies,  /* STSeriesHashed */
+  &slice_traverse_children, /* STSelfCheckGuard */
+  &branch_resolve_proxies,  /* STDirectDefense */
+  &reflex_guard_resolve_proxies, /* STReflexGuard */
+  &branch_resolve_proxies,  /* STSelfAttack */
+  &branch_resolve_proxies,  /* STSelfDefense */
+  &slice_traverse_children, /* STRestartGuard */
+  &slice_traverse_children, /* STGoalReachableGuard */
+  &slice_traverse_children, /* STKeepMatingGuard */
+  &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STDegenerateTree */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
+  &slice_traverse_children  /* STMaxThreatLength */
+};
+
+/* Substitute links to proxy slices by the proxy's target
+ */
+static void resolve_proxies(void)
+{
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(root_slice);
+
+  assert(slices[root_slice].type==STProxy);
+  pipe_resolve_proxy(&root_slice);
+
+  slice_traversal_init(&st,&proxy_resolvers,0);
+  traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 
 static boolean initialise_verify_twin(void)
@@ -2810,14 +2928,9 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[whitetoplay])
       {
-        slice_index const new_root = apply_whitetoplay(root_slice);
-        if (new_root==no_slice)
+        apply_whitetoplay(root_slice);
+        if (slices[root_slice].u.pipe.next==no_slice)
           Message(WhiteToPlayNotApplicable);
-        else
-        {
-          root_slice = new_root;
-          stip_impose_starter(slices[root_slice].starter);
-        }
       }
 
       if (OptFlag[nontrivial])
@@ -2865,7 +2978,11 @@ static Token iterate_twins(Token prev_token)
       else
         stip_impose_starter(slices[root_slice].starter);
 
-      TraceStipulation();
+      resolve_proxies();
+
+      dealloc_proxy_pipes();
+
+      TraceStipulation(root_slice);
 
       assert_no_leaked_slices();
     }

@@ -187,15 +187,16 @@ boolean reflex_guard_impose_starter(slice_index si, slice_traversal *st);
 /* Instrument a branch with STReflexGuard slices for a reflex
  * stipulation 
  * @param si root of branch to be instrumented
- * @param tobeavoided identifies what branch needs to be guarded from
+ * @param proxy_to_avoided identifies what branch needs to be guarded from
  */
-void slice_insert_reflex_guards(slice_index si, slice_index tobeavoided);
+void slice_insert_reflex_guards(slice_index si, slice_index proxy_to_avoided);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
  * stipulation 
  * @param si root of branch to be instrumented
- * @param tobeavoided identifies what branch needs to be guarded from
+ * @param proxy_to_avoided identifies what branch needs to be guarded from
  */
-void slice_insert_reflex_guards_semi(slice_index si, slice_index tobeavoided);
+void slice_insert_reflex_guards_semi(slice_index si,
+                                     slice_index proxy_to_avoided);
 
 #endif

@@ -105,6 +105,7 @@
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pynontrv.h"
+#include "stipulation/branch.h"
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "platform/maxtime.h"
@@ -282,6 +283,7 @@ static boolean slice_property_offset_shifter(slice_index si,
 
 static slice_operation const slice_property_offset_shifters[] =
 {
+  &slice_traverse_children,       /* STProxy */
   &slice_property_offset_shifter, /* STBranchDirect */
   &slice_property_offset_shifter, /* STBranchDirectDefender */
   &slice_property_offset_shifter, /* STBranchHelp */
@@ -569,33 +571,6 @@ static boolean init_slice_properties_hashed_direct(slice_index si,
  * @return true iff the properties for si and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_help_root(slice_index si,
-                                               slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-    
-  slice_traverse_children(si,st);
-  traverse_slices(towards_goal,st);
-    
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff the properties for si and its children have been
- *         successfully initialised
- */
 static boolean init_slice_properties_hashed_help(slice_index si,
                                                  slice_traversal *st)
 {
@@ -608,37 +583,32 @@ static boolean init_slice_properties_hashed_help(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slices[slices[si].u.pipe.next].type==STLeafHelp)
-  {
     --sis->valueOffset;
-    init_slice_property_help(si,length-slack_length_help,sis);
-    hash_slices[nr_hash_slices++] = si;
-    slice_traverse_children(si,st);
-  }
   else
   {
     slice_index const sibling = branch_find_slice(STHelpHashed,si);
-    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
     
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
     unsigned int const width = bit_width((length-slack_length_help+1)/2);
 
     sis->valueOffset -= width;
 
-    if (sibling!=no_slice)
+    if (sibling!=no_slice
+        && slices[sibling].u.pipe.u.branch.length>slack_length_help
+        && get_slice_traversal_slice_state(sibling,st)==slice_not_traversed)
     {
       /* 1 bit more because we have two slices whose values are added
        * for computing the value of this branch */
       --sis->valueOffset;
 
-      init_slice_property_help(sibling,length-1-slack_length_help,sis);
-      hash_slices[nr_hash_slices++] = sibling;
+      traverse_slices(sibling,st);
     }
-
-    init_slice_property_help(si,length-slack_length_help,sis);
-    hash_slices[nr_hash_slices++] = si;
-
-    traverse_slices(towards_goal,st);
   }
+
+  init_slice_property_help(si,length-slack_length_help,sis);
+  slice_traverse_children(si,st);
+
+  hash_slices[nr_hash_slices++] = si;
     
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -703,41 +673,15 @@ static boolean init_slice_properties_series_root(slice_index si,
   return result;
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a branch fork
- * @param branch_fork root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff the properties for branch_fork and its children
- *         have been successfully initialised
- */
-static boolean init_slice_properties_branch_fork(slice_index branch_fork,
-                                                 slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch_fork);
-  TraceFunctionParamListEnd();
-
-  
-  init_slice_properties_pipe(branch_fork,st);
-
-  /* not traversing towards goal - slice adapter has to do that */
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static slice_operation const slice_properties_initalisers[] =
 {
+  &slice_traverse_children,              /* STProxy */
   &init_slice_properties_pipe,           /* STBranchDirect */
   &init_slice_properties_pipe,           /* STBranchDirectDefender */
   &init_slice_properties_pipe,           /* STBranchHelp */
-  &init_slice_properties_branch_fork,    /* STHelpFork */
+  &slice_traverse_children,              /* STHelpFork */
   &init_slice_properties_pipe,           /* STBranchSeries */
-  &init_slice_properties_branch_fork,    /* STSeriesFork */
+  &slice_traverse_children,              /* STSeriesFork */
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
   &slice_operation_noop,                 /* STLeafForced */
@@ -748,7 +692,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_direct_root,    /* STDirectRoot */
   &init_slice_properties_direct_root,    /* STDirectDefenderRoot */
   &init_slice_properties_hashed_direct,  /* STDirectHashed */
-  &init_slice_properties_help_root,      /* STHelpRoot */
+  &slice_traverse_children,              /* STHelpRoot */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
   &init_slice_properties_series_root,    /* STSeriesRoot */
   &slice_traverse_children,              /* STParryFork */
@@ -2031,13 +1975,40 @@ void closehash(void)
   }
 } /* closehash */
 
-/* Allocate a STDirectHashed slice for a STBranch* slice and insert
- * it at the STBranch* slice's position. 
- * The STDirectHashed takes the place of the STBranch* slice.
- * @param si identifies STBranch* slice
+/* Allocate a STDirectHashed slice
+ * @param length maximal number of half moves until goal
+ * @param min_length minimal number of half moves until goal
+ * @param proxy_to_goal identifies proxy slice leading towards gaol
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_direct_hashed_slice(stip_length_type length,
+                                             stip_length_type min_length,
+                                             slice_index proxy_to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch(STDirectHashed,length,min_length,proxy_to_goal);
+                        
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STDirectHashed slice for a ST{Branch,Leaf}Direct slice
+ * and insert it before the slice
+ * @param si identifies ST{Branch,Leaf}Direct slice
  */
 void insert_directhashed_slice(slice_index si)
 {
+  slice_index const prev = slices[si].prev;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2045,32 +2016,64 @@ void insert_directhashed_slice(slice_index si)
   assert(slices[si].type!=STDirectHashed);
   TraceEnumerator(SliceType,slices[si].type,"\n");
 
-  slices[si].u.pipe.next = copy_slice(si);
-  slices[si].type = STDirectHashed;
-  if (slices[slices[si].u.pipe.next].type==STLeafDirect)
+  if (slices[si].type==STLeafDirect)
   {
-    pipe_set_predecessor(si,no_slice);
-    slices[si].u.pipe.u.branch.length = slack_length_direct+1;
-    slices[si].u.pipe.u.branch.min_length = slack_length_direct+1;
+    slice_index const hash = alloc_direct_hashed_slice(slack_length_direct+1,
+                                                       slack_length_direct+1,
+                                                       no_slice);
+    branch_link(hash,si);
+    branch_link(prev,hash);
   }
   else
   {
-    pipe_set_predecessor(slices[si].u.pipe.next,si);
-    pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
-                         slices[si].u.pipe.next);
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const hash = alloc_direct_hashed_slice(length,
+                                                       min_length,
+                                                       to_goal);
+    branch_link(hash,si);
+    branch_link(prev,hash);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STHelpHashed slice for a STBranch* slice and insert
- * it at the STBranch* slice's position. 
- * The STHelpHashed takes the place of the STBranch* slice.
- * @param si identifies STBranch* slice
+/* Allocate a STHelpHashed slice
+ * @param length maximal number of half moves until goal
+ * @param min_length minimal number of half moves until goal
+ * @param proxy_to_goal identifies proxy slice leading towards gaol
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_help_hashed_slice(stip_length_type length,
+                                           stip_length_type min_length,
+                                           slice_index proxy_to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch(STHelpHashed,length,min_length,proxy_to_goal);
+                        
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STHelpHashed slice for a ST{Branch,Leaf}Help slice
+ * and insert it before the slice
+ * @param si identifies ST{Branch,Leaf}Help slice
  */
 void insert_helphashed_slice(slice_index si)
 {
+  slice_index const prev = slices[si].prev;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2078,29 +2081,33 @@ void insert_helphashed_slice(slice_index si)
   assert(slices[si].type!=STHelpHashed);
   TraceEnumerator(SliceType,slices[si].type,"\n");
 
-  slices[si].u.pipe.next = copy_slice(si);
-  slices[si].type = STHelpHashed;
-  if (slices[slices[si].u.pipe.next].type==STLeafHelp)
+  if (slices[si].type==STLeafHelp)
   {
-    pipe_set_predecessor(si,no_slice);
-    slices[si].u.pipe.u.branch.length = slack_length_help+1;
-    slices[si].u.pipe.u.branch.min_length = slack_length_help+1;
+    slice_index const hash = alloc_help_hashed_slice(slack_length_help+1,
+                                                     slack_length_help+1,
+                                                     no_slice);
+    branch_link(hash,si);
+    branch_link(prev,hash);
   }
   else
   {
-    pipe_set_predecessor(slices[si].u.pipe.next,si);
-    pipe_set_predecessor(slices[slices[si].u.pipe.next].u.pipe.next,
-                         slices[si].u.pipe.next);
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const hash = alloc_help_hashed_slice(length,
+                                                     min_length,
+                                                     to_goal);
+    branch_link(hash,si);
+    branch_link(prev,hash);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STSeriesHashed slice for a STBranch* slice and insert
- * it at the STBranch* slice's position. 
- * The STSeriesHashed takes the place of the STBranch* slice.
- * @param si identifies STBranch* slice
+/* Allocate a STSeriesHashed slice for a STBranchSeries slice
+ * and insert it before the slice
+ * @param si identifies STBranchSeries slice
  */
 void insert_serieshashed_slice(slice_index si)
 {

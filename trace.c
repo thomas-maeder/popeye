@@ -186,17 +186,12 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
   }
 }
 
-static void Trace_pipe(slice_index si)
-{
-  fprintf(stdout,"prev:%u ",slices[si].u.pipe.prev);
-  fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
-}
-
 static void Trace_branch(slice_index si)
 {
   fprintf(stdout,"%u/",slices[si].u.pipe.u.branch.length);
   fprintf(stdout,"%u ",slices[si].u.pipe.u.branch.min_length);
-  Trace_pipe(si);
+  fprintf(stdout,"prev:%u ",slices[si].prev);
+  fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
   fprintf(stdout,"towards_goal:%u ",slices[si].u.pipe.u.branch.towards_goal);
 }
 
@@ -224,6 +219,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesFork:
       case STHelpHashed:
       case STSeriesHashed:
+      case STMaxFlightsquares:
         Trace_branch(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -232,7 +228,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STParryFork:
-        Trace_pipe(si);
+        fprintf(stdout,"prev:%u ",slices[si].prev);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"parrying:%u ",slices[si].u.pipe.u.parry_fork.parrying);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -248,14 +245,15 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STMaxNrNonTrivial:
       case STSelfCheckGuard:
-      case STMaxFlightsquares:
-        Trace_pipe(si);
+        fprintf(stdout,"prev:%u ",slices[si].prev);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
       case STMaxThreatLength:
-        Trace_pipe(si);
+        fprintf(stdout,"prev:%u ",slices[si].prev);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"to_attacker:%u ",
                 slices[si].u.pipe.u.maxthreatlength_guard.to_attacker);
         fprintf(stdout,"\n");
@@ -265,7 +263,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpRoot:
         fprintf(stdout,"%u/",slices[si].u.pipe.u.help_root.length);
         fprintf(stdout,"%u ",slices[si].u.pipe.u.help_root.min_length);
-        Trace_pipe(si);
+        fprintf(stdout,"prev:%u ",slices[si].prev);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"towards_goal:%u ",
                 slices[si].u.pipe.u.help_root.towards_goal);
         fprintf(stdout,"short_sols:%u ",
@@ -293,12 +292,14 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.fork.op2,done_slices);
         break;
 
+      case STProxy:
       case STMoveInverter:
       case STGoalReachableGuard:
       case STNot:
       case STRestartGuard:
       case STDegenerateTree:
-        Trace_pipe(si);
+        fprintf(stdout,"prev:%u ",slices[si].prev);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
@@ -306,7 +307,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKeepMatingGuard:
         fprintf(stdout,"mating:%u ",
                 slices[si].u.pipe.u.keepmating_guard.mating);
-        Trace_pipe(si);
+        fprintf(stdout,"prev:%u ",slices[si].prev);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
@@ -314,7 +316,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReflexGuard:
         fprintf(stdout,"%u/",slices[si].u.pipe.u.reflex_guard.length);
         fprintf(stdout,"%u ",slices[si].u.pipe.u.reflex_guard.min_length);
-        Trace_pipe(si);
+        fprintf(stdout,"prev:%u ",slices[si].prev);
+        fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"avoided:%u ",slices[si].u.pipe.u.reflex_guard.avoided);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.u.reflex_guard.avoided,
@@ -325,6 +328,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STLeafDirect:
       case STLeafHelp:
       case STLeafForced:
+        fprintf(stdout,"prev:%u ",slices[si].prev);
         fprintf(stdout,"goal:%u\n",slices[si].u.leaf.goal);
         break;
 
@@ -335,13 +339,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
   }
 }
 
-void TraceStipulation(void)
+void TraceStipulation(slice_index si)
 {
   if (level<=max_level)
   {
     boolean done_slices[max_nr_slices] = { false };
     fprintf(stdout,"stipulation structure:\n");
-    TraceStipulationRecursive(root_slice,done_slices);
+    TraceStipulationRecursive(si,done_slices);
   }
 }
 

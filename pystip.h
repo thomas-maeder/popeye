@@ -17,7 +17,10 @@
 
 #define ENUMERATION_TYPENAME SliceType
 #define ENUMERATORS \
-  ENUMERATOR(STBranchDirect),    /* M-N moves of direct play */         \
+                                                \
+  ENUMERATOR(STProxy),                                                  \
+                                                                        \
+    ENUMERATOR(STBranchDirect),    /* M-N moves of direct play */       \
     ENUMERATOR(STBranchDirectDefender),                                 \
     ENUMERATOR(STBranchHelp),      /* M-N moves of help play */         \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
@@ -72,6 +75,7 @@ typedef struct
 {
     SliceType type;
     Side starter;
+    slice_index prev;
 
     union
     {
@@ -83,7 +87,6 @@ typedef struct
 
         struct /* for types with 1 principal subsequent slice */
         {
-            slice_index prev;
             slice_index next;
 
             union
@@ -153,7 +156,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 60,
+  max_nr_slices = 80,
   no_slice = max_nr_slices
 };
 

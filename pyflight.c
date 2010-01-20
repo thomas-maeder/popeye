@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "pydirect.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -100,20 +101,25 @@ static boolean has_too_many_flights(Side defender)
  */
 
 /* Initialise a STMaxFlightsquares slice
- * @param si identifies slice to be initialised
- * @param side mating side
+ * @param length maximum number of half moves until end of branch
+ * @return identifier of allocated slice
  */
-static void init_maxflight_guard_slice(slice_index si)
+static slice_index alloc_maxflight_guard_slice(stip_length_type length)
 {
+  slice_index result;
+  stip_length_type const parity = (length-slack_length_direct)%2;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].type = STMaxFlightsquares; 
-  slices[si].starter = no_side; 
+  result = alloc_branch(STMaxFlightsquares,
+                        length,slack_length_direct+parity,
+                        no_slice);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 
@@ -212,6 +218,10 @@ unsigned int maxflight_guard_can_defend_in_n(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
+/* Insert a STMaxFlightsquares slice before each defender slice
+ * @param si identifier defender slice
+ * @param st address of structure representing the traversal
+ */
 static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
 {
   boolean const result = true;
@@ -220,10 +230,14 @@ static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
-
-  pipe_insert_before(si);
-  init_maxflight_guard_slice(si);
+  {
+    slice_index const prev = slices[si].prev;
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    slice_index const guard = alloc_maxflight_guard_slice(length);
+    branch_link(prev,guard);
+    branch_link(guard,si);
+    slice_traverse_children(si,st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -233,6 +247,7 @@ static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
 
 static slice_operation const maxflight_guards_inserters[] =
 {
+  &slice_traverse_children,  /* STProxy */
   &slice_traverse_children,  /* STBranchDirect */
   &maxflight_guard_inserter, /* STBranchDirectDefender */
   &slice_traverse_children,  /* STBranchHelp */
@@ -277,7 +292,7 @@ void stip_insert_maxflight_guards(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation();
+  TraceStipulation(root_slice);
 
   slice_traversal_init(&st,&maxflight_guards_inserters,0);
   traverse_slices(root_slice,&st);

@@ -2,6 +2,8 @@
 #include "pyseries.h"
 #include "trace.h"
 
+#include <assert.h>
+
 /* Allocate a new pipe and make an existing pipe its successor
  * @param type which slice type
  * @return newly allocated slice
@@ -11,11 +13,14 @@ slice_index alloc_pipe(SliceType type)
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
   TraceFunctionParamListEnd();
+
+  assert(type!=STProxy);
 
   result = alloc_slice(type);
   slices[result].u.pipe.next = no_slice;
-  slices[result].u.pipe.prev = no_slice;
+  slices[result].prev = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -23,17 +28,82 @@ slice_index alloc_pipe(SliceType type)
   return result;
 }
 
-/* Is a slice a pipe?
- * @param si identifies slice
- * @return true iff si identifies a pipe
+/* remember proxy slices
  */
-static boolean is_pipe(slice_index si)
+static boolean is_proxy[max_nr_slices];
+
+/* Allocate a proxy pipe
+ * @return newly allocated slice
+ */
+slice_index alloc_proxy_pipe(void)
 {
-  return (slices[si].type!=STLeafDirect
-          && slices[si].type!=STLeafHelp
-          && slices[si].type!=STLeafForced
-          && slices[si].type!=STQuodlibet
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_slice(STProxy);
+  slices[result].u.pipe.next = no_slice;
+  slices[result].prev = no_slice;
+
+  is_proxy[result] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Deallocate all proxy pipes
+ */
+void dealloc_proxy_pipes(void)
+{
+  slice_index i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=max_nr_slices; ++i)
+    if (is_proxy[i])
+    {
+      dealloc_slice(i);
+      is_proxy[i] = false;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Does a slice have a predecessor
+ * @param si identifies slice
+ * @return true iff si identifies a slice that has a .prev member
+ */
+static boolean has_predecessor(slice_index si)
+{
+  return (slices[si].type!=STQuodlibet
           && slices[si].type!=STReciprocal);
+}
+
+/* Substitute a possible link to a proxy slice by the proxy's target
+ * @param si address of slice index
+ */
+void pipe_resolve_proxy(slice_index *si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",*si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[*si].type,"");
+  if (slices[*si].type==STProxy)
+  {
+    slice_index const refered = slices[*si].u.pipe.next;
+    if (has_predecessor(refered) && slices[refered].prev==*si)
+      slices[refered].prev = no_slice;
+    *si = refered;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Make a slice the predecessor of a pipe
@@ -47,11 +117,24 @@ void pipe_set_predecessor(slice_index pipe, slice_index pred)
   TraceFunctionParam("%u",pred);
   TraceFunctionParamListEnd();
 
-  if (is_pipe(pipe))
-    slices[pipe].u.pipe.prev = pred;
+  if (has_predecessor(pipe))
+    slices[pipe].prev = pred;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Does a slice have a successor
+ * @param si identifies slice
+ * @return true iff si identifies a slice that has a .next member
+ */
+static boolean has_successor(slice_index si)
+{
+  return (slices[si].type!=STLeafDirect
+          && slices[si].type!=STLeafHelp
+          && slices[si].type!=STLeafForced
+          && slices[si].type!=STQuodlibet
+          && slices[si].type!=STReciprocal);
 }
 
 /* Make a slice the successor of a pipe
@@ -65,24 +148,8 @@ void pipe_set_successor(slice_index pipe, slice_index succ)
   TraceFunctionParam("%u",succ);
   TraceFunctionParamListEnd();
 
-  if (is_pipe(pipe))
+  if (has_successor(pipe))
     slices[pipe].u.pipe.next = succ;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Installs a pipe slice before pipe slice si. I.e. every link that
- * currently leads to slice si will now lead to the new slice.
- * @param pipe identifies pipe slice before which to insert a new pipe slice
- */
-void pipe_insert_before(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  slices[pipe].u.pipe.next = copy_slice(pipe);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

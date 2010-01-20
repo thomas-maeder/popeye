@@ -45,17 +45,19 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  */
 slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
-                                    slice_index towards_goal)
+                                    slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",towards_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STSeriesFork,length,min_length,towards_goal);
+  assert(slices[proxy_to_goal].type==STProxy);
+
+  result = alloc_branch(STSeriesFork,length,min_length,proxy_to_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -395,6 +397,7 @@ static boolean traverse_and_deallocate_leaf(slice_index si,
 
 static slice_operation const slice_to_fork_deallocators[] =
 {
+  &traverse_and_deallocate,             /* STProxy */
   &traverse_and_deallocate,             /* STBranchDirect */
   &traverse_and_deallocate,             /* STBranchDirectDefender */
   &traverse_and_deallocate,             /* STBranchHelp */

@@ -10,11 +10,11 @@
  */
 
 /* Allocate a reciprocal slice.
- * @param op1 1st operand
- * @param op2 2nd operand
+ * @param proxy1 proxy to 1st operand
+ * @param proxy2 proxy to 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_reciprocal_slice(slice_index op1, slice_index op2);
+slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

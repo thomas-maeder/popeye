@@ -1,5 +1,7 @@
 #include "pynot.h"
 #include "pyslice.h"
+#include "pypipe.h"
+#include "stipulation/branch.h"
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pydata.h"
@@ -21,8 +23,8 @@ slice_index alloc_not_slice(slice_index op)
 
   assert(op!=no_slice);
 
-  result = alloc_slice(STNot);
-  slices[result].u.pipe.next = op;
+  result = alloc_pipe(STNot);
+  branch_link(result,op);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

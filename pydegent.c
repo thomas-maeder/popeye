@@ -216,7 +216,7 @@ static boolean degenerate_tree_inserter_branch_direct(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prev = slices[si].u.pipe.prev;
+    slice_index const prev = slices[si].prev;
     slice_index const guard = alloc_degenerate_tree_guard_slice();
     branch_link(prev,guard);
     branch_link(guard,si);
@@ -231,6 +231,7 @@ static boolean degenerate_tree_inserter_branch_direct(slice_index si,
 
 static slice_operation const degenerate_tree_guards_inserters[] =
 {
+  &slice_traverse_children,                 /* STProxy */
   &degenerate_tree_inserter_branch_direct,  /* STBranchDirect */
   &slice_traverse_children,                 /* STBranchDirectDefender */
   &slice_traverse_children,                 /* STBranchHelp */
