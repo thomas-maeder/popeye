@@ -2662,6 +2662,25 @@ static boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
   return result;
 }
 
+static boolean help_root_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.pipe.u.branch.towards_goal!=no_slice)
+    proxy_slice_resolve(&slices[si].u.pipe.u.branch.towards_goal);
+  proxy_slice_resolve(&slices[si].u.pipe.u.help_root.short_sols);
+  pipe_resolve_proxies(si,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean branch_resolve_proxies(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
@@ -2716,7 +2735,7 @@ static slice_operation const proxy_resolvers[] =
   &branch_resolve_proxies,       /* STDirectRoot */
   &branch_resolve_proxies,       /* STDirectDefenderRoot */
   &branch_resolve_proxies,       /* STDirectHashed */
-  &branch_resolve_proxies,       /* STHelpRoot */
+  &help_root_resolve_proxies,    /* STHelpRoot */
   &branch_resolve_proxies,       /* STHelpHashed */
   &branch_resolve_proxies,       /* STSeriesRoot */
   &slice_traverse_children,      /* STParryFork */

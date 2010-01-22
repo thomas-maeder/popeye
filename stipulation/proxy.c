@@ -37,6 +37,9 @@ void dealloc_proxy_slices(void)
   for (i = 0; i!=max_nr_slices; ++i)
     if (is_proxy[i])
     {
+      slice_index const refered = slices[i].u.pipe.next;
+      if (slices[refered].prev==i)
+        slices[refered].prev = slices[i].prev;
       dealloc_slice(i);
       is_proxy[i] = false;
     }
@@ -56,12 +59,7 @@ void proxy_slice_resolve(slice_index *si)
 
   TraceEnumerator(SliceType,slices[*si].type,"");
   if (slices[*si].type==STProxy)
-  {
-    slice_index const refered = slices[*si].u.pipe.next;
-    if (slices[refered].prev==*si)
-      slices[refered].prev = no_slice;
-    *si = refered;
-  }
+    *si = slices[*si].u.pipe.next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

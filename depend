@@ -383,9 +383,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   pybradd.h pybrah.h pybraser.h pymovein.h pyproof.h pyhash.h \
   DHT/dhtbcmem.h pymovenb.h pyhelp.h pydegent.h pyflight.h pynontrv.h \
   pythreat.h pyreflxg.h pydirctg.h pyselfgd.h pypipe.h \
-  stipulation/branch.h pystip.h pyslice.h pyint.h \
-  stipulation/series_play/parry_fork.h py.h conditions/republican.h \
-  pyproc.h platform/maxtime.h platform/maxmem.h boolean.h trace.h
+  stipulation/branch.h pystip.h pyslice.h pyint.h stipulation/proxy.h \
+  pypipe.h stipulation/series_play/parry_fork.h py.h \
+  conditions/republican.h pyproc.h platform/maxtime.h platform/maxmem.h \
+  boolean.h trace.h
 
 py.h:
 
@@ -470,6 +471,10 @@ pystip.h:
 pyslice.h:
 
 pyint.h:
+
+stipulation/proxy.h:
+
+pypipe.h:
 
 stipulation/series_play/parry_fork.h:
 
@@ -2103,7 +2108,7 @@ pybrah$(OBJ_SUFFIX): pybrah.c pybrah.h py.h boolean.h pyposit.h pyboard.h pybitm
   pypiece.h pyenum.h pylang.h pystip.h pygoal.h pyslice.h pytable.h \
   pydata.h pyproc.h py4.h pyint.h pymsg.h pyoutput.h pyhelp.h pybrafrk.h \
   pydirect.h pyreflxg.h pypipe.h trace.h stipulation/branch.h pystip.h \
-  pyslice.h platform/maxtime.h
+  pyslice.h stipulation/proxy.h pypipe.h platform/maxtime.h
 
 pybrah.h:
 
@@ -2160,6 +2165,10 @@ stipulation/branch.h:
 pystip.h:
 
 pyslice.h:
+
+stipulation/proxy.h:
+
+pypipe.h:
 
 platform/maxtime.h:
 pybraser$(OBJ_SUFFIX): pybraser.c pybraser.h py.h boolean.h pyposit.h pyboard.h \
@@ -2514,11 +2523,15 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
+  pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2535,10 +2548,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 pygoal.h:
 

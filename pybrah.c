@@ -11,6 +11,7 @@
 #include "pypipe.h"
 #include "trace.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "platform/maxtime.h"
 
 #include <assert.h>
@@ -457,10 +458,12 @@ static void shorten_root_branch(slice_index root)
     slice_index const root_branch = slices[root].u.pipe.next;
     slice_index const fork = slices[root_branch].u.pipe.next;
     slice_index const branch1 = slices[fork].u.pipe.next;
-    slice_index const branch2 = slices[branch1].u.pipe.next;
+    slice_index const proxy = slices[branch1].u.pipe.next;
+    slice_index const branch2 = slices[proxy].u.pipe.next;
     assert(slices[root_branch].type==STBranchHelp);
     assert(slices[fork].type==STHelpFork);
     assert(slices[branch1].type==STBranchHelp);
+    assert(slices[proxy].type==STProxy);
     assert(slices[branch2].type==STBranchHelp);
     slices[root].u.pipe.u.help_root.short_sols = fork;
     slices[root_branch].u.pipe.next = branch2;
@@ -635,7 +638,7 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
 
   assert(length>slack_length_help);
 
-  if (length%2==0)
+  if ((length-slack_length_help)%2==0)
   {
     slice_index const branch_root = alloc_branch_h_slice(length,min_length,
                                                          proxy_to_goal);
@@ -662,16 +665,18 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
                                                    proxy_to_goal);
     slice_index const branch1 = alloc_branch_h_slice(length-2,min_length,
                                                      proxy_to_goal);
+    slice_index proxy = alloc_proxy_slice();
     slice_index const branch2 = alloc_branch_h_slice(length,min_length,
                                                      proxy_to_goal);
     slice_index const branch_root = alloc_branch_h_slice(length,min_length,
                                                          proxy_to_goal);
     shorten_help_pipe(branch2);
-    result = alloc_help_root_slice(length,min_length,proxy_to_goal,branch1);
+    result = alloc_help_root_slice(length,min_length,proxy_to_goal,proxy);
 
     branch_link(result,branch_root);
     pipe_set_successor(branch_root,fork);
-    branch_link(branch2,branch1);
+    branch_link(branch2,proxy);
+    branch_link(proxy,branch1);
     branch_link(branch1,fork);
     branch_link(fork,branch2);
   }
