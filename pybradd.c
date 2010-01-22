@@ -5,8 +5,8 @@
 #include "pydata.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
-#include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "pyoutput.h"
 #include "pymsg.h"
 #include "trace.h"
@@ -805,7 +805,7 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
 
   {
     slice_index * const next_set_slice = st->param;
-    slice_index proxy = alloc_proxy_pipe();
+    slice_index proxy = alloc_proxy_slice();
     branch_link(proxy,slices[si].u.pipe.next);
     *next_set_slice = alloc_help_branch(toplevel_branch,
                                         slack_length_help+1,slack_length_help+1,

@@ -1,7 +1,8 @@
 stipulation/series_play/parry_fork$(OBJ_SUFFIX):  \
  stipulation/series_play/parry_fork.c \
   stipulation/series_play/parry_fork.h py.h pystip.h pyslice.h pydata.h \
-  pyproc.h pyseries.h pybrafrk.h stipulation/branch.h pypipe.h trace.h
+  pyproc.h pyseries.h pybrafrk.h stipulation/branch.h stipulation/proxy.h \
+  pypipe.h trace.h
 
 stipulation/series_play/parry_fork.h:
 
@@ -20,6 +21,8 @@ pyseries.h:
 pybrafrk.h:
 
 stipulation/branch.h:
+
+stipulation/proxy.h:
 
 pypipe.h:
 

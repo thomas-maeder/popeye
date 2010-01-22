@@ -4,6 +4,7 @@
 #include "pyseries.h"
 #include "pybrafrk.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -102,7 +103,7 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
     slice_index const next = slices[inverter].u.pipe.next;
     slice_index const prev = slices[inverter].prev;
     slice_index const fork = alloc_parry_fork(parrying);
-    slice_index const proxy_to_next = alloc_proxy_pipe();
+    slice_index const proxy_to_next = alloc_proxy_slice();
 
     assert(inverter!=no_slice);
     assert(slices[next].type==STBranchSeries

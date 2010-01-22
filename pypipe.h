@@ -15,20 +15,6 @@
  */
 slice_index alloc_pipe(SliceType type);
 
-/* Allocate a proxy pipe
- * @return newly allocated slice
- */
-slice_index alloc_proxy_pipe(void);
-
-/* Substitute a possible link to a proxy slice by the proxy's target
- * @param si address of slice index
- */
-void pipe_resolve_proxy(slice_index *si);
-
-/* Deallocate all proxy pipes
- */
-void dealloc_proxy_pipes(void);
-
 /* Make a slice the predecessor of a pipe
  * @param pipe identifies the pipe
  * @param pred slice to be made the predecessor of pipe

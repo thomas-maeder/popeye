@@ -116,6 +116,7 @@
 #include "pypipe.h"
 #include "pyleaf.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "trace.h"
 #include "pyslice.h"
 #include "pyoutput.h"
@@ -2633,8 +2634,8 @@ static boolean fork_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_resolve_proxy(&slices[si].u.fork.op1);
-  pipe_resolve_proxy(&slices[si].u.fork.op2);
+  proxy_slice_resolve(&slices[si].u.fork.op1);
+  proxy_slice_resolve(&slices[si].u.fork.op2);
   slice_traverse_children(si,st);
   
   TraceFunctionExit(__func__);
@@ -2652,7 +2653,7 @@ static boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[si].u.pipe.next!=no_slice)
-    pipe_resolve_proxy(&slices[si].u.pipe.next);
+    proxy_slice_resolve(&slices[si].u.pipe.next);
   slice_traverse_children(si,st);
   
   TraceFunctionExit(__func__);
@@ -2670,7 +2671,7 @@ static boolean branch_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[si].u.pipe.u.branch.towards_goal!=no_slice)
-    pipe_resolve_proxy(&slices[si].u.pipe.u.branch.towards_goal);
+    proxy_slice_resolve(&slices[si].u.pipe.u.branch.towards_goal);
   pipe_resolve_proxies(si,st);
   
   TraceFunctionExit(__func__);
@@ -2687,7 +2688,7 @@ static boolean reflex_guard_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_resolve_proxy(&slices[si].u.pipe.u.reflex_guard.avoided);
+  proxy_slice_resolve(&slices[si].u.pipe.u.reflex_guard.avoided);
   pipe_resolve_proxies(si,st);
   
   TraceFunctionExit(__func__);
@@ -2746,7 +2747,7 @@ static void resolve_proxies(void)
   TraceStipulation(root_slice);
 
   assert(slices[root_slice].type==STProxy);
-  pipe_resolve_proxy(&root_slice);
+  proxy_slice_resolve(&root_slice);
 
   slice_traversal_init(&st,&proxy_resolvers,0);
   traverse_slices(root_slice,&st);
@@ -2998,7 +2999,7 @@ static Token iterate_twins(Token prev_token)
 
       resolve_proxies();
 
-      dealloc_proxy_pipes();
+      dealloc_proxy_slices();
 
       TraceStipulation(root_slice);
 

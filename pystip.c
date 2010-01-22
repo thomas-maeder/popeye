@@ -22,6 +22,7 @@
 #include "pydirctg.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -303,7 +304,7 @@ slice_index copy_slice(slice_index original)
   TraceFunctionParamListEnd();
 
   if (slices[original].type==STProxy)
-    result = alloc_proxy_pipe();
+    result = alloc_proxy_slice();
   else
     result = alloc_slice(slices[original].type);
 
@@ -1167,10 +1168,10 @@ static void combine_set_play(slice_index setplay_slice)
   mi = alloc_move_inverter_slice();
   branch_link(mi,sc);
 
-  op1 = alloc_proxy_pipe();
+  op1 = alloc_proxy_slice();
   branch_link(op1,mi);
 
-  op2 = alloc_proxy_pipe();
+  op2 = alloc_proxy_slice();
   branch_link(op2,slices[root_slice].u.pipe.next);
 
   assert(slices[root_slice].type==STProxy);

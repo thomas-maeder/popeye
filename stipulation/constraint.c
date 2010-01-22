@@ -8,6 +8,7 @@
 #include "pyoutput.h"
 #include "pydata.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -917,7 +918,7 @@ void slice_insert_reflex_guards(slice_index si, slice_index proxy_to_avoided)
                                                         avoided_goal);
 
     param.to_be_avoided[0] = proxy_to_avoided;
-    param.to_be_avoided[1] = alloc_proxy_pipe();
+    param.to_be_avoided[1] = alloc_proxy_slice();
     branch_link(param.to_be_avoided[1],direct_avoided);
 
     slice_traversal_init(&st,&reflex_guards_inserters,&param);

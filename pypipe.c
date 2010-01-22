@@ -16,8 +16,6 @@ slice_index alloc_pipe(SliceType type)
   TraceEnumerator(SliceType,type,"");
   TraceFunctionParamListEnd();
 
-  assert(type!=STProxy);
-
   result = alloc_slice(type);
   slices[result].u.pipe.next = no_slice;
   slices[result].prev = no_slice;
@@ -26,74 +24,6 @@ slice_index alloc_pipe(SliceType type)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* remember proxy slices
- */
-static boolean is_proxy[max_nr_slices];
-
-/* Allocate a proxy pipe
- * @return newly allocated slice
- */
-slice_index alloc_proxy_pipe(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_slice(STProxy);
-  slices[result].u.pipe.next = no_slice;
-  slices[result].prev = no_slice;
-
-  is_proxy[result] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Deallocate all proxy pipes
- */
-void dealloc_proxy_pipes(void)
-{
-  slice_index i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=max_nr_slices; ++i)
-    if (is_proxy[i])
-    {
-      dealloc_slice(i);
-      is_proxy[i] = false;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Substitute a possible link to a proxy slice by the proxy's target
- * @param si address of slice index
- */
-void pipe_resolve_proxy(slice_index *si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[*si].type,"");
-  if (slices[*si].type==STProxy)
-  {
-    slice_index const refered = slices[*si].u.pipe.next;
-    if (slices[refered].prev==*si)
-      slices[refered].prev = no_slice;
-    *si = refered;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Make a slice the predecessor of a pipe
