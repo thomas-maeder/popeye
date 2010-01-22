@@ -2196,7 +2196,7 @@ static void apply_whitetoplay(slice_index proxy)
       slice_index const inverter = next;
       slice_index const next_next = slices[inverter].u.pipe.next;
       if (slices[next_next].prev==inverter)
-        pipe_set_predecessor(next_next,slices[inverter].prev);
+        slice_set_predecessor(next_next,slices[inverter].prev);
       dealloc_slice(inverter);
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[next_next].type==STHelpRoot)

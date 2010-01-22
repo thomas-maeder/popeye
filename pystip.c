@@ -316,6 +316,23 @@ slice_index copy_slice(slice_index original)
   return result;
 }
 
+/* Make a slice the predecessor of a slice
+ * @param slice identifies the slice
+ * @param pred identifies the slice to be made the predecessor of slice
+ */
+void slice_set_predecessor(slice_index slice, slice_index pred)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",slice);
+  TraceFunctionParam("%u",pred);
+  TraceFunctionParamListEnd();
+
+  slices[slice].prev = pred;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Release all slices
  */
 void release_slices(void)

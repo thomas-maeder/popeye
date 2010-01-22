@@ -87,6 +87,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "pyint.h"
+#include "stipulation/proxy.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "conditions/republican.h"
 #include "platform/maxtime.h"
@@ -2845,7 +2846,7 @@ static char *ParseStip(void)
       && slices[root_slice].u.pipe.next!=no_slice
       && ActStip[0]=='\0')
   {
-    pipe_set_predecessor(slices[root_slice].u.pipe.next,root_slice);
+    slice_set_predecessor(slices[root_slice].u.pipe.next,root_slice);
     strcpy(ActStip, AlphaStip);
   }
 

@@ -227,6 +227,12 @@ slice_index alloc_leaf_slice(SliceType type, Goal goal);
  */
 slice_index copy_slice(slice_index original);
 
+/* Make a slice the predecessor of a slice
+ * @param slice identifies the slice
+ * @param pred identifies the slice to be made the predecessor of slice
+ */
+void slice_set_predecessor(slice_index slice, slice_index pred);
+
 /* Release all slices
  */
 void release_slices(void);

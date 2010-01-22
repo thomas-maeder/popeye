@@ -47,7 +47,7 @@ void branch_link(slice_index branch, slice_index succ)
   TraceFunctionParamListEnd();
 
   pipe_set_successor(branch,succ);
-  pipe_set_predecessor(succ,branch);
+  slice_set_predecessor(succ,branch);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -26,23 +26,6 @@ slice_index alloc_pipe(SliceType type)
   return result;
 }
 
-/* Make a slice the predecessor of a pipe
- * @param pipe identifies the pipe
- * @param pred slice to be made the predecessor of pipe
- */
-void pipe_set_predecessor(slice_index pipe, slice_index pred)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParam("%u",pred);
-  TraceFunctionParamListEnd();
-
-  slices[pipe].prev = pred;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Does a slice have a successor
  * @param si identifies slice
  * @return true iff si identifies a slice that has a .next member
