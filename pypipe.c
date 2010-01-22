@@ -50,8 +50,8 @@ void pipe_set_successor(slice_index pipe, slice_index succ)
   TraceFunctionParam("%u",succ);
   TraceFunctionParamListEnd();
 
-  if (has_successor(pipe))
-    slices[pipe].u.pipe.next = succ;
+  assert(has_successor(pipe));
+  slices[pipe].u.pipe.next = succ;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
