@@ -74,16 +74,6 @@ void dealloc_proxy_pipes(void)
   TraceFunctionResultEnd();
 }
 
-/* Does a slice have a predecessor
- * @param si identifies slice
- * @return true iff si identifies a slice that has a .prev member
- */
-static boolean has_predecessor(slice_index si)
-{
-  return (slices[si].type!=STQuodlibet
-          && slices[si].type!=STReciprocal);
-}
-
 /* Substitute a possible link to a proxy slice by the proxy's target
  * @param si address of slice index
  */
@@ -97,7 +87,7 @@ void pipe_resolve_proxy(slice_index *si)
   if (slices[*si].type==STProxy)
   {
     slice_index const refered = slices[*si].u.pipe.next;
-    if (has_predecessor(refered) && slices[refered].prev==*si)
+    if (slices[refered].prev==*si)
       slices[refered].prev = no_slice;
     *si = refered;
   }
@@ -117,8 +107,7 @@ void pipe_set_predecessor(slice_index pipe, slice_index pred)
   TraceFunctionParam("%u",pred);
   TraceFunctionParamListEnd();
 
-  if (has_predecessor(pipe))
-    slices[pipe].prev = pred;
+  slices[pipe].prev = pred;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
