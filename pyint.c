@@ -2877,6 +2877,12 @@ static void init_moves_left(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STHelpFork:
+      if (slices[si].u.pipe.next==no_slice)
+        init_moves_left(slices[si].u.pipe.u.branch.towards_goal,n);
+      else
+        init_moves_left(slices[si].u.pipe.next,n);
+      break;
+
     case STHelpHashed:
     case STSeriesFork:
     case STSeriesHashed:

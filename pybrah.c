@@ -427,6 +427,93 @@ boolean help_root_make_setplay_slice(slice_index si,
   return result;
 }
 
+/* Perform the necessary work for shorting a branch from an even to an
+ * odd length
+ * @param root STHelpRoot slice of branch to be shortened
+ */
+static void shorten_root_branch_even_to_odd(slice_index root)
+{
+  slice_index const root_branch = slices[root].u.pipe.next;
+  slice_index const branch1 = slices[root_branch].u.pipe.next;
+  slice_index const fork = slices[branch1].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  assert(slices[root_branch].type==STBranchHelp);
+  assert(slices[branch1].type==STBranchHelp);
+  assert(slices[fork].type==STHelpFork);
+
+  if (slices[root].u.pipe.u.help_root.length-slack_length_help==2)
+  {
+    assert(slices[fork].u.pipe.next==no_slice);
+    dealloc_slice(branch1);
+  }
+  else
+  {
+    slice_index const proxy = alloc_proxy_slice();
+    slice_index const branch2 = slices[fork].u.pipe.next;
+
+    assert(slices[branch2].type==STBranchHelp);
+
+    slices[branch1].u.pipe.u.help_root.length -= 2;
+    slices[fork].u.pipe.u.help_root.length -= 2;
+    slices[root].u.pipe.u.help_root.short_sols = proxy;
+
+    branch_link(proxy,branch2);
+  }
+
+  branch_link(root_branch,fork);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Perform the necessary work for shorting a branch from an odd to an
+ * even length
+ * @param root STHelpRoot slice of branch to be shortened
+ */
+static void shorten_root_branch_odd_to_even(slice_index root)
+{
+  slice_index const root_branch = slices[root].u.pipe.next;
+  slice_index const fork = slices[root_branch].u.pipe.next;
+  slice_index const branch1 = slices[fork].u.pipe.next;
+  slice_index const proxy = slices[branch1].u.pipe.next;
+  slice_index const branch2 = slices[proxy].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root);
+  TraceFunctionParamListEnd();
+
+  assert(slices[root_branch].type==STBranchHelp);
+  assert(slices[fork].type==STHelpFork);
+  assert(slices[branch1].type==STBranchHelp);
+  assert(slices[proxy].type==STProxy);
+  assert(slices[branch2].type==STBranchHelp);
+
+  slices[root].u.pipe.u.help_root.short_sols = fork;
+  dealloc_proxy_slice(proxy);
+
+  if (slices[root].u.pipe.u.help_root.length-slack_length_help==3)
+  {
+    branch_link(root_branch,branch2);
+    pipe_set_successor(fork,no_slice);
+    dealloc_slice(branch1);
+  }
+  else
+  {
+    pipe_set_successor(root_branch,branch2);
+    branch_link(branch1,branch2);
+    slices[branch1].u.pipe.u.help_root.length -= 2;
+  }
+
+  slices[fork].u.pipe.u.help_root.length -= 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Shorten a root help branch. Reduces the length members of
  * slices[root] and resets the next member to the appropriate
  * position.
@@ -434,44 +521,21 @@ boolean help_root_make_setplay_slice(slice_index si,
  */
 static void shorten_root_branch(slice_index root)
 {
+  slice_index const root_branch = slices[root].u.pipe.next;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
+  assert(slices[root_branch].type==STBranchHelp);
+
   if ((slices[root].u.pipe.u.help_root.length-slack_length_help)%2==0)
-  {
-    slice_index const root_branch = slices[root].u.pipe.next;
-    slice_index const branch1 = slices[root_branch].u.pipe.next;
-    slice_index const fork = slices[branch1].u.pipe.next;
-    assert(slices[root_branch].type==STBranchHelp);
-    assert(slices[branch1].type==STBranchHelp);
-    assert(slices[fork].type==STHelpFork);
-    slices[root].u.pipe.u.help_root.short_sols = slices[fork].u.pipe.next;
-    slices[root_branch].u.pipe.next = fork;
-    slices[branch1].u.pipe.u.help_root.length -= 2;
-    slices[fork].u.pipe.u.help_root.length -= 2;
-    shorten_help_pipe(root);
-    shorten_help_pipe(root_branch);
-  }
+    shorten_root_branch_even_to_odd(root);
   else
-  {
-    slice_index const root_branch = slices[root].u.pipe.next;
-    slice_index const fork = slices[root_branch].u.pipe.next;
-    slice_index const branch1 = slices[fork].u.pipe.next;
-    slice_index const proxy = slices[branch1].u.pipe.next;
-    slice_index const branch2 = slices[proxy].u.pipe.next;
-    assert(slices[root_branch].type==STBranchHelp);
-    assert(slices[fork].type==STHelpFork);
-    assert(slices[branch1].type==STBranchHelp);
-    assert(slices[proxy].type==STProxy);
-    assert(slices[branch2].type==STBranchHelp);
-    slices[root].u.pipe.u.help_root.short_sols = fork;
-    slices[root_branch].u.pipe.next = branch2;
-    slices[branch1].u.pipe.u.help_root.length -= 2;
-    slices[fork].u.pipe.u.help_root.length -= 2;
-    shorten_help_pipe(root);
-    shorten_help_pipe(root_branch);
-  }
+    shorten_root_branch_odd_to_even(root);
+
+  shorten_help_pipe(root);
+  shorten_help_pipe(root_branch);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -637,48 +701,65 @@ static slice_index alloc_toplevel_help_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_help);
+  assert(min_length>=slack_length_help);
 
   if ((length-slack_length_help)%2==0)
   {
-    slice_index const branch_root = alloc_branch_h_slice(length,min_length,
-                                                         proxy_to_goal);
-
     slice_index const fork = alloc_help_fork_slice(length-2,min_length-2,
                                                    proxy_to_goal);
+    slice_index const help_root = alloc_help_root_slice(length,min_length,
+                                                        proxy_to_goal,fork);
+    slice_index const branch_root = alloc_branch_h_slice(length,min_length,
+                                                         proxy_to_goal);
     slice_index const branch1 = alloc_branch_h_slice(length,min_length,
-                                                     proxy_to_goal);
-    slice_index const branch2 = alloc_branch_h_slice(length-2,min_length,
                                                      proxy_to_goal);
     shorten_help_pipe(branch1);
 
-    result = alloc_help_root_slice(length,min_length,proxy_to_goal,fork);
-
-    branch_link(result,branch_root);
-    pipe_set_successor(branch_root,branch1);
-    branch_link(fork,branch2);
-    branch_link(branch2,branch1);
+    branch_link(help_root,branch_root);
     branch_link(branch1,fork);
+
+    if (length-slack_length_help==2)
+      branch_link(branch_root,branch1);
+    else
+    {
+      slice_index const branch2 = alloc_branch_h_slice(length-2,min_length,
+                                                       proxy_to_goal);
+      pipe_set_successor(branch_root,branch1);
+      branch_link(fork,branch2);
+      branch_link(branch2,branch1);
+    }
+
+    result = help_root;
   }
   else
   {
-    slice_index const fork = alloc_help_fork_slice(length-1,min_length-1,
-                                                   proxy_to_goal);
-    slice_index const branch1 = alloc_branch_h_slice(length-2,min_length,
-                                                     proxy_to_goal);
-    slice_index proxy = alloc_proxy_slice();
-    slice_index const branch2 = alloc_branch_h_slice(length,min_length,
-                                                     proxy_to_goal);
+    slice_index const proxy = alloc_proxy_slice();
+    slice_index const help_root = alloc_help_root_slice(length,min_length,
+                                                        proxy_to_goal,proxy);
     slice_index const branch_root = alloc_branch_h_slice(length,min_length,
                                                          proxy_to_goal);
-    shorten_help_pipe(branch2);
-    result = alloc_help_root_slice(length,min_length,proxy_to_goal,proxy);
+    slice_index const fork = alloc_help_fork_slice(length-1,min_length-1,
+                                                   proxy_to_goal);
+    branch_link(help_root,branch_root);
 
-    branch_link(result,branch_root);
-    pipe_set_successor(branch_root,fork);
-    branch_link(branch2,proxy);
-    branch_link(proxy,branch1);
-    branch_link(branch1,fork);
-    branch_link(fork,branch2);
+    if (length-slack_length_help==1)
+      branch_link(branch_root,fork);
+    else
+    {
+      slice_index const branch1 = alloc_branch_h_slice(length,min_length,
+                                                       proxy_to_goal);
+      slice_index const branch2 = alloc_branch_h_slice(length-2,min_length,
+                                                       proxy_to_goal);
+      shorten_help_pipe(branch1);
+
+      pipe_set_successor(branch_root,fork);
+      branch_link(fork,branch1);
+      branch_link(branch1,proxy);
+      branch_link(proxy,branch2);
+      branch_link(branch2,fork);
+    }
+
+    result = help_root;
   }
 
   TraceFunctionExit(__func__);

@@ -14,6 +14,11 @@
  */
 slice_index alloc_proxy_slice(void);
 
+/* Deallocate a proxy slice
+ * @param proxy identifies the proxy slice
+ */
+void dealloc_proxy_slice(slice_index proxy);
+
 /* Deallocate all proxy slices
  */
 void dealloc_proxy_slices(void);

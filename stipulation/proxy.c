@@ -25,6 +25,18 @@ slice_index alloc_proxy_slice(void)
   return result;
 }
 
+/* Deallocate a proxy slice
+ * @param proxy identifies the proxy slice
+ */
+void dealloc_proxy_slice(slice_index proxy)
+{
+  slice_index const refered = slices[proxy].u.pipe.next;
+  if (slices[refered].prev==proxy)
+    slices[refered].prev = slices[proxy].prev;
+  dealloc_slice(proxy);
+  is_proxy[proxy] = false;
+}
+
 /* Deallocate all proxy pipes
  */
 void dealloc_proxy_slices(void)
@@ -36,13 +48,7 @@ void dealloc_proxy_slices(void)
 
   for (i = 0; i!=max_nr_slices; ++i)
     if (is_proxy[i])
-    {
-      slice_index const refered = slices[i].u.pipe.next;
-      if (slices[refered].prev==i)
-        slices[refered].prev = slices[i].prev;
-      dealloc_slice(i);
-      is_proxy[i] = false;
-    }
+      dealloc_proxy_slice(i);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
