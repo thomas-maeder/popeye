@@ -2973,16 +2973,11 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
-      
-      stip_insert_selfcheck_guards();
 
-      /* Add slices responsible for setplay only *after* those
-       * responsible for detecting selfchecks, beause otherwise, we
-       * would test for illegal selfchecks twice at the beginning of
-       * setplay.
-       */
       if (OptFlag[solapparent] && !OptFlag[restart] && !stip_apply_setplay())
         Message(SetPlayNotApplicable);
+
+      stip_insert_selfcheck_guards();
 
       if (is_hashtable_allocated())
         insert_hash_slices();

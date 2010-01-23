@@ -253,7 +253,7 @@ boolean slice_root_solve(slice_index si)
     case STDirectDefenderRoot:
     case STLeafDirect:
     case STDirectDefense:
-    case STSelfDefense:
+    case STSelfAttack:
     case STDirectHashed:
     case STMaxThreatLength:
       result = direct_root_solve(si);

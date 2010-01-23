@@ -261,6 +261,15 @@ stip_length_type get_max_nr_moves(slice_index si);
  */
 void transform_to_quodlibet(void);
 
+/* Structure used in the stipulation traversal that creates the slices
+ * representing set play
+ */
+typedef struct
+{
+    slice_index setplay_slice; /* identifies set play slice(s) */
+    slice_index sibling;       /* indicates where to install */
+} setplay_slice_production;
+
 /* Attempt to apply the postkey play option to the current stipulation
  * @return true iff postkey play option is applicable (and has been
  *              applied)

@@ -635,8 +635,8 @@ boolean direct_root_solve_in_n(slice_index si)
       result = direct_defense_root_solve(si);
       break;
 
-    case STSelfDefense:
-      result = self_defense_root_solve(si);
+    case STSelfAttack:
+      result = self_attack_root_solve(si);
       break;
 
     case STSelfCheckGuard:

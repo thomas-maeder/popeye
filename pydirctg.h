@@ -18,6 +18,14 @@ slice_index alloc_direct_defense(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index towards_goal);
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean direct_defense_root_make_setplay_slice(slice_index si,
+                                               struct slice_traversal *st);
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index

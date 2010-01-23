@@ -268,6 +268,38 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
   return result;
 }
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean direct_defense_root_make_setplay_slice(slice_index si,
+                                               struct slice_traversal *st)
+{
+  boolean const result = true;
+  setplay_slice_production * const prod = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  prod->sibling = si;
+
+  if (slices[si].u.pipe.u.branch.length==slack_length_direct+1)
+  {
+    slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    assert(slices[proxy_to_goal].type==STProxy);
+    prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
+  }
+  else
+    traverse_slices(slices[si].u.pipe.next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index

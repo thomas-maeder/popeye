@@ -89,12 +89,6 @@ self_defense_direct_solve_threats_in_n(table threats,
                                        stip_length_type n,
                                        stip_length_type n_min);
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_defense_root_solve(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -127,6 +121,12 @@ boolean self_attack_defend_in_n(slice_index si, stip_length_type n);
 unsigned int self_attack_can_defend_in_n(slice_index si,
                                          stip_length_type n,
                                          unsigned int max_result);
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean self_attack_root_solve(slice_index si);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch

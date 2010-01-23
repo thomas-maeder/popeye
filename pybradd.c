@@ -798,19 +798,20 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
                                                   struct slice_traversal *st)
 {
   boolean const result = true;
+  setplay_slice_production * const prod = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (prod->sibling!=no_slice)
   {
-    slice_index * const next_set_slice = st->param;
-    slice_index proxy = alloc_proxy_slice();
+    slice_index const proxy = alloc_proxy_slice();
     branch_link(proxy,slices[si].u.pipe.next);
-    *next_set_slice = alloc_help_branch(toplevel_branch,
-                                        slack_length_help+1,slack_length_help+1,
-                                        proxy);
-    slices[*next_set_slice].starter = slices[si].starter;
+    prod->setplay_slice = alloc_help_branch(toplevel_branch,
+                                            slack_length_help+1,
+                                            slack_length_help+1,
+                                            proxy);
   }
 
   TraceFunctionExit(__func__);

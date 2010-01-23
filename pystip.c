@@ -15,6 +15,7 @@
 #include "pynot.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
+#include "pydirctg.h"
 #include "pymovein.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
@@ -309,6 +310,7 @@ slice_index copy_slice(slice_index original)
     result = alloc_slice(slices[original].type);
 
   slices[result] = slices[original];
+  slice_set_predecessor(result,no_slice);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1140,7 +1142,7 @@ static slice_operation const setplay_makers[] =
   0,                                          /* STReciprocal */
   0,                                          /* STQuodlibet */
   0,                                          /* STNot */
-  &move_inverter_root_make_setplay_slice,     /* STMoveInverter */
+  &pipe_traverse_next,                        /* STMoveInverter */
   &pipe_traverse_next,                        /* STDirectRoot */
   &branch_d_defender_root_make_setplay_slice, /* STDirectDefenderRoot */
   0,                                          /* STDirectHashed */
@@ -1150,7 +1152,7 @@ static slice_operation const setplay_makers[] =
   0,                                          /* STParryFork */
   0,                                          /* STSeriesHashed */
   &pipe_traverse_next,                        /* STSelfCheckGuard */
-  &pipe_traverse_next,                        /* STDirectDefense */
+  &direct_defense_root_make_setplay_slice,    /* STDirectDefense */
   &reflex_guard_root_make_setplay_slice,      /* STReflexGuard */
   &self_attack_root_make_setplay_slice,       /* STSelfAttack */
   0,                                          /* STSelfDefense */
@@ -1165,34 +1167,33 @@ static slice_operation const setplay_makers[] =
 
 /* Combine the set play slices into the current stipulation
  * @param setplay slice index of set play
+ * @param sibling slice whose sibling slice setplay is to be installed
+ *                 as
  */
-static void combine_set_play(slice_index setplay_slice)
+static void combine_set_play(slice_index setplay_slice, slice_index sibling)
 {
-  slice_index sc;
   slice_index mi;
   slice_index op1;
   slice_index op2;
+  slice_index const hook = slices[sibling].prev;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",setplay_slice);
   TraceFunctionParamListEnd();
 
-  assert(slices[setplay_slice].type!=STProxy);
-
-  sc = alloc_selfcheck_guard_slice();
-  branch_link(sc,setplay_slice);
-
   mi = alloc_move_inverter_slice();
-  branch_link(mi,sc);
+  if (slices[setplay_slice].prev==no_slice)
+    branch_link(mi,setplay_slice);
+  else
+    pipe_set_successor(mi,setplay_slice);
 
   op1 = alloc_proxy_slice();
   branch_link(op1,mi);
 
   op2 = alloc_proxy_slice();
-  branch_link(op2,slices[root_slice].u.pipe.next);
+  branch_link(op2,slices[hook].u.pipe.next);
 
-  assert(slices[root_slice].type==STProxy);
-  pipe_set_successor(root_slice,alloc_quodlibet_slice(op1,op2));
+  pipe_set_successor(hook,alloc_quodlibet_slice(op1,op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -1204,7 +1205,7 @@ static void combine_set_play(slice_index setplay_slice)
 boolean stip_apply_setplay(void)
 {
   boolean result;
-  slice_index setplay_slice;
+  setplay_slice_production prod = { no_slice, no_slice };
   slice_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -1212,14 +1213,15 @@ boolean stip_apply_setplay(void)
 
   TraceStipulation(root_slice);
 
-  slice_traversal_init(&st,&setplay_makers,&setplay_slice);
+  slice_traversal_init(&st,&setplay_makers,&prod);
   traverse_slices(root_slice,&st);
 
-  if (setplay_slice==no_slice)
+  if (prod.setplay_slice==no_slice)
     result = false;
   else
   {
-    combine_set_play(setplay_slice);
+    assert(prod.sibling!=no_slice);
+    combine_set_play(prod.setplay_slice,prod.sibling);
     result = true;
   }
 

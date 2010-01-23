@@ -342,15 +342,16 @@ boolean series_root_make_setplay_slice(slice_index si,
                                        struct slice_traversal *st)
 {
   boolean const result = true;
-  slice_index * const next_set_slice = st->param;
-  slice_index const towards_goal = slices[si].u.pipe.u.help_root.towards_goal;
+  setplay_slice_production * const prod = st->param;
+  slice_index const proxy_to_goal = slices[si].u.pipe.u.help_root.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[towards_goal].type==STProxy);
-  *next_set_slice = slices[towards_goal].u.pipe.next;
+  assert(slices[proxy_to_goal].type==STProxy);
+  prod->sibling = si;
+  prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

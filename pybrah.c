@@ -357,14 +357,12 @@ static void shorten_setplay_root_branch(slice_index root)
   if ((slices[root].u.pipe.u.help_root.length-slack_length_help)%2==0)
   {
     slice_index const root_branch = slices[root].u.pipe.next;
-    slice_index const selfcheck1 = slices[root_branch].u.pipe.next;
-    slice_index const branch1 = slices[selfcheck1].u.pipe.next;
-    slice_index const selfcheck2 = slices[branch1].u.pipe.next;
+    slice_index const branch1 = slices[root_branch].u.pipe.next;
+    slice_index const fork = slices[branch1].u.pipe.next;
     assert(slices[root_branch].type==STBranchHelp);
-    assert(slices[selfcheck1].type==STSelfCheckGuard);
     assert(slices[branch1].type==STBranchHelp);
-    assert(slices[selfcheck2].type==STSelfCheckGuard);
-    slices[root_branch].u.pipe.next = selfcheck2;
+    assert(slices[fork].type==STHelpFork);
+    slices[root_branch].u.pipe.next = fork;
     slices[root].u.pipe.u.help_root.short_sols = branch1;
     shorten_help_pipe(root);
     shorten_help_pipe(root_branch);
@@ -372,16 +370,16 @@ static void shorten_setplay_root_branch(slice_index root)
   else
   {
     slice_index const root_branch = slices[root].u.pipe.next;
-    slice_index const selfcheck1 = slices[root_branch].u.pipe.next;
-    slice_index const fork = slices[selfcheck1].u.pipe.next;
+    slice_index const fork = slices[root_branch].u.pipe.next;
     slice_index const branch1 = slices[fork].u.pipe.next;
-    slice_index const selfcheck2 = slices[branch1].u.pipe.next;
+    slice_index const proxy = slices[branch1].u.pipe.next;
+    slice_index const branch2 = slices[proxy].u.pipe.next;
     assert(slices[root_branch].type==STBranchHelp);
-    assert(slices[selfcheck1].type==STSelfCheckGuard);
     assert(slices[fork].type==STHelpFork);
     assert(slices[branch1].type==STBranchHelp);
-    assert(slices[selfcheck2].type==STSelfCheckGuard);
-    slices[root_branch].u.pipe.next = selfcheck2;
+    assert(slices[proxy].type==STProxy);
+    assert(slices[branch2].type==STBranchHelp);
+    slices[root_branch].u.pipe.next = branch2;
     slices[root].u.pipe.u.help_root.short_sols = fork;
     shorten_help_pipe(root);
     shorten_help_pipe(root_branch);
@@ -400,7 +398,7 @@ boolean help_root_make_setplay_slice(slice_index si,
                                      struct slice_traversal *st)
 {
   boolean const result = true;
-  slice_index * const next_set_slice = st->param;
+  setplay_slice_production * const prod = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -408,17 +406,19 @@ boolean help_root_make_setplay_slice(slice_index si,
 
   assert(slices[si].u.pipe.u.help_root.length>slack_length_help);
 
+  prod->sibling = si;
+
   if (slices[si].u.pipe.u.help_root.length==slack_length_help+1)
   {
     slice_index const proxy_to_goal = slices[si].u.pipe.u.help_root.towards_goal;
     assert(slices[proxy_to_goal].type==STProxy);
-    *next_set_slice = slices[proxy_to_goal].u.pipe.next;
+    prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
   }
   else
   {
-    *next_set_slice = copy_slice(si);
-    slices[*next_set_slice].u.pipe.next = copy_slice(slices[*next_set_slice].u.pipe.next);
-    shorten_setplay_root_branch(*next_set_slice);
+    prod->setplay_slice = copy_slice(si);
+    branch_link(prod->setplay_slice,copy_slice(slices[si].u.pipe.next));
+    shorten_setplay_root_branch(prod->setplay_slice);
   }
 
   TraceFunctionExit(__func__);

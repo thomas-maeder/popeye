@@ -207,32 +207,6 @@ stip_length_type self_defense_direct_solve_threats_in_n(table threats,
   return result;
 }
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_defense_root_solve(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-  
-  /* We arrive here e.g. when solving the set play of a sXN
-   */
-  if (slices[si].u.pipe.u.branch.min_length<slack_length_direct
-      && slice_root_solve(slices[si].u.pipe.u.branch.towards_goal))
-    result = true;
-  else
-    result = slice_root_solve(slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 
 /* **************** Implementation of interface DirectDefender **********
  */
@@ -303,6 +277,32 @@ unsigned int self_attack_can_defend_in_n(slice_index si,
   return result;
 }
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean self_attack_root_solve(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+  
+  /* We arrive here e.g. when solving the set play of a sXN
+   */
+  if (slices[si].u.pipe.u.branch.min_length==slack_length_direct
+      && slice_root_solve(slices[si].u.pipe.u.branch.towards_goal))
+    result = true;
+  else
+    result = slice_root_solve(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* **************** Implementation of interface Slice ***************
  */
@@ -315,8 +315,8 @@ unsigned int self_attack_can_defend_in_n(slice_index si,
 boolean self_attack_root_make_setplay_slice(slice_index si,
                                             struct slice_traversal *st)
 {
-  boolean result;
-  slice_index * const next_set_slice = st->param;
+  boolean const result = true;
+  setplay_slice_production * const prod = st->param;
   slice_index const length = slices[si].u.pipe.u.branch.length;
   slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
 
@@ -324,22 +324,26 @@ boolean self_attack_root_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",length);
+  /* prod->sibling may already have been set by a STDirectDefense
+   * slice if this is a quodlibet stipulation
+   */
+  if (prod->sibling==no_slice)
+  {
+    prod->sibling = slices[si].prev;
+    assert(slices[prod->sibling].type==STDirectRoot);
+  }
 
   if (length==slack_length_direct)
   {
     assert(slices[proxy_to_goal].type==STProxy);
-    *next_set_slice = slices[proxy_to_goal].u.pipe.next;
-    result = true;
+    prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
   }
   else
   {
-    slice_index const min_length = slices[si].u.pipe.u.branch.min_length;
-    slice_index const slfdef = alloc_self_defense(length-1,min_length-1,
-                                                  proxy_to_goal);
-    result = traverse_slices(slices[si].u.pipe.next,st);
-    branch_link(slfdef,*next_set_slice);
-    *next_set_slice = slfdef;
+    slice_index const copy = copy_slice(si);
+    traverse_slices(slices[si].u.pipe.next,st);
+    branch_link(copy,prod->setplay_slice);
+    prod->setplay_slice = copy;
   }
 
   TraceFunctionExit(__func__);

@@ -625,23 +625,40 @@ stip_length_type reflex_guard_solve_in_n(slice_index si,
 boolean reflex_guard_root_make_setplay_slice(slice_index si,
                                              struct slice_traversal *st)
 {
-  boolean result;
-  slice_index * const next_set_slice = st->param;
+  boolean const result = true;
+  setplay_slice_production * const prod = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.branch.length==slack_length_help)
+  /* TODO remove this check once STReflexGuard has been split up */
+  if ((slices[si].u.pipe.u.branch.length-slack_length_direct)%2==0)
   {
-    slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
-    assert(slices[proxy_to_goal].type==STProxy);
-    *next_set_slice = slices[proxy_to_goal].u.pipe.next;
-    result = true;
+    /* root_defender_filter */
+    if (prod->sibling==no_slice)
+    {
+      /* semi-reflex stipulation */
+      prod->sibling = slices[si].prev;
+      assert(slices[prod->sibling].type==STDirectRoot);
+    }
+
+    if (slices[si].u.pipe.u.branch.length==slack_length_direct)
+    {
+      slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
+      assert(slices[proxy_to_goal].type==STProxy);
+      prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
+    }
+    else
+      traverse_slices(slices[si].u.pipe.next,st);
   }
   else
-    result = traverse_slices(slices[si].u.pipe.next,st);
-
+  {
+    /* root_attacker_filter */
+    prod->sibling = si;
+    traverse_slices(slices[si].u.pipe.next,st);
+  }
+  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
