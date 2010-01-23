@@ -6,6 +6,7 @@
 #include "pydata.h"
 #include "pyoutput.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -675,20 +676,27 @@ static slice_operation const self_guards_inserters[] =
 
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented
- * @param proxy_to_goal identifies proxy slice leading towards goal
+ * @param to_goal identifies slice leading towards goal
  */
-void slice_insert_self_guards(slice_index si, slice_index proxy_to_goal)
+void slice_insert_self_guards(slice_index si, slice_index to_goal)
 {
   slice_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  slice_traversal_init(&st,&self_guards_inserters,&proxy_to_goal);
+  if (slices[to_goal].type!=STProxy)
+  {
+    slice_index const proxy = alloc_proxy_slice();
+    branch_link(proxy,to_goal);
+    to_goal = proxy;
+  }
+
+  slice_traversal_init(&st,&self_guards_inserters,&to_goal);
   traverse_slices(si,&st);
 
   TraceFunctionExit(__func__);

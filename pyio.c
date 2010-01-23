@@ -1964,15 +1964,10 @@ static char *ParseReciGoal(char *tok,
         if (tok==closingParenPos)
         {
           result = ParseGoal(tok+1,STLeafHelp,proxy_nonreci);
-          {
-            slice_index const proxy_nonreci_goal = alloc_proxy_slice();
-            slice_index const branch = alloc_help_branch(level,
-                                                         slack_length_help+1,
-                                                         slack_length_help+1,
-                                                         proxy_nonreci_goal);
-            branch_link(proxy_nonreci_goal,slices[proxy_nonreci].u.pipe.next);
-            branch_link(proxy_nonreci,branch);
-          }
+          branch_link(proxy_nonreci,
+                      alloc_help_branch(level,
+                                        slack_length_help+1,slack_length_help+1,
+                                        slices[proxy_nonreci].u.pipe.next));
         }
         else
           IoErrorMsg(UnrecStip, 0);
@@ -1986,15 +1981,13 @@ static char *ParseReciGoal(char *tok,
     result = ParseGoal(tok,STLeafHelp,proxy_nonreci);
     if (result!=NULL)
     {
-      slice_index const proxy_nonreci_goal = alloc_proxy_slice();
       slice_index const nonreci_leaf = slices[proxy_nonreci].u.pipe.next;
       slice_index const goal = slices[nonreci_leaf].u.leaf.goal;
-      slice_index const branch = alloc_help_branch(level,
-                                                   slack_length_help+1,
-                                                   slack_length_help+1,
-                                                   proxy_nonreci_goal);
+      slice_index const
+          branch = alloc_help_branch(level,
+                                     slack_length_help+1,slack_length_help+1,
+                                     slices[proxy_nonreci].u.pipe.next);
       slice_index const leaf = alloc_leaf_slice(STLeafDirect,goal);
-      branch_link(proxy_nonreci_goal,slices[proxy_nonreci].u.pipe.next);
       pipe_set_successor(proxy_nonreci,branch);
       branch_link(proxy_reci,leaf);
     }
@@ -2360,13 +2353,11 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
                                                      help_length,
                                                      help_length,
                                                      proxy_leaf);
-          slice_index const proxy_help = alloc_proxy_slice();
           slice_index const branch
               = alloc_series_branch_next_other_starter(level,
                                                        length,min_length,
-                                                       proxy_help);
+                                                       help);
         
-          branch_link(proxy_help,help);
           branch_link(proxy,branch);
           slices[branch].starter = White;
         }
@@ -3011,31 +3002,30 @@ static char *ParseStructuredStip_branch_d(char *tok,
   if (min_length==0 || min_length==max_length)
   {
     boolean const nextStartLikeBranch = max_length%2==0;
+    slice_index const proxy_operand = alloc_proxy_slice();
     tok = ParseStructuredStip_operand(tok,
                                       nested_branch,
-                                      proxy,
+                                      proxy_operand,
                                       nextStartLikeBranch);
     if (tok!=0)
     {
       min_length += slack_length_direct+max_length%2;
       max_length += slack_length_direct;
       {
-        slice_index const operand_proxy = alloc_proxy_slice();
         slice_index const branch = alloc_direct_branch(level,
                                                        max_length,min_length,
-                                                       operand_proxy);
-        branch_link(operand_proxy,slices[proxy].u.pipe.next);
+                                                       proxy_operand);
         branch_link(proxy,branch);
 
         /* TODO get this right */
         if ((max_length-slack_length_direct)%2==0)
-          slice_insert_direct_guards(branch,operand_proxy);
+          slice_insert_direct_guards(branch,proxy_operand);
         else
         {
-          if (slices[slices[operand_proxy].u.pipe.next].type==STLeafForced)
-            slice_insert_self_guards(branch,operand_proxy);
+          if (slices[slices[proxy_operand].u.pipe.next].type==STLeafForced)
+            slice_insert_self_guards(branch,proxy_operand);
           else
-            slice_insert_reflex_guards_semi(branch,operand_proxy);
+            slice_insert_reflex_guards_semi(branch,proxy_operand);
         }
       }
     }
@@ -3080,21 +3070,16 @@ static char *ParseStructuredStip_branch_h(char *tok,
                                       nextStartLikeBranch);
     if (tok!=0)
     {
-      slice_index const proxy_operand = alloc_proxy_slice();
-      branch_link(proxy_operand,slices[proxy].u.pipe.next);
-
       if (min_length==0)
         min_length = max_length%2==0 ? 0 : 1;
 
       min_length += slack_length_help;
       max_length += slack_length_help;
 
-      {
-        slice_index const branch = alloc_help_branch(level,
-                                                     max_length,min_length,
-                                                     proxy_operand);
-        branch_link(proxy,branch);
-      }
+      branch_link(proxy,
+                  alloc_help_branch(level,
+                                    max_length,min_length,
+                                    slices[proxy].u.pipe.next));
     }
   }
   
@@ -3135,22 +3120,16 @@ static char *ParseStructuredStip_branch_ser(char *tok,
                                       nextStartLikeBranch);
     if (tok!=0)
     {
-      slice_index const proxy_operand = alloc_proxy_slice();
-      branch_link(proxy_operand,slices[proxy].u.pipe.next);
- 
       if (min_length==0)
         min_length = 1;
 
       min_length += slack_length_series;
       max_length += slack_length_series;
 
-      {
-        slice_index const branch
-            = alloc_series_branch_next_other_starter(level,
-                                                     max_length,min_length,
-                                                     proxy_operand);
-        branch_link(proxy,branch);
-      }
+      branch_link(proxy,
+                  alloc_series_branch_next_other_starter(level,
+                                                         max_length,min_length,
+                                                         slices[proxy].u.pipe.next));
     }
   }
   

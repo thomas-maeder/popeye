@@ -33,6 +33,9 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
 
   assert(proxy_to_goal==no_slice || slices[proxy_to_goal].type==STProxy);
 
+  if (min_length<slack_length_direct)
+    min_length += 2;
+  assert(min_length>=slack_length_direct);
   result = alloc_branch(STBranchDirectDefender,length,min_length,proxy_to_goal);
 
   TraceFunctionExit(__func__);
@@ -61,6 +64,9 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
 
   assert(slices[proxy_to_goal].type==STProxy);
 
+  if (min_length<slack_length_direct)
+    min_length += 2;
+  assert(min_length>=slack_length_direct);
   result = alloc_branch(STDirectDefenderRoot,length,min_length,proxy_to_goal);
 
   TraceFunctionExit(__func__);
@@ -805,14 +811,10 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
   TraceFunctionParamListEnd();
 
   if (prod->sibling!=no_slice)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,slices[si].u.pipe.next);
     prod->setplay_slice = alloc_help_branch(toplevel_branch,
                                             slack_length_help+1,
                                             slack_length_help+1,
-                                            proxy);
-  }
+                                            slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

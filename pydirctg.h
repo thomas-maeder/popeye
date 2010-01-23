@@ -123,8 +123,8 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st);
 
 /* Instrument a branch with STDirectDefense slices
  * @param si root of branch to be instrumented
- * @param proxy_to_goal identifies slice leading towards goal
+ * @param to_goal identifies slice leading towards goal
  */
-void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal);
+void slice_insert_direct_guards(slice_index si, slice_index to_goal);
 
 #endif

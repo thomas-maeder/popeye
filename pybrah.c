@@ -828,13 +828,13 @@ static slice_index alloc_nested_help_branch(stip_length_type length,
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
+ * @param to_goal identifies slice leading towards goal
  * @return index of initial slice of allocated help branch
  */
 slice_index alloc_help_branch(branch_level level,
                               stip_length_type length,
                               stip_length_type min_length,
-                              slice_index proxy_to_goal)
+                              slice_index to_goal)
 {
   slice_index result;
 
@@ -842,15 +842,20 @@ slice_index alloc_help_branch(branch_level level,
   TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy_to_goal].type==STProxy);
+  if (slices[to_goal].type!=STProxy)
+  {
+    slice_index const proxy = alloc_proxy_slice();
+    branch_link(proxy,to_goal);
+    to_goal = proxy;
+  }
 
   if (level==toplevel_branch)
-    result = alloc_toplevel_help_branch(length,min_length,proxy_to_goal);
+    result = alloc_toplevel_help_branch(length,min_length,to_goal);
   else
-    result = alloc_nested_help_branch(length,min_length,proxy_to_goal);
+    result = alloc_nested_help_branch(length,min_length,to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -15,13 +15,13 @@
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
+ * @param to_goal identifies slice leading towards goal
  * @return index of initial slice of allocated help branch
  */
 slice_index alloc_help_branch(branch_level level,
                               stip_length_type length,
                               stip_length_type min_length,
-                              slice_index proxy_to_goal);
+                              slice_index to_goal);
 
 /* Allocate a STBranchHelp slice.
  * @param length maximum number of half-moves of slice (+ slack)

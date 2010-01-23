@@ -16,13 +16,13 @@
  *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
+ * @param to_goal identifies slice leading towards goal
  * @return index of entry slice of allocated branch
  */
 slice_index alloc_direct_branch(branch_level level,
                                 stip_length_type length,
                                 stip_length_type min_length,
-                                slice_index proxy_to_goal);
+                                slice_index to_goal);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
