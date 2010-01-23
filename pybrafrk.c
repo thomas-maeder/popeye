@@ -29,6 +29,8 @@ slice_index alloc_help_fork_slice(stip_length_type length,
   TraceFunctionParam("%u",towards_goal);
   TraceFunctionParamListEnd();
 
+  if (min_length+1<slack_length_help)
+    min_length += 2;
   result = alloc_branch(STHelpFork,length,min_length,towards_goal);
   
   TraceFunctionExit(__func__);
