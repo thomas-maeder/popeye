@@ -75,41 +75,6 @@ static slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
-/* Promote a slice that was created as STBranchHelp to STHelpRoot
- * because the assumption that the slice is nested in some other slice
- * turned out to be wrong.
- * @param proxy identifies proxy to slice to be promoted
- * @return identifier of toplevel slice
- */
-void branch_h_promote_to_toplevel(slice_index proxy)
-{
-  slice_index const branch = slices[proxy].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
-  TraceFunctionParamListEnd();
-
-  assert(slices[branch].u.pipe.u.branch.length-slack_length_help==1);
-  assert(slices[branch].type==STBranchHelp);
-
-  {
-    slice_index const root =
-        alloc_help_root_slice(slices[branch].u.pipe.u.branch.length,
-                              slices[branch].u.pipe.u.branch.min_length,
-                              slices[branch].u.pipe.u.branch.towards_goal,
-                              branch);
-    branch_link(root,copy_slice(branch));
-
-    slices[branch].u.pipe.u.branch.length -= 2;
-    slices[branch].u.pipe.u.branch.min_length -=2;
-
-    branch_link(proxy,root);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

@@ -240,6 +240,7 @@ void dealloc_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(SliceType,slices[si].type,"\n");
   assert(!is_slice_index_free[si]);
   is_slice_index_free[si] = true;
 
@@ -361,44 +362,64 @@ static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
   return result;
 }
 
+static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+  dealloc_proxy_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const deallocators[] =
 {
-  &traverse_and_deallocate, /* STProxy */
-  &traverse_and_deallocate, /* STBranchDirect */
-  &traverse_and_deallocate, /* STBranchDirectDefender */
-  &traverse_and_deallocate, /* STBranchHelp */
-  &traverse_and_deallocate, /* STHelpFork */
-  &traverse_and_deallocate, /* STBranchSeries */
-  &traverse_and_deallocate, /* STSeriesFork */
-  &traverse_and_deallocate, /* STLeafDirect */
-  &traverse_and_deallocate, /* STLeafHelp */
-  &traverse_and_deallocate, /* STLeafForced */
-  &traverse_and_deallocate, /* STReciprocal */
-  &traverse_and_deallocate, /* STQuodlibet */
-  &traverse_and_deallocate, /* STNot */
-  &traverse_and_deallocate, /* STMoveInverter */
-  &traverse_and_deallocate, /* STDirectRoot */
-  &traverse_and_deallocate, /* STDirectDefenderRoot */
-  &traverse_and_deallocate, /* STDirectHashed */
-  &traverse_and_deallocate, /* STHelpRoot */
-  &traverse_and_deallocate, /* STHelpHashed */
-  &traverse_and_deallocate, /* STSeriesRoot */
-  &traverse_and_deallocate, /* STParryFork */
-  &traverse_and_deallocate, /* STSeriesHashed */
-  &traverse_and_deallocate, /* STSelfCheckGuard */
-  &traverse_and_deallocate, /* STDirectDefense */
-  &traverse_and_deallocate, /* STReflexGuard */
-  &traverse_and_deallocate, /* STSelfAttack */
-  &traverse_and_deallocate, /* STSelfDefense */
-  &traverse_and_deallocate, /* STRestartGuard */
-  &traverse_and_deallocate, /* STGoalReachableGuard */
-  &traverse_and_deallocate, /* STKeepMatingGuard */
-  &traverse_and_deallocate, /* STMaxFlightsquares */
-  &traverse_and_deallocate, /* STDegenerateTree */
-  &traverse_and_deallocate, /* STMaxNrNonTrivial */
-  &traverse_and_deallocate  /* STMaxThreatLength */
+  &traverse_and_deallocate_proxy, /* STProxy */
+  &traverse_and_deallocate,       /* STBranchDirect */
+  &traverse_and_deallocate,       /* STBranchDirectDefender */
+  &traverse_and_deallocate,       /* STBranchHelp */
+  &traverse_and_deallocate,       /* STHelpFork */
+  &traverse_and_deallocate,       /* STBranchSeries */
+  &traverse_and_deallocate,       /* STSeriesFork */
+  &traverse_and_deallocate,       /* STLeafDirect */
+  &traverse_and_deallocate,       /* STLeafHelp */
+  &traverse_and_deallocate,       /* STLeafForced */
+  &traverse_and_deallocate,       /* STReciprocal */
+  &traverse_and_deallocate,       /* STQuodlibet */
+  &traverse_and_deallocate,       /* STNot */
+  &traverse_and_deallocate,       /* STMoveInverter */
+  &traverse_and_deallocate,       /* STDirectRoot */
+  &traverse_and_deallocate,       /* STDirectDefenderRoot */
+  &traverse_and_deallocate,       /* STDirectHashed */
+  &traverse_and_deallocate,       /* STHelpRoot */
+  &traverse_and_deallocate,       /* STHelpHashed */
+  &traverse_and_deallocate,       /* STSeriesRoot */
+  &traverse_and_deallocate,       /* STParryFork */
+  &traverse_and_deallocate,       /* STSeriesHashed */
+  &traverse_and_deallocate,       /* STSelfCheckGuard */
+  &traverse_and_deallocate,       /* STDirectDefense */
+  &traverse_and_deallocate,       /* STReflexGuard */
+  &traverse_and_deallocate,       /* STSelfAttack */
+  &traverse_and_deallocate,       /* STSelfDefense */
+  &traverse_and_deallocate,       /* STRestartGuard */
+  &traverse_and_deallocate,       /* STGoalReachableGuard */
+  &traverse_and_deallocate,       /* STKeepMatingGuard */
+  &traverse_and_deallocate,       /* STMaxFlightsquares */
+  &traverse_and_deallocate,       /* STDegenerateTree */
+  &traverse_and_deallocate,       /* STMaxNrNonTrivial */
+  &traverse_and_deallocate        /* STMaxThreatLength */
 };
 
+/* Deallocate slices reachable from a slice
+ * @param si slice where to start deallocating
+ */
 void dealloc_slices(slice_index si)
 {
   slice_traversal st;

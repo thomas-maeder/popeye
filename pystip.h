@@ -208,6 +208,11 @@ slice_index alloc_slice(SliceType type);
  */
 void dealloc_slice(slice_index si);
 
+/* Deallocate slices reachable from a slice
+ * @param si slice where to start deallocating
+ */
+void dealloc_slices(slice_index si);
+
 /* Allocate a target leaf slice.
  * @param type which STLeaf* type
  * @param s target square

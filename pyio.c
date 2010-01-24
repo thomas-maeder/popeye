@@ -1988,7 +1988,10 @@ static char *ParseReciGoal(char *tok,
                                      slack_length_help+1,slack_length_help+1,
                                      slices[proxy_nonreci].u.pipe.next);
       slice_index const leaf = alloc_leaf_slice(STLeafDirect,goal);
-      pipe_set_successor(proxy_nonreci,branch);
+      if (level==nested_branch)
+        pipe_set_successor(proxy_nonreci,branch);
+      else
+        branch_link(proxy_nonreci,branch);
       branch_link(proxy_reci,leaf);
     }
   }
@@ -2071,134 +2074,6 @@ static char *ParseEnd(char *tok, branch_level level, slice_index proxy)
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
   return tok;
-}
-
-/* Promote a slice to toplevel that was initialised under the wrong
- * assumption that it is nested in some other slice
- */
-static boolean to_toplevel_promoters_branch_help(slice_index si,
-                                                 slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index * const proxy = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  branch_h_promote_to_toplevel(*proxy);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Promote a slice to toplevel that was initialised under the wrong
- * assumption that it is nested in some other slice
- */
-static boolean to_toplevel_promoters_branch_series(slice_index si,
-                                                   slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index * const proxy = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  branch_ser_promote_to_toplevel(*proxy);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Promote a slice to toplevel that was initialised under the wrong
- * assumption that it is nested in some other slice
- */
-static boolean to_toplevel_promoters_fork(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
-  slice_index * const proxy = st->param;
-  slice_index const save_proxy = *proxy;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *proxy = op1;
-  traverse_slices(op1,st);
-
-  *proxy = op2;
-  traverse_slices(op2,st);
-
-  *proxy = save_proxy;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const to_toplevel_promoters[] =
-{
-  &slice_traverse_children,              /* STProxy */
-  0,                                     /* STBranchDirect */
-  0,                                     /* STBranchDirectDefender */
-  &to_toplevel_promoters_branch_help,    /* STBranchHelp */
-  &slice_traverse_children,              /* STHelpFork */
-  &to_toplevel_promoters_branch_series,  /* STBranchSeries */
-  &slice_traverse_children,              /* STSeriesFork */
-  &slice_operation_noop,                 /* STLeafDirect */
-  &slice_operation_noop,                 /* STLeafHelp */
-  &slice_operation_noop,                 /* STLeafForced */
-  &to_toplevel_promoters_fork,           /* STReciprocal */
-  &to_toplevel_promoters_fork,           /* STQuodlibet */
-  &slice_traverse_children,              /* STNot */
-  &slice_traverse_children,              /* STMoveInverter */
-  0,                                     /* STDirectRoot */
-  0,                                     /* STDirectDefenderRoot */
-  0,                                     /* STDirectHashed */
-  0,                                     /* STHelpRoot */
-  0,                                     /* STHelpHashed */
-  0,                                     /* STSeriesRoot */
-  0,                                     /* STParryFork */
-  0,                                     /* STSeriesHashed */
-  0,                                     /* STSelfCheckGuard */
-  0,                                     /* STDirectDefense */
-  0,                                     /* STReflexGuard */
-  0,                                     /* STSelfAttack */
-  0,                                     /* STSelfDefense */
-  0,                                     /* STRestartGuard */
-  0,                                     /* STGoalReachableGuard */
-  0,                                     /* STKeepMatingGuard */
-  0,                                     /* STMaxFlightsquares */
-  0,                                     /* STDegenerateTree */
-  0,                                     /* STMaxNrNonTrivial */
-  0                                      /* STMaxThreatLength */
-};
-
-/* Promote a slice to toplevel that was initialised under the wrong
- * assumption that it is nested in some other slice
- * @param si identifies slice to be promoted
- */
-static void promote_to_toplevel(slice_index proxy)
-{
-  slice_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy);
-  TraceFunctionParamListEnd();
-
-  slice_traversal_init(&st,&to_toplevel_promoters,&proxy);
-  traverse_slices(proxy,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
@@ -2538,13 +2413,19 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       {
         if (length==slack_length_help && min_length==slack_length_help)
         {
-          slice_index const leaf = slices[proxy_leaf].u.pipe.next;
-
-          /* we may have speculated wrong: next is not necessarily nested */
           if (level==toplevel_branch)
-            promote_to_toplevel(leaf);
-
-          branch_link(proxy,leaf);
+          {
+            /* we have speculated wrong */
+            dealloc_slices(proxy_leaf);
+            ParseReciEnd(tok+6, /* skip over "reci-h" */
+                         toplevel_branch,
+                         proxy);
+          }
+          else
+          {
+            slice_index const leaf = slices[proxy_leaf].u.pipe.next;
+            branch_link(proxy,leaf);
+          }
         }
         else
         {
@@ -2796,11 +2677,14 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       {
         if (length==slack_length_direct && min_length==slack_length_direct)
         {
-          /* we may have speculated wrong: leaf is not necessarily nested */
           if (level==toplevel_branch)
-            promote_to_toplevel(proxy_leaf);
-
-          branch_link(proxy,leaf);
+          {
+            /* we have speculated wrong: leaf is at the top level */
+            dealloc_slices(proxy_leaf);
+            ParseEnd(tok,toplevel_branch,proxy);
+          }
+          else
+            branch_link(proxy,leaf);
         }
         else
         {
@@ -2811,7 +2695,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
           slice_insert_direct_guards(branch,proxy_leaf);
         }
 
-        slices[leaf].starter = White;
+        slices[slices[proxy].u.pipe.next].starter = White;
       }
     }
   }

@@ -72,41 +72,6 @@ slice_index alloc_series_root_slice(stip_length_type length,
   return result;
 }
 
-/* Promote a slice that was created as STBranchSeries to STSeriesRoot
- * because the assumption that the slice is nested in some other slice
- * turned out to be wrong.
- * @param proxy identifies proxy to slice to be promoted
- * @return identifier of toplevel slice
- */
-void branch_ser_promote_to_toplevel(slice_index proxy)
-{
-  slice_index const branch = slices[proxy].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy);
-  TraceFunctionParamListEnd();
-
-  assert(slices[branch].u.pipe.u.help_root.length-slack_length_series==1);
-  assert(slices[branch].type==STBranchSeries);
-
-  {
-    slice_index const root
-        = alloc_series_root_slice(slices[branch].u.pipe.u.branch.length,
-                                  slices[branch].u.pipe.u.branch.min_length,
-                                  slices[branch].u.pipe.u.branch.towards_goal,
-                                  branch);
-    branch_link(root,copy_slice(branch));
-
-    --slices[branch].u.pipe.u.branch.length;
-    --slices[branch].u.pipe.u.branch.min_length;
-
-    branch_link(proxy,root);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

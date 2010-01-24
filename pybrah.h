@@ -33,14 +33,6 @@ slice_index alloc_branch_h_slice(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index proxy_to_goal);
 
-/* Promote a slice that was created as STBranchHelp to STHelpRoot
- * because the assumption that the slice is nested in some other slice
- * turned out to be wrong.
- * @param proxy identifies proxy to slice to be promoted
- * @return identifier of toplevel slice
- */
-void branch_h_promote_to_toplevel(slice_index proxy);
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
