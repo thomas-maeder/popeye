@@ -566,7 +566,7 @@ slice_index help_root_shorten_help_play(slice_index root)
     slice_index const proxy_to_goal = branch_deallocate_to_fork(root);
     assert(slices[proxy_to_goal].type==STProxy);
     result = slices[proxy_to_goal].u.pipe.next;
-    dealloc_slice(proxy_to_goal);
+    dealloc_proxy_slice(proxy_to_goal);
   }
   else
   {

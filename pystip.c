@@ -99,7 +99,7 @@
 
 Slice slices[max_nr_slices];
 
-slice_index root_slice;
+slice_index root_slice = no_slice;
 
 static slice_index free_indices[max_nr_slices];
 
@@ -194,7 +194,18 @@ void assert_no_leaked_slices(void)
  */
 void init_slice_allocator(void)
 {
-  release_slices();
+  slice_index si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (si = 0; si!=max_nr_slices; ++si)
+    free_indices[si] = si;
+
+  first_free_index = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a slice index
@@ -209,6 +220,7 @@ slice_index alloc_slice(SliceType type)
   TraceEnumerator(SliceType,type,"");
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",first_free_index);
   assert(first_free_index<=max_nr_slices);
   slices[result].type = type; 
   slices[result].starter = no_side; 
@@ -228,11 +240,9 @@ void dealloc_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==STBranchDirect)
-    dealloc_slice(slices[si].u.pipe.next);
-
   assert(first_free_index>0);
   free_indices[--first_free_index] = si;
+  TraceValue("%u\n",first_free_index);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -335,21 +345,86 @@ void slice_set_predecessor(slice_index slice, slice_index pred)
   TraceFunctionResultEnd();
 }
 
+static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+  dealloc_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const deallocators[] =
+{
+  &traverse_and_deallocate, /* STProxy */
+  &traverse_and_deallocate, /* STBranchDirect */
+  &traverse_and_deallocate, /* STBranchDirectDefender */
+  &traverse_and_deallocate, /* STBranchHelp */
+  &traverse_and_deallocate, /* STHelpFork */
+  &traverse_and_deallocate, /* STBranchSeries */
+  &traverse_and_deallocate, /* STSeriesFork */
+  &traverse_and_deallocate, /* STLeafDirect */
+  &traverse_and_deallocate, /* STLeafHelp */
+  &traverse_and_deallocate, /* STLeafForced */
+  &traverse_and_deallocate, /* STReciprocal */
+  &traverse_and_deallocate, /* STQuodlibet */
+  &traverse_and_deallocate, /* STNot */
+  &traverse_and_deallocate, /* STMoveInverter */
+  &traverse_and_deallocate, /* STDirectRoot */
+  &traverse_and_deallocate, /* STDirectDefenderRoot */
+  &traverse_and_deallocate, /* STDirectHashed */
+  &traverse_and_deallocate, /* STHelpRoot */
+  &traverse_and_deallocate, /* STHelpHashed */
+  &traverse_and_deallocate, /* STSeriesRoot */
+  &traverse_and_deallocate, /* STParryFork */
+  &traverse_and_deallocate, /* STSeriesHashed */
+  &traverse_and_deallocate, /* STSelfCheckGuard */
+  &traverse_and_deallocate, /* STDirectDefense */
+  &traverse_and_deallocate, /* STReflexGuard */
+  &traverse_and_deallocate, /* STSelfAttack */
+  &traverse_and_deallocate, /* STSelfDefense */
+  &traverse_and_deallocate, /* STRestartGuard */
+  &traverse_and_deallocate, /* STGoalReachableGuard */
+  &traverse_and_deallocate, /* STKeepMatingGuard */
+  &traverse_and_deallocate, /* STMaxFlightsquares */
+  &traverse_and_deallocate, /* STDegenerateTree */
+  &traverse_and_deallocate, /* STMaxNrNonTrivial */
+  &traverse_and_deallocate  /* STMaxThreatLength */
+};
+
+void dealloc_slices(slice_index si)
+{
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&deallocators,0);
+  traverse_slices(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Release all slices
  */
 void release_slices(void)
 {
-  slice_index si;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (si = 0; si!=max_nr_slices; ++si)
-    free_indices[si] = si;
-
-  first_free_index = 0;
-
+  dealloc_slices(root_slice);
   root_slice = no_slice;
+  assert_no_leaked_slices();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1121,7 +1196,7 @@ boolean stip_apply_postkeyplay(void)
     if (slices[postkey_slice].type==STProxy)
     {
       install_postkey_slice(slices[postkey_slice].u.pipe.next);
-      dealloc_slice(postkey_slice);
+      dealloc_proxy_slice(postkey_slice);
     }
     else
       install_postkey_slice(postkey_slice);

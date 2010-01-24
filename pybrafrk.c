@@ -391,6 +391,19 @@ static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
   return result;
 }
 
+/* Continue deallocating a branch
+ * @param si identifies branch_fork slice
+ * @param st structure representing the traversal
+ * @return true iff si and its children have been successfully
+ *         deallocated
+ */
+static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
+{
+  boolean const result = slice_traverse_children(si,st);
+  dealloc_proxy_slice(si);
+  return result;
+}
+
 /* Store slice representing play after branch in object representing
  * traversal, then continue deallocating the branch
  * @param si identifies branch_fork slice
@@ -437,7 +450,7 @@ static boolean traverse_and_deallocate_leaf(slice_index si,
 
 static slice_operation const slice_to_fork_deallocators[] =
 {
-  &traverse_and_deallocate,             /* STProxy */
+  &traverse_and_deallocate_proxy,       /* STProxy */
   &traverse_and_deallocate,             /* STBranchDirect */
   &traverse_and_deallocate,             /* STBranchDirectDefender */
   &traverse_and_deallocate,             /* STBranchHelp */

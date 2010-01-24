@@ -2737,7 +2737,7 @@ static slice_operation const proxy_resolvers[] =
   &branch_resolve_proxies,       /* STDirectHashed */
   &help_root_resolve_proxies,    /* STHelpRoot */
   &branch_resolve_proxies,       /* STHelpHashed */
-  &branch_resolve_proxies,       /* STSeriesRoot */
+  &help_root_resolve_proxies,    /* STSeriesRoot */
   &slice_traverse_children,      /* STParryFork */
   &branch_resolve_proxies,       /* STSeriesHashed */
   &pipe_resolve_proxies,         /* STSelfCheckGuard */
