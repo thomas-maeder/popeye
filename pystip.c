@@ -340,12 +340,19 @@ void slice_set_predecessor(slice_index slice, slice_index pred)
 void release_slices(void)
 {
   slice_index si;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (si = 0; si!=max_nr_slices; ++si)
     free_indices[si] = si;
 
   first_free_index = 0;
 
   root_slice = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Set the min_length field of a slice.
