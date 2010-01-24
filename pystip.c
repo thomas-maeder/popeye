@@ -1134,8 +1134,8 @@ static slice_operation const setplay_makers[] =
   0,                                          /* STBranchDirectDefender */
   0,                                          /* STBranchHelp */
   0,                                          /* STHelpFork */
-  0,                                          /* STBranchSeries */
-  0,                                          /* STSeriesFork */
+  &pipe_traverse_next,                        /* STBranchSeries */
+  &series_fork_make_setplay_slice,            /* STSeriesFork */
   0,                                          /* STLeafDirect */
   0,                                          /* STLeafHelp */
   0,                                          /* STLeafForced */

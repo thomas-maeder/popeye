@@ -28,6 +28,14 @@ slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
                                     slice_index to_goal);
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean series_fork_make_setplay_slice(slice_index si,
+                                       slice_traversal *st);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

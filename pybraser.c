@@ -339,20 +339,17 @@ static void shorten_series_pipe(slice_index pipe)
  * @param st state of traversal
  * @return true iff this slice has been sucessfully traversed
  */
-boolean series_root_make_setplay_slice(slice_index si,
-                                       struct slice_traversal *st)
+boolean series_root_make_setplay_slice(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   setplay_slice_production * const prod = st->param;
-  slice_index const proxy_to_goal = slices[si].u.pipe.u.help_root.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy_to_goal].type==STProxy);
   prod->sibling = si;
-  prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
