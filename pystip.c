@@ -101,9 +101,7 @@ Slice slices[max_nr_slices];
 
 slice_index root_slice = no_slice;
 
-static slice_index free_indices[max_nr_slices];
-
-static slice_index first_free_index;
+static boolean is_slice_index_free[max_nr_slices];
 
 static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
 {
@@ -114,6 +112,7 @@ static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(!is_slice_index_free[si]);
   (*leaked)[si] = false;
   slice_traverse_children(si,st);
 
@@ -171,10 +170,7 @@ void assert_no_leaked_slices(void)
   slice_traversal st;
 
   for (i = 0; i!=max_nr_slices; ++i)
-    leaked[i] = true;
-
-  for (i = first_free_index; i!=max_nr_slices; ++i)
-    leaked[free_indices[i]] = false;
+    leaked[i] = !is_slice_index_free[i];
 
   slice_traversal_init(&st,&reachable_slices_markers,&leaked);
   traverse_slices(root_slice,&st);
@@ -200,9 +196,7 @@ void init_slice_allocator(void)
   TraceFunctionParamListEnd();
 
   for (si = 0; si!=max_nr_slices; ++si)
-    free_indices[si] = si;
-
-  first_free_index = 0;
+    is_slice_index_free[si] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -214,14 +208,20 @@ void init_slice_allocator(void)
  */
 slice_index alloc_slice(SliceType type)
 {
-  slice_index const result = free_indices[first_free_index++];
+  slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(SliceType,type,"");
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",first_free_index);
-  assert(first_free_index<=max_nr_slices);
+  for (result = 0; result!=max_nr_slices; ++result)
+    if (is_slice_index_free[result])
+      break;
+  
+  assert(result<max_nr_slices);
+
+  is_slice_index_free[result] = false;
+
   slices[result].type = type; 
   slices[result].starter = no_side; 
 
@@ -240,9 +240,8 @@ void dealloc_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(first_free_index>0);
-  free_indices[--first_free_index] = si;
-  TraceValue("%u\n",first_free_index);
+  assert(!is_slice_index_free[si]);
+  is_slice_index_free[si] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
