@@ -729,7 +729,7 @@ static slice_operation const self_guards_inserters[] =
   0,                                                 /* STSelfCheckGuard */
   0,                                                 /* STDirectDefense */
   0,                                                 /* STReflexHelpFilter */
-  0,                                                 /* STReflexGuard */
+  0,                                                 /* STReflexSeriesFilter */
   0,                                                 /* STReflexAttackerFilter */
   0,                                                 /* STReflexDefenderFilter */
   &slice_traverse_children,                          /* STSelfAttack */

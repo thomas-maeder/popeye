@@ -655,10 +655,6 @@ boolean direct_root_solve_in_n(slice_index si)
       result = selfcheck_guard_root_solve(si);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_root_solve(si);
-      break;
-
     case STDirectHashed:
       result = direct_root_solve(slices[si].u.pipe.next);
       break;

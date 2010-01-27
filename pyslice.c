@@ -270,15 +270,12 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STSeriesRoot:
+    case STReflexSeriesFilter:
       result = series_root_solve(si);
       break;
 
     case STMoveInverter:
       result = move_inverter_root_solve(si);
-      break;
-
-    case STReflexGuard:
-      result = reflex_guard_root_solve(si);
       break;
 
     case STSelfCheckGuard:
@@ -345,7 +342,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STBranchDirect:
     case STDirectDefense:
     case STSelfDefense:
-    case STReflexGuard:
     case STKeepMatingGuard:
     case STDegenerateTree:
     case STDirectHashed:
@@ -367,6 +363,7 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STBranchSeries:
     case STSeriesHashed:
+    case STReflexSeriesFilter:
       result = series_has_solution(si);
 
     case STHelpFork:

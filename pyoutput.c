@@ -170,7 +170,7 @@ static slice_operation const output_mode_detectors[] =
   &pipe_traverse_next,        /* STSelfCheckGuard */
   &output_mode_treemode,      /* STDirectDefense */
   &pipe_traverse_next,        /* STReflexHelpFilter */
-  &pipe_traverse_next,        /* STReflexGuard */
+  &pipe_traverse_next,        /* STReflexSeriesFilter */
   &output_mode_treemode,      /* STReflexAttackerFilter */
   &output_mode_treemode,      /* STReflexDefenderFilter */
   &output_mode_treemode,      /* STSelfAttack */

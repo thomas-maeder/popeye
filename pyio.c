@@ -2293,7 +2293,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
             = alloc_series_branch_next_other_starter(length+1,min_length,
                                                      proxy_avoided);
         pipe_set_successor(proxy,branch);
-        slice_insert_reflex_guards(branch,proxy_avoided);
+        slice_insert_reflex_filters(branch,proxy_avoided);
         slices[slices[proxy_avoided].u.pipe.next].starter = Black;
       }
     }
@@ -2511,7 +2511,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_avoided);
-          slice_insert_reflex_guards(branch,proxy_avoided);
+          slice_insert_reflex_filters(branch,proxy_avoided);
           if (length%2==0)
           {
             slice_index const inverter = alloc_move_inverter_slice();
@@ -2573,7 +2573,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         slice_index const branch = alloc_direct_branch(length+1,min_length+1,
                                                        proxy_avoided);
         pipe_set_successor(proxy,branch);
-        slice_insert_reflex_guards_semi(branch,proxy_avoided);
+        slice_insert_reflex_filters_semi(branch,proxy_avoided);
         slices[branch].starter = White;
       }
     }
@@ -2613,7 +2613,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         slice_index const branch = alloc_direct_branch(length+1,min_length+1,
                                                        proxy_avoided);
         pipe_set_successor(proxy,branch);
-        slice_insert_reflex_guards(branch,proxy_avoided);
+        slice_insert_reflex_filters(branch,proxy_avoided);
         slices[branch].starter = White;
       }
     }
@@ -2845,7 +2845,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
           if (slices[slices[proxy_operand].u.pipe.next].type==STLeafForced)
             slice_insert_self_guards(branch,proxy_operand);
           else
-            slice_insert_reflex_guards_semi(branch,proxy_operand);
+            slice_insert_reflex_filters_semi(branch,proxy_operand);
         }
       }
     }

@@ -13,12 +13,6 @@
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reflex_guard_root_solve(slice_index si);
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
 boolean reflex_attacker_filter_root_solve(slice_index si);
 
 /* Solve a slice at root level
@@ -156,29 +150,35 @@ reflex_attacker_filter_are_threats_refuted_in_n(table threats,
                                                 slice_index si,
                                                 stip_length_type n);
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_series_filter_root_solve(slice_index si);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean reflex_guard_series_solve_in_n(slice_index si, stip_length_type n);
+boolean reflex_series_filter_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean reflex_guard_series_has_solution_in_n(slice_index si,
-                                              stip_length_type n);
+boolean reflex_series_filter_has_solution_in_n(slice_index si,
+                                               stip_length_type n);
 
 /* Determine and write threats
  * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void reflex_guard_series_solve_threats_in_n(table threats,
-                                            slice_index si,
-                                            stip_length_type n);
+void reflex_series_filter_solve_threats_in_n(table threats,
+                                             slice_index si,
+                                             stip_length_type n);
 
 /* Spin off a set play slice at root level
  * @param si slice index
@@ -211,8 +211,9 @@ boolean reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
  * @param st address of structure capturing traversal state
  * @return true iff slice has been successfully traversed
  */
-boolean reflex_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                      struct slice_traversal *st);
+boolean
+reflex_defender_filter_reduce_to_postkey_play(slice_index si,
+                                              struct slice_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
@@ -220,21 +221,21 @@ boolean reflex_defender_filter_reduce_to_postkey_play(slice_index si,
  * @return true iff the operation is successful in the subtree of
  *         which si is the root
  */
-boolean reflex_guard_impose_starter(slice_index si, slice_traversal *st);
+boolean reflex_filter_impose_starter(slice_index si, slice_traversal *st);
 
 /* Instrument a branch with STReflexGuard slices for a reflex
  * stipulation 
  * @param si root of branch to be instrumented
  * @param avoided identifies what branch needs to be guarded from
  */
-void slice_insert_reflex_guards(slice_index si, slice_index avoided);
+void slice_insert_reflex_filters(slice_index si, slice_index avoided);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
  * stipulation 
  * @param si root of branch to be instrumented
  * @param avoided identifies what branch needs to be guarded from
  */
-void slice_insert_reflex_guards_semi(slice_index si, slice_index avoided);
+void slice_insert_reflex_filters_semi(slice_index si, slice_index avoided);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
@@ -264,13 +265,13 @@ boolean reflex_help_filter_insert_root(slice_index si, slice_traversal *st);
  * @param st address of structure representing traversal
  * @return true iff slice has been successfully traversed
  */
-boolean reflex_guard_insert_root(slice_index si, slice_traversal *st);
+boolean reflex_series_filter_insert_root(slice_index si, slice_traversal *st);
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  * @return true iff slice si has been successfully traversed
  */
-boolean reflex_guard_resolve_proxies(slice_index si, slice_traversal *st);
+boolean reflex_filter_resolve_proxies(slice_index si, slice_traversal *st);
 
 #endif

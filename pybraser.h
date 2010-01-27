@@ -96,7 +96,7 @@ boolean series_root_make_setplay_slice(slice_index si,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean series_root_solve(slice_index si);
+boolean series_root_root_solve(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index

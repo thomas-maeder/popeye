@@ -429,7 +429,7 @@ slice_index series_root_shorten_series_play(slice_index root)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean series_root_solve(slice_index root)
+boolean series_root_root_solve(slice_index root)
 {
   boolean result = false;
   stip_length_type const

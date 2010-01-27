@@ -68,8 +68,8 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       result = pipe_series_solve_in_n(si,n);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_series_solve_in_n(si,n);
+    case STReflexSeriesFilter:
+      result = reflex_series_filter_solve_in_n(si,n);
       break;
 
     case STKeepMatingGuard:
@@ -98,6 +98,41 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean series_root_solve(slice_index si)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STSeriesRoot:
+      result = series_root_root_solve(si);
+      break;
+
+    case STReflexSeriesFilter:
+      result = reflex_series_filter_root_solve(si);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* Solve a branch slice at non-root level.
  * @param si slice index
@@ -186,8 +221,8 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
       result = hashed_series_has_solution_in_n(si,n);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_series_has_solution_in_n(si,n);
+    case STReflexSeriesFilter:
+      result = reflex_series_filter_has_solution_in_n(si,n);
       break;
 
     case STKeepMatingGuard:
@@ -274,8 +309,8 @@ void series_solve_threats_in_n(table threats,
       hashed_series_solve_threats_in_n(threats,si,n);
       break;
 
-    case STReflexGuard:
-      reflex_guard_series_solve_threats_in_n(threats,si,n);
+    case STReflexSeriesFilter:
+      reflex_series_filter_solve_threats_in_n(threats,si,n);
       break;
 
     case STKeepMatingGuard:
