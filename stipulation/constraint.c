@@ -531,12 +531,126 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
 /* **************** Implementation of interface Help ***************
  */
 
+/* Allocate a STReflexHelpFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @param proxy_to_avoided prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+static slice_index alloc_reflex_help_filter(stip_length_type length,
+                                            stip_length_type min_length,
+                                            slice_index proxy_to_avoided)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParamListEnd();
+
+  /* ab(use) the fact that .avoided and .towards_goal are collocated */
+  result = alloc_branch(STReflexHelpFilter,
+                        length,min_length,
+                        proxy_to_avoided);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean reflex_help_filter_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.pipe.next,st);
+
+  {
+    slice_index const guard = copy_slice(si);
+    branch_link(guard,*root);
+    *root = guard;
+  }
+
+  slices[si].u.pipe.u.branch.length -=2;
+  if (slices[si].u.pipe.u.branch.min_length-slack_length_help>=2)
+    slices[si].u.pipe.u.branch.min_length -= 2;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve slice that is to be avoided
+ * @param avoided slice to be avoided
+ * @return true iff >=1 solution was found
+ */
+static boolean solve_avoided(slice_index avoided)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",avoided);
+  TraceFunctionParamListEnd();
+
+  output_start_unsolvability_mode();
+  result = slice_solve(avoided);
+  output_end_unsolvability_mode();
+
+  if (result)
+    write_end_of_solution();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_help_filter_root_solve(slice_index si)
+{
+  boolean result;
+  slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (solve_avoided(avoided) || length==slack_length_help)
+    result = false;
+  else
+    result = slice_root_solve(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean reflex_guard_help_solve_in_n(slice_index si, stip_length_type n)
+boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -568,7 +682,7 @@ boolean reflex_guard_help_solve_in_n(slice_index si, stip_length_type n)
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean reflex_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
+boolean reflex_help_filter_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result = false;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -598,9 +712,9 @@ boolean reflex_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void reflex_guard_help_solve_threats_in_n(table threats,
-                                          slice_index si,
-                                          stip_length_type n)
+void reflex_help_filter_solve_threats_in_n(table threats,
+                                           slice_index si,
+                                           stip_length_type n)
 {
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
@@ -715,31 +829,6 @@ void reflex_guard_series_solve_threats_in_n(table threats,
 
 /* **************** Implementation of interface Slice ***************
  */
-
-/* Solve slice that is to be avoided
- * @param avoided slice to be avoided
- * @return true iff >=1 solution was found
- */
-static boolean solve_avoided(slice_index avoided)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",avoided);
-  TraceFunctionParamListEnd();
-
-  output_start_unsolvability_mode();
-  result = slice_solve(avoided);
-  output_end_unsolvability_mode();
-
-  if (result)
-    write_end_of_solution();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Solve a slice at root level
  * @param si slice index
@@ -1061,8 +1150,8 @@ static void insert_guard_before_branch(slice_index branch,
  * where the reflex stipulation might force the side at the move to
  * reach the goal
  */
-static boolean reflex_guards_inserter_branch(slice_index si,
-                                             slice_traversal *st)
+static boolean reflex_guards_inserter_help(slice_index si,
+                                           slice_traversal *st)
 {
   boolean const result = true;
   init_param const * const param = st->param;
@@ -1075,19 +1164,26 @@ static boolean reflex_guards_inserter_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  slice_traverse_children(si,st);
+
   if (next==no_slice)
   {
     /* end of "chain" (i.e. stipulation too short for closed loop) -
-     * append an STReflexGuard slice that switches to the next branch
+     * append an STReflexHelpFilter slice that switches to the next branch
      */
     slice_index const proxy_to_avoided = param->to_be_avoided[0];
-    slice_index const guard = alloc_reflex_guard(length-1,min_length-1,
-                                                 proxy_to_avoided);
+    slice_index const guard = alloc_reflex_help_filter(length-1,min_length-1,
+                                                       proxy_to_avoided);
     branch_link(si,guard);
   }
 
-  insert_guard_before_branch(si,proxy_to_avoided);
-  slice_traverse_children(si,st);
+  {
+    slice_index const prev = slices[si].prev;
+    slice_index const guard = alloc_reflex_help_filter(length,min_length,
+                                                       proxy_to_avoided);
+    branch_link(prev,guard);
+    branch_link(guard,si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1112,6 +1208,8 @@ static boolean reflex_guards_inserter_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  slice_traverse_children(si,st);
+
   if (next==no_slice)
   {
     /* end of "chain" (i.e. stipulation too short for closed loop) -
@@ -1131,7 +1229,6 @@ static boolean reflex_guards_inserter_attack(slice_index si,
                                                            proxy_to_avoided);
     branch_link(prev,guard);
     branch_link(guard,si);
-    slice_traverse_children(si,st);
   }
 
   TraceFunctionExit(__func__);
@@ -1157,6 +1254,8 @@ static boolean reflex_guards_inserter_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  slice_traverse_children(si,st);
+
   if (next==no_slice)
   {
     /* end of "chain" (i.e. stipulation too short for closed loop) -
@@ -1177,8 +1276,6 @@ static boolean reflex_guards_inserter_defense(slice_index si,
     branch_link(prev,dguard);
     branch_link(dguard,si);
   }
-
-  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1237,7 +1334,7 @@ static slice_operation const reflex_guards_inserters[] =
   &slice_traverse_children,            /* STProxy */
   &reflex_guards_inserter_attack,      /* STBranchDirect */
   &reflex_guards_inserter_defense,     /* STBranchDirectDefender */
-  &reflex_guards_inserter_branch,      /* STBranchHelp */
+  &reflex_guards_inserter_help,        /* STBranchHelp */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &reflex_guards_inserter_series,      /* STBranchSeries */
   &reflex_guards_inserter_branch_fork, /* STSeriesFork */
@@ -1258,9 +1355,10 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STSeriesHashed */
   0,                                   /* STSelfCheckGuard */
   0,                                   /* STDirectDefense */
-  &slice_traverse_children,            /* STReflexGuard */
-  &slice_traverse_children,            /* STReflexAttackerFilter */
-  &slice_traverse_children,            /* STReflexDefenderFilter */
+  0,                                   /* STReflexHelpFilter */
+  0,                                   /* STReflexGuard */
+  0,                                   /* STReflexAttackerFilter */
+  0,                                   /* STReflexDefenderFilter */
   0,                                   /* STSelfAttack */
   0,                                   /* STSelfDefense */
   0,                                   /* STRestartGuard */
@@ -1388,7 +1486,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &slice_traverse_children,             /* STProxy */
   &reflex_guards_inserter_attack_semi,  /* STBranchDirect */
   &reflex_guards_inserter_defense_semi, /* STBranchDirectDefender */
-  &reflex_guards_inserter_branch,       /* STBranchHelp */
+  &reflex_guards_inserter_help,         /* STBranchHelp */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
   &slice_traverse_children,             /* STBranchSeries */
   &reflex_guards_inserter_branch_fork,  /* STSeriesFork */
@@ -1399,16 +1497,17 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &slice_traverse_children,             /* STQuodlibet */
   &slice_traverse_children,             /* STNot */
   &slice_traverse_children,             /* STMoveInverter */
-  &reflex_guards_inserter_attack_semi,  /* STDirectRoot */
-  &reflex_guards_inserter_defense_semi, /* STDirectDefenderRoot */
+  0,                                    /* STDirectRoot */
+  0,                                    /* STDirectDefenderRoot */
   0,                                    /* STDirectHashed */
-  &slice_traverse_children,             /* STHelpRoot */
+  0,                                    /* STHelpRoot */
   0,                                    /* STHelpHashed */
-  &slice_traverse_children,             /* STSeriesRoot */
+  0,                                    /* STSeriesRoot */
   0,                                    /* STParryFork */
   0,                                    /* STSeriesHashed */
   0,                                    /* STSelfCheckGuard */
   0,                                    /* STDirectDefense */
+  0,                                    /* STReflexHelpFilter */
   0,                                    /* STReflexGuard */
   0,                                    /* STReflexAttackerFilter */
   0,                                    /* STReflexDefenderFilter */

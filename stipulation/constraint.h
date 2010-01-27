@@ -27,6 +27,12 @@ boolean reflex_attacker_filter_root_solve(slice_index si);
  */
 boolean reflex_defender_filter_root_solve(slice_index si);
 
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_help_filter_root_solve(slice_index si);
+
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -118,23 +124,23 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean reflex_guard_help_solve_in_n(slice_index si, stip_length_type n);
+boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean reflex_guard_help_has_solution_in_n(slice_index si, stip_length_type n);
+boolean reflex_help_filter_has_solution_in_n(slice_index si, stip_length_type n);
 
 /* Determine and write threats
  * @param threats table where to add first moves
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
  */
-void reflex_guard_help_solve_threats_in_n(table threats,
-                                          slice_index si,
-                                          stip_length_type n);
+void reflex_help_filter_solve_threats_in_n(table threats,
+                                           slice_index si,
+                                           stip_length_type n);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -245,6 +251,13 @@ boolean reflex_attacker_filter_insert_root(slice_index si,
  */
 boolean reflex_defender_filter_insert_root(slice_index si,
                                            slice_traversal *st);
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean reflex_help_filter_insert_root(slice_index si, slice_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice

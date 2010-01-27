@@ -65,6 +65,7 @@
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \
     ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
+    ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
@@ -151,6 +152,7 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STSeriesHashed */
   &mark_reachable_slice, /* STSelfCheckGuard */
   &mark_reachable_slice, /* STDirectDefense */
+  &mark_reachable_slice, /* STReflexHelpFilter */
   &mark_reachable_slice, /* STReflexGuard */
   &mark_reachable_slice, /* STReflexAttackerFilter */
   &mark_reachable_slice, /* STReflexDefenderFilter */
@@ -420,6 +422,7 @@ static slice_operation const deallocators[] =
   &traverse_and_deallocate,       /* STSeriesHashed */
   &traverse_and_deallocate,       /* STSelfCheckGuard */
   &traverse_and_deallocate,       /* STDirectDefense */
+  &traverse_and_deallocate,       /* STReflexHelpFilter */
   &traverse_and_deallocate,       /* STReflexGuard */
   &traverse_and_deallocate,       /* STReflexAttackerFilter */
   &traverse_and_deallocate,       /* STReflexDefenderFilter */
@@ -514,6 +517,7 @@ static slice_operation const root_slice_inserters[] =
   0,                                   /* STSeriesHashed */
   0,                                   /* STSelfCheckGuard */
   &direct_defense_insert_root,         /* STDirectDefense */
+  &reflex_help_filter_insert_root,     /* STReflexHelpFilter */
   &reflex_guard_insert_root,           /* STReflexGuard */
   &reflex_attacker_filter_insert_root, /* STReflexAttackerFilter */
   &reflex_defender_filter_insert_root, /* STReflexDefenderFilter */
@@ -576,6 +580,7 @@ static slice_operation const proxy_resolvers[] =
   &branch_resolve_proxies,       /* STSeriesHashed */
   &pipe_resolve_proxies,         /* STSelfCheckGuard */
   &branch_resolve_proxies,       /* STDirectDefense */
+  &reflex_guard_resolve_proxies, /* STReflexHelpFilter */
   &reflex_guard_resolve_proxies, /* STReflexGuard */
   &reflex_guard_resolve_proxies, /* STReflexAttackerFilter */
   &reflex_guard_resolve_proxies, /* STReflexDefenderFilter */
@@ -801,6 +806,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STSeriesHashed */
   &get_max_nr_moves_other,           /* STSelfCheckGuard */
   &get_max_nr_moves_other,           /* STDirectDefense */
+  &get_max_nr_moves_other,           /* STReflexHelpFilter */
   &get_max_nr_moves_other,           /* STReflexGuard */
   &get_max_nr_moves_other,           /* STReflexAttackerFilter */
   &get_max_nr_moves_other,           /* STReflexDefenderFilter */
@@ -896,6 +902,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STDirectDefense */
+  &slice_traverse_children, /* STReflexHelpFilter */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STReflexAttackerFilter */
   &slice_traverse_children, /* STReflexDefenderFilter */
@@ -1124,6 +1131,7 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STSeriesHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
   &slice_traverse_children,   /* STDirectDefense */
+  &slice_traverse_children,   /* STReflexHelpFilter */
   &slice_traverse_children,   /* STReflexGuard */
   &slice_traverse_children,   /* STReflexAttackerFilter */
   &slice_traverse_children,   /* STReflexDefenderFilter */
@@ -1276,6 +1284,7 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                              /* STSeriesHashed */
   0,                                              /* STSelfCheckGuard */
   &slice_traverse_children,                       /* STDirectDefense */
+  0,                                              /* STReflexHelpFilter */
   0,                                              /* STReflexGuard */
   0,                                              /* STReflexAttackerFilter */
   &transform_to_quodlibet_branch_fork,            /* STReflexDefenderFilter */
@@ -1336,6 +1345,7 @@ static slice_operation const to_postkey_play_reducers[] =
   0,                                              /* STSeriesHashed */
   0,                                              /* STSelfCheckGuard */
   &direct_defense_root_reduce_to_postkey_play,    /* STDirectDefense */
+  0,                                              /* STReflexHelpFilter */
   0,                                              /* STReflexGuard */
   &reflex_attacker_filter_reduce_to_postkey_play, /* STReflexAttackerFilter */
   &reflex_defender_filter_reduce_to_postkey_play, /* STReflexDefenderFilter */
@@ -1427,6 +1437,7 @@ static slice_operation const setplay_makers[] =
   0,                                          /* STSeriesHashed */
   &pipe_traverse_next,                        /* STSelfCheckGuard */
   &direct_defense_root_make_setplay_slice,    /* STDirectDefense */
+  0,                                          /* STReflexHelpFilter */
   0,                                          /* STReflexGuard */
   &reflex_attacker_filter_make_setplay_slice, /* STReflexAttackerFilter */
   &reflex_defender_filter_make_setplay_slice, /* STReflexDefenderFilter */
@@ -1580,6 +1591,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STSeriesHashed */
   &slice_traverse_children, /* STSelfCheckGuard */
   &slice_traverse_children, /* STDirectDefense */
+  &slice_traverse_children, /* STReflexHelpFilter */
   &slice_traverse_children, /* STReflexGuard */
   &slice_traverse_children, /* STReflexAttackerFilter */
   &slice_traverse_children, /* STReflexDefenderFilter */
@@ -1663,6 +1675,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STSeriesHashed */
   &slice_traverse_children,   /* STSelfCheckGuard */
   &slice_traverse_children,   /* STDirectDefense */
+  &slice_traverse_children,   /* STReflexHelpFilter */
   &slice_traverse_children,   /* STReflexGuard */
   &slice_traverse_children,   /* STReflexAttackerFilter */
   &slice_traverse_children,   /* STReflexDefenderFilter */
@@ -1739,6 +1752,7 @@ static slice_operation const exact_makers[] =
   0,                        /* STSeriesHashed */
   &make_exact_branch,       /* STSelfCheckGuard */
   &make_exact_branch,       /* STDirectDefense */
+  &make_exact_branch,       /* STReflexHelpFilter */
   &make_exact_branch,       /* STReflexGuard */
   &make_exact_branch,       /* STReflexAttackerFilter */
   &make_exact_branch,       /* STReflexDefenderFilter */
@@ -1795,6 +1809,7 @@ static slice_operation const starter_detectors[] =
   0,                                      /* STSeriesHashed */
   0,                                      /* STSelfCheckGuard */
   &pipe_detect_starter,                   /* STDirectDefense */
+  &pipe_detect_starter,                   /* STReflexHelpFilter */
   &pipe_detect_starter,                   /* STReflexGuard */
   &pipe_detect_starter,                   /* STReflexAttackerFilter */
   &pipe_detect_starter,                   /* STReflexDefenderFilter */
@@ -1853,6 +1868,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,           /* STSeriesHashed */
   &pipe_impose_starter,           /* STSelfCheckGuard */
   &direct_defense_impose_starter, /* STDirectDefense */
+  &reflex_guard_impose_starter,   /* STReflexHelpFilter */
   &reflex_guard_impose_starter,   /* STReflexGuard */
   &reflex_guard_impose_starter,   /* STReflexAttackerFilter */
   &reflex_guard_impose_starter,   /* STReflexDefenderFilter */
@@ -2127,6 +2143,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STSeriesHashed */
   &traverse_pipe,         /* STSelfCheckGuard */
   &traverse_guard,        /* STDirectDefense */
+  &traverse_reflex_guard, /* STReflexHelpFilter */
   &traverse_reflex_guard, /* STReflexGuard */
   &traverse_reflex_guard, /* STReflexAttackerFilter */
   &traverse_reflex_guard, /* STReflexDefenderFilter */

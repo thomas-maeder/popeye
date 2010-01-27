@@ -56,8 +56,8 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = leaf_h_solve(si);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_help_solve_in_n(si,n);
+    case STReflexHelpFilter:
+      result = reflex_help_filter_solve_in_n(si,n);
       break;
 
     case STKeepMatingGuard:
@@ -118,6 +118,10 @@ boolean help_root_solve(slice_index si)
       /* TODO we may arrive here when looking for short solutions of
        * some sford stipulations */
       result = help_solve(si);
+      break;
+
+    case STReflexHelpFilter:
+      result = reflex_help_filter_root_solve(si);
       break;
 
     default:
@@ -197,8 +201,8 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = hashed_help_has_solution_in_n(si,n);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_help_has_solution_in_n(si,n);
+    case STReflexHelpFilter:
+      result = reflex_help_filter_has_solution_in_n(si,n);
       break;
 
     case STKeepMatingGuard:
@@ -251,8 +255,8 @@ void help_solve_threats_in_n(table threats, slice_index si, stip_length_type n)
       hashed_help_solve_threats_in_n(threats,si,n);
       break;
 
-    case STReflexGuard:
-      reflex_guard_help_solve_threats_in_n(threats,si,n);
+    case STReflexHelpFilter:
+      reflex_help_filter_solve_threats_in_n(threats,si,n);
       break;
 
     case STKeepMatingGuard:
