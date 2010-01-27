@@ -75,6 +75,47 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
   return result;
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean branch_d_defender_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const next = slices[si].u.pipe.next;
+    *root = alloc_branch_d_defender_root_slice(length,min_length,to_goal);
+    if (length==slack_length_direct+1)
+    {
+      branch_link(*root,next);
+      dealloc_slice(si);
+    }
+    else
+    {
+      pipe_set_successor(*root,next);
+
+      slices[si].u.pipe.u.branch.length -= 2;
+      if (min_length>=slack_length_direct+2)
+        slices[si].u.pipe.u.branch.min_length -= 2;
+    }
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a short solution after the defense played
  * in a slice
  * @param si identifies slice that just played the defense
@@ -795,7 +836,7 @@ boolean branch_d_defender_root_detect_starter(slice_index si,
   return result;
 }
 
-/* Spin off a set play slice at root level
+/* Spin off a set play slice
  * @param si slice index
  * @param st state of traversal
  * @return true iff this slice has been sucessfully traversed
@@ -811,10 +852,16 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
   TraceFunctionParamListEnd();
 
   if (prod->sibling!=no_slice)
-    prod->setplay_slice = alloc_help_branch(toplevel_branch,
-                                            slack_length_help+1,
-                                            slack_length_help+1,
-                                            slices[si].u.pipe.next);
+  {
+    slice_index const branch = alloc_help_branch(slack_length_help+1,
+                                                 slack_length_help+1,
+                                                 slices[si].u.pipe.next);
+    prod->setplay_slice = alloc_help_root_slice(slack_length_help+1,
+                                                slack_length_help+1,
+                                                slices[si].u.pipe.next,
+                                                no_slice);
+    branch_link(prod->setplay_slice,branch);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,9 +1,9 @@
 #if !defined(STIPULATION_BRANCH_H)
 #define STIPULATION_BRANCH_H
 
-/* Functionality related to "pipe slices"; i.e. slices that have a
- * next member and whose functions normally delegate to those of the
- * next slice.
+/* Functionality related to "branch slices"; i.e. pipe slices that
+ * have length and min_length members and whose functions and a
+ * reference to the slices representing the subsequent play
  */
 
 #include "pystip.h"
@@ -27,5 +27,12 @@ slice_index alloc_branch(SliceType type,
  * @param succ identifies branch to become the successor
  */
 void branch_link(slice_index branch, slice_index succ);
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean branch_resolve_proxies(slice_index si, slice_traversal *st);
 
 #endif

@@ -16,6 +16,13 @@
  */
 slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean reci_insert_root(slice_index si, slice_traversal *st);
+
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

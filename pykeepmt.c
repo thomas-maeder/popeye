@@ -608,6 +608,8 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STSelfCheckGuard */
   &slice_traverse_children,                /* STDirectDefense */
   &slice_traverse_children,                /* STReflexGuard */
+  &slice_traverse_children,                /* STReflexAttackerFilter */
+  &slice_traverse_children,                /* STReflexDefenderFilter */
   &slice_traverse_children,                /* STSelfAttack */
   &slice_traverse_children,                /* STSelfDefense */
   &slice_traverse_children,                /* STRestartGuard */

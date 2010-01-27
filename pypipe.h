@@ -53,6 +53,13 @@ boolean pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st);
  */
 boolean pipe_traverse_next(slice_index pipe, slice_traversal *st);
 
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean pipe_resolve_proxies(slice_index si, slice_traversal *st);
+
 /* Determine whether a slice has a solution
  * @param pipe slice index
  * @return whether there is a solution and (to some extent) why not

@@ -16,6 +16,13 @@
  */
 slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean quodlibet_insert_root(slice_index si, slice_traversal *st);
+
 /* Determine and write threats of a slice
  * @param threats table where to store threats
  * @param si index of branch slice

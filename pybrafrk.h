@@ -18,6 +18,13 @@ slice_index alloc_help_fork_slice(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index to_goal);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean help_fork_insert_root(slice_index si, slice_traversal *st);
+
 /* Allocate a STSeriesFork slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -27,6 +34,13 @@ slice_index alloc_help_fork_slice(stip_length_type length,
 slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
                                     slice_index to_goal);
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean series_fork_insert_root(slice_index si, slice_traversal *st);
 
 /* Spin off a set play slice at root level
  * @param si slice index

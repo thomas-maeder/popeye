@@ -13,6 +13,13 @@
  */
 slice_index alloc_move_inverter_slice(void);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean move_inverter_insert_root(slice_index si, slice_traversal *st);
+
 /* Solve a move inverter at root level
  * @param si slice index
  * @return true iff >=1 solution was found

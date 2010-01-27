@@ -18,6 +18,13 @@ slice_index alloc_direct_defense(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index towards_goal);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean direct_defense_insert_root(slice_index si, slice_traversal *st);
+
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal

@@ -31,6 +31,13 @@ slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
                                                stip_length_type min_length,
                                                slice_index proxy_to_goal);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean branch_d_defender_insert_root(slice_index si, slice_traversal *st);
+
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -77,7 +84,7 @@ boolean branch_d_defender_root_defend(slice_index si);
 boolean branch_d_defender_root_detect_starter(slice_index si,
                                               slice_traversal *st);
 
-/* Spin off a set play slice at root level
+/* Spin off a set play slice
  * @param si slice index
  * @param st state of traversal
  * @return true iff this slice has been sucessfully traversed

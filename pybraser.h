@@ -11,31 +11,32 @@
 
 /* Allocate a series branch where the next slice's starter is the
  * opponent of the series's starter. 
- * @param level is this a top-level branch or one nested into another
- *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
-slice_index alloc_series_branch_next_other_starter(branch_level level,
-                                                   stip_length_type length,
+slice_index alloc_series_branch_next_other_starter(stip_length_type length,
                                                    stip_length_type min_length,
                                                    slice_index to_goal);
 
 /* Allocate a series branch where the next slice has the same starter
  * as the series.
- * @param level is this a top-level branch or one nested into another
- *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
-slice_index alloc_series_branch_next_same_starter(branch_level level,
-                                                  stip_length_type length,
+slice_index alloc_series_branch_next_same_starter(stip_length_type length,
                                                   stip_length_type min_length,
                                                   slice_index to_goal);
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean branch_ser_insert_root(slice_index si, slice_traversal *st);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

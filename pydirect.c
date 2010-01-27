@@ -45,8 +45,8 @@ boolean direct_defender_root_defend(slice_index si)
       result = self_attack_root_defend(si);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_root_defend(si);
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_root_defend(si);
       break;
 
     case STSelfCheckGuard:
@@ -125,12 +125,15 @@ boolean direct_are_threats_refuted_in_n(table threats,
       result = self_defense_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
-    case STSelfCheckGuard:
-      result = selfcheck_guard_are_threats_refuted_in_n(threats,len_threat,si,n);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_are_threats_refuted_in_n(threats,
+                                                               len_threat,
+                                                               si,
+                                                               n);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_are_threats_refuted_in_n(threats,len_threat,si,n);
+    case STSelfCheckGuard:
+      result = selfcheck_guard_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
     case STKeepMatingGuard:
@@ -206,10 +209,6 @@ stip_length_type direct_has_solution_in_n(slice_index si,
       break;
     }
 
-    case STSelfCheckGuard:
-      result = selfcheck_guard_direct_has_solution_in_n(si,n,n_min);
-      break;
-
     case STDirectDefense:
       result = direct_defense_direct_has_solution_in_n(si,n,n_min);
       break;
@@ -218,8 +217,12 @@ stip_length_type direct_has_solution_in_n(slice_index si,
       result = self_defense_direct_has_solution_in_n(si,n,n_min);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_direct_has_solution_in_n(si,n,n_min);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_has_solution_in_n(si,n,n_min);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_direct_has_solution_in_n(si,n,n_min);
       break;
 
     case STKeepMatingGuard:
@@ -324,12 +327,12 @@ void direct_solve_continuations_in_n(slice_index si,
       self_defense_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
-    case STSelfCheckGuard:
-      selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
+    case STReflexAttackerFilter:
+      reflex_attacker_filter_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
-    case STReflexGuard:
-      reflex_guard_direct_solve_continuations_in_n(si,n,n_min);
+    case STSelfCheckGuard:
+      selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STKeepMatingGuard:
@@ -392,12 +395,13 @@ stip_length_type direct_solve_threats_in_n(table threats,
       result = self_defense_direct_solve_threats_in_n(threats,si,n,n_min);
       break;
 
-    case STSelfCheckGuard:
-      result = selfcheck_guard_direct_solve_threats_in_n(threats,si,n,n_min);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_direct_solve_threats_in_n(threats,si,
+                                                                n,n_min);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_direct_solve_threats_in_n(threats,si,n,n_min);
+    case STSelfCheckGuard:
+      result = selfcheck_guard_direct_solve_threats_in_n(threats,si,n,n_min);
       break;
 
     case STKeepMatingGuard:
@@ -546,12 +550,12 @@ stip_length_type direct_solve_in_n(slice_index si,
       result = self_defense_solve_in_n(si,n,n_min);
       break;
 
-    case STSelfCheckGuard:
-      result = selfcheck_guard_solve_in_n(si,n,n_min);
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_solve_in_n(si,n,n_min);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_solve_in_n(si,n,n_min);
+    case STSelfCheckGuard:
+      result = selfcheck_guard_solve_in_n(si,n,n_min);
       break;
 
     case STDegenerateTree:
@@ -639,6 +643,14 @@ boolean direct_root_solve_in_n(slice_index si)
       result = self_attack_root_solve(si);
       break;
 
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_root_solve(si);
+      break;
+
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_root_solve(si);
+      break;
+
     case STSelfCheckGuard:
       result = selfcheck_guard_root_solve(si);
       break;
@@ -718,8 +730,8 @@ boolean direct_defender_defend_in_n(slice_index si, stip_length_type n)
       result = self_attack_defend_in_n(si,n);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_defend_in_n(si,n);
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_defend_in_n(si,n);
       break;
 
     case STKeepMatingGuard:
@@ -776,16 +788,16 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
       result = branch_d_defender_can_defend_in_n(si,n,max_result);
       break;
 
-    case STSelfCheckGuard:
-      result = selfcheck_guard_can_defend_in_n(si,n,max_result);
-      break;
-
     case STSelfAttack:
       result = self_attack_can_defend_in_n(si,n,max_result);
       break;
 
-    case STReflexGuard:
-      result = reflex_guard_can_defend_in_n(si,n,max_result);
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_can_defend_in_n(si,n,max_result);
+      break;
+
+    case STSelfCheckGuard:
+      result = selfcheck_guard_can_defend_in_n(si,n,max_result);
       break;
 
     case STKeepMatingGuard:

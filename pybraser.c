@@ -72,6 +72,58 @@ slice_index alloc_series_root_slice(stip_length_type length,
   return result;
 }
 
+/* Shorten a series pipe by a half-move
+ * @param pipe identifies pipe to be shortened
+ */
+static void shorten_series_pipe(slice_index pipe)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  --slices[pipe].u.pipe.u.help_root.length;
+  if (slices[pipe].u.pipe.u.help_root.min_length
+      >slices[pipe].u.pipe.u.help_root.length)
+    --slices[pipe].u.pipe.u.help_root.min_length;
+  TraceValue("%u\n",slices[pipe].u.pipe.u.help_root.length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean branch_ser_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const prev = slices[si].prev;
+
+    slice_index const root_branch = copy_slice(si);
+    *root = alloc_series_root_slice(length,min_length,towards_goal,prev);
+
+    branch_link(*root,root_branch);
+    shorten_series_pipe(si);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
@@ -280,25 +332,6 @@ boolean branch_ser_has_solution_in_n(slice_index si, stip_length_type n)
 
 /*************** root *****************/
 
-/* Shorten a series pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-static void shorten_series_pipe(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  --slices[pipe].u.pipe.u.help_root.length;
-  if (slices[pipe].u.pipe.u.help_root.min_length
-      >slices[pipe].u.pipe.u.help_root.length)
-    --slices[pipe].u.pipe.u.help_root.min_length;
-  TraceValue("%u\n",slices[pipe].u.pipe.u.help_root.length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
@@ -495,84 +528,45 @@ has_solution_type series_root_has_solution(slice_index si)
   return result;
 }
 
-/* Allocate a top level series branch where the next slice's starter
- * is the opponent of the series's starter
+/* Allocate a series branch where the next slice's starter is the
+ * opponent of the series's starter.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return index of allocated slice
+ * @param to_goal identifies proxy slice leading towards goal
+ * @return index of adapter slice of allocated series branch
  */
-static slice_index
-alloc_toplevel_series_branch_next_other_starter(stip_length_type length,
-                                                stip_length_type min_length,
-                                                slice_index proxy_to_goal)
+slice_index alloc_series_branch_next_other_starter(stip_length_type length,
+                                                   stip_length_type min_length,
+                                                   slice_index to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_series);
 
+  if (slices[to_goal].type!=STProxy)
   {
-    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     proxy_to_goal);
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      proxy_to_goal);
-    slice_index const inverter = alloc_move_inverter_slice();
-
-    slice_index const root_branch = alloc_branch_ser_slice(length,min_length,
-                                                           proxy_to_goal);
-    result = alloc_series_root_slice(length,min_length,proxy_to_goal,branch);
-
-    shorten_series_pipe(branch);
-
-    branch_link(fork,inverter);
-    branch_link(inverter,branch);
-    branch_link(branch,fork);
-
-    pipe_set_successor(root_branch,fork);
-    branch_link(result,root_branch);
+    slice_index const proxy = alloc_proxy_slice();
+    branch_link(proxy,to_goal);
+    to_goal = proxy;
   }
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a nested series branch where the next slice's starter is
- * the opponent of the series's starter
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index
-alloc_nested_series_branch_next_other_starter(stip_length_type length,
-                                              stip_length_type min_length,
-                                              slice_index proxy_to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_series);
+  result = alloc_proxy_slice();
 
   {
+    slice_index const branch = alloc_branch_ser_slice(length,min_length,to_goal);
     slice_index const inverter = alloc_move_inverter_slice();
-    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     proxy_to_goal);
-    result = alloc_branch_ser_slice(length,min_length,proxy_to_goal);
+    slice_index const fork = alloc_series_fork_slice(length,min_length,to_goal);
 
-    branch_link(result,fork);
+    shorten_series_pipe(fork);
+
+    branch_link(result,branch);
+    branch_link(branch,fork);
     branch_link(fork,inverter);
     branch_link(inverter,result);
   }
@@ -583,159 +577,26 @@ alloc_nested_series_branch_next_other_starter(stip_length_type length,
   return result;
 }
 
-/* Allocate a series branch where the next slice's starter is the
- * opponent of the series's starter.
- * @param level is this a top-level branch or one nested into another
- *              branch?
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies proxy slice leading towards goal
- * @return index of adapter slice of allocated series branch
- */
-slice_index alloc_series_branch_next_other_starter(branch_level level,
-                                                   stip_length_type length,
-                                                   stip_length_type min_length,
-                                                   slice_index to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(branch_level,level,"");
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",to_goal);
-  TraceFunctionParamListEnd();
-
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
-    to_goal = proxy;
-  }
-
-  if (level==toplevel_branch)
-    result = alloc_toplevel_series_branch_next_other_starter(length,min_length,
-                                                             to_goal);
-  else
-    result = alloc_nested_series_branch_next_other_starter(length,min_length,
-                                                           to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a top level series branch where the next slice has the
- * same starter as the series.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index
-alloc_toplevel_series_branch_next_same_starter(stip_length_type length,
-                                               stip_length_type min_length,
-                                               slice_index proxy_to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_series);
-
-  {
-    slice_index const branch = alloc_branch_ser_slice(length,min_length,
-                                                      proxy_to_goal);
-    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     proxy_to_goal);
-    slice_index const inverter = alloc_move_inverter_slice();
-    slice_index const root_branch = alloc_branch_ser_slice(length,min_length,
-                                                           proxy_to_goal);
-    result = alloc_series_root_slice(length,min_length,proxy_to_goal,fork);
-
-    shorten_series_pipe(branch);
-
-    branch_link(fork,branch);
-    branch_link(branch,inverter);
-    branch_link(inverter,fork);
-
-    branch_link(result,root_branch);
-    pipe_set_successor(root_branch,inverter);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a nested series branch where the next slice has the same
- * starter as the series.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index
-alloc_nested_series_branch_next_same_starter(stip_length_type length,
-                                             stip_length_type min_length,
-                                             slice_index proxy_to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_series);
-
-  {
-    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
-                                                     proxy_to_goal);
-    slice_index const inverter = alloc_move_inverter_slice();
-
-    result = alloc_branch_ser_slice(length,min_length,proxy_to_goal);
-
-    branch_link(result,inverter);
-    branch_link(inverter,fork);
-    branch_link(fork,result);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a series branch where the next slice has the same starter
  * as the series.
- * @param level is this a top-level branch or one nested into another
- *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies proxy slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
-slice_index alloc_series_branch_next_same_starter(branch_level level,
-                                                  stip_length_type length,
+slice_index alloc_series_branch_next_same_starter(stip_length_type length,
                                                   stip_length_type min_length,
                                                   slice_index to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
+
+  assert(length>slack_length_series);
 
   if (slices[to_goal].type!=STProxy)
   {
@@ -744,12 +605,17 @@ slice_index alloc_series_branch_next_same_starter(branch_level level,
     to_goal = proxy;
   }
 
-  if (level==toplevel_branch)
-    result = alloc_toplevel_series_branch_next_same_starter(length,min_length,
-                                                            to_goal);
-  else
-    result = alloc_nested_series_branch_next_same_starter(length,min_length,
-                                                          to_goal);
+  result = alloc_series_fork_slice(length,min_length,to_goal);
+
+  {
+    slice_index const branch = alloc_branch_ser_slice(length,min_length,
+                                                      to_goal);
+    slice_index const inverter = alloc_move_inverter_slice();
+
+    branch_link(result,branch);
+    branch_link(branch,inverter);
+    branch_link(inverter,result);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

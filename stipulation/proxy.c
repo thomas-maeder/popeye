@@ -63,7 +63,7 @@ void proxy_slice_resolve(slice_index *si)
   TraceFunctionParam("%u",*si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[*si].type,"");
+  TraceEnumerator(SliceType,slices[*si].type,"\n");
   if (slices[*si].type==STProxy)
     *si = slices[*si].u.pipe.next;
 

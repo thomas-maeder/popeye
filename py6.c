@@ -102,7 +102,6 @@
 #include "pyint.h"
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
-#include "pyint.h"
 #include "pymovein.h"
 #include "pybrah.h"
 #include "pyquodli.h"
@@ -519,6 +518,8 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STSelfCheckGuard */
   &slice_traverse_children,           /* STDirectDefense */
   0,                                  /* STReflexGuard */
+  0,                                  /* STReflexAttackerFilter */
+  0,                                  /* STReflexDefenderFilter */
   0,                                  /* STSelfAttack */
   0,                                  /* STSelfDefense */
   0,                                  /* STRestartGuard */
@@ -2169,20 +2170,18 @@ static void apply_whitetoplay(slice_index proxy)
     case STHelpRoot:
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
-      /* calculate new starter now - shorten_root_branch_h_slice() may
-       * replace si
-       */
       if (meaning==whitetoplay_means_shorten_root_slice)
       {
         slice_index const shortened = help_root_shorten_help_play(next);
         slice_index const inverter = alloc_move_inverter_slice();
         branch_link(inverter,shortened);
         branch_link(proxy,inverter);
-        slices[inverter].starter = advers(slices[shortened].starter);
-        TraceValue("%u\n",slices[inverter].starter);
       }
       else
-        slices[next].starter = advers(slices[next].starter);
+      {
+        stip_detect_starter();
+        stip_impose_starter(advers(slices[root_slice].starter));
+      }
       break;
     }
 
@@ -2210,18 +2209,12 @@ static void apply_whitetoplay(slice_index proxy)
     case STReciprocal:
       apply_whitetoplay(slices[next].u.fork.op1);
       apply_whitetoplay(slices[next].u.fork.op2);
-      assert(slices[slices[next].u.fork.op1].starter
-             ==slices[slices[next].u.fork.op2].starter);
-      slices[next].starter = slices[slices[next].u.fork.op1].starter;
       break;
 
     default:
       pipe_set_successor(proxy,no_slice);
       break;
   }
-
-  if (slices[proxy].u.pipe.next!=no_slice)
-    slices[proxy].starter  = slices[slices[proxy].u.pipe.next].starter;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2598,6 +2591,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STSelfCheckGuard */
   &slice_traverse_children,                  /* STDirectDefense */
   &slice_traverse_children,                  /* STReflexGuard */
+  &slice_traverse_children,                  /* STReflexAttackerFilter */
+  &slice_traverse_children,                  /* STReflexDefenderFilter */
   &slice_traverse_children,                  /* STSelfAttack */
   &slice_traverse_children,                  /* STSelfDefense */
   &slice_traverse_children,                  /* STRestartGuard */
@@ -2625,156 +2620,6 @@ static void insert_hash_slices(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static boolean fork_resolve_proxies(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  proxy_slice_resolve(&slices[si].u.fork.op1);
-  proxy_slice_resolve(&slices[si].u.fork.op2);
-  slice_traverse_children(si,st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.next!=no_slice)
-    proxy_slice_resolve(&slices[si].u.pipe.next);
-  slice_traverse_children(si,st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean help_root_resolve_proxies(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.u.branch.towards_goal!=no_slice)
-    proxy_slice_resolve(&slices[si].u.pipe.u.branch.towards_goal);
-  proxy_slice_resolve(&slices[si].u.pipe.u.help_root.short_sols);
-  pipe_resolve_proxies(si,st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean branch_resolve_proxies(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].u.pipe.u.branch.towards_goal!=no_slice)
-    proxy_slice_resolve(&slices[si].u.pipe.u.branch.towards_goal);
-  pipe_resolve_proxies(si,st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean reflex_guard_resolve_proxies(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  proxy_slice_resolve(&slices[si].u.pipe.u.reflex_guard.avoided);
-  pipe_resolve_proxies(si,st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static slice_operation const proxy_resolvers[] =
-{
-  &slice_traverse_children,      /* STProxy */
-  &branch_resolve_proxies,       /* STBranchDirect */
-  &branch_resolve_proxies,       /* STBranchDirectDefender */
-  &branch_resolve_proxies,       /* STBranchHelp */
-  &branch_resolve_proxies,       /* STHelpFork */
-  &branch_resolve_proxies,       /* STBranchSeries */
-  &branch_resolve_proxies,       /* STSeriesFork */
-  &slice_traverse_children,      /* STLeafDirect */
-  &slice_traverse_children,      /* STLeafHelp */
-  &slice_traverse_children,      /* STLeafForced */
-  &fork_resolve_proxies,         /* STReciprocal */
-  &fork_resolve_proxies,         /* STQuodlibet */
-  &slice_traverse_children,      /* STNot */
-  &pipe_resolve_proxies,         /* STMoveInverter */
-  &branch_resolve_proxies,       /* STDirectRoot */
-  &branch_resolve_proxies,       /* STDirectDefenderRoot */
-  &branch_resolve_proxies,       /* STDirectHashed */
-  &help_root_resolve_proxies,    /* STHelpRoot */
-  &branch_resolve_proxies,       /* STHelpHashed */
-  &help_root_resolve_proxies,    /* STSeriesRoot */
-  &slice_traverse_children,      /* STParryFork */
-  &branch_resolve_proxies,       /* STSeriesHashed */
-  &pipe_resolve_proxies,         /* STSelfCheckGuard */
-  &branch_resolve_proxies,       /* STDirectDefense */
-  &reflex_guard_resolve_proxies, /* STReflexGuard */
-  &branch_resolve_proxies,       /* STSelfAttack */
-  &branch_resolve_proxies,       /* STSelfDefense */
-  &slice_traverse_children,      /* STRestartGuard */
-  &pipe_resolve_proxies,         /* STGoalReachableGuard */
-  &slice_traverse_children,      /* STKeepMatingGuard */
-  &slice_traverse_children,      /* STMaxFlightsquares */
-  &slice_traverse_children,      /* STDegenerateTree */
-  &slice_traverse_children,      /* STMaxNrNonTrivial */
-  &slice_traverse_children       /* STMaxThreatLength */
-};
-
-/* Substitute links to proxy slices by the proxy's target
- */
-static void resolve_proxies(void)
-{
-  slice_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(root_slice);
-
-  assert(slices[root_slice].type==STProxy);
-  proxy_slice_resolve(&root_slice);
-
-  slice_traversal_init(&st,&proxy_resolvers,0);
-  traverse_slices(root_slice,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 static boolean initialise_verify_twin(void)
 {
@@ -2941,8 +2786,20 @@ static Token iterate_twins(Token prev_token)
     TraceValue("%u\n",shouldDetectStarter);
     if (twin_index==0 || shouldDetectStarter)
     {
+      stip_insert_root_slices();
+      
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay())
         Message(PostKeyPlayNotApplicable);
+
+      if (OptFlag[whitetoplay])
+      {
+        apply_whitetoplay(root_slice);
+        if (slices[root_slice].u.pipe.next==no_slice)
+          Message(WhiteToPlayNotApplicable);
+      }
+
+      if (OptFlag[solapparent] && !OptFlag[restart] && !stip_apply_setplay())
+        Message(SetPlayNotApplicable);
 
       stip_detect_starter();
 
@@ -2964,18 +2821,8 @@ static Token iterate_twins(Token prev_token)
       }
       TraceValue("%u\n",isIntelligentModeActive);
 
-      if (OptFlag[whitetoplay])
-      {
-        apply_whitetoplay(root_slice);
-        if (slices[root_slice].u.pipe.next==no_slice)
-          Message(WhiteToPlayNotApplicable);
-      }
-
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
-
-      if (OptFlag[solapparent] && !OptFlag[restart] && !stip_apply_setplay())
-        Message(SetPlayNotApplicable);
 
       stip_insert_selfcheck_guards();
 
@@ -2984,9 +2831,6 @@ static Token iterate_twins(Token prev_token)
 
       if (isIntelligentModeActive)
         stip_insert_goalreachable_guards();
-
-      if (!OptFlag[intelligent] && OptFlag[movenbr])
-        stip_insert_restart_guards();
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();
@@ -3000,6 +2844,9 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[degeneratetree])
         stip_insert_degenerate_tree_guards();
 
+      if (!OptFlag[intelligent] && OptFlag[movenbr])
+        stip_insert_restart_guards();
+
       /* intelligent AND duplex means that the board is mirrored and
        * the colors swapped by swapcolors() and reflectboard() ->
        * start with the regular side. */
@@ -3012,12 +2859,10 @@ static Token iterate_twins(Token prev_token)
         stip_impose_starter(slices[root_slice].starter);
 
       resolve_proxies();
-
       dealloc_proxy_slices();
+      assert_no_leaked_slices();
 
       TraceStipulation(root_slice);
-
-      assert_no_leaked_slices();
     }
 
     if (slices[root_slice].starter==no_side)

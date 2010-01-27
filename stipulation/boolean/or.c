@@ -4,6 +4,7 @@
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pyintslv.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -31,6 +32,38 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
 
   slices[result].u.fork.op1 = proxy1;
   slices[result].u.fork.op2 = proxy2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean quodlibet_insert_root(slice_index si, slice_traversal *st)
+{
+  slice_index const op1 = slices[si].u.fork.op1;
+  slice_index const op2 = slices[si].u.fork.op2;
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[op1].u.pipe.next,st);
+  branch_link(op1,*root);
+
+  TraceStipulation(si);
+
+  traverse_slices(slices[op2].u.pipe.next,st);
+  branch_link(op2,*root);
+  
+  *root = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

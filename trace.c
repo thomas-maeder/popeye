@@ -314,6 +314,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STReflexGuard:
+      case STReflexAttackerFilter:
+      case STReflexDefenderFilter:
         fprintf(stdout,"%u/",slices[si].u.pipe.u.reflex_guard.length);
         fprintf(stdout,"%u ",slices[si].u.pipe.u.reflex_guard.min_length);
         fprintf(stdout,"prev:%u ",slices[si].prev);

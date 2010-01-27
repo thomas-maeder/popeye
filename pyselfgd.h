@@ -150,4 +150,18 @@ boolean self_defense_impose_starter(slice_index si, slice_traversal *st);
  */
 void slice_insert_self_guards(slice_index si, slice_index to_goal);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean self_defense_insert_root(slice_index si, slice_traversal *st);
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean self_attack_insert_root(slice_index si, slice_traversal *st);
+
 #endif

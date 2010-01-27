@@ -175,7 +175,7 @@ boolean slice_solve(slice_index si)
     case STDirectHashed:
     case STDirectDefense:
     case STSelfDefense:
-    case STReflexGuard:
+    case STReflexAttackerFilter:
     case STDegenerateTree:
     case STLeafDirect:
       solution_found = direct_solve(si);
@@ -187,6 +187,7 @@ boolean slice_solve(slice_index si)
       break;
 
     case STBranchSeries:
+    case STSeriesFork:
     case STSeriesHashed:
       solution_found = series_solve(si);
       break;
@@ -256,6 +257,8 @@ boolean slice_root_solve(slice_index si)
     case STSelfAttack:
     case STDirectHashed:
     case STMaxThreatLength:
+    case STReflexAttackerFilter:
+    case STReflexDefenderFilter:
       result = direct_root_solve(si);
       break;
 

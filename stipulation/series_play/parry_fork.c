@@ -106,8 +106,6 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
     slice_index const proxy_to_next = alloc_proxy_slice();
 
     assert(inverter!=no_slice);
-    assert(slices[next].type==STBranchSeries
-           || slices[next].type==STSeriesFork);
 
     branch_link(prev,fork);
     branch_link(fork,inverter);

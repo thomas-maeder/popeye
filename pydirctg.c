@@ -42,6 +42,42 @@ slice_index alloc_direct_defense(stip_length_type length,
   return result;
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.pipe.next,st);
+
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const direct_defense = alloc_direct_defense(length,min_length,
+                                                            to_goal);
+    branch_link(direct_defense,*root);
+    *root = direct_defense;
+
+    slices[si].u.pipe.u.branch.length -= 2;
+    if (min_length>=slack_length_direct+2)
+      slices[si].u.pipe.u.branch.min_length -= 2;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* **************** Implementation of interface Direct ***************
  */
@@ -439,7 +475,7 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,       /* STQuodlibet */
   &slice_traverse_children,       /* STNot */
   &slice_traverse_children,       /* STMoveInverter */
-  &direct_guards_inserter_attack, /* STDirectRoot */
+  0,                              /* STDirectRoot */
   &direct_guards_inserter_defense,       /* STDirectDefenderRoot */
   &slice_traverse_children,       /* STDirectHashed */
   &slice_traverse_children,       /* STHelpRoot */
@@ -450,6 +486,8 @@ static slice_operation const direct_guards_inserters[] =
   0,                              /* STSelfCheckGuard */
   &slice_traverse_children,       /* STDirectDefense */
   0,                              /* STReflexGuard */
+  0,                              /* STReflexAttackerFilter */
+  0,                              /* STReflexDefenderFilter */
   0,                              /* STSelfAttack */
   0,                              /* STSelfDefense */
   0,                              /* STRestartGuard */

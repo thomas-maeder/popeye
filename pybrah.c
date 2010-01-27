@@ -52,10 +52,10 @@ slice_index alloc_branch_h_slice(stip_length_type length,
  *                   short solutions
  * @return index of allocated slice
  */
-static slice_index alloc_help_root_slice(stip_length_type length,
-                                         stip_length_type min_length,
-                                         slice_index proxy_to_goal,
-                                         slice_index short_sols)
+slice_index alloc_help_root_slice(stip_length_type length,
+                                  stip_length_type min_length,
+                                  slice_index proxy_to_goal,
+                                  slice_index short_sols)
 {
   slice_index result;
 
@@ -69,6 +69,89 @@ static slice_index alloc_help_root_slice(stip_length_type length,
   result = alloc_branch(STHelpRoot,length,min_length,proxy_to_goal);
   slices[result].u.pipe.u.help_root.short_sols = short_sols;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Shorten a help pipe by a half-move
+ * @param pipe identifies pipe to be shortened
+ */
+static void shorten_help_pipe(slice_index pipe)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  --slices[pipe].u.pipe.u.branch.length;
+  --slices[pipe].u.pipe.u.branch.min_length;
+  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
+    slices[pipe].u.pipe.u.branch.min_length += 2;
+  slices[pipe].starter = (slices[pipe].starter==no_side
+                          ? no_side
+                          : advers(slices[pipe].starter));
+  TraceValue("%u",slices[pipe].starter);
+  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
+  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean branch_h_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const prev = slices[si].prev;
+
+    slice_index const root_branch = copy_slice(si);
+    *root = alloc_help_root_slice(length,min_length,towards_goal,prev);
+
+    branch_link(*root,root_branch);
+    shorten_help_pipe(si);
+    shorten_help_pipe(si);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean help_root_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  branch_resolve_proxies(si,st);
+
+  if (slices[si].u.pipe.u.help_root.short_sols!=no_slice)
+    proxy_slice_resolve(&slices[si].u.pipe.u.help_root.short_sols);
+
+  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -98,8 +181,6 @@ boolean branch_h_detect_starter(slice_index si, slice_traversal *st)
   }
   else
     result = true;
-
-  TraceValue("%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -284,30 +365,6 @@ boolean branch_h_has_solution_in_n(slice_index si, stip_length_type n)
 
 /*************** root *****************/
 
-/* Shorten a help pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-static void shorten_help_pipe(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  --slices[pipe].u.pipe.u.branch.length;
-  --slices[pipe].u.pipe.u.branch.min_length;
-  if (slices[pipe].u.pipe.u.branch.min_length<slack_length_help)
-    slices[pipe].u.pipe.u.branch.min_length += 2;
-  slices[pipe].starter = (slices[pipe].starter==no_side
-                          ? no_side
-                          : advers(slices[pipe].starter));
-  TraceValue("%u",slices[pipe].starter);
-  TraceValue("%u",slices[pipe].u.pipe.u.branch.length);
-  TraceValue("%u\n",slices[pipe].u.pipe.u.branch.min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Shorten a help branch that is the root of set play. Reduces the
  * length members of slices[root] and rewires the members to the
  * appropriate positions.
@@ -401,6 +458,7 @@ static void shorten_root_branch_even_to_odd(slice_index root)
   slice_index const root_branch = slices[root].u.pipe.next;
   slice_index const branch1 = slices[root_branch].u.pipe.next;
   slice_index const fork = slices[branch1].u.pipe.next;
+  slice_index const branch2 = slices[fork].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -409,11 +467,13 @@ static void shorten_root_branch_even_to_odd(slice_index root)
   assert(slices[root_branch].type==STBranchHelp);
   assert(slices[branch1].type==STBranchHelp);
   assert(slices[fork].type==STHelpFork);
+  assert(slices[branch2].type==STBranchHelp);
 
   if (slices[root].u.pipe.u.help_root.length-slack_length_help==2)
   {
-    assert(slices[fork].u.pipe.next==no_slice);
+    slices[fork].u.pipe.next = no_slice;
     dealloc_slice(branch1);
+    dealloc_slice(branch2);
   }
   else
   {
@@ -647,168 +707,25 @@ has_solution_type help_root_has_solution(slice_index si)
   return result;
 }
 
-/* Allocate a top level help branch
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index alloc_toplevel_help_branch(stip_length_type length,
-                                              stip_length_type min_length,
-                                              slice_index proxy_to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_help);
-  assert(min_length>=slack_length_help);
-
-  if ((length-slack_length_help)%2==0)
-  {
-    slice_index const fork = alloc_help_fork_slice(length-2,min_length-2,
-                                                   proxy_to_goal);
-    slice_index const help_root = alloc_help_root_slice(length,min_length,
-                                                        proxy_to_goal,fork);
-    slice_index const branch_root = alloc_branch_h_slice(length,min_length,
-                                                         proxy_to_goal);
-    slice_index const branch1 = alloc_branch_h_slice(length,min_length,
-                                                     proxy_to_goal);
-    shorten_help_pipe(branch1);
-
-    branch_link(help_root,branch_root);
-    branch_link(branch1,fork);
-
-    if (length-slack_length_help==2)
-      branch_link(branch_root,branch1);
-    else
-    {
-      slice_index const branch2 = alloc_branch_h_slice(length-2,min_length,
-                                                       proxy_to_goal);
-      pipe_set_successor(branch_root,branch1);
-      branch_link(fork,branch2);
-      branch_link(branch2,branch1);
-    }
-
-    result = help_root;
-  }
-  else
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    slice_index const help_root = alloc_help_root_slice(length,min_length,
-                                                        proxy_to_goal,proxy);
-    slice_index const branch_root = alloc_branch_h_slice(length,min_length,
-                                                         proxy_to_goal);
-    slice_index const fork = alloc_help_fork_slice(length-1,min_length-1,
-                                                   proxy_to_goal);
-    branch_link(help_root,branch_root);
-
-    if (length-slack_length_help==1)
-      branch_link(branch_root,fork);
-    else
-    {
-      slice_index const branch1 = alloc_branch_h_slice(length,min_length,
-                                                       proxy_to_goal);
-      slice_index const branch2 = alloc_branch_h_slice(length-2,min_length,
-                                                       proxy_to_goal);
-      shorten_help_pipe(branch1);
-
-      pipe_set_successor(branch_root,fork);
-      branch_link(fork,branch1);
-      branch_link(branch1,proxy);
-      branch_link(proxy,branch2);
-      branch_link(branch2,fork);
-    }
-
-    result = help_root;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a nested help branch
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return index of allocated slice
- */
-static slice_index alloc_nested_help_branch(stip_length_type length,
-                                            stip_length_type min_length,
-                                            slice_index proxy_to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_help);
-
-  if (length%2==0)
-  {
-    slice_index const fork = alloc_help_fork_slice(length-2,min_length-2,
-                                                   proxy_to_goal);
-    slice_index const branch = alloc_branch_h_slice(length,min_length,
-                                                    proxy_to_goal);
-    shorten_help_pipe(branch);
-
-    result = alloc_branch_h_slice(length,min_length,proxy_to_goal);
-
-    branch_link(branch,fork);
-    branch_link(result,branch);
-    branch_link(fork,result);
-  }
-  else
-  {
-    slice_index const fork = alloc_help_fork_slice(length-1,min_length-1,
-                                                   proxy_to_goal);
-    slice_index const branch = alloc_branch_h_slice(length,min_length,
-                                                    proxy_to_goal);
-    shorten_help_pipe(branch);
-
-    result = alloc_branch_h_slice(length,min_length,proxy_to_goal);
-
-    branch_link(result,fork);
-    branch_link(fork,branch);
-    branch_link(branch,result);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a help branch.
- * @param level is this a top-level branch or one nested into another
- *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of initial slice of allocated help branch
  */
-slice_index alloc_help_branch(branch_level level,
-                              stip_length_type length,
+slice_index alloc_help_branch(stip_length_type length,
                               stip_length_type min_length,
                               slice_index to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
+
+  assert(length>slack_length_help);
 
   if (slices[to_goal].type!=STProxy)
   {
@@ -817,10 +734,33 @@ slice_index alloc_help_branch(branch_level level,
     to_goal = proxy;
   }
 
-  if (level==toplevel_branch)
-    result = alloc_toplevel_help_branch(length,min_length,to_goal);
+  if ((length-slack_length_help)%2==0)
+  {
+    slice_index const branch1 = alloc_branch_h_slice(length,min_length,to_goal);
+    slice_index const branch2 = alloc_branch_h_slice(length,min_length,to_goal);
+    result = alloc_help_fork_slice(length,min_length,to_goal);
+
+    shorten_help_pipe(branch2);
+
+    branch_link(result,branch1);
+    branch_link(branch1,branch2);
+    branch_link(branch2,result);
+  }
   else
-    result = alloc_nested_help_branch(length,min_length,to_goal);
+  {
+    slice_index const fork = alloc_help_fork_slice(length,min_length,to_goal);
+    slice_index const branch1 = alloc_branch_h_slice(length,min_length,to_goal);
+    slice_index const branch2 = alloc_branch_h_slice(length,min_length,to_goal);
+    result = alloc_proxy_slice();
+
+    shorten_help_pipe(fork);
+    shorten_help_pipe(branch1);
+
+    branch_link(result,branch2);
+    branch_link(branch2,fork);
+    branch_link(fork,branch1);
+    branch_link(branch1,result);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

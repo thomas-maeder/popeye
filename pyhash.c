@@ -308,6 +308,8 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STSelfCheckGuard */
   &slice_property_offset_shifter, /* STDirectDefense */
   &slice_property_offset_shifter, /* STReflexGuard */
+  &slice_property_offset_shifter, /* STReflexAttackerFilter */
+  &slice_property_offset_shifter, /* STReflexDefenderFilter */
   &slice_property_offset_shifter, /* STSelfAttack */
   &slice_property_offset_shifter, /* STSelfDefense */
   &slice_property_offset_shifter, /* STRestartGuard */
@@ -700,6 +702,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STSelfCheckGuard */
   &slice_traverse_children,              /* STDirectDefense */
   &slice_traverse_children,              /* STReflexGuard */
+  &slice_traverse_children,              /* STReflexAttackerFilter */
+  &slice_traverse_children,              /* STReflexDefenderFilter */
   &init_slice_properties_direct_root,    /* STSelfAttack */
   &init_slice_properties_direct_root,    /* STSelfDefense */
   &init_slice_properties_pipe,           /* STRestartGuard */

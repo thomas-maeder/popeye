@@ -12,17 +12,21 @@
  */
 
 /* Allocate a branch that represents direct play
- * @param level is this a top-level branch or one nested into another
- *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of entry slice of allocated branch
  */
-slice_index alloc_direct_branch(branch_level level,
-                                stip_length_type length,
+slice_index alloc_direct_branch(stip_length_type length,
                                 stip_length_type min_length,
                                 slice_index to_goal);
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean branch_d_insert_root(slice_index si, slice_traversal *st);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -100,6 +104,14 @@ stip_length_type branch_d_solve_in_n(slice_index si,
  * @return true iff slice has been successfully traversed
  */
 boolean branch_d_detect_starter(slice_index si, slice_traversal *st);
+
+/* Spin off a set play slice
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean direct_root_make_setplay_slice(slice_index si,
+                                       struct slice_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

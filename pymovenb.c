@@ -230,6 +230,8 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STSelfCheckGuard */
   &slice_traverse_children,      /* STDirectDefense */
   &slice_traverse_children,      /* STReflexGuard */
+  &slice_traverse_children,      /* STReflexAttackerFilter */
+  0,                             /* STReflexDefenderFilter */
   0,                             /* STSelfAttack */
   0,                             /* STSelfDefense */
   0,                             /* STRestartGuard */

@@ -80,6 +80,52 @@ slice_index alloc_series_fork_slice(stip_length_type length,
   return result;
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean series_fork_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.pipe.next,st);
+  slices[*root].u.pipe.u.help_root.short_sols = si;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean help_fork_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.pipe.next,st);
+  slices[*root].u.pipe.u.help_root.short_sols = si;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* **************** Implementation of interface Help ***************
  */
 
@@ -319,9 +365,20 @@ boolean branch_fork_detect_starter(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(towards_goal,st);
-  slices[si].starter = slices[towards_goal].starter;
-  TraceValue("%u\n",slices[si].starter);
+  if (slices[si].starter==no_side)
+  {
+    result = traverse_slices(towards_goal,st);
+    if (slices[towards_goal].starter==no_side)
+    {
+      slice_index const next = slices[si].u.pipe.next;
+      traverse_slices(next,st);
+      slices[si].starter = slices[next].starter;
+    }
+    else
+      slices[si].starter = slices[towards_goal].starter;
+  }
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -475,6 +532,8 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STSelfCheckGuard */
   &traverse_and_deallocate,             /* STDirectDefense */
   0,                                    /* STReflexGuard */
+  0,                                    /* STReflexAttackerFilter */
+  0,                                    /* STReflexDefenderFilter */
   &traverse_and_deallocate,             /* STSelfAttack */
   &traverse_and_deallocate,             /* STSelfDefense */
   0,                                    /* STRestartGuard */

@@ -52,6 +52,8 @@
                                                                         \
     ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
     ENUMERATOR(STReflexGuard),     /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfAttack),      /* self play, just played attack */  \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
                                                                         \
@@ -246,6 +248,15 @@ void release_slices(void);
  * reachable
  */
 void assert_no_leaked_slices(void);
+
+/* Wrap the slices representing the initial moves of the solution with
+ * slices of appropriately equipped slice types
+ */
+void stip_insert_root_slices(void);
+
+/* Substitute links to proxy slices by the proxy's target
+ */
+void resolve_proxies(void);
 
 /* Set the min_length field of a composite slice.
  * @param si index of composite slice

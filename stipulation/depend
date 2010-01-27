@@ -1,7 +1,9 @@
-stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h pypipe.h \
-  trace.h
+stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
+  stipulation/proxy.h pypipe.h trace.h
 
 stipulation/branch.h:
+
+stipulation/proxy.h:
 
 pypipe.h:
 

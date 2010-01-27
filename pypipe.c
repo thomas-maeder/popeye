@@ -1,5 +1,6 @@
 #include "pypipe.h"
 #include "pyseries.h"
+#include "stipulation/proxy.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -26,6 +27,7 @@ slice_index alloc_pipe(SliceType type)
   return result;
 }
 
+#if !defined(NDEBUG)
 /* Does a slice have a successor
  * @param si identifies slice
  * @return true iff si identifies a slice that has a .next member
@@ -38,6 +40,7 @@ static boolean has_successor(slice_index si)
           && slices[si].type!=STQuodlibet
           && slices[si].type!=STReciprocal);
 }
+#endif
 
 /* Make a slice the successor of a pipe
  * @param pipe identifies the pipe
@@ -155,6 +158,29 @@ boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
 
   traverse_slices(slices[pipe].u.pipe.next,st);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+  if (slices[si].u.pipe.next!=no_slice)
+    proxy_slice_resolve(&slices[si].u.pipe.next);
+  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

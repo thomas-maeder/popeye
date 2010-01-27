@@ -10,16 +10,26 @@
  * stipulation slices.
  */
 
+/* Allocate a STHelpRoot slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_goal identifies proxy slice leading towards goal
+ * @param short_sols identifies slice to delegate to when looking for
+ *                   short solutions
+ * @return index of allocated slice
+ */
+slice_index alloc_help_root_slice(stip_length_type length,
+                                  stip_length_type min_length,
+                                  slice_index proxy_to_goal,
+                                  slice_index short_sols);
+
 /* Allocate a help branch.
- * @param level is this a top-level branch or one nested into another
- *              branch?
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param to_goal identifies slice leading towards goal
  * @return index of initial slice of allocated help branch
  */
-slice_index alloc_help_branch(branch_level level,
-                              stip_length_type length,
+slice_index alloc_help_branch(stip_length_type length,
                               stip_length_type min_length,
                               slice_index to_goal);
 
@@ -32,6 +42,20 @@ slice_index alloc_help_branch(branch_level level,
 slice_index alloc_branch_h_slice(stip_length_type length,
                                  stip_length_type min_length,
                                  slice_index proxy_to_goal);
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean branch_h_insert_root(slice_index si, slice_traversal *st);
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean help_root_resolve_proxies(slice_index si, slice_traversal *st);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

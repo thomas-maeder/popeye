@@ -67,6 +67,81 @@ static slice_index alloc_self_defense(stip_length_type length,
   return result;
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean self_defense_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.pipe.next,st);
+
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const self_defense = alloc_self_defense(length,min_length,
+                                                        to_goal);
+    branch_link(self_defense,*root);
+    *root = self_defense;
+
+    slices[si].u.pipe.u.branch.length -= 2;
+    if (min_length>=slack_length_direct+2)
+      slices[si].u.pipe.u.branch.min_length -= 2;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean self_attack_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.pipe.next,st);
+
+  if (length==slack_length_direct)
+    *root = si;
+  else
+  {
+    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const self_attack = alloc_self_attack(length,min_length,to_goal);
+
+    branch_link(self_attack,*root);
+    *root = self_attack;
+
+    slices[si].u.pipe.u.branch.length -= 2;
+    if (min_length>=slack_length_direct+2)
+      slices[si].u.pipe.u.branch.min_length -= 2;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* **************** Implementation of interface Direct ***************
  */
@@ -308,7 +383,7 @@ boolean self_attack_root_solve(slice_index si)
 /* **************** Implementation of interface Slice ***************
  */
 
-/* Spin off a set play slice at root level
+/* Spin off a set play slice
  * @param si slice index
  * @param st state of traversal
  * @return true iff this slice has been sucessfully traversed
@@ -324,15 +399,6 @@ boolean self_attack_root_make_setplay_slice(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  /* prod->sibling may already have been set by a STDirectDefense
-   * slice if this is a quodlibet stipulation
-   */
-  if (prod->sibling==no_slice)
-  {
-    prod->sibling = slices[si].prev;
-    assert(slices[prod->sibling].type==STDirectRoot);
-  }
 
   if (length==slack_length_direct)
   {
@@ -663,6 +729,8 @@ static slice_operation const self_guards_inserters[] =
   0,                                                 /* STSelfCheckGuard */
   0,                                                 /* STDirectDefense */
   0,                                                 /* STReflexGuard */
+  0,                                                 /* STReflexAttackerFilter */
+  0,                                                 /* STReflexDefenderFilter */
   &slice_traverse_children,                          /* STSelfAttack */
   &slice_traverse_children,                          /* STSelfDefense */
   0,                                                 /* STRestartGuard */

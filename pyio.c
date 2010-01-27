@@ -1942,7 +1942,6 @@ static char *ParseGoal(char *tok, SliceType type, slice_index proxy)
 }
 
 static char *ParseReciGoal(char *tok,
-                           branch_level level,
                            slice_index proxy_nonreci,
                            slice_index proxy_reci)
 {
@@ -1950,7 +1949,6 @@ static char *ParseReciGoal(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
   if (*tok=='(')
@@ -1965,8 +1963,7 @@ static char *ParseReciGoal(char *tok,
         {
           result = ParseGoal(tok+1,STLeafHelp,proxy_nonreci);
           branch_link(proxy_nonreci,
-                      alloc_help_branch(level,
-                                        slack_length_help+1,slack_length_help+1,
+                      alloc_help_branch(slack_length_help+1,slack_length_help+1,
                                         slices[proxy_nonreci].u.pipe.next));
         }
         else
@@ -1984,14 +1981,10 @@ static char *ParseReciGoal(char *tok,
       slice_index const nonreci_leaf = slices[proxy_nonreci].u.pipe.next;
       slice_index const goal = slices[nonreci_leaf].u.leaf.goal;
       slice_index const
-          branch = alloc_help_branch(level,
-                                     slack_length_help+1,slack_length_help+1,
+          branch = alloc_help_branch(slack_length_help+1,slack_length_help+1,
                                      slices[proxy_nonreci].u.pipe.next);
       slice_index const leaf = alloc_leaf_slice(STLeafDirect,goal);
-      if (level==nested_branch)
-        pipe_set_successor(proxy_nonreci,branch);
-      else
-        branch_link(proxy_nonreci,branch);
+      pipe_set_successor(proxy_nonreci,branch);
       branch_link(proxy_reci,leaf);
     }
   }
@@ -2002,23 +1995,20 @@ static char *ParseReciGoal(char *tok,
   return result;
 }
 
-static char *ParseReciEnd(char *tok,
-                          branch_level level,
-                          slice_index proxy)
+static char *ParseReciEnd(char *tok, slice_index proxy)
 {
   slice_index op1;
   slice_index op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",level);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
   op1 = alloc_proxy_slice();
   op2 = alloc_proxy_slice();
 
-  tok = ParseReciGoal(tok,level,op1,op2);
+  tok = ParseReciGoal(tok,op1,op2);
   if (slices[op1].u.pipe.next!=no_slice
       && slices[op2].u.pipe.next!=no_slice)
   {
@@ -2032,11 +2022,10 @@ static char *ParseReciEnd(char *tok,
   return tok;
 }
 
-static char *ParseEnd(char *tok, branch_level level, slice_index proxy)
+static char *ParseEnd(char *tok, slice_index proxy)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",level);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
@@ -2076,7 +2065,7 @@ static char *ParseEnd(char *tok, branch_level level, slice_index proxy)
   return tok;
 }
 
-static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
+static char *ParsePlay(char *tok, slice_index proxy)
 {
   /* seriesmovers with introductory moves */
   char *arrowpos = strstr(tok,"->");
@@ -2084,7 +2073,6 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",level);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
@@ -2097,25 +2085,24 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
     else
     {
       slice_index const proxy_leaf = alloc_proxy_slice();
-      result = ParsePlay(arrowpos+2,nested_branch,proxy_leaf);
+      result = ParsePlay(arrowpos+2,proxy_leaf);
       if (result!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
       {
         /* >=1 move of starting side required */
         stip_length_type const min_length = 1+slack_length_series;
         slice_index const branch
-            = alloc_series_branch_next_other_starter(level,
-                                                     intro_len
+            = alloc_series_branch_next_other_starter(intro_len
                                                      +slack_length_series,
                                                      min_length,
                                                      proxy_leaf);
-        branch_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
       }
     }
   }
 
   else if (strncmp("exact-", tok, 6) == 0)
   {
-    result = ParsePlay(tok+6,level,proxy);
+    result = ParsePlay(tok+6,proxy);
     if (result!=0)
     {
       OptFlag[nothreat] = true;
@@ -2128,7 +2115,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
     slice_index const proxy_leaf = alloc_proxy_slice();
 
     /* do *not* skip over "ser-" */
-    tok = ParseEnd(tok,nested_branch,proxy_leaf);
+    tok = ParseEnd(tok,proxy_leaf);
 
     /* special treatment: leaf always has type==STLeafDirect */
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
@@ -2139,11 +2126,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch
-            = alloc_series_branch_next_same_starter(level,
-                                                    length,min_length,
+            = alloc_series_branch_next_same_starter(length,min_length,
                                                     proxy_leaf);
-        branch_link(proxy,branch);
-        slices[branch].starter = White;
+        pipe_set_successor(proxy,branch);
+        slices[slices[proxy_leaf].u.pipe.next].starter = White;
       }
     }
   }
@@ -2153,7 +2139,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
     slice_index const proxy_leaf = alloc_proxy_slice();
 
     /* do *not* skip over "ser-" */
-    tok = ParseEnd(tok,nested_branch,proxy_leaf);
+    tok = ParseEnd(tok,proxy_leaf);
 
     /* special treatment: leaf always has type==STLeafDirect */
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
@@ -2164,11 +2150,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch
-            = alloc_series_branch_next_same_starter(level,
-                                                    length,min_length,
+            = alloc_series_branch_next_same_starter(length,min_length,
                                                     proxy_leaf);
-        branch_link(proxy,branch);
-        slices[branch].starter = White;
+        pipe_set_successor(proxy,branch);
+        slices[slices[proxy_leaf].u.pipe.next].starter = White;
       }
     }
   }
@@ -2178,7 +2163,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
     slice_index const proxy_leaf = alloc_proxy_slice();
 
     /* skip over "ser-reci-h" */
-    tok = ParseReciEnd(tok+10,nested_branch,proxy_leaf);
+    tok = ParseReciEnd(tok+10,proxy_leaf);
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2188,13 +2173,12 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       {
         slice_index const mi = alloc_move_inverter_slice();
         slice_index const branch
-            = alloc_series_branch_next_other_starter(level,
-                                                     length,min_length,
+            = alloc_series_branch_next_other_starter(length,min_length,
                                                      proxy_leaf);
         branch_link(mi,slices[proxy_leaf].u.pipe.next);
         branch_link(proxy_leaf,mi);
-        branch_link(proxy,branch);
-        slices[branch].starter = Black;
+        pipe_set_successor(proxy,branch);
+        slices[slices[proxy_leaf].u.pipe.next].starter = White;
       }
     }
   }
@@ -2204,7 +2188,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
     slice_index const proxy_leaf = alloc_proxy_slice();
 
     /* skip over ser-h, but not s! */
-    tok = ParseEnd(tok+5,nested_branch,proxy_leaf);
+    tok = ParseEnd(tok+5,proxy_leaf);
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2212,29 +2196,23 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
+        slices[slices[proxy_leaf].u.pipe.next].starter = Black;
+
         /* in ser-hs, the series is 1 half-move longer than in usual
          * series play! */
         ++length;
         if (length==slack_length_series)
-        {
-          slice_index const leaf = slices[proxy_leaf].u.pipe.next;
-          branch_link(proxy,leaf);
-          slices[leaf].starter = Black;
-        }
+          branch_link(proxy,slices[proxy_leaf].u.pipe.next);
         else
         {
           stip_length_type const help_length = slack_length_help+1;
-          slice_index const help = alloc_help_branch(nested_branch,
-                                                     help_length,
-                                                     help_length,
+          slice_index const help = alloc_help_branch(help_length,help_length,
                                                      proxy_leaf);
           slice_index const branch
-              = alloc_series_branch_next_other_starter(level,
-                                                       length,min_length,
+              = alloc_series_branch_next_other_starter(length,min_length,
                                                        help);
         
-          branch_link(proxy,branch);
-          slices[branch].starter = White;
+          pipe_set_successor(proxy,branch);
         }
       }
     }
@@ -2243,7 +2221,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("ser-hdia",tok,8) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok+4,nested_branch,proxy_leaf); /* skip over "ser-" */
+    tok = ParseEnd(tok+4,proxy_leaf); /* skip over "ser-" */
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2252,10 +2230,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch
-            = alloc_series_branch_next_other_starter(level,
-                                                     length+1,min_length,
+            = alloc_series_branch_next_other_starter(length+1,min_length,
                                                      proxy_leaf);
-        branch_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
         slices[branch].starter = White;
       }
     }
@@ -2264,7 +2241,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("ser-h",tok,5) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok+4,nested_branch,proxy_leaf); /* skip over "ser-" */
+    tok = ParseEnd(tok+4,proxy_leaf); /* skip over "ser-" */
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2273,11 +2250,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch
-            = alloc_series_branch_next_other_starter(level,
-                                                     length+1,min_length,
+            = alloc_series_branch_next_other_starter(length+1,min_length,
                                                      proxy_leaf);
-        branch_link(proxy,branch);
-        slices[branch].starter = Black;
+        pipe_set_successor(proxy,branch);
+        slices[slices[proxy_leaf].u.pipe.next].starter = White;
       }
     }
   }
@@ -2285,7 +2261,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("ser-s",tok,5) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok+4,nested_branch,proxy_leaf); /* skip over "ser-" */
+    tok = ParseEnd(tok+4,proxy_leaf); /* skip over "ser-" */
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2294,11 +2270,10 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch
-            = alloc_series_branch_next_other_starter(level,
-                                                     length+1,min_length,
+            = alloc_series_branch_next_other_starter(length+1,min_length,
                                                      proxy_leaf);
-        branch_link(proxy,branch);
-        slices[branch].starter = White;
+        pipe_set_successor(proxy,branch);
+        slices[slices[proxy_leaf].u.pipe.next].starter = Black;
       }
     }
   }
@@ -2306,7 +2281,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("ser-r",tok,5) == 0)
   {
     slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseEnd(tok+4,nested_branch,proxy_avoided); /* skip over "ser-" */
+    tok = ParseEnd(tok+4,proxy_avoided); /* skip over "ser-" */
     if (tok!=0 && slices[proxy_avoided].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2315,12 +2290,11 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch
-            = alloc_series_branch_next_other_starter(level,
-                                                     length+1,min_length,
+            = alloc_series_branch_next_other_starter(length+1,min_length,
                                                      proxy_avoided);
-        branch_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
         slice_insert_reflex_guards(branch,proxy_avoided);
-        slices[branch].starter = White;
+        slices[slices[proxy_avoided].u.pipe.next].starter = Black;
       }
     }
   }
@@ -2328,7 +2302,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("ser-",tok,4) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok+4,nested_branch,proxy_leaf); /* skip over "ser-" */
+    tok = ParseEnd(tok+4,proxy_leaf); /* skip over "ser-" */
     if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2336,28 +2310,29 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
+        slices[slices[proxy_leaf].u.pipe.next].starter = White;
+
         /* This deals with stipulations such as ser-#4; these are
          * special because the length includes that of the leaf that
          * the branch to be created leads to.
          */
-        assert(length>0);
-        if (length>1)
+        assert(length>=slack_length_series);
+        if (length==slack_length_series)
+          branch_link(proxy,slices[proxy_leaf].u.pipe.next);
+        else
         {
           slice_index const branch
-              = alloc_series_branch_next_same_starter(level,
-                                                      length,min_length-1,
+              = alloc_series_branch_next_same_starter(length,min_length-1,
                                                       proxy_leaf);
-          branch_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
         }
-
-        slices[slices[proxy_leaf].u.pipe.next].starter = White;
       }
     }
   }
 
   else if (strncmp("phser-",tok,6) == 0)
   {
-    result = ParsePlay(tok+2,level,proxy); /* skip over ph */
+    result = ParsePlay(tok+2,proxy); /* skip over ph */
     if (result!=0)
     {
       slice_index const help = alloc_branch_h_slice(slack_length_help+1,
@@ -2369,7 +2344,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
 
   else if (strncmp("pser-h",tok,6) == 0)
   {
-    result = ParsePlay(tok+1,level,proxy);
+    result = ParsePlay(tok+1,proxy);
     if (result!=0)
     {
       slice_index const help = alloc_branch_h_slice(slack_length_help+1,
@@ -2382,7 +2357,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("pser-",tok,5) == 0)
   {
     /* this deals with all kinds of non-help parry series */
-    result = ParsePlay(tok+1,level,proxy);
+    result = ParsePlay(tok+1,proxy);
     if (result!=0)
     {
       slice_index const dirdef =
@@ -2397,7 +2372,6 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
     char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
-                                     nested_branch,
                                      proxy_leaf);
     if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
@@ -2412,34 +2386,19 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         if (length==slack_length_help && min_length==slack_length_help)
-        {
-          if (level==toplevel_branch)
-          {
-            /* we have speculated wrong */
-            dealloc_slices(proxy_leaf);
-            ParseReciEnd(tok+6, /* skip over "reci-h" */
-                         toplevel_branch,
-                         proxy);
-          }
-          else
-          {
-            slice_index const leaf = slices[proxy_leaf].u.pipe.next;
-            branch_link(proxy,leaf);
-          }
-        }
+          branch_link(proxy,slices[proxy_leaf].u.pipe.next);
         else
         {
-          slice_index const help = alloc_help_branch(level,
-                                                     length,min_length,
+          slice_index const help = alloc_help_branch(length,min_length,
                                                      proxy_leaf);
           if (length%2==1)
           {
             slice_index const inverter = alloc_move_inverter_slice();
             branch_link(inverter,help);
-            branch_link(proxy,inverter);
+            pipe_set_successor(proxy,inverter);
           }
           else
-            branch_link(proxy,help);
+            pipe_set_successor(proxy,help);
         }
 
         slices[slices[proxy].u.pipe.next].starter = Black;
@@ -2450,22 +2409,21 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("dia",tok,3)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok,nested_branch,proxy_leaf);
-    if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    char * const tok2 = ParseEnd(tok,proxy_leaf);
+    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_help)
           branch_link(proxy,slices[proxy_leaf].u.pipe.next);
         else
         {
-          slice_index const branch = alloc_help_branch(level,
-                                                       length,min_length,
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_leaf);
-          branch_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
         }
 
         slices[slices[proxy].u.pipe.next].starter = White;
@@ -2476,26 +2434,30 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("a=>b",tok,4)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok,nested_branch,proxy_leaf);
-    if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    char * const tok2 = ParseEnd(tok,proxy_leaf);
+    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
       if (result!=0)
       {
-        slice_index const leaf = slices[proxy_leaf].u.pipe.next;
+        Side const leaf_starter = ((length-slack_length_help)%2==0
+                                   ? Black
+                                   : White);
         if (length==slack_length_help)
-          branch_link(proxy,leaf);
+        {
+          branch_link(proxy,slices[proxy_leaf].u.pipe.next);
+          slices[slices[proxy].u.pipe.next].starter = leaf_starter;
+        }
         else
         {
-          slice_index const branch = alloc_help_branch(level,
-                                                       length,min_length,
+          slice_index const leaf = slices[proxy_leaf].u.pipe.next;
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_leaf);
-          branch_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
+          slices[leaf].starter = leaf_starter;
         }
-
-        slices[leaf].starter = (length-slack_length_help)%2==0 ? Black : White;
       }
     }
   }
@@ -2503,36 +2465,31 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("hs",tok,2)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok+1,nested_branch,proxy_leaf); /* skip over 'h' */
-    if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    char * const tok2 = ParseEnd(tok+1,proxy_leaf); /* skip over 'h' */
+    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_help)
-        {
-          slice_index const leaf = slices[proxy_leaf].u.pipe.next;
-          branch_link(proxy,leaf);
-          slices[leaf].starter = Black;
-        }
+          branch_link(proxy,slices[proxy_leaf].u.pipe.next);
         else
         {
-          slice_index const branch = alloc_help_branch(level,
-                                                       length,min_length,
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_leaf);
           if (length%2==0)
           {
             slice_index const inverter = alloc_move_inverter_slice();
-            branch_link(inverter,branch);
+            pipe_set_successor(inverter,branch);
             branch_link(proxy,inverter);
           }
           else
             branch_link(proxy,branch);
-
-          slices[slices[proxy].u.pipe.next].starter = White;
         }
+
+        slices[slices[proxy_leaf].u.pipe.next].starter = Black;
       }
     }
   }
@@ -2540,18 +2497,19 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("hr",tok,2)==0)
   {
     slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseEnd(tok+1,nested_branch,proxy_avoided); /* skip over 'h' */
-    if (tok!=0 && slices[proxy_avoided].u.pipe.next!=no_slice)
+    char * const tok2 = ParseEnd(tok+1,proxy_avoided); /* skip over 'h' */
+    if (tok2!=0 && slices[proxy_avoided].u.pipe.next!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
       if (result!=0)
       {
-        if (length>slack_length_help)
+        if (length==slack_length_help)
+          branch_link(proxy,slices[proxy_avoided].u.pipe.next);
+        else
         {
-          slice_index const branch = alloc_help_branch(level,
-                                                       length,min_length,
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_avoided);
           slice_insert_reflex_guards(branch,proxy_avoided);
           if (length%2==0)
@@ -2572,27 +2530,28 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (*tok=='h')
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseEnd(tok,nested_branch,proxy_leaf);
-    if (tok!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    char * const tok2 = ParseEnd(tok,proxy_leaf);
+    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
       if (result!=0)
       {
-        if (length>slack_length_help)
+        if (length==slack_length_help)
+          branch_link(proxy,slices[proxy_leaf].u.pipe.next);
+        else
         {
-          slice_index const branch = alloc_help_branch(level,
-                                                       length,min_length,
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_leaf);
           if (length%2==0)
           {
             slice_index const inverter = alloc_move_inverter_slice();
-            branch_link(inverter,branch);
+            pipe_set_successor(inverter,branch);
             branch_link(proxy,inverter);
           }
           else
-            branch_link(proxy,branch);
+            pipe_set_successor(proxy,branch);
         }
 
         slices[slices[proxy_leaf].u.pipe.next].starter = White;
@@ -2603,7 +2562,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (strncmp("semi-r",tok,6)==0)
   {
     slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseEnd(tok+5,nested_branch,proxy_avoided); /* skip over "semi-" */
+    tok = ParseEnd(tok+5,proxy_avoided); /* skip over "semi-" */
     if (tok!=0 && slices[proxy_avoided].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2611,10 +2570,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       result = ParseLength(tok,STBranchDirect,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_direct_branch(level,
-                                                       length+1,min_length+1,
+        slice_index const branch = alloc_direct_branch(length+1,min_length+1,
                                                        proxy_avoided);
-        branch_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
         slice_insert_reflex_guards_semi(branch,proxy_avoided);
         slices[branch].starter = White;
       }
@@ -2624,7 +2582,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (*tok=='s')
   {
     slice_index const proxy_forced = alloc_proxy_slice();
-    tok = ParseEnd(tok,nested_branch,proxy_forced);
+    tok = ParseEnd(tok,proxy_forced);
     if (tok!=0 && slices[proxy_forced].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2632,10 +2590,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       result = ParseLength(tok,STBranchDirect,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_direct_branch(level,
-                                                       length+1,min_length+1,
+        slice_index const branch = alloc_direct_branch(length+1,min_length+1,
                                                        proxy_forced);
-        branch_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
         slice_insert_self_guards(branch,proxy_forced);
         slices[slices[proxy_forced].u.pipe.next].starter = Black;
       }
@@ -2645,7 +2602,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else if (*tok=='r')
   {
     slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseEnd(tok,nested_branch,proxy_avoided);
+    tok = ParseEnd(tok,proxy_avoided);
     if (tok!=0 && slices[proxy_avoided].u.pipe.next!=no_slice)
     {
       stip_length_type length;
@@ -2653,10 +2610,9 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       result = ParseLength(tok,STBranchDirect,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_direct_branch(level,
-                                                       length+1,min_length+1,
+        slice_index const branch = alloc_direct_branch(length+1,min_length+1,
                                                        proxy_avoided);
-        branch_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
         slice_insert_reflex_guards(branch,proxy_avoided);
         slices[branch].starter = White;
       }
@@ -2666,7 +2622,7 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
   else
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    char * const tok2 = ParseEnd(tok,nested_branch,proxy_leaf);
+    char * const tok2 = ParseEnd(tok,proxy_leaf);
     slice_index const leaf = slices[proxy_leaf].u.pipe.next;
     if (tok2!=0 && leaf!=no_slice)
     {
@@ -2676,22 +2632,12 @@ static char *ParsePlay(char *tok, branch_level level, slice_index proxy)
       if (result!=0)
       {
         if (length==slack_length_direct && min_length==slack_length_direct)
-        {
-          if (level==toplevel_branch)
-          {
-            /* we have speculated wrong: leaf is at the top level */
-            dealloc_slices(proxy_leaf);
-            ParseEnd(tok,toplevel_branch,proxy);
-          }
-          else
-            branch_link(proxy,leaf);
-        }
+          branch_link(proxy,leaf);
         else
         {
-          slice_index const branch = alloc_direct_branch(level,
-                                                         length,min_length,
+          slice_index const branch = alloc_direct_branch(length,min_length,
                                                          proxy_leaf);
-          branch_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
           slice_insert_direct_guards(branch,proxy_leaf);
         }
 
@@ -2717,13 +2663,10 @@ static char *ParseStip(void)
   root_slice = alloc_proxy_slice();
 
   strcpy(AlphaStip,tok);
-  if (ParsePlay(tok,toplevel_branch,root_slice)
+  if (ParsePlay(tok,root_slice)
       && slices[root_slice].u.pipe.next!=no_slice
       && ActStip[0]=='\0')
-  {
-    slice_set_predecessor(slices[root_slice].u.pipe.next,root_slice);
     strcpy(ActStip, AlphaStip);
-  }
 
   tok = ReadNextTokStr();
 
@@ -2857,7 +2800,6 @@ static char *ParseStructuredStip_leaf(char *tok,
 }
 
 static char *ParseStructuredStip_operand(char *tok,
-                                         branch_level level,
                                          slice_index proxy,
                                          boolean startLikeBranch);
 
@@ -2870,13 +2812,11 @@ static char *ParseStructuredStip_operand(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_d(char *tok,
-                                          branch_level level,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
                                           slice_index proxy)
 {
   TraceFunctionEntry(__func__);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%s",tok);
@@ -2887,19 +2827,15 @@ static char *ParseStructuredStip_branch_d(char *tok,
   {
     boolean const nextStartLikeBranch = max_length%2==0;
     slice_index const proxy_operand = alloc_proxy_slice();
-    tok = ParseStructuredStip_operand(tok,
-                                      nested_branch,
-                                      proxy_operand,
-                                      nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,proxy_operand,nextStartLikeBranch);
     if (tok!=0)
     {
       min_length += slack_length_direct+max_length%2;
       max_length += slack_length_direct;
       {
-        slice_index const branch = alloc_direct_branch(level,
-                                                       max_length,min_length,
+        slice_index const branch = alloc_direct_branch(max_length,min_length,
                                                        proxy_operand);
-        branch_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
 
         /* TODO get this right */
         if ((max_length-slack_length_direct)%2==0)
@@ -2932,14 +2868,12 @@ static char *ParseStructuredStip_branch_d(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_h(char *tok,
-                                          branch_level level,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
                                           slice_index proxy)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%u",proxy);
@@ -2948,10 +2882,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
   if (min_length==0 || min_length==max_length)
   {
     boolean const nextStartLikeBranch = max_length%2==0;
-    tok = ParseStructuredStip_operand(tok,
-                                      nested_branch,
-                                      proxy,
-                                      nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,proxy,nextStartLikeBranch);
     if (tok!=0)
     {
       if (min_length==0)
@@ -2960,10 +2891,9 @@ static char *ParseStructuredStip_branch_h(char *tok,
       min_length += slack_length_help;
       max_length += slack_length_help;
 
-      branch_link(proxy,
-                  alloc_help_branch(level,
-                                    max_length,min_length,
-                                    slices[proxy].u.pipe.next));
+      pipe_set_successor(proxy,
+                         alloc_help_branch(max_length,min_length,
+                                           slices[proxy].u.pipe.next));
     }
   }
   
@@ -2982,14 +2912,12 @@ static char *ParseStructuredStip_branch_h(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_ser(char *tok,
-                                            branch_level level,
                                             stip_length_type min_length,
                                             stip_length_type max_length,
                                             slice_index proxy)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%u",proxy);
@@ -2998,10 +2926,7 @@ static char *ParseStructuredStip_branch_ser(char *tok,
   if (min_length==0 || min_length==max_length)
   {
     boolean const nextStartLikeBranch = false;
-    tok = ParseStructuredStip_operand(tok,
-                                      nested_branch,
-                                      proxy,
-                                      nextStartLikeBranch);
+    tok = ParseStructuredStip_operand(tok,proxy,nextStartLikeBranch);
     if (tok!=0)
     {
       if (min_length==0)
@@ -3010,10 +2935,9 @@ static char *ParseStructuredStip_branch_ser(char *tok,
       min_length += slack_length_series;
       max_length += slack_length_series;
 
-      branch_link(proxy,
-                  alloc_series_branch_next_other_starter(level,
-                                                         max_length,min_length,
-                                                         slices[proxy].u.pipe.next));
+      pipe_set_successor(proxy,
+                         alloc_series_branch_next_other_starter(max_length,min_length,
+                                                                slices[proxy].u.pipe.next));
     }
   }
   
@@ -3078,7 +3002,6 @@ static char *ParseStructuredStip_branch_length(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch(char *tok,
-                                        branch_level level,
                                         slice_index proxy)
 {
   stip_length_type min_length;
@@ -3086,7 +3009,6 @@ static char *ParseStructuredStip_branch(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
@@ -3095,17 +3017,11 @@ static char *ParseStructuredStip_branch(char *tok,
   if (tok!=0)
   {
     if (strncmp(tok,"ser",3)==0)
-      tok = ParseStructuredStip_branch_ser(tok+3,level,
-                                           min_length,max_length,
-                                           proxy);
+      tok = ParseStructuredStip_branch_ser(tok+3,min_length,max_length,proxy);
     else if (tok[0]=='d')
-      tok = ParseStructuredStip_branch_d(tok+1,level,
-                                         min_length,max_length,
-                                         proxy);
+      tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,proxy);
     else if (tok[0]=='h')
-      tok = ParseStructuredStip_branch_h(tok+1,level,
-                                         min_length,max_length,
-                                         proxy);
+      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,proxy);
   }
   
   TraceFunctionExit(__func__);
@@ -3123,18 +3039,16 @@ static char *ParseStructuredStip_branch(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_not(char *tok,
-                                     branch_level level,
                                      slice_index proxy,
                                      boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
   
-  tok = ParseStructuredStip_operand(tok+1,level,proxy,startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,proxy,startLikeBranch);
 
   {
     slice_index const operand = slices[proxy].u.pipe.next;
@@ -3160,18 +3074,16 @@ static char *ParseStructuredStip_not(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_move_inversion(char *tok,
-                                                branch_level level,
                                                 slice_index proxy,
                                                 boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
   
-  tok = ParseStructuredStip_operand(tok+1,level,proxy,!startLikeBranch);
+  tok = ParseStructuredStip_operand(tok+1,proxy,!startLikeBranch);
 
   {
     slice_index const operand = slices[proxy].u.pipe.next;
@@ -3232,23 +3144,18 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_expression(char *tok,
-                                            branch_level level,
                                             slice_index proxy,
                                             boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
   {
     slice_index const operand1 = alloc_proxy_slice();
-    tok = ParseStructuredStip_operand(tok,
-                                      level,
-                                      operand1,
-                                      startLikeBranch);
+    tok = ParseStructuredStip_operand(tok,operand1,startLikeBranch);
     if (tok!=0 && slices[operand1].u.pipe.next!=no_slice)
     {
       SliceType operator_type;
@@ -3256,10 +3163,7 @@ static char *ParseStructuredStip_expression(char *tok,
       if (tok!=0 && operator_type!=no_slice_type)
       {
         slice_index const operand2 = alloc_proxy_slice();
-        tok = ParseStructuredStip_expression(tok,
-                                             level,
-                                             operand2,
-                                             startLikeBranch);
+        tok = ParseStructuredStip_expression(tok,operand2,startLikeBranch);
         if (tok!=0 && slices[operand2].u.pipe.next!=no_slice)
           switch (operator_type)
           {
@@ -3285,7 +3189,12 @@ static char *ParseStructuredStip_expression(char *tok,
           }
       }
       else
-        branch_link(proxy,slices[operand1].u.pipe.next);
+      {
+        if (slices[slices[operand1].u.pipe.next].prev==operand1)
+          branch_link(proxy,slices[operand1].u.pipe.next);
+        else
+          pipe_set_successor(proxy,slices[operand1].u.pipe.next);
+      }
     }
   }
   
@@ -3305,18 +3214,16 @@ static char *ParseStructuredStip_expression(char *tok,
  */
 static char *
 ParseStructuredStip_parenthesised_expression(char *tok,
-                                             branch_level level,
                                              slice_index proxy,
                                              boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_expression(tok+1,level,proxy,startLikeBranch);
+  tok = ParseStructuredStip_expression(tok+1,proxy,startLikeBranch);
 
   if (tok!=0)
   {
@@ -3344,13 +3251,11 @@ ParseStructuredStip_parenthesised_expression(char *tok,
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_operand(char *tok,
-                                         branch_level level,
                                          slice_index proxy,
                                          boolean startLikeBranch)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceEnumerator(branch_level,level,"");
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
@@ -3360,18 +3265,17 @@ static char *ParseStructuredStip_operand(char *tok,
 
   if (tok[0]=='(')
     tok = ParseStructuredStip_parenthesised_expression(tok,
-                                                       level,
                                                        proxy,
                                                        startLikeBranch);
   else if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
-    tok = ParseStructuredStip_not(tok,level,proxy,startLikeBranch);
+    tok = ParseStructuredStip_not(tok,proxy,startLikeBranch);
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
-    tok = ParseStructuredStip_move_inversion(tok,level,proxy,startLikeBranch);
+    tok = ParseStructuredStip_move_inversion(tok,proxy,startLikeBranch);
   else if (isdigit(tok[0]))
     /* e.g. 2dd# for a #2 */
-    tok = ParseStructuredStip_branch(tok,level,proxy);
+    tok = ParseStructuredStip_branch(tok,proxy);
   else
     /* e.g. d= for a =1 */
     tok = ParseStructuredStip_leaf(tok,proxy,startLikeBranch);
@@ -3405,7 +3309,7 @@ static char *ParseStructuredStip(slice_index proxy)
     strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
     tok = ReadNextTokStr();
-    tok = ParseStructuredStip_expression(tok,toplevel_branch,proxy,true);
+    tok = ParseStructuredStip_expression(tok,proxy,true);
     if (tok==0)
       tok = ReadNextTokStr();
     else if (root_slice!=no_slice)

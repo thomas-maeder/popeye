@@ -915,8 +915,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   pybraser.h pyleaf.h pyleafd.h pyleafh.h pyleaff.h pyrecipr.h pybrafrk.h \
   pynot.h pyhash.h DHT/dhtbcmem.h pyreflxg.h pyhelp.h pydirctg.h \
   pymovein.h pykeepmt.h pyselfcg.h pyselfgd.h pypipe.h \
-  stipulation/branch.h pystip.h pyslice.h stipulation/proxy.h pypipe.h \
-  trace.h
+  stipulation/operators/binary.h pystip.h stipulation/branch.h pyslice.h \
+  stipulation/proxy.h pypipe.h trace.h
 
 pystip.h:
 
@@ -994,9 +994,11 @@ pyselfgd.h:
 
 pypipe.h:
 
-stipulation/branch.h:
+stipulation/operators/binary.h:
 
 pystip.h:
+
+stipulation/branch.h:
 
 pyslice.h:
 
@@ -1301,7 +1303,7 @@ py4.h:
 trace.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pytable.h \
-  pyseries.h trace.h
+  pyseries.h stipulation/proxy.h pypipe.h trace.h
 
 pypipe.h:
 
@@ -1330,6 +1332,10 @@ pyslice.h:
 pytable.h:
 
 pyseries.h:
+
+stipulation/proxy.h:
+
+pypipe.h:
 
 trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h pydirect.h py.h boolean.h pyposit.h \
@@ -1867,7 +1873,8 @@ pyoutput.h:
 trace.h:
 pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h pygoal.h \
-  pytable.h pypipe.h pyproc.h py4.h pyoutput.h pyintslv.h trace.h
+  pytable.h pypipe.h pyproc.h py4.h pyoutput.h pyintslv.h \
+  stipulation/branch.h pystip.h pyslice.h trace.h
 
 pyquodli.h:
 
@@ -1905,10 +1912,17 @@ pyoutput.h:
 
 pyintslv.h:
 
+stipulation/branch.h:
+
+pystip.h:
+
+pyslice.h:
+
 trace.h:
 pyrecipr$(OBJ_SUFFIX): pyrecipr.c pyrecipr.h boolean.h py.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h pygoal.h \
-  pytable.h pypipe.h pyproc.h py4.h trace.h
+  pytable.h pypipe.h pyproc.h py4.h stipulation/branch.h pystip.h \
+  pyslice.h trace.h
 
 pyrecipr.h:
 
@@ -1941,6 +1955,12 @@ pypipe.h:
 pyproc.h:
 
 py4.h:
+
+stipulation/branch.h:
+
+pystip.h:
+
+pyslice.h:
 
 trace.h:
 pynot$(OBJ_SUFFIX): pynot.c pynot.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \

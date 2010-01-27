@@ -5,6 +5,7 @@
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
+#include "pypipe.h"
 #include "pyoutput.h"
 #include "pydata.h"
 #include "stipulation/branch.h"
@@ -46,9 +47,136 @@ static slice_index alloc_reflex_guard(stip_length_type length,
   return result;
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean reflex_guard_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(slices[si].u.pipe.next,st);
+
+  {
+    slice_index const next = slices[si].u.pipe.next;
+
+    slice_index const guard = copy_slice(si);
+    branch_link(guard,*root);
+    *root = guard;
+
+    /* TODO do better once STReflexGuard has been split up */
+    slices[si].u.pipe.u.branch.length = slices[next].u.pipe.u.branch.length;
+    slices[si].u.pipe.u.branch.min_length = slices[next].u.pipe.u.branch.min_length;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean reflex_guard_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_resolve_proxies(si,st);
+  proxy_slice_resolve(&slices[si].u.pipe.u.reflex_guard.avoided);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 
 /* **************** Implementation of interface Direct ***************
  */
+
+/* Allocate a STReflexAttackerFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @param proxy_to_avoided prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+static slice_index alloc_reflex_attacker_filter(stip_length_type length,
+                                                stip_length_type min_length,
+                                                slice_index proxy_to_avoided)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParamListEnd();
+
+  /* ab(use) the fact that .avoided and .towards_goal are collocated */
+  result = alloc_branch(STReflexAttackerFilter,
+                        length,min_length,
+                        proxy_to_avoided);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type length = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(next,st);
+
+  if (length-slack_length_direct==1)
+  {
+    branch_link(si,*root);
+    *root = si;
+  }
+  else
+  {
+    slice_index const guard = copy_slice(si);
+    branch_link(guard,*root);
+    *root = guard;
+
+    slices[si].u.pipe.u.branch.length -= 2;
+    if (slices[si].u.pipe.u.branch.min_length-slack_length_direct>2)
+      slices[si].u.pipe.u.branch.min_length -= 2;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -63,9 +191,9 @@ static slice_index alloc_reflex_guard(stip_length_type length,
  *         goal (in which case n_min<slack_length_direct and we return
  *         n_min)
  */
-stip_length_type reflex_guard_direct_has_solution_in_n(slice_index si,
-                                                       stip_length_type n,
-                                                       stip_length_type n_min)
+stip_length_type reflex_attacker_filter_has_solution_in_n(slice_index si,
+                                                          stip_length_type n,
+                                                          stip_length_type n_min)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -109,9 +237,10 @@ stip_length_type reflex_guard_direct_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  */
-void reflex_guard_direct_solve_continuations_in_n(slice_index si,
-                                                  stip_length_type n,
-                                                  stip_length_type n_min)
+void
+reflex_attacker_filter_direct_solve_continuations_in_n(slice_index si,
+                                                       stip_length_type n,
+                                                       stip_length_type n_min)
 {
   slice_index const next = slices[si].u.pipe.next;
 
@@ -138,10 +267,11 @@ void reflex_guard_direct_solve_continuations_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
-                                                        slice_index si,
-                                                        stip_length_type n,
-                                                        stip_length_type n_min)
+stip_length_type
+reflex_attacker_filter_direct_solve_threats_in_n(table threats,
+                                                 slice_index si,
+                                                 stip_length_type n,
+                                                 stip_length_type n_min)
 {
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
   stip_length_type result;
@@ -189,10 +319,11 @@ stip_length_type reflex_guard_direct_solve_threats_in_n(table threats,
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean reflex_guard_are_threats_refuted_in_n(table threats,
-                                              stip_length_type len_threat,
-                                              slice_index si,
-                                              stip_length_type n)
+boolean
+reflex_attacker_filter_are_threats_refuted_in_n(table threats,
+                                                stip_length_type len_threat,
+                                                slice_index si,
+                                                stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -216,11 +347,83 @@ boolean reflex_guard_are_threats_refuted_in_n(table threats,
 /* **************** Implementation of interface DirectDefender **********
  */
 
+/* Allocate a STReflexDefenderFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @param proxy_to_avoided prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+static slice_index alloc_reflex_defender_filter(stip_length_type length,
+                                                stip_length_type min_length,
+                                                slice_index proxy_to_avoided)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParamListEnd();
+
+  /* ab(use) the fact that .avoided and .towards_goal are collocated */
+  result = alloc_branch(STReflexDefenderFilter,
+                        length,min_length,
+                        proxy_to_avoided);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean reflex_defender_filter_insert_root(slice_index si,
+                                           slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index * const root = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type length = slices[si].u.pipe.u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  traverse_slices(next,st);
+
+  if (length-slack_length_direct==0)
+  {
+    branch_link(si,*root);
+    *root = si;
+  }
+  else
+  {
+    slice_index const guard = copy_slice(si);
+    branch_link(guard,*root);
+    *root = guard;
+
+    slices[si].u.pipe.u.branch.length -= 2;
+    if (slices[si].u.pipe.u.branch.min_length-slack_length_direct>=2)
+      slices[si].u.pipe.u.branch.min_length -= 2;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @return true iff the defending side can successfully defend
  */
-boolean reflex_guard_root_defend(slice_index si)
+boolean reflex_defender_filter_root_defend(slice_index si)
 {
   boolean result;
 
@@ -252,7 +455,7 @@ boolean reflex_guard_root_defend(slice_index si)
  * @param n maximum number of half moves until end state has to be reached
  * @return true iff the defender can defend
  */
-boolean reflex_guard_defend_in_n(slice_index si, stip_length_type n)
+boolean reflex_defender_filter_defend_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -281,9 +484,9 @@ boolean reflex_guard_defend_in_n(slice_index si, stip_length_type n)
  * @param max_result how many refutations should we look for
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int reflex_guard_can_defend_in_n(slice_index si,
-                                          stip_length_type n,
-                                          unsigned int max_result)
+unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
+                                                    stip_length_type n,
+                                                    unsigned int max_result)
 {
   unsigned int result = max_result+1;
   slice_index const next = slices[si].u.pipe.next;
@@ -566,6 +769,57 @@ boolean reflex_guard_root_solve(slice_index si)
 
 /* Solve a slice at root level
  * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_attacker_filter_root_solve(slice_index si)
+{
+  boolean result;
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (solve_avoided(avoided))
+    result = false;
+  else
+    result = slice_root_solve(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_defender_filter_root_solve(slice_index si)
+{
+  boolean result;
+  slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
+  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (solve_avoided(avoided) || length==slack_length_direct)
+    result = false;
+  else
+    result = slice_root_solve(next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice
+ * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
@@ -573,9 +827,9 @@ boolean reflex_guard_root_solve(slice_index si)
  *         (n-slack_length_direct)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
-stip_length_type reflex_guard_solve_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_min)
+stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
+                                                   stip_length_type n,
+                                                   stip_length_type n_min)
 {
   stip_length_type result;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -618,8 +872,8 @@ stip_length_type reflex_guard_solve_in_n(slice_index si,
  * @param st state of traversal
  * @return true iff this slice has been sucessfully traversed
  */
-boolean reflex_guard_root_make_setplay_slice(slice_index si,
-                                             struct slice_traversal *st)
+boolean reflex_attacker_filter_make_setplay_slice(slice_index si,
+                                                  struct slice_traversal *st)
 {
   boolean const result = true;
   setplay_slice_production * const prod = st->param;
@@ -628,33 +882,46 @@ boolean reflex_guard_root_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* TODO remove this check once STReflexGuard has been split up */
-  if ((slices[si].u.pipe.u.branch.length-slack_length_direct)%2==0)
-  {
-    /* root_defender_filter */
-    if (prod->sibling==no_slice)
-    {
-      /* semi-reflex stipulation */
-      prod->sibling = slices[si].prev;
-      assert(slices[prod->sibling].type==STDirectRoot);
-    }
+  prod->sibling = si;
+  traverse_slices(slices[si].u.pipe.next,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
-    if (slices[si].u.pipe.u.branch.length==slack_length_direct)
-    {
-      slice_index const proxy_to_avoided
-          = slices[si].u.pipe.u.reflex_guard.avoided;
-      assert(slices[proxy_to_avoided].type==STProxy);
-      prod->setplay_slice = slices[proxy_to_avoided].u.pipe.next;
-    }
-    else
-      traverse_slices(slices[si].u.pipe.next,st);
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean reflex_defender_filter_make_setplay_slice(slice_index si,
+                                                  struct slice_traversal *st)
+{
+  boolean const result = true;
+  setplay_slice_production * const prod = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (prod->sibling==no_slice)
+  {
+    /* semi-reflex stipulation */
+    prod->sibling = slices[si].prev;
+    assert(slices[prod->sibling].type==STDirectRoot);
+  }
+
+  if (slices[si].u.pipe.u.branch.length==slack_length_direct)
+  {
+    slice_index const proxy_to_avoided
+        = slices[si].u.pipe.u.reflex_guard.avoided;
+    assert(slices[proxy_to_avoided].type==STProxy);
+    prod->setplay_slice = slices[proxy_to_avoided].u.pipe.next;
   }
   else
-  {
-    /* root_attacker_filter */
-    prod->sibling = si;
     traverse_slices(slices[si].u.pipe.next,st);
-  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -668,10 +935,46 @@ boolean reflex_guard_root_make_setplay_slice(slice_index si,
  * @param st address of structure capturing traversal state
  * @return true iff slice has been successfully traversed
  */
-boolean reflex_guard_root_reduce_to_postkey_play(slice_index si,
-                                                 struct slice_traversal *st)
+boolean reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
+                                                      struct slice_traversal *st)
 {
   boolean result;
+  slice_index *postkey_slice = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = traverse_slices(next,st);
+
+  if (*postkey_slice!=no_slice)
+  {
+    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    if (length==slack_length_direct+1)
+    {
+      slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+      dealloc_slice(branch_deallocate_to_fork(avoided));
+    }
+    dealloc_slice(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ * @return true iff slice has been successfully traversed
+ */
+boolean reflex_defender_filter_reduce_to_postkey_play(slice_index si,
+                                                      struct slice_traversal *st)
+{
+  boolean const result = true;
   slice_index *postkey_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
@@ -685,23 +988,9 @@ boolean reflex_guard_root_reduce_to_postkey_play(slice_index si,
     assert(avoided!=no_slice);
     *postkey_slice = avoided;
     dealloc_slice(si);
-    result = true;
   }
   else
-  {
-    result = traverse_slices(next,st);
-
-    if (*postkey_slice!=no_slice)
-    {
-      slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
-
-      if ((length-slack_length_direct)%2==1
-          && length<=slack_length_direct+2)
-        dealloc_slice(branch_deallocate_to_fork(avoided));
-
-      dealloc_slice(si);
-    }
-  }
+    *postkey_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -753,14 +1042,14 @@ static void insert_guard_before_branch(slice_index branch,
   stip_length_type const length = slices[branch].u.pipe.u.branch.length;
   stip_length_type const min_length = slices[branch].u.pipe.u.branch.min_length;
   slice_index const prev = slices[branch].prev;
-  slice_index const guard = alloc_reflex_guard(length,min_length,
-                                               proxy_to_avoided);
+  slice_index guard;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",branch);
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
+  guard = alloc_reflex_guard(length,min_length,proxy_to_avoided);
   branch_link(prev,guard);
   branch_link(guard,branch);
 
@@ -798,6 +1087,97 @@ static boolean reflex_guards_inserter_branch(slice_index si,
   }
 
   insert_guard_before_branch(si,proxy_to_avoided);
+  slice_traverse_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* In alternate play, insert a STReflexGuard slice before a slice
+ * where the reflex stipulation might force the side at the move to
+ * reach the goal
+ */
+static boolean reflex_guards_inserter_attack(slice_index si,
+                                             slice_traversal *st)
+{
+  boolean const result = true;
+  init_param const * const param = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (next==no_slice)
+  {
+    /* end of "chain" (i.e. stipulation too short for closed loop) -
+     * append an STReflexGuard slice that switches to the next branch
+     */
+    slice_index const proxy_to_avoided = param->to_be_avoided[0];
+    slice_index const guard = alloc_reflex_defender_filter(length-1,
+                                                           min_length-1,
+                                                           proxy_to_avoided);
+    branch_link(si,guard);
+  }
+
+  {
+    slice_index const proxy_to_avoided = param->to_be_avoided[length%2];
+    slice_index const prev = slices[si].prev;
+    slice_index const guard = alloc_reflex_attacker_filter(length,min_length,
+                                                           proxy_to_avoided);
+    branch_link(prev,guard);
+    branch_link(guard,si);
+    slice_traverse_children(si,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* In alternate play, insert a STReflexGuard slice before a slice
+ * where the reflex stipulation might force the side at the move to
+ * reach the goal
+ */
+static boolean reflex_guards_inserter_defense(slice_index si,
+                                              slice_traversal *st)
+{
+  boolean const result = true;
+  init_param const * const param = st->param;
+  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (next==no_slice)
+  {
+    /* end of "chain" (i.e. stipulation too short for closed loop) -
+     * append an STReflexGuard slice that switches to the next branch
+     */
+    slice_index const proxy_to_avoided = param->to_be_avoided[0];
+    slice_index const guard = alloc_reflex_attacker_filter(length-1,
+                                                           min_length-1,
+                                                           proxy_to_avoided);
+    branch_link(si,guard);
+  }
+
+  {
+    slice_index const proxy_to_avoided = param->to_be_avoided[length%2];
+    slice_index const prev = slices[si].prev;
+    slice_index const dguard = alloc_reflex_defender_filter(length,min_length,
+                                                            proxy_to_avoided);
+    branch_link(prev,dguard);
+    branch_link(dguard,si);
+  }
+
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
@@ -855,8 +1235,8 @@ static boolean reflex_guards_inserter_branch_fork(slice_index si,
 static slice_operation const reflex_guards_inserters[] =
 {
   &slice_traverse_children,            /* STProxy */
-  &reflex_guards_inserter_branch,      /* STBranchDirect */
-  &reflex_guards_inserter_branch,      /* STBranchDirectDefender */
+  &reflex_guards_inserter_attack,      /* STBranchDirect */
+  &reflex_guards_inserter_defense,     /* STBranchDirectDefender */
   &reflex_guards_inserter_branch,      /* STBranchHelp */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &reflex_guards_inserter_series,      /* STBranchSeries */
@@ -868,17 +1248,19 @@ static slice_operation const reflex_guards_inserters[] =
   &slice_traverse_children,            /* STQuodlibet */
   &slice_traverse_children,            /* STNot */
   &slice_traverse_children,            /* STMoveInverter */
-  &reflex_guards_inserter_branch,      /* STDirectRoot */
-  &reflex_guards_inserter_branch,      /* STDirectDefenderRoot */
+  0,                                   /* STDirectRoot */
+  0,                                   /* STDirectDefenderRoot */
   0,                                   /* STDirectHashed */
-  &slice_traverse_children,            /* STHelpRoot */
+  0,                                   /* STHelpRoot */
   0,                                   /* STHelpHashed */
-  &slice_traverse_children,            /* STSeriesRoot */
+  0,                                   /* STSeriesRoot */
   0,                                   /* STParryFork */
   0,                                   /* STSeriesHashed */
   0,                                   /* STSelfCheckGuard */
   0,                                   /* STDirectDefense */
   &slice_traverse_children,            /* STReflexGuard */
+  &slice_traverse_children,            /* STReflexAttackerFilter */
+  &slice_traverse_children,            /* STReflexDefenderFilter */
   0,                                   /* STSelfAttack */
   0,                                   /* STSelfDefense */
   0,                                   /* STRestartGuard */
@@ -953,8 +1335,8 @@ static boolean reflex_guards_inserter_defense_semi(slice_index si,
     stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
     slice_index const prev = slices[si].prev;
     slice_index const proxy_to_avoided = param->to_be_avoided[length%2];
-    slice_index const guard = alloc_reflex_guard(length,min_length,
-                                                 proxy_to_avoided);
+    slice_index const guard = alloc_reflex_defender_filter(length,min_length,
+                                                           proxy_to_avoided);
     branch_link(prev,guard);
     branch_link(guard,si);
   }
@@ -989,8 +1371,9 @@ static boolean reflex_guards_inserter_attack_semi(slice_index si,
      */
     stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
     slice_index const proxy_to_avoided = param->to_be_avoided[1-length%2];
-    slice_index const guard = alloc_reflex_guard(length-1,min_length-1,
-                                                 proxy_to_avoided);
+    slice_index const guard = alloc_reflex_defender_filter(length-1,
+                                                           min_length-1,
+                                                           proxy_to_avoided);
     branch_link(si,guard);
   }
 
@@ -1027,6 +1410,8 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STSelfCheckGuard */
   0,                                    /* STDirectDefense */
   0,                                    /* STReflexGuard */
+  0,                                    /* STReflexAttackerFilter */
+  0,                                    /* STReflexDefenderFilter */
   0,                                    /* STSelfAttack */
   0,                                    /* STSelfDefense */
   0,                                    /* STRestartGuard */
