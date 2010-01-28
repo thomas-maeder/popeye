@@ -2026,8 +2026,8 @@ void insert_directhashed_slice(slice_index si)
                                                          slack_length_direct+1,
                                                          no_slice);
       slice_index const prev = slices[si].prev;
-      branch_link(hash,si);
-      branch_link(prev,hash);
+      pipe_link(hash,si);
+      pipe_link(prev,hash);
       break;
     }
 
@@ -2040,8 +2040,8 @@ void insert_directhashed_slice(slice_index si)
                                                          min_length,
                                                          to_goal);
       slice_index const prev = slices[si].prev;
-      branch_link(hash,si);
-      branch_link(prev,hash);
+      pipe_link(hash,si);
+      pipe_link(prev,hash);
       break;
     }
 
@@ -2100,8 +2100,8 @@ void insert_helphashed_slice(slice_index si)
                                                        slack_length_help+1,
                                                        no_slice);
       slice_index const prev = slices[si].prev;
-      branch_link(hash,si);
-      branch_link(prev,hash);
+      pipe_link(hash,si);
+      pipe_link(prev,hash);
       break;
     }
 
@@ -2114,8 +2114,8 @@ void insert_helphashed_slice(slice_index si)
                                                        min_length,
                                                        to_goal);
       slice_index const prev = slices[si].prev;
-      branch_link(hash,si);
-      branch_link(prev,hash);
+      pipe_link(hash,si);
+      pipe_link(prev,hash);
       break;
     }
 
@@ -2149,8 +2149,8 @@ void insert_serieshashed_slice(slice_index si)
                                           length,min_length,
                                           proxy_to_goal);
     slice_index const prev = slices[si].prev;
-    branch_link(hash,si);
-    branch_link(prev,hash);
+    pipe_link(hash,si);
+    pipe_link(prev,hash);
   }
 
   TraceFunctionExit(__func__);

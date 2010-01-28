@@ -21,6 +21,12 @@ slice_index alloc_pipe(SliceType type);
  */
 void pipe_set_successor(slice_index pipe, slice_index succ);
 
+/* Establish a link between a branch slice and its successor
+ * @param branch identifies branch slice
+ * @param succ identifies branch to become the successor
+ */
+void pipe_link(slice_index branch, slice_index succ);
+
 /* Detect starter field with the starting side if possible.
  * @param pipe identifies slice being traversed
  * @param st status of traversal

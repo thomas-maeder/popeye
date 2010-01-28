@@ -60,6 +60,24 @@ void pipe_set_successor(slice_index pipe, slice_index succ)
   TraceFunctionResultEnd();
 }
 
+/* Establish a link between a branch slice and its successor
+ * @param branch identifies branch slice
+ * @param succ identifies branch to become the successor
+ */
+void pipe_link(slice_index branch, slice_index succ)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParam("%u",succ);
+  TraceFunctionParamListEnd();
+
+  pipe_set_successor(branch,succ);
+  slice_set_predecessor(succ,branch);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Detect starter field with the starting side if possible.
  * @param pipe identifies slice being traversed
  * @param st status of traversal

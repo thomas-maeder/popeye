@@ -6,7 +6,6 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -548,8 +547,8 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
     /* we are part of a loop
      */
     slice_index const guard = alloc_selfcheck_guard_slice();
-    branch_link(guard,next);
-    branch_link(si,guard);
+    pipe_link(guard,next);
+    pipe_link(si,guard);
     slice_traverse_children(guard,st);
   }
   else
@@ -570,7 +569,7 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
         /* Create a STSelfCheckGuard slice of our own
          */
         slice_index const guard = alloc_selfcheck_guard_slice();
-        branch_link(si,guard);
+        pipe_link(si,guard);
         pipe_set_successor(guard,next);
       }
     }
@@ -625,8 +624,8 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
 
   {
     slice_index const guard = alloc_selfcheck_guard_slice();
-    branch_link(guard,slices[si].u.pipe.next);
-    branch_link(si,guard);
+    pipe_link(guard,slices[si].u.pipe.next);
+    pipe_link(si,guard);
   }
 
   slice_traverse_children(slices[si].u.pipe.next,st);
@@ -726,8 +725,8 @@ static boolean selfcheck_guards_inserter_toplevel_leaf(slice_index si,
   {
     slice_index const prev = slices[si].prev;
     slice_index const guard = alloc_selfcheck_guard_slice();
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
   }
 
   TraceFunctionExit(__func__);
@@ -750,8 +749,8 @@ static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
   {
     slice_index const prev = slices[si].prev;
     slice_index const guard = alloc_selfcheck_guard_slice();
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
   }
 
   TraceFunctionExit(__func__);

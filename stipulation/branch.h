@@ -22,12 +22,6 @@ slice_index alloc_branch(SliceType type,
                          stip_length_type min_length,
                          slice_index proxy_to_goal);
 
-/* Establish a link between a branch slice and its successor
- * @param branch identifies branch slice
- * @param succ identifies branch to become the successor
- */
-void branch_link(slice_index branch, slice_index succ);
-
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal

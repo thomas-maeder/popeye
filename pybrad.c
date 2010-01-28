@@ -99,7 +99,7 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st)
   traverse_slices(slices[si].u.pipe.next,st);
 
   direct_root = alloc_direct_root_branch(length,min_length,to_goal);
-  branch_link(direct_root,*root);
+  pipe_link(direct_root,*root);
   *root = direct_root;
 
   if (length<=slack_length_direct+2)
@@ -142,7 +142,7 @@ slice_index alloc_direct_branch(stip_length_type length,
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 
@@ -150,15 +150,15 @@ slice_index alloc_direct_branch(stip_length_type length,
 
   {
     slice_index const branch = alloc_branch_d_slice(length,min_length,to_goal);
-    branch_link(result,branch);
+    pipe_link(result,branch);
 
     if (length-slack_length_direct>1)
     {
       slice_index const def = alloc_branch_d_defender_slice(length-1,
                                                             min_length-1,
                                                             to_goal);
-      branch_link(branch,def);
-      branch_link(def,result);
+      pipe_link(branch,def);
+      pipe_link(def,result);
     }
   }
 

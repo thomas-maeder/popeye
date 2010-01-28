@@ -548,7 +548,7 @@ void stip_insert_root_slices(void)
   slice_traversal_init(&st,&root_slice_inserters,&result);
   traverse_slices(root_slice,&st);
 
-  branch_link(root_slice,result);
+  pipe_link(root_slice,result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -993,7 +993,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
         slice_index const next = slices[si].u.pipe.next;
         slice_index const next_copy = deep_copy_recursive(next,copies);
         slices[result].u.pipe.u.branch.towards_goal = to_goal_copy;
-        branch_link(result,next_copy);
+        pipe_link(result,next_copy);
         break;
       }
 
@@ -1008,7 +1008,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
                                                                 copies);
         slices[result].u.pipe.u.help_root.towards_goal = to_goal_copy;
         slices[result].u.pipe.u.help_root.short_sols = short_sols_copy;
-        branch_link(result,next_copy);
+        pipe_link(result,next_copy);
         break;
       }
 
@@ -1028,7 +1028,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       {
         slice_index const next = slices[si].u.pipe.next;
         slice_index const next_copy = deep_copy_recursive(next,copies);
-        branch_link(result,next_copy);
+        pipe_link(result,next_copy);
         break;
       }
 
@@ -1176,8 +1176,8 @@ static void insert_direct_defense_after(slice_index pos,
     stip_length_type const length = slices[pos].u.pipe.u.branch.length;
     stip_length_type const min_length = slices[pos].u.pipe.u.branch.min_length;
     slice_index dirdef = alloc_direct_defense(length,min_length,proxy_to_goal);
-    branch_link(dirdef,slices[pos].u.pipe.next);
-    branch_link(pos,dirdef);
+    pipe_link(dirdef,slices[pos].u.pipe.next);
+    pipe_link(pos,dirdef);
   }
 
   TraceFunctionExit(__func__);
@@ -1365,9 +1365,9 @@ static slice_operation const to_postkey_play_reducers[] =
 static void install_postkey_slice(slice_index postkey_slice)
 {
   slice_index const inverter = alloc_move_inverter_slice();
-  branch_link(inverter,postkey_slice);
+  pipe_link(inverter,postkey_slice);
   assert(slices[root_slice].type==STProxy);
-  branch_link(root_slice,inverter);
+  pipe_link(root_slice,inverter);
 }
 
 /* Attempt to apply the postkey play option to the current stipulation
@@ -1469,15 +1469,15 @@ static void combine_set_play(slice_index setplay_slice, slice_index sibling)
 
   mi = alloc_move_inverter_slice();
   if (slices[setplay_slice].prev==no_slice)
-    branch_link(mi,setplay_slice);
+    pipe_link(mi,setplay_slice);
   else
     pipe_set_successor(mi,setplay_slice);
 
   op1 = alloc_proxy_slice();
-  branch_link(op1,mi);
+  pipe_link(op1,mi);
 
   op2 = alloc_proxy_slice();
-  branch_link(op2,slices[hook].u.pipe.next);
+  pipe_link(op2,slices[hook].u.pipe.next);
 
   pipe_set_successor(hook,alloc_quodlibet_slice(op1,op2));
 

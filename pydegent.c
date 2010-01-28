@@ -3,7 +3,6 @@
 #include "pypipe.h"
 #include "pydirect.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -218,8 +217,8 @@ static boolean degenerate_tree_inserter_branch_direct(slice_index si,
   {
     slice_index const prev = slices[si].prev;
     slice_index const guard = alloc_degenerate_tree_guard_slice();
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
     slice_traverse_children(si,st);
   }
 

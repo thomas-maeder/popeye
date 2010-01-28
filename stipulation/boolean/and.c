@@ -2,7 +2,6 @@
 #include "pyslice.h"
 #include "pypipe.h"
 #include "pyproc.h"
-#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -55,10 +54,10 @@ boolean reci_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   traverse_slices(slices[op1].u.pipe.next,st);
-  branch_link(op1,*root);
+  pipe_link(op1,*root);
 
   traverse_slices(slices[op2].u.pipe.next,st);
-  branch_link(op2,*root);
+  pipe_link(op2,*root);
   
   *root = si;
 

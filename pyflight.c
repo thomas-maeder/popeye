@@ -234,8 +234,8 @@ static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
     slice_index const prev = slices[si].prev;
     stip_length_type const length = slices[si].u.pipe.u.branch.length;
     slice_index const guard = alloc_maxflight_guard_slice(length);
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
     slice_traverse_children(si,st);
   }
 

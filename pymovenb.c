@@ -3,7 +3,6 @@
 #include "pydirect.h"
 #include "pyhelp.h"
 #include "pyseries.h"
-#include "stipulation/branch.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
@@ -191,11 +190,11 @@ static boolean restart_guards_inserter_root(slice_index si,
   guard = alloc_restart_guard();
 
   if (slices[next].prev==si)
-    branch_link(guard,next);
+    pipe_link(guard,next);
   else
     pipe_set_successor(guard,next);
 
-  branch_link(si,guard);
+  pipe_link(si,guard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -272,8 +272,8 @@ static boolean maxthreatlength_guard_inserter(slice_index si,slice_traversal *st
     stip_length_type const
         length = slices[si].u.pipe.u.maxthreatlength_guard.length;
     slice_index const guard = alloc_maxthreatlength_guard(length,to_attacker);
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
 
   }
 

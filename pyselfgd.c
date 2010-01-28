@@ -89,7 +89,7 @@ boolean self_defense_insert_root(slice_index si, slice_traversal *st)
     slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
     slice_index const self_defense = alloc_self_defense(length,min_length,
                                                         to_goal);
-    branch_link(self_defense,*root);
+    pipe_link(self_defense,*root);
     *root = self_defense;
 
     slices[si].u.pipe.u.branch.length -= 2;
@@ -128,7 +128,7 @@ boolean self_attack_insert_root(slice_index si, slice_traversal *st)
     slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
     slice_index const self_attack = alloc_self_attack(length,min_length,to_goal);
 
-    branch_link(self_attack,*root);
+    pipe_link(self_attack,*root);
     *root = self_attack;
 
     slices[si].u.pipe.u.branch.length -= 2;
@@ -409,7 +409,7 @@ boolean self_attack_root_make_setplay_slice(slice_index si,
   {
     slice_index const copy = copy_slice(si);
     traverse_slices(slices[si].u.pipe.next,st);
-    branch_link(copy,prod->setplay_slice);
+    pipe_link(copy,prod->setplay_slice);
     prod->setplay_slice = copy;
   }
 
@@ -594,8 +594,8 @@ static void insert_self_defense_after_defender(slice_index si,
     stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
     slice_index const self_defense = alloc_self_defense(length-1,min_length-1,
                                                         proxy_to_goal);
-    branch_link(self_defense,slices[si].u.pipe.next);
-    branch_link(si,self_defense);
+    pipe_link(self_defense,slices[si].u.pipe.next);
+    pipe_link(si,self_defense);
   }
 
   TraceFunctionExit(__func__);
@@ -692,8 +692,8 @@ static boolean self_guards_inserter_branch_direct(slice_index si,
   TraceFunctionParamListEnd();
 
   self_attack = alloc_self_attack(length-1,min_length-1,*proxy_to_goal);
-  branch_link(self_attack,slices[si].u.pipe.next);
-  branch_link(si,self_attack);
+  pipe_link(self_attack,slices[si].u.pipe.next);
+  pipe_link(si,self_attack);
   slice_traverse_children(self_attack,st);
 
   TraceFunctionExit(__func__);
@@ -761,7 +761,7 @@ void slice_insert_self_guards(slice_index si, slice_index to_goal)
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 

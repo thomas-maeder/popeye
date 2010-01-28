@@ -95,13 +95,13 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
 
   if (length-slack_length_direct==1)
   {
-    branch_link(si,*root);
+    pipe_link(si,*root);
     *root = si;
   }
   else
   {
     slice_index const guard = copy_slice(si);
-    branch_link(guard,*root);
+    pipe_link(guard,*root);
     *root = guard;
 
     slices[si].u.pipe.u.branch.length -= 2;
@@ -495,13 +495,13 @@ boolean reflex_defender_filter_insert_root(slice_index si,
 
   if (length-slack_length_direct==0)
   {
-    branch_link(si,*root);
+    pipe_link(si,*root);
     *root = si;
   }
   else
   {
     slice_index const guard = copy_slice(si);
-    branch_link(guard,*root);
+    pipe_link(guard,*root);
     *root = guard;
 
     slices[si].u.pipe.u.branch.length -= 2;
@@ -773,7 +773,7 @@ boolean reflex_help_filter_insert_root(slice_index si, slice_traversal *st)
 
   {
     slice_index const guard = copy_slice(si);
-    branch_link(guard,*root);
+    pipe_link(guard,*root);
     *root = guard;
   }
 
@@ -955,7 +955,7 @@ boolean reflex_series_filter_insert_root(slice_index si, slice_traversal *st)
 
   {
     slice_index const guard = copy_slice(si);
-    branch_link(guard,*root);
+    pipe_link(guard,*root);
     *root = guard;
 
     --slices[si].u.pipe.u.branch.length;
@@ -1149,15 +1149,15 @@ static boolean reflex_guards_inserter_help(slice_index si,
     slice_index const proxy_to_avoided = param->to_be_avoided[0];
     slice_index const guard = alloc_reflex_help_filter(length-1,min_length-1,
                                                        proxy_to_avoided);
-    branch_link(si,guard);
+    pipe_link(si,guard);
   }
 
   {
     slice_index const prev = slices[si].prev;
     slice_index const guard = alloc_reflex_help_filter(length,min_length,
                                                        proxy_to_avoided);
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
   }
 
   TraceFunctionExit(__func__);
@@ -1194,7 +1194,7 @@ static boolean reflex_guards_inserter_attack(slice_index si,
     slice_index const guard = alloc_reflex_defender_filter(length-1,
                                                            min_length-1,
                                                            proxy_to_avoided);
-    branch_link(si,guard);
+    pipe_link(si,guard);
   }
 
   {
@@ -1202,8 +1202,8 @@ static boolean reflex_guards_inserter_attack(slice_index si,
     slice_index const prev = slices[si].prev;
     slice_index const guard = alloc_reflex_attacker_filter(length,min_length,
                                                            proxy_to_avoided);
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
   }
 
   TraceFunctionExit(__func__);
@@ -1240,7 +1240,7 @@ static boolean reflex_guards_inserter_defense(slice_index si,
     slice_index const guard = alloc_reflex_attacker_filter(length-1,
                                                            min_length-1,
                                                            proxy_to_avoided);
-    branch_link(si,guard);
+    pipe_link(si,guard);
   }
 
   {
@@ -1248,8 +1248,8 @@ static boolean reflex_guards_inserter_defense(slice_index si,
     slice_index const prev = slices[si].prev;
     slice_index const dguard = alloc_reflex_defender_filter(length,min_length,
                                                             proxy_to_avoided);
-    branch_link(prev,dguard);
-    branch_link(dguard,si);
+    pipe_link(prev,dguard);
+    pipe_link(dguard,si);
   }
 
   TraceFunctionExit(__func__);
@@ -1280,8 +1280,8 @@ static boolean reflex_guards_inserter_series(slice_index si,
   slice_traverse_children(si,st);
 
   guard = alloc_reflex_series_filter(length,min_length,proxy_to_avoided);
-  branch_link(prev,guard);
-  branch_link(guard,si);
+  pipe_link(prev,guard);
+  pipe_link(guard,si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1372,7 +1372,7 @@ void slice_insert_reflex_filters(slice_index si, slice_index avoided)
   if (slices[avoided].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,avoided);
+    pipe_link(proxy,avoided);
     avoided = proxy;
   }
 
@@ -1384,7 +1384,7 @@ void slice_insert_reflex_filters(slice_index si, slice_index avoided)
 
     param.to_be_avoided[0] = avoided;
     param.to_be_avoided[1] = alloc_proxy_slice();
-    branch_link(param.to_be_avoided[1],direct_avoided);
+    pipe_link(param.to_be_avoided[1],direct_avoided);
 
     slice_traversal_init(&st,&reflex_guards_inserters,&param);
     traverse_slices(si,&st);
@@ -1418,8 +1418,8 @@ static boolean reflex_guards_inserter_defense_semi(slice_index si,
     slice_index const proxy_to_avoided = param->to_be_avoided[length%2];
     slice_index const guard = alloc_reflex_defender_filter(length,min_length,
                                                            proxy_to_avoided);
-    branch_link(prev,guard);
-    branch_link(guard,si);
+    pipe_link(prev,guard);
+    pipe_link(guard,si);
   }
 
   TraceFunctionExit(__func__);
@@ -1455,7 +1455,7 @@ static boolean reflex_guards_inserter_attack_semi(slice_index si,
     slice_index const guard = alloc_reflex_defender_filter(length-1,
                                                            min_length-1,
                                                            proxy_to_avoided);
-    branch_link(si,guard);
+    pipe_link(si,guard);
   }
 
   TraceFunctionExit(__func__);
@@ -1523,7 +1523,7 @@ void slice_insert_reflex_filters_semi(slice_index si, slice_index avoided)
   if (slices[avoided].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,avoided);
+    pipe_link(proxy,avoided);
     avoided = proxy;
   }
 

@@ -33,7 +33,7 @@ slice_index alloc_help_fork_slice(stip_length_type length,
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 
@@ -68,7 +68,7 @@ slice_index alloc_series_fork_slice(stip_length_type length,
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 

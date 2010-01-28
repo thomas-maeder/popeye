@@ -64,7 +64,7 @@ boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
     slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
     slice_index const direct_defense = alloc_direct_defense(length,min_length,
                                                             to_goal);
-    branch_link(direct_defense,*root);
+    pipe_link(direct_defense,*root);
     *root = direct_defense;
 
     slices[si].u.pipe.u.branch.length -= 2;
@@ -417,8 +417,8 @@ static boolean direct_guards_inserter_attack(slice_index si, slice_traversal *st
     stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
     slice_index const dirdef = alloc_direct_defense(length,min_length,
                                                     *proxy_to_goal);
-    branch_link(prev,dirdef);
-    branch_link(dirdef,si);
+    pipe_link(prev,dirdef);
+    pipe_link(dirdef,si);
   }
 
   TraceFunctionExit(__func__);
@@ -450,7 +450,7 @@ static boolean direct_guards_inserter_defense(slice_index si,
     stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
     slice_index const dirdef = alloc_direct_defense(length-1,min_length-1,
                                                     *proxy_to_goal);
-    branch_link(si,dirdef);
+    pipe_link(si,dirdef);
   }
 
   TraceFunctionExit(__func__);
@@ -518,7 +518,7 @@ void slice_insert_direct_guards(slice_index si, slice_index to_goal)
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 

@@ -3,7 +3,6 @@
 #include "pyhelp.h"
 #include "pyseries.h"
 #include "pyleaf.h"
-#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -567,10 +566,10 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
 
   if (guard!=no_slice)
   {
-    branch_link(si,guard);
+    pipe_link(si,guard);
 
     if (slices[next].prev==si)
-      branch_link(guard,next);
+      pipe_link(guard,next);
     else
       pipe_set_successor(guard,next);
   }

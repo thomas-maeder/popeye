@@ -36,24 +36,6 @@ slice_index alloc_branch(SliceType type,
   return result;
 }
 
-/* Establish a link between a branch slice and its successor
- * @param branch identifies branch slice
- * @param succ identifies branch to become the successor
- */
-void branch_link(slice_index branch, slice_index succ)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
-  TraceFunctionParam("%u",succ);
-  TraceFunctionParamListEnd();
-
-  pipe_set_successor(branch,succ);
-  slice_set_predecessor(succ,branch);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal

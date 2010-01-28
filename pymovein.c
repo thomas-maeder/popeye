@@ -1,7 +1,6 @@
 #include "pymovein.h"
 #include "pyslice.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pydata.h"
@@ -44,7 +43,7 @@ boolean move_inverter_insert_root(slice_index si, slice_traversal *st)
 
   traverse_slices(slices[si].u.pipe.next,st);
 
-  branch_link(si,*root);
+  pipe_link(si,*root);
   *root = si;
   
   TraceFunctionExit(__func__);

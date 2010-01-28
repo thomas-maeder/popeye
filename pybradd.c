@@ -97,7 +97,7 @@ boolean branch_d_defender_insert_root(slice_index si, slice_traversal *st)
     *root = alloc_branch_d_defender_root_slice(length,min_length,to_goal);
     if (length==slack_length_direct+1)
     {
-      branch_link(*root,next);
+      pipe_link(*root,next);
       dealloc_slice(si);
     }
     else
@@ -860,7 +860,7 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
                                                 slack_length_help+1,
                                                 slices[si].u.pipe.next,
                                                 no_slice);
-    branch_link(prod->setplay_slice,branch);
+    pipe_link(prod->setplay_slice,branch);
   }
 
   TraceFunctionExit(__func__);

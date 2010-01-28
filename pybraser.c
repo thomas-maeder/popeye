@@ -114,7 +114,7 @@ boolean branch_ser_insert_root(slice_index si, slice_traversal *st)
     slice_index const root_branch = copy_slice(si);
     *root = alloc_series_root_slice(length,min_length,towards_goal,prev);
 
-    branch_link(*root,root_branch);
+    pipe_link(*root,root_branch);
     shorten_series_pipe(si);
   }
   
@@ -552,7 +552,7 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 
@@ -565,10 +565,10 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
 
     shorten_series_pipe(fork);
 
-    branch_link(result,branch);
-    branch_link(branch,fork);
-    branch_link(fork,inverter);
-    branch_link(inverter,result);
+    pipe_link(result,branch);
+    pipe_link(branch,fork);
+    pipe_link(fork,inverter);
+    pipe_link(inverter,result);
   }
 
   TraceFunctionExit(__func__);
@@ -601,7 +601,7 @@ slice_index alloc_series_branch_next_same_starter(stip_length_type length,
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 
@@ -612,9 +612,9 @@ slice_index alloc_series_branch_next_same_starter(stip_length_type length,
                                                       to_goal);
     slice_index const inverter = alloc_move_inverter_slice();
 
-    branch_link(result,branch);
-    branch_link(branch,inverter);
-    branch_link(inverter,result);
+    pipe_link(result,branch);
+    pipe_link(branch,inverter);
+    pipe_link(inverter,result);
   }
 
   TraceFunctionExit(__func__);

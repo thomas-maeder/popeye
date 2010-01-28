@@ -3,7 +3,6 @@
 #include "pyproc.h"
 #include "pyseries.h"
 #include "pybrafrk.h"
-#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "pypipe.h"
 #include "trace.h"
@@ -107,11 +106,11 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 
     assert(inverter!=no_slice);
 
-    branch_link(prev,fork);
-    branch_link(fork,inverter);
+    pipe_link(prev,fork);
+    pipe_link(fork,inverter);
 
-    branch_link(inverter,proxy_to_next);
-    branch_link(proxy_to_next,next);
+    pipe_link(inverter,proxy_to_next);
+    pipe_link(proxy_to_next,next);
     pipe_set_successor(parrying,proxy_to_next);
 
     if (slices[branch].u.pipe.next==inverter)

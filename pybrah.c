@@ -122,7 +122,7 @@ boolean branch_h_insert_root(slice_index si, slice_traversal *st)
     slice_index const root_branch = copy_slice(si);
     *root = alloc_help_root_slice(length,min_length,towards_goal,prev);
 
-    branch_link(*root,root_branch);
+    pipe_link(*root,root_branch);
     shorten_help_pipe(si);
     shorten_help_pipe(si);
   }
@@ -439,7 +439,7 @@ boolean help_root_make_setplay_slice(slice_index si,
   else
   {
     prod->setplay_slice = copy_slice(si);
-    branch_link(prod->setplay_slice,copy_slice(slices[si].u.pipe.next));
+    pipe_link(prod->setplay_slice,copy_slice(slices[si].u.pipe.next));
     shorten_setplay_root_branch(prod->setplay_slice);
   }
 
@@ -486,10 +486,10 @@ static void shorten_root_branch_even_to_odd(slice_index root)
     slices[fork].u.pipe.u.help_root.length -= 2;
     slices[root].u.pipe.u.help_root.short_sols = proxy;
 
-    branch_link(proxy,branch2);
+    pipe_link(proxy,branch2);
   }
 
-  branch_link(root_branch,fork);
+  pipe_link(root_branch,fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -522,14 +522,14 @@ static void shorten_root_branch_odd_to_even(slice_index root)
 
   if (slices[root].u.pipe.u.help_root.length-slack_length_help==3)
   {
-    branch_link(root_branch,branch2);
+    pipe_link(root_branch,branch2);
     pipe_set_successor(fork,no_slice);
     dealloc_slice(branch1);
   }
   else
   {
     pipe_set_successor(root_branch,branch2);
-    branch_link(branch1,branch2);
+    pipe_link(branch1,branch2);
     slices[branch1].u.pipe.u.help_root.length -= 2;
   }
 
@@ -730,7 +730,7 @@ slice_index alloc_help_branch(stip_length_type length,
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    branch_link(proxy,to_goal);
+    pipe_link(proxy,to_goal);
     to_goal = proxy;
   }
 
@@ -742,9 +742,9 @@ slice_index alloc_help_branch(stip_length_type length,
 
     shorten_help_pipe(branch2);
 
-    branch_link(result,branch1);
-    branch_link(branch1,branch2);
-    branch_link(branch2,result);
+    pipe_link(result,branch1);
+    pipe_link(branch1,branch2);
+    pipe_link(branch2,result);
   }
   else
   {
@@ -756,10 +756,10 @@ slice_index alloc_help_branch(stip_length_type length,
     shorten_help_pipe(fork);
     shorten_help_pipe(branch1);
 
-    branch_link(result,branch2);
-    branch_link(branch2,fork);
-    branch_link(fork,branch1);
-    branch_link(branch1,result);
+    pipe_link(result,branch2);
+    pipe_link(branch2,fork);
+    pipe_link(fork,branch1);
+    pipe_link(branch1,result);
   }
 
   TraceFunctionExit(__func__);

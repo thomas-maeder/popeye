@@ -3168,8 +3168,8 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
   if (slices[next].prev==si)
   {
     slice_index const guard = alloc_goalreachable_guard();
-    branch_link(si,guard);
-    branch_link(guard,next);
+    pipe_link(si,guard);
+    pipe_link(guard,next);
     slice_traverse_children(guard,st);
   }
   else
@@ -3183,7 +3183,7 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
       else
       {
         slice_index const guard = alloc_goalreachable_guard();
-        branch_link(si,guard);
+        pipe_link(si,guard);
         pipe_set_successor(guard,next);
       }
     }
@@ -3210,8 +3210,8 @@ static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
     slice_index const inverter = slices[si].u.pipe.next;
     slice_index const guard = alloc_goalreachable_guard();
     assert(slices[inverter].type==STMoveInverter);
-    branch_link(guard,slices[inverter].u.pipe.next);
-    branch_link(inverter,guard);
+    pipe_link(guard,slices[inverter].u.pipe.next);
+    pipe_link(inverter,guard);
   }
 
   TraceFunctionExit(__func__);

@@ -114,7 +114,6 @@
 #include "pynontrv.h"
 #include "pypipe.h"
 #include "pyleaf.h"
-#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 #include "pyslice.h"
@@ -2175,8 +2174,8 @@ static void apply_whitetoplay(slice_index proxy)
       {
         slice_index const shortened = help_root_shorten_help_play(next);
         slice_index const inverter = alloc_move_inverter_slice();
-        branch_link(inverter,shortened);
-        branch_link(proxy,inverter);
+        pipe_link(inverter,shortened);
+        pipe_link(proxy,inverter);
       }
       else
       {

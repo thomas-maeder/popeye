@@ -1,7 +1,6 @@
 #include "pynot.h"
 #include "pyslice.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pydata.h"
@@ -24,7 +23,7 @@ slice_index alloc_not_slice(slice_index op)
   assert(op!=no_slice);
 
   result = alloc_pipe(STNot);
-  branch_link(result,op);
+  pipe_link(result,op);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -53,7 +52,7 @@ boolean not_insert_root(slice_index si, slice_traversal *st)
   else
   {
     slice_index const not = copy_slice(si);
-    branch_link(not,*root);
+    pipe_link(not,*root);
     *root = not;
   }
   

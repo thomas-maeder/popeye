@@ -305,8 +305,8 @@ static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
   slice_traverse_children(si,st);
 
   guard = alloc_max_nr_nontrivial_guard(slices[si].u.pipe.u.branch.length-1);
-  branch_link(guard,slices[si].u.pipe.next);
-  branch_link(si,guard);
+  pipe_link(guard,slices[si].u.pipe.next);
+  pipe_link(si,guard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
