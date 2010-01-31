@@ -2170,7 +2170,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
       result = ParseLength(tok,STBranchSeries,&length,&min_length);
       if (result!=0)
       {
-        slice_index const mi = alloc_move_inverter_slice();
+        slice_index const mi = alloc_move_inverter_solvable_filter();
         slice_index const branch
             = alloc_series_branch_next_other_starter(length,min_length,
                                                      proxy_leaf);
@@ -2392,7 +2392,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
                                                      proxy_leaf);
           if (length%2==1)
           {
-            slice_index const inverter = alloc_move_inverter_slice();
+            slice_index const inverter = alloc_move_inverter_solvable_filter();
             pipe_link(inverter,help);
             pipe_set_successor(proxy,inverter);
           }
@@ -2480,7 +2480,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
                                                        proxy_leaf);
           if (length%2==0)
           {
-            slice_index const inverter = alloc_move_inverter_slice();
+            slice_index const inverter = alloc_move_inverter_solvable_filter();
             pipe_set_successor(inverter,branch);
             pipe_link(proxy,inverter);
           }
@@ -2513,8 +2513,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
           slice_insert_reflex_filters(branch,proxy_avoided);
           if (length%2==0)
           {
-            slice_index const inverter = alloc_move_inverter_slice();
-            pipe_link(inverter,branch);
+            slice_index const inverter = alloc_move_inverter_solvable_filter();
+            pipe_set_successor(inverter,branch);
             pipe_link(proxy,inverter);
           }
           else
@@ -2545,7 +2545,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
                                                        proxy_leaf);
           if (length%2==0)
           {
-            slice_index const inverter = alloc_move_inverter_slice();
+            slice_index const inverter = alloc_move_inverter_solvable_filter();
             pipe_set_successor(inverter,branch);
             pipe_link(proxy,inverter);
           }
@@ -3088,8 +3088,8 @@ static char *ParseStructuredStip_move_inversion(char *tok,
     slice_index const operand = slices[proxy].u.pipe.next;
     if (tok!=0 && operand!=no_slice)
     {
-      slice_index const inverter =  alloc_move_inverter_slice();
-      pipe_link(inverter,operand);
+      slice_index const inverter =  alloc_move_inverter_solvable_filter();
+      pipe_set_successor(inverter,operand);
       pipe_link(proxy,inverter);
     }
   }

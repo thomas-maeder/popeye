@@ -607,7 +607,7 @@ boolean selfcheck_guards_inserter_branch_direct_defender(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard slice after a STMoveInverter slice
+/* Insert a STSelfCheckGuard slice after a STMoveInverter* slice
  */
 static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
                                                        slice_traversal *st)
@@ -651,11 +651,11 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
     slice_index const inverter = slices[si].u.pipe.next;
     slice_index const parrying = slices[si].u.pipe.u.parry_fork.parrying;
 
-    /* circumvent the STMoveInverter to prevent it from creating a
-     * STSelfCheckGuard; if we take this path, we already know that
-     * there is no check!
+    /* circumvent the STMoveInverterSeriesFilter to prevent it from
+     * creating a STSelfCheckGuard; if we take this path, we already
+     * know that there is no check!
      */
-    assert(slices[inverter].type==STMoveInverter);
+    assert(slices[inverter].type==STMoveInverterSeriesFilter);
     slice_traverse_children(inverter,st);
     traverse_slices(parrying,st);
   }
@@ -681,7 +681,9 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STReciprocal */
   &slice_traverse_children,                 /* STQuodlibet */
   &slice_traverse_children,                 /* STNot */
-  &selfcheck_guards_inserter_move_inverter, /* STMoveInverter */
+  &selfcheck_guards_inserter_move_inverter, /* STMoveInverterRootSolvableFilter */
+  &selfcheck_guards_inserter_move_inverter, /* STMoveInverterSolvableFilter */
+  &selfcheck_guards_inserter_move_inverter, /* STMoveInverterSeriesFilter */
   &selfcheck_guards_inserter_branch,        /* STDirectRoot */
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
@@ -774,7 +776,9 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_traverse_children,                      /* STReciprocal */
   &slice_traverse_children,                      /* STQuodlibet */
   &slice_traverse_children,                      /* STNot */
-  &slice_operation_noop,                         /* STMoveInverter */
+  &slice_operation_noop,                         /* STMoveInverterRootSolvableFilter */
+  0,                                             /* STMoveInverterSolvableFilter */
+  0,                                             /* STMoveInverterSeriesFilter */
   &selfcheck_guards_inserter_toplevel_root,      /* STDirectRoot */
   0,                                             /* STDirectDefenderRoot */
   0,                                             /* STDirectHashed */

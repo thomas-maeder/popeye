@@ -474,7 +474,9 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,       /* STReciprocal */
   &slice_traverse_children,       /* STQuodlibet */
   &slice_traverse_children,       /* STNot */
-  &slice_traverse_children,       /* STMoveInverter */
+  &slice_traverse_children,       /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,       /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,       /* STMoveInverterSeriesFilter */
   0,                              /* STDirectRoot */
   &direct_guards_inserter_defense,       /* STDirectDefenderRoot */
   &slice_traverse_children,       /* STDirectHashed */

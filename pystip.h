@@ -35,7 +35,9 @@
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
                                                                         \
-    ENUMERATOR(STMoveInverter),    /* 0 length, inverts side at move */ \
+    ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
+    ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
+    ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
                                                                         \
     ENUMERATOR(STDirectRoot),      /* root level of direct play */      \
     ENUMERATOR(STDirectDefenderRoot), /* root level of postkey direct play */ \
@@ -46,7 +48,7 @@
                                                                         \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
-    ENUMERATOR(STSeriesHashed),    /* series play with hash table */      \
+    ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
                                                                         \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
                                                                         \

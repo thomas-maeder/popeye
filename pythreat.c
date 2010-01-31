@@ -300,7 +300,9 @@ static slice_operation const maxthreatlength_guards_inserters[] =
   &slice_traverse_children,        /* STReciprocal */
   &slice_traverse_children,        /* STQuodlibet */
   &slice_traverse_children,        /* STNot */
-  &slice_traverse_children,        /* STMoveInverter */
+  &slice_traverse_children,        /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,        /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,        /* STMoveInverterSeriesFilter */
   &slice_traverse_children,        /* STDirectRoot */
   &maxthreatlength_guard_inserter, /* STDirectDefenderRoot */
   &slice_traverse_children,        /* STDirectHashed */

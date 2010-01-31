@@ -595,7 +595,9 @@ static slice_operation const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_reciprocal,  /* STReciprocal */
   &keepmating_guards_inserter_quodlibet,   /* STQuodlibet */
   &slice_traverse_children,                /* STNot */
-  &slice_traverse_children,                /* STMoveInverter */
+  &slice_traverse_children,                /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,                /* STMoveInverterSeriesFilter */
   &keepmating_guards_inserter_branch,      /* STDirectRoot */
   &keepmating_guards_inserter_branch,      /* STDirectDefenderRoot */
   &slice_traverse_children,                /* STDirectHashed */

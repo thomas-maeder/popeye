@@ -65,7 +65,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       result = hashed_series_solve_in_n(si,n);
       break;
 
-    case STMoveInverter:
+    case STMoveInverterSeriesFilter:
       result = move_inverter_series_solve_in_n(si,n);
       break;
 
@@ -238,7 +238,7 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
       result = selfcheck_guard_series_has_solution_in_n(si,n);
       break;
 
-    case STMoveInverter:
+    case STMoveInverterSeriesFilter:
       result = move_inverter_series_has_solution_in_n(si,n);
       break;
 

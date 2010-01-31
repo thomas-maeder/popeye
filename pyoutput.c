@@ -158,7 +158,9 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_fork,          /* STReciprocal */
   &output_mode_fork,          /* STQuodlibet */
   &slice_traverse_children,   /* STNot */
-  &slice_traverse_children,   /* STMoveInverter */
+  &slice_traverse_children,   /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,   /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,   /* STMoveInverterSeriesFilter */
   &output_mode_treemode,      /* STDirectRoot */
   &output_mode_treemode,      /* STDirectDefenderRoot */
   &output_mode_treemode,      /* STDirectHashed */

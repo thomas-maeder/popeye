@@ -10,17 +10,53 @@
 
 #include <assert.h>
 
-/* Allocate a move inverter slice.
+/* Allocate a STMoveInverterRootSolvableFilter slice.
  * @return index of allocated slice
  */
-slice_index alloc_move_inverter_slice(void)
+slice_index alloc_move_inverter_root_solvable_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMoveInverter);
+  result = alloc_pipe(STMoveInverterRootSolvableFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STMoveInverterSolvableFilter slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_move_inverter_solvable_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMoveInverterSolvableFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STMoveInverterSeriesFilter slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_move_inverter_series_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMoveInverterSeriesFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -44,8 +80,12 @@ boolean move_inverter_insert_root(slice_index si, slice_traversal *st)
 
   traverse_slices(slices[si].u.pipe.next,st);
 
-  pipe_link(si,*root);
-  *root = si;
+  {
+    slice_index const root_inverter = alloc_move_inverter_root_solvable_filter();
+    pipe_link(root_inverter,*root);
+    *root = root_inverter;
+    dealloc_slice(si);
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

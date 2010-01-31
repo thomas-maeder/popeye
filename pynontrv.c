@@ -329,7 +329,9 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STReciprocal */
   &slice_traverse_children,                 /* STQuodlibet */
   &slice_traverse_children,                 /* STNot */
-  &slice_traverse_children,                 /* STMoveInverter */
+  &slice_traverse_children,                 /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                 /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,                 /* STMoveInverterSeriesFilter */
   &nontrivial_guard_inserter_branch_direct, /* STDirectRoot */
   &slice_traverse_children,                 /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */

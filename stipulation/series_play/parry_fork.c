@@ -98,7 +98,8 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 
   {
     slice_index const branch = branch_find_slice(STBranchSeries,si);
-    slice_index const inverter = branch_find_slice(STMoveInverter,branch);
+    slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
+                                                   branch);
     slice_index const next = slices[inverter].u.pipe.next;
     slice_index const prev = slices[inverter].prev;
     slice_index const fork = alloc_parry_fork(parrying);

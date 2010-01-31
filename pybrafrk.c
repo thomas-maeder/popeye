@@ -520,7 +520,9 @@ static slice_operation const slice_to_fork_deallocators[] =
   0,                                    /* STReciprocal */
   0,                                    /* STQuodlibet */
   0,                                    /* STNot */
-  0,                                    /* STMoveInverter */
+  0,                                    /* STMoveInverterRootSolvableFilter */
+  0,                                    /* STMoveInverterSolvableFilter */
+  0,                                    /* STMoveInverterSeriesFilter */
   &traverse_and_deallocate,             /* STDirectRoot */
   &traverse_and_deallocate,             /* STDirectDefenderRoot */
   &traverse_and_deallocate,             /* STDirectHashed */

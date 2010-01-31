@@ -406,7 +406,7 @@ slice_index series_root_shorten_series_play(slice_index root)
   if (slices[root].u.pipe.u.help_root.length==slack_length_series+1)
   {
     result = branch_deallocate_to_fork(root);
-    if (slices[result].type==STMoveInverter)
+    if (slices[result].type==STMoveInverterSeriesFilter)
     {
       slice_index const mi = result;
       result = slices[result].u.pipe.next;
@@ -560,7 +560,7 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
 
   {
     slice_index const branch = alloc_branch_ser_slice(length,min_length,to_goal);
-    slice_index const inverter = alloc_move_inverter_slice();
+    slice_index const inverter = alloc_move_inverter_series_filter();
     slice_index const fork = alloc_series_fork_slice(length,min_length,to_goal);
 
     shorten_series_pipe(fork);
@@ -610,7 +610,7 @@ slice_index alloc_series_branch_next_same_starter(stip_length_type length,
   {
     slice_index const branch = alloc_branch_ser_slice(length,min_length,
                                                       to_goal);
-    slice_index const inverter = alloc_move_inverter_slice();
+    slice_index const inverter = alloc_move_inverter_series_filter();
 
     pipe_link(result,branch);
     pipe_link(branch,inverter);

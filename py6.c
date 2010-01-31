@@ -505,7 +505,9 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STReciprocal */
   &slice_traverse_children,           /* STQuodlibet */
   &slice_traverse_children,           /* STNot */
-  &slice_traverse_children,           /* STMoveInverter */
+  &slice_traverse_children,           /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,           /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,           /* STMoveInverterSeriesFilter */
   &root_slice_type_found,             /* STDirectRoot */
   &root_slice_type_found,             /* STDirectDefenderRoot */
   &slice_traverse_children,           /* STDirectHashed */
@@ -2108,7 +2110,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STHelpRoot:
     case STBranchHelp:
-    case STMoveInverter:
+    case STMoveInverterRootSolvableFilter:
     case STNot:
     case STProxy:
     {
@@ -2173,7 +2175,7 @@ static void apply_whitetoplay(slice_index proxy)
       if (meaning==whitetoplay_means_shorten_root_slice)
       {
         slice_index const shortened = help_root_shorten_help_play(next);
-        slice_index const inverter = alloc_move_inverter_slice();
+        slice_index const inverter = alloc_move_inverter_root_solvable_filter();
         pipe_link(inverter,shortened);
         pipe_link(proxy,inverter);
       }
@@ -2189,7 +2191,7 @@ static void apply_whitetoplay(slice_index proxy)
       slices[next].starter = advers(slices[next].starter);
       break;
 
-    case STMoveInverter:
+    case STMoveInverterRootSolvableFilter:
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       slice_index const inverter = next;
@@ -2579,7 +2581,9 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STReciprocal */
   &slice_traverse_children,                  /* STQuodlibet */
   &slice_traverse_children,                  /* STNot */
-  &slice_traverse_children,                  /* STMoveInverter */
+  &slice_traverse_children,                  /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                  /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                  /* STDirectRoot */
   &insert_hash_element_direct_defender_root, /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */

@@ -200,7 +200,7 @@ boolean slice_solve(slice_index si)
       solution_found = not_solve(si);
       break;
 
-    case STMoveInverter:
+    case STMoveInverterSolvableFilter:
       solution_found = move_inverter_solve(si);
       break;
 
@@ -274,7 +274,7 @@ boolean slice_root_solve(slice_index si)
       result = series_root_solve(si);
       break;
 
-    case STMoveInverter:
+    case STMoveInverterRootSolvableFilter:
       result = move_inverter_root_solve(si);
       break;
 
@@ -360,7 +360,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = slice_has_solution(slices[si].u.pipe.next);
       break;
 
-    case STMoveInverter:
+    case STMoveInverterSolvableFilter:
       result = move_inverter_has_solution(si);
       break;
 

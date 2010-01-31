@@ -2833,7 +2833,9 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STReciprocal */
   0,                                /* STQuodlibet */
   0,                                /* STNot */
-  &slice_traverse_children,         /* STMoveInverter */
+  &slice_traverse_children,         /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,         /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,         /* STMoveInverterSeriesFilter */
   0,                                /* STDirectRoot */
   0,                                /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
@@ -3209,7 +3211,7 @@ static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
   {
     slice_index const inverter = slices[si].u.pipe.next;
     slice_index const guard = alloc_goalreachable_guard();
-    assert(slices[inverter].type==STMoveInverter);
+    assert(slices[inverter].type==STMoveInverterSeriesFilter);
     pipe_link(guard,slices[inverter].u.pipe.next);
     pipe_link(inverter,guard);
   }
@@ -3235,7 +3237,9 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STReciprocal */
   &slice_traverse_children,                  /* STQuodlibet */
   0,                                         /* STNot */
-  &slice_traverse_children,                  /* STMoveInverter */
+  &slice_traverse_children,                  /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                  /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
   0,                                         /* STDirectRoot */
   0,                                         /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
@@ -3452,7 +3456,9 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STReciprocal */
   &intelligent_mode_support_detector_quodlibet,  /* STQuodlibet */
   &intelligent_mode_support_none,                /* STNot */
-  &slice_traverse_children,                      /* STMoveInverter */
+  &slice_traverse_children,                      /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                      /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,                      /* STMoveInverterSeriesFilter */
   &intelligent_mode_support_none,                /* STDirectRoot */
   &intelligent_mode_support_none,                /* STDirectDefenderRoot */
   &intelligent_mode_support_none,                /* STDirectHashed */

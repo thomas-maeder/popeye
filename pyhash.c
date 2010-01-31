@@ -296,7 +296,9 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STReciprocal */
   &slice_property_offset_shifter, /* STQuodlibet */
   &slice_property_offset_shifter, /* STNot */
-  &slice_property_offset_shifter, /* STMoveInverter */
+  &slice_property_offset_shifter, /* STMoveInverterRootSolvableFilter */
+  &slice_property_offset_shifter, /* STMoveInverterSolvableFilter */
+  &slice_property_offset_shifter, /* STMoveInverterSeriesFilter */
   &slice_property_offset_shifter, /* STDirectRoot */
   &slice_property_offset_shifter, /* STDirectDefenderRoot */
   &slice_property_offset_shifter, /* STDirectHashed */
@@ -691,7 +693,9 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_fork,           /* STReciprocal */
   &init_slice_properties_fork,           /* STQuodlibet */
   &init_slice_properties_pipe,           /* STNot */
-  &init_slice_properties_pipe,           /* STMoveInverter */
+  &init_slice_properties_pipe,           /* STMoveInverterRootSolvableFilter */
+  &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
+  &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
   &init_slice_properties_direct_root,    /* STDirectRoot */
   &init_slice_properties_direct_root,    /* STDirectDefenderRoot */
   &init_slice_properties_hashed_direct,  /* STDirectHashed */
