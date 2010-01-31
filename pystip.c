@@ -1312,7 +1312,7 @@ static void insert_direct_defense_after(slice_index pos,
   TraceFunctionResultEnd();
 }
 
-static boolean transform_to_quodlibet_branch_direct(slice_index si,
+static boolean transform_to_quodlibet_self_attack(slice_index si,
                                                   slice_traversal *st)
 {
   boolean const result = true;
@@ -1387,7 +1387,7 @@ static boolean transform_to_quodlibet_branch_fork(slice_index si,
 static slice_operation const to_quodlibet_transformers[] =
 {
   &slice_traverse_children,                       /* STProxy */
-  &transform_to_quodlibet_branch_direct,          /* STBranchDirect */
+  &slice_traverse_children,                       /* STBranchDirect */
   &transform_to_quodlibet_branch_direct_defender, /* STBranchDirectDefender */
   0,                                              /* STBranchHelp */
   &transform_to_quodlibet_branch_fork,            /* STHelpFork */
@@ -1421,8 +1421,8 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                              /* STReflexHelpFilter */
   0,                                              /* STReflexSeriesFilter */
   0,                                              /* STReflexAttackerFilter */
-  &transform_to_quodlibet_branch_fork,            /* STReflexDefenderFilter */
-  &slice_traverse_children,                       /* STSelfAttack */
+  &transform_to_quodlibet_self_attack,            /* STReflexDefenderFilter */
+  &transform_to_quodlibet_self_attack,            /* STSelfAttack */
   &slice_traverse_children,                       /* STSelfDefense */
   0,                                              /* STRestartGuardRootDefenderFilter */
   0,                                              /* STRestartGuardHelpFilter */
