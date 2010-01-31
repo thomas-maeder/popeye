@@ -13,11 +13,6 @@
  */
 void stip_insert_selfcheck_guards(void);
 
-/* Allocate a STSelfCheckGuard slice
- * @return allocated slice
- */
-slice_index alloc_selfcheck_guard_slice(void);
-
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found

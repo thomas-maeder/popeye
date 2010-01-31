@@ -49,7 +49,7 @@ boolean direct_defender_root_defend(slice_index si)
       result = reflex_defender_filter_root_defend(si);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardRootDefenderFilter:
       result = selfcheck_guard_root_defend(si);
       break;
 
@@ -132,7 +132,7 @@ boolean direct_are_threats_refuted_in_n(table threats,
                                                                n);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardAttackerFilter:
       result = selfcheck_guard_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
@@ -221,7 +221,7 @@ stip_length_type direct_has_solution_in_n(slice_index si,
       result = reflex_attacker_filter_has_solution_in_n(si,n,n_min);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardAttackerFilter:
       result = selfcheck_guard_direct_has_solution_in_n(si,n,n_min);
       break;
 
@@ -331,7 +331,7 @@ void direct_solve_continuations_in_n(slice_index si,
       reflex_attacker_filter_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardAttackerFilter:
       selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
@@ -400,7 +400,7 @@ stip_length_type direct_solve_threats_in_n(table threats,
                                                                 n,n_min);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardAttackerFilter:
       result = selfcheck_guard_direct_solve_threats_in_n(threats,si,n,n_min);
       break;
 
@@ -554,7 +554,7 @@ stip_length_type direct_solve_in_n(slice_index si,
       result = reflex_attacker_filter_solve_in_n(si,n,n_min);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardAttackerFilter:
       result = selfcheck_guard_solve_in_n(si,n,n_min);
       break;
 
@@ -651,10 +651,6 @@ boolean direct_root_solve_in_n(slice_index si)
       result = reflex_defender_filter_root_solve(si);
       break;
 
-    case STSelfCheckGuard:
-      result = selfcheck_guard_root_solve(si);
-      break;
-
     case STDirectHashed:
       result = direct_root_solve(slices[si].u.pipe.next);
       break;
@@ -718,7 +714,7 @@ boolean direct_defender_defend_in_n(slice_index si, stip_length_type n)
       result = branch_d_defender_defend_in_n(si,n);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardDefenderFilter:
       result = selfcheck_guard_defend_in_n(si,n);
       break;
 
@@ -792,7 +788,7 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
       result = reflex_defender_filter_can_defend_in_n(si,n,max_result);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardDefenderFilter:
       result = selfcheck_guard_can_defend_in_n(si,n,max_result);
       break;
 

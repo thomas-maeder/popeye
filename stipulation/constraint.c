@@ -1337,7 +1337,13 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STSeriesRoot */
   0,                                   /* STParryFork */
   0,                                   /* STSeriesHashed */
-  0,                                   /* STSelfCheckGuard */
+  0,                                   /* STSelfCheckGuardRootSolvableFilter */
+  0,                                   /* STSelfCheckGuardSolvableFilter */
+  0,                                   /* STSelfCheckGuardRootDefenderFilter */
+  0,                                   /* STSelfCheckGuardAttackerFilter */
+  0,                                   /* STSelfCheckGuardDefenderFilter */
+  0,                                   /* STSelfCheckGuardHelpFilter */
+  0,                                   /* STSelfCheckGuardSeriesFilter */
   0,                                   /* STDirectDefense */
   0,                                   /* STReflexHelpFilter */
   0,                                   /* STReflexSeriesFilter */
@@ -1492,7 +1498,13 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STSeriesRoot */
   0,                                    /* STParryFork */
   0,                                    /* STSeriesHashed */
-  0,                                    /* STSelfCheckGuard */
+  0,                                    /* STSelfCheckGuardRootSolvableFilter */
+  0,                                    /* STSelfCheckGuardSolvableFilter */
+  0,                                    /* STSelfCheckGuardRootDefenderFilter */
+  0,                                    /* STSelfCheckGuardAttackerFilter */
+  0,                                    /* STSelfCheckGuardDefenderFilter */
+  0,                                    /* STSelfCheckGuardHelpFilter */
+  0,                                    /* STSelfCheckGuardSeriesFilter */
   0,                                    /* STDirectDefense */
   0,                                    /* STReflexHelpFilter */
   0,                                    /* STReflexSeriesFilter */

@@ -728,7 +728,13 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,                          /* STSeriesRoot */
   &slice_traverse_children,                          /* STParryFork */
   &slice_traverse_children,                          /* STSeriesHashed */
-  0,                                                 /* STSelfCheckGuard */
+  0,                                                 /* STSelfCheckGuardRootSolvableFilter */
+  0,                                                 /* STSelfCheckGuardSolvableFilter */
+  0,                                                 /* STSelfCheckGuardRootDefenderFilter */
+  0,                                                 /* STSelfCheckGuardAttackerFilter */
+  0,                                                 /* STSelfCheckGuardDefenderFilter */
+  0,                                                 /* STSelfCheckGuardHelpFilter */
+  0,                                                 /* STSelfCheckGuardSeriesFilter */
   0,                                                 /* STDirectDefense */
   0,                                                 /* STReflexHelpFilter */
   0,                                                 /* STReflexSeriesFilter */

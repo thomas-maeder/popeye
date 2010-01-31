@@ -606,7 +606,13 @@ static slice_operation const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_branch,      /* STSeriesRoot */
   &slice_traverse_children,                /* STParryFork */
   &slice_traverse_children,                /* STSeriesHashed */
-  &slice_traverse_children,                /* STSelfCheckGuard */
+  &slice_traverse_children,                /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,                /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,                /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,                /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,                /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,                /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,                /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,                /* STDirectDefense */
   &slice_traverse_children,                /* STReflexHelpFilter */
   &slice_traverse_children,                /* STReflexSeriesFilter */

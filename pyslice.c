@@ -204,7 +204,7 @@ boolean slice_solve(slice_index si)
       solution_found = move_inverter_solve(si);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardSolvableFilter:
       solution_found = selfcheck_guard_solve(si);
       break;
 
@@ -278,7 +278,7 @@ boolean slice_root_solve(slice_index si)
       result = move_inverter_root_solve(si);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardRootSolvableFilter:
       result = selfcheck_guard_root_solve(si);
       break;
 
@@ -374,7 +374,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = branch_fork_has_solution(si);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardRootSolvableFilter:
+    case STSelfCheckGuardSolvableFilter:
       result = selfcheck_guard_has_solution(si);
       break;
 

@@ -169,7 +169,13 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_series_root,   /* STSeriesRoot */
   &slice_traverse_children,   /* STParryFork */
   &slice_traverse_children,   /* STSeriesHashed */
-  &pipe_traverse_next,        /* STSelfCheckGuard */
+  &pipe_traverse_next,        /* STSelfCheckGuardRootSolvableFilter */
+  &pipe_traverse_next,        /* STSelfCheckGuardSolvableFilter */
+  &output_mode_treemode,      /* STSelfCheckGuardRootDefenderFilter */
+  &output_mode_treemode,      /* STSelfCheckGuardAttackerFilter */
+  &output_mode_treemode,      /* STSelfCheckGuardDefenderFilter */
+  &pipe_traverse_next,        /* STSelfCheckGuardHelpFilter */
+  &output_mode_linemode,      /* STSelfCheckGuardSeriesFilter */
   &output_mode_treemode,      /* STDirectDefense */
   &pipe_traverse_next,        /* STReflexHelpFilter */
   &pipe_traverse_next,        /* STReflexSeriesFilter */

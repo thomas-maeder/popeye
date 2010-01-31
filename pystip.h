@@ -50,7 +50,13 @@
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
                                                                         \
-    ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuardRootDefenderFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuardAttackerFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuardSeriesFilter),  /* stop when a side exposes its king */ \
                                                                         \
     ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \

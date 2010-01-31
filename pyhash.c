@@ -307,7 +307,13 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STSeriesRoot */
   &slice_property_offset_shifter, /* STParryFork */
   &slice_property_offset_shifter, /* STSeriesHashed */
-  &slice_property_offset_shifter, /* STSelfCheckGuard */
+  &slice_property_offset_shifter, /* STSelfCheckGuardRootSolvableFilter */
+  &slice_property_offset_shifter, /* STSelfCheckGuardSolvableFilter */
+  &slice_property_offset_shifter, /* STSelfCheckGuardRootDefenderFilter */
+  &slice_property_offset_shifter, /* STSelfCheckGuardAttackerFilter */
+  &slice_property_offset_shifter, /* STSelfCheckGuardDefenderFilter */
+  &slice_property_offset_shifter, /* STSelfCheckGuardHelpFilter */
+  &slice_property_offset_shifter, /* STSelfCheckGuardSeriesFilter */
   &slice_property_offset_shifter, /* STDirectDefense */
   &slice_property_offset_shifter, /* STReflexHelpFilter */
   &slice_property_offset_shifter, /* STReflexSeriesFilter */
@@ -704,7 +710,13 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_series_root,    /* STSeriesRoot */
   &slice_traverse_children,              /* STParryFork */
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
-  &init_slice_properties_pipe,           /* STSelfCheckGuard */
+  &init_slice_properties_pipe,           /* STSelfCheckGuardRootSolvableFilter */
+  &init_slice_properties_pipe,           /* STSelfCheckGuardSolvableFilter */
+  &init_slice_properties_pipe,           /* STSelfCheckGuardRootDefenderFilter */
+  &init_slice_properties_pipe,           /* STSelfCheckGuardAttackerFilter */
+  &init_slice_properties_pipe,           /* STSelfCheckGuardDefenderFilter */
+  &init_slice_properties_pipe,           /* STSelfCheckGuardHelpFilter */
+  &init_slice_properties_pipe,           /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,              /* STDirectDefense */
   &slice_traverse_children,              /* STReflexHelpFilter */
   &slice_traverse_children,              /* STReflexSeriesFilter */

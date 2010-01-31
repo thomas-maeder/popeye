@@ -68,7 +68,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = goalreachable_guard_help_solve_in_n(si,n);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardHelpFilter:
       result = selfcheck_guard_help_solve_in_n(si,n);
       break;
 
@@ -213,7 +213,7 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = goalreachable_guard_help_has_solution_in_n(si,n);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardHelpFilter:
       result = selfcheck_guard_help_has_solution_in_n(si,n);
       break;
 
@@ -267,7 +267,7 @@ void help_solve_threats_in_n(table threats, slice_index si, stip_length_type n)
       goalreachable_guard_help_solve_threats_in_n(threats,si,n);
       break;
 
-    case STSelfCheckGuard:
+    case STSelfCheckGuardHelpFilter:
       selfcheck_guard_help_solve_threats_in_n(threats,si,n);
       break;
 

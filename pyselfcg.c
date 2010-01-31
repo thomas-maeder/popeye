@@ -14,17 +14,125 @@
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STSelfCheckGuard slice
+/* Allocate a STSelfCheckGuardRootSolvableFilter slice
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_slice(void)
+static slice_index alloc_selfcheck_guard_root_solvable_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STSelfCheckGuard);
+  result = alloc_pipe(STSelfCheckGuardRootSolvableFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STSelfCheckGuardSolvableFilter slice
+ * @return allocated slice
+ */
+static slice_index alloc_selfcheck_guard_solvable_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STSelfCheckGuardSolvableFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STSelfCheckGuardRootDefenderFilter slice
+ * @return allocated slice
+ */
+static slice_index alloc_selfcheck_guard_root_defender_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STSelfCheckGuardRootDefenderFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STSelfCheckGuardAttackerFilter slice
+ * @return allocated slice
+ */
+static slice_index alloc_selfcheck_guard_attacker_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STSelfCheckGuardAttackerFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STSelfCheckGuardDefenderFilter slice
+ * @return allocated slice
+ */
+static slice_index alloc_selfcheck_guard_defender_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STSelfCheckGuardDefenderFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STSelfCheckGuardHelpFilter slice
+ * @return allocated slice
+ */
+static slice_index alloc_selfcheck_guard_help_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STSelfCheckGuardHelpFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STSelfCheckGuardSeriesFilter slice
+ * @return allocated slice
+ */
+static slice_index alloc_selfcheck_guard_series_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STSelfCheckGuardSeriesFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -527,11 +635,10 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STSelfCheckGuard slice after a
- * STBranch{Help,Series,Direct} slice
+/* Insert a STSelfCheckGuard* slice after a STBranchHelp slice
  */
-static boolean selfcheck_guards_inserter_branch(slice_index si,
-                                                slice_traversal *st)
+static boolean selfcheck_guards_inserter_branch_help(slice_index si,
+                                                     slice_traversal *st)
 {
   boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
@@ -540,13 +647,11 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[next].type!=STSelfCheckGuard);
-
   if (slices[next].prev==si)
   {
     /* we are part of a loop
      */
-    slice_index const guard = alloc_selfcheck_guard_slice();
+    slice_index const guard = alloc_selfcheck_guard_help_filter();
     pipe_link(guard,next);
     pipe_link(si,guard);
     slice_traverse_children(guard,st);
@@ -559,16 +664,16 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
 
     {
       slice_index const next_pred = slices[next].prev;
-      if (slices[next_pred].type==STSelfCheckGuard)
-        /* a STSelfCheckGuard slice has been inserted in the loop
-         * before next; attach to it
+      if (slices[next_pred].type==STSelfCheckGuardHelpFilter)
+        /* a STSelfCheckGuardHelpFilter slice has been inserted in the
+         * loop before next; attach to it
          */
         pipe_set_successor(si,next_pred);
       else
       {
-        /* Create a STSelfCheckGuard slice of our own
+        /* Create a STSelfCheckGuardHelpFilter slice of our own
          */
-        slice_index const guard = alloc_selfcheck_guard_slice();
+        slice_index const guard = alloc_selfcheck_guard_help_filter();
         pipe_link(si,guard);
         pipe_set_successor(guard,next);
       }
@@ -581,25 +686,50 @@ static boolean selfcheck_guards_inserter_branch(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard slice after a STBranchDirectDefender or
- * STDirectDefenderRoot slice
+/* Insert a STSelfCheckGuard* slice after a STBranchSeries slice
  */
-static
-boolean selfcheck_guards_inserter_branch_direct_defender(slice_index si,
-                                                         slice_traversal *st)
+static boolean selfcheck_guards_inserter_branch_series(slice_index si,
+                                                       slice_traversal *st)
 {
   boolean const result = true;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[slices[si].u.pipe.next].type==STSelfDefense)
-    /* in self stipulations, the last defender's move may be allowed
-     * to expose its own king (e.g. in s##!) */
-    slice_traverse_children(si,st);
+  if (slices[next].prev==si)
+  {
+    /* we are part of a loop
+     */
+    slice_index const guard = alloc_selfcheck_guard_series_filter();
+    pipe_link(guard,next);
+    pipe_link(si,guard);
+    slice_traverse_children(guard,st);
+  }
   else
-    selfcheck_guards_inserter_branch(si,st);
+  {
+    /* we are attached to a loop
+     */
+    slice_traverse_children(si,st);
+
+    {
+      slice_index const next_pred = slices[next].prev;
+      if (slices[next_pred].type==STSelfCheckGuardSeriesFilter)
+        /* a STSelfCheckGuardSeriesFilter slice has been inserted in the
+         * loop before next; attach to it
+         */
+        pipe_set_successor(si,next_pred);
+      else
+      {
+        /* Create a STSelfCheckGuardSeriesFilter slice of our own
+         */
+        slice_index const guard = alloc_selfcheck_guard_series_filter();
+        pipe_link(si,guard);
+        pipe_set_successor(guard,next);
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -607,10 +737,133 @@ boolean selfcheck_guards_inserter_branch_direct_defender(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard slice after a STMoveInverter* slice
+/* Insert a STSelfCheckGuard* slice after a STDirectRoot slice
  */
-static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
+static boolean selfcheck_guards_inserter_direct_root(slice_index si,
+                                                     slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const guard = alloc_selfcheck_guard_root_defender_filter();
+    pipe_link(guard,next);
+    pipe_link(si,guard);
+    slice_traverse_children(guard,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a STSelfCheckGuard* slice after a STBranchDirect slice
+ */
+static boolean selfcheck_guards_inserter_branch_direct(slice_index si,
                                                        slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const guard = alloc_selfcheck_guard_defender_filter();
+    pipe_link(guard,next);
+    pipe_link(si,guard);
+    slice_traverse_children(guard,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a STSelfCheckGuard* slice after a STBranchDirectDefenderRoot
+ * slice
+ */
+static boolean
+selfcheck_guards_inserter_branch_direct_defender_root(slice_index si,
+                                                      slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  /* in self stipulations, the last defender's move may be allowed to
+   * expose its own king (e.g. in s##!) */
+  if (slices[next].type!=STSelfDefense)
+  {
+    slice_index const next_pred = slices[next].prev;
+    if (slices[next_pred].type==STSelfCheckGuardAttackerFilter)
+      /* a STSelfCheckGuardSeriesFilter slice has been inserted in the
+       * loop before next; attach to it
+       */
+      pipe_set_successor(si,next_pred);
+    else
+    {
+      /* Create a STSelfCheckGuardAttackerFilter slice of our own
+       */
+      slice_index const guard = alloc_selfcheck_guard_attacker_filter();
+      pipe_link(si,guard);
+      pipe_set_successor(guard,next);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a STSelfCheckGuard* slice after a STBranchDirectDefender slice
+ */
+static
+boolean selfcheck_guards_inserter_branch_direct_defender(slice_index si,
+                                                         slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[next].type==STSelfDefense)
+    /* in self stipulations, the last defender's move may be allowed
+     * to expose its own king (e.g. in s##!) */
+    slice_traverse_children(si,st);
+  else
+  {
+    slice_index const guard = alloc_selfcheck_guard_attacker_filter();
+    pipe_link(guard,next);
+    pipe_link(si,guard);
+    slice_traverse_children(guard,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a STSelfCheckGuard* slice after a STMoveInverterRootSolvableFilter slice
+ */
+static boolean selfcheck_guards_inserter_move_inverter_root(slice_index si,
+                                                            slice_traversal *st)
 {
   boolean const result = true;
 
@@ -618,12 +871,8 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* prevent double insertion if .next has more than one predecessor
-   */
-  assert(slices[slices[si].u.pipe.next].type!=STSelfCheckGuard);
-
   {
-    slice_index const guard = alloc_selfcheck_guard_slice();
+    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
     pipe_link(guard,slices[si].u.pipe.next);
     pipe_link(si,guard);
   }
@@ -636,7 +885,58 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard slice after a STParryFork slice
+/* Insert a STSelfCheckGuard* slice after a STMoveInverterSolvableFilter slice
+ */
+static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
+                                                       slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const guard = alloc_selfcheck_guard_solvable_filter();
+    pipe_link(guard,slices[si].u.pipe.next);
+    pipe_link(si,guard);
+  }
+
+  slice_traverse_children(slices[si].u.pipe.next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a STSelfCheckGuard* slice after a STMoveInverterSeriesFilter slice
+ */
+static
+boolean selfcheck_guards_inserter_move_inverter_series(slice_index si,
+                                                       slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const guard = alloc_selfcheck_guard_series_filter();
+    pipe_link(guard,slices[si].u.pipe.next);
+    pipe_link(si,guard);
+  }
+
+  slice_traverse_children(slices[si].u.pipe.next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Insert a STSelfCheckGuard* slice after a STParryFork slice
  */
 static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
                                                     slice_traversal *st)
@@ -669,11 +969,11 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
 static slice_operation const selfcheck_guards_inserters[] =
 {
   &slice_traverse_children,                 /* STProxy */
-  &selfcheck_guards_inserter_branch,        /* STBranchDirect */
-  &selfcheck_guards_inserter_branch_direct_defender, /* STBranchDirectDefender */
-  &selfcheck_guards_inserter_branch,        /* STBranchHelp */
+  &selfcheck_guards_inserter_branch_direct, /* STBranchDirect */
+  &selfcheck_guards_inserter_branch_direct_defender_root, /* STBranchDirectDefender */
+  &selfcheck_guards_inserter_branch_help,   /* STBranchHelp */
   &slice_traverse_children,                 /* STHelpFork */
-  &selfcheck_guards_inserter_branch,        /* STBranchSeries */
+  &selfcheck_guards_inserter_branch_series, /* STBranchSeries */
   &slice_traverse_children,                 /* STSeriesFork */
   &slice_operation_noop,                    /* STLeafDirect */
   &slice_operation_noop,                    /* STLeafHelp */
@@ -681,10 +981,10 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STReciprocal */
   &slice_traverse_children,                 /* STQuodlibet */
   &slice_traverse_children,                 /* STNot */
-  &selfcheck_guards_inserter_move_inverter, /* STMoveInverterRootSolvableFilter */
+  &selfcheck_guards_inserter_move_inverter_root, /* STMoveInverterRootSolvableFilter */
   &selfcheck_guards_inserter_move_inverter, /* STMoveInverterSolvableFilter */
-  &selfcheck_guards_inserter_move_inverter, /* STMoveInverterSeriesFilter */
-  &selfcheck_guards_inserter_branch,        /* STDirectRoot */
+  &selfcheck_guards_inserter_move_inverter_series, /* STMoveInverterSeriesFilter */
+  &selfcheck_guards_inserter_direct_root,   /* STDirectRoot */
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &slice_traverse_children,                 /* STHelpRoot */
@@ -692,14 +992,20 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STSeriesRoot */
   &selfcheck_guards_inserter_parry_fork,    /* STParryFork */
   &slice_traverse_children,                 /* STSeriesHashed */
-  &slice_operation_noop,                    /* STSelfCheckGuard */
+  &slice_operation_noop,                    /* STSelfCheckGuardRootSolvableFilter */
+  &slice_operation_noop,                    /* STSelfCheckGuardSolvableFilter */
+  &slice_operation_noop,                    /* STSelfCheckGuardRootDefenderFilter */
+  &slice_operation_noop,                    /* STSelfCheckGuardAttackerFilter */
+  &slice_operation_noop,                    /* STSelfCheckGuardDefenderFilter */
+  &slice_operation_noop,                    /* STSelfCheckGuardHelpFilter */
+  &slice_operation_noop,                    /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,                 /* STDirectDefense */
   &slice_traverse_children,                 /* STReflexHelpFilter */
   &slice_traverse_children,                 /* STReflexSeriesFilter */
   &slice_traverse_children,                 /* STReflexAttackerFilter */
   &slice_traverse_children,                 /* STReflexDefenderFilter */
   &slice_traverse_children,                 /* STSelfAttack */
-  &selfcheck_guards_inserter_branch,        /* STSelfDefense */
+  &selfcheck_guards_inserter_branch_direct_defender, /* STSelfDefense */
   0,                                        /* STRestartGuard */
   &slice_traverse_children,                 /* STGoalReachableGuard */
   0,                                        /* STKeepMatingGuard */
@@ -712,32 +1018,7 @@ static slice_operation const selfcheck_guards_inserters[] =
  * STSelfCheckGuard slice inserted early later on a different path
  */
 
-
-/* Insert a STSelfCheckGuard at the beginning of a toplevel "leaf slice"
- */
-static boolean selfcheck_guards_inserter_toplevel_leaf(slice_index si,
-                                                       slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prev = slices[si].prev;
-    slice_index const guard = alloc_selfcheck_guard_slice();
-    pipe_link(prev,guard);
-    pipe_link(guard,si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STSelfCheckGuard at the beginning of a toplevel branch
+/* Insert a STSelfCheckGuard* at the beginning of a toplevel branch
  */
 static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
                                                        slice_traversal *st)
@@ -750,7 +1031,7 @@ static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
 
   {
     slice_index const prev = slices[si].prev;
-    slice_index const guard = alloc_selfcheck_guard_slice();
+    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
     pipe_link(prev,guard);
     pipe_link(guard,si);
   }
@@ -770,9 +1051,9 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STHelpFork */
   0,                                             /* STBranchSeries */
   0,                                             /* STSeriesFork */
-  &selfcheck_guards_inserter_toplevel_leaf,      /* STLeafDirect */
-  &selfcheck_guards_inserter_toplevel_leaf,      /* STLeafHelp */
-  &selfcheck_guards_inserter_toplevel_leaf,      /* STLeafForced */
+  &selfcheck_guards_inserter_toplevel_root,      /* STLeafDirect */
+  &selfcheck_guards_inserter_toplevel_root,      /* STLeafHelp */
+  &selfcheck_guards_inserter_toplevel_root,      /* STLeafForced */
   &slice_traverse_children,                      /* STReciprocal */
   &slice_traverse_children,                      /* STQuodlibet */
   &slice_traverse_children,                      /* STNot */
@@ -787,7 +1068,13 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &selfcheck_guards_inserter_toplevel_root,      /* STSeriesRoot */
   0,                                             /* STParryFork */
   0,                                             /* STSeriesHashed */
-  &slice_operation_noop,                         /* STSelfCheckGuard */
+  &slice_operation_noop,                         /* STSelfCheckGuardRootSolvableFilter */
+  &slice_operation_noop,                         /* STSelfCheckGuardSolvableFilter */
+  &slice_operation_noop,                         /* STSelfCheckGuardRootDefenderFilter */
+  &slice_operation_noop,                         /* STSelfCheckGuardAttackerFilter */
+  &slice_operation_noop,                         /* STSelfCheckGuardDefenderFilter */
+  &slice_operation_noop,                         /* STSelfCheckGuardHelpFilter */
+  &slice_operation_noop,                         /* STSelfCheckGuardSeriesFilter */
   &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefense */
   &selfcheck_guards_inserter_toplevel_root,      /* STReflexHelpFilter */
   &selfcheck_guards_inserter_toplevel_root,      /* STReflexSeriesFilter */

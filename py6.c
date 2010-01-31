@@ -516,7 +516,13 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STSeriesRoot */
   0,                                  /* STParryFork */
   0,                                  /* STSeriesHashed */
-  &slice_traverse_children,           /* STSelfCheckGuard */
+  &slice_traverse_children,           /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,           /* STSelfCheckGuardSolvableFilter */
+  0,                                  /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,           /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,           /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,           /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,           /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,           /* STDirectDefense */
   0,                                  /* STReflexHelpFilter */
   0,                                  /* STReflexSeriesFilter */
@@ -2592,7 +2598,13 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STSeriesRoot */
   &pipe_traverse_next,                       /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
-  &slice_traverse_children,                  /* STSelfCheckGuard */
+  &slice_traverse_children,                  /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,                  /* STDirectDefense */
   &slice_traverse_children,                  /* STReflexHelpFilter */
   &slice_traverse_children,                  /* STReflexSeriesFilter */

@@ -244,7 +244,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STMaxNrNonTrivial:
-      case STSelfCheckGuard:
+      case STSelfCheckGuardRootSolvableFilter:
+      case STSelfCheckGuardSolvableFilter:
+      case STSelfCheckGuardRootDefenderFilter:
+      case STSelfCheckGuardAttackerFilter:
+      case STSelfCheckGuardDefenderFilter:
+      case STSelfCheckGuardHelpFilter:
+      case STSelfCheckGuardSeriesFilter:
         fprintf(stdout,"prev:%u ",slices[si].prev);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);
         fprintf(stdout,"\n");
