@@ -32,6 +32,27 @@ boolean move_inverter_root_solve(slice_index si);
  */
 boolean move_inverter_solve(slice_index si);
 
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type move_inverter_has_solution(slice_index si);
+
+/* Solve in a number of half-moves
+ * @param si identifies slice
+ * @param n exact number of half moves until end state has to be reached
+ * @return true iff >=1 solution was found
+ */
+boolean move_inverter_series_solve_in_n(slice_index si, stip_length_type n);
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+boolean move_inverter_series_has_solution_in_n(slice_index si,
+                                               stip_length_type n);
+
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

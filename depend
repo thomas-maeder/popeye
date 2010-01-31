@@ -1223,9 +1223,9 @@ trace.h:
 pyseries$(OBJ_SUFFIX): pyseries.c pyseries.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h \
   pyslice.h pybraser.h pyhelp.h pydirect.h pybrafrk.h pyhash.h \
-  DHT/dhtbcmem.h pyreflxg.h pykeepmt.h pyselfcg.h pymovenb.h pypipe.h \
-  stipulation/series_play/parry_fork.h py.h pystip.h pyslice.h pyint.h \
-  pydata.h pyproc.h py4.h trace.h
+  DHT/dhtbcmem.h pyreflxg.h pykeepmt.h pyselfcg.h pymovein.h pymovenb.h \
+  pypipe.h stipulation/series_play/parry_fork.h py.h pystip.h pyslice.h \
+  pyint.h pydata.h pyproc.h py4.h trace.h
 
 pyseries.h:
 
@@ -1271,6 +1271,8 @@ pykeepmt.h:
 
 pyselfcg.h:
 
+pymovein.h:
+
 pymovenb.h:
 
 pypipe.h:
@@ -1294,7 +1296,7 @@ py4.h:
 trace.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pytable.h \
-  pyseries.h stipulation/proxy.h pypipe.h trace.h
+  stipulation/proxy.h pypipe.h trace.h
 
 pypipe.h:
 
@@ -1321,8 +1323,6 @@ pylang.h:
 pyslice.h:
 
 pytable.h:
-
-pyseries.h:
 
 stipulation/proxy.h:
 
@@ -2414,8 +2414,8 @@ pyleaf.h:
 pyoutput.h:
 pymovein$(OBJ_SUFFIX): pymovein.c pymovein.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h pygoal.h \
-  pytable.h pypipe.h pyproc.h py4.h pyoutput.h pydata.h pyintslv.h \
-  trace.h
+  pytable.h pyseries.h pypipe.h pyproc.h py4.h pyoutput.h pydata.h \
+  pyintslv.h trace.h
 
 pymovein.h:
 
@@ -2442,6 +2442,8 @@ pystip.h:
 pygoal.h:
 
 pytable.h:
+
+pyseries.h:
 
 pypipe.h:
 

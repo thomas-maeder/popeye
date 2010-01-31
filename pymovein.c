@@ -1,5 +1,6 @@
 #include "pymovein.h"
 #include "pyslice.h"
+#include "pyseries.h"
 #include "pypipe.h"
 #include "pyproc.h"
 #include "pyoutput.h"
@@ -89,6 +90,70 @@ boolean move_inverter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   result = slice_solve(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type move_inverter_has_solution(slice_index si)
+{
+  has_solution_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = slice_has_solution(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice has a solution
+ * @param pipe slice index
+ * @param n exact number of half moves until end state has to be reached
+ * @return true iff slice si has a solution
+ */
+boolean move_inverter_series_solve_in_n(slice_index pipe, stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  result = series_solve_in_n(slices[pipe].u.pipe.next,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return true iff >= 1 solution has been found
+ */
+boolean move_inverter_series_has_solution_in_n(slice_index si,
+                                               stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  result = series_has_solution_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

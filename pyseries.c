@@ -240,7 +240,6 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STMoveInverter:
       result = move_inverter_series_has_solution_in_n(si,n);
-      result = series_has_solution_in_n(slices[si].u.pipe.next,n);
       break;
 
     default:

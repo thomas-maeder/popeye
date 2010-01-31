@@ -362,7 +362,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STMoveInverter:
       result = move_inverter_has_solution(si);
-      result = slice_has_solution(slices[si].u.pipe.next);
       break;
 
     case STBranchSeries:

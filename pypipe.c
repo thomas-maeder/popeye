@@ -1,5 +1,4 @@
 #include "pypipe.h"
-#include "pyseries.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -221,27 +220,6 @@ has_solution_type pipe_has_solution(slice_index pipe)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param pipe slice index
- * @param n exact number of half moves until end state has to be reached
- * @return true iff slice si has a solution
- */
-boolean pipe_series_solve_in_n(slice_index pipe, stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  result = series_solve_in_n(slices[pipe].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
