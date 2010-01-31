@@ -66,7 +66,7 @@
     ENUMERATOR(STSelfAttack),      /* self play, just played attack */  \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
                                                                         \
-    ENUMERATOR(STRestartGuard),    /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STRestartGuard),    /* write move numbers */ \
                                                                         \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
