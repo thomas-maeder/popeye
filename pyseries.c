@@ -7,6 +7,7 @@
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
+#include "pymovein.h"
 #include "pymovenb.h"
 #include "pypipe.h"
 #include "stipulation/series_play/parry_fork.h"
@@ -65,7 +66,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STMoveInverter:
-      result = pipe_series_solve_in_n(si,n);
+      result = move_inverter_series_solve_in_n(si,n);
       break;
 
     case STReflexSeriesFilter:
@@ -238,6 +239,7 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
       break;
 
     case STMoveInverter:
+      result = move_inverter_series_has_solution_in_n(si,n);
       result = series_has_solution_in_n(slices[si].u.pipe.next,n);
       break;
 
