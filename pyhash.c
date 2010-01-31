@@ -325,7 +325,11 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STRestartGuardHelpFilter */
   &slice_property_offset_shifter, /* STRestartGuardSeriesFilter */
   &slice_property_offset_shifter, /* STGoalReachableGuard */
-  &slice_property_offset_shifter, /* STKeepMatingGuard */
+  &slice_property_offset_shifter, /* STKeepMatingGuardRootDefenderFilter */
+  &slice_property_offset_shifter, /* STKeepMatingGuardAttackerFilter */
+  &slice_property_offset_shifter, /* STKeepMatingGuardDefenderFilter */
+  &slice_property_offset_shifter, /* STKeepMatingGuardHelpFilter */
+  &slice_property_offset_shifter, /* STKeepMatingGuardSeriesFilter */
   &slice_property_offset_shifter, /* STMaxFlightsquares */
   &slice_property_offset_shifter, /* STDegenerateTree */
   &slice_property_offset_shifter, /* STMaxNrNonTrivial */
@@ -730,7 +734,11 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
   &init_slice_properties_pipe,           /* STRestartGuardSeriesFilter */
   &init_slice_properties_pipe,           /* STGoalReachableGuard */
-  &init_slice_properties_pipe,           /* STKeepMatingGuard */
+  &init_slice_properties_pipe,           /* STKeepMatingGuardRootDefenderFilter */
+  &init_slice_properties_pipe,           /* STKeepMatingGuardAttackerFilter */
+  &init_slice_properties_pipe,           /* STKeepMatingGuardDefenderFilter */
+  &init_slice_properties_pipe,           /* STKeepMatingGuardHelpFilter */
+  &init_slice_properties_pipe,           /* STKeepMatingGuardSeriesFilter */
   &init_slice_properties_pipe,           /* STMaxFlightsquares */
   &init_slice_properties_pipe,           /* STDegenerateTree */
   &init_slice_properties_pipe,           /* STMaxNrNonTrivial */

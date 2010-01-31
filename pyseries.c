@@ -73,7 +73,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       result = reflex_series_filter_solve_in_n(si,n);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardSeriesFilter:
       result = keepmating_guard_series_solve_in_n(si,n);
       break;
 
@@ -226,7 +226,7 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
       result = reflex_series_filter_has_solution_in_n(si,n);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardSeriesFilter:
       result = keepmating_guard_series_has_solution_in_n(si,n);
       break;
 
@@ -314,7 +314,7 @@ void series_solve_threats_in_n(table threats,
       reflex_series_filter_solve_threats_in_n(threats,si,n);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardSeriesFilter:
       keepmating_guard_series_solve_threats_in_n(threats,si,n);
       break;
 

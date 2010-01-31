@@ -25,7 +25,7 @@ boolean read_max_flights(const char *textToken);
  */
 unsigned int get_max_flights(void);
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STMaxFlightsquares slices
  */
 void stip_insert_maxflight_guards(void);
 

@@ -2862,7 +2862,11 @@ static slice_operation const moves_left_initialisers[] =
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
   0,                                /* STGoalReachableGuard */
-  &slice_traverse_children,         /* STKeepMatingGuard */
+  0,                                /* STKeepMatingGuardRootDefenderFilter */
+  0,                                /* STKeepMatingGuardAttackerFilter */
+  0,                                /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,         /* STMaxFlightsquares */
   &slice_traverse_children,         /* STDegenerateTree */
   &slice_traverse_children,         /* STMaxNrNonTrivial */
@@ -3275,7 +3279,11 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,                  /* STRestartGuardHelpFilter */
   &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
   0,                                         /* STGoalReachableGuard */
-  &slice_traverse_children,                  /* STKeepMatingGuard */
+  0,                                         /* STKeepMatingGuardRootDefenderFilter */
+  0,                                         /* STKeepMatingGuardAttackerFilter */
+  0,                                         /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,                  /* STMaxFlightsquares */
   &slice_traverse_children,                  /* STDegenerateTree */
   &slice_traverse_children,                  /* STMaxNrNonTrivial */
@@ -3502,7 +3510,11 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STRestartGuardHelpFilter */
   &slice_traverse_children,                      /* STRestartGuardSeriesFilter */
   0,                                             /* STGoalReachableGuard */
-  &slice_traverse_children,                      /* STKeepMatingGuard */
+  &intelligent_mode_support_none,                /* STKeepMatingGuardRootDefenderFilter */
+  &intelligent_mode_support_none,                /* STKeepMatingGuardAttackerFilter */
+  &intelligent_mode_support_none,                /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,                      /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,                      /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,                      /* STMaxFlightsquares */
   &slice_traverse_children,                      /* STDegenerateTree */
   &slice_traverse_children,                      /* STMaxNrNonTrivial */

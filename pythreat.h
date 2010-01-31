@@ -25,7 +25,7 @@ boolean read_max_threat_length(const char *textToken);
  */
 stip_length_type get_max_threat_length(void);
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STMaxThreatLength slices
  */
 void stip_insert_maxthreatlength_guards(void);
 

@@ -11,11 +11,11 @@
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STKeepMatingGuard slice
+/* Allocate a STKeepMatingGuardRootDefenderFilter slice
  * @param side mating side
  * @return identifier of allocated slice
  */
-static slice_index alloc_keepmating_guard(Side mating)
+static slice_index alloc_keepmating_guard_root_defender_filter(Side mating)
 {
   slice_index result;
 
@@ -23,7 +23,91 @@ static slice_index alloc_keepmating_guard(Side mating)
   TraceEnumerator(Side,mating,"");
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STKeepMatingGuard);
+  result = alloc_pipe(STKeepMatingGuardRootDefenderFilter);
+  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STKeepMatingGuardAttackerFilter slice
+ * @param side mating side
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_keepmating_guard_attacker_filter(Side mating)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,mating,"");
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STKeepMatingGuardAttackerFilter);
+  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STKeepMatingGuardDefenderFilter slice
+ * @param side mating side
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_keepmating_guard_defender_filter(Side mating)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,mating,"");
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STKeepMatingGuardDefenderFilter);
+  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STKeepMatingGuardHelpFilter slice
+ * @param side mating side
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_keepmating_guard_help_filter(Side mating)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,mating,"");
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STKeepMatingGuardHelpFilter);
+  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STKeepMatingGuardSeriesFilter slice
+ * @param side mating side
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_keepmating_guard_series_filter(Side mating)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,mating,"");
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STKeepMatingGuardSeriesFilter);
   slices[result].u.pipe.u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
@@ -544,8 +628,8 @@ static boolean keepmating_guards_inserter_branch_fork(slice_index si,
   return result;
 }
 
-static boolean keepmating_guards_inserter_branch(slice_index si,
-                                                 slice_traversal *st)
+static boolean keepmating_guards_inserter_branch_direct_root(slice_index si,
+                                                             slice_traversal *st)
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
@@ -559,10 +643,154 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
   slice_traverse_children(si,st);
 
   if ((*km)[White])
-    guard = alloc_keepmating_guard(White);
+    guard = alloc_keepmating_guard_root_defender_filter(White);
 
   if ((*km)[Black])
-    guard = alloc_keepmating_guard(Black);
+    guard = alloc_keepmating_guard_root_defender_filter(Black);
+
+  if (guard!=no_slice)
+  {
+    pipe_link(si,guard);
+
+    if (slices[next].prev==si)
+      pipe_link(guard,next);
+    else
+      pipe_set_successor(guard,next);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean keepmating_guards_inserter_defender(slice_index si,
+                                                   slice_traversal *st)
+{
+  boolean const result = true;
+  keepmating_type const * const km = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index guard = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  if ((*km)[White])
+    guard = alloc_keepmating_guard_attacker_filter(White);
+
+  if ((*km)[Black])
+    guard = alloc_keepmating_guard_attacker_filter(Black);
+
+  if (guard!=no_slice)
+  {
+    pipe_link(si,guard);
+
+    if (slices[next].prev==si)
+      pipe_link(guard,next);
+    else
+      pipe_set_successor(guard,next);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean keepmating_guards_inserter_branch_direct(slice_index si,
+                                                        slice_traversal *st)
+{
+  boolean const result = true;
+  keepmating_type const * const km = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index guard = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  if ((*km)[White])
+    guard = alloc_keepmating_guard_defender_filter(White);
+
+  if ((*km)[Black])
+    guard = alloc_keepmating_guard_defender_filter(Black);
+
+  if (guard!=no_slice)
+  {
+    pipe_link(si,guard);
+
+    if (slices[next].prev==si)
+      pipe_link(guard,next);
+    else
+      pipe_set_successor(guard,next);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean keepmating_guards_inserter_branch_help(slice_index si,
+                                                      slice_traversal *st)
+{
+  boolean const result = true;
+  keepmating_type const * const km = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index guard = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  if ((*km)[White])
+    guard = alloc_keepmating_guard_help_filter(White);
+
+  if ((*km)[Black])
+    guard = alloc_keepmating_guard_help_filter(Black);
+
+  if (guard!=no_slice)
+  {
+    pipe_link(si,guard);
+
+    if (slices[next].prev==si)
+      pipe_link(guard,next);
+    else
+      pipe_set_successor(guard,next);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean keepmating_guards_inserter_branch_series(slice_index si,
+                                                        slice_traversal *st)
+{
+  boolean const result = true;
+  keepmating_type const * const km = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index guard = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  if ((*km)[White])
+    guard = alloc_keepmating_guard_series_filter(White);
+
+  if ((*km)[Black])
+    guard = alloc_keepmating_guard_series_filter(Black);
 
   if (guard!=no_slice)
   {
@@ -583,11 +811,11 @@ static boolean keepmating_guards_inserter_branch(slice_index si,
 static slice_operation const keepmating_guards_inserters[] =
 {
   &slice_traverse_children,                /* STProxy */
-  &keepmating_guards_inserter_branch,      /* STBranchDirect */
-  &keepmating_guards_inserter_branch,      /* STBranchDirectDefender */
-  &keepmating_guards_inserter_branch,      /* STBranchHelp */
+  &keepmating_guards_inserter_branch_direct,  /* STBranchDirect */
+  &keepmating_guards_inserter_defender,    /* STBranchDirectDefender */
+  &keepmating_guards_inserter_branch_help,      /* STBranchHelp */
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
-  &slice_traverse_children,                /* STBranchSeries */
+  &keepmating_guards_inserter_branch_series, /* STBranchSeries */
   &keepmating_guards_inserter_branch_fork, /* STSeriesFork */
   &keepmating_guards_inserter_leaf,        /* STLeafDirect */
   &keepmating_guards_inserter_leaf,        /* STLeafHelp */
@@ -598,12 +826,12 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                /* STMoveInverterSeriesFilter */
-  &keepmating_guards_inserter_branch,      /* STDirectRoot */
-  &keepmating_guards_inserter_branch,      /* STDirectDefenderRoot */
+  &keepmating_guards_inserter_branch_direct_root, /* STDirectRoot */
+  &keepmating_guards_inserter_defender,    /* STDirectDefenderRoot */
   &slice_traverse_children,                /* STDirectHashed */
-  &keepmating_guards_inserter_branch,      /* STHelpRoot */
+  &slice_traverse_children,                /* STHelpRoot */
   &slice_traverse_children,                /* STHelpHashed */
-  &keepmating_guards_inserter_branch,      /* STSeriesRoot */
+  &slice_traverse_children,                /* STSeriesRoot */
   &slice_traverse_children,                /* STParryFork */
   &slice_traverse_children,                /* STSeriesHashed */
   &slice_traverse_children,                /* STSelfCheckGuardRootSolvableFilter */
@@ -624,7 +852,11 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STRestartGuardHelpFilter */
   &slice_traverse_children,                /* STRestartGuardSeriesFilter */
   0,                                       /* STGoalReachableGuard */
-  0,                                       /* STKeepMatingGuard */
+  0,                                       /* STKeepMatingGuardRootDefenderFilter */
+  0,                                       /* STKeepMatingGuardAttackerFilter */
+  0,                                       /* STKeepMatingGuardDefenderFilter */
+  0,                                       /* STKeepMatingGuardHelpFilter */
+  0,                                       /* STKeepMatingGuardSeriesFilter */
   0,                                       /* STMaxFlightsquares */
   &slice_traverse_children,                /* STDegenerateTree */
   &slice_traverse_children,                /* STMaxNrNonTrivial */

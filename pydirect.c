@@ -53,7 +53,7 @@ boolean direct_defender_root_defend(slice_index si)
       result = selfcheck_guard_root_defend(si);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardRootDefenderFilter:
       result = keepmating_guard_root_defend(si);
       break;
 
@@ -136,7 +136,7 @@ boolean direct_are_threats_refuted_in_n(table threats,
       result = selfcheck_guard_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardAttackerFilter:
       result = keepmating_guard_are_threats_refuted_in_n(threats,
                                                          len_threat,
                                                          si,
@@ -225,7 +225,7 @@ stip_length_type direct_has_solution_in_n(slice_index si,
       result = selfcheck_guard_direct_has_solution_in_n(si,n,n_min);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardAttackerFilter:
       result = keepmating_guard_direct_has_solution_in_n(si,n,n_min);
       break;
 
@@ -335,7 +335,7 @@ void direct_solve_continuations_in_n(slice_index si,
       selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardAttackerFilter:
       keepmating_guard_direct_solve_continuations_in_n(si,n,n_min);
       break;
 
@@ -404,7 +404,7 @@ stip_length_type direct_solve_threats_in_n(table threats,
       result = selfcheck_guard_direct_solve_threats_in_n(threats,si,n,n_min);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardAttackerFilter:
       result = keepmating_guard_direct_solve_threats_in_n(threats,si,n,n_min);
       break;
 
@@ -726,7 +726,7 @@ boolean direct_defender_defend_in_n(slice_index si, stip_length_type n)
       result = reflex_defender_filter_defend_in_n(si,n);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardDefenderFilter:
       result = keepmating_guard_defend_in_n(si,n);
       break;
 
@@ -792,7 +792,7 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
       result = selfcheck_guard_can_defend_in_n(si,n,max_result);
       break;
 
-    case STKeepMatingGuard:
+    case STKeepMatingGuardDefenderFilter:
       result = keepmating_guard_can_defend_in_n(si,n,max_result);
       break;
 

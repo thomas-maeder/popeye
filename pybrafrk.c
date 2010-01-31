@@ -549,7 +549,11 @@ static slice_operation const slice_to_fork_deallocators[] =
   0,                                    /* STRestartGuardHelpFilter */
   0,                                    /* STRestartGuardSeriesFilter */
   0,                                    /* STGoalReachableGuard */
-  &traverse_and_deallocate,             /* STKeepMatingGuard */
+  &traverse_and_deallocate,             /* STKeepMatingGuardRootDefenderFilter */
+  &traverse_and_deallocate,             /* STKeepMatingGuardAttackerFilter */
+  &traverse_and_deallocate,             /* STKeepMatingGuardDefenderFilter */
+  &traverse_and_deallocate,             /* STKeepMatingGuardHelpFilter */
+  &traverse_and_deallocate,             /* STKeepMatingGuardSeriesFilter */
   &traverse_and_deallocate,             /* STMaxFlightsquares */
   &traverse_and_deallocate,             /* STDegenerateTree */
   &traverse_and_deallocate,             /* STMaxNrNonTrivial */

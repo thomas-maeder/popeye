@@ -342,7 +342,11 @@ has_solution_type slice_has_solution(slice_index si)
     case STBranchDirect:
     case STDirectDefense:
     case STSelfDefense:
-    case STKeepMatingGuard:
+    case STKeepMatingGuardRootDefenderFilter:
+    case STKeepMatingGuardAttackerFilter:
+    case STKeepMatingGuardDefenderFilter:
+    case STKeepMatingGuardHelpFilter:
+    case STKeepMatingGuardSeriesFilter:
     case STDegenerateTree:
     case STDirectHashed:
       result = direct_has_solution(si);

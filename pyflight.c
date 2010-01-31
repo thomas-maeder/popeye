@@ -289,14 +289,18 @@ static slice_operation const maxflight_guards_inserters[] =
   &slice_traverse_children,  /* STRestartGuardHelpFilter */
   &slice_traverse_children,  /* STRestartGuardSeriesFilter */
   &slice_traverse_children,  /* STGoalReachableGuard */
-  &slice_traverse_children,  /* STKeepMatingGuard */
+  &slice_traverse_children,  /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,  /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,  /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,  /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,  /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,  /* STMaxFlightsquares */
   &slice_traverse_children,  /* STDegenerateTree */
   &slice_traverse_children,  /* STMaxNrNonTrivial */
   &slice_traverse_children   /* STMaxThreatLength */
 };
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STMaxFlightsquares slices
  */
 void stip_insert_maxflight_guards(void)
 {

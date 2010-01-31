@@ -71,7 +71,11 @@
     ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
                                                                         \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
-    ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STKeepMatingGuardRootDefenderFilter), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STKeepMatingGuardAttackerFilter), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STKeepMatingGuardDefenderFilter), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STKeepMatingGuardHelpFilter), /* deals with option KeepMatingPiece */ \
+    ENUMERATOR(STKeepMatingGuardSeriesFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \

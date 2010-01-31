@@ -534,7 +534,11 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STRestartGuardHelpFilter */
   0,                                  /* STRestartGuardSeriesFilter */
   0,                                  /* STGoalReachableGuard */
-  0,                                  /* STKeepMatingGuard */
+  0,                                  /* STKeepMatingGuardRootDefenderFilter */
+  0,                                  /* STKeepMatingGuardAttackerFilter */
+  0,                                  /* STKeepMatingGuardDefenderFilter */
+  0,                                  /* STKeepMatingGuardHelpFilter */
+  0,                                  /* STKeepMatingGuardSeriesFilter */
   0,                                  /* STMaxFlightsquares */
   0,                                  /* STDegenerateTree */
   0,                                  /* STMaxNrNonTrivial */
@@ -2618,7 +2622,11 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STRestartGuardHelpFilter */
   &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
   &slice_traverse_children,                  /* STGoalReachableGuard */
-  &slice_traverse_children,                  /* STKeepMatingGuard */
+  &slice_traverse_children,                  /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,                  /* STMaxFlightsquares */
   &slice_traverse_children,                  /* STDegenerateTree */
   &slice_traverse_children,                  /* STMaxNrNonTrivial */

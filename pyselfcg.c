@@ -1010,7 +1010,11 @@ static slice_operation const selfcheck_guards_inserters[] =
   0,                                        /* STRestartGuardHelpFilter */
   0,                                        /* STRestartGuardSeriesFilter */
   &slice_traverse_children,                 /* STGoalReachableGuard */
-  0,                                        /* STKeepMatingGuard */
+  0,                                        /* STKeepMatingGuardRootDefenderFilter */
+  0,                                        /* STKeepMatingGuardAttackerFilter */
+  0,                                        /* STKeepMatingGuardDefenderFilter */
+  0,                                        /* STKeepMatingGuardHelpFilter */
+  0,                                        /* STKeepMatingGuardSeriesFilter */
   0,                                        /* STMaxFlightsquares */
   &slice_traverse_children,                 /* STDegenerateTree */
   &slice_traverse_children,                 /* STMaxNrNonTrivial */
@@ -1088,7 +1092,11 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STRestartGuardHelpFilter */
   0,                                             /* STRestartGuardSeriesFilter */
   0,                                             /* STGoalReachableGuard */
-  0,                                             /* STKeepMatingGuard */
+  0,                                             /* STKeepMatingGuardRootDefenderFilter */
+  0,                                             /* STKeepMatingGuardAttackerFilter */
+  0,                                             /* STKeepMatingGuardDefenderFilter */
+  0,                                             /* STKeepMatingGuardHelpFilter */
+  0,                                             /* STKeepMatingGuardSeriesFilter */
   0,                                             /* STMaxFlightsquares */
   0,                                             /* STDegenerateTree */
   0,                                             /* STMaxNrNonTrivial */

@@ -314,7 +314,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
-      case STKeepMatingGuard:
+      case STKeepMatingGuardRootDefenderFilter:
+      case STKeepMatingGuardAttackerFilter:
+      case STKeepMatingGuardDefenderFilter:
+      case STKeepMatingGuardHelpFilter:
+      case STKeepMatingGuardSeriesFilter:
         fprintf(stdout,"mating:%u ",
                 slices[si].u.pipe.u.keepmating_guard.mating);
         fprintf(stdout,"prev:%u ",slices[si].prev);

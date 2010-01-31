@@ -22,7 +22,7 @@ void reset_degenerate_tree(void);
  */
 void init_degenerate_tree(stip_length_type max_length_short);
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STDegenerateTree slices
  */
 void stip_insert_degenerate_tree_guards(void);
 

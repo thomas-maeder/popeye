@@ -1355,7 +1355,11 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STRestartGuardHelpFilter */
   0,                                   /* STRestartGuardSeriesFilter */
   0,                                   /* STGoalReachableGuard */
-  0,                                   /* STKeepMatingGuard */
+  0,                                   /* STKeepMatingGuardRootDefenderFilter */
+  0,                                   /* STKeepMatingGuardAttackerFilter */
+  0,                                   /* STKeepMatingGuardDefenderFilter */
+  0,                                   /* STKeepMatingGuardHelpFilter */
+  0,                                   /* STKeepMatingGuardSeriesFilter */
   0,                                   /* STMaxFlightsquares */
   0,                                   /* STDegenerateTree */
   0,                                   /* STMaxNrNonTrivial */
@@ -1518,7 +1522,11 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STRestartGuardHelpFilter */
   0,                                    /* STRestartGuardSeriesFilter */
   0,                                    /* STGoalReachableGuard */
-  0,                                    /* STKeepMatingGuard */
+  0,                                    /* STKeepMatingGuardRootDefenderFilter */
+  0,                                    /* STKeepMatingGuardAttackerFilter */
+  0,                                    /* STKeepMatingGuardDefenderFilter */
+  0,                                    /* STKeepMatingGuardHelpFilter */
+  0,                                    /* STKeepMatingGuardSeriesFilter */
   0,                                    /* STMaxFlightsquares */
   0,                                    /* STDegenerateTree */
   0,                                    /* STMaxNrNonTrivial */

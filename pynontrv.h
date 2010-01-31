@@ -38,7 +38,7 @@ boolean read_min_length_nontrivial(char const *tok);
  */
 stip_length_type get_min_length_nontrivial(void);
 
-/* Instrument stipulation with STKeepMatingGuard slices
+/* Instrument stipulation with STMaxNrNonTrivial slices
  */
 void stip_insert_max_nr_nontrivial_guards(void);
 
