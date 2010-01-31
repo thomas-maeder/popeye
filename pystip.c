@@ -80,7 +80,9 @@
     ENUMERATOR(STSelfAttack),      /* self play, just played attack */  \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
                                                                         \
-    ENUMERATOR(STRestartGuard),    /* write move numbers */ \
+    ENUMERATOR(STRestartGuardRootDefenderFilter),    /* write move numbers */ \
+    ENUMERATOR(STRestartGuardHelpFilter),    /* write move numbers */ \
+    ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
                                                                         \
     ENUMERATOR(STGoalReachableGuard), /* deals with intelligent mode */ \
     ENUMERATOR(STKeepMatingGuard), /* deals with option KeepMatingPiece */ \
@@ -174,7 +176,9 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STReflexDefenderFilter */
   &mark_reachable_slice, /* STSelfAttack */
   &mark_reachable_slice, /* STSelfDefense */
-  &mark_reachable_slice, /* STRestartGuard */
+  &mark_reachable_slice, /* STRestartGuardRootDefenderFilter */
+  &mark_reachable_slice, /* STRestartGuardHelpFilter */
+  &mark_reachable_slice, /* STRestartGuardSeriesFilter */
   &mark_reachable_slice, /* STGoalReachableGuard */
   &mark_reachable_slice, /* STKeepMatingGuard */
   &mark_reachable_slice, /* STMaxFlightsquares */
@@ -452,7 +456,9 @@ static slice_operation const deallocators[] =
   &traverse_and_deallocate,       /* STReflexDefenderFilter */
   &traverse_and_deallocate,       /* STSelfAttack */
   &traverse_and_deallocate,       /* STSelfDefense */
-  &traverse_and_deallocate,       /* STRestartGuard */
+  &traverse_and_deallocate,       /* STRestartGuardRootDefenderFilter */
+  &traverse_and_deallocate,       /* STRestartGuardHelpFilter */
+  &traverse_and_deallocate,       /* STRestartGuardSeriesFilter */
   &traverse_and_deallocate,       /* STGoalReachableGuard */
   &traverse_and_deallocate,       /* STKeepMatingGuard */
   &traverse_and_deallocate,       /* STMaxFlightsquares */
@@ -555,7 +561,9 @@ static slice_operation const root_slice_inserters[] =
   &reflex_defender_filter_insert_root, /* STReflexDefenderFilter */
   &self_attack_insert_root,            /* STSelfAttack */
   &self_defense_insert_root,           /* STSelfDefense */
-  0,                                   /* STRestartGuard */
+  0,                                   /* STRestartGuardRootDefenderFilter */
+  0,                                   /* STRestartGuardHelpFilter */
+  0,                                   /* STRestartGuardSeriesFilter */
   0,                                   /* STGoalReachableGuard */
   0,                                   /* STKeepMatingGuard */
   0,                                   /* STMaxFlightsquares */
@@ -626,7 +634,9 @@ static slice_operation const proxy_resolvers[] =
   &reflex_filter_resolve_proxies, /* STReflexDefenderFilter */
   &branch_resolve_proxies,        /* STSelfAttack */
   &branch_resolve_proxies,        /* STSelfDefense */
-  &slice_traverse_children,       /* STRestartGuard */
+  &slice_traverse_children,       /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,       /* STRestartGuardHelpFilter */
+  &slice_traverse_children,       /* STRestartGuardSeriesFilter */
   &pipe_resolve_proxies,          /* STGoalReachableGuard */
   &slice_traverse_children,       /* STKeepMatingGuard */
   &slice_traverse_children,       /* STMaxFlightsquares */
@@ -861,7 +871,9 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_other,           /* STReflexDefenderFilter */
   &get_max_nr_moves_other,           /* STSelfAttack */
   &get_max_nr_moves_other,           /* STSelfDefense */
-  &get_max_nr_moves_other,           /* STRestartGuard */
+  &get_max_nr_moves_other,           /* STRestartGuardRootDefenderFilter */
+  &get_max_nr_moves_other,           /* STRestartGuardHelpFilter */
+  &get_max_nr_moves_other,           /* STRestartGuardSeriesFilter */
   &get_max_nr_moves_other,           /* STGoalReachableGuard */
   &get_max_nr_moves_other,           /* STKeepMatingGuard */
   &get_max_nr_moves_other,           /* STMaxFlightsquares */
@@ -965,7 +977,9 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STReflexDefenderFilter */
   &slice_traverse_children, /* STSelfAttack */
   &slice_traverse_children, /* STSelfDefense */
-  &slice_traverse_children, /* STRestartGuard */
+  &slice_traverse_children, /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children, /* STRestartGuardHelpFilter */
+  &slice_traverse_children, /* STRestartGuardSeriesFilter */
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children, /* STKeepMatingGuard */
   &slice_traverse_children, /* STMaxFlightsquares */
@@ -1084,7 +1098,9 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       case STSelfCheckGuardDefenderFilter:
       case STSelfCheckGuardHelpFilter:
       case STSelfCheckGuardSeriesFilter:
-      case STRestartGuard:
+      case STRestartGuardRootDefenderFilter:
+      case STRestartGuardHelpFilter:
+      case STRestartGuardSeriesFilter:
       case STGoalReachableGuard:
       case STKeepMatingGuard:
       case STMaxFlightsquares:
@@ -1209,7 +1225,9 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STReflexDefenderFilter */
   &slice_traverse_children,   /* STSelfAttack */
   &slice_traverse_children,   /* STSelfDefense */
-  &slice_traverse_children,   /* STRestartGuard */
+  &slice_traverse_children,   /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,   /* STRestartGuardHelpFilter */
+  &slice_traverse_children,   /* STRestartGuardSeriesFilter */
   &slice_traverse_children,   /* STGoalReachableGuard */
   &slice_traverse_children,   /* STKeepMatingGuard */
   &slice_traverse_children,   /* STMaxFlightsquares */
@@ -1370,7 +1388,9 @@ static slice_operation const to_quodlibet_transformers[] =
   &transform_to_quodlibet_branch_fork,            /* STReflexDefenderFilter */
   &slice_traverse_children,                       /* STSelfAttack */
   &slice_traverse_children,                       /* STSelfDefense */
-  0,                                              /* STRestartGuard */
+  0,                                              /* STRestartGuardRootDefenderFilter */
+  0,                                              /* STRestartGuardHelpFilter */
+  0,                                              /* STRestartGuardSeriesFilter */
   0,                                              /* STGoalReachableGuard */
   0,                                              /* STKeepMatingGuard */
   0,                                              /* STMaxFlightsquares */
@@ -1439,7 +1459,9 @@ static slice_operation const to_postkey_play_reducers[] =
   &reflex_defender_filter_reduce_to_postkey_play, /* STReflexDefenderFilter */
   &self_attack_root_reduce_to_postkey_play,       /* STSelfAttack */
   0,                                              /* STSelfDefense */
-  0,                                              /* STRestartGuard */
+  0,                                              /* STRestartGuardRootDefenderFilter */
+  0,                                              /* STRestartGuardHelpFilter */
+  0,                                              /* STRestartGuardSeriesFilter */
   0,                                              /* STGoalReachableGuard */
   0,                                              /* STKeepMatingGuard */
   0,                                              /* STMaxFlightsquares */
@@ -1539,7 +1561,9 @@ static slice_operation const setplay_makers[] =
   &reflex_defender_filter_make_setplay_slice, /* STReflexDefenderFilter */
   &self_attack_root_make_setplay_slice,       /* STSelfAttack */
   0,                                          /* STSelfDefense */
-  &pipe_traverse_next,                        /* STRestartGuard */
+  &pipe_traverse_next,                        /* STRestartGuardRootDefenderFilter */
+  &pipe_traverse_next,                        /* STRestartGuardHelpFilter */
+  &pipe_traverse_next,                        /* STRestartGuardSeriesFilter */
   0,                                          /* STGoalReachableGuard */
   &pipe_traverse_next,                        /* STKeepMatingGuard */
   &pipe_traverse_next,                        /* STMaxFlightsquares */
@@ -1701,7 +1725,9 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STReflexDefenderFilter */
   &slice_traverse_children, /* STSelfAttack */
   &slice_traverse_children, /* STSelfDefense */
-  &slice_traverse_children, /* STRestartGuard */
+  &slice_traverse_children, /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children, /* STRestartGuardHelpFilter */
+  &slice_traverse_children, /* STRestartGuardSeriesFilter */
   &slice_traverse_children, /* STGoalReachableGuard */
   &slice_traverse_children, /* STKeepMatingGuard */
   &slice_traverse_children, /* STMaxFlightsquares */
@@ -1793,7 +1819,9 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STReflexDefenderFilter */
   &slice_traverse_children,   /* STSelfAttack */
   &slice_traverse_children,   /* STSelfDefense */
-  &slice_traverse_children,   /* STRestartGuard */
+  &slice_traverse_children,   /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,   /* STRestartGuardHelpFilter */
+  &slice_traverse_children,   /* STRestartGuardSeriesFilter */
   &slice_traverse_children,   /* STGoalReachableGuard */
   &slice_traverse_children,   /* STKeepMatingGuard */
   &slice_traverse_children,   /* STMaxFlightsquares */
@@ -1878,7 +1906,9 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STReflexDefenderFilter */
   &make_exact_branch,       /* STSelfAttack */
   &make_exact_branch,       /* STSelfDefense */
-  &make_exact_branch,       /* STRestartGuard */
+  &make_exact_branch,       /* STRestartGuardRootDefenderFilter */
+  &make_exact_branch,       /* STRestartGuardHelpFilter */
+  &make_exact_branch,       /* STRestartGuardSeriesFilter */
   &make_exact_branch,       /* STGoalReachableGuard */
   &make_exact_branch,       /* STKeepMatingGuard */
   &make_exact_branch,       /* STMaxFlightsquares */
@@ -1943,7 +1973,9 @@ static slice_operation const starter_detectors[] =
   &pipe_detect_starter,                   /* STReflexDefenderFilter */
   &pipe_detect_starter,                   /* STSelfAttack */
   &pipe_detect_starter,                   /* STSelfDefense */
-  0,                                      /* STRestartGuard */
+  0,                                      /* STRestartGuardRootDefenderFilter */
+  0,                                      /* STRestartGuardHelpFilter */
+  0,                                      /* STRestartGuardSeriesFilter */
   0,                                      /* STGoalReachableGuard */
   0,                                      /* STKeepMatingGuard */
   0,                                      /* STMaxFlightsquares */
@@ -2010,7 +2042,9 @@ static slice_operation const starter_imposers[] =
   &reflex_filter_impose_starter,  /* STReflexDefenderFilter */
   &self_attack_impose_starter,    /* STSelfAttack */
   &self_defense_impose_starter,   /* STSelfDefense */
-  &pipe_impose_starter,           /* STRestartGuard */
+  &pipe_impose_starter,           /* STRestartGuardRootDefenderFilter */
+  &pipe_impose_starter,           /* STRestartGuardHelpFilter */
+  &pipe_impose_starter,           /* STRestartGuardSeriesFilter */
   &pipe_impose_starter,           /* STGoalReachableGuard */
   &pipe_impose_starter,           /* STKeepMatingGuard */
   &pipe_impose_starter,           /* STMaxFlightsquares */
@@ -2293,7 +2327,9 @@ static slice_operation const traversers[] =
   &traverse_reflex_guard, /* STReflexDefenderFilter */
   &traverse_guard,        /* STSelfAttack */
   &traverse_guard,        /* STSelfDefense */
-  &traverse_pipe,         /* STRestartGuard */
+  &traverse_pipe,         /* STRestartGuardRootDefenderFilter */
+  &traverse_pipe,         /* STRestartGuardHelpFilter */
+  &traverse_pipe,         /* STRestartGuardSeriesFilter */
   &traverse_pipe,         /* STGoalReachableGuard */
   &traverse_pipe,         /* STKeepMatingGuard */
   &traverse_pipe,         /* STMaxFlightsquares */

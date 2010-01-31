@@ -530,7 +530,9 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STReflexDefenderFilter */
   0,                                  /* STSelfAttack */
   0,                                  /* STSelfDefense */
-  0,                                  /* STRestartGuard */
+  0,                                  /* STRestartGuardRootDefenderFilter */
+  0,                                  /* STRestartGuardHelpFilter */
+  0,                                  /* STRestartGuardSeriesFilter */
   0,                                  /* STGoalReachableGuard */
   0,                                  /* STKeepMatingGuard */
   0,                                  /* STMaxFlightsquares */
@@ -2612,7 +2614,9 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STReflexDefenderFilter */
   &slice_traverse_children,                  /* STSelfAttack */
   &slice_traverse_children,                  /* STSelfDefense */
-  &slice_traverse_children,                  /* STRestartGuard */
+  &slice_traverse_children,                  /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,                  /* STRestartGuardHelpFilter */
+  &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
   &slice_traverse_children,                  /* STGoalReachableGuard */
   &slice_traverse_children,                  /* STKeepMatingGuard */
   &slice_traverse_children,                  /* STMaxFlightsquares */

@@ -75,17 +75,53 @@ static void IncrementMoveNbr(void)
   ++MoveNbr;
 }
 
-/* Allocate a STRestartGuard slice
+/* Allocate a STRestartGuardRootDefenderFilter slice
  * @return allocated slice
  */
-static slice_index alloc_restart_guard(void)
+static slice_index alloc_restart_guard_root_defender_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRestartGuard);
+  result = alloc_pipe(STRestartGuardRootDefenderFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STRestartGuardHelpFilter slice
+ * @return allocated slice
+ */
+static slice_index alloc_restart_guard_help_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STRestartGuardHelpFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a STRestartGuard slice
+ * @return allocated slice
+ */
+static slice_index alloc_restart_guard_series_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STRestartGuardSeriesFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -176,7 +212,33 @@ boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-static boolean restart_guards_inserter_root(slice_index si,
+static boolean restart_guards_inserter_direct_root(slice_index si,
+                                                   slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index guard;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  guard = alloc_restart_guard_root_defender_filter();
+
+  if (slices[next].prev==si)
+    pipe_link(guard,next);
+  else
+    pipe_set_successor(guard,next);
+
+  pipe_link(si,guard);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean restart_guards_inserter_help(slice_index si,
                                             slice_traversal *st)
 {
   boolean const result = true;
@@ -187,7 +249,33 @@ static boolean restart_guards_inserter_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  guard = alloc_restart_guard();
+  guard = alloc_restart_guard_help_filter();
+
+  if (slices[next].prev==si)
+    pipe_link(guard,next);
+  else
+    pipe_set_successor(guard,next);
+
+  pipe_link(si,guard);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean restart_guards_inserter_series(slice_index si,
+                                              slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index guard;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  guard = alloc_restart_guard_series_filter();
 
   if (slices[next].prev==si)
     pipe_link(guard,next);
@@ -207,9 +295,9 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STProxy */
   &slice_operation_noop,         /* STBranchDirect */
   &slice_operation_noop,         /* STBranchDirectDefender */
-  &restart_guards_inserter_root, /* STBranchHelp */
+  &restart_guards_inserter_help, /* STBranchHelp */
   &slice_operation_noop,         /* STHelpFork */
-  &restart_guards_inserter_root, /* STBranchSeries */
+  &restart_guards_inserter_series, /* STBranchSeries */
   &slice_operation_noop,         /* STSeriesFork */
   &slice_operation_noop,         /* STLeafDirect */
   &slice_operation_noop,         /* STLeafHelp */
@@ -220,7 +308,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,      /* STMoveInverterSeriesFilter */
-  &restart_guards_inserter_root, /* STDirectRoot */
+  &restart_guards_inserter_direct_root, /* STDirectRoot */
   &slice_operation_noop,         /* STDirectDefenderRoot */
   &slice_traverse_children,      /* STDirectHashed */
   &slice_traverse_children,      /* STHelpRoot */
@@ -242,7 +330,9 @@ static slice_operation const restart_guards_inserters[] =
   0,                             /* STReflexDefenderFilter */
   0,                             /* STSelfAttack */
   0,                             /* STSelfDefense */
-  0,                             /* STRestartGuard */
+  0,                             /* STRestartGuardRootDefenderFilter */
+  0,                             /* STRestartGuardHelpFilter */
+  0,                             /* STRestartGuardSeriesFilter */
   0,                             /* STGoalReachableGuard */
   0,                             /* STKeepMatingGuard */
   0,                             /* STMaxFlightsquares */

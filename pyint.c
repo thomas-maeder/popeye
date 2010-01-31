@@ -2858,7 +2858,9 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STReflexDefenderFilter */
   0,                                /* STSelfAttack */
   0,                                /* STSelfDefense */
-  &slice_traverse_children,         /* STRestartGuard */
+  0,                                /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,         /* STRestartGuardHelpFilter */
+  &slice_traverse_children,         /* STRestartGuardSeriesFilter */
   0,                                /* STGoalReachableGuard */
   &slice_traverse_children,         /* STKeepMatingGuard */
   &slice_traverse_children,         /* STMaxFlightsquares */
@@ -2897,7 +2899,8 @@ static void init_moves_left(slice_index si, stip_length_type n)
     case STHelpHashed:
     case STSeriesFork:
     case STSeriesHashed:
-    case STRestartGuard:
+    case STRestartGuardHelpFilter:
+    case STRestartGuardSeriesFilter:
       init_moves_left(slices[si].u.pipe.next,n);
       break;
 
@@ -3268,7 +3271,9 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STReflexDefenderFilter */
   0,                                         /* STSelfAttack */
   0,                                         /* STSelfDefense */
-  &slice_traverse_children,                  /* STRestartGuard */
+  0,                                         /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,                  /* STRestartGuardHelpFilter */
+  &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
   0,                                         /* STGoalReachableGuard */
   &slice_traverse_children,                  /* STKeepMatingGuard */
   &slice_traverse_children,                  /* STMaxFlightsquares */
@@ -3493,7 +3498,9 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STReflexDefenderFilter */
   &intelligent_mode_support_none,                /* STSelfAttack */
   &intelligent_mode_support_none,                /* STSelfDefense */
-  &slice_traverse_children,                      /* STRestartGuard */
+  &intelligent_mode_support_none,                /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,                      /* STRestartGuardHelpFilter */
+  &slice_traverse_children,                      /* STRestartGuardSeriesFilter */
   0,                                             /* STGoalReachableGuard */
   &slice_traverse_children,                      /* STKeepMatingGuard */
   &slice_traverse_children,                      /* STMaxFlightsquares */

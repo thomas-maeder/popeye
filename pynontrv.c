@@ -354,7 +354,9 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STReflexDefenderFilter */
   &slice_traverse_children,                 /* STSelfAttack */
   &slice_traverse_children,                 /* STSelfDefense */
-  &slice_traverse_children,                 /* STRestartGuard */
+  &slice_traverse_children,                 /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,                 /* STRestartGuardHelpFilter */
+  &slice_traverse_children,                 /* STRestartGuardSeriesFilter */
   &slice_traverse_children,                 /* STGoalReachableGuard */
   &slice_traverse_children,                 /* STKeepMatingGuard */
   &slice_traverse_children,                 /* STMaxFlightsquares */

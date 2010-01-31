@@ -69,7 +69,7 @@ boolean direct_defender_root_defend(slice_index si)
       result = max_nr_nontrivial_guard_root_defend(si);
       break;
 
-    case STRestartGuard:
+    case STRestartGuardRootDefenderFilter:
       result = restart_guard_root_defend(si);
       break;
 

@@ -304,7 +304,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverterSeriesFilter:
       case STGoalReachableGuard:
       case STNot:
-      case STRestartGuard:
+      case STRestartGuardRootDefenderFilter:
+      case STRestartGuardHelpFilter:
+      case STRestartGuardSeriesFilter:
       case STDegenerateTree:
         fprintf(stdout,"prev:%u ",slices[si].prev);
         fprintf(stdout,"next:%u ",slices[si].u.pipe.next);

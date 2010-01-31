@@ -742,7 +742,9 @@ static slice_operation const self_guards_inserters[] =
   0,                                                 /* STReflexDefenderFilter */
   &slice_traverse_children,                          /* STSelfAttack */
   &slice_traverse_children,                          /* STSelfDefense */
-  0,                                                 /* STRestartGuard */
+  0,                                                 /* STRestartGuardRootDefenderFilter */
+  0,                                                 /* STRestartGuardHelpFilter */
+  0,                                                 /* STRestartGuardSeriesFilter */
   0,                                                 /* STGoalReachableGuard */
   0,                                                 /* STKeepMatingGuard */
   0,                                                 /* STMaxFlightsquares */

@@ -1351,7 +1351,9 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STReflexDefenderFilter */
   0,                                   /* STSelfAttack */
   0,                                   /* STSelfDefense */
-  0,                                   /* STRestartGuard */
+  0,                                   /* STRestartGuardRootDefenderFilter */
+  0,                                   /* STRestartGuardHelpFilter */
+  0,                                   /* STRestartGuardSeriesFilter */
   0,                                   /* STGoalReachableGuard */
   0,                                   /* STKeepMatingGuard */
   0,                                   /* STMaxFlightsquares */
@@ -1512,7 +1514,9 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STReflexDefenderFilter */
   0,                                    /* STSelfAttack */
   0,                                    /* STSelfDefense */
-  0,                                    /* STRestartGuard */
+  0,                                    /* STRestartGuardRootDefenderFilter */
+  0,                                    /* STRestartGuardHelpFilter */
+  0,                                    /* STRestartGuardSeriesFilter */
   0,                                    /* STGoalReachableGuard */
   0,                                    /* STKeepMatingGuard */
   0,                                    /* STMaxFlightsquares */
