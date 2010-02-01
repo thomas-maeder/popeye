@@ -202,7 +202,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     done_slices[si] = true;
 
     fprintf(stdout,"[%2u]: ",si);
-    fprintf(stdout,"%-22s ",SliceType_names[slices[si].type]);
+    fprintf(stdout,"%-34s ",SliceType_names[slices[si].type]);
     fprintf(stdout,"%s ",Side_names[slices[si].starter]);
     switch (slices[si].type)
     {
@@ -302,7 +302,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverterRootSolvableFilter:
       case STMoveInverterSolvableFilter:
       case STMoveInverterSeriesFilter:
-      case STGoalReachableGuard:
+      case STGoalReachableGuardHelpFilter:
+      case STGoalReachableGuardSeriesFilter:
       case STNot:
       case STRestartGuardRootDefenderFilter:
       case STRestartGuardHelpFilter:

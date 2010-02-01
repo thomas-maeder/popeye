@@ -64,7 +64,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = keepmating_guard_help_solve_in_n(si,n);
       break;
 
-    case STGoalReachableGuard:
+    case STGoalReachableGuardHelpFilter:
       result = goalreachable_guard_help_solve_in_n(si,n);
       break;
 
@@ -209,7 +209,7 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
       result = keepmating_guard_help_has_solution_in_n(si,n);
       break;
 
-    case STGoalReachableGuard:
+    case STGoalReachableGuardHelpFilter:
       result = goalreachable_guard_help_has_solution_in_n(si,n);
       break;
 
@@ -263,7 +263,7 @@ void help_solve_threats_in_n(table threats, slice_index si, stip_length_type n)
       keepmating_guard_help_solve_threats_in_n(threats,si,n);
       break;
 
-    case STGoalReachableGuard:
+    case STGoalReachableGuardHelpFilter:
       goalreachable_guard_help_solve_threats_in_n(threats,si,n);
       break;
 

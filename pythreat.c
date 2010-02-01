@@ -328,7 +328,8 @@ static slice_operation const maxthreatlength_guards_inserters[] =
   &slice_traverse_children,        /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,        /* STRestartGuardHelpFilter */
   &slice_traverse_children,        /* STRestartGuardSeriesFilter */
-  &slice_traverse_children,        /* STGoalReachableGuard */
+  &slice_traverse_children,        /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,        /* STGoalReachableGuardSeriesFilter */
   &slice_traverse_children,        /* STKeepMatingGuardRootDefenderFilter */
   &slice_traverse_children,        /* STKeepMatingGuardAttackerFilter */
   &slice_traverse_children,        /* STKeepMatingGuardDefenderFilter */

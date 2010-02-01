@@ -1009,7 +1009,8 @@ static slice_operation const selfcheck_guards_inserters[] =
   0,                                        /* STRestartGuardRootDefenderFilter */
   0,                                        /* STRestartGuardHelpFilter */
   0,                                        /* STRestartGuardSeriesFilter */
-  &slice_traverse_children,                 /* STGoalReachableGuard */
+  &slice_traverse_children,                 /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,                 /* STGoalReachableGuardSeriesFilter */
   0,                                        /* STKeepMatingGuardRootDefenderFilter */
   0,                                        /* STKeepMatingGuardAttackerFilter */
   0,                                        /* STKeepMatingGuardDefenderFilter */
@@ -1091,7 +1092,8 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STRestartGuardRootDefenderFilter */
   0,                                             /* STRestartGuardHelpFilter */
   0,                                             /* STRestartGuardSeriesFilter */
-  0,                                             /* STGoalReachableGuard */
+  0,                                             /* STGoalReachableGuardHelpFilter */
+  0,                                             /* STGoalReachableGuardSeriesFilter */
   0,                                             /* STKeepMatingGuardRootDefenderFilter */
   0,                                             /* STKeepMatingGuardAttackerFilter */
   0,                                             /* STKeepMatingGuardDefenderFilter */

@@ -2861,7 +2861,8 @@ static slice_operation const moves_left_initialisers[] =
   0,                                /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
-  0,                                /* STGoalReachableGuard */
+  0,                                /* STGoalReachableGuardHelpFilter */
+  0,                                /* STGoalReachableGuardSeriesFilter */
   0,                                /* STKeepMatingGuardRootDefenderFilter */
   0,                                /* STKeepMatingGuardAttackerFilter */
   0,                                /* STKeepMatingGuardDefenderFilter */
@@ -2960,17 +2961,35 @@ static void init_moves_left(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
 }
 
-/* Initialise a STGoalReachableGuard slice
+/* Initialise a STGoalReachableGuardHelpFilter slice
  * @return identifier of allocated slice
  */
-static slice_index alloc_goalreachable_guard(void)
+static slice_index alloc_goalreachable_guard_help_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STGoalReachableGuard);
+  result = alloc_pipe(STGoalReachableGuardHelpFilter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise a STGoalReachableGuardSeriesFilter slice
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_goalreachable_guard_series_filter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STGoalReachableGuardSeriesFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3170,8 +3189,8 @@ void goalreachable_guard_series_solve_threats_in_n(table threats,
   TraceFunctionResultEnd();
 }
 
-static boolean goalreachable_guards_inserter_branch(slice_index si,
-                                                    slice_traversal *st)
+static boolean goalreachable_guards_inserter_branch_help(slice_index si,
+                                                         slice_traversal *st)
 {
   boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
@@ -3182,7 +3201,7 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
 
   if (slices[next].prev==si)
   {
-    slice_index const guard = alloc_goalreachable_guard();
+    slice_index const guard = alloc_goalreachable_guard_help_filter();
     pipe_link(si,guard);
     pipe_link(guard,next);
     slice_traverse_children(guard,st);
@@ -3193,11 +3212,51 @@ static boolean goalreachable_guards_inserter_branch(slice_index si,
 
     {
       slice_index const next_prev = slices[next].prev;
-      if (slices[next_prev].type==STGoalReachableGuard)
+      if (slices[next_prev].type==STGoalReachableGuardHelpFilter)
         pipe_set_successor(si,next_prev);
       else
       {
-        slice_index const guard = alloc_goalreachable_guard();
+        slice_index const guard = alloc_goalreachable_guard_help_filter();
+        pipe_link(si,guard);
+        pipe_set_successor(guard,next);
+      }
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean goalreachable_guards_inserter_branch_series(slice_index si,
+                                                           slice_traversal *st)
+{
+  boolean const result = true;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[next].prev==si)
+  {
+    slice_index const guard = alloc_goalreachable_guard_series_filter();
+    pipe_link(si,guard);
+    pipe_link(guard,next);
+    slice_traverse_children(guard,st);
+  }
+  else
+  {
+    slice_traverse_children(si,st);
+
+    {
+      slice_index const next_prev = slices[next].prev;
+      if (slices[next_prev].type==STGoalReachableGuardSeriesFilter)
+        pipe_set_successor(si,next_prev);
+      else
+      {
+        slice_index const guard = alloc_goalreachable_guard_series_filter();
         pipe_link(si,guard);
         pipe_set_successor(guard,next);
       }
@@ -3223,7 +3282,7 @@ static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
 
   {
     slice_index const inverter = slices[si].u.pipe.next;
-    slice_index const guard = alloc_goalreachable_guard();
+    slice_index const guard = alloc_goalreachable_guard_series_filter();
     assert(slices[inverter].type==STMoveInverterSeriesFilter);
     pipe_link(guard,slices[inverter].u.pipe.next);
     pipe_link(inverter,guard);
@@ -3240,9 +3299,9 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,                  /* STProxy */
   0,                                         /* STBranchDirect */
   0,                                         /* STBranchDirectDefender */
-  &goalreachable_guards_inserter_branch,     /* STBranchHelp */
+  &goalreachable_guards_inserter_branch_help, /* STBranchHelp */
   &slice_traverse_children,                  /* STHelpFork */
-  &goalreachable_guards_inserter_branch,     /* STBranchSeries */
+  &goalreachable_guards_inserter_branch_series, /* STBranchSeries */
   &slice_traverse_children,                  /* STSeriesFork */
   &slice_operation_noop,                     /* STLeafDirect */
   &slice_operation_noop,                     /* STLeafHelp */
@@ -3278,7 +3337,8 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                  /* STRestartGuardHelpFilter */
   &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
-  0,                                         /* STGoalReachableGuard */
+  0,                                         /* STGoalReachableGuardHelpFilter */
+  0,                                         /* STGoalReachableGuardSeriesFilter */
   0,                                         /* STKeepMatingGuardRootDefenderFilter */
   0,                                         /* STKeepMatingGuardAttackerFilter */
   0,                                         /* STKeepMatingGuardDefenderFilter */
@@ -3509,7 +3569,8 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                      /* STRestartGuardHelpFilter */
   &slice_traverse_children,                      /* STRestartGuardSeriesFilter */
-  0,                                             /* STGoalReachableGuard */
+  0,                                             /* STGoalReachableGuardHelpFilter */
+  0,                                             /* STGoalReachableGuardSeriesFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardRootDefenderFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardAttackerFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardDefenderFilter */
