@@ -203,7 +203,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
     fprintf(stdout,"[%2u]: ",si);
     fprintf(stdout,"%-34s ",SliceType_names[slices[si].type]);
-    fprintf(stdout,"%c ",Side_names[slices[si].starter]);
+    fprintf(stdout,"%s ",Side_names[slices[si].starter]);
     switch (slices[si].type)
     {
       case STDirectRoot:
