@@ -84,7 +84,7 @@ static boolean output_mode_help_branch(slice_index si, slice_traversal *st)
 
   if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
     /* set play -> delegate decision */
-    result = slice_traverse_children(si,st);
+    result = pipe_traverse_next(slices[si].u.pipe.next,st);
   else
   {
     *mode = output_mode_line;

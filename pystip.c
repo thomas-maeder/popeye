@@ -2319,6 +2319,33 @@ static boolean traverse_pipe(slice_index pipe, slice_traversal *st)
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
+ * @return true iff pipe and its children have been successfully
+ *         traversed
+ */
+static boolean traverse_help_root(slice_index pipe, slice_traversal *st)
+{
+  boolean result;
+  boolean result1;
+  boolean result2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  result1 = traverse_slices(slices[pipe].u.pipe.next,st);
+  result2 = traverse_slices(slices[pipe].u.pipe.u.help_root.short_sols,st);
+  result = result1 && result2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
  * @return true iff branch_fork and its children have been successfully
  *         traversed
  */
@@ -2393,9 +2420,9 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STDirectRoot */
   &traverse_pipe,         /* STDirectDefenderRoot */
   &traverse_pipe,         /* STDirectHashed */
-  &traverse_pipe,         /* STHelpRoot */
+  &traverse_help_root,    /* STHelpRoot */
   &traverse_pipe,         /* STHelpHashed */
-  &traverse_pipe,         /* STSeriesRoot */
+  traverse_help_root,     /* STSeriesRoot */
   &traverse_parry_fork,   /* STParryFork */
   &traverse_pipe,         /* STSeriesHashed */
   &traverse_pipe,         /* STSelfCheckGuardRootSolvableFilter */

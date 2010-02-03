@@ -401,7 +401,7 @@ static void shorten_setplay_root_branch(slice_index root)
     assert(slices[branch1].type==STBranchHelp);
     assert(slices[proxy].type==STProxy);
     assert(slices[branch2].type==STBranchHelp);
-    slices[root_branch].u.pipe.next = branch2;
+    slices[root_branch].u.pipe.next = proxy;
     slices[root].u.pipe.u.help_root.short_sols = fork;
     shorten_help_pipe(root);
     shorten_help_pipe(root_branch);
@@ -518,14 +518,9 @@ static void shorten_root_branch_odd_to_even(slice_index root)
   assert(slices[branch2].type==STBranchHelp);
 
   slices[root].u.pipe.u.help_root.short_sols = fork;
-  dealloc_proxy_slice(proxy);
 
   if (slices[root].u.pipe.u.help_root.length-slack_length_help==3)
-  {
     pipe_link(root_branch,branch2);
-    pipe_set_successor(fork,no_slice);
-    dealloc_slice(branch1);
-  }
   else
   {
     pipe_set_successor(root_branch,branch2);

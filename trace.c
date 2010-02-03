@@ -203,7 +203,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
     fprintf(stdout,"[%2u]: ",si);
     fprintf(stdout,"%-34s ",SliceType_names[slices[si].type]);
-    fprintf(stdout,"%s ",Side_names[slices[si].starter]);
+    fprintf(stdout,"%c ",Side_names[slices[si].starter]);
     switch (slices[si].type)
     {
       case STDirectRoot:
@@ -220,6 +220,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpHashed:
       case STSeriesHashed:
       case STMaxFlightsquares:
+      case STGoalReachableGuardHelpFilter:
+      case STGoalReachableGuardSeriesFilter:
         Trace_branch(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -277,6 +279,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                 slices[si].u.pipe.u.help_root.short_sols);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.pipe.u.help_root.short_sols,
+                                  done_slices);
         break;
 
       case STSeriesRoot:
@@ -302,8 +306,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverterRootSolvableFilter:
       case STMoveInverterSolvableFilter:
       case STMoveInverterSeriesFilter:
-      case STGoalReachableGuardHelpFilter:
-      case STGoalReachableGuardSeriesFilter:
       case STNot:
       case STRestartGuardRootDefenderFilter:
       case STRestartGuardHelpFilter:
