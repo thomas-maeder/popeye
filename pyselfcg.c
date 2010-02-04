@@ -647,6 +647,8 @@ static boolean selfcheck_guards_inserter_branch_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  slice_traverse_children(si,st);
+
   if (slices[next].prev==si)
   {
     /* we are part of a loop
@@ -654,29 +656,26 @@ static boolean selfcheck_guards_inserter_branch_help(slice_index si,
     slice_index const guard = alloc_selfcheck_guard_help_filter();
     pipe_link(guard,next);
     pipe_link(si,guard);
-    slice_traverse_children(guard,st);
   }
   else
   {
     /* we are attached to a loop
      */
-    slice_traverse_children(si,st);
-
+    slice_index const next_pred = slices[next].prev;
+    if (slices[next_pred].type==STSelfCheckGuardHelpFilter)
+      /* a STSelfCheckGuardHelpFilter slice has been inserted in the
+       * loop before next; attach to it
+       */
+      pipe_set_successor(si,next_pred);
+    else
     {
-      slice_index const next_pred = slices[next].prev;
-      if (slices[next_pred].type==STSelfCheckGuardHelpFilter)
-        /* a STSelfCheckGuardHelpFilter slice has been inserted in the
-         * loop before next; attach to it
-         */
-        pipe_set_successor(si,next_pred);
-      else
-      {
-        /* Create a STSelfCheckGuardHelpFilter slice of our own
-         */
-        slice_index const guard = alloc_selfcheck_guard_help_filter();
-        pipe_link(si,guard);
-        pipe_set_successor(guard,next);
-      }
+      /* Create a STSelfCheckGuardHelpFilter slice of our own.  If
+       * we arrive here, si represents the introductory help move of
+       * battle play set play
+       */
+      slice_index const guard = alloc_selfcheck_guard_help_filter();
+      pipe_link(si,guard);
+      pipe_set_successor(guard,next);
     }
   }
 
@@ -698,6 +697,8 @@ static boolean selfcheck_guards_inserter_branch_series(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  slice_traverse_children(si,st);
+
   if (slices[next].prev==si)
   {
     /* we are part of a loop
@@ -711,24 +712,13 @@ static boolean selfcheck_guards_inserter_branch_series(slice_index si,
   {
     /* we are attached to a loop
      */
-    slice_traverse_children(si,st);
+    slice_index const next_pred = slices[next].prev;
+    assert(slices[next_pred].type==STSelfCheckGuardSeriesFilter);
 
-    {
-      slice_index const next_pred = slices[next].prev;
-      if (slices[next_pred].type==STSelfCheckGuardSeriesFilter)
-        /* a STSelfCheckGuardSeriesFilter slice has been inserted in the
-         * loop before next; attach to it
-         */
-        pipe_set_successor(si,next_pred);
-      else
-      {
-        /* Create a STSelfCheckGuardSeriesFilter slice of our own
-         */
-        slice_index const guard = alloc_selfcheck_guard_series_filter();
-        pipe_link(si,guard);
-        pipe_set_successor(guard,next);
-      }
-    }
+    /* a STSelfCheckGuardSeriesFilter slice has been inserted in the
+     * loop before next; attach to it
+     */
+    pipe_set_successor(si,next_pred);
   }
 
   TraceFunctionExit(__func__);
