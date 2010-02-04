@@ -1,12 +1,25 @@
 #if !defined(PYBRAFRK_H)
 #define PYBRAFRK_H
 
-/* Branch fork - decides when to continue play in branch and when to
- * change to slice representing subsequent play
+/* Branch fork - branch decides that when to continue play in branch
+ * and when to change to slice representing subsequent play
  */
 
 #include "pyslice.h"
 #include "pydirect.h"
+
+/* Allocate a new branch fork slice
+ * @param type which slice type
+ * @param length maximum number of half moves until end of slice
+ * @param min_length minimum number of half moves until end of slice
+ * @param proxy_to_goal identifies proxy slice that leads towards goal
+ *                      from the branch
+ * @return newly allocated slice
+ */
+slice_index alloc_branch_fork(SliceType type,
+                              stip_length_type length,
+                              stip_length_type min_length,
+                              slice_index proxy_to_goal);
 
 /* Allocate a STHelpFork slice.
  * @param length maximum number of half-moves of slice (+ slack)
@@ -18,12 +31,27 @@ slice_index alloc_help_fork_slice(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index to_goal);
 
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean branch_fork_resolve_proxies(slice_index si, slice_traversal *st);
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  * @return true iff slice has been successfully traversed
  */
 boolean help_fork_insert_root(slice_index si, slice_traversal *st);
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean help_fork_make_setplay_slice(slice_index si,
+                                     struct slice_traversal *st);
 
 /* Allocate a STSeriesFork slice.
  * @param length maximum number of half-moves of slice (+ slack)

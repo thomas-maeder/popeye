@@ -103,7 +103,7 @@ static unsigned int count_nontrivial_defenses(slice_index si)
 {
   unsigned int result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const parity = slices[si].u.pipe.u.branch.length%2;
+  stip_length_type const parity = slices[si].u.branch.length%2;
   unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
 
   TraceFunctionEntry(__func__);
@@ -157,7 +157,7 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length)
   TraceFunctionParam("%u",length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxNrNonTrivial,length,0,no_slice);
+  result = alloc_branch(STMaxNrNonTrivial,length,0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -176,7 +176,7 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length)
 boolean max_nr_nontrivial_guard_root_defend(slice_index si)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const n = slices[si].u.branch.length;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -304,7 +304,7 @@ static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
 
   slice_traverse_children(si,st);
 
-  guard = alloc_max_nr_nontrivial_guard(slices[si].u.pipe.u.branch.length-1);
+  guard = alloc_max_nr_nontrivial_guard(slices[si].u.branch.length-1);
   pipe_link(guard,slices[si].u.pipe.next);
   pipe_link(si,guard);
 

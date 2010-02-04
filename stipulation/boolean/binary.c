@@ -16,8 +16,8 @@ boolean binary_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slice_traverse_children(si,st);
-  proxy_slice_resolve(&slices[si].u.fork.op1);
-  proxy_slice_resolve(&slices[si].u.fork.op2);
+  proxy_slice_resolve(&slices[si].u.binary.op1);
+  proxy_slice_resolve(&slices[si].u.binary.op2);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1332,8 +1332,7 @@ trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
   pygoal.h pytable.h pybrafrk.h pybrah.h pypipe.h pyoutput.h pydata.h \
-  pyproc.h py4.h stipulation/branch.h pystip.h pyslice.h \
-  stipulation/proxy.h pypipe.h trace.h
+  pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
 
 pydirctg.h:
 
@@ -1377,12 +1376,6 @@ pyproc.h:
 
 py4.h:
 
-stipulation/branch.h:
-
-pystip.h:
-
-pyslice.h:
-
 stipulation/proxy.h:
 
 pypipe.h:
@@ -1391,8 +1384,7 @@ trace.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
   pygoal.h pytable.h pybrafrk.h pybrah.h pyhelp.h pypipe.h pydata.h \
-  pyproc.h py4.h pyoutput.h stipulation/branch.h pystip.h pyslice.h \
-  stipulation/proxy.h pypipe.h trace.h
+  pyproc.h py4.h pyoutput.h stipulation/proxy.h pypipe.h trace.h
 
 pyselfgd.h:
 
@@ -1438,12 +1430,6 @@ py4.h:
 
 pyoutput.h:
 
-stipulation/branch.h:
-
-pystip.h:
-
-pyslice.h:
-
 stipulation/proxy.h:
 
 pypipe.h:
@@ -1452,8 +1438,7 @@ trace.h:
 pyreflxg$(OBJ_SUFFIX): pyreflxg.c pyreflxg.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
   pygoal.h pytable.h pyhelp.h pyseries.h pypipe.h pybrafrk.h pyoutput.h \
-  pydata.h pyproc.h py4.h stipulation/branch.h pystip.h pyslice.h \
-  stipulation/proxy.h pypipe.h trace.h
+  pydata.h pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
 
 pyreflxg.h:
 
@@ -1498,12 +1483,6 @@ pydata.h:
 pyproc.h:
 
 py4.h:
-
-stipulation/branch.h:
-
-pystip.h:
-
-pyslice.h:
 
 stipulation/proxy.h:
 
@@ -2506,15 +2485,11 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2531,6 +2506,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

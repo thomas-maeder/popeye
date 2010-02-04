@@ -13,20 +13,17 @@
 /* Allocate a STHelpRoot slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
  * @param short_sols identifies slice to delegate to when looking for
  *                   short solutions
  * @return index of allocated slice
  */
 slice_index alloc_help_root_slice(stip_length_type length,
                                   stip_length_type min_length,
-                                  slice_index proxy_to_goal,
                                   slice_index short_sols);
 
 /* Allocate a help branch.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies slice leading towards goal
  * @return index of initial slice of allocated help branch
  */
 slice_index alloc_help_branch(stip_length_type length,
@@ -36,12 +33,10 @@ slice_index alloc_help_branch(stip_length_type length,
 /* Allocate a STBranchHelp slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_h_slice(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index proxy_to_goal);
+                                 stip_length_type min_length);
 
 /* Insert root slices
  * @param si identifies (non-root) slice

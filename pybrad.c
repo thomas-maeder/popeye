@@ -21,26 +21,23 @@
 /* Allocate a STBranchDirect slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 static slice_index alloc_branch_d_slice(stip_length_type length,
-                                        stip_length_type min_length,
-                                        slice_index proxy_to_goal)
+                                        stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_direct);
   assert(min_length>=slack_length_direct-1);
   assert((length%2)==(min_length%2));
 
-  result = alloc_branch(STBranchDirect,length,min_length,proxy_to_goal);
+  result = alloc_branch(STBranchDirect,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -51,26 +48,23 @@ static slice_index alloc_branch_d_slice(stip_length_type length,
 /* Allocate a STDirectRoot slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 static slice_index alloc_direct_root_branch(stip_length_type length,
-                                            stip_length_type min_length,
-                                            slice_index proxy_to_goal)
+                                            stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
   assert(length>=slack_length_direct+1);
   assert(min_length>=slack_length_direct);
   assert((length%2)==(min_length%2));
 
-  result = alloc_branch(STDirectRoot,length,min_length,proxy_to_goal);
+  result = alloc_branch(STDirectRoot,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -87,9 +81,8 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   slice_index * const root = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index direct_root;
 
   TraceFunctionEntry(__func__);
@@ -98,7 +91,7 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st)
 
   traverse_slices(slices[si].u.pipe.next,st);
 
-  direct_root = alloc_direct_root_branch(length,min_length,to_goal);
+  direct_root = alloc_direct_root_branch(length,min_length);
   pipe_link(direct_root,*root);
   *root = direct_root;
 
@@ -106,9 +99,9 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st)
     dealloc_slice(si);
   else
   {
-    slices[si].u.pipe.u.branch.length -= 2;
+    slices[si].u.branch.length -= 2;
     if (min_length>=slack_length_direct+2)
-      slices[si].u.pipe.u.branch.min_length -= 2;
+      slices[si].u.branch.min_length -= 2;
   }
   
   TraceFunctionExit(__func__);
@@ -120,43 +113,32 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st)
 /* Allocate a branch that represents direct play
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies slice leading towards goal
  * @return index of entry slice to allocated branch
  */
 slice_index alloc_direct_branch(stip_length_type length,
-                                stip_length_type min_length,
-                                slice_index to_goal)
+                                stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_direct);
   assert(min_length>=slack_length_direct);
   assert(min_length%2==length%2);
 
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
-    to_goal = proxy;
-  }
-
   result = alloc_proxy_slice();
 
   {
-    slice_index const branch = alloc_branch_d_slice(length,min_length,to_goal);
+    slice_index const branch = alloc_branch_d_slice(length,min_length);
     pipe_link(result,branch);
 
     if (length-slack_length_direct>1)
     {
       slice_index const def = alloc_branch_d_defender_slice(length-1,
-                                                            min_length-1,
-                                                            to_goal);
+                                                            min_length-1);
       pipe_link(branch,def);
       pipe_link(def,result);
     }
@@ -195,7 +177,7 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   active_slice[nbply+1] = si;
   genmove(attacker);
@@ -247,7 +229,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   active_slice[nbply+1] = si;
   genmove(attacker);
@@ -301,7 +283,7 @@ stip_length_type branch_d_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
   
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   if (n_min<=slack_length_direct)
     n_min += 2;
@@ -485,7 +467,7 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   if (n_min<=slack_length_direct)
     n_min += 2;
@@ -637,7 +619,7 @@ stip_length_type branch_d_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   output_start_continuation_level();
 

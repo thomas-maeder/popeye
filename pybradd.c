@@ -16,27 +16,22 @@
 /* Allocate a STBranchDirectDefender defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_slice(stip_length_type length,
-                                          stip_length_type min_length,
-                                          slice_index proxy_to_goal)
+                                          stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
-
-  assert(proxy_to_goal==no_slice || slices[proxy_to_goal].type==STProxy);
 
   if (min_length<slack_length_direct)
     min_length += 2;
   assert(min_length>=slack_length_direct);
-  result = alloc_branch(STBranchDirectDefender,length,min_length,proxy_to_goal);
+  result = alloc_branch(STBranchDirectDefender,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -47,27 +42,22 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
 /* Allocate a STDirectDefenderRoot defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_branch_d_defender_root_slice(stip_length_type length,
-                                               stip_length_type min_length,
-                                               slice_index proxy_to_goal)
+                                               stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
-
-  assert(slices[proxy_to_goal].type==STProxy);
 
   if (min_length<slack_length_direct)
     min_length += 2;
   assert(min_length>=slack_length_direct);
-  result = alloc_branch(STDirectDefenderRoot,length,min_length,proxy_to_goal);
+  result = alloc_branch(STDirectDefenderRoot,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -90,11 +80,10 @@ boolean branch_d_defender_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const next = slices[si].u.pipe.next;
-    *root = alloc_branch_d_defender_root_slice(length,min_length,to_goal);
+    *root = alloc_branch_d_defender_root_slice(length,min_length);
     if (length==slack_length_direct+1)
     {
       pipe_link(*root,next);
@@ -104,9 +93,9 @@ boolean branch_d_defender_insert_root(slice_index si, slice_traversal *st)
     {
       pipe_set_successor(*root,next);
 
-      slices[si].u.pipe.u.branch.length -= 2;
+      slices[si].u.branch.length -= 2;
       if (min_length>=slack_length_direct+2)
-        slices[si].u.pipe.u.branch.min_length -= 2;
+        slices[si].u.branch.min_length -= 2;
     }
   }
   
@@ -127,8 +116,8 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   stip_length_type n_min;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const parity = n%2;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -200,8 +189,8 @@ static void write_existing_variation(slice_index si, stip_length_type n)
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const n_next = n-1;
   stip_length_type const parity = (n_next-slack_length_direct)%2;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
   stip_length_type n_min = slack_length_direct-parity;
 
   TraceFunctionEntry(__func__);
@@ -272,8 +261,8 @@ static stip_length_type solve_threats_in_n(table threats,
                                            stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type const parity = (n-slack_length_direct)%2;
   stip_length_type n_min = slack_length_direct-parity;
   stip_length_type result;
@@ -340,8 +329,8 @@ boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
   boolean defender_is_immobile = true;
   boolean result = false;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type n_min_next;
   stip_length_type const parity = (n-1)%2;
 
@@ -419,8 +408,8 @@ static boolean write_possible_variation(slice_index si, stip_length_type n)
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const n_next = n-1;
   stip_length_type const parity = (n_next-slack_length_direct)%2;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
   stip_length_type n_min = slack_length_direct-parity;
 
   TraceFunctionEntry(__func__);
@@ -455,8 +444,8 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
   unsigned int result = 0;
   slice_index const next = slices[si].u.pipe.next;
   boolean isDefenderImmobile = true;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type n_min_next;
   stip_length_type const parity = (n-1)%2;
 
@@ -526,7 +515,7 @@ static void root_solve_variations(table threats,
                                   table refutations,
                                   slice_index si)
 {
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.branch.length;
   Side const defender = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -575,7 +564,7 @@ boolean root_solve_postkey_mode_variations_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   active_slice[nbply+1] = si;
   genmove(defender);
@@ -619,7 +608,7 @@ static boolean root_solve_postkey_mode_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   output_start_postkey_level();
 
@@ -649,7 +638,7 @@ static boolean root_solve_postkey_mode_in_n(slice_index si, stip_length_type n)
  */
 boolean branch_d_defender_root_solve(slice_index si)
 {
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.branch.length;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -685,8 +674,8 @@ static boolean root_collect_refutations(table refutations,
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   boolean result = true;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type n_min_next;
   stip_length_type const parity = (n-1)%2;
 
@@ -696,7 +685,7 @@ static boolean root_collect_refutations(table refutations,
   TraceFunctionParam("%u",max_number_refutations);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   if (n-1+min_length>slack_length_direct+length)
     n_min_next = n-1-(length-min_length);
@@ -759,7 +748,7 @@ static void root_write_postkey(slice_index si, table refutations)
 
   if (OptFlag[solvariantes])
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const length = slices[si].u.branch.length;
     table const threats = allocate_table();
     stip_length_type const len_threat = (OptFlag[nothreat]
                                          ? length
@@ -780,7 +769,7 @@ static void root_write_postkey(slice_index si, table refutations)
 boolean branch_d_defender_root_defend(slice_index si)
 {
   table const refutations = allocate_table();
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.branch.length;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -858,7 +847,6 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
                                                  slices[si].u.pipe.next);
     prod->setplay_slice = alloc_help_root_slice(slack_length_help+1,
                                                 slack_length_help+1,
-                                                slices[si].u.pipe.next,
                                                 no_slice);
     pipe_link(prod->setplay_slice,branch);
   }

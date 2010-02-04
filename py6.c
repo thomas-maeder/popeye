@@ -677,16 +677,16 @@ static boolean verify_position(void)
     assert(slices[peer].type==STBranchDirectDefender);
 
     if (2*get_max_threat_length()+slack_length_direct
-        <slices[root_slice].u.pipe.u.branch.min_length)
+        <slices[root_slice].u.branch.min_length)
     {
       VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
       return false;
     }
 
-    if (slices[root_slice].u.pipe.u.branch.length<=get_max_threat_length())
+    if (slices[root_slice].u.branch.length<=get_max_threat_length())
       reset_max_threat_length();
 
-    if (slices[root_slice].u.pipe.u.branch.length<1
+    if (slices[root_slice].u.branch.length<1
         && max_nr_refutations>0
         && slices[next].type!=STLeafHelp)
     {
@@ -2135,7 +2135,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STHelpFork:
     case STSeriesFork:
     {
-      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+      slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
       result = detect_meaning_of_whitetoplay(to_goal);
       break;
     }
@@ -2143,9 +2143,9 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STReciprocal:
     case STQuodlibet:
     {
-      slice_index const op1 = slices[si].u.fork.op1;
+      slice_index const op1 = slices[si].u.binary.op1;
       meaning_of_whitetoplay const res1 = detect_meaning_of_whitetoplay(op1);
-      slice_index const op2 = slices[si].u.fork.op2;
+      slice_index const op2 = slices[si].u.binary.op2;
       meaning_of_whitetoplay const res2 = detect_meaning_of_whitetoplay(op2);
       if (res1==res2)
         result = res1;
@@ -2222,8 +2222,8 @@ static void apply_whitetoplay(slice_index proxy)
 
     case STQuodlibet:
     case STReciprocal:
-      apply_whitetoplay(slices[next].u.fork.op1);
-      apply_whitetoplay(slices[next].u.fork.op2);
+      apply_whitetoplay(slices[next].u.binary.op1);
+      apply_whitetoplay(slices[next].u.binary.op2);
       break;
 
     default:
@@ -2477,7 +2477,6 @@ boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
 boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 {
   boolean result;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
   branch_level * const level = st->param;
 
   TraceFunctionEntry(__func__);
@@ -2491,8 +2490,6 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
      */
     slice_traverse_children(si,st);
     insert_helphashed_slice(si);
-    traverse_slices(towards_goal,st);
-    /* no need to visit this leaf again in this traversal */
     result = true;
   }
   else

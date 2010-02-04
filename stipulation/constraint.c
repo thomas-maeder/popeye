@@ -8,7 +8,6 @@
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "pydata.h"
-#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -32,7 +31,7 @@ boolean reflex_filter_resolve_proxies(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   pipe_resolve_proxies(si,st);
-  proxy_slice_resolve(&slices[si].u.pipe.u.reflex_guard.avoided);
+  proxy_slice_resolve(&slices[si].u.reflex_guard.avoided);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -65,9 +64,9 @@ static slice_index alloc_reflex_attacker_filter(stip_length_type length,
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch(STReflexAttackerFilter,
-                        length,min_length,
-                        proxy_to_avoided);
+  result = alloc_branch_fork(STReflexAttackerFilter,
+                             length,min_length,
+                             proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -85,7 +84,7 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
   boolean const result = true;
   slice_index * const root = st->param;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type length = slices[si].u.pipe.u.branch.length;
+  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -104,9 +103,9 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
     pipe_link(guard,*root);
     *root = guard;
 
-    slices[si].u.pipe.u.branch.length -= 2;
-    if (slices[si].u.pipe.u.branch.min_length-slack_length_direct>2)
-      slices[si].u.pipe.u.branch.min_length -= 2;
+    slices[si].u.branch.length -= 2;
+    if (slices[si].u.branch.min_length-slack_length_direct>2)
+      slices[si].u.branch.min_length -= 2;
   }
   
   TraceFunctionExit(__func__);
@@ -133,7 +132,7 @@ stip_length_type reflex_attacker_filter_has_solution_in_n(slice_index si,
                                                           stip_length_type n_min)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -210,7 +209,7 @@ reflex_attacker_filter_direct_solve_threats_in_n(table threats,
                                                  stip_length_type n,
                                                  stip_length_type n_min)
 {
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -271,7 +270,7 @@ reflex_attacker_filter_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(slice_has_solution(slices[si].u.pipe.u.reflex_guard.avoided)
+  assert(slice_has_solution(slices[si].u.reflex_guard.avoided)
          ==has_no_solution);
   result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
 
@@ -313,7 +312,7 @@ static boolean solve_avoided(slice_index avoided)
 boolean reflex_attacker_filter_root_solve(slice_index si)
 {
   boolean result;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -345,7 +344,7 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
                                                    stip_length_type n_min)
 {
   stip_length_type result;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -425,10 +424,10 @@ boolean reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
 
   if (*postkey_slice!=no_slice)
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const length = slices[si].u.branch.length;
     if (length==slack_length_direct+1)
     {
-      slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+      slice_index const avoided = slices[si].u.reflex_guard.avoided;
       dealloc_slice(branch_deallocate_to_fork(avoided));
     }
     dealloc_slice(si);
@@ -464,9 +463,9 @@ static slice_index alloc_reflex_defender_filter(stip_length_type length,
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch(STReflexDefenderFilter,
-                        length,min_length,
-                        proxy_to_avoided);
+  result = alloc_branch_fork(STReflexDefenderFilter,
+                             length,min_length,
+                             proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -485,7 +484,7 @@ boolean reflex_defender_filter_insert_root(slice_index si,
   boolean const result = true;
   slice_index * const root = st->param;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type length = slices[si].u.pipe.u.branch.length;
+  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -504,9 +503,9 @@ boolean reflex_defender_filter_insert_root(slice_index si,
     pipe_link(guard,*root);
     *root = guard;
 
-    slices[si].u.pipe.u.branch.length -= 2;
-    if (slices[si].u.pipe.u.branch.min_length-slack_length_direct>=2)
-      slices[si].u.pipe.u.branch.min_length -= 2;
+    slices[si].u.branch.length -= 2;
+    if (slices[si].u.branch.min_length-slack_length_direct>=2)
+      slices[si].u.branch.min_length -= 2;
   }
   
   TraceFunctionExit(__func__);
@@ -527,13 +526,13 @@ boolean reflex_defender_filter_root_defend(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.pipe.u.reflex_guard.min_length==slack_length_direct
-      && slice_solve(slices[si].u.pipe.u.reflex_guard.avoided))
+  if (slices[si].u.reflex_guard.min_length==slack_length_direct
+      && slice_solve(slices[si].u.reflex_guard.avoided))
   {
     write_end_of_solution();
     result = false;
   }
-  else if (slices[si].u.pipe.u.reflex_guard.length>slack_length_direct)
+  else if (slices[si].u.reflex_guard.length>slack_length_direct)
     result = direct_defender_root_defend(slices[si].u.pipe.next);
   else
     result = false;
@@ -555,7 +554,7 @@ boolean reflex_defender_filter_defend_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -586,10 +585,9 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
 {
   unsigned int result = max_result+1;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const
-      min_length = slices[si].u.pipe.u.reflex_guard.min_length;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.reflex_guard.min_length;
   stip_length_type const max_n_for_avoided = (length-min_length
                                               +slack_length_direct);
 
@@ -630,8 +628,8 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
 boolean reflex_defender_filter_root_solve(slice_index si)
 {
   boolean result;
-  slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const length = slices[si].u.reflex_guard.length;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -671,10 +669,9 @@ boolean reflex_defender_filter_make_setplay_slice(slice_index si,
     assert(slices[prod->sibling].type==STDirectRoot);
   }
 
-  if (slices[si].u.pipe.u.branch.length==slack_length_direct)
+  if (slices[si].u.branch.length==slack_length_direct)
   {
-    slice_index const proxy_to_avoided
-        = slices[si].u.pipe.u.reflex_guard.avoided;
+    slice_index const proxy_to_avoided = slices[si].u.reflex_guard.avoided;
     assert(slices[proxy_to_avoided].type==STProxy);
     prod->setplay_slice = slices[proxy_to_avoided].u.pipe.next;
   }
@@ -699,7 +696,7 @@ boolean reflex_defender_filter_reduce_to_postkey_play(slice_index si,
   boolean const result = true;
   slice_index *postkey_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -745,9 +742,9 @@ static slice_index alloc_reflex_help_filter(stip_length_type length,
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch(STReflexHelpFilter,
-                        length,min_length,
-                        proxy_to_avoided);
+  result = alloc_branch_fork(STReflexHelpFilter,
+                             length,min_length,
+                             proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -777,9 +774,9 @@ boolean reflex_help_filter_insert_root(slice_index si, slice_traversal *st)
     *root = guard;
   }
 
-  slices[si].u.pipe.u.branch.length -=2;
-  if (slices[si].u.pipe.u.branch.min_length-slack_length_help>=2)
-    slices[si].u.pipe.u.branch.min_length -= 2;
+  slices[si].u.reflex_guard.length -=2;
+  if (slices[si].u.reflex_guard.min_length-slack_length_help>=2)
+    slices[si].u.reflex_guard.min_length -= 2;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -794,8 +791,8 @@ boolean reflex_help_filter_insert_root(slice_index si, slice_traversal *st)
 boolean reflex_help_filter_root_solve(slice_index si)
 {
   boolean result;
-  slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const length = slices[si].u.reflex_guard.length;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -821,7 +818,7 @@ boolean reflex_help_filter_root_solve(slice_index si)
 boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -853,7 +850,7 @@ boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n)
 boolean reflex_help_filter_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result = false;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -884,7 +881,7 @@ void reflex_help_filter_solve_threats_in_n(table threats,
                                            slice_index si,
                                            stip_length_type n)
 {
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -927,9 +924,9 @@ static slice_index alloc_reflex_series_filter(stip_length_type length,
   TraceFunctionParamListEnd();
 
   /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch(STReflexSeriesFilter,
-                        length,min_length,
-                        proxy_to_avoided);
+  result = alloc_branch_fork(STReflexSeriesFilter,
+                             length,min_length,
+                             proxy_to_avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -958,9 +955,9 @@ boolean reflex_series_filter_insert_root(slice_index si, slice_traversal *st)
     pipe_link(guard,*root);
     *root = guard;
 
-    --slices[si].u.pipe.u.branch.length;
-    if (slices[si].u.pipe.u.branch.min_length>slack_length_series)
-      --slices[si].u.pipe.u.branch.min_length;
+    --slices[si].u.branch.length;
+    if (slices[si].u.branch.min_length>slack_length_series)
+      --slices[si].u.branch.min_length;
   }
   
   TraceFunctionExit(__func__);
@@ -976,8 +973,8 @@ boolean reflex_series_filter_insert_root(slice_index si, slice_traversal *st)
 boolean reflex_series_filter_root_solve(slice_index si)
 {
   boolean result;
-  slice_index const length = slices[si].u.pipe.u.reflex_guard.length;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const length = slices[si].u.reflex_guard.length;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1003,7 +1000,7 @@ boolean reflex_series_filter_root_solve(slice_index si)
 boolean reflex_series_filter_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1034,7 +1031,7 @@ boolean reflex_series_filter_has_solution_in_n(slice_index si,
                                                stip_length_type n)
 {
   boolean result = false;
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1065,7 +1062,7 @@ void reflex_series_filter_solve_threats_in_n(table threats,
                                              slice_index si,
                                              stip_length_type n)
 {
-  slice_index const avoided = slices[si].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1130,8 +1127,8 @@ static boolean reflex_guards_inserter_help(slice_index si,
 {
   boolean const result = true;
   init_param const * const param = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const proxy_to_avoided = param->to_be_avoided[length%2];
 
@@ -1176,8 +1173,8 @@ static boolean reflex_guards_inserter_attack(slice_index si,
   boolean const result = true;
   init_param const * const param = st->param;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1221,8 +1218,8 @@ static boolean reflex_guards_inserter_defense(slice_index si,
 {
   boolean const result = true;
   init_param const * const param = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1268,8 +1265,8 @@ static boolean reflex_guards_inserter_series(slice_index si,
   boolean const result = true;
   init_param const * const param = st->param;
   slice_index const proxy_to_avoided = param->to_be_avoided[1];
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index const prev = slices[si].prev;
   slice_index guard;
 
@@ -1427,8 +1424,8 @@ static boolean reflex_guards_inserter_defense_semi(slice_index si,
 
   {
     init_param const * const param = st->param;
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prev = slices[si].prev;
     slice_index const proxy_to_avoided = param->to_be_avoided[length%2];
     slice_index const guard = alloc_reflex_defender_filter(length,min_length,
@@ -1453,7 +1450,7 @@ static boolean reflex_guards_inserter_attack_semi(slice_index si,
 {
   boolean const result = true;
   init_param const * const param = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1465,7 +1462,7 @@ static boolean reflex_guards_inserter_attack_semi(slice_index si,
   {
     /* insert an STReflexAttackerFilter slice that switches to the next branch
      */
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const proxy_to_avoided = param->to_be_avoided[1-length%2];
     slice_index const guard = alloc_reflex_defender_filter(length-1,
                                                            min_length-1,

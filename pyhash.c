@@ -487,8 +487,8 @@ static boolean init_slice_properties_fork(slice_index fork,
 
   unsigned int const save_valueOffset = sis->valueOffset;
       
-  slice_index const op1 = slices[fork].u.fork.op1;
-  slice_index const op2 = slices[fork].u.fork.op2;
+  slice_index const op1 = slices[fork].u.binary.op1;
+  slice_index const op2 = slices[fork].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",fork);
@@ -531,31 +531,6 @@ static boolean init_slice_properties_fork(slice_index fork,
 }
 
 /* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff the properties for si and its children have been
- *         successfully initialised
- */
-static boolean init_slice_properties_direct_root(slice_index si,
-                                                 slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-  traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a direct branch
  * @param si root slice of subtree
  * @param st address of structure defining traversal
@@ -567,7 +542,7 @@ static boolean init_slice_properties_hashed_direct(slice_index si,
 {
   boolean const result = true;
   slice_initializer_state * const sis = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.branch.length;
 
   /* TODO This is a bit of a hack - we are hashing for a leaf -> no
    * help adapter has adjusted the valueOffset!
@@ -594,7 +569,7 @@ static boolean init_slice_properties_hashed_help(slice_index si,
 {
   boolean const result = true;
   slice_initializer_state * const sis = st->param;
-  unsigned int const length = slices[si].u.pipe.u.branch.length;
+  unsigned int const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -606,13 +581,13 @@ static boolean init_slice_properties_hashed_help(slice_index si,
   {
     slice_index const sibling = branch_find_slice(STHelpHashed,si);
     
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const length = slices[si].u.branch.length;
     unsigned int const width = bit_width((length-slack_length_help+1)/2);
 
     sis->valueOffset -= width;
 
     if (sibling!=no_slice
-        && slices[sibling].u.pipe.u.branch.length>slack_length_help
+        && slices[sibling].u.branch.length>slack_length_help
         && get_slice_traversal_slice_state(sibling,st)==slice_not_traversed)
     {
       /* 1 bit more because we have two slices whose values are added
@@ -646,8 +621,7 @@ static boolean init_slice_properties_hashed_series(slice_index si,
 {
   boolean const result = true;
   slice_initializer_state * const sis = st->param;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -657,33 +631,6 @@ static boolean init_slice_properties_hashed_series(slice_index si,
   hash_slices[nr_hash_slices++] = si;
 
   slice_traverse_children(si,st);
-  traverse_slices(towards_goal,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices
- * @param si root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff the properties for si and its children have been
- *         successfully initialised
- */
-static boolean init_slice_properties_series_root(slice_index si,
-                                                 slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-  traverse_slices(towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -709,12 +656,12 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMoveInverterRootSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
-  &init_slice_properties_direct_root,    /* STDirectRoot */
-  &init_slice_properties_direct_root,    /* STDirectDefenderRoot */
+  &slice_traverse_children,              /* STDirectRoot */
+  &slice_traverse_children,              /* STDirectDefenderRoot */
   &init_slice_properties_hashed_direct,  /* STDirectHashed */
   &slice_traverse_children,              /* STHelpRoot */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
-  &init_slice_properties_series_root,    /* STSeriesRoot */
+  &slice_traverse_children,              /* STSeriesRoot */
   &slice_traverse_children,              /* STParryFork */
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
   &init_slice_properties_pipe,           /* STSelfCheckGuardRootSolvableFilter */
@@ -729,8 +676,8 @@ static slice_operation const slice_properties_initalisers[] =
   &slice_traverse_children,              /* STReflexSeriesFilter */
   &slice_traverse_children,              /* STReflexAttackerFilter */
   &slice_traverse_children,              /* STReflexDefenderFilter */
-  &init_slice_properties_direct_root,    /* STSelfAttack */
-  &init_slice_properties_direct_root,    /* STSelfDefense */
+  &slice_traverse_children,              /* STSelfAttack */
+  &slice_traverse_children,              /* STSelfDefense */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
   &init_slice_properties_pipe,           /* STRestartGuardSeriesFilter */
@@ -758,8 +705,8 @@ static boolean find_slice_with_nonstandard_min_length(void)
   for (i = 0; i<nr_hash_slices && !result; ++i)
   {
     slice_index const si = hash_slices[i];
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     switch (slices[si].type)
     {
       case STDirectHashed:
@@ -1039,7 +986,7 @@ static hash_value_type get_value_series(hashElement_union_t const *hue,
 static hash_value_type own_value_of_data_direct(hashElement_union_t const *hue,
                                                 slice_index si)
 {
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
+  stip_length_type const length = slices[si].u.branch.length;
   hash_value_type result;
   hash_value_type succ;
   hash_value_type nosucc;
@@ -1411,7 +1358,7 @@ static unsigned int estimateNumberOfHoles(void)
   for (i = 0; i<nr_hash_slices && !result; ++i)
   {
     slice_index const si = hash_slices[i];
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const length = slices[si].u.branch.length;
     switch (slices[si].type)
     {
       case STDirectHashed:
@@ -1767,7 +1714,7 @@ static void init_elements(hashElement_union_t *hue)
     {
       case STDirectHashed:
         set_value_direct_nosucc(hue,si,0);
-        set_value_direct_succ(hue,si,slices[si].u.pipe.u.branch.length/2);
+        set_value_direct_succ(hue,si,slices[si].u.branch.length/2);
         break;
 
       case STHelpHashed:
@@ -2018,18 +1965,16 @@ void closehash(void)
  * @return identifier of allocated slice
  */
 static slice_index alloc_direct_hashed_slice(stip_length_type length,
-                                             stip_length_type min_length,
-                                             slice_index proxy_to_goal)
+                                             stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDirectHashed,length,min_length,proxy_to_goal);
+  result = alloc_branch(STDirectHashed,length,min_length);
                         
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2052,9 +1997,9 @@ void insert_directhashed_slice(slice_index si)
   {
     case STLeafDirect:
     {
-      slice_index const hash = alloc_direct_hashed_slice(slack_length_direct+1,
-                                                         slack_length_direct+1,
-                                                         no_slice);
+      slice_index const hash
+          = alloc_direct_hashed_slice(slack_length_direct+1,
+                                      slack_length_direct+1);
       slice_index const prev = slices[si].prev;
       pipe_link(hash,si);
       pipe_link(prev,hash);
@@ -2063,12 +2008,9 @@ void insert_directhashed_slice(slice_index si)
 
     case STBranchDirect:
     {
-      stip_length_type const length = slices[si].u.pipe.u.branch.length;
-      stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-      slice_index const hash = alloc_direct_hashed_slice(length,
-                                                         min_length,
-                                                         to_goal);
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      slice_index const hash = alloc_direct_hashed_slice(length,min_length);
       slice_index const prev = slices[si].prev;
       pipe_link(hash,si);
       pipe_link(prev,hash);
@@ -2091,18 +2033,16 @@ void insert_directhashed_slice(slice_index si)
  * @return identifier of allocated slice
  */
 static slice_index alloc_help_hashed_slice(stip_length_type length,
-                                           stip_length_type min_length,
-                                           slice_index proxy_to_goal)
+                                           stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STHelpHashed,length,min_length,proxy_to_goal);
+  result = alloc_branch(STHelpHashed,length,min_length);
                         
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2127,8 +2067,7 @@ void insert_helphashed_slice(slice_index si)
     case STLeafHelp:
     {
       slice_index const hash = alloc_help_hashed_slice(slack_length_help+1,
-                                                       slack_length_help+1,
-                                                       no_slice);
+                                                       slack_length_help+1);
       slice_index const prev = slices[si].prev;
       pipe_link(hash,si);
       pipe_link(prev,hash);
@@ -2137,12 +2076,9 @@ void insert_helphashed_slice(slice_index si)
 
     case STBranchHelp:
     {
-      stip_length_type const length = slices[si].u.pipe.u.branch.length;
-      stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-      slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-      slice_index const hash = alloc_help_hashed_slice(length,
-                                                       min_length,
-                                                       to_goal);
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      slice_index const hash = alloc_help_hashed_slice(length,min_length);
       slice_index const prev = slices[si].prev;
       pipe_link(hash,si);
       pipe_link(prev,hash);
@@ -2172,12 +2108,9 @@ void insert_serieshashed_slice(slice_index si)
   assert(slices[si].type==STBranchSeries);
 
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-    slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
-    slice_index const hash = alloc_branch(STSeriesHashed,
-                                          length,min_length,
-                                          proxy_to_goal);
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const hash = alloc_branch(STSeriesHashed,length,min_length);
     slice_index const prev = slices[si].prev;
     pipe_link(hash,si);
     pipe_link(prev,hash);
@@ -2297,8 +2230,8 @@ static stip_length_type adjust_n_min(slice_index si,
   if (he!=dhtNilElement)
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
 
     hash_value_type const val_nosucc = n/2;
     hash_value_type const nosucc = get_value_direct_nosucc(hue,si);
@@ -2377,7 +2310,7 @@ void direct_hashed_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   n_min = adjust_n_min(si,n,n_min);
   assert(n_min<=n);
@@ -2413,7 +2346,7 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   result = adjust_n_min(si,n,n_min);
   if (result<=n)
@@ -2518,7 +2451,7 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   if (!isHashBufferValid[nbply])
     (*encode)();
@@ -2529,8 +2462,8 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
 
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
@@ -2594,8 +2527,8 @@ static boolean inhash_help(slice_index si, stip_length_type n)
     hash_value_type const val = (n+1-slack_length_help)/2;
     hash_value_type const nosucc = get_value_help(hue,si);
     if (nosucc>=val
-        && (nosucc+slices[si].u.pipe.u.branch.min_length
-            <=val+slices[si].u.pipe.u.branch.length))
+        && (nosucc+slices[si].u.branch.min_length
+            <=val+slices[si].u.branch.length))
     {
       ifHASHRATE(use_pos++);
       result = true;
@@ -2658,7 +2591,7 @@ static void addtohash_help(slice_index si, stip_length_type n)
 boolean hashed_help_root_solve(slice_index si)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const n = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2812,8 +2745,8 @@ static boolean inhash_series(slice_index si, stip_length_type n)
     hash_value_type const val = n-slack_length_series;
     hash_value_type const nosucc = get_value_series(hue,si);
     if (nosucc>=val
-        && (nosucc+slices[si].u.pipe.u.branch.min_length
-            <=val+slices[si].u.pipe.u.branch.length))
+        && (nosucc+slices[si].u.branch.min_length
+            <=val+slices[si].u.branch.length))
     {
       ifHASHRATE(use_pos++);
       result = true;

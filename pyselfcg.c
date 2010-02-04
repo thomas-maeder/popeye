@@ -949,7 +949,7 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
 
   {
     slice_index const inverter = slices[si].u.pipe.next;
-    slice_index const parrying = slices[si].u.pipe.u.parry_fork.parrying;
+    slice_index const parrying = slices[si].u.parry_fork.parrying;
 
     /* circumvent the STMoveInverterSeriesFilter to prevent it from
      * creating a STSelfCheckGuard; if we take this path, we already

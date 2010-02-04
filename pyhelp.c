@@ -143,8 +143,8 @@ boolean help_root_solve(slice_index si)
 boolean help_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
-  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -287,8 +287,8 @@ void help_solve_threats_in_n(table threats, slice_index si, stip_length_type n)
 void help_solve_threats(table threats, slice_index si)
 {
   boolean solution_found = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
-  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -352,8 +352,8 @@ boolean help_are_threats_refuted(table threats, slice_index si)
 has_solution_type help_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.pipe.u.branch.length;
-  stip_length_type len = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

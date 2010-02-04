@@ -82,7 +82,7 @@ static boolean output_mode_help_branch(slice_index si, slice_traversal *st)
 
   TraceValue("%u\n",nr_color_inversions_in_ply[nbply+1]);
 
-  if (slices[si].u.pipe.u.branch.length==slack_length_help+1)
+  if (slices[si].u.branch.length==slack_length_help+1)
     /* set play -> delegate decision */
     result = pipe_traverse_next(slices[si].u.pipe.next,st);
   else
@@ -127,10 +127,10 @@ static boolean output_mode_fork(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.fork.op1,st);
+  traverse_slices(slices[si].u.binary.op1,st);
   mode1 = *mode;
 
-  traverse_slices(slices[si].u.fork.op2,st);
+  traverse_slices(slices[si].u.binary.op2,st);
   mode2 = *mode;
 
   *mode = mode2==output_mode_none ? mode1 : mode2;

@@ -12,6 +12,39 @@
 /* **************** Initialisation ***************
  */
 
+/* Allocate a new branch fork slice
+ * @param type which slice type
+ * @param length maximum number of half moves until end of slice
+ * @param min_length minimum number of half moves until end of slice
+ * @param proxy_to_goal identifies proxy slice that leads towards goal
+ *                      from the branch
+ * @return newly allocated slice
+ */
+slice_index alloc_branch_fork(SliceType type,
+                              stip_length_type length,
+                              stip_length_type min_length,
+                              slice_index proxy_to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  assert(slices[proxy_to_goal].type==STProxy);
+
+  result = alloc_branch(type,length,min_length);
+  slices[result].u.branch_fork.towards_goal = proxy_to_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a STHelpFork slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -39,7 +72,7 @@ slice_index alloc_help_fork_slice(stip_length_type length,
 
   if (min_length+1<slack_length_help)
     min_length += 2;
-  result = alloc_branch(STHelpFork,length,min_length,to_goal);
+  result = alloc_branch_fork(STHelpFork,length,min_length,to_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -72,7 +105,31 @@ slice_index alloc_series_fork_slice(stip_length_type length,
     to_goal = proxy;
   }
 
-  result = alloc_branch(STSeriesFork,length,min_length,to_goal);
+  result = alloc_branch_fork(STSeriesFork,length,min_length,to_goal);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean branch_fork_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_resolve_proxies(si,st);
+
+  if (slices[si].u.branch_fork.towards_goal!=no_slice)
+    proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -95,7 +152,7 @@ boolean series_fork_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   traverse_slices(slices[si].u.pipe.next,st);
-  slices[*root].u.pipe.u.help_root.short_sols = si;
+  slices[*root].u.help_root.short_sols = si;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -117,8 +174,21 @@ boolean help_fork_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.pipe.next,st);
-  slices[*root].u.pipe.u.help_root.short_sols = si;
+  assert(slices[si].u.branch_fork.length-slack_length_direct>=2);
+
+  traverse_slices(slices[si].u.branch_fork.next,st);
+
+  slices[si].u.branch_fork.length -= 2;
+  if (slices[si].u.branch_fork.min_length-slack_length_direct>=2)
+    slices[si].u.branch_fork.min_length -= 2;
+
+  {
+    slice_index const help_root = (slices[*root].type==STHelpRoot
+                                   ? *root
+                                   : branch_find_slice(STHelpRoot,*root));
+    assert(help_root!=no_slice);
+    slices[help_root].u.help_root.short_sols = si;
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -128,6 +198,31 @@ boolean help_fork_insert_root(slice_index si, slice_traversal *st)
 
 /* **************** Implementation of interface Help ***************
  */
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean help_fork_make_setplay_slice(slice_index si,
+                                     struct slice_traversal *st)
+{
+  boolean const result = true;
+  setplay_slice_production * const prod = st->param;
+  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[proxy_to_goal].type==STProxy);
+  prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -146,7 +241,7 @@ boolean help_fork_solve_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    result = slice_solve(slices[si].u.pipe.u.branch.towards_goal);
+    result = slice_solve(slices[si].u.branch_fork.towards_goal);
   else
     result = help_solve_in_n(slices[si].u.pipe.next,n);
 
@@ -165,7 +260,7 @@ boolean help_fork_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -195,7 +290,7 @@ void help_fork_solve_threats_in_n(table threats,
                                   stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -225,7 +320,7 @@ boolean series_fork_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -255,7 +350,7 @@ boolean series_fork_has_solution_in_n(slice_index si,
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -285,7 +380,7 @@ void series_fork_solve_threats_in_n(table threats,
                                     stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -313,7 +408,7 @@ boolean series_fork_make_setplay_slice(slice_index si,
 {
   boolean const result = true;
   setplay_slice_production * const prod = st->param;
-  slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -343,7 +438,7 @@ has_solution_type branch_fork_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.pipe.u.branch.towards_goal);
+  result = slice_has_solution(slices[si].u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -358,7 +453,7 @@ has_solution_type branch_fork_has_solution(slice_index si)
  */
 boolean branch_fork_detect_starter(slice_index si, slice_traversal *st)
 {
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -399,7 +494,7 @@ boolean branch_fork_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_root_solve(slices[si].u.pipe.u.branch.towards_goal);
+  result = slice_root_solve(slices[si].u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -443,8 +538,18 @@ boolean branch_fork_impose_starter(slice_index si, slice_traversal *st)
  */
 static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
 {
-  boolean const result = slice_traverse_children(si,st);
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
   dealloc_slice(si);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -456,8 +561,18 @@ static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
  */
 static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
 {
-  boolean const result = slice_traverse_children(si,st);
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
   dealloc_proxy_slice(si);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -469,16 +584,16 @@ static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st
 static boolean traverse_and_deallocate_branch_fork(slice_index si,
                                                    slice_traversal *st)
 {
-  boolean result;
+  boolean const result = true;
   slice_index * const to_be_found = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *to_be_found = slices[si].u.pipe.u.branch.towards_goal;
+  *to_be_found = slices[si].u.branch_fork.towards_goal;
 
-  result = traverse_slices(slices[si].u.pipe.next,st);
+  traverse_slices(slices[si].u.pipe.next,st);
   dealloc_slice(si);
   
   TraceFunctionExit(__func__);

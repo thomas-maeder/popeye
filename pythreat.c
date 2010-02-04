@@ -72,23 +72,22 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.maxthreatlength_guard.length%2);
+  assert(n%2==slices[si].u.maxthreatlength_guard.length%2);
 
   if (max_len_threat==0)
     result = !echecc(nbply,slices[si].starter);
   else
   {
-    slice_index const
-        to_attacker = slices[si].u.pipe.u.maxthreatlength_guard.to_attacker;
+    slice_index const to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
     stip_length_type const parity = (n-1)%2;
     stip_length_type const n_max = 2*max_len_threat+parity;
 
     if (n-1>=n_max)
     {
       stip_length_type const
-          length = slices[si].u.pipe.u.maxthreatlength_guard.length;
+          length = slices[si].u.maxthreatlength_guard.length;
       stip_length_type const
-          min_length = slices[si].u.pipe.u.maxthreatlength_guard.min_length;
+          min_length = slices[si].u.maxthreatlength_guard.min_length;
       stip_length_type n_min;
 
       if (n_max+min_length>slack_length_direct+length)
@@ -128,8 +127,8 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
   TraceFunctionParam("%u",to_attacker);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxThreatLength,length,min_length,no_slice);
-  slices[result].u.pipe.u.maxthreatlength_guard.to_attacker = to_attacker; 
+  result = alloc_branch(STMaxThreatLength,length,min_length);
+  slices[result].u.maxthreatlength_guard.to_attacker = to_attacker; 
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -149,7 +148,7 @@ boolean maxthreatlength_guard_root_solve(slice_index si)
 {
   boolean result;
   stip_length_type const
-      max_threat_length = slices[si].u.pipe.u.maxthreatlength_guard.length;
+      max_threat_length = slices[si].u.maxthreatlength_guard.length;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -174,7 +173,7 @@ boolean maxthreatlength_guard_root_solve(slice_index si)
 boolean maxthreatlength_guard_root_defend(slice_index si)
 {
   boolean result;
-  stip_length_type const n = slices[si].u.pipe.u.maxthreatlength_guard.length;
+  stip_length_type const n = slices[si].u.maxthreatlength_guard.length;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -270,7 +269,7 @@ static boolean maxthreatlength_guard_inserter(slice_index si,slice_traversal *st
     slice_index const to_attacker = slices[si].u.pipe.next;
     slice_index const prev = slices[si].prev;
     stip_length_type const
-        length = slices[si].u.pipe.u.maxthreatlength_guard.length;
+        length = slices[si].u.maxthreatlength_guard.length;
     slice_index const guard = alloc_maxthreatlength_guard(length,to_attacker);
     pipe_link(prev,guard);
     pipe_link(guard,si);

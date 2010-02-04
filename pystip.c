@@ -617,12 +617,12 @@ void stip_insert_root_slices(void)
 static slice_operation const proxy_resolvers[] =
 {
   &pipe_resolve_proxies,          /* STProxy */
-  &branch_resolve_proxies,        /* STBranchDirect */
-  &branch_resolve_proxies,        /* STBranchDirectDefender */
-  &branch_resolve_proxies,        /* STBranchHelp */
-  &branch_resolve_proxies,        /* STHelpFork */
-  &branch_resolve_proxies,        /* STBranchSeries */
-  &branch_resolve_proxies,        /* STSeriesFork */
+  &pipe_resolve_proxies,          /* STBranchDirect */
+  &pipe_resolve_proxies,          /* STBranchDirectDefender */
+  &pipe_resolve_proxies,          /* STBranchHelp */
+  &branch_fork_resolve_proxies,   /* STHelpFork */
+  &pipe_resolve_proxies,          /* STBranchSeries */
+  &branch_fork_resolve_proxies,   /* STSeriesFork */
   &slice_traverse_children,       /* STLeafDirect */
   &slice_traverse_children,       /* STLeafHelp */
   &slice_traverse_children,       /* STLeafForced */
@@ -632,14 +632,14 @@ static slice_operation const proxy_resolvers[] =
   &pipe_resolve_proxies,          /* STMoveInverterRootSolvableFilter */
   &pipe_resolve_proxies,          /* STMoveInverterSolvableFilter */
   &pipe_resolve_proxies,          /* STMoveInverterSeriesFilter */
-  &branch_resolve_proxies,        /* STDirectRoot */
-  &branch_resolve_proxies,        /* STDirectDefenderRoot */
-  &branch_resolve_proxies,        /* STDirectHashed */
+  &pipe_resolve_proxies,          /* STDirectRoot */
+  &pipe_resolve_proxies,          /* STDirectDefenderRoot */
+  &pipe_resolve_proxies,          /* STDirectHashed */
   &help_root_resolve_proxies,     /* STHelpRoot */
-  &branch_resolve_proxies,        /* STHelpHashed */
+  &pipe_resolve_proxies,          /* STHelpHashed */
   &help_root_resolve_proxies,     /* STSeriesRoot */
   &slice_traverse_children,       /* STParryFork */
-  &branch_resolve_proxies,        /* STSeriesHashed */
+  &pipe_resolve_proxies,          /* STSeriesHashed */
   &pipe_resolve_proxies,          /* STSelfCheckGuardRootSolvableFilter */
   &pipe_resolve_proxies,          /* STSelfCheckGuardSolvableFilter */
   &pipe_resolve_proxies,          /* STSelfCheckGuardRootDefenderFilter */
@@ -647,13 +647,13 @@ static slice_operation const proxy_resolvers[] =
   &pipe_resolve_proxies,          /* STSelfCheckGuardDefenderFilter */
   &pipe_resolve_proxies,          /* STSelfCheckGuardHelpFilter */
   &pipe_resolve_proxies,          /* STSelfCheckGuardSeriesFilter */
-  &branch_resolve_proxies,        /* STDirectDefense */
+  &branch_fork_resolve_proxies,   /* STDirectDefense */
   &reflex_filter_resolve_proxies, /* STReflexHelpFilter */
   &reflex_filter_resolve_proxies, /* STReflexSeriesFilter */
   &reflex_filter_resolve_proxies, /* STReflexAttackerFilter */
   &reflex_filter_resolve_proxies, /* STReflexDefenderFilter */
-  &branch_resolve_proxies,        /* STSelfAttack */
-  &branch_resolve_proxies,        /* STSelfDefense */
+  &branch_fork_resolve_proxies,   /* STSelfAttack */
+  &branch_fork_resolve_proxies,   /* STSelfDefense */
   &slice_traverse_children,       /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,       /* STRestartGuardHelpFilter */
   &slice_traverse_children,       /* STRestartGuardSeriesFilter */
@@ -709,22 +709,22 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
   switch (slices[si].type)
   {
     case STHelpRoot:
-      result = slices[si].u.pipe.u.branch.min_length;
+      result = slices[si].u.branch.min_length;
       min_length *= 2;
       if (result%2==1)
         --min_length;
-      if (min_length<=slices[si].u.pipe.u.branch.length)
-        slices[si].u.pipe.u.branch.min_length = min_length;
+      if (min_length<=slices[si].u.branch.length)
+        slices[si].u.branch.min_length = min_length;
       break;
 
     case STSeriesRoot:
-      result = slices[si].u.pipe.u.branch.min_length;
-      if (min_length+1<=slices[si].u.pipe.u.branch.length)
-        slices[si].u.pipe.u.branch.min_length = min_length+1;
+      result = slices[si].u.branch.min_length;
+      if (min_length+1<=slices[si].u.branch.length)
+        slices[si].u.branch.min_length = min_length+1;
       break;
 
     case STBranchDirect:
-      result = slices[si].u.pipe.u.branch.min_length;
+      result = slices[si].u.branch.min_length;
       break;
 
     case STSelfCheckGuardRootSolvableFilter:
@@ -760,7 +760,7 @@ static boolean get_max_nr_moves_direct_defender(slice_index si,
   TraceFunctionParamListEnd();
 
   result = traverse_slices(slices[si].u.pipe.next,st);
-  *max_nr += slices[si].u.pipe.u.branch.length+1;
+  *max_nr += slices[si].u.branch.length+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -782,8 +782,8 @@ static boolean get_max_nr_moves_branch(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
-  *max_nr += slices[si].u.pipe.u.branch.length;
+  result = slice_traverse_children(si,st);
+  *max_nr += slices[si].u.branch.length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -805,7 +805,7 @@ static boolean get_max_nr_moves_branch_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
+  result = traverse_slices(slices[si].u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -835,31 +835,10 @@ static boolean get_max_nr_moves_leaf(slice_index si, slice_traversal *st)
   return result;
 }
 
-/* Determine contribution of slice subtree to maximum number of moves
- * @param si identifies root of subtree
- * @param address of structure representing traversal
- * @return true iff traversal of si was successful
- */
-static boolean get_max_nr_moves_other(slice_index si, slice_traversal *st)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static slice_operation const get_max_nr_moves_functions[] =
 {
   &slice_traverse_children,          /* STProxy */
-  &get_max_nr_moves_other,           /* STBranchDirect */
+  &slice_traverse_children,          /* STBranchDirect */
   &get_max_nr_moves_direct_defender, /* STBranchDirectDefender */
   &get_max_nr_moves_branch,          /* STBranchHelp */
   &get_max_nr_moves_branch_fork,     /* STHelpFork */
@@ -868,48 +847,48 @@ static slice_operation const get_max_nr_moves_functions[] =
   &get_max_nr_moves_leaf,            /* STLeafDirect */
   &get_max_nr_moves_leaf,            /* STLeafHelp */
   &get_max_nr_moves_leaf,            /* STLeafForced */
-  &get_max_nr_moves_other,           /* STReciprocal */
-  &get_max_nr_moves_other,           /* STQuodlibet */
-  &get_max_nr_moves_other,           /* STNot */
-  &get_max_nr_moves_other,           /* STMoveInverterRootSolvableFilter */
-  &get_max_nr_moves_other,           /* STMoveInverterSolvableFilter */
-  &get_max_nr_moves_other,           /* STMoveInverterSeriesFilter */
-  &get_max_nr_moves_other,           /* STDirectRoot */
-  &get_max_nr_moves_other,           /* STDirectDefenderRoot */
-  &get_max_nr_moves_other,           /* STDirectHashed */
-  &get_max_nr_moves_other,           /* STHelpRoot */
-  &get_max_nr_moves_other,           /* STHelpHashed */
-  &get_max_nr_moves_other,           /* STSeriesRoot */
-  &get_max_nr_moves_other,           /* STParryFork */
-  &get_max_nr_moves_other,           /* STSeriesHashed */
-  &get_max_nr_moves_other,           /* STSelfCheckGuardRootSolvableFilter */
-  &get_max_nr_moves_other,           /* STSelfCheckGuardSolvableFilter */
-  &get_max_nr_moves_other,           /* STSelfCheckGuardRootDefenderFilter */
-  &get_max_nr_moves_other,           /* STSelfCheckGuardAttackerFilter */
-  &get_max_nr_moves_other,           /* STSelfCheckGuardDefenderFilter */
-  &get_max_nr_moves_other,           /* STSelfCheckGuardHelpFilter */
-  &get_max_nr_moves_other,           /* STSelfCheckGuardSeriesFilter */
-  &get_max_nr_moves_other,           /* STDirectDefense */
-  &get_max_nr_moves_other,           /* STReflexHelpFilter */
-  &get_max_nr_moves_other,           /* STReflexSeriesFilter */
-  &get_max_nr_moves_other,           /* STReflexAttackerFilter */
-  &get_max_nr_moves_other,           /* STReflexDefenderFilter */
-  &get_max_nr_moves_other,           /* STSelfAttack */
-  &get_max_nr_moves_other,           /* STSelfDefense */
-  &get_max_nr_moves_other,           /* STRestartGuardRootDefenderFilter */
-  &get_max_nr_moves_other,           /* STRestartGuardHelpFilter */
-  &get_max_nr_moves_other,           /* STRestartGuardSeriesFilter */
-  &get_max_nr_moves_other,           /* STGoalReachableGuardHelpFilter */
-  &get_max_nr_moves_other,           /* STGoalReachableGuardSeriesFilter */
-  &get_max_nr_moves_other,           /* STKeepMatingGuardRootDefenderFilter */
-  &get_max_nr_moves_other,           /* STKeepMatingGuardAttackerFilter */
-  &get_max_nr_moves_other,           /* STKeepMatingGuardDefenderFilter */
-  &get_max_nr_moves_other,           /* STKeepMatingGuardHelpFilter */
-  &get_max_nr_moves_other,           /* STKeepMatingGuardSeriesFilter */
-  &get_max_nr_moves_other,           /* STMaxFlightsquares */
-  &get_max_nr_moves_other,           /* STDegenerateTree */
-  &get_max_nr_moves_other,           /* STMaxNrNonTrivial */
-  &get_max_nr_moves_other            /* STMaxThreatLength */
+  &slice_traverse_children,          /* STReciprocal */
+  &slice_traverse_children,          /* STQuodlibet */
+  &slice_traverse_children,          /* STNot */
+  &slice_traverse_children,          /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,          /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,          /* STMoveInverterSeriesFilter */
+  &slice_traverse_children,          /* STDirectRoot */
+  &slice_traverse_children,          /* STDirectDefenderRoot */
+  &slice_traverse_children,          /* STDirectHashed */
+  &slice_traverse_children,          /* STHelpRoot */
+  &slice_traverse_children,          /* STHelpHashed */
+  &slice_traverse_children,          /* STSeriesRoot */
+  &slice_traverse_children,          /* STParryFork */
+  &slice_traverse_children,          /* STSeriesHashed */
+  &slice_traverse_children,          /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,          /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,          /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,          /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,          /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,          /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,          /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,          /* STDirectDefense */
+  &slice_traverse_children,          /* STReflexHelpFilter */
+  &slice_traverse_children,          /* STReflexSeriesFilter */
+  &slice_traverse_children,          /* STReflexAttackerFilter */
+  &slice_traverse_children,          /* STReflexDefenderFilter */
+  &slice_traverse_children,          /* STSelfAttack */
+  &slice_traverse_children,          /* STSelfDefense */
+  &slice_traverse_children,          /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,          /* STRestartGuardHelpFilter */
+  &slice_traverse_children,          /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,          /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,          /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,          /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,          /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,          /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,          /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,          /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,          /* STMaxFlightsquares */
+  &slice_traverse_children,          /* STDegenerateTree */
+  &slice_traverse_children,          /* STMaxNrNonTrivial */
+  &slice_traverse_children           /* STMaxThreatLength */
 };
 
 /* Determine the maximally possible number of half-moves until the
@@ -1085,40 +1064,10 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       case STBranchDirect:
       case STBranchDirectDefender:
       case STBranchHelp:
-      case STHelpFork:
       case STBranchSeries:
-      case STSeriesFork:
       case STDirectRoot:
       case STDirectDefenderRoot:
       case STSeriesRoot:
-      case STDirectDefense:
-      case STSelfAttack:
-      case STSelfDefense:
-      {
-        slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
-        slice_index const to_goal_copy = deep_copy_recursive(to_goal,copies);
-        slice_index const next = slices[si].u.pipe.next;
-        slice_index const next_copy = deep_copy_recursive(next,copies);
-        slices[result].u.pipe.u.branch.towards_goal = to_goal_copy;
-        pipe_link(result,next_copy);
-        break;
-      }
-
-      case STHelpRoot:
-      {
-        slice_index const to_goal = slices[si].u.pipe.u.help_root.towards_goal;
-        slice_index const to_goal_copy = deep_copy_recursive(to_goal,copies);
-        slice_index const next = slices[si].u.pipe.next;
-        slice_index const next_copy = deep_copy_recursive(next,copies);
-        slice_index const short_sols = slices[si].u.pipe.u.help_root.short_sols;
-        slice_index const short_sols_copy = deep_copy_recursive(short_sols,
-                                                                copies);
-        slices[result].u.pipe.u.help_root.towards_goal = to_goal_copy;
-        slices[result].u.pipe.u.help_root.short_sols = short_sols_copy;
-        pipe_link(result,next_copy);
-        break;
-      }
-
       case STNot:
       case STMoveInverterRootSolvableFilter:
       case STMoveInverterSolvableFilter:
@@ -1154,15 +1103,42 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
         break;
       }
 
+      case STHelpFork:
+      case STSeriesFork:
+      case STDirectDefense:
+      case STSelfAttack:
+      case STSelfDefense:
+      {
+        slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+        slice_index const to_goal_copy = deep_copy_recursive(to_goal,copies);
+        slice_index const next = slices[si].u.pipe.next;
+        slice_index const next_copy = deep_copy_recursive(next,copies);
+        slices[result].u.branch_fork.towards_goal = to_goal_copy;
+        pipe_link(result,next_copy);
+        break;
+      }
+
+      case STHelpRoot:
+      {
+        slice_index const next = slices[si].u.pipe.next;
+        slice_index const next_copy = deep_copy_recursive(next,copies);
+        slice_index const short_sols = slices[si].u.help_root.short_sols;
+        slice_index const short_sols_copy = deep_copy_recursive(short_sols,
+                                                                copies);
+        slices[result].u.help_root.short_sols = short_sols_copy;
+        pipe_link(result,next_copy);
+        break;
+      }
+
       case STQuodlibet:
       case STReciprocal:
       {
-        slice_index const op1 = slices[si].u.fork.op1;
+        slice_index const op1 = slices[si].u.binary.op1;
         slice_index const op1_copy = deep_copy_recursive(op1,copies);
-        slice_index const op2 = slices[si].u.fork.op2;
+        slice_index const op2 = slices[si].u.binary.op2;
         slice_index const op2_copy = deep_copy_recursive(op2,copies);
-        slices[result].u.fork.op1 = op1_copy;
-        slices[result].u.fork.op2 = op2_copy;
+        slices[result].u.binary.op1 = op1_copy;
+        slices[result].u.binary.op2 = op2_copy;
         break;
       }
 
@@ -1310,8 +1286,8 @@ static void insert_direct_defense_after(slice_index pos,
     /* already done*/ ;
   else
   {
-    stip_length_type const length = slices[pos].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[pos].u.pipe.u.branch.min_length;
+    stip_length_type const length = slices[pos].u.branch.length;
+    stip_length_type const min_length = slices[pos].u.branch.min_length;
     slice_index dirdef = alloc_direct_defense(length,min_length,proxy_to_goal);
     pipe_link(dirdef,slices[pos].u.pipe.next);
     pipe_link(pos,dirdef);
@@ -1325,7 +1301,7 @@ static boolean transform_to_quodlibet_self_attack(slice_index si,
                                                   slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
   slice_index * const new_proxy_to_goal = st->param;
 
   TraceFunctionEntry(__func__);
@@ -1581,8 +1557,8 @@ static slice_operation const setplay_makers[] =
   &slice_traverse_children,                   /* STProxy */
   0,                                          /* STBranchDirect */
   0,                                          /* STBranchDirectDefender */
-  0,                                          /* STBranchHelp */
-  0,                                          /* STHelpFork */
+  &pipe_traverse_next,                        /* STBranchHelp */
+  &help_fork_make_setplay_slice,              /* STHelpFork */
   &pipe_traverse_next,                        /* STBranchSeries */
   &series_fork_make_setplay_slice,            /* STSeriesFork */
   0,                                          /* STLeafDirect */
@@ -1930,8 +1906,8 @@ boolean stip_ends_in_one_of(Goal const goals[], size_t nrGoals)
  */
 static boolean make_exact_branch(slice_index branch, slice_traversal *st)
 {
-  slices[branch].u.pipe.u.branch.min_length
-      = slices[branch].u.pipe.u.branch.length;
+  slices[branch].u.branch.min_length
+      = slices[branch].u.branch.length;
 
   return slice_traverse_children(branch,st);
 }
@@ -2284,8 +2260,8 @@ static boolean traverse_fork(slice_index fork, slice_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  result1 = traverse_slices(slices[fork].u.fork.op1,st);
-  result2 = traverse_slices(slices[fork].u.fork.op2,st);
+  result1 = traverse_slices(slices[fork].u.binary.op1,st);
+  result2 = traverse_slices(slices[fork].u.binary.op2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u", result1 && result2);
@@ -2334,7 +2310,7 @@ static boolean traverse_help_root(slice_index pipe, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   result1 = traverse_slices(slices[pipe].u.pipe.next,st);
-  result2 = traverse_slices(slices[pipe].u.pipe.u.help_root.short_sols,st);
+  result2 = traverse_slices(slices[pipe].u.help_root.short_sols,st);
   result = result1 && result2;
 
   TraceFunctionExit(__func__);
@@ -2352,7 +2328,7 @@ static boolean traverse_help_root(slice_index pipe, slice_traversal *st)
 static boolean traverse_branch_fork(slice_index branch, slice_traversal *st)
 {
   boolean const result_pipe = traverse_pipe(branch,st);
-  slice_index const towards_goal = slices[branch].u.pipe.u.branch.towards_goal;
+  slice_index const towards_goal = slices[branch].u.branch_fork.towards_goal;
   boolean const result_toward_goal = traverse_slices(towards_goal,st);
   return result_pipe && result_toward_goal;
 }
@@ -2366,23 +2342,9 @@ static boolean traverse_branch_fork(slice_index branch, slice_traversal *st)
 static boolean traverse_parry_fork(slice_index branch, slice_traversal *st)
 {
   boolean const result_pipe = traverse_pipe(branch,st);
-  slice_index const parrying = slices[branch].u.pipe.u.parry_fork.parrying;
+  slice_index const parrying = slices[branch].u.parry_fork.parrying;
   boolean const result_parrying = traverse_slices(parrying,st);
   return result_pipe && result_parrying;
-}
-
-/* Traverse a subtree
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- * @return true iff branch_fork and its children have been successfully
- *         traversed
- */
-static boolean traverse_guard(slice_index branch, slice_traversal *st)
-{
-  boolean const result_pipe = traverse_pipe(branch,st);
-  slice_index const togoal = slices[branch].u.pipe.u.branch.towards_goal;
-  boolean const result_togoal = traverse_slices(togoal,st);
-  return result_pipe && result_togoal;
 }
 
 /* Traverse a subtree
@@ -2394,7 +2356,7 @@ static boolean traverse_guard(slice_index branch, slice_traversal *st)
 static boolean traverse_reflex_guard(slice_index branch, slice_traversal *st)
 {
   boolean const result_pipe = traverse_pipe(branch,st);
-  slice_index const avoided = slices[branch].u.pipe.u.reflex_guard.avoided;
+  slice_index const avoided = slices[branch].u.reflex_guard.avoided;
   boolean const result_not_slice = traverse_slices(avoided,st);
   return result_pipe && result_not_slice;
 }
@@ -2432,13 +2394,13 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STSelfCheckGuardDefenderFilter */
   &traverse_pipe,         /* STSelfCheckGuardHelpFilter */
   &traverse_pipe,         /* STSelfCheckGuardSeriesFilter */
-  &traverse_guard,        /* STDirectDefense */
+  &traverse_branch_fork,  /* STDirectDefense */
   &traverse_reflex_guard, /* STReflexHelpFilter */
   &traverse_reflex_guard, /* STReflexSeriesFilter */
   &traverse_reflex_guard, /* STReflexAttackerFilter */
   &traverse_reflex_guard, /* STReflexDefenderFilter */
-  &traverse_guard,        /* STSelfAttack */
-  &traverse_guard,        /* STSelfDefense */
+  &traverse_branch_fork,  /* STSelfAttack */
+  &traverse_branch_fork,  /* STSelfDefense */
   &traverse_pipe,         /* STRestartGuardRootDefenderFilter */
   &traverse_pipe,         /* STRestartGuardHelpFilter */
   &traverse_pipe,         /* STRestartGuardSeriesFilter */

@@ -2727,7 +2727,7 @@ static boolean full_moves_left_branch_help(slice_index si,
                                            slice_traversal *st)
 {
   boolean const result = true;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const n = slices[si].u.branch.length;
       
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2756,7 +2756,7 @@ static boolean full_moves_left_branch_series(slice_index si,
                                              slice_traversal *st)
 {
   boolean const result = true;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const n = slices[si].u.branch.length;
       
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2908,7 +2908,7 @@ static boolean partial_moves_left_help_fork(slice_index si, slice_traversal *st)
   traverse_slices(slices[si].u.pipe.next,st);
 
   slice_traversal_init(&st_full,&full_moves_left_initialisers,0);
-  traverse_slices(slices[si].u.pipe.u.branch.towards_goal,&st_full);
+  traverse_slices(slices[si].u.branch_fork.towards_goal,&st_full);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2938,7 +2938,7 @@ static boolean partial_moves_left_series_fork(slice_index si,
     traverse_slices(slices[si].u.pipe.next,st);
 
   slice_traversal_init(&st_full,&full_moves_left_initialisers,0);
-  traverse_slices(slices[si].u.pipe.u.branch.towards_goal,&st_full);
+  traverse_slices(slices[si].u.branch_fork.towards_goal,&st_full);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3047,9 +3047,7 @@ slice_index alloc_goalreachable_guard_help_filter(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STGoalReachableGuardHelpFilter,
-                        length,min_length,
-                        no_slice);
+  result = alloc_branch(STGoalReachableGuardHelpFilter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3071,9 +3069,7 @@ slice_index alloc_goalreachable_guard_series_filter(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STGoalReachableGuardSeriesFilter,
-                        length,min_length,
-                        no_slice);
+  result = alloc_branch(STGoalReachableGuardSeriesFilter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3278,8 +3274,8 @@ static boolean goalreachable_guards_inserter_branch_help(slice_index si,
 {
   boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3322,8 +3318,8 @@ static boolean goalreachable_guards_inserter_branch_series(slice_index si,
 {
   boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3514,11 +3510,11 @@ boolean isGoalReachable(void)
   return result;
 }
 
-static boolean intelligent_mode_support_detector_branch_h(slice_index si,
-                                                          slice_traversal *st)
+static boolean intelligent_mode_support_detector_fork(slice_index si,
+                                                      slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3580,10 +3576,10 @@ static boolean intelligent_mode_support_detector_quodlibet(slice_index si,
 
   if (*support!=intelligent_not_supported)
   {
-    traverse_slices(slices[si].u.fork.op1,st);
+    traverse_slices(slices[si].u.binary.op1,st);
     support1 = *support;
 
-    traverse_slices(slices[si].u.fork.op2,st);
+    traverse_slices(slices[si].u.binary.op2,st);
     support2 = *support;
 
     /* enumerators are ordered so that the weakest support has the
@@ -3624,10 +3620,10 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STProxy */
   &intelligent_mode_support_none,                /* STBranchDirect */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
-  &intelligent_mode_support_detector_branch_h,   /* STBranchHelp */
-  &slice_traverse_children,                      /* STHelpFork */
+  &slice_traverse_children,                      /* STBranchHelp */
+  &intelligent_mode_support_detector_fork,       /* STHelpFork */
   &slice_traverse_children,                      /* STBranchSeries */
-  &slice_traverse_children,                      /* STSeriesFork */
+  &intelligent_mode_support_detector_fork,       /* STSeriesFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,       /* STLeafHelp */
   &intelligent_mode_support_none,                /* STLeafForced */
@@ -3640,7 +3636,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STDirectRoot */
   &intelligent_mode_support_none,                /* STDirectDefenderRoot */
   &intelligent_mode_support_none,                /* STDirectHashed */
-  &intelligent_mode_support_detector_branch_h,   /* STHelpRoot */
+  &slice_traverse_children,                      /* STHelpRoot */
   &slice_traverse_children,                      /* STHelpHashed */
   &slice_traverse_children,                      /* STSeriesRoot */
   &slice_traverse_children,                      /* STParryFork */

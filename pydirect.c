@@ -257,8 +257,8 @@ stip_length_type direct_has_solution_in_n(slice_index si,
 has_solution_type direct_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
-  stip_length_type const length = slices[si].u.pipe.u.branch.length;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type n_min;
   stip_length_type const parity = length%2;
 
@@ -443,7 +443,7 @@ void direct_solve_threats(table threats, slice_index si)
   {
     case STDirectHashed:
     {
-      stip_length_type const length = slices[si].u.pipe.u.branch.length;
+      stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const parity = (length-slack_length_direct)%2;
       stip_length_type const n_min = slack_length_direct+2-parity;
       direct_hashed_solve_threats_in_n(threats,si,length,n_min);
@@ -483,7 +483,7 @@ boolean direct_are_threats_refuted(table threats, slice_index si)
   {
     case STDirectHashed:
     {
-      stip_length_type const length = slices[si].u.pipe.u.branch.length;
+      stip_length_type const length = slices[si].u.branch.length;
       result = direct_are_threats_refuted_in_n(threats,slack_length_direct,
                                                si,length);
       break;
@@ -595,8 +595,8 @@ boolean direct_solve(slice_index si)
   }
   else
   {
-    length = slices[si].u.pipe.u.branch.length;
-    min_length = slices[si].u.pipe.u.branch.min_length;
+    length = slices[si].u.branch.length;
+    min_length = slices[si].u.branch.min_length;
   }
 
   result = direct_solve_in_n(si,length,min_length)<=length;

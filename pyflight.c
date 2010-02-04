@@ -112,9 +112,7 @@ static slice_index alloc_maxflight_guard_slice(stip_length_type length)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxFlightsquares,
-                        length,slack_length_direct+parity,
-                        no_slice);
+  result = alloc_branch(STMaxFlightsquares,length,slack_length_direct+parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -134,7 +132,7 @@ boolean maxflight_guard_root_defend(slice_index si)
 {
   boolean result;
   Side const defender = slices[si].starter;
-  stip_length_type const n = slices[si].u.pipe.u.branch.length;
+  stip_length_type const n = slices[si].u.branch.length;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -170,7 +168,7 @@ boolean maxflight_guard_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.pipe.u.branch.length%2);
+  assert(n%2==slices[si].u.branch.length%2);
 
   if (n>slack_length_direct+2 && has_too_many_flights(defender))
     result = true;
@@ -232,7 +230,7 @@ static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
 
   {
     slice_index const prev = slices[si].prev;
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
+    stip_length_type const length = slices[si].u.branch.length;
     slice_index const guard = alloc_maxflight_guard_slice(length);
     pipe_link(prev,guard);
     pipe_link(guard,si);

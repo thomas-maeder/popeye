@@ -25,9 +25,9 @@ boolean parry_fork_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_solve_in_n(slices[si].u.pipe.u.parry_fork.parrying,n+1);
+    result = series_solve_in_n(slices[si].u.parry_fork.parrying,n+1);
   else
-    result = series_solve_in_n(slices[si].u.pipe.next,n);
+    result = series_solve_in_n(slices[si].u.parry_fork.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -51,10 +51,9 @@ boolean parry_fork_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_has_solution_in_n(slices[si].u.pipe.u.parry_fork.parrying,
-                                      n+1);
+    result = series_has_solution_in_n(slices[si].u.parry_fork.parrying,n+1);
   else
-    result = series_has_solution_in_n(slices[si].u.pipe.next,n);
+    result = series_has_solution_in_n(slices[si].u.parry_fork.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -75,7 +74,7 @@ static slice_index alloc_parry_fork(slice_index parrying)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STParryFork); 
-  slices[result].u.pipe.u.parry_fork.parrying = parrying;
+  slices[result].u.parry_fork.parrying = parrying;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -106,57 +106,66 @@ typedef struct
         struct /* for types with 1 principal subsequent slice */
         {
             slice_index next;
-
-            union
-            {
-                struct
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    slice_index towards_goal;
-                } branch;
-
-                struct
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    slice_index towards_goal;
-                    slice_index short_sols;
-                } help_root;
-
-                struct
-                {
-                    slice_index parrying;
-                } parry_fork;
-
-                struct /* for type==STKeepMatingGuard */
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    Side mating;
-                } keepmating_guard;
-
-                struct /* for type==STReflex* */
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    slice_index avoided;
-                } reflex_guard;
-
-                struct /* for type==STMaxThreatLength */
-                {
-                    stip_length_type length;     /* half moves */
-                    stip_length_type min_length; /* half moves */
-                    slice_index to_attacker;
-                } maxthreatlength_guard;
-            } u;
         } pipe;
+
+        struct
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+        } branch;
+
+        struct
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            slice_index towards_goal;
+        } branch_fork;
+
+        struct
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            slice_index short_sols;
+        } help_root;
+
+        struct
+        {
+            slice_index next;
+            slice_index parrying;
+        } parry_fork;
+
+        struct /* for type==STKeepMatingGuard */
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            Side mating;
+        } keepmating_guard;
+
+        struct /* for type==STReflex* */
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            slice_index avoided;
+        } reflex_guard;
+
+        struct /* for type==STMaxThreatLength */
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
+            slice_index to_attacker;
+        } maxthreatlength_guard;
 
         struct /* for type==STQuodlibet and type==STReciprocal */
         {
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
-        } fork;
+        } binary;
     } u;
 } Slice;
 

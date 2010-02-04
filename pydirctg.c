@@ -6,7 +6,6 @@
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "pydata.h"
-#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -34,7 +33,7 @@ slice_index alloc_direct_defense(stip_length_type length,
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDirectDefense,length,min_length,proxy_to_goal);
+  result = alloc_branch_fork(STDirectDefense,length,min_length,proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -59,17 +58,17 @@ boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
   traverse_slices(slices[si].u.pipe.next,st);
 
   {
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
-    slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
     slice_index const direct_defense = alloc_direct_defense(length,min_length,
                                                             to_goal);
     pipe_link(direct_defense,*root);
     *root = direct_defense;
 
-    slices[si].u.pipe.u.branch.length -= 2;
+    slices[si].u.branch.length -= 2;
     if (min_length>=slack_length_direct+2)
-      slices[si].u.pipe.u.branch.min_length -= 2;
+      slices[si].u.branch.min_length -= 2;
   }
   
   TraceFunctionExit(__func__);
@@ -101,7 +100,7 @@ direct_defense_direct_has_solution_in_n(slice_index si,
                                         stip_length_type n_min)
 {
   stip_length_type result;
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const togoal = slices[si].u.branch_fork.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -138,7 +137,7 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
 {
   boolean result = false;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const togoal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
@@ -171,7 +170,7 @@ void direct_defense_direct_solve_continuations_in_n(slice_index si,
                                                     stip_length_type n,
                                                     stip_length_type n_min)
 {
-  slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const togoal = slices[si].u.branch_fork.towards_goal;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -221,7 +220,7 @@ direct_defense_direct_solve_threats_in_n(table threats,
   
   if (n_min<=slack_length_direct)
   {
-    slice_index const togoal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const togoal = slices[si].u.branch_fork.towards_goal;
     slice_solve_threats(threats,togoal);
     if (table_length(threats)>0)
       result = slack_length_direct;
@@ -247,9 +246,9 @@ direct_defense_direct_solve_threats_in_n(table threats,
 boolean direct_defense_root_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -284,7 +283,7 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const towards_goal = slices[si].u.pipe.u.branch.towards_goal;
+  slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -322,9 +321,9 @@ boolean direct_defense_root_make_setplay_slice(slice_index si,
 
   prod->sibling = si;
 
-  if (slices[si].u.pipe.u.branch.length==slack_length_direct+1)
+  if (slices[si].u.branch.length==slack_length_direct+1)
   {
-    slice_index const proxy_to_goal = slices[si].u.pipe.u.branch.towards_goal;
+    slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
     assert(slices[proxy_to_goal].type==STProxy);
     prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
   }
@@ -413,8 +412,8 @@ static boolean direct_guards_inserter_attack(slice_index si, slice_traversal *st
   {
     slice_index const * const proxy_to_goal = st->param;
     slice_index const prev = slices[si].prev;
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const dirdef = alloc_direct_defense(length,min_length,
                                                     *proxy_to_goal);
     pipe_link(prev,dirdef);
@@ -446,8 +445,8 @@ static boolean direct_guards_inserter_defense(slice_index si,
   if (next==no_slice)
   {
     slice_index const * const proxy_to_goal = st->param;
-    stip_length_type const length = slices[si].u.pipe.u.branch.length;
-    stip_length_type const min_length = slices[si].u.pipe.u.branch.min_length;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const dirdef = alloc_direct_defense(length-1,min_length-1,
                                                     *proxy_to_goal);
     pipe_link(si,dirdef);

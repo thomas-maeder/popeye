@@ -29,8 +29,8 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
 
   result = alloc_slice(STQuodlibet);
 
-  slices[result].u.fork.op1 = proxy1;
-  slices[result].u.fork.op2 = proxy2;
+  slices[result].u.binary.op1 = proxy1;
+  slices[result].u.binary.op2 = proxy2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -45,8 +45,8 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
  */
 boolean quodlibet_insert_root(slice_index si, slice_traversal *st)
 {
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
   boolean const result = true;
   slice_index * const root = st->param;
 
@@ -76,8 +76,8 @@ boolean quodlibet_insert_root(slice_index si, slice_traversal *st)
  */
 void quodlibet_solve_threats(table threats, slice_index si)
 {
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -98,8 +98,8 @@ boolean quodlibet_root_solve(slice_index si)
   boolean result = false;
   boolean result1;
   boolean result2;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -122,8 +122,8 @@ boolean quodlibet_root_solve(slice_index si)
 boolean quodlibet_root_defend(slice_index si,
                               unsigned int max_number_refutations)
 {
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
   boolean result1;
   boolean result2;
   boolean result;
@@ -152,8 +152,8 @@ boolean quodlibet_root_defend(slice_index si,
  */
 boolean quodlibet_are_threats_refuted(table threats, slice_index si)
 {
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -176,8 +176,8 @@ boolean quodlibet_are_threats_refuted(table threats, slice_index si)
  */
 has_solution_type quodlibet_has_solution(slice_index si)
 {
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
   has_solution_type result;
 
   TraceFunctionEntry(__func__);
@@ -202,8 +202,8 @@ has_solution_type quodlibet_has_solution(slice_index si)
 boolean quodlibet_has_non_starter_solved(slice_index si)
 {
   boolean result = true;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -227,8 +227,8 @@ unsigned int quodlibet_count_refutations(slice_index si,
                                          unsigned int max_result)
 {
   unsigned int result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -251,8 +251,8 @@ unsigned int quodlibet_count_refutations(slice_index si,
 boolean quodlibet_defend(slice_index si)
 {
   boolean result;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -274,8 +274,8 @@ boolean quodlibet_solve(slice_index si)
 {
   boolean found_solution_op1 = false;
   boolean found_solution_op2 = false;
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -300,8 +300,8 @@ boolean quodlibet_solve(slice_index si)
  */
 boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
 {
-  slice_index const op1 = slices[si].u.fork.op1;
-  slice_index const op2 = slices[si].u.fork.op2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
 
   boolean result;
   boolean result1;
@@ -313,8 +313,8 @@ boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
 
   assert(slices[si].type==STQuodlibet);
 
-  TraceValue("%u",slices[si].u.fork.op1);
-  TraceValue("%u\n",slices[si].u.fork.op2);
+  TraceValue("%u",slices[si].u.binary.op1);
+  TraceValue("%u\n",slices[si].u.binary.op2);
 
   result1 = traverse_slices(op1,st);
   result2 = traverse_slices(op2,st);

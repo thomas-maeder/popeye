@@ -142,8 +142,8 @@ boolean series_root_solve(slice_index si)
 boolean series_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
-  stip_length_type len = slices[si].u.pipe.u.help_root.min_length;
+  stip_length_type const full_length = slices[si].u.help_root.length;
+  stip_length_type len = slices[si].u.help_root.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -153,7 +153,9 @@ boolean series_solve(slice_index si)
 
   if (len==slack_length_series)
   {
-    if (slice_solve(slices[si].u.pipe.u.help_root.towards_goal))
+    /* TODO this is ugly */
+    assert(slices[si].type==STSeriesFork);
+    if (slice_solve(slices[si].u.branch_fork.towards_goal))
     {
       result = true;
       FlagShortSolsReached = true;
@@ -260,8 +262,8 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
 has_solution_type series_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
-  stip_length_type len = slices[si].u.pipe.u.help_root.min_length;
+  stip_length_type const full_length = slices[si].u.help_root.length;
+  stip_length_type len = slices[si].u.help_root.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -342,8 +344,8 @@ void series_solve_threats_in_n(table threats,
 void series_solve_threats(table threats, slice_index si)
 {
   boolean solution_found = false;
-  stip_length_type const full_length = slices[si].u.pipe.u.help_root.length;
-  stip_length_type len = slices[si].u.pipe.u.help_root.min_length;
+  stip_length_type const full_length = slices[si].u.help_root.length;
+  stip_length_type len = slices[si].u.help_root.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

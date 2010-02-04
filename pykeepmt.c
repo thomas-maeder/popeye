@@ -24,7 +24,7 @@ static slice_index alloc_keepmating_guard_root_defender_filter(Side mating)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STKeepMatingGuardRootDefenderFilter);
-  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+  slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -45,7 +45,7 @@ static slice_index alloc_keepmating_guard_attacker_filter(Side mating)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STKeepMatingGuardAttackerFilter);
-  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+  slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -66,7 +66,7 @@ static slice_index alloc_keepmating_guard_defender_filter(Side mating)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STKeepMatingGuardDefenderFilter);
-  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+  slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -87,7 +87,7 @@ static slice_index alloc_keepmating_guard_help_filter(Side mating)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STKeepMatingGuardHelpFilter);
-  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+  slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -108,7 +108,7 @@ static slice_index alloc_keepmating_guard_series_filter(Side mating)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STKeepMatingGuardSeriesFilter);
-  slices[result].u.pipe.u.keepmating_guard.mating = mating;
+  slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -137,7 +137,7 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_min)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -171,7 +171,7 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
                                                   slice_index si,
                                                   stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -214,7 +214,7 @@ void keepmating_guard_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(is_a_mating_piece_left(slices[si].u.pipe.u.keepmating_guard.mating));
+  assert(is_a_mating_piece_left(slices[si].u.keepmating_guard.mating));
   direct_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
@@ -238,7 +238,7 @@ keepmating_guard_direct_solve_threats_in_n(table threats,
                                            stip_length_type n,
                                            stip_length_type n_min)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -271,7 +271,7 @@ keepmating_guard_direct_solve_threats_in_n(table threats,
  */
 boolean keepmating_guard_root_defend(slice_index si)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -300,7 +300,7 @@ boolean keepmating_guard_root_defend(slice_index si)
  */
 boolean keepmating_guard_defend_in_n(slice_index si, stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
   boolean result;
 
@@ -332,7 +332,7 @@ unsigned int keepmating_guard_can_defend_in_n(slice_index si,
                                               stip_length_type n,
                                               unsigned int max_result)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
   unsigned int result;
 
@@ -364,7 +364,7 @@ unsigned int keepmating_guard_can_defend_in_n(slice_index si,
  */
 boolean keepmating_guard_help_solve_in_n(slice_index si, stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -391,7 +391,7 @@ boolean keepmating_guard_help_solve_in_n(slice_index si, stip_length_type n)
 boolean keepmating_guard_help_has_solution_in_n(slice_index si,
                                                 stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -419,7 +419,7 @@ void keepmating_guard_help_solve_threats_in_n(table threats,
                                               slice_index si,
                                               stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -446,7 +446,7 @@ void keepmating_guard_help_solve_threats_in_n(table threats,
  */
 boolean keepmating_guard_series_solve_in_n(slice_index si, stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -473,7 +473,7 @@ boolean keepmating_guard_series_solve_in_n(slice_index si, stip_length_type n)
 boolean keepmating_guard_series_has_solution_in_n(slice_index si,
                                                   stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -501,7 +501,7 @@ void keepmating_guard_series_solve_threats_in_n(table threats,
                                                 slice_index si,
                                                 stip_length_type n)
 {
-  Side const mating = slices[si].u.pipe.u.keepmating_guard.mating;
+  Side const mating = slices[si].u.keepmating_guard.mating;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -561,10 +561,10 @@ static boolean keepmating_guards_inserter_quodlibet(slice_index si,
   TraceFunctionParamListEnd();
 
   st->param = &km1;
-  traverse_slices(slices[si].u.fork.op1,st);
+  traverse_slices(slices[si].u.binary.op1,st);
 
   st->param = &km2;
-  traverse_slices(slices[si].u.fork.op2,st);
+  traverse_slices(slices[si].u.binary.op2,st);
 
   (*km)[White] = km1[White] && km2[White];
   (*km)[Black] = km1[Black] && km2[Black];
@@ -590,10 +590,10 @@ static boolean keepmating_guards_inserter_reciprocal(slice_index si,
   TraceFunctionParamListEnd();
 
   st->param = &km1;
-  traverse_slices(slices[si].u.fork.op1,st);
+  traverse_slices(slices[si].u.binary.op1,st);
 
   st->param = &km2;
-  traverse_slices(slices[si].u.fork.op2,st);
+  traverse_slices(slices[si].u.binary.op2,st);
 
   (*km)[White] = km1[White] || km2[White];
   (*km)[Black] = km1[Black] || km2[Black];
@@ -619,7 +619,7 @@ static boolean keepmating_guards_inserter_branch_fork(slice_index si,
    * would use; instead make sure that we first traverse towards the
    * goal(s).
    */
-  traverse_slices(slices[si].u.pipe.u.branch.towards_goal,st);
+  traverse_slices(slices[si].u.branch_fork.towards_goal,st);
   traverse_slices(slices[si].u.pipe.next,st);
   
   TraceFunctionExit(__func__);
