@@ -3281,29 +3281,23 @@ static boolean goalreachable_guards_inserter_branch_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].prev==si)
-  {
-    slice_index const guard = alloc_goalreachable_guard_help_filter(length,
-                                                                    min_length);
-    pipe_link(si,guard);
-    pipe_link(guard,next);
-    slice_traverse_children(guard,st);
-  }
-  else
-  {
-    slice_traverse_children(si,st);
+  slice_traverse_children(si,st);
 
+  {
+    slice_index const next_prev = slices[next].prev;
+    if (next_prev==si)
     {
-      slice_index const next_prev = slices[next].prev;
-      if (slices[next_prev].type==STGoalReachableGuardHelpFilter)
-        pipe_set_successor(si,next_prev);
-      else
-      {
-        slice_index const guard = alloc_goalreachable_guard_help_filter(length,
-                                                                        min_length);
-        pipe_link(si,guard);
-        pipe_set_successor(guard,next);
-      }
+      slice_index const guard = alloc_goalreachable_guard_help_filter(length,
+                                                                      min_length);
+      pipe_link(si,guard);
+      pipe_link(guard,next);
+    }
+    else
+    {
+      assert(slices[next_prev].type==STGoalReachableGuardHelpFilter);
+      pipe_set_successor(si,next_prev);
+      slices[next_prev].u.branch.length = slices[si].u.branch.length;
+      slices[next_prev].u.branch.min_length = slices[si].u.branch.min_length;
     }
   }
 
@@ -3325,29 +3319,23 @@ static boolean goalreachable_guards_inserter_branch_series(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].prev==si)
-  {
-    slice_index const guard = alloc_goalreachable_guard_series_filter(length,
-                                                                      min_length);
-    pipe_link(si,guard);
-    pipe_link(guard,next);
-    slice_traverse_children(guard,st);
-  }
-  else
-  {
-    slice_traverse_children(si,st);
+  slice_traverse_children(si,st);
 
+  {
+    slice_index const next_prev = slices[next].prev;
+    if (next_prev==si)
     {
-      slice_index const next_prev = slices[next].prev;
-      if (slices[next_prev].type==STGoalReachableGuardSeriesFilter)
-        pipe_set_successor(si,next_prev);
-      else
-      {
-        slice_index const guard = alloc_goalreachable_guard_series_filter(length,
-                                                                          min_length);
-        pipe_link(si,guard);
-        pipe_set_successor(guard,next);
-      }
+      slice_index const guard = alloc_goalreachable_guard_series_filter(length,
+                                                                        min_length);
+      pipe_link(si,guard);
+      pipe_link(guard,next);
+    }
+    else
+    {
+      assert(slices[next_prev].type==STGoalReachableGuardSeriesFilter);
+      pipe_set_successor(si,next_prev);
+      slices[next_prev].u.branch.length = slices[si].u.branch.length;
+      slices[next_prev].u.branch.min_length = slices[si].u.branch.min_length;
     }
   }
 
