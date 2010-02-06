@@ -2800,6 +2800,7 @@ static slice_operation const full_moves_left_initialisers[] =
   0,                                /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
   0,                                /* STSeriesRoot */
+  0,                                /* STSeriesShortcut */
   &pipe_traverse_next,              /* STParryFork */
   &slice_traverse_children,         /* STSeriesHashed */
   &slice_traverse_children,         /* STSelfCheckGuardRootSolvableFilter */
@@ -2972,6 +2973,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
   0,                                /* STSeriesRoot */
+  &slice_traverse_children,         /* STSeriesShortcut */
   &pipe_traverse_next,              /* STParryFork */
   &slice_traverse_children,         /* STSeriesHashed */
   &slice_traverse_children,         /* STSelfCheckGuardRootSolvableFilter */
@@ -3398,6 +3400,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */
   &slice_traverse_children,                  /* STSeriesRoot */
+  &slice_traverse_children,                  /* STSeriesShortcut */
   &goalreachable_guards_inserter_parry_fork, /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
   &slice_traverse_children,                  /* STSelfCheckGuardRootSolvableFilter */
@@ -3631,6 +3634,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STHelpShortcut */
   &slice_traverse_children,                      /* STHelpHashed */
   &slice_traverse_children,                      /* STSeriesRoot */
+  &slice_traverse_children,                      /* STSeriesShortcut */
   &slice_traverse_children,                      /* STParryFork */
   &slice_traverse_children,                      /* STSeriesHashed */
   &slice_traverse_children,                      /* STSelfCheckGuardRootSolvableFilter */

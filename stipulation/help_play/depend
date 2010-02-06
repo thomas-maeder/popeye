@@ -1,10 +1,13 @@
 stipulation/help_play/shortcut$(OBJ_SUFFIX): stipulation/help_play/shortcut.c \
-  stipulation/help_play/shortcut.h pyhelp.h stipulation/branch.h trace.h
+  stipulation/help_play/shortcut.h pyhelp.h stipulation/branch.h \
+  stipulation/proxy.h trace.h
 
 stipulation/help_play/shortcut.h:
 
 pyhelp.h:
 
 stipulation/branch.h:
+
+stipulation/proxy.h:
 
 trace.h:

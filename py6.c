@@ -515,6 +515,7 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STHelpShortcut */
   0,                                  /* STHelpHashed */
   &root_slice_type_found,             /* STSeriesRoot */
+  0,                                  /* STSeriesShortcut */
   0,                                  /* STParryFork */
   0,                                  /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuardRootSolvableFilter */
@@ -2603,6 +2604,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */
   &slice_traverse_children,                  /* STSeriesRoot */
+  &slice_traverse_children,                  /* STSeriesShortcut */
   &pipe_traverse_next,                       /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
   &slice_traverse_children,                  /* STSelfCheckGuardRootSolvableFilter */

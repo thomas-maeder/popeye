@@ -22,8 +22,8 @@ slice_index alloc_branch(SliceType type,
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.help_root.length = length;
-  slices[result].u.help_root.min_length = min_length;
+  slices[result].u.shortcut.length = length;
+  slices[result].u.shortcut.min_length = min_length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

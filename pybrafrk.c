@@ -152,7 +152,7 @@ boolean series_fork_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   traverse_slices(slices[si].u.pipe.next,st);
-  slices[*root].u.help_root.short_sols = si;
+  slices[*root].u.shortcut.short_sols = si;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -185,7 +185,7 @@ boolean help_fork_insert_root(slice_index si, slice_traversal *st)
   {
     slice_index const shortcut = branch_find_slice(STHelpShortcut,*root);
     assert(shortcut!=no_slice);
-    slices[shortcut].u.help_root.short_sols = si;
+    slices[shortcut].u.shortcut.short_sols = si;
   }
   
   TraceFunctionExit(__func__);
@@ -643,6 +643,7 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STHelpShortcut */
   &traverse_and_deallocate,             /* STHelpHashed */
   &traverse_and_deallocate,             /* STSeriesRoot */
+  &traverse_and_deallocate,             /* STSeriesShortcut */
   &traverse_and_deallocate,             /* STParryFork */
   &traverse_and_deallocate,             /* STSeriesHashed */
   &traverse_and_deallocate,             /* STSelfCheckGuardRootSolvableFilter */

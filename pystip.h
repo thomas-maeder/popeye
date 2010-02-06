@@ -48,6 +48,8 @@
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
+    ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
+                                                                        \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
                                                                         \
@@ -130,7 +132,7 @@ typedef struct
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
             slice_index short_sols;
-        } help_root;
+        } shortcut;
 
         struct
         {

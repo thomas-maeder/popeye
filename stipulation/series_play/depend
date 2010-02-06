@@ -18,3 +18,16 @@ stipulation/proxy.h:
 pypipe.h:
 
 trace.h:
+stipulation/series_play/shortcut$(OBJ_SUFFIX): stipulation/series_play/shortcut.c \
+  stipulation/series_play/shortcut.h pyseries.h stipulation/branch.h \
+  stipulation/proxy.h trace.h
+
+stipulation/series_play/shortcut.h:
+
+pyseries.h:
+
+stipulation/branch.h:
+
+stipulation/proxy.h:
+
+trace.h:

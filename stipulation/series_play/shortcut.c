@@ -1,21 +1,21 @@
-#include "stipulation/help_play/shortcut.h"
-#include "pyhelp.h"
+#include "stipulation/series_play/shortcut.h"
+#include "pyseries.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a STHelpShortcut slice.
+/* Allocate a STSeriesShortcut slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param short_sols identifies slice to delegate to when looking for
  *                   short solutions
  * @return allocated slice
  */
-slice_index alloc_help_shortcut(stip_length_type length,
-                                stip_length_type min_length,
-                                slice_index short_sols)
+slice_index alloc_series_shortcut(stip_length_type length,
+                                  stip_length_type min_length,
+                                  slice_index short_sols)
 {
   slice_index result;
 
@@ -25,7 +25,7 @@ slice_index alloc_help_shortcut(stip_length_type length,
   TraceFunctionParam("%u",short_sols);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STHelpShortcut,length,min_length); 
+  result = alloc_branch(STSeriesShortcut,length,min_length); 
   slices[result].u.shortcut.short_sols = short_sols;
 
   TraceFunctionExit(__func__);
@@ -39,7 +39,7 @@ slice_index alloc_help_shortcut(stip_length_type length,
  * @param st address of structure representing the traversal
  * @return true iff slice si has been successfully traversed
  */
-boolean help_shortcut_resolve_proxies(slice_index si, slice_traversal *st)
+boolean series_shortcut_resolve_proxies(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
 
@@ -64,7 +64,7 @@ boolean help_shortcut_resolve_proxies(slice_index si, slice_traversal *st)
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >=1 solution was found
  */
-boolean help_shortcut_solve_in_n(slice_index si, stip_length_type n)
+boolean series_shortcut_solve_in_n(slice_index si, stip_length_type n)
 {
   boolean result;
   stip_length_type const full_length = slices[si].u.shortcut.length;
@@ -77,7 +77,7 @@ boolean help_shortcut_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_solve_in_n(next_branch,n);
+  result = series_solve_in_n(next_branch,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -90,7 +90,7 @@ boolean help_shortcut_solve_in_n(slice_index si, stip_length_type n)
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean help_shortcut_has_solution_in_n(slice_index si, stip_length_type n)
+boolean series_shortcut_has_solution_in_n(slice_index si, stip_length_type n)
 {
   boolean result = false;
   stip_length_type const full_length = slices[si].u.shortcut.length;
@@ -103,7 +103,7 @@ boolean help_shortcut_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = help_has_solution_in_n(next_branch,n);
+  result = series_has_solution_in_n(next_branch,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

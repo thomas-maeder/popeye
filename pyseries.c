@@ -11,6 +11,7 @@
 #include "pymovenb.h"
 #include "pypipe.h"
 #include "stipulation/series_play/parry_fork.h"
+#include "stipulation/series_play/shortcut.h"
 #include "pyint.h"
 #include "pydata.h"
 #include "trace.h"
@@ -35,6 +36,10 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STSeriesShortcut:
+      result = series_shortcut_solve_in_n(si,n);
+      break;
+
     case STBranchSeries:
       result = branch_ser_solve_in_n(si,n);
       break;
@@ -142,8 +147,8 @@ boolean series_root_solve(slice_index si)
 boolean series_solve(slice_index si)
 {
   boolean result = false;
-  stip_length_type const full_length = slices[si].u.help_root.length;
-  stip_length_type len = slices[si].u.help_root.min_length;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -205,6 +210,10 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
       result = branch_ser_has_solution_in_n(si,n);
       break;
 
+    case STSeriesShortcut:
+      result = series_shortcut_has_solution_in_n(si,n);
+      break;
+
     case STBranchDirectDefender:
     {
       stip_length_type const n_dir = n-slack_length_series+slack_length_direct;
@@ -262,8 +271,8 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
 has_solution_type series_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.help_root.length;
-  stip_length_type len = slices[si].u.help_root.min_length;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -344,8 +353,8 @@ void series_solve_threats_in_n(table threats,
 void series_solve_threats(table threats, slice_index si)
 {
   boolean solution_found = false;
-  stip_length_type const full_length = slices[si].u.help_root.length;
-  stip_length_type len = slices[si].u.help_root.min_length;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -47,13 +47,6 @@ slice_index alloc_branch_h_slice(stip_length_type length,
  */
 boolean branch_h_insert_root(slice_index si, slice_traversal *st);
 
-/* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
- * @return true iff slice si has been successfully traversed
- */
-boolean help_root_resolve_proxies(slice_index si, slice_traversal *st);
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

@@ -981,6 +981,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STHelpShortcut */
   &slice_traverse_children,                 /* STHelpHashed */
   &slice_traverse_children,                 /* STSeriesRoot */
+  &slice_traverse_children,                 /* STSeriesShortcut */
   &selfcheck_guards_inserter_parry_fork,    /* STParryFork */
   &slice_traverse_children,                 /* STSeriesHashed */
   &slice_operation_noop,                    /* STSelfCheckGuardRootSolvableFilter */
@@ -1065,6 +1066,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STHelpShortcut */
   0,                                             /* STHelpHashed */
   &selfcheck_guards_inserter_toplevel_root,      /* STSeriesRoot */
+  0,                                             /* STSeriesShortcut */
   0,                                             /* STParryFork */
   0,                                             /* STSeriesHashed */
   &slice_operation_noop,                         /* STSelfCheckGuardRootSolvableFilter */

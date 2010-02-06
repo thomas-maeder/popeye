@@ -295,10 +295,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesRoot:
         Trace_branch(si);
         fprintf(stdout,"short_sols:%u ",
-                slices[si].u.help_root.short_sols);
+                slices[si].u.shortcut.short_sols);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.help_root.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.help_root.short_sols,done_slices);
+        TraceStipulationRecursive(slices[si].u.shortcut.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.shortcut.short_sols,done_slices);
         break;
 
       case STQuodlibet:
