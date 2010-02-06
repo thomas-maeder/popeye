@@ -13,12 +13,14 @@
 /* Allocate a STHelpRoot slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies following branch silice
  * @param short_sols identifies slice to delegate to when looking for
  *                   short solutions
  * @return index of allocated slice
  */
 slice_index alloc_help_root_slice(stip_length_type length,
                                   stip_length_type min_length,
+                                  slice_index next,
                                   slice_index short_sols);
 
 /* Allocate a help branch.

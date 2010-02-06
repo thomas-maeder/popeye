@@ -2797,6 +2797,7 @@ static slice_operation const full_moves_left_initialisers[] =
   0,                                /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
   0,                                /* STHelpRoot */
+  0,                                /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
   0,                                /* STSeriesRoot */
   &pipe_traverse_next,              /* STParryFork */
@@ -2968,6 +2969,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   0,                                /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
   0,                                /* STHelpRoot */
+  &slice_traverse_children,         /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
   0,                                /* STSeriesRoot */
   &pipe_traverse_next,              /* STParryFork */
@@ -3393,6 +3395,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
   &slice_traverse_children,                  /* STHelpRoot */
+  &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */
   &slice_traverse_children,                  /* STSeriesRoot */
   &goalreachable_guards_inserter_parry_fork, /* STParryFork */
@@ -3625,6 +3628,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STDirectDefenderRoot */
   &intelligent_mode_support_none,                /* STDirectHashed */
   &slice_traverse_children,                      /* STHelpRoot */
+  &slice_traverse_children,                      /* STHelpShortcut */
   &slice_traverse_children,                      /* STHelpHashed */
   &slice_traverse_children,                      /* STSeriesRoot */
   &slice_traverse_children,                      /* STParryFork */

@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = shortcut.c
+INCLUDES = shortcut.h
+
+include makefile.rules $(CURRPWD)depend

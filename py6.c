@@ -512,6 +512,7 @@ static slice_operation const slice_type_finders[] =
   &root_slice_type_found,             /* STDirectDefenderRoot */
   &slice_traverse_children,           /* STDirectHashed */
   &root_slice_type_found,             /* STHelpRoot */
+  0,                                  /* STHelpShortcut */
   0,                                  /* STHelpHashed */
   &root_slice_type_found,             /* STSeriesRoot */
   0,                                  /* STParryFork */
@@ -2122,6 +2123,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STHelpRoot:
+    case STHelpShortcut:
     case STBranchHelp:
     case STMoveInverterRootSolvableFilter:
     case STNot:
@@ -2598,6 +2600,7 @@ static slice_operation const hash_element_inserters[] =
   &insert_hash_element_direct_defender_root, /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
   &slice_traverse_children,                  /* STHelpRoot */
+  &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */
   &slice_traverse_children,                  /* STSeriesRoot */
   &pipe_traverse_next,                       /* STParryFork */

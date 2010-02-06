@@ -311,7 +311,8 @@ static slice_operation const restart_guards_inserters[] =
   &restart_guards_inserter_direct_root, /* STDirectRoot */
   &slice_operation_noop,         /* STDirectDefenderRoot */
   &slice_traverse_children,      /* STDirectHashed */
-  &pipe_traverse_next,           /* STHelpRoot */
+  &slice_traverse_children,      /* STHelpRoot */
+  &pipe_traverse_next,           /* STHelpShortcut */
   &slice_traverse_children,      /* STHelpHashed */
   &pipe_traverse_next,           /* STSeriesRoot */
   &slice_traverse_children,      /* STParryFork */

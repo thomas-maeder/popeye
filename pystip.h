@@ -44,6 +44,7 @@
     ENUMERATOR(STDirectHashed),    /* direct play with hash table */    \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
+    ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
                                                                         \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \

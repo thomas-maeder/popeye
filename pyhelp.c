@@ -1,6 +1,7 @@
 #include "pyhelp.h"
 #include "pybrah.h"
 #include "pyseries.h"
+#include "stipulation/help_play/shortcut.h"
 #include "pyleafh.h"
 #include "pybrafrk.h"
 #include "pyhash.h"
@@ -31,6 +32,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STHelpShortcut:
+      result = help_shortcut_solve_in_n(si,n);
+      break;
+
     case STBranchHelp:
       result = branch_h_solve_in_n(si,n);
       break;
@@ -191,6 +196,10 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
     case STBranchHelp:
     case STHelpRoot:
       result = branch_h_has_solution_in_n(si,n);
+      break;
+
+    case STHelpShortcut:
+      result = help_shortcut_has_solution_in_n(si,n);
       break;
 
     case STHelpFork:

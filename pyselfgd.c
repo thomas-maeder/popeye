@@ -723,6 +723,7 @@ static slice_operation const self_guards_inserters[] =
   &self_guards_inserter_branch_direct_defender_root, /* STDirectDefenderRoot */
   &slice_traverse_children,                          /* STDirectHashed */
   &slice_traverse_children,                          /* STHelpRoot */
+  &slice_traverse_children,                          /* STHelpShortcut */
   &slice_traverse_children,                          /* STHelpHashed */
   &slice_traverse_children,                          /* STSeriesRoot */
   &slice_traverse_children,                          /* STParryFork */

@@ -1330,6 +1330,7 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STDirectDefenderRoot */
   0,                                   /* STDirectHashed */
   0,                                   /* STHelpRoot */
+  0,                                   /* STHelpShortcut */
   0,                                   /* STHelpHashed */
   0,                                   /* STSeriesRoot */
   0,                                   /* STParryFork */
@@ -1498,6 +1499,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STDirectDefenderRoot */
   0,                                    /* STDirectHashed */
   0,                                    /* STHelpRoot */
+  0,                                    /* STHelpShortcut */
   0,                                    /* STHelpHashed */
   0,                                    /* STSeriesRoot */
   0,                                    /* STParryFork */

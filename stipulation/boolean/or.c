@@ -320,6 +320,7 @@ boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
   result2 = traverse_slices(op2,st);
 
   result = result1 && result2;
+  TraceStipulation(si);
 
   if (slices[op1].starter==no_side)
     slices[si].starter = slices[op2].starter;

@@ -847,8 +847,8 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
                                                  slices[si].u.pipe.next);
     prod->setplay_slice = alloc_help_root_slice(slack_length_help+1,
                                                 slack_length_help+1,
+                                                branch,
                                                 no_slice);
-    pipe_link(prod->setplay_slice,branch);
   }
 
   TraceFunctionExit(__func__);
