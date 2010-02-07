@@ -188,6 +188,7 @@ static slice_operation const output_mode_detectors[] =
   &pipe_traverse_next,        /* STRestartGuardRootDefenderFilter */
   &pipe_traverse_next,        /* STRestartGuardHelpFilter */
   &pipe_traverse_next,        /* STRestartGuardSeriesFilter */
+  &pipe_traverse_next,        /* STIntelligentHelpFilter */
   &pipe_traverse_next,        /* STGoalReachableGuardHelpFilter */
   &output_mode_linemode,      /* STGoalReachableGuardSeriesFilter */
   &output_mode_treemode,      /* STKeepMatingGuardRootDefenderFilter */

@@ -335,6 +335,7 @@ static slice_operation const restart_guards_inserters[] =
   0,                             /* STRestartGuardRootDefenderFilter */
   0,                             /* STRestartGuardHelpFilter */
   0,                             /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,      /* STIntelligentHelpFilter */
   0,                             /* STGoalReachableGuardHelpFilter */
   0,                             /* STGoalReachableGuardSeriesFilter */
   0,                             /* STKeepMatingGuardRootDefenderFilter */

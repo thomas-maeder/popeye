@@ -746,6 +746,7 @@ static slice_operation const self_guards_inserters[] =
   0,                                                 /* STRestartGuardRootDefenderFilter */
   0,                                                 /* STRestartGuardHelpFilter */
   0,                                                 /* STRestartGuardSeriesFilter */
+  0,                                                 /* STIntelligentHelpFilter */
   0,                                                 /* STGoalReachableGuardHelpFilter */
   0,                                                 /* STGoalReachableGuardSeriesFilter */
   0,                                                 /* STKeepMatingGuardRootDefenderFilter */

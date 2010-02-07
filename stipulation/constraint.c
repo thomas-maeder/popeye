@@ -1353,6 +1353,7 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STRestartGuardRootDefenderFilter */
   0,                                   /* STRestartGuardHelpFilter */
   0,                                   /* STRestartGuardSeriesFilter */
+  0,                                   /* STIntelligentHelpFilter */
   0,                                   /* STGoalReachableGuardHelpFilter */
   0,                                   /* STGoalReachableGuardSeriesFilter */
   0,                                   /* STKeepMatingGuardRootDefenderFilter */
@@ -1523,6 +1524,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STRestartGuardRootDefenderFilter */
   0,                                    /* STRestartGuardHelpFilter */
   0,                                    /* STRestartGuardSeriesFilter */
+  0,                                    /* STIntelligentHelpFilter */
   0,                                    /* STGoalReachableGuardHelpFilter */
   0,                                    /* STGoalReachableGuardSeriesFilter */
   0,                                    /* STKeepMatingGuardRootDefenderFilter */

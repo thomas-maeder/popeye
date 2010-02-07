@@ -535,6 +535,7 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STRestartGuardRootDefenderFilter */
   0,                                  /* STRestartGuardHelpFilter */
   0,                                  /* STRestartGuardSeriesFilter */
+  0,                                  /* STIntelligentHelpFilter */
   0,                                  /* STGoalReachableGuardHelpFilter */
   0,                                  /* STGoalReachableGuardSeriesFilter */
   0,                                  /* STKeepMatingGuardRootDefenderFilter */
@@ -2624,6 +2625,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                  /* STRestartGuardHelpFilter */
   &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,                  /* STIntelligentHelpFilter */
   &slice_traverse_children,                  /* STGoalReachableGuardHelpFilter */
   &slice_traverse_children,                  /* STGoalReachableGuardSeriesFilter */
   &slice_traverse_children,                  /* STKeepMatingGuardRootDefenderFilter */
@@ -2863,7 +2865,7 @@ static Token iterate_twins(Token prev_token)
         insert_hash_slices();
 
       if (isIntelligentModeActive)
-        stip_insert_goalreachable_guards();
+        stip_insert_intelligent_guards();
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();

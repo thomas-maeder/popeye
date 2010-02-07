@@ -2820,6 +2820,7 @@ static slice_operation const full_moves_left_initialisers[] =
   0,                                /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
+  0,                                /* STIntelligentHelpFilter */
   &full_moves_left_branch_help,     /* STGoalReachableGuardHelpFilter */
   &full_moves_left_branch_series,   /* STGoalReachableGuardSeriesFilter */
   0,                                /* STKeepMatingGuardRootDefenderFilter */
@@ -2993,6 +2994,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   0,                                /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,         /* STIntelligentHelpFilter */
   &partial_moves_left_branch_help,  /* STGoalReachableGuardHelpFilter */
   &partial_moves_left_branch_series,/* STGoalReachableGuardSeriesFilter */
   0,                                /* STKeepMatingGuardRootDefenderFilter */
@@ -3273,8 +3275,8 @@ void goalreachable_guard_series_solve_threats_in_n(table threats,
   TraceFunctionResultEnd();
 }
 
-static boolean goalreachable_guards_inserter_branch_help(slice_index si,
-                                                         slice_traversal *st)
+static boolean intelligent_guards_inserter_branch_help(slice_index si,
+                                                       slice_traversal *st)
 {
   boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
@@ -3311,8 +3313,8 @@ static boolean goalreachable_guards_inserter_branch_help(slice_index si,
   return result;
 }
 
-static boolean goalreachable_guards_inserter_branch_series(slice_index si,
-                                                           slice_traversal *st)
+static boolean intelligent_guards_inserter_branch_series(slice_index si,
+                                                         slice_traversal *st)
 {
   boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
@@ -3349,8 +3351,8 @@ static boolean goalreachable_guards_inserter_branch_series(slice_index si,
   return result;
 }
 
-static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
-                                                        slice_traversal *st)
+static boolean intelligent_guards_inserter_parry_fork(slice_index si,
+                                                      slice_traversal *st)
 {
   boolean const result = true;
 
@@ -3375,14 +3377,39 @@ static boolean goalreachable_guards_inserter_parry_fork(slice_index si,
   return result;
 }
 
-static slice_operation const goalreachable_guards_inserters[] =
+static boolean intelligent_guards_inserter_help_root(slice_index si,
+                                                     slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  {
+    slice_index const intelligent = alloc_branch(STIntelligentHelpFilter,
+                                                 slack_length_help+1,
+                                                 slack_length_help+1);
+    pipe_link(intelligent,slices[si].u.pipe.next);
+    pipe_link(si,intelligent);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const intelligent_guards_inserters[] =
 {
   &slice_traverse_children,                  /* STProxy */
   0,                                         /* STBranchDirect */
   0,                                         /* STBranchDirectDefender */
-  &goalreachable_guards_inserter_branch_help, /* STBranchHelp */
+  &intelligent_guards_inserter_branch_help,  /* STBranchHelp */
   &slice_traverse_children,                  /* STHelpFork */
-  &goalreachable_guards_inserter_branch_series, /* STBranchSeries */
+  &intelligent_guards_inserter_branch_series,/* STBranchSeries */
   &slice_traverse_children,                  /* STSeriesFork */
   &slice_operation_noop,                     /* STLeafDirect */
   &slice_operation_noop,                     /* STLeafHelp */
@@ -3396,12 +3423,12 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STDirectRoot */
   0,                                         /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
-  &slice_traverse_children,                  /* STHelpRoot */
+  &intelligent_guards_inserter_help_root,    /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */
   &slice_traverse_children,                  /* STSeriesRoot */
   &slice_traverse_children,                  /* STSeriesShortcut */
-  &goalreachable_guards_inserter_parry_fork, /* STParryFork */
+  &intelligent_guards_inserter_parry_fork,   /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
   &slice_traverse_children,                  /* STSelfCheckGuardRootSolvableFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardSolvableFilter */
@@ -3420,6 +3447,7 @@ static slice_operation const goalreachable_guards_inserters[] =
   0,                                         /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                  /* STRestartGuardHelpFilter */
   &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
+  0,                                         /* STIntelligentHelpFilter */
   0,                                         /* STGoalReachableGuardHelpFilter */
   0,                                         /* STGoalReachableGuardSeriesFilter */
   0,                                         /* STKeepMatingGuardRootDefenderFilter */
@@ -3435,7 +3463,7 @@ static slice_operation const goalreachable_guards_inserters[] =
 
 /* Instrument stipulation with STGoalreachableGuard slices
  */
-void stip_insert_goalreachable_guards(void)
+void stip_insert_intelligent_guards(void)
 {
   slice_traversal st;
 
@@ -3444,7 +3472,7 @@ void stip_insert_goalreachable_guards(void)
 
   TraceStipulation(root_slice);
 
-  slice_traversal_init(&st,&goalreachable_guards_inserters,0);
+  slice_traversal_init(&st,&intelligent_guards_inserters,0);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -3654,6 +3682,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                      /* STRestartGuardHelpFilter */
   &slice_traverse_children,                      /* STRestartGuardSeriesFilter */
+  0,                                             /* STIntelligentHelpFilter */
   0,                                             /* STGoalReachableGuardHelpFilter */
   0,                                             /* STGoalReachableGuardSeriesFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardRootDefenderFilter */
