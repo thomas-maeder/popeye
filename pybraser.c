@@ -1,7 +1,6 @@
 #include "pybraser.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pyint.h"
 #include "pymsg.h"
 #include "pyoutput.h"
 #include "pyslice.h"
@@ -459,16 +458,8 @@ boolean series_root_root_solve(slice_index root)
   while (len<full_length
          && !(OptFlag[stoponshort] && result))
   {
-    if (isIntelligentModeActive)
-    {
-      if (Intelligent(next,len,full_length))
-        result = true;
-    }
-    else
-    {
-      if (series_solve_in_n(next,len))
-        result = true;
-    }
+    if (series_solve_in_n(next,len))
+      result = true;
 
     ++len;
   }
@@ -478,8 +469,6 @@ boolean series_root_root_solve(slice_index root)
     TraceText("aborting because of short solutions\n");
     FlagShortSolsReached = true;
   }
-  else if (isIntelligentModeActive)
-    result = Intelligent(next,full_length,full_length);
   else
     result = series_solve_in_n(next,full_length);
 

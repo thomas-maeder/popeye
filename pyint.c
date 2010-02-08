@@ -27,6 +27,8 @@
 #include "pypipe.h"
 #include "pyintslv.h"
 #include "stipulation/branch.h"
+#include "optimisations/intelligent/help_filter.h"
+#include "optimisations/intelligent/series_filter.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -2821,6 +2823,7 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
   0,                                /* STIntelligentHelpFilter */
+  0,                                /* STIntelligentSeriesFilter */
   &full_moves_left_branch_help,     /* STGoalReachableGuardHelpFilter */
   &full_moves_left_branch_series,   /* STGoalReachableGuardSeriesFilter */
   0,                                /* STKeepMatingGuardRootDefenderFilter */
@@ -2995,6 +2998,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
   &slice_traverse_children,         /* STIntelligentHelpFilter */
+  &slice_traverse_children,         /* STIntelligentSeriesFilter */
   &partial_moves_left_branch_help,  /* STGoalReachableGuardHelpFilter */
   &partial_moves_left_branch_series,/* STGoalReachableGuardSeriesFilter */
   0,                                /* STKeepMatingGuardRootDefenderFilter */
@@ -3389,9 +3393,33 @@ static boolean intelligent_guards_inserter_help_root(slice_index si,
   slice_traverse_children(si,st);
 
   {
-    slice_index const intelligent = alloc_branch(STIntelligentHelpFilter,
-                                                 slack_length_help+1,
-                                                 slack_length_help+1);
+    slice_index const intelligent
+        = alloc_intelligent_help_filter(slack_length_help+1,slack_length_help+1);
+    pipe_link(intelligent,slices[si].u.pipe.next);
+    pipe_link(si,intelligent);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean intelligent_guards_inserter_series_root(slice_index si,
+                                                       slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  {
+    slice_index const intelligent
+        = alloc_intelligent_series_filter(slack_length_series+1,
+                                          slack_length_series+1);
     pipe_link(intelligent,slices[si].u.pipe.next);
     pipe_link(si,intelligent);
   }
@@ -3426,7 +3454,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &intelligent_guards_inserter_help_root,    /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */
-  &slice_traverse_children,                  /* STSeriesRoot */
+  &intelligent_guards_inserter_series_root,  /* STSeriesRoot */
   &slice_traverse_children,                  /* STSeriesShortcut */
   &intelligent_guards_inserter_parry_fork,   /* STParryFork */
   &slice_traverse_children,                  /* STSeriesHashed */
@@ -3448,6 +3476,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STRestartGuardHelpFilter */
   &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
   0,                                         /* STIntelligentHelpFilter */
+  0,                                         /* STIntelligentSeriesFilter */
   0,                                         /* STGoalReachableGuardHelpFilter */
   0,                                         /* STGoalReachableGuardSeriesFilter */
   0,                                         /* STKeepMatingGuardRootDefenderFilter */
@@ -3683,6 +3712,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STRestartGuardHelpFilter */
   &slice_traverse_children,                      /* STRestartGuardSeriesFilter */
   0,                                             /* STIntelligentHelpFilter */
+  0,                                             /* STIntelligentSeriesFilter */
   0,                                             /* STGoalReachableGuardHelpFilter */
   0,                                             /* STGoalReachableGuardSeriesFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardRootDefenderFilter */

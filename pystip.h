@@ -74,6 +74,7 @@
     ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
                                                                         \
     ENUMERATOR(STIntelligentHelpFilter), /* initialises intelligent mode */ \
+    ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardHelpFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardSeriesFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STKeepMatingGuardRootDefenderFilter), /* deals with option KeepMatingPiece */ \

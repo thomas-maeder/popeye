@@ -792,7 +792,9 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
   pytable.h pydirect.h pyslice.h pystip.h pymsg.h pyint.h pydata.h \
   pybrah.h pybrafrk.h pyproof.h pyhelp.h pyseries.h pypipe.h pyintslv.h \
-  stipulation/branch.h pystip.h pyslice.h platform/maxtime.h trace.h
+  stipulation/branch.h pystip.h pyslice.h \
+  optimisations/intelligent/help_filter.h py.h \
+  optimisations/intelligent/series_filter.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -853,6 +855,12 @@ stipulation/branch.h:
 pystip.h:
 
 pyslice.h:
+
+optimisations/intelligent/help_filter.h:
+
+py.h:
+
+optimisations/intelligent/series_filter.h:
 
 platform/maxtime.h:
 
@@ -1241,8 +1249,9 @@ pyseries$(OBJ_SUFFIX): pyseries.c pyseries.h py.h boolean.h pyposit.h pyboard.h 
   pyslice.h pybraser.h pyhelp.h pydirect.h pybrafrk.h pyhash.h \
   DHT/dhtbcmem.h pyreflxg.h pykeepmt.h pyselfcg.h pymovein.h pymovenb.h \
   pypipe.h stipulation/series_play/parry_fork.h py.h pystip.h pyslice.h \
-  stipulation/series_play/shortcut.h pyint.h pydata.h pyproc.h py4.h \
-  trace.h
+  stipulation/series_play/shortcut.h \
+  optimisations/intelligent/series_filter.h pyint.h pydata.h pyproc.h \
+  py4.h trace.h
 
 pyseries.h:
 
@@ -1303,6 +1312,8 @@ pystip.h:
 pyslice.h:
 
 stipulation/series_play/shortcut.h:
+
+optimisations/intelligent/series_filter.h:
 
 pyint.h:
 
@@ -2162,7 +2173,7 @@ py.h:
 platform/maxtime.h:
 pybraser$(OBJ_SUFFIX): pybraser.c pybraser.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pyslice.h \
-  pytable.h pydata.h pyproc.h py4.h pyint.h pymsg.h pyoutput.h pymovein.h \
+  pytable.h pydata.h pyproc.h py4.h pymsg.h pyoutput.h pymovein.h \
   pyseries.h pybrafrk.h pydirect.h pyreflxg.h pyhelp.h pypipe.h trace.h \
   stipulation/branch.h pystip.h pyslice.h stipulation/proxy.h pypipe.h \
   stipulation/series_play/shortcut.h py.h platform/maxtime.h
@@ -2198,8 +2209,6 @@ pydata.h:
 pyproc.h:
 
 py4.h:
-
-pyint.h:
 
 pymsg.h:
 

@@ -327,6 +327,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STRestartGuardHelpFilter */
   &slice_property_offset_shifter, /* STRestartGuardSeriesFilter */
   &slice_property_offset_shifter, /* STIntelligentHelpFilter */
+  &slice_property_offset_shifter, /* STIntelligentSeriesFilter */
   &slice_property_offset_shifter, /* STGoalReachableGuardHelpFilter */
   &slice_property_offset_shifter, /* STGoalReachableGuardSeriesFilter */
   &slice_property_offset_shifter, /* STKeepMatingGuardRootDefenderFilter */
@@ -687,6 +688,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
   &init_slice_properties_pipe,           /* STRestartGuardSeriesFilter */
   &init_slice_properties_pipe,           /* STIntelligentHelpFilter */
+  &init_slice_properties_pipe,           /* STIntelligentSeriesFilter */
   &init_slice_properties_pipe,           /* STGoalReachableGuardHelpFilter */
   &init_slice_properties_pipe,           /* STGoalReachableGuardSeriesFilter */
   &init_slice_properties_pipe,           /* STKeepMatingGuardRootDefenderFilter */

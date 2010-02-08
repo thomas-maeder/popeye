@@ -504,6 +504,7 @@ static slice_operation const direct_guards_inserters[] =
   0,                              /* STRestartGuardHelpFilter */
   0,                              /* STRestartGuardSeriesFilter */
   0,                              /* STIntelligentHelpFilter */
+  0,                              /* STIntelligentSeriesFilter */
   0,                              /* STGoalReachableGuardHelpFilter */
   0,                              /* STGoalReachableGuardSeriesFilter */
   0,                              /* STKeepMatingGuardRootDefenderFilter */

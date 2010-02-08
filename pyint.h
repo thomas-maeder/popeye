@@ -35,9 +35,10 @@ typedef enum
 
 support_for_intelligent_mode stip_supports_intelligent(void);
 
-/* Instrument stipulation with STGoalreachableGuard slices
+/* Instrument the stipulation structure with slices necessary that
+ * implement intelligent mode
  */
-void stip_insert_goalreachable_guards(void);
+void stip_insert_intelligent_guards(void);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
