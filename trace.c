@@ -240,6 +240,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDirectHashed:
       case STHelpRoot:
       case STBranchHelp:
+      case STSeriesRoot:
       case STBranchSeries:
       case STHelpHashed:
       case STSeriesHashed:
@@ -292,7 +293,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STHelpShortcut:
-      case STSeriesRoot:
+      case STSeriesShortcut:
         Trace_branch(si);
         fprintf(stdout,"short_sols:%u ",
                 slices[si].u.shortcut.short_sols);
