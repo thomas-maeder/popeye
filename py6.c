@@ -2840,34 +2840,16 @@ static Token iterate_twins(Token prev_token)
 
       stip_detect_starter();
 
-      switch (stip_supports_intelligent())
-      {
-        case intelligent_not_supported:
-          if (OptFlag[intelligent])
-            Message(IntelligentRestricted);
-          isIntelligentModeActive = false;
-          break;
-
-        case intelligent_not_active_by_default:
-          isIntelligentModeActive = OptFlag[intelligent];
-          break;
-
-        case intelligent_active_by_default:
-          isIntelligentModeActive = true;
-          break;
-      }
-      TraceValue("%u\n",isIntelligentModeActive);
-
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
 
       stip_insert_selfcheck_guards();
 
+      if (!init_intelligent_mode())
+        Message(IntelligentRestricted);
+
       if (is_hashtable_allocated())
         insert_hash_slices();
-
-      if (isIntelligentModeActive)
-        stip_insert_intelligent_guards();
 
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();

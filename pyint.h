@@ -24,21 +24,12 @@ boolean Intelligent(slice_index si,
                     stip_length_type n,
                     stip_length_type full_length);
 
-/* How well does the stipulation support intelligent mode?
+/* Initialize intelligent mode if the user or the stipulation asks for
+ * it
+ * @return false iff the user asks for intelligent mode, but the
+ * stipulation doesn't support it
  */
-typedef enum
-{
-  intelligent_not_supported,
-  intelligent_not_active_by_default,
-  intelligent_active_by_default
-} support_for_intelligent_mode;
-
-support_for_intelligent_mode stip_supports_intelligent(void);
-
-/* Instrument the stipulation structure with slices necessary that
- * implement intelligent mode
- */
-void stip_insert_intelligent_guards(void);
+boolean init_intelligent_mode(void);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

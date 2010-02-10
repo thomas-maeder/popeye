@@ -3492,7 +3492,7 @@ static slice_operation const intelligent_guards_inserters[] =
 
 /* Instrument stipulation with STGoalreachableGuard slices
  */
-void stip_insert_intelligent_guards(void)
+static void stip_insert_intelligent_guards(void)
 {
   slice_traversal st;
 
@@ -3560,6 +3560,15 @@ boolean isGoalReachable(void)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* How well does the stipulation support intelligent mode?
+ */
+typedef enum
+{
+  intelligent_not_supported,
+  intelligent_not_active_by_default,
+  intelligent_active_by_default
+} support_for_intelligent_mode;
 
 static boolean intelligent_mode_support_detector_fork(slice_index si,
                                                       slice_traversal *st)
@@ -3726,7 +3735,11 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children                       /* STMaxThreatLength */
 };
 
-support_for_intelligent_mode stip_supports_intelligent(void)
+/* Determine whether the stipulation supports intelligent mode, and
+ * how much so
+ * @return degree of support for ingelligent mode by the stipulation
+ */
+static support_for_intelligent_mode stip_supports_intelligent(void)
 {
   support_for_intelligent_mode result = intelligent_not_active_by_default;
   slice_traversal st;
@@ -3736,6 +3749,50 @@ support_for_intelligent_mode stip_supports_intelligent(void)
 
   slice_traversal_init(&st,&intelligent_mode_support_detectors,&result);
   traverse_slices(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialize intelligent mode if the user or the stipulation asks for
+ * it
+ * @return false iff the user asks for intelligent mode, but the
+ * stipulation doesn't support it
+ */
+boolean init_intelligent_mode(void)
+{
+  boolean result = false;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  switch (stip_supports_intelligent())
+  {
+    case intelligent_not_supported:
+      result = !OptFlag[intelligent];
+      isIntelligentModeActive = false;
+      break;
+
+    case intelligent_not_active_by_default:
+      result = true;
+      isIntelligentModeActive = OptFlag[intelligent];
+      break;
+
+    case intelligent_active_by_default:
+      result = true;
+      isIntelligentModeActive = true;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceValue("%u\n",isIntelligentModeActive);
+  if (isIntelligentModeActive)
+    stip_insert_intelligent_guards();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
