@@ -436,9 +436,8 @@ static void shorten_root_branch_even_to_odd(slice_index root)
 {
   slice_index const help_shortcut = slices[root].u.pipe.next;
   slice_index const root_branch = slices[help_shortcut].u.pipe.next;
-  slice_index const branch1 = slices[root_branch].u.pipe.next;
-  slice_index const fork = slices[branch1].u.pipe.next;
-  slice_index const branch2 = slices[fork].u.pipe.next;
+  slice_index const branch = slices[root_branch].u.pipe.next;
+  slice_index const fork = slices[branch].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -446,9 +445,8 @@ static void shorten_root_branch_even_to_odd(slice_index root)
 
   assert(slices[help_shortcut].type==STHelpShortcut);
   assert(slices[root_branch].type==STBranchHelp);
-  assert(slices[branch1].type==STBranchHelp);
+  assert(slices[branch].type==STBranchHelp);
   assert(slices[fork].type==STHelpFork);
-  assert(slices[branch2].type==STBranchHelp);
 
   if (slices[root].u.shortcut.length-slack_length_help>2)
   {
@@ -457,7 +455,7 @@ static void shorten_root_branch_even_to_odd(slice_index root)
 
     assert(slices[branch2].type==STBranchHelp);
 
-    slices[branch1].u.shortcut.length -= 2;
+    slices[branch].u.shortcut.length -= 2;
     slices[fork].u.shortcut.length -= 2;
     slices[help_shortcut].u.shortcut.short_sols = proxy;
 
@@ -479,9 +477,8 @@ static void shorten_root_branch_odd_to_even(slice_index root)
   slice_index const help_shortcut = slices[root].u.pipe.next;
   slice_index const root_branch = slices[help_shortcut].u.pipe.next;
   slice_index const fork = slices[root_branch].u.pipe.next;
-  slice_index const branch1 = slices[fork].u.pipe.next;
-  slice_index const proxy = slices[branch1].u.pipe.next;
-  slice_index const branch2 = slices[proxy].u.pipe.next;
+  slice_index const branch = slices[fork].u.pipe.next;
+  slice_index const proxy = slices[branch].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -490,9 +487,8 @@ static void shorten_root_branch_odd_to_even(slice_index root)
   assert(slices[help_shortcut].type==STHelpShortcut);
   assert(slices[root_branch].type==STBranchHelp);
   assert(slices[fork].type==STHelpFork);
-  assert(slices[branch1].type==STBranchHelp);
+  assert(slices[branch].type==STBranchHelp);
   assert(slices[proxy].type==STProxy);
-  assert(slices[branch2].type==STBranchHelp);
 
   slices[help_shortcut].u.shortcut.short_sols = fork;
 
@@ -501,7 +497,7 @@ static void shorten_root_branch_odd_to_even(slice_index root)
   else
   {
     pipe_set_successor(root_branch,proxy);
-    slices[branch1].u.shortcut.length -= 2;
+    slices[branch].u.shortcut.length -= 2;
   }
 
   slices[fork].u.shortcut.length -= 2;
