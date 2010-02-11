@@ -246,6 +246,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesHashed:
       case STMaxFlightsquares:
       case STMaxNrNonTrivial:
+      case STIntelligentHelpFilter:
+      case STIntelligentSeriesFilter:
       case STGoalReachableGuardHelpFilter:
       case STGoalReachableGuardSeriesFilter:
         Trace_branch(si);
