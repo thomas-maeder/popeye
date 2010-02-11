@@ -2756,9 +2756,11 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
     /* allow line-oriented output to restore the initial position */
     StorePosition();
-    solveHalfADuplex();
 
-    if (OptFlag[duplex])
+    if (!OptFlag[halfduplex])
+      solveHalfADuplex();
+
+    if (OptFlag[halfduplex] || OptFlag[duplex])
     {
       /* Set next side to calculate for duplex "twin" */
       if (OptFlag[stoponshort] && FlagShortSolsReached)
@@ -2866,16 +2868,7 @@ static Token iterate_twins(Token prev_token)
       if (!OptFlag[intelligent] && OptFlag[movenbr])
         stip_insert_restart_guards();
 
-      /* intelligent AND duplex means that the board is mirrored and
-       * the colors swapped by swapcolors() and reflectboard() ->
-       * start with the regular side. */
-      if (OptFlag[halfduplex] && !isIntelligentModeActive)
-      {
-        Side const non_duplex_starter = slices[root_slice].starter;
-        stip_impose_starter(advers(non_duplex_starter));
-      }
-      else
-        stip_impose_starter(slices[root_slice].starter);
+      stip_impose_starter(slices[root_slice].starter);
 
       resolve_proxies();
       dealloc_proxy_slices();
