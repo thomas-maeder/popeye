@@ -3508,11 +3508,10 @@ static void stip_insert_intelligent_guards(void)
   TraceFunctionResultEnd();
 }
 
-boolean Intelligent(slice_index si,
-                    stip_length_type n,
-                    stip_length_type full_length)
+boolean Intelligent(slice_index si, stip_length_type n)
 {
   boolean result;
+  stip_length_type const full_length = slices[si].u.shortcut.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
