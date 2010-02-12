@@ -6162,7 +6162,7 @@ void LaTeXEndDiagram(void) {
   if (!(OptFlag[solmenaces]
         || OptFlag[solflights]
         || OptFlag[nontrivial]
-        || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
+        || maxsol_per_matingpos!=ULONG_MAX
         || FlagMaxSolsReached
         || periods_counter>=nr_periods))
   {

@@ -3140,7 +3140,7 @@ static void iterate_problems(void)
     prev_token = iterate_twins(prev_token);
 
     if (FlagMaxSolsReached
-        || (isIntelligentModeActive && maxsol_per_matingpos!=ULONG_MAX)
+        || maxsol_per_matingpos!=ULONG_MAX
         || periods_counter>=nr_periods)
       StdString(GetMsgString(InterMessage));
     else
