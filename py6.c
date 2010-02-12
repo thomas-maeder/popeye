@@ -2317,56 +2317,290 @@ static int parseCommandlineOptions(int argc, char *argv[])
   return idx;
 }
 
+static boolean mating_side_finder_leaf(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  Side * const starter = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(*starter==no_side);
+  *starter = slices[si].starter;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const mating_side_finders[] =
+{
+  &slice_traverse_children, /* STProxy */
+  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpFork */
+  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STSeriesFork */
+  &mating_side_finder_leaf, /* STLeafDirect */
+  &mating_side_finder_leaf, /* STLeafHelp */
+  &slice_operation_noop,    /* STLeafForced */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children, /* STMoveInverterSolvableFilter */
+  &slice_traverse_children, /* STMoveInverterSeriesFilter */
+  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDirectHashed */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpShortcut */
+  &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesShortcut */
+  &slice_traverse_children, /* STParryFork */
+  &slice_traverse_children, /* STSeriesHashed */
+  &slice_traverse_children, /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children, /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children, /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children, /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children, /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children, /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children, /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children, /* STDirectDefense */
+  &slice_traverse_children, /* STReflexHelpFilter */
+  &slice_traverse_children, /* STReflexSeriesFilter */
+  &slice_traverse_children, /* STReflexAttackerFilter */
+  &slice_traverse_children, /* STReflexDefenderFilter */
+  &slice_traverse_children, /* STSelfAttack */
+  &slice_traverse_children, /* STSelfDefense */
+  &slice_traverse_children, /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children, /* STRestartGuardHelpFilter */
+  &slice_traverse_children, /* STRestartGuardSeriesFilter */
+  &slice_traverse_children, /* STIntelligentHelpFilter */
+  &slice_traverse_children, /* STIntelligentSeriesFilter */
+  &slice_traverse_children, /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children, /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children, /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children, /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children, /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children, /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children, /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STDegenerateTree */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
+  &slice_traverse_children  /* STMaxThreatLength */
+};
+
+static Side find_mating_side(slice_index si)
+{
+  slice_traversal st;
+  Side result = no_side;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&mating_side_finders,&result);
+  traverse_slices(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceEnumerator(Side,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean intelligent_init_duplex(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (find_mating_side(si)==Black)
+  {
+    stip_impose_starter(advers(slices[root_slice].starter));
+    swapcolors();
+    reflectboard();
+    StorePosition();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const duplex_initialisers[] =
+{
+  &slice_traverse_children, /* STProxy */
+  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpFork */
+  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STSeriesFork */
+  &slice_operation_noop,    /* STLeafDirect */
+  &slice_operation_noop,    /* STLeafHelp */
+  &slice_operation_noop,    /* STLeafForced */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children, /* STMoveInverterSolvableFilter */
+  &slice_traverse_children, /* STMoveInverterSeriesFilter */
+  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDirectHashed */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpShortcut */
+  &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesShortcut */
+  &slice_traverse_children, /* STParryFork */
+  &slice_traverse_children, /* STSeriesHashed */
+  &slice_traverse_children, /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children, /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children, /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children, /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children, /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children, /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children, /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children, /* STDirectDefense */
+  &slice_traverse_children, /* STReflexHelpFilter */
+  &slice_traverse_children, /* STReflexSeriesFilter */
+  &slice_traverse_children, /* STReflexAttackerFilter */
+  &slice_traverse_children, /* STReflexDefenderFilter */
+  &slice_traverse_children, /* STSelfAttack */
+  &slice_traverse_children, /* STSelfDefense */
+  &slice_traverse_children, /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children, /* STRestartGuardHelpFilter */
+  &slice_traverse_children, /* STRestartGuardSeriesFilter */
+  &intelligent_init_duplex, /* STIntelligentHelpFilter */
+  &intelligent_init_duplex, /* STIntelligentSeriesFilter */
+  &slice_traverse_children, /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children, /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children, /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children, /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children, /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children, /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children, /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STDegenerateTree */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
+  &slice_traverse_children  /* STMaxThreatLength */
+};
+
 /* prepare for solving duplex */
 static void init_duplex(void)
 {
+  slice_traversal st;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",isIntelligentModeActive);
-  if (isIntelligentModeActive)
-  {
-    /*
-     * A hack to make the intelligent mode work with duplex.
-     */
-    swapcolors();
-
-    reflectboard();
-
-    /* allow line-oriented output to restore the initial
-     * position */
-    StorePosition();
-  }
-  else
-  {
-    Side const starter = slices[root_slice].starter;
-    TraceValue("%u\n",starter);
-    stip_impose_starter(advers(starter));
-
-    TraceStipulation(root_slice);
-  }
+  slice_traversal_init(&st,&duplex_initialisers,0);
+  traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
+static boolean intelligent_fini_duplex(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (isBoardReflected)
+  {
+    reflectboard();
+    swapcolors();
+    stip_impose_starter(advers(slices[root_slice].starter));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static slice_operation const duplex_finishers[] =
+{
+  &slice_traverse_children, /* STProxy */
+  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpFork */
+  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STSeriesFork */
+  &slice_operation_noop,    /* STLeafDirect */
+  &slice_operation_noop,    /* STLeafHelp */
+  &slice_operation_noop,    /* STLeafForced */
+  &slice_traverse_children, /* STReciprocal */
+  &slice_traverse_children, /* STQuodlibet */
+  &slice_traverse_children, /* STNot */
+  &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children, /* STMoveInverterSolvableFilter */
+  &slice_traverse_children, /* STMoveInverterSeriesFilter */
+  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDirectHashed */
+  &slice_traverse_children, /* STHelpRoot */
+  &slice_traverse_children, /* STHelpShortcut */
+  &slice_traverse_children, /* STHelpHashed */
+  &slice_traverse_children, /* STSeriesRoot */
+  &slice_traverse_children, /* STSeriesShortcut */
+  &slice_traverse_children, /* STParryFork */
+  &slice_traverse_children, /* STSeriesHashed */
+  &slice_traverse_children, /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children, /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children, /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children, /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children, /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children, /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children, /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children, /* STDirectDefense */
+  &slice_traverse_children, /* STReflexHelpFilter */
+  &slice_traverse_children, /* STReflexSeriesFilter */
+  &slice_traverse_children, /* STReflexAttackerFilter */
+  &slice_traverse_children, /* STReflexDefenderFilter */
+  &slice_traverse_children, /* STSelfAttack */
+  &slice_traverse_children, /* STSelfDefense */
+  &slice_traverse_children, /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children, /* STRestartGuardHelpFilter */
+  &slice_traverse_children, /* STRestartGuardSeriesFilter */
+  &intelligent_fini_duplex, /* STIntelligentHelpFilter */
+  &intelligent_fini_duplex, /* STIntelligentSeriesFilter */
+  &slice_traverse_children, /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children, /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children, /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children, /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children, /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children, /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children, /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children, /* STMaxFlightsquares */
+  &slice_traverse_children, /* STDegenerateTree */
+  &slice_traverse_children, /* STMaxNrNonTrivial */
+  &slice_traverse_children  /* STMaxThreatLength */
+};
+
 /* restore from preparations for solving duplex */
 static void fini_duplex(void)
 {
+  slice_traversal st;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (isIntelligentModeActive)
-  {
-    /* cf. init_duplex */
-    reflectboard();
-    swapcolors();
-  }
-  else
-  {
-    Side const starter = slices[root_slice].starter;
-    stip_impose_starter(advers(starter));
-  }
+  slice_traversal_init(&st,&duplex_finishers,0);
+  traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2768,12 +3002,17 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
 
       FlagShortSolsReached = false;
 
+      stip_impose_starter(advers(slices[root_slice].starter));
+      TraceStipulation(root_slice);
+
       init_duplex();
 
       if (locateRoyal() && verify_position())
         solveHalfADuplex();
 
       fini_duplex();
+
+      stip_impose_starter(advers(slices[root_slice].starter));
     }
 
     Message(NewLine);
