@@ -20,7 +20,11 @@ extern boolean isIntelligentModeActive;
 boolean isGoalReachable(void);
 boolean SolAlreadyFound(void);
 void StoreSol(void);
-boolean Intelligent(slice_index si, stip_length_type n);
+
+
+boolean IntelligentHelp(slice_index si, stip_length_type n);
+
+boolean IntelligentSeries(slice_index si, stip_length_type n);
 
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it

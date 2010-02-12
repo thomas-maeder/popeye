@@ -26,6 +26,7 @@
 #include "pyseries.h"
 #include "pypipe.h"
 #include "pyintslv.h"
+#include "pymovenb.h"
 #include "stipulation/branch.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/intelligent/series_filter.h"
@@ -3508,7 +3509,31 @@ static void stip_insert_intelligent_guards(void)
   TraceFunctionResultEnd();
 }
 
-boolean Intelligent(slice_index si, stip_length_type n)
+static boolean help_too_short(stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (OptFlag[restart])
+  {
+    stip_length_type min_length = 2*get_restart_number();
+    if ((n-slack_length_help)%2==1)
+      --min_length;
+    result = n<min_length;
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean IntelligentHelp(slice_index si, stip_length_type n)
 {
   boolean result;
   stip_length_type const full_length = slices[si].u.shortcut.length;
@@ -3516,7 +3541,6 @@ boolean Intelligent(slice_index si, stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
   current_start_slice = si;
@@ -3530,7 +3554,58 @@ boolean Intelligent(slice_index si, stip_length_type n)
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proof)
     IntelligentProof(n,full_length);
+  else if (!help_too_short(n))
+    IntelligentRegularGoals(n);
+
+  result = CleanupSols();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean series_too_short(stip_length_type n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (OptFlag[restart])
+    result = n<get_restart_number()+slack_length_series;
   else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean IntelligentSeries(slice_index si, stip_length_type n)
+{
+  boolean result;
+  stip_length_type const full_length = slices[si].u.shortcut.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  current_start_slice = si;
+
+  init_moves_left(si,n,full_length);
+     
+  MatesMax = 0;
+
+  InitSols();
+
+  if (goal_to_be_reached==goal_atob
+      || goal_to_be_reached==goal_proof)
+    IntelligentProof(n,full_length);
+  else if (!series_too_short(n))
     IntelligentRegularGoals(n);
 
   result = CleanupSols();

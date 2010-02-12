@@ -2072,26 +2072,8 @@ static void checkGlobalAssumptions(void)
 static void solveHalfADuplex(void)
 {
   inithash();
-
-  if (isIntelligentModeActive
-      && OptFlag[restart]
-      && !stip_ends_in_one_of(proof_goals,nr_proof_goals))
-  {
-    /* In intelligent mode, the restart number means the minimal
-     * number of moves.
-     */
-    stip_length_type const
-        save_min_length = set_min_length(root_slice,get_restart_number());
-    OptFlag[restart] = false;
-    slice_root_solve(root_slice);
-    OptFlag[restart] = true;
-    set_min_length(root_slice,save_min_length);
-  }
-  else
-    slice_root_solve(root_slice);
-
+  slice_root_solve(root_slice);
   closehash();
-
   output_end_half_duplex();
 }
 

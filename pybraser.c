@@ -232,9 +232,6 @@ void branch_ser_solve_threats_in_n(table threats,
 
     repcoup();
 
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
-      break;
-
     if (periods_counter>=nr_periods)
       break;
   }
@@ -432,11 +429,8 @@ slice_index series_root_shorten_series_play(slice_index root)
 boolean series_root_root_solve(slice_index root)
 {
   boolean result = false;
-  stip_length_type const
-      full_length = slices[root].u.shortcut.length;
-  stip_length_type len = (OptFlag[restart]
-                          ? full_length
-                          : slices[root].u.shortcut.min_length);
+  stip_length_type const full_length = slices[root].u.shortcut.length;
+  stip_length_type len = slices[root].u.shortcut.min_length;
   slice_index const next = slices[root].u.pipe.next;
 
   TraceFunctionEntry(__func__);

@@ -792,7 +792,7 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
   pytable.h pydirect.h pyslice.h pystip.h pymsg.h pyint.h pydata.h \
   pybrah.h pybrafrk.h pyproof.h pyhelp.h pyseries.h pypipe.h pyintslv.h \
-  stipulation/branch.h pystip.h pyslice.h \
+  pymovenb.h stipulation/branch.h pystip.h pyslice.h \
   optimisations/intelligent/help_filter.h py.h \
   optimisations/intelligent/series_filter.h platform/maxtime.h trace.h
 
@@ -849,6 +849,8 @@ pyseries.h:
 pypipe.h:
 
 pyintslv.h:
+
+pymovenb.h:
 
 stipulation/branch.h:
 
