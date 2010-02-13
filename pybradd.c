@@ -842,9 +842,12 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
 
   if (prod->sibling!=no_slice)
   {
-    slice_index const branch = alloc_help_branch(slack_length_help+1,
-                                                 slack_length_help+1,
-                                                 slices[si].u.pipe.next);
+    slice_index const branch = alloc_branch_h_slice(slack_length_help+1,
+                                                    slack_length_help+1);
+    slice_index const fork = alloc_help_fork_slice(slack_length_help,
+                                                   slack_length_help,
+                                                   slices[si].u.pipe.next);
+    pipe_link(branch,fork);
     prod->setplay_slice = alloc_help_root_slice(slack_length_help+1,
                                                 slack_length_help+1,
                                                 branch,
