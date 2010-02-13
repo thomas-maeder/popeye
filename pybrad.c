@@ -1,19 +1,16 @@
 #include "pybrad.h"
 #include "pydirect.h"
 #include "pybradd.h"
-#include "pybrah.h"
 #include "pybrafrk.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pymsg.h"
-#include "pyhash.h"
 #include "pyoutput.h"
 #include "pyslice.h"
 #include "pytable.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "platform/maxtime.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -245,9 +242,6 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
     }
 
     repcoup();
-
-    if (periods_counter>=nr_periods)
-      break;
   }
 
   finply();
@@ -291,11 +285,6 @@ stip_length_type branch_d_has_solution_in_n(slice_index si,
   for (result = n_min; result<=n; result += 2)
     if (have_we_solution_in_n(si,result))
       break;
-    else if (periods_counter>=nr_periods)
-    {
-      result = n+2;
-      break;
-    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -705,9 +694,6 @@ boolean direct_root_root_solve(slice_index si)
       FlagMaxSolsReached = true;
       break;
     }
-
-    if (periods_counter>=nr_periods)
-      break;
   }
 
   output_end_continuation_level();

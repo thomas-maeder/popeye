@@ -286,6 +286,8 @@ static slice_operation const degenerate_tree_guards_inserters[] =
   &slice_traverse_children,                 /* STDegenerateTree */
   &slice_traverse_children,                 /* STMaxNrNonTrivial */
   &slice_traverse_children,                 /* STMaxThreatLength */
+  &slice_traverse_children,                 /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,                 /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                 /* STMaxTimeHelpFilter */
   &slice_traverse_children                  /* STMaxTimeSeriesFilter */
 };

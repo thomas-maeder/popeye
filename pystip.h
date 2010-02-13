@@ -87,6 +87,8 @@
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
                                                                         \
+    ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */  \
+    ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
                                                                         \

@@ -18,6 +18,8 @@
 #include "pynontrv.h"
 #include "pyleafd.h"
 #include "pyint.h"
+#include "optimisations/maxtime/root_defender_filter.h"
+#include "optimisations/maxtime/defender_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -71,6 +73,10 @@ boolean direct_defender_root_defend(slice_index si)
 
     case STRestartGuardRootDefenderFilter:
       result = restart_guard_root_defend(si);
+      break;
+
+    case STMaxTimeRootDefenderFilter:
+      result = maxtime_root_defender_filter_defend(si);
       break;
 
     default:
@@ -742,6 +748,10 @@ boolean direct_defender_defend_in_n(slice_index si, stip_length_type n)
       result = max_nr_nontrivial_guard_defend_in_n(si,n);
       break;
 
+    case STMaxTimeDefenderFilter:
+      result = maxtime_defender_filter_defend_in_n(si,n);
+      break;
+
     default:
       assert(0);
       break;
@@ -806,6 +816,10 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
 
     case STMaxNrNonTrivial:
       result = max_nr_nontrivial_guard_can_defend_in_n(si,n,max_result);
+      break;
+
+    case STMaxTimeDefenderFilter:
+      result = maxtime_defender_filter_can_defend_in_n(si,n,max_result);
       break;
 
     default:

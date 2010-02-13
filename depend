@@ -1118,7 +1118,8 @@ pydirect$(OBJ_SUFFIX): pydirect.c pydirect.h py.h boolean.h pyposit.h pyboard.h 
   pytable.h pyseries.h pybrad.h pybradd.h pybrafrk.h pyhash.h \
   DHT/dhtbcmem.h pyreflxg.h pyhelp.h pykeepmt.h pyselfcg.h pydirctg.h \
   pyselfgd.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
-  pyleafd.h pyint.h trace.h
+  pyleafd.h pyint.h optimisations/maxtime/root_defender_filter.h py.h \
+  pystip.h optimisations/maxtime/defender_filter.h trace.h
 
 pydirect.h:
 
@@ -1183,6 +1184,14 @@ pynontrv.h:
 pyleafd.h:
 
 pyint.h:
+
+optimisations/maxtime/root_defender_filter.h:
+
+py.h:
+
+pystip.h:
+
+optimisations/maxtime/defender_filter.h:
 
 trace.h:
 pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
@@ -1991,10 +2000,9 @@ pydata.h:
 trace.h:
 pybrad$(OBJ_SUFFIX): pybrad.c pybrad.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pystip.h pygoal.h pyslice.h pytable.h \
-  pydirect.h pybradd.h pybrah.h pybrafrk.h pydata.h pyproc.h py4.h \
-  pymsg.h pyhash.h DHT/dhtbcmem.h pyoutput.h pypipe.h \
-  stipulation/branch.h pystip.h pyslice.h stipulation/proxy.h pypipe.h \
-  platform/maxtime.h boolean.h trace.h
+  pydirect.h pybradd.h pybrafrk.h pydata.h pyproc.h py4.h pymsg.h \
+  pyoutput.h pypipe.h stipulation/branch.h pystip.h pyslice.h \
+  stipulation/proxy.h pypipe.h trace.h
 
 pybrad.h:
 
@@ -2026,8 +2034,6 @@ pydirect.h:
 
 pybradd.h:
 
-pybrah.h:
-
 pybrafrk.h:
 
 pydata.h:
@@ -2037,10 +2043,6 @@ pyproc.h:
 py4.h:
 
 pymsg.h:
-
-pyhash.h:
-
-DHT/dhtbcmem.h:
 
 pyoutput.h:
 
@@ -2055,10 +2057,6 @@ pyslice.h:
 stipulation/proxy.h:
 
 pypipe.h:
-
-platform/maxtime.h:
-
-boolean.h:
 
 trace.h:
 pybradd$(OBJ_SUFFIX): pybradd.c pybradd.h boolean.h pystip.h pygoal.h py.h pyposit.h \

@@ -549,6 +549,8 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STDegenerateTree */
   0,                                  /* STMaxNrNonTrivial */
   0,                                  /* STMaxThreatLength */
+  0,                                  /* STMaxTimeRootDefenderFilter */
+  0,                                  /* STMaxTimeDefenderFilter */
   0,                                  /* STMaxTimeHelpFilter */
   0                                   /* STMaxTimeSeriesFilter */
 };
@@ -2378,6 +2380,8 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
@@ -2480,6 +2484,8 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
@@ -2578,6 +2584,8 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
@@ -2864,6 +2872,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STDegenerateTree */
   &slice_traverse_children,                  /* STMaxNrNonTrivial */
   &slice_traverse_children,                  /* STMaxThreatLength */
+  &slice_traverse_children,                  /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,                  /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                  /* STMaxTimeHelpFilter */
   &slice_traverse_children                   /* STMaxTimeSeriesFilter */
 };
