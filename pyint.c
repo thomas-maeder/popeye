@@ -2836,6 +2836,7 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STDegenerateTree */
   &slice_traverse_children,         /* STMaxNrNonTrivial */
   &slice_traverse_children,         /* STMaxThreatLength */
+  &slice_traverse_children,         /* STMaxTimeHelpFilter */
   &slice_traverse_children          /* STMaxTimeSeriesFilter */
 };
 
@@ -3012,6 +3013,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STDegenerateTree */
   &slice_traverse_children,         /* STMaxNrNonTrivial */
   &slice_traverse_children,         /* STMaxThreatLength */
+  &slice_traverse_children,         /* STMaxTimeHelpFilter */
   &slice_traverse_children          /* STMaxTimeSeriesFilter */
 };
 
@@ -3491,6 +3493,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STDegenerateTree */
   &slice_traverse_children,                  /* STMaxNrNonTrivial */
   &slice_traverse_children,                  /* STMaxThreatLength */
+  &slice_traverse_children,                  /* STMaxTimeHelpFilter */
   &slice_traverse_children                   /* STMaxTimeSeriesFilter */
 };
 
@@ -3810,6 +3813,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STDegenerateTree */
   &slice_traverse_children,                      /* STMaxNrNonTrivial */
   &slice_traverse_children,                      /* STMaxThreatLength */
+  &slice_traverse_children,                      /* STMaxTimeHelpFilter */
   &slice_traverse_children                       /* STMaxTimeSeriesFilter */
 };
 

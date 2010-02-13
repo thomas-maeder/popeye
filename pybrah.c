@@ -192,9 +192,6 @@ boolean branch_h_solve_in_n(slice_index si, stip_length_type n)
 
     if (OptFlag[maxsols] && solutions>=maxsolutions)
       break;
-
-    if (periods_counter>=nr_periods)
-      break;
   }
 
   finply();
@@ -236,9 +233,6 @@ void branch_h_solve_threats_in_n(table threats,
     }
 
     repcoup();
-
-    if (periods_counter>=nr_periods)
-      break;
   }
     
   finply();
@@ -459,7 +453,7 @@ static void shorten_root_branch_even_to_odd(slice_index root)
     pipe_link(proxy,branch2);
   }
 
-  pipe_link(root_branch,fork);
+  pipe_set_successor(root_branch,fork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1013,6 +1013,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STDegenerateTree */
   &slice_traverse_children,                 /* STMaxNrNonTrivial */
   0,                                        /* STMaxThreatLength */
+  &slice_traverse_children,                 /* STMaxTimeHelpFilter */
   &slice_traverse_children                  /* STMaxTimeSeriesFilter */
 };
 /* element STSelfCheckGuard is not 0 because we may reach a
@@ -1101,6 +1102,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STDegenerateTree */
   0,                                             /* STMaxNrNonTrivial */
   0,                                             /* STMaxThreatLength */
+  &slice_traverse_children,                      /* STMaxTimeHelpFilter */
   &slice_traverse_children                       /* STMaxTimeSeriesFilter */
 };
 

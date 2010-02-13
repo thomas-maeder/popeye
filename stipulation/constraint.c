@@ -1366,6 +1366,7 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STDegenerateTree */
   0,                                   /* STMaxNrNonTrivial */
   0,                                   /* STMaxThreatLength */
+  0,                                   /* STMaxTimeHelpFilter */
   0                                    /* STMaxTimeSeriesFilter */
 };
 
@@ -1539,6 +1540,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STDegenerateTree */
   0,                                    /* STMaxNrNonTrivial */
   0,                                    /* STMaxThreatLength */
+  0,                                    /* STMaxTimeHelpFilter */
   0                                     /* STMaxTimeSeriesFilter */
 };
 

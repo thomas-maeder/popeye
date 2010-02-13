@@ -280,6 +280,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STRestartGuardHelpFilter:
       case STRestartGuardSeriesFilter:
       case STDegenerateTree:
+      case STMaxTimeHelpFilter:
       case STMaxTimeSeriesFilter:
         Trace_pipe(si);
         fprintf(stdout,"\n");

@@ -866,6 +866,7 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STDegenerateTree */
   &slice_traverse_children,                /* STMaxNrNonTrivial */
   0,                                       /* STMaxThreatLength */
+  &slice_traverse_children,                /* STMaxTimeHelpFilter */
   &slice_traverse_children                 /* STMaxTimeSeriesFilter */
 };
 

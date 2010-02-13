@@ -201,6 +201,7 @@ static slice_operation const output_mode_detectors[] =
   &pipe_traverse_next,        /* STDegenerateTree */
   &pipe_traverse_next,        /* STMaxNrNonTrivial */
   &pipe_traverse_next,        /* STMaxThreatLength */
+  &pipe_traverse_next,        /* STMaxTimeHelpFilter */
   &output_mode_linemode       /* STMaxTimeSeriesFilter */
 };
 

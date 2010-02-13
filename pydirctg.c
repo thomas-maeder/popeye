@@ -516,6 +516,7 @@ static slice_operation const direct_guards_inserters[] =
   0,                              /* STDegenerateTree */
   0,                              /* STMaxNrNonTrivial */
   0,                              /* STMaxThreatLength */
+  0,                              /* STMaxTimeHelpFilter */
   0                               /* STMaxTimeSeriesFilter */
 };
 

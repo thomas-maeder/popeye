@@ -339,6 +339,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STDegenerateTree */
   &slice_property_offset_shifter, /* STMaxNrNonTrivial */
   &slice_property_offset_shifter, /* STMaxThreatLength */
+  &slice_property_offset_shifter, /* STMaxTimeHelpFilter */
   &slice_property_offset_shifter  /* STMaxTimeSeriesFilter */
 };
 
@@ -701,6 +702,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STDegenerateTree */
   &init_slice_properties_pipe,           /* STMaxNrNonTrivial */
   &init_slice_properties_pipe,           /* STMaxThreatLength */
+  &init_slice_properties_pipe,           /* STMaxTimeHelpFilter */
   &init_slice_properties_pipe            /* STMaxTimeSeriesFilter */
 };
 

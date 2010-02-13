@@ -104,6 +104,7 @@
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
                                                                         \
+    ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
                                                                         \
     ENUMERATOR(nr_slice_types),                                         \
@@ -207,6 +208,7 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STDegenerateTree */
   &mark_reachable_slice, /* STMaxNrNonTrivial */
   &mark_reachable_slice, /* STMaxThreatLength */
+  &mark_reachable_slice, /* STMaxTimeHelpFilter */
   &mark_reachable_slice  /* STMaxTimeSeriesFilter */
 };
 
@@ -497,6 +499,7 @@ static slice_operation const deallocators[] =
   &traverse_and_deallocate,       /* STDegenerateTree */
   &traverse_and_deallocate,       /* STMaxNrNonTrivial */
   &traverse_and_deallocate,       /* STMaxThreatLength */
+  &traverse_and_deallocate,       /* STMaxTimeHelpFilter */
   &traverse_and_deallocate        /* STMaxTimeSeriesFilter */
 };
 
@@ -612,6 +615,7 @@ static slice_operation const root_slice_inserters[] =
   0,                                   /* STDegenerateTree */
   0,                                   /* STMaxNrNonTrivial */
   0,                                   /* STMaxThreatLength */
+  0,                                   /* STMaxTimeHelpFilter */
   0                                    /* STMaxTimeSeriesFilter */
 };
 
@@ -695,7 +699,8 @@ static slice_operation const proxy_resolvers[] =
   &slice_traverse_children,         /* STDegenerateTree */
   &slice_traverse_children,         /* STMaxNrNonTrivial */
   &slice_traverse_children,         /* STMaxThreatLength */
-  &slice_traverse_children          /* STMaxTimeSeriesFilter */
+  &pipe_resolve_proxies,            /* STMaxTimeHelpFilter */
+  &pipe_resolve_proxies             /* STMaxTimeSeriesFilter */
 };
 
 /* Substitute links to proxy slices by the proxy's target
@@ -921,6 +926,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &slice_traverse_children,          /* STDegenerateTree */
   &slice_traverse_children,          /* STMaxNrNonTrivial */
   &slice_traverse_children,          /* STMaxThreatLength */
+  &slice_traverse_children,          /* STMaxTimeHelpFilter */
   &slice_traverse_children           /* STMaxTimeSeriesFilter */
 };
 
@@ -1037,6 +1043,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
 
@@ -1299,6 +1306,7 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STDegenerateTree */
   &slice_traverse_children,   /* STMaxNrNonTrivial */
   &slice_traverse_children,   /* STMaxThreatLength */
+  &slice_traverse_children,   /* STMaxTimeHelpFilter */
   &slice_traverse_children    /* STMaxTimeSeriesFilter */
 };
 
@@ -1472,6 +1480,7 @@ static slice_operation const to_quodlibet_transformers[] =
   0,                                              /* STDegenerateTree */
   0,                                              /* STMaxNrNonTrivial */
   0,                                              /* STMaxThreatLength */
+  0,                                              /* STMaxTimeHelpFilter */
   0                                               /* STMaxTimeSeriesFilter */
 };
 
@@ -1553,6 +1562,7 @@ static slice_operation const to_postkey_play_reducers[] =
   0,                                              /* STDegenerateTree */
   0,                                              /* STMaxNrNonTrivial */
   0,                                              /* STMaxThreatLength */
+  0,                                              /* STMaxTimeHelpFilter */
   0                                               /* STMaxTimeSeriesFilter */
 };
 
@@ -1665,6 +1675,7 @@ static slice_operation const setplay_makers[] =
   0,                                          /* STDegenerateTree */
   &pipe_traverse_next,                        /* STMaxNrNonTrivial */
   &pipe_traverse_next,                        /* STMaxThreatLength */
+  &pipe_traverse_next,                        /* STMaxTimeHelpFilter */
   &pipe_traverse_next                         /* STMaxTimeSeriesFilter */
 };
 
@@ -1839,6 +1850,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
   &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
 
@@ -1943,6 +1955,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STDegenerateTree */
   &slice_traverse_children,   /* STMaxNrNonTrivial */
   &slice_traverse_children,   /* STMaxThreatLength */
+  &slice_traverse_children,   /* STMaxTimeHelpFilter */
   &slice_traverse_children    /* STMaxTimeSeriesFilter */
 };
 
@@ -2040,6 +2053,7 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STDegenerateTree */
   &make_exact_branch,       /* STMaxNrNonTrivial */
   &make_exact_branch,       /* STMaxThreatLength */
+  &make_exact_branch,       /* STMaxTimeHelpFilter */
   &make_exact_branch        /* STMaxTimeSeriesFilter */
 };
 
@@ -2117,6 +2131,7 @@ static slice_operation const starter_detectors[] =
   0,                                      /* STDegenerateTree */
   0,                                      /* STMaxNrNonTrivial */
   0,                                      /* STMaxThreatLength */
+  0,                                      /* STMaxTimeHelpFilter */
   0                                       /* STMaxTimeSeriesFilter */
 };
 
@@ -2196,6 +2211,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,           /* STDegenerateTree */
   &pipe_impose_starter,           /* STMaxNrNonTrivial */
   &pipe_impose_starter,           /* STMaxThreatLength */
+  &pipe_impose_starter,           /* STMaxTimeHelpFilter */
   &pipe_impose_starter            /* STMaxTimeSeriesFilter */
 };
 
@@ -2504,6 +2520,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STDegenerateTree */
   &traverse_pipe,         /* STMaxNrNonTrivial */
   &traverse_pipe,         /* STMaxThreatLength */
+  &traverse_pipe,         /* STMaxTimeHelpFilter */
   &traverse_pipe          /* STMaxTimeSeriesFilter */
 };
 
