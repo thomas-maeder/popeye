@@ -423,8 +423,7 @@ static boolean isGoalReachableRegularGoals(void)
 
   captures= CapturesLeft[nbply-1];
 
-  if (sol_per_matingpos>=maxsol_per_matingpos
-      || periods_counter>=nr_periods)
+  if (sol_per_matingpos>=maxsol_per_matingpos)
   {
     FlagMaxSolsReached= true;
     TraceText("FlagMaxSolsReached\n");
