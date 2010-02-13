@@ -59,5 +59,5 @@ boolean dealWithMaxtime(void)
   else
     setMaxtime(maxTimeOption);
 
-  return nr_periods<UINT_MAX;
+  return maxTimeCommandLine!=no_time_set || maxTimeOption!=no_time_set;
 }
