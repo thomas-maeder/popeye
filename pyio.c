@@ -2482,7 +2482,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
             pipe_link(proxy,inverter);
           }
           else
-            pipe_link(proxy,branch);
+            pipe_set_successor(proxy,branch);
         }
 
         slices[slices[proxy_leaf].u.pipe.next].starter = Black;
