@@ -200,7 +200,8 @@ static slice_operation const output_mode_detectors[] =
   &pipe_traverse_next,        /* STMaxFlightsquares */
   &pipe_traverse_next,        /* STDegenerateTree */
   &pipe_traverse_next,        /* STMaxNrNonTrivial */
-  &pipe_traverse_next         /* STMaxThreatLength */
+  &pipe_traverse_next,        /* STMaxThreatLength */
+  &output_mode_linemode       /* STMaxTimeSeriesFilter */
 };
 
 /* Initialize based on the stipulation

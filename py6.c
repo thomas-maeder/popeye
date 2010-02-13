@@ -124,6 +124,7 @@
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
+#include "optimisations/maxtime/maxtime.h"
 #ifdef _SE_
 #include "se.h"
 #endif 
@@ -547,7 +548,8 @@ static slice_operation const slice_type_finders[] =
   0,                                  /* STMaxFlightsquares */
   0,                                  /* STDegenerateTree */
   0,                                  /* STMaxNrNonTrivial */
-  0                                   /* STMaxThreatLength */
+  0,                                  /* STMaxThreatLength */
+  0                                   /* STMaxTimeSeriesFilter */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -2374,7 +2376,8 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STMaxFlightsquares */
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
-  &slice_traverse_children  /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
 
 static Side find_mating_side(slice_index si)
@@ -2474,7 +2477,8 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STMaxFlightsquares */
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
-  &slice_traverse_children  /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
 
 /* prepare for solving duplex */
@@ -2570,7 +2574,8 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STMaxFlightsquares */
   &slice_traverse_children, /* STDegenerateTree */
   &slice_traverse_children, /* STMaxNrNonTrivial */
-  &slice_traverse_children  /* STMaxThreatLength */
+  &slice_traverse_children, /* STMaxThreatLength */
+  &slice_traverse_children  /* STMaxTimeSeriesFilter */
 };
 
 /* restore from preparations for solving duplex */
@@ -2854,7 +2859,8 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STMaxFlightsquares */
   &slice_traverse_children,                  /* STDegenerateTree */
   &slice_traverse_children,                  /* STMaxNrNonTrivial */
-  &slice_traverse_children                   /* STMaxThreatLength */
+  &slice_traverse_children,                  /* STMaxThreatLength */
+  &slice_traverse_children                   /* STMaxTimeSeriesFilter */
 };
 
 static void insert_hash_slices(void)
@@ -3040,8 +3046,6 @@ static Token iterate_twins(Token prev_token)
       ++twin_index;
     }
 
-    dealWithMaxtime();
-
     TraceValue("%u",twin_index);
     TraceValue("%u\n",shouldDetectStarter);
     if (twin_index==0 || shouldDetectStarter)
@@ -3062,6 +3066,9 @@ static Token iterate_twins(Token prev_token)
         Message(SetPlayNotApplicable);
 
       stip_detect_starter();
+
+      if (dealWithMaxtime())
+        stip_insert_maxtime_filters();
 
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();

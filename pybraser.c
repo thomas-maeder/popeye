@@ -7,13 +7,11 @@
 #include "pymovein.h"
 #include "pyseries.h"
 #include "pybrafrk.h"
-#include "pyreflxg.h"
 #include "pypipe.h"
 #include "trace.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/series_play/shortcut.h"
-#include "platform/maxtime.h"
 
 #include <assert.h>
 
@@ -187,9 +185,6 @@ boolean branch_ser_solve_in_n(slice_index si, stip_length_type n)
 
     if (OptFlag[maxsols] && solutions>=maxsolutions)
       break;
-
-    if (periods_counter>=nr_periods)
-      break;
   }
 
   finply();
@@ -231,9 +226,6 @@ void branch_ser_solve_threats_in_n(table threats,
     }
 
     repcoup();
-
-    if (periods_counter>=nr_periods)
-      break;
   }
     
   finply();

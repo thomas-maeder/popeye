@@ -43,8 +43,9 @@ void setOptionMaxtime(maxtime_type optionValue)
 
 /* Set the appropriate maximal solving time based on the command line
  * paramter and option maxtime value.
+ * @return true iff a maximum solving time has been set
  */
-void dealWithMaxtime(void)
+boolean dealWithMaxtime(void)
 {
   /* If a maximal time is indicated both on the command line and as
    * an option, use the smaller value.
@@ -57,4 +58,6 @@ void dealWithMaxtime(void)
     setMaxtime(maxTimeCommandLine);
   else
     setMaxtime(maxTimeOption);
+
+  return nr_periods<UINT_MAX;
 }

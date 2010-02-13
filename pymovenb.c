@@ -347,7 +347,8 @@ static slice_operation const restart_guards_inserters[] =
   0,                             /* STMaxFlightsquares */
   0,                             /* STDegenerateTree */
   0,                             /* STMaxNrNonTrivial */
-  0                              /* STMaxThreatLength */
+  0,                             /* STMaxThreatLength */
+  0                              /* STMaxTimeSeriesFilter */
 };
 
 /* Instrument stipulation with STRestartGuard slices

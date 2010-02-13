@@ -60,12 +60,12 @@ NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) \
 		conditions \
 		stipulation stipulation/operators \
 		stipulation/help_play stipulation/series_play \
-		optimisations/intelligent
+		optimisations/intelligent optimisations/maxtime
 NESTEDSRCDIRS = platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 		DHT conditions \
 		stipulation stipulation/operators \
 		stipulation/help_play stipulation/series_play \
-		optimisations/intelligent
+		optimisations/intelligent optimisations/maxtime
 
 # enumerate libraries to link
 OURLIBS = $(NESTEDLIBDIRS:%=%/library.$(LIB_SUFFIX))

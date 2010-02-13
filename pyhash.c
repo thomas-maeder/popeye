@@ -338,7 +338,8 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMaxFlightsquares */
   &slice_property_offset_shifter, /* STDegenerateTree */
   &slice_property_offset_shifter, /* STMaxNrNonTrivial */
-  &slice_property_offset_shifter  /* STMaxThreatLength */
+  &slice_property_offset_shifter, /* STMaxThreatLength */
+  &slice_property_offset_shifter  /* STMaxTimeSeriesFilter */
 };
 
 typedef struct
@@ -699,7 +700,8 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMaxFlightsquares */
   &init_slice_properties_pipe,           /* STDegenerateTree */
   &init_slice_properties_pipe,           /* STMaxNrNonTrivial */
-  &init_slice_properties_pipe            /* STMaxThreatLength */
+  &init_slice_properties_pipe,           /* STMaxThreatLength */
+  &init_slice_properties_pipe            /* STMaxTimeSeriesFilter */
 };
 
 static boolean find_slice_with_nonstandard_min_length(void)
@@ -1866,12 +1868,6 @@ void inithash(void)
       bytes_per_spec++;
 
     bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
-
-    if (isIntelligentModeActive)
-    {
-      one_byte_hash = false;
-      bytes_per_spec= 5; /* TODO why so high??? */
-    }
 
     if (slices[1].u.leaf.goal==goal_proof
         || slices[1].u.leaf.goal==goal_atob)

@@ -865,7 +865,8 @@ static slice_operation const keepmating_guards_inserters[] =
   0,                                       /* STMaxFlightsquares */
   &slice_traverse_children,                /* STDegenerateTree */
   &slice_traverse_children,                /* STMaxNrNonTrivial */
-  0                                        /* STMaxThreatLength */
+  0,                                       /* STMaxThreatLength */
+  &slice_traverse_children                 /* STMaxTimeSeriesFilter */
 };
 
 /* Instrument stipulation with STKeepMatingGuard slices

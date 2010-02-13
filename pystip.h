@@ -87,6 +87,8 @@
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
                                                                         \
+    ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
+                                                                        \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 

@@ -5,8 +5,11 @@ platform/maxmem.h:
 boolean.h:
 
 pyhash.h:
-platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime.h pydata.h
+platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime.h boolean.h \
+  pydata.h
 
 platform/maxtime.h:
+
+boolean.h:
 
 pydata.h:

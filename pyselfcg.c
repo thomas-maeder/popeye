@@ -706,7 +706,6 @@ static boolean selfcheck_guards_inserter_branch_series(slice_index si,
     slice_index const guard = alloc_selfcheck_guard_series_filter();
     pipe_link(guard,next);
     pipe_link(si,guard);
-    slice_traverse_children(guard,st);
   }
   else
   {
@@ -1013,7 +1012,8 @@ static slice_operation const selfcheck_guards_inserters[] =
   0,                                        /* STMaxFlightsquares */
   &slice_traverse_children,                 /* STDegenerateTree */
   &slice_traverse_children,                 /* STMaxNrNonTrivial */
-  0                                         /* STMaxThreatLength */
+  0,                                        /* STMaxThreatLength */
+  &slice_traverse_children                  /* STMaxTimeSeriesFilter */
 };
 /* element STSelfCheckGuard is not 0 because we may reach a
  * STSelfCheckGuard slice inserted early later on a different path
@@ -1100,7 +1100,8 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   0,                                             /* STMaxFlightsquares */
   0,                                             /* STDegenerateTree */
   0,                                             /* STMaxNrNonTrivial */
-  0                                              /* STMaxThreatLength */
+  0,                                             /* STMaxThreatLength */
+  &slice_traverse_children                       /* STMaxTimeSeriesFilter */
 };
 
 /* Instrument stipulation with STSelfCheckGuard slices

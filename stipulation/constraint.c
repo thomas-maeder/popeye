@@ -1365,7 +1365,8 @@ static slice_operation const reflex_guards_inserters[] =
   0,                                   /* STMaxFlightsquares */
   0,                                   /* STDegenerateTree */
   0,                                   /* STMaxNrNonTrivial */
-  0                                    /* STMaxThreatLength */
+  0,                                   /* STMaxThreatLength */
+  0                                    /* STMaxTimeSeriesFilter */
 };
 
 /* Instrument a branch with STReflex* slices for a (non-semi)
@@ -1537,7 +1538,8 @@ static slice_operation const reflex_guards_inserters_semi[] =
   0,                                    /* STMaxFlightsquares */
   0,                                    /* STDegenerateTree */
   0,                                    /* STMaxNrNonTrivial */
-  0                                     /* STMaxThreatLength */
+  0,                                    /* STMaxThreatLength */
+  0                                     /* STMaxTimeSeriesFilter */
 };
 
 /* Instrument a branch with STReflex* slices for a semi-reflex

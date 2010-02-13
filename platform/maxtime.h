@@ -1,6 +1,8 @@
 #if !defined(MAXTIME_H)
 #define MAXTIME_H
 
+#include "boolean.h"
+
 #include <signal.h>
 
 /* number of periods passed since timer started */
@@ -59,7 +61,8 @@ void setMaxtime(maxtime_type seconds);
 
 /* Set the appropriate maximal solving time based on the command line
  * paramter and option maxtime value.
+ * @return true iff a maximum solving time has been set
  */
-void dealWithMaxtime(void);
+boolean dealWithMaxtime(void);
 
 #endif
