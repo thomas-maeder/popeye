@@ -207,7 +207,7 @@ static void Trace_branch(slice_index si)
 static void Trace_branch_fork(slice_index si)
 {
   Trace_branch(si);
-  fprintf(stdout,"towards_goal:%u ",slices[si].u.branch_fork.towards_goal);
+  fprintf(stdout,"2goal:%u ",slices[si].u.branch_fork.towards_goal);
 }
 
 static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
@@ -280,6 +280,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STRestartGuardHelpFilter:
       case STRestartGuardSeriesFilter:
       case STDegenerateTree:
+      case STMaxTimeRootDefenderFilter:
+      case STMaxTimeDefenderFilter:
       case STMaxTimeHelpFilter:
       case STMaxTimeSeriesFilter:
         Trace_pipe(si);
