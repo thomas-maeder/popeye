@@ -12,7 +12,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/shortcut.h"
-#include "platform/maxtime.h"
 
 #include <assert.h>
 
