@@ -3,33 +3,18 @@
 
 #include "boolean.h"
 
-#include <signal.h>
-
-/* number of periods passed since timer started */
-sig_atomic_t volatile periods_counter;
-
-/* number of periods after which solving is aborted */
-sig_atomic_t volatile nr_periods;
-
-
 typedef unsigned int maxtime_type;
-
-/* Maximum number of seconds of maxtime supported by the platform.
- * Guaranteed to be initialized after initMaxTime() has returned.
- */
-extern maxtime_type maxtime_maximum_seconds;
-
-enum
-{
-  /* singular value for indicating that a maxtime value is not set */
-  no_time_set = 0
-};
-
 
 /* Platform-dependant initialization of the maxtime machinery. To be
  * called once at program start.
  */
 void initMaxtime(void);
+
+/* Retrieve the maximum number of seconds supported by the platform.
+ * Guaranteed to be initialized only after initMaxTime() has returned.
+ * @return maximum number of seconds supported by the platform
+ */
+maxtime_type maxtimeMaximumSeconds(void);
 
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter
@@ -64,5 +49,10 @@ void setMaxtime(maxtime_type seconds);
  * @return true iff a maximum solving time has been set
  */
 boolean dealWithMaxtime(void);
+
+/* Has the set maximum time elapsed
+ * @return truee iff the set maximum time has elapsed
+ */
+boolean hasMaxtimeElapsed(void);
 
 #endif

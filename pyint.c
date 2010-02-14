@@ -599,7 +599,7 @@ static void StaleStoreMate(
 
   if (blpcallowed < 0
       || whpcallowed < 0
-      || periods_counter>=nr_periods)
+      || hasMaxtimeElapsed())
   {
     return;
   }
@@ -2191,7 +2191,7 @@ static void GenerateGuarding(
     return;
 
   if (whcaptures > MaxPiece[Black]-1
-      || periods_counter>=nr_periods) {
+      || hasMaxtimeElapsed()) {
     return;
   }
 
@@ -2491,7 +2491,7 @@ static void GenerateBlackKing(stip_length_type n)
       e[sq]= vide;
       spec[sq]= EmptySpec;
     }
-    if (periods_counter>=nr_periods) {
+    if (hasMaxtimeElapsed()) {
       break;
     }
   }
@@ -2619,7 +2619,7 @@ static void IntelligentRegularGoals(stip_length_type n)
   ResetPosition();
 
   if (OptFlag[movenbr]
-      && periods_counter<nr_periods)
+      && !hasMaxtimeElapsed())
   {
     StdString("\n");
     sprintf(GlobalStr, "%ld %s %d+%d",

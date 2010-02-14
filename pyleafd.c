@@ -92,7 +92,7 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
 
       repcoup();
 
-      if (periods_counter>=nr_periods)
+      if (hasMaxtimeElapsed())
         break;
     }
 

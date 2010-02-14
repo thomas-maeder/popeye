@@ -4670,7 +4670,7 @@ static char *ParseOpt(void)
         unsigned long value;
         tok = ReadNextTokStr();
         value = strtoul(tok,&end,10);
-        if (*end!=0 || value==0 || value>maxtime_maximum_seconds)
+        if (*end!=0 || value==0 || value>maxtimeMaximumSeconds())
         {
           OptFlag[maxtime]= false;
           IoErrorMsg(WrongInt, 0);
@@ -6164,7 +6164,7 @@ void LaTeXEndDiagram(void) {
         || OptFlag[nontrivial]
         || maxsol_per_matingpos!=ULONG_MAX
         || FlagMaxSolsReached
-        || periods_counter>=nr_periods))
+        || hasMaxtimeElapsed()))
   {
     fprintf(LaTeXFile, " \\Co+%%");
     if (!flag_regression)

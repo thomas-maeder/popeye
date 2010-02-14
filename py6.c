@@ -3163,7 +3163,7 @@ static void iterate_problems(void)
 
     if (FlagMaxSolsReached
         || maxsol_per_matingpos!=ULONG_MAX
-        || periods_counter>=nr_periods)
+        || hasMaxtimeElapsed())
       StdString(GetMsgString(InterMessage));
     else
       StdString(GetMsgString(FinishProblem));

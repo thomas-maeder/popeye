@@ -42,7 +42,7 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 
     repcoup();
 
-    if (periods_counter>=nr_periods)
+    if (hasMaxtimeElapsed())
       break;
   }
 

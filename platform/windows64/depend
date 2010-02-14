@@ -3,9 +3,9 @@ platform/windows64/maxmem.obj: platform/windows64/maxmem.c \
 
 platform/maxmem.h:
 platform/windows64/maxtime.obj: platform/windows64/maxtime.c \
- platform/maxtime.h boolean.h pymsg.h
+ platform/maxtime_impl.h boolean.h pymsg.h
 
-platform/maxtime.h:
+platform/maxtime_impl.h:
 
 boolean.h:
 

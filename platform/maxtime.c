@@ -1,4 +1,4 @@
-#include "maxtime.h"
+#include "maxtime_impl.h"
 #include "pydata.h"
 
 static maxtime_type maxTimeCommandLine = no_time_set;
@@ -15,6 +15,15 @@ sig_atomic_t volatile nr_periods = UINT_MAX;
  * Guaranteed to be initialized after initMaxTime() has returned.
  */
 maxtime_type maxtime_maximum_seconds;
+
+/* Retrieve the maximum number of seconds supported by the platform.
+ * Guaranteed to be initialized only after initMaxTime() has returned.
+ * @return maximum number of seconds supported by the platform
+ */
+maxtime_type maxtimeMaximumSeconds(void)
+{
+  return maxtime_maximum_seconds;
+}
 
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter
@@ -60,4 +69,12 @@ boolean dealWithMaxtime(void)
     setMaxtime(maxTimeOption);
 
   return maxTimeCommandLine!=no_time_set || maxTimeOption!=no_time_set;
+}
+
+/* Has the set maximum time elapsed
+ * @return truee iff the set maximum time has elapsed
+ */
+boolean hasMaxtimeElapsed(void)
+{
+  return periods_counter>=nr_periods;
 }

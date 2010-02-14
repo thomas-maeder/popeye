@@ -1,10 +1,10 @@
 platform/unix/maxmem$(OBJ_SUFFIX): platform/unix/maxmem.c platform/maxmem.h
 
 platform/maxmem.h:
-platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime.h \
+platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
   boolean.h pymsg.h py.h pydata.h pyhash.h
 
-platform/maxtime.h:
+platform/maxtime_impl.h:
 
 boolean.h:
 
