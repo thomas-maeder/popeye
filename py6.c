@@ -125,6 +125,7 @@
 #include "platform/pytime.h"
 #include "platform/priority.h"
 #include "optimisations/maxtime/maxtime.h"
+#include "optimisations/maxsolutions/maxsolutions.h"
 #ifdef _SE_
 #include "se.h"
 #endif 
@@ -3000,11 +3001,6 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
     if (OptFlag[halfduplex] || OptFlag[duplex])
     {
       /* Set next side to calculate for duplex "twin" */
-      if (OptFlag[stoponshort] && FlagShortSolsReached)
-        FlagMaxSolsReached = true;
-
-      FlagShortSolsReached = false;
-
       stip_impose_starter(advers(slices[root_slice].starter));
       TraceStipulation(root_slice);
 
@@ -3126,11 +3122,6 @@ static Token iterate_twins(Token prev_token)
     {
       TraceValue("%u\n",slices[root_slice].starter);
       solve_twin(twin_index,prev_token);
-
-      if (OptFlag[stoponshort] && FlagShortSolsReached)
-        FlagMaxSolsReached = true;
-
-      FlagShortSolsReached = false;
     }
 
     ++twin_index;
@@ -3147,7 +3138,7 @@ static Token iterate_twins(Token prev_token)
  */
 static void iterate_problems(void)
 {
-  Token prev_token = BeginProblem;
+  Token prev_token;
 
   do
   {
@@ -3156,12 +3147,15 @@ static void iterate_problems(void)
     InitOpt();
     InitStip();
 
-    FlagMaxSolsReached = false;
+    reset_max_solutions();
+    FlagMaxSolsPerMatingPosReached = false;
     FlagShortSolsReached = false;
 
     prev_token = iterate_twins(prev_token);
 
-    if (FlagMaxSolsReached
+    if (max_solutions_reached()
+        || FlagMaxSolsPerMatingPosReached
+        || FlagShortSolsReached
         || maxsol_per_matingpos!=ULONG_MAX
         || hasMaxtimeElapsed())
       StdString(GetMsgString(InterMessage));

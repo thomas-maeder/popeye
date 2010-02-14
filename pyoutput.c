@@ -6,6 +6,7 @@
 #include "pypipe.h"
 #include "py1.h"
 #include "conditions/republican.h"
+#include "optimisations/maxsolutions/maxsolutions.h"
 #include "trace.h"
 #ifdef _SE_
 #include "se.h"
@@ -517,8 +518,7 @@ static void linesolution(void)
       return;
     else
     {
-      if (OptFlag[maxsols])
-        solutions++;
+      increase_nr_found_solutions();
       if (OptFlag[beep])
         BeepOnSolution(maxbeep);
     }
@@ -526,8 +526,7 @@ static void linesolution(void)
   }
   else
   {
-    if (OptFlag[maxsols])
-      solutions++;
+    increase_nr_found_solutions();
     if (OptFlag[beep])
       BeepOnSolution(maxbeep);
   }
@@ -663,8 +662,7 @@ static void write_numbered_indented_attack(ply current_ply,
 
       case attack_key:
         StdString("! ");
-        if (OptFlag[maxsols])
-          solutions++;
+        increase_nr_found_solutions();
         if (OptFlag[beep])
           BeepOnSolution(maxbeep);
         break;

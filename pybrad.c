@@ -11,6 +11,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "optimisations/maxsolutions/maxsolutions.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -673,7 +674,7 @@ boolean direct_root_root_solve(slice_index si)
 
   init_output(si);
 
-  solutions = 0;
+  reset_nr_found_solutions_per_phase();
 
   active_slice[nbply+1] = si;
   genmove(attacker);
@@ -684,16 +685,15 @@ boolean direct_root_root_solve(slice_index si)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !direct_defender_root_defend(next))
+    {
       result = true;
+      increase_nr_found_solutions();
+    }
 
     repcoup();
 
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
-    {
-      /* signal maximal number of solutions reached to outer world */
-      FlagMaxSolsReached = true;
+    if (max_nr_solutions_found_in_phase())
       break;
-    }
   }
 
   output_end_continuation_level();

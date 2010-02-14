@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+CFILES = maxsolutions.c
+
+INCLUDES = maxsolutions.h
+
+include makefile.rules $(CURRPWD)depend

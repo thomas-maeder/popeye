@@ -89,6 +89,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "conditions/republican.h"
+#include "optimisations/maxsolutions/maxsolutions.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -4687,9 +4688,10 @@ static char *ParseOpt(void)
 
       case maxsols:
         tok = ReadNextTokStr();
-        if ((maxsolutions= atoi(tok)) <= 0) {
-          OptFlag[maxsols]= false;
-          IoErrorMsg(WrongInt, 0);
+        if (!read_max_solutions(tok))
+        {
+          OptFlag[maxsols] = false;
+          IoErrorMsg(WrongInt,0);
           return ReadNextTokStr();
         }
         break;
@@ -6163,7 +6165,9 @@ void LaTeXEndDiagram(void) {
         || OptFlag[solflights]
         || OptFlag[nontrivial]
         || maxsol_per_matingpos!=ULONG_MAX
-        || FlagMaxSolsReached
+        || max_solutions_reached()
+        || FlagMaxSolsPerMatingPosReached
+        || FlagShortSolsReached
         || hasMaxtimeElapsed()))
   {
     fprintf(LaTeXFile, " \\Co+%%");

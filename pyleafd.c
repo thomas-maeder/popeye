@@ -6,6 +6,7 @@
 #include "pyleaf.h"
 #include "pyoutput.h"
 #include "pymsg.h"
+#include "optimisations/maxsolutions/maxsolutions.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -125,7 +126,7 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
-    solutions = 0;
+    reset_nr_found_solutions_per_phase();
 
     while (encore())
     {
@@ -141,12 +142,8 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
 
       repcoup();
 
-      if (OptFlag[maxsols] && solutions>=maxsolutions)
-      {
-        /* signal maximal number of solutions reached to outer world */
-        FlagMaxSolsReached = true;
+      if (max_nr_solutions_found_in_phase())
         break;
-      }
     }
 
     finply();
@@ -178,7 +175,7 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
-    solutions = 0;
+    reset_nr_found_solutions_per_phase();
 
     while (encore())
     {
@@ -194,12 +191,8 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
 
       repcoup();
 
-      if (OptFlag[maxsols] && solutions>=maxsolutions)
-      {
-        /* signal maximal number of solutions reached to outer world */
-        FlagMaxSolsReached = true;
+      if (max_nr_solutions_found_in_phase())
         break;
-      }
     }
 
     finply();
@@ -231,7 +224,7 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,attacker);
 
-    solutions = 0;
+    reset_nr_found_solutions_per_phase();
 
     while (encore())
     {
@@ -247,12 +240,8 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
 
       repcoup();
 
-      if (OptFlag[maxsols] && solutions>=maxsolutions)
-      {
-        /* signal maximal number of solutions reached to outer world */
-        FlagMaxSolsReached = true;
+      if (max_nr_solutions_found_in_phase())
         break;
-      }
     }
 
     finply();

@@ -1,0 +1,7 @@
+optimisations/maxsolutions/maxsolutions$(OBJ_SUFFIX):  \
+ optimisations/maxsolutions/maxsolutions.c \
+  optimisations/maxsolutions/maxsolutions.h trace.h
+
+optimisations/maxsolutions/maxsolutions.h:
+
+trace.h:

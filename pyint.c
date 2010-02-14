@@ -30,6 +30,7 @@
 #include "stipulation/branch.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/intelligent/series_filter.h"
+#include "optimisations/maxsolutions/maxsolutions.h"
 #include "platform/maxtime.h"
 #include "trace.h"
 
@@ -425,8 +426,7 @@ static boolean isGoalReachableRegularGoals(void)
 
   if (sol_per_matingpos>=maxsol_per_matingpos)
   {
-    FlagMaxSolsReached= true;
-    TraceText("FlagMaxSolsReached\n");
+    FlagMaxSolsPerMatingPosReached = true;
     return false;
   }
 
@@ -1486,7 +1486,7 @@ void Immobilize(int blmoves,
   boolean   nopinpossible, pinnecessary;
   unsigned int toblock[maxsquare+4];
 
-  if (OptFlag[maxsols] && solutions>=maxsolutions)
+  if (max_nr_solutions_found_in_phase())
     return;
 
   VARIABLE_INIT(block);
@@ -2045,7 +2045,7 @@ static void GenerateBlocking(
   int   actpbl, wasted;
   square    sq;
 
-  if (OptFlag[maxsols] && solutions>=maxsolutions)
+  if (max_nr_solutions_found_in_phase())
     return;
 
   if (nbrfl == 0) {
@@ -2187,7 +2187,7 @@ static void GenerateGuarding(
   StdString(GlobalStr);
 #endif
 
-  if (OptFlag[maxsols] && solutions>=maxsolutions)
+  if (max_nr_solutions_found_in_phase())
     return;
 
   if (whcaptures > MaxPiece[Black]-1

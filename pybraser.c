@@ -12,6 +12,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/series_play/shortcut.h"
+#include "optimisations/maxsolutions/maxsolutions.h"
 
 #include <assert.h>
 
@@ -183,7 +184,7 @@ boolean branch_ser_solve_in_n(slice_index si, stip_length_type n)
 
     repcoup();
 
-    if (OptFlag[maxsols] && solutions>=maxsolutions)
+    if (max_nr_solutions_found_in_phase())
       break;
   }
 
@@ -438,8 +439,7 @@ boolean series_root_root_solve(slice_index root)
 
   move_generation_mode = move_generation_not_optimized;
 
-  FlagShortSolsReached = false;
-  solutions = 0;
+  reset_nr_found_solutions_per_phase();
 
   while (len<full_length
          && !(OptFlag[stoponshort] && result))
@@ -451,16 +451,9 @@ boolean series_root_root_solve(slice_index root)
   }
 
   if (result && OptFlag[stoponshort])
-  {
-    TraceText("aborting because of short solutions\n");
     FlagShortSolsReached = true;
-  }
   else
     result = series_solve_in_n(next,full_length);
-
-  if (OptFlag[maxsols] && solutions>=maxsolutions)
-    /* signal maximal number of solutions reached to outer world */
-    FlagMaxSolsReached = true;
 
   write_end_of_solution_phase();
 
