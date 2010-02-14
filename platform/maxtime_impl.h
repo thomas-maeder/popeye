@@ -4,6 +4,9 @@
 #include "platform/maxtime.h"
 #include <signal.h>
 
+/* Option maxtime: interface for (platform-dependant) implementations
+ */
+
 /* number of periods passed since timer started */
 sig_atomic_t volatile periods_counter;
 
