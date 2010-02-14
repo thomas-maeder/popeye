@@ -172,6 +172,8 @@ boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
 
   IncrementMoveNbr();
 
+  TraceValue("%u",MoveNbr);
+  TraceValue("%u\n",RestartNbr);
   if (MoveNbr<=RestartNbr)
     result = false;
   else
@@ -319,39 +321,39 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STParryFork */
   &slice_traverse_children,      /* STSeriesHashed */
   &slice_traverse_children,      /* STSelfCheckGuardRootSolvableFilter */
-  0,                             /* STSelfCheckGuardSolvableFilter */
-  0,                             /* STSelfCheckGuardRootDefenderFilter */
-  0,                             /* STSelfCheckGuardAttackerFilter */
-  0,                             /* STSelfCheckGuardDefenderFilter */
-  0,                             /* STSelfCheckGuardHelpFilter */
-  0,                             /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,      /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,      /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,      /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,      /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,      /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,      /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,      /* STDirectDefense */
   &slice_traverse_children,      /* STReflexHelpFilter */
   &slice_traverse_children,      /* STReflexSeriesFilter */
   &slice_traverse_children,      /* STReflexAttackerFilter */
-  0,                             /* STReflexDefenderFilter */
-  0,                             /* STSelfAttack */
-  0,                             /* STSelfDefense */
-  0,                             /* STRestartGuardRootDefenderFilter */
-  0,                             /* STRestartGuardHelpFilter */
-  0,                             /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,      /* STReflexDefenderFilter */
+  &slice_traverse_children,      /* STSelfAttack */
+  &slice_traverse_children,      /* STSelfDefense */
+  &slice_traverse_children,      /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,      /* STRestartGuardHelpFilter */
+  &slice_traverse_children,      /* STRestartGuardSeriesFilter */
   &slice_traverse_children,      /* STIntelligentHelpFilter */
   &slice_traverse_children,      /* STIntelligentSeriesFilter */
-  0,                             /* STGoalReachableGuardHelpFilter */
-  0,                             /* STGoalReachableGuardSeriesFilter */
-  0,                             /* STKeepMatingGuardRootDefenderFilter */
-  0,                             /* STKeepMatingGuardAttackerFilter */
-  0,                             /* STKeepMatingGuardDefenderFilter */
-  0,                             /* STKeepMatingGuardHelpFilter */
-  0,                             /* STKeepMatingGuardSeriesFilter */
-  0,                             /* STMaxFlightsquares */
-  0,                             /* STDegenerateTree */
-  0,                             /* STMaxNrNonTrivial */
-  0,                             /* STMaxThreatLength */
-  0,                             /* STMaxTimeRootDefenderFilter */
-  0,                             /* STMaxTimeDefenderFilter */
-  0,                             /* STMaxTimeHelpFilter */
-  0                              /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,      /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,      /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,      /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,      /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,      /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,      /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,      /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,      /* STMaxFlightsquares */
+  &slice_traverse_children,      /* STDegenerateTree */
+  &slice_traverse_children,      /* STMaxNrNonTrivial */
+  &slice_traverse_children,      /* STMaxThreatLength */
+  &slice_traverse_children,      /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,      /* STMaxTimeDefenderFilter */
+  &slice_traverse_children,      /* STMaxTimeHelpFilter */
+  &slice_traverse_children       /* STMaxTimeSeriesFilter */
 };
 
 /* Instrument stipulation with STRestartGuard slices

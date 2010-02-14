@@ -2779,56 +2779,56 @@ static boolean full_moves_left_branch_series(slice_index si,
 
 static slice_operation const full_moves_left_initialisers[] =
 {
-  0,                                /* STProxy */
-  0,                                /* STBranchDirect */
-  0,                                /* STBranchDirectDefender */
+  &slice_traverse_children,         /* STProxy */
+  &slice_traverse_children,         /* STBranchDirect */
+  &slice_traverse_children,         /* STBranchDirectDefender */
   &slice_traverse_children,         /* STBranchHelp */
   &slice_traverse_children,         /* STHelpFork */
   &slice_traverse_children,         /* STBranchSeries */
   &slice_traverse_children,         /* STSeriesFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
   &init_moves_left_leaf_help,       /* STLeafHelp */
-  0,                                /* STLeafForced */
-  0,                                /* STReciprocal */
-  0,                                /* STQuodlibet */
-  0,                                /* STNot */
+  &slice_traverse_children,         /* STLeafForced */
+  &slice_traverse_children,         /* STReciprocal */
+  &slice_traverse_children,         /* STQuodlibet */
+  &slice_traverse_children,         /* STNot */
   &slice_traverse_children,         /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
-  0,                                /* STDirectRoot */
-  0,                                /* STDirectDefenderRoot */
+  &slice_traverse_children,         /* STDirectRoot */
+  &slice_traverse_children,         /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
-  0,                                /* STHelpRoot */
-  0,                                /* STHelpShortcut */
+  &slice_traverse_children,         /* STHelpRoot */
+  &slice_traverse_children,         /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
-  0,                                /* STSeriesRoot */
-  0,                                /* STSeriesShortcut */
+  &slice_traverse_children,         /* STSeriesRoot */
+  &slice_traverse_children,         /* STSeriesShortcut */
   &pipe_traverse_next,              /* STParryFork */
   &slice_traverse_children,         /* STSeriesHashed */
   &slice_traverse_children,         /* STSelfCheckGuardRootSolvableFilter */
   &slice_traverse_children,         /* STSelfCheckGuardSolvableFilter */
-  0,                                /* STSelfCheckGuardRootDefenderFilter */
-  0,                                /* STSelfCheckGuardAttackerFilter */
-  0,                                /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,         /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,         /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,         /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,         /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,         /* STSelfCheckGuardSeriesFilter */
-  0,                                /* STDirectDefense */
-  0,                                /* STReflexHelpFilter */
-  0,                                /* STReflexSeriesFilter */
-  0,                                /* STReflexAttackerFilter */
-  0,                                /* STReflexDefenderFilter */
-  0,                                /* STSelfAttack */
-  0,                                /* STSelfDefense */
-  0,                                /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,         /* STDirectDefense */
+  &slice_traverse_children,         /* STReflexHelpFilter */
+  &slice_traverse_children,         /* STReflexSeriesFilter */
+  &slice_traverse_children,         /* STReflexAttackerFilter */
+  &slice_traverse_children,         /* STReflexDefenderFilter */
+  &slice_traverse_children,         /* STSelfAttack */
+  &slice_traverse_children,         /* STSelfDefense */
+  &slice_traverse_children,         /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
-  0,                                /* STIntelligentHelpFilter */
-  0,                                /* STIntelligentSeriesFilter */
+  &slice_traverse_children,         /* STIntelligentHelpFilter */
+  &slice_traverse_children,         /* STIntelligentSeriesFilter */
   &full_moves_left_branch_help,     /* STGoalReachableGuardHelpFilter */
   &full_moves_left_branch_series,   /* STGoalReachableGuardSeriesFilter */
-  0,                                /* STKeepMatingGuardRootDefenderFilter */
-  0,                                /* STKeepMatingGuardAttackerFilter */
-  0,                                /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardDefenderFilter */
   &slice_traverse_children,         /* STKeepMatingGuardHelpFilter */
   &slice_traverse_children,         /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,         /* STMaxFlightsquares */
@@ -2958,56 +2958,56 @@ static boolean partial_moves_left_series_fork(slice_index si,
 
 static slice_operation const partial_moves_left_initialisers[] =
 {
-  0,                                /* STProxy */
-  0,                                /* STBranchDirect */
-  0,                                /* STBranchDirectDefender */
+  &slice_traverse_children,         /* STProxy */
+  &slice_traverse_children,         /* STBranchDirect */
+  &slice_traverse_children,         /* STBranchDirectDefender */
   &slice_traverse_children,         /* STBranchHelp */
   &partial_moves_left_help_fork,  /* STHelpFork */
   &slice_traverse_children,         /* STBranchSeries */
   &partial_moves_left_series_fork,  /* STSeriesFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
   &init_moves_left_leaf_help,       /* STLeafHelp */
-  0,                                /* STLeafForced */
-  0,                                /* STReciprocal */
-  0,                                /* STQuodlibet */
-  0,                                /* STNot */
+  &slice_traverse_children,         /* STLeafForced */
+  &slice_traverse_children,         /* STReciprocal */
+  &slice_traverse_children,         /* STQuodlibet */
+  &slice_traverse_children,         /* STNot */
   &slice_traverse_children,         /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
-  0,                                /* STDirectRoot */
-  0,                                /* STDirectDefenderRoot */
+  &slice_traverse_children,         /* STDirectRoot */
+  &slice_traverse_children,         /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
-  0,                                /* STHelpRoot */
+  &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
-  0,                                /* STSeriesRoot */
+  &slice_traverse_children,         /* STSeriesRoot */
   &slice_traverse_children,         /* STSeriesShortcut */
   &pipe_traverse_next,              /* STParryFork */
   &slice_traverse_children,         /* STSeriesHashed */
   &slice_traverse_children,         /* STSelfCheckGuardRootSolvableFilter */
   &slice_traverse_children,         /* STSelfCheckGuardSolvableFilter */
-  0,                                /* STSelfCheckGuardRootDefenderFilter */
-  0,                                /* STSelfCheckGuardAttackerFilter */
-  0,                                /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,         /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,         /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,         /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,         /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,         /* STSelfCheckGuardSeriesFilter */
-  0,                                /* STDirectDefense */
-  0,                                /* STReflexHelpFilter */
-  0,                                /* STReflexSeriesFilter */
-  0,                                /* STReflexAttackerFilter */
-  0,                                /* STReflexDefenderFilter */
-  0,                                /* STSelfAttack */
-  0,                                /* STSelfDefense */
-  0,                                /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,         /* STDirectDefense */
+  &slice_traverse_children,         /* STReflexHelpFilter */
+  &slice_traverse_children,         /* STReflexSeriesFilter */
+  &slice_traverse_children,         /* STReflexAttackerFilter */
+  &slice_traverse_children,         /* STReflexDefenderFilter */
+  &slice_traverse_children,         /* STSelfAttack */
+  &slice_traverse_children,         /* STSelfDefense */
+  &slice_traverse_children,         /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,         /* STRestartGuardHelpFilter */
   &slice_traverse_children,         /* STRestartGuardSeriesFilter */
   &slice_traverse_children,         /* STIntelligentHelpFilter */
   &slice_traverse_children,         /* STIntelligentSeriesFilter */
   &partial_moves_left_branch_help,  /* STGoalReachableGuardHelpFilter */
   &partial_moves_left_branch_series,/* STGoalReachableGuardSeriesFilter */
-  0,                                /* STKeepMatingGuardRootDefenderFilter */
-  0,                                /* STKeepMatingGuardAttackerFilter */
-  0,                                /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,         /* STKeepMatingGuardDefenderFilter */
   &slice_traverse_children,         /* STKeepMatingGuardHelpFilter */
   &slice_traverse_children,         /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,         /* STMaxFlightsquares */
@@ -3113,8 +3113,8 @@ boolean goalreachable_guard_help_solve_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   --MovesLeft[just_moved];
-  TraceValue("%u",slices[si].starter);
-  TraceValue("%u",just_moved);
+  TraceEnumerator(Side,slices[si].starter,"");
+  TraceEnumerator(Side,just_moved,"");
   TraceValue("%u",MovesLeft[slices[si].starter]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
@@ -3441,8 +3441,8 @@ static boolean intelligent_guards_inserter_series_root(slice_index si,
 static slice_operation const intelligent_guards_inserters[] =
 {
   &slice_traverse_children,                  /* STProxy */
-  0,                                         /* STBranchDirect */
-  0,                                         /* STBranchDirectDefender */
+  &slice_traverse_children,                  /* STBranchDirect */
+  &slice_traverse_children,                  /* STBranchDirectDefender */
   &intelligent_guards_inserter_branch_help,  /* STBranchHelp */
   &slice_traverse_children,                  /* STHelpFork */
   &intelligent_guards_inserter_branch_series,/* STBranchSeries */
@@ -3450,14 +3450,14 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_operation_noop,                     /* STLeafDirect */
   &slice_operation_noop,                     /* STLeafHelp */
   &slice_operation_noop,                     /* STLeafForced */
-  0,                                         /* STReciprocal */
+  &slice_traverse_children,                  /* STReciprocal */
   &slice_traverse_children,                  /* STQuodlibet */
-  0,                                         /* STNot */
+  &slice_traverse_children,                  /* STNot */
   &slice_traverse_children,                  /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
-  0,                                         /* STDirectRoot */
-  0,                                         /* STDirectDefenderRoot */
+  &slice_traverse_children,                  /* STDirectRoot */
+  &slice_traverse_children,                  /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
   &intelligent_guards_inserter_help_root,    /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpShortcut */
@@ -3468,28 +3468,28 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STSeriesHashed */
   &slice_traverse_children,                  /* STSelfCheckGuardRootSolvableFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardSolvableFilter */
-  0,                                         /* STSelfCheckGuardRootDefenderFilter */
-  0,                                         /* STSelfCheckGuardAttackerFilter */
-  0,                                         /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,                  /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardSeriesFilter */
-  0,                                         /* STDirectDefense */
-  0,                                         /* STReflexHelpFilter */
-  0,                                         /* STReflexSeriesFilter */
-  0,                                         /* STReflexAttackerFilter */
-  0,                                         /* STReflexDefenderFilter */
-  0,                                         /* STSelfAttack */
-  0,                                         /* STSelfDefense */
-  0,                                         /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,                  /* STDirectDefense */
+  &slice_traverse_children,                  /* STReflexHelpFilter */
+  &slice_traverse_children,                  /* STReflexSeriesFilter */
+  &slice_traverse_children,                  /* STReflexAttackerFilter */
+  &slice_traverse_children,                  /* STReflexDefenderFilter */
+  &slice_traverse_children,                  /* STSelfAttack */
+  &slice_traverse_children,                  /* STSelfDefense */
+  &slice_traverse_children,                  /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                  /* STRestartGuardHelpFilter */
   &slice_traverse_children,                  /* STRestartGuardSeriesFilter */
-  0,                                         /* STIntelligentHelpFilter */
-  0,                                         /* STIntelligentSeriesFilter */
-  0,                                         /* STGoalReachableGuardHelpFilter */
-  0,                                         /* STGoalReachableGuardSeriesFilter */
-  0,                                         /* STKeepMatingGuardRootDefenderFilter */
-  0,                                         /* STKeepMatingGuardAttackerFilter */
-  0,                                         /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,                  /* STIntelligentHelpFilter */
+  &slice_traverse_children,                  /* STIntelligentSeriesFilter */
+  &slice_traverse_children,                  /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,                  /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,                  /* STKeepMatingGuardDefenderFilter */
   &slice_traverse_children,                  /* STKeepMatingGuardHelpFilter */
   &slice_traverse_children,                  /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,                  /* STMaxFlightsquares */
@@ -3790,9 +3790,9 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STSeriesHashed */
   &slice_traverse_children,                      /* STSelfCheckGuardRootSolvableFilter */
   &slice_traverse_children,                      /* STSelfCheckGuardSolvableFilter */
-  0,                                             /* STSelfCheckGuardRootDefenderFilter */
-  0,                                             /* STSelfCheckGuardAttackerFilter */
-  0,                                             /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,                      /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,                      /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,                      /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,                      /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,                      /* STSelfCheckGuardSeriesFilter */
   &intelligent_mode_support_none,                /* STDirectDefense */
@@ -3805,10 +3805,10 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                      /* STRestartGuardHelpFilter */
   &slice_traverse_children,                      /* STRestartGuardSeriesFilter */
-  0,                                             /* STIntelligentHelpFilter */
-  0,                                             /* STIntelligentSeriesFilter */
-  0,                                             /* STGoalReachableGuardHelpFilter */
-  0,                                             /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,                      /* STIntelligentHelpFilter */
+  &slice_traverse_children,                      /* STIntelligentSeriesFilter */
+  &slice_traverse_children,                      /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,                      /* STGoalReachableGuardSeriesFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardRootDefenderFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardAttackerFilter */
   &intelligent_mode_support_none,                /* STKeepMatingGuardDefenderFilter */

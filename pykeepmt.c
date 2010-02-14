@@ -853,19 +853,19 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                /* STRestartGuardHelpFilter */
   &slice_traverse_children,                /* STRestartGuardSeriesFilter */
-  0,                                       /* STIntelligentHelpFilter */
-  0,                                       /* STIntelligentSeriesFilter */
-  0,                                       /* STGoalReachableGuardHelpFilter */
-  0,                                       /* STGoalReachableGuardSeriesFilter */
-  0,                                       /* STKeepMatingGuardRootDefenderFilter */
-  0,                                       /* STKeepMatingGuardAttackerFilter */
-  0,                                       /* STKeepMatingGuardDefenderFilter */
-  0,                                       /* STKeepMatingGuardHelpFilter */
-  0,                                       /* STKeepMatingGuardSeriesFilter */
-  0,                                       /* STMaxFlightsquares */
+  &slice_traverse_children,                /* STIntelligentHelpFilter */
+  &slice_traverse_children,                /* STIntelligentSeriesFilter */
+  &slice_traverse_children,                /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,                /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,                /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,                /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,                /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,                /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,                /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,                /* STMaxFlightsquares */
   &slice_traverse_children,                /* STDegenerateTree */
   &slice_traverse_children,                /* STMaxNrNonTrivial */
-  0,                                       /* STMaxThreatLength */
+  &slice_traverse_children,                /* STMaxThreatLength */
   &slice_traverse_children,                /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,                /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                /* STMaxTimeHelpFilter */

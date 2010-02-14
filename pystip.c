@@ -578,26 +578,26 @@ static slice_operation const root_slice_inserters[] =
   &reci_insert_root,                   /* STReciprocal */
   &quodlibet_insert_root,              /* STQuodlibet */
   &not_insert_root,                    /* STNot */
-  0,                                   /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,            /* STMoveInverterRootSolvableFilter */
   &move_inverter_insert_root,          /* STMoveInverterSolvableFilter */
-  0,                                   /* STMoveInverterSeriesFilter */
-  0,                                   /* STDirectRoot */
-  0,                                   /* STDirectDefenderRoot */
-  0,                                   /* STDirectHashed */
-  0,                                   /* STHelpRoot */
-  0,                                   /* STHelpShortcut */
-  0,                                   /* STHelpHashed */
-  0,                                   /* STSeriesRoot */
-  0,                                   /* STSeriesShortcut */
+  &slice_traverse_children,            /* STMoveInverterSeriesFilter */
+  &slice_traverse_children,            /* STDirectRoot */
+  &slice_traverse_children,            /* STDirectDefenderRoot */
+  &slice_traverse_children,            /* STDirectHashed */
+  &slice_traverse_children,            /* STHelpRoot */
+  &slice_traverse_children,            /* STHelpShortcut */
+  &slice_traverse_children,            /* STHelpHashed */
+  &slice_traverse_children,            /* STSeriesRoot */
+  &slice_traverse_children,            /* STSeriesShortcut */
   &slice_traverse_children,            /* STParryFork */
-  0,                                   /* STSeriesHashed */
-  0,                                   /* STSelfCheckGuardRootSolvableFilter */
-  0,                                   /* STSelfCheckGuardSolvableFilter */
-  0,                                   /* STSelfCheckGuardRootDefenderFilter */
-  0,                                   /* STSelfCheckGuardAttackerFilter */
-  0,                                   /* STSelfCheckGuardDefenderFilter */
-  0,                                   /* STSelfCheckGuardHelpFilter */
-  0,                                   /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,            /* STSeriesHashed */
+  &slice_traverse_children,            /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,            /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,            /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,            /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,            /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,            /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,            /* STSelfCheckGuardSeriesFilter */
   &direct_defense_insert_root,         /* STDirectDefense */
   &reflex_help_filter_insert_root,     /* STReflexHelpFilter */
   &reflex_series_filter_insert_root,   /* STReflexSeriesFilter */
@@ -605,26 +605,26 @@ static slice_operation const root_slice_inserters[] =
   &reflex_defender_filter_insert_root, /* STReflexDefenderFilter */
   &self_attack_insert_root,            /* STSelfAttack */
   &self_defense_insert_root,           /* STSelfDefense */
-  0,                                   /* STRestartGuardRootDefenderFilter */
-  0,                                   /* STRestartGuardHelpFilter */
-  0,                                   /* STRestartGuardSeriesFilter */
-  0,                                   /* STIntelligentHelpFilter */
-  0,                                   /* STIntelligentSeriesFilter */
-  0,                                   /* STGoalReachableGuardHelpFilter */
-  0,                                   /* STGoalReachableGuardSeriesFilter */
-  0,                                   /* STKeepMatingGuardRootDefenderFilter */
-  0,                                   /* STKeepMatingGuardAttackerFilter */
-  0,                                   /* STKeepMatingGuardDefenderFilter */
-  0,                                   /* STKeepMatingGuardHelpFilter */
-  0,                                   /* STKeepMatingGuardSeriesFilter */
-  0,                                   /* STMaxFlightsquares */
-  0,                                   /* STDegenerateTree */
-  0,                                   /* STMaxNrNonTrivial */
-  0,                                   /* STMaxThreatLength */
-  0,                                   /* STMaxTimeRootDefenderFilter */
-  0,                                   /* STMaxTimeDefenderFilter */
-  0,                                   /* STMaxTimeHelpFilter */
-  0                                    /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,            /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,            /* STRestartGuardHelpFilter */
+  &slice_traverse_children,            /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,            /* STIntelligentHelpFilter */
+  &slice_traverse_children,            /* STIntelligentSeriesFilter */
+  &slice_traverse_children,            /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,            /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,            /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,            /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,            /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,            /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,            /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,            /* STMaxFlightsquares */
+  &slice_traverse_children,            /* STDegenerateTree */
+  &slice_traverse_children,            /* STMaxNrNonTrivial */
+  &slice_traverse_children,            /* STMaxThreatLength */
+  &slice_traverse_children,            /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,            /* STMaxTimeDefenderFilter */
+  &slice_traverse_children,            /* STMaxTimeHelpFilter */
+  &slice_traverse_children             /* STMaxTimeSeriesFilter */
 };
 
 /* Wrap the slices representing the initial moves of the solution with
@@ -999,7 +999,7 @@ static boolean find_unique_goal_leaf(slice_index si, slice_traversal *st)
 
 static slice_operation const unique_goal_finders[] =
 {
-  0,                        /* STProxy */
+  &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
@@ -1443,7 +1443,7 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,                       /* STProxy */
   &slice_traverse_children,                       /* STBranchDirect */
   &transform_to_quodlibet_branch_direct_defender, /* STBranchDirectDefender */
-  0,                                              /* STBranchHelp */
+  &slice_traverse_children,                       /* STBranchHelp */
   &transform_to_quodlibet_branch_fork,            /* STHelpFork */
   &slice_traverse_children,                       /* STBranchSeries */
   &transform_to_quodlibet_branch_fork,            /* STSeriesFork */
@@ -1452,54 +1452,54 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_operation_noop,                          /* STLeafForced */
   &slice_traverse_children,                       /* STReciprocal */
   &slice_traverse_children,                       /* STQuodlibet */
-  0,                                              /* STNot */
-  0,                                              /* STMoveInverterRootSolvableFilter */
-  0,                                              /* STMoveInverterSolvableFilter */
-  0,                                              /* STMoveInverterSeriesFilter */
-  0,                                              /* STDirectRoot */
+  &slice_traverse_children,                       /* STNot */
+  &slice_traverse_children,                       /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                       /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,                       /* STMoveInverterSeriesFilter */
+  &slice_traverse_children,                       /* STDirectRoot */
   &transform_to_quodlibet_branch_direct_defender, /* STDirectDefenderRoot */
-  0,                                              /* STDirectHashed */
-  0,                                              /* STHelpRoot */
-  0,                                              /* STHelpShortcut */
-  0,                                              /* STHelpHashed */
-  0,                                              /* STSeriesRoot */
-  0,                                              /* STSeriesShortcut */
-  0,                                              /* STParryFork */
-  0,                                              /* STSeriesHashed */
-  0,                                              /* STSelfCheckGuardRootSolvableFilter */
-  0,                                              /* STSelfCheckGuardSolvableFilter */
-  0,                                              /* STSelfCheckGuardRootDefenderFilter */
-  0,                                              /* STSelfCheckGuardAttackerFilter */
-  0,                                              /* STSelfCheckGuardDefenderFilter */
-  0,                                              /* STSelfCheckGuardHelpFilter */
-  0,                                              /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,                       /* STDirectHashed */
+  &slice_traverse_children,                       /* STHelpRoot */
+  &slice_traverse_children,                       /* STHelpShortcut */
+  &slice_traverse_children,                       /* STHelpHashed */
+  &slice_traverse_children,                       /* STSeriesRoot */
+  &slice_traverse_children,                       /* STSeriesShortcut */
+  &slice_traverse_children,                       /* STParryFork */
+  &slice_traverse_children,                       /* STSeriesHashed */
+  &slice_traverse_children,                       /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,                       /* STDirectDefense */
-  0,                                              /* STReflexHelpFilter */
-  0,                                              /* STReflexSeriesFilter */
-  0,                                              /* STReflexAttackerFilter */
+  &slice_traverse_children,                       /* STReflexHelpFilter */
+  &slice_traverse_children,                       /* STReflexSeriesFilter */
+  &slice_traverse_children,                       /* STReflexAttackerFilter */
   &transform_to_quodlibet_self_attack,            /* STReflexDefenderFilter */
   &transform_to_quodlibet_self_attack,            /* STSelfAttack */
   &slice_traverse_children,                       /* STSelfDefense */
-  0,                                              /* STRestartGuardRootDefenderFilter */
-  0,                                              /* STRestartGuardHelpFilter */
-  0,                                              /* STRestartGuardSeriesFilter */
-  0,                                              /* STIntelligentHelpFilter */
-  0,                                              /* STIntelligentSeriesFilter */
-  0,                                              /* STGoalReachableGuardHelpFilter */
-  0,                                              /* STGoalReachableGuardSeriesFilter */
-  0,                                              /* STKeepMatingGuardRootDefenderFilter */
-  0,                                              /* STKeepMatingGuardAttackerFilter */
-  0,                                              /* STKeepMatingGuardDefenderFilter */
-  0,                                              /* STKeepMatingGuardHelpFilter */
-  0,                                              /* STKeepMatingGuardSeriesFilter */
-  0,                                              /* STMaxFlightsquares */
-  0,                                              /* STDegenerateTree */
-  0,                                              /* STMaxNrNonTrivial */
-  0,                                              /* STMaxThreatLength */
-  0,                                              /* STMaxTimeRootDefenderFilter */
-  0,                                              /* STMaxTimeDefenderFilter */
-  0,                                              /* STMaxTimeHelpFilter */
-  0                                               /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                       /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,                       /* STRestartGuardHelpFilter */
+  &slice_traverse_children,                       /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,                       /* STIntelligentHelpFilter */
+  &slice_traverse_children,                       /* STIntelligentSeriesFilter */
+  &slice_traverse_children,                       /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,                       /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,                       /* STMaxFlightsquares */
+  &slice_traverse_children,                       /* STDegenerateTree */
+  &slice_traverse_children,                       /* STMaxNrNonTrivial */
+  &slice_traverse_children,                       /* STMaxThreatLength */
+  &slice_traverse_children,                       /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,                       /* STMaxTimeDefenderFilter */
+  &slice_traverse_children,                       /* STMaxTimeHelpFilter */
+  &slice_traverse_children                        /* STMaxTimeSeriesFilter */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -1525,65 +1525,65 @@ void transform_to_quodlibet(void)
 static slice_operation const to_postkey_play_reducers[] =
 {
   &slice_traverse_children,                       /* STProxy */
-  0,                                              /* STBranchDirect */
-  0,                                              /* STBranchDirectDefender */
-  0,                                              /* STBranchHelp */
-  0,                                              /* STHelpFork */
-  0,                                              /* STBranchSeries */
-  0,                                              /* STSeriesFork */
-  0,                                              /* STLeafDirect */
-  0,                                              /* STLeafHelp */
-  0,                                              /* STLeafForced */
-  0,                                              /* STReciprocal */
-  0,                                              /* STQuodlibet */
-  0,                                              /* STNot */
-  0,                                              /* STMoveInverterRootSolvableFilter */
-  0,                                              /* STMoveInverterSolvableFilter */
-  0,                                              /* STMoveInverterSeriesFilter */
+  &slice_traverse_children,                       /* STBranchDirect */
+  &slice_traverse_children,                       /* STBranchDirectDefender */
+  &slice_traverse_children,                       /* STBranchHelp */
+  &slice_traverse_children,                       /* STHelpFork */
+  &slice_traverse_children,                       /* STBranchSeries */
+  &slice_traverse_children,                       /* STSeriesFork */
+  &slice_traverse_children,                       /* STLeafDirect */
+  &slice_traverse_children,                       /* STLeafHelp */
+  &slice_traverse_children,                       /* STLeafForced */
+  &slice_traverse_children,                       /* STReciprocal */
+  &slice_traverse_children,                       /* STQuodlibet */
+  &slice_traverse_children,                       /* STNot */
+  &slice_traverse_children,                       /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                       /* STMoveInverterSolvableFilter */
+  &slice_traverse_children,                       /* STMoveInverterSeriesFilter */
   &direct_root_reduce_to_postkey_play,            /* STDirectRoot */
   &branch_d_defender_root_reduce_to_postkey_play, /* STDirectDefenderRoot */
-  0,                                              /* STDirectHashed */
-  0,                                              /* STHelpRoot */
-  0,                                              /* STHelpShortcut */
-  0,                                              /* STHelpHashed */
-  0,                                              /* STSeriesRoot */
-  0,                                              /* STSeriesShortcut */
-  0,                                              /* STParryFork */
-  0,                                              /* STSeriesHashed */
-  0,                                              /* STSelfCheckGuardRootSolvableFilter */
-  0,                                              /* STSelfCheckGuardSolvableFilter */
-  0,                                              /* STSelfCheckGuardRootDefenderFilter */
-  0,                                              /* STSelfCheckGuardAttackerFilter */
-  0,                                              /* STSelfCheckGuardDefenderFilter */
-  0,                                              /* STSelfCheckGuardHelpFilter */
-  0,                                              /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,                       /* STDirectHashed */
+  &slice_traverse_children,                       /* STHelpRoot */
+  &slice_traverse_children,                       /* STHelpShortcut */
+  &slice_traverse_children,                       /* STHelpHashed */
+  &slice_traverse_children,                       /* STSeriesRoot */
+  &slice_traverse_children,                       /* STSeriesShortcut */
+  &slice_traverse_children,                       /* STParryFork */
+  &slice_traverse_children,                       /* STSeriesHashed */
+  &slice_traverse_children,                       /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,                       /* STSelfCheckGuardSeriesFilter */
   &direct_defense_root_reduce_to_postkey_play,    /* STDirectDefense */
-  0,                                              /* STReflexHelpFilter */
-  0,                                              /* STReflexSeriesFilter */
+  &slice_traverse_children,                       /* STReflexHelpFilter */
+  &slice_traverse_children,                       /* STReflexSeriesFilter */
   &reflex_attacker_filter_reduce_to_postkey_play, /* STReflexAttackerFilter */
   &reflex_defender_filter_reduce_to_postkey_play, /* STReflexDefenderFilter */
   &self_attack_root_reduce_to_postkey_play,       /* STSelfAttack */
-  0,                                              /* STSelfDefense */
-  0,                                              /* STRestartGuardRootDefenderFilter */
-  0,                                              /* STRestartGuardHelpFilter */
-  0,                                              /* STRestartGuardSeriesFilter */
-  0,                                              /* STIntelligentHelpFilter */
-  0,                                              /* STIntelligentSeriesFilter */
-  0,                                              /* STGoalReachableGuardHelpFilter */
-  0,                                              /* STGoalReachableGuardSeriesFilter */
-  0,                                              /* STKeepMatingGuardRootDefenderFilter */
-  0,                                              /* STKeepMatingGuardAttackerFilter */
-  0,                                              /* STKeepMatingGuardDefenderFilter */
-  0,                                              /* STKeepMatingGuardHelpFilter */
-  0,                                              /* STKeepMatingGuardSeriesFilter */
-  0,                                              /* STMaxFlightsquares */
-  0,                                              /* STDegenerateTree */
-  0,                                              /* STMaxNrNonTrivial */
-  0,                                              /* STMaxThreatLength */
-  0,                                              /* STMaxTimeRootDefenderFilter */
-  0,                                              /* STMaxTimeDefenderFilter */
-  0,                                              /* STMaxTimeHelpFilter */
-  0                                               /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                       /* STSelfDefense */
+  &slice_traverse_children,                       /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,                       /* STRestartGuardHelpFilter */
+  &slice_traverse_children,                       /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,                       /* STIntelligentHelpFilter */
+  &slice_traverse_children,                       /* STIntelligentSeriesFilter */
+  &slice_traverse_children,                       /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,                       /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,                       /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,                       /* STMaxFlightsquares */
+  &slice_traverse_children,                       /* STDegenerateTree */
+  &slice_traverse_children,                       /* STMaxNrNonTrivial */
+  &slice_traverse_children,                       /* STMaxThreatLength */
+  &slice_traverse_children,                       /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,                       /* STMaxTimeDefenderFilter */
+  &slice_traverse_children,                       /* STMaxTimeHelpFilter */
+  &slice_traverse_children                        /* STMaxTimeSeriesFilter */
 };
 
 /* Install the slice representing the postkey slice at the stipulation
@@ -1640,31 +1640,31 @@ boolean stip_apply_postkeyplay(void)
 static slice_operation const setplay_makers[] =
 {
   &slice_traverse_children,                   /* STProxy */
-  0,                                          /* STBranchDirect */
-  0,                                          /* STBranchDirectDefender */
+  &slice_traverse_children,                   /* STBranchDirect */
+  &slice_traverse_children,                   /* STBranchDirectDefender */
   &pipe_traverse_next,                        /* STBranchHelp */
   &help_fork_make_setplay_slice,              /* STHelpFork */
   &pipe_traverse_next,                        /* STBranchSeries */
   &series_fork_make_setplay_slice,            /* STSeriesFork */
-  0,                                          /* STLeafDirect */
-  0,                                          /* STLeafHelp */
-  0,                                          /* STLeafForced */
-  0,                                          /* STReciprocal */
-  0,                                          /* STQuodlibet */
-  0,                                          /* STNot */
+  &slice_traverse_children,                   /* STLeafDirect */
+  &slice_traverse_children,                   /* STLeafHelp */
+  &slice_traverse_children,                   /* STLeafForced */
+  &slice_traverse_children,                   /* STReciprocal */
+  &slice_traverse_children,                   /* STQuodlibet */
+  &slice_traverse_children,                   /* STNot */
   &pipe_traverse_next,                        /* STMoveInverterRootSolvableFilter */
   &pipe_traverse_next,                        /* STMoveInverterSolvableFilter */
   &pipe_traverse_next,                        /* STMoveInverterSeriesFilter */
   &direct_root_make_setplay_slice,            /* STDirectRoot */
   &branch_d_defender_root_make_setplay_slice, /* STDirectDefenderRoot */
-  0,                                          /* STDirectHashed */
+  &slice_traverse_children,                   /* STDirectHashed */
   &help_root_make_setplay_slice,              /* STHelpRoot */
   &pipe_traverse_next,                        /* STHelpShortcut */
-  0,                                          /* STHelpHashed */
+  &slice_traverse_children,                   /* STHelpHashed */
   &series_root_make_setplay_slice,            /* STSeriesRoot */
   &pipe_traverse_next,                        /* STSeriesShortcut */
-  0,                                          /* STParryFork */
-  0,                                          /* STSeriesHashed */
+  &slice_traverse_children,                   /* STParryFork */
+  &slice_traverse_children,                   /* STSeriesHashed */
   &pipe_traverse_next,                        /* STSelfCheckGuardRootSolvableFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardSolvableFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardRootDefenderFilter */
@@ -1673,26 +1673,26 @@ static slice_operation const setplay_makers[] =
   &pipe_traverse_next,                        /* STSelfCheckGuardHelpFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardSeriesFilter */
   &direct_defense_root_make_setplay_slice,    /* STDirectDefense */
-  0,                                          /* STReflexHelpFilter */
-  0,                                          /* STReflexSeriesFilter */
+  &slice_traverse_children,                   /* STReflexHelpFilter */
+  &slice_traverse_children,                   /* STReflexSeriesFilter */
   &reflex_attacker_filter_make_setplay_slice, /* STReflexAttackerFilter */
   &reflex_defender_filter_make_setplay_slice, /* STReflexDefenderFilter */
   &self_attack_root_make_setplay_slice,       /* STSelfAttack */
-  0,                                          /* STSelfDefense */
+  &slice_traverse_children,                   /* STSelfDefense */
   &pipe_traverse_next,                        /* STRestartGuardRootDefenderFilter */
   &pipe_traverse_next,                        /* STRestartGuardHelpFilter */
   &pipe_traverse_next,                        /* STRestartGuardSeriesFilter */
-  0,                                          /* STIntelligentHelpFilter */
-  0,                                          /* STIntelligentSeriesFilter */
-  0,                                          /* STGoalReachableGuardHelpFilter */
-  0,                                          /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,                   /* STIntelligentHelpFilter */
+  &slice_traverse_children,                   /* STIntelligentSeriesFilter */
+  &slice_traverse_children,                   /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,                   /* STGoalReachableGuardSeriesFilter */
   &pipe_traverse_next,                        /* STKeepMatingGuardRootDefenderFilter */
   &pipe_traverse_next,                        /* STKeepMatingGuardAttackerFilter */
   &pipe_traverse_next,                        /* STKeepMatingGuardDefenderFilter */
   &pipe_traverse_next,                        /* STKeepMatingGuardHelpFilter */
   &pipe_traverse_next,                        /* STKeepMatingGuardSeriesFilter */
   &pipe_traverse_next,                        /* STMaxFlightsquares */
-  0,                                          /* STDegenerateTree */
+  &slice_traverse_children,                   /* STDegenerateTree */
   &pipe_traverse_next,                        /* STMaxNrNonTrivial */
   &pipe_traverse_next,                        /* STMaxThreatLength */
   &pipe_traverse_next,                        /* STMaxTimeRootDefenderFilter */
@@ -2041,14 +2041,14 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &make_exact_branch,       /* STDirectRoot */
   &make_exact_branch,       /* STDirectDefenderRoot */
-  0,                        /* STDirectHashed */
+  &slice_traverse_children, /* STDirectHashed */
   &make_exact_branch,       /* STHelpRoot */
   &make_exact_branch,       /* STHelpShortcut */
-  0,                        /* STHelpHashed */
+  &slice_traverse_children, /* STHelpHashed */
   &make_exact_branch,       /* STSeriesRoot */
   &make_exact_branch,       /* STSeriesShortcut */
-  0,                        /* STParryFork */
-  0,                        /* STSeriesHashed */
+  &slice_traverse_children, /* STParryFork */
+  &slice_traverse_children, /* STSeriesHashed */
   &make_exact_branch,       /* STSelfCheckGuardRootSolvableFilter */
   &make_exact_branch,       /* STSelfCheckGuardSolvableFilter */
   &make_exact_branch,       /* STSelfCheckGuardRootDefenderFilter */
@@ -2105,7 +2105,7 @@ static slice_operation const starter_detectors[] =
 {
   &pipe_detect_starter,                   /* STProxy */
   &branch_d_detect_starter,               /* STBranchDirect */
-  0,                                      /* STBranchDirectDefender */
+  &slice_traverse_children,               /* STBranchDirectDefender */
   &branch_h_detect_starter,               /* STBranchHelp */
   &branch_fork_detect_starter,            /* STHelpFork */
   &branch_ser_detect_starter,             /* STBranchSeries */
@@ -2121,21 +2121,21 @@ static slice_operation const starter_detectors[] =
   &move_inverter_detect_starter,          /* STMoveInverterSeriesFilter */
   &branch_d_detect_starter,               /* STDirectRoot */
   &branch_d_defender_root_detect_starter, /* STDirectDefenderRoot */
-  0,                                      /* STDirectHashed */
+  &slice_traverse_children,               /* STDirectHashed */
   &pipe_detect_starter,                   /* STHelpRoot */
   &pipe_detect_starter,                   /* STHelpShortcut */
-  0,                                      /* STHelpHashed */
+  &slice_traverse_children,               /* STHelpHashed */
   &pipe_detect_starter,                   /* STSeriesRoot */
   &pipe_detect_starter,                   /* STSeriesShortcut */
   &pipe_detect_starter,                   /* STParryFork */
-  0,                                      /* STSeriesHashed */
-  0,                                      /* STSelfCheckGuardRootSolvableFilter */
-  0,                                      /* STSelfCheckGuardSolvableFilter */
-  0,                                      /* STSelfCheckGuardRootDefenderFilter */
-  0,                                      /* STSelfCheckGuardAttackerFilter */
-  0,                                      /* STSelfCheckGuardDefenderFilter */
-  0,                                      /* STSelfCheckGuardHelpFilter */
-  0,                                      /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,               /* STSeriesHashed */
+  &slice_traverse_children,               /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,               /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,               /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,               /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,               /* STSelfCheckGuardDefenderFilter */
+  &slice_traverse_children,               /* STSelfCheckGuardHelpFilter */
+  &slice_traverse_children,               /* STSelfCheckGuardSeriesFilter */
   &pipe_detect_starter,                   /* STDirectDefense */
   &pipe_detect_starter,                   /* STReflexHelpFilter */
   &pipe_detect_starter,                   /* STReflexSeriesFilter */
@@ -2143,26 +2143,26 @@ static slice_operation const starter_detectors[] =
   &pipe_detect_starter,                   /* STReflexDefenderFilter */
   &pipe_detect_starter,                   /* STSelfAttack */
   &pipe_detect_starter,                   /* STSelfDefense */
-  0,                                      /* STRestartGuardRootDefenderFilter */
-  0,                                      /* STRestartGuardHelpFilter */
-  0,                                      /* STRestartGuardSeriesFilter */
-  0,                                      /* STIntelligentHelpFilter */
-  0,                                      /* STIntelligentSeriesFilter */
-  0,                                      /* STGoalReachableGuardHelpFilter */
-  0,                                      /* STGoalReachableGuardSeriesFilter */
-  0,                                      /* STKeepMatingGuardRootDefenderFilter */
-  0,                                      /* STKeepMatingGuardAttackerFilter */
-  0,                                      /* STKeepMatingGuardDefenderFilter */
-  0,                                      /* STKeepMatingGuardHelpFilter */
-  0,                                      /* STKeepMatingGuardSeriesFilter */
-  0,                                      /* STMaxFlightsquares */
-  0,                                      /* STDegenerateTree */
-  0,                                      /* STMaxNrNonTrivial */
-  0,                                      /* STMaxThreatLength */
-  0,                                      /* STMaxTimeRootDefenderFilter */
-  0,                                      /* STMaxTimeDefenderFilter */
-  0,                                      /* STMaxTimeHelpFilter */
-  0                                       /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,               /* STRestartGuardRootDefenderFilter */
+  &slice_traverse_children,               /* STRestartGuardHelpFilter */
+  &slice_traverse_children,               /* STRestartGuardSeriesFilter */
+  &slice_traverse_children,               /* STIntelligentHelpFilter */
+  &slice_traverse_children,               /* STIntelligentSeriesFilter */
+  &slice_traverse_children,               /* STGoalReachableGuardHelpFilter */
+  &slice_traverse_children,               /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,               /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,               /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,               /* STKeepMatingGuardDefenderFilter */
+  &slice_traverse_children,               /* STKeepMatingGuardHelpFilter */
+  &slice_traverse_children,               /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,               /* STMaxFlightsquares */
+  &slice_traverse_children,               /* STDegenerateTree */
+  &slice_traverse_children,               /* STMaxNrNonTrivial */
+  &slice_traverse_children,               /* STMaxThreatLength */
+  &slice_traverse_children,               /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,               /* STMaxTimeDefenderFilter */
+  &slice_traverse_children,               /* STMaxTimeHelpFilter */
+  &slice_traverse_children                /* STMaxTimeSeriesFilter */
 };
 
 /* Detect the starting side from the stipulation
