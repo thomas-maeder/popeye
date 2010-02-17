@@ -14,6 +14,7 @@
 #include "stipulation/series_play/shortcut.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
+#include "optimisations/maxsolutions/series_filter.h"
 #include "pyint.h"
 #include "pydata.h"
 #include "trace.h"
@@ -102,6 +103,10 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
 
     case STMaxTimeSeriesFilter:
       result = maxtime_series_filter_solve_in_n(si,n);
+      break;
+
+    case STMaxSolutionsSeriesFilter:
+      result = maxsolutions_series_filter_solve_in_n(si,n);
       break;
 
     default:
@@ -265,6 +270,10 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STMaxTimeSeriesFilter:
       result = maxtime_series_filter_has_solution_in_n(si,n);
+      break;
+
+    case STMaxSolutionsSeriesFilter:
+      result = maxsolutions_series_filter_has_solution_in_n(si,n);
       break;
 
     default:

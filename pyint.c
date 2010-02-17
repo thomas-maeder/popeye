@@ -2838,7 +2838,10 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,         /* STMaxTimeDefenderFilter */
   &slice_traverse_children,         /* STMaxTimeHelpFilter */
-  &slice_traverse_children          /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,         /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,         /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,         /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children          /* STMaxSolutionsSeriesFilter */
 };
 
 /* Calculate the number of moves of each side
@@ -3017,7 +3020,10 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,         /* STMaxTimeDefenderFilter */
   &slice_traverse_children,         /* STMaxTimeHelpFilter */
-  &slice_traverse_children          /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,         /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,         /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,         /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children          /* STMaxSolutionsSeriesFilter */
 };
 
 /* Calculate the number of moves of each side, starting at the root
@@ -3499,7 +3505,10 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,                  /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                  /* STMaxTimeHelpFilter */
-  &slice_traverse_children                   /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                  /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                  /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,                  /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children                   /* STMaxSolutionsSeriesFilter */
 };
 
 /* Instrument stipulation with STGoalreachableGuard slices
@@ -3821,7 +3830,10 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,                      /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                      /* STMaxTimeHelpFilter */
-  &slice_traverse_children                       /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                      /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                      /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,                      /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children                       /* STMaxSolutionsSeriesFilter */
 };
 
 /* Determine whether the stipulation supports intelligent mode, and

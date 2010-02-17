@@ -304,7 +304,10 @@ static slice_operation const maxflight_guards_inserters[] =
   &slice_traverse_children,  /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,  /* STMaxTimeDefenderFilter */
   &slice_traverse_children,  /* STMaxTimeHelpFilter */
-  &slice_traverse_children   /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,  /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,  /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,  /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children   /* STMaxSolutionsSeriesFilter */
 };
 
 /* Instrument stipulation with STMaxFlightsquares slices

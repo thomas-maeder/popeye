@@ -36,4 +36,8 @@ void increase_nr_found_solutions(void);
  */
 boolean max_nr_solutions_found_in_phase(void);
 
+/* Instrument a stipulation with STMaxSolutions*Filter slices
+ */
+void stip_insert_maxsolutions_filters(void);
+
 #endif

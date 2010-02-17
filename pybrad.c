@@ -685,15 +685,9 @@ boolean direct_root_root_solve(slice_index si)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !direct_defender_root_defend(next))
-    {
       result = true;
-      increase_nr_found_solutions();
-    }
 
     repcoup();
-
-    if (max_nr_solutions_found_in_phase())
-      break;
   }
 
   output_end_continuation_level();

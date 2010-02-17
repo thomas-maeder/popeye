@@ -1016,7 +1016,10 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,                 /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                 /* STMaxTimeHelpFilter */
-  &slice_traverse_children                  /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                 /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                 /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,                 /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children                  /* STMaxSolutionsSeriesFilter */
 };
 /* element STSelfCheckGuard is not 0 because we may reach a
  * STSelfCheckGuard slice inserted early later on a different path
@@ -1107,7 +1110,10 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_traverse_children,                      /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,                      /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                      /* STMaxTimeHelpFilter */
-  &slice_traverse_children                       /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                      /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                      /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,                      /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children                       /* STMaxSolutionsSeriesFilter */
 };
 
 /* Instrument stipulation with STSelfCheckGuard slices

@@ -1,7 +1,60 @@
 optimisations/maxsolutions/maxsolutions$(OBJ_SUFFIX):  \
  optimisations/maxsolutions/maxsolutions.c \
-  optimisations/maxsolutions/maxsolutions.h trace.h
+  optimisations/maxsolutions/maxsolutions.h pypipe.h \
+  optimisations/maxsolutions/root_defender_filter.h \
+  optimisations/maxsolutions/help_filter.h \
+  optimisations/maxsolutions/series_filter.h trace.h
 
 optimisations/maxsolutions/maxsolutions.h:
+
+pypipe.h:
+
+optimisations/maxsolutions/root_defender_filter.h:
+
+optimisations/maxsolutions/help_filter.h:
+
+optimisations/maxsolutions/series_filter.h:
+
+trace.h:
+optimisations/maxsolutions/root_defender_filter$(OBJ_SUFFIX):  \
+ optimisations/maxsolutions/root_defender_filter.c \
+  optimisations/maxsolutions/root_defender_filter.h \
+  optimisations/maxsolutions/maxsolutions.h pydirect.h pypipe.h trace.h
+
+optimisations/maxsolutions/root_defender_filter.h:
+
+optimisations/maxsolutions/maxsolutions.h:
+
+pydirect.h:
+
+pypipe.h:
+
+trace.h:
+optimisations/maxsolutions/help_filter$(OBJ_SUFFIX):  \
+ optimisations/maxsolutions/help_filter.c \
+  optimisations/maxsolutions/help_filter.h \
+  optimisations/maxsolutions/maxsolutions.h pyhelp.h pypipe.h trace.h
+
+optimisations/maxsolutions/help_filter.h:
+
+optimisations/maxsolutions/maxsolutions.h:
+
+pyhelp.h:
+
+pypipe.h:
+
+trace.h:
+optimisations/maxsolutions/series_filter$(OBJ_SUFFIX):  \
+ optimisations/maxsolutions/series_filter.c \
+  optimisations/maxsolutions/series_filter.h \
+  optimisations/maxsolutions/maxsolutions.h pyseries.h pypipe.h trace.h
+
+optimisations/maxsolutions/series_filter.h:
+
+optimisations/maxsolutions/maxsolutions.h:
+
+pyseries.h:
+
+pypipe.h:
 
 trace.h:

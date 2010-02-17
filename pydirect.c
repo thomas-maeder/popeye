@@ -20,6 +20,7 @@
 #include "pyint.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
+#include "optimisations/maxsolutions/root_defender_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -77,6 +78,10 @@ boolean direct_defender_root_defend(slice_index si)
 
     case STMaxTimeRootDefenderFilter:
       result = maxtime_root_defender_filter_defend(si);
+      break;
+
+    case STMaxSolutionsRootDefenderFilter:
+      result = maxsolutions_root_defender_filter_defend(si);
       break;
 
     default:

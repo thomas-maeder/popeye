@@ -183,9 +183,6 @@ boolean branch_ser_solve_in_n(slice_index si, stip_length_type n)
       result = true;
 
     repcoup();
-
-    if (max_nr_solutions_found_in_phase())
-      break;
   }
 
   finply();

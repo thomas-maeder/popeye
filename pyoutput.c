@@ -205,7 +205,10 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_treemode,      /* STMaxTimeRootDefenderFilter */
   &output_mode_treemode,      /* STMaxTimeDefenderFilter */
   &pipe_traverse_next,        /* STMaxTimeHelpFilter */
-  &output_mode_linemode       /* STMaxTimeSeriesFilter */
+  &output_mode_linemode,      /* STMaxTimeSeriesFilter */
+  &output_mode_linemode,      /* STMaxSolutionsRootDefenderFilter */
+  &output_mode_linemode,      /* STMaxSolutionsHelpFilter */
+  &output_mode_linemode       /* STMaxSolutionsSeriesFilter */
 };
 
 /* Initialize based on the stipulation

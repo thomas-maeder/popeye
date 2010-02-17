@@ -1133,7 +1133,8 @@ pydirect$(OBJ_SUFFIX): pydirect.c pydirect.h py.h boolean.h pyposit.h pyboard.h 
   DHT/dhtbcmem.h pyreflxg.h pyhelp.h pykeepmt.h pyselfcg.h pydirctg.h \
   pyselfgd.h pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h \
   pyleafd.h pyint.h optimisations/maxtime/root_defender_filter.h py.h \
-  pystip.h optimisations/maxtime/defender_filter.h trace.h
+  pystip.h optimisations/maxtime/defender_filter.h \
+  optimisations/maxsolutions/root_defender_filter.h trace.h
 
 pydirect.h:
 
@@ -1207,6 +1208,8 @@ pystip.h:
 
 optimisations/maxtime/defender_filter.h:
 
+optimisations/maxsolutions/root_defender_filter.h:
+
 trace.h:
 pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h pyslice.h \
@@ -1214,7 +1217,8 @@ pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitm
   pyleafh.h pydirect.h pybrafrk.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
   pykeepmt.h pyselfcg.h pymovenb.h pyint.h pydata.h pyproc.h py4.h \
   optimisations/intelligent/help_filter.h \
-  optimisations/maxtime/help_filter.h trace.h
+  optimisations/maxtime/help_filter.h \
+  optimisations/maxsolutions/help_filter.h trace.h
 
 pyhelp.h:
 
@@ -1282,6 +1286,8 @@ optimisations/intelligent/help_filter.h:
 
 optimisations/maxtime/help_filter.h:
 
+optimisations/maxsolutions/help_filter.h:
+
 trace.h:
 pyseries$(OBJ_SUFFIX): pyseries.c pyseries.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h \
@@ -1290,8 +1296,9 @@ pyseries$(OBJ_SUFFIX): pyseries.c pyseries.h py.h boolean.h pyposit.h pyboard.h 
   pypipe.h stipulation/series_play/parry_fork.h py.h pystip.h pyslice.h \
   stipulation/series_play/shortcut.h \
   optimisations/intelligent/series_filter.h \
-  optimisations/maxtime/series_filter.h pyint.h pydata.h pyproc.h py4.h \
-  trace.h
+  optimisations/maxtime/series_filter.h \
+  optimisations/maxsolutions/series_filter.h pyint.h pydata.h pyproc.h \
+  py4.h trace.h
 
 pyseries.h:
 
@@ -1356,6 +1363,8 @@ stipulation/series_play/shortcut.h:
 optimisations/intelligent/series_filter.h:
 
 optimisations/maxtime/series_filter.h:
+
+optimisations/maxsolutions/series_filter.h:
 
 pyint.h:
 
@@ -2565,11 +2574,15 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
+  pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2586,10 +2599,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 pygoal.h:
 

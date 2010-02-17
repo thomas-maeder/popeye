@@ -679,7 +679,10 @@ static slice_operation const slice_to_fork_deallocators[] =
   &traverse_and_deallocate,             /* STMaxTimeRootDefenderFilter */
   &traverse_and_deallocate,             /* STMaxTimeDefenderFilter */
   &traverse_and_deallocate,             /* STMaxTimeHelpFilter */
-  &traverse_and_deallocate              /* STMaxTimeSeriesFilter */
+  &traverse_and_deallocate,             /* STMaxTimeSeriesFilter */
+  &traverse_and_deallocate,             /* STMaxSolutionsRootDefenderFilter */
+  &traverse_and_deallocate,             /* STMaxSolutionsHelpFilter */
+  &traverse_and_deallocate              /* STMaxSolutionsSeriesFilter */
 };
 
 /* Deallocate a branch

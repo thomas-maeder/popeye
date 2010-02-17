@@ -109,6 +109,9 @@
     ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
                                                                         \
+    ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
+    ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
+    ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */ \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -213,7 +216,10 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STMaxTimeRootDefenderFilter */
   &mark_reachable_slice, /* STMaxTimeDefenderFilter */
   &mark_reachable_slice, /* STMaxTimeHelpFilter */
-  &mark_reachable_slice  /* STMaxTimeSeriesFilter */
+  &mark_reachable_slice, /* STMaxTimeSeriesFilter */
+  &mark_reachable_slice, /* STMaxSolutionsRootDefenderFilter */
+  &mark_reachable_slice, /* STMaxSolutionsHelpFilter */
+  &mark_reachable_slice  /* STMaxSolutionsSeriesFilter */
 };
 
 /* Make sure that there are now allocated slices that are not
@@ -506,7 +512,10 @@ static slice_operation const deallocators[] =
   &traverse_and_deallocate,       /* STMaxTimeRootDefenderFilter */
   &traverse_and_deallocate,       /* STMaxTimeDefenderFilter */
   &traverse_and_deallocate,       /* STMaxTimeHelpFilter */
-  &traverse_and_deallocate        /* STMaxTimeSeriesFilter */
+  &traverse_and_deallocate,       /* STMaxTimeSeriesFilter */
+  &traverse_and_deallocate,       /* STMaxSolutionsRootDefenderFilter */
+  &traverse_and_deallocate,       /* STMaxSolutionsHelpFilter */
+  &traverse_and_deallocate        /* STMaxSolutionsSeriesFilter */
 };
 
 /* Deallocate slices reachable from a slice
@@ -624,7 +633,10 @@ static slice_operation const root_slice_inserters[] =
   &slice_traverse_children,            /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,            /* STMaxTimeDefenderFilter */
   &slice_traverse_children,            /* STMaxTimeHelpFilter */
-  &slice_traverse_children             /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,            /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,            /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,            /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children             /* STMaxSolutionsSeriesFilter */
 };
 
 /* Wrap the slices representing the initial moves of the solution with
@@ -710,7 +722,10 @@ static slice_operation const proxy_resolvers[] =
   &pipe_resolve_proxies,            /* STMaxTimeRootDefenderFilter */
   &pipe_resolve_proxies,            /* STMaxTimeDefenderFilter */
   &pipe_resolve_proxies,            /* STMaxTimeHelpFilter */
-  &pipe_resolve_proxies             /* STMaxTimeSeriesFilter */
+  &pipe_resolve_proxies,            /* STMaxTimeSeriesFilter */
+  &pipe_resolve_proxies,            /* STMaxSolutionsRootDefenderFilter */
+  &pipe_resolve_proxies,            /* STMaxSolutionsHelpFilter */
+  &pipe_resolve_proxies             /* STMaxSolutionsSeriesFilter */
 };
 
 /* Substitute links to proxy slices by the proxy's target
@@ -939,7 +954,10 @@ static slice_operation const get_max_nr_moves_functions[] =
   &slice_traverse_children,          /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,          /* STMaxTimeDefenderFilter */
   &slice_traverse_children,          /* STMaxTimeHelpFilter */
-  &slice_traverse_children           /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,          /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,          /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,          /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children           /* STMaxSolutionsSeriesFilter */
 };
 
 /* Determine the maximally possible number of half-moves until the
@@ -1058,7 +1076,10 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
-  &slice_traverse_children  /* STMaxTimeSeriesFilter */
+  &slice_traverse_children, /* STMaxTimeSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children, /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
 };
 
 /* Determine whether the current stipulation has a unique goal, and
@@ -1323,7 +1344,10 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,   /* STMaxTimeDefenderFilter */
   &slice_traverse_children,   /* STMaxTimeHelpFilter */
-  &slice_traverse_children    /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,   /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,   /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,   /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children    /* STMaxSolutionsSeriesFilter */
 };
 
 /* Convert all leaves of a stipulation sub-tree to STLeafDirect
@@ -1499,7 +1523,10 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,                       /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,                       /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                       /* STMaxTimeHelpFilter */
-  &slice_traverse_children                        /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                       /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                       /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,                       /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children                        /* STMaxSolutionsSeriesFilter */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -1583,7 +1610,10 @@ static slice_operation const to_postkey_play_reducers[] =
   &slice_traverse_children,                       /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,                       /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                       /* STMaxTimeHelpFilter */
-  &slice_traverse_children                        /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                       /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                       /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,                       /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children                        /* STMaxSolutionsSeriesFilter */
 };
 
 /* Install the slice representing the postkey slice at the stipulation
@@ -1698,7 +1728,10 @@ static slice_operation const setplay_makers[] =
   &pipe_traverse_next,                        /* STMaxTimeRootDefenderFilter */
   &pipe_traverse_next,                        /* STMaxTimeDefenderFilter */
   &pipe_traverse_next,                        /* STMaxTimeHelpFilter */
-  &pipe_traverse_next                         /* STMaxTimeSeriesFilter */
+  &pipe_traverse_next,                        /* STMaxTimeSeriesFilter */
+  &pipe_traverse_next,                        /* STMaxSolutionsRootDefenderFilter */
+  &pipe_traverse_next,                        /* STMaxSolutionsHelpFilter */
+  &pipe_traverse_next                         /* STMaxSolutionsSeriesFilter */
 };
 
 /* Combine the set play slices into the current stipulation
@@ -1875,7 +1908,10 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
-  &slice_traverse_children  /* STMaxTimeSeriesFilter */
+  &slice_traverse_children, /* STMaxTimeSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children, /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
 };
 
 /* Do all leaves of the current stipulation have one of a set of goals?
@@ -1982,7 +2018,10 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,   /* STMaxTimeDefenderFilter */
   &slice_traverse_children,   /* STMaxTimeHelpFilter */
-  &slice_traverse_children    /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,   /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,   /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,   /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children    /* STMaxSolutionsSeriesFilter */
 };
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
@@ -2082,7 +2121,10 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STMaxTimeRootDefenderFilter */
   &make_exact_branch,       /* STMaxTimeDefenderFilter */
   &make_exact_branch,       /* STMaxTimeHelpFilter */
-  &make_exact_branch        /* STMaxTimeSeriesFilter */
+  &make_exact_branch,       /* STMaxTimeSeriesFilter */
+  &make_exact_branch,       /* STMaxSolutionsRootDefenderFilter */
+  &make_exact_branch,       /* STMaxSolutionsHelpFilter */
+  &make_exact_branch        /* STMaxSolutionsSeriesFilter */
 };
 
 /* Make the stipulation exact
@@ -2162,7 +2204,10 @@ static slice_operation const starter_detectors[] =
   &slice_traverse_children,               /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,               /* STMaxTimeDefenderFilter */
   &slice_traverse_children,               /* STMaxTimeHelpFilter */
-  &slice_traverse_children                /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,               /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,               /* STMaxSolutionsRootDefenderFilter */
+  &slice_traverse_children,               /* STMaxSolutionsHelpFilter */
+  &slice_traverse_children                /* STMaxSolutionsSeriesFilter */
 };
 
 /* Detect the starting side from the stipulation
@@ -2244,7 +2289,10 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,           /* STMaxTimeRootDefenderFilter */
   &pipe_impose_starter,           /* STMaxTimeDefenderFilter */
   &pipe_impose_starter,           /* STMaxTimeHelpFilter */
-  &pipe_impose_starter            /* STMaxTimeSeriesFilter */
+  &pipe_impose_starter,           /* STMaxTimeSeriesFilter */
+  &pipe_impose_starter,           /* STMaxSolutionsRootDefenderFilter */
+  &pipe_impose_starter,           /* STMaxSolutionsHelpFilter */
+  &pipe_impose_starter            /* STMaxSolutionsSeriesFilter */
 };
 
 /* Set the starting side of the stipulation
@@ -2555,7 +2603,10 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STMaxTimeRootDefenderFilter */
   &traverse_pipe,         /* STMaxTimeDefenderFilter */
   &traverse_pipe,         /* STMaxTimeHelpFilter */
-  &traverse_pipe          /* STMaxTimeSeriesFilter */
+  &traverse_pipe,         /* STMaxTimeSeriesFilter */
+  &traverse_pipe,         /* STMaxSolutionsRootDefenderFilter */
+  &traverse_pipe,         /* STMaxSolutionsHelpFilter */
+  &traverse_pipe          /* STMaxSolutionsSeriesFilter */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

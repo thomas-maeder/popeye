@@ -92,6 +92,10 @@
     ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
                                                                         \
+    ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
+    ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
+    ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */  \
+                                                                        \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 

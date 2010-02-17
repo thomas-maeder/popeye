@@ -342,7 +342,10 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMaxTimeRootDefenderFilter */
   &slice_property_offset_shifter, /* STMaxTimeDefenderFilter */
   &slice_property_offset_shifter, /* STMaxTimeHelpFilter */
-  &slice_property_offset_shifter  /* STMaxTimeSeriesFilter */
+  &slice_property_offset_shifter, /* STMaxTimeSeriesFilter */
+  &slice_property_offset_shifter, /* STMaxSolutionsRootDefenderFilter */
+  &slice_property_offset_shifter, /* STMaxSolutionsHelpFilter */
+  &slice_property_offset_shifter  /* STMaxSolutionsSeriesFilter */
 };
 
 typedef struct
@@ -707,7 +710,10 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMaxTimeRootDefenderFilter */
   &init_slice_properties_pipe,           /* STMaxTimeDefenderFilter */
   &init_slice_properties_pipe,           /* STMaxTimeHelpFilter */
-  &init_slice_properties_pipe            /* STMaxTimeSeriesFilter */
+  &init_slice_properties_pipe,           /* STMaxTimeSeriesFilter */
+  &init_slice_properties_pipe,           /* STMaxSolutionsRootDefenderFilter */
+  &init_slice_properties_pipe,           /* STMaxSolutionsHelpFilter */
+  &init_slice_properties_pipe            /* STMaxSolutionsSeriesFilter */
 };
 
 static boolean find_slice_with_nonstandard_min_length(void)
