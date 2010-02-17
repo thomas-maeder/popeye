@@ -288,6 +288,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxSolutionsRootDefenderFilter:
       case STMaxSolutionsHelpFilter:
       case STMaxSolutionsSeriesFilter:
+        Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
