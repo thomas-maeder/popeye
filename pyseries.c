@@ -15,6 +15,7 @@
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
+#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 #include "pyint.h"
 #include "pydata.h"
 #include "trace.h"
@@ -171,31 +172,15 @@ boolean series_solve(slice_index si)
 
   assert(full_length>slack_length_series);
 
-  if (len==slack_length_series)
+  while (len<=full_length)
   {
-    /* TODO this is ugly */
-    assert(slices[si].type==STSeriesFork);
-    if (slice_solve(slices[si].u.branch_fork.towards_goal))
-    {
+    if (OptFlag[stoponshort] && result)
+      short_solution_found();
+    else if (series_solve_in_n(si,len))
       result = true;
-      FlagShortSolsReached = true;
-    }
-    else
-      ++len;
-  }
-  
-  while (len<full_length && !result)
-  {
-    if (series_solve_in_n(si,len))
-    {
-      result = true;
-      FlagShortSolsReached = true;
-    }
 
     ++len;
   }
-
-  result = result || series_solve_in_n(si,full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

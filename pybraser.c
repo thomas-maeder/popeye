@@ -12,6 +12,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/series_play/shortcut.h"
+#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 
 #include <assert.h>
 
@@ -428,26 +429,19 @@ boolean series_root_root_solve(slice_index root)
 
   init_output(root);
 
-  TraceValue("%u",slices[root].u.shortcut.min_length);
-  TraceValue("%u\n",slices[root].u.shortcut.length);
-
   assert(slices[root].u.shortcut.min_length>=slack_length_series);
 
   move_generation_mode = move_generation_not_optimized;
 
-  while (len<full_length
-         && !(OptFlag[stoponshort] && result))
+  while (len<=full_length)
   {
-    if (series_solve_in_n(next,len))
+    if (OptFlag[stoponshort] && result)
+      short_solution_found();
+    else if (series_solve_in_n(next,len))
       result = true;
 
     ++len;
   }
-
-  if (result && OptFlag[stoponshort])
-    FlagShortSolsReached = true;
-  else
-    result = series_solve_in_n(next,full_length);
 
   write_end_of_solution_phase();
 
@@ -474,14 +468,11 @@ has_solution_type series_root_has_solution(slice_index si)
 
   assert(full_length>=slack_length_series);
 
-  while (len<full_length && result==has_no_solution)
+  while (len<=full_length && result==has_no_solution)
   {
     result = series_has_solution_in_n(next,len);
     ++len;
   }
-
-  if (result==has_no_solution)
-    result = series_has_solution_in_n(next,len);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

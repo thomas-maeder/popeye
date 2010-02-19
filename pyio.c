@@ -90,6 +90,7 @@
 #include "stipulation/series_play/parry_fork.h"
 #include "conditions/republican.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
+#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -6167,7 +6168,7 @@ void LaTeXEndDiagram(void) {
         || maxsol_per_matingpos!=ULONG_MAX
         || max_solutions_reached()
         || FlagMaxSolsPerMatingPosReached
-        || FlagShortSolsReached
+        || has_short_solution_been_found_in_problem()
         || hasMaxtimeElapsed()))
   {
     fprintf(LaTeXFile, " \\Co+%%");

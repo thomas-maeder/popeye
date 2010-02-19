@@ -126,6 +126,7 @@
 #include "platform/priority.h"
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
+#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 #ifdef _SE_
 #include "se.h"
 #endif 
@@ -3172,13 +3173,13 @@ static void iterate_problems(void)
 
     reset_max_solutions();
     FlagMaxSolsPerMatingPosReached = false;
-    FlagShortSolsReached = false;
+    reset_short_solution_found_in_problem();
 
     prev_token = iterate_twins(prev_token);
 
     if (max_solutions_reached()
         || FlagMaxSolsPerMatingPosReached
-        || FlagShortSolsReached
+        || has_short_solution_been_found_in_problem()
         || maxsol_per_matingpos!=ULONG_MAX
         || hasMaxtimeElapsed())
       StdString(GetMsgString(InterMessage));

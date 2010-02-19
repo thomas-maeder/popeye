@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+CFILES = stoponshortsolutions.c
+
+INCLUDES = stoponshortsolutions.h
+
+include makefile.rules $(CURRPWD)depend

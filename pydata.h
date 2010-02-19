@@ -206,7 +206,6 @@ EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 
 EXTERN  unsigned long   sol_per_matingpos, maxsol_per_matingpos;
 EXTERN  boolean         FlagMaxSolsPerMatingPosReached;
-EXTERN  boolean         FlagShortSolsReached;
 
 /* beep maxbeep times if a solution is found */
 

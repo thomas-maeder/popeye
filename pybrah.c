@@ -12,6 +12,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/shortcut.h"
+#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 
 #include <assert.h>
 
@@ -581,22 +582,15 @@ boolean help_root_root_solve(slice_index root)
 
   move_generation_mode = move_generation_not_optimized;
 
-  while (len<full_length
-         && !(OptFlag[stoponshort] && result))
+  while (len<=full_length)
   {
-    if (help_solve_in_n(next,len))
+    if (OptFlag[stoponshort] && result)
+      short_solution_found();
+    else if (help_solve_in_n(next,len))
       result = true;
 
     len += 2;
   }
-
-  if (result && OptFlag[stoponshort])
-  {
-    TraceText("aborting because of short solutions\n");
-    FlagShortSolsReached = true;
-  }
-  else
-    result = help_solve_in_n(next,full_length);
 
   write_end_of_solution_phase();
 
@@ -623,14 +617,11 @@ has_solution_type help_root_has_solution(slice_index si)
 
   assert(full_length>=slack_length_help);
 
-  while (len<full_length && result==has_no_solution)
+  while (len<=full_length && result==has_no_solution)
   {
     result = help_has_solution_in_n(next,len);
     len += 2;
   }
-
-  if (result==has_no_solution)
-    result = help_has_solution_in_n(next,len);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

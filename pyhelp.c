@@ -14,6 +14,7 @@
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/maxtime/help_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
+#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -172,18 +173,15 @@ boolean help_solve(slice_index si)
 
   assert(full_length>slack_length_help);
 
-  while (len<full_length && !result)
+  while (len<=full_length)
   {
-    if (help_solve_in_n(si,len))
-    {
+    if (OptFlag[stoponshort] && result)
+      short_solution_found();
+    else if (help_solve_in_n(si,len))
       result = true;
-      FlagShortSolsReached = true;
-    }
 
     len += 2;
   }
-
-  result = result || help_solve_in_n(si,full_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
