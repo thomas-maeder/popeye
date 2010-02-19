@@ -12,7 +12,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/series_play/shortcut.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
 
 #include <assert.h>
 
@@ -435,8 +434,6 @@ boolean series_root_root_solve(slice_index root)
   assert(slices[root].u.shortcut.min_length>=slack_length_series);
 
   move_generation_mode = move_generation_not_optimized;
-
-  reset_nr_found_solutions_per_phase();
 
   while (len<full_length
          && !(OptFlag[stoponshort] && result))

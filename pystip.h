@@ -92,6 +92,7 @@
     ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
                                                                         \
+    ENUMERATOR(STMaxSolutionsRootSolvableFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */  \

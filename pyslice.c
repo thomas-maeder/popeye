@@ -23,6 +23,7 @@
 #include "pyselfcg.h"
 #include "pykeepmt.h"
 #include "pypipe.h"
+#include "optimisations/maxsolutions/root_solvable_filter.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -285,6 +286,10 @@ boolean slice_root_solve(slice_index si)
     case STHelpFork:
     case STSeriesFork:
       result = branch_fork_root_solve(si);
+      break;
+
+    case STMaxSolutionsRootSolvableFilter:
+      result = maxsolutions_root_solvable_filter_root_solve(si);
       break;
 
     default:

@@ -2839,6 +2839,7 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMaxTimeDefenderFilter */
   &slice_traverse_children,         /* STMaxTimeHelpFilter */
   &slice_traverse_children,         /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,         /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,         /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,         /* STMaxSolutionsHelpFilter */
   &slice_traverse_children          /* STMaxSolutionsSeriesFilter */
@@ -3021,6 +3022,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMaxTimeDefenderFilter */
   &slice_traverse_children,         /* STMaxTimeHelpFilter */
   &slice_traverse_children,         /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,         /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,         /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,         /* STMaxSolutionsHelpFilter */
   &slice_traverse_children          /* STMaxSolutionsSeriesFilter */
@@ -3506,6 +3508,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                  /* STMaxTimeHelpFilter */
   &slice_traverse_children,                  /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                  /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,                  /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,                  /* STMaxSolutionsHelpFilter */
   &slice_traverse_children                   /* STMaxSolutionsSeriesFilter */
@@ -3831,6 +3834,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                      /* STMaxTimeHelpFilter */
   &slice_traverse_children,                      /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                      /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,                      /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,                      /* STMaxSolutionsHelpFilter */
   &slice_traverse_children                       /* STMaxSolutionsSeriesFilter */

@@ -554,6 +554,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMaxTimeDefenderFilter */
   &slice_traverse_children,           /* STMaxTimeHelpFilter */
   &slice_traverse_children,           /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,           /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,           /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,           /* STMaxSolutionsHelpFilter */
   &slice_traverse_children            /* STMaxSolutionsSeriesFilter */
@@ -2388,6 +2389,7 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children, /* STMaxTimeSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children, /* STMaxSolutionsHelpFilter */
   &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
@@ -2495,6 +2497,7 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children, /* STMaxTimeSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children, /* STMaxSolutionsHelpFilter */
   &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
@@ -2598,6 +2601,7 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STMaxTimeDefenderFilter */
   &slice_traverse_children, /* STMaxTimeHelpFilter */
   &slice_traverse_children, /* STMaxTimeSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children, /* STMaxSolutionsHelpFilter */
   &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
@@ -2889,6 +2893,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STMaxTimeDefenderFilter */
   &slice_traverse_children,                  /* STMaxTimeHelpFilter */
   &slice_traverse_children,                  /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                  /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,                  /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,                  /* STMaxSolutionsHelpFilter */
   &slice_traverse_children                   /* STMaxSolutionsSeriesFilter */

@@ -11,7 +11,6 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -673,8 +672,6 @@ boolean direct_root_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   init_output(si);
-
-  reset_nr_found_solutions_per_phase();
 
   active_slice[nbply+1] = si;
   genmove(attacker);

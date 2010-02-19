@@ -12,7 +12,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/shortcut.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
 
 #include <assert.h>
 
@@ -581,8 +580,6 @@ boolean help_root_root_solve(slice_index root)
   init_output(root);
 
   move_generation_mode = move_generation_not_optimized;
-
-  reset_nr_found_solutions_per_phase();
 
   while (len<full_length
          && !(OptFlag[stoponshort] && result))
