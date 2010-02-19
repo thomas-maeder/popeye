@@ -1,6 +1,5 @@
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
-#include "pydirect.h"
 #include "pypipe.h"
 #include "trace.h"
 
