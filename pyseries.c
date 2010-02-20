@@ -15,7 +15,7 @@
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
-#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "optimisations/stoponshortsolutions/series_filter.h"
 #include "pyint.h"
 #include "pydata.h"
 #include "trace.h"
@@ -110,6 +110,10 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       result = maxsolutions_series_filter_solve_in_n(si,n);
       break;
 
+    case STStopOnShortSolutionsSeriesFilter:
+      result = stoponshortsolutions_series_filter_solve_in_n(si,n);
+      break;
+
     default:
       assert(0);
       break;
@@ -174,9 +178,7 @@ boolean series_solve(slice_index si)
 
   while (len<=full_length)
   {
-    if (OptFlag[stoponshort] && result)
-      short_solution_found();
-    else if (series_solve_in_n(si,len))
+    if (series_solve_in_n(si,len))
       result = true;
 
     ++len;
@@ -259,6 +261,10 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STMaxSolutionsSeriesFilter:
       result = maxsolutions_series_filter_has_solution_in_n(si,n);
+      break;
+
+    case STStopOnShortSolutionsSeriesFilter:
+      result = stoponshortsolutions_series_filter_has_solution_in_n(si,n);
       break;
 
     default:

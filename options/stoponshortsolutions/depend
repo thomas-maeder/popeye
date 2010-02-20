@@ -1,0 +1,64 @@
+optimisations/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX):  \
+ optimisations/stoponshortsolutions/stoponshortsolutions.c \
+  optimisations/stoponshortsolutions/stoponshortsolutions.h \
+  optimisations/stoponshortsolutions/root_solvable_filter.h \
+  optimisations/stoponshortsolutions/help_filter.h \
+  optimisations/stoponshortsolutions/series_filter.h pystip.h pypipe.h \
+  trace.h
+
+optimisations/stoponshortsolutions/stoponshortsolutions.h:
+
+optimisations/stoponshortsolutions/root_solvable_filter.h:
+
+optimisations/stoponshortsolutions/help_filter.h:
+
+optimisations/stoponshortsolutions/series_filter.h:
+
+pystip.h:
+
+pypipe.h:
+
+trace.h:
+optimisations/stoponshortsolutions/root_solvable_filter$(OBJ_SUFFIX):  \
+ optimisations/stoponshortsolutions/root_solvable_filter.c \
+  optimisations/stoponshortsolutions/root_solvable_filter.h \
+  optimisations/stoponshortsolutions/stoponshortsolutions.h pypipe.h \
+  trace.h
+
+optimisations/stoponshortsolutions/root_solvable_filter.h:
+
+optimisations/stoponshortsolutions/stoponshortsolutions.h:
+
+pypipe.h:
+
+trace.h:
+optimisations/stoponshortsolutions/help_filter$(OBJ_SUFFIX):  \
+ optimisations/stoponshortsolutions/help_filter.c \
+  optimisations/stoponshortsolutions/help_filter.h \
+  optimisations/stoponshortsolutions/stoponshortsolutions.h pyhelp.h \
+  stipulation/branch.h trace.h
+
+optimisations/stoponshortsolutions/help_filter.h:
+
+optimisations/stoponshortsolutions/stoponshortsolutions.h:
+
+pyhelp.h:
+
+stipulation/branch.h:
+
+trace.h:
+optimisations/stoponshortsolutions/series_filter$(OBJ_SUFFIX):  \
+ optimisations/stoponshortsolutions/series_filter.c \
+  optimisations/stoponshortsolutions/series_filter.h \
+  optimisations/stoponshortsolutions/stoponshortsolutions.h pyseries.h \
+  stipulation/branch.h trace.h
+
+optimisations/stoponshortsolutions/series_filter.h:
+
+optimisations/stoponshortsolutions/stoponshortsolutions.h:
+
+pyseries.h:
+
+stipulation/branch.h:
+
+trace.h:

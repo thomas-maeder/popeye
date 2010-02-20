@@ -14,7 +14,7 @@
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/maxtime/help_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
-#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "optimisations/stoponshortsolutions/help_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -97,6 +97,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = maxsolutions_help_filter_solve_in_n(si,n);
       break;
 
+    case STStopOnShortSolutionsHelpFilter:
+      result = stoponshortsolutions_help_filter_solve_in_n(si,n);
+      break;
+
     default:
       assert(0);
       break;
@@ -175,11 +179,8 @@ boolean help_solve(slice_index si)
 
   while (len<=full_length)
   {
-    if (OptFlag[stoponshort] && result)
-      short_solution_found();
-    else if (help_solve_in_n(si,len))
+    if (help_solve_in_n(si,len))
       result = true;
-
     len += 2;
   }
 
@@ -245,6 +246,10 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STMaxSolutionsHelpFilter:
       result = maxsolutions_help_filter_has_solution_in_n(si,n);
+      break;
+
+    case STStopOnShortSolutionsHelpFilter:
+      result = stoponshortsolutions_help_filter_has_solution_in_n(si,n);
       break;
 
     default:

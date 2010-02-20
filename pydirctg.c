@@ -523,7 +523,10 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,       /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,       /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,       /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children        /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,       /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,       /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children,       /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children        /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Instrument a branch with STDirectDefense slices

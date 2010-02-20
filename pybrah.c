@@ -12,7 +12,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/shortcut.h"
-#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 
 #include <assert.h>
 
@@ -350,6 +349,7 @@ static void shorten_setplay_root_branch(slice_index root)
     slices[root_branch].u.pipe.next = fork;
     slices[help_shortcut].u.shortcut.short_sols = branch1;
     shorten_help_pipe(root);
+    shorten_help_pipe(help_shortcut);
     shorten_help_pipe(root_branch);
   }
   else
@@ -367,6 +367,7 @@ static void shorten_setplay_root_branch(slice_index root)
     slices[root_branch].u.pipe.next = proxy;
     slices[help_shortcut].u.shortcut.short_sols = fork;
     shorten_help_pipe(root);
+    shorten_help_pipe(help_shortcut);
     shorten_help_pipe(root_branch);
   }
 
@@ -584,11 +585,8 @@ boolean help_root_root_solve(slice_index root)
 
   while (len<=full_length)
   {
-    if (OptFlag[stoponshort] && result)
-      short_solution_found();
-    else if (help_solve_in_n(next,len))
+    if (help_solve_in_n(next,len))
       result = true;
-
     len += 2;
   }
 

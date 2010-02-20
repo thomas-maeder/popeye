@@ -250,6 +250,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STIntelligentSeriesFilter:
       case STGoalReachableGuardHelpFilter:
       case STGoalReachableGuardSeriesFilter:
+      case STStopOnShortSolutionsHelpFilter:
+      case STStopOnShortSolutionsSeriesFilter:
         Trace_branch(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -288,6 +290,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxSolutionsRootDefenderFilter:
       case STMaxSolutionsHelpFilter:
       case STMaxSolutionsSeriesFilter:
+      case STStopOnShortSolutionsRootSolvableFilter:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

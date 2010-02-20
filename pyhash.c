@@ -346,7 +346,10 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMaxSolutionsRootSolvableFilter */
   &slice_property_offset_shifter, /* STMaxSolutionsRootDefenderFilter */
   &slice_property_offset_shifter, /* STMaxSolutionsHelpFilter */
-  &slice_property_offset_shifter  /* STMaxSolutionsSeriesFilter */
+  &slice_property_offset_shifter, /* STMaxSolutionsSeriesFilter */
+  &slice_property_offset_shifter, /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_property_offset_shifter, /* STStopOnShortSolutionsHelpFilter */
+  &slice_property_offset_shifter  /* STStopOnShortSolutionsSeriesFilter */
 };
 
 typedef struct
@@ -715,7 +718,10 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMaxSolutionsRootSolvableFilter */
   &init_slice_properties_pipe,           /* STMaxSolutionsRootDefenderFilter */
   &init_slice_properties_pipe,           /* STMaxSolutionsHelpFilter */
-  &init_slice_properties_pipe            /* STMaxSolutionsSeriesFilter */
+  &init_slice_properties_pipe,           /* STMaxSolutionsSeriesFilter */
+  &init_slice_properties_pipe,           /* STStopOnShortSolutionsRootSolvableFilter */
+  &init_slice_properties_pipe,           /* STStopOnShortSolutionsHelpFilter */
+  &init_slice_properties_pipe            /* STStopOnShortSolutionsSeriesFilter */
 };
 
 static boolean find_slice_with_nonstandard_min_length(void)

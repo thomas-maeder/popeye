@@ -1,7 +1,9 @@
 # -*- Makefile -*-
 #
-CFILES = stoponshortsolutions.c
+CFILES = stoponshortsolutions.c \
+	root_solvable_filter.c help_filter.c series_filter.c
 
-INCLUDES = stoponshortsolutions.h
+INCLUDES = stoponshortsolutions.h \
+	root_solvable_filter.h help_filter.h series_filter.h
 
 include makefile.rules $(CURRPWD)depend

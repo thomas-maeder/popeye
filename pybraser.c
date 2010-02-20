@@ -12,7 +12,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/series_play/shortcut.h"
-#include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 
 #include <assert.h>
 
@@ -419,8 +418,8 @@ slice_index series_root_shorten_series_play(slice_index root)
 boolean series_root_root_solve(slice_index root)
 {
   boolean result = false;
-  stip_length_type const full_length = slices[root].u.shortcut.length;
-  stip_length_type len = slices[root].u.shortcut.min_length;
+  stip_length_type const full_length = slices[root].u.branch.length;
+  stip_length_type len = slices[root].u.branch.min_length;
   slice_index const next = slices[root].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -435,11 +434,8 @@ boolean series_root_root_solve(slice_index root)
 
   while (len<=full_length)
   {
-    if (OptFlag[stoponshort] && result)
-      short_solution_found();
-    else if (series_solve_in_n(next,len))
+    if (series_solve_in_n(next,len))
       result = true;
-
     ++len;
   }
 
@@ -458,8 +454,8 @@ boolean series_root_root_solve(slice_index root)
 has_solution_type series_root_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.shortcut.length;
-  stip_length_type len = slices[si].u.shortcut.min_length;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);

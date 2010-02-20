@@ -209,7 +209,10 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_linemode,      /* STMaxSolutionsRootSolvableFilter */
   &output_mode_linemode,      /* STMaxSolutionsRootDefenderFilter */
   &output_mode_linemode,      /* STMaxSolutionsHelpFilter */
-  &output_mode_linemode       /* STMaxSolutionsSeriesFilter */
+  &output_mode_linemode,      /* STMaxSolutionsSeriesFilter */
+  &output_mode_linemode,      /* STStopOnShortSolutionsRootSolvableFilter */
+  &output_mode_linemode,      /* STStopOnShortSolutionsHelpFilter */
+  &output_mode_linemode       /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Initialize based on the stipulation

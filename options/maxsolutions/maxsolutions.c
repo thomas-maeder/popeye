@@ -296,7 +296,10 @@ static slice_operation const maxsolutions_filter_inserters[] =
   &slice_traverse_children,           /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,           /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,           /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children            /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,           /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,           /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children,           /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children            /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Insert a STMaxSolutionsRootSolvableFilter slice before some slice
@@ -386,7 +389,10 @@ static slice_operation const maxsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,     /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,     /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children      /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,     /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,     /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children,     /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children      /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Instrument a stipulation with STMaxSolutions*Filter slices

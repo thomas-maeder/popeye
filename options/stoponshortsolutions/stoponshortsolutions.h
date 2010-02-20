@@ -14,16 +14,27 @@
  */
 void short_solution_found(void);
 
-/* Reset the internal state to "no short solution found"
+/* Reset the internal state to "no short solution found" in the
+ * current problem
  */
 void reset_short_solution_found_in_problem(void);
-
-/* Instrument a stipulation with STStopOnShortSolutions*Filter slices
- */
-void stip_insert_stoponshortsolutions_filters(void);
 
 /* Has a short solution been found in the current problem?
  */
 boolean has_short_solution_been_found_in_problem(void);
+
+/* Reset the internal state to "no short solution found" in the
+ * current phase
+ */
+void reset_short_solution_found_in_phase(void);
+
+/* Reset the internal state to "no short solution found" in the
+ * current phase
+ */
+boolean has_short_solution_been_found_in_phase(void);
+
+/* Instrument a stipulation with STStopOnShortSolutions*Filter slices
+ */
+void stip_insert_stoponshortsolutions_filters(void);
 
 #endif

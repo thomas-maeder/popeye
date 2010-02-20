@@ -558,7 +558,10 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,           /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,           /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children            /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,           /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,           /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children,           /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children            /* STStopOnShortSolutionsSeriesFilter */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -2393,7 +2396,10 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children, /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children, /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children, /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children  /* STStopOnShortSolutionsSeriesFilter */
 };
 
 static Side find_mating_side(slice_index si)
@@ -2501,7 +2507,10 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children, /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children, /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children, /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children  /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* prepare for solving duplex */
@@ -2605,7 +2614,10 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children, /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children, /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children  /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children, /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children, /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children, /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children  /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* restore from preparations for solving duplex */
@@ -2897,7 +2909,10 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,                  /* STMaxSolutionsRootDefenderFilter */
   &slice_traverse_children,                  /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children                   /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,                  /* STMaxSolutionsSeriesFilter */
+  &slice_traverse_children,                  /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_traverse_children,                  /* STStopOnShortSolutionsHelpFilter */
+  &slice_traverse_children                   /* STStopOnShortSolutionsSeriesFilter */
 };
 
 static void insert_hash_slices(void)
@@ -3130,6 +3145,9 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[maxsols])
         stip_insert_maxsolutions_filters();
+
+      if (OptFlag[stoponshort])
+        stip_insert_stoponshortsolutions_filters();
 
       stip_impose_starter(slices[root_slice].starter);
 
