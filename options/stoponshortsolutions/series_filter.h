@@ -12,9 +12,12 @@
 
 /* Allocate a STStopOnShortSolutionsSeriesFilter slice.
  * @param length full length 
+ * @param length minimum length 
  * @return allocated slice
  */
-slice_index alloc_stoponshortsolutions_series_filter(stip_length_type length);
+slice_index
+alloc_stoponshortsolutions_series_filter(stip_length_type length,
+                                         stip_length_type min_length);
 
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index of slice being solved

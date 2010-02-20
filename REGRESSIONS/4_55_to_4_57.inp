@@ -1,0 +1,15 @@
+begin
+
+prot 4_55_to_4_57.reg
+
+title           Since 4.53, solving doesn't stop after the author's
+title           solution (which is a short solution in 1->ser-h#3)
+title           The stipulation is actually h#2
+author          Kjell Widlert
+origin          1. ea. Preis, Andernach 1993, twin a)
+stipulation     1->ser-h#3
+condition       andernach
+pieces  white   ka8 rh1 ba3 pd3
+        black kg8 rc4f3 be4g3 pb2c6c7f5f6g7
+option Stoponshort start 24
+end

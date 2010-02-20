@@ -731,7 +731,8 @@ slice_index branch_find_slice(SliceType type, slice_index si)
     result = slices[result].u.pipe.next;
     if (slices[result].type==type)
       break;
-    else if (slices_visited[result])
+    else if (slices_visited[result]
+             || !slice_has_structure(result,slice_structure_pipe))
     {
       result = no_slice;
       break;

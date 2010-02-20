@@ -4,6 +4,7 @@
 #include "optimisations/stoponshortsolutions/series_filter.h"
 #include "pystip.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -85,6 +86,12 @@ boolean has_short_solution_been_found_in_phase(void)
   return result;
 }
 
+/* Insert STStopOnShortSolutions*Filter starting at a slice
+ * @param si identifies slice where to start
+ * @note this is an indirectly recursive function
+ */
+static void insert_filters(slice_index si);
+
 /* Insert a STStopOnShortSolutionsHelpFilter slice after the toplevel
  * STBranchHelp slice
  */
@@ -92,18 +99,25 @@ static boolean insert_stoponshortsolutions_help_filter(slice_index si,
                                                          slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const
+        filter = alloc_stoponshortsolutions_help_filter(length,min_length);
+    pipe_link(slices[si].prev,filter);
+    pipe_link(filter,si);
+  }
 
-  stip_length_type const length = slices[si].u.branch.length;
-  slice_index const filter = alloc_stoponshortsolutions_help_filter(length);
-  pipe_link(filter,next);
-  pipe_link(si,filter);
+  {
+    slice_index const fork = branch_find_slice(STHelpFork,si);
+    if (fork!=no_slice)
+      insert_filters(slices[fork].u.branch_fork.towards_goal);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -118,18 +132,25 @@ static boolean insert_stoponshortsolutions_series_filter(slice_index si,
                                                          slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const
+        filter = alloc_stoponshortsolutions_series_filter(length,min_length);
+    pipe_link(slices[si].prev,filter);
+    pipe_link(filter,si);
+  }
 
-  stip_length_type const length = slices[si].u.branch.length;
-  slice_index const filter = alloc_stoponshortsolutions_series_filter(length);
-  pipe_link(filter,next);
-  pipe_link(si,filter);
+  {
+    slice_index const fork = branch_find_slice(STSeriesFork,si);
+    if (fork!=no_slice)
+      insert_filters(slices[fork].u.branch_fork.towards_goal);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -139,74 +160,92 @@ static boolean insert_stoponshortsolutions_series_filter(slice_index si,
 
 static slice_operation const stoponshortsolutions_filter_inserters[] =
 {
-  &slice_traverse_children,           /* STProxy */
-  &slice_traverse_children,           /* STBranchDirect */
-  &slice_traverse_children,           /* STBranchDirectDefender */
-  &slice_traverse_children, /* STBranchHelp */
-  &slice_traverse_children,           /* STHelpFork */
-  &slice_traverse_children, /* STBranchSeries */
-  &slice_traverse_children,           /* STSeriesFork */
-  &slice_operation_noop,              /* STLeafDirect */
-  &slice_operation_noop,              /* STLeafHelp */
-  &slice_operation_noop,              /* STLeafForced */
-  &slice_traverse_children,           /* STReciprocal */
-  &slice_traverse_children,           /* STQuodlibet */
-  &slice_traverse_children,           /* STNot */
-  &slice_traverse_children,           /* STMoveInverterRootSolvableFilter */
-  &slice_traverse_children,           /* STMoveInverterSolvableFilter */
-  &slice_traverse_children,           /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,           /* STDirectRoot */
-  &slice_traverse_children,           /* STDirectDefenderRoot */
-  &slice_traverse_children,           /* STDirectHashed */
-  &insert_stoponshortsolutions_help_filter,           /* STHelpRoot */
-  &slice_traverse_children,           /* STHelpShortcut */
-  &slice_traverse_children,           /* STHelpHashed */
-  &insert_stoponshortsolutions_series_filter,           /* STSeriesRoot */
-  &slice_traverse_children,           /* STSeriesShortcut */
-  &slice_traverse_children,           /* STParryFork */
-  &slice_traverse_children,           /* STSeriesHashed */
-  &slice_traverse_children,           /* STSelfCheckGuardRootSolvableFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardSolvableFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardRootDefenderFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardAttackerFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardDefenderFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardHelpFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardSeriesFilter */
-  &slice_traverse_children,           /* STDirectDefense */
-  &slice_traverse_children,           /* STReflexHelpFilter */
-  &slice_traverse_children,           /* STReflexSeriesFilter */
-  &slice_traverse_children,           /* STReflexAttackerFilter */
-  &slice_traverse_children,           /* STReflexDefenderFilter */
-  &slice_traverse_children,           /* STSelfAttack */
-  &slice_traverse_children,           /* STSelfDefense */
-  &slice_traverse_children,           /* STRestartGuardRootDefenderFilter */
-  &slice_traverse_children,           /* STRestartGuardHelpFilter */
-  &slice_traverse_children,           /* STRestartGuardSeriesFilter */
-  &slice_traverse_children,           /* STIntelligentHelpFilter */
-  &slice_traverse_children,           /* STIntelligentSeriesFilter */
-  &slice_traverse_children,           /* STGoalReachableGuardHelpFilter */
-  &slice_traverse_children,           /* STGoalReachableGuardSeriesFilter */
-  &slice_traverse_children,           /* STKeepMatingGuardRootDefenderFilter */
-  &slice_traverse_children,           /* STKeepMatingGuardAttackerFilter */
-  &slice_traverse_children,           /* STKeepMatingGuardDefenderFilter */
-  &slice_traverse_children,           /* STKeepMatingGuardHelpFilter */
-  &slice_traverse_children,           /* STKeepMatingGuardSeriesFilter */
-  &slice_traverse_children,           /* STMaxFlightsquares */
-  &slice_traverse_children,           /* STDegenerateTree */
-  &slice_traverse_children,           /* STMaxNrNonTrivial */
-  &slice_traverse_children,           /* STMaxThreatLength */
-  &slice_traverse_children,           /* STMaxTimeRootDefenderFilter */
-  &slice_traverse_children,           /* STMaxTimeDefenderFilter */
-  &slice_traverse_children,           /* STMaxTimeHelpFilter */
-  &slice_traverse_children,           /* STMaxTimeSeriesFilter */
-  &slice_traverse_children,           /* STMaxSolutionsRootSolvableFilter */
-  &slice_traverse_children,           /* STMaxSolutionsRootDefenderFilter */
-  &slice_traverse_children,           /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children,           /* STMaxSolutionsSeriesFilter */
-  &slice_traverse_children,           /* STStopOnShortSolutionsRootSolvableFilter */
-  &slice_traverse_children,           /* STStopOnShortSolutionsHelpFilter */
-  &slice_traverse_children            /* STStopOnShortSolutionsSeriesFilter */
+  &slice_traverse_children,                   /* STProxy */
+  &slice_traverse_children,                   /* STBranchDirect */
+  &slice_traverse_children,                   /* STBranchDirectDefender */
+  &insert_stoponshortsolutions_help_filter,   /* STBranchHelp */
+  &insert_stoponshortsolutions_help_filter,   /* STHelpFork */
+  &insert_stoponshortsolutions_series_filter, /* STBranchSeries */
+  &insert_stoponshortsolutions_series_filter, /* STSeriesFork */
+  &slice_operation_noop,                      /* STLeafDirect */
+  &slice_operation_noop,                      /* STLeafHelp */
+  &slice_operation_noop,                      /* STLeafForced */
+  &slice_traverse_children,                   /* STReciprocal */
+  &slice_traverse_children,                   /* STQuodlibet */
+  &slice_traverse_children,                   /* STNot */
+  &slice_traverse_children,                   /* STMoveInverterRootSolvableFilter */
+  &slice_traverse_children,                   /* STMoveInverterSolvableFilter */
+  &insert_stoponshortsolutions_series_filter, /* STMoveInverterSeriesFilter */
+  &slice_traverse_children,                   /* STDirectRoot */
+  &slice_traverse_children,                   /* STDirectDefenderRoot */
+  &slice_traverse_children,                   /* STDirectHashed */
+  &slice_traverse_children,                   /* STHelpRoot */
+  &insert_stoponshortsolutions_help_filter,   /* STHelpShortcut */
+  &insert_stoponshortsolutions_help_filter,   /* STHelpHashed */
+  &slice_traverse_children,                   /* STSeriesRoot */
+  &insert_stoponshortsolutions_series_filter, /* STSeriesShortcut */
+  &slice_traverse_children,                   /* STParryFork */
+  &insert_stoponshortsolutions_series_filter, /* STSeriesHashed */
+  &slice_traverse_children,                   /* STSelfCheckGuardRootSolvableFilter */
+  &slice_traverse_children,                   /* STSelfCheckGuardSolvableFilter */
+  &slice_traverse_children,                   /* STSelfCheckGuardRootDefenderFilter */
+  &slice_traverse_children,                   /* STSelfCheckGuardAttackerFilter */
+  &slice_traverse_children,                   /* STSelfCheckGuardDefenderFilter */
+  &insert_stoponshortsolutions_help_filter,   /* STSelfCheckGuardHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,                   /* STDirectDefense */
+  &insert_stoponshortsolutions_help_filter,   /* STReflexHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STReflexSeriesFilter */
+  &slice_traverse_children,                   /* STReflexAttackerFilter */
+  &slice_traverse_children,                   /* STReflexDefenderFilter */
+  &slice_traverse_children,                   /* STSelfAttack */
+  &slice_traverse_children,                   /* STSelfDefense */
+  &slice_traverse_children,                   /* STRestartGuardRootDefenderFilter */
+  &insert_stoponshortsolutions_help_filter,   /* STRestartGuardHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STRestartGuardSeriesFilter */
+  &insert_stoponshortsolutions_help_filter,   /* STIntelligentHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STIntelligentSeriesFilter */
+  &insert_stoponshortsolutions_help_filter,   /* STGoalReachableGuardHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STGoalReachableGuardSeriesFilter */
+  &slice_traverse_children,                   /* STKeepMatingGuardRootDefenderFilter */
+  &slice_traverse_children,                   /* STKeepMatingGuardAttackerFilter */
+  &slice_traverse_children,                   /* STKeepMatingGuardDefenderFilter */
+  &insert_stoponshortsolutions_help_filter,   /* STKeepMatingGuardHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STKeepMatingGuardSeriesFilter */
+  &slice_traverse_children,                   /* STMaxFlightsquares */
+  &slice_traverse_children,                   /* STDegenerateTree */
+  &slice_traverse_children,                   /* STMaxNrNonTrivial */
+  &slice_traverse_children,                   /* STMaxThreatLength */
+  &slice_traverse_children,                   /* STMaxTimeRootDefenderFilter */
+  &slice_traverse_children,                   /* STMaxTimeDefenderFilter */
+  &insert_stoponshortsolutions_help_filter,   /* STMaxTimeHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STMaxTimeSeriesFilter */
+  &slice_traverse_children,                   /* STMaxSolutionsRootSolvableFilter */
+  &slice_traverse_children,                   /* STMaxSolutionsRootDefenderFilter */
+  &insert_stoponshortsolutions_help_filter,   /* STMaxSolutionsHelpFilter */
+  &insert_stoponshortsolutions_series_filter, /* STMaxSolutionsSeriesFilter */
+  &slice_operation_noop,                      /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_operation_noop,                      /* STStopOnShortSolutionsHelpFilter */
+  &slice_operation_noop                       /* STStopOnShortSolutionsSeriesFilter */
 };
+
+/* Insert STStopOnShortSolutions*Filter starting at a slice
+ * @param si identifies slice where to start
+ * @note this is an indirectly recursive function
+ */
+static void insert_filters(slice_index si)
+{
+  slice_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  slice_traversal_init(&st,&stoponshortsolutions_filter_inserters,0);
+  traverse_slices(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Insert a STStopOnShortSolutionsRootSolvableFilter slice before some slice
  */
@@ -222,6 +261,8 @@ static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
     slice_index const filter = alloc_stoponshortsolutions_root_solvable_filter();
     pipe_link(slices[si].prev,filter);
     pipe_link(filter,si);
+
+    insert_filters(slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);
@@ -311,9 +352,6 @@ void stip_insert_stoponshortsolutions_filters(void)
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
-
-  slice_traversal_init(&st,&stoponshortsolutions_filter_inserters,0);
-  traverse_slices(root_slice,&st);
 
   slice_traversal_init(&st,&stoponshortsolutions_initialiser_inserters,0);
   traverse_slices(root_slice,&st);

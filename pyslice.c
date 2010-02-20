@@ -185,12 +185,14 @@ boolean slice_solve(slice_index si)
 
     case STBranchHelp:
     case STHelpHashed:
+    case STStopOnShortSolutionsHelpFilter:
       solution_found = help_solve(si);
       break;
 
     case STBranchSeries:
     case STSeriesFork:
     case STSeriesHashed:
+    case STStopOnShortSolutionsSeriesFilter:
       solution_found = series_solve(si);
       break;
 

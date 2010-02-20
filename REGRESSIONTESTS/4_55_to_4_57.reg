@@ -1,0 +1,37 @@
+
+            Kjell Widlert
+1. ea. Preis, Andernach 1993, twin a)
+Since 4.53, solving doesn't stop after the author's
+solution (which is a short solution in 1->ser-h#3)
+   The stipulation is actually h#2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .  -P   .   .   .  -P   .   7
+|                                   |
+6   .   .  -P   .   .  -P   .   .   6
+|                                   |
+5   .   .   .   .   .  -P   .   .   5
+|                                   |
+4   .   .  -R   .  -B   .   .   .   4
+|                                   |
+3   B   .   .   P   .  -R  -B   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  1->ser-h#3                 4 + 11
+            AndernachChess
+
+ 24  (Rh1-h4 )
+  1.Rh1-h4   1.Be4*d3=wB   2.Rc4*h4=wR Bd3-c4 # 
+ 25  (Rh1-h3 )
+ 26  (Rh1-h2 )
+
+solving interrupted. 
+
+

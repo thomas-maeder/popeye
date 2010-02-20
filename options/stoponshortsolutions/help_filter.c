@@ -7,17 +7,19 @@
 #include <assert.h>
 
 /* Allocate a STStopOnShortSolutionsHelpFilter slice.
+ * @param length full length 
+ * @param length minimum length 
  * @return allocated slice
  */
-slice_index alloc_stoponshortsolutions_help_filter(stip_length_type length)
+slice_index alloc_stoponshortsolutions_help_filter(stip_length_type length,
+                                                   stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STStopOnShortSolutionsHelpFilter,
-                        length,slack_length_help); 
+  result = alloc_branch(STStopOnShortSolutionsHelpFilter,length,min_length); 
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
