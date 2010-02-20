@@ -3415,8 +3415,10 @@ static boolean intelligent_guards_inserter_help_root(slice_index si,
   slice_traverse_children(si,st);
 
   {
-    slice_index const intelligent
-        = alloc_intelligent_help_filter(slack_length_help+1,slack_length_help+1);
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const intelligent = alloc_intelligent_help_filter(length,
+                                                                  min_length);
     pipe_link(intelligent,slices[si].u.pipe.next);
     pipe_link(si,intelligent);
   }
@@ -3439,9 +3441,10 @@ static boolean intelligent_guards_inserter_series_root(slice_index si,
   slice_traverse_children(si,st);
 
   {
-    slice_index const intelligent
-        = alloc_intelligent_series_filter(slack_length_series+1,
-                                          slack_length_series+1);
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const intelligent = alloc_intelligent_series_filter(length,
+                                                                    min_length);
     pipe_link(intelligent,slices[si].u.pipe.next);
     pipe_link(si,intelligent);
   }
