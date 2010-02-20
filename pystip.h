@@ -238,6 +238,25 @@ typedef enum
 } attack_type;
 
 
+#define ENUMERATION_TYPENAME slice_structural_type
+#define ENUMERATORS                             \
+  ENUMERATOR(slice_structure_leaf),                              \
+    ENUMERATOR(slice_structure_binary),                          \
+    ENUMERATOR(slice_structure_pipe),                            \
+    ENUMERATOR(slice_structure_branch),                          \
+    ENUMERATOR(slice_structure_fork)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
+
+/* Determine whether a slice is of some structural type
+ * @param si identifies slice
+ * @param type identifies type
+ * @return true iff slice si has (at least) structural type type
+ */
+boolean slice_has_structure(slice_index si, slice_structural_type type);
+
 /* Initialize the slice allocation machinery. To be called once at
  * program start
  */

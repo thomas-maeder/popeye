@@ -139,6 +139,139 @@ Slice slices[max_nr_slices];
 
 slice_index root_slice = no_slice;
 
+
+#define ENUMERATION_TYPENAME slice_structural_type
+#define ENUMERATORS                             \
+  ENUMERATOR(leaf)                              \
+    ENUMERATOR(binary)                          \
+    ENUMERATOR(pipe)                            \
+    ENUMERATOR(branch)                          \
+    ENUMERATOR(fork)
+
+#define ENUMERATION_MAKESTRINGS
+
+#include "pyenum.h"
+
+static slice_structural_type highest_structural_type[max_nr_slices] =
+{
+  slice_structure_pipe,   /* STProxy */
+  slice_structure_branch, /* STBranchDirect */
+  slice_structure_branch, /* STBranchDirectDefender */
+  slice_structure_branch, /* STBranchHelp */
+  slice_structure_fork,   /* STHelpFork */
+  slice_structure_branch, /* STBranchSeries */
+  slice_structure_fork,   /* STSeriesFork */
+  slice_structure_leaf,   /* STLeafDirect */
+  slice_structure_leaf,   /* STLeafHelp */
+  slice_structure_leaf,   /* STLeafForced */
+  slice_structure_binary, /* STReciprocal */
+  slice_structure_binary, /* STQuodlibet */
+  slice_structure_pipe,   /* STNot */
+  slice_structure_pipe,   /* STMoveInverterRootSolvableFilter */
+  slice_structure_pipe,   /* STMoveInverterSolvableFilter */
+  slice_structure_pipe,   /* STMoveInverterSeriesFilter */
+  slice_structure_branch, /* STDirectRoot */
+  slice_structure_branch, /* STDirectDefenderRoot */
+  slice_structure_branch, /* STDirectHashed */
+  slice_structure_branch, /* STHelpRoot */
+  slice_structure_branch, /* STHelpShortcut */
+  slice_structure_branch, /* STHelpHashed */
+  slice_structure_branch, /* STSeriesRoot */
+  slice_structure_branch, /* STSeriesShortcut */
+  slice_structure_pipe,   /* STParryFork */
+  slice_structure_branch, /* STSeriesHashed */
+  slice_structure_pipe,   /* STSelfCheckGuardRootSolvableFilter */
+  slice_structure_pipe,   /* STSelfCheckGuardSolvableFilter */
+  slice_structure_pipe,   /* STSelfCheckGuardRootDefenderFilter */
+  slice_structure_pipe,   /* STSelfCheckGuardAttackerFilter */
+  slice_structure_pipe,   /* STSelfCheckGuardDefenderFilter */
+  slice_structure_pipe,   /* STSelfCheckGuardHelpFilter */
+  slice_structure_pipe,   /* STSelfCheckGuardSeriesFilter */
+  slice_structure_fork,   /* STDirectDefense */
+  slice_structure_fork,   /* STReflexHelpFilter */
+  slice_structure_fork,   /* STReflexSeriesFilter */
+  slice_structure_fork,   /* STReflexAttackerFilter */
+  slice_structure_fork,   /* STReflexDefenderFilter */
+  slice_structure_fork,   /* STSelfAttack */
+  slice_structure_fork,   /* STSelfDefense */
+  slice_structure_pipe,   /* STRestartGuardRootDefenderFilter */
+  slice_structure_pipe,   /* STRestartGuardHelpFilter */
+  slice_structure_pipe,   /* STRestartGuardSeriesFilter */
+  slice_structure_branch, /* STIntelligentHelpFilter */
+  slice_structure_branch, /* STIntelligentSeriesFilter */
+  slice_structure_branch, /* STGoalReachableGuardHelpFilter */
+  slice_structure_branch, /* STGoalReachableGuardSeriesFilter */
+  slice_structure_pipe,   /* STKeepMatingGuardRootDefenderFilter */
+  slice_structure_pipe,   /* STKeepMatingGuardAttackerFilter */
+  slice_structure_pipe,   /* STKeepMatingGuardDefenderFilter */
+  slice_structure_pipe,   /* STKeepMatingGuardHelpFilter */
+  slice_structure_pipe,   /* STKeepMatingGuardSeriesFilter */
+  slice_structure_pipe,   /* STMaxFlightsquares */
+  slice_structure_pipe,   /* STDegenerateTree */
+  slice_structure_branch, /* STMaxNrNonTrivial */
+  slice_structure_pipe,   /* STMaxThreatLength */
+  slice_structure_pipe,   /* STMaxTimeRootDefenderFilter */
+  slice_structure_pipe,   /* STMaxTimeDefenderFilter */
+  slice_structure_pipe,   /* STMaxTimeHelpFilter */
+  slice_structure_pipe,   /* STMaxTimeSeriesFilter */
+  slice_structure_pipe,   /* STMaxSolutionsRootSolvableFilter */
+  slice_structure_pipe,   /* STMaxSolutionsRootDefenderFilter */
+  slice_structure_pipe,   /* STMaxSolutionsHelpFilter */
+  slice_structure_pipe,   /* STMaxSolutionsSeriesFilter */
+  slice_structure_pipe,   /* STStopOnShortSolutionsRootSolvableFilter */
+  slice_structure_branch, /* STStopOnShortSolutionsHelpFilter */
+  slice_structure_branch  /* STStopOnShortSolutionsSeriesFilter */
+};
+
+/* Determine whether a slice is of some structural type
+ * @param si identifies slice
+ * @param type identifies type
+ * @return true iff slice si has (at least) structural type type
+ */
+boolean slice_has_structure(slice_index si, slice_structural_type type)
+{
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_structural_type,type,"");
+  TraceFunctionParamListEnd();
+
+  switch (highest_structural_type[slices[si].type])
+  {
+    case slice_structure_leaf:
+      result = type==slice_structure_leaf;
+      break;
+
+    case slice_structure_binary:
+      result = type==slice_structure_binary;
+      break;
+
+    case slice_structure_pipe:
+      result = type==slice_structure_pipe;
+      break;
+
+    case slice_structure_branch:
+      result = type==slice_structure_pipe || type==slice_structure_branch;
+      break;
+
+    case slice_structure_fork:
+      result = (type==slice_structure_pipe
+                || type==slice_structure_branch
+                || type==slice_structure_fork);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean is_slice_index_free[max_nr_slices];
 
 static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
