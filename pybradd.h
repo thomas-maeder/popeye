@@ -54,12 +54,6 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
                                                stip_length_type n,
                                                unsigned int max_result);
 
-/* Find solutions in next slice
- * @param si slice index
- * @return true iff >=1 solution has been found
- */
-boolean branch_d_defender_solve_next(slice_index si);
-
 /* Solve at root level.
  * @param si slice index
  * @return true iff >=1 solution was found
