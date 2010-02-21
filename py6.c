@@ -103,7 +103,6 @@
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
 #include "pymovein.h"
-#include "pybrah.h"
 #include "pyquodli.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
@@ -127,6 +126,7 @@
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "stipulation/help_play/root.h"
 #ifdef _SE_
 #include "se.h"
 #endif 
@@ -498,7 +498,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STProxy */
   &slice_traverse_children,           /* STBranchDirect */
   &slice_traverse_children,           /* STBranchDirectDefender */
-  &slice_traverse_children,           /* STBranchHelp */
+  &slice_traverse_children,           /* STHelpMove */
   &slice_traverse_children,           /* STHelpFork */
   &slice_traverse_children,           /* STSeriesMove */
   &slice_traverse_children,           /* STSeriesFork */
@@ -2096,7 +2096,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STHelpRoot:
     case STHelpShortcut:
-    case STBranchHelp:
+    case STHelpMove:
     case STMoveInverterRootSolvableFilter:
     case STNot:
     case STProxy:
@@ -2309,7 +2309,7 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
-  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STSeriesMove */
   &slice_traverse_children, /* STSeriesFork */
@@ -2420,7 +2420,7 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
-  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STSeriesMove */
   &slice_traverse_children, /* STSeriesFork */
@@ -2527,7 +2527,7 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STBranchDirect */
   &slice_traverse_children, /* STBranchDirectDefender */
-  &slice_traverse_children, /* STBranchHelp */
+  &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STSeriesMove */
   &slice_traverse_children, /* STSeriesFork */
@@ -2822,7 +2822,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STProxy */
   &insert_hash_element_branch_direct,        /* STBranchDirect */
   &slice_traverse_children,                  /* STBranchDirectDefender */
-  &insert_hash_element_branch_help,          /* STBranchHelp */
+  &insert_hash_element_branch_help,          /* STHelpMove */
   &slice_traverse_children,                  /* STHelpFork */
   &insert_hash_element_branch_series,        /* STSeriesMove */
   &slice_traverse_children,                  /* STSeriesFork */
@@ -3153,7 +3153,7 @@ static Token iterate_twins(Token prev_token)
  */
 void iterate_problems(void)
 {
-  Token prev_token;
+  Token prev_token = BeginProblem;
 
   do
   {

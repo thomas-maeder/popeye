@@ -1,6 +1,6 @@
 #include "optimisations/stoponshortsolutions/help_filter.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/branch.h"
 #include "trace.h"
 

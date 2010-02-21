@@ -19,10 +19,10 @@
 #include "pyint.h"
 #include "pydata.h"
 #include "pyslice.h"
-#include "pybrah.h"
+#include "stipulation/help_play/branch.h"
 #include "pybrafrk.h"
 #include "pyproof.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "pyintslv.h"
@@ -2782,7 +2782,7 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STProxy */
   &slice_traverse_children,         /* STBranchDirect */
   &slice_traverse_children,         /* STBranchDirectDefender */
-  &slice_traverse_children,         /* STBranchHelp */
+  &slice_traverse_children,         /* STHelpMove */
   &slice_traverse_children,         /* STHelpFork */
   &slice_traverse_children,         /* STSeriesMove */
   &slice_traverse_children,         /* STSeriesFork */
@@ -2968,7 +2968,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STProxy */
   &slice_traverse_children,         /* STBranchDirect */
   &slice_traverse_children,         /* STBranchDirectDefender */
-  &slice_traverse_children,         /* STBranchHelp */
+  &slice_traverse_children,         /* STHelpMove */
   &partial_moves_left_help_fork,  /* STHelpFork */
   &slice_traverse_children,         /* STSeriesMove */
   &partial_moves_left_series_fork,  /* STSeriesFork */
@@ -3460,7 +3460,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STProxy */
   &slice_traverse_children,                  /* STBranchDirect */
   &slice_traverse_children,                  /* STBranchDirectDefender */
-  &intelligent_guards_inserter_branch_help,  /* STBranchHelp */
+  &intelligent_guards_inserter_branch_help,  /* STHelpMove */
   &slice_traverse_children,                  /* STHelpFork */
   &intelligent_guards_inserter_branch_series,/* STSeriesMove */
   &slice_traverse_children,                  /* STSeriesFork */
@@ -3789,7 +3789,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STProxy */
   &intelligent_mode_support_none,                /* STBranchDirect */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
-  &slice_traverse_children,                      /* STBranchHelp */
+  &slice_traverse_children,                      /* STHelpMove */
   &intelligent_mode_support_detector_fork,       /* STHelpFork */
   &slice_traverse_children,                      /* STSeriesMove */
   &intelligent_mode_support_detector_fork,       /* STSeriesFork */

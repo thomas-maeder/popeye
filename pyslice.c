@@ -1,7 +1,8 @@
 #include "pyslice.h"
 #include "pydata.h"
 #include "trace.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyleaf.h"
 #include "pyleafd.h"
@@ -9,7 +10,6 @@
 #include "pyleafh.h"
 #include "pybrad.h"
 #include "pybradd.h"
-#include "pybrah.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -58,7 +58,7 @@ void slice_solve_threats(table threats, slice_index si)
       direct_solve_threats(threats,si);
       break;
 
-    case STBranchHelp:
+    case STHelpMove:
     case STHelpHashed:
       help_solve_threats(threats,si);
       break;
@@ -112,7 +112,7 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
       result = direct_are_threats_refuted(threats,si);
       break;
 
-    case STBranchHelp:
+    case STHelpMove:
     case STHelpHashed:
       result = help_are_threats_refuted(threats,si);
       break;
@@ -182,7 +182,7 @@ boolean slice_solve(slice_index si)
       solution_found = direct_solve(si);
       break;
 
-    case STBranchHelp:
+    case STHelpMove:
     case STHelpHashed:
     case STStopOnShortSolutionsHelpFilter:
       solution_found = help_solve(si);
@@ -367,7 +367,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = help_root_has_solution(si);
       break;
 
-    case STBranchHelp:
+    case STHelpMove:
       result = help_has_solution(si);
       break;
 

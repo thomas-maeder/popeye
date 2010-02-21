@@ -37,14 +37,14 @@ trace.h:
 optimisations/stoponshortsolutions/help_filter$(OBJ_SUFFIX):  \
  optimisations/stoponshortsolutions/help_filter.c \
   optimisations/stoponshortsolutions/help_filter.h \
-  optimisations/stoponshortsolutions/stoponshortsolutions.h pyhelp.h \
-  stipulation/branch.h trace.h
+  optimisations/stoponshortsolutions/stoponshortsolutions.h \
+  stipulation/help_play/play.h stipulation/branch.h trace.h
 
 optimisations/stoponshortsolutions/help_filter.h:
 
 optimisations/stoponshortsolutions/stoponshortsolutions.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
 stipulation/branch.h:
 

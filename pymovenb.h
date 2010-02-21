@@ -8,7 +8,7 @@
  * by the user
  */
 
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "pydirect.h"
 
 /* Reset the restart number setting.

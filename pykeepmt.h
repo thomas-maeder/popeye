@@ -6,7 +6,7 @@
  * deliver mate has been captured.
  */
 
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "pydirect.h"
 #include "pyslice.h"
 

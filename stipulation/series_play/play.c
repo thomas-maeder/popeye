@@ -1,5 +1,5 @@
 #include "stipulation/series_play/play.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "pydirect.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
@@ -47,7 +47,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       result = series_move_solve_in_n(si,n);
       break;
 
-    case STBranchHelp:
+    case STHelpMove:
     {
       stip_length_type const n_help = n-slack_length_series+slack_length_help;
       result = help_solve_in_n(si,n_help);

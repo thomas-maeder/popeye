@@ -1,7 +1,7 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
 #include "pydirect.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -635,7 +635,7 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STSelfCheckGuard* slice after a STBranchHelp slice
+/* Insert a STSelfCheckGuard* slice after a STHelpMove slice
  */
 static boolean selfcheck_guards_inserter_branch_help(slice_index si,
                                                      slice_traversal *st)
@@ -960,7 +960,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                 /* STProxy */
   &selfcheck_guards_inserter_branch_direct, /* STBranchDirect */
   &selfcheck_guards_inserter_branch_direct_defender_root, /* STBranchDirectDefender */
-  &selfcheck_guards_inserter_branch_help,   /* STBranchHelp */
+  &selfcheck_guards_inserter_branch_help,   /* STHelpMove */
   &slice_traverse_children,                 /* STHelpFork */
   &selfcheck_guards_inserter_branch_series, /* STSeriesMove */
   &slice_traverse_children,                 /* STSeriesFork */
@@ -1058,7 +1058,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_traverse_children,                      /* STProxy */
   &slice_traverse_children,                      /* STBranchDirect */
   &slice_traverse_children,                      /* STBranchDirectDefender */
-  &slice_traverse_children,                      /* STBranchHelp */
+  &slice_traverse_children,                      /* STHelpMove */
   &slice_traverse_children,                      /* STHelpFork */
   &slice_traverse_children,                      /* STSeriesMove */
   &slice_traverse_children,                      /* STSeriesFork */

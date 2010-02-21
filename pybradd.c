@@ -1,12 +1,13 @@
 #include "pybradd.h"
 #include "pydirect.h"
 #include "pybrad.h"
-#include "pybrah.h"
 #include "pydata.h"
 #include "pyslice.h"
-#include "pybrafrk.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/move.h"
+#include "stipulation/help_play/fork.h"
 #include "pyoutput.h"
 #include "pymsg.h"
 #include "trace.h"
@@ -842,7 +843,7 @@ boolean branch_d_defender_root_make_setplay_slice(slice_index si,
 
   if (prod->sibling!=no_slice)
   {
-    slice_index const branch = alloc_branch_h_slice(slack_length_help+1,
+    slice_index const branch = alloc_help_move_slice(slack_length_help+1,
                                                     slack_length_help+1);
     slice_index const fork = alloc_help_fork_slice(slack_length_help,
                                                    slack_length_help,

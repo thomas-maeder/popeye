@@ -2,7 +2,7 @@
 #include "pydirect.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
-#include "pybrah.h"
+#include "stipulation/help_play/branch.h"
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "pydata.h"
@@ -463,7 +463,7 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,       /* STProxy */
   &direct_guards_inserter_attack, /* STBranchDirect */
   &direct_guards_inserter_defense,       /* STBranchDirectDefender */
-  &slice_traverse_children,       /* STBranchHelp */
+  &slice_traverse_children,       /* STHelpMove */
   &slice_traverse_children,       /* STBHelpFork */
   &slice_traverse_children,       /* STSeriesMove */
   &slice_traverse_children,       /* STSeriesFork */

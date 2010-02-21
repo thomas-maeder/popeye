@@ -1,7 +1,7 @@
 #include "pymovenb.h"
 #include "pypipe.h"
 #include "pydirect.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -297,7 +297,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STProxy */
   &slice_operation_noop,         /* STBranchDirect */
   &slice_operation_noop,         /* STBranchDirectDefender */
-  &restart_guards_inserter_help, /* STBranchHelp */
+  &restart_guards_inserter_help, /* STHelpMove */
   &slice_operation_noop,         /* STHelpFork */
   &restart_guards_inserter_series, /* STSeriesMove */
   &slice_operation_noop,         /* STSeriesFork */

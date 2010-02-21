@@ -1,6 +1,6 @@
 #include "optimisations/maxsolutions/help_filter.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "pypipe.h"
 #include "trace.h"
 

@@ -1,7 +1,7 @@
 #include "pyselfgd.h"
 #include "pybrafrk.h"
-#include "pybrah.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/branch.h"
+#include "stipulation/help_play/play.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "pyoutput.h"
@@ -706,7 +706,7 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,                          /* STProxy */
   &self_guards_inserter_branch_direct,               /* STBranchDirect */
   &self_guards_inserter_branch_direct_defender,      /* STBranchDirectDefender */
-  &slice_traverse_children,                          /* STBranchHelp */
+  &slice_traverse_children,                          /* STHelpMove */
   &slice_traverse_children,                          /* STHelpFork */
   &slice_traverse_children,                          /* STSeriesMove */
   &slice_traverse_children,                          /* STSeriesFork */

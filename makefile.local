@@ -11,13 +11,13 @@ INCLUDES =      pyenum.h \
 		pytable.h \
 		pyoutput.h \
 		pygoal.h pystip.h pyslice.h \
-		pydirect.h pyhelp.h \
+		pydirect.h \
 		pypipe.h \
 		pydirctg.h pyselfgd.h pyreflxg.h \
 		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
 		pynontrv.h pythreat.h pydegent.h \
 		pyquodli.h pyrecipr.h pynot.h \
-		pybrad.h pybradd.h pybrah.h \
+		pybrad.h pybradd.h \
 		pyleaf.h pyleafd.h pyleaff.h pyleafh.h \
 		pymovein.h \
 		pymovenb.h \
@@ -29,13 +29,13 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pyoutput.c \
 		pysignal.c pyintslv.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
-		pydirect.c pyhelp.c \
+		pydirect.c \
 		pypipe.c \
 		pydirctg.c pyselfgd.c pyreflxg.c \
 		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \
 		pynontrv.c pythreat.c pydegent.c \
 		pyquodli.c pyrecipr.c pynot.c \
-		pybrad.c pybradd.c pybrah.c \
+		pybrad.c pybradd.c \
 		pyleaf.c pyleafd.c pyleaff.c pyleafh.c \
 		pymovein.c \
 		pymovenb.c \

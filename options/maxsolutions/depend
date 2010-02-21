@@ -48,13 +48,14 @@ trace.h:
 optimisations/maxsolutions/help_filter$(OBJ_SUFFIX):  \
  optimisations/maxsolutions/help_filter.c \
   optimisations/maxsolutions/help_filter.h \
-  optimisations/maxsolutions/maxsolutions.h pyhelp.h pypipe.h trace.h
+  optimisations/maxsolutions/maxsolutions.h stipulation/help_play/play.h \
+  pypipe.h trace.h
 
 optimisations/maxsolutions/help_filter.h:
 
 optimisations/maxsolutions/maxsolutions.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
 pypipe.h:
 

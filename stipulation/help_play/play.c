@@ -1,9 +1,10 @@
-#include "pyhelp.h"
-#include "pybrah.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/move.h"
 #include "stipulation/help_play/shortcut.h"
+#include "stipulation/help_play/fork.h"
 #include "pyleafh.h"
-#include "pybrafrk.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
@@ -40,8 +41,8 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = help_shortcut_solve_in_n(si,n);
       break;
 
-    case STBranchHelp:
-      result = branch_h_solve_in_n(si,n);
+    case STHelpMove:
+      result = help_move_solve_in_n(si,n);
       break;
 
     case STSeriesMove:
@@ -139,7 +140,7 @@ boolean help_root_solve(slice_index si)
       result = hashed_help_root_solve(si);
       break;
 
-    case STBranchHelp:
+    case STHelpMove:
       /* TODO we may arrive here when looking for short solutions of
        * some sford stipulations */
       result = help_solve(si);
@@ -207,9 +208,8 @@ boolean help_has_solution_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchHelp:
-    case STHelpRoot:
-      result = branch_h_has_solution_in_n(si,n);
+    case STHelpMove:
+      result = help_move_has_solution_in_n(si,n);
       break;
 
     case STHelpShortcut:
@@ -278,8 +278,8 @@ void help_solve_threats_in_n(table threats, slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchHelp:
-      branch_h_solve_threats_in_n(threats,si,n);
+    case STHelpMove:
+      help_move_solve_threats_in_n(threats,si,n);
       break;
 
     case STHelpFork:
@@ -365,8 +365,8 @@ boolean help_are_threats_refuted(table threats, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchHelp:
-      result = branch_h_are_threats_refuted(threats,si);
+    case STHelpMove:
+      result = help_move_are_threats_refuted(threats,si);
       break;
 
     default:

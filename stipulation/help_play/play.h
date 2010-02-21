@@ -1,11 +1,11 @@
-#if !defined(PYHELP_H)
-#define PYHELP_H
+#if !defined(STIPULATION_HELP_PLAY_PLAY_H)
+#define STIPULATION_HELP_PLAY_PLAY_H
 
 /* Interface for dynamically dispatching help play functions to slices
  * depending on the slice type
  */
 
-#include "py.h"
+#include "boolean.h"
 #include "pystip.h"
 #include "pytable.h"
 #include "pyslice.h"

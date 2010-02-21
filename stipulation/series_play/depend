@@ -126,8 +126,8 @@ stipulation/proxy.h:
 
 trace.h:
 stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
-  stipulation/series_play/play.h pyhelp.h pydirect.h pyhash.h pyreflxg.h \
-  pykeepmt.h pyselfcg.h pymovein.h pymovenb.h \
+  stipulation/series_play/play.h stipulation/help_play/play.h pydirect.h \
+  pyhash.h pyreflxg.h pykeepmt.h pyselfcg.h pymovein.h pymovenb.h \
   stipulation/series_play/fork.h stipulation/series_play/parry_fork.h \
   stipulation/series_play/root.h stipulation/series_play/move.h \
   stipulation/series_play/shortcut.h \
@@ -138,7 +138,7 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
 
 stipulation/series_play/play.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
 pydirect.h:
 

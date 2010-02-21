@@ -1,5 +1,5 @@
 #include "pyintslv.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
 
@@ -22,7 +22,7 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STHelpShortcut:
-    case STBranchHelp:
+    case STHelpMove:
     case STHelpHashed:
     case STHelpFork:
       help_solve_in_n(si,n);

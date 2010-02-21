@@ -102,7 +102,7 @@
 #include "pyproof.h"
 #include "pystip.h"
 #include "pybrafrk.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
@@ -286,7 +286,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_traverse_children,       /* STProxy */
   &slice_property_offset_shifter, /* STBranchDirect */
   &slice_property_offset_shifter, /* STBranchDirectDefender */
-  &slice_property_offset_shifter, /* STBranchHelp */
+  &slice_property_offset_shifter, /* STHelpMove */
   &slice_property_offset_shifter, /* STHelpFork */
   &slice_property_offset_shifter, /* STSeriesMove */
   &slice_property_offset_shifter, /* STSeriesFork */
@@ -658,7 +658,7 @@ static slice_operation const slice_properties_initalisers[] =
   &slice_traverse_children,              /* STProxy */
   &init_slice_properties_pipe,           /* STBranchDirect */
   &init_slice_properties_pipe,           /* STBranchDirectDefender */
-  &init_slice_properties_pipe,           /* STBranchHelp */
+  &init_slice_properties_pipe,           /* STHelpMove */
   &slice_traverse_children,              /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
   &slice_traverse_children,              /* STSeriesFork */
@@ -2098,7 +2098,7 @@ void insert_helphashed_slice(slice_index si)
       break;
     }
 
-    case STBranchHelp:
+    case STHelpMove:
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const min_length = slices[si].u.branch.min_length;

@@ -93,7 +93,7 @@ boolean has_short_solution_been_found_in_phase(void)
 static void insert_filters(slice_index si);
 
 /* Insert a STStopOnShortSolutionsHelpFilter slice after the toplevel
- * STBranchHelp slice
+ * STHelpMove slice
  */
 static boolean insert_stoponshortsolutions_help_filter(slice_index si,
                                                          slice_traversal *st)
@@ -163,7 +163,7 @@ static slice_operation const stoponshortsolutions_filter_inserters[] =
   &slice_traverse_children,                   /* STProxy */
   &slice_traverse_children,                   /* STBranchDirect */
   &slice_traverse_children,                   /* STBranchDirectDefender */
-  &insert_stoponshortsolutions_help_filter,   /* STBranchHelp */
+  &insert_stoponshortsolutions_help_filter,   /* STHelpMove */
   &insert_stoponshortsolutions_help_filter,   /* STHelpFork */
   &insert_stoponshortsolutions_series_filter, /* STSeriesMove */
   &insert_stoponshortsolutions_series_filter, /* STSeriesFork */
@@ -276,7 +276,7 @@ static slice_operation const stoponshortsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STProxy */
   &slice_traverse_children,     /* STBranchDirect */
   &slice_traverse_children,     /* STBranchDirectDefender */
-  &slice_traverse_children,     /* STBranchHelp */
+  &slice_traverse_children,     /* STHelpMove */
   &slice_traverse_children,     /* STHelpFork */
   &slice_traverse_children,     /* STSeriesMove */
   &slice_traverse_children,     /* STSeriesFork */

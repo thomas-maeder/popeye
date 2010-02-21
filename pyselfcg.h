@@ -6,7 +6,7 @@
  */
 
 #include "pydirect.h"
-#include "pyhelp.h"
+#include "stipulation/help_play/play.h"
 #include "pyslice.h"
 
 /* Instrument stipulation with STSelfCheckGuard slices

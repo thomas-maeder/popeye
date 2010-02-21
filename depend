@@ -43,8 +43,8 @@ pyenum.h:
 py1$(OBJ_SUFFIX): py1.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pymsg.h py1.h pyproc.h py4.h pygoal.h pydata.h \
   pystip.h pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h \
-  pymovenb.h pyhelp.h pyflight.h pynontrv.h pythreat.h trace.h \
-  platform/maxtime.h boolean.h
+  pymovenb.h stipulation/help_play/play.h boolean.h pystip.h pytable.h \
+  pyslice.h pyflight.h pynontrv.h pythreat.h trace.h platform/maxtime.h
 
 py.h:
 
@@ -88,7 +88,15 @@ pyslice.h:
 
 pymovenb.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pystip.h:
+
+pytable.h:
+
+pyslice.h:
 
 pyflight.h:
 
@@ -99,8 +107,6 @@ pythreat.h:
 trace.h:
 
 platform/maxtime.h:
-
-boolean.h:
 py2$(OBJ_SUFFIX): py2.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pystip.h \
   pyleaf.h conditions/exclusive.h boolean.h pyposit.h trace.h
@@ -271,14 +277,15 @@ trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h py1.h pyproc.h py4.h pygoal.h pydata.h pymsg.h \
   pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h pyint.h \
-  pyproof.h pymovein.h pybrah.h pyquodli.h pykeepmt.h pyhelp.h pyselfcg.h \
-  pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h pypipe.h \
-  pyleaf.h stipulation/proxy.h pypipe.h trace.h pyoutput.h \
-  conditions/exclusive.h boolean.h pyposit.h conditions/republican.h \
-  pyproc.h platform/maxmem.h platform/maxtime.h platform/pytime.h \
-  platform/priority.h optimisations/maxtime/maxtime.h pystip.h \
+  pyproof.h pymovein.h pyquodli.h pykeepmt.h stipulation/help_play/play.h \
+  boolean.h pystip.h pytable.h pyslice.h pyselfcg.h pymovenb.h pyflight.h \
+  pydegent.h pythreat.h pynontrv.h pypipe.h pyleaf.h stipulation/proxy.h \
+  pypipe.h trace.h pyoutput.h conditions/exclusive.h pyposit.h \
+  conditions/republican.h pyproc.h platform/maxmem.h platform/maxtime.h \
+  platform/pytime.h platform/priority.h optimisations/maxtime/maxtime.h \
   optimisations/maxsolutions/maxsolutions.h \
-  optimisations/stoponshortsolutions/stoponshortsolutions.h
+  optimisations/stoponshortsolutions/stoponshortsolutions.h \
+  stipulation/help_play/root.h
 
 py.h:
 
@@ -326,13 +333,19 @@ pyproof.h:
 
 pymovein.h:
 
-pybrah.h:
-
 pyquodli.h:
 
 pykeepmt.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pystip.h:
+
+pytable.h:
+
+pyslice.h:
 
 pyselfcg.h:
 
@@ -360,8 +373,6 @@ pyoutput.h:
 
 conditions/exclusive.h:
 
-boolean.h:
-
 pyposit.h:
 
 conditions/republican.h:
@@ -378,21 +389,23 @@ platform/priority.h:
 
 optimisations/maxtime/maxtime.h:
 
-pystip.h:
-
 optimisations/maxsolutions/maxsolutions.h:
 
 optimisations/stoponshortsolutions/stoponshortsolutions.h:
+
+stipulation/help_play/root.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pyslice.h \
   pystip.h pytable.h pyquodli.h pyrecipr.h pynot.h pybrad.h pydirect.h \
-  pybradd.h pybrah.h pymovein.h pyproof.h pyhash.h DHT/dhtbcmem.h \
-  pymovenb.h pyhelp.h pydegent.h pyflight.h pynontrv.h pythreat.h \
-  pyreflxg.h pydirctg.h pyselfgd.h pypipe.h pyint.h stipulation/proxy.h \
-  pypipe.h stipulation/series_play/branch.h py.h pystip.h \
-  stipulation/series_play/parry_fork.h pyslice.h conditions/republican.h \
-  pyproc.h optimisations/maxsolutions/maxsolutions.h \
-  optimisations/stoponshortsolutions/stoponshortsolutions.h boolean.h \
+  pybradd.h pymovein.h pyproof.h pyhash.h DHT/dhtbcmem.h pymovenb.h \
+  stipulation/help_play/play.h boolean.h pystip.h pytable.h pyslice.h \
+  pydegent.h pyflight.h pynontrv.h pythreat.h pyreflxg.h pydirctg.h \
+  pyselfgd.h pypipe.h pyint.h stipulation/proxy.h pypipe.h \
+  stipulation/series_play/branch.h py.h \
+  stipulation/series_play/parry_fork.h stipulation/help_play/branch.h \
+  stipulation/help_play/move.h conditions/republican.h pyproc.h \
+  optimisations/maxsolutions/maxsolutions.h \
+  optimisations/stoponshortsolutions/stoponshortsolutions.h \
   platform/maxtime.h platform/maxmem.h trace.h
 
 py.h:
@@ -439,8 +452,6 @@ pydirect.h:
 
 pybradd.h:
 
-pybrah.h:
-
 pymovein.h:
 
 pyproof.h:
@@ -451,7 +462,15 @@ DHT/dhtbcmem.h:
 
 pymovenb.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pystip.h:
+
+pytable.h:
+
+pyslice.h:
 
 pydegent.h:
 
@@ -479,11 +498,11 @@ stipulation/series_play/branch.h:
 
 py.h:
 
-pystip.h:
-
 stipulation/series_play/parry_fork.h:
 
-pyslice.h:
+stipulation/help_play/branch.h:
+
+stipulation/help_play/move.h:
 
 conditions/republican.h:
 
@@ -492,8 +511,6 @@ pyproc.h:
 optimisations/maxsolutions/maxsolutions.h:
 
 optimisations/stoponshortsolutions/stoponshortsolutions.h:
-
-boolean.h:
 
 platform/maxtime.h:
 
@@ -539,10 +556,10 @@ pylang.h:
 pyhash$(OBJ_SUFFIX): pyhash.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
   pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h \
   pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h pyint.h \
-  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h pybrafrk.h pyhelp.h \
-  stipulation/series_play/play.h py.h pystip.h pytable.h pyslice.h \
-  pynontrv.h stipulation/branch.h pypipe.h pyoutput.h platform/maxtime.h \
-  boolean.h platform/maxmem.h trace.h
+  DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pyproof.h pybrafrk.h \
+  stipulation/help_play/play.h boolean.h pystip.h pytable.h pyslice.h \
+  stipulation/series_play/play.h py.h pynontrv.h stipulation/branch.h \
+  pypipe.h pyoutput.h platform/maxtime.h platform/maxmem.h trace.h
 
 py.h:
 
@@ -594,17 +611,19 @@ pyproof.h:
 
 pybrafrk.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
-stipulation/series_play/play.h:
-
-py.h:
+boolean.h:
 
 pystip.h:
 
 pytable.h:
 
 pyslice.h:
+
+stipulation/series_play/play.h:
+
+py.h:
 
 pynontrv.h:
 
@@ -615,8 +634,6 @@ pypipe.h:
 pyoutput.h:
 
 platform/maxtime.h:
-
-boolean.h:
 
 platform/maxmem.h:
 
@@ -784,9 +801,9 @@ pylang.h:
 
 pygoal.h:
 pyintslv$(OBJ_SUFFIX): pyintslv.c pyintslv.h pystip.h pygoal.h boolean.h py.h \
-  pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyhelp.h \
-  pytable.h pyslice.h stipulation/series_play/play.h py.h pystip.h \
-  pytable.h pyslice.h trace.h
+  pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
+  stipulation/help_play/play.h boolean.h pystip.h pytable.h pyslice.h \
+  stipulation/series_play/play.h py.h trace.h
 
 pyintslv.h:
 
@@ -810,7 +827,11 @@ pyenum.h:
 
 pylang.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pystip.h:
 
 pytable.h:
 
@@ -820,22 +841,16 @@ stipulation/series_play/play.h:
 
 py.h:
 
-pystip.h:
-
-pytable.h:
-
-pyslice.h:
-
 trace.h:
 pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
   pytable.h pydirect.h pyslice.h pystip.h pymsg.h pyint.h pydata.h \
-  pybrah.h pybrafrk.h pyproof.h pyhelp.h stipulation/series_play/play.h \
-  py.h pystip.h pytable.h pyslice.h pypipe.h pyintslv.h pymovenb.h \
+  stipulation/help_play/branch.h pystip.h pyslice.h pybrafrk.h pyproof.h \
+  stipulation/help_play/play.h boolean.h pytable.h \
+  stipulation/series_play/play.h py.h pypipe.h pyintslv.h pymovenb.h \
   stipulation/branch.h optimisations/intelligent/help_filter.h \
   optimisations/intelligent/series_filter.h \
-  optimisations/maxsolutions/maxsolutions.h platform/maxtime.h boolean.h \
-  trace.h
+  optimisations/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
 
 py.h:
 
@@ -877,23 +892,25 @@ pyint.h:
 
 pydata.h:
 
-pybrah.h:
+stipulation/help_play/branch.h:
+
+pystip.h:
+
+pyslice.h:
 
 pybrafrk.h:
 
 pyproof.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pytable.h:
 
 stipulation/series_play/play.h:
 
 py.h:
-
-pystip.h:
-
-pytable.h:
-
-pyslice.h:
 
 pypipe.h:
 
@@ -910,8 +927,6 @@ optimisations/intelligent/series_filter.h:
 optimisations/maxsolutions/maxsolutions.h:
 
 platform/maxtime.h:
-
-boolean.h:
 
 trace.h:
 pygoal$(OBJ_SUFFIX): pygoal.c pygoal.h boolean.h py.h pyposit.h pyboard.h pybitmsk.h \
@@ -959,13 +974,15 @@ pystip.h:
 trace.h:
 pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pydata.h pyproc.h py4.h \
-  pyquodli.h pyslice.h pytable.h pybrad.h pydirect.h pybradd.h pybrah.h \
-  pyleaf.h pyleafd.h pyleafh.h pyleaff.h pyrecipr.h pybrafrk.h pynot.h \
-  pyhash.h DHT/dhtbcmem.h pyreflxg.h pyhelp.h pydirctg.h pymovein.h \
-  pykeepmt.h pyselfcg.h pyselfgd.h pypipe.h \
-  stipulation/operators/binary.h pystip.h stipulation/branch.h pyslice.h \
-  stipulation/help_play/shortcut.h py.h stipulation/series_play/root.h \
-  stipulation/series_play/move.h pytable.h \
+  pyquodli.h pyslice.h pytable.h pybrad.h pydirect.h pybradd.h \
+  stipulation/help_play/branch.h pystip.h pyslice.h pyleaf.h pyleafd.h \
+  pyleafh.h pyleaff.h pyrecipr.h pybrafrk.h pynot.h pyhash.h \
+  DHT/dhtbcmem.h pyreflxg.h stipulation/help_play/play.h boolean.h \
+  pytable.h pydirctg.h pymovein.h pykeepmt.h pyselfcg.h pyselfgd.h \
+  pypipe.h stipulation/operators/binary.h stipulation/branch.h \
+  stipulation/help_play/root.h stipulation/help_play/move.h \
+  stipulation/help_play/shortcut.h py.h stipulation/help_play/fork.h \
+  stipulation/series_play/root.h stipulation/series_play/move.h \
   stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
   stipulation/proxy.h pypipe.h trace.h
 
@@ -1007,7 +1024,11 @@ pydirect.h:
 
 pybradd.h:
 
-pybrah.h:
+stipulation/help_play/branch.h:
+
+pystip.h:
+
+pyslice.h:
 
 pyleaf.h:
 
@@ -1029,7 +1050,11 @@ DHT/dhtbcmem.h:
 
 pyreflxg.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pytable.h:
 
 pydirctg.h:
 
@@ -1045,21 +1070,21 @@ pypipe.h:
 
 stipulation/operators/binary.h:
 
-pystip.h:
-
 stipulation/branch.h:
 
-pyslice.h:
+stipulation/help_play/root.h:
+
+stipulation/help_play/move.h:
 
 stipulation/help_play/shortcut.h:
 
 py.h:
 
+stipulation/help_play/fork.h:
+
 stipulation/series_play/root.h:
 
 stipulation/series_play/move.h:
-
-pytable.h:
 
 stipulation/series_play/shortcut.h:
 
@@ -1072,11 +1097,12 @@ pypipe.h:
 trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h \
-  pydata.h pyproc.h py4.h trace.h pyhelp.h stipulation/series_play/play.h \
-  py.h pystip.h pytable.h pyslice.h pyleaf.h pyleafd.h pydirect.h \
-  pyleaff.h pyleafh.h pybrad.h pybradd.h pybrah.h pybrafrk.h pyquodli.h \
-  pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
-  pydirctg.h pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
+  pydata.h pyproc.h py4.h trace.h stipulation/help_play/root.h boolean.h \
+  pystip.h pyslice.h stipulation/help_play/play.h pytable.h \
+  stipulation/series_play/play.h py.h pyleaf.h pyleafd.h pydirect.h \
+  pyleaff.h pyleafh.h pybrad.h pybradd.h pybrafrk.h pyquodli.h pyrecipr.h \
+  pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h pydirctg.h \
+  pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
   optimisations/maxsolutions/root_solvable_filter.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h
 
@@ -1112,17 +1138,21 @@ py4.h:
 
 trace.h:
 
-pyhelp.h:
+stipulation/help_play/root.h:
+
+boolean.h:
+
+pystip.h:
+
+pyslice.h:
+
+stipulation/help_play/play.h:
+
+pytable.h:
 
 stipulation/series_play/play.h:
 
 py.h:
-
-pystip.h:
-
-pytable.h:
-
-pyslice.h:
 
 pyleaf.h:
 
@@ -1137,8 +1167,6 @@ pyleafh.h:
 pybrad.h:
 
 pybradd.h:
-
-pybrah.h:
 
 pybrafrk.h:
 
@@ -1173,9 +1201,10 @@ pydirect$(OBJ_SUFFIX): pydirect.c pydirect.h py.h boolean.h pyposit.h pyboard.h 
   pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h pygoal.h \
   pytable.h stipulation/series_play/play.h py.h pystip.h pytable.h \
   pyslice.h pybrad.h pybradd.h pybrafrk.h pyhash.h DHT/dhtbcmem.h \
-  pyreflxg.h pyhelp.h pykeepmt.h pyselfcg.h pydirctg.h pyselfgd.h \
-  pymovenb.h pyflight.h pydegent.h pythreat.h pynontrv.h pyleafd.h \
-  pyint.h optimisations/maxtime/root_defender_filter.h \
+  pyreflxg.h stipulation/help_play/play.h boolean.h pykeepmt.h pyselfcg.h \
+  pydirctg.h pyselfgd.h pymovenb.h pyflight.h pydegent.h pythreat.h \
+  pynontrv.h pyleafd.h pyint.h \
+  optimisations/maxtime/root_defender_filter.h \
   optimisations/maxtime/defender_filter.h \
   optimisations/maxsolutions/root_defender_filter.h trace.h
 
@@ -1227,7 +1256,9 @@ DHT/dhtbcmem.h:
 
 pyreflxg.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
 
 pykeepmt.h:
 
@@ -1256,92 +1287,6 @@ optimisations/maxtime/root_defender_filter.h:
 optimisations/maxtime/defender_filter.h:
 
 optimisations/maxsolutions/root_defender_filter.h:
-
-trace.h:
-pyhelp$(OBJ_SUFFIX): pyhelp.c pyhelp.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pystip.h pygoal.h pytable.h pyslice.h \
-  pybrah.h stipulation/series_play/play.h py.h pystip.h pytable.h \
-  pyslice.h stipulation/help_play/shortcut.h pyleafh.h pydirect.h \
-  pybrafrk.h pyhash.h DHT/dhtbcmem.h pyreflxg.h pykeepmt.h pyselfcg.h \
-  pymovenb.h pyint.h pydata.h pyproc.h py4.h \
-  optimisations/intelligent/help_filter.h \
-  optimisations/maxtime/help_filter.h \
-  optimisations/maxsolutions/help_filter.h \
-  optimisations/stoponshortsolutions/help_filter.h trace.h
-
-pyhelp.h:
-
-py.h:
-
-boolean.h:
-
-pyposit.h:
-
-pyboard.h:
-
-pybitmsk.h:
-
-pypiece.h:
-
-pyenum.h:
-
-pylang.h:
-
-pystip.h:
-
-pygoal.h:
-
-pytable.h:
-
-pyslice.h:
-
-pybrah.h:
-
-stipulation/series_play/play.h:
-
-py.h:
-
-pystip.h:
-
-pytable.h:
-
-pyslice.h:
-
-stipulation/help_play/shortcut.h:
-
-pyleafh.h:
-
-pydirect.h:
-
-pybrafrk.h:
-
-pyhash.h:
-
-DHT/dhtbcmem.h:
-
-pyreflxg.h:
-
-pykeepmt.h:
-
-pyselfcg.h:
-
-pymovenb.h:
-
-pyint.h:
-
-pydata.h:
-
-pyproc.h:
-
-py4.h:
-
-optimisations/intelligent/help_filter.h:
-
-optimisations/maxtime/help_filter.h:
-
-optimisations/maxsolutions/help_filter.h:
-
-optimisations/stoponshortsolutions/help_filter.h:
 
 trace.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
@@ -1381,8 +1326,9 @@ pypipe.h:
 trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
-  pygoal.h pytable.h pybrafrk.h pybrah.h pypipe.h pyoutput.h pydata.h \
-  pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
+  pygoal.h pytable.h pybrafrk.h stipulation/help_play/branch.h pystip.h \
+  pyslice.h pypipe.h pyoutput.h pydata.h pyproc.h py4.h \
+  stipulation/proxy.h pypipe.h trace.h
 
 pydirctg.h:
 
@@ -1414,7 +1360,11 @@ pytable.h:
 
 pybrafrk.h:
 
-pybrah.h:
+stipulation/help_play/branch.h:
+
+pystip.h:
+
+pyslice.h:
 
 pypipe.h:
 
@@ -1433,8 +1383,9 @@ pypipe.h:
 trace.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
-  pygoal.h pytable.h pybrafrk.h pybrah.h pyhelp.h pypipe.h pydata.h \
-  pyproc.h py4.h pyoutput.h stipulation/proxy.h pypipe.h trace.h
+  pygoal.h pytable.h pybrafrk.h stipulation/help_play/branch.h pystip.h \
+  pyslice.h stipulation/help_play/play.h boolean.h pytable.h pypipe.h \
+  pydata.h pyproc.h py4.h pyoutput.h stipulation/proxy.h pypipe.h trace.h
 
 pyselfgd.h:
 
@@ -1466,9 +1417,17 @@ pytable.h:
 
 pybrafrk.h:
 
-pybrah.h:
+stipulation/help_play/branch.h:
 
-pyhelp.h:
+pystip.h:
+
+pyslice.h:
+
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pytable.h:
 
 pypipe.h:
 
@@ -1487,9 +1446,10 @@ pypipe.h:
 trace.h:
 pyreflxg$(OBJ_SUFFIX): pyreflxg.c pyreflxg.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
-  pygoal.h pytable.h pyhelp.h stipulation/series_play/play.h py.h \
-  pystip.h pytable.h pyslice.h pypipe.h pybrafrk.h pyoutput.h pydata.h \
-  pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
+  pygoal.h pytable.h stipulation/help_play/play.h boolean.h pystip.h \
+  pytable.h pyslice.h stipulation/series_play/play.h py.h pypipe.h \
+  pybrafrk.h pyoutput.h pydata.h pyproc.h py4.h stipulation/proxy.h \
+  pypipe.h trace.h
 
 pyreflxg.h:
 
@@ -1519,17 +1479,19 @@ pygoal.h:
 
 pytable.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
-stipulation/series_play/play.h:
-
-py.h:
+boolean.h:
 
 pystip.h:
 
 pytable.h:
 
 pyslice.h:
+
+stipulation/series_play/play.h:
+
+py.h:
 
 pypipe.h:
 
@@ -1550,8 +1512,9 @@ pypipe.h:
 trace.h:
 pybrafrk$(OBJ_SUFFIX): pybrafrk.c pybrafrk.h pyslice.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h \
-  pytable.h pydirect.h pyhelp.h stipulation/series_play/play.h py.h \
-  pystip.h pytable.h pyslice.h stipulation/series_play/fork.h \
+  pytable.h pydirect.h stipulation/help_play/play.h boolean.h pystip.h \
+  pytable.h pyslice.h stipulation/help_play/fork.h \
+  stipulation/series_play/play.h py.h stipulation/series_play/fork.h \
   stipulation/branch.h stipulation/proxy.h pypipe.h pydata.h pyproc.h \
   py4.h trace.h
 
@@ -1583,17 +1546,21 @@ pytable.h:
 
 pydirect.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
-stipulation/series_play/play.h:
-
-py.h:
+boolean.h:
 
 pystip.h:
 
 pytable.h:
 
 pyslice.h:
+
+stipulation/help_play/fork.h:
+
+stipulation/series_play/play.h:
+
+py.h:
 
 stipulation/series_play/fork.h:
 
@@ -1612,8 +1579,9 @@ py4.h:
 trace.h:
 pykeepmt$(OBJ_SUFFIX): pykeepmt.c pypipe.h pystip.h pygoal.h boolean.h py.h \
   pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h \
-  pytable.h pykeepmt.h pyhelp.h pydirect.h stipulation/series_play/play.h \
-  py.h pystip.h pytable.h pyslice.h pyleaf.h trace.h
+  pytable.h pykeepmt.h stipulation/help_play/play.h boolean.h pystip.h \
+  pytable.h pyslice.h pydirect.h stipulation/series_play/play.h py.h \
+  pyleaf.h trace.h
 
 pypipe.h:
 
@@ -1643,13 +1611,9 @@ pytable.h:
 
 pykeepmt.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
-pydirect.h:
-
-stipulation/series_play/play.h:
-
-py.h:
+boolean.h:
 
 pystip.h:
 
@@ -1657,14 +1621,20 @@ pytable.h:
 
 pyslice.h:
 
+pydirect.h:
+
+stipulation/series_play/play.h:
+
+py.h:
+
 pyleaf.h:
 
 trace.h:
 pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h pydirect.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
-  pygoal.h pytable.h pyhelp.h pypipe.h stipulation/series_play/play.h \
-  py.h pystip.h pytable.h pyslice.h pyproc.h py4.h pydata.h pymsg.h \
-  trace.h
+  pygoal.h pytable.h stipulation/help_play/play.h boolean.h pystip.h \
+  pytable.h pyslice.h pypipe.h stipulation/series_play/play.h py.h \
+  pyproc.h py4.h pydata.h pymsg.h trace.h
 
 pyselfcg.h:
 
@@ -1694,19 +1664,21 @@ pygoal.h:
 
 pytable.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
 
-pypipe.h:
-
-stipulation/series_play/play.h:
-
-py.h:
+boolean.h:
 
 pystip.h:
 
 pytable.h:
 
 pyslice.h:
+
+pypipe.h:
+
+stipulation/series_play/play.h:
+
+py.h:
 
 pyproc.h:
 
@@ -2088,9 +2060,10 @@ pypipe.h:
 trace.h:
 pybradd$(OBJ_SUFFIX): pybradd.c pybradd.h boolean.h pystip.h pygoal.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pytable.h \
-  pydirect.h pybrad.h pybrah.h pydata.h pyproc.h py4.h pybrafrk.h \
-  stipulation/branch.h pystip.h pyslice.h stipulation/proxy.h pypipe.h \
-  pyoutput.h pymsg.h trace.h
+  pydirect.h pybrad.h pydata.h pyproc.h py4.h stipulation/branch.h \
+  pystip.h pyslice.h stipulation/proxy.h pypipe.h \
+  stipulation/help_play/root.h boolean.h stipulation/help_play/move.h \
+  pytable.h stipulation/help_play/fork.h pyoutput.h pymsg.h trace.h
 
 pybradd.h:
 
@@ -2122,15 +2095,11 @@ pydirect.h:
 
 pybrad.h:
 
-pybrah.h:
-
 pydata.h:
 
 pyproc.h:
 
 py4.h:
-
-pybrafrk.h:
 
 stipulation/branch.h:
 
@@ -2142,76 +2111,21 @@ stipulation/proxy.h:
 
 pypipe.h:
 
-pyoutput.h:
-
-pymsg.h:
-
-trace.h:
-pybrah$(OBJ_SUFFIX): pybrah.c pybrah.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pystip.h pygoal.h pyslice.h pytable.h \
-  pydata.h pyproc.h py4.h pymsg.h pyoutput.h pyhelp.h pybrafrk.h \
-  pydirect.h pypipe.h trace.h stipulation/branch.h pystip.h pyslice.h \
-  stipulation/proxy.h pypipe.h stipulation/help_play/shortcut.h py.h
-
-pybrah.h:
-
-py.h:
+stipulation/help_play/root.h:
 
 boolean.h:
 
-pyposit.h:
-
-pyboard.h:
-
-pybitmsk.h:
-
-pypiece.h:
-
-pyenum.h:
-
-pylang.h:
-
-pystip.h:
-
-pygoal.h:
-
-pyslice.h:
+stipulation/help_play/move.h:
 
 pytable.h:
 
-pydata.h:
-
-pyproc.h:
-
-py4.h:
-
-pymsg.h:
+stipulation/help_play/fork.h:
 
 pyoutput.h:
 
-pyhelp.h:
-
-pybrafrk.h:
-
-pydirect.h:
-
-pypipe.h:
+pymsg.h:
 
 trace.h:
-
-stipulation/branch.h:
-
-pystip.h:
-
-pyslice.h:
-
-stipulation/proxy.h:
-
-pypipe.h:
-
-stipulation/help_play/shortcut.h:
-
-py.h:
 pyleaf$(OBJ_SUFFIX): pyleaf.c pyleaf.h boolean.h pystip.h pygoal.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h trace.h pydata.h \
   pyproc.h py4.h platform/maxtime.h boolean.h pyint.h pytable.h \
@@ -2460,15 +2374,25 @@ pydata.h:
 pyintslv.h:
 
 trace.h:
-pymovenb$(OBJ_SUFFIX): pymovenb.c pymovenb.h pyhelp.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h \
-  pytable.h pyslice.h pydirect.h pypipe.h stipulation/series_play/play.h \
-  py.h pystip.h pytable.h pyslice.h pyproc.h py4.h pydata.h pymsg.h \
-  trace.h
+pymovenb$(OBJ_SUFFIX): pymovenb.c pymovenb.h stipulation/help_play/play.h boolean.h \
+  pystip.h pytable.h pyslice.h pydirect.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h \
+  pygoal.h pytable.h pypipe.h stipulation/series_play/play.h py.h \
+  pyproc.h py4.h pydata.h pymsg.h trace.h
 
 pymovenb.h:
 
-pyhelp.h:
+stipulation/help_play/play.h:
+
+boolean.h:
+
+pystip.h:
+
+pytable.h:
+
+pyslice.h:
+
+pydirect.h:
 
 py.h:
 
@@ -2486,27 +2410,19 @@ pyenum.h:
 
 pylang.h:
 
+pyslice.h:
+
 pystip.h:
 
 pygoal.h:
 
 pytable.h:
 
-pyslice.h:
-
-pydirect.h:
-
 pypipe.h:
 
 stipulation/series_play/play.h:
 
 py.h:
-
-pystip.h:
-
-pytable.h:
-
-pyslice.h:
 
 pyproc.h:
 
@@ -2517,15 +2433,11 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyhash.h DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h pytable.h pydirect.h pyslice.h pystip.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2542,6 +2454,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

@@ -72,7 +72,6 @@
 #include "pynot.h"
 #include "pybrad.h"
 #include "pybradd.h"
-#include "pybrah.h"
 #include "pymovein.h"
 #include "pyproof.h"
 #include "pymovenb.h"
@@ -88,6 +87,8 @@
 #include "stipulation/proxy.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/parry_fork.h"
+#include "stipulation/help_play/branch.h"
+#include "stipulation/help_play/move.h"
 #include "conditions/republican.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
@@ -1800,7 +1801,7 @@ static char *ParseLength(char *tok,
 
     switch (type)
     {
-      case STBranchHelp:
+      case STHelpMove:
         /* we count half moves in help play */
         *length *= 2;
         *length += slack_length_help-1;
@@ -2336,7 +2337,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     result = ParsePlay(tok+2,proxy); /* skip over ph */
     if (result!=0)
     {
-      slice_index const help = alloc_branch_h_slice(slack_length_help+1,
+      slice_index const help = alloc_help_move_slice(slack_length_help+1,
                                                     slack_length_help+1);
       convert_to_parry_series_branch(slices[proxy].u.pipe.next,help);
     }
@@ -2347,7 +2348,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     result = ParsePlay(tok+1,proxy);
     if (result!=0)
     {
-      slice_index const help = alloc_branch_h_slice(slack_length_help+1,
+      slice_index const help = alloc_help_move_slice(slack_length_help+1,
                                                     slack_length_help+1);
       convert_to_parry_series_branch(slices[proxy].u.pipe.next,help);
     }
@@ -2375,7 +2376,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STHelpMove,&length,&min_length);
       --length;
       if (length%2==0)
         --min_length;
@@ -2412,7 +2413,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STHelpMove,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_help)
@@ -2437,7 +2438,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STHelpMove,&length,&min_length);
       if (result!=0)
       {
         Side const leaf_starter = ((length-slack_length_help)%2==0
@@ -2468,7 +2469,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STHelpMove,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_help)
@@ -2500,7 +2501,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STHelpMove,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_help)
@@ -2533,7 +2534,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STBranchHelp,&length,&min_length);
+      result = ParseLength(tok2,STHelpMove,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_help)
@@ -5438,7 +5439,7 @@ static char *ParseTwinning(boolean *stipChanged)
     {
       if (continued)
       {
-        if (slices[root_slice].type==STBranchHelp
+        if (slices[root_slice].type==STHelpMove
             || slices[root_slice].type==STSeriesMove)
         {
           slice_index const next = slices[root_slice].u.pipe.next;

@@ -289,7 +289,7 @@ static slice_operation const maxthreatlength_guards_inserters[] =
   &slice_traverse_children,        /* STProxy */
   &slice_traverse_children,        /* STBranchDirect */
   &maxthreatlength_guard_inserter, /* STBranchDirectDefender */
-  &slice_traverse_children,        /* STBranchHelp */
+  &slice_traverse_children,        /* STHelpMove */
   &slice_traverse_children,        /* STHelpFork */
   &slice_traverse_children,        /* STSeriesMove */
   &slice_traverse_children,        /* STSeriesFork */
