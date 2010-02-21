@@ -301,7 +301,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverterSolvableFilter */
   &slice_property_offset_shifter, /* STMoveInverterSeriesFilter */
   &slice_property_offset_shifter, /* STAttackRoot */
-  &slice_property_offset_shifter, /* STDirectDefenderRoot */
+  &slice_property_offset_shifter, /* STDefenseRoot */
   &slice_property_offset_shifter, /* STDirectHashed */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpShortcut */
@@ -673,7 +673,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
   &slice_traverse_children,              /* STAttackRoot */
-  &slice_traverse_children,              /* STDirectDefenderRoot */
+  &slice_traverse_children,              /* STDefenseRoot */
   &init_slice_properties_hashed_direct,  /* STDirectHashed */
   &slice_traverse_children,              /* STHelpRoot */
   &slice_traverse_children,              /* STHelpShortcut */

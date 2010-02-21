@@ -1002,11 +1002,13 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   pykeepmt.h pyselfcg.h pyselfgd.h pypipe.h \
   stipulation/operators/binary.h stipulation/branch.h \
   stipulation/battle_play/attack_root.h \
-  stipulation/battle_play/attack_move.h stipulation/help_play/root.h \
-  stipulation/help_play/move.h stipulation/help_play/shortcut.h py.h \
-  stipulation/help_play/fork.h stipulation/series_play/root.h \
-  stipulation/series_play/move.h stipulation/series_play/shortcut.h \
-  stipulation/series_play/fork.h stipulation/proxy.h pypipe.h trace.h
+  stipulation/battle_play/attack_move.h \
+  stipulation/battle_play/defense_root.h pydirect.h \
+  stipulation/help_play/root.h stipulation/help_play/move.h \
+  stipulation/help_play/shortcut.h py.h stipulation/help_play/fork.h \
+  stipulation/series_play/root.h stipulation/series_play/move.h \
+  stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
+  stipulation/proxy.h pypipe.h trace.h
 
 pystip.h:
 
@@ -1097,6 +1099,10 @@ stipulation/branch.h:
 stipulation/battle_play/attack_root.h:
 
 stipulation/battle_play/attack_move.h:
+
+stipulation/battle_play/defense_root.h:
+
+pydirect.h:
 
 stipulation/help_play/root.h:
 
@@ -1229,7 +1235,8 @@ pydirect$(OBJ_SUFFIX): pydirect.c pydirect.h boolean.h pystip.h pygoal.h py.h \
   stipulation/battle_play/attack_play.h pyslice.h pytable.h pyreflxg.h \
   stipulation/help_play/play.h boolean.h pystip.h pykeepmt.h pyselfcg.h \
   pydirctg.h pyselfgd.h pymovenb.h pyflight.h pydegent.h pythreat.h \
-  pynontrv.h pyleafd.h optimisations/maxtime/root_defender_filter.h py.h \
+  pynontrv.h pyleafd.h stipulation/battle_play/defense_root.h pydirect.h \
+  optimisations/maxtime/root_defender_filter.h py.h \
   optimisations/maxtime/defender_filter.h \
   optimisations/maxsolutions/root_defender_filter.h trace.h
 
@@ -1298,6 +1305,10 @@ pythreat.h:
 pynontrv.h:
 
 pyleafd.h:
+
+stipulation/battle_play/defense_root.h:
+
+pydirect.h:
 
 optimisations/maxtime/root_defender_filter.h:
 
@@ -2026,6 +2037,7 @@ pybradd$(OBJ_SUFFIX): pybradd.c pybradd.h boolean.h pystip.h pygoal.h py.h pypos
   pydirect.h pydata.h pyproc.h py4.h stipulation/branch.h pystip.h \
   pyslice.h stipulation/proxy.h pypipe.h \
   stipulation/battle_play/attack_play.h pytable.h \
+  stipulation/battle_play/defense_root.h pydirect.h \
   stipulation/help_play/root.h boolean.h stipulation/help_play/move.h \
   stipulation/help_play/fork.h pyoutput.h pymsg.h trace.h
 
@@ -2076,6 +2088,10 @@ pypipe.h:
 stipulation/battle_play/attack_play.h:
 
 pytable.h:
+
+stipulation/battle_play/defense_root.h:
+
+pydirect.h:
 
 stipulation/help_play/root.h:
 

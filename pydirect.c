@@ -14,6 +14,7 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyleafd.h"
+#include "stipulation/battle_play/defense_root.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
@@ -36,8 +37,8 @@ boolean direct_defender_root_defend(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectDefenderRoot:
-      result = branch_d_defender_root_defend(si);
+    case STDefenseRoot:
+      result = defense_root_defend(si);
       break;
 
     case STSelfAttack:
@@ -179,7 +180,7 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectDefenderRoot: /* case needed for nontrivial */
+    case STDefenseRoot: /* case needed for nontrivial */
     case STBranchDirectDefender:
       result = branch_d_defender_can_defend_in_n(si,n,max_result);
       break;

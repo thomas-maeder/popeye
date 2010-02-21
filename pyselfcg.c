@@ -781,7 +781,7 @@ static boolean selfcheck_guards_inserter_attack_move(slice_index si,
  * slice
  */
 static boolean
-selfcheck_guards_inserter_branch_direct_defender_root(slice_index si,
+selfcheck_guards_inserter_defense_root(slice_index si,
                                                       slice_traversal *st)
 {
   boolean const result = true;
@@ -960,7 +960,7 @@ static slice_operation const selfcheck_guards_inserters[] =
 {
   &slice_traverse_children,                 /* STProxy */
   &selfcheck_guards_inserter_attack_move, /* STAttackMove */
-  &selfcheck_guards_inserter_branch_direct_defender_root, /* STBranchDirectDefender */
+  &selfcheck_guards_inserter_defense_root, /* STBranchDirectDefender */
   &selfcheck_guards_inserter_branch_help,   /* STHelpMove */
   &slice_traverse_children,                 /* STHelpFork */
   &selfcheck_guards_inserter_branch_series, /* STSeriesMove */
@@ -975,7 +975,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_move_inverter, /* STMoveInverterSolvableFilter */
   &selfcheck_guards_inserter_move_inverter_series, /* STMoveInverterSeriesFilter */
   &selfcheck_guards_inserter_attack_root,   /* STAttackRoot */
-  &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
+  &selfcheck_guards_inserter_branch_direct_defender, /* STDefenseRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &slice_traverse_children,                 /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpShortcut */
@@ -1073,7 +1073,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_traverse_children,                      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                      /* STMoveInverterSeriesFilter */
   &selfcheck_guards_inserter_toplevel_root,      /* STAttackRoot */
-  &slice_traverse_children,                      /* STDirectDefenderRoot */
+  &slice_traverse_children,                      /* STDefenseRoot */
   &slice_traverse_children,                      /* STDirectHashed */
   &selfcheck_guards_inserter_toplevel_root,      /* STHelpRoot */
   &slice_traverse_children,                      /* STHelpShortcut */

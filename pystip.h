@@ -40,7 +40,7 @@
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
                                                                         \
     ENUMERATOR(STAttackRoot),      /* root level of direct play */      \
-    ENUMERATOR(STDirectDefenderRoot), /* root level of postkey direct play */ \
+    ENUMERATOR(STDefenseRoot), /* root level of postkey direct play */ \
     ENUMERATOR(STDirectHashed),    /* direct play with hash table */    \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \

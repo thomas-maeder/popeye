@@ -311,7 +311,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,      /* STMoveInverterSeriesFilter */
   &restart_guards_inserter_attack_root, /* STAttackRoot */
-  &slice_operation_noop,         /* STDirectDefenderRoot */
+  &slice_operation_noop,         /* STDefenseRoot */
   &slice_traverse_children,      /* STDirectHashed */
   &slice_traverse_children,      /* STHelpRoot */
   &pipe_traverse_next,           /* STHelpShortcut */

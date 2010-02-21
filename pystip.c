@@ -24,6 +24,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
+#include "stipulation/battle_play/defense_root.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/shortcut.h"
@@ -62,7 +63,7 @@
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
                                                                         \
     ENUMERATOR(STAttackRoot),      /* root level of direct play */      \
-    ENUMERATOR(STDirectDefenderRoot), /* root level of postkey direct play */ \
+    ENUMERATOR(STDefenseRoot), /* root level of postkey direct play */ \
     ENUMERATOR(STDirectHashed),    /* direct play with hash table */    \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
@@ -177,7 +178,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
   slice_structure_branch, /* STAttackRoot */
-  slice_structure_branch, /* STDirectDefenderRoot */
+  slice_structure_branch, /* STDefenseRoot */
   slice_structure_branch, /* STDirectHashed */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_branch, /* STHelpShortcut */
@@ -318,7 +319,7 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STMoveInverterSolvableFilter */
   &mark_reachable_slice, /* STMoveInverterSeriesFilter */
   &mark_reachable_slice, /* STAttackRoot */
-  &mark_reachable_slice, /* STDirectDefenderRoot */
+  &mark_reachable_slice, /* STDefenseRoot */
   &mark_reachable_slice, /* STDirectHashed */
   &mark_reachable_slice, /* STHelpRoot */
   &mark_reachable_slice, /* STHelpShortcut */
@@ -618,7 +619,7 @@ static slice_operation const deallocators[] =
   &traverse_and_deallocate,       /* STMoveInverterSolvableFilter */
   &traverse_and_deallocate,       /* STMoveInverterSeriesFilter */
   &traverse_and_deallocate,       /* STAttackRoot */
-  &traverse_and_deallocate,       /* STDirectDefenderRoot */
+  &traverse_and_deallocate,       /* STDefenseRoot */
   &traverse_and_deallocate,       /* STDirectHashed */
   &traverse_and_deallocate,       /* STHelpRoot */
   &traverse_and_deallocate,       /* STHelpShortcut */
@@ -743,7 +744,7 @@ static slice_operation const root_slice_inserters[] =
   &move_inverter_insert_root,          /* STMoveInverterSolvableFilter */
   &slice_traverse_children,            /* STMoveInverterSeriesFilter */
   &slice_traverse_children,            /* STAttackRoot */
-  &slice_traverse_children,            /* STDirectDefenderRoot */
+  &slice_traverse_children,            /* STDefenseRoot */
   &slice_traverse_children,            /* STDirectHashed */
   &slice_traverse_children,            /* STHelpRoot */
   &slice_traverse_children,            /* STHelpShortcut */
@@ -836,7 +837,7 @@ static slice_operation const proxy_resolvers[] =
   &pipe_resolve_proxies,            /* STMoveInverterSolvableFilter */
   &pipe_resolve_proxies,            /* STMoveInverterSeriesFilter */
   &pipe_resolve_proxies,            /* STAttackRoot */
-  &pipe_resolve_proxies,            /* STDirectDefenderRoot */
+  &pipe_resolve_proxies,            /* STDefenseRoot */
   &pipe_resolve_proxies,            /* STDirectHashed */
   &pipe_resolve_proxies,            /* STHelpRoot */
   &help_shortcut_resolve_proxies,   /* STHelpShortcut */
@@ -1072,7 +1073,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &slice_traverse_children,          /* STMoveInverterSolvableFilter */
   &slice_traverse_children,          /* STMoveInverterSeriesFilter */
   &slice_traverse_children,          /* STAttackRoot */
-  &slice_traverse_children,          /* STDirectDefenderRoot */
+  &slice_traverse_children,          /* STDefenseRoot */
   &slice_traverse_children,          /* STDirectHashed */
   &slice_traverse_children,          /* STHelpRoot */
   &slice_traverse_children,          /* STHelpShortcut */
@@ -1198,7 +1199,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
-  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
@@ -1315,7 +1316,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       case STHelpMove:
       case STSeriesMove:
       case STAttackRoot:
-      case STDirectDefenderRoot:
+      case STDefenseRoot:
       case STSeriesRoot:
       case STNot:
       case STMoveInverterRootSolvableFilter:
@@ -1470,7 +1471,7 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STMoveInverterSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSeriesFilter */
   &slice_traverse_children,   /* STAttackRoot */
-  &slice_traverse_children,   /* STDirectDefenderRoot */
+  &slice_traverse_children,   /* STDefenseRoot */
   &slice_traverse_children,   /* STDirectHashed */
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpShortcut */
@@ -1653,7 +1654,7 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,                       /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                       /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                       /* STAttackRoot */
-  &transform_to_quodlibet_branch_direct_defender, /* STDirectDefenderRoot */
+  &transform_to_quodlibet_branch_direct_defender, /* STDefenseRoot */
   &slice_traverse_children,                       /* STDirectHashed */
   &slice_traverse_children,                       /* STHelpRoot */
   &slice_traverse_children,                       /* STHelpShortcut */
@@ -1744,7 +1745,7 @@ static slice_operation const to_postkey_play_reducers[] =
   &slice_traverse_children,                       /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                       /* STMoveInverterSeriesFilter */
   &attack_root_reduce_to_postkey_play,            /* STAttackRoot */
-  &branch_d_defender_root_reduce_to_postkey_play, /* STDirectDefenderRoot */
+  &defense_root_reduce_to_postkey_play, /* STDefenseRoot */
   &slice_traverse_children,                       /* STDirectHashed */
   &slice_traverse_children,                       /* STHelpRoot */
   &slice_traverse_children,                       /* STHelpShortcut */
@@ -1866,7 +1867,7 @@ static slice_operation const setplay_makers[] =
   &pipe_traverse_next,                        /* STMoveInverterSolvableFilter */
   &pipe_traverse_next,                        /* STMoveInverterSeriesFilter */
   &attack_root_make_setplay_slice,            /* STAttackRoot */
-  &branch_d_defender_root_make_setplay_slice, /* STDirectDefenderRoot */
+  &defense_root_make_setplay_slice, /* STDefenseRoot */
   &slice_traverse_children,                   /* STDirectHashed */
   &help_root_make_setplay_slice,              /* STHelpRoot */
   &pipe_traverse_next,                        /* STHelpShortcut */
@@ -2050,7 +2051,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
-  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
@@ -2164,7 +2165,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STMoveInverterSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSeriesFilter */
   &slice_traverse_children,   /* STAttackRoot */
-  &slice_traverse_children,   /* STDirectDefenderRoot */
+  &slice_traverse_children,   /* STDefenseRoot */
   &slice_traverse_children,   /* STDirectHashed */
   &slice_traverse_children,   /* STHelpRoot */
   &slice_traverse_children,   /* STHelpShortcut */
@@ -2271,7 +2272,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &make_exact_branch,       /* STAttackRoot */
-  &make_exact_branch,       /* STDirectDefenderRoot */
+  &make_exact_branch,       /* STDefenseRoot */
   &slice_traverse_children, /* STDirectHashed */
   &make_exact_branch,       /* STHelpRoot */
   &make_exact_branch,       /* STHelpShortcut */
@@ -2358,7 +2359,7 @@ static slice_operation const starter_detectors[] =
   &move_inverter_detect_starter,          /* STMoveInverterSolvableFilter */
   &move_inverter_detect_starter,          /* STMoveInverterSeriesFilter */
   &attack_move_detect_starter,            /* STAttackRoot */
-  &branch_d_defender_root_detect_starter, /* STDirectDefenderRoot */
+  &defense_root_detect_starter, /* STDefenseRoot */
   &slice_traverse_children,               /* STDirectHashed */
   &pipe_detect_starter,                   /* STHelpRoot */
   &pipe_detect_starter,                   /* STHelpShortcut */
@@ -2447,7 +2448,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STMoveInverterSolvableFilter */
   &pipe_impose_inverted_starter,  /* STMoveInverterSeriesFilter */
   &pipe_impose_inverted_starter,  /* STAttackRoot */
-  &pipe_impose_inverted_starter,  /* STDirectDefenderRoot */
+  &pipe_impose_inverted_starter,  /* STDefenseRoot */
   &pipe_impose_starter,           /* STDirectHashed */
   &pipe_impose_starter,           /* STHelpRoot */
   &pipe_impose_starter,           /* STHelpShortcut */
@@ -2765,7 +2766,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STMoveInverterSolvableFilter */
   &traverse_pipe,         /* STMoveInverterSeriesFilter */
   &traverse_pipe,         /* STAttackRoot */
-  &traverse_pipe,         /* STDirectDefenderRoot */
+  &traverse_pipe,         /* STDefenseRoot */
   &traverse_pipe,         /* STDirectHashed */
   &traverse_pipe,         /* STHelpRoot */
   &traverse_shortcut,     /* STHelpShortcut */

@@ -254,7 +254,7 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STAttackRoot:
-    case STDirectDefenderRoot:
+    case STDefenseRoot:
     case STLeafDirect:
     case STDirectDefense:
     case STSelfAttack:

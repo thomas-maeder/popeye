@@ -512,7 +512,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMoveInverterSolvableFilter */
   &slice_traverse_children,           /* STMoveInverterSeriesFilter */
   &root_slice_type_found,             /* STAttackRoot */
-  &root_slice_type_found,             /* STDirectDefenderRoot */
+  &root_slice_type_found,             /* STDefenseRoot */
   &slice_traverse_children,           /* STDirectHashed */
   &root_slice_type_found,             /* STHelpRoot */
   &slice_traverse_children,           /* STHelpShortcut */
@@ -2323,7 +2323,7 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
-  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
@@ -2434,7 +2434,7 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
-  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
@@ -2541,7 +2541,7 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
-  &slice_traverse_children, /* STDirectDefenderRoot */
+  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
@@ -2836,7 +2836,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                  /* STAttackRoot */
-  &insert_hash_element_direct_defender_root, /* STDirectDefenderRoot */
+  &insert_hash_element_direct_defender_root, /* STDefenseRoot */
   &slice_traverse_children,                  /* STDirectHashed */
   &slice_traverse_children,                  /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpShortcut */

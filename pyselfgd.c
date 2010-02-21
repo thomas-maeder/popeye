@@ -602,12 +602,12 @@ static void insert_self_defense_after_defender(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert a STSelfDefense after each STDirectDefenderRoot slice if a
- * defender's move played in the STDirectDefenderRoot slice is allowed
+/* Insert a STSelfDefense after each STDefenseRoot slice if a
+ * defender's move played in the STDefenseRoot slice is allowed
  * to solve the following branch (as typical in a non-exact stipulation).
  */
 static
-boolean self_guards_inserter_branch_direct_defender_root(slice_index si,
+boolean self_guards_inserter_defense_root(slice_index si,
                                                          slice_traversal *st)
 {
   boolean const result = true;
@@ -647,8 +647,8 @@ boolean self_guards_inserter_branch_direct_defender_root(slice_index si,
   return result;
 }
 
-/* Insert a STSelfDefense after each STDirectDefenderRoot slice if a
- * defender's move played in the STDirectDefenderRoot slice is allowed
+/* Insert a STSelfDefense after each STDefenseRoot slice if a
+ * defender's move played in the STDefenseRoot slice is allowed
  * to solve the following branch (as typical in a non-exact stipulation).
  */
 static
@@ -721,7 +721,7 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,                          /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                          /* STMoveInverterSeriesFilter */
   &self_guards_inserter_attack_move,               /* STAttackRoot */
-  &self_guards_inserter_branch_direct_defender_root, /* STDirectDefenderRoot */
+  &self_guards_inserter_defense_root, /* STDefenseRoot */
   &slice_traverse_children,                          /* STDirectHashed */
   &slice_traverse_children,                          /* STHelpRoot */
   &slice_traverse_children,                          /* STHelpShortcut */
