@@ -2,8 +2,8 @@
 #include "pydata.h"
 #include "pyoutput.h"
 #include "pyslice.h"
+#include "stipulation/branch.h"
 #include "stipulation/help_play/play.h"
-#include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -271,7 +271,7 @@ slice_index help_root_shorten_help_play(slice_index root)
 
   if (slices[root].u.shortcut.length==slack_length_help+1)
   {
-    slice_index const proxy_to_goal = branch_deallocate_to_fork(root);
+    slice_index const proxy_to_goal = branch_deallocate(root);
     assert(slices[proxy_to_goal].type==STProxy);
     result = slices[proxy_to_goal].u.pipe.next;
     dealloc_proxy_slice(proxy_to_goal);

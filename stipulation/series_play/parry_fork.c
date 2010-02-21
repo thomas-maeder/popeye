@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/series_play/play.h"
-#include "pybrafrk.h"
+#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "pypipe.h"
 #include "trace.h"

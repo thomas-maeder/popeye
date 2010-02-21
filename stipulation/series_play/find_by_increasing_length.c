@@ -2,9 +2,9 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pyoutput.h"
+#include "stipulation/branch.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
 #include "trace.h"
 #include "stipulation/branch.h"
 #include "stipulation/series_play/branch.h"
@@ -120,7 +120,7 @@ slice_index series_root_shorten_series_play(slice_index root)
 
   if (slices[root].u.shortcut.length==slack_length_series+1)
   {
-    result = branch_deallocate_to_fork(root);
+    result = branch_deallocate(root);
     if (slices[result].type==STMoveInverterSeriesFilter)
     {
       slice_index const mi = result;

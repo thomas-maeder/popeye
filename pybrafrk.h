@@ -54,19 +54,4 @@ boolean branch_fork_root_solve(slice_index si);
  */
 boolean branch_fork_impose_starter(slice_index si, slice_traversal *st);
 
-/* Deallocate a branch
- * @param branch identifies branch
- * @return index of slice representing the play after the branch
- */
-slice_index branch_deallocate_to_fork(slice_index branch);
-
-/* Find the next slice with a specific type in a branch
- * @param type type of slice to be found
- * @param si identifies the slice where to start searching (si is not
- *           visited at the start of the search, but if the branch is
- *           recursive, it may be visited as the last slice of the search)
- * @return identifier for slice with type type; no_slice if none is found
- */
-slice_index branch_find_slice(SliceType type, slice_index si);
-
 #endif

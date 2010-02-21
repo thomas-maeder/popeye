@@ -1,7 +1,7 @@
+#include "stipulation/help_play/fork.h"
 #include "pybrafrk.h"
 #include "pydirect.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/help_play/fork.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/branch.h"

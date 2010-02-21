@@ -4,7 +4,7 @@
 #include "optimisations/stoponshortsolutions/series_filter.h"
 #include "pystip.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>

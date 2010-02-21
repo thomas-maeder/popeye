@@ -1,5 +1,6 @@
 #include "pyreflxg.h"
 #include "pydirect.h"
+#include "stipulation/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
@@ -428,7 +429,7 @@ boolean reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
     if (length==slack_length_direct+1)
     {
       slice_index const avoided = slices[si].u.reflex_guard.avoided;
-      dealloc_slice(branch_deallocate_to_fork(avoided));
+      dealloc_slice(branch_deallocate(avoided));
     }
     dealloc_slice(si);
   }

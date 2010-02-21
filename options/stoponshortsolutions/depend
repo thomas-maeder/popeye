@@ -4,7 +4,7 @@ optimisations/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX):  \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
   optimisations/stoponshortsolutions/help_filter.h \
   optimisations/stoponshortsolutions/series_filter.h pystip.h pypipe.h \
-  pybrafrk.h trace.h
+  stipulation/branch.h trace.h
 
 optimisations/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -18,7 +18,7 @@ pystip.h:
 
 pypipe.h:
 
-pybrafrk.h:
+stipulation/branch.h:
 
 trace.h:
 optimisations/stoponshortsolutions/root_solvable_filter$(OBJ_SUFFIX):  \
