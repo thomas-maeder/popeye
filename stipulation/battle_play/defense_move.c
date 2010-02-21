@@ -1,9 +1,7 @@
-#include "pybradd.h"
-#include "pydirect.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
-#include "pyslice.h"
+#include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/proxy.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_root.h"
 #include "stipulation/help_play/root.h"
@@ -15,13 +13,13 @@
 
 #include <assert.h>
 
-/* Allocate a STBranchDirectDefender defender slice.
+/* Allocate a STDefenseMove defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_branch_d_defender_slice(stip_length_type length,
-                                          stip_length_type min_length)
+slice_index alloc_defense_move_slice(stip_length_type length,
+                                     stip_length_type min_length)
 {
   slice_index result;
 
@@ -33,7 +31,7 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
   if (min_length<slack_length_direct)
     min_length += 2;
   assert(min_length>=slack_length_direct);
-  result = alloc_branch(STBranchDirectDefender,length,min_length);
+  result = alloc_branch(STDefenseMove,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +44,7 @@ slice_index alloc_branch_d_defender_slice(stip_length_type length,
  * @param st address of structure representing traversal
  * @return true iff slice has been successfully traversed
  */
-boolean branch_d_defender_insert_root(slice_index si, slice_traversal *st)
+boolean defense_move_insert_root(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   slice_index * const root = st->param;
@@ -299,7 +297,7 @@ static void solve_postkey_in_n(slice_index si, stip_length_type n)
  * @param n maximum number of half moves until end state has to be reached
  * @return true iff the defender can defend
  */
-boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
+boolean defense_move_defend_in_n(slice_index si, stip_length_type n)
 {
   Side const defender = slices[si].starter;
   boolean defender_is_immobile = true;
@@ -378,9 +376,9 @@ boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
  * @param max_result how many refutations should we look for
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int branch_d_defender_can_defend_in_n(slice_index si,
-                                               stip_length_type n,
-                                               unsigned int max_result)
+unsigned int defense_move_can_defend_in_n(slice_index si,
+                                          stip_length_type n,
+                                          unsigned int max_result)
 {
   Side const defender = slices[si].starter;
   unsigned int result = 0;

@@ -125,7 +125,7 @@ static slice_operation const slice_deallocators[] =
 {
   &traverse_and_deallocate_proxy,       /* STProxy */
   &traverse_and_deallocate,             /* STAttackMove */
-  &traverse_and_deallocate,             /* STBranchDirectDefender */
+  &traverse_and_deallocate,             /* STDefenseMove */
   &traverse_and_deallocate,             /* STHelpMove */
   &traverse_and_deallocate_branch_fork, /* STHelpFork */
   &traverse_and_deallocate,             /* STSeriesMove */

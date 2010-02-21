@@ -463,7 +463,7 @@ static slice_operation const direct_guards_inserters[] =
 {
   &slice_traverse_children,       /* STProxy */
   &direct_guards_inserter_attack, /* STAttackMove */
-  &direct_guards_inserter_defense,       /* STBranchDirectDefender */
+  &direct_guards_inserter_defense,       /* STDefenseMove */
   &slice_traverse_children,       /* STHelpMove */
   &slice_traverse_children,       /* STBHelpFork */
   &slice_traverse_children,       /* STSeriesMove */

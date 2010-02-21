@@ -296,7 +296,7 @@ static slice_operation const restart_guards_inserters[] =
 {
   &slice_traverse_children,      /* STProxy */
   &slice_operation_noop,         /* STAttackMove */
-  &slice_operation_noop,         /* STBranchDirectDefender */
+  &slice_operation_noop,         /* STDefenseMove */
   &restart_guards_inserter_help, /* STHelpMove */
   &slice_operation_noop,         /* STHelpFork */
   &restart_guards_inserter_series, /* STSeriesMove */

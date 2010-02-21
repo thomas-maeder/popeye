@@ -9,7 +9,7 @@
 #include "pyleafd.h"
 #include "pyleaff.h"
 #include "pyleafh.h"
-#include "pybradd.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"

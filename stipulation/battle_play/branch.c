@@ -1,5 +1,5 @@
 #include "stipulation/battle_play/branch.h"
-#include "pybradd.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -34,7 +34,7 @@ slice_index alloc_battle_branch(stip_length_type length,
 
     if (length-slack_length_direct>1)
     {
-      slice_index const def = alloc_branch_d_defender_slice(length-1,
+      slice_index const def = alloc_defense_move_slice(length-1,
                                                             min_length-1);
       pipe_link(branch,def);
       pipe_link(def,result);

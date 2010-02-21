@@ -1,5 +1,5 @@
 #include "pydirect.h"
-#include "pybradd.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
@@ -111,8 +111,8 @@ boolean direct_defender_defend_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchDirectDefender:
-      result = branch_d_defender_defend_in_n(si,n);
+    case STDefenseMove:
+      result = defense_move_defend_in_n(si,n);
       break;
 
     case STSelfCheckGuardDefenderFilter:
@@ -181,8 +181,8 @@ unsigned int direct_defender_can_defend_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STDefenseRoot: /* case needed for nontrivial */
-    case STBranchDirectDefender:
-      result = branch_d_defender_can_defend_in_n(si,n,max_result);
+    case STDefenseMove:
+      result = defense_move_can_defend_in_n(si,n,max_result);
       break;
 
     case STSelfAttack:

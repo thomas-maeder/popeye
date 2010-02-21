@@ -1,10 +1,11 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
-  stipulation/battle_play/branch.h pybradd.h pypipe.h stipulation/proxy.h \
-  stipulation/battle_play/attack_move.h trace.h
+  stipulation/battle_play/branch.h stipulation/battle_play/defense_move.h \
+  pypipe.h stipulation/proxy.h stipulation/battle_play/attack_move.h \
+  trace.h
 
 stipulation/battle_play/branch.h:
 
-pybradd.h:
+stipulation/battle_play/defense_move.h:
 
 pypipe.h:
 
@@ -31,15 +32,16 @@ stipulation/branch.h:
 trace.h:
 stipulation/battle_play/attack_move$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_move.c \
-  stipulation/battle_play/attack_move.h pydirect.h pybradd.h pydata.h \
-  pyproc.h pyoutput.h pypipe.h stipulation/branch.h \
-  stipulation/battle_play/attack_root.h trace.h
+  stipulation/battle_play/attack_move.h pydirect.h \
+  stipulation/battle_play/defense_move.h pydata.h pyproc.h pyoutput.h \
+  pypipe.h stipulation/branch.h stipulation/battle_play/attack_root.h \
+  trace.h
 
 stipulation/battle_play/attack_move.h:
 
 pydirect.h:
 
-pybradd.h:
+stipulation/battle_play/defense_move.h:
 
 pydata.h:
 
@@ -56,9 +58,10 @@ stipulation/battle_play/attack_root.h:
 trace.h:
 stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_play.c \
-  stipulation/battle_play/attack_play.h pybradd.h pybrafrk.h pyhash.h \
-  pyreflxg.h pykeepmt.h pyselfcg.h pydirctg.h pyselfgd.h pymovenb.h \
-  pyflight.h pydegent.h pythreat.h pynontrv.h pyleafd.h \
+  stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_move.h pybrafrk.h pyhash.h pyreflxg.h \
+  pykeepmt.h pyselfcg.h pydirctg.h pyselfgd.h pymovenb.h pyflight.h \
+  pydegent.h pythreat.h pynontrv.h pyleafd.h \
   stipulation/battle_play/attack_root.h \
   stipulation/battle_play/attack_move.h \
   stipulation/battle_play/defense_root.h stipulation/series_play/play.h \
@@ -68,7 +71,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
 
 stipulation/battle_play/attack_play.h:
 
-pybradd.h:
+stipulation/battle_play/defense_move.h:
 
 pybrafrk.h:
 
@@ -129,6 +132,37 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
+
+stipulation/help_play/root.h:
+
+stipulation/help_play/move.h:
+
+stipulation/help_play/fork.h:
+
+pyoutput.h:
+
+pymsg.h:
+
+trace.h:
+stipulation/battle_play/defense_move$(OBJ_SUFFIX):  \
+ stipulation/battle_play/defense_move.c \
+  stipulation/battle_play/defense_move.h pydata.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_root.h stipulation/help_play/root.h \
+  stipulation/help_play/move.h stipulation/help_play/fork.h pyoutput.h \
+  pymsg.h trace.h
+
+stipulation/battle_play/defense_move.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_root.h:
 
 stipulation/help_play/root.h:
 

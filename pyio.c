@@ -70,7 +70,7 @@
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"
-#include "pybradd.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "pymovein.h"
 #include "pyproof.h"
 #include "pymovenb.h"
@@ -2361,7 +2361,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const dirdef =
-          alloc_branch_d_defender_slice(slack_length_direct+1,
+          alloc_defense_move_slice(slack_length_direct+1,
                                         slack_length_direct+1);
       convert_to_parry_series_branch(slices[proxy].u.pipe.next,dirdef);
     }

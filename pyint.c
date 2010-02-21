@@ -2781,7 +2781,7 @@ static slice_operation const full_moves_left_initialisers[] =
 {
   &slice_traverse_children,         /* STProxy */
   &slice_traverse_children,         /* STAttackMove */
-  &slice_traverse_children,         /* STBranchDirectDefender */
+  &slice_traverse_children,         /* STDefenseMove */
   &slice_traverse_children,         /* STHelpMove */
   &slice_traverse_children,         /* STHelpFork */
   &slice_traverse_children,         /* STSeriesMove */
@@ -2967,7 +2967,7 @@ static slice_operation const partial_moves_left_initialisers[] =
 {
   &slice_traverse_children,         /* STProxy */
   &slice_traverse_children,         /* STAttackMove */
-  &slice_traverse_children,         /* STBranchDirectDefender */
+  &slice_traverse_children,         /* STDefenseMove */
   &slice_traverse_children,         /* STHelpMove */
   &partial_moves_left_help_fork,  /* STHelpFork */
   &slice_traverse_children,         /* STSeriesMove */
@@ -3459,7 +3459,7 @@ static slice_operation const intelligent_guards_inserters[] =
 {
   &slice_traverse_children,                  /* STProxy */
   &slice_traverse_children,                  /* STAttackMove */
-  &slice_traverse_children,                  /* STBranchDirectDefender */
+  &slice_traverse_children,                  /* STDefenseMove */
   &intelligent_guards_inserter_branch_help,  /* STHelpMove */
   &slice_traverse_children,                  /* STHelpFork */
   &intelligent_guards_inserter_branch_series,/* STSeriesMove */
@@ -3788,7 +3788,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
 {
   &slice_traverse_children,                      /* STProxy */
   &intelligent_mode_support_none,                /* STAttackMove */
-  &intelligent_mode_support_none,                /* STBranchDirectDefender */
+  &intelligent_mode_support_none,                /* STDefenseMove */
   &slice_traverse_children,                      /* STHelpMove */
   &intelligent_mode_support_detector_fork,       /* STHelpFork */
   &slice_traverse_children,                      /* STSeriesMove */

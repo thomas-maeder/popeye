@@ -819,7 +819,7 @@ selfcheck_guards_inserter_defense_root(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard* slice after a STBranchDirectDefender slice
+/* Insert a STSelfCheckGuard* slice after a STDefenseMove slice
  */
 static
 boolean selfcheck_guards_inserter_branch_direct_defender(slice_index si,
@@ -960,7 +960,7 @@ static slice_operation const selfcheck_guards_inserters[] =
 {
   &slice_traverse_children,                 /* STProxy */
   &selfcheck_guards_inserter_attack_move, /* STAttackMove */
-  &selfcheck_guards_inserter_defense_root, /* STBranchDirectDefender */
+  &selfcheck_guards_inserter_defense_root, /* STDefenseMove */
   &selfcheck_guards_inserter_branch_help,   /* STHelpMove */
   &slice_traverse_children,                 /* STHelpFork */
   &selfcheck_guards_inserter_branch_series, /* STSeriesMove */
@@ -1058,7 +1058,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
 {
   &slice_traverse_children,                      /* STProxy */
   &slice_traverse_children,                      /* STAttackMove */
-  &slice_traverse_children,                      /* STBranchDirectDefender */
+  &slice_traverse_children,                      /* STDefenseMove */
   &slice_traverse_children,                      /* STHelpMove */
   &slice_traverse_children,                      /* STHelpFork */
   &slice_traverse_children,                      /* STSeriesMove */

@@ -1,6 +1,6 @@
 #include "stipulation/battle_play/attack_move.h"
 #include "pydirect.h"
-#include "pybradd.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pyoutput.h"

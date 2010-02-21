@@ -162,7 +162,7 @@ static slice_operation const stoponshortsolutions_filter_inserters[] =
 {
   &slice_traverse_children,                   /* STProxy */
   &slice_traverse_children,                   /* STAttackMove */
-  &slice_traverse_children,                   /* STBranchDirectDefender */
+  &slice_traverse_children,                   /* STDefenseMove */
   &insert_stoponshortsolutions_help_filter,   /* STHelpMove */
   &insert_stoponshortsolutions_help_filter,   /* STHelpFork */
   &insert_stoponshortsolutions_series_filter, /* STSeriesMove */
@@ -275,7 +275,7 @@ static slice_operation const stoponshortsolutions_initialiser_inserters[] =
 {
   &slice_traverse_children,     /* STProxy */
   &slice_traverse_children,     /* STAttackMove */
-  &slice_traverse_children,     /* STBranchDirectDefender */
+  &slice_traverse_children,     /* STDefenseMove */
   &slice_traverse_children,     /* STHelpMove */
   &slice_traverse_children,     /* STHelpFork */
   &slice_traverse_children,     /* STSeriesMove */

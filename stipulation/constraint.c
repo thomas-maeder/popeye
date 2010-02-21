@@ -1314,7 +1314,7 @@ static slice_operation const reflex_guards_inserters[] =
 {
   &slice_traverse_children,            /* STProxy */
   &reflex_guards_inserter_attack,      /* STAttackMove */
-  &reflex_guards_inserter_defense,     /* STBranchDirectDefender */
+  &reflex_guards_inserter_defense,     /* STDefenseMove */
   &reflex_guards_inserter_help,        /* STHelpMove */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &reflex_guards_inserter_series,      /* STSeriesMove */
@@ -1497,7 +1497,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
 {
   &slice_traverse_children,             /* STProxy */
   &reflex_guards_inserter_attack_semi,  /* STAttackMove */
-  &reflex_guards_inserter_defense_semi, /* STBranchDirectDefender */
+  &reflex_guards_inserter_defense_semi, /* STDefenseMove */
   &reflex_guards_inserter_help,         /* STHelpMove */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
   &slice_traverse_children,             /* STSeriesMove */

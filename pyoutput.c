@@ -148,7 +148,7 @@ static slice_operation const output_mode_detectors[] =
 {
   &slice_traverse_children,   /* STProxy */
   &output_mode_treemode,      /* STAttackMove */
-  &output_mode_treemode,      /* STBranchDirectDefender */
+  &output_mode_treemode,      /* STDefenseMove */
   &output_mode_help_branch,   /* STHelpMove */
   &slice_traverse_children,   /* STHelpFork */
   &output_mode_linemode,      /* STSeriesMove */

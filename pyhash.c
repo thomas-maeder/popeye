@@ -286,7 +286,7 @@ static slice_operation const slice_property_offset_shifters[] =
 {
   &slice_traverse_children,       /* STProxy */
   &slice_property_offset_shifter, /* STAttackMove */
-  &slice_property_offset_shifter, /* STBranchDirectDefender */
+  &slice_property_offset_shifter, /* STDefenseMove */
   &slice_property_offset_shifter, /* STHelpMove */
   &slice_property_offset_shifter, /* STHelpFork */
   &slice_property_offset_shifter, /* STSeriesMove */
@@ -658,7 +658,7 @@ static slice_operation const slice_properties_initalisers[] =
 {
   &slice_traverse_children,              /* STProxy */
   &init_slice_properties_pipe,           /* STAttackMove */
-  &init_slice_properties_pipe,           /* STBranchDirectDefender */
+  &init_slice_properties_pipe,           /* STDefenseMove */
   &init_slice_properties_pipe,           /* STHelpMove */
   &slice_traverse_children,              /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */

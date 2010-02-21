@@ -813,7 +813,7 @@ static slice_operation const keepmating_guards_inserters[] =
 {
   &slice_traverse_children,                /* STProxy */
   &keepmating_guards_inserter_attack_move,  /* STAttackMove */
-  &keepmating_guards_inserter_defender,    /* STBranchDirectDefender */
+  &keepmating_guards_inserter_defender,    /* STDefenseMove */
   &keepmating_guards_inserter_branch_help,      /* STHelpMove */
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
   &keepmating_guards_inserter_branch_series, /* STSeriesMove */

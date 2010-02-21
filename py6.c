@@ -497,7 +497,7 @@ static slice_operation const slice_type_finders[] =
 {
   &slice_traverse_children,           /* STProxy */
   &slice_traverse_children,           /* STAttackMove */
-  &slice_traverse_children,           /* STBranchDirectDefender */
+  &slice_traverse_children,           /* STDefenseMove */
   &slice_traverse_children,           /* STHelpMove */
   &slice_traverse_children,           /* STHelpFork */
   &slice_traverse_children,           /* STSeriesMove */
@@ -692,7 +692,7 @@ static boolean verify_position(void)
   {
     slice_index const peer = slices[root_slice].u.pipe.next;
     slice_index const next = slices[peer].u.pipe.next;
-    assert(slices[peer].type==STBranchDirectDefender);
+    assert(slices[peer].type==STDefenseMove);
 
     if (2*get_max_threat_length()+slack_length_direct
         <slices[root_slice].u.branch.min_length)
@@ -2308,7 +2308,7 @@ static slice_operation const mating_side_finders[] =
 {
   &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STAttackMove */
-  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STDefenseMove */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STSeriesMove */
@@ -2419,7 +2419,7 @@ static slice_operation const duplex_initialisers[] =
 {
   &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STAttackMove */
-  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STDefenseMove */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STSeriesMove */
@@ -2526,7 +2526,7 @@ static slice_operation const duplex_finishers[] =
 {
   &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STAttackMove */
-  &slice_traverse_children, /* STBranchDirectDefender */
+  &slice_traverse_children, /* STDefenseMove */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STSeriesMove */
@@ -2821,7 +2821,7 @@ static slice_operation const hash_element_inserters[] =
 {
   &slice_traverse_children,                  /* STProxy */
   &insert_hash_element_attack_move,        /* STAttackMove */
-  &slice_traverse_children,                  /* STBranchDirectDefender */
+  &slice_traverse_children,                  /* STDefenseMove */
   &insert_hash_element_branch_help,          /* STHelpMove */
   &slice_traverse_children,                  /* STHelpFork */
   &insert_hash_element_branch_series,        /* STSeriesMove */
