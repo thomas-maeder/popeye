@@ -22,16 +22,10 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STHelpShortcut:
-    case STHelpMove:
-    case STHelpHashed:
-    case STHelpFork:
       help_solve_in_n(si,n);
       break;
 
     case STSeriesShortcut:
-    case STSeriesMove:
-    case STSeriesHashed:
-    case STSeriesFork:
       series_solve_in_n(si,n);
       break;
 
