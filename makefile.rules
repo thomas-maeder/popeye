@@ -19,8 +19,8 @@ $(CURRPWD)%$(OBJ_SUFFIX):	$(CURRPWD)%.c
 	fi
 
 # produce a library form the object files in the current directory
-$(CURRPWD)library.$(LIB_SUFFIX): $(OBJECTS)
-	$(ARCHIVER) $(ARCHIVERFLAGS) $(LIBFILE)$@ $(^:%=$(ADDTOARCHIVE)%)
+$(CURRPWD)library.$(LIB_SUFFIX): $(OBJECTS) $(CURRPWD)makefile.local
+	$(ARCHIVER) $(ARCHIVERFLAGS) $(LIBFILE)$@ $(OBJECTS)
 	$(ARCHIVE_INDEXER) $@
 
 # produce a library in a nested directory
