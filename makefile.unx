@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.100 2010/02/21 08:29:05 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.101 2010/02/21 10:07:42 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -191,12 +191,18 @@ $(LATEXZIPFILE): $(TEXFILES)
 
 LATEXdist: $(LATEXGZIPFILE) $(LATEXCOMPRESSFILE) $(LATEXZIPFILE)
 
+PLATFORMS =     platform/other platform/windows32 platform/dos \
+		platform/unix platform/windows64
 
-# ===========================================================
-# targets built using recursive makes
-# ===========================================================
+NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
+		DHT conditions \
+		stipulation stipulation/operators \
+		stipulation/help_play stipulation/series_play \
+		optimisations/intelligent \
+		optimisations/maxtime optimisations/maxsolutions \
+		optimisations/stoponshortsolutions
 
-NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) \
+NESTEDLIBDIRS = . DHT platform platform/$(PLATFORM) \
 		conditions \
 		stipulation stipulation/operators \
 		stipulation/help_play stipulation/series_play \
@@ -204,7 +210,40 @@ NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) \
 		optimisations/maxtime optimisations/maxsolutions \
 		optimisations/stoponshortsolutions
 
-all ./sourcedist clean clobber: FORCE
+STRFILES=       py-fran.str py-deut.str py-engl.str
+TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
+		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
+EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
+TOOLCHAINS =    $(filter-out toolchains/CVS,$(wildcard toolchains/*))
+
+# enumerate libraries to link
+OURLIBS = $(NESTEDLIBDIRS:%=%/library.$(LIB_SUFFIX))
+
+# ===========================================================
+# default target: build executable
+
+all:		py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX)
+
+# ===========================================================
+# Target for creating the popeye executable with full dynamic hashing
+
+py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX): pymain$(OBJ_SUFFIX) $(OURLIBS)
+		$(LDTARGET) $(EXEFILE)$@ pymain$(OBJ_SUFFIX) $(OBJECTS) $(OURLIBS) $(LDFLAGS) $(TARGETLIBS) $(LIBRARIES)
+		$(STRIPTARGET) $@
+
+# ===========================================================
+# Target for generating the purify-ed popeye exectable
+# TODO does this still work?
+
+purify-py:      $(OBJECTS) $(OURLIBS)
+		purify $(CCTARGET) -o purify-py $(LDFLAGS) $^
+
+
+# ===========================================================
+# targets built using recursive makes
+# ===========================================================
+
+./sourcedist: FORCE
 	$(MAKE) CURRPWD=./ -f makefile.local $@
 
 
@@ -212,17 +251,36 @@ all ./sourcedist clean clobber: FORCE
 # Build dependency information
 
 ifdef DEPEND
-depend: $(NESTEDLIBDIRS:%=%/depend)
+depend: $(NESTEDLIBDIRS:%=%/nesteddepend)
 
-$(NESTEDLIBDIRS:%=%/depend): FORCE
-	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
+$(NESTEDLIBDIRS:%=%/nesteddepend): FORCE
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local depend
 endif
 
 # ===========================================================
-# Build an object file
+# Build in a nested directory
 
-%$(OBJ_SUFFIX): FORCE
+%$(OBJ_SUFFIX) %$(LIB_SUFFIX) %/clean: FORCE
 	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
+
+
+# ===========================================================
+# create hard links to files to be distributed
+
+sourcedist: $(NESTEDSRCDIRS:%=%/nestedsourcedist)
+
+$(NESTEDSRCDIRS:%=%/nestedsourcedist): FORCE
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local sourcedist
+
+
+# ===========================================================
+# clean up after ourselves
+
+clean:	$(NESTEDLIBDIRS:%=%/clean)
+	$(MAKE) CURRPWD=./ -f makefile.local $@
+
+clobber:	clean
+		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES)
 
 FORCE:
 

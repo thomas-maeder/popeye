@@ -23,13 +23,9 @@ $(CURRPWD)library.$(LIB_SUFFIX): $(OBJECTS) $(CURRPWD)makefile.local
 	$(ARCHIVER) $(ARCHIVERFLAGS) $(LIBFILE)$@ $(OBJECTS)
 	$(ARCHIVE_INDEXER) $@
 
-# produce a library in a nested directory
-%/library.$(LIB_SUFFIX): FORCE	
-	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
-
 # clean up after ourselves
 clean:	$(NESTED:%=%/clean)
-	rm -f $(OBJECTS) $(CURRPWD)library.$(LIB_SUFFIX) $(CURRPWD)core
+	rm -f $(OBJECTS) $(CURRPWD)library.$(LIB_SUFFIX) $(CURRPWD)core $(CURRPWD)*~
 
 # clean up after ourselves in a nested directory
 %/clean: FORCE

@@ -41,57 +41,17 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pymovenb.c \
 		trace.c \
 		pygmarr.c
-SPECIALCFILES = gengmarr.c
 ALLCFILES  =    $(CFILES) DHT/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
-STRFILES=       py-fran.str py-deut.str py-engl.str
-TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \
-		LATEX/diagram.* LATEX/FSELCH/* LATEX/PKELCH/*
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
 		readme.txt license.txt *.mod
-EXAMPLES =      BEISPIEL/*.inp EXAMPLES/*.inp
 DEVELOP =       coding.txt
-TOOLCHAINS =    $(wildcard toolchains/*/make.incl) $(wildcard toolchains/*/README*)
 SCRIPTS =       $(wildcard scripts/*.sh)
-TOOLCHAINS =    $(filter-out toolchains/CVS,$(wildcard toolchains/*))
-PLATFORMS =     platform/other platform/windows32 platform/dos \
-		platform/unix platform/windows64
-NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) \
-		conditions \
-		stipulation stipulation/operators \
-		stipulation/help_play stipulation/series_play \
-		optimisations/intelligent \
-		optimisations/maxtime optimisations/maxsolutions \
-		optimisations/stoponshortsolutions
-NESTEDSRCDIRS = platform $(PLATFORMS) $(TOOLCHAINS) scripts \
-		DHT conditions \
-		stipulation stipulation/operators \
-		stipulation/help_play stipulation/series_play \
-		optimisations/intelligent \
-		optimisations/maxtime optimisations/maxsolutions \
-		optimisations/stoponshortsolutions
-
-# enumerate libraries to link
-OURLIBS = $(NESTEDLIBDIRS:%=%/library.$(LIB_SUFFIX))
 
 include makefile.rules $(CURRPWD)/depend
 
-# additional distributed files
-DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
+DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES) $(SCRIPTS)
 
-
-# ===========================================================
-# default target: build executable
-
-all:		py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX)
-
-
-# ===========================================================
-# Target for creating the popeye executable with full dynamic hashing
-
-py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX):$(OBJECTS) $(OURLIBS)
-		$(LDTARGET) $(EXEFILE)$@ $(OBJECTS) $(OURLIBS) $(LDFLAGS) $(TARGETLIBS) $(LIBRARIES)
-		$(STRIPTARGET) $@
 
 
 # ===========================================================
@@ -156,31 +116,6 @@ gengmarr$(EXE_SUFFIX):	gengmarr$(OBJ_SUFFIX) pyposit-host$(OBJ_SUFFIX) pyboard-h
 
 pygmarr.c:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
 		./gengmarr$(EXE_SUFFIX) > $@
-
-# ===========================================================
-# clean up after ourselves
-
-clean:	$(NESTEDLIBDIRS:%=%/clean)
-
-clobber:	clean
-		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES)
-
-
-# ===========================================================
-# create hard links to files to be distributed
-
-./sourcedist: $(NESTEDSRCDIRS:%=%/sourcedist)
-
-$(NESTEDSRCDIRS:%=%/sourcedist): FORCE
-	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
-
-
-# ===========================================================
-
-# Target for generating the purify-ed popeye exectable
-
-purify-py:      $(OBJECTS) $(OURLIBS)
-		purify $(CCTARGET) -o purify-py $(LDFLAGS) $^
 
 
 # ===========================================================
