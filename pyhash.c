@@ -302,7 +302,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverterSeriesFilter */
   &slice_property_offset_shifter, /* STAttackRoot */
   &slice_property_offset_shifter, /* STDefenseRoot */
-  &slice_property_offset_shifter, /* STDirectHashed */
+  &slice_property_offset_shifter, /* STAttackHashed */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpShortcut */
   &slice_property_offset_shifter, /* STHelpHashed */
@@ -359,12 +359,12 @@ typedef struct
     unsigned int valueOffset;
 } slice_initializer_state;
 
-/* Initialise a slice_properties element representing direct play
+/* Initialise a slice_properties element representing attack play
  * @param si root slice of subtree
  * @param length number of attacker's moves of help slice
  * @param sis state of slice properties initialisation
  */
-static void init_slice_property_direct(slice_index si,
+static void init_slice_property_attack(slice_index si,
                                        unsigned int length,
                                        slice_initializer_state *sis)
 {
@@ -546,14 +546,13 @@ static boolean init_slice_properties_fork(slice_index fork,
   return result1 && result2;
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a direct branch
+/* Initialise the slice_properties array
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  * @return true iff the properties for branch and its children have been
  *         successfully initialised
  */
-static boolean init_slice_properties_hashed_direct(slice_index si,
+static boolean init_slice_properties_attack_hashed(slice_index si,
                                                    slice_traversal *st)
 {
   boolean const result = true;
@@ -566,15 +565,14 @@ static boolean init_slice_properties_hashed_direct(slice_index si,
   if (slices[slices[si].u.pipe.next].type==STLeafDirect)
     --sis->valueOffset;
 
-  init_slice_property_direct(si,length,sis);
+  init_slice_property_attack(si,length,sis);
   hash_slices[nr_hash_slices++] = si;
   slice_traverse_children(si,st);
 
   return result;
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices
+/* Initialise the slice_properties array
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  * @return true iff the properties for si and its children have been
@@ -625,8 +623,7 @@ static boolean init_slice_properties_hashed_help(slice_index si,
   return result;
 }
 
-/* Initialise the slice_properties array according to a subtree of the
- * current stipulation slices whose root is a series branch
+/* Initialise the slice_properties array
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  * @return true iff the properties for branch and its children have been
@@ -674,7 +671,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
   &slice_traverse_children,              /* STAttackRoot */
   &slice_traverse_children,              /* STDefenseRoot */
-  &init_slice_properties_hashed_direct,  /* STDirectHashed */
+  &init_slice_properties_attack_hashed,  /* STAttackHashed */
   &slice_traverse_children,              /* STHelpRoot */
   &slice_traverse_children,              /* STHelpShortcut */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
@@ -740,7 +737,7 @@ static boolean find_slice_with_nonstandard_min_length(void)
     stip_length_type const min_length = slices[si].u.branch.min_length;
     switch (slices[si].type)
     {
-      case STDirectHashed:
+      case STAttackHashed:
         result = min_length==length && length>slack_length_direct+1;
         break;
 
@@ -832,7 +829,7 @@ static void init_slice_properties(void)
 static hashElement_union_t template_element;
 
 
-static void set_value_direct_nosucc(hashElement_union_t *hue,
+static void set_value_attack_nosucc(hashElement_union_t *hue,
                                     slice_index si,
                                     hash_value_type val)
 {
@@ -858,7 +855,7 @@ static void set_value_direct_nosucc(hashElement_union_t *hue,
   TraceFunctionResultEnd();
 }
 
-static void set_value_direct_succ(hashElement_union_t *hue,
+static void set_value_attack_succ(hashElement_union_t *hue,
                                   slice_index si,
                                   hash_value_type val)
 {
@@ -934,7 +931,7 @@ static void set_value_series(hashElement_union_t *hue,
   TraceFunctionResultEnd();
 }
 
-static hash_value_type get_value_direct_succ(hashElement_union_t const *hue,
+static hash_value_type get_value_attack_succ(hashElement_union_t const *hue,
                                              slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetSucc;
@@ -953,7 +950,7 @@ static hash_value_type get_value_direct_succ(hashElement_union_t const *hue,
   return result;
 }
 
-static hash_value_type get_value_direct_nosucc(hashElement_union_t const *hue,
+static hash_value_type get_value_attack_nosucc(hashElement_union_t const *hue,
                                                slice_index si)
 {
   unsigned int const offset = slice_properties[si].u.d.offsetNoSucc;
@@ -1008,13 +1005,13 @@ static hash_value_type get_value_series(hashElement_union_t const *hue,
   return result;
 }
 
-/* Determine the contribution of a direct slice (or leaf slice with
+/* Determine the contribution of an attack slice (or leaf slice with
  * direct end) to the value of a hash table element node.
  * @param he address of hash table element to determine value of
  * @param si slice index of slice
  * @return value of contribution of slice si to *he's value
  */
-static hash_value_type own_value_of_data_direct(hashElement_union_t const *hue,
+static hash_value_type own_value_of_data_attack(hashElement_union_t const *hue,
                                                 slice_index si)
 {
   stip_length_type const length = slices[si].u.branch.length;
@@ -1028,8 +1025,8 @@ static hash_value_type own_value_of_data_direct(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  succ = get_value_direct_succ(hue,si);
-  nosucc = get_value_direct_nosucc(hue,si);
+  succ = get_value_attack_succ(hue,si);
+  nosucc = get_value_attack_nosucc(hue,si);
 
   assert(succ<=length);
   succ_neg = length-succ;
@@ -1112,8 +1109,8 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
 
   switch (slices[si].type)
   {
-    case STDirectHashed:
-      result = own_value_of_data_direct(hue,si) << offset;
+    case STAttackHashed:
+      result = own_value_of_data_attack(hue,si) << offset;
       break;
 
     case STHelpHashed:
@@ -1392,7 +1389,7 @@ static unsigned int estimateNumberOfHoles(void)
     stip_length_type const length = slices[si].u.branch.length;
     switch (slices[si].type)
     {
-      case STDirectHashed:
+      case STAttackHashed:
         result += (length-slack_length_direct+1)/2;
         break;
 
@@ -1743,9 +1740,9 @@ static void init_elements(hashElement_union_t *hue)
     slice_index const si = hash_slices[i];
     switch (slices[si].type)
     {
-      case STDirectHashed:
-        set_value_direct_nosucc(hue,si,0);
-        set_value_direct_succ(hue,si,slices[si].u.branch.length/2);
+      case STAttackHashed:
+        set_value_attack_nosucc(hue,si,0);
+        set_value_attack_succ(hue,si,slices[si].u.branch.length/2);
         break;
 
       case STHelpHashed:
@@ -1983,13 +1980,13 @@ void closehash(void)
   }
 } /* closehash */
 
-/* Allocate a STDirectHashed slice
+/* Allocate a STAttackHashed slice
  * @param length maximal number of half moves until goal
  * @param min_length minimal number of half moves until goal
  * @param proxy_to_goal identifies proxy slice leading towards gaol
  * @return identifier of allocated slice
  */
-static slice_index alloc_direct_hashed_slice(stip_length_type length,
+static slice_index alloc_attack_hashed_slice(stip_length_type length,
                                              stip_length_type min_length)
 {
   slice_index result;
@@ -1999,7 +1996,7 @@ static slice_index alloc_direct_hashed_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDirectHashed,length,min_length);
+  result = alloc_branch(STAttackHashed,length,min_length);
                         
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2007,11 +2004,11 @@ static slice_index alloc_direct_hashed_slice(stip_length_type length,
   return result;
 }
 
-/* Allocate a STDirectHashed slice for a ST{Branch,Leaf}Direct slice
- * and insert it before the slice
- * @param si identifies ST{Branch,Leaf}Direct slice
+/* Allocate a STAttackHashed slice for a STAttackMove or STLeafDirect
+ * slice and insert it before the slice
+ * @param si identifies STAttackMove or STLeafDirect slice
  */
-void insert_directhashed_slice(slice_index si)
+void insert_attack_hashed_slice(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2023,7 +2020,7 @@ void insert_directhashed_slice(slice_index si)
     case STLeafDirect:
     {
       slice_index const hash
-          = alloc_direct_hashed_slice(slack_length_direct+1,
+          = alloc_attack_hashed_slice(slack_length_direct+1,
                                       slack_length_direct+1);
       slice_index const prev = slices[si].prev;
       pipe_link(hash,si);
@@ -2035,7 +2032,7 @@ void insert_directhashed_slice(slice_index si)
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      slice_index const hash = alloc_direct_hashed_slice(length,min_length);
+      slice_index const hash = alloc_attack_hashed_slice(length,min_length);
       slice_index const prev = slices[si].prev;
       pipe_link(hash,si);
       pipe_link(prev,hash);
@@ -2168,13 +2165,13 @@ static void addtohash_dir_nosucc(slice_index si, stip_length_type n)
   if (he==dhtNilElement)
   {
     hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_direct_nosucc(hue,si,val);
+    set_value_attack_nosucc(hue,si,val);
   }
   else
   {
     hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_direct_nosucc(hue,si)<val)
-      set_value_direct_nosucc(hue,si,val);
+    if (get_value_attack_nosucc(hue,si)<val)
+      set_value_attack_nosucc(hue,si,val);
   }
   
   TraceFunctionExit(__func__);
@@ -2209,13 +2206,13 @@ static void addtohash_dir_succ(slice_index si, stip_length_type n)
   if (he==dhtNilElement)
   {
     hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_direct_succ(hue,si,val);
+    set_value_attack_succ(hue,si,val);
   }
   else
   {
     hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_direct_succ(hue,si)>val)
-      set_value_direct_succ(hue,si,val);
+    if (get_value_attack_succ(hue,si)>val)
+      set_value_attack_succ(hue,si,val);
   }
   
   TraceFunctionExit(__func__);
@@ -2259,7 +2256,7 @@ static stip_length_type adjust_n_min(slice_index si,
     stip_length_type const min_length = slices[si].u.branch.min_length;
 
     hash_value_type const val_nosucc = n/2;
-    hash_value_type const nosucc = get_value_direct_nosucc(hue,si);
+    hash_value_type const nosucc = get_value_attack_nosucc(hue,si);
     if (nosucc>=val_nosucc && nosucc<=val_nosucc+length-min_length)
       result = n+2;
     else
@@ -2286,7 +2283,7 @@ static stip_length_type adjust_n_min(slice_index si,
  *         (n-slack_length_direct)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
-stip_length_type direct_hashed_solve_in_n(slice_index si,
+stip_length_type attack_hashed_solve_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_min)
 {
@@ -2323,7 +2320,7 @@ stip_length_type direct_hashed_solve_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  */
-void direct_hashed_solve_continuations_in_n(slice_index si,
+void attack_hashed_solve_continuations_in_n(slice_index si,
                                             stip_length_type n,
                                             stip_length_type n_min)
 {
@@ -2357,7 +2354,7 @@ void direct_hashed_solve_continuations_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type direct_hashed_solve_threats_in_n(table threats,
+stip_length_type attack_hashed_solve_threats_in_n(table threats,
                                                   slice_index si,
                                                   stip_length_type n,
                                                   stip_length_type n_min)
@@ -2397,7 +2394,7 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean direct_hashed_are_threats_refuted_in_n(table threats,
+boolean attack_hashed_are_threats_refuted_in_n(table threats,
                                                stip_length_type len_threat,
                                                slice_index si,
                                                stip_length_type n)
@@ -2462,7 +2459,7 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
  *         goal (in which case n_min<slack_length_direct and we return
  *         n_min)
  */
-stip_length_type direct_hashed_has_solution_in_n(slice_index si,
+stip_length_type attack_hashed_has_solution_in_n(slice_index si,
                                                  stip_length_type n,
                                                  stip_length_type n_min)
 {
@@ -2493,13 +2490,13 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
     hash_value_type const val_nosucc = n/2;
-    hash_value_type const nosucc = get_value_direct_nosucc(hue,si);
+    hash_value_type const nosucc = get_value_attack_nosucc(hue,si);
     if (nosucc>=val_nosucc && nosucc<=val_nosucc+length-min_length)
       result = n+2;
     else
     {
       hash_value_type const val_succ = n/2-1;
-      hash_value_type const succ = get_value_direct_succ(hue,si);
+      hash_value_type const succ = get_value_attack_succ(hue,si);
       if (succ<=val_succ && succ+length-min_length>=val_succ)
         result = (succ+1)*2 + n%2;
       else

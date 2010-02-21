@@ -251,7 +251,7 @@ static slice_operation const maxsolutions_filter_inserters[] =
   &slice_traverse_children,           /* STMoveInverterSeriesFilter */
   &insert_maxsolutions_root_defender_filter, /* STAttackRoot */
   &slice_traverse_children,           /* STDefenseRoot */
-  &slice_traverse_children,           /* STDirectHashed */
+  &slice_traverse_children,           /* STAttackHashed */
   &slice_traverse_children,           /* STHelpRoot */
   &slice_traverse_children,           /* STHelpShortcut */
   &slice_traverse_children,           /* STHelpHashed */
@@ -344,7 +344,7 @@ static slice_operation const maxsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STMoveInverterSeriesFilter */
   &insert_root_solvable_filter, /* STAttackRoot */
   &slice_traverse_children,     /* STDefenseRoot */
-  &slice_traverse_children,     /* STDirectHashed */
+  &slice_traverse_children,     /* STAttackHashed */
   &insert_root_solvable_filter, /* STHelpRoot */
   &slice_traverse_children,     /* STHelpShortcut */
   &slice_traverse_children,     /* STHelpHashed */

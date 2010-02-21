@@ -55,8 +55,8 @@ boolean attack_are_threats_refuted_in_n(table threats,
       result = attack_move_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
-    case STDirectHashed:
-      result = direct_hashed_are_threats_refuted_in_n(threats,len_threat,si,n);
+    case STAttackHashed:
+      result = attack_hashed_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
     case STDirectDefense:
@@ -138,8 +138,8 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = attack_move_has_solution_in_n(si,n,n_min);
       break;
 
-    case STDirectHashed:
-      result = direct_hashed_has_solution_in_n(si,n,n_min);
+    case STAttackHashed:
+      result = attack_hashed_has_solution_in_n(si,n,n_min);
       break;
 
     case STSeriesMove:
@@ -247,8 +247,8 @@ void attack_solve_continuations_in_n(slice_index si,
       attack_move_solve_continuations_in_n(si,n,n_min);
       break;
 
-    case STDirectHashed:
-      direct_hashed_solve_continuations_in_n(si,n,n_min);
+    case STAttackHashed:
+      attack_hashed_solve_continuations_in_n(si,n,n_min);
       break;
 
     case STSeriesMove:
@@ -325,8 +325,8 @@ stip_length_type attack_solve_threats_in_n(table threats,
       result = attack_move_solve_threats_in_n(threats,si,n,n_min);
       break;
 
-    case STDirectHashed:
-      result = direct_hashed_solve_threats_in_n(threats,si,n,n_min);
+    case STAttackHashed:
+      result = attack_hashed_solve_threats_in_n(threats,si,n,n_min);
       break;
 
     case STDirectDefense:
@@ -383,12 +383,12 @@ void attack_solve_threats(table threats, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectHashed:
+    case STAttackHashed:
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const parity = (length-slack_length_direct)%2;
       stip_length_type const n_min = slack_length_direct+2-parity;
-      direct_hashed_solve_threats_in_n(threats,si,length,n_min);
+      attack_hashed_solve_threats_in_n(threats,si,length,n_min);
       break;
     }
 
@@ -423,7 +423,7 @@ boolean attack_are_threats_refuted(table threats, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectHashed:
+    case STAttackHashed:
     {
       stip_length_type const length = slices[si].u.branch.length;
       result = attack_are_threats_refuted_in_n(threats,slack_length_direct,
@@ -480,8 +480,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_move_solve_in_n(si,n,n_min);
       break;
 
-    case STDirectHashed:
-      result = direct_hashed_solve_in_n(si,n,n_min);
+    case STAttackHashed:
+      result = attack_hashed_solve_in_n(si,n,n_min);
       break;
 
     case STDirectDefense:
@@ -593,7 +593,7 @@ boolean attack_root_solve_in_n(slice_index si)
       result = reflex_defender_filter_root_solve(si);
       break;
 
-    case STDirectHashed:
+    case STAttackHashed:
       result = attack_root_solve(slices[si].u.pipe.next);
       break;
 

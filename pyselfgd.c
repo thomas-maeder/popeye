@@ -722,7 +722,7 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,                          /* STMoveInverterSeriesFilter */
   &self_guards_inserter_attack_move,               /* STAttackRoot */
   &self_guards_inserter_defense_root, /* STDefenseRoot */
-  &slice_traverse_children,                          /* STDirectHashed */
+  &slice_traverse_children,                          /* STAttackHashed */
   &slice_traverse_children,                          /* STHelpRoot */
   &slice_traverse_children,                          /* STHelpShortcut */
   &slice_traverse_children,                          /* STHelpHashed */

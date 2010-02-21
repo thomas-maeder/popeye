@@ -20,7 +20,7 @@
                                                 \
   ENUMERATOR(STProxy),                                                  \
                                                                         \
-    ENUMERATOR(STAttackMove),    /* M-N moves of direct play */       \
+    ENUMERATOR(STAttackMove),    /* M-N attacking moves in battle play */       \
     ENUMERATOR(STDefenseMove),                                 \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */         \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
@@ -39,9 +39,9 @@
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
                                                                         \
-    ENUMERATOR(STAttackRoot),      /* root level of direct play */      \
-    ENUMERATOR(STDefenseRoot), /* root level of postkey direct play */ \
-    ENUMERATOR(STDirectHashed),    /* direct play with hash table */    \
+    ENUMERATOR(STAttackRoot),      /* root attack level of battle play */      \
+    ENUMERATOR(STDefenseRoot), /* root defense level of battle play */ \
+    ENUMERATOR(STAttackHashed),    /* hash table support for attack */    \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \

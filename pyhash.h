@@ -63,12 +63,12 @@ void HashStats(unsigned int level, char *trailer);
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
-/* Allocate a STDirectHashed slice for a STBranch* slice and insert
+/* Allocate a STAttackHashed slice for a STBranch* slice and insert
  * it at the STBranch* slice's position. 
- * The STDirectHashed takes the place of the STBranch* slice.
+ * The STAttackHashed takes the place of the STBranch* slice.
  * @param si identifies STBranch* slice
  */
-void insert_directhashed_slice(slice_index si);
+void insert_attack_hashed_slice(slice_index si);
 
 /* Determine and write continuations after the defense just played.
  * We know that there is at least 1 continuation to the defense.
@@ -77,7 +77,7 @@ void insert_directhashed_slice(slice_index si);
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  */
-void direct_hashed_solve_continuations_in_n(slice_index si,
+void attack_hashed_solve_continuations_in_n(slice_index si,
                                             stip_length_type n,
                                             stip_length_type n_min);
 
@@ -92,7 +92,7 @@ void direct_hashed_solve_continuations_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type direct_hashed_solve_threats_in_n(table threats,
+stip_length_type attack_hashed_solve_threats_in_n(table threats,
                                                   slice_index si,
                                                   stip_length_type n,
                                                   stip_length_type n_min);
@@ -105,7 +105,7 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean direct_hashed_are_threats_refuted_in_n(table threats,
+boolean attack_hashed_are_threats_refuted_in_n(table threats,
                                                stip_length_type len_threat,
                                                slice_index si,
                                                stip_length_type n);
@@ -123,7 +123,7 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
  *         goal (in which case n_min<slack_length_direct and we return
  *         n_min)
  */
-stip_length_type direct_hashed_has_solution_in_n(slice_index si,
+stip_length_type attack_hashed_has_solution_in_n(slice_index si,
                                                  stip_length_type n,
                                                  stip_length_type n_min);
 
@@ -136,7 +136,7 @@ stip_length_type direct_hashed_has_solution_in_n(slice_index si,
  *         (n-slack_length_direct)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
-stip_length_type direct_hashed_solve_in_n(slice_index si,
+stip_length_type attack_hashed_solve_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_min);
 

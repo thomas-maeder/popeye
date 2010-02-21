@@ -513,7 +513,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMoveInverterSeriesFilter */
   &root_slice_type_found,             /* STAttackRoot */
   &root_slice_type_found,             /* STDefenseRoot */
-  &slice_traverse_children,           /* STDirectHashed */
+  &slice_traverse_children,           /* STAttackHashed */
   &root_slice_type_found,             /* STHelpRoot */
   &slice_traverse_children,           /* STHelpShortcut */
   &slice_traverse_children,           /* STHelpHashed */
@@ -2324,7 +2324,7 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDefenseRoot */
-  &slice_traverse_children, /* STDirectHashed */
+  &slice_traverse_children, /* STAttackHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
   &slice_traverse_children, /* STHelpHashed */
@@ -2435,7 +2435,7 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDefenseRoot */
-  &slice_traverse_children, /* STDirectHashed */
+  &slice_traverse_children, /* STAttackHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
   &slice_traverse_children, /* STHelpHashed */
@@ -2542,7 +2542,7 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
   &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDefenseRoot */
-  &slice_traverse_children, /* STDirectHashed */
+  &slice_traverse_children, /* STAttackHashed */
   &slice_traverse_children, /* STHelpRoot */
   &slice_traverse_children, /* STHelpShortcut */
   &slice_traverse_children, /* STHelpHashed */
@@ -2621,11 +2621,11 @@ boolean insert_hash_element_attack_move(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* First traverse childen, then insert STDirectHashed slice;
-   * otherwise the STDirectHashed will be traversed as well.
+  /* First traverse childen, then insert STAttackHashed slice;
+   * otherwise the STAttackHashed will be traversed as well.
    */
   slice_traverse_children(si,st);
-  insert_directhashed_slice(si);
+  insert_attack_hashed_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2649,8 +2649,8 @@ boolean insert_hash_element_direct_defender_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* First traverse childen, then insert STDirectHashed slice;
-   * otherwise the STDirectHashed will be traversed as well.
+  /* First traverse childen, then insert STAttackHashed slice;
+   * otherwise the STAttackHashed will be traversed as well.
    */
   *level = nested_branch;
   slice_traverse_children(si,st);
@@ -2702,7 +2702,7 @@ boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
    * expensive to compute an end in 1. TLi
    */
   if (*level==nested_branch && !is_goal_move_oriented(si))
-    insert_directhashed_slice(si);
+    insert_attack_hashed_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2837,7 +2837,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                  /* STAttackRoot */
   &insert_hash_element_direct_defender_root, /* STDefenseRoot */
-  &slice_traverse_children,                  /* STDirectHashed */
+  &slice_traverse_children,                  /* STAttackHashed */
   &slice_traverse_children,                  /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */

@@ -178,7 +178,7 @@ static slice_operation const stoponshortsolutions_filter_inserters[] =
   &insert_stoponshortsolutions_series_filter, /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                   /* STAttackRoot */
   &slice_traverse_children,                   /* STDefenseRoot */
-  &slice_traverse_children,                   /* STDirectHashed */
+  &slice_traverse_children,                   /* STAttackHashed */
   &slice_traverse_children,                   /* STHelpRoot */
   &insert_stoponshortsolutions_help_filter,   /* STHelpShortcut */
   &insert_stoponshortsolutions_help_filter,   /* STHelpHashed */
@@ -291,7 +291,7 @@ static slice_operation const stoponshortsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STMoveInverterSeriesFilter */
   &insert_root_solvable_filter, /* STAttackRoot */
   &slice_traverse_children,     /* STDefenseRoot */
-  &slice_traverse_children,     /* STDirectHashed */
+  &slice_traverse_children,     /* STAttackHashed */
   &insert_root_solvable_filter, /* STHelpRoot */
   &slice_traverse_children,     /* STHelpShortcut */
   &slice_traverse_children,     /* STHelpHashed */

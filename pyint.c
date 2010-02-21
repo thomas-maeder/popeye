@@ -2797,7 +2797,7 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
   &slice_traverse_children,         /* STAttackRoot */
   &slice_traverse_children,         /* STDefenseRoot */
-  &slice_traverse_children,         /* STDirectHashed */
+  &slice_traverse_children,         /* STAttackHashed */
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
@@ -2983,7 +2983,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
   &slice_traverse_children,         /* STAttackRoot */
   &slice_traverse_children,         /* STDefenseRoot */
-  &slice_traverse_children,         /* STDirectHashed */
+  &slice_traverse_children,         /* STAttackHashed */
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpShortcut */
   &slice_traverse_children,         /* STHelpHashed */
@@ -3475,7 +3475,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                  /* STAttackRoot */
   &slice_traverse_children,                  /* STDefenseRoot */
-  &slice_traverse_children,                  /* STDirectHashed */
+  &slice_traverse_children,                  /* STAttackHashed */
   &intelligent_guards_inserter_help_root,    /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpShortcut */
   &slice_traverse_children,                  /* STHelpHashed */
@@ -3804,7 +3804,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMoveInverterSeriesFilter */
   &intelligent_mode_support_none,                /* STAttackRoot */
   &intelligent_mode_support_none,                /* STDefenseRoot */
-  &intelligent_mode_support_none,                /* STDirectHashed */
+  &intelligent_mode_support_none,                /* STAttackHashed */
   &slice_traverse_children,                      /* STHelpRoot */
   &slice_traverse_children,                      /* STHelpShortcut */
   &slice_traverse_children,                      /* STHelpHashed */

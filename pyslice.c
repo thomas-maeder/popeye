@@ -53,7 +53,7 @@ void slice_solve_threats(table threats, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectHashed:
+    case STAttackHashed:
     case STLeafDirect:
       attack_solve_threats(threats,si);
       break;
@@ -107,7 +107,7 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDirectHashed:
+    case STAttackHashed:
     case STLeafDirect:
       result = attack_are_threats_refuted(threats,si);
       break;
@@ -173,7 +173,7 @@ boolean slice_solve(slice_index si)
       break;
 
     case STAttackMove:
-    case STDirectHashed:
+    case STAttackHashed:
     case STDirectDefense:
     case STSelfDefense:
     case STReflexAttackerFilter:
@@ -258,7 +258,7 @@ boolean slice_root_solve(slice_index si)
     case STLeafDirect:
     case STDirectDefense:
     case STSelfAttack:
-    case STDirectHashed:
+    case STAttackHashed:
     case STMaxThreatLength:
     case STReflexAttackerFilter:
     case STReflexDefenderFilter:
@@ -359,7 +359,7 @@ has_solution_type slice_has_solution(slice_index si)
     case STKeepMatingGuardHelpFilter:
     case STKeepMatingGuardSeriesFilter:
     case STDegenerateTree:
-    case STDirectHashed:
+    case STAttackHashed:
       result = attack_has_solution(si);
       break;
 
