@@ -2730,7 +2730,7 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
      * otherwise the STHelpHashed will be traversed as well.
      */
     slice_traverse_children(si,st);
-    insert_helphashed_slice(si);
+    insert_help_hashed_slice(si);
     result = true;
   }
   else
@@ -2764,7 +2764,7 @@ boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
 
   if (*level==nested_branch)
   {
-    insert_helphashed_slice(si);
+    insert_help_hashed_slice(si);
     /* no need to visit this leaf again in this traversal */
     result = true;
   }
@@ -2798,7 +2798,7 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
      * otherwise the STSeriesHashed will be traversed as well.
      */
     slice_traverse_children(si,st);
-    insert_serieshashed_slice(si);
+    insert_series_hashed_slice(si);
     /* no need to visit this leaf again in this traversal */
     result = true;
   }

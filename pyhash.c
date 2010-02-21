@@ -2076,7 +2076,7 @@ static slice_index alloc_help_hashed_slice(stip_length_type length,
  * and insert it before the slice
  * @param si identifies ST{Branch,Leaf}Help slice
  */
-void insert_helphashed_slice(slice_index si)
+void insert_help_hashed_slice(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2120,7 +2120,7 @@ void insert_helphashed_slice(slice_index si)
  * and insert it before the slice
  * @param si identifies STSeriesMove slice
  */
-void insert_serieshashed_slice(slice_index si)
+void insert_series_hashed_slice(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

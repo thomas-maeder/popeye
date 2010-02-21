@@ -63,10 +63,8 @@ void HashStats(unsigned int level, char *trailer);
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
-/* Allocate a STAttackHashed slice for a STBranch* slice and insert
- * it at the STBranch* slice's position. 
- * The STAttackHashed takes the place of the STBranch* slice.
- * @param si identifies STBranch* slice
+/* Allocate a STAttackHashed slice and insert it
+ * @param si identifies slice before which to insert the new slice
  */
 void insert_attack_hashed_slice(slice_index si);
 
@@ -140,12 +138,10 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_min);
 
-/* Allocate a STHelpHashed slice for a STBranch* slice and insert
- * it at the STBranch* slice's position. 
- * The STHelpHashed takes the place of the STBranch* slice.
- * @param si identifies STBranch* slice
+/* Allocate a STHelpHashed slice
+ * @param si identifies slice before which to insert the new slice
  */
-void insert_helphashed_slice(slice_index si);
+void insert_help_hashed_slice(slice_index si);
 
 /* Solve a slice
  * @param si slice index
@@ -176,12 +172,10 @@ void hashed_help_solve_threats_in_n(table threats,
                                     slice_index si,
                                     stip_length_type n);
 
-/* Allocate a STSeriesHashed slice for a STBranch* slice and insert
- * it at the STBranch* slice's position. 
- * The STSeriesHashed takes the place of the STBranch* slice.
- * @param si identifies STBranch* slice
+/* Allocate a STSeriesHashed slice
+ * @param si identifies slice before which to insert the new slice
  */
-void insert_serieshashed_slice(slice_index si);
+void insert_series_hashed_slice(slice_index si);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
