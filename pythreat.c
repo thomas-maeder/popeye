@@ -91,10 +91,10 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
           min_length = slices[si].u.maxthreatlength_guard.min_length;
       stip_length_type n_min;
 
-      if (n_max+min_length>slack_length_direct+length)
+      if (n_max+min_length>slack_length_battle+length)
         n_min = n_max-(length-min_length);
       else
-        n_min = slack_length_direct-parity;
+        n_min = slack_length_battle-parity;
 
       result = attack_has_solution_in_n(to_attacker,n_max,n_min)>n_max;
     }
@@ -120,8 +120,8 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
                                                slice_index to_attacker)
 {
   slice_index result;
-  stip_length_type const parity = (length-slack_length_direct)%2;
-  stip_length_type const min_length = slack_length_direct+parity;
+  stip_length_type const parity = (length-slack_length_battle)%2;
+  stip_length_type const min_length = slack_length_battle+parity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);

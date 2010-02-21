@@ -17,7 +17,7 @@ unsigned int max_nr_nontrivial;
 void reset_nontrivial_settings(void)
 {
   max_nr_nontrivial = UINT_MAX;
-  min_length_nontrivial = 2*maxply+slack_length_direct;
+  min_length_nontrivial = 2*maxply+slack_length_battle;
 }
 
 /* Read the requested non-trivial optimisation settings from user input
@@ -70,7 +70,7 @@ boolean read_min_length_nontrivial(char const *tok)
   {
     result = true;
     min_length_nontrivial = (2*(unsigned int)requested_min_length_nontrivial
-                             +slack_length_direct);
+                             +slack_length_battle);
   }
   else
     result = false;
@@ -87,7 +87,7 @@ boolean read_min_length_nontrivial(char const *tok)
  */
 stip_length_type get_min_length_nontrivial(void)
 {
-  return (min_length_nontrivial-slack_length_direct)/2;
+  return (min_length_nontrivial-slack_length_battle)/2;
 }
 
 
@@ -110,7 +110,7 @@ static unsigned int count_nontrivial_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length_nontrivial+parity==slack_length_direct)
+  if (min_length_nontrivial+parity==slack_length_battle)
   {
     /* TODO can this be moved between leaf and goal? */
     /* special case: just check for non-selfchecking moves

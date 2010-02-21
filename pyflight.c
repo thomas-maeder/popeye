@@ -107,12 +107,12 @@ static boolean has_too_many_flights(Side defender)
 static slice_index alloc_maxflight_guard_slice(stip_length_type length)
 {
   slice_index result;
-  stip_length_type const parity = (length-slack_length_direct)%2;
+  stip_length_type const parity = (length-slack_length_battle)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxFlightsquares,length,slack_length_direct+parity);
+  result = alloc_branch(STMaxFlightsquares,length,slack_length_battle+parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -139,7 +139,7 @@ boolean maxflight_guard_root_defend(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (n-1>slack_length_direct+2 && has_too_many_flights(defender))
+  if (n-1>slack_length_battle+2 && has_too_many_flights(defender))
     result = true;
   else
     result = direct_defender_root_defend(next);
@@ -170,7 +170,7 @@ boolean maxflight_guard_defend_in_n(slice_index si, stip_length_type n)
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (n>slack_length_direct+2 && has_too_many_flights(defender))
+  if (n>slack_length_battle+2 && has_too_many_flights(defender))
     result = true;
   else
     result = direct_defender_defend_in_n(next,n);
@@ -201,7 +201,7 @@ unsigned int maxflight_guard_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_direct+2 && has_too_many_flights(defender))
+  if (n>slack_length_battle+2 && has_too_many_flights(defender))
     result = max_result+1;
   else
     result = direct_defender_can_defend_in_n(next,n,max_result);

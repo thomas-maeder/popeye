@@ -26,8 +26,8 @@ slice_index alloc_attack_move_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(length>slack_length_direct);
-  assert(min_length>=slack_length_direct-1);
+  assert(length>slack_length_battle);
+  assert(min_length>=slack_length_battle-1);
   assert((length%2)==(min_length%2));
 
   result = alloc_branch(STAttackMove,length,min_length);
@@ -61,12 +61,12 @@ boolean attack_move_insert_root(slice_index si, slice_traversal *st)
   pipe_link(direct_root,*root);
   *root = direct_root;
 
-  if (length<=slack_length_direct+2)
+  if (length<=slack_length_battle+2)
     dealloc_slice(si);
   else
   {
     slices[si].u.branch.length -= 2;
-    if (min_length>=slack_length_direct+2)
+    if (min_length>=slack_length_battle+2)
       slices[si].u.branch.min_length -= 2;
   }
   
@@ -192,7 +192,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
  *            >n no solution found
  *         (the second case includes the situation in self
  *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_direct and we return
+ *         goal (in which case n_min<slack_length_battle and we return
  *         n_min)
  */
 stip_length_type attack_move_has_solution_in_n(slice_index si,
@@ -208,7 +208,7 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
   
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (n_min<=slack_length_direct)
+  if (n_min<=slack_length_battle)
     n_min += 2;
 
   for (result = n_min; result<=n; result += 2)
@@ -268,7 +268,7 @@ static boolean solve_threats_short(slice_index si)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_defend_in_n(next,slack_length_direct))
+        && !direct_defender_defend_in_n(next,slack_length_battle))
     {
       append_to_top_table();
       coupfort();
@@ -333,7 +333,7 @@ static boolean solve_threats_long_in_n(slice_index si, stip_length_type n)
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  */
 static stip_length_type solve_threats_long(slice_index si,
@@ -368,7 +368,7 @@ static stip_length_type solve_threats_long(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
@@ -387,15 +387,15 @@ stip_length_type attack_move_solve_threats_in_n(table threats,
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (n_min<=slack_length_direct)
+  if (n_min<=slack_length_battle)
     n_min += 2;
 
-  if (n_min==slack_length_direct+1)
+  if (n_min==slack_length_battle+1)
   {
     if (solve_threats_short(si))
-      result = slack_length_direct+1;
+      result = slack_length_battle+1;
     else
-      result = solve_threats_long(si,n,slack_length_direct+3);
+      result = solve_threats_long(si,n,slack_length_battle+3);
   }
   else
     result = solve_threats_long(si,n,n_min);
@@ -426,7 +426,7 @@ static boolean solve_short(slice_index si)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_defend_in_n(next,slack_length_direct))
+        && !direct_defender_defend_in_n(next,slack_length_battle))
     {
       result = true;
       coupfort();
@@ -520,7 +520,7 @@ static stip_length_type solve_long(slice_index si,
  * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
+ *         (n-slack_length_battle)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
 stip_length_type attack_move_solve_in_n(slice_index si,
@@ -539,15 +539,15 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
   output_start_continuation_level();
 
-  if (n_min<=slack_length_direct)
+  if (n_min<=slack_length_battle)
     n_min += 2;
 
-  if (n_min==slack_length_direct+1)
+  if (n_min==slack_length_battle+1)
   {
     if (solve_short(si))
-      result = slack_length_direct+1;
+      result = slack_length_battle+1;
     else
-      result = solve_long(si,n,slack_length_direct+3);
+      result = solve_long(si,n,slack_length_battle+3);
   }
   else
     result = solve_long(si,n,n_min);

@@ -63,12 +63,12 @@ boolean help_fork_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].u.branch_fork.length-slack_length_direct>=2);
+  assert(slices[si].u.branch_fork.length-slack_length_battle>=2);
 
   traverse_slices(slices[si].u.branch_fork.next,st);
 
   slices[si].u.branch_fork.length -= 2;
-  if (slices[si].u.branch_fork.min_length-slack_length_direct>=2)
+  if (slices[si].u.branch_fork.min_length-slack_length_battle>=2)
     slices[si].u.branch_fork.min_length -= 2;
 
   {

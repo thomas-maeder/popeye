@@ -56,7 +56,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
 
     case STDefenseMove:
     {
-      stip_length_type const n_dir = n-slack_length_series+slack_length_direct;
+      stip_length_type const n_dir = n-slack_length_series+slack_length_battle;
       result = !direct_defender_defend_in_n(si,n_dir);
       break;
     }
@@ -217,7 +217,7 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STDefenseMove:
     {
-      stip_length_type const n_dir = n-slack_length_series+slack_length_direct;
+      stip_length_type const n_dir = n-slack_length_series+slack_length_battle;
       result = direct_defender_can_defend_in_n(si,n_dir,0)==0;
       break;
     }

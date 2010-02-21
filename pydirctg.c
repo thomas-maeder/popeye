@@ -68,7 +68,7 @@ boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
     *root = direct_defense;
 
     slices[si].u.branch.length -= 2;
-    if (min_length>=slack_length_direct+2)
+    if (min_length>=slack_length_battle+2)
       slices[si].u.branch.min_length -= 2;
   }
   
@@ -92,7 +92,7 @@ boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
  *            >n no solution found
  *         (the second case includes the situation in self
  *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_direct and we return
+ *         goal (in which case n_min<slack_length_battle and we return
  *         n_min)
  */
 stip_length_type
@@ -110,9 +110,9 @@ direct_defense_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_direct && slice_has_solution(togoal)==has_solution)
+  if (n_min<=slack_length_battle && slice_has_solution(togoal)==has_solution)
     result = n_min;
-  else if (n>slack_length_direct)
+  else if (n>slack_length_battle)
     result = attack_has_solution_in_n(next,n,n_min);
   else
     result = n+2;
@@ -147,9 +147,9 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(len_threat>=slack_length_direct);
+  assert(len_threat>=slack_length_battle);
 
-  if (len_threat==slack_length_direct)
+  if (len_threat==slack_length_battle)
     result = slice_are_threats_refuted(threats,togoal);
   else
     result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
@@ -180,11 +180,11 @@ void direct_defense_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_direct);
+  assert(n>=slack_length_battle);
 
-  if (n_min<=slack_length_direct && slice_solve(togoal))
+  if (n_min<=slack_length_battle && slice_solve(togoal))
     ;
-  else if (n>slack_length_direct)
+  else if (n>slack_length_battle)
     attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
@@ -198,7 +198,7 @@ void direct_defense_direct_solve_continuations_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
@@ -217,15 +217,15 @@ direct_defense_direct_solve_threats_in_n(table threats,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n>=slack_length_direct);
+  assert(n>=slack_length_battle);
   
-  if (n_min<=slack_length_direct)
+  if (n_min<=slack_length_battle)
   {
     slice_index const togoal = slices[si].u.branch_fork.towards_goal;
     slice_solve_threats(threats,togoal);
     if (table_length(threats)>0)
-      result = slack_length_direct;
-    else if (n>slack_length_direct)
+      result = slack_length_battle;
+    else if (n>slack_length_battle)
       result = attack_solve_threats_in_n(threats,next,n,n_min);
   }
   else
@@ -255,7 +255,7 @@ boolean direct_defense_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length<=slack_length_direct && slice_root_solve(to_goal))
+  if (min_length<=slack_length_battle && slice_root_solve(to_goal))
     result = true;
 
   if (next!=no_slice)
@@ -275,7 +275,7 @@ boolean direct_defense_root_solve(slice_index si)
  * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
+ *         (n-slack_length_battle)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
 stip_length_type direct_defense_solve_in_n(slice_index si,
@@ -292,9 +292,9 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_direct && slice_solve(towards_goal))
+  if (n_min<=slack_length_battle && slice_solve(towards_goal))
     result = n_min;
-  else if (n>slack_length_direct)
+  else if (n>slack_length_battle)
     result = attack_solve_in_n(next,n,n_min);
   else
     result = n+2;
@@ -322,7 +322,7 @@ boolean direct_defense_root_make_setplay_slice(slice_index si,
 
   prod->sibling = si;
 
-  if (slices[si].u.branch.length==slack_length_direct+1)
+  if (slices[si].u.branch.length==slack_length_battle+1)
   {
     slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
     assert(slices[proxy_to_goal].type==STProxy);

@@ -738,7 +738,7 @@ static boolean find_slice_with_nonstandard_min_length(void)
     switch (slices[si].type)
     {
       case STAttackHashed:
-        result = min_length==length && length>slack_length_direct+1;
+        result = min_length==length && length>slack_length_battle+1;
         break;
 
       case STHelpHashed:
@@ -1390,7 +1390,7 @@ static unsigned int estimateNumberOfHoles(void)
     switch (slices[si].type)
     {
       case STAttackHashed:
-        result += (length-slack_length_direct+1)/2;
+        result += (length-slack_length_battle+1)/2;
         break;
 
       case STHelpHashed:
@@ -2020,8 +2020,8 @@ void insert_attack_hashed_slice(slice_index si)
     case STLeafDirect:
     {
       slice_index const hash
-          = alloc_attack_hashed_slice(slack_length_direct+1,
-                                      slack_length_direct+1);
+          = alloc_attack_hashed_slice(slack_length_battle+1,
+                                      slack_length_battle+1);
       slice_index const prev = slices[si].prev;
       pipe_link(hash,si);
       pipe_link(prev,hash);
@@ -2280,7 +2280,7 @@ static stip_length_type adjust_n_min(slice_index si,
  * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
+ *         (n-slack_length_battle)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
 stip_length_type attack_hashed_solve_in_n(slice_index si,
@@ -2350,7 +2350,7 @@ void attack_hashed_solve_continuations_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
@@ -2456,7 +2456,7 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
  *            >n no solution found
  *         (the second case includes the situation in self
  *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_direct and we return
+ *         goal (in which case n_min<slack_length_battle and we return
  *         n_min)
  */
 stip_length_type attack_hashed_has_solution_in_n(slice_index si,

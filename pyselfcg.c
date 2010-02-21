@@ -167,7 +167,7 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = false;
-  else if (slack_length_direct<=len_threat
+  else if (slack_length_battle<=len_threat
            && len_threat<=n
            && table_length(threats)>0)
     result = attack_are_threats_refuted_in_n(threats,len_threat,
@@ -214,7 +214,7 @@ void selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
@@ -233,7 +233,7 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = (n-slack_length_direct)%2;
+    result = (n-slack_length_battle)%2;
   else
   {
     slice_index const next = slices[si].u.pipe.next;
@@ -256,7 +256,7 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
  *            >n no solution found
  *         (the second case includes the situation in self
  *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_direct and we return
+ *         goal (in which case n_min<slack_length_battle and we return
  *         n_min)
  */
 stip_length_type
@@ -583,7 +583,7 @@ boolean selfcheck_guard_solve(slice_index si)
  * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
+ *         (n-slack_length_battle)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
 stip_length_type selfcheck_guard_solve_in_n(slice_index si,

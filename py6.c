@@ -694,7 +694,7 @@ static boolean verify_position(void)
     slice_index const next = slices[peer].u.pipe.next;
     assert(slices[peer].type==STDefenseMove);
 
-    if (2*get_max_threat_length()+slack_length_direct
+    if (2*get_max_threat_length()+slack_length_battle
         <slices[root_slice].u.branch.min_length)
     {
       VerifieMsg(ThreatOptionAndExactStipulationIncompatible);

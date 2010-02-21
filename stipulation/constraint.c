@@ -94,7 +94,7 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
 
   traverse_slices(next,st);
 
-  if (length-slack_length_direct==1)
+  if (length-slack_length_battle==1)
   {
     pipe_link(si,*root);
     *root = si;
@@ -106,7 +106,7 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
     *root = guard;
 
     slices[si].u.branch.length -= 2;
-    if (slices[si].u.branch.min_length-slack_length_direct>2)
+    if (slices[si].u.branch.min_length-slack_length_battle>2)
       slices[si].u.branch.min_length -= 2;
   }
   
@@ -126,7 +126,7 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
  *            >n no solution found
  *         (the second case includes the situation in self
  *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_direct and we return
+ *         goal (in which case n_min<slack_length_battle and we return
  *         n_min)
  */
 stip_length_type reflex_attacker_filter_has_solution_in_n(slice_index si,
@@ -201,7 +201,7 @@ reflex_attacker_filter_direct_solve_continuations_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
@@ -338,7 +338,7 @@ boolean reflex_attacker_filter_root_solve(slice_index si)
  * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
+ *         (n-slack_length_battle)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
 stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
@@ -427,7 +427,7 @@ boolean reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
   if (*postkey_slice!=no_slice)
   {
     stip_length_type const length = slices[si].u.branch.length;
-    if (length==slack_length_direct+1)
+    if (length==slack_length_battle+1)
     {
       slice_index const avoided = slices[si].u.reflex_guard.avoided;
       dealloc_slice(branch_deallocate(avoided));
@@ -494,7 +494,7 @@ boolean reflex_defender_filter_insert_root(slice_index si,
 
   traverse_slices(next,st);
 
-  if (length-slack_length_direct==0)
+  if (length-slack_length_battle==0)
   {
     pipe_link(si,*root);
     *root = si;
@@ -506,7 +506,7 @@ boolean reflex_defender_filter_insert_root(slice_index si,
     *root = guard;
 
     slices[si].u.branch.length -= 2;
-    if (slices[si].u.branch.min_length-slack_length_direct>=2)
+    if (slices[si].u.branch.min_length-slack_length_battle>=2)
       slices[si].u.branch.min_length -= 2;
   }
   
@@ -528,13 +528,13 @@ boolean reflex_defender_filter_root_defend(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.reflex_guard.min_length==slack_length_direct
+  if (slices[si].u.reflex_guard.min_length==slack_length_battle
       && slice_solve(slices[si].u.reflex_guard.avoided))
   {
     write_end_of_solution();
     result = false;
   }
-  else if (slices[si].u.reflex_guard.length>slack_length_direct)
+  else if (slices[si].u.reflex_guard.length>slack_length_battle)
     result = direct_defender_root_defend(slices[si].u.pipe.next);
   else
     result = false;
@@ -563,7 +563,7 @@ boolean reflex_defender_filter_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_direct)
+  if (n==slack_length_battle)
     result = !slice_solve(avoided);
   else
     result = direct_defender_defend_in_n(next,n);
@@ -591,7 +591,7 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.reflex_guard.min_length;
   stip_length_type const max_n_for_avoided = (length-min_length
-                                              +slack_length_direct);
+                                              +slack_length_battle);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -606,7 +606,7 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
         break;
 
       case has_no_solution:
-        if (n>slack_length_direct)
+        if (n>slack_length_battle)
           result = direct_defender_can_defend_in_n(next,n,max_result);
         break;
 
@@ -638,7 +638,7 @@ boolean reflex_defender_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (solve_avoided(avoided) || length==slack_length_direct)
+  if (solve_avoided(avoided) || length==slack_length_battle)
     result = false;
   else
     result = slice_root_solve(next);
@@ -671,7 +671,7 @@ boolean reflex_defender_filter_make_setplay_slice(slice_index si,
     assert(slices[prod->sibling].type==STAttackRoot);
   }
 
-  if (slices[si].u.branch.length==slack_length_direct)
+  if (slices[si].u.branch.length==slack_length_battle)
   {
     slice_index const proxy_to_avoided = slices[si].u.reflex_guard.avoided;
     assert(slices[proxy_to_avoided].type==STProxy);
@@ -1475,7 +1475,7 @@ static boolean reflex_guards_inserter_attack_semi(slice_index si,
 
   slice_traverse_children(si,st);
 
-  if (length==slack_length_direct+1)
+  if (length==slack_length_battle+1)
   {
     /* insert an STReflexAttackerFilter slice that switches to the next branch
      */

@@ -90,8 +90,8 @@ boolean attack_are_threats_refuted_in_n(table threats,
       break;
 
     case STLeafDirect:
-      assert(len_threat==slack_length_direct);
-      assert(n==slack_length_direct+1);
+      assert(len_threat==slack_length_battle);
+      assert(n==slack_length_battle+1);
       result = leaf_d_are_threats_refuted(threats,si);
       break;
 
@@ -116,7 +116,7 @@ boolean attack_are_threats_refuted_in_n(table threats,
  *            >n no solution found
  *         (the second case includes the situation in self
  *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_direct and we return
+ *         goal (in which case n_min<slack_length_battle and we return
  *         n_min)
  */
 stip_length_type attack_has_solution_in_n(slice_index si,
@@ -146,7 +146,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     case STSeriesHashed:
     case STSeriesFork:
     {
-      stip_length_type const n_ser = n-slack_length_direct+slack_length_series;
+      stip_length_type const n_ser = n-slack_length_battle+slack_length_series;
       result = series_has_solution_in_n(si,n_ser) ? n : n+2;
       break;
     }
@@ -176,7 +176,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       break;
 
     case STLeafDirect:
-      assert(n==slack_length_direct+1);
+      assert(n==slack_length_battle+1);
       if (leaf_d_has_solution(si)==has_solution)
         result = n;
       break;
@@ -208,10 +208,10 @@ has_solution_type attack_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length+min_length>slack_length_direct+length)
+  if (length+min_length>slack_length_battle+length)
     n_min = length-(length-min_length);
   else
-    n_min = slack_length_direct-parity;
+    n_min = slack_length_battle-parity;
 
   result = (attack_has_solution_in_n(si,length,n_min)<=length
             ? has_solution
@@ -255,7 +255,7 @@ void attack_solve_continuations_in_n(slice_index si,
     case STSeriesHashed:
     case STSeriesFork:
     {
-      stip_length_type const n_ser = n-slack_length_direct+slack_length_series;
+      stip_length_type const n_ser = n-slack_length_battle+slack_length_series;
       boolean const result = series_solve_in_n(si,n_ser);
       assert(result);
       break;
@@ -301,7 +301,7 @@ void attack_solve_continuations_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
@@ -355,7 +355,7 @@ stip_length_type attack_solve_threats_in_n(table threats,
       break;
 
     case STLeafDirect:
-      assert(n==slack_length_direct+1);
+      assert(n==slack_length_battle+1);
       leaf_d_solve_threats(threats,si);
       break;
 
@@ -386,8 +386,8 @@ void attack_solve_threats(table threats, slice_index si)
     case STAttackHashed:
     {
       stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const parity = (length-slack_length_direct)%2;
-      stip_length_type const n_min = slack_length_direct+2-parity;
+      stip_length_type const parity = (length-slack_length_battle)%2;
+      stip_length_type const n_min = slack_length_battle+2-parity;
       attack_hashed_solve_threats_in_n(threats,si,length,n_min);
       break;
     }
@@ -426,7 +426,7 @@ boolean attack_are_threats_refuted(table threats, slice_index si)
     case STAttackHashed:
     {
       stip_length_type const length = slices[si].u.branch.length;
-      result = attack_are_threats_refuted_in_n(threats,slack_length_direct,
+      result = attack_are_threats_refuted_in_n(threats,slack_length_battle,
                                                si,length);
       break;
     }
@@ -452,7 +452,7 @@ boolean attack_are_threats_refuted(table threats, slice_index si)
  * @param n_min minimal number of half moves to try
  * @return number of half moves effectively used
  *         n+2 if no solution was found
- *         (n-slack_length_direct)%2 if the previous move led to a
+ *         (n-slack_length_battle)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
 stip_length_type attack_solve_in_n(slice_index si,
@@ -471,8 +471,8 @@ stip_length_type attack_solve_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STLeafDirect:
-      assert(n==slack_length_direct+1);
-      assert(n_min==slack_length_direct+1);
+      assert(n==slack_length_battle+1);
+      assert(n_min==slack_length_battle+1);
       result = leaf_d_solve(si) ? n : n+2;
       break;
 
@@ -532,8 +532,8 @@ boolean attack_solve(slice_index si)
 
   if (slices[si].type==STLeafDirect)
   {
-    length = slack_length_direct+1;
-    min_length = slack_length_direct+1;
+    length = slack_length_battle+1;
+    min_length = slack_length_battle+1;
   }
   else
   {

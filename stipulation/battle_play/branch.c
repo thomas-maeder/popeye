@@ -22,8 +22,8 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(length>slack_length_direct);
-  assert(min_length>=slack_length_direct);
+  assert(length>slack_length_battle);
+  assert(min_length>=slack_length_battle);
   assert(min_length%2==length%2);
 
   result = alloc_proxy_slice();
@@ -32,7 +32,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const branch = alloc_attack_move_slice(length,min_length);
     pipe_link(result,branch);
 
-    if (length-slack_length_direct>1)
+    if (length-slack_length_battle>1)
     {
       slice_index const def = alloc_defense_move_slice(length-1,
                                                             min_length-1);

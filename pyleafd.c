@@ -294,8 +294,8 @@ boolean leaf_d_root_solve(slice_index leaf)
 
 enum
 {
-  leaf_has_solution = slack_length_direct+1,
-  leaf_has_no_solution = slack_length_direct+3
+  leaf_has_solution = slack_length_battle+1,
+  leaf_has_no_solution = slack_length_battle+3
 };
 
 /* Determine and write keys leading to a double-mate

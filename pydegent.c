@@ -71,7 +71,7 @@ static slice_index alloc_degenerate_tree_guard_slice(void)
  *            >n no solution found
  *         (the second case includes the situation in self
  *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_direct and we return
+ *         goal (in which case n_min<slack_length_battle and we return
  *         n_min)
  */
 stip_length_type
@@ -91,7 +91,7 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
 
   if (n>max_length_short_solutions+parity)
   {
-    if (max_length_short_solutions>=slack_length_direct+2)
+    if (max_length_short_solutions>=slack_length_battle+2)
     {
       stip_length_type const n_interm = max_length_short_solutions-2+parity;
       result = attack_has_solution_in_n(next,n_interm,n_min);
@@ -145,7 +145,7 @@ void degenerate_tree_direct_solve_continuations_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of threats
- *         (n-slack_length_direct)%2 if the attacker has something
+ *         (n-slack_length_battle)%2 if the attacker has something
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */

@@ -1831,7 +1831,7 @@ static char *ParseLength(char *tok,
         else
         {
           *length *= 2;
-          *min_length = slack_length_direct;
+          *min_length = slack_length_battle;
         }
         break;
 
@@ -2361,8 +2361,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const dirdef =
-          alloc_defense_move_slice(slack_length_direct+1,
-                                        slack_length_direct+1);
+          alloc_defense_move_slice(slack_length_battle+1,
+                                        slack_length_battle+1);
       convert_to_parry_series_branch(slices[proxy].u.pipe.next,dirdef);
     }
   }
@@ -2627,7 +2627,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
       result = ParseLength(tok2,STAttackMove,&length,&min_length);
       if (result!=0)
       {
-        if (length==slack_length_direct && min_length==slack_length_direct)
+        if (length==slack_length_battle && min_length==slack_length_battle)
           pipe_link(proxy,leaf);
         else
         {
@@ -2825,14 +2825,14 @@ static char *ParseStructuredStip_branch_d(char *tok,
     tok = ParseStructuredStip_operand(tok,proxy_operand,nextStartLikeBranch);
     if (tok!=0)
     {
-      min_length += slack_length_direct+max_length%2;
-      max_length += slack_length_direct;
+      min_length += slack_length_battle+max_length%2;
+      max_length += slack_length_battle;
       {
         slice_index const branch = alloc_battle_branch(max_length,min_length);
         pipe_set_successor(proxy,branch);
 
         /* TODO get this right */
-        if ((max_length-slack_length_direct)%2==0)
+        if ((max_length-slack_length_battle)%2==0)
           slice_insert_direct_guards(branch,proxy_operand);
         else
         {
