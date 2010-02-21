@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "trace.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pyleaf.h"
 #include "pyleafd.h"
 #include "pyleaff.h"
@@ -10,7 +10,6 @@
 #include "pybrad.h"
 #include "pybradd.h"
 #include "pybrah.h"
-#include "pybraser.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -64,7 +63,7 @@ void slice_solve_threats(table threats, slice_index si)
       help_solve_threats(threats,si);
       break;
 
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesHashed:
       series_solve_threats(threats,si);
       break;
@@ -118,7 +117,7 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
       result = help_are_threats_refuted(threats,si);
       break;
 
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesHashed:
       result = series_are_threats_refuted(threats,si);
       break;
@@ -189,7 +188,7 @@ boolean slice_solve(slice_index si)
       solution_found = help_solve(si);
       break;
 
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesFork:
     case STSeriesHashed:
     case STStopOnShortSolutionsSeriesFilter:
@@ -380,7 +379,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = move_inverter_has_solution(si);
       break;
 
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesHashed:
     case STReflexSeriesFilter:
       result = series_has_solution(si);

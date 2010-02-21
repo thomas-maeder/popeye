@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "pydirect.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
@@ -299,7 +299,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_operation_noop,         /* STBranchDirectDefender */
   &restart_guards_inserter_help, /* STBranchHelp */
   &slice_operation_noop,         /* STHelpFork */
-  &restart_guards_inserter_series, /* STBranchSeries */
+  &restart_guards_inserter_series, /* STSeriesMove */
   &slice_operation_noop,         /* STSeriesFork */
   &slice_operation_noop,         /* STLeafDirect */
   &slice_operation_noop,         /* STLeafHelp */

@@ -126,7 +126,7 @@ static boolean insert_stoponshortsolutions_help_filter(slice_index si,
 }
 
 /* Insert a STStopOnShortSolutionsSeriesFilter slice after the toplevel
- * STBranchSeries slice
+ * STSeriesMove slice
  */
 static boolean insert_stoponshortsolutions_series_filter(slice_index si,
                                                          slice_traversal *st)
@@ -165,7 +165,7 @@ static slice_operation const stoponshortsolutions_filter_inserters[] =
   &slice_traverse_children,                   /* STBranchDirectDefender */
   &insert_stoponshortsolutions_help_filter,   /* STBranchHelp */
   &insert_stoponshortsolutions_help_filter,   /* STHelpFork */
-  &insert_stoponshortsolutions_series_filter, /* STBranchSeries */
+  &insert_stoponshortsolutions_series_filter, /* STSeriesMove */
   &insert_stoponshortsolutions_series_filter, /* STSeriesFork */
   &slice_operation_noop,                      /* STLeafDirect */
   &slice_operation_noop,                      /* STLeafHelp */
@@ -278,7 +278,7 @@ static slice_operation const stoponshortsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STBranchDirectDefender */
   &slice_traverse_children,     /* STBranchHelp */
   &slice_traverse_children,     /* STHelpFork */
-  &slice_traverse_children,     /* STBranchSeries */
+  &slice_traverse_children,     /* STSeriesMove */
   &slice_traverse_children,     /* STSeriesFork */
   &insert_root_solvable_filter, /* STLeafDirect */
   &insert_root_solvable_filter, /* STLeafHelp */

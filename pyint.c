@@ -23,7 +23,7 @@
 #include "pybrafrk.h"
 #include "pyproof.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "pyintslv.h"
 #include "pymovenb.h"
@@ -2784,7 +2784,7 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STBranchDirectDefender */
   &slice_traverse_children,         /* STBranchHelp */
   &slice_traverse_children,         /* STHelpFork */
-  &slice_traverse_children,         /* STBranchSeries */
+  &slice_traverse_children,         /* STSeriesMove */
   &slice_traverse_children,         /* STSeriesFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
   &init_moves_left_leaf_help,       /* STLeafHelp */
@@ -2970,7 +2970,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STBranchDirectDefender */
   &slice_traverse_children,         /* STBranchHelp */
   &partial_moves_left_help_fork,  /* STHelpFork */
-  &slice_traverse_children,         /* STBranchSeries */
+  &slice_traverse_children,         /* STSeriesMove */
   &partial_moves_left_series_fork,  /* STSeriesFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
   &init_moves_left_leaf_help,       /* STLeafHelp */
@@ -3462,7 +3462,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STBranchDirectDefender */
   &intelligent_guards_inserter_branch_help,  /* STBranchHelp */
   &slice_traverse_children,                  /* STHelpFork */
-  &intelligent_guards_inserter_branch_series,/* STBranchSeries */
+  &intelligent_guards_inserter_branch_series,/* STSeriesMove */
   &slice_traverse_children,                  /* STSeriesFork */
   &slice_operation_noop,                     /* STLeafDirect */
   &slice_operation_noop,                     /* STLeafHelp */
@@ -3791,7 +3791,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
   &slice_traverse_children,                      /* STBranchHelp */
   &intelligent_mode_support_detector_fork,       /* STHelpFork */
-  &slice_traverse_children,                      /* STBranchSeries */
+  &slice_traverse_children,                      /* STSeriesMove */
   &intelligent_mode_support_detector_fork,       /* STSeriesFork */
   &intelligent_mode_support_detector_leaf,       /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,       /* STLeafHelp */

@@ -291,7 +291,7 @@ static slice_operation const maxthreatlength_guards_inserters[] =
   &maxthreatlength_guard_inserter, /* STBranchDirectDefender */
   &slice_traverse_children,        /* STBranchHelp */
   &slice_traverse_children,        /* STHelpFork */
-  &slice_traverse_children,        /* STBranchSeries */
+  &slice_traverse_children,        /* STSeriesMove */
   &slice_traverse_children,        /* STSeriesFork */
   &slice_traverse_children,        /* STLeafDirect */
   &slice_traverse_children,        /* STLeafHelp */

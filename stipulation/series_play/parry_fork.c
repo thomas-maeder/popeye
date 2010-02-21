@@ -1,7 +1,7 @@
 #include "stipulation/series_play/parry_fork.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pybrafrk.h"
 #include "stipulation/proxy.h"
 #include "pypipe.h"
@@ -96,7 +96,7 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
   TraceStipulation(si);
 
   {
-    slice_index const branch = branch_find_slice(STBranchSeries,si);
+    slice_index const branch = branch_find_slice(STSeriesMove,si);
     slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                    branch);
     slice_index const next = slices[inverter].u.pipe.next;

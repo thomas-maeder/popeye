@@ -1,5 +1,5 @@
 #include "pydirect.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pybrad.h"
 #include "pybradd.h"
 #include "pybrafrk.h"
@@ -211,7 +211,7 @@ stip_length_type direct_has_solution_in_n(slice_index si,
       result = direct_hashed_has_solution_in_n(si,n,n_min);
       break;
 
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
     {
@@ -320,7 +320,7 @@ void direct_solve_continuations_in_n(slice_index si,
       direct_hashed_solve_continuations_in_n(si,n,n_min);
       break;
 
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
     {

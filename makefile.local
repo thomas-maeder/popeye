@@ -11,13 +11,13 @@ INCLUDES =      pyenum.h \
 		pytable.h \
 		pyoutput.h \
 		pygoal.h pystip.h pyslice.h \
-		pydirect.h pyhelp.h pyseries.h \
+		pydirect.h pyhelp.h \
 		pypipe.h \
 		pydirctg.h pyselfgd.h pyreflxg.h \
 		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
 		pynontrv.h pythreat.h pydegent.h \
 		pyquodli.h pyrecipr.h pynot.h \
-		pybrad.h pybradd.h pybrah.h pybraser.h \
+		pybrad.h pybradd.h pybrah.h \
 		pyleaf.h pyleafd.h pyleaff.h pyleafh.h \
 		pymovein.h \
 		pymovenb.h \
@@ -29,13 +29,13 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pyoutput.c \
 		pysignal.c pyintslv.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
-		pydirect.c pyhelp.c pyseries.c \
+		pydirect.c pyhelp.c \
 		pypipe.c \
 		pydirctg.c pyselfgd.c pyreflxg.c \
 		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \
 		pynontrv.c pythreat.c pydegent.c \
 		pyquodli.c pyrecipr.c pynot.c \
-		pybrad.c pybradd.c pybrah.c pybraser.c \
+		pybrad.c pybradd.c pybrah.c \
 		pyleaf.c pyleafd.c pyleaff.c pyleafh.c \
 		pymovein.c \
 		pymovenb.c \
@@ -84,17 +84,6 @@ DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
 # default target: build executable
 
 all:		py$(EXE_PLATFORM_MARK)$(EXE_SUFFIX)
-
-
-# ===========================================================
-# Build dependency information
-
-ifdef DEPEND
-depend: $(NESTEDLIBDIRS:%=%/depend)
-
-$(NESTEDLIBDIRS:%=%/depend): FORCE
-	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
-endif
 
 
 # ===========================================================

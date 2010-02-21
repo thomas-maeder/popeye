@@ -500,7 +500,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STBranchDirectDefender */
   &slice_traverse_children,           /* STBranchHelp */
   &slice_traverse_children,           /* STHelpFork */
-  &slice_traverse_children,           /* STBranchSeries */
+  &slice_traverse_children,           /* STSeriesMove */
   &slice_traverse_children,           /* STSeriesFork */
   &root_slice_type_found,             /* STLeafDirect */
   &root_slice_type_found,             /* STLeafHelp */
@@ -2338,7 +2338,7 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STHelpFork */
-  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STSeriesMove */
   &slice_traverse_children, /* STSeriesFork */
   &mating_side_finder_leaf, /* STLeafDirect */
   &mating_side_finder_leaf, /* STLeafHelp */
@@ -2449,7 +2449,7 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STHelpFork */
-  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STSeriesMove */
   &slice_traverse_children, /* STSeriesFork */
   &slice_operation_noop,    /* STLeafDirect */
   &slice_operation_noop,    /* STLeafHelp */
@@ -2556,7 +2556,7 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STBranchHelp */
   &slice_traverse_children, /* STHelpFork */
-  &slice_traverse_children, /* STBranchSeries */
+  &slice_traverse_children, /* STSeriesMove */
   &slice_traverse_children, /* STSeriesFork */
   &slice_operation_noop,    /* STLeafDirect */
   &slice_operation_noop,    /* STLeafHelp */
@@ -2851,7 +2851,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STBranchDirectDefender */
   &insert_hash_element_branch_help,          /* STBranchHelp */
   &slice_traverse_children,                  /* STHelpFork */
-  &insert_hash_element_branch_series,        /* STBranchSeries */
+  &insert_hash_element_branch_series,        /* STSeriesMove */
   &slice_traverse_children,                  /* STSeriesFork */
   &insert_hash_element_leaf_direct,          /* STLeafDirect */
   &insert_hash_element_leaf_help,            /* STLeafHelp */

@@ -151,7 +151,7 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_treemode,      /* STBranchDirectDefender */
   &output_mode_help_branch,   /* STBranchHelp */
   &slice_traverse_children,   /* STHelpFork */
-  &output_mode_linemode,      /* STBranchSeries */
+  &output_mode_linemode,      /* STSeriesMove */
   &slice_traverse_children,   /* STSeriesFork */
   &output_mode_treemode,      /* STLeafDirect */
   &output_mode_linemode,      /* STLeafHelp */
@@ -583,8 +583,8 @@ static void linesolution(void)
     TraceValue("%u\n",active_slice[current_ply]);
     if (slice!=active_slice[current_ply])
     {
-      if (slices[slice].type==STBranchSeries
-          && slices[active_slice[current_ply]].type==STBranchSeries
+      if (slices[slice].type==STSeriesMove
+          && slices[active_slice[current_ply]].type==STSeriesMove
           && trait[current_ply-1]!=trait[current_ply])
       {
         next_movenumber = 1;

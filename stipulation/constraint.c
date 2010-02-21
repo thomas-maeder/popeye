@@ -1,7 +1,7 @@
 #include "pyreflxg.h"
 #include "pydirect.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
@@ -1315,7 +1315,7 @@ static slice_operation const reflex_guards_inserters[] =
   &reflex_guards_inserter_defense,     /* STBranchDirectDefender */
   &reflex_guards_inserter_help,        /* STBranchHelp */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
-  &reflex_guards_inserter_series,      /* STBranchSeries */
+  &reflex_guards_inserter_series,      /* STSeriesMove */
   &reflex_guards_inserter_branch_fork, /* STSeriesFork */
   &slice_operation_noop,               /* STLeafDirect */
   &slice_operation_noop,               /* STLeafHelp */
@@ -1498,7 +1498,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &reflex_guards_inserter_defense_semi, /* STBranchDirectDefender */
   &reflex_guards_inserter_help,         /* STBranchHelp */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
-  &slice_traverse_children,             /* STBranchSeries */
+  &slice_traverse_children,             /* STSeriesMove */
   &reflex_guards_inserter_branch_fork,  /* STSeriesFork */
   &slice_operation_noop,                /* STLeafDirect */
   &slice_operation_noop,                /* STLeafHelp */

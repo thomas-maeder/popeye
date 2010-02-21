@@ -1,7 +1,7 @@
 #include "pypipe.h"
 #include "pykeepmt.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pyleaf.h"
 #include "trace.h"
 
@@ -815,7 +815,7 @@ static slice_operation const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_defender,    /* STBranchDirectDefender */
   &keepmating_guards_inserter_branch_help,      /* STBranchHelp */
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
-  &keepmating_guards_inserter_branch_series, /* STBranchSeries */
+  &keepmating_guards_inserter_branch_series, /* STSeriesMove */
   &keepmating_guards_inserter_branch_fork, /* STSeriesFork */
   &keepmating_guards_inserter_leaf,        /* STLeafDirect */
   &keepmating_guards_inserter_leaf,        /* STLeafHelp */

@@ -1,6 +1,6 @@
 #include "optimisations/stoponshortsolutions/series_filter.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "stipulation/branch.h"
 #include "trace.h"
 

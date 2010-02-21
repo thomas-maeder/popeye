@@ -1,6 +1,6 @@
 #include "pymovein.h"
 #include "pyslice.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "pyproc.h"
 #include "pyoutput.h"

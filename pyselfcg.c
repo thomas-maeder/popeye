@@ -2,7 +2,7 @@
 #include "pypipe.h"
 #include "pydirect.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
@@ -685,7 +685,7 @@ static boolean selfcheck_guards_inserter_branch_help(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard* slice after a STBranchSeries slice
+/* Insert a STSelfCheckGuard* slice after a STSeriesMove slice
  */
 static boolean selfcheck_guards_inserter_branch_series(slice_index si,
                                                        slice_traversal *st)
@@ -962,7 +962,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_branch_direct_defender_root, /* STBranchDirectDefender */
   &selfcheck_guards_inserter_branch_help,   /* STBranchHelp */
   &slice_traverse_children,                 /* STHelpFork */
-  &selfcheck_guards_inserter_branch_series, /* STBranchSeries */
+  &selfcheck_guards_inserter_branch_series, /* STSeriesMove */
   &slice_traverse_children,                 /* STSeriesFork */
   &slice_operation_noop,                    /* STLeafDirect */
   &slice_operation_noop,                    /* STLeafHelp */
@@ -1060,7 +1060,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_traverse_children,                      /* STBranchDirectDefender */
   &slice_traverse_children,                      /* STBranchHelp */
   &slice_traverse_children,                      /* STHelpFork */
-  &slice_traverse_children,                      /* STBranchSeries */
+  &slice_traverse_children,                      /* STSeriesMove */
   &slice_traverse_children,                      /* STSeriesFork */
   &selfcheck_guards_inserter_toplevel_root,      /* STLeafDirect */
   &selfcheck_guards_inserter_toplevel_root,      /* STLeafHelp */

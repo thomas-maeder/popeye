@@ -164,7 +164,7 @@ static boolean insert_maxsolutions_help_filter(slice_index si,
   return result;
 }
 
-/* Insert a STMaxSolutionsSeriesFilter slice after a STBranchSeries slice
+/* Insert a STMaxSolutionsSeriesFilter slice after a STSeriesMove slice
  */
 static boolean insert_maxsolutions_series_filter(slice_index si,
                                                  slice_traversal *st)
@@ -238,7 +238,7 @@ static slice_operation const maxsolutions_filter_inserters[] =
   &slice_traverse_children,           /* STBranchDirectDefender */
   &insert_maxsolutions_help_filter,   /* STBranchHelp */
   &slice_traverse_children,           /* STHelpFork */
-  &insert_maxsolutions_series_filter, /* STBranchSeries */
+  &insert_maxsolutions_series_filter, /* STSeriesMove */
   &slice_traverse_children,           /* STSeriesFork */
   &slice_traverse_children,           /* STLeafDirect */
   &slice_traverse_children,           /* STLeafHelp */
@@ -331,7 +331,7 @@ static slice_operation const maxsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STBranchDirectDefender */
   &slice_traverse_children,     /* STBranchHelp */
   &slice_traverse_children,     /* STHelpFork */
-  &slice_traverse_children,     /* STBranchSeries */
+  &slice_traverse_children,     /* STSeriesMove */
   &slice_traverse_children,     /* STSeriesFork */
   &insert_root_solvable_filter, /* STLeafDirect */
   &insert_root_solvable_filter, /* STLeafHelp */

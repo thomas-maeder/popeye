@@ -1,6 +1,6 @@
 #include "pyintslv.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -29,7 +29,7 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     case STSeriesShortcut:
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
       series_solve_in_n(si,n);

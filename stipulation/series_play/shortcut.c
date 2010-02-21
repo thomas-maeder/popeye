@@ -1,5 +1,5 @@
 #include "stipulation/series_play/shortcut.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"

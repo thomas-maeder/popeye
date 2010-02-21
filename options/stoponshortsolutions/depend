@@ -52,14 +52,14 @@ trace.h:
 optimisations/stoponshortsolutions/series_filter$(OBJ_SUFFIX):  \
  optimisations/stoponshortsolutions/series_filter.c \
   optimisations/stoponshortsolutions/series_filter.h \
-  optimisations/stoponshortsolutions/stoponshortsolutions.h pyseries.h \
-  stipulation/branch.h trace.h
+  optimisations/stoponshortsolutions/stoponshortsolutions.h \
+  stipulation/series_play/play.h stipulation/branch.h trace.h
 
 optimisations/stoponshortsolutions/series_filter.h:
 
 optimisations/stoponshortsolutions/stoponshortsolutions.h:
 
-pyseries.h:
+stipulation/series_play/play.h:
 
 stipulation/branch.h:
 

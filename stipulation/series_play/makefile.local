@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = parry_fork.c shortcut.c
-INCLUDES = parry_fork.h shortcut.h
+CFILES = branch.c root.c move.c fork.c parry_fork.c shortcut.c play.c
+INCLUDES = branch.h root.h move.h fork.h parry_fork.h shortcut.h play.h
 
 include makefile.rules $(CURRPWD)depend

@@ -1,6 +1,6 @@
 #include "pyhelp.h"
 #include "pybrah.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "stipulation/help_play/shortcut.h"
 #include "pyleafh.h"
 #include "pybrafrk.h"
@@ -44,7 +44,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       result = branch_h_solve_in_n(si,n);
       break;
 
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesHashed:
     {
       stip_length_type const n_ser = n-slack_length_help+slack_length_series;

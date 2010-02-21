@@ -1,6 +1,6 @@
 #include "optimisations/maxsolutions/series_filter.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "trace.h"
 

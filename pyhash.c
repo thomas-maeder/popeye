@@ -103,7 +103,7 @@
 #include "pystip.h"
 #include "pybrafrk.h"
 #include "pyhelp.h"
-#include "pyseries.h"
+#include "stipulation/series_play/play.h"
 #include "pynontrv.h"
 #include "stipulation/branch.h"
 #include "pypipe.h"
@@ -288,7 +288,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STBranchDirectDefender */
   &slice_property_offset_shifter, /* STBranchHelp */
   &slice_property_offset_shifter, /* STHelpFork */
-  &slice_property_offset_shifter, /* STBranchSeries */
+  &slice_property_offset_shifter, /* STSeriesMove */
   &slice_property_offset_shifter, /* STSeriesFork */
   &slice_property_offset_shifter, /* STLeafDirect */
   &slice_property_offset_shifter, /* STLeafHelp */
@@ -660,7 +660,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STBranchDirectDefender */
   &init_slice_properties_pipe,           /* STBranchHelp */
   &slice_traverse_children,              /* STHelpFork */
-  &init_slice_properties_pipe,           /* STBranchSeries */
+  &init_slice_properties_pipe,           /* STSeriesMove */
   &slice_traverse_children,              /* STSeriesFork */
   &slice_operation_noop,                 /* STLeafDirect */
   &slice_operation_noop,                 /* STLeafHelp */
@@ -2118,9 +2118,9 @@ void insert_helphashed_slice(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STSeriesHashed slice for a STBranchSeries slice
+/* Allocate a STSeriesHashed slice for a STSeriesMove slice
  * and insert it before the slice
- * @param si identifies STBranchSeries slice
+ * @param si identifies STSeriesMove slice
  */
 void insert_serieshashed_slice(slice_index si)
 {
@@ -2129,7 +2129,7 @@ void insert_serieshashed_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
-  assert(slices[si].type==STBranchSeries);
+  assert(slices[si].type==STSeriesMove);
 
   {
     stip_length_type const length = slices[si].u.branch.length;

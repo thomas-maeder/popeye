@@ -1,23 +1,22 @@
-#include "pyseries.h"
-#include "pybraser.h"
+#include "stipulation/series_play/play.h"
 #include "pyhelp.h"
 #include "pydirect.h"
-#include "pybrafrk.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
 #include "pymovein.h"
 #include "pymovenb.h"
-#include "pypipe.h"
+#include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
+#include "stipulation/series_play/root.h"
+#include "stipulation/series_play/move.h"
 #include "stipulation/series_play/shortcut.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
 #include "optimisations/stoponshortsolutions/series_filter.h"
 #include "pyint.h"
-#include "pydata.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -44,8 +43,8 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       result = series_shortcut_solve_in_n(si,n);
       break;
 
-    case STBranchSeries:
-      result = branch_ser_solve_in_n(si,n);
+    case STSeriesMove:
+      result = series_move_solve_in_n(si,n);
       break;
 
     case STBranchHelp:
@@ -207,9 +206,9 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchSeries:
+    case STSeriesMove:
     case STSeriesRoot:
-      result = branch_ser_has_solution_in_n(si,n);
+      result = series_move_has_solution_in_n(si,n);
       break;
 
     case STSeriesShortcut:
@@ -323,8 +322,8 @@ void series_solve_threats_in_n(table threats,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STBranchSeries:
-      branch_ser_solve_threats_in_n(threats,si,n);
+    case STSeriesMove:
+      series_move_solve_threats_in_n(threats,si,n);
       break;
 
     case STSeriesFork:
@@ -408,8 +407,8 @@ boolean series_are_threats_refuted(table threats, slice_index si)
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
-  if (slices[si].type==STBranchSeries)
-    result = branch_ser_are_threats_refuted(threats,si);
+  if (slices[si].type==STSeriesMove)
+    result = series_move_are_threats_refuted(threats,si);
   else
     result = series_are_threats_refuted(threats,slices[si].u.pipe.next);
 
