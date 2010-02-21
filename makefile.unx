@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.99 2010/01/17 11:34:44 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.100 2010/02/21 08:29:05 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -194,9 +194,35 @@ LATEXdist: $(LATEXGZIPFILE) $(LATEXCOMPRESSFILE) $(LATEXZIPFILE)
 
 # ===========================================================
 # targets built using recursive makes
+# ===========================================================
 
-all depend ./sourcedist clean clobber %$(OBJ_SUFFIX): FORCE
+NESTEDLIBDIRS = DHT platform platform/$(PLATFORM) \
+		conditions \
+		stipulation stipulation/operators \
+		stipulation/help_play stipulation/series_play \
+		optimisations/intelligent \
+		optimisations/maxtime optimisations/maxsolutions \
+		optimisations/stoponshortsolutions
+
+all ./sourcedist clean clobber: FORCE
 	$(MAKE) CURRPWD=./ -f makefile.local $@
+
+
+# ===========================================================
+# Build dependency information
+
+ifdef DEPEND
+depend: $(NESTEDLIBDIRS:%=%/depend)
+
+$(NESTEDLIBDIRS:%=%/depend): FORCE
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
+endif
+
+# ===========================================================
+# Build an object file
+
+%$(OBJ_SUFFIX): FORCE
+	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 
 FORCE:
 
