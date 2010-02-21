@@ -214,7 +214,7 @@ boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-static boolean restart_guards_inserter_direct_root(slice_index si,
+static boolean restart_guards_inserter_attack_root(slice_index si,
                                                    slice_traversal *st)
 {
   boolean const result = true;
@@ -295,7 +295,7 @@ static boolean restart_guards_inserter_series(slice_index si,
 static slice_operation const restart_guards_inserters[] =
 {
   &slice_traverse_children,      /* STProxy */
-  &slice_operation_noop,         /* STBranchDirect */
+  &slice_operation_noop,         /* STAttackMove */
   &slice_operation_noop,         /* STBranchDirectDefender */
   &restart_guards_inserter_help, /* STHelpMove */
   &slice_operation_noop,         /* STHelpFork */
@@ -310,7 +310,7 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,      /* STMoveInverterSeriesFilter */
-  &restart_guards_inserter_direct_root, /* STDirectRoot */
+  &restart_guards_inserter_attack_root, /* STAttackRoot */
   &slice_operation_noop,         /* STDirectDefenderRoot */
   &slice_traverse_children,      /* STDirectHashed */
   &slice_traverse_children,      /* STHelpRoot */

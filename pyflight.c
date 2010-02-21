@@ -246,7 +246,7 @@ static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
 static slice_operation const maxflight_guards_inserters[] =
 {
   &slice_traverse_children,  /* STProxy */
-  &slice_traverse_children,  /* STBranchDirect */
+  &slice_traverse_children,  /* STAttackMove */
   &maxflight_guard_inserter, /* STBranchDirectDefender */
   &slice_traverse_children,  /* STHelpMove */
   &slice_traverse_children,  /* STHelpFork */
@@ -261,7 +261,7 @@ static slice_operation const maxflight_guards_inserters[] =
   &slice_traverse_children,  /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,  /* STMoveInverterSolvableFilter */
   &slice_traverse_children,  /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,  /* STDirectRoot */
+  &slice_traverse_children,  /* STAttackRoot */
   &maxflight_guard_inserter, /* STDirectDefenderRoot */
   &slice_traverse_children,  /* STDirectHashed */
   &slice_traverse_children,  /* STHelpRoot */

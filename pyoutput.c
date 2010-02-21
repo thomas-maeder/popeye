@@ -147,7 +147,7 @@ static boolean output_mode_fork(slice_index si, slice_traversal *st)
 static slice_operation const output_mode_detectors[] =
 {
   &slice_traverse_children,   /* STProxy */
-  &output_mode_treemode,      /* STBranchDirect */
+  &output_mode_treemode,      /* STAttackMove */
   &output_mode_treemode,      /* STBranchDirectDefender */
   &output_mode_help_branch,   /* STHelpMove */
   &slice_traverse_children,   /* STHelpFork */
@@ -162,7 +162,7 @@ static slice_operation const output_mode_detectors[] =
   &slice_traverse_children,   /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSeriesFilter */
-  &output_mode_treemode,      /* STDirectRoot */
+  &output_mode_treemode,      /* STAttackRoot */
   &output_mode_treemode,      /* STDirectDefenderRoot */
   &output_mode_treemode,      /* STDirectHashed */
   &output_mode_help_branch,   /* STHelpRoot */

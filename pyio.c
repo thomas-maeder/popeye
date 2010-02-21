@@ -70,7 +70,6 @@
 #include "pyquodli.h"
 #include "pyrecipr.h"
 #include "pynot.h"
-#include "pybrad.h"
 #include "pybradd.h"
 #include "pymovein.h"
 #include "pyproof.h"
@@ -85,6 +84,7 @@
 #include "pypipe.h"
 #include "pyint.h"
 #include "stipulation/proxy.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/help_play/branch.h"
@@ -1822,7 +1822,7 @@ static char *ParseLength(char *tok,
         }
         break;
 
-      case STBranchDirect:
+      case STAttackMove:
         if (*length==0)
         {
           IoErrorMsg(WrongInt,0);
@@ -2566,10 +2566,10 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      result = ParseLength(tok,STAttackMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_direct_branch(length+1,min_length+1);
+        slice_index const branch = alloc_battle_branch(length+1,min_length+1);
         pipe_set_successor(proxy,branch);
         slice_insert_reflex_filters_semi(branch,proxy_avoided);
         slices[branch].starter = White;
@@ -2585,10 +2585,10 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      result = ParseLength(tok,STAttackMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_direct_branch(length+1,min_length+1);
+        slice_index const branch = alloc_battle_branch(length+1,min_length+1);
         pipe_set_successor(proxy,branch);
         slice_insert_self_guards(branch,proxy_forced);
         slices[slices[proxy_forced].u.pipe.next].starter = Black;
@@ -2604,10 +2604,10 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok,STBranchDirect,&length,&min_length);
+      result = ParseLength(tok,STAttackMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch = alloc_direct_branch(length+1,min_length+1);
+        slice_index const branch = alloc_battle_branch(length+1,min_length+1);
         pipe_set_successor(proxy,branch);
         slice_insert_reflex_filters(branch,proxy_avoided);
         slices[branch].starter = White;
@@ -2624,14 +2624,14 @@ static char *ParsePlay(char *tok, slice_index proxy)
     {
       stip_length_type length;
       stip_length_type min_length;
-      result = ParseLength(tok2,STBranchDirect,&length,&min_length);
+      result = ParseLength(tok2,STAttackMove,&length,&min_length);
       if (result!=0)
       {
         if (length==slack_length_direct && min_length==slack_length_direct)
           pipe_link(proxy,leaf);
         else
         {
-          slice_index const branch = alloc_direct_branch(length,min_length);
+          slice_index const branch = alloc_battle_branch(length,min_length);
           pipe_set_successor(proxy,branch);
           slice_insert_direct_guards(branch,proxy_leaf);
         }
@@ -2828,7 +2828,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
       min_length += slack_length_direct+max_length%2;
       max_length += slack_length_direct;
       {
-        slice_index const branch = alloc_direct_branch(max_length,min_length);
+        slice_index const branch = alloc_battle_branch(max_length,min_length);
         pipe_set_successor(proxy,branch);
 
         /* TODO get this right */

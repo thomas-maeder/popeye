@@ -124,7 +124,7 @@ static boolean traverse_and_deallocate_leaf(slice_index si,
 static slice_operation const slice_deallocators[] =
 {
   &traverse_and_deallocate_proxy,       /* STProxy */
-  &traverse_and_deallocate,             /* STBranchDirect */
+  &traverse_and_deallocate,             /* STAttackMove */
   &traverse_and_deallocate,             /* STBranchDirectDefender */
   &traverse_and_deallocate,             /* STHelpMove */
   &traverse_and_deallocate_branch_fork, /* STHelpFork */
@@ -139,7 +139,7 @@ static slice_operation const slice_deallocators[] =
   &slice_traverse_children,             /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,             /* STMoveInverterSolvableFilter */
   &slice_traverse_children,             /* STMoveInverterSeriesFilter */
-  &traverse_and_deallocate,             /* STDirectRoot */
+  &traverse_and_deallocate,             /* STAttackRoot */
   &traverse_and_deallocate,             /* STDirectDefenderRoot */
   &traverse_and_deallocate,             /* STDirectHashed */
   &traverse_and_deallocate,             /* STHelpRoot */

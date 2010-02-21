@@ -7,6 +7,7 @@
  */
 
 #include "pydirect.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a STDirectDefense slice
  * @param length maximum number of half-moves of slice (+ slack)

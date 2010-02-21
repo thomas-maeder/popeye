@@ -1,6 +1,7 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
 #include "pydirect.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyproc.h"
@@ -169,7 +170,7 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
   else if (slack_length_direct<=len_threat
            && len_threat<=n
            && table_length(threats)>0)
-    result = direct_are_threats_refuted_in_n(threats,len_threat,
+    result = attack_are_threats_refuted_in_n(threats,len_threat,
                                              slices[si].u.pipe.next,
                                              n);
   else
@@ -200,7 +201,7 @@ void selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  direct_solve_continuations_in_n(next,n,n_min);
+  attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -236,7 +237,7 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
-    result = direct_solve_threats_in_n(threats,next,n,n_min);
+    result = attack_solve_threats_in_n(threats,next,n,n_min);
   }
 
   TraceFunctionExit(__func__);
@@ -275,7 +276,7 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = 0;
   else
-    result = direct_has_solution_in_n(next,n,n_min);
+    result = attack_has_solution_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -600,7 +601,7 @@ stip_length_type selfcheck_guard_solve_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = 0;
   else
-    result = direct_solve_in_n(slices[si].u.pipe.next,n,n_min);
+    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -726,9 +727,9 @@ static boolean selfcheck_guards_inserter_branch_series(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard* slice after a STDirectRoot slice
+/* Insert a STSelfCheckGuard* slice after a STAttackRoot slice
  */
-static boolean selfcheck_guards_inserter_direct_root(slice_index si,
+static boolean selfcheck_guards_inserter_attack_root(slice_index si,
                                                      slice_traversal *st)
 {
   boolean const result = true;
@@ -751,9 +752,9 @@ static boolean selfcheck_guards_inserter_direct_root(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard* slice after a STBranchDirect slice
+/* Insert a STSelfCheckGuard* slice after a STAttackMove slice
  */
-static boolean selfcheck_guards_inserter_branch_direct(slice_index si,
+static boolean selfcheck_guards_inserter_attack_move(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
@@ -776,7 +777,7 @@ static boolean selfcheck_guards_inserter_branch_direct(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard* slice after a STBranchDirectDefenderRoot
+/* Insert a STSelfCheckGuard* slice after a STAttackMoveDefenderRoot
  * slice
  */
 static boolean
@@ -958,7 +959,7 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
 static slice_operation const selfcheck_guards_inserters[] =
 {
   &slice_traverse_children,                 /* STProxy */
-  &selfcheck_guards_inserter_branch_direct, /* STBranchDirect */
+  &selfcheck_guards_inserter_attack_move, /* STAttackMove */
   &selfcheck_guards_inserter_branch_direct_defender_root, /* STBranchDirectDefender */
   &selfcheck_guards_inserter_branch_help,   /* STHelpMove */
   &slice_traverse_children,                 /* STHelpFork */
@@ -973,7 +974,7 @@ static slice_operation const selfcheck_guards_inserters[] =
   &selfcheck_guards_inserter_move_inverter_root, /* STMoveInverterRootSolvableFilter */
   &selfcheck_guards_inserter_move_inverter, /* STMoveInverterSolvableFilter */
   &selfcheck_guards_inserter_move_inverter_series, /* STMoveInverterSeriesFilter */
-  &selfcheck_guards_inserter_direct_root,   /* STDirectRoot */
+  &selfcheck_guards_inserter_attack_root,   /* STAttackRoot */
   &selfcheck_guards_inserter_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &slice_traverse_children,                 /* STHelpRoot */
@@ -1056,7 +1057,7 @@ static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
 static slice_operation const selfcheck_guards_toplevel_inserters[] =
 {
   &slice_traverse_children,                      /* STProxy */
-  &slice_traverse_children,                      /* STBranchDirect */
+  &slice_traverse_children,                      /* STAttackMove */
   &slice_traverse_children,                      /* STBranchDirectDefender */
   &slice_traverse_children,                      /* STHelpMove */
   &slice_traverse_children,                      /* STHelpFork */
@@ -1071,7 +1072,7 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_operation_noop,                         /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                      /* STMoveInverterSeriesFilter */
-  &selfcheck_guards_inserter_toplevel_root,      /* STDirectRoot */
+  &selfcheck_guards_inserter_toplevel_root,      /* STAttackRoot */
   &slice_traverse_children,                      /* STDirectDefenderRoot */
   &slice_traverse_children,                      /* STDirectHashed */
   &selfcheck_guards_inserter_toplevel_root,      /* STHelpRoot */

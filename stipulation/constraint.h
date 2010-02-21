@@ -6,8 +6,8 @@
  */
 
 #include "pydirect.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
-#include "pyslice.h"
 
 /* Solve a slice at root level
  * @param si slice index

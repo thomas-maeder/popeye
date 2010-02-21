@@ -1,6 +1,7 @@
 #include "pyslice.h"
 #include "pydata.h"
 #include "trace.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -8,7 +9,6 @@
 #include "pyleafd.h"
 #include "pyleaff.h"
 #include "pyleafh.h"
-#include "pybrad.h"
 #include "pybradd.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
@@ -55,7 +55,7 @@ void slice_solve_threats(table threats, slice_index si)
   {
     case STDirectHashed:
     case STLeafDirect:
-      direct_solve_threats(threats,si);
+      attack_solve_threats(threats,si);
       break;
 
     case STHelpMove:
@@ -109,7 +109,7 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
   {
     case STDirectHashed:
     case STLeafDirect:
-      result = direct_are_threats_refuted(threats,si);
+      result = attack_are_threats_refuted(threats,si);
       break;
 
     case STHelpMove:
@@ -172,14 +172,14 @@ boolean slice_solve(slice_index si)
       solution_found = quodlibet_solve(si);
       break;
 
-    case STBranchDirect:
+    case STAttackMove:
     case STDirectHashed:
     case STDirectDefense:
     case STSelfDefense:
     case STReflexAttackerFilter:
     case STDegenerateTree:
     case STLeafDirect:
-      solution_found = direct_solve(si);
+      solution_found = attack_solve(si);
       break;
 
     case STHelpMove:
@@ -253,7 +253,7 @@ boolean slice_root_solve(slice_index si)
       result = not_root_solve(si);
       break;
 
-    case STDirectRoot:
+    case STAttackRoot:
     case STDirectDefenderRoot:
     case STLeafDirect:
     case STDirectDefense:
@@ -262,7 +262,7 @@ boolean slice_root_solve(slice_index si)
     case STMaxThreatLength:
     case STReflexAttackerFilter:
     case STReflexDefenderFilter:
-      result = direct_root_solve(si);
+      result = attack_root_solve(si);
       break;
 
     case STHelpRoot:
@@ -349,8 +349,8 @@ has_solution_type slice_has_solution(slice_index si)
       result = not_has_solution(si);
       break;
 
-    case STDirectRoot:
-    case STBranchDirect:
+    case STAttackRoot:
+    case STAttackMove:
     case STDirectDefense:
     case STSelfDefense:
     case STKeepMatingGuardRootDefenderFilter:
@@ -360,7 +360,7 @@ has_solution_type slice_has_solution(slice_index si)
     case STKeepMatingGuardSeriesFilter:
     case STDegenerateTree:
     case STDirectHashed:
-      result = direct_has_solution(si);
+      result = attack_has_solution(si);
       break;
 
     case STHelpRoot:

@@ -496,7 +496,7 @@ static boolean root_slice_type_found(slice_index si, slice_traversal *st)
 static slice_operation const slice_type_finders[] =
 {
   &slice_traverse_children,           /* STProxy */
-  &slice_traverse_children,           /* STBranchDirect */
+  &slice_traverse_children,           /* STAttackMove */
   &slice_traverse_children,           /* STBranchDirectDefender */
   &slice_traverse_children,           /* STHelpMove */
   &slice_traverse_children,           /* STHelpFork */
@@ -511,7 +511,7 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,           /* STMoveInverterSolvableFilter */
   &slice_traverse_children,           /* STMoveInverterSeriesFilter */
-  &root_slice_type_found,             /* STDirectRoot */
+  &root_slice_type_found,             /* STAttackRoot */
   &root_slice_type_found,             /* STDirectDefenderRoot */
   &slice_traverse_children,           /* STDirectHashed */
   &root_slice_type_found,             /* STHelpRoot */
@@ -688,7 +688,7 @@ static boolean verify_position(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom] = true;
 
-  if (slices[root_slice].type==STBranchDirect)
+  if (slices[root_slice].type==STAttackMove)
   {
     slice_index const peer = slices[root_slice].u.pipe.next;
     slice_index const next = slices[peer].u.pipe.next;
@@ -2307,7 +2307,7 @@ static boolean mating_side_finder_leaf(slice_index si, slice_traversal *st)
 static slice_operation const mating_side_finders[] =
 {
   &slice_traverse_children, /* STProxy */
-  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STAttackMove */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
@@ -2322,7 +2322,7 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
-  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
@@ -2418,7 +2418,7 @@ static boolean intelligent_init_duplex(slice_index si, slice_traversal *st)
 static slice_operation const duplex_initialisers[] =
 {
   &slice_traverse_children, /* STProxy */
-  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STAttackMove */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
@@ -2433,7 +2433,7 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
-  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
@@ -2525,7 +2525,7 @@ static boolean intelligent_fini_duplex(slice_index si, slice_traversal *st)
 static slice_operation const duplex_finishers[] =
 {
   &slice_traverse_children, /* STProxy */
-  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STAttackMove */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
@@ -2540,7 +2540,7 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
-  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
@@ -2613,7 +2613,7 @@ static void fini_duplex(void)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
-boolean insert_hash_element_branch_direct(slice_index si, slice_traversal *st)
+boolean insert_hash_element_attack_move(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
 
@@ -2820,7 +2820,7 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 static slice_operation const hash_element_inserters[] =
 {
   &slice_traverse_children,                  /* STProxy */
-  &insert_hash_element_branch_direct,        /* STBranchDirect */
+  &insert_hash_element_attack_move,        /* STAttackMove */
   &slice_traverse_children,                  /* STBranchDirectDefender */
   &insert_hash_element_branch_help,          /* STHelpMove */
   &slice_traverse_children,                  /* STHelpFork */
@@ -2835,7 +2835,7 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,                  /* STDirectRoot */
+  &slice_traverse_children,                  /* STAttackRoot */
   &insert_hash_element_direct_defender_root, /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
   &slice_traverse_children,                  /* STHelpRoot */

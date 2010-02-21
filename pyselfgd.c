@@ -1,5 +1,6 @@
 #include "pyselfgd.h"
 #include "pybrafrk.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "pypipe.h"
@@ -178,7 +179,7 @@ stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
       && slice_has_non_starter_solved(towards_goal))
     result = n_min;
   else if (n>slack_length_direct)
-    result = direct_has_solution_in_n(next,n,n_min);
+    result = attack_has_solution_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -217,7 +218,7 @@ boolean self_defense_are_threats_refuted_in_n(table threats,
   if (n<max_n_for_goal && slice_has_non_starter_solved(towards_goal))
     result = false;
   else
-    result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+    result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -244,7 +245,7 @@ void self_defense_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  direct_solve_continuations_in_n(next,n,n_min);
+  attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -274,7 +275,7 @@ stip_length_type self_defense_direct_solve_threats_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_threats_in_n(threats,next,n,n_min);
+  result = attack_solve_threats_in_n(threats,next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -478,7 +479,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_in_n(slices[si].u.pipe.next,n,n_min);
+  result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -675,9 +676,9 @@ boolean self_guards_inserter_branch_direct_defender(slice_index si,
   return result;
 }
 
-/* Insert a STSelfAttack after each STBranchDirect and STDirectRoot slice
+/* Insert a STSelfAttack after each STAttackMove and STAttackRoot slice
  */
-static boolean self_guards_inserter_branch_direct(slice_index si,
+static boolean self_guards_inserter_attack_move(slice_index si,
                                                   slice_traversal *st)
 {
   boolean const result = true;
@@ -704,7 +705,7 @@ static boolean self_guards_inserter_branch_direct(slice_index si,
 static slice_operation const self_guards_inserters[] =
 {
   &slice_traverse_children,                          /* STProxy */
-  &self_guards_inserter_branch_direct,               /* STBranchDirect */
+  &self_guards_inserter_attack_move,               /* STAttackMove */
   &self_guards_inserter_branch_direct_defender,      /* STBranchDirectDefender */
   &slice_traverse_children,                          /* STHelpMove */
   &slice_traverse_children,                          /* STHelpFork */
@@ -719,7 +720,7 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,                          /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                          /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                          /* STMoveInverterSeriesFilter */
-  &self_guards_inserter_branch_direct,               /* STDirectRoot */
+  &self_guards_inserter_attack_move,               /* STAttackRoot */
   &self_guards_inserter_branch_direct_defender_root, /* STDirectDefenderRoot */
   &slice_traverse_children,                          /* STDirectHashed */
   &slice_traverse_children,                          /* STHelpRoot */

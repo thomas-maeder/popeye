@@ -6,9 +6,9 @@
  * deliver mate has been captured.
  */
 
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "pydirect.h"
-#include "pyslice.h"
 
 /* Instrument stipulation with STKeepMatingGuard slices
  */

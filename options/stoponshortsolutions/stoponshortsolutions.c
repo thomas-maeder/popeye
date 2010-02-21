@@ -161,7 +161,7 @@ static boolean insert_stoponshortsolutions_series_filter(slice_index si,
 static slice_operation const stoponshortsolutions_filter_inserters[] =
 {
   &slice_traverse_children,                   /* STProxy */
-  &slice_traverse_children,                   /* STBranchDirect */
+  &slice_traverse_children,                   /* STAttackMove */
   &slice_traverse_children,                   /* STBranchDirectDefender */
   &insert_stoponshortsolutions_help_filter,   /* STHelpMove */
   &insert_stoponshortsolutions_help_filter,   /* STHelpFork */
@@ -176,7 +176,7 @@ static slice_operation const stoponshortsolutions_filter_inserters[] =
   &slice_traverse_children,                   /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                   /* STMoveInverterSolvableFilter */
   &insert_stoponshortsolutions_series_filter, /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,                   /* STDirectRoot */
+  &slice_traverse_children,                   /* STAttackRoot */
   &slice_traverse_children,                   /* STDirectDefenderRoot */
   &slice_traverse_children,                   /* STDirectHashed */
   &slice_traverse_children,                   /* STHelpRoot */
@@ -274,7 +274,7 @@ static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
 static slice_operation const stoponshortsolutions_initialiser_inserters[] =
 {
   &slice_traverse_children,     /* STProxy */
-  &slice_traverse_children,     /* STBranchDirect */
+  &slice_traverse_children,     /* STAttackMove */
   &slice_traverse_children,     /* STBranchDirectDefender */
   &slice_traverse_children,     /* STHelpMove */
   &slice_traverse_children,     /* STHelpFork */
@@ -289,7 +289,7 @@ static slice_operation const stoponshortsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,     /* STMoveInverterSolvableFilter */
   &slice_traverse_children,     /* STMoveInverterSeriesFilter */
-  &insert_root_solvable_filter, /* STDirectRoot */
+  &insert_root_solvable_filter, /* STAttackRoot */
   &slice_traverse_children,     /* STDirectDefenderRoot */
   &slice_traverse_children,     /* STDirectHashed */
   &insert_root_solvable_filter, /* STHelpRoot */

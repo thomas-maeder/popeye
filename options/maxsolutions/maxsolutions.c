@@ -205,7 +205,7 @@ static boolean insert_maxsolutions_series_filter(slice_index si,
   return result;
 }
 
-/* Insert a STMaxSolutionsRootDefenderFilter slice after a STDirectRoot slice
+/* Insert a STMaxSolutionsRootDefenderFilter slice after a STAttackRoot slice
  */
 static boolean insert_maxsolutions_root_defender_filter(slice_index si,
                                                         slice_traversal *st)
@@ -234,7 +234,7 @@ static boolean insert_maxsolutions_root_defender_filter(slice_index si,
 static slice_operation const maxsolutions_filter_inserters[] =
 {
   &slice_traverse_children,           /* STProxy */
-  &slice_traverse_children,           /* STBranchDirect */
+  &slice_traverse_children,           /* STAttackMove */
   &slice_traverse_children,           /* STBranchDirectDefender */
   &insert_maxsolutions_help_filter,   /* STHelpMove */
   &slice_traverse_children,           /* STHelpFork */
@@ -249,7 +249,7 @@ static slice_operation const maxsolutions_filter_inserters[] =
   &slice_traverse_children,           /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,           /* STMoveInverterSolvableFilter */
   &slice_traverse_children,           /* STMoveInverterSeriesFilter */
-  &insert_maxsolutions_root_defender_filter, /* STDirectRoot */
+  &insert_maxsolutions_root_defender_filter, /* STAttackRoot */
   &slice_traverse_children,           /* STDirectDefenderRoot */
   &slice_traverse_children,           /* STDirectHashed */
   &slice_traverse_children,           /* STHelpRoot */
@@ -327,7 +327,7 @@ static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
 static slice_operation const maxsolutions_initialiser_inserters[] =
 {
   &slice_traverse_children,     /* STProxy */
-  &slice_traverse_children,     /* STBranchDirect */
+  &slice_traverse_children,     /* STAttackMove */
   &slice_traverse_children,     /* STBranchDirectDefender */
   &slice_traverse_children,     /* STHelpMove */
   &slice_traverse_children,     /* STHelpFork */
@@ -342,7 +342,7 @@ static slice_operation const maxsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,     /* STMoveInverterSolvableFilter */
   &slice_traverse_children,     /* STMoveInverterSeriesFilter */
-  &insert_root_solvable_filter, /* STDirectRoot */
+  &insert_root_solvable_filter, /* STAttackRoot */
   &slice_traverse_children,     /* STDirectDefenderRoot */
   &slice_traverse_children,     /* STDirectHashed */
   &insert_root_solvable_filter, /* STHelpRoot */

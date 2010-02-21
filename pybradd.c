@@ -1,10 +1,10 @@
 #include "pybradd.h"
 #include "pydirect.h"
-#include "pybrad.h"
 #include "pydata.h"
 #include "pyslice.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/fork.h"
@@ -132,7 +132,7 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   else
     n_min = slack_length_direct-parity;
 
-  result = direct_has_solution_in_n(next,n,n_min)<=n;
+  result = attack_has_solution_in_n(next,n,n_min)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -170,7 +170,7 @@ static boolean is_defense_relevant(table threats,
     /* TODO avoid double calculation if lenthreat==n*/
     result = false;
   else
-    result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+    result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -204,7 +204,7 @@ static void write_existing_variation(slice_index si, stip_length_type n)
   if (n_next+min_length>n_min+length)
     n_min = n_next-(length-min_length);
 
-  direct_solve_continuations_in_n(next,n_next,n_min);
+  attack_solve_continuations_in_n(next,n_next,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -277,7 +277,7 @@ static stip_length_type solve_threats_in_n(table threats,
     n_min = n-(length-min_length);
 
   output_start_threat_level();
-  result = direct_solve_threats_in_n(threats,next,n,n_min);
+  result = attack_solve_threats_in_n(threats,next,n,n_min);
   output_end_threat_level();
 
   if (result==n+2)
@@ -359,7 +359,7 @@ boolean branch_d_defender_defend_in_n(slice_index si, stip_length_type n)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const length_sol = direct_has_solution_in_n(next,
+      stip_length_type const length_sol = attack_has_solution_in_n(next,
                                                                    n-1,
                                                                    n_min_next);
       if (length_sol<n_min_next)
@@ -423,7 +423,7 @@ static boolean write_possible_variation(slice_index si, stip_length_type n)
   if (n_next+min_length>n_min+length)
     n_min = n_next-(length-min_length);
 
-  result = direct_solve_in_n(next,n_next,n_min)<=n_next;
+  result = attack_solve_in_n(next,n_next,n_min)<=n_next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u\n",result);
@@ -472,7 +472,7 @@ unsigned int branch_d_defender_can_defend_in_n(slice_index si,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const length_sol = direct_has_solution_in_n(next,
+      stip_length_type const length_sol = attack_has_solution_in_n(next,
                                                                    n-1,
                                                                    n_min_next);
       if (length_sol>n-1)
@@ -703,7 +703,7 @@ static boolean root_collect_refutations(table refutations,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const length_sol = direct_has_solution_in_n(next,
+      stip_length_type const length_sol = attack_has_solution_in_n(next,
                                                                    n-1,
                                                                    n_min_next);
       if (length_sol>n-1)

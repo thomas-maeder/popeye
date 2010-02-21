@@ -1,27 +1,23 @@
-#include "pybrad.h"
+#include "stipulation/battle_play/attack_move.h"
 #include "pydirect.h"
 #include "pybradd.h"
-#include "pybrafrk.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pymsg.h"
 #include "pyoutput.h"
-#include "pyslice.h"
-#include "pytable.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/proxy.h"
+#include "stipulation/battle_play/attack_root.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a STBranchDirect slice.
+/* Allocate a STAttackMove slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static slice_index alloc_branch_d_slice(stip_length_type length,
-                                        stip_length_type min_length)
+slice_index alloc_attack_move_slice(stip_length_type length,
+                                    stip_length_type min_length)
 {
   slice_index result;
 
@@ -34,34 +30,7 @@ static slice_index alloc_branch_d_slice(stip_length_type length,
   assert(min_length>=slack_length_direct-1);
   assert((length%2)==(min_length%2));
 
-  result = alloc_branch(STBranchDirect,length,min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STDirectRoot slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-static slice_index alloc_direct_root_branch(stip_length_type length,
-                                            stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  assert(length>=slack_length_direct+1);
-  assert(min_length>=slack_length_direct);
-  assert((length%2)==(min_length%2));
-
-  result = alloc_branch(STDirectRoot,length,min_length);
+  result = alloc_branch(STAttackMove,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -74,7 +43,7 @@ static slice_index alloc_direct_root_branch(stip_length_type length,
  * @param st address of structure representing traversal
  * @return true iff slice has been successfully traversed
  */
-boolean branch_d_insert_root(slice_index si, slice_traversal *st)
+boolean attack_move_insert_root(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   slice_index * const root = st->param;
@@ -88,7 +57,7 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st)
 
   traverse_slices(slices[si].u.pipe.next,st);
 
-  direct_root = alloc_direct_root_branch(length,min_length);
+  direct_root = alloc_attack_root_slice(length,min_length);
   pipe_link(direct_root,*root);
   *root = direct_root;
 
@@ -107,46 +76,6 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st)
   return result;
 }
 
-/* Allocate a branch that represents direct play
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of entry slice to allocated branch
- */
-slice_index alloc_direct_branch(stip_length_type length,
-                                stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_direct);
-  assert(min_length>=slack_length_direct);
-  assert(min_length%2==length%2);
-
-  result = alloc_proxy_slice();
-
-  {
-    slice_index const branch = alloc_branch_d_slice(length,min_length);
-    pipe_link(result,branch);
-
-    if (length-slack_length_direct>1)
-    {
-      slice_index const def = alloc_branch_d_defender_slice(length-1,
-                                                            min_length-1);
-      pipe_link(branch,def);
-      pipe_link(def,result);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
@@ -155,10 +84,10 @@ slice_index alloc_direct_branch(stip_length_type length,
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean branch_d_are_threats_refuted_in_n(table threats,
-                                          stip_length_type len_threat,
-                                          slice_index si,
-                                          stip_length_type n)
+boolean attack_move_are_threats_refuted_in_n(table threats,
+                                             stip_length_type len_threat,
+                                             slice_index si,
+                                             stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -266,9 +195,9 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
  *         goal (in which case n_min<slack_length_direct and we return
  *         n_min)
  */
-stip_length_type branch_d_has_solution_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_min)
+stip_length_type attack_move_has_solution_in_n(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_min)
 {
   stip_length_type result;
 
@@ -299,9 +228,9 @@ stip_length_type branch_d_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  */
-void branch_d_solve_continuations_in_n(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_min)
+void attack_move_solve_continuations_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min)
 {
   boolean result;
 
@@ -311,7 +240,7 @@ void branch_d_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  result = branch_d_solve_in_n(si,n,n_min);
+  result = attack_move_solve_in_n(si,n,n_min);
   assert(result);
 
   TraceFunctionExit(__func__);
@@ -443,10 +372,10 @@ static stip_length_type solve_threats_long(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type branch_d_solve_threats_in_n(table threats,
-                                             slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_min)
+stip_length_type attack_move_solve_threats_in_n(table threats,
+                                                slice_index si,
+                                                stip_length_type n,
+                                                stip_length_type n_min)
 {
   stip_length_type result;
 
@@ -476,8 +405,6 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
   TraceFunctionResultEnd();
   return result;
 }
-
-/**************** slice interface ***********************/
 
 /* Find short solutions (i.e. solutions where the play immediately
  * goes on in the next branch/leaf)
@@ -596,9 +523,9 @@ static stip_length_type solve_long(slice_index si,
  *         (n-slack_length_direct)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
-stip_length_type branch_d_solve_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min)
+stip_length_type attack_move_solve_in_n(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_min)
 {
   stip_length_type result;
 
@@ -638,7 +565,7 @@ stip_length_type branch_d_solve_in_n(slice_index si,
  * @param st status of traversal
  * @return true iff slice has been successfully traversed
  */
-boolean branch_d_detect_starter(slice_index si, slice_traversal *st)
+boolean attack_move_detect_starter(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
 
@@ -648,105 +575,6 @@ boolean branch_d_detect_starter(slice_index si, slice_traversal *st)
 
   if (slices[si].starter==no_side)
     slices[si].starter = White;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/****************** root ************************/
-
-/* Solve at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean direct_root_root_solve(slice_index si)
-{
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  init_output(si);
-
-  active_slice[nbply+1] = si;
-  genmove(attacker);
-
-  output_start_continuation_level();
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_root_defend(next))
-      result = true;
-
-    repcoup();
-  }
-
-  output_end_continuation_level();
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Spin off a set play slice
- * @param si slice index
- * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
- */
-boolean direct_root_make_setplay_slice(slice_index si,
-                                       struct slice_traversal *st)
-{
-  boolean const result = true;
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* prod->sibling may already have been set by a STDirectDefense
-   * slice
-   */
-  if (prod->sibling==no_slice)
-    prod->sibling = si;
-
-  slice_traverse_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
- */
-boolean direct_root_reduce_to_postkey_play(slice_index si,
-                                           struct slice_traversal *st)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const *postkey_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = traverse_slices(next,st);
-
-  if (*postkey_slice!=no_slice)
-    dealloc_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

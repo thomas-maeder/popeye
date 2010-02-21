@@ -1,6 +1,7 @@
 #include "pyreflxg.h"
 #include "pydirect.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
@@ -152,7 +153,7 @@ stip_length_type reflex_attacker_filter_has_solution_in_n(slice_index si,
       break;
 
     case has_no_solution:
-      result = direct_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
+      result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
       break;
 
     default:
@@ -187,7 +188,7 @@ reflex_attacker_filter_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  direct_solve_continuations_in_n(next,n,n_min);
+  attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -230,7 +231,7 @@ reflex_attacker_filter_direct_solve_threats_in_n(table threats,
     case has_no_solution:
     {
       slice_index const next = slices[si].u.pipe.next;
-      result = direct_solve_threats_in_n(threats,next,n,n_min);
+      result = attack_solve_threats_in_n(threats,next,n,n_min);
       break;
     }
 
@@ -273,7 +274,7 @@ reflex_attacker_filter_are_threats_refuted_in_n(table threats,
 
   assert(slice_has_solution(slices[si].u.reflex_guard.avoided)
          ==has_no_solution);
-  result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+  result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -365,7 +366,7 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
       break;
 
     case has_no_solution:
-      result = direct_solve_in_n(next,n,n_min);
+      result = attack_solve_in_n(next,n,n_min);
       break;
 
     default:
@@ -667,7 +668,7 @@ boolean reflex_defender_filter_make_setplay_slice(slice_index si,
   {
     /* semi-reflex stipulation */
     prod->sibling = slices[si].prev;
-    assert(slices[prod->sibling].type==STDirectRoot);
+    assert(slices[prod->sibling].type==STAttackRoot);
   }
 
   if (slices[si].u.branch.length==slack_length_direct)
@@ -1312,7 +1313,7 @@ static boolean reflex_guards_inserter_branch_fork(slice_index si,
 static slice_operation const reflex_guards_inserters[] =
 {
   &slice_traverse_children,            /* STProxy */
-  &reflex_guards_inserter_attack,      /* STBranchDirect */
+  &reflex_guards_inserter_attack,      /* STAttackMove */
   &reflex_guards_inserter_defense,     /* STBranchDirectDefender */
   &reflex_guards_inserter_help,        /* STHelpMove */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
@@ -1327,7 +1328,7 @@ static slice_operation const reflex_guards_inserters[] =
   &slice_traverse_children,            /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,            /* STMoveInverterSolvableFilter */
   &slice_traverse_children,            /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,            /* STDirectRoot */
+  &slice_traverse_children,            /* STAttackRoot */
   &slice_traverse_children,            /* STDirectDefenderRoot */
   &slice_traverse_children,            /* STDirectHashed */
   &slice_traverse_children,            /* STHelpRoot */
@@ -1495,7 +1496,7 @@ static boolean reflex_guards_inserter_attack_semi(slice_index si,
 static slice_operation const reflex_guards_inserters_semi[] =
 {
   &slice_traverse_children,             /* STProxy */
-  &reflex_guards_inserter_attack_semi,  /* STBranchDirect */
+  &reflex_guards_inserter_attack_semi,  /* STAttackMove */
   &reflex_guards_inserter_defense_semi, /* STBranchDirectDefender */
   &reflex_guards_inserter_help,         /* STHelpMove */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
@@ -1510,7 +1511,7 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &slice_traverse_children,             /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,             /* STMoveInverterSolvableFilter */
   &slice_traverse_children,             /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,             /* STDirectRoot */
+  &slice_traverse_children,             /* STAttackRoot */
   &slice_traverse_children,             /* STDirectDefenderRoot */
   &slice_traverse_children,             /* STDirectHashed */
   &slice_traverse_children,             /* STHelpRoot */

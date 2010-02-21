@@ -1,7 +1,6 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "pyquodli.h"
-#include "pybrad.h"
 #include "pybradd.h"
 #include "stipulation/help_play/branch.h"
 #include "pyleaf.h"
@@ -23,6 +22,8 @@
 #include "pypipe.h"
 #include "stipulation/operators/binary.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/attack_root.h"
+#include "stipulation/battle_play/attack_move.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/shortcut.h"
@@ -41,7 +42,7 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
                                                                         \
-    ENUMERATOR(STBranchDirect),      /* M-N moves of direct play */     \
+    ENUMERATOR(STAttackMove),      /* M-N moves of direct play */     \
     ENUMERATOR(STBranchDirectDefender),                                 \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */         \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
@@ -60,7 +61,7 @@
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
                                                                         \
-    ENUMERATOR(STDirectRoot),      /* root level of direct play */      \
+    ENUMERATOR(STAttackRoot),      /* root level of direct play */      \
     ENUMERATOR(STDirectDefenderRoot), /* root level of postkey direct play */ \
     ENUMERATOR(STDirectHashed),    /* direct play with hash table */    \
                                                                         \
@@ -160,7 +161,7 @@ slice_index root_slice = no_slice;
 static slice_structural_type highest_structural_type[max_nr_slices] =
 {
   slice_structure_pipe,   /* STProxy */
-  slice_structure_branch, /* STBranchDirect */
+  slice_structure_branch, /* STAttackMove */
   slice_structure_branch, /* STBranchDirectDefender */
   slice_structure_branch, /* STHelpMove */
   slice_structure_fork,   /* STHelpFork */
@@ -175,7 +176,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_pipe,   /* STMoveInverterRootSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
-  slice_structure_branch, /* STDirectRoot */
+  slice_structure_branch, /* STAttackRoot */
   slice_structure_branch, /* STDirectDefenderRoot */
   slice_structure_branch, /* STDirectHashed */
   slice_structure_branch, /* STHelpRoot */
@@ -301,7 +302,7 @@ static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
 static slice_operation const reachable_slices_markers[] =
 {
   0,                     /* STProxy */
-  &mark_reachable_slice, /* STBranchDirect */
+  &mark_reachable_slice, /* STAttackMove */
   &mark_reachable_slice, /* STBranchDirectDefender */
   &mark_reachable_slice, /* STHelpMove */
   &mark_reachable_slice, /* STHelpFork */
@@ -316,7 +317,7 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STMoveInverterRootSolvableFilter */
   &mark_reachable_slice, /* STMoveInverterSolvableFilter */
   &mark_reachable_slice, /* STMoveInverterSeriesFilter */
-  &mark_reachable_slice, /* STDirectRoot */
+  &mark_reachable_slice, /* STAttackRoot */
   &mark_reachable_slice, /* STDirectDefenderRoot */
   &mark_reachable_slice, /* STDirectHashed */
   &mark_reachable_slice, /* STHelpRoot */
@@ -601,7 +602,7 @@ static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st
 static slice_operation const deallocators[] =
 {
   &traverse_and_deallocate_proxy, /* STProxy */
-  &traverse_and_deallocate,       /* STBranchDirect */
+  &traverse_and_deallocate,       /* STAttackMove */
   &traverse_and_deallocate,       /* STBranchDirectDefender */
   &traverse_and_deallocate,       /* STHelpMove */
   &traverse_and_deallocate,       /* STHelpFork */
@@ -616,7 +617,7 @@ static slice_operation const deallocators[] =
   &traverse_and_deallocate,       /* STMoveInverterRootSolvableFilter */
   &traverse_and_deallocate,       /* STMoveInverterSolvableFilter */
   &traverse_and_deallocate,       /* STMoveInverterSeriesFilter */
-  &traverse_and_deallocate,       /* STDirectRoot */
+  &traverse_and_deallocate,       /* STAttackRoot */
   &traverse_and_deallocate,       /* STDirectDefenderRoot */
   &traverse_and_deallocate,       /* STDirectHashed */
   &traverse_and_deallocate,       /* STHelpRoot */
@@ -726,7 +727,7 @@ static boolean leaf_insert_root(slice_index si, slice_traversal *st)
 static slice_operation const root_slice_inserters[] =
 {
   &slice_traverse_children,            /* STProxy */
-  &branch_d_insert_root,               /* STBranchDirect */
+  &attack_move_insert_root,            /* STAttackMove */
   &branch_d_defender_insert_root,      /* STBranchDirectDefender */
   &help_move_insert_root,              /* STHelpMove */
   &help_fork_insert_root,              /* STHelpFork */
@@ -741,7 +742,7 @@ static slice_operation const root_slice_inserters[] =
   &slice_traverse_children,            /* STMoveInverterRootSolvableFilter */
   &move_inverter_insert_root,          /* STMoveInverterSolvableFilter */
   &slice_traverse_children,            /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,            /* STDirectRoot */
+  &slice_traverse_children,            /* STAttackRoot */
   &slice_traverse_children,            /* STDirectDefenderRoot */
   &slice_traverse_children,            /* STDirectHashed */
   &slice_traverse_children,            /* STHelpRoot */
@@ -819,7 +820,7 @@ void stip_insert_root_slices(void)
 static slice_operation const proxy_resolvers[] =
 {
   &pipe_resolve_proxies,            /* STProxy */
-  &pipe_resolve_proxies,            /* STBranchDirect */
+  &pipe_resolve_proxies,            /* STAttackMove */
   &pipe_resolve_proxies,            /* STBranchDirectDefender */
   &pipe_resolve_proxies,            /* STHelpMove */
   &branch_fork_resolve_proxies,     /* STHelpFork */
@@ -834,7 +835,7 @@ static slice_operation const proxy_resolvers[] =
   &pipe_resolve_proxies,            /* STMoveInverterRootSolvableFilter */
   &pipe_resolve_proxies,            /* STMoveInverterSolvableFilter */
   &pipe_resolve_proxies,            /* STMoveInverterSeriesFilter */
-  &pipe_resolve_proxies,            /* STDirectRoot */
+  &pipe_resolve_proxies,            /* STAttackRoot */
   &pipe_resolve_proxies,            /* STDirectDefenderRoot */
   &pipe_resolve_proxies,            /* STDirectHashed */
   &pipe_resolve_proxies,            /* STHelpRoot */
@@ -940,7 +941,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
         slices[si].u.branch.min_length = min_length+1;
       break;
 
-    case STBranchDirect:
+    case STAttackMove:
       result = slices[si].u.branch.min_length;
       break;
 
@@ -1055,7 +1056,7 @@ static boolean get_max_nr_moves_leaf(slice_index si, slice_traversal *st)
 static slice_operation const get_max_nr_moves_functions[] =
 {
   &slice_traverse_children,          /* STProxy */
-  &slice_traverse_children,          /* STBranchDirect */
+  &slice_traverse_children,          /* STAttackMove */
   &get_max_nr_moves_direct_defender, /* STBranchDirectDefender */
   &get_max_nr_moves_branch,          /* STHelpMove */
   &get_max_nr_moves_branch_fork,     /* STHelpFork */
@@ -1070,7 +1071,7 @@ static slice_operation const get_max_nr_moves_functions[] =
   &slice_traverse_children,          /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,          /* STMoveInverterSolvableFilter */
   &slice_traverse_children,          /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,          /* STDirectRoot */
+  &slice_traverse_children,          /* STAttackRoot */
   &slice_traverse_children,          /* STDirectDefenderRoot */
   &slice_traverse_children,          /* STDirectHashed */
   &slice_traverse_children,          /* STHelpRoot */
@@ -1181,7 +1182,7 @@ static boolean find_unique_goal_leaf(slice_index si, slice_traversal *st)
 static slice_operation const unique_goal_finders[] =
 {
   &slice_traverse_children, /* STProxy */
-  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STAttackMove */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
@@ -1196,7 +1197,7 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
-  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
@@ -1308,12 +1309,12 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
         /* nothing */
         break;
 
-      case STBranchDirect:
+      case STAttackMove:
       case STBranchDirectDefender:
       case STHelpRoot:
       case STHelpMove:
       case STSeriesMove:
-      case STDirectRoot:
+      case STAttackRoot:
       case STDirectDefenderRoot:
       case STSeriesRoot:
       case STNot:
@@ -1453,7 +1454,7 @@ static boolean make_leaf_direct(slice_index si, slice_traversal *st)
 static slice_operation const leaves_direct_makers[] =
 {
   &slice_traverse_children,   /* STProxy */
-  &slice_traverse_children,   /* STBranchDirect */
+  &slice_traverse_children,   /* STAttackMove */
   &slice_traverse_children,   /* STBranchDirectDefender */
   &slice_traverse_children,   /* STHelpMove */
   &slice_traverse_children,   /* STHelpFork */
@@ -1468,7 +1469,7 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,   /* STDirectRoot */
+  &slice_traverse_children,   /* STAttackRoot */
   &slice_traverse_children,   /* STDirectDefenderRoot */
   &slice_traverse_children,   /* STDirectHashed */
   &slice_traverse_children,   /* STHelpRoot */
@@ -1636,7 +1637,7 @@ static boolean transform_to_quodlibet_branch_fork(slice_index si,
 static slice_operation const to_quodlibet_transformers[] =
 {
   &slice_traverse_children,                       /* STProxy */
-  &slice_traverse_children,                       /* STBranchDirect */
+  &slice_traverse_children,                       /* STAttackMove */
   &transform_to_quodlibet_branch_direct_defender, /* STBranchDirectDefender */
   &slice_traverse_children,                       /* STHelpMove */
   &transform_to_quodlibet_branch_fork,            /* STHelpFork */
@@ -1651,7 +1652,7 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,                       /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                       /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                       /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,                       /* STDirectRoot */
+  &slice_traverse_children,                       /* STAttackRoot */
   &transform_to_quodlibet_branch_direct_defender, /* STDirectDefenderRoot */
   &slice_traverse_children,                       /* STDirectHashed */
   &slice_traverse_children,                       /* STHelpRoot */
@@ -1727,7 +1728,7 @@ void transform_to_quodlibet(void)
 static slice_operation const to_postkey_play_reducers[] =
 {
   &slice_traverse_children,                       /* STProxy */
-  &slice_traverse_children,                       /* STBranchDirect */
+  &slice_traverse_children,                       /* STAttackMove */
   &slice_traverse_children,                       /* STBranchDirectDefender */
   &slice_traverse_children,                       /* STHelpMove */
   &slice_traverse_children,                       /* STHelpFork */
@@ -1742,7 +1743,7 @@ static slice_operation const to_postkey_play_reducers[] =
   &slice_traverse_children,                       /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                       /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                       /* STMoveInverterSeriesFilter */
-  &direct_root_reduce_to_postkey_play,            /* STDirectRoot */
+  &attack_root_reduce_to_postkey_play,            /* STAttackRoot */
   &branch_d_defender_root_reduce_to_postkey_play, /* STDirectDefenderRoot */
   &slice_traverse_children,                       /* STDirectHashed */
   &slice_traverse_children,                       /* STHelpRoot */
@@ -1849,7 +1850,7 @@ boolean stip_apply_postkeyplay(void)
 static slice_operation const setplay_makers[] =
 {
   &slice_traverse_children,                   /* STProxy */
-  &slice_traverse_children,                   /* STBranchDirect */
+  &slice_traverse_children,                   /* STAttackMove */
   &slice_traverse_children,                   /* STBranchDirectDefender */
   &pipe_traverse_next,                        /* STHelpMove */
   &help_fork_make_setplay_slice,              /* STHelpFork */
@@ -1864,7 +1865,7 @@ static slice_operation const setplay_makers[] =
   &pipe_traverse_next,                        /* STMoveInverterRootSolvableFilter */
   &pipe_traverse_next,                        /* STMoveInverterSolvableFilter */
   &pipe_traverse_next,                        /* STMoveInverterSeriesFilter */
-  &direct_root_make_setplay_slice,            /* STDirectRoot */
+  &attack_root_make_setplay_slice,            /* STAttackRoot */
   &branch_d_defender_root_make_setplay_slice, /* STDirectDefenderRoot */
   &slice_traverse_children,                   /* STDirectHashed */
   &help_root_make_setplay_slice,              /* STHelpRoot */
@@ -2033,7 +2034,7 @@ static boolean leaf_ends_only_in(slice_index si, slice_traversal *st)
 static slice_operation const slice_ends_only_in_checkers[] =
 {
   &slice_traverse_children, /* STProxy */
-  &slice_traverse_children, /* STBranchDirect */
+  &slice_traverse_children, /* STAttackMove */
   &slice_traverse_children, /* STBranchDirectDefender */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
@@ -2048,7 +2049,7 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
-  &slice_traverse_children, /* STDirectRoot */
+  &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &slice_traverse_children, /* STHelpRoot */
@@ -2147,7 +2148,7 @@ static boolean slice_ends_in_one_of_leaf(slice_index si, slice_traversal *st)
 static slice_operation const slice_ends_in_one_of_checkers[] =
 {
   &slice_traverse_children,   /* STProxy */
-  &slice_traverse_children,   /* STBranchDirect */
+  &slice_traverse_children,   /* STAttackMove */
   &slice_traverse_children,   /* STBranchDirectDefender */
   &slice_traverse_children,   /* STHelpMove */
   &slice_traverse_children,   /* STHelpFork */
@@ -2162,7 +2163,7 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,   /* STDirectRoot */
+  &slice_traverse_children,   /* STAttackRoot */
   &slice_traverse_children,   /* STDirectDefenderRoot */
   &slice_traverse_children,   /* STDirectHashed */
   &slice_traverse_children,   /* STHelpRoot */
@@ -2254,7 +2255,7 @@ static boolean make_exact_branch(slice_index branch, slice_traversal *st)
 static slice_operation const exact_makers[] =
 {
   &slice_traverse_children, /* STProxy */
-  &make_exact_branch,       /* STBranchDirect */
+  &make_exact_branch,       /* STAttackMove */
   &make_exact_branch,       /* STBranchDirectDefender */
   &make_exact_branch,       /* STHelpMove */
   &make_exact_branch,       /* STHelpFork */
@@ -2269,7 +2270,7 @@ static slice_operation const exact_makers[] =
   &slice_traverse_children, /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSolvableFilter */
   &slice_traverse_children, /* STMoveInverterSeriesFilter */
-  &make_exact_branch,       /* STDirectRoot */
+  &make_exact_branch,       /* STAttackRoot */
   &make_exact_branch,       /* STDirectDefenderRoot */
   &slice_traverse_children, /* STDirectHashed */
   &make_exact_branch,       /* STHelpRoot */
@@ -2341,7 +2342,7 @@ void stip_make_exact(void)
 static slice_operation const starter_detectors[] =
 {
   &pipe_detect_starter,                   /* STProxy */
-  &branch_d_detect_starter,               /* STBranchDirect */
+  &attack_move_detect_starter,            /* STAttackMove */
   &slice_traverse_children,               /* STBranchDirectDefender */
   &help_move_detect_starter,              /* STHelpMove */
   &branch_fork_detect_starter,            /* STHelpFork */
@@ -2356,7 +2357,7 @@ static slice_operation const starter_detectors[] =
   &move_inverter_detect_starter,          /* STMoveInverterRootSolvableFilter */
   &move_inverter_detect_starter,          /* STMoveInverterSolvableFilter */
   &move_inverter_detect_starter,          /* STMoveInverterSeriesFilter */
-  &branch_d_detect_starter,               /* STDirectRoot */
+  &attack_move_detect_starter,            /* STAttackRoot */
   &branch_d_defender_root_detect_starter, /* STDirectDefenderRoot */
   &slice_traverse_children,               /* STDirectHashed */
   &pipe_detect_starter,                   /* STHelpRoot */
@@ -2430,7 +2431,7 @@ void stip_detect_starter(void)
 static slice_operation const starter_imposers[] =
 {
   &pipe_impose_starter,           /* STProxy */
-  &pipe_impose_inverted_starter,  /* STBranchDirect */
+  &pipe_impose_inverted_starter,  /* STAttackMove */
   &pipe_impose_inverted_starter,  /* STBranchDirectDefender */
   &pipe_impose_inverted_starter,  /* STHelpMove */
   &branch_fork_impose_starter,    /* STHelpFork */
@@ -2445,7 +2446,7 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STMoveInverterRootSolvableFilter */
   &pipe_impose_inverted_starter,  /* STMoveInverterSolvableFilter */
   &pipe_impose_inverted_starter,  /* STMoveInverterSeriesFilter */
-  &pipe_impose_inverted_starter,  /* STDirectRoot */
+  &pipe_impose_inverted_starter,  /* STAttackRoot */
   &pipe_impose_inverted_starter,  /* STDirectDefenderRoot */
   &pipe_impose_starter,           /* STDirectHashed */
   &pipe_impose_starter,           /* STHelpRoot */
@@ -2748,7 +2749,7 @@ static boolean traverse_reflex_guard(slice_index branch, slice_traversal *st)
 static slice_operation const traversers[] =
 {
   &traverse_pipe,         /* STProxy */
-  &traverse_pipe,         /* STBranchDirect */
+  &traverse_pipe,         /* STAttackMove */
   &traverse_pipe,         /* STBranchDirectDefender */
   &traverse_pipe,         /* STHelpMove */
   &traverse_branch_fork,  /* STHelpFork */
@@ -2763,7 +2764,7 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STMoveInverterRootSolvableFilter */
   &traverse_pipe,         /* STMoveInverterSolvableFilter */
   &traverse_pipe,         /* STMoveInverterSeriesFilter */
-  &traverse_pipe,         /* STDirectRoot */
+  &traverse_pipe,         /* STAttackRoot */
   &traverse_pipe,         /* STDirectDefenderRoot */
   &traverse_pipe,         /* STDirectHashed */
   &traverse_pipe,         /* STHelpRoot */

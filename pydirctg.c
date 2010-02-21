@@ -2,11 +2,12 @@
 #include "pydirect.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
-#include "stipulation/help_play/branch.h"
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
+#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -112,7 +113,7 @@ direct_defense_direct_has_solution_in_n(slice_index si,
   if (n_min<=slack_length_direct && slice_has_solution(togoal)==has_solution)
     result = n_min;
   else if (n>slack_length_direct)
-    result = direct_has_solution_in_n(next,n,n_min);
+    result = attack_has_solution_in_n(next,n,n_min);
   else
     result = n+2;
 
@@ -151,7 +152,7 @@ boolean direct_defense_are_threats_refuted_in_n(table threats,
   if (len_threat==slack_length_direct)
     result = slice_are_threats_refuted(threats,togoal);
   else
-    result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+    result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -184,7 +185,7 @@ void direct_defense_direct_solve_continuations_in_n(slice_index si,
   if (n_min<=slack_length_direct && slice_solve(togoal))
     ;
   else if (n>slack_length_direct)
-    direct_solve_continuations_in_n(next,n,n_min);
+    attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -225,10 +226,10 @@ direct_defense_direct_solve_threats_in_n(table threats,
     if (table_length(threats)>0)
       result = slack_length_direct;
     else if (n>slack_length_direct)
-      result = direct_solve_threats_in_n(threats,next,n,n_min);
+      result = attack_solve_threats_in_n(threats,next,n,n_min);
   }
   else
-    result = direct_solve_threats_in_n(threats,next,n,n_min);
+    result = attack_solve_threats_in_n(threats,next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -260,7 +261,7 @@ boolean direct_defense_root_solve(slice_index si)
   if (next!=no_slice)
     /* always evaluate slice_root_solve(next), even if we have found a
      * short solution */
-    result = direct_root_solve_in_n(next) || result;
+    result = attack_root_solve_in_n(next) || result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -294,7 +295,7 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
   if (n_min<=slack_length_direct && slice_solve(towards_goal))
     result = n_min;
   else if (n>slack_length_direct)
-    result = direct_solve_in_n(next,n,n_min);
+    result = attack_solve_in_n(next,n,n_min);
   else
     result = n+2;
 
@@ -393,8 +394,8 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st)
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STDirectDefense slice before each STDirectRoot and
- * STBranchDirect slice
+/* Insert a STDirectDefense slice before each STAttackRoot and
+ * STAttackMove slice
  * @param si identifies slice before which to insert a STDirectDefense
  *           slice
  * @param st address of structure representing the traversal
@@ -461,7 +462,7 @@ static boolean direct_guards_inserter_defense(slice_index si,
 static slice_operation const direct_guards_inserters[] =
 {
   &slice_traverse_children,       /* STProxy */
-  &direct_guards_inserter_attack, /* STBranchDirect */
+  &direct_guards_inserter_attack, /* STAttackMove */
   &direct_guards_inserter_defense,       /* STBranchDirectDefender */
   &slice_traverse_children,       /* STHelpMove */
   &slice_traverse_children,       /* STBHelpFork */
@@ -476,7 +477,7 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,       /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,       /* STMoveInverterSolvableFilter */
   &slice_traverse_children,       /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,       /* STDirectRoot */
+  &slice_traverse_children,       /* STAttackRoot */
   &direct_guards_inserter_defense,       /* STDirectDefenderRoot */
   &slice_traverse_children,       /* STDirectHashed */
   &slice_traverse_children,       /* STHelpRoot */

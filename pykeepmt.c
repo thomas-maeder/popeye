@@ -1,5 +1,6 @@
 #include "pypipe.h"
 #include "pykeepmt.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyleaf.h"
@@ -148,7 +149,7 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
+    result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
   else
     result = n+2;
 
@@ -183,7 +184,7 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_are_threats_refuted_in_n(threats,len_threat,
+    result = attack_are_threats_refuted_in_n(threats,len_threat,
                                              slices[si].u.pipe.next,
                                              n);
   else
@@ -215,7 +216,7 @@ void keepmating_guard_direct_solve_continuations_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(is_a_mating_piece_left(slices[si].u.keepmating_guard.mating));
-  direct_solve_continuations_in_n(next,n,n_min);
+  attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -250,7 +251,7 @@ keepmating_guard_direct_solve_threats_in_n(table threats,
   if (is_a_mating_piece_left(mating))
   {
     slice_index const next = slices[si].u.pipe.next;
-    result = direct_solve_threats_in_n(threats,next,n,n_min);
+    result = attack_solve_threats_in_n(threats,next,n,n_min);
   }
   else
     result = n+2;
@@ -628,7 +629,7 @@ static boolean keepmating_guards_inserter_branch_fork(slice_index si,
   return result;
 }
 
-static boolean keepmating_guards_inserter_branch_direct_root(slice_index si,
+static boolean keepmating_guards_inserter_attack_root(slice_index si,
                                                              slice_traversal *st)
 {
   boolean const result = true;
@@ -700,7 +701,7 @@ static boolean keepmating_guards_inserter_defender(slice_index si,
   return result;
 }
 
-static boolean keepmating_guards_inserter_branch_direct(slice_index si,
+static boolean keepmating_guards_inserter_attack_move(slice_index si,
                                                         slice_traversal *st)
 {
   boolean const result = true;
@@ -811,7 +812,7 @@ static boolean keepmating_guards_inserter_branch_series(slice_index si,
 static slice_operation const keepmating_guards_inserters[] =
 {
   &slice_traverse_children,                /* STProxy */
-  &keepmating_guards_inserter_branch_direct,  /* STBranchDirect */
+  &keepmating_guards_inserter_attack_move,  /* STAttackMove */
   &keepmating_guards_inserter_defender,    /* STBranchDirectDefender */
   &keepmating_guards_inserter_branch_help,      /* STHelpMove */
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
@@ -826,7 +827,7 @@ static slice_operation const keepmating_guards_inserters[] =
   &slice_traverse_children,                /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                /* STMoveInverterSeriesFilter */
-  &keepmating_guards_inserter_branch_direct_root, /* STDirectRoot */
+  &keepmating_guards_inserter_attack_root, /* STAttackRoot */
   &keepmating_guards_inserter_defender,    /* STDirectDefenderRoot */
   &slice_traverse_children,                /* STDirectHashed */
   &slice_traverse_children,                /* STHelpRoot */

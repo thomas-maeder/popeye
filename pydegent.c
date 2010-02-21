@@ -4,6 +4,7 @@
 #include "pydirect.h"
 #include "pypipe.h"
 #include "pyoutput.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -93,15 +94,15 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
     if (max_length_short_solutions>=slack_length_direct+2)
     {
       stip_length_type const n_interm = max_length_short_solutions-2+parity;
-      result = direct_has_solution_in_n(next,n_interm,n_min);
+      result = attack_has_solution_in_n(next,n_interm,n_min);
       if (result>n_interm)
-        result = direct_has_solution_in_n(next,n,n);
+        result = attack_has_solution_in_n(next,n,n);
     }
     else
-      result = direct_has_solution_in_n(next,n,n);
+      result = attack_has_solution_in_n(next,n,n);
   }
   else
-    result = direct_has_solution_in_n(next,n,n_min);
+    result = attack_has_solution_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -131,7 +132,7 @@ void degenerate_tree_direct_solve_continuations_in_n(slice_index si,
   /* don't increase n_min, or we may write continuations of
    * full length even in the presence of a short continuation
    */
-  direct_solve_continuations_in_n(next,n,n_min);
+  attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -163,7 +164,7 @@ degenerate_tree_direct_solve_threats_in_n(table threats,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  result = direct_solve_threats_in_n(threats,next,n,n_min);
+  result = attack_solve_threats_in_n(threats,next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -194,7 +195,7 @@ boolean degenerate_tree_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+  result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -205,7 +206,7 @@ boolean degenerate_tree_are_threats_refuted_in_n(table threats,
 /* **************** Stipulation instrumentation ***************
  */
 
-static boolean degenerate_tree_inserter_branch_direct(slice_index si,
+static boolean degenerate_tree_inserter_attack_move(slice_index si,
                                                       slice_traversal *st)
 {
   boolean const result = true;
@@ -231,7 +232,7 @@ static boolean degenerate_tree_inserter_branch_direct(slice_index si,
 static slice_operation const degenerate_tree_guards_inserters[] =
 {
   &slice_traverse_children,                 /* STProxy */
-  &degenerate_tree_inserter_branch_direct,  /* STBranchDirect */
+  &degenerate_tree_inserter_attack_move,  /* STAttackMove */
   &slice_traverse_children,                 /* STBranchDirectDefender */
   &slice_traverse_children,                 /* STHelpMove */
   &slice_traverse_children,                 /* STHelpFork */
@@ -246,7 +247,7 @@ static slice_operation const degenerate_tree_guards_inserters[] =
   &slice_traverse_children,                 /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                 /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                 /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,                 /* STDirectRoot */
+  &slice_traverse_children,                 /* STAttackRoot */
   &slice_traverse_children,                 /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &slice_traverse_children,                 /* STHelpRoot */

@@ -292,7 +292,7 @@ unsigned int max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
-static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
+static boolean nontrivial_guard_inserter_attack_move(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
@@ -317,7 +317,7 @@ static boolean nontrivial_guard_inserter_branch_direct(slice_index si,
 static slice_operation const max_nr_nontrivial_guards_inserters[] =
 {
   &slice_traverse_children,                 /* STProxy */
-  &nontrivial_guard_inserter_branch_direct, /* STBranchDirect */
+  &nontrivial_guard_inserter_attack_move, /* STAttackMove */
   &slice_traverse_children,                 /* STBranchDirectDefender */
   &slice_traverse_children,                 /* STHelpMove */
   &slice_traverse_children,                 /* STHelpFork */
@@ -332,7 +332,7 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                 /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                 /* STMoveInverterSeriesFilter */
-  &nontrivial_guard_inserter_branch_direct, /* STDirectRoot */
+  &nontrivial_guard_inserter_attack_move, /* STAttackRoot */
   &slice_traverse_children,                 /* STDirectDefenderRoot */
   &slice_traverse_children,                 /* STDirectHashed */
   &slice_traverse_children,                 /* STHelpRoot */

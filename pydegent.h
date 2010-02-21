@@ -10,7 +10,7 @@
  * solution in all lengths from 1 to N.
  */
 
-#include "pydirect.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* Reset the degenerate tree setting
  */

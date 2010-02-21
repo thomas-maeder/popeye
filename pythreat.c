@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "pydirect.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -95,7 +96,7 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
       else
         n_min = slack_length_direct-parity;
 
-      result = direct_has_solution_in_n(to_attacker,n_max,n_min)>n_max;
+      result = attack_has_solution_in_n(to_attacker,n_max,n_min)>n_max;
     }
     else
       /* remainder of play is too short for max_len_threat to apply */
@@ -158,7 +159,7 @@ boolean maxthreatlength_guard_root_solve(slice_index si)
   if (is_threat_too_long(si,max_threat_length))
     result = false;
   else
-    result = direct_root_solve_in_n(next);
+    result = attack_root_solve_in_n(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -287,7 +288,7 @@ static boolean maxthreatlength_guard_inserter(slice_index si,slice_traversal *st
 static slice_operation const maxthreatlength_guards_inserters[] =
 {
   &slice_traverse_children,        /* STProxy */
-  &slice_traverse_children,        /* STBranchDirect */
+  &slice_traverse_children,        /* STAttackMove */
   &maxthreatlength_guard_inserter, /* STBranchDirectDefender */
   &slice_traverse_children,        /* STHelpMove */
   &slice_traverse_children,        /* STHelpFork */
@@ -302,7 +303,7 @@ static slice_operation const maxthreatlength_guards_inserters[] =
   &slice_traverse_children,        /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,        /* STMoveInverterSolvableFilter */
   &slice_traverse_children,        /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,        /* STDirectRoot */
+  &slice_traverse_children,        /* STAttackRoot */
   &maxthreatlength_guard_inserter, /* STDirectDefenderRoot */
   &slice_traverse_children,        /* STDirectHashed */
   &slice_traverse_children,        /* STHelpRoot */

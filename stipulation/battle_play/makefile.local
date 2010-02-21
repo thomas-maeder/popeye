@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = branch.c attack_root.c attack_move.c attack_play.c
+INCLUDES = branch.h attack_root.h attack_move.h attack_play.h
+
+include makefile.rules $(CURRPWD)depend

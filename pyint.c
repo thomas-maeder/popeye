@@ -2780,7 +2780,7 @@ static boolean full_moves_left_branch_series(slice_index si,
 static slice_operation const full_moves_left_initialisers[] =
 {
   &slice_traverse_children,         /* STProxy */
-  &slice_traverse_children,         /* STBranchDirect */
+  &slice_traverse_children,         /* STAttackMove */
   &slice_traverse_children,         /* STBranchDirectDefender */
   &slice_traverse_children,         /* STHelpMove */
   &slice_traverse_children,         /* STHelpFork */
@@ -2795,7 +2795,7 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,         /* STDirectRoot */
+  &slice_traverse_children,         /* STAttackRoot */
   &slice_traverse_children,         /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
   &slice_traverse_children,         /* STHelpRoot */
@@ -2966,7 +2966,7 @@ static boolean partial_moves_left_series_fork(slice_index si,
 static slice_operation const partial_moves_left_initialisers[] =
 {
   &slice_traverse_children,         /* STProxy */
-  &slice_traverse_children,         /* STBranchDirect */
+  &slice_traverse_children,         /* STAttackMove */
   &slice_traverse_children,         /* STBranchDirectDefender */
   &slice_traverse_children,         /* STHelpMove */
   &partial_moves_left_help_fork,  /* STHelpFork */
@@ -2981,7 +2981,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,         /* STDirectRoot */
+  &slice_traverse_children,         /* STAttackRoot */
   &slice_traverse_children,         /* STDirectDefenderRoot */
   &slice_traverse_children,         /* STDirectHashed */
   &slice_traverse_children,         /* STHelpRoot */
@@ -3458,7 +3458,7 @@ static boolean intelligent_guards_inserter_series_root(slice_index si,
 static slice_operation const intelligent_guards_inserters[] =
 {
   &slice_traverse_children,                  /* STProxy */
-  &slice_traverse_children,                  /* STBranchDirect */
+  &slice_traverse_children,                  /* STAttackMove */
   &slice_traverse_children,                  /* STBranchDirectDefender */
   &intelligent_guards_inserter_branch_help,  /* STHelpMove */
   &slice_traverse_children,                  /* STHelpFork */
@@ -3473,7 +3473,7 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,                  /* STDirectRoot */
+  &slice_traverse_children,                  /* STAttackRoot */
   &slice_traverse_children,                  /* STDirectDefenderRoot */
   &slice_traverse_children,                  /* STDirectHashed */
   &intelligent_guards_inserter_help_root,    /* STHelpRoot */
@@ -3787,7 +3787,7 @@ static boolean intelligent_mode_support_none(slice_index si,
 static slice_operation const intelligent_mode_support_detectors[] =
 {
   &slice_traverse_children,                      /* STProxy */
-  &intelligent_mode_support_none,                /* STBranchDirect */
+  &intelligent_mode_support_none,                /* STAttackMove */
   &intelligent_mode_support_none,                /* STBranchDirectDefender */
   &slice_traverse_children,                      /* STHelpMove */
   &intelligent_mode_support_detector_fork,       /* STHelpFork */
@@ -3802,7 +3802,7 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,                      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                      /* STMoveInverterSeriesFilter */
-  &intelligent_mode_support_none,                /* STDirectRoot */
+  &intelligent_mode_support_none,                /* STAttackRoot */
   &intelligent_mode_support_none,                /* STDirectDefenderRoot */
   &intelligent_mode_support_none,                /* STDirectHashed */
   &slice_traverse_children,                      /* STHelpRoot */

@@ -1,30 +1,29 @@
-#if !defined(PYBRAD_H)
-#define PYBRAD_H
+#if !defined(STIPULATION_BATTLE_PLAY_ATTACK_MOVE_H)
+#define STIPULATION_BATTLE_PLAY_ATTACK_MOVE_H
 
-#include "py.h"
+#include "boolean.h"
 #include "pystip.h"
 #include "pyslice.h"
-#include "pydirect.h"
 #include "pytable.h"
 
 /* This module provides functionality dealing with the attacking side
- * in STBranchDirect stipulation slices.
+ * in STAttackMove stipulation slices.
  */
 
-/* Allocate a branch that represents direct play
+/* Allocate a STAttackMove slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of entry slice of allocated branch
+ * @return index of allocated slice
  */
-slice_index alloc_direct_branch(stip_length_type length,
-                                stip_length_type min_length);
+slice_index alloc_attack_move_slice(stip_length_type length,
+                                    stip_length_type min_length);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  * @return true iff slice has been successfully traversed
  */
-boolean branch_d_insert_root(slice_index si, slice_traversal *st);
+boolean attack_move_insert_root(slice_index si, slice_traversal *st);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -34,10 +33,10 @@ boolean branch_d_insert_root(slice_index si, slice_traversal *st);
  * @return true iff the defense defends against at least one of the
  *         threats
  */
-boolean branch_d_are_threats_refuted_in_n(table threats,
-                                          stip_length_type len_threat,
-                                          slice_index si,
-                                          stip_length_type n);
+boolean attack_move_are_threats_refuted_in_n(table threats,
+                                             stip_length_type len_threat,
+                                             slice_index si,
+                                             stip_length_type n);
 
 /* Determine whether a branch slice has a solution
  * @param si slice index
@@ -52,9 +51,9 @@ boolean branch_d_are_threats_refuted_in_n(table threats,
  *         goal (in which case n_min<slack_length_direct and we return
  *         n_min)
  */
-stip_length_type branch_d_has_solution_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_min);
+stip_length_type attack_move_has_solution_in_n(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_min);
 
 /* Determine and write continuations after the defense just played.
  * We know that there is at least 1 continuation to the defense.
@@ -63,9 +62,9 @@ stip_length_type branch_d_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  */
-void branch_d_solve_continuations_in_n(slice_index si,
-                                       stip_length_type n,
-                                       stip_length_type n_min);
+void attack_move_solve_continuations_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min);
 
 /* Determine and write the threats after the move that has just been
  * played.
@@ -78,10 +77,10 @@ void branch_d_solve_continuations_in_n(slice_index si,
  *           stronger than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-stip_length_type branch_d_solve_threats_in_n(table threats,
-                                             slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_min);
+stip_length_type attack_move_solve_threats_in_n(table threats,
+                                                slice_index si,
+                                                stip_length_type n,
+                                                stip_length_type n_min);
 
 /* Solve a slice
  * @param si slice index
@@ -92,38 +91,15 @@ stip_length_type branch_d_solve_threats_in_n(table threats,
  *         (n-slack_length_direct)%2 if the previous move led to a
  *            dead end (e.g. self-check)
  */
-stip_length_type branch_d_solve_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min);
+stip_length_type attack_move_solve_in_n(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_min);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
  * @return true iff slice has been successfully traversed
  */
-boolean branch_d_detect_starter(slice_index si, slice_traversal *st);
-
-/* Spin off a set play slice
- * @param si slice index
- * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
- */
-boolean direct_root_make_setplay_slice(slice_index si,
-                                       struct slice_traversal *st);
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
- */
-boolean direct_root_reduce_to_postkey_play(slice_index si,
-                                           struct slice_traversal *st);
-
-/* Solve a branch slice at root level.
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean direct_root_root_solve(slice_index si);
+boolean attack_move_detect_starter(slice_index si, slice_traversal *st);
 
 #endif

@@ -8,7 +8,7 @@
 #include "pytable.h"
 
 /* This module provides functionality dealing with the defending side
- * in STBranchDirect stipulation slices.
+ * in STAttackMove stipulation slices.
  */
 
 /* Allocate a STBranchDirectDefender defender slice.

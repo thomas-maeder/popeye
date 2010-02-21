@@ -102,6 +102,7 @@
 #include "pyproof.h"
 #include "pystip.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pynontrv.h"
@@ -284,7 +285,7 @@ static boolean slice_property_offset_shifter(slice_index si,
 static slice_operation const slice_property_offset_shifters[] =
 {
   &slice_traverse_children,       /* STProxy */
-  &slice_property_offset_shifter, /* STBranchDirect */
+  &slice_property_offset_shifter, /* STAttackMove */
   &slice_property_offset_shifter, /* STBranchDirectDefender */
   &slice_property_offset_shifter, /* STHelpMove */
   &slice_property_offset_shifter, /* STHelpFork */
@@ -299,7 +300,7 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverterRootSolvableFilter */
   &slice_property_offset_shifter, /* STMoveInverterSolvableFilter */
   &slice_property_offset_shifter, /* STMoveInverterSeriesFilter */
-  &slice_property_offset_shifter, /* STDirectRoot */
+  &slice_property_offset_shifter, /* STAttackRoot */
   &slice_property_offset_shifter, /* STDirectDefenderRoot */
   &slice_property_offset_shifter, /* STDirectHashed */
   &slice_property_offset_shifter, /* STHelpRoot */
@@ -656,7 +657,7 @@ static boolean init_slice_properties_hashed_series(slice_index si,
 static slice_operation const slice_properties_initalisers[] =
 {
   &slice_traverse_children,              /* STProxy */
-  &init_slice_properties_pipe,           /* STBranchDirect */
+  &init_slice_properties_pipe,           /* STAttackMove */
   &init_slice_properties_pipe,           /* STBranchDirectDefender */
   &init_slice_properties_pipe,           /* STHelpMove */
   &slice_traverse_children,              /* STHelpFork */
@@ -671,7 +672,7 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMoveInverterRootSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,              /* STDirectRoot */
+  &slice_traverse_children,              /* STAttackRoot */
   &slice_traverse_children,              /* STDirectDefenderRoot */
   &init_slice_properties_hashed_direct,  /* STDirectHashed */
   &slice_traverse_children,              /* STHelpRoot */
@@ -2030,7 +2031,7 @@ void insert_directhashed_slice(slice_index si)
       break;
     }
 
-    case STBranchDirect:
+    case STAttackMove:
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -2300,7 +2301,7 @@ stip_length_type direct_hashed_solve_in_n(slice_index si,
   n_min = adjust_n_min(si,n,n_min);
   if (n_min<=n)
   {
-    result = direct_solve_in_n(slices[si].u.pipe.next,n,n_min);
+    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
     if (result<=n)
       addtohash_dir_succ(si,result);
     else
@@ -2339,7 +2340,7 @@ void direct_hashed_solve_continuations_in_n(slice_index si,
   n_min = adjust_n_min(si,n,n_min);
   assert(n_min<=n);
 
-  direct_solve_continuations_in_n(next,n,n_min);
+  attack_solve_continuations_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2375,7 +2376,7 @@ stip_length_type direct_hashed_solve_threats_in_n(table threats,
   result = adjust_n_min(si,n,n_min);
   if (result<=n)
   {
-    result = direct_solve_threats_in_n(threats,next,n,n_min);
+    result = attack_solve_threats_in_n(threats,next,n,n_min);
     if (table_length(threats)>0)
       addtohash_dir_succ(si,result);
     else
@@ -2413,7 +2414,7 @@ boolean direct_hashed_are_threats_refuted_in_n(table threats,
 
   len_threat_min = adjust_n_min(si,len_threat,len_threat);
   if (len_threat_min<=len_threat)
-    result = direct_are_threats_refuted_in_n(threats,len_threat,next,n);
+    result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
   else
     result = true;
 
@@ -2436,7 +2437,7 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  result = direct_has_solution_in_n(next,n,n_min);
+  result = attack_has_solution_in_n(next,n,n_min);
   if (result<=n)
     addtohash_dir_succ(si,result);
   else
