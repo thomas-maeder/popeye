@@ -246,52 +246,13 @@ void attack_move_solve_continuations_in_n(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Solve short threats (i.e. threats where the play immediately goes
- * on with the next branch/leaf)
- * @param si slice index
- * @return true iff >=1 threat was found
- */
-static boolean solve_threats_short(slice_index si)
-{
-  boolean result = false;
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  active_slice[nbply+1] = si;
-  genmove(attacker);
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,slack_length_battle))
-    {
-      append_to_top_table();
-      coupfort();
-      result = true;
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve long threats (i.e. threats where the play goes on in the
  * current branch)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @return true iff >=1 threat was found
  */
-static boolean solve_threats_long_in_n(slice_index si, stip_length_type n)
+static boolean solve_threats_in_n(slice_index si, stip_length_type n)
 {
   boolean result = false;
   Side const attacker = slices[si].starter;
@@ -311,6 +272,7 @@ static boolean solve_threats_long_in_n(slice_index si, stip_length_type n)
         && !defense_defend_in_n(next,n-1))
     {
       result = true;
+      coupfort();
       append_to_top_table();
     }
 
@@ -318,40 +280,6 @@ static boolean solve_threats_long_in_n(slice_index si, stip_length_type n)
   }
 
   finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find long threats (i.e. solutions where the play goes on in the
- * current branch); solutions are looked for in increasing number of
- * half-moves from n_min to n.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- */
-static stip_length_type solve_threats_long(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_min)
-{
-  stip_length_type result = n_min;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  while (result<=n)
-    if (solve_threats_long_in_n(si,result))
-      break;
-    else
-      result += 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -389,52 +317,9 @@ stip_length_type attack_move_solve_threats_in_n(table threats,
   if (n_min<=slack_length_battle)
     n_min += 2;
 
-  if (n_min==slack_length_battle+1)
-  {
-    if (solve_threats_short(si))
-      result = slack_length_battle+1;
-    else
-      result = solve_threats_long(si,n,slack_length_battle+3);
-  }
-  else
-    result = solve_threats_long(si,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find short solutions (i.e. solutions where the play immediately
- * goes on in the next branch/leaf)
- * @param si slice index
- */
-static boolean solve_short(slice_index si)
-{
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  active_slice[nbply+1] = si;
-  genmove(attacker);
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,slack_length_battle))
-    {
-      result = true;
-      coupfort();
-    }
-
-    repcoup();
-  }
-
-  finply();
+  for (result = n_min; result<=n; result += 2)
+    if (solve_threats_in_n(si,result))
+      break;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -448,7 +333,7 @@ static boolean solve_short(slice_index si)
  * @param n maximum number of half moves until goal
  * @return true iff >=1 solution in n half-moves was found
  */
-static boolean solve_long_in_n(slice_index si, stip_length_type n)
+static boolean solve_in_n(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -466,46 +351,15 @@ static boolean solve_long_in_n(slice_index si, stip_length_type n)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && !defense_defend_in_n(next,n-1))
+    {
       result = true;
+      coupfort();
+    }
 
     repcoup();
   }
 
   finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
-/* Find long solutions (i.e. solutions where the play goes on in the
- * current branch); solutions are looked for in increasing number of
- * half-moves from n_min to n.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
- */
-static stip_length_type solve_long(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_min)
-{
-  stip_length_type result = n_min;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  while (result<=n)
-    if (solve_long_in_n(si,result))
-      break;
-    else
-      result += 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -541,15 +395,9 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   if (n_min<=slack_length_battle)
     n_min += 2;
 
-  if (n_min==slack_length_battle+1)
-  {
-    if (solve_short(si))
-      result = slack_length_battle+1;
-    else
-      result = solve_long(si,n,slack_length_battle+3);
-  }
-  else
-    result = solve_long(si,n,n_min);
+  for (result = n_min; result<=n; result += 2)
+    if (solve_in_n(si,result))
+      break;
 
   output_end_continuation_level();
 
