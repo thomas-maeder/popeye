@@ -3,8 +3,8 @@
 
 #include "boolean.h"
 #include "pyslice.h"
-#include "pydirect.h"
 #include "py.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with leaf stipulation
  * slices.

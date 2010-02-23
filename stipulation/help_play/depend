@@ -83,16 +83,13 @@ stipulation/proxy.h:
 
 trace.h:
 stipulation/help_play/fork$(OBJ_SUFFIX): stipulation/help_play/fork.c \
-  stipulation/help_play/fork.h pybrafrk.h pydirect.h \
-  stipulation/help_play/play.h stipulation/series_play/play.h \
-  stipulation/series_play/fork.h stipulation/branch.h stipulation/proxy.h \
-  pydata.h trace.h
+  stipulation/help_play/fork.h pybrafrk.h stipulation/help_play/play.h \
+  stipulation/series_play/play.h stipulation/series_play/fork.h \
+  stipulation/branch.h stipulation/proxy.h pydata.h trace.h
 
 stipulation/help_play/fork.h:
 
 pybrafrk.h:
-
-pydirect.h:
 
 stipulation/help_play/play.h:
 

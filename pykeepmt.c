@@ -282,7 +282,7 @@ boolean keepmating_guard_root_defend(slice_index si)
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_root_defend(slices[si].u.pipe.next);
+    result = defense_root_defend(slices[si].u.pipe.next);
   else
     result = true;
 
@@ -312,7 +312,7 @@ boolean keepmating_guard_defend_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n);
   else
     result = true;
 
@@ -344,7 +344,7 @@ unsigned int keepmating_guard_can_defend_in_n(slice_index si,
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = direct_defender_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_result);
   else
     result = max_result+1;
 

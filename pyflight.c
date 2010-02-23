@@ -1,8 +1,8 @@
 #include "pyflight.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pydirect.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -142,7 +142,7 @@ boolean maxflight_guard_root_defend(slice_index si)
   if (n-1>slack_length_battle+2 && has_too_many_flights(defender))
     result = true;
   else
-    result = direct_defender_root_defend(next);
+    result = defense_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -173,7 +173,7 @@ boolean maxflight_guard_defend_in_n(slice_index si, stip_length_type n)
   if (n>slack_length_battle+2 && has_too_many_flights(defender))
     result = true;
   else
-    result = direct_defender_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -204,7 +204,7 @@ unsigned int maxflight_guard_can_defend_in_n(slice_index si,
   if (n>slack_length_battle+2 && has_too_many_flights(defender))
     result = max_result+1;
   else
-    result = direct_defender_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

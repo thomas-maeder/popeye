@@ -1,8 +1,8 @@
 #include "stipulation/battle_play/attack_root.h"
-#include "pydirect.h"
 #include "pydata.h"
 #include "pyoutput.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -58,7 +58,7 @@ boolean attack_root_root_solve(slice_index si)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_root_defend(next))
+        && !defense_root_defend(next))
       result = true;
 
     repcoup();

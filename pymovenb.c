@@ -1,6 +1,6 @@
 #include "pymovenb.h"
 #include "pypipe.h"
-#include "pydirect.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyproc.h"
@@ -146,7 +146,7 @@ boolean restart_guard_root_defend(slice_index si)
   if (MoveNbr<=RestartNbr)
     result = true;
   else
-    result = direct_defender_root_defend(slices[si].u.pipe.next);
+    result = defense_root_defend(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

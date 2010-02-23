@@ -1,6 +1,5 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
-#include "pydirect.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -304,7 +303,7 @@ boolean selfcheck_guard_root_defend(slice_index si)
   if (echecc(nbply,advers(slices[si].starter)))
     result = true;
   else
-    result = direct_defender_root_defend(next);
+    result = defense_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -332,7 +331,7 @@ boolean selfcheck_guard_defend_in_n(slice_index si, stip_length_type n)
   if (echecc(nbply,advers(slices[si].starter)))
     result = true;
   else
-    result = direct_defender_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -362,7 +361,7 @@ unsigned int selfcheck_guard_can_defend_in_n(slice_index si,
   if (echecc(nbply,advers(slices[si].starter)))
     result = max_result+1;
   else
-    result = direct_defender_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

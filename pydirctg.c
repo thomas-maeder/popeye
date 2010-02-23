@@ -1,6 +1,4 @@
 #include "pydirctg.h"
-#include "pydirect.h"
-#include "pyslice.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "pyoutput.h"

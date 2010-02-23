@@ -8,8 +8,8 @@
  * by the user
  */
 
+#include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
-#include "pydirect.h"
 
 /* Reset the restart number setting.
  */

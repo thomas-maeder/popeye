@@ -1,10 +1,10 @@
 #if !defined(STIPULATION_BATTLE_PLAY_DEFENSE_ROOT_H)
 #define STIPULATION_BATTLE_PLAY_DEFENSE_ROOT_H
 
-#include "pydirect.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the defending side
- * in STAttackMove stipulation slices.
+ * in STDefenseRoot stipulation slices.
  */
 
 /* Allocate a STDefenseRoot defender slice.
@@ -19,13 +19,13 @@ slice_index alloc_defense_root_slice(stip_length_type length,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean defense_root_solve(slice_index si);
+boolean defense_root_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @return true iff the defending side can successfully defend
  */
-boolean defense_root_defend(slice_index si);
+boolean defense_root_root_defend(slice_index si);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

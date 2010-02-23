@@ -1,32 +1,71 @@
-#include "pydirect.h"
-#include "stipulation/battle_play/defense_move.h"
-#include "pyhash.h"
-#include "pyreflxg.h"
-#include "pykeepmt.h"
-#include "pyselfcg.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "pydirctg.h"
-#include "pyselfgd.h"
-#include "pyreflxg.h"
-#include "pymovenb.h"
-#include "pykeepmt.h"
 #include "pyflight.h"
-#include "pydegent.h"
-#include "pythreat.h"
+#include "pykeepmt.h"
+#include "pymovenb.h"
 #include "pynontrv.h"
-#include "pyleafd.h"
+#include "pyreflxg.h"
+#include "pyselfcg.h"
+#include "pyselfgd.h"
+#include "pythreat.h"
 #include "stipulation/battle_play/defense_root.h"
+#include "stipulation/battle_play/defense_move.h"
+#include "stipulation/help_play/root.h"
+#include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
-#include "optimisations/maxsolutions/root_defender_filter.h"
 #include "trace.h"
 
 #include <assert.h>
+
+/* Solve a slice at root level
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean defense_root_solve(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"\n");
+  switch (slices[si].type)
+  {
+    case STDefenseRoot:
+      result = defense_root_root_solve(si);
+      break;
+
+    case STDirectDefense:
+     result = direct_defense_root_solve(si);
+      break;
+
+    case STSelfAttack:
+      result = self_attack_root_solve(si);
+      break;
+
+    case STReflexDefenderFilter:
+      result = reflex_defender_filter_root_solve(si);
+      break;
+
+    default:
+      assert(0);
+      result = false;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @return true iff the defending side can successfully defend
  */
-boolean direct_defender_root_defend(slice_index si)
+boolean defense_root_defend(slice_index si)
 {
   boolean result = true;
 
@@ -38,7 +77,7 @@ boolean direct_defender_root_defend(slice_index si)
   switch (slices[si].type)
   {
     case STDefenseRoot:
-      result = defense_root_defend(si);
+      result = defense_root_root_defend(si);
       break;
 
     case STSelfAttack:
@@ -99,7 +138,7 @@ boolean direct_defender_root_defend(slice_index si)
  * @param n maximum number of half moves until end state has to be reached
  * @return true iff the defender can defend
  */
-boolean direct_defender_defend_in_n(slice_index si, stip_length_type n)
+boolean defense_defend_in_n(slice_index si, stip_length_type n)
 {
   boolean result = true;
 
@@ -165,9 +204,9 @@ boolean direct_defender_defend_in_n(slice_index si, stip_length_type n)
  * @param max_result how many refutations should we look for
  * @return number of refutations found (0..max_result+1)
  */
-unsigned int direct_defender_can_defend_in_n(slice_index si,
-                                             stip_length_type n,
-                                             unsigned int max_result)
+unsigned int defense_can_defend_in_n(slice_index si,
+                                     stip_length_type n,
+                                     unsigned int max_result)
 {
   boolean result = true;
 

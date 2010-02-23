@@ -5,8 +5,8 @@
  * own king
  */
 
-#include "pydirect.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "pyslice.h"
 

@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_BATTLE_PLAY_ATTACK_PLAY_H)
 #define STIPULATION_BATTLE_PLAY_ATTACK_PLAY_H
 
-/* Interface for dynamically dispatching direct play functions to slices
+/* Interface for dynamically dispatching attack operations to slices
  * depending on the slice type
  */
 

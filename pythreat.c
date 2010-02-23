@@ -1,7 +1,6 @@
 #include "pythreat.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pydirect.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
@@ -159,7 +158,7 @@ boolean maxthreatlength_guard_root_solve(slice_index si)
   if (is_threat_too_long(si,max_threat_length))
     result = false;
   else
-    result = attack_root_solve_in_n(next);
+    result = slice_root_solve(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -184,7 +183,7 @@ boolean maxthreatlength_guard_root_defend(slice_index si)
   if (is_threat_too_long(si,n))
     result = true;
   else
-    result = direct_defender_root_defend(next);
+    result = defense_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -212,7 +211,7 @@ boolean maxthreatlength_guard_defend_in_n(slice_index si, stip_length_type n)
   if (is_threat_too_long(si,n))
     result = true;
   else
-    result = direct_defender_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -242,7 +241,7 @@ unsigned int maxthreatlength_guard_can_defend_in_n(slice_index si,
   if (is_threat_too_long(si,n))
     result = max_result+1;
   else
-    result = direct_defender_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

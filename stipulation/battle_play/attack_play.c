@@ -1,5 +1,4 @@
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_move.h"
 #include "pybrafrk.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
@@ -17,11 +16,7 @@
 #include "pyleafd.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/defense_root.h"
 #include "stipulation/series_play/play.h"
-#include "optimisations/maxtime/root_defender_filter.h"
-#include "optimisations/maxtime/defender_filter.h"
-#include "optimisations/maxsolutions/root_defender_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -573,24 +568,8 @@ boolean attack_root_solve_in_n(slice_index si)
       result = attack_root_root_solve(si);
       break;
 
-    case STDefenseRoot:
-      result = defense_root_solve(si);
-      break;
-
-    case STDirectDefense:
-      result = direct_defense_root_solve(si);
-      break;
-
-    case STSelfAttack:
-      result = self_attack_root_solve(si);
-      break;
-
     case STReflexAttackerFilter:
       result = reflex_attacker_filter_root_solve(si);
-      break;
-
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_root_solve(si);
       break;
 
     case STAttackHashed:

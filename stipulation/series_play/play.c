@@ -1,12 +1,12 @@
 #include "stipulation/series_play/play.h"
 #include "stipulation/help_play/play.h"
-#include "pydirect.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
 #include "pymovein.h"
 #include "pymovenb.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/series_play/root.h"
@@ -57,7 +57,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
     case STDefenseMove:
     {
       stip_length_type const n_dir = n-slack_length_series+slack_length_battle;
-      result = !direct_defender_defend_in_n(si,n_dir);
+      result = !defense_defend_in_n(si,n_dir);
       break;
     }
 
@@ -218,7 +218,7 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
     case STDefenseMove:
     {
       stip_length_type const n_dir = n-slack_length_series+slack_length_battle;
-      result = direct_defender_can_defend_in_n(si,n_dir,0)==0;
+      result = defense_can_defend_in_n(si,n_dir,0)==0;
       break;
     }
 

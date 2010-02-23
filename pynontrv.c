@@ -1,9 +1,9 @@
 #include "pynontrv.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pydirect.h"
 #include "pyoutput.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -132,7 +132,7 @@ static unsigned int count_nontrivial_defenses(slice_index si)
     finply();
   }
   else
-    result = direct_defender_can_defend_in_n(next,
+    result = defense_can_defend_in_n(next,
                                              min_length_nontrivial+parity,
                                              nr_refutations_allowed);
 
@@ -190,7 +190,7 @@ boolean max_nr_nontrivial_guard_root_defend(slice_index si)
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = direct_defender_root_defend(next);
+      result = defense_root_defend(next);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
@@ -198,7 +198,7 @@ boolean max_nr_nontrivial_guard_root_defend(slice_index si)
       result = true;
   }
   else
-    result = direct_defender_root_defend(next);
+    result = defense_root_defend(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -230,7 +230,7 @@ boolean max_nr_nontrivial_guard_defend_in_n(slice_index si, stip_length_type n)
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = direct_defender_defend_in_n(next,n);
+      result = defense_defend_in_n(next,n);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
@@ -238,7 +238,7 @@ boolean max_nr_nontrivial_guard_defend_in_n(slice_index si, stip_length_type n)
       result = true;
   }
   else
-    result = direct_defender_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -272,7 +272,7 @@ unsigned int max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = direct_defender_can_defend_in_n(next,n,max_result);
+      result = defense_can_defend_in_n(next,n,max_result);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
@@ -280,7 +280,7 @@ unsigned int max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
       result = max_result+1;
   }
   else
-    result = direct_defender_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

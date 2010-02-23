@@ -3,9 +3,9 @@
 
 #include "boolean.h"
 #include "pyslice.h"
-#include "pydirect.h"
 #include "pytable.h"
 #include "py.h"
+#include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with direct leaf
  * stipulation slices.

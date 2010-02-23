@@ -1,7 +1,6 @@
 #include "pydegent.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pydirect.h"
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "stipulation/battle_play/attack_play.h"

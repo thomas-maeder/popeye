@@ -1,8 +1,7 @@
 #if !defined(PYLEAFF_H)
 #define PYLEAFF_H
 
-#include "pyslice.h"
-#include "pydirect.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with leaf slices that
  * find forced half-moves reaching the goal.

@@ -6,7 +6,7 @@
  * squares
  */
 
-#include "pydirect.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* Reset the max flights setting to off
  */

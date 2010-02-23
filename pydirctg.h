@@ -6,7 +6,6 @@
  * Implements the direct attacker interface
  */
 
-#include "pydirect.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* Allocate a STDirectDefense slice

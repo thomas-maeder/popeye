@@ -1,11 +1,10 @@
 #if !defined(STIPULATION_BATTLE_PLAY_DEFENSE_MOVE_H)
 #define STIPULATION_BATTLE_PLAY_DEFENSE_MOVE_H
 
-#include "boolean.h"
-#include "pydirect.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the defending side
- * in STAttackMove stipulation slices.
+ * in STDefenseMove stipulation slices.
  */
 
 /* Allocate a STDefenseMove defender slice.

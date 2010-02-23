@@ -312,7 +312,7 @@ boolean self_attack_defend_in_n(slice_index si, stip_length_type n)
   if (n<=n_max_for_goal && !slice_defend(to_goal))
     result = false;
   else if (next!=no_slice)
-    result = direct_defender_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n);
   else
     result = true;
   
@@ -345,7 +345,7 @@ unsigned int self_attack_can_defend_in_n(slice_index si,
   if (n==slack_length_battle)
     result = slice_count_refutations(to_goal,max_result);
   else
-    result = direct_defender_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -510,7 +510,7 @@ boolean self_attack_root_defend(slice_index si)
         && !slice_root_defend(to_goal,0))
       result = false;
     else
-      result = direct_defender_root_defend(slices[si].u.pipe.next);
+      result = defense_root_defend(slices[si].u.pipe.next);
   }
         
   TraceFunctionExit(__func__);

@@ -11,7 +11,6 @@ INCLUDES =      pyenum.h \
 		pytable.h \
 		pyoutput.h \
 		pygoal.h pystip.h pyslice.h \
-		pydirect.h \
 		pypipe.h \
 		pydirctg.h pyselfgd.h pyreflxg.h \
 		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
@@ -28,7 +27,6 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pyoutput.c \
 		pysignal.c pyintslv.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
-		pydirect.c \
 		pypipe.c \
 		pydirctg.c pyselfgd.c pyreflxg.c \
 		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \

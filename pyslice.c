@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "trace.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -254,15 +255,18 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STAttackRoot:
-    case STDefenseRoot:
     case STLeafDirect:
-    case STDirectDefense:
-    case STSelfAttack:
     case STAttackHashed:
     case STMaxThreatLength:
     case STReflexAttackerFilter:
-    case STReflexDefenderFilter:
       result = attack_root_solve(si);
+      break;
+
+    case STDefenseRoot:
+    case STDirectDefense:
+    case STSelfAttack:
+    case STReflexDefenderFilter:
+      result = defense_root_solve(si);
       break;
 
     case STHelpRoot:

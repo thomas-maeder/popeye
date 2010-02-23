@@ -1,5 +1,4 @@
 #include "stipulation/battle_play/defense_root.h"
-#include "pydirect.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
@@ -350,7 +349,7 @@ static boolean root_solve_postkey_mode_in_n(slice_index si, stip_length_type n)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean defense_root_solve(slice_index si)
+boolean defense_root_root_solve(slice_index si)
 {
   stip_length_type const length = slices[si].u.branch.length;
   boolean result = false;
@@ -480,7 +479,7 @@ static void root_write_postkey(slice_index si, table refutations)
  * @param si slice index
  * @return true iff the defending side can successfully defend
  */
-boolean defense_root_defend(slice_index si)
+boolean defense_root_root_defend(slice_index si)
 {
   table const refutations = allocate_table();
   stip_length_type const length = slices[si].u.branch.length;

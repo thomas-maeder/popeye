@@ -1,12 +1,11 @@
 #include "stipulation/battle_play/attack_move.h"
-#include "pydirect.h"
-#include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_root.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -113,7 +112,7 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && is_current_move_in_table(threats))
     {
-      if (direct_defender_can_defend_in_n(next,
+      if (defense_can_defend_in_n(next,
                                           len_threat-1,
                                           nr_refutations_allowed)
           >nr_refutations_allowed)
@@ -163,7 +162,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   while (!solution_found && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && (direct_defender_can_defend_in_n(next,n-1,nr_refutations_allowed)
+        && (defense_can_defend_in_n(next,n-1,nr_refutations_allowed)
             <=nr_refutations_allowed))
     {
       solution_found = true;
@@ -268,7 +267,7 @@ static boolean solve_threats_short(slice_index si)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_defend_in_n(next,slack_length_battle))
+        && !defense_defend_in_n(next,slack_length_battle))
     {
       append_to_top_table();
       coupfort();
@@ -309,7 +308,7 @@ static boolean solve_threats_long_in_n(slice_index si, stip_length_type n)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_defend_in_n(next,n-1))
+        && !defense_defend_in_n(next,n-1))
     {
       result = true;
       append_to_top_table();
@@ -426,7 +425,7 @@ static boolean solve_short(slice_index si)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_defend_in_n(next,slack_length_battle))
+        && !defense_defend_in_n(next,slack_length_battle))
     {
       result = true;
       coupfort();
@@ -466,7 +465,7 @@ static boolean solve_long_in_n(slice_index si, stip_length_type n)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !direct_defender_defend_in_n(next,n-1))
+        && !defense_defend_in_n(next,n-1))
       result = true;
 
     repcoup();

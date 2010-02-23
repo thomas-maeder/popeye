@@ -1,5 +1,4 @@
 #include "pyreflxg.h"
-#include "pydirect.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
@@ -535,7 +534,7 @@ boolean reflex_defender_filter_root_defend(slice_index si)
     result = false;
   }
   else if (slices[si].u.reflex_guard.length>slack_length_battle)
-    result = direct_defender_root_defend(slices[si].u.pipe.next);
+    result = defense_root_defend(slices[si].u.pipe.next);
   else
     result = false;
 
@@ -566,7 +565,7 @@ boolean reflex_defender_filter_defend_in_n(slice_index si, stip_length_type n)
   if (n==slack_length_battle)
     result = !slice_solve(avoided);
   else
-    result = direct_defender_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -607,7 +606,7 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
 
       case has_no_solution:
         if (n>slack_length_battle)
-          result = direct_defender_can_defend_in_n(next,n,max_result);
+          result = defense_can_defend_in_n(next,n,max_result);
         break;
 
       default:
@@ -615,7 +614,7 @@ unsigned int reflex_defender_filter_can_defend_in_n(slice_index si,
         break;
     }
   else
-    result = direct_defender_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

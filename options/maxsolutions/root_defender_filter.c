@@ -1,7 +1,7 @@
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
-#include "pydirect.h"
 #include "pypipe.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 /* Allocate a STMaxSolutionsRootDefenderFilter slice.
@@ -35,7 +35,7 @@ boolean maxsolutions_root_defender_filter_defend(slice_index si)
   TraceFunctionParamListEnd();
 
   if (max_nr_solutions_found_in_phase()
-      || direct_defender_root_defend(slices[si].u.pipe.next))
+      || defense_root_defend(slices[si].u.pipe.next))
     result = true;
   else
   {

@@ -6,7 +6,7 @@
  * check nor threatens to reach the goal in a maximum number of moves
  */
 
-#include "pydirect.h"
+#include "stipulation/battle_play/defense_play.h"
 
 /* Reset the max threats setting to off
  */
