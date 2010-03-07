@@ -1084,6 +1084,7 @@ never generates the same solution twice (but some solutions
 +---a---b---c---d---e---f---g---h---+
   a=>b1.5                   16 + 16
               CageCirce
+
 Initial (White ->):
 
 in a=>b or proof games, the intelligent machinery
@@ -1143,6 +1144,7 @@ promote to bishop (no cage for queen) even if there was a cage
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                   15 + 16
               CageCirce
+
 Initial (Black ->):
 
 promote to bishop (no cage for queen) even if there was a cage
@@ -1536,6 +1538,7 @@ issue 2886962: 4.51 didn't allow a reborn rook
 +---a---b---c---d---e---f---g---h---+
   a=>b1.0                     2 + 2
                 Circe
+
 Initial (Black ->):
 
 issue 2886962: 4.51 didn't allow a reborn rook

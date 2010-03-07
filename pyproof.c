@@ -617,7 +617,7 @@ void ProofWriteStartPosition(void)
   {
     char InitialLine[40];
     sprintf(InitialLine,
-            "Initial (%s ->):\n",
+            "\nInitial (%s ->):\n",
             PieSpString[UserLanguage][slices[root_slice].starter]);
     StdString(InitialLine);
     WritePosition();

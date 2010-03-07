@@ -22,6 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b6                       4 + 3
+
 Initial (Weiss ->):
 
                   ?
@@ -77,6 +78,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b16                      5 + 5
+
 Initial (Weiss ->):
 
                   ?
@@ -146,6 +148,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b5.5                     1 + 1
+
 Initial (Schwarz ->):
 
     Norbert Geissler & Oliver Sick
@@ -218,6 +221,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   a=>b2.5                     1 + 1
              Imitator f3
+
 Initial (Schwarz ->):
 
            Rene J. Millour
@@ -274,6 +278,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b3                       9 + 7
+
 Initial (Schwarz ->):
 
           Ren\'e J. Millour
