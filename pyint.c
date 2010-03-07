@@ -2735,7 +2735,7 @@ static boolean full_moves_left_branch_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  MovesLeft[advers(slices[si].starter)] += (n+1-slack_length_help)/2;
+  MovesLeft[advers(slices[si].starter)] += (n+2-slack_length_help)/2;
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2905,7 +2905,6 @@ static boolean partial_moves_left_branch_series(slice_index si,
   TraceFunctionParamListEnd();
 
   MovesLeft[advers(slices[si].starter)] += *n-slack_length_series;
-  --*n;
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -2917,6 +2916,7 @@ static boolean partial_moves_left_branch_series(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
+
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
@@ -2961,6 +2961,7 @@ static boolean partial_moves_left_series_fork(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  --*n;
   if (*n>slack_length_series)
     traverse_slices(slices[si].u.pipe.next,st);
 
@@ -2979,7 +2980,7 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STAttackMove */
   &slice_traverse_children,         /* STDefenseMove */
   &slice_traverse_children,         /* STHelpMove */
-  &partial_moves_left_help_fork,  /* STHelpFork */
+  &partial_moves_left_help_fork,    /* STHelpFork */
   &slice_traverse_children,         /* STSeriesMove */
   &partial_moves_left_series_fork,  /* STSeriesFork */
   &init_moves_left_leaf_direct,     /* STLeafDirect */
@@ -3348,8 +3349,6 @@ static boolean intelligent_guards_inserter_branch_help(slice_index si,
     {
       assert(slices[next_prev].type==STGoalReachableGuardHelpFilter);
       pipe_set_successor(si,next_prev);
-      slices[next_prev].u.branch.length = slices[si].u.branch.length;
-      slices[next_prev].u.branch.min_length = slices[si].u.branch.min_length;
     }
   }
 
@@ -3386,8 +3385,6 @@ static boolean intelligent_guards_inserter_branch_series(slice_index si,
     {
       assert(slices[next_prev].type==STGoalReachableGuardSeriesFilter);
       pipe_set_successor(si,next_prev);
-      slices[next_prev].u.branch.length = slices[si].u.branch.length;
-      slices[next_prev].u.branch.min_length = slices[si].u.branch.min_length;
     }
   }
 
