@@ -7,6 +7,6 @@
 #
 # Run from an empty sibling directory of EXAMPLES and BEISPIEL.
 #
-# Uses: diff
+# Uses: diff, ls
 
-for f in *; do echo $f; diff -wb $f ../REGRESSIONTESTS/$f; done
+for f in `ls -tr *`; do echo $f; diff -wb $f ../REGRESSIONTESTS/$f; done
