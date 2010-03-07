@@ -65,17 +65,6 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
                                                  slice_index si,
                                                  stip_length_type n);
 
-/* Determine and write continuations after the defense just played.
- * We know that there is at least 1 continuation to the defense.
- * Only continuations of minimal length are looked for and written.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- */
-void selfcheck_guard_direct_solve_continuations_in_n(slice_index si,
-                                                     stip_length_type n,
-                                                     stip_length_type n_min);
-
 /* Determine and write the threats after the move that has just been
  * played.
  * @param threats table where to add threats

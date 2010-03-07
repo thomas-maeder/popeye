@@ -250,7 +250,17 @@ static slice_operation const maxsolutions_filter_inserters[] =
   &slice_traverse_children,           /* STMoveInverterSolvableFilter */
   &slice_traverse_children,           /* STMoveInverterSeriesFilter */
   &insert_maxsolutions_root_defender_filter, /* STAttackRoot */
+  &slice_traverse_children,           /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,           /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,           /* STContinuationWriter */
+  &slice_traverse_children,           /* STTryWriter */
+  &slice_traverse_children,           /* STThreatWriter */
   &slice_traverse_children,           /* STDefenseRoot */
+  &slice_traverse_children,           /* STThreatEnforcer */
+  &slice_traverse_children,           /* STRefutationsCollector */
+  &slice_traverse_children,           /* STVariationWriter */
+  &slice_traverse_children,           /* STRefutingVariationWriter */
+  &slice_traverse_children,           /* STNoShortVariations */
   &slice_traverse_children,           /* STAttackHashed */
   &slice_traverse_children,           /* STHelpRoot */
   &slice_traverse_children,           /* STHelpShortcut */
@@ -343,7 +353,17 @@ static slice_operation const maxsolutions_initialiser_inserters[] =
   &slice_traverse_children,     /* STMoveInverterSolvableFilter */
   &slice_traverse_children,     /* STMoveInverterSeriesFilter */
   &insert_root_solvable_filter, /* STAttackRoot */
+  &slice_traverse_children,     /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,     /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,     /* STContinuationWriter */
+  &slice_traverse_children,     /* STTryWriter */
+  &slice_traverse_children,     /* STThreatWriter */
   &slice_traverse_children,     /* STDefenseRoot */
+  &slice_traverse_children,     /* STThreatEnforcer */
+  &slice_traverse_children,     /* STRefutationsCollector */
+  &slice_traverse_children,     /* STVariationWriter */
+  &slice_traverse_children,     /* STRefutingVariationWriter */
+  &slice_traverse_children,     /* STNoShortVariations */
   &slice_traverse_children,     /* STAttackHashed */
   &insert_root_solvable_filter, /* STHelpRoot */
   &slice_traverse_children,     /* STHelpShortcut */

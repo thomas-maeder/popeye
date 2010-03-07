@@ -1,6 +1,7 @@
 #include "pytable.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "trace.h"
 
 #include <assert.h>
 
@@ -36,8 +37,16 @@ void reset_tables(void)
  */
 table allocate_table(void)
 {
-  table result = ++number_of_tables;
+  table const result = ++number_of_tables;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   current_position[result] = current_position[result-1];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -53,6 +62,11 @@ void free_table(void)
  */
 void append_to_top_table(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",number_of_tables);
+
   if (current_position[number_of_tables]>=tables_max_position)
     ErrorMsg(TooManySol);
   else
@@ -78,6 +92,17 @@ void append_to_top_table(void)
                         rec->square,
                         rec->pc);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Retrieve the identifier of the top table
+ * @return identifier of the top table
+ */
+table get_top_table(void)
+{
+  return number_of_tables;
 }
 
 /* Remove all elements from the top table

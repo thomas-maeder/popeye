@@ -140,7 +140,17 @@ static slice_operation const slice_deallocators[] =
   &slice_traverse_children,             /* STMoveInverterSolvableFilter */
   &slice_traverse_children,             /* STMoveInverterSeriesFilter */
   &traverse_and_deallocate,             /* STAttackRoot */
+  &traverse_and_deallocate,             /* STBattlePlaySolutionWriter */
+  &traverse_and_deallocate,             /* STPostKeyPlaySolutionWriter */
+  &traverse_and_deallocate,             /* STContinuationWriter */
+  &traverse_and_deallocate,             /* STTryWriter */
+  &traverse_and_deallocate,             /* STThreatWriter */
   &traverse_and_deallocate,             /* STDefenseRoot */
+  &traverse_and_deallocate,             /* STThreatEnforcer */
+  &traverse_and_deallocate,             /* STRefutationsCollector */
+  &traverse_and_deallocate,             /* STVariationWriter */
+  &traverse_and_deallocate,             /* STRefutingVariationWriter */
+  &traverse_and_deallocate,             /* STNoShortVariations */
   &traverse_and_deallocate,             /* STAttackHashed */
   &traverse_and_deallocate,             /* STHelpRoot */
   &traverse_and_deallocate,             /* STHelpShortcut */

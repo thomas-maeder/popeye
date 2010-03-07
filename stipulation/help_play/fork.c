@@ -1,11 +1,8 @@
 #include "stipulation/help_play/fork.h"
 #include "pybrafrk.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/series_play/play.h"
-#include "stipulation/series_play/fork.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "pydata.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -34,7 +31,7 @@ slice_index alloc_help_fork_slice(stip_length_type length,
   if (slices[to_goal].type!=STProxy)
   {
     slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
+    pipe_set_successor(proxy,to_goal);
     to_goal = proxy;
   }
 

@@ -1,13 +1,13 @@
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/defense_move.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/attack_move.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* Allocate a branch that represents direct play
+/* Allocate a branch that represents battle play
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of entry slice to allocated branch
@@ -29,16 +29,11 @@ slice_index alloc_battle_branch(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
-    slice_index const branch = alloc_attack_move_slice(length,min_length);
-    pipe_link(result,branch);
-
-    if (length-slack_length_battle>1)
-    {
-      slice_index const def = alloc_defense_move_slice(length-1,
-                                                            min_length-1);
-      pipe_link(branch,def);
-      pipe_link(def,result);
-    }
+    slice_index const attack = alloc_attack_move_slice(length,min_length);
+    slice_index const defense = alloc_defense_move_slice(length-1,min_length-1);
+    pipe_link(result,attack);
+    pipe_link(attack,defense);
+    pipe_link(defense,result);
   }
 
   TraceFunctionExit(__func__);

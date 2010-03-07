@@ -85,9 +85,13 @@ static slice_index alloc_parry_fork(slice_index parrying)
 /* Convert a series branch to a parry series branch
  * @param si identifies first slice of the series branch
  * @param parrying identifies slice responsible for parrying
+ * @return identifier of slice representing the play after the
+ *         parrying logic
  */
-void convert_to_parry_series_branch(slice_index si, slice_index parrying)
+slice_index convert_to_parry_series_branch(slice_index si, slice_index parrying)
 {
+  slice_index result;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",parrying);
@@ -102,19 +106,18 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
     slice_index const next = slices[inverter].u.pipe.next;
     slice_index const prev = slices[inverter].prev;
     slice_index const fork = alloc_parry_fork(parrying);
-    slice_index const proxy_to_next = alloc_proxy_slice();
+    result = alloc_proxy_slice();
 
     assert(inverter!=no_slice);
 
     pipe_link(prev,fork);
     pipe_link(fork,inverter);
 
-    pipe_link(inverter,proxy_to_next);
-    pipe_link(proxy_to_next,next);
-    pipe_set_successor(parrying,proxy_to_next);
+    pipe_link(inverter,result);
+    pipe_link(result,next);
 
     if (slices[branch].u.pipe.next==inverter)
-      /* if in the playe after the branch, the same side is to move as
+      /* if in the play after the branch, the same side is to move as
        * in the branch (e.g. in s pser-#N), we have to make sure that
        * the other side gets the chance to parry.
        */
@@ -122,5 +125,31 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
+}
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ * @return true iff slice si has been successfully traversed
+ */
+boolean parry_fork_resolve_proxies(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+  pipe_resolve_proxies(si,st);
+  if (slices[si].u.parry_fork.parrying!=no_slice)
+    proxy_slice_resolve(&slices[si].u.parry_fork.parrying);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

@@ -2796,7 +2796,17 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverterSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
   &slice_traverse_children,         /* STAttackRoot */
+  &slice_traverse_children,         /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,         /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,         /* STContinuationWriter */
+  &slice_traverse_children,         /* STTryWriter */
+  &slice_traverse_children,         /* STThreatWriter */
   &slice_traverse_children,         /* STDefenseRoot */
+  &slice_traverse_children,         /* STThreatEnforcer */
+  &slice_traverse_children,         /* STRefutationsCollector */
+  &slice_traverse_children,         /* STVariationWriter */
+  &slice_traverse_children,         /* STRefutingVariationWriter */
+  &slice_traverse_children,         /* STNoShortVariations */
   &slice_traverse_children,         /* STAttackHashed */
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpShortcut */
@@ -2982,7 +2992,17 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STMoveInverterSolvableFilter */
   &slice_traverse_children,         /* STMoveInverterSeriesFilter */
   &slice_traverse_children,         /* STAttackRoot */
+  &slice_traverse_children,         /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,         /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,         /* STContinuationWriter */
+  &slice_traverse_children,         /* STTryWriter */
+  &slice_traverse_children,         /* STThreatWriter */
   &slice_traverse_children,         /* STDefenseRoot */
+  &slice_traverse_children,         /* STThreatEnforcer */
+  &slice_traverse_children,         /* STRefutationsCollector */
+  &slice_traverse_children,         /* STVariationWriter */
+  &slice_traverse_children,         /* STRefutingVariationWriter */
+  &slice_traverse_children,         /* STNoShortVariations */
   &slice_traverse_children,         /* STAttackHashed */
   &slice_traverse_children,         /* STHelpRoot */
   &slice_traverse_children,         /* STHelpShortcut */
@@ -3474,7 +3494,17 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                  /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                  /* STAttackRoot */
+  &slice_traverse_children,                  /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,                  /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,                  /* STContinuationWriter */
+  &slice_traverse_children,                  /* STTryWriter */
+  &slice_traverse_children,                  /* STThreatWriter */
   &slice_traverse_children,                  /* STDefenseRoot */
+  &slice_traverse_children,                  /* STThreatEnforcer */
+  &slice_traverse_children,                  /* STRefutationsCollector */
+  &slice_traverse_children,                  /* STVariationWriter */
+  &slice_traverse_children,                  /* STRefutingVariationWriter */
+  &slice_traverse_children,                  /* STNoShortVariations */
   &slice_traverse_children,                  /* STAttackHashed */
   &intelligent_guards_inserter_help_root,    /* STHelpRoot */
   &slice_traverse_children,                  /* STHelpShortcut */
@@ -3803,7 +3833,17 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                      /* STMoveInverterSeriesFilter */
   &intelligent_mode_support_none,                /* STAttackRoot */
+  &intelligent_mode_support_none,                /* STBattlePlaySolutionWriter */
+  &intelligent_mode_support_none,                /* STPostKeyPlaySolutionWriter */
+  &intelligent_mode_support_none,                /* STContinuationWriter */
+  &intelligent_mode_support_none,                /* STTryWriter */
+  &intelligent_mode_support_none,                /* STThreatWriter */
   &intelligent_mode_support_none,                /* STDefenseRoot */
+  &intelligent_mode_support_none,                /* STThreatEnforcer */
+  &intelligent_mode_support_none,                /* STRefutationsCollector */
+  &intelligent_mode_support_none,                /* STVariationWriter */
+  &intelligent_mode_support_none,                /* STRefutingVariationWriter */
+  &intelligent_mode_support_none,                /* STNoShortVariations */
   &intelligent_mode_support_none,                /* STAttackHashed */
   &slice_traverse_children,                      /* STHelpRoot */
   &slice_traverse_children,                      /* STHelpShortcut */

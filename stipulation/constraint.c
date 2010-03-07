@@ -1,5 +1,4 @@
 #include "pyreflxg.h"
-#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -85,7 +84,6 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
   boolean const result = true;
   slice_index * const root = st->param;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -93,12 +91,6 @@ boolean reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st)
 
   traverse_slices(next,st);
 
-  if (length-slack_length_battle==1)
-  {
-    pipe_link(si,*root);
-    *root = si;
-  }
-  else
   {
     slice_index const guard = copy_slice(si);
     pipe_link(guard,*root);
@@ -165,32 +157,6 @@ stip_length_type reflex_attacker_filter_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write continuations after the defense just played.
- * We know that there is at least 1 continuation to the defense.
- * Only continuations of minimal length are looked for and written.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- */
-void
-reflex_attacker_filter_direct_solve_continuations_in_n(slice_index si,
-                                                       stip_length_type n,
-                                                       stip_length_type n_min)
-{
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  attack_solve_continuations_in_n(next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Determine and write the threats after the move that has just been
@@ -424,15 +390,7 @@ boolean reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
   result = traverse_slices(next,st);
 
   if (*postkey_slice!=no_slice)
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    if (length==slack_length_battle+1)
-    {
-      slice_index const avoided = slices[si].u.reflex_guard.avoided;
-      dealloc_slice(branch_deallocate(avoided));
-    }
     dealloc_slice(si);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -485,7 +443,6 @@ boolean reflex_defender_filter_insert_root(slice_index si,
   boolean const result = true;
   slice_index * const root = st->param;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -493,12 +450,6 @@ boolean reflex_defender_filter_insert_root(slice_index si,
 
   traverse_slices(next,st);
 
-  if (length-slack_length_battle==0)
-  {
-    pipe_link(si,*root);
-    *root = si;
-  }
-  else
   {
     slice_index const guard = copy_slice(si);
     pipe_link(guard,*root);
@@ -637,7 +588,9 @@ boolean reflex_defender_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (solve_avoided(avoided) || length==slack_length_battle)
+  if (length==slack_length_battle)
+    result = slice_root_solve(avoided);
+  else if (solve_avoided(avoided))
     result = false;
   else
     result = slice_root_solve(next);
@@ -1328,7 +1281,17 @@ static slice_operation const reflex_guards_inserters[] =
   &slice_traverse_children,            /* STMoveInverterSolvableFilter */
   &slice_traverse_children,            /* STMoveInverterSeriesFilter */
   &slice_traverse_children,            /* STAttackRoot */
+  &slice_traverse_children,            /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,            /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,            /* STContinuationWriter */
+  &slice_traverse_children,            /* STTryWriter */
+  &slice_traverse_children,            /* STThreatWriter */
   &slice_traverse_children,            /* STDefenseRoot */
+  &slice_traverse_children,            /* STThreatEnforcer */
+  &slice_traverse_children,            /* STRefutationsCollector */
+  &slice_traverse_children,            /* STVariationWriter */
+  &slice_traverse_children,            /* STRefutingVariationWriter */
+  &slice_traverse_children,            /* STNoShortVariations */
   &slice_traverse_children,            /* STAttackHashed */
   &slice_traverse_children,            /* STHelpRoot */
   &slice_traverse_children,            /* STHelpShortcut */
@@ -1456,46 +1419,10 @@ static boolean reflex_guards_inserter_defense_semi(slice_index si,
   return result;
 }
 
-/* In battle play, insert a STReflexAttackerFilter if we are at the end of the
- * branch
- * @param si identifies slice potentially at the end of the branch
- * @param st address of structure representing the traversal
- */
-static boolean reflex_guards_inserter_attack_semi(slice_index si,
-                                                  slice_traversal *st)
-{
-  boolean const result = true;
-  init_param const * const param = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  if (length==slack_length_battle+1)
-  {
-    /* insert an STReflexAttackerFilter slice that switches to the next branch
-     */
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const proxy_to_avoided = param->to_be_avoided[1-length%2];
-    slice_index const guard = alloc_reflex_defender_filter(length-1,
-                                                           min_length-1,
-                                                           proxy_to_avoided);
-    pipe_link(si,guard);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static slice_operation const reflex_guards_inserters_semi[] =
 {
   &slice_traverse_children,             /* STProxy */
-  &reflex_guards_inserter_attack_semi,  /* STAttackMove */
+  &slice_traverse_children,             /* STAttackMove */
   &reflex_guards_inserter_defense_semi, /* STDefenseMove */
   &reflex_guards_inserter_help,         /* STHelpMove */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
@@ -1511,7 +1438,17 @@ static slice_operation const reflex_guards_inserters_semi[] =
   &slice_traverse_children,             /* STMoveInverterSolvableFilter */
   &slice_traverse_children,             /* STMoveInverterSeriesFilter */
   &slice_traverse_children,             /* STAttackRoot */
+  &slice_traverse_children,             /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,             /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,             /* STContinuationWriter */
+  &slice_traverse_children,             /* STTryWriter */
+  &slice_traverse_children,             /* STThreatWriter */
   &slice_traverse_children,             /* STDefenseRoot */
+  &slice_traverse_children,             /* STThreatEnforcer */
+  &slice_traverse_children,             /* STRefutationsCollector */
+  &slice_traverse_children,             /* STVariationWriter */
+  &slice_traverse_children,             /* STRefutingVariationWriter */
+  &slice_traverse_children,             /* STNoShortVariations */
   &slice_traverse_children,             /* STAttackHashed */
   &slice_traverse_children,             /* STHelpRoot */
   &slice_traverse_children,             /* STHelpShortcut */

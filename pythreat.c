@@ -266,7 +266,8 @@ static boolean maxthreatlength_guard_inserter(slice_index si,slice_traversal *st
   TraceFunctionParamListEnd();
 
   {
-    slice_index const to_attacker = slices[si].u.pipe.next;
+    slice_index const
+        to_attacker = branch_find_slice(STSelfCheckGuardAttackerFilter,si);
     slice_index const prev = slices[si].prev;
     stip_length_type const
         length = slices[si].u.maxthreatlength_guard.length;
@@ -303,7 +304,17 @@ static slice_operation const maxthreatlength_guards_inserters[] =
   &slice_traverse_children,        /* STMoveInverterSolvableFilter */
   &slice_traverse_children,        /* STMoveInverterSeriesFilter */
   &slice_traverse_children,        /* STAttackRoot */
+  &slice_traverse_children,        /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,        /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,        /* STContinuationWriter */
+  &slice_traverse_children,        /* STTryWriter */
+  &slice_traverse_children,        /* STThreatWriter */
   &maxthreatlength_guard_inserter, /* STDefenseRoot */
+  &slice_traverse_children,        /* STThreatEnforcer */
+  &slice_traverse_children,        /* STRefutationsCollector */
+  &slice_traverse_children,        /* STVariationWriter */
+  &slice_traverse_children,        /* STRefutingVariationWriter */
+  &slice_traverse_children,        /* STNoShortVariations */
   &slice_traverse_children,        /* STAttackHashed */
   &slice_traverse_children,        /* STHelpRoot */
   &slice_traverse_children,        /* STHelpShortcut */

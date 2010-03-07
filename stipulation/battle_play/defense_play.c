@@ -8,6 +8,11 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
+#include "stipulation/battle_play/postkeyplay.h"
+#include "stipulation/battle_play/solution.h"
+#include "stipulation/battle_play/continuation.h"
+#include "stipulation/battle_play/try.h"
+#include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_root.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/help_play/root.h"
@@ -33,8 +38,8 @@ boolean defense_root_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STDefenseRoot:
-      result = defense_root_root_solve(si);
+    case STPostKeyPlaySolutionWriter:
+      result = postkey_solution_writer_root_solve(si);
       break;
 
     case STDirectDefense:
@@ -76,6 +81,18 @@ boolean defense_root_defend(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STBattlePlaySolutionWriter:
+      result = solution_writer_root_defend(si);
+      break;
+
+    case STTryWriter:
+      result = try_writer_root_defend(si);
+      break;
+
+    case STThreatWriter:
+      result = threat_writer_root_defend(si);
+      break;
+
     case STDefenseRoot:
       result = defense_root_root_defend(si);
       break;
@@ -150,6 +167,14 @@ boolean defense_defend_in_n(slice_index si, stip_length_type n)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STContinuationWriter:
+      result = continuation_writer_defend_in_n(si,n);
+      break;
+
+    case STThreatWriter:
+      result = threat_writer_defend_in_n(si,n);
+      break;
+
     case STDefenseMove:
       result = defense_move_defend_in_n(si,n);
       break;
@@ -219,6 +244,22 @@ unsigned int defense_can_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STTryWriter:
+      result = try_writer_can_defend_in_n(si,n,max_result);
+      break;
+
+    case STBattlePlaySolutionWriter:
+      result = solution_writer_can_defend_in_n(si,n,max_result);
+      break;
+
+    case STContinuationWriter:
+      result = continuation_writer_can_defend_in_n(si,n,max_result);
+      break;
+
+    case STThreatWriter:
+      result = threat_writer_can_defend_in_n(si,n,max_result);
+      break;
+
     case STDefenseRoot: /* case needed for nontrivial */
     case STDefenseMove:
       result = defense_move_can_defend_in_n(si,n,max_result);

@@ -262,7 +262,17 @@ static slice_operation const maxflight_guards_inserters[] =
   &slice_traverse_children,  /* STMoveInverterSolvableFilter */
   &slice_traverse_children,  /* STMoveInverterSeriesFilter */
   &slice_traverse_children,  /* STAttackRoot */
+  &slice_traverse_children,  /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,  /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,  /* STContinuationWriter */
+  &slice_traverse_children,  /* STTryWriter */
+  &slice_traverse_children,  /* STThreatWriter */
   &maxflight_guard_inserter, /* STDefenseRoot */
+  &slice_traverse_children,  /* STThreatEnforcer */
+  &slice_traverse_children,  /* STRefutationsCollector */
+  &slice_traverse_children,  /* STVariationWriter */
+  &slice_traverse_children,  /* STRefutingVariationWriter */
+  &slice_traverse_children,  /* STNoShortVariations */
   &slice_traverse_children,  /* STAttackHashed */
   &slice_traverse_children,  /* STHelpRoot */
   &slice_traverse_children,  /* STHelpShortcut */

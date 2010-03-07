@@ -333,7 +333,17 @@ static slice_operation const max_nr_nontrivial_guards_inserters[] =
   &slice_traverse_children,                 /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                 /* STMoveInverterSeriesFilter */
   &nontrivial_guard_inserter_attack_move, /* STAttackRoot */
+  &slice_traverse_children,                 /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,                 /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,                 /* STContinuationWriter */
+  &slice_traverse_children,                 /* STTryWriter */
+  &slice_traverse_children,                 /* STThreatWriter */
   &slice_traverse_children,                 /* STDefenseRoot */
+  &slice_traverse_children,                 /* STThreatEnforcer */
+  &slice_traverse_children,                 /* STRefutationsCollector */
+  &slice_traverse_children,                 /* STVariationWriter */
+  &slice_traverse_children,                 /* STRefutingVariationWriter */
+  &slice_traverse_children,                 /* STNoShortVariations */
   &slice_traverse_children,                 /* STAttackHashed */
   &slice_traverse_children,                 /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpShortcut */

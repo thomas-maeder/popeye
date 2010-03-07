@@ -68,17 +68,6 @@ void DecHashRateLevel(void);
  */
 void insert_attack_hashed_slice(slice_index si);
 
-/* Determine and write continuations after the defense just played.
- * We know that there is at least 1 continuation to the defense.
- * Only continuations of minimal length are looked for and written.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- */
-void attack_hashed_solve_continuations_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_min);
-
 /* Determine and write the threats after the move that has just been
  * played.
  * @param threats table where to add threats

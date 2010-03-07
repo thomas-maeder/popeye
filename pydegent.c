@@ -109,34 +109,6 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write continuations after the defense just played.
- * We know that there is at least 1 continuation to the defense.
- * Only continuations of minimal length are looked for and written.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- */
-void degenerate_tree_direct_solve_continuations_in_n(slice_index si,
-                                                     stip_length_type n,
-                                                     stip_length_type n_min)
-{
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  /* don't increase n_min, or we may write continuations of
-   * full length even in the presence of a short continuation
-   */
-  attack_solve_continuations_in_n(next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine and write the threats after the move that has just been
  * played.
  * @param threats table where to add threats
@@ -247,7 +219,17 @@ static slice_operation const degenerate_tree_guards_inserters[] =
   &slice_traverse_children,                 /* STMoveInverterSolvableFilter */
   &slice_traverse_children,                 /* STMoveInverterSeriesFilter */
   &slice_traverse_children,                 /* STAttackRoot */
+  &slice_traverse_children,                 /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,                 /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,                 /* STContinuationWriter */
+  &slice_traverse_children,                 /* STTryWriter */
+  &slice_traverse_children,                 /* STThreatWriter */
   &slice_traverse_children,                 /* STDefenseRoot */
+  &slice_traverse_children,                 /* STThreatEnforcer */
+  &slice_traverse_children,                 /* STRefutationsCollector */
+  &slice_traverse_children,                 /* STVariationWriter */
+  &slice_traverse_children,                 /* STRefutingVariationWriter */
+  &slice_traverse_children,                 /* STNoShortVariations */
   &slice_traverse_children,                 /* STAttackHashed */
   &slice_traverse_children,                 /* STHelpRoot */
   &slice_traverse_children,                 /* STHelpShortcut */

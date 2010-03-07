@@ -7,7 +7,7 @@
  * branches
  */
 
-/* Allocate a branch that represents direct play
+/* Allocate a branch that represents battle play
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of entry slice of allocated branch

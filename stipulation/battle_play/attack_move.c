@@ -60,14 +60,9 @@ boolean attack_move_insert_root(slice_index si, slice_traversal *st)
   pipe_link(direct_root,*root);
   *root = direct_root;
 
-  if (length<=slack_length_battle+2)
-    dealloc_slice(si);
-  else
-  {
-    slices[si].u.branch.length -= 2;
-    if (min_length>=slack_length_battle+2)
-      slices[si].u.branch.min_length -= 2;
-  }
+  slices[si].u.branch.length -= 2;
+  if (min_length>=slack_length_battle+2)
+    slices[si].u.branch.min_length -= 2;
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -112,9 +107,7 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && is_current_move_in_table(threats))
     {
-      if (defense_can_defend_in_n(next,
-                                          len_threat-1,
-                                          nr_refutations_allowed)
+      if (defense_can_defend_in_n(next,len_threat-1,nr_refutations_allowed)
           >nr_refutations_allowed)
         defense_found = true;
       else
@@ -218,32 +211,6 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write continuations after the defense just played.
- * We know that there is at least 1 continuation to the defense.
- * Only continuations of minimal length are looked for and written.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- */
-void attack_move_solve_continuations_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_min)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  result = attack_move_solve_in_n(si,n,n_min);
-  assert(result);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Solve long threats (i.e. threats where the play goes on in the

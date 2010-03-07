@@ -311,7 +311,17 @@ static slice_operation const restart_guards_inserters[] =
   &slice_traverse_children,      /* STMoveInverterSolvableFilter */
   &slice_traverse_children,      /* STMoveInverterSeriesFilter */
   &restart_guards_inserter_attack_root, /* STAttackRoot */
+  &slice_operation_noop,         /* STBattlePlaySolutionWriter */
+  &slice_operation_noop,         /* STPostKeyPlaySolutionWriter */
+  &slice_operation_noop,         /* STContinuationWriter */
+  &slice_operation_noop,         /* STTryWriter */
+  &slice_operation_noop,         /* STThreatWriter */
   &slice_operation_noop,         /* STDefenseRoot */
+  &slice_operation_noop,         /* STThreatEnforcer */
+  &slice_operation_noop,         /* STRefutationsCollector */
+  &slice_operation_noop,         /* STVariationWriter */
+  &slice_operation_noop,         /* STRefutingVariationWriter */
+  &slice_operation_noop,         /* STNoShortVariations */
   &slice_traverse_children,      /* STAttackHashed */
   &slice_traverse_children,      /* STHelpRoot */
   &pipe_traverse_next,           /* STHelpShortcut */

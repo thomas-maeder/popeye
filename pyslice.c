@@ -10,7 +10,6 @@
 #include "pyleafd.h"
 #include "pyleaff.h"
 #include "pyleafh.h"
-#include "stipulation/battle_play/defense_move.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -262,7 +261,7 @@ boolean slice_root_solve(slice_index si)
       result = attack_root_solve(si);
       break;
 
-    case STDefenseRoot:
+    case STPostKeyPlaySolutionWriter:
     case STDirectDefense:
     case STSelfAttack:
     case STReflexDefenderFilter:

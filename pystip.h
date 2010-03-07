@@ -40,7 +40,17 @@
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
                                                                         \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */      \
+    ENUMERATOR(STBattlePlaySolutionWriter), /* writes battle play solutions */ \
+    ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
+    ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
+    ENUMERATOR(STTryWriter), /* writes tries */ \
+    ENUMERATOR(STThreatWriter), /* writes threats */ \
     ENUMERATOR(STDefenseRoot), /* root defense level of battle play */ \
+    ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
+    ENUMERATOR(STRefutationsCollector), /* collections refutations */ \
+    ENUMERATOR(STVariationWriter), /* writes variations */ \
+    ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
+    ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */    \
                                                                         \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
@@ -139,6 +149,14 @@ typedef struct
             slice_index next;
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
+            slice_index enforcer;
+        } threat_writer;
+
+        struct
+        {
+            slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
             slice_index towards_goal;
         } branch_fork;
 
@@ -202,7 +220,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 80,
+  max_nr_slices = 100,
   no_slice = max_nr_slices
 };
 

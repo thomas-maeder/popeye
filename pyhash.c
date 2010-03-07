@@ -301,7 +301,17 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMoveInverterSolvableFilter */
   &slice_property_offset_shifter, /* STMoveInverterSeriesFilter */
   &slice_property_offset_shifter, /* STAttackRoot */
+  &slice_property_offset_shifter, /* STBattlePlaySolutionWriter */
+  &slice_property_offset_shifter, /* STPostKeyPlaySolutionWriter */
+  &slice_property_offset_shifter, /* STContinuationWriter */
+  &slice_property_offset_shifter, /* STTryWriter */
+  &slice_property_offset_shifter, /* STThreatWriter */
   &slice_property_offset_shifter, /* STDefenseRoot */
+  &slice_property_offset_shifter, /* STThreatEnforcer */
+  &slice_property_offset_shifter, /* STRefutationsCollector */
+  &slice_property_offset_shifter, /* STVariationWriter */
+  &slice_property_offset_shifter, /* STRefutingVariationWriter */
+  &slice_property_offset_shifter, /* STNoShortVariations */
   &slice_property_offset_shifter, /* STAttackHashed */
   &slice_property_offset_shifter, /* STHelpRoot */
   &slice_property_offset_shifter, /* STHelpShortcut */
@@ -670,7 +680,17 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
   &slice_traverse_children,              /* STAttackRoot */
+  &slice_traverse_children,              /* STBattlePlaySolutionWriter */
+  &slice_traverse_children,              /* STPostKeyPlaySolutionWriter */
+  &slice_traverse_children,              /* STContinuationWriter */
+  &slice_traverse_children,              /* STTryWriter */
+  &slice_traverse_children,              /* STThreatWriter */
   &slice_traverse_children,              /* STDefenseRoot */
+  &slice_traverse_children,              /* STThreatEnforcer */
+  &slice_traverse_children,              /* STRefutationsCollector */
+  &slice_traverse_children,              /* STVariationWriter */
+  &slice_traverse_children,              /* STRefutingVariationWriter */
+  &slice_traverse_children,              /* STNoShortVariations */
   &init_slice_properties_attack_hashed,  /* STAttackHashed */
   &slice_traverse_children,              /* STHelpRoot */
   &slice_traverse_children,              /* STHelpShortcut */
@@ -1621,6 +1641,9 @@ static void LargeEncode(void)
   square a_square = square_a1;
   ghost_index_type gi;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   /* detect cases where we encode the same position twice */
   assert(!isHashBufferValid[nbply]);
 
@@ -1657,6 +1680,9 @@ static void LargeEncode(void)
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
   validateHashBuffer();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 } /* LargeEncode */
 
 static byte *SmallEncodePiece(byte *bp,
@@ -1688,6 +1714,9 @@ static void SmallEncode(void)
   int row;
   int col;
   ghost_index_type gi;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   /* detect cases where we encode the same position twice */
   assert(!isHashBufferValid[nbply]);
@@ -1722,6 +1751,9 @@ static void SmallEncode(void)
   hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
 
   validateHashBuffer();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the bits representing all slices in a hash table
@@ -1838,6 +1870,11 @@ boolean is_hashtable_allocated(void)
   return pyhash!=0;
 }
 
+static Goal const proof_goals[] = { goal_proof, goal_atob };
+
+static unsigned int const nr_proof_goals = (sizeof proof_goals
+                                            / sizeof proof_goals[0]);
+
 void inithash(void)
 {
   TraceFunctionEntry(__func__);
@@ -1887,8 +1924,7 @@ void inithash(void)
 
     bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
-    if (slices[1].u.leaf.goal==goal_proof
-        || slices[1].u.leaf.goal==goal_atob)
+    if (stip_ends_in_one_of(proof_goals,nr_proof_goals))
     {
       encode = ProofEncode;
       if (hashtable_kilos>0 && MaxPositions==0)
@@ -2311,36 +2347,6 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write continuations after the defense just played.
- * We know that there is at least 1 continuation to the defense.
- * Only continuations of minimal length are looked for and written.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- */
-void attack_hashed_solve_continuations_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_min)
-{
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.branch.length%2);
-
-  n_min = adjust_n_min(si,n,n_min);
-  assert(n_min<=n);
-
-  attack_solve_continuations_in_n(next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Determine and write the threats after the move that has just been

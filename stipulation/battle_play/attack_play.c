@@ -16,6 +16,11 @@
 #include "pyleafd.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
+#include "stipulation/battle_play/threat.h"
+#include "stipulation/battle_play/try.h"
+#include "stipulation/battle_play/variation.h"
+#include "stipulation/battle_play/postkeyplay.h"
+#include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
 
@@ -38,6 +43,7 @@ boolean attack_are_threats_refuted_in_n(table threats,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
+  TraceFunctionParam("%u",threats);
   TraceFunctionParam("%u",table_length(threats));
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
@@ -46,6 +52,34 @@ boolean attack_are_threats_refuted_in_n(table threats,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STRefutationsCollector:
+      result = refutations_collector_are_threats_refuted_in_n(threats,
+                                                              len_threat,
+                                                              si,
+                                                              n);
+      break;
+
+    case STVariationWriter:
+      result = variation_writer_are_threats_refuted_in_n(threats,
+                                                         len_threat,
+                                                         si,
+                                                         n);
+      break;
+
+    case STRefutingVariationWriter:
+      result = refuting_variation_writer_are_threats_refuted_in_n(threats,
+                                                                  len_threat,
+                                                                  si,
+                                                                  n);
+      break;
+
+    case STNoShortVariations:
+      result = no_short_variations_are_threats_refuted_in_n(threats,
+                                                            len_threat,
+                                                            si,
+                                                            n);
+      break;
+
     case STAttackMove:
       result = attack_move_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
@@ -129,6 +163,26 @@ stip_length_type attack_has_solution_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STThreatEnforcer:
+      result = threat_enforcer_has_solution_in_n(si,n,n_min);
+      break;
+
+    case STRefutationsCollector:
+      result = refutations_collector_has_solution_in_n(si,n,n_min);
+      break;
+
+    case STVariationWriter:
+      result = variation_writer_has_solution_in_n(si,n,n_min);
+      break;
+
+    case STRefutingVariationWriter:
+      result = refuting_variation_writer_has_solution_in_n(si,n,n_min);
+      break;
+
+    case STNoShortVariations:
+      result = no_short_variations_has_solution_in_n(si,n,n_min);
+      break;
+
     case STAttackMove:
       result = attack_move_has_solution_in_n(si,n,n_min);
       break;
@@ -218,77 +272,6 @@ has_solution_type attack_has_solution(slice_index si)
   return result;
 }
 
-/* Determine and write continuations after the defense just played.
- * We know that there is at least 1 continuation to the defense.
- * Only continuations of minimal length are looked for and written.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- */
-void attack_solve_continuations_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STAttackMove:
-      attack_move_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    case STAttackHashed:
-      attack_hashed_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    case STSeriesMove:
-    case STSeriesHashed:
-    case STSeriesFork:
-    {
-      stip_length_type const n_ser = n-slack_length_battle+slack_length_series;
-      boolean const result = series_solve_in_n(si,n_ser);
-      assert(result);
-      break;
-    }
-
-    case STDirectDefense:
-      direct_defense_direct_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    case STSelfDefense:
-      self_defense_direct_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    case STReflexAttackerFilter:
-      reflex_attacker_filter_direct_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    case STSelfCheckGuardAttackerFilter:
-      selfcheck_guard_direct_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    case STKeepMatingGuardAttackerFilter:
-      keepmating_guard_direct_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    case STDegenerateTree:
-      degenerate_tree_direct_solve_continuations_in_n(si,n,n_min);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine and write the threats after the move that has just been
  * played.
  * @param threats table where to add threats
@@ -316,6 +299,26 @@ stip_length_type attack_solve_threats_in_n(table threats,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STThreatEnforcer:
+      result = threat_enforcer_solve_threats_in_n(threats,si,n,n_min);
+      break;
+
+    case STRefutationsCollector:
+      result = refutations_collector_solve_threats_in_n(threats,si,n,n_min);
+      break;
+
+    case STVariationWriter:
+      result = variation_writer_solve_threats_in_n(threats,si,n,n_min);
+      break;
+
+    case STRefutingVariationWriter:
+      result = refuting_variation_writer_solve_threats_in_n(threats,si,n,n_min);
+      break;
+
+    case STNoShortVariations:
+      result = no_short_variations_solve_threats_in_n(threats,si,n,n_min);
+      break;
+
     case STAttackMove:
       result = attack_move_solve_threats_in_n(threats,si,n,n_min);
       break;
@@ -465,6 +468,26 @@ stip_length_type attack_solve_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STThreatEnforcer:
+      result = threat_enforcer_solve_in_n(si,n,n_min);
+      break;
+
+    case STRefutationsCollector:
+      result = refutations_collector_solve_in_n(si,n,n_min);
+      break;
+
+    case STVariationWriter:
+      result = variation_writer_solve_in_n(si,n,n_min);
+      break;
+
+    case STRefutingVariationWriter:
+      result = refuting_variation_writer_solve_in_n(si,n,n_min);
+      break;
+
+    case STNoShortVariations:
+      result = no_short_variations_solve_in_n(si,n,n_min);
+      break;
+
     case STLeafDirect:
       assert(n==slack_length_battle+1);
       assert(n_min==slack_length_battle+1);
@@ -474,6 +497,15 @@ stip_length_type attack_solve_in_n(slice_index si,
     case STAttackMove:
       result = attack_move_solve_in_n(si,n,n_min);
       break;
+
+    case STSeriesMove:
+    case STSeriesHashed:
+    case STSeriesFork:
+    {
+      stip_length_type const n_ser = n-slack_length_battle+slack_length_series;
+      result = series_solve_in_n(si,n_ser);
+      break;
+    }
 
     case STAttackHashed:
       result = attack_hashed_solve_in_n(si,n,n_min);
@@ -499,6 +531,10 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
       break;
 
+    case STKeepMatingGuardAttackerFilter:
+      result = keepmating_guard_direct_solve_in_n(si,n,n_min);
+      break;
+
     default:
       assert(0);
       result = n+2;
@@ -518,25 +554,33 @@ stip_length_type attack_solve_in_n(slice_index si,
 boolean attack_solve(slice_index si)
 {
   boolean result;
-  stip_length_type length;
-  stip_length_type min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==STLeafDirect)
+  switch (slices[si].type)
   {
-    length = slack_length_battle+1;
-    min_length = slack_length_battle+1;
-  }
-  else
-  {
-    length = slices[si].u.branch.length;
-    min_length = slices[si].u.branch.min_length;
-  }
+    case STLeafDirect:
+    {
+      stip_length_type const length = slack_length_battle+1;
+      stip_length_type const min_length = slack_length_battle+1;
+      result = attack_solve_in_n(si,length,min_length)<=length;
+      break;
+    }
 
-  result = attack_solve_in_n(si,length,min_length)<=length;
+    case STSelfDefense:
+      result = self_defense_solve(si);
+      break;
+
+    default:
+    {
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      result = attack_solve_in_n(si,length,min_length)<=length;
+      break;
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

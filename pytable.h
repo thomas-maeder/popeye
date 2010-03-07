@@ -4,10 +4,10 @@
 #include "boolean.h"
 #include "py.h"
 
-/* This module implements a stack of tables of moves.
- * "Stack" because a table can only be allocated and deallocated from
- * the end of the available tables.
- * Every allocated table can be manipuilated, however.
+/* This module implements a stack of tables of moves.  "Stack" because
+ * a table can only be allocated and deallocated from the end of the
+ * available tables, and only the the top table can be modified.
+ * Every allocated table can be queried, however.
  * Tables are add-only, i.e. moves can be added but not removed
  */
 
@@ -33,6 +33,11 @@ void free_table(void);
  * @return number of elements of the table
  */
 unsigned int table_length(table t);
+
+/* Retrieve the identifier of the top table
+ * @return identifier of the top table
+ */
+table get_top_table(void);
 
 /* Append the move just played in ply nbply to the top table.
  */

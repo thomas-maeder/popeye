@@ -163,7 +163,17 @@ static slice_operation const output_mode_detectors[] =
   &slice_traverse_children,   /* STMoveInverterSolvableFilter */
   &slice_traverse_children,   /* STMoveInverterSeriesFilter */
   &output_mode_treemode,      /* STAttackRoot */
+  &output_mode_treemode,      /* STBattlePlaySolutionWriter */
+  &output_mode_treemode,      /* STPostKeyPlaySolutionWriter */
+  &output_mode_treemode,      /* STContinuationWriter */
+  &output_mode_treemode,      /* STTryWriter */
+  &output_mode_treemode,      /* STThreatWriter */
   &output_mode_treemode,      /* STDefenseRoot */
+  &output_mode_treemode,      /* STThreatEnforcer */
+  &output_mode_treemode,      /* STRefutationsCollector */
+  &output_mode_treemode,      /* STVariationWriter */
+  &output_mode_treemode,      /* STRefutingVariationWriter */
+  &output_mode_treemode,      /* STNoShortVariations */
   &output_mode_treemode,      /* STAttackHashed */
   &output_mode_help_branch,   /* STHelpRoot */
   &output_mode_help_branch,   /* STHelpShortcut */
@@ -389,6 +399,12 @@ void output_start_threat_level(void)
 
   if (current_mode==output_mode_tree)
   {
+    if (nr_continuations_written[move_depth]==0)
+      /* option postkey is set - write "threat:" or "zugzwang" on a
+       * new line
+       */
+      Message(NewLine);
+
     move_depth++;
     TraceValue("%u\n",move_depth);
 
@@ -473,6 +489,7 @@ void output_end_continuation_level(void)
   {
     move_depth--;
 
+    TraceValue("%u",move_depth);
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
 
@@ -970,8 +987,14 @@ void write_refutation_mark(void)
  */
 void write_end_of_solution(void)
 {
-  if (current_mode==output_mode_tree)
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (current_mode==output_mode_tree && !reflex[nbply])
     Message(NewLine);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Write the end of a solution phase

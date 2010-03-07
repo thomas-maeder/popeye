@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+CFILES = no_short_variations.c  no_short_variations_attacker_filter.c 
+
+INCLUDES = no_short_variations.h no_short_variations_attacker_filter.h
+
+include makefile.rules $(CURRPWD)depend

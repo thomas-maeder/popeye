@@ -15,12 +15,6 @@
 slice_index alloc_defense_root_slice(stip_length_type length,
                                      stip_length_type min_length);
 
-/* Solve at root level.
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean defense_root_root_solve(slice_index si);
-
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @return true iff the defending side can successfully defend
