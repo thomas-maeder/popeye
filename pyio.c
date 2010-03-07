@@ -2151,10 +2151,20 @@ static char *ParsePlay(char *tok, slice_index proxy)
       result = ParseLength(tok,STSeriesMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch
-            = alloc_series_branch_next_same_starter(length,min_length,
-                                                    proxy_leaf);
-        pipe_set_successor(proxy,branch);
+        /* The length includes that of the leaf that the branch to be
+         * created leads to.
+         */
+        assert(length>=slack_length_series);
+        if (length==slack_length_series)
+          pipe_link(proxy,slices[proxy_leaf].u.pipe.next);
+        else
+        {
+          slice_index const branch
+              = alloc_series_branch_next_same_starter(length,min_length-1,
+                                                      proxy_leaf);
+          pipe_set_successor(proxy,branch);
+        }
+
         slices[slices[proxy_leaf].u.pipe.next].starter = White;
       }
     }
@@ -2338,10 +2348,14 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const help = alloc_help_move_slice(slack_length_help+1,
-                                                     slack_length_help+1);
-      slice_index const parry_ser = convert_to_parry_series_branch(next,help);
-      pipe_set_successor(help,parry_ser);
+      if (slice_has_structure(next,slice_structure_pipe))
+      {
+        slice_index const help = alloc_help_move_slice(slack_length_help+1,
+                                                       slack_length_help+1);
+        slice_index const after_parry = convert_to_parry_series_branch(next,
+                                                                       help);
+        pipe_set_successor(help,after_parry);
+      }
     }
   }
 
@@ -2351,10 +2365,15 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const help = alloc_help_move_slice(slack_length_help+1,
-                                                     slack_length_help+1);
-      slice_index const parry_ser = convert_to_parry_series_branch(next,help);
-      pipe_set_successor(help,parry_ser);
+      assert(slice_has_structure(next,slice_structure_pipe));
+
+      {
+        slice_index const help = alloc_help_move_slice(slack_length_help+1,
+                                                       slack_length_help+1);
+        slice_index const after_parry = convert_to_parry_series_branch(next,
+                                                                       help);
+        pipe_set_successor(help,after_parry);
+      }
     }
   }
 
@@ -2365,12 +2384,16 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const proxy = alloc_proxy_slice();
-      slice_index const dirdef = alloc_defense_move_slice(slack_length_battle+1,
-                                                          slack_length_battle+1);
-      slice_index const parry_ser = convert_to_parry_series_branch(next,proxy);
-      pipe_link(proxy,dirdef);
-      pipe_set_successor(dirdef,parry_ser);
+      if (slice_has_structure(next,slice_structure_pipe))
+      {
+        slice_index const proxy = alloc_proxy_slice();
+        slice_index const after_parry = convert_to_parry_series_branch(next,
+                                                                       proxy);
+        slice_index const def = alloc_defense_move_slice(slack_length_battle+1,
+                                                         slack_length_battle+1);
+        pipe_link(proxy,def);
+        pipe_set_successor(def,after_parry);
+      }
     }
   }
 

@@ -12,4 +12,26 @@ condition       andernach
 pieces  white   ka8 rh1 ba3 pd3
         black kg8 rc4f3 be4g3 pb2c6c7f5f6g7
 option Stoponshort start 24
+
+next
+
+title 4.55 crashed on stipulation ser-dia1
+stipulation ser-dia1
+pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa3b2c2d2e2f2g2h2
+       black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d7e7f7g7h7
+
+next
+
+title 4.55 crashed on stipulation pser-dia1
+stipulation pser-dia1
+pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa3b2c2d2e2f2g2h2
+       black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d7e7f7g7h7
+
+next
+
+title 4.55 crashed on stipulation phser-dia1
+stipulation phser-dia1
+pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa3b2c2d2e2f2g2h2
+       black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d7e7f7g7h7
+
 end
