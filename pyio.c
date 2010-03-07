@@ -2127,10 +2127,20 @@ static char *ParsePlay(char *tok, slice_index proxy)
       result = ParseLength(tok,STSeriesMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const branch
-            = alloc_series_branch_next_same_starter(length,min_length,
-                                                    proxy_leaf);
-        pipe_set_successor(proxy,branch);
+        /* The length includes that of the leaf that the branch to be
+         * created leads to.
+         */
+        assert(length>=slack_length_series);
+        if (length==slack_length_series)
+          pipe_link(proxy,slices[proxy_leaf].u.pipe.next);
+        else
+        {
+          slice_index const branch
+              = alloc_series_branch_next_same_starter(length,min_length,
+                                                      proxy_leaf);
+          pipe_set_successor(proxy,branch);
+        }
+        
         slices[slices[proxy_leaf].u.pipe.next].starter = White;
       }
     }
