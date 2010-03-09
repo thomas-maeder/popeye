@@ -742,9 +742,11 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,           /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,           /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,           /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,           /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,           /* STDirectDefense */
   &slice_traverse_children,           /* STReflexHelpFilter */
   &slice_traverse_children,           /* STReflexSeriesFilter */
+  &slice_traverse_children,           /* STReflexRootSolvableFilter */
   &slice_traverse_children,           /* STReflexAttackerFilter */
   &slice_traverse_children,           /* STReflexDefenderFilter */
   &slice_traverse_children,           /* STSelfAttack */
@@ -781,10 +783,12 @@ static slice_operation const self_guards_inserters[] =
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented
  * @param to_goal identifies slice leading towards goal
+ * @return identifier of branch entry slice after insertion
  */
-void slice_insert_self_guards(slice_index si, slice_index to_goal)
+slice_index slice_insert_self_guards(slice_index si, slice_index to_goal)
 {
   slice_traversal st;
+  slice_index const result = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -804,5 +808,7 @@ void slice_insert_self_guards(slice_index si, slice_index to_goal)
   traverse_slices(si,&st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }

@@ -166,9 +166,11 @@ static slice_operation const slice_deallocators[] =
   &traverse_and_deallocate,             /* STSelfCheckGuardDefenderFilter */
   &traverse_and_deallocate,             /* STSelfCheckGuardHelpFilter */
   &traverse_and_deallocate,             /* STSelfCheckGuardSeriesFilter */
+  &traverse_and_deallocate,             /* STDirectDefenseRootSolvableFilter */
   &traverse_and_deallocate,             /* STDirectDefense */
   &slice_traverse_children,             /* STReflexHelpFilter */
   &slice_traverse_children,             /* STReflexSeriesFilter */
+  &slice_traverse_children,             /* STReflexRootSolvableFilter */
   &slice_traverse_children,             /* STReflexAttackerFilter */
   &slice_traverse_children,             /* STReflexDefenderFilter */
   &traverse_and_deallocate,             /* STSelfAttack */

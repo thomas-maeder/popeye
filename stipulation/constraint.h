@@ -40,6 +40,12 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
                                                    stip_length_type n,
                                                    stip_length_type n_min);
 
+/* Solve a slice - adapter for direct slices
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+boolean reflex_attacker_filter_solve(slice_index si);
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -215,15 +221,18 @@ boolean reflex_filter_impose_starter(slice_index si, slice_traversal *st);
  * stipulation 
  * @param si root of branch to be instrumented
  * @param avoided identifies what branch needs to be guarded from
+ * @return identifier of branch entry slice after insertion
  */
-void slice_insert_reflex_filters(slice_index si, slice_index avoided);
+slice_index slice_insert_reflex_filters(slice_index si, slice_index avoided);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
  * stipulation 
  * @param si root of branch to be instrumented
  * @param avoided identifies what branch needs to be guarded from
+ * @return identifier of branch entry slice after insertion
  */
-void slice_insert_reflex_filters_semi(slice_index si, slice_index avoided);
+slice_index slice_insert_reflex_filters_semi(slice_index si,
+                                             slice_index avoided);
 
 /* Insert root slices
  * @param si identifies (non-root) slice

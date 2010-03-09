@@ -573,6 +573,14 @@ boolean attack_solve(slice_index si)
       result = self_defense_solve(si);
       break;
 
+    case STReflexAttackerFilter:
+      result = reflex_attacker_filter_solve(si);
+      break;
+
+    case STVariationWriter:
+      result = variation_writer_solve(si);
+      break;
+
     default:
     {
       stip_length_type const length = slices[si].u.branch.length;
@@ -612,7 +620,7 @@ boolean attack_root_solve_in_n(slice_index si)
       result = attack_root_root_solve(si);
       break;
 
-    case STReflexAttackerFilter:
+    case STReflexRootSolvableFilter:
       result = reflex_attacker_filter_root_solve(si);
       break;
 

@@ -2822,9 +2822,11 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,         /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,         /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,         /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,         /* STDirectDefense */
   &slice_traverse_children,         /* STReflexHelpFilter */
   &slice_traverse_children,         /* STReflexSeriesFilter */
+  &slice_traverse_children,         /* STReflexRootSolvableFilter */
   &slice_traverse_children,         /* STReflexAttackerFilter */
   &slice_traverse_children,         /* STReflexDefenderFilter */
   &slice_traverse_children,         /* STSelfAttack */
@@ -3019,9 +3021,11 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,         /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,         /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,         /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,         /* STDirectDefense */
   &slice_traverse_children,         /* STReflexHelpFilter */
   &slice_traverse_children,         /* STReflexSeriesFilter */
+  &slice_traverse_children,         /* STReflexRootSolvableFilter */
   &slice_traverse_children,         /* STReflexAttackerFilter */
   &slice_traverse_children,         /* STReflexDefenderFilter */
   &slice_traverse_children,         /* STSelfAttack */
@@ -3517,9 +3521,11 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,                  /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,                  /* STDirectDefense */
   &slice_traverse_children,                  /* STReflexHelpFilter */
   &slice_traverse_children,                  /* STReflexSeriesFilter */
+  &slice_traverse_children,                  /* STReflexRootSolvableFilter */
   &slice_traverse_children,                  /* STReflexAttackerFilter */
   &slice_traverse_children,                  /* STReflexDefenderFilter */
   &slice_traverse_children,                  /* STSelfAttack */
@@ -3856,9 +3862,11 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &slice_traverse_children,                      /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,                      /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,                      /* STSelfCheckGuardSeriesFilter */
+  &intelligent_mode_support_none,                /* STDirectDefenseRootSolvableFilter */
   &intelligent_mode_support_none,                /* STDirectDefense */
   &intelligent_mode_support_none,                /* STReflexHelpFilter */
   &intelligent_mode_support_none,                /* STReflexSeriesFilter */
+  &intelligent_mode_support_none,                /* STReflexRootSolvableFilter */
   &intelligent_mode_support_none,                /* STReflexAttackerFilter */
   &intelligent_mode_support_none,                /* STReflexDefenderFilter */
   &intelligent_mode_support_none,                /* STSelfAttack */

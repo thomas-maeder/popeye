@@ -545,9 +545,11 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,           /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,           /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,           /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,           /* STDirectDefense */
   &slice_traverse_children,           /* STReflexHelpFilter */
   &slice_traverse_children,           /* STReflexSeriesFilter */
+  &slice_traverse_children,           /* STReflexRootSolvableFilter */
   &slice_traverse_children,           /* STReflexAttackerFilter */
   &slice_traverse_children,           /* STReflexDefenderFilter */
   &slice_traverse_children,           /* STSelfAttack */
@@ -2366,9 +2368,11 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children, /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children, /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children, /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children, /* STDirectDefense */
   &slice_traverse_children, /* STReflexHelpFilter */
   &slice_traverse_children, /* STReflexSeriesFilter */
+  &slice_traverse_children, /* STReflexRootSolvableFilter */
   &slice_traverse_children, /* STReflexAttackerFilter */
   &slice_traverse_children, /* STReflexDefenderFilter */
   &slice_traverse_children, /* STSelfAttack */
@@ -2487,9 +2491,11 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children, /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children, /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children, /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children, /* STDirectDefense */
   &slice_traverse_children, /* STReflexHelpFilter */
   &slice_traverse_children, /* STReflexSeriesFilter */
+  &slice_traverse_children, /* STReflexRootSolvableFilter */
   &slice_traverse_children, /* STReflexAttackerFilter */
   &slice_traverse_children, /* STReflexDefenderFilter */
   &slice_traverse_children, /* STSelfAttack */
@@ -2604,9 +2610,11 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children, /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children, /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children, /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children, /* STDirectDefense */
   &slice_traverse_children, /* STReflexHelpFilter */
   &slice_traverse_children, /* STReflexSeriesFilter */
+  &slice_traverse_children, /* STReflexRootSolvableFilter */
   &slice_traverse_children, /* STReflexAttackerFilter */
   &slice_traverse_children, /* STReflexDefenderFilter */
   &slice_traverse_children, /* STSelfAttack */
@@ -2906,9 +2914,11 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,                  /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,                  /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,                  /* STDirectDefense */
   &slice_traverse_children,                  /* STReflexHelpFilter */
   &slice_traverse_children,                  /* STReflexSeriesFilter */
+  &slice_traverse_children,                  /* STReflexRootSolvableFilter */
   &slice_traverse_children,                  /* STReflexAttackerFilter */
   &slice_traverse_children,                  /* STReflexDefenderFilter */
   &slice_traverse_children,                  /* STSelfAttack */

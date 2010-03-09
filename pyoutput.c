@@ -189,9 +189,11 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_treemode,      /* STSelfCheckGuardDefenderFilter */
   &pipe_traverse_next,        /* STSelfCheckGuardHelpFilter */
   &output_mode_linemode,      /* STSelfCheckGuardSeriesFilter */
+  &output_mode_treemode,      /* STDirectDefenseRootSolvableFilter */
   &output_mode_treemode,      /* STDirectDefense */
   &pipe_traverse_next,        /* STReflexHelpFilter */
   &pipe_traverse_next,        /* STReflexSeriesFilter */
+  &output_mode_treemode,      /* STReflexRootSolvableFilter */
   &output_mode_treemode,      /* STReflexAttackerFilter */
   &output_mode_treemode,      /* STReflexDefenderFilter */
   &output_mode_treemode,      /* STSelfAttack */
@@ -304,13 +306,13 @@ void output_start_move_inverted_level(void)
   if (current_mode==output_mode_tree)
   {
     ++move_depth;
+    TraceValue("%u\n",move_depth);
     nr_continuations_written[move_depth+1] = 1; /* prevent initial newline */
     nr_defenses_written[move_depth] = 0;
   }
 
   ++nr_color_inversions_in_ply[nbply+1];
 
-  TraceValue("%u",move_depth);
   TraceValue("%u\n",nbply+1);
 
   TraceFunctionExit(__func__);
@@ -405,7 +407,7 @@ void output_start_threat_level(void)
        */
       Message(NewLine);
 
-    move_depth++;
+    ++move_depth;
     TraceValue("%u\n",move_depth);
 
     nr_continuations_written[move_depth] = 0;
@@ -441,7 +443,7 @@ void output_end_threat_level(void)
     assert(output_attack_types[nbply+1]==threat_attack);
     output_attack_types[nbply+1] = unknown_attack;
 
-    move_depth--;
+    --move_depth;
     TraceValue("%u\n",move_depth);
   }
 
@@ -459,7 +461,7 @@ void output_start_continuation_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    move_depth++;
+    ++move_depth;
     TraceValue("%u\n",move_depth);
 
     nr_continuations_written[move_depth] = 0;
@@ -487,9 +489,9 @@ void output_end_continuation_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    move_depth--;
-
+    --move_depth;
     TraceValue("%u",move_depth);
+
     TraceValue("%u",nbply);
     TraceValue("%u\n",output_attack_types[nbply+1]);
 

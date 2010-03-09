@@ -223,6 +223,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     fprintf(stdout,"%s ",Side_names[slices[si].starter]);
     switch (slices[si].type)
     {
+      case STDirectDefenseRootSolvableFilter:
       case STDirectDefense:
       case STSelfAttack:
       case STSelfDefense:
@@ -355,6 +356,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STReflexHelpFilter:
       case STReflexSeriesFilter:
+      case STReflexRootSolvableFilter:
       case STReflexAttackerFilter:
       case STReflexDefenderFilter:
         Trace_branch(si);

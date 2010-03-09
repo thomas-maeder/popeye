@@ -2314,8 +2314,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
         slice_index const branch
             = alloc_series_branch_next_other_starter(length+1,min_length,
                                                      proxy_avoided);
-        pipe_set_successor(proxy,branch);
-        slice_insert_reflex_filters(branch,proxy_avoided);
+        slice_index const hook = slice_insert_reflex_filters(branch,
+                                                             proxy_avoided);
+        pipe_set_successor(proxy,hook);
         slices[slices[proxy_avoided].u.pipe.next].starter = Black;
       }
     }
@@ -2550,15 +2551,16 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_avoided);
-          slice_insert_reflex_filters(branch,proxy_avoided);
+          slice_index const hook = slice_insert_reflex_filters(branch,
+                                                               proxy_avoided);
           if (length%2==0)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
-            pipe_set_successor(inverter,branch);
+            pipe_set_successor(inverter,hook);
             pipe_link(proxy,inverter);
           }
           else
-            pipe_link(proxy,branch);
+            pipe_link(proxy,hook);
         }
 
         slices[slices[proxy_avoided].u.pipe.next].starter = Black;
@@ -2610,8 +2612,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch = alloc_battle_branch(length+1,min_length+1);
-        pipe_set_successor(proxy,branch);
-        slice_insert_reflex_filters_semi(branch,proxy_avoided);
+        slice_index const
+            hook = slice_insert_reflex_filters_semi(branch,proxy_avoided);
+        pipe_set_successor(proxy,hook);
         slices[branch].starter = White;
       }
     }
@@ -2629,8 +2632,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch = alloc_battle_branch(length+1,min_length+1);
-        pipe_set_successor(proxy,branch);
-        slice_insert_self_guards(branch,proxy_forced);
+        slice_index const hook = slice_insert_self_guards(branch,proxy_forced);
+        pipe_set_successor(proxy,hook);
         slices[slices[proxy_forced].u.pipe.next].starter = Black;
       }
     }
@@ -2648,8 +2651,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
       if (result!=0)
       {
         slice_index const branch = alloc_battle_branch(length+1,min_length+1);
-        pipe_set_successor(proxy,branch);
-        slice_insert_reflex_filters(branch,proxy_avoided);
+        slice_index const hook = slice_insert_reflex_filters(branch,
+                                                             proxy_avoided);
+        pipe_set_successor(proxy,hook);
         slices[branch].starter = White;
       }
     }
@@ -2672,8 +2676,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
         else
         {
           slice_index const branch = alloc_battle_branch(length,min_length);
-          pipe_set_successor(proxy,branch);
-          slice_insert_direct_guards(branch,proxy_leaf);
+          slice_index const hook = slice_insert_direct_guards(branch,
+                                                              proxy_leaf);
+          pipe_set_successor(proxy,hook);
         }
 
         slices[slices[proxy].u.pipe.next].starter = White;
@@ -2868,19 +2873,21 @@ static char *ParseStructuredStip_branch_d(char *tok,
       min_length += slack_length_battle+max_length%2;
       max_length += slack_length_battle;
       {
-        slice_index const branch = alloc_battle_branch(max_length,min_length);
-        pipe_set_successor(proxy,branch);
+        slice_index branch = alloc_battle_branch(max_length,min_length);
+        slice_index hook;
 
         /* TODO get this right */
         if ((max_length-slack_length_battle)%2==0)
-          slice_insert_direct_guards(branch,proxy_operand);
+          hook = slice_insert_direct_guards(branch,proxy_operand);
         else
         {
           if (slices[slices[proxy_operand].u.pipe.next].type==STLeafForced)
-            slice_insert_self_guards(branch,proxy_operand);
+            hook = slice_insert_self_guards(branch,proxy_operand);
           else
-            slice_insert_reflex_filters_semi(branch,proxy_operand);
+            hook = slice_insert_reflex_filters_semi(branch,proxy_operand);
         }
+
+        pipe_set_successor(proxy,hook);
       }
     }
   }

@@ -328,9 +328,11 @@ static slice_operation const postkey_handler_inserters[] =
   &slice_traverse_children,           /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,           /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,           /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,           /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,           /* STDirectDefense */
   &slice_traverse_children,           /* STReflexHelpFilter */
   &slice_traverse_children,           /* STReflexSeriesFilter */
+  &slice_traverse_children,           /* STReflexRootSolvableFilter */
   &slice_traverse_children,           /* STReflexAttackerFilter */
   &slice_traverse_children,           /* STReflexDefenderFilter */
   &slice_traverse_children,           /* STSelfAttack */

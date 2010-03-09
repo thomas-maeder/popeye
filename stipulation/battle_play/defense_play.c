@@ -42,8 +42,8 @@ boolean defense_root_solve(slice_index si)
       result = postkey_solution_writer_root_solve(si);
       break;
 
-    case STDirectDefense:
-     result = direct_defense_root_solve(si);
+    case STDirectDefenseRootSolvableFilter:
+      result = direct_defense_root_solve(si);
       break;
 
     case STSelfAttack:

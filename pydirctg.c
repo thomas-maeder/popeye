@@ -38,6 +38,35 @@ slice_index alloc_direct_defense(stip_length_type length,
   return result;
 }
 
+/* Allocate a STDirectDefenseRootSolvableFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+slice_index
+alloc_direct_defense_root_solvable_filter(stip_length_type length,
+                                          stip_length_type min_length,
+                                          slice_index proxy_to_goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch_fork(STDirectDefenseRootSolvableFilter,
+                             length,min_length,
+                             proxy_to_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -58,8 +87,10 @@ boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index const direct_defense = alloc_direct_defense(length,min_length,
-                                                            to_goal);
+    slice_index const
+        direct_defense = alloc_direct_defense_root_solvable_filter(length,
+                                                                   min_length,
+                                                                   to_goal);
     pipe_link(direct_defense,*root);
     *root = direct_defense;
 
@@ -359,6 +390,12 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st)
 /* **************** Stipulation instrumentation ***************
  */
 
+typedef struct
+{
+    slice_index to_goal;
+    slice_index result;
+} init_param;
+
 /* Insert a STDirectDefense slice before each STAttackRoot and
  * STAttackMove slice
  * @param si identifies slice before which to insert a STDirectDefense
@@ -368,6 +405,7 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st)
 static boolean direct_guards_inserter_attack(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
+  init_param * const param = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -376,14 +414,12 @@ static boolean direct_guards_inserter_attack(slice_index si, slice_traversal *st
   slice_traverse_children(si,st);
 
   {
-    slice_index const * const proxy_to_goal = st->param;
     slice_index const prev = slices[si].prev;
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const dirdef = alloc_direct_defense(length,min_length,
-                                                    *proxy_to_goal);
-    pipe_link(prev,dirdef);
-    pipe_link(dirdef,si);
+    param->result = alloc_direct_defense(length,min_length,param->to_goal);
+    pipe_link(prev,param->result);
+    pipe_link(param->result,si);
   }
 
   TraceFunctionExit(__func__);
@@ -469,9 +505,11 @@ static slice_operation const direct_guards_inserters[] =
   &slice_traverse_children,        /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,        /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,        /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,        /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,        /* STDirectDefense */
   &slice_traverse_children,        /* STReflexHelpFilter */
   &slice_traverse_children,        /* STReflexSeriesFilter */
+  &slice_traverse_children,        /* STReflexRootSolvableFilter */
   &slice_traverse_children,        /* STReflexAttackerFilter */
   &slice_traverse_children,        /* STReflexDefenderFilter */
   &slice_traverse_children,        /* STSelfAttack */
@@ -508,10 +546,12 @@ static slice_operation const direct_guards_inserters[] =
 /* Instrument a branch with STDirectDefense slices
  * @param si root of branch to be instrumented
  * @param to_goal identifies slice leading towards goal
+ * @return identifier of branch entry slice after insertion
  */
-void slice_insert_direct_guards(slice_index si, slice_index to_goal)
+slice_index slice_insert_direct_guards(slice_index si, slice_index to_goal)
 {
   slice_traversal st;
+  init_param param = { to_goal, si } ;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -527,11 +567,13 @@ void slice_insert_direct_guards(slice_index si, slice_index to_goal)
     to_goal = proxy;
   }
 
-  slice_traversal_init(&st,&direct_guards_inserters,&to_goal);
+  slice_traversal_init(&st,&direct_guards_inserters,&param);
   traverse_slices(si,&st);
 
   TraceStipulation(si);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",param.result);
   TraceFunctionResultEnd();
+  return param.result;
 }

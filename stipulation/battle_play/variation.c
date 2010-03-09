@@ -163,15 +163,38 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   return result;
 }
 
-/* Append a variation writer
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- * @return true
+/* Solve a slice - adapter for direct slices
+ * @param si slice index
+ * @return true iff >=1 solution was found
  */
-static boolean variation_writer_append(slice_index si, slice_traversal *st)
+boolean variation_writer_solve(slice_index si)
 {
-  boolean const result = true;
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (attack_has_solution(next)==has_solution)
+  {
+    write_defense();
+    result = attack_solve(next);
+  }
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Prepend a variation writer to a slice
+ * @param si identifies slice around which to insert try handlers
+ */
+static void variation_writer_prepend(slice_index si)
+{
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -179,10 +202,172 @@ static boolean variation_writer_append(slice_index si, slice_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const prev = slices[si].prev;
+    slice_index const writer = alloc_variation_writer_slice(length,min_length);
+    pipe_link(prev,writer);
+    pipe_link(writer,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Append a variation writer to a slice
+ * @param si identifies slice around which to insert try handlers
+ */
+static void variation_writer_append(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
     slice_index const next = slices[si].u.pipe.next;
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const writer = alloc_variation_writer_slice(length,min_length);
     pipe_link(si,writer);
     pipe_link(writer,next);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inserting variation handlers in both parts of a binary
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static boolean variation_handler_insert_binary(slice_index si,
+                                               slice_traversal *st)
+{
+  boolean const result = true;
+  boolean * const inserted = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    boolean const save_inserted = *inserted;
+    traverse_slices(slices[si].u.binary.op1,st);
+    *inserted = save_inserted;
+    traverse_slices(slices[si].u.binary.op2,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Continue inserting variation handlers in this branch; start
+ * inserting them in the subsequent play 
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static void variation_handler_insert_fork(slice_index si, slice_traversal *st)
+{
+  boolean * const inserted = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    boolean const save_inserted = *inserted;
+    *inserted = false;
+    traverse_slices(slices[si].u.branch_fork.towards_goal,st);
+    *inserted = save_inserted;
+  }
+
+  traverse_slices(slices[si].u.branch_fork.next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Prepend a variation writer, then mark subsequent slices visited to
+ * avoid double insertion 
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static boolean variation_writer_fork_prepend(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  boolean * const inserted = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!*inserted)
+  {
+    variation_writer_prepend(si);
+    *inserted = true;
+  }
+
+  variation_handler_insert_fork(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Append a variation writer, then mark subsequent slices visited to
+ * avoid double insertion 
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static boolean variation_writer_fork_append(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+  boolean * const inserted = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!*inserted)
+  {
+    variation_writer_append(si);
+    *inserted = true;
+  }
+
+  variation_handler_insert_fork(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Append a variation writer if none has been inserted before
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static boolean variation_writer_branch_append(slice_index si,
+                                              slice_traversal *st)
+{
+  boolean const result = true;
+  boolean * const inserted = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  if (!*inserted)
+  {
+    variation_writer_append(si);
+    *inserted = true;
   }
 
   TraceFunctionExit(__func__);
@@ -226,8 +411,8 @@ static slice_operation const variation_handler_inserters[] =
   &slice_operation_noop,             /* STLeafDirect */
   &slice_operation_noop,             /* STLeafHelp */
   &slice_operation_noop,             /* STLeafForced */
-  &slice_traverse_children,          /* STReciprocal */
-  &slice_traverse_children,          /* STQuodlibet */
+  &variation_handler_insert_binary,  /* STReciprocal */
+  &variation_handler_insert_binary,  /* STQuodlibet */
   &slice_traverse_children,          /* STNot */
   &slice_traverse_children,          /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,          /* STMoveInverterSolvableFilter */
@@ -255,17 +440,19 @@ static slice_operation const variation_handler_inserters[] =
   &slice_traverse_children,          /* STSelfCheckGuardRootSolvableFilter */
   &slice_traverse_children,          /* STSelfCheckGuardSolvableFilter */
   &slice_traverse_children,          /* STSelfCheckGuardRootDefenderFilter */
-  &variation_writer_append,          /* STSelfCheckGuardAttackerFilter */
+  &variation_writer_branch_append,   /* STSelfCheckGuardAttackerFilter */
   &slice_traverse_children,          /* STSelfCheckGuardDefenderFilter */
   &slice_traverse_children,          /* STSelfCheckGuardHelpFilter */
   &slice_traverse_children,          /* STSelfCheckGuardSeriesFilter */
-  &slice_traverse_children,          /* STDirectDefense */
+  &slice_traverse_children,          /* STDirectDefenseRootSolvableFilter */
+  &variation_writer_fork_prepend,    /* STDirectDefense */
   &slice_traverse_children,          /* STReflexHelpFilter */
   &slice_traverse_children,          /* STReflexSeriesFilter */
-  &slice_traverse_children,          /* STReflexAttackerFilter */
+  &slice_traverse_children,          /* STReflexRootSolvableFilter */
+  &variation_writer_fork_append,     /* STReflexAttackerFilter */
   &slice_traverse_children,          /* STReflexDefenderFilter */
   &slice_traverse_children,          /* STSelfAttack */
-  &slice_traverse_children,          /* STSelfDefense */
+  &variation_writer_fork_append,     /* STSelfDefense */
   &slice_traverse_children,          /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,          /* STRestartGuardHelpFilter */
   &slice_traverse_children,          /* STRestartGuardSeriesFilter */
@@ -301,11 +488,14 @@ static slice_operation const variation_handler_inserters[] =
 void stip_insert_variation_handlers(void)
 {
   slice_traversal st;
+  boolean inserted = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&variation_handler_inserters,0);
+  TraceStipulation(root_slice);
+
+  slice_traversal_init(&st,&variation_handler_inserters,&inserted);
   traverse_slices(root_slice,&st);
 
   TraceFunctionExit(__func__);

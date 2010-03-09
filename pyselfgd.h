@@ -141,8 +141,9 @@ boolean self_defense_impose_starter(slice_index si, slice_traversal *st);
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented
  * @param to_goal identifies slice leading towards goal
+ * @return identifier of branch entry slice after insertion
  */
-void slice_insert_self_guards(slice_index si, slice_index to_goal);
+slice_index slice_insert_self_guards(slice_index si, slice_index to_goal);
 
 /* Insert root slices
  * @param si identifies (non-root) slice

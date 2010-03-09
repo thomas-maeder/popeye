@@ -11,12 +11,23 @@
 /* Allocate a STDirectDefense slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param towards_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_direct_defense(stip_length_type length,
                                  stip_length_type min_length,
-                                 slice_index towards_goal);
+                                 slice_index proxy_to_goal);
+
+/* Allocate a STDirectDefenseRootSolvableFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_goal identifies slice leading towards goal
+ * @return index of allocated slice
+ */
+slice_index
+alloc_direct_defense_root_solvable_filter(stip_length_type length,
+                                          stip_length_type min_length,
+                                          slice_index proxy_to_goal);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
@@ -120,7 +131,8 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st);
 /* Instrument a branch with STDirectDefense slices
  * @param si root of branch to be instrumented
  * @param to_goal identifies slice leading towards goal
+ * @return identifier of branch entry slice after insertion
  */
-void slice_insert_direct_guards(slice_index si, slice_index to_goal);
+slice_index slice_insert_direct_guards(slice_index si, slice_index to_goal);
 
 #endif

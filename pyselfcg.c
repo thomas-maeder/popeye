@@ -770,27 +770,13 @@ static boolean selfcheck_guards_inserter_defense_move(slice_index si,
 
   slice_traverse_children(si,st);
 
-  /* in self stipulations, the last defender's move may be allowed to
-   * expose its own king (e.g. in s##!) */
-  if (slices[next].type!=STSelfDefense)
   {
-    slice_index const next_pred = slices[next].prev;
-    if (slices[next_pred].type==STSelfCheckGuardAttackerFilter)
-      /* a STSelfCheckGuardSeriesFilter slice has been inserted in the
-       * loop before next; attach to it
-       */
-      pipe_set_successor(si,next_pred);
-    else
-    {
-      /* Create a STSelfCheckGuardAttackerFilter slice of our own
-       */
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      slice_index const
-          guard = alloc_selfcheck_guard_attacker_filter(length-1,min_length-1);
-      pipe_link(si,guard);
-      pipe_set_successor(guard,next);
-    }
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const
+        guard = alloc_selfcheck_guard_attacker_filter(length-1,min_length-1);
+    pipe_link(si,guard);
+    pipe_link(guard,next);
   }
 
   TraceFunctionExit(__func__);
@@ -806,60 +792,19 @@ static boolean selfcheck_guards_inserter_defense_root(slice_index si,
                                                       slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].type==STSelfDefense)
-    /* in self stipulations, the last defender's move may be allowed
-     * to expose its own king (e.g. in s##!) */
-    slice_traverse_children(si,st);
-  else
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const
-        guard = alloc_selfcheck_guard_attacker_filter(length-1,min_length-1);
-    pipe_link(guard,next);
-    pipe_link(si,guard);
-    slice_traverse_children(guard,st);
-  }
+  slice_traverse_children(si,st);
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STSelfCheckGuard* slice after a STDefenseMove or
- * STSelfDefense slice
- */
-static boolean selfcheck_guards_inserter_self_defense(slice_index si,
-                                                      slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[next].type==STSelfDefense)
-    /* in self stipulations, the last defender's move may be allowed
-     * to expose its own king (e.g. in s##!) */
-    slice_traverse_children(si,st);
-  else
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const
-        guard = alloc_selfcheck_guard_attacker_filter(length,min_length);
-    pipe_link(guard,next);
-    pipe_link(si,guard);
-    slice_traverse_children(guard,st);
-  }
+ {
+   slice_index const next = slices[si].u.pipe.next;
+   slice_index const next_prev = slices[next].prev;
+   assert(slices[next_prev].type==STSelfCheckGuardAttackerFilter);
+   pipe_set_successor(si,next_prev);
+ }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1018,13 +963,15 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_operation_noop,                           /* STSelfCheckGuardDefenderFilter */
   &slice_operation_noop,                           /* STSelfCheckGuardHelpFilter */
   &slice_operation_noop,                           /* STSelfCheckGuardSeriesFilter */
+  &slice_traverse_children,                        /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,                        /* STDirectDefense */
   &slice_traverse_children,                        /* STReflexHelpFilter */
   &slice_traverse_children,                        /* STReflexSeriesFilter */
+  &slice_traverse_children,                        /* STReflexRootSolvableFilter */
   &slice_traverse_children,                        /* STReflexAttackerFilter */
   &slice_traverse_children,                        /* STReflexDefenderFilter */
   &slice_traverse_children,                        /* STSelfAttack */
-  &selfcheck_guards_inserter_self_defense,         /* STSelfDefense */
+  &slice_traverse_children,                        /* STSelfDefense */
   &slice_traverse_children,                        /* STRestartGuardRootDefenderFilter */
   &slice_traverse_children,                        /* STRestartGuardHelpFilter */
   &slice_traverse_children,                        /* STRestartGuardSeriesFilter */
@@ -1123,10 +1070,12 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_operation_noop,                         /* STSelfCheckGuardDefenderFilter */
   &slice_operation_noop,                         /* STSelfCheckGuardHelpFilter */
   &slice_operation_noop,                         /* STSelfCheckGuardSeriesFilter */
-  &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefense */
+  &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefenseRootSolvableFilter */
+  &slice_traverse_children,                      /* STDirectDefense */
   &selfcheck_guards_inserter_toplevel_root,      /* STReflexHelpFilter */
   &selfcheck_guards_inserter_toplevel_root,      /* STReflexSeriesFilter */
-  &selfcheck_guards_inserter_toplevel_root,      /* STReflexAttackerFilter */
+  &selfcheck_guards_inserter_toplevel_root,      /* STReflexRootSolvableFilter */
+  &slice_traverse_children,                      /* STReflexAttackerFilter */
   &slice_traverse_children,                      /* STReflexDefenderFilter */
   &slice_traverse_children,                      /* STSelfAttack */
   &slice_traverse_children,                      /* STSelfDefense */

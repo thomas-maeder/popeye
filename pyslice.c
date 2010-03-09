@@ -257,12 +257,12 @@ boolean slice_root_solve(slice_index si)
     case STLeafDirect:
     case STAttackHashed:
     case STMaxThreatLength:
-    case STReflexAttackerFilter:
+    case STReflexRootSolvableFilter:
       result = attack_root_solve(si);
       break;
 
     case STPostKeyPlaySolutionWriter:
-    case STDirectDefense:
+    case STDirectDefenseRootSolvableFilter:
     case STSelfAttack:
     case STReflexDefenderFilter:
       result = defense_root_solve(si);
