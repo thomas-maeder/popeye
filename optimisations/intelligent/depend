@@ -1,0 +1,28 @@
+optimisations/intelligent/help_filter$(OBJ_SUFFIX):  \
+ optimisations/intelligent/help_filter.c \
+  optimisations/intelligent/help_filter.h pyint.h \
+  stipulation/help_play/play.h stipulation/branch.h trace.h
+
+optimisations/intelligent/help_filter.h:
+
+pyint.h:
+
+stipulation/help_play/play.h:
+
+stipulation/branch.h:
+
+trace.h:
+optimisations/intelligent/series_filter$(OBJ_SUFFIX):  \
+ optimisations/intelligent/series_filter.c \
+  optimisations/intelligent/series_filter.h pyint.h \
+  stipulation/series_play/play.h stipulation/branch.h trace.h
+
+optimisations/intelligent/series_filter.h:
+
+pyint.h:
+
+stipulation/series_play/play.h:
+
+stipulation/branch.h:
+
+trace.h:
