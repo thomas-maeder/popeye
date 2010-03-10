@@ -196,18 +196,13 @@ refutations_collector_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==length && table_length(refutations)>max_nr_refutations)
-    result = n+2;
-  else
-  {
-    result = attack_has_solution_in_n(next,n,n_min);
+  result = attack_has_solution_in_n(next,n,n_min);
 
-    if (result>length)
-    {
-      assert(get_top_table()==refutations);
-      append_to_top_table();
-      coupfort();
-    }
+  if (result>length)
+  {
+    assert(get_top_table()==refutations);
+    append_to_top_table();
+    coupfort();
   }
 
   TraceFunctionExit(__func__);
