@@ -110,14 +110,14 @@ options/no_short_variations/no_short_variations_attacker_filter.h:
 stipulation/series_play/play.h:
 
 trace.h:
-stipulation/battle_play/defense_root$(OBJ_SUFFIX):  \
- stipulation/battle_play/defense_root.c \
-  stipulation/battle_play/defense_root.h pydata.h pypipe.h \
+stipulation/battle_play/defense_move$(OBJ_SUFFIX):  \
+ stipulation/battle_play/defense_move.c \
+  stipulation/battle_play/defense_move.h pydata.h pypipe.h \
   stipulation/branch.h stipulation/battle_play/attack_play.h \
   stipulation/help_play/root.h stipulation/help_play/move.h \
   stipulation/help_play/fork.h pyoutput.h trace.h
 
-stipulation/battle_play/defense_root.h:
+stipulation/battle_play/defense_move.h:
 
 pydata.h:
 
@@ -136,36 +136,14 @@ stipulation/help_play/fork.h:
 pyoutput.h:
 
 trace.h:
-stipulation/battle_play/defense_move$(OBJ_SUFFIX):  \
- stipulation/battle_play/defense_move.c \
-  stipulation/battle_play/defense_move.h pydata.h pypipe.h \
-  stipulation/branch.h stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_root.h pyoutput.h trace.h
-
-stipulation/battle_play/defense_move.h:
-
-pydata.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_root.h:
-
-pyoutput.h:
-
-trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_play.c \
   stipulation/battle_play/defense_play.h pydirctg.h pyflight.h pykeepmt.h \
   pymovenb.h pynontrv.h pyreflxg.h pyselfcg.h pyselfgd.h pythreat.h \
   stipulation/battle_play/postkeyplay.h \
-  stipulation/battle_play/solution.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
-  stipulation/battle_play/threat.h stipulation/battle_play/defense_root.h \
-  stipulation/battle_play/defense_move.h stipulation/help_play/root.h \
+  stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
+  stipulation/help_play/root.h \
   optimisations/maxsolutions/root_defender_filter.h \
   optimisations/maxtime/root_defender_filter.h \
   optimisations/maxtime/defender_filter.h trace.h
@@ -192,15 +170,11 @@ pythreat.h:
 
 stipulation/battle_play/postkeyplay.h:
 
-stipulation/battle_play/solution.h:
-
 stipulation/battle_play/continuation.h:
 
 stipulation/battle_play/try.h:
 
 stipulation/battle_play/threat.h:
-
-stipulation/battle_play/defense_root.h:
 
 stipulation/battle_play/defense_move.h:
 
@@ -213,30 +187,15 @@ optimisations/maxtime/root_defender_filter.h:
 optimisations/maxtime/defender_filter.h:
 
 trace.h:
-stipulation/battle_play/solution$(OBJ_SUFFIX): stipulation/battle_play/solution.c \
-  stipulation/battle_play/solution.h pydata.h pypipe.h \
+stipulation/battle_play/continuation$(OBJ_SUFFIX):  \
+ stipulation/battle_play/continuation.c \
+  stipulation/battle_play/continuation.h pydata.h pypipe.h \
   stipulation/branch.h stipulation/battle_play/defense_play.h pyoutput.h \
   trace.h
 
-stipulation/battle_play/solution.h:
+stipulation/battle_play/continuation.h:
 
 pydata.h:
-
-pypipe.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/defense_play.h:
-
-pyoutput.h:
-
-trace.h:
-stipulation/battle_play/continuation$(OBJ_SUFFIX):  \
- stipulation/battle_play/continuation.c \
-  stipulation/battle_play/continuation.h pypipe.h stipulation/branch.h \
-  stipulation/battle_play/defense_play.h pyoutput.h trace.h
-
-stipulation/battle_play/continuation.h:
 
 pypipe.h:
 
@@ -273,7 +232,7 @@ stipulation/battle_play/try$(OBJ_SUFFIX): stipulation/battle_play/try.c \
   stipulation/battle_play/try.h pydata.h pypipe.h stipulation/branch.h \
   stipulation/battle_play/defense_play.h \
   stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/solution.h pyoutput.h trace.h
+  stipulation/battle_play/continuation.h pyoutput.h trace.h
 
 stipulation/battle_play/try.h:
 
@@ -287,7 +246,7 @@ stipulation/battle_play/defense_play.h:
 
 stipulation/battle_play/attack_play.h:
 
-stipulation/battle_play/solution.h:
+stipulation/battle_play/continuation.h:
 
 pyoutput.h:
 
@@ -310,7 +269,7 @@ trace.h:
 stipulation/battle_play/postkeyplay$(OBJ_SUFFIX):  \
  stipulation/battle_play/postkeyplay.c \
   stipulation/battle_play/postkeyplay.h pyoutput.h pypipe.h \
-  stipulation/branch.h stipulation/battle_play/solution.h trace.h
+  stipulation/branch.h stipulation/battle_play/continuation.h trace.h
 
 stipulation/battle_play/postkeyplay.h:
 
@@ -320,6 +279,6 @@ pypipe.h:
 
 stipulation/branch.h:
 
-stipulation/battle_play/solution.h:
+stipulation/battle_play/continuation.h:
 
 trace.h:

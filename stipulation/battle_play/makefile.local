@@ -2,11 +2,11 @@
 #
 
 CFILES = branch.c attack_root.c attack_move.c attack_play.c \
-	defense_root.c defense_move.c defense_play.c \
-	solution.c continuation.c threat.c try.c variation.c postkeyplay.c
+	defense_move.c defense_play.c \
+	continuation.c threat.c try.c variation.c postkeyplay.c
 
 INCLUDES = branch.h attack_root.h attack_move.h attack_play.h \
-	defense_root.h defense_move.h defense_play.h \
-	solution.h continuation.h threat.h try.h variation.h postkeyplay.h
+	defense_move.h defense_play.h \
+	continuation.h threat.h try.h variation.h postkeyplay.h
 
 include makefile.rules $(CURRPWD)depend

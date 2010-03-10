@@ -1,4 +1,5 @@
 #include "stipulation/battle_play/continuation.h"
+#include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -68,6 +69,70 @@ boolean continuation_writer_defend_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
+/* Solve postkey play play after the move that has just
+ * been played in the current ply.
+ * @param si slice index
+ * @return true iff >=1 variation or a threat was found
+ */
+boolean continuation_writer_solve_postkey(slice_index si)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  output_start_postkey_level();
+
+  if (OptFlag[solvariantes])
+    result = !defense_root_defend(next);
+  else
+    result = false;
+
+  output_end_postkey_level();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
+ */
+boolean continuation_writer_root_defend(slice_index si)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  unsigned int nr_refutations;
+  unsigned int const max_nr_allowed_refutations = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nr_refutations = defense_can_defend_in_n(next,
+                                           length,
+                                           max_nr_allowed_refutations);
+  if (nr_refutations==0)
+  {
+    result = false;
+    write_attack(attack_key);
+    continuation_writer_solve_postkey(si);
+    write_end_of_solution();
+  }
+  else
+    result = true;
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
@@ -106,6 +171,8 @@ static boolean continuation_writer_prepend(slice_index si, slice_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
 
   {
     stip_length_type const length = slices[si].u.branch.length;
@@ -147,7 +214,6 @@ static slice_operation const continuation_handler_inserters[] =
   &slice_traverse_children,     /* STContinuationWriter */
   &slice_traverse_children,     /* STTryWriter */
   &slice_traverse_children,     /* STThreatWriter */
-  &slice_traverse_children,     /* STDefenseRoot */
   &slice_traverse_children,     /* STThreatEnforcer */
   &slice_traverse_children,     /* STRefutationsCollector */
   &slice_traverse_children,     /* STVariationWriter */

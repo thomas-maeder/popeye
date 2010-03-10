@@ -453,7 +453,6 @@ static slice_operation const threat_handler_inserters[] =
   &slice_traverse_children,      /* STContinuationWriter */
   &slice_traverse_children,      /* STTryWriter */
   &slice_traverse_children,      /* STThreatWriter */
-  &defense_move_wrap,            /* STDefenseRoot */
   &slice_traverse_children,      /* STThreatEnforcer */
   &slice_traverse_children,      /* STRefutationsCollector */
   &slice_traverse_children,      /* STVariationWriter */

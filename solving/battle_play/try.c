@@ -4,7 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/solution.h"
+#include "stipulation/battle_play/continuation.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -59,7 +59,7 @@ boolean try_writer_root_defend(slice_index si)
   {
     result = false;
     write_attack(attack_key);
-    solution_writer_solve_postkey(si);
+    continuation_writer_solve_postkey(si);
     write_end_of_solution();
   }
   else
@@ -69,7 +69,7 @@ boolean try_writer_root_defend(slice_index si)
     if (nr_refutations<=max_nr_refutations)
     {
       write_attack(attack_try);
-      solution_writer_solve_postkey(si);
+      continuation_writer_solve_postkey(si);
       write_refutations(refutations);
       write_end_of_solution();
     }
@@ -286,11 +286,11 @@ stip_length_type refutations_collector_solve_in_n(slice_index si,
 }
 
 /* Append refutations collector
- * @param si identifies slice around which to insert try handlers
+ * @param si identifies slice where to append
  * @param st address of structure defining traversal
  * @return true
  */
-static boolean defense_root_wrap(slice_index si, slice_traversal *st)
+static boolean append_collector(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
 
@@ -301,20 +301,47 @@ static boolean defense_root_wrap(slice_index si, slice_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const next_prev = slices[next].prev;
-    slice_index const writer = alloc_try_writer_slice(length,min_length);
     slice_index const
         collector = alloc_refutations_collector_slice(length-1,min_length-1);
-    pipe_link(prev,writer);
-    pipe_link(writer,si);
+    slice_index const next = slices[si].u.pipe.next;
+    slice_index const next_prev = slices[si].prev;
     pipe_link(si,collector);
-
-    if (slices[next_prev].u.pipe.next==next)
-      pipe_set_successor(collector,next);
-    else
+    if (next_prev==si)
       pipe_link(collector,next);
+    else
+      pipe_set_successor(collector,next);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Substitute a try writer for the solution writer
+ * @param si identifies slice to be replaced
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static boolean substitute_try_writer(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const prev = slices[si].prev;
+    slice_index const next = slices[si].u.pipe.next;
+    slice_index const writer = alloc_try_writer_slice(length,min_length);
+    pipe_link(prev,writer);
+    pipe_link(writer,next);
+    dealloc_slice(si);
   }
 
   TraceFunctionExit(__func__);
@@ -327,7 +354,7 @@ static slice_operation const try_handler_inserters[] =
 {
   &slice_traverse_children, /* STProxy */
   &slice_traverse_children, /* STAttackMove */
-  &slice_traverse_children, /* STDefenseMove */
+  &append_collector,        /* STDefenseMove */
   &slice_traverse_children, /* STHelpMove */
   &slice_traverse_children, /* STHelpFork */
   &slice_traverse_children, /* STSeriesMove */
@@ -344,10 +371,9 @@ static slice_operation const try_handler_inserters[] =
   &slice_traverse_children, /* STAttackRoot */
   &slice_traverse_children, /* STBattlePlaySolutionWriter */
   &slice_traverse_children, /* STPostKeyPlaySolutionWriter */
-  &slice_traverse_children, /* STContinuationWriter */
+  &substitute_try_writer,   /* STContinuationWriter */
   &slice_traverse_children, /* STTryWriter */
   &slice_traverse_children, /* STThreatWriter */
-  &defense_root_wrap,       /* STDefenseRoot */
   &slice_traverse_children, /* STThreatEnforcer */
   &slice_traverse_children, /* STRefutationsCollector */
   &slice_traverse_children, /* STVariationWriter */

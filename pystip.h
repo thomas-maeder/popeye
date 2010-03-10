@@ -45,7 +45,6 @@
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
     ENUMERATOR(STTryWriter), /* writes tries */ \
     ENUMERATOR(STThreatWriter), /* writes threats */ \
-    ENUMERATOR(STDefenseRoot), /* root defense level of battle play */ \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */ \
     ENUMERATOR(STVariationWriter), /* writes variations */ \

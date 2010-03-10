@@ -72,18 +72,14 @@ static slice_index alloc_selfcheck_guard_root_defender_filter(void)
 /* Allocate a STSelfCheckGuardAttackerFilter slice
  * @return allocated slice
  */
-static
-slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
-                                                  stip_length_type min_length)
+static slice_index alloc_selfcheck_guard_attacker_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (min_length<slack_length_battle)
-    min_length += 2;
-  result = alloc_branch(STSelfCheckGuardAttackerFilter,length,min_length);
+  result = alloc_pipe(STSelfCheckGuardAttackerFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -762,7 +758,6 @@ static boolean selfcheck_guards_inserter_defense_move(slice_index si,
                                                       slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -771,12 +766,19 @@ static boolean selfcheck_guards_inserter_defense_move(slice_index si,
   slice_traverse_children(si,st);
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const
-        guard = alloc_selfcheck_guard_attacker_filter(length-1,min_length-1);
-    pipe_link(si,guard);
-    pipe_link(guard,next);
+    slice_index const next = slices[si].u.pipe.next;
+    slice_index const next_prev = slices[next].prev;
+    if (slices[next_prev].type==STSelfCheckGuardAttackerFilter)
+      /* We are attached to a loop that has just created an attacker filter;
+       * attach to it.
+       */
+      pipe_set_successor(si,next_prev);
+    else
+    {
+      slice_index const guard = alloc_selfcheck_guard_attacker_filter();
+      pipe_link(si,guard);
+      pipe_link(guard,next);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -785,34 +787,8 @@ static boolean selfcheck_guards_inserter_defense_move(slice_index si,
   return result;
 }
 
-/* Insert a STSelfCheckGuard* slice after a STDefenseMove or
- * STSelfDefense slice
- */
-static boolean selfcheck_guards_inserter_defense_root(slice_index si,
-                                                      slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
- {
-   slice_index const next = slices[si].u.pipe.next;
-   slice_index const next_prev = slices[next].prev;
-   assert(slices[next_prev].type==STSelfCheckGuardAttackerFilter);
-   pipe_set_successor(si,next_prev);
- }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STSelfCheckGuard* slice after a STMoveInverterRootSolvableFilter slice
+/* Insert a STSelfCheckGuard* slice after a
+ * STMoveInverterRootSolvableFilter slice
  */
 static boolean selfcheck_guards_inserter_move_inverter_root(slice_index si,
                                                             slice_traversal *st)
@@ -942,7 +918,6 @@ static slice_operation const selfcheck_guards_inserters[] =
   &slice_traverse_children,                        /* STContinuationWriter */
   &slice_traverse_children,                        /* STTryWriter */
   &slice_traverse_children,                        /* STThreatWriter */
-  &selfcheck_guards_inserter_defense_root,         /* STDefenseRoot */
   &slice_traverse_children,                        /* STThreatEnforcer */
   &slice_traverse_children,                        /* STRefutationsCollector */
   &slice_traverse_children,                        /* STVariationWriter */
@@ -1049,7 +1024,6 @@ static slice_operation const selfcheck_guards_toplevel_inserters[] =
   &slice_traverse_children,                      /* STContinuationWriter */
   &slice_traverse_children,                      /* STTryWriter */
   &slice_traverse_children,                      /* STThreatWriter */
-  &slice_traverse_children,                      /* STDefenseRoot */
   &slice_traverse_children,                      /* STThreatEnforcer */
   &slice_traverse_children,                      /* STRefutationsCollector */
   &slice_traverse_children,                      /* STVariationWriter */

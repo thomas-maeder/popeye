@@ -243,7 +243,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STPostKeyPlaySolutionWriter:
       case STContinuationWriter:
       case STTryWriter:
-      case STDefenseRoot:
       case STDefenseMove:
       case STThreatEnforcer:
       case STRefutationsCollector:
@@ -265,7 +264,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalReachableGuardSeriesFilter:
       case STStopOnShortSolutionsHelpFilter:
       case STStopOnShortSolutionsSeriesFilter:
-      case STSelfCheckGuardAttackerFilter:
         Trace_branch(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -303,6 +301,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSelfCheckGuardRootSolvableFilter:
       case STSelfCheckGuardSolvableFilter:
       case STSelfCheckGuardRootDefenderFilter:
+      case STSelfCheckGuardAttackerFilter:
       case STSelfCheckGuardDefenderFilter:
       case STSelfCheckGuardHelpFilter:
       case STSelfCheckGuardSeriesFilter:

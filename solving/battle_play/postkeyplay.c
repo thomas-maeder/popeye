@@ -2,7 +2,7 @@
 #include "pyoutput.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/solution.h"
+#include "stipulation/battle_play/continuation.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -45,7 +45,7 @@ boolean postkey_solution_writer_root_solve(slice_index si)
 
   init_output(si);
 
-  if (solution_writer_solve_postkey(si))
+  if (continuation_writer_solve_postkey(si))
   {
     write_end_of_solution();
     result = true;
@@ -227,39 +227,7 @@ stip_length_type refuting_variation_writer_solve_in_n(slice_index si,
  * @param st address of structure defining traversal
  * @return true
  */
-static boolean solution_writer_prepend(slice_index si, slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    slice_index const writer = alloc_postkey_solution_writer_slice(length,
-                                                                   min_length);
-    pipe_link(prev,writer);
-    pipe_link(writer,si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Append a variation writer
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- * @return true
- */
-static boolean refuting_variation_writer_prepend(slice_index si,
-                                                 slice_traversal *st)
+static boolean prepend_refutes_writer(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
 
@@ -283,15 +251,48 @@ static boolean refuting_variation_writer_prepend(slice_index si,
   return result;
 }
 
+/* Append a variation writer
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ * @return true
+ */
+static boolean substitute_solution_writer(slice_index si, slice_traversal *st)
+{
+  boolean const result = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slice_traverse_children(si,st);
+
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const prev = slices[si].prev;
+    slice_index const next = slices[si].u.pipe.next;
+    slice_index const
+        writer = alloc_postkey_solution_writer_slice(length,min_length);
+    pipe_link(prev,writer);
+    pipe_link(writer,next);
+    dealloc_slice(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_operation const postkey_handler_inserters[] =
 {
   &slice_traverse_children,           /* STProxy */
   &slice_traverse_children,           /* STAttackMove */
   &slice_traverse_children,           /* STDefenseMove */
-  &slice_traverse_children,           /* STHelpMove */
-  &slice_traverse_children,           /* STHelpFork */
-  &slice_traverse_children,           /* STSeriesMove */
-  &slice_traverse_children,           /* STSeriesFork */
+  &slice_operation_noop,              /* STHelpMove */
+  &slice_operation_noop,              /* STHelpFork */
+  &slice_operation_noop,              /* STSeriesMove */
+  &slice_operation_noop,              /* STSeriesFork */
   &slice_operation_noop,              /* STLeafDirect */
   &slice_operation_noop,              /* STLeafHelp */
   &slice_operation_noop,              /* STLeafForced */
@@ -300,70 +301,69 @@ static slice_operation const postkey_handler_inserters[] =
   &slice_traverse_children,           /* STNot */
   &slice_traverse_children,           /* STMoveInverterRootSolvableFilter */
   &slice_traverse_children,           /* STMoveInverterSolvableFilter */
-  &slice_traverse_children,           /* STMoveInverterSeriesFilter */
+  &slice_operation_noop,              /* STMoveInverterSeriesFilter */
   &slice_traverse_children,           /* STAttackRoot */
   &slice_traverse_children,           /* STBattlePlaySolutionWriter */
   &slice_traverse_children,           /* STPostKeyPlaySolutionWriter */
-  &slice_traverse_children,           /* STContinuationWriter */
+  &substitute_solution_writer,        /* STContinuationWriter */
   &slice_traverse_children,           /* STTryWriter */
   &slice_traverse_children,           /* STThreatWriter */
-  &solution_writer_prepend,           /* STDefenseRoot */
   &slice_traverse_children,           /* STThreatEnforcer */
   &slice_traverse_children,           /* STRefutationsCollector */
-  &refuting_variation_writer_prepend, /* STVariationWriter */
+  &prepend_refutes_writer,            /* STVariationWriter */
   &slice_traverse_children,           /* STRefutingVariationWriter */
   &slice_traverse_children,           /* STNoShortVariations */
   &slice_traverse_children,           /* STAttackHashed */
-  &slice_traverse_children,           /* STHelpRoot */
-  &slice_traverse_children,           /* STHelpShortcut */
-  &slice_traverse_children,           /* STHelpHashed */
-  &slice_traverse_children,           /* STSeriesRoot */
-  &slice_traverse_children,           /* STSeriesShortcut */
-  &slice_traverse_children,           /* STParryFork */
-  &slice_traverse_children,           /* STSeriesHashed */
+  &slice_operation_noop,              /* STHelpRoot */
+  &slice_operation_noop,              /* STHelpShortcut */
+  &slice_operation_noop,              /* STHelpHashed */
+  &slice_operation_noop,              /* STSeriesRoot */
+  &slice_operation_noop,              /* STSeriesShortcut */
+  &slice_operation_noop,              /* STParryFork */
+  &slice_operation_noop,              /* STSeriesHashed */
   &slice_traverse_children,           /* STSelfCheckGuardRootSolvableFilter */
   &slice_traverse_children,           /* STSelfCheckGuardSolvableFilter */
   &slice_traverse_children,           /* STSelfCheckGuardRootDefenderFilter */
   &slice_traverse_children,           /* STSelfCheckGuardAttackerFilter */
   &slice_traverse_children,           /* STSelfCheckGuardDefenderFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardHelpFilter */
-  &slice_traverse_children,           /* STSelfCheckGuardSeriesFilter */
+  &slice_operation_noop,              /* STSelfCheckGuardHelpFilter */
+  &slice_operation_noop,              /* STSelfCheckGuardSeriesFilter */
   &slice_traverse_children,           /* STDirectDefenseRootSolvableFilter */
   &slice_traverse_children,           /* STDirectDefense */
-  &slice_traverse_children,           /* STReflexHelpFilter */
-  &slice_traverse_children,           /* STReflexSeriesFilter */
+  &slice_operation_noop,              /* STReflexHelpFilter */
+  &slice_operation_noop,              /* STReflexSeriesFilter */
   &slice_traverse_children,           /* STReflexRootSolvableFilter */
   &slice_traverse_children,           /* STReflexAttackerFilter */
   &slice_traverse_children,           /* STReflexDefenderFilter */
   &slice_traverse_children,           /* STSelfAttack */
   &slice_traverse_children,           /* STSelfDefense */
   &slice_traverse_children,           /* STRestartGuardRootDefenderFilter */
-  &slice_traverse_children,           /* STRestartGuardHelpFilter */
-  &slice_traverse_children,           /* STRestartGuardSeriesFilter */
-  &slice_traverse_children,           /* STIntelligentHelpFilter */
-  &slice_traverse_children,           /* STIntelligentSeriesFilter */
-  &slice_traverse_children,           /* STGoalReachableGuardHelpFilter */
-  &slice_traverse_children,           /* STGoalReachableGuardSeriesFilter */
+  &slice_operation_noop,              /* STRestartGuardHelpFilter */
+  &slice_operation_noop,              /* STRestartGuardSeriesFilter */
+  &slice_operation_noop,              /* STIntelligentHelpFilter */
+  &slice_operation_noop,              /* STIntelligentSeriesFilter */
+  &slice_operation_noop,              /* STGoalReachableGuardHelpFilter */
+  &slice_operation_noop,              /* STGoalReachableGuardSeriesFilter */
   &slice_traverse_children,           /* STKeepMatingGuardRootDefenderFilter */
   &slice_traverse_children,           /* STKeepMatingGuardAttackerFilter */
   &slice_traverse_children,           /* STKeepMatingGuardDefenderFilter */
-  &slice_traverse_children,           /* STKeepMatingGuardHelpFilter */
-  &slice_traverse_children,           /* STKeepMatingGuardSeriesFilter */
+  &slice_operation_noop,              /* STKeepMatingGuardHelpFilter */
+  &slice_operation_noop,              /* STKeepMatingGuardSeriesFilter */
   &slice_traverse_children,           /* STMaxFlightsquares */
   &slice_traverse_children,           /* STDegenerateTree */
   &slice_traverse_children,           /* STMaxNrNonTrivial */
   &slice_traverse_children,           /* STMaxThreatLength */
   &slice_traverse_children,           /* STMaxTimeRootDefenderFilter */
   &slice_traverse_children,           /* STMaxTimeDefenderFilter */
-  &slice_traverse_children,           /* STMaxTimeHelpFilter */
-  &slice_traverse_children,           /* STMaxTimeSeriesFilter */
+  &slice_operation_noop,              /* STMaxTimeHelpFilter */
+  &slice_operation_noop,              /* STMaxTimeSeriesFilter */
   &slice_traverse_children,           /* STMaxSolutionsRootSolvableFilter */
   &slice_traverse_children,           /* STMaxSolutionsRootDefenderFilter */
-  &slice_traverse_children,           /* STMaxSolutionsHelpFilter */
-  &slice_traverse_children,           /* STMaxSolutionsSeriesFilter */
+  &slice_operation_noop,              /* STMaxSolutionsHelpFilter */
+  &slice_operation_noop,              /* STMaxSolutionsSeriesFilter */
   &slice_traverse_children,           /* STStopOnShortSolutionsRootSolvableFilter */
-  &slice_traverse_children,           /* STStopOnShortSolutionsHelpFilter */
-  &slice_traverse_children            /* STStopOnShortSolutionsSeriesFilter */
+  &slice_operation_noop,              /* STStopOnShortSolutionsHelpFilter */
+  &slice_operation_noop               /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Instrument the stipulation representation so that it can write

@@ -23,9 +23,7 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/solution.h"
 #include "stipulation/battle_play/try.h"
-#include "stipulation/battle_play/defense_root.h"
 #include "stipulation/battle_play/variation.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
@@ -72,7 +70,6 @@
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
     ENUMERATOR(STTryWriter), /* deals with refutations */ \
     ENUMERATOR(STThreatWriter), /* deals with threats */ \
-    ENUMERATOR(STDefenseRoot), /* root level of postkey direct play */ \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */ \
     ENUMERATOR(STVariationWriter), /* writes variations */ \
@@ -199,7 +196,6 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STContinuationWriter */
   slice_structure_branch, /* STTryWriter */
   slice_structure_branch, /* STThreatWriter */
-  slice_structure_branch, /* STDefenseRoot */
   slice_structure_branch, /* STThreatEnforcer */
   slice_structure_branch, /* STRefutationsCollector */
   slice_structure_branch, /* STVariationWriter */
@@ -352,7 +348,6 @@ static slice_operation const reachable_slices_markers[] =
   &mark_reachable_slice, /* STContinuationWriter */
   &mark_reachable_slice, /* STTryWriter */
   &mark_reachable_slice, /* STThreatWriter */
-  &mark_reachable_slice, /* STDefenseRoot */
   &mark_reachable_slice, /* STThreatEnforcer */
   &mark_reachable_slice, /* STRefutationsCollector */
   &mark_reachable_slice, /* STVariationWriter */
@@ -664,7 +659,6 @@ static slice_operation const deallocators[] =
   &traverse_and_deallocate,       /* STContinuationWriter */
   &traverse_and_deallocate,       /* STTryWriter */
   &traverse_and_deallocate,       /* STThreatWriter */
-  &traverse_and_deallocate,       /* STDefenseRoot */
   &traverse_and_deallocate,       /* STThreatEnforcer */
   &traverse_and_deallocate,       /* STRefutationsCollector */
   &traverse_and_deallocate,       /* STVariationWriter */
@@ -801,7 +795,6 @@ static slice_operation const root_slice_inserters[] =
   &slice_traverse_children,            /* STContinuationWriter */
   &slice_traverse_children,            /* STTryWriter */
   &slice_traverse_children,            /* STThreatWriter */
-  &slice_traverse_children,            /* STDefenseRoot */
   &slice_traverse_children,            /* STThreatEnforcer */
   &slice_traverse_children,            /* STRefutationsCollector */
   &slice_traverse_children,            /* STVariationWriter */
@@ -906,7 +899,6 @@ static slice_operation const proxy_resolvers[] =
   &pipe_resolve_proxies,            /* STContinuationWriter */
   &pipe_resolve_proxies,            /* STTryWriter */
   &pipe_resolve_proxies,            /* STThreatWriter */
-  &pipe_resolve_proxies,            /* STDefenseRoot */
   &pipe_resolve_proxies,            /* STThreatEnforcer */
   &pipe_resolve_proxies,            /* STRefutationsCollector */
   &pipe_resolve_proxies,            /* STVariationWriter */
@@ -1154,7 +1146,6 @@ static slice_operation const get_max_nr_moves_functions[] =
   &slice_traverse_children,          /* STContinuationWriter */
   &slice_traverse_children,          /* STTryWriter */
   &slice_traverse_children,          /* STThreatWriter */
-  &slice_traverse_children,          /* STDefenseRoot */
   &slice_traverse_children,          /* STThreatEnforcer */
   &slice_traverse_children,          /* STRefutationsCollector */
   &slice_traverse_children,          /* STVariationWriter */
@@ -1292,7 +1283,6 @@ static slice_operation const unique_goal_finders[] =
   &slice_traverse_children, /* STContinuationWriter */
   &slice_traverse_children, /* STTryWriter */
   &slice_traverse_children, /* STThreatWriter */
-  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STThreatEnforcer */
   &slice_traverse_children, /* STRefutationsCollector */
   &slice_traverse_children, /* STVariationWriter */
@@ -1416,7 +1406,6 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       case STHelpMove:
       case STSeriesMove:
       case STAttackRoot:
-      case STDefenseRoot:
       case STSeriesRoot:
       case STNot:
       case STMoveInverterRootSolvableFilter:
@@ -1576,7 +1565,6 @@ static slice_operation const leaves_direct_makers[] =
   &slice_traverse_children,   /* STContinuationWriter */
   &slice_traverse_children,   /* STTryWriter */
   &slice_traverse_children,   /* STThreatWriter */
-  &slice_traverse_children,   /* STDefenseRoot */
   &slice_traverse_children,   /* STThreatEnforcer */
   &slice_traverse_children,   /* STRefutationsCollector */
   &slice_traverse_children,   /* STVariationWriter */
@@ -1771,7 +1759,6 @@ static slice_operation const to_quodlibet_transformers[] =
   &slice_traverse_children,                       /* STContinuationWriter */
   &slice_traverse_children,                       /* STTryWriter */
   &slice_traverse_children,                       /* STThreatWriter */
-  &transform_to_quodlibet_branch_direct_defender, /* STDefenseRoot */
   &slice_traverse_children,                       /* STThreatEnforcer */
   &slice_traverse_children,                       /* STRefutationsCollector */
   &slice_traverse_children,                       /* STVariationWriter */
@@ -1854,7 +1841,7 @@ static slice_operation const to_postkey_play_reducers[] =
 {
   &slice_traverse_children,                       /* STProxy */
   &slice_traverse_children,                       /* STAttackMove */
-  &slice_traverse_children,                       /* STDefenseMove */
+  &defense_move_reduce_to_postkey_play,           /* STDefenseMove */
   &slice_traverse_children,                       /* STHelpMove */
   &slice_traverse_children,                       /* STHelpFork */
   &slice_traverse_children,                       /* STSeriesMove */
@@ -1874,7 +1861,6 @@ static slice_operation const to_postkey_play_reducers[] =
   &slice_traverse_children,                       /* STContinuationWriter */
   &slice_traverse_children,                       /* STTryWriter */
   &slice_traverse_children,                       /* STThreatWriter */
-  &defense_root_reduce_to_postkey_play,           /* STDefenseRoot */
   &slice_traverse_children,                       /* STThreatEnforcer */
   &slice_traverse_children,                       /* STRefutationsCollector */
   &slice_traverse_children,                       /* STVariationWriter */
@@ -1988,7 +1974,7 @@ static slice_operation const setplay_makers[] =
 {
   &slice_traverse_children,                   /* STProxy */
   &slice_traverse_children,                   /* STAttackMove */
-  &slice_traverse_children,                   /* STDefenseMove */
+  &defense_move_make_setplay_slice,           /* STDefenseMove */
   &pipe_traverse_next,                        /* STHelpMove */
   &help_fork_make_setplay_slice,              /* STHelpFork */
   &pipe_traverse_next,                        /* STSeriesMove */
@@ -2008,7 +1994,6 @@ static slice_operation const setplay_makers[] =
   &slice_traverse_children,                   /* STContinuationWriter */
   &slice_traverse_children,                   /* STTryWriter */
   &slice_traverse_children,                   /* STThreatWriter */
-  &defense_root_make_setplay_slice,           /* STDefenseRoot */
   &slice_traverse_children,                   /* STThreatEnforcer */
   &slice_traverse_children,                   /* STRefutationsCollector */
   &slice_traverse_children,                   /* STVariationWriter */
@@ -2204,7 +2189,6 @@ static slice_operation const slice_ends_only_in_checkers[] =
   &slice_traverse_children, /* STContinuationWriter */
   &slice_traverse_children, /* STTryWriter */
   &slice_traverse_children, /* STThreatWriter */
-  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STThreatEnforcer */
   &slice_traverse_children, /* STRefutationsCollector */
   &slice_traverse_children, /* STVariationWriter */
@@ -2330,7 +2314,6 @@ static slice_operation const slice_ends_in_one_of_checkers[] =
   &slice_traverse_children,   /* STContinuationWriter */
   &slice_traverse_children,   /* STTryWriter */
   &slice_traverse_children,   /* STThreatWriter */
-  &slice_traverse_children,   /* STDefenseRoot */
   &slice_traverse_children,   /* STThreatEnforcer */
   &slice_traverse_children,   /* STRefutationsCollector */
   &slice_traverse_children,   /* STVariationWriter */
@@ -2449,7 +2432,6 @@ static slice_operation const exact_makers[] =
   &make_exact_branch,       /* STContinuationWriter */
   &make_exact_branch,       /* STTryWriter */
   &make_exact_branch,       /* STThreatWriter */
-  &make_exact_branch,       /* STDefenseRoot */
   &make_exact_branch,       /* STThreatEnforcer */
   &make_exact_branch,       /* STRefutationsCollector */
   &make_exact_branch,       /* STVariationWriter */
@@ -2528,7 +2510,7 @@ static slice_operation const starter_detectors[] =
 {
   &pipe_detect_starter,                   /* STProxy */
   &attack_move_detect_starter,            /* STAttackMove */
-  &slice_traverse_children,               /* STDefenseMove */
+  &defense_move_detect_starter,           /* STDefenseMove */
   &help_move_detect_starter,              /* STHelpMove */
   &branch_fork_detect_starter,            /* STHelpFork */
   &series_move_detect_starter,            /* STSeriesMove */
@@ -2548,7 +2530,6 @@ static slice_operation const starter_detectors[] =
   &pipe_detect_starter,                   /* STContinuationWriter */
   &pipe_detect_starter,                   /* STTryWriter */
   &pipe_detect_starter,                   /* STThreatWriter */
-  &defense_root_detect_starter,           /* STDefenseRoot */
   &slice_traverse_children,               /* STThreatEnforcer */
   &slice_traverse_children,               /* STRefutationsCollector */
   &slice_traverse_children,               /* STVariationWriter */
@@ -2649,7 +2630,6 @@ static slice_operation const starter_imposers[] =
   &pipe_impose_starter,           /* STContinuationWriter */
   &pipe_impose_starter,           /* STTryWriter */
   &pipe_impose_starter,           /* STThreatWriter */
-  &pipe_impose_inverted_starter,  /* STDefenseRoot */
   &pipe_impose_starter,           /* STThreatEnforcer */
   &pipe_impose_starter,           /* STRefutationsCollector */
   &pipe_impose_starter,           /* STVariationWriter */
@@ -2979,7 +2959,6 @@ static slice_operation const traversers[] =
   &traverse_pipe,         /* STContinuationWriter */
   &traverse_pipe,         /* STTryWriter */
   &traverse_pipe,         /* STThreatWriter */
-  &traverse_pipe,         /* STDefenseRoot */
   &traverse_pipe,         /* STThreatEnforcer */
   &traverse_pipe,         /* STRefutationsCollector */
   &traverse_pipe,         /* STVariationWriter */

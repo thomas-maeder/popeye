@@ -22,6 +22,19 @@ slice_index alloc_defense_move_slice(stip_length_type length,
  */
 boolean defense_move_insert_root(slice_index si, slice_traversal *st);
 
+/* Detect starter field with the starting side if possible.
+ * @param si identifies slice being traversed
+ * @param st status of traversal
+ * @return true iff slice has been successfully traversed
+ */
+boolean defense_move_detect_starter(slice_index si, slice_traversal *st);
+
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
+ */
+boolean defense_move_root_defend(slice_index si);
+
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -41,5 +54,22 @@ boolean defense_move_defend_in_n(slice_index si, stip_length_type n);
 unsigned int defense_move_can_defend_in_n(slice_index si,
                                           stip_length_type n,
                                           unsigned int max_result);
+
+/* Spin off a set play slice
+ * @param si slice index
+ * @param st state of traversal
+ * @return true iff this slice has been sucessfully traversed
+ */
+boolean defense_move_make_setplay_slice(slice_index si,
+                                        struct slice_traversal *st);
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ * @return true iff slice has been successfully traversed
+ */
+boolean defense_move_reduce_to_postkey_play(slice_index si,
+                                            struct slice_traversal *st);
 
 #endif

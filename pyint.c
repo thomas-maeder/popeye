@@ -2801,7 +2801,6 @@ static slice_operation const full_moves_left_initialisers[] =
   &slice_traverse_children,         /* STContinuationWriter */
   &slice_traverse_children,         /* STTryWriter */
   &slice_traverse_children,         /* STThreatWriter */
-  &slice_traverse_children,         /* STDefenseRoot */
   &slice_traverse_children,         /* STThreatEnforcer */
   &slice_traverse_children,         /* STRefutationsCollector */
   &slice_traverse_children,         /* STVariationWriter */
@@ -3000,7 +2999,6 @@ static slice_operation const partial_moves_left_initialisers[] =
   &slice_traverse_children,         /* STContinuationWriter */
   &slice_traverse_children,         /* STTryWriter */
   &slice_traverse_children,         /* STThreatWriter */
-  &slice_traverse_children,         /* STDefenseRoot */
   &slice_traverse_children,         /* STThreatEnforcer */
   &slice_traverse_children,         /* STRefutationsCollector */
   &slice_traverse_children,         /* STVariationWriter */
@@ -3500,7 +3498,6 @@ static slice_operation const intelligent_guards_inserters[] =
   &slice_traverse_children,                  /* STContinuationWriter */
   &slice_traverse_children,                  /* STTryWriter */
   &slice_traverse_children,                  /* STThreatWriter */
-  &slice_traverse_children,                  /* STDefenseRoot */
   &slice_traverse_children,                  /* STThreatEnforcer */
   &slice_traverse_children,                  /* STRefutationsCollector */
   &slice_traverse_children,                  /* STVariationWriter */
@@ -3841,7 +3838,6 @@ static slice_operation const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,                /* STContinuationWriter */
   &intelligent_mode_support_none,                /* STTryWriter */
   &intelligent_mode_support_none,                /* STThreatWriter */
-  &intelligent_mode_support_none,                /* STDefenseRoot */
   &intelligent_mode_support_none,                /* STThreatEnforcer */
   &intelligent_mode_support_none,                /* STRefutationsCollector */
   &intelligent_mode_support_none,                /* STVariationWriter */

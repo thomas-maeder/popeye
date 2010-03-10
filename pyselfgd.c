@@ -573,38 +573,10 @@ boolean self_defense_impose_starter(slice_index si, slice_traversal *st)
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STSelfDefense slice after a defender slice
- * @param si identifies defender slice
- * @param proxy_to_goal identifies proxy slice leading towards goal
+/* Insert a STSelfDefense after each STDefenseMove
  */
-static void insert_self_defense_after_defender(slice_index si,
-                                               slice_index proxy_to_goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const self_defense = alloc_self_defense(length-1,min_length-1,
-                                                        proxy_to_goal);
-    pipe_link(self_defense,slices[si].u.pipe.next);
-    pipe_link(si,self_defense);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfDefense after each STDefenseRoot slice if a
- * defender's move played in the STDefenseRoot slice is allowed
- * to solve the following branch (as typical in a non-exact stipulation).
- */
-static
-boolean self_guards_inserter_defense_root(slice_index si,
-                                                         slice_traversal *st)
+static boolean self_guards_inserter_defense_move(slice_index si,
+                                                 slice_traversal *st)
 {
   boolean const result = true;
 
@@ -617,53 +589,23 @@ boolean self_guards_inserter_defense_root(slice_index si,
   {
     slice_index const next = slices[si].u.pipe.next;
     slice_index const next_prev = slices[next].prev;
-    if (slices[next_prev].type==STSelfDefense)
-      /* we are attached to a loop; attach to the STSelfDefense in the
-       * loop
-       */
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    if (next_prev==si)
     {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
+      slice_index const * const proxy_to_goal = st->param;
+      slice_index const self_defense = alloc_self_defense(length-1,min_length-1,
+                                                          *proxy_to_goal);
+      pipe_link(self_defense,slices[si].u.pipe.next);
+      pipe_link(si,self_defense);
+    }
+    else
+    {
       pipe_set_successor(si,next_prev);
       slices[next_prev].u.branch.length = length-1;
       slices[next_prev].u.branch.min_length = min_length-1;
     }
-    else
-    {
-      /* we are not attached to a loop; create our own STSelfDefense
-       */
-      slice_index const * const proxy_to_goal = st->param;
-      insert_self_defense_after_defender(si,*proxy_to_goal);
-    }
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STSelfDefense after each STDefenseRoot slice if a
- * defender's move played in the STDefenseRoot slice is allowed
- * to solve the following branch (as typical in a non-exact stipulation).
- */
-static boolean self_guards_inserter_defense_move(slice_index si,
-                                                 slice_traversal *st)
-{
-  boolean const result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[slices[si].u.pipe.next].type!=STSelfDefense);
-
-  {
-    slice_index const * const proxy_to_goal = st->param;
-    insert_self_defense_after_defender(si,*proxy_to_goal);
-  }
-
-  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -721,7 +663,6 @@ static slice_operation const self_guards_inserters[] =
   &slice_traverse_children,           /* STContinuationWriter */
   &slice_traverse_children,           /* STTryWriter */
   &slice_traverse_children,           /* STThreatWriter */
-  &self_guards_inserter_defense_root, /* STDefenseRoot */
   &slice_traverse_children,           /* STThreatEnforcer */
   &slice_traverse_children,           /* STRefutationsCollector */
   &slice_traverse_children,           /* STVariationWriter */

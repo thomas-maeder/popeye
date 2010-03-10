@@ -145,7 +145,6 @@ static slice_operation const slice_deallocators[] =
   &traverse_and_deallocate,             /* STContinuationWriter */
   &traverse_and_deallocate,             /* STTryWriter */
   &traverse_and_deallocate,             /* STThreatWriter */
-  &traverse_and_deallocate,             /* STDefenseRoot */
   &traverse_and_deallocate,             /* STThreatEnforcer */
   &traverse_and_deallocate,             /* STRefutationsCollector */
   &traverse_and_deallocate,             /* STVariationWriter */

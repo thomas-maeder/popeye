@@ -55,7 +55,6 @@ static slice_operation const no_short_variations_filter_inserters[] =
   &slice_traverse_children,    /* STContinuationWriter */
   &slice_traverse_children,    /* STTryWriter */
   &slice_traverse_children,    /* STThreatWriter */
-  &slice_traverse_children,    /* STDefenseRoot */
   &slice_traverse_children,    /* STThreatEnforcer */
   &slice_traverse_children,    /* STRefutationsCollector */
   &insert_no_short_variations, /* STVariationWriter */

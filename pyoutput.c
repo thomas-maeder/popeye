@@ -168,7 +168,6 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_treemode,      /* STContinuationWriter */
   &output_mode_treemode,      /* STTryWriter */
   &output_mode_treemode,      /* STThreatWriter */
-  &output_mode_treemode,      /* STDefenseRoot */
   &output_mode_treemode,      /* STThreatEnforcer */
   &output_mode_treemode,      /* STRefutationsCollector */
   &output_mode_treemode,      /* STVariationWriter */

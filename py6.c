@@ -126,7 +126,6 @@
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/variation.h"
 #include "stipulation/battle_play/postkeyplay.h"
-#include "stipulation/battle_play/solution.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
 #include "options/no_short_variations/no_short_variations.h"
@@ -504,7 +503,7 @@ static slice_operation const slice_type_finders[] =
 {
   &slice_traverse_children,           /* STProxy */
   &slice_traverse_children,           /* STAttackMove */
-  &slice_traverse_children,           /* STDefenseMove */
+  &root_slice_type_found,             /* STDefenseMove */
   &slice_traverse_children,           /* STHelpMove */
   &slice_traverse_children,           /* STHelpFork */
   &slice_traverse_children,           /* STSeriesMove */
@@ -524,7 +523,6 @@ static slice_operation const slice_type_finders[] =
   &slice_traverse_children,           /* STContinuationWriter */
   &slice_traverse_children,           /* STTryWriter */
   &slice_traverse_children,           /* STThreatWriter */
-  &root_slice_type_found,             /* STDefenseRoot */
   &slice_traverse_children,           /* STThreatEnforcer */
   &slice_traverse_children,           /* STRefutationsCollector */
   &slice_traverse_children,           /* STVariationWriter */
@@ -2347,7 +2345,6 @@ static slice_operation const mating_side_finders[] =
   &slice_traverse_children, /* STContinuationWriter */
   &slice_traverse_children, /* STTryWriter */
   &slice_traverse_children, /* STThreatWriter */
-  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STThreatEnforcer */
   &slice_traverse_children, /* STRefutationsCollector */
   &slice_traverse_children, /* STVariationWriter */
@@ -2470,7 +2467,6 @@ static slice_operation const duplex_initialisers[] =
   &slice_traverse_children, /* STContinuationWriter */
   &slice_traverse_children, /* STTryWriter */
   &slice_traverse_children, /* STThreatWriter */
-  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STThreatEnforcer */
   &slice_traverse_children, /* STRefutationsCollector */
   &slice_traverse_children, /* STVariationWriter */
@@ -2589,7 +2585,6 @@ static slice_operation const duplex_finishers[] =
   &slice_traverse_children, /* STContinuationWriter */
   &slice_traverse_children, /* STTryWriter */
   &slice_traverse_children, /* STThreatWriter */
-  &slice_traverse_children, /* STDefenseRoot */
   &slice_traverse_children, /* STThreatEnforcer */
   &slice_traverse_children, /* STRefutationsCollector */
   &slice_traverse_children, /* STVariationWriter */
@@ -2693,8 +2688,7 @@ boolean insert_hash_element_attack_move(slice_index si, slice_traversal *st)
  * @param st address of structure holding status of traversal
  * @return result of traversing si's children
  */
-boolean insert_hash_element_direct_defender_root(slice_index si,
-                                                 slice_traversal *st)
+boolean insert_hash_element_nested(slice_index si, slice_traversal *st)
 {
   boolean const result = true;
   branch_level * const level = st->param;
@@ -2872,8 +2866,8 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 static slice_operation const hash_element_inserters[] =
 {
   &slice_traverse_children,                  /* STProxy */
-  &insert_hash_element_attack_move,        /* STAttackMove */
-  &slice_traverse_children,                  /* STDefenseMove */
+  &insert_hash_element_attack_move,          /* STAttackMove */
+  &insert_hash_element_nested,               /* STDefenseMove */
   &insert_hash_element_branch_help,          /* STHelpMove */
   &slice_traverse_children,                  /* STHelpFork */
   &insert_hash_element_branch_series,        /* STSeriesMove */
@@ -2893,7 +2887,6 @@ static slice_operation const hash_element_inserters[] =
   &slice_traverse_children,                  /* STContinuationWriter */
   &slice_traverse_children,                  /* STTryWriter */
   &slice_traverse_children,                  /* STThreatWriter */
-  &insert_hash_element_direct_defender_root, /* STDefenseRoot */
   &slice_traverse_children,                  /* STThreatEnforcer */
   &slice_traverse_children,                  /* STRefutationsCollector */
   &slice_traverse_children,                  /* STVariationWriter */
@@ -3196,8 +3189,6 @@ static Token iterate_twins(Token prev_token)
         stip_insert_postkey_handlers();
       else if (OptFlag[solessais] || OptFlag[soltout])
         stip_insert_try_handlers();
-      else
-        stip_insert_solution_writers();
 
       if (!OptFlag[nothreat])
         stip_insert_threat_handlers();

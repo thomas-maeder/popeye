@@ -316,7 +316,6 @@ static slice_operation const restart_guards_inserters[] =
   &slice_operation_noop,         /* STContinuationWriter */
   &slice_operation_noop,         /* STTryWriter */
   &slice_operation_noop,         /* STThreatWriter */
-  &slice_operation_noop,         /* STDefenseRoot */
   &slice_operation_noop,         /* STThreatEnforcer */
   &slice_operation_noop,         /* STRefutationsCollector */
   &slice_operation_noop,         /* STVariationWriter */

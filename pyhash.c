@@ -306,7 +306,6 @@ static slice_operation const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STContinuationWriter */
   &slice_property_offset_shifter, /* STTryWriter */
   &slice_property_offset_shifter, /* STThreatWriter */
-  &slice_property_offset_shifter, /* STDefenseRoot */
   &slice_property_offset_shifter, /* STThreatEnforcer */
   &slice_property_offset_shifter, /* STRefutationsCollector */
   &slice_property_offset_shifter, /* STVariationWriter */
@@ -667,7 +666,7 @@ static slice_operation const slice_properties_initalisers[] =
 {
   &slice_traverse_children,              /* STProxy */
   &init_slice_properties_pipe,           /* STAttackMove */
-  &init_slice_properties_pipe,           /* STDefenseMove */
+  &slice_traverse_children,              /* STDefenseMove */
   &init_slice_properties_pipe,           /* STHelpMove */
   &slice_traverse_children,              /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
@@ -687,7 +686,6 @@ static slice_operation const slice_properties_initalisers[] =
   &slice_traverse_children,              /* STContinuationWriter */
   &slice_traverse_children,              /* STTryWriter */
   &slice_traverse_children,              /* STThreatWriter */
-  &slice_traverse_children,              /* STDefenseRoot */
   &slice_traverse_children,              /* STThreatEnforcer */
   &slice_traverse_children,              /* STRefutationsCollector */
   &slice_traverse_children,              /* STVariationWriter */

@@ -6,6 +6,19 @@
 /* This module provides functionality dealing with continuations.
  */
 
+/* Solve postkey play play after the move that has just been played in
+ * the current ply 
+ * @param si slice index
+ * @return true iff >=1 variation or a threat was found
+ */
+boolean continuation_writer_solve_postkey(slice_index si);
+
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @return true iff the defending side can successfully defend
+ */
+boolean continuation_writer_root_defend(slice_index si);
+
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
