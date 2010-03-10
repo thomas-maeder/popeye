@@ -103,18 +103,14 @@ slice_index convert_to_parry_series_branch(slice_index si, slice_index parrying)
     slice_index const branch = branch_find_slice(STSeriesMove,si);
     slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                    branch);
-    slice_index const next = slices[inverter].u.pipe.next;
     slice_index const prev = slices[inverter].prev;
     slice_index const fork = alloc_parry_fork(parrying);
-    result = alloc_proxy_slice();
 
     assert(inverter!=no_slice);
 
-    pipe_link(prev,fork);
-    pipe_link(fork,inverter);
-
-    pipe_link(inverter,result);
-    pipe_link(result,next);
+    result = alloc_proxy_slice();
+    pipe_append(prev,fork);
+    pipe_append(inverter,result);
 
     if (slices[branch].u.pipe.next==inverter)
       /* if in the play after the branch, the same side is to move as

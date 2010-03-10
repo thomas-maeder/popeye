@@ -642,7 +642,6 @@ static boolean keepmating_guards_inserter_attack_root(slice_index si,
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
@@ -658,14 +657,7 @@ static boolean keepmating_guards_inserter_attack_root(slice_index si,
     guard = alloc_keepmating_guard_root_defender_filter(Black);
 
   if (guard!=no_slice)
-  {
-    pipe_link(si,guard);
-
-    if (slices[next].prev==si)
-      pipe_link(guard,next);
-    else
-      pipe_set_successor(guard,next);
-  }
+    pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -678,7 +670,6 @@ static boolean keepmating_guards_inserter_defender(slice_index si,
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
@@ -694,14 +685,7 @@ static boolean keepmating_guards_inserter_defender(slice_index si,
     guard = alloc_keepmating_guard_attacker_filter(Black);
 
   if (guard!=no_slice)
-  {
-    pipe_link(si,guard);
-
-    if (slices[next].prev==si)
-      pipe_link(guard,next);
-    else
-      pipe_set_successor(guard,next);
-  }
+    pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -714,7 +698,6 @@ static boolean keepmating_guards_inserter_attack_move(slice_index si,
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
@@ -730,14 +713,7 @@ static boolean keepmating_guards_inserter_attack_move(slice_index si,
     guard = alloc_keepmating_guard_defender_filter(Black);
 
   if (guard!=no_slice)
-  {
-    pipe_link(si,guard);
-
-    if (slices[next].prev==si)
-      pipe_link(guard,next);
-    else
-      pipe_set_successor(guard,next);
-  }
+    pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -750,7 +726,6 @@ static boolean keepmating_guards_inserter_branch_help(slice_index si,
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
@@ -766,14 +741,7 @@ static boolean keepmating_guards_inserter_branch_help(slice_index si,
     guard = alloc_keepmating_guard_help_filter(Black);
 
   if (guard!=no_slice)
-  {
-    pipe_link(si,guard);
-
-    if (slices[next].prev==si)
-      pipe_link(guard,next);
-    else
-      pipe_set_successor(guard,next);
-  }
+    pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -786,7 +754,6 @@ static boolean keepmating_guards_inserter_branch_series(slice_index si,
 {
   boolean const result = true;
   keepmating_type const * const km = st->param;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
@@ -802,14 +769,7 @@ static boolean keepmating_guards_inserter_branch_series(slice_index si,
     guard = alloc_keepmating_guard_series_filter(Black);
 
   if (guard!=no_slice)
-  {
-    pipe_link(si,guard);
-
-    if (slices[next].prev==si)
-      pipe_link(guard,next);
-    else
-      pipe_set_successor(guard,next);
-  }
+    pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

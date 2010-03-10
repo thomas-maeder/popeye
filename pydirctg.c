@@ -414,44 +414,10 @@ static boolean direct_guards_inserter_attack(slice_index si, slice_traversal *st
   slice_traverse_children(si,st);
 
   {
-    slice_index const prev = slices[si].prev;
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     param->result = alloc_direct_defense(length,min_length,param->to_goal);
-    pipe_link(prev,param->result);
-    pipe_link(param->result,si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert a STDirectDefense slice after the terminal defense (if any)
- * @param si identifies defense
- * @param st address of structure representing the traversal
- */
-static boolean direct_guards_inserter_defense(slice_index si,
-                                              slice_traversal *st)
-{
-  boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_traverse_children(si,st);
-
-  if (next==no_slice)
-  {
-    slice_index const * const proxy_to_goal = st->param;
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const dirdef = alloc_direct_defense(length-1,min_length-1,
-                                                    *proxy_to_goal);
-    pipe_link(si,dirdef);
+    pipe_append(slices[si].prev,param->result);
   }
 
   TraceFunctionExit(__func__);
@@ -464,7 +430,7 @@ static slice_operation const direct_guards_inserters[] =
 {
   &slice_traverse_children,        /* STProxy */
   &direct_guards_inserter_attack,  /* STAttackMove */
-  &direct_guards_inserter_defense, /* STDefenseMove */
+  &slice_traverse_children,        /* STDefenseMove */
   &slice_traverse_children,        /* STHelpMove */
   &slice_traverse_children,        /* STBHelpFork */
   &slice_traverse_children,        /* STSeriesMove */

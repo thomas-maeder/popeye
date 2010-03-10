@@ -2588,8 +2588,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
           if (length%2==0)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
-            pipe_set_successor(inverter,branch);
             pipe_link(proxy,inverter);
+            pipe_set_successor(inverter,branch);
           }
           else
             pipe_set_successor(proxy,branch);
@@ -3129,11 +3129,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
   {
     slice_index const operand = slices[proxy].u.pipe.next;
     if (tok!=0 && operand!=no_slice)
-    {
-      slice_index const inverter =  alloc_move_inverter_solvable_filter();
-      pipe_set_successor(inverter,operand);
-      pipe_link(proxy,inverter);
-    }
+      pipe_append(proxy,alloc_move_inverter_solvable_filter());
   }
 
   TraceFunctionExit(__func__);

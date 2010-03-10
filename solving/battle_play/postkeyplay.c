@@ -239,10 +239,7 @@ static boolean prepend_refutes_writer(slice_index si, slice_traversal *st)
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prev = slices[si].prev;
-    slice_index const
-        writer = alloc_refuting_variation_writer_slice(length,min_length);
-    pipe_link(prev,writer);
-    pipe_link(writer,si);
+    pipe_append(prev,alloc_refuting_variation_writer_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);
@@ -269,13 +266,7 @@ static boolean substitute_solution_writer(slice_index si, slice_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const
-        writer = alloc_postkey_solution_writer_slice(length,min_length);
-    pipe_link(prev,writer);
-    pipe_link(writer,next);
-    dealloc_slice(si);
+    pipe_replace(si,alloc_postkey_solution_writer_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);

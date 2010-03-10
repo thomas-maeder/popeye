@@ -626,33 +626,24 @@ static boolean selfcheck_guards_inserter_branch_help(slice_index si,
   slice_traverse_children(si,st);
 
   if (slices[next].prev==si)
-  {
-    /* we are part of a loop
-     */
-    slice_index const guard = alloc_selfcheck_guard_help_filter();
-    pipe_link(guard,next);
-    pipe_link(si,guard);
-  }
+    /* we are part of a loop */
+    pipe_append(si,alloc_selfcheck_guard_help_filter());
   else
   {
     /* we are attached to a loop
      */
-    slice_index const next_pred = slices[next].prev;
-    if (slices[next_pred].type==STSelfCheckGuardHelpFilter)
+    slice_index const next_prev = slices[next].prev;
+    if (slices[next_prev].type==STSelfCheckGuardHelpFilter)
       /* a STSelfCheckGuardHelpFilter slice has been inserted in the
        * loop before next; attach to it
        */
-      pipe_set_successor(si,next_pred);
+      pipe_set_successor(si,next_prev);
     else
-    {
       /* Create a STSelfCheckGuardHelpFilter slice of our own.  If
        * we arrive here, si represents the introductory help move of
        * battle play set play
        */
-      slice_index const guard = alloc_selfcheck_guard_help_filter();
-      pipe_link(si,guard);
-      pipe_set_successor(guard,next);
-    }
+      pipe_append(si,alloc_selfcheck_guard_help_filter());
   }
 
   TraceFunctionExit(__func__);
@@ -676,24 +667,19 @@ static boolean selfcheck_guards_inserter_branch_series(slice_index si,
   slice_traverse_children(si,st);
 
   if (slices[next].prev==si)
-  {
-    /* we are part of a loop
-     */
-    slice_index const guard = alloc_selfcheck_guard_series_filter();
-    pipe_link(guard,next);
-    pipe_link(si,guard);
-  }
+    /* we are part of a loop */
+    pipe_append(si,alloc_selfcheck_guard_series_filter());
   else
   {
     /* we are attached to a loop
      */
-    slice_index const next_pred = slices[next].prev;
-    assert(slices[next_pred].type==STSelfCheckGuardSeriesFilter);
+    slice_index const next_prev = slices[next].prev;
+    assert(slices[next_prev].type==STSelfCheckGuardSeriesFilter);
 
     /* a STSelfCheckGuardSeriesFilter slice has been inserted in the
      * loop before next; attach to it
      */
-    pipe_set_successor(si,next_pred);
+    pipe_set_successor(si,next_prev);
   }
 
   TraceFunctionExit(__func__);
@@ -708,18 +694,13 @@ static boolean selfcheck_guards_inserter_attack_root(slice_index si,
                                                      slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const guard = alloc_selfcheck_guard_root_defender_filter();
-    pipe_link(guard,next);
-    pipe_link(si,guard);
-    slice_traverse_children(guard,st);
-  }
+  slice_traverse_children(si,st);
+  pipe_append(si,alloc_selfcheck_guard_root_defender_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -733,18 +714,13 @@ static boolean selfcheck_guards_inserter_attack_move(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const guard = alloc_selfcheck_guard_defender_filter();
-    pipe_link(guard,next);
-    pipe_link(si,guard);
-    slice_traverse_children(guard,st);
-  }
+  slice_traverse_children(si,st);
+  pipe_append(si,alloc_selfcheck_guard_defender_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -774,11 +750,7 @@ static boolean selfcheck_guards_inserter_defense_move(slice_index si,
        */
       pipe_set_successor(si,next_prev);
     else
-    {
-      slice_index const guard = alloc_selfcheck_guard_attacker_filter();
-      pipe_link(si,guard);
-      pipe_link(guard,next);
-    }
+      pipe_append(si,alloc_selfcheck_guard_attacker_filter());
   }
 
   TraceFunctionExit(__func__);
@@ -799,13 +771,8 @@ static boolean selfcheck_guards_inserter_move_inverter_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(guard,slices[si].u.pipe.next);
-    pipe_link(si,guard);
-  }
-
-  slice_traverse_children(slices[si].u.pipe.next,st);
+  slice_traverse_children(si,st);
+  pipe_append(si,alloc_selfcheck_guard_root_solvable_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -824,13 +791,8 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const guard = alloc_selfcheck_guard_solvable_filter();
-    pipe_link(guard,slices[si].u.pipe.next);
-    pipe_link(si,guard);
-  }
-
-  slice_traverse_children(slices[si].u.pipe.next,st);
+  slice_traverse_children(si,st);
+  pipe_append(si,alloc_selfcheck_guard_solvable_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -850,13 +812,8 @@ boolean selfcheck_guards_inserter_move_inverter_series(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const guard = alloc_selfcheck_guard_series_filter();
-    pipe_link(guard,slices[si].u.pipe.next);
-    pipe_link(si,guard);
-  }
-
-  slice_traverse_children(slices[si].u.pipe.next,st);
+  slice_traverse_children(si,st);
+  pipe_append(si,alloc_selfcheck_guard_series_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

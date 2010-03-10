@@ -1640,29 +1640,6 @@ static void make_leaves_direct(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_direct_defense_after(slice_index pos,
-                                        slice_index proxy_to_goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pos);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  if (slices[slices[pos].u.pipe.next].type==STDirectDefense)
-    /* already done*/ ;
-  else
-  {
-    stip_length_type const length = slices[pos].u.branch.length;
-    stip_length_type const min_length = slices[pos].u.branch.min_length;
-    slice_index dirdef = alloc_direct_defense(length,min_length,proxy_to_goal);
-    pipe_link(dirdef,slices[pos].u.pipe.next);
-    pipe_link(pos,dirdef);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static boolean transform_to_quodlibet_self_attack(slice_index si,
                                                   slice_traversal *st)
 {
@@ -1687,6 +1664,27 @@ static boolean transform_to_quodlibet_self_attack(slice_index si,
   return result;
 }
 
+static void append_direct_defense(slice_index pos,
+                                  slice_index proxy_to_goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pos);
+  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParamListEnd();
+
+  if (slices[slices[pos].u.pipe.next].type==STDirectDefense)
+    /* already done*/ ;
+  else
+  {
+    stip_length_type const length = slices[pos].u.branch.length;
+    stip_length_type const min_length = slices[pos].u.branch.min_length;
+    pipe_append(pos,alloc_direct_defense(length,min_length,proxy_to_goal));
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
                                                              slice_traversal *st)
 {
@@ -1708,7 +1706,7 @@ static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
    */
   if (slices[slices[pos].u.pipe.next].type==STSelfDefense)
     pos = slices[pos].u.pipe.next;
-  insert_direct_defense_after(pos,*new_proxy_to_goal);
+  append_direct_defense(pos,*new_proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1926,8 +1924,8 @@ static slice_operation const to_postkey_play_reducers[] =
 static void install_postkey_slice(slice_index postkey_slice)
 {
   slice_index const inverter = alloc_move_inverter_root_solvable_filter();
-  pipe_link(inverter,postkey_slice);
   assert(slices[root_slice].type==STProxy);
+  pipe_link(inverter,postkey_slice);
   pipe_link(root_slice,inverter);
 }
 

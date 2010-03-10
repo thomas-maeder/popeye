@@ -3341,12 +3341,7 @@ static boolean intelligent_guards_inserter_branch_help(slice_index si,
   {
     slice_index const next_prev = slices[next].prev;
     if (next_prev==si)
-    {
-      slice_index const guard = alloc_goalreachable_guard_help_filter(length,
-                                                                      min_length);
-      pipe_link(si,guard);
-      pipe_link(guard,next);
-    }
+      pipe_append(si,alloc_goalreachable_guard_help_filter(length,min_length));
     else
     {
       assert(slices[next_prev].type==STGoalReachableGuardHelpFilter);
@@ -3377,12 +3372,7 @@ static boolean intelligent_guards_inserter_branch_series(slice_index si,
   {
     slice_index const next_prev = slices[next].prev;
     if (next_prev==si)
-    {
-      slice_index const guard = alloc_goalreachable_guard_series_filter(length,
-                                                                        min_length);
-      pipe_link(si,guard);
-      pipe_link(guard,next);
-    }
+      pipe_append(si,alloc_goalreachable_guard_series_filter(length,min_length));
     else
     {
       assert(slices[next_prev].type==STGoalReachableGuardSeriesFilter);
@@ -3409,11 +3399,10 @@ static boolean intelligent_guards_inserter_parry_fork(slice_index si,
 
   {
     slice_index const inverter = slices[si].u.pipe.next;
-    slice_index const guard
-        = alloc_goalreachable_guard_series_filter(slack_length_series+1,
-                                                  slack_length_series+1);
-    pipe_link(guard,slices[inverter].u.pipe.next);
-    pipe_link(inverter,guard);
+    stip_length_type const length = slack_length_series+1;
+    stip_length_type const min_length = slack_length_series+1;
+    pipe_append(inverter,
+                alloc_goalreachable_guard_series_filter(length,min_length));
   }
 
   TraceFunctionExit(__func__);
@@ -3436,10 +3425,7 @@ static boolean intelligent_guards_inserter_help_root(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const intelligent = alloc_intelligent_help_filter(length,
-                                                                  min_length);
-    pipe_link(intelligent,slices[si].u.pipe.next);
-    pipe_link(si,intelligent);
+    pipe_append(si,alloc_intelligent_help_filter(length,min_length));
   }
 
   TraceFunctionExit(__func__);
@@ -3462,10 +3448,7 @@ static boolean intelligent_guards_inserter_series_root(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const intelligent = alloc_intelligent_series_filter(length,
-                                                                    min_length);
-    pipe_link(intelligent,slices[si].u.pipe.next);
-    pipe_link(si,intelligent);
+    pipe_append(si,alloc_intelligent_series_filter(length,min_length));
   }
 
   TraceFunctionExit(__func__);

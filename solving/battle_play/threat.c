@@ -385,20 +385,10 @@ static boolean defense_move_wrap(slice_index si, slice_traversal *st)
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prev = slices[si].prev;
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const next_prev = slices[next].prev;
     slice_index const enforcer = alloc_threat_enforcer_slice(length-1,
                                                              min_length-1);
-    slice_index const handler = alloc_threat_writer_slice(length,min_length,
-                                                           enforcer);
-    pipe_link(prev,handler);
-    pipe_link(handler,si);
-    pipe_link(si,enforcer);
-
-    if (slices[next_prev].u.pipe.next==next)
-      pipe_set_successor(enforcer,next);
-    else
-      pipe_link(enforcer,next);
+    pipe_append(prev,alloc_threat_writer_slice(length,min_length,enforcer));
+    pipe_append(si,enforcer);
   }
 
   TraceFunctionExit(__func__);

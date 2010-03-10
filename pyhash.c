@@ -2057,12 +2057,9 @@ void insert_attack_hashed_slice(slice_index si)
   {
     case STLeafDirect:
     {
-      slice_index const hash
-          = alloc_attack_hashed_slice(slack_length_battle+1,
-                                      slack_length_battle+1);
-      slice_index const prev = slices[si].prev;
-      pipe_link(hash,si);
-      pipe_link(prev,hash);
+      stip_length_type const length = slack_length_battle+1;
+      stip_length_type const min_length = slack_length_battle+1;
+      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
       break;
     }
 
@@ -2070,10 +2067,7 @@ void insert_attack_hashed_slice(slice_index si)
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      slice_index const hash = alloc_attack_hashed_slice(length,min_length);
-      slice_index const prev = slices[si].prev;
-      pipe_link(hash,si);
-      pipe_link(prev,hash);
+      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
       break;
     }
 
@@ -2126,11 +2120,9 @@ void insert_help_hashed_slice(slice_index si)
   {
     case STLeafHelp:
     {
-      slice_index const hash = alloc_help_hashed_slice(slack_length_help+1,
-                                                       slack_length_help+1);
-      slice_index const prev = slices[si].prev;
-      pipe_link(hash,si);
-      pipe_link(prev,hash);
+      stip_length_type const length = slack_length_help+1;
+      stip_length_type const min_length = slack_length_help+1;
+      pipe_append(slices[si].prev,alloc_help_hashed_slice(length,min_length));
       break;
     }
 
@@ -2138,10 +2130,7 @@ void insert_help_hashed_slice(slice_index si)
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      slice_index const hash = alloc_help_hashed_slice(length,min_length);
-      slice_index const prev = slices[si].prev;
-      pipe_link(hash,si);
-      pipe_link(prev,hash);
+      pipe_append(slices[si].prev,alloc_help_hashed_slice(length,min_length));
       break;
     }
 
@@ -2170,10 +2159,7 @@ void insert_series_hashed_slice(slice_index si)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const hash = alloc_branch(STSeriesHashed,length,min_length);
-    slice_index const prev = slices[si].prev;
-    pipe_link(hash,si);
-    pipe_link(prev,hash);
+    pipe_append(slices[si].prev,alloc_branch(STSeriesHashed,length,min_length));
   }
 
   TraceFunctionExit(__func__);

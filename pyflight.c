@@ -228,14 +228,9 @@ static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const prev = slices[si].prev;
-    stip_length_type const length = slices[si].u.branch.length;
-    slice_index const guard = alloc_maxflight_guard_slice(length);
-    pipe_link(prev,guard);
-    pipe_link(guard,si);
-    slice_traverse_children(si,st);
-  }
+  pipe_append(slices[si].prev,
+              alloc_maxflight_guard_slice(slices[si].u.branch.length));
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

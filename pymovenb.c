@@ -218,21 +218,12 @@ static boolean restart_guards_inserter_attack_root(slice_index si,
                                                    slice_traversal *st)
 {
   boolean const result = true;
-  slice_index guard;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  guard = alloc_restart_guard_root_defender_filter();
-
-  if (slices[next].prev==si)
-    pipe_link(guard,next);
-  else
-    pipe_set_successor(guard,next);
-
-  pipe_link(si,guard);
+  pipe_append(si,alloc_restart_guard_root_defender_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -244,21 +235,12 @@ static boolean restart_guards_inserter_help(slice_index si,
                                             slice_traversal *st)
 {
   boolean const result = true;
-  slice_index guard;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  guard = alloc_restart_guard_help_filter();
-
-  if (slices[next].prev==si)
-    pipe_link(guard,next);
-  else
-    pipe_set_successor(guard,next);
-
-  pipe_link(si,guard);
+  pipe_append(si,alloc_restart_guard_help_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -270,21 +252,12 @@ static boolean restart_guards_inserter_series(slice_index si,
                                               slice_traversal *st)
 {
   boolean const result = true;
-  slice_index guard;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  guard = alloc_restart_guard_series_filter();
-
-  if (slices[next].prev==si)
-    pipe_link(guard,next);
-  else
-    pipe_set_successor(guard,next);
-
-  pipe_link(si,guard);
+  pipe_append(si,alloc_restart_guard_series_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

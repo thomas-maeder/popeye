@@ -107,10 +107,8 @@ static boolean insert_stoponshortsolutions_help_filter(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const
-        filter = alloc_stoponshortsolutions_help_filter(length,min_length);
-    pipe_link(slices[si].prev,filter);
-    pipe_link(filter,si);
+    pipe_append(slices[si].prev,
+                alloc_stoponshortsolutions_help_filter(length,min_length));
   }
 
   {
@@ -140,10 +138,8 @@ static boolean insert_stoponshortsolutions_series_filter(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const
-        filter = alloc_stoponshortsolutions_series_filter(length,min_length);
-    pipe_link(slices[si].prev,filter);
-    pipe_link(filter,si);
+    pipe_append(slices[si].prev,
+                alloc_stoponshortsolutions_series_filter(length,min_length));
   }
 
   {
@@ -268,13 +264,8 @@ static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const filter = alloc_stoponshortsolutions_root_solvable_filter();
-    pipe_link(slices[si].prev,filter);
-    pipe_link(filter,si);
-
-    insert_filters(slices[si].u.pipe.next);
-  }
+  pipe_append(slices[si].prev,alloc_stoponshortsolutions_root_solvable_filter());
+  insert_filters(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

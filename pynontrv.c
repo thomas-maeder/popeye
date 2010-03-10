@@ -296,17 +296,14 @@ static boolean nontrivial_guard_inserter_attack_move(slice_index si,
                                                        slice_traversal *st)
 {
   boolean const result = true;
-  slice_index guard;
+  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   slice_traverse_children(si,st);
-
-  guard = alloc_max_nr_nontrivial_guard(slices[si].u.branch.length-1);
-  pipe_link(guard,slices[si].u.pipe.next);
-  pipe_link(si,guard);
+  pipe_append(si,alloc_max_nr_nontrivial_guard(length-1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

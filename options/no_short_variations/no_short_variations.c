@@ -18,11 +18,8 @@ static boolean insert_no_short_variations(slice_index si, slice_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    slice_index const filter = alloc_no_short_variations_slice(length,
-                                                               min_length);
-    pipe_link(prev,filter);
-    pipe_link(filter,si);
+    pipe_append(slices[si].prev,
+                alloc_no_short_variations_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);

@@ -296,15 +296,7 @@ static boolean append_collector(slice_index si, slice_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const
-        collector = alloc_refutations_collector_slice(length-1,min_length-1);
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const next_prev = slices[si].prev;
-    pipe_link(si,collector);
-    if (next_prev==si)
-      pipe_link(collector,next);
-    else
-      pipe_set_successor(collector,next);
+    pipe_append(si,alloc_refutations_collector_slice(length-1,min_length-1));
   }
 
   TraceFunctionExit(__func__);
@@ -331,12 +323,7 @@ static boolean substitute_try_writer(slice_index si, slice_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const writer = alloc_try_writer_slice(length,min_length);
-    pipe_link(prev,writer);
-    pipe_link(writer,next);
-    dealloc_slice(si);
+    pipe_replace(si,alloc_try_writer_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);

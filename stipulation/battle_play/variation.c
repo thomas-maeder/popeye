@@ -202,10 +202,7 @@ static void variation_writer_prepend(slice_index si)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    slice_index const writer = alloc_variation_writer_slice(length,min_length);
-    pipe_link(prev,writer);
-    pipe_link(writer,si);
+    pipe_append(slices[si].prev,alloc_variation_writer_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);
@@ -222,12 +219,9 @@ static void variation_writer_append(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const next = slices[si].u.pipe.next;
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const writer = alloc_variation_writer_slice(length,min_length);
-    pipe_link(si,writer);
-    pipe_link(writer,next);
+    pipe_append(si,alloc_variation_writer_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);

@@ -27,6 +27,23 @@ void pipe_set_successor(slice_index pipe, slice_index succ);
  */
 void pipe_link(slice_index branch, slice_index succ);
 
+/* Replace a slice by another. Links the substitute to the replaced
+ * slice's predecessor and successor, but doesn't adjust the links
+ * from other slices that may reference the replaced slice.
+ * Deallocates the replaced slice.
+ * @param replaced identifies the replaced slice
+ * @param substitute identifies the substitute
+ */
+void pipe_replace(slice_index replaced, slice_index substitute);
+
+/* Append a slice to another. Links the two slices and establishes the
+ * same connection from the appended slice to the previous successor
+ * that existed between the previously connected slices.
+ * @param pos identifies where to append
+ * @param appended identifies appended slice
+ */
+void pipe_append(slice_index pos, slice_index appended);
+
 /* Detect starter field with the starting side if possible.
  * @param pipe identifies slice being traversed
  * @param st status of traversal

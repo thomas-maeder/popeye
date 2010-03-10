@@ -594,10 +594,7 @@ static boolean self_guards_inserter_defense_move(slice_index si,
     if (next_prev==si)
     {
       slice_index const * const proxy_to_goal = st->param;
-      slice_index const self_defense = alloc_self_defense(length-1,min_length-1,
-                                                          *proxy_to_goal);
-      pipe_link(self_defense,slices[si].u.pipe.next);
-      pipe_link(si,self_defense);
+      pipe_append(si,alloc_self_defense(length-1,min_length-1,*proxy_to_goal));
     }
     else
     {
@@ -622,16 +619,13 @@ static boolean self_guards_inserter_attack_move(slice_index si,
   slice_index const * const proxy_to_goal = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index self_attack;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  self_attack = alloc_self_attack(length-1,min_length-1,*proxy_to_goal);
-  pipe_link(self_attack,slices[si].u.pipe.next);
-  pipe_link(si,self_attack);
-  slice_traverse_children(self_attack,st);
+  slice_traverse_children(si,st);
+  pipe_append(si,alloc_self_attack(length-1,min_length-1,*proxy_to_goal));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

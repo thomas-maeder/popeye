@@ -186,13 +186,7 @@ static boolean degenerate_tree_inserter_attack_move(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const prev = slices[si].prev;
-    slice_index const guard = alloc_degenerate_tree_guard_slice();
-    pipe_link(prev,guard);
-    pipe_link(guard,si);
-    slice_traverse_children(si,st);
-  }
+  pipe_append(slices[si].prev,alloc_degenerate_tree_guard_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

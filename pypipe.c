@@ -63,15 +63,65 @@ void pipe_set_successor(slice_index pipe, slice_index succ)
  * @param branch identifies branch slice
  * @param succ identifies branch to become the successor
  */
-void pipe_link(slice_index branch, slice_index succ)
+void pipe_link(slice_index pipe, slice_index succ)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",branch);
+  TraceFunctionParam("%u",pipe);
   TraceFunctionParam("%u",succ);
   TraceFunctionParamListEnd();
 
-  pipe_set_successor(branch,succ);
-  slice_set_predecessor(succ,branch);
+  pipe_set_successor(pipe,succ);
+  slice_set_predecessor(succ,pipe);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Replace a slice by another. Links the substitute to the replaced
+ * slice's predecessor and successor, but doesn't adjust the links
+ * from other slices that may reference the replaced slice.
+ * Deallocates the replaced slice.
+ * @param replaced identifies the replaced slice
+ * @param substitute identifies the substitute
+ */
+void pipe_replace(slice_index replaced, slice_index substitute)
+{
+  slice_index const prev = slices[replaced].prev;
+  slice_index const next = slices[replaced].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",replaced);
+  TraceFunctionParam("%u",substitute);
+  TraceFunctionParamListEnd();
+
+  pipe_link(prev,substitute);
+  pipe_link(substitute,next);
+  dealloc_slice(replaced);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Append a slice to another. Links the two slices and establishes the
+ * same connection from the appended slice to the previous successor
+ * that existed between the previously connected slices.
+ * @param pos identifies where to append
+ * @param appended identifies appended slice
+ */
+void pipe_append(slice_index pos, slice_index appended)
+{
+  slice_index const next = slices[pos].u.pipe.next;
+  slice_index const next_prev = slices[next].prev;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pos);
+  TraceFunctionParam("%u",appended);
+  TraceFunctionParamListEnd();
+
+  pipe_link(pos,appended);
+  if (next_prev==pos)
+    slice_set_predecessor(next,appended);
+  pipe_set_successor(appended,next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -106,7 +156,7 @@ boolean pipe_detect_starter(slice_index pipe, slice_traversal *st)
 }
 
 /* Impose the starting side on a stipulation
- * @param pipe identifies branch
+ * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
  * @return true iff the operation is successful in the subtree of
  *         which si is the root
@@ -132,7 +182,7 @@ boolean pipe_impose_starter(slice_index pipe, slice_traversal *st)
 
 /* Impose the starting side on a stipulation. Impose the inverted
  * starter on the slice's successor. 
- * @param pipe identifies branch
+ * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
  * @return true iff the operation is successful in the subtree of
  *         which si is the root

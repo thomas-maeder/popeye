@@ -138,13 +138,9 @@ static boolean insert_maxsolutions_help_filter(slice_index si,
   slice_traverse_children(si,st);
 
   if (slices[next].prev==si)
-  {
     /* we are part of a loop
      */
-    slice_index const filter = alloc_maxsolutions_help_filter();
-    pipe_link(filter,next);
-    pipe_link(si,filter);
-  }
+    pipe_append(si,alloc_maxsolutions_help_filter());
   else
   {
     /* we are attached to a loop
@@ -179,13 +175,9 @@ static boolean insert_maxsolutions_series_filter(slice_index si,
   slice_traverse_children(si,st);
 
   if (slices[next].prev==si)
-  {
     /* we are part of a loop
      */
-    slice_index const filter = alloc_maxsolutions_series_filter();
-    pipe_link(filter,next);
-    pipe_link(si,filter);
-  }
+    pipe_append(si,alloc_maxsolutions_series_filter());
   else
   {
     /* we are attached to a loop
@@ -211,19 +203,13 @@ static boolean insert_maxsolutions_root_defender_filter(slice_index si,
                                                         slice_traversal *st)
 {
   boolean const result = true;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   slice_traverse_children(si,st);
-
-  {
-    slice_index const filter = alloc_maxsolutions_root_defender_filter();
-    pipe_link(filter,next);
-    pipe_link(si,filter);
-  }
+  pipe_append(si,alloc_maxsolutions_root_defender_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -323,11 +309,7 @@ static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const filter = alloc_maxsolutions_root_solvable_filter();
-    pipe_link(slices[si].prev,filter);
-    pipe_link(filter,si);
-  }
+  pipe_append(slices[si].prev,alloc_maxsolutions_root_solvable_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -177,11 +177,8 @@ static boolean continuation_writer_prepend(slice_index si, slice_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    slice_index const writer = alloc_continuation_writer_slice(length,
-                                                               min_length);
-    pipe_link(prev,writer);
-    pipe_link(writer,si);
+    pipe_append(slices[si].prev,
+                alloc_continuation_writer_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);
