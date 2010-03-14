@@ -44,12 +44,9 @@ slice_index alloc_branch_fork(SliceType type,
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
- * @return true iff slice si has been successfully traversed
  */
-boolean branch_fork_resolve_proxies(slice_index si, slice_traversal *st)
+void branch_fork_resolve_proxies(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -60,9 +57,7 @@ boolean branch_fork_resolve_proxies(slice_index si, slice_traversal *st)
     proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether a slice has a solution
@@ -88,12 +83,10 @@ has_solution_type branch_fork_has_solution(slice_index si)
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean branch_fork_detect_starter(slice_index si, slice_traversal *st)
+void branch_fork_detect_starter(slice_index si, slice_traversal *st)
 {
   slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
-  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -101,7 +94,7 @@ boolean branch_fork_detect_starter(slice_index si, slice_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    result = traverse_slices(towards_goal,st);
+    traverse_slices(towards_goal,st);
     if (slices[towards_goal].starter==no_side)
     {
       slice_index const next = slices[si].u.pipe.next;
@@ -111,13 +104,9 @@ boolean branch_fork_detect_starter(slice_index si, slice_traversal *st)
     else
       slices[si].starter = slices[towards_goal].starter;
   }
-  else
-    result = true;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
@@ -144,12 +133,9 @@ boolean branch_fork_root_solve(slice_index si)
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean branch_fork_impose_starter(slice_index si, slice_traversal *st)
+void branch_fork_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   Side * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -161,7 +147,5 @@ boolean branch_fork_impose_starter(slice_index si, slice_traversal *st)
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

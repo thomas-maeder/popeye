@@ -9,8 +9,7 @@
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
- * @return true iff slice si has been successfully traversed
  */
-boolean binary_resolve_proxies(slice_index si, slice_traversal *st);
+void binary_resolve_proxies(slice_index si, slice_traversal *st);
 
 #endif

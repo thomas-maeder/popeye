@@ -220,10 +220,8 @@ unsigned int maxflight_guard_can_defend_in_n(slice_index si,
  * @param si identifier defender slice
  * @param st address of structure representing the traversal
  */
-static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
+static void maxflight_guard_inserter(slice_index si,slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -233,9 +231,7 @@ static boolean maxflight_guard_inserter(slice_index si,slice_traversal *st)
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const maxflight_guards_inserters[] =

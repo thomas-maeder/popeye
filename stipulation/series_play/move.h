@@ -20,16 +20,14 @@ slice_index alloc_series_move_slice(stip_length_type length,
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean series_move_insert_root(slice_index si, slice_traversal *st);
+void series_move_insert_root(slice_index si, slice_traversal *st);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean series_move_detect_starter(slice_index si, slice_traversal *st);
+void series_move_detect_starter(slice_index si, slice_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

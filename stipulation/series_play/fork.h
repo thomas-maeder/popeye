@@ -21,17 +21,14 @@ slice_index alloc_series_fork_slice(stip_length_type length,
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean series_fork_insert_root(slice_index si, slice_traversal *st);
+void series_fork_insert_root(slice_index si, slice_traversal *st);
 
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean series_fork_make_setplay_slice(slice_index si,
-                                       slice_traversal *st);
+void series_fork_make_setplay_slice(slice_index si, slice_traversal *st);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

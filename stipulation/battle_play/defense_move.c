@@ -40,12 +40,9 @@ slice_index alloc_defense_move_slice(stip_length_type length,
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean defense_move_insert_root(slice_index si, slice_traversal *st)
+void defense_move_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -63,20 +60,15 @@ boolean defense_move_insert_root(slice_index si, slice_traversal *st)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean defense_move_detect_starter(slice_index si, slice_traversal *st)
+void defense_move_detect_starter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -85,9 +77,7 @@ boolean defense_move_detect_starter(slice_index si, slice_traversal *st)
     slices[si].starter = Black;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to defend after an attempted key move at root level
@@ -254,12 +244,9 @@ unsigned int defense_move_can_defend_in_n(slice_index si,
 /* Spin off a set play slice
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean defense_move_make_setplay_slice(slice_index si,
-                                        struct slice_traversal *st)
+void defense_move_make_setplay_slice(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   setplay_slice_production * const prod = st->param;
 
   TraceFunctionEntry(__func__);
@@ -281,21 +268,16 @@ boolean defense_move_make_setplay_slice(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
  */
-boolean defense_move_reduce_to_postkey_play(slice_index si,
-                                            struct slice_traversal *st)
+void defense_move_reduce_to_postkey_play(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index *postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
@@ -305,7 +287,5 @@ boolean defense_move_reduce_to_postkey_play(slice_index si,
   *postkey_slice = si;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

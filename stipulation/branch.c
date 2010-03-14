@@ -34,13 +34,9 @@ slice_index alloc_branch(SliceType type,
 /* Continue deallocating a branch
  * @param si identifies branch_fork slice
  * @param st structure representing the traversal
- * @return true iff si and its children have been successfully
- *         deallocated
  */
-static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
+static void traverse_and_deallocate(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -49,21 +45,15 @@ static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
   dealloc_slice(si);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Continue deallocating a branch
  * @param si identifies branch_fork slice
  * @param st structure representing the traversal
- * @return true iff si and its children have been successfully
- *         deallocated
  */
-static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
+static void traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -72,9 +62,7 @@ static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st
   dealloc_proxy_slice(si);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Store slice representing play after branch in object representing
@@ -82,10 +70,9 @@ static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st
  * @param si identifies branch_fork slice
  * @param st structure representing the traversal
  */
-static boolean traverse_and_deallocate_branch_fork(slice_index si,
-                                                   slice_traversal *st)
+static void traverse_and_deallocate_branch_fork(slice_index si,
+                                                slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const to_be_found = st->param;
 
   TraceFunctionEntry(__func__);
@@ -98,15 +85,11 @@ static boolean traverse_and_deallocate_branch_fork(slice_index si,
   dealloc_slice(si);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean traverse_and_deallocate_leaf(slice_index si,
-                                            slice_traversal *st)
+static void traverse_and_deallocate_leaf(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const to_be_found = st->param;
 
   TraceFunctionEntry(__func__);
@@ -116,9 +99,7 @@ static boolean traverse_and_deallocate_leaf(slice_index si,
   *to_be_found = si;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const slice_deallocators[] =

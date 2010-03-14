@@ -19,9 +19,8 @@ slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2);
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean reci_insert_root(slice_index si, slice_traversal *st);
+void reci_insert_root(slice_index si, slice_traversal *st);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -60,16 +59,13 @@ boolean reci_solve(slice_index si);
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean reci_detect_starter(slice_index si, slice_traversal *st);
+void reci_detect_starter(slice_index si, slice_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean reci_impose_starter(slice_index si, slice_traversal *st);
+void reci_impose_starter(slice_index si, slice_traversal *st);
 
 #endif

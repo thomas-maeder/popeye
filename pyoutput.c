@@ -36,9 +36,8 @@ static stip_length_type move_depth;
 
 static captured_ply_type captured_ply[maxply+1];
 
-static boolean output_mode_treemode(slice_index si, slice_traversal *st)
+static void output_mode_treemode(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   output_mode * const mode = st->param;
 
   TraceFunctionEntry(__func__);
@@ -49,14 +48,11 @@ static boolean output_mode_treemode(slice_index si, slice_traversal *st)
   TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean output_mode_linemode(slice_index si, slice_traversal *st)
+static void output_mode_linemode(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   output_mode * const mode = st->param;;
 
   TraceFunctionEntry(__func__);
@@ -67,14 +63,11 @@ static boolean output_mode_linemode(slice_index si, slice_traversal *st)
   TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean output_mode_help_branch(slice_index si, slice_traversal *st)
+static void output_mode_help_branch(slice_index si, slice_traversal *st)
 {
-  boolean result;
   output_mode * const mode = st->param;
 
   TraceFunctionEntry(__func__);
@@ -85,23 +78,17 @@ static boolean output_mode_help_branch(slice_index si, slice_traversal *st)
 
   if (slices[si].u.branch.length==slack_length_help+1)
     /* set play -> delegate decision */
-    result = pipe_traverse_next(slices[si].u.pipe.next,st);
+    pipe_traverse_next(slices[si].u.pipe.next,st);
   else
-  {
     *mode = output_mode_line;
-    result = true;
-  }
   TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean output_mode_series_root(slice_index si, slice_traversal *st)
+static void output_mode_series_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   output_mode * const mode = st->param;;
 
   TraceFunctionEntry(__func__);
@@ -112,14 +99,11 @@ static boolean output_mode_series_root(slice_index si, slice_traversal *st)
   TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean output_mode_fork(slice_index si, slice_traversal *st)
+static void output_mode_fork(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   output_mode * const mode = st->param;
   output_mode mode1;
   output_mode mode2;
@@ -139,9 +123,7 @@ static boolean output_mode_fork(slice_index si, slice_traversal *st)
   TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const output_mode_detectors[] =

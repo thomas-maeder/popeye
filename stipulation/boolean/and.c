@@ -40,13 +40,11 @@ slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2)
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean reci_insert_root(slice_index si, slice_traversal *st)
+void reci_insert_root(slice_index si, slice_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -62,9 +60,7 @@ boolean reci_insert_root(slice_index si, slice_traversal *st)
   *root = si;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether the defense just played defends against the threats.
@@ -199,13 +195,11 @@ boolean reci_solve(slice_index si)
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean reci_detect_starter(slice_index si, slice_traversal *st)
+void reci_detect_starter(slice_index si, slice_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
-  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -213,13 +207,8 @@ boolean reci_detect_starter(slice_index si, slice_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    boolean result1;
-    boolean result2;
-
-    result1 = traverse_slices(op1,st);
-    result2 = traverse_slices(op2,st);
-
-    result = result1 && result2;
+    traverse_slices(op1,st);
+    traverse_slices(op2,st);
 
     if (slices[op1].starter==no_side)
       slices[si].starter = slices[op2].starter;
@@ -230,24 +219,17 @@ boolean reci_detect_starter(slice_index si, slice_traversal *st)
       slices[si].starter = slices[op1].starter;
     }
   }
-  else
-    result = true;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean reci_impose_starter(slice_index si, slice_traversal *st)
+void reci_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean result;
   Side const * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -256,10 +238,8 @@ boolean reci_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  result = slice_traverse_children(si,st);
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

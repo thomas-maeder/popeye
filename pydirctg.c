@@ -70,11 +70,9 @@ alloc_direct_defense_root_solvable_filter(stip_length_type length,
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
+void direct_defense_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -100,9 +98,7 @@ boolean direct_defense_insert_root(slice_index si, slice_traversal *st)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
@@ -304,12 +300,9 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean direct_defense_root_make_setplay_slice(slice_index si,
-                                               struct slice_traversal *st)
+void direct_defense_root_make_setplay_slice(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   setplay_slice_production * const prod = st->param;
 
   TraceFunctionEntry(__func__);
@@ -328,21 +321,17 @@ boolean direct_defense_root_make_setplay_slice(slice_index si,
     traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
  */
-boolean direct_defense_root_reduce_to_postkey_play(slice_index si,
-                                                   struct slice_traversal *st)
+void direct_defense_root_reduce_to_postkey_play(slice_index si,
+                                                slice_traversal *st)
 {
-  boolean result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const *postkey_slice = st->param;
 
@@ -350,26 +339,21 @@ boolean direct_defense_root_reduce_to_postkey_play(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(next,st);
+  traverse_slices(next,st);
 
   if (*postkey_slice!=no_slice)
     dealloc_slice(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean direct_defense_impose_starter(slice_index si, slice_traversal *st)
+void direct_defense_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   Side * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -381,9 +365,7 @@ boolean direct_defense_impose_starter(slice_index si, slice_traversal *st)
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
@@ -402,9 +384,8 @@ typedef struct
  *           slice
  * @param st address of structure representing the traversal
  */
-static boolean direct_guards_inserter_attack(slice_index si, slice_traversal *st)
+static void direct_guards_inserter_attack(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   init_param * const param = st->param;
 
   TraceFunctionEntry(__func__);
@@ -421,9 +402,7 @@ static boolean direct_guards_inserter_attack(slice_index si, slice_traversal *st
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const direct_guards_inserters[] =

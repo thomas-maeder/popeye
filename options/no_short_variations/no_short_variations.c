@@ -5,10 +5,8 @@
 
 #include <assert.h>
 
-static boolean insert_no_short_variations(slice_index si, slice_traversal *st)
+static void insert_no_short_variations(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -23,9 +21,7 @@ static boolean insert_no_short_variations(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const no_short_variations_filter_inserters[] =

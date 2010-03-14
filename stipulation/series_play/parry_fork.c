@@ -129,12 +129,9 @@ slice_index convert_to_parry_series_branch(slice_index si, slice_index parrying)
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
- * @return true iff slice si has been successfully traversed
  */
-boolean parry_fork_resolve_proxies(slice_index si, slice_traversal *st)
+void parry_fork_resolve_proxies(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -145,7 +142,5 @@ boolean parry_fork_resolve_proxies(slice_index si, slice_traversal *st)
     proxy_slice_resolve(&slices[si].u.parry_fork.parrying);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

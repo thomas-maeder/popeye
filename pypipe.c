@@ -130,11 +130,9 @@ void pipe_append(slice_index pos, slice_index appended)
 /* Detect starter field with the starting side if possible.
  * @param pipe identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean pipe_detect_starter(slice_index pipe, slice_traversal *st)
+void pipe_detect_starter(slice_index pipe, slice_traversal *st)
 {
-  boolean result;
   slice_index const next = slices[pipe].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -143,27 +141,20 @@ boolean pipe_detect_starter(slice_index pipe, slice_traversal *st)
 
   if (slices[pipe].starter==no_side)
   {
-    result = traverse_slices(slices[pipe].u.pipe.next,st);
+    traverse_slices(slices[pipe].u.pipe.next,st);
     slices[pipe].starter = slices[next].starter;
   }
-  else
-    result = true;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Impose the starting side on a stipulation
  * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean pipe_impose_starter(slice_index pipe, slice_traversal *st)
+void pipe_impose_starter(slice_index pipe, slice_traversal *st)
 {
-  boolean const result = true;
   Side const * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -175,21 +166,16 @@ boolean pipe_impose_starter(slice_index pipe, slice_traversal *st)
   traverse_slices(slices[pipe].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Impose the starting side on a stipulation. Impose the inverted
  * starter on the slice's successor. 
  * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st)
+void pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st)
 {
-  boolean const result = true;
   Side * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -204,21 +190,16 @@ boolean pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st)
   *starter = slices[pipe].starter;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse the sub-graph starting at the successor slice of a pipe
  * slice (but don't traverse possible other children of the pipe
  * slice)
  * @param pipe identifies pipe slice
- * @return true iff the sub-graph has been successfully traversed
  */
-boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
+void pipe_traverse_next(slice_index pipe, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
@@ -226,20 +207,15 @@ boolean pipe_traverse_next(slice_index pipe, slice_traversal *st)
   traverse_slices(slices[pipe].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
- * @return true iff slice si has been successfully traversed
  */
-boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
+void pipe_resolve_proxies(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -249,9 +225,7 @@ boolean pipe_resolve_proxies(slice_index si, slice_traversal *st)
     proxy_slice_resolve(&slices[si].u.pipe.next);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether a slice has a solution

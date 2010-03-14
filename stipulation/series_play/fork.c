@@ -42,11 +42,9 @@ slice_index alloc_series_fork_slice(stip_length_type length,
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean series_fork_insert_root(slice_index si, slice_traversal *st)
+void series_fork_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -57,9 +55,7 @@ boolean series_fork_insert_root(slice_index si, slice_traversal *st)
   slices[*root].u.shortcut.short_sols = si;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve in a number of half-moves
@@ -152,12 +148,9 @@ void series_fork_solve_threats_in_n(table threats,
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean series_fork_make_setplay_slice(slice_index si,
-                                       slice_traversal *st)
+void series_fork_make_setplay_slice(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   setplay_slice_production * const prod = st->param;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
 
@@ -169,7 +162,5 @@ boolean series_fork_make_setplay_slice(slice_index si,
   prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

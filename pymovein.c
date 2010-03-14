@@ -67,11 +67,9 @@ slice_index alloc_move_inverter_series_filter(void)
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean move_inverter_insert_root(slice_index si, slice_traversal *st)
+void move_inverter_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -88,9 +86,7 @@ boolean move_inverter_insert_root(slice_index si, slice_traversal *st)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve a move inverter slice at root level
@@ -204,11 +200,9 @@ boolean move_inverter_series_has_solution_in_n(slice_index si,
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean move_inverter_detect_starter(slice_index si, slice_traversal *st)
+void move_inverter_detect_starter(slice_index si, slice_traversal *st)
 {
-  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -218,22 +212,18 @@ boolean move_inverter_detect_starter(slice_index si, slice_traversal *st)
   {
     slice_index const next = slices[si].u.pipe.next;
     Side next_starter;
-    result = slice_traverse_children(si,st);
+    slice_traverse_children(si,st);
     next_starter = slices[next].starter;
     if (next_starter!=no_side)
       slices[si].starter = (next_starter==no_side
                             ? no_side:
                             advers(next_starter));
   }
-  else
-    result = true;
 
   TraceValue("->%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Retrieve the starting side of a slice

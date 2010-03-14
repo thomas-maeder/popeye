@@ -95,11 +95,9 @@ static void insert_filters(slice_index si);
 /* Insert a STStopOnShortSolutionsHelpFilter slice after the toplevel
  * STHelpMove slice
  */
-static boolean insert_stoponshortsolutions_help_filter(slice_index si,
-                                                         slice_traversal *st)
+static void insert_stoponshortsolutions_help_filter(slice_index si,
+                                                    slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -118,19 +116,15 @@ static boolean insert_stoponshortsolutions_help_filter(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STStopOnShortSolutionsSeriesFilter slice after the toplevel
  * STSeriesMove slice
  */
-static boolean insert_stoponshortsolutions_series_filter(slice_index si,
-                                                         slice_traversal *st)
+static void insert_stoponshortsolutions_series_filter(slice_index si,
+                                                      slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -149,9 +143,7 @@ static boolean insert_stoponshortsolutions_series_filter(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const stoponshortsolutions_filter_inserters[] =
@@ -256,10 +248,8 @@ static void insert_filters(slice_index si)
 
 /* Insert a STStopOnShortSolutionsRootSolvableFilter slice before some slice
  */
-static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
+static void insert_root_solvable_filter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -268,9 +258,7 @@ static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
   insert_filters(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const stoponshortsolutions_initialiser_inserters[] =

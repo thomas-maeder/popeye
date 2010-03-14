@@ -259,10 +259,8 @@ static unsigned int bit_width(unsigned int value)
   return result;
 }
 
-static boolean slice_property_offset_shifter(slice_index si,
-                                             slice_traversal *st)
+static void slice_property_offset_shifter(slice_index si, slice_traversal *st)
 {
-  boolean result;
   unsigned int const * const delta = st->param;
 
   TraceFunctionEntry(__func__);
@@ -274,12 +272,10 @@ static boolean slice_property_offset_shifter(slice_index si,
   TraceValue("%u",*delta);
   TraceValue("->%u\n",slice_properties[si].valueOffset);
 
-  result = slice_traverse_children(si,st);
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const slice_property_offset_shifters[] =
@@ -473,43 +469,31 @@ static void init_slice_property_series(slice_index si,
  * have a more specialised function
  * @param leaf root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff the properties for pipe and its children have been
- *         successfully initialised
  */
-static boolean init_slice_properties_pipe(slice_index pipe,
-                                          slice_traversal *st)
+static void init_slice_properties_pipe(slice_index pipe, slice_traversal *st)
 {
-  boolean result;
   slice_index const next = slices[pipe].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(next,st);
+  traverse_slices(next,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
   TraceValue("%u",pipe);
   TraceValue("%u\n",slice_properties[pipe].valueOffset);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Initialise the slice_properties array according to a subtree of the
  * current stipulation slices whose root is a fork
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff the properties for pipe and its children have been
- *         successfully initialised
  */
-static boolean init_slice_properties_fork(slice_index fork,
-                                          slice_traversal *st)
+static void init_slice_properties_fork(slice_index fork, slice_traversal *st)
 {
-  boolean result1;
-  boolean result2;
-
   slice_initializer_state * const sis = st->param;
 
   unsigned int const save_valueOffset = sis->valueOffset;
@@ -523,9 +507,9 @@ static boolean init_slice_properties_fork(slice_index fork,
 
   slice_properties[fork].valueOffset = sis->valueOffset;
 
-  result1 = traverse_slices(op1,st);
+  traverse_slices(op1,st);
   sis->valueOffset = save_valueOffset;
-  result2 = traverse_slices(op2,st);
+  traverse_slices(op2,st);
 
   TraceValue("%u",op1);
   TraceValue("%u",slice_properties[op1].valueOffset);
@@ -552,21 +536,16 @@ static boolean init_slice_properties_fork(slice_index fork,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u", result1 && result2);
   TraceFunctionResultEnd();
-  return result1 && result2;
 }
 
 /* Initialise the slice_properties array
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff the properties for branch and its children have been
- *         successfully initialised
  */
-static boolean init_slice_properties_attack_hashed(slice_index si,
-                                                   slice_traversal *st)
+static void init_slice_properties_attack_hashed(slice_index si,
+                                                slice_traversal *st)
 {
-  boolean const result = true;
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.branch.length;
 
@@ -579,20 +558,15 @@ static boolean init_slice_properties_attack_hashed(slice_index si,
   init_slice_property_attack(si,length,sis);
   hash_slices[nr_hash_slices++] = si;
   slice_traverse_children(si,st);
-
-  return result;
 }
 
 /* Initialise the slice_properties array
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff the properties for si and its children have been
- *         successfully initialised
  */
-static boolean init_slice_properties_hashed_help(slice_index si,
-                                                 slice_traversal *st)
+static void init_slice_properties_hashed_help(slice_index si,
+                                              slice_traversal *st)
 {
-  boolean const result = true;
   slice_initializer_state * const sis = st->param;
   unsigned int const length = slices[si].u.branch.length;
 
@@ -629,21 +603,16 @@ static boolean init_slice_properties_hashed_help(slice_index si,
   hash_slices[nr_hash_slices++] = si;
     
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Initialise the slice_properties array
  * @param si root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff the properties for branch and its children have been
- *         successfully initialised
  */
-static boolean init_slice_properties_hashed_series(slice_index si,
-                                                   slice_traversal *st)
+static void init_slice_properties_hashed_series(slice_index si,
+                                                slice_traversal *st)
 {
-  boolean const result = true;
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.branch.length;
 
@@ -657,9 +626,7 @@ static boolean init_slice_properties_hashed_series(slice_index si,
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const slice_properties_initalisers[] =

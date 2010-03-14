@@ -34,8 +34,7 @@ boolean parry_fork_has_solution_in_n(slice_index si, stip_length_type n);
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
- * @return true iff slice si has been successfully traversed
  */
-boolean parry_fork_resolve_proxies(slice_index si, slice_traversal *st);
+void parry_fork_resolve_proxies(slice_index si, slice_traversal *st);
 
 #endif

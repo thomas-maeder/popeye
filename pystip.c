@@ -305,9 +305,8 @@ boolean slice_has_structure(slice_index si, slice_structural_type type)
 
 static boolean is_slice_index_free[max_nr_slices];
 
-static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
+static void mark_reachable_slice(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   boolean (* const leaked)[max_nr_slices] = st->param;
 
   TraceFunctionEntry(__func__);
@@ -319,9 +318,7 @@ static boolean mark_reachable_slice(slice_index si, slice_traversal *st)
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const reachable_slices_markers[] =
@@ -601,10 +598,8 @@ void slice_set_predecessor(slice_index slice, slice_index pred)
   TraceFunctionResultEnd();
 }
 
-static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
+static void traverse_and_deallocate(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -613,15 +608,11 @@ static boolean traverse_and_deallocate(slice_index si, slice_traversal *st)
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
+static void traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -630,9 +621,7 @@ static boolean traverse_and_deallocate_proxy(slice_index si, slice_traversal *st
   dealloc_proxy_slice(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const deallocators[] =
@@ -754,9 +743,8 @@ void release_slices(void)
   TraceFunctionResultEnd();
 }
 
-static boolean leaf_insert_root(slice_index si, slice_traversal *st)
+static void leaf_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -766,9 +754,7 @@ static boolean leaf_insert_root(slice_index si, slice_traversal *st)
   *root = si;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const root_slice_inserters[] =
@@ -1034,80 +1020,63 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
 /* Determine contribution of slice subtree to maximum number of moves
  * @param si identifies root of subtree
  * @param address of structure representing traversal
- * @return true iff traversal of si was successful
  */
-static boolean get_max_nr_moves_direct_defender(slice_index si,
-                                                slice_traversal *st)
+static void get_max_nr_moves_direct_defender(slice_index si, slice_traversal *st)
 {
-  boolean result;
   stip_length_type * const max_nr = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.pipe.next,st);
+  traverse_slices(slices[si].u.pipe.next,st);
   *max_nr += slices[si].u.branch.length+1;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine contribution of slice subtree to maximum number of moves
  * @param si identifies root of subtree
  * @param address of structure representing traversal
- * @return true iff traversal of si was successful
  */
-static boolean get_max_nr_moves_branch(slice_index si, slice_traversal *st)
+static void get_max_nr_moves_branch(slice_index si, slice_traversal *st)
 {
-  boolean result;
   stip_length_type * const max_nr = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_traverse_children(si,st);
+  slice_traverse_children(si,st);
   *max_nr += slices[si].u.branch.length;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine contribution of slice subtree to maximum number of moves
  * @param si identifies root of subtree
  * @param address of structure representing traversal
- * @return true iff traversal of si was successful
  */
-static boolean get_max_nr_moves_branch_fork(slice_index si,
-                                            slice_traversal *st)
+static void get_max_nr_moves_branch_fork(slice_index si, slice_traversal *st)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[si].u.branch_fork.towards_goal,st);
+  traverse_slices(slices[si].u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine contribution of slice subtree to maximum number of moves
  * @param si identifies root of subtree
  * @param address of structure representing traversal
- * @return true iff traversal of si was successful
  */
-static boolean get_max_nr_moves_leaf(slice_index si, slice_traversal *st)
+static void get_max_nr_moves_leaf(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   stip_length_type * const max_nr = st->param;
 
   TraceFunctionEntry(__func__);
@@ -1117,9 +1086,7 @@ static boolean get_max_nr_moves_leaf(slice_index si, slice_traversal *st)
   *max_nr = 1;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const get_max_nr_moves_functions[] =
@@ -1239,9 +1206,8 @@ enum
   no_unique_goal = max_nr_slices+1
 };
 
-static boolean find_unique_goal_leaf(slice_index si, slice_traversal *st)
+static void find_unique_goal_leaf(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const found = st->param;
 
   TraceFunctionEntry(__func__);
@@ -1254,9 +1220,7 @@ static boolean find_unique_goal_leaf(slice_index si, slice_traversal *st)
     *found = no_unique_goal;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const unique_goal_finders[] =
@@ -1523,10 +1487,8 @@ static slice_index deep_copy(slice_index si)
  * @param si identifies leaf slice to be converted
  * @param st address of structure representing the traversal
  */
-static boolean make_leaf_direct(slice_index si, slice_traversal *st)
+static void make_leaf_direct(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -1536,9 +1498,7 @@ static boolean make_leaf_direct(slice_index si, slice_traversal *st)
     slices[si].starter = advers(slices[si].starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const leaves_direct_makers[] =
@@ -1640,10 +1600,9 @@ static void make_leaves_direct(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean transform_to_quodlibet_self_attack(slice_index si,
-                                                  slice_traversal *st)
+static void transform_to_quodlibet_self_attack(slice_index si,
+                                               slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
   slice_index * const new_proxy_to_goal = st->param;
 
@@ -1659,9 +1618,7 @@ static boolean transform_to_quodlibet_self_attack(slice_index si,
   *new_proxy_to_goal = no_slice;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void append_direct_defense(slice_index pos,
@@ -1685,10 +1642,9 @@ static void append_direct_defense(slice_index pos,
   TraceFunctionResultEnd();
 }
 
-static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
-                                                             slice_traversal *st)
+static void transform_to_quodlibet_branch_direct_defender(slice_index si,
+                                                          slice_traversal *st)
 {
-  boolean const result = true;
   slice_index pos = si;
   slice_index const * const new_proxy_to_goal = st->param;
 
@@ -1709,15 +1665,12 @@ static boolean transform_to_quodlibet_branch_direct_defender(slice_index si,
   append_direct_defense(pos,*new_proxy_to_goal);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean transform_to_quodlibet_branch_fork(slice_index si,
-                                                  slice_traversal *st)
+static void transform_to_quodlibet_branch_fork(slice_index si,
+                                               slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1728,9 +1681,7 @@ static boolean transform_to_quodlibet_branch_fork(slice_index si,
   traverse_slices(next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const to_quodlibet_transformers[] =
@@ -2144,9 +2095,8 @@ static boolean leaf_ends_in_one_of(Goal const goals[],
   return false;
 }
 
-static boolean leaf_ends_only_in(slice_index si, slice_traversal *st)
+static void leaf_ends_only_in(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   goal_set const * const goals = st->param;
 
   TraceFunctionEntry(__func__);
@@ -2158,9 +2108,7 @@ static boolean leaf_ends_only_in(slice_index si, slice_traversal *st)
                                                  si));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const slice_ends_only_in_checkers[] =
@@ -2269,9 +2217,8 @@ boolean stip_ends_only_in(Goal const goals[], size_t nrGoals)
   return result;
 }
 
-static boolean slice_ends_in_one_of_leaf(slice_index si, slice_traversal *st)
+static void slice_ends_in_one_of_leaf(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   goal_set const * const goals = st->param;
 
   TraceFunctionEntry(__func__);
@@ -2283,9 +2230,7 @@ static boolean slice_ends_in_one_of_leaf(slice_index si, slice_traversal *st)
                                                  si));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const slice_ends_in_one_of_checkers[] =
@@ -2398,12 +2343,11 @@ boolean stip_ends_in_one_of(Goal const goals[], size_t nrGoals)
  * @param branch identifies the branch
  * @param st address of structure defining traversal
  */
-static boolean make_exact_branch(slice_index branch, slice_traversal *st)
+static void make_exact_branch(slice_index branch, slice_traversal *st)
 {
-  slices[branch].u.branch.min_length
-      = slices[branch].u.branch.length;
+  slices[branch].u.branch.min_length = slices[branch].u.branch.length;
 
-  return slice_traverse_children(branch,st);
+  slice_traverse_children(branch,st);
 }
 
 static slice_operation const exact_makers[] =
@@ -2708,29 +2652,24 @@ void stip_impose_starter(Side starter)
  * @param si identifies slice on which to invoke noop
  * @param st address of structure defining traversal
  */
-boolean slice_operation_noop(slice_index si, slice_traversal *st)
+void slice_operation_noop(slice_index si, slice_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",true);
   TraceFunctionResultEnd();
-  return true;
 }
 
 /* Dispatch an operation to a slice based on the slice's type
  * @param si identifies slice
  * @param st address of structure defining traversal
- * @return true iff dispatched operation returned true
  */
-static boolean dispatch_to_slice(slice_index si,
-                                 operation_mapping ops,
-                                 slice_traversal *st)
+static void dispatch_to_slice(slice_index si,
+                              operation_mapping ops,
+                              slice_traversal *st)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%p",st);
@@ -2742,13 +2681,11 @@ static boolean dispatch_to_slice(slice_index si,
   {
     slice_operation const operation = (*ops)[slices[si].type];
     assert(operation!=0);
-    result = (*operation)(si,st);
+    (*operation)(si,st);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Initialise a slice_traversal structure
@@ -2791,10 +2728,8 @@ get_slice_traversal_slice_state(slice_index si, slice_traversal *st)
 /* (Approximately) depth-first traversl of the stipulation
  * @param ops mapping from slice types to operations
  * @param param address of data structure holding parameters for the operation
- * @return true iff root and its children have been successfully
- *         traversed
  */
-boolean traverse_slices(slice_index root, slice_traversal *st)
+void traverse_slices(slice_index root, slice_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -2805,132 +2740,98 @@ boolean traverse_slices(slice_index root, slice_traversal *st)
   {
     /* avoid infinite recursion */
     st->traversed[root] = slice_being_traversed;
-    st->traversed[root] = (dispatch_to_slice(root,st->ops,st)
-                           ? slice_traversed
-                           : slice_not_traversed);
+    dispatch_to_slice(root,st->ops,st);
+    st->traversed[root] = slice_traversed;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",st->traversed[root]==slice_traversed);
   TraceFunctionResultEnd();
-  return st->traversed[root]==slice_traversed;
 }
 
 /* Traverse a subtree
  * @param fork root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff fork and its children have been successfully
- *         traversed
  */
-static boolean traverse_fork(slice_index fork, slice_traversal *st)
+static void traverse_fork(slice_index fork, slice_traversal *st)
 {
-  boolean result1;
-  boolean result2;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",fork);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  result1 = traverse_slices(slices[fork].u.binary.op1,st);
-  result2 = traverse_slices(slices[fork].u.binary.op2,st);
+  traverse_slices(slices[fork].u.binary.op1,st);
+  traverse_slices(slices[fork].u.binary.op2,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u", result1 && result2);
   TraceFunctionResultEnd();
-  return result1 && result2;
 }
 
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff pipe and its children have been successfully
- *         traversed
  */
-static boolean traverse_pipe(slice_index pipe, slice_traversal *st)
+static void traverse_pipe(slice_index pipe, slice_traversal *st)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(slices[pipe].u.pipe.next,st);
+  traverse_slices(slices[pipe].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff pipe and its children have been successfully
- *         traversed
  */
-static boolean traverse_shortcut(slice_index pipe, slice_traversal *st)
+static void traverse_shortcut(slice_index pipe, slice_traversal *st)
 {
-  boolean result;
-  boolean result1;
-  boolean result2;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  result1 = traverse_slices(slices[pipe].u.pipe.next,st);
-  result2 = traverse_slices(slices[pipe].u.shortcut.short_sols,st);
-  result = result1 && result2;
+  traverse_slices(slices[pipe].u.pipe.next,st);
+  traverse_slices(slices[pipe].u.shortcut.short_sols,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff branch_fork and its children have been successfully
- *         traversed
  */
-static boolean traverse_branch_fork(slice_index branch, slice_traversal *st)
+static void traverse_branch_fork(slice_index branch, slice_traversal *st)
 {
-  boolean const result_pipe = traverse_pipe(branch,st);
   slice_index const towards_goal = slices[branch].u.branch_fork.towards_goal;
-  boolean const result_toward_goal = traverse_slices(towards_goal,st);
-  return result_pipe && result_toward_goal;
+  traverse_pipe(branch,st);
+  traverse_slices(towards_goal,st);
 }
 
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff branch_fork and its children have been successfully
- *         traversed
  */
-static boolean traverse_parry_fork(slice_index branch, slice_traversal *st)
+static void traverse_parry_fork(slice_index branch, slice_traversal *st)
 {
-  boolean const result_pipe = traverse_pipe(branch,st);
   slice_index const parrying = slices[branch].u.parry_fork.parrying;
-  boolean const result_parrying = traverse_slices(parrying,st);
-  return result_pipe && result_parrying;
+  traverse_pipe(branch,st);
+  traverse_slices(parrying,st);
 }
 
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
- * @return true iff branch_fork and its children have been successfully
- *         traversed
  */
-static boolean traverse_reflex_guard(slice_index branch, slice_traversal *st)
+static void traverse_reflex_guard(slice_index branch, slice_traversal *st)
 {
-  boolean const result_pipe = traverse_pipe(branch,st);
   slice_index const avoided = slices[branch].u.reflex_guard.avoided;
-  boolean const result_not_slice = traverse_slices(avoided,st);
-  return result_pipe && result_not_slice;
+  traverse_pipe(branch,st);
+  traverse_slices(avoided,st);
 }
 
 static slice_operation const traversers[] =
@@ -3018,20 +2919,15 @@ static slice_operation const traversers[] =
 /* (Approximately) depth-first traversl of a stipulation sub-tree
  * @param root root of the sub-tree to traverse
  * @param st address of structure defining traversal
- * @return if the children of si have been successfully traversed
  */
-boolean slice_traverse_children(slice_index si, slice_traversal *st)
+void slice_traverse_children(slice_index si, slice_traversal *st)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = dispatch_to_slice(si,&traversers,st);
+  dispatch_to_slice(si,&traversers,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -755,12 +755,9 @@ goal_checker_result_type leaf_is_goal_reached(Side just_moved,
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean leaf_impose_starter(slice_index si, slice_traversal *st)
+void leaf_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   Side const * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -771,7 +768,5 @@ boolean leaf_impose_starter(slice_index si, slice_traversal *st)
   slices[si].starter = *starter;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

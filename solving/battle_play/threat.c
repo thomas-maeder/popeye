@@ -346,12 +346,9 @@ unsigned int threat_writer_can_defend_in_n(slice_index si,
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
  */
-boolean threat_writer_reduce_to_postkey_play(slice_index si,
-                                             struct slice_traversal *st)
+void threat_writer_reduce_to_postkey_play(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index *postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
@@ -361,20 +358,15 @@ boolean threat_writer_reduce_to_postkey_play(slice_index si,
   *postkey_slice = si;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Wrap a defense move slice with threat handler slices
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean defense_move_wrap(slice_index si, slice_traversal *st)
+static void defense_move_wrap(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -392,19 +384,15 @@ static boolean defense_move_wrap(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Avoid the parrying move when inserting threat handlers
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean threat_writer_avoid_parrying(slice_index si, slice_traversal *st)
+static void threat_writer_avoid_parrying(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -414,9 +402,7 @@ static boolean threat_writer_avoid_parrying(slice_index si, slice_traversal *st)
   traverse_slices(next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const threat_handler_inserters[] =

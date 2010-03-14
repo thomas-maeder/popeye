@@ -102,12 +102,9 @@ static void shorten_setplay_root_branch(slice_index root)
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean help_root_make_setplay_slice(slice_index si,
-                                     struct slice_traversal *st)
+void help_root_make_setplay_slice(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   setplay_slice_production * const prod = st->param;
 
   TraceFunctionEntry(__func__);
@@ -136,9 +133,7 @@ boolean help_root_make_setplay_slice(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Perform the necessary work for shorting a branch from an even to an

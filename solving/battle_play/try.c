@@ -283,12 +283,9 @@ stip_length_type refutations_collector_solve_in_n(slice_index si,
 /* Append refutations collector
  * @param si identifies slice where to append
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean append_collector(slice_index si, slice_traversal *st)
+static void append_collector(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -300,20 +297,15 @@ static boolean append_collector(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Substitute a try writer for the solution writer
  * @param si identifies slice to be replaced
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean substitute_try_writer(slice_index si, slice_traversal *st)
+static void substitute_try_writer(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -327,9 +319,7 @@ static boolean substitute_try_writer(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const try_handler_inserters[] =

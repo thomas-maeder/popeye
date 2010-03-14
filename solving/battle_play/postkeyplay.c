@@ -225,12 +225,9 @@ stip_length_type refuting_variation_writer_solve_in_n(slice_index si,
 /* Append a variation writer
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean prepend_refutes_writer(slice_index si, slice_traversal *st)
+static void prepend_refutes_writer(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -243,20 +240,15 @@ static boolean prepend_refutes_writer(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Append a variation writer
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean substitute_solution_writer(slice_index si, slice_traversal *st)
+static void substitute_solution_writer(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -270,9 +262,7 @@ static boolean substitute_solution_writer(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const postkey_handler_inserters[] =

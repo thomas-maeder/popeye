@@ -37,12 +37,9 @@ slice_index alloc_help_shortcut(stip_length_type length,
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
- * @return true iff slice si has been successfully traversed
  */
-boolean help_shortcut_resolve_proxies(slice_index si, slice_traversal *st)
+void help_shortcut_resolve_proxies(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -54,9 +51,7 @@ boolean help_shortcut_resolve_proxies(slice_index si, slice_traversal *st)
 
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve in a number of half-moves

@@ -177,11 +177,9 @@ boolean degenerate_tree_are_threats_refuted_in_n(table threats,
 /* **************** Stipulation instrumentation ***************
  */
 
-static boolean degenerate_tree_inserter_attack_move(slice_index si,
-                                                      slice_traversal *st)
+static void degenerate_tree_inserter_attack_move(slice_index si,
+                                                 slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -189,9 +187,7 @@ static boolean degenerate_tree_inserter_attack_move(slice_index si,
   pipe_append(slices[si].prev,alloc_degenerate_tree_guard_slice());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const degenerate_tree_guards_inserters[] =

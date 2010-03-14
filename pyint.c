@@ -2668,13 +2668,9 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean init_moves_left_leaf_direct(slice_index si,
-                                           slice_traversal *st)
+static void init_moves_left_leaf_direct(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2687,21 +2683,15 @@ static boolean init_moves_left_leaf_direct(slice_index si,
   TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean init_moves_left_leaf_help(slice_index si,
-                                         slice_traversal *st)
+static void init_moves_left_leaf_help(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2714,21 +2704,15 @@ static boolean init_moves_left_leaf_help(slice_index si,
   TraceValue("%u\n",MovesLeft[Black]);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true iff the number of moves left have been successfully
- *         initialised for si and its children
  */
-static boolean full_moves_left_branch_help(slice_index si,
-                                           slice_traversal *st)
+static void full_moves_left_branch_help(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   stip_length_type const n = slices[si].u.branch.length;
       
   TraceFunctionEntry(__func__);
@@ -2743,21 +2727,15 @@ static boolean full_moves_left_branch_help(slice_index si,
   traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true iff the number of moves left have been successfully
- *         initialised for si and its children
  */
-static boolean full_moves_left_branch_series(slice_index si,
-                                             slice_traversal *st)
+static void full_moves_left_branch_series(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   stip_length_type const n = slices[si].u.branch.length;
       
   TraceFunctionEntry(__func__);
@@ -2772,9 +2750,7 @@ static boolean full_moves_left_branch_series(slice_index si,
   traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const full_moves_left_initialisers[] =
@@ -2862,13 +2838,9 @@ static slice_operation const full_moves_left_initialisers[] =
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true iff the number of moves left have been successfully
- *         initialised for si and its children
  */
-static boolean partial_moves_left_branch_help(slice_index si,
-                                              slice_traversal *st)
+static void partial_moves_left_branch_help(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   stip_length_type * const n = st->param;
       
   TraceFunctionEntry(__func__);
@@ -2884,21 +2856,15 @@ static boolean partial_moves_left_branch_help(slice_index si,
   traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true iff the number of moves left have been successfully
- *         initialised for si and its children
  */
-static boolean partial_moves_left_branch_series(slice_index si,
-                                                slice_traversal *st)
+static void partial_moves_left_branch_series(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   stip_length_type * const n = st->param;
       
   TraceFunctionEntry(__func__);
@@ -2913,20 +2879,15 @@ static boolean partial_moves_left_branch_series(slice_index si,
   traverse_slices(slices[si].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true iff the number of moves left have been successfully
- *         initialised for si and its children
  */
-static boolean partial_moves_left_help_fork(slice_index si, slice_traversal *st)
+static void partial_moves_left_help_fork(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_traversal st_full;
 
   TraceFunctionEntry(__func__);
@@ -2939,22 +2900,16 @@ static boolean partial_moves_left_help_fork(slice_index si, slice_traversal *st)
   traverse_slices(slices[si].u.branch_fork.towards_goal,&st_full);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
 /* Calculate the number of moves of each side
  * @param si index of non-root slice
  * @param st address of structure defining traversal
- * @return true iff the number of moves left have been successfully
- *         initialised for si and its children
  */
-static boolean partial_moves_left_series_fork(slice_index si,
-                                              slice_traversal *st)
+static void partial_moves_left_series_fork(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   stip_length_type * const n = st->param;
   slice_traversal st_full;
 
@@ -2970,9 +2925,7 @@ static boolean partial_moves_left_series_fork(slice_index si,
   traverse_slices(slices[si].u.branch_fork.towards_goal,&st_full);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const partial_moves_left_initialisers[] =
@@ -3324,10 +3277,9 @@ void goalreachable_guard_series_solve_threats_in_n(table threats,
   TraceFunctionResultEnd();
 }
 
-static boolean intelligent_guards_inserter_branch_help(slice_index si,
-                                                       slice_traversal *st)
+static void intelligent_guards_inserter_branch_help(slice_index si,
+                                                    slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -3350,15 +3302,12 @@ static boolean intelligent_guards_inserter_branch_help(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean intelligent_guards_inserter_branch_series(slice_index si,
-                                                         slice_traversal *st)
+static void intelligent_guards_inserter_branch_series(slice_index si,
+                                                      slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -3381,16 +3330,12 @@ static boolean intelligent_guards_inserter_branch_series(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean intelligent_guards_inserter_parry_fork(slice_index si,
-                                                      slice_traversal *st)
+static void intelligent_guards_inserter_parry_fork(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -3406,16 +3351,12 @@ static boolean intelligent_guards_inserter_parry_fork(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean intelligent_guards_inserter_help_root(slice_index si,
-                                                     slice_traversal *st)
+static void intelligent_guards_inserter_help_root(slice_index si,
+                                                  slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -3429,16 +3370,12 @@ static boolean intelligent_guards_inserter_help_root(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean intelligent_guards_inserter_series_root(slice_index si,
-                                                       slice_traversal *st)
+static void intelligent_guards_inserter_series_root(slice_index si,
+                                                    slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -3452,9 +3389,7 @@ static boolean intelligent_guards_inserter_series_root(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const intelligent_guards_inserters[] =
@@ -3692,10 +3627,9 @@ typedef enum
   intelligent_active_by_default
 } support_for_intelligent_mode;
 
-static boolean intelligent_mode_support_detector_fork(slice_index si,
-                                                      slice_traversal *st)
+static void intelligent_mode_support_detector_fork(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
@@ -3705,15 +3639,12 @@ static boolean intelligent_mode_support_detector_fork(slice_index si,
   traverse_slices(to_goal,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean intelligent_mode_support_detector_leaf(slice_index si,
-                                                      slice_traversal *st)
+static void intelligent_mode_support_detector_leaf(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
   support_for_intelligent_mode * const support = st->param;
 
   TraceFunctionEntry(__func__);
@@ -3739,15 +3670,12 @@ static boolean intelligent_mode_support_detector_leaf(slice_index si,
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean intelligent_mode_support_detector_quodlibet(slice_index si,
-                                                           slice_traversal *st)
+static void intelligent_mode_support_detector_quodlibet(slice_index si,
+                                                        slice_traversal *st)
 {
-  boolean const result = true;
   support_for_intelligent_mode * const support = st->param;
   support_for_intelligent_mode support1;
   support_for_intelligent_mode support2;
@@ -3773,15 +3701,11 @@ static boolean intelligent_mode_support_detector_quodlibet(slice_index si,
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean intelligent_mode_support_none(slice_index si,
-                                             slice_traversal *st)
+static void intelligent_mode_support_none(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   support_for_intelligent_mode * const support = st->param;
 
   TraceFunctionEntry(__func__);
@@ -3791,9 +3715,7 @@ static boolean intelligent_mode_support_none(slice_index si,
   *support = intelligent_not_supported;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 

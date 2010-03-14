@@ -70,11 +70,9 @@ static slice_index alloc_self_defense(stip_length_type length,
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean self_defense_insert_root(slice_index si, slice_traversal *st)
+void self_defense_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -98,20 +96,15 @@ boolean self_defense_insert_root(slice_index si, slice_traversal *st)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean self_attack_insert_root(slice_index si, slice_traversal *st)
+void self_attack_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -135,9 +128,7 @@ boolean self_attack_insert_root(slice_index si, slice_traversal *st)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
@@ -359,12 +350,9 @@ boolean self_attack_root_solve(slice_index si)
 /* Spin off a set play slice
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean self_attack_root_make_setplay_slice(slice_index si,
-                                            struct slice_traversal *st)
+void self_attack_root_make_setplay_slice(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   setplay_slice_production * const prod = st->param;
   slice_index const length = slices[si].u.branch.length;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
@@ -387,21 +375,16 @@ boolean self_attack_root_make_setplay_slice(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
  */
-boolean self_attack_root_reduce_to_postkey_play(slice_index si,
-                                                struct slice_traversal *st)
+void self_attack_root_reduce_to_postkey_play(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index *postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
@@ -411,9 +394,7 @@ boolean self_attack_root_reduce_to_postkey_play(slice_index si,
   *postkey_slice = si;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve a slice
@@ -518,12 +499,9 @@ boolean self_attack_root_defend(slice_index si)
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean self_attack_impose_starter(slice_index si, slice_traversal *st)
+void self_attack_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   Side * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -535,20 +513,15 @@ boolean self_attack_impose_starter(slice_index si, slice_traversal *st)
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean self_defense_impose_starter(slice_index si, slice_traversal *st)
+void self_defense_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   Side * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -564,9 +537,7 @@ boolean self_defense_impose_starter(slice_index si, slice_traversal *st)
   *starter = advers(*starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
@@ -575,11 +546,9 @@ boolean self_defense_impose_starter(slice_index si, slice_traversal *st)
 
 /* Insert a STSelfDefense after each STDefenseMove
  */
-static boolean self_guards_inserter_defense_move(slice_index si,
-                                                 slice_traversal *st)
+static void self_guards_inserter_defense_move(slice_index si,
+                                              slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -605,17 +574,13 @@ static boolean self_guards_inserter_defense_move(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfAttack after each STAttackMove and STAttackRoot slice
  */
-static boolean self_guards_inserter_attack_move(slice_index si,
-                                                  slice_traversal *st)
+static void self_guards_inserter_attack_move(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const * const proxy_to_goal = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -628,9 +593,7 @@ static boolean self_guards_inserter_attack_move(slice_index si,
   pipe_append(si,alloc_self_attack(length-1,min_length-1,*proxy_to_goal));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const self_guards_inserters[] =

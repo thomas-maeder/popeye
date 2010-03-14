@@ -231,12 +231,9 @@ static void variation_writer_append(slice_index si)
 /* Inserting variation handlers in both parts of a binary
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean variation_handler_insert_binary(slice_index si,
-                                               slice_traversal *st)
+static void variation_handler_insert_binary(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   boolean * const inserted = st->param;
 
   TraceFunctionEntry(__func__);
@@ -251,16 +248,13 @@ static boolean variation_handler_insert_binary(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Continue inserting variation handlers in this branch; start
  * inserting them in the subsequent play 
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
 static void variation_handler_insert_fork(slice_index si, slice_traversal *st)
 {
@@ -287,11 +281,9 @@ static void variation_handler_insert_fork(slice_index si, slice_traversal *st)
  * avoid double insertion 
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean variation_writer_fork_prepend(slice_index si, slice_traversal *st)
+static void variation_writer_fork_prepend(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   boolean * const inserted = st->param;
 
   TraceFunctionEntry(__func__);
@@ -307,20 +299,16 @@ static boolean variation_writer_fork_prepend(slice_index si, slice_traversal *st
   variation_handler_insert_fork(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Append a variation writer, then mark subsequent slices visited to
  * avoid double insertion 
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean variation_writer_fork_append(slice_index si, slice_traversal *st)
+static void variation_writer_fork_append(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   boolean * const inserted = st->param;
 
   TraceFunctionEntry(__func__);
@@ -336,20 +324,15 @@ static boolean variation_writer_fork_append(slice_index si, slice_traversal *st)
   variation_handler_insert_fork(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Append a variation writer if none has been inserted before
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean variation_writer_branch_append(slice_index si,
-                                              slice_traversal *st)
+static void variation_writer_branch_append(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   boolean * const inserted = st->param;
 
   TraceFunctionEntry(__func__);
@@ -365,20 +348,15 @@ static boolean variation_writer_branch_append(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Avoid the parrying move when inserting variation writers
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean variation_handler_avoid_parrying(slice_index si,
-                                                slice_traversal *st)
+static void variation_handler_avoid_parrying(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -388,9 +366,7 @@ static boolean variation_handler_avoid_parrying(slice_index si,
   traverse_slices(next,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const variation_handler_inserters[] =

@@ -37,11 +37,9 @@ slice_index alloc_series_move_slice(stip_length_type length,
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean series_move_insert_root(slice_index si, slice_traversal *st)
+void series_move_insert_root(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -60,20 +58,15 @@ boolean series_move_insert_root(slice_index si, slice_traversal *st)
   }
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean series_move_detect_starter(slice_index si, slice_traversal *st)
+void series_move_detect_starter(slice_index si, slice_traversal *st)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -81,20 +74,16 @@ boolean series_move_detect_starter(slice_index si, slice_traversal *st)
   if (slices[si].starter==no_side)
   {
     slice_index const next = slices[si].u.pipe.next;
-    result = slice_traverse_children(si,st);
+    slice_traverse_children(si,st);
     slices[si].starter = (slices[next].starter==no_side
                           ? no_side
                           : advers(slices[next].starter));
   }
-  else
-    result = true;
 
   TraceValue("%u\n",slices[si].starter);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine and write the solution(s) in a series stipulation

@@ -613,10 +613,9 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
 
 /* Insert a STSelfCheckGuard* slice after a STHelpMove slice
  */
-static boolean selfcheck_guards_inserter_branch_help(slice_index si,
-                                                     slice_traversal *st)
+static void selfcheck_guards_inserter_branch_help(slice_index si,
+                                                  slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -647,17 +646,14 @@ static boolean selfcheck_guards_inserter_branch_help(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a STSeriesMove slice
  */
-static boolean selfcheck_guards_inserter_branch_series(slice_index si,
-                                                       slice_traversal *st)
+static void selfcheck_guards_inserter_branch_series(slice_index si,
+                                                    slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -683,18 +679,14 @@ static boolean selfcheck_guards_inserter_branch_series(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a STAttackRoot slice
  */
-static boolean selfcheck_guards_inserter_attack_root(slice_index si,
-                                                     slice_traversal *st)
+static void selfcheck_guards_inserter_attack_root(slice_index si,
+                                                  slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -703,18 +695,14 @@ static boolean selfcheck_guards_inserter_attack_root(slice_index si,
   pipe_append(si,alloc_selfcheck_guard_root_defender_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a STAttackMove slice
  */
-static boolean selfcheck_guards_inserter_attack_move(slice_index si,
-                                                       slice_traversal *st)
+static void selfcheck_guards_inserter_attack_move(slice_index si,
+                                                  slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -723,18 +711,14 @@ static boolean selfcheck_guards_inserter_attack_move(slice_index si,
   pipe_append(si,alloc_selfcheck_guard_defender_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a defense move slice
  */
-static boolean selfcheck_guards_inserter_defense_move(slice_index si,
-                                                      slice_traversal *st)
+static void selfcheck_guards_inserter_defense_move(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -754,19 +738,15 @@ static boolean selfcheck_guards_inserter_defense_move(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a
  * STMoveInverterRootSolvableFilter slice
  */
-static boolean selfcheck_guards_inserter_move_inverter_root(slice_index si,
-                                                            slice_traversal *st)
+static void selfcheck_guards_inserter_move_inverter_root(slice_index si,
+                                                         slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -775,18 +755,14 @@ static boolean selfcheck_guards_inserter_move_inverter_root(slice_index si,
   pipe_append(si,alloc_selfcheck_guard_root_solvable_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a STMoveInverterSolvableFilter slice
  */
-static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
-                                                       slice_traversal *st)
+static void selfcheck_guards_inserter_move_inverter(slice_index si,
+                                                    slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -795,19 +771,14 @@ static boolean selfcheck_guards_inserter_move_inverter(slice_index si,
   pipe_append(si,alloc_selfcheck_guard_solvable_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a STMoveInverterSeriesFilter slice
  */
-static
-boolean selfcheck_guards_inserter_move_inverter_series(slice_index si,
-                                                       slice_traversal *st)
+static void selfcheck_guards_inserter_move_inverter_series(slice_index si,
+                                                           slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -816,18 +787,14 @@ boolean selfcheck_guards_inserter_move_inverter_series(slice_index si,
   pipe_append(si,alloc_selfcheck_guard_series_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STSelfCheckGuard* slice after a STParryFork slice
  */
-static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
-                                                    slice_traversal *st)
+static void selfcheck_guards_inserter_parry_fork(slice_index si,
+                                                 slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -846,9 +813,7 @@ static boolean selfcheck_guards_inserter_parry_fork(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const selfcheck_guards_inserters[] =
@@ -935,11 +900,9 @@ static slice_operation const selfcheck_guards_inserters[] =
 
 /* Insert a STSelfCheckGuard* at the beginning of a toplevel branch
  */
-static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
-                                                       slice_traversal *st)
+static void selfcheck_guards_inserter_toplevel_root(slice_index si,
+                                                    slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -952,9 +915,7 @@ static boolean selfcheck_guards_inserter_toplevel_root(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const selfcheck_guards_toplevel_inserters[] =

@@ -33,10 +33,8 @@ slice_index help_root_shorten_help_play(slice_index si);
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean help_root_make_setplay_slice(slice_index si,
-                                     struct slice_traversal *st);
+void help_root_make_setplay_slice(slice_index si, slice_traversal *st);
 
 /* Solve a branch slice at root level.
  * @param si slice index

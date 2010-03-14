@@ -77,12 +77,9 @@ boolean attack_root_root_solve(slice_index si)
 /* Spin off a set play slice
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean attack_root_make_setplay_slice(slice_index si,
-                                       struct slice_traversal *st)
+void attack_root_make_setplay_slice(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   setplay_slice_production * const prod = st->param;
 
   TraceFunctionEntry(__func__);
@@ -98,21 +95,16 @@ boolean attack_root_make_setplay_slice(slice_index si,
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
  */
-boolean attack_root_reduce_to_postkey_play(slice_index si,
-                                           struct slice_traversal *st)
+void attack_root_reduce_to_postkey_play(slice_index si, slice_traversal *st)
 {
-  boolean result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const *postkey_slice = st->param;
 
@@ -120,13 +112,11 @@ boolean attack_root_reduce_to_postkey_play(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = traverse_slices(next,st);
+  traverse_slices(next,st);
 
   if (*postkey_slice!=no_slice)
     dealloc_slice(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

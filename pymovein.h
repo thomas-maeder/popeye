@@ -26,9 +26,8 @@ slice_index alloc_move_inverter_series_filter(void);
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean move_inverter_insert_root(slice_index si, slice_traversal *st);
+void move_inverter_insert_root(slice_index si, slice_traversal *st);
 
 /* Solve a move inverter at root level
  * @param si slice index
@@ -66,9 +65,8 @@ boolean move_inverter_series_has_solution_in_n(slice_index si,
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean move_inverter_detect_starter(slice_index si, slice_traversal *st);
+void move_inverter_detect_starter(slice_index si, slice_traversal *st);
 
 /* Retrieve the starting side of a slice
  * @param si slice index

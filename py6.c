@@ -483,7 +483,7 @@ static void initialise_piece_flags(void)
 
 typedef boolean found_slice_types_type[nr_slice_types];
 
-static boolean root_slice_type_found(slice_index si, slice_traversal *st)
+static void root_slice_type_found(slice_index si, slice_traversal *st)
 {
   found_slice_types_type * const found = st->param;
   
@@ -494,9 +494,7 @@ static boolean root_slice_type_found(slice_index si, slice_traversal *st)
   (*found)[slices[si].type] = true;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",true);
   TraceFunctionResultEnd();
-  return true;
 }
 
 static slice_operation const slice_type_finders[] =
@@ -2303,9 +2301,8 @@ int parseCommandlineOptions(int argc, char *argv[])
   return idx;
 }
 
-static boolean mating_side_finder_leaf(slice_index si, slice_traversal *st)
+static void mating_side_finder_leaf(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   Side * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -2316,9 +2313,7 @@ static boolean mating_side_finder_leaf(slice_index si, slice_traversal *st)
   *starter = slices[si].starter;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const mating_side_finders[] =
@@ -2421,10 +2416,8 @@ static Side find_mating_side(slice_index si)
   return result;
 }
 
-static boolean intelligent_init_duplex(slice_index si, slice_traversal *st)
+static void intelligent_init_duplex(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2438,9 +2431,7 @@ static boolean intelligent_init_duplex(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const duplex_initialisers[] =
@@ -2540,10 +2531,8 @@ static void init_duplex(void)
   TraceFunctionResultEnd();
 }
 
-static boolean intelligent_fini_duplex(slice_index si, slice_traversal *st)
+static void intelligent_fini_duplex(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2556,9 +2545,7 @@ static boolean intelligent_fini_duplex(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const duplex_finishers[] =
@@ -2661,12 +2648,9 @@ static void fini_duplex(void)
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
- * @return result of traversing si's children
  */
-boolean insert_hash_element_attack_move(slice_index si, slice_traversal *st)
+void insert_hash_element_attack_move(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2678,19 +2662,15 @@ boolean insert_hash_element_attack_move(slice_index si, slice_traversal *st)
   insert_attack_hashed_slice(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
- * @return result of traversing si's children
  */
-boolean insert_hash_element_nested(slice_index si, slice_traversal *st)
+void insert_hash_element_nested(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   branch_level * const level = st->param;
   branch_level const save_level = *level;
 
@@ -2703,9 +2683,7 @@ boolean insert_hash_element_nested(slice_index si, slice_traversal *st)
   *level = save_level;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static boolean is_goal_move_oriented(slice_index leaf)
@@ -2733,11 +2711,9 @@ static boolean is_goal_move_oriented(slice_index leaf)
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
- * @return result of traversing si's children
  */
-boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
+void insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   branch_level const * const level = st->param;;
 
   TraceFunctionEntry(__func__);
@@ -2751,19 +2727,15 @@ boolean insert_hash_element_leaf_direct(slice_index si, slice_traversal *st)
     insert_attack_hashed_slice(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
- * @return result of traversing si's children
  */
-boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
+void insert_hash_element_branch_help(slice_index si, slice_traversal *st)
 {
-  boolean result;
   branch_level * const level = st->param;
 
   TraceFunctionEntry(__func__);
@@ -2777,31 +2749,24 @@ boolean insert_hash_element_branch_help(slice_index si, slice_traversal *st)
      */
     slice_traverse_children(si,st);
     insert_help_hashed_slice(si);
-    result = true;
   }
   else
   {
     *level = nested_branch;
     slice_traverse_children(si,st);
     *level = toplevel_branch;
-    /* on the next visit, *level might be ==nested_branch */
-    result = false;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
- * @return result of traversing si's children
  */
-boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
+void insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
 {
-  boolean result;
   branch_level const * const level = st->param;;
 
   TraceFunctionEntry(__func__);
@@ -2809,29 +2774,18 @@ boolean insert_hash_element_leaf_help(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   if (*level==nested_branch)
-  {
     insert_help_hashed_slice(si);
-    /* no need to visit this leaf again in this traversal */
-    result = true;
-  }
-  else
-    /* on the next visit, *level might be ==nested_branch */
-    result = false;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
- * @return result of traversing si's children
  */
-boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
+void insert_hash_element_branch_series(slice_index si, slice_traversal *st)
 {
-  boolean result;
   branch_level * const level = st->param;
 
   TraceFunctionEntry(__func__);
@@ -2845,22 +2799,16 @@ boolean insert_hash_element_branch_series(slice_index si, slice_traversal *st)
      */
     slice_traverse_children(si,st);
     insert_series_hashed_slice(si);
-    /* no need to visit this leaf again in this traversal */
-    result = true;
   }
   else
   {
     *level = nested_branch;
     slice_traverse_children(si,st);
     *level = toplevel_branch;
-    /* on the next visit, *level might be ==nested_branch */
-    result = false;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const hash_element_inserters[] =

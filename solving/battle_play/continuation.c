@@ -162,12 +162,9 @@ unsigned int continuation_writer_can_defend_in_n(slice_index si,
 /* Prepend a continuation writer
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
- * @return true
  */
-static boolean continuation_writer_prepend(slice_index si, slice_traversal *st)
+static void continuation_writer_prepend(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -182,9 +179,7 @@ static boolean continuation_writer_prepend(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const continuation_handler_inserters[] =

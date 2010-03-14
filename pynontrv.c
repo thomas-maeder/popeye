@@ -292,10 +292,9 @@ unsigned int max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
-static boolean nontrivial_guard_inserter_attack_move(slice_index si,
-                                                       slice_traversal *st)
+static void nontrivial_guard_inserter_attack_move(slice_index si,
+                                                  slice_traversal *st)
 {
-  boolean const result = true;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
@@ -306,9 +305,7 @@ static boolean nontrivial_guard_inserter_attack_move(slice_index si,
   pipe_append(si,alloc_max_nr_nontrivial_guard(length-1));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const max_nr_nontrivial_guards_inserters[] =

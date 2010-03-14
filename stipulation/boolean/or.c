@@ -41,13 +41,11 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
- * @return true iff slice has been successfully traversed
  */
-boolean quodlibet_insert_root(slice_index si, slice_traversal *st)
+void quodlibet_insert_root(slice_index si, slice_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
-  boolean const result = true;
   slice_index * const root = st->param;
 
   TraceFunctionEntry(__func__);
@@ -65,9 +63,7 @@ boolean quodlibet_insert_root(slice_index si, slice_traversal *st)
   *root = si;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine and write threats of a slice
@@ -296,16 +292,11 @@ boolean quodlibet_solve(slice_index si)
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
+void quodlibet_detect_starter(slice_index si, slice_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
-
-  boolean result;
-  boolean result1;
-  boolean result2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -316,10 +307,9 @@ boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
   TraceValue("%u",slices[si].u.binary.op1);
   TraceValue("%u\n",slices[si].u.binary.op2);
 
-  result1 = traverse_slices(op1,st);
-  result2 = traverse_slices(op2,st);
+  traverse_slices(op1,st);
+  traverse_slices(op2,st);
 
-  result = result1 && result2;
   TraceStipulation(si);
 
   if (slices[op1].starter==no_side)
@@ -332,20 +322,15 @@ boolean quodlibet_detect_starter(slice_index si, slice_traversal *st)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
- * @return true iff the operation is successful in the subtree of
- *         which si is the root
  */
-boolean quodlibet_impose_starter(slice_index si, slice_traversal *st)
+void quodlibet_impose_starter(slice_index si, slice_traversal *st)
 {
-  boolean result;
   Side const * const starter = st->param;
 
   TraceFunctionEntry(__func__);
@@ -353,10 +338,8 @@ boolean quodlibet_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  result = slice_traverse_children(si,st);
+  slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -125,10 +125,8 @@ boolean max_nr_solutions_found_in_phase(void)
 
 /* Insert a STMaxSolutionsHelpFilter slice after a STHelpMove slice
  */
-static boolean insert_maxsolutions_help_filter(slice_index si,
-                                               slice_traversal *st)
+static void insert_maxsolutions_help_filter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -155,17 +153,14 @@ static boolean insert_maxsolutions_help_filter(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STMaxSolutionsSeriesFilter slice after a STSeriesMove slice
  */
-static boolean insert_maxsolutions_series_filter(slice_index si,
-                                                 slice_traversal *st)
+static void insert_maxsolutions_series_filter(slice_index si,
+                                              slice_traversal *st)
 {
-  boolean const result = true;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -192,18 +187,14 @@ static boolean insert_maxsolutions_series_filter(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Insert a STMaxSolutionsRootDefenderFilter slice after a STAttackRoot slice
  */
-static boolean insert_maxsolutions_root_defender_filter(slice_index si,
-                                                        slice_traversal *st)
+static void insert_maxsolutions_root_defender_filter(slice_index si,
+                                                     slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -212,9 +203,7 @@ static boolean insert_maxsolutions_root_defender_filter(slice_index si,
   pipe_append(si,alloc_maxsolutions_root_defender_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const maxsolutions_filter_inserters[] =
@@ -301,10 +290,8 @@ static slice_operation const maxsolutions_filter_inserters[] =
 
 /* Insert a STMaxSolutionsRootSolvableFilter slice before some slice
  */
-static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
+static void insert_root_solvable_filter(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -312,9 +299,7 @@ static boolean insert_root_solvable_filter(slice_index si, slice_traversal *st)
   pipe_append(slices[si].prev,alloc_maxsolutions_root_solvable_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const maxsolutions_initialiser_inserters[] =

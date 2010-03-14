@@ -539,10 +539,8 @@ void keepmating_guard_series_solve_threats_in_n(table threats,
  */
 typedef boolean keepmating_type[nr_sides];
 
-static boolean keepmating_guards_inserter_leaf(slice_index si,
-                                               slice_traversal *st)
+static void keepmating_guards_inserter_leaf(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type * const km = st->param;
 
   TraceFunctionEntry(__func__);
@@ -552,15 +550,12 @@ static boolean keepmating_guards_inserter_leaf(slice_index si,
   (*km)[slices[si].starter] = true;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_quodlibet(slice_index si,
-                                                    slice_traversal *st)
+static void keepmating_guards_inserter_quodlibet(slice_index si,
+                                                 slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type * const km = st->param;
   keepmating_type km1 = { false, false };
   keepmating_type km2 = { false, false };
@@ -581,15 +576,12 @@ static boolean keepmating_guards_inserter_quodlibet(slice_index si,
   st->param = km;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_reciprocal(slice_index si,
-                                                     slice_traversal *st)
+static void keepmating_guards_inserter_reciprocal(slice_index si,
+                                                  slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type * const km = st->param;
   keepmating_type km1 = { false, false };
   keepmating_type km2 = { false, false };
@@ -610,16 +602,12 @@ static boolean keepmating_guards_inserter_reciprocal(slice_index si,
   st->param = km;
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_branch_fork(slice_index si,
-                                                      slice_traversal *st)
+static void keepmating_guards_inserter_branch_fork(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -632,15 +620,12 @@ static boolean keepmating_guards_inserter_branch_fork(slice_index si,
   traverse_slices(slices[si].u.pipe.next,st);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_attack_root(slice_index si,
-                                                             slice_traversal *st)
+static void keepmating_guards_inserter_attack_root(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
 
@@ -660,15 +645,12 @@ static boolean keepmating_guards_inserter_attack_root(slice_index si,
     pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_defender(slice_index si,
-                                                   slice_traversal *st)
+static void keepmating_guards_inserter_defender(slice_index si,
+                                                slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
 
@@ -688,15 +670,12 @@ static boolean keepmating_guards_inserter_defender(slice_index si,
     pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_attack_move(slice_index si,
-                                                        slice_traversal *st)
+static void keepmating_guards_inserter_attack_move(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
 
@@ -716,15 +695,12 @@ static boolean keepmating_guards_inserter_attack_move(slice_index si,
     pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_branch_help(slice_index si,
-                                                      slice_traversal *st)
+static void keepmating_guards_inserter_branch_help(slice_index si,
+                                                   slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
 
@@ -744,15 +720,12 @@ static boolean keepmating_guards_inserter_branch_help(slice_index si,
     pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean keepmating_guards_inserter_branch_series(slice_index si,
-                                                        slice_traversal *st)
+static void keepmating_guards_inserter_branch_series(slice_index si,
+                                                     slice_traversal *st)
 {
-  boolean const result = true;
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
 
@@ -772,9 +745,7 @@ static boolean keepmating_guards_inserter_branch_series(slice_index si,
     pipe_append(si,guard);
   
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const keepmating_guards_inserters[] =

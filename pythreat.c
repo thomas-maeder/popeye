@@ -257,10 +257,8 @@ unsigned int maxthreatlength_guard_can_defend_in_n(slice_index si,
  * @param si identifies defender slice
  * @param st address of struct representing the traversal
  */
-static boolean maxthreatlength_guard_inserter(slice_index si,slice_traversal *st)
+static void maxthreatlength_guard_inserter(slice_index si,slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -276,9 +274,7 @@ static boolean maxthreatlength_guard_inserter(slice_index si,slice_traversal *st
   slice_traverse_children(si,st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const maxthreatlength_guards_inserters[] =

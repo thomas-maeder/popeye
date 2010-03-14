@@ -56,8 +56,7 @@ boolean leaf_forced_root_defend(slice_index leaf,
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
- * @return true iff slice has been successfully traversed
  */
-boolean leaf_forced_detect_starter(slice_index si, slice_traversal *st);
+void leaf_forced_detect_starter(slice_index si, slice_traversal *st);
 
 #endif

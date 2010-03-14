@@ -214,11 +214,9 @@ boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-static boolean restart_guards_inserter_attack_root(slice_index si,
-                                                   slice_traversal *st)
+static void restart_guards_inserter_attack_root(slice_index si,
+                                                slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -226,16 +224,11 @@ static boolean restart_guards_inserter_attack_root(slice_index si,
   pipe_append(si,alloc_restart_guard_root_defender_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean restart_guards_inserter_help(slice_index si,
-                                            slice_traversal *st)
+static void restart_guards_inserter_help(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -243,16 +236,11 @@ static boolean restart_guards_inserter_help(slice_index si,
   pipe_append(si,alloc_restart_guard_help_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static boolean restart_guards_inserter_series(slice_index si,
-                                              slice_traversal *st)
+static void restart_guards_inserter_series(slice_index si, slice_traversal *st)
 {
-  boolean const result = true;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -260,9 +248,7 @@ static boolean restart_guards_inserter_series(slice_index si,
   pipe_append(si,alloc_restart_guard_series_filter());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_operation const restart_guards_inserters[] =

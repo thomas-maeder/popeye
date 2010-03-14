@@ -21,19 +21,15 @@ slice_index alloc_attack_root_slice(stip_length_type length,
 /* Spin off a set play slice
  * @param si slice index
  * @param st state of traversal
- * @return true iff this slice has been sucessfully traversed
  */
-boolean attack_root_make_setplay_slice(slice_index si,
-                                       struct slice_traversal *st);
+void attack_root_make_setplay_slice(slice_index si, slice_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
- * @return true iff slice has been successfully traversed
  */
-boolean attack_root_reduce_to_postkey_play(slice_index si,
-                                           struct slice_traversal *st);
+void attack_root_reduce_to_postkey_play(slice_index si, slice_traversal *st);
 
 /* Solve a branch slice at root level.
  * @param si slice index
