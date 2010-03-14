@@ -21,7 +21,7 @@ goal_checker_result_type leaf_is_goal_reached(Side just_moved,
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void leaf_impose_starter(slice_index si, slice_traversal *st);
+void leaf_impose_starter(slice_index si, stip_structure_traversal *st);
 
 /* Determine whether the mating side still has a piece that could
  * deliver the mate.

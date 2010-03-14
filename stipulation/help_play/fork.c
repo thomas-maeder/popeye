@@ -49,7 +49,7 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void help_fork_insert_root(slice_index si, slice_traversal *st)
+void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 
@@ -59,7 +59,7 @@ void help_fork_insert_root(slice_index si, slice_traversal *st)
 
   assert(slices[si].u.branch_fork.length-slack_length_battle>=2);
 
-  traverse_slices(slices[si].u.branch_fork.next,st);
+  stip_traverse_structure(slices[si].u.branch_fork.next,st);
 
   slices[si].u.branch_fork.length -= 2;
   if (slices[si].u.branch_fork.min_length-slack_length_battle>=2)
@@ -79,7 +79,7 @@ void help_fork_insert_root(slice_index si, slice_traversal *st)
  * @param si slice index
  * @param st state of traversal
  */
-void help_fork_make_setplay_slice(slice_index si, slice_traversal *st)
+void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;

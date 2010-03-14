@@ -78,7 +78,7 @@ boolean attack_root_root_solve(slice_index si)
  * @param si slice index
  * @param st state of traversal
  */
-void attack_root_make_setplay_slice(slice_index si, slice_traversal *st)
+void attack_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 
@@ -92,7 +92,7 @@ void attack_root_make_setplay_slice(slice_index si, slice_traversal *st)
   if (prod->sibling==no_slice)
     prod->sibling = si;
 
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -103,7 +103,7 @@ void attack_root_make_setplay_slice(slice_index si, slice_traversal *st)
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void attack_root_reduce_to_postkey_play(slice_index si, slice_traversal *st)
+void attack_root_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const *postkey_slice = st->param;
@@ -112,7 +112,7 @@ void attack_root_reduce_to_postkey_play(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(next,st);
+  stip_traverse_structure(next,st);
 
   if (*postkey_slice!=no_slice)
     dealloc_slice(si);

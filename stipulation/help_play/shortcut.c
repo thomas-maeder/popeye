@@ -38,7 +38,7 @@ slice_index alloc_help_shortcut(stip_length_type length,
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void help_shortcut_resolve_proxies(slice_index si, slice_traversal *st)
+void help_shortcut_resolve_proxies(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

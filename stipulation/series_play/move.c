@@ -38,7 +38,7 @@ slice_index alloc_series_move_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void series_move_insert_root(slice_index si, slice_traversal *st)
+void series_move_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 
@@ -65,7 +65,7 @@ void series_move_insert_root(slice_index si, slice_traversal *st)
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void series_move_detect_starter(slice_index si, slice_traversal *st)
+void series_move_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -74,7 +74,7 @@ void series_move_detect_starter(slice_index si, slice_traversal *st)
   if (slices[si].starter==no_side)
   {
     slice_index const next = slices[si].u.pipe.next;
-    slice_traverse_children(si,st);
+    stip_traverse_structure_children(si,st);
     slices[si].starter = (slices[next].starter==no_side
                           ? no_side
                           : advers(slices[next].starter));

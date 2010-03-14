@@ -20,7 +20,7 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2);
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void quodlibet_insert_root(slice_index si, slice_traversal *st);
+void quodlibet_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Determine and write threats of a slice
  * @param threats table where to store threats
@@ -87,12 +87,12 @@ boolean quodlibet_root_defend(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void quodlibet_detect_starter(slice_index si, slice_traversal *st);
+void quodlibet_detect_starter(slice_index si, stip_structure_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void quodlibet_impose_starter(slice_index si, slice_traversal *st);
+void quodlibet_impose_starter(slice_index si, stip_structure_traversal *st);
 
 #endif

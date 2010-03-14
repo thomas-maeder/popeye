@@ -68,7 +68,7 @@ slice_index alloc_move_inverter_series_filter(void)
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void move_inverter_insert_root(slice_index si, slice_traversal *st)
+void move_inverter_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 
@@ -76,7 +76,7 @@ void move_inverter_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.pipe.next,st);
+  stip_traverse_structure(slices[si].u.pipe.next,st);
 
   {
     slice_index const root_inverter = alloc_move_inverter_root_solvable_filter();
@@ -201,7 +201,7 @@ boolean move_inverter_series_has_solution_in_n(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void move_inverter_detect_starter(slice_index si, slice_traversal *st)
+void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
 {
 
   TraceFunctionEntry(__func__);
@@ -212,7 +212,7 @@ void move_inverter_detect_starter(slice_index si, slice_traversal *st)
   {
     slice_index const next = slices[si].u.pipe.next;
     Side next_starter;
-    slice_traverse_children(si,st);
+    stip_traverse_structure_children(si,st);
     next_starter = slices[next].starter;
     if (next_starter!=no_side)
       slices[si].starter = (next_starter==no_side

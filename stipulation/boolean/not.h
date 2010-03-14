@@ -19,7 +19,7 @@ slice_index alloc_not_slice(slice_index op);
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void not_insert_root(slice_index si, slice_traversal *st);
+void not_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Determine and write the solution
  * @param si slice index

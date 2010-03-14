@@ -25,7 +25,7 @@ slice_index alloc_series_shortcut(stip_length_type length,
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void series_shortcut_resolve_proxies(slice_index si, slice_traversal *st);
+void series_shortcut_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index of slice being solved

@@ -45,7 +45,7 @@ slice_index alloc_branch_fork(SliceType type,
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void branch_fork_resolve_proxies(slice_index si, slice_traversal *st)
+void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -84,7 +84,7 @@ has_solution_type branch_fork_has_solution(slice_index si)
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void branch_fork_detect_starter(slice_index si, slice_traversal *st)
+void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
 
@@ -94,11 +94,11 @@ void branch_fork_detect_starter(slice_index si, slice_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    traverse_slices(towards_goal,st);
+    stip_traverse_structure(towards_goal,st);
     if (slices[towards_goal].starter==no_side)
     {
       slice_index const next = slices[si].u.pipe.next;
-      traverse_slices(next,st);
+      stip_traverse_structure(next,st);
       slices[si].starter = slices[next].starter;
     }
     else
@@ -134,7 +134,7 @@ boolean branch_fork_root_solve(slice_index si)
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void branch_fork_impose_starter(slice_index si, slice_traversal *st)
+void branch_fork_impose_starter(slice_index si, stip_structure_traversal *st)
 {
   Side * const starter = st->param;
 
@@ -144,7 +144,7 @@ void branch_fork_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

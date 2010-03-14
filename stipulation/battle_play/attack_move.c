@@ -41,7 +41,7 @@ slice_index alloc_attack_move_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void attack_move_insert_root(slice_index si, slice_traversal *st)
+void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -52,7 +52,7 @@ void attack_move_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.pipe.next,st);
+  stip_traverse_structure(slices[si].u.pipe.next,st);
 
   direct_root = alloc_attack_root_slice(length,min_length);
   pipe_link(direct_root,*root);
@@ -374,7 +374,7 @@ stip_length_type attack_move_solve_in_n(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void attack_move_detect_starter(slice_index si, slice_traversal *st)
+void attack_move_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

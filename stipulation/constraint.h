@@ -179,14 +179,14 @@ void reflex_series_filter_solve_threats_in_n(table threats,
  * @param st state of traversal
  */
 void reflex_attacker_filter_make_setplay_slice(slice_index si,
-                                               slice_traversal *st);
+                                               stip_structure_traversal *st);
 
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
  */
 void reflex_defender_filter_make_setplay_slice(slice_index si,
-                                               slice_traversal *st);
+                                               stip_structure_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
@@ -194,7 +194,7 @@ void reflex_defender_filter_make_setplay_slice(slice_index si,
  * @param st address of structure capturing traversal state
  */
 void reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
-                                                   slice_traversal *st);
+                                                   stip_structure_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
@@ -202,13 +202,13 @@ void reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
  * @param st address of structure capturing traversal state
  */
 void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                   slice_traversal *st);
+                                                   stip_structure_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void reflex_filter_impose_starter(slice_index si, slice_traversal *st);
+void reflex_filter_impose_starter(slice_index si, stip_structure_traversal *st);
 
 /* Instrument a branch with STReflexGuard slices for a reflex
  * stipulation 
@@ -231,30 +231,30 @@ slice_index slice_insert_reflex_filters_semi(slice_index si,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_attacker_filter_insert_root(slice_index si, slice_traversal *st);
+void reflex_attacker_filter_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_defender_filter_insert_root(slice_index si, slice_traversal *st);
+void reflex_defender_filter_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_help_filter_insert_root(slice_index si, slice_traversal *st);
+void reflex_help_filter_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_series_filter_insert_root(slice_index si, slice_traversal *st);
+void reflex_series_filter_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void reflex_filter_resolve_proxies(slice_index si, slice_traversal *st);
+void reflex_filter_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
 #endif

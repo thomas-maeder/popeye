@@ -21,13 +21,13 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void help_fork_insert_root(slice_index si, slice_traversal *st);
+void help_fork_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
  */
-void help_fork_make_setplay_slice(slice_index si, slice_traversal *st);
+void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

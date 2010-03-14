@@ -43,7 +43,7 @@ slice_index alloc_series_fork_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void series_fork_insert_root(slice_index si, slice_traversal *st)
+void series_fork_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 
@@ -51,7 +51,7 @@ void series_fork_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.pipe.next,st);
+  stip_traverse_structure(slices[si].u.pipe.next,st);
   slices[*root].u.shortcut.short_sols = si;
   
   TraceFunctionExit(__func__);
@@ -149,7 +149,7 @@ void series_fork_solve_threats_in_n(table threats,
  * @param si slice index
  * @param st state of traversal
  */
-void series_fork_make_setplay_slice(slice_index si, slice_traversal *st)
+void series_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;

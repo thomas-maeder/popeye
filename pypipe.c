@@ -131,7 +131,7 @@ void pipe_append(slice_index pos, slice_index appended)
  * @param pipe identifies slice being traversed
  * @param st status of traversal
  */
-void pipe_detect_starter(slice_index pipe, slice_traversal *st)
+void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st)
 {
   slice_index const next = slices[pipe].u.pipe.next;
 
@@ -141,7 +141,7 @@ void pipe_detect_starter(slice_index pipe, slice_traversal *st)
 
   if (slices[pipe].starter==no_side)
   {
-    traverse_slices(slices[pipe].u.pipe.next,st);
+    stip_traverse_structure(slices[pipe].u.pipe.next,st);
     slices[pipe].starter = slices[next].starter;
   }
 
@@ -153,7 +153,7 @@ void pipe_detect_starter(slice_index pipe, slice_traversal *st)
  * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
  */
-void pipe_impose_starter(slice_index pipe, slice_traversal *st)
+void pipe_impose_starter(slice_index pipe, stip_structure_traversal *st)
 {
   Side const * const starter = st->param;
 
@@ -163,7 +163,7 @@ void pipe_impose_starter(slice_index pipe, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[pipe].starter = *starter;
-  traverse_slices(slices[pipe].u.pipe.next,st);
+  stip_traverse_structure(slices[pipe].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -174,7 +174,7 @@ void pipe_impose_starter(slice_index pipe, slice_traversal *st)
  * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
  */
-void pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st)
+void pipe_impose_inverted_starter(slice_index pipe, stip_structure_traversal *st)
 {
   Side * const starter = st->param;
 
@@ -186,7 +186,7 @@ void pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st)
   slices[pipe].starter = *starter;
 
   *starter = advers(*starter);
-  traverse_slices(slices[pipe].u.pipe.next,st);
+  stip_traverse_structure(slices[pipe].u.pipe.next,st);
   *starter = slices[pipe].starter;
 
   TraceFunctionExit(__func__);
@@ -198,13 +198,13 @@ void pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st)
  * slice)
  * @param pipe identifies pipe slice
  */
-void pipe_traverse_next(slice_index pipe, slice_traversal *st)
+void pipe_traverse_next(slice_index pipe, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[pipe].u.pipe.next,st);
+  stip_traverse_structure(slices[pipe].u.pipe.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -214,13 +214,13 @@ void pipe_traverse_next(slice_index pipe, slice_traversal *st)
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void pipe_resolve_proxies(slice_index si, slice_traversal *st)
+void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
   if (slices[si].u.pipe.next!=no_slice)
     proxy_slice_resolve(&slices[si].u.pipe.next);
   

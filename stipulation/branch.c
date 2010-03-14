@@ -35,13 +35,13 @@ slice_index alloc_branch(SliceType type,
  * @param si identifies branch_fork slice
  * @param st structure representing the traversal
  */
-static void traverse_and_deallocate(slice_index si, slice_traversal *st)
+static void traverse_and_deallocate(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
   dealloc_slice(si);
   
   TraceFunctionExit(__func__);
@@ -52,13 +52,13 @@ static void traverse_and_deallocate(slice_index si, slice_traversal *st)
  * @param si identifies branch_fork slice
  * @param st structure representing the traversal
  */
-static void traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
+static void traverse_and_deallocate_proxy(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
   dealloc_proxy_slice(si);
   
   TraceFunctionExit(__func__);
@@ -71,7 +71,7 @@ static void traverse_and_deallocate_proxy(slice_index si, slice_traversal *st)
  * @param st structure representing the traversal
  */
 static void traverse_and_deallocate_branch_fork(slice_index si,
-                                                slice_traversal *st)
+                                                stip_structure_traversal *st)
 {
   slice_index * const to_be_found = st->param;
 
@@ -81,14 +81,14 @@ static void traverse_and_deallocate_branch_fork(slice_index si,
 
   *to_be_found = slices[si].u.branch_fork.towards_goal;
 
-  traverse_slices(slices[si].u.pipe.next,st);
+  stip_traverse_structure(slices[si].u.pipe.next,st);
   dealloc_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void traverse_and_deallocate_leaf(slice_index si, slice_traversal *st)
+static void traverse_and_deallocate_leaf(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const to_be_found = st->param;
 
@@ -102,7 +102,7 @@ static void traverse_and_deallocate_leaf(slice_index si, slice_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static slice_operation const slice_deallocators[] =
+static stip_structure_visitor const slice_deallocators[] =
 {
   &traverse_and_deallocate_proxy,       /* STProxy */
   &traverse_and_deallocate,             /* STAttackMove */
@@ -114,12 +114,12 @@ static slice_operation const slice_deallocators[] =
   &traverse_and_deallocate_leaf,        /* STLeafDirect */
   &traverse_and_deallocate_leaf,        /* STLeafHelp */
   &traverse_and_deallocate_leaf,        /* STLeafForced */
-  &slice_traverse_children,             /* STReciprocal */
-  &slice_traverse_children,             /* STQuodlibet */
-  &slice_traverse_children,             /* STNot */
-  &slice_traverse_children,             /* STMoveInverterRootSolvableFilter */
-  &slice_traverse_children,             /* STMoveInverterSolvableFilter */
-  &slice_traverse_children,             /* STMoveInverterSeriesFilter */
+  &stip_traverse_structure_children,             /* STReciprocal */
+  &stip_traverse_structure_children,             /* STQuodlibet */
+  &stip_traverse_structure_children,             /* STNot */
+  &stip_traverse_structure_children,             /* STMoveInverterRootSolvableFilter */
+  &stip_traverse_structure_children,             /* STMoveInverterSolvableFilter */
+  &stip_traverse_structure_children,             /* STMoveInverterSeriesFilter */
   &traverse_and_deallocate,             /* STAttackRoot */
   &traverse_and_deallocate,             /* STBattlePlaySolutionWriter */
   &traverse_and_deallocate,             /* STPostKeyPlaySolutionWriter */
@@ -148,20 +148,20 @@ static slice_operation const slice_deallocators[] =
   &traverse_and_deallocate,             /* STSelfCheckGuardSeriesFilter */
   &traverse_and_deallocate,             /* STDirectDefenseRootSolvableFilter */
   &traverse_and_deallocate,             /* STDirectDefense */
-  &slice_traverse_children,             /* STReflexHelpFilter */
-  &slice_traverse_children,             /* STReflexSeriesFilter */
-  &slice_traverse_children,             /* STReflexRootSolvableFilter */
-  &slice_traverse_children,             /* STReflexAttackerFilter */
-  &slice_traverse_children,             /* STReflexDefenderFilter */
+  &stip_traverse_structure_children,             /* STReflexHelpFilter */
+  &stip_traverse_structure_children,             /* STReflexSeriesFilter */
+  &stip_traverse_structure_children,             /* STReflexRootSolvableFilter */
+  &stip_traverse_structure_children,             /* STReflexAttackerFilter */
+  &stip_traverse_structure_children,             /* STReflexDefenderFilter */
   &traverse_and_deallocate,             /* STSelfAttack */
   &traverse_and_deallocate,             /* STSelfDefense */
-  &slice_traverse_children,             /* STRestartGuardRootDefenderFilter */
-  &slice_traverse_children,             /* STRestartGuardHelpFilter */
-  &slice_traverse_children,             /* STRestartGuardSeriesFilter */
-  &slice_traverse_children,             /* STIntelligentHelpFilter */
-  &slice_traverse_children,             /* STIntelligentSeriesFilter */
-  &slice_traverse_children,             /* STGoalReachableGuardHelpFilter */
-  &slice_traverse_children,             /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,             /* STRestartGuardRootDefenderFilter */
+  &stip_traverse_structure_children,             /* STRestartGuardHelpFilter */
+  &stip_traverse_structure_children,             /* STRestartGuardSeriesFilter */
+  &stip_traverse_structure_children,             /* STIntelligentHelpFilter */
+  &stip_traverse_structure_children,             /* STIntelligentSeriesFilter */
+  &stip_traverse_structure_children,             /* STGoalReachableGuardHelpFilter */
+  &stip_traverse_structure_children,             /* STGoalReachableGuardSeriesFilter */
   &traverse_and_deallocate,             /* STKeepMatingGuardRootDefenderFilter */
   &traverse_and_deallocate,             /* STKeepMatingGuardAttackerFilter */
   &traverse_and_deallocate,             /* STKeepMatingGuardDefenderFilter */
@@ -191,14 +191,14 @@ static slice_operation const slice_deallocators[] =
 slice_index branch_deallocate(slice_index branch)
 {
   slice_index result;
-  slice_traversal st;
+  stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",branch);
   TraceFunctionParamListEnd();
 
-  slice_traversal_init(&st,&slice_deallocators,&result);
-  traverse_slices(branch,&st);
+  stip_structure_traversal_init(&st,&slice_deallocators,&result);
+  stip_traverse_structure(branch,&st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

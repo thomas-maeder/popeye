@@ -33,13 +33,13 @@ alloc_direct_defense_root_solvable_filter(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void direct_defense_insert_root(slice_index si, slice_traversal *st);
+void direct_defense_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
  */
-void direct_defense_root_make_setplay_slice(slice_index si, slice_traversal *st);
+void direct_defense_root_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
@@ -47,7 +47,7 @@ void direct_defense_root_make_setplay_slice(slice_index si, slice_traversal *st)
  * @param st address of structure capturing traversal state
  */
 void direct_defense_root_reduce_to_postkey_play(slice_index si,
-                                                slice_traversal *st);
+                                                stip_structure_traversal *st);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -120,7 +120,7 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void direct_defense_impose_starter(slice_index si, slice_traversal *st);
+void direct_defense_impose_starter(slice_index si, stip_structure_traversal *st);
 
 /* Instrument a branch with STDirectDefense slices
  * @param si root of branch to be instrumented

@@ -84,7 +84,7 @@ unsigned int threat_writer_can_defend_in_n(slice_index si,
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void threat_writer_reduce_to_postkey_play(slice_index si, slice_traversal *st);
+void threat_writer_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st);
 
 /* Instrument the stipulation representation so that it can deal with
  * threats

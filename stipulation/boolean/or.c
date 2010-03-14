@@ -42,7 +42,7 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void quodlibet_insert_root(slice_index si, slice_traversal *st)
+void quodlibet_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
@@ -52,12 +52,12 @@ void quodlibet_insert_root(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[op1].u.pipe.next,st);
+  stip_traverse_structure(slices[op1].u.pipe.next,st);
   pipe_link(op1,*root);
 
   TraceStipulation(si);
 
-  traverse_slices(slices[op2].u.pipe.next,st);
+  stip_traverse_structure(slices[op2].u.pipe.next,st);
   pipe_link(op2,*root);
   
   *root = si;
@@ -293,7 +293,7 @@ boolean quodlibet_solve(slice_index si)
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void quodlibet_detect_starter(slice_index si, slice_traversal *st)
+void quodlibet_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
@@ -307,8 +307,8 @@ void quodlibet_detect_starter(slice_index si, slice_traversal *st)
   TraceValue("%u",slices[si].u.binary.op1);
   TraceValue("%u\n",slices[si].u.binary.op2);
 
-  traverse_slices(op1,st);
-  traverse_slices(op2,st);
+  stip_traverse_structure(op1,st);
+  stip_traverse_structure(op2,st);
 
   TraceStipulation(si);
 
@@ -329,7 +329,7 @@ void quodlibet_detect_starter(slice_index si, slice_traversal *st)
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void quodlibet_impose_starter(slice_index si, slice_traversal *st)
+void quodlibet_impose_starter(slice_index si, stip_structure_traversal *st)
 {
   Side const * const starter = st->param;
 
@@ -338,7 +338,7 @@ void quodlibet_impose_starter(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -32,7 +32,7 @@ slice_index series_root_shorten_help_play(slice_index si);
  * @param si slice index
  * @param st state of traversal
  */
-void series_root_make_setplay_slice(slice_index si, slice_traversal *st);
+void series_root_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Solve a branch slice at root level.
  * @param si slice index

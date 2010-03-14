@@ -259,7 +259,7 @@ static unsigned int bit_width(unsigned int value)
   return result;
 }
 
-static void slice_property_offset_shifter(slice_index si, slice_traversal *st)
+static void slice_property_offset_shifter(slice_index si, stip_structure_traversal *st)
 {
   unsigned int const * const delta = st->param;
 
@@ -272,15 +272,15 @@ static void slice_property_offset_shifter(slice_index si, slice_traversal *st)
   TraceValue("%u",*delta);
   TraceValue("->%u\n",slice_properties[si].valueOffset);
 
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static slice_operation const slice_property_offset_shifters[] =
+static stip_structure_visitor const slice_property_offset_shifters[] =
 {
-  &slice_traverse_children,       /* STProxy */
+  &stip_traverse_structure_children,       /* STProxy */
   &slice_property_offset_shifter, /* STAttackMove */
   &slice_property_offset_shifter, /* STDefenseMove */
   &slice_property_offset_shifter, /* STHelpMove */
@@ -470,7 +470,7 @@ static void init_slice_property_series(slice_index si,
  * @param leaf root slice of subtree
  * @param st address of structure defining traversal
  */
-static void init_slice_properties_pipe(slice_index pipe, slice_traversal *st)
+static void init_slice_properties_pipe(slice_index pipe, stip_structure_traversal *st)
 {
   slice_index const next = slices[pipe].u.pipe.next;
 
@@ -478,7 +478,7 @@ static void init_slice_properties_pipe(slice_index pipe, slice_traversal *st)
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  traverse_slices(next,st);
+  stip_traverse_structure(next,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
   TraceValue("%u",pipe);
   TraceValue("%u\n",slice_properties[pipe].valueOffset);
@@ -492,7 +492,7 @@ static void init_slice_properties_pipe(slice_index pipe, slice_traversal *st)
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  */
-static void init_slice_properties_fork(slice_index fork, slice_traversal *st)
+static void init_slice_properties_fork(slice_index fork, stip_structure_traversal *st)
 {
   slice_initializer_state * const sis = st->param;
 
@@ -507,9 +507,9 @@ static void init_slice_properties_fork(slice_index fork, slice_traversal *st)
 
   slice_properties[fork].valueOffset = sis->valueOffset;
 
-  traverse_slices(op1,st);
+  stip_traverse_structure(op1,st);
   sis->valueOffset = save_valueOffset;
-  traverse_slices(op2,st);
+  stip_traverse_structure(op2,st);
 
   TraceValue("%u",op1);
   TraceValue("%u",slice_properties[op1].valueOffset);
@@ -522,17 +522,17 @@ static void init_slice_properties_fork(slice_index fork, slice_traversal *st)
   {
     unsigned int delta = (slice_properties[op1].valueOffset
                           -slice_properties[op2].valueOffset);
-    slice_traversal st;
-    slice_traversal_init(&st,&slice_property_offset_shifters,&delta);
-    traverse_slices(op1,&st);
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,&slice_property_offset_shifters,&delta);
+    stip_traverse_structure(op1,&st);
   }
   else if (slice_properties[op2].valueOffset>slice_properties[op1].valueOffset)
   {
     unsigned int delta = (slice_properties[op2].valueOffset
                           -slice_properties[op1].valueOffset);
-    slice_traversal st;
-    slice_traversal_init(&st,&slice_property_offset_shifters,&delta);
-    traverse_slices(op2,&st);
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,&slice_property_offset_shifters,&delta);
+    stip_traverse_structure(op2,&st);
   }
 
   TraceFunctionExit(__func__);
@@ -544,7 +544,7 @@ static void init_slice_properties_fork(slice_index fork, slice_traversal *st)
  * @param st address of structure defining traversal
  */
 static void init_slice_properties_attack_hashed(slice_index si,
-                                                slice_traversal *st)
+                                                stip_structure_traversal *st)
 {
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -557,7 +557,7 @@ static void init_slice_properties_attack_hashed(slice_index si,
 
   init_slice_property_attack(si,length,sis);
   hash_slices[nr_hash_slices++] = si;
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 }
 
 /* Initialise the slice_properties array
@@ -565,7 +565,7 @@ static void init_slice_properties_attack_hashed(slice_index si,
  * @param st address of structure defining traversal
  */
 static void init_slice_properties_hashed_help(slice_index si,
-                                              slice_traversal *st)
+                                              stip_structure_traversal *st)
 {
   slice_initializer_state * const sis = st->param;
   unsigned int const length = slices[si].u.branch.length;
@@ -587,18 +587,18 @@ static void init_slice_properties_hashed_help(slice_index si,
 
     if (sibling!=no_slice
         && slices[sibling].u.branch.length>slack_length_help
-        && get_slice_traversal_slice_state(sibling,st)==slice_not_traversed)
+        && get_stip_structure_traversal_state(sibling,st)==slice_not_traversed)
     {
       /* 1 bit more because we have two slices whose values are added
        * for computing the value of this branch */
       --sis->valueOffset;
 
-      traverse_slices(sibling,st);
+      stip_traverse_structure(sibling,st);
     }
   }
 
   init_slice_property_help(si,length-slack_length_help,sis);
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 
   hash_slices[nr_hash_slices++] = si;
     
@@ -611,7 +611,7 @@ static void init_slice_properties_hashed_help(slice_index si,
  * @param st address of structure defining traversal
  */
 static void init_slice_properties_hashed_series(slice_index si,
-                                                slice_traversal *st)
+                                                stip_structure_traversal *st)
 {
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -623,48 +623,48 @@ static void init_slice_properties_hashed_series(slice_index si,
   init_slice_property_series(si,length-slack_length_series,sis);
   hash_slices[nr_hash_slices++] = si;
 
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static slice_operation const slice_properties_initalisers[] =
+static stip_structure_visitor const slice_properties_initalisers[] =
 {
-  &slice_traverse_children,              /* STProxy */
+  &stip_traverse_structure_children,              /* STProxy */
   &init_slice_properties_pipe,           /* STAttackMove */
-  &slice_traverse_children,              /* STDefenseMove */
+  &stip_traverse_structure_children,              /* STDefenseMove */
   &init_slice_properties_pipe,           /* STHelpMove */
-  &slice_traverse_children,              /* STHelpFork */
+  &stip_traverse_structure_children,              /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
-  &slice_traverse_children,              /* STSeriesFork */
-  &slice_operation_noop,                 /* STLeafDirect */
-  &slice_operation_noop,                 /* STLeafHelp */
-  &slice_operation_noop,                 /* STLeafForced */
+  &stip_traverse_structure_children,              /* STSeriesFork */
+  &stip_structure_visitor_noop,                 /* STLeafDirect */
+  &stip_structure_visitor_noop,                 /* STLeafHelp */
+  &stip_structure_visitor_noop,                 /* STLeafForced */
   &init_slice_properties_fork,           /* STReciprocal */
   &init_slice_properties_fork,           /* STQuodlibet */
   &init_slice_properties_pipe,           /* STNot */
   &init_slice_properties_pipe,           /* STMoveInverterRootSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
-  &slice_traverse_children,              /* STAttackRoot */
-  &slice_traverse_children,              /* STBattlePlaySolutionWriter */
-  &slice_traverse_children,              /* STPostKeyPlaySolutionWriter */
-  &slice_traverse_children,              /* STContinuationWriter */
-  &slice_traverse_children,              /* STTryWriter */
-  &slice_traverse_children,              /* STThreatWriter */
-  &slice_traverse_children,              /* STThreatEnforcer */
-  &slice_traverse_children,              /* STRefutationsCollector */
-  &slice_traverse_children,              /* STVariationWriter */
-  &slice_traverse_children,              /* STRefutingVariationWriter */
-  &slice_traverse_children,              /* STNoShortVariations */
+  &stip_traverse_structure_children,              /* STAttackRoot */
+  &stip_traverse_structure_children,              /* STBattlePlaySolutionWriter */
+  &stip_traverse_structure_children,              /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,              /* STContinuationWriter */
+  &stip_traverse_structure_children,              /* STTryWriter */
+  &stip_traverse_structure_children,              /* STThreatWriter */
+  &stip_traverse_structure_children,              /* STThreatEnforcer */
+  &stip_traverse_structure_children,              /* STRefutationsCollector */
+  &stip_traverse_structure_children,              /* STVariationWriter */
+  &stip_traverse_structure_children,              /* STRefutingVariationWriter */
+  &stip_traverse_structure_children,              /* STNoShortVariations */
   &init_slice_properties_attack_hashed,  /* STAttackHashed */
-  &slice_traverse_children,              /* STHelpRoot */
-  &slice_traverse_children,              /* STHelpShortcut */
+  &stip_traverse_structure_children,              /* STHelpRoot */
+  &stip_traverse_structure_children,              /* STHelpShortcut */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
-  &slice_traverse_children,              /* STSeriesRoot */
-  &slice_traverse_children,              /* STSeriesShortcut */
-  &slice_traverse_children,              /* STParryFork */
+  &stip_traverse_structure_children,              /* STSeriesRoot */
+  &stip_traverse_structure_children,              /* STSeriesShortcut */
+  &stip_traverse_structure_children,              /* STParryFork */
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
   &init_slice_properties_pipe,           /* STSelfCheckGuardRootSolvableFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardSolvableFilter */
@@ -673,15 +673,15 @@ static slice_operation const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STSelfCheckGuardDefenderFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardHelpFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardSeriesFilter */
-  &slice_traverse_children,              /* STDirectDefenseRootSolvableFilter */
-  &slice_traverse_children,              /* STDirectDefense */
-  &slice_traverse_children,              /* STReflexHelpFilter */
-  &slice_traverse_children,              /* STReflexSeriesFilter */
-  &slice_traverse_children,              /* STReflexRootSolvableFilter */
-  &slice_traverse_children,              /* STReflexAttackerFilter */
-  &slice_traverse_children,              /* STReflexDefenderFilter */
-  &slice_traverse_children,              /* STSelfAttack */
-  &slice_traverse_children,              /* STSelfDefense */
+  &stip_traverse_structure_children,              /* STDirectDefenseRootSolvableFilter */
+  &stip_traverse_structure_children,              /* STDirectDefense */
+  &stip_traverse_structure_children,              /* STReflexHelpFilter */
+  &stip_traverse_structure_children,              /* STReflexSeriesFilter */
+  &stip_traverse_structure_children,              /* STReflexRootSolvableFilter */
+  &stip_traverse_structure_children,              /* STReflexAttackerFilter */
+  &stip_traverse_structure_children,              /* STReflexDefenderFilter */
+  &stip_traverse_structure_children,              /* STSelfAttack */
+  &stip_traverse_structure_children,              /* STSelfDefense */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
   &init_slice_properties_pipe,           /* STRestartGuardSeriesFilter */
@@ -788,7 +788,7 @@ static void minimiseValueOffset(void)
  */
 static void init_slice_properties(void)
 {
-  slice_traversal st;
+  stip_structure_traversal st;
   slice_initializer_state sis = {
     sizeof(data_type)*CHAR_BIT,
     sizeof(data_type)*CHAR_BIT
@@ -799,8 +799,8 @@ static void init_slice_properties(void)
 
   nr_hash_slices = 0;
 
-  slice_traversal_init(&st,&slice_properties_initalisers,&sis);
-  traverse_slices(root_slice,&st);
+  stip_structure_traversal_init(&st,&slice_properties_initalisers,&sis);
+  stip_traverse_structure(root_slice,&st);
 
   is_there_slice_with_nonstandard_min_length
       = find_slice_with_nonstandard_min_length();

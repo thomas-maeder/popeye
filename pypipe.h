@@ -48,33 +48,33 @@ void pipe_append(slice_index pos, slice_index appended);
  * @param pipe identifies slice being traversed
  * @param st status of traversal
  */
-void pipe_detect_starter(slice_index pipe, slice_traversal *st);
+void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param pipe identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void pipe_impose_starter(slice_index pipe, slice_traversal *st);
+void pipe_impose_starter(slice_index pipe, stip_structure_traversal *st);
 
 /* Impose the starting side on a stipulation. Impose the inverted
  * starter on the slice's successor. 
  * @param pipe identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void pipe_impose_inverted_starter(slice_index pipe, slice_traversal *st);
+void pipe_impose_inverted_starter(slice_index pipe, stip_structure_traversal *st);
 
 /* Traverse the sub-graph starting at the successor slice of a pipe
  * slice (but don't traverse possible other children of the pipe
  * slice)
  * @param pipe identifies pipe slice
  */
-void pipe_traverse_next(slice_index pipe, slice_traversal *st);
+void pipe_traverse_next(slice_index pipe, stip_structure_traversal *st);
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void pipe_resolve_proxies(slice_index si, slice_traversal *st);
+void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
 /* Determine whether a slice has a solution
  * @param pipe slice index

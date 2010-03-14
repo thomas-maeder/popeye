@@ -293,7 +293,7 @@ boolean leaf_h_defend(slice_index leaf)
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void leaf_h_detect_starter(slice_index si, slice_traversal *st)
+void leaf_h_detect_starter(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

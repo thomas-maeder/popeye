@@ -24,13 +24,13 @@ slice_index alloc_branch_fork(SliceType type,
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void branch_fork_resolve_proxies(slice_index si, slice_traversal *st);
+void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void branch_fork_detect_starter(slice_index si, slice_traversal *st);
+void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
 
 /* Determine whether a slice has a solution
  * @param si slice index
@@ -48,6 +48,6 @@ boolean branch_fork_root_solve(slice_index si);
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void branch_fork_impose_starter(slice_index si, slice_traversal *st);
+void branch_fork_impose_starter(slice_index si, stip_structure_traversal *st);
 
 #endif

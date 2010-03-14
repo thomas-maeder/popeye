@@ -103,7 +103,7 @@ static void shorten_setplay_root_branch(slice_index root)
  * @param si slice index
  * @param st state of traversal
  */
-void help_root_make_setplay_slice(slice_index si, slice_traversal *st)
+void help_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 

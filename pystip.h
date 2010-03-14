@@ -420,64 +420,65 @@ void stip_detect_starter(void);
 void stip_impose_starter(Side starter);
 
 
-struct slice_traversal;
+struct stip_structure_traversal;
 
 /* Type of callback for stipulation traversals
  */
-typedef void (*slice_operation)(slice_index si, struct slice_traversal *st);
+typedef void (*stip_structure_visitor)(slice_index si,
+                                       struct stip_structure_traversal *st);
 
-/* Mapping of slice types to operations.
+/* Mapping of slice types to structure visitors.
  */
-typedef slice_operation const (*operation_mapping)[nr_slice_types];
+typedef stip_structure_visitor const (*stip_structure_visitors)[nr_slice_types];
 
 typedef enum
 {
   slice_not_traversed,
   slice_being_traversed, /* used for avoiding infinite recursion */
   slice_traversed
-} slice_traversal_slice_state;
+} stip_structure_traversal_state;
 
-typedef struct slice_traversal
+typedef struct stip_structure_traversal
 {
-    slice_traversal_slice_state traversed[max_nr_slices];
-    operation_mapping ops;
+    stip_structure_traversal_state traversed[max_nr_slices];
+    stip_structure_visitors ops;
     void *param;
-} slice_traversal;
+} stip_structure_traversal;
 
-/* Initialise a slice_traversal structure
+/* Initialise a structure traversal structure
  * @param st to be initialised
  * @param ops operations to be invoked on slices
  * @param param parameter to be passed t operations
  */
-void slice_traversal_init(slice_traversal *st,
-                          operation_mapping ops,
-                          void *param);
+void stip_structure_traversal_init(stip_structure_traversal *st,
+                                   stip_structure_visitors ops,
+                                   void *param);
 
-/* Query the traversal state of a slice
+/* Query the structure traversal state of a slice
  * @param si identifies slice for which to query traversal state
  * @param st address of structure defining traversal
  * @return state of si in traversal *st
  */
-slice_traversal_slice_state
-get_slice_traversal_slice_state(slice_index si, slice_traversal *st);
+stip_structure_traversal_state
+get_stip_structure_traversal_state(slice_index si, stip_structure_traversal *st);
 
-/* Slice operation doing nothing. Makes it easier to intialise
+/* Structure visitor doing nothing. Makes it easier to initialise
  * operations table
  * @param si identifies slice on which to invoke noop
  * @param st address of structure defining traversal
  */
-void slice_operation_noop(slice_index si, slice_traversal *st);
+void stip_structure_visitor_noop(slice_index si, stip_structure_traversal *st);
 
 /* (Approximately) depth-first traversal of the children of a slice
  * @param si slice whose children to traverse
  * @param st address of structure defining traversal
  */
-void slice_traverse_children(slice_index si, slice_traversal *st);
+void stip_traverse_structure_children(slice_index si, stip_structure_traversal *st);
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree
  * @param root root of the sub-tree to traverse
  * @param st address of structure defining traversal
  */
-void traverse_slices(slice_index root, slice_traversal *st);
+void stip_traverse_structure(slice_index root, stip_structure_traversal *st);
 
 #endif

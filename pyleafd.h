@@ -47,6 +47,6 @@ boolean leaf_d_solve(slice_index leaf);
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void leaf_d_detect_starter(slice_index si, slice_traversal *st);
+void leaf_d_detect_starter(slice_index si, stip_structure_traversal *st);
 
 #endif

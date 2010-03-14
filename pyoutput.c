@@ -36,7 +36,7 @@ static stip_length_type move_depth;
 
 static captured_ply_type captured_ply[maxply+1];
 
-static void output_mode_treemode(slice_index si, slice_traversal *st)
+static void output_mode_treemode(slice_index si, stip_structure_traversal *st)
 {
   output_mode * const mode = st->param;
 
@@ -51,7 +51,7 @@ static void output_mode_treemode(slice_index si, slice_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void output_mode_linemode(slice_index si, slice_traversal *st)
+static void output_mode_linemode(slice_index si, stip_structure_traversal *st)
 {
   output_mode * const mode = st->param;;
 
@@ -66,7 +66,7 @@ static void output_mode_linemode(slice_index si, slice_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void output_mode_help_branch(slice_index si, slice_traversal *st)
+static void output_mode_help_branch(slice_index si, stip_structure_traversal *st)
 {
   output_mode * const mode = st->param;
 
@@ -87,7 +87,7 @@ static void output_mode_help_branch(slice_index si, slice_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void output_mode_series_root(slice_index si, slice_traversal *st)
+static void output_mode_series_root(slice_index si, stip_structure_traversal *st)
 {
   output_mode * const mode = st->param;;
 
@@ -102,7 +102,7 @@ static void output_mode_series_root(slice_index si, slice_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void output_mode_fork(slice_index si, slice_traversal *st)
+static void output_mode_fork(slice_index si, stip_structure_traversal *st)
 {
   output_mode * const mode = st->param;
   output_mode mode1;
@@ -112,10 +112,10 @@ static void output_mode_fork(slice_index si, slice_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  traverse_slices(slices[si].u.binary.op1,st);
+  stip_traverse_structure(slices[si].u.binary.op1,st);
   mode1 = *mode;
 
-  traverse_slices(slices[si].u.binary.op2,st);
+  stip_traverse_structure(slices[si].u.binary.op2,st);
   mode2 = *mode;
 
   *mode = mode2==output_mode_none ? mode1 : mode2;
@@ -126,24 +126,24 @@ static void output_mode_fork(slice_index si, slice_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static slice_operation const output_mode_detectors[] =
+static stip_structure_visitor const output_mode_detectors[] =
 {
-  &slice_traverse_children,   /* STProxy */
+  &stip_traverse_structure_children,   /* STProxy */
   &output_mode_treemode,      /* STAttackMove */
   &output_mode_treemode,      /* STDefenseMove */
   &output_mode_help_branch,   /* STHelpMove */
-  &slice_traverse_children,   /* STHelpFork */
+  &stip_traverse_structure_children,   /* STHelpFork */
   &output_mode_linemode,      /* STSeriesMove */
-  &slice_traverse_children,   /* STSeriesFork */
+  &stip_traverse_structure_children,   /* STSeriesFork */
   &output_mode_treemode,      /* STLeafDirect */
   &output_mode_linemode,      /* STLeafHelp */
   &output_mode_linemode,      /* STLeafForced */
   &output_mode_fork,          /* STReciprocal */
   &output_mode_fork,          /* STQuodlibet */
-  &slice_traverse_children,   /* STNot */
-  &slice_traverse_children,   /* STMoveInverterRootSolvableFilter */
-  &slice_traverse_children,   /* STMoveInverterSolvableFilter */
-  &slice_traverse_children,   /* STMoveInverterSeriesFilter */
+  &stip_traverse_structure_children,   /* STNot */
+  &stip_traverse_structure_children,   /* STMoveInverterRootSolvableFilter */
+  &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
+  &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */
   &output_mode_treemode,      /* STAttackRoot */
   &output_mode_treemode,      /* STBattlePlaySolutionWriter */
   &output_mode_treemode,      /* STPostKeyPlaySolutionWriter */
@@ -158,11 +158,11 @@ static slice_operation const output_mode_detectors[] =
   &output_mode_treemode,      /* STAttackHashed */
   &output_mode_help_branch,   /* STHelpRoot */
   &output_mode_help_branch,   /* STHelpShortcut */
-  &slice_traverse_children,   /* STHelpHashed */
+  &stip_traverse_structure_children,   /* STHelpHashed */
   &output_mode_series_root,   /* STSeriesRoot */
-  &slice_traverse_children,   /* STSeriesShortcut */
-  &slice_traverse_children,   /* STParryFork */
-  &slice_traverse_children,   /* STSeriesHashed */
+  &stip_traverse_structure_children,   /* STSeriesShortcut */
+  &stip_traverse_structure_children,   /* STParryFork */
+  &stip_traverse_structure_children,   /* STSeriesHashed */
   &pipe_traverse_next,        /* STSelfCheckGuardRootSolvableFilter */
   &pipe_traverse_next,        /* STSelfCheckGuardSolvableFilter */
   &output_mode_treemode,      /* STSelfCheckGuardRootDefenderFilter */
@@ -212,7 +212,7 @@ static slice_operation const output_mode_detectors[] =
  */
 void init_output(slice_index si)
 {
-  slice_traversal st;
+  stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -220,8 +220,8 @@ void init_output(slice_index si)
 
   current_mode = output_mode_none;
   
-  slice_traversal_init(&st,&output_mode_detectors,&current_mode);
-  traverse_slices(si,&st);
+  stip_structure_traversal_init(&st,&output_mode_detectors,&current_mode);
+  stip_traverse_structure(si,&st);
 
   TraceEnumerator(output_mode,current_mode,"\n");
   

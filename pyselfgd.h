@@ -12,7 +12,7 @@
  * @param si slice index
  * @param st state of traversal
  */
-void self_attack_root_make_setplay_slice(slice_index si, slice_traversal *st);
+void self_attack_root_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
@@ -20,7 +20,7 @@ void self_attack_root_make_setplay_slice(slice_index si, slice_traversal *st);
  * @param st address of structure capturing traversal state
  */
 void self_attack_root_reduce_to_postkey_play(slice_index si,
-                                             slice_traversal *st);
+                                             stip_structure_traversal *st);
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
@@ -123,13 +123,13 @@ boolean self_attack_root_solve(slice_index si);
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void self_attack_impose_starter(slice_index si, slice_traversal *st);
+void self_attack_impose_starter(slice_index si, stip_structure_traversal *st);
 
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
  */
-void self_defense_impose_starter(slice_index si, slice_traversal *st);
+void self_defense_impose_starter(slice_index si, stip_structure_traversal *st);
 
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented
@@ -142,12 +142,12 @@ slice_index slice_insert_self_guards(slice_index si, slice_index to_goal);
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void self_defense_insert_root(slice_index si, slice_traversal *st);
+void self_defense_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void self_attack_insert_root(slice_index si, slice_traversal *st);
+void self_attack_insert_root(slice_index si, stip_structure_traversal *st);
 
 #endif

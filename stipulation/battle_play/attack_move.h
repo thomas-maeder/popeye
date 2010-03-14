@@ -22,7 +22,7 @@ slice_index alloc_attack_move_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void attack_move_insert_root(slice_index si, slice_traversal *st);
+void attack_move_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -87,6 +87,6 @@ stip_length_type attack_move_solve_in_n(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void attack_move_detect_starter(slice_index si, slice_traversal *st);
+void attack_move_detect_starter(slice_index si, stip_structure_traversal *st);
 
 #endif

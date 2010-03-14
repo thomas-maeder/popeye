@@ -21,13 +21,13 @@ slice_index alloc_help_move_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void help_move_insert_root(slice_index si, slice_traversal *st);
+void help_move_insert_root(slice_index si, stip_structure_traversal *st);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void help_move_detect_starter(slice_index si, slice_traversal *st);
+void help_move_detect_starter(slice_index si, stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

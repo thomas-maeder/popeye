@@ -130,13 +130,13 @@ slice_index convert_to_parry_series_branch(slice_index si, slice_index parrying)
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void parry_fork_resolve_proxies(slice_index si, slice_traversal *st)
+void parry_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
   pipe_resolve_proxies(si,st);
   if (slices[si].u.parry_fork.parrying!=no_slice)
     proxy_slice_resolve(&slices[si].u.parry_fork.parrying);

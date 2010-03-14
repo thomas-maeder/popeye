@@ -51,7 +51,7 @@ slice_index alloc_series_root_slice(stip_length_type length,
  * @param si slice index
  * @param st state of traversal
  */
-void series_root_make_setplay_slice(slice_index si, slice_traversal *st)
+void series_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 
@@ -60,7 +60,7 @@ void series_root_make_setplay_slice(slice_index si, slice_traversal *st)
   TraceFunctionParamListEnd();
 
   prod->sibling = si;
-  slice_traverse_children(si,st);
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
