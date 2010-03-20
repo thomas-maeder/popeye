@@ -33,8 +33,14 @@ slice_index alloc_help_root_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
+  if (min_length<slack_length_help)
+    min_length += 2;
+
   result = alloc_branch(STHelpRoot,length,min_length);
 
+  if (short_sols==no_slice)
+    pipe_link(result,next);
+  else
   {
     slice_index const shortcut = alloc_help_shortcut(length,min_length,
                                                      short_sols);
@@ -115,21 +121,14 @@ void help_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 
   prod->sibling = si;
 
-  if (slices[si].u.shortcut.length==slack_length_help+1)
-    pipe_traverse_next(si,st);
-  else
+  pipe_traverse_next(si,st);
+
+  if (prod->setplay_slice!=no_slice)
   {
-    slice_index const shortcut = slices[si].u.pipe.next;
-    slice_index const root_branch = slices[shortcut].u.pipe.next;
-
-    slice_index const shortcut_copy = copy_slice(shortcut);
-    slice_index const root_branch_copy = copy_slice(root_branch);
-
-    prod->setplay_slice = copy_slice(si);
-    pipe_link(shortcut_copy,root_branch_copy);
-    pipe_link(prod->setplay_slice,shortcut_copy);
-
-    shorten_setplay_root_branch(prod->setplay_slice);
+    slice_index const length = slices[si].u.branch.length;
+    slice_index const min_length = slices[si].u.branch.min_length;
+    prod->setplay_slice = alloc_help_root_slice(length-1,min_length-1,
+                                                prod->setplay_slice,no_slice);
   }
 
   TraceFunctionExit(__func__);

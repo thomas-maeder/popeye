@@ -17,7 +17,8 @@ trace.h:
 stipulation/battle_play/attack_root$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_root.c \
   stipulation/battle_play/attack_root.h pydata.h pyoutput.h \
-  stipulation/branch.h stipulation/battle_play/defense_play.h trace.h
+  stipulation/branch.h stipulation/battle_play/defense_play.h \
+  stipulation/help_play/root.h trace.h
 
 stipulation/battle_play/attack_root.h:
 
@@ -28,6 +29,8 @@ pyoutput.h:
 stipulation/branch.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/help_play/root.h:
 
 trace.h:
 stipulation/battle_play/attack_move$(OBJ_SUFFIX):  \
@@ -114,8 +117,7 @@ stipulation/battle_play/defense_move$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_move.c \
   stipulation/battle_play/defense_move.h pydata.h pypipe.h \
   stipulation/branch.h stipulation/battle_play/attack_play.h \
-  stipulation/help_play/root.h stipulation/help_play/move.h \
-  stipulation/help_play/fork.h pyoutput.h trace.h
+  stipulation/help_play/move.h pyoutput.h trace.h
 
 stipulation/battle_play/defense_move.h:
 
@@ -127,11 +129,7 @@ stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
-stipulation/help_play/root.h:
-
 stipulation/help_play/move.h:
-
-stipulation/help_play/fork.h:
 
 pyoutput.h:
 
@@ -143,7 +141,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/postkeyplay.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
   stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
-  stipulation/help_play/root.h \
+  stipulation/help_play/root.h stipulation/help_play/play.h \
   optimisations/maxsolutions/root_defender_filter.h \
   optimisations/maxtime/root_defender_filter.h \
   optimisations/maxtime/defender_filter.h trace.h
@@ -179,6 +177,8 @@ stipulation/battle_play/threat.h:
 stipulation/battle_play/defense_move.h:
 
 stipulation/help_play/root.h:
+
+stipulation/help_play/play.h:
 
 optimisations/maxsolutions/root_defender_filter.h:
 

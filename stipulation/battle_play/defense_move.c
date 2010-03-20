@@ -3,9 +3,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
-#include "stipulation/help_play/fork.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -253,18 +251,12 @@ void defense_move_make_setplay_slice(slice_index si, stip_structure_traversal *s
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (prod->sibling!=no_slice)
+//   if (prod->sibling!=no_slice)
   {
-    slice_index const branch = alloc_help_move_slice(slack_length_help+1,
-                                                     slack_length_help+1);
-    slice_index const fork = alloc_help_fork_slice(slack_length_help,
-                                                   slack_length_help,
-                                                   slices[si].u.pipe.next);
-    pipe_link(branch,fork);
-    prod->setplay_slice = alloc_help_root_slice(slack_length_help+1,
-                                                slack_length_help+1,
-                                                branch,
-                                                no_slice);
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    prod->setplay_slice = alloc_help_move_slice(length,min_length);
+    pipe_set_successor(prod->setplay_slice,slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);

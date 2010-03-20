@@ -26,11 +26,13 @@ slice_index alloc_battle_branch(stip_length_type length,
   assert(min_length>=slack_length_battle);
   assert(min_length%2==length%2);
 
-  result = alloc_attack_move_slice(length,min_length);
+  result = alloc_proxy_slice();
 
   {
+    slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const defense = alloc_defense_move_slice(length-1,min_length-1);
-    pipe_link(result,defense);
+    pipe_link(result,attack);
+    pipe_link(attack,defense);
     pipe_link(defense,result);
   }
 

@@ -50,8 +50,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #1                          3 + 1
 
-  1.Se8-c7 # ! 
-
+  1.Se8-c7 # 
 solution finished. 
 
 
@@ -155,8 +154,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 2
 
-  1.Se8-c7 # ! 
-
+  1.Se8-c7 # 
   1.Ka6-b6 ! threat:
           2.Se8-c7 # 
 
@@ -187,8 +185,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ##!2                        2 + 3
 
-  1.Kc8-b7 ##! ! 
-
+  1.Kc8-b7 ##! 
 solution finished. 
 
 
@@ -216,10 +213,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #=2                         2 + 1
 
-  1.Rc3-c1 # ! 
-
-  1.Rc3-b3 = ! 
-
+  1.Rc3-c1 # 
+  1.Rc3-b3 = 
 solution finished. 
 
 
@@ -508,6 +503,7 @@ s#1 with incomplete set play (not given)
 +---a---b---c---d---e---f---g---h---+
   s#1                         2 + 4
 
+
   1.Rc3-c4 ! 
       1...b3-b2 # 
 
@@ -538,7 +534,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         3 + 4
 
-  1...b3-b2 # 
+      1...b3-b2 # 
 
   1.h3-h4 ! 
       1...b3-b2 # 
@@ -802,7 +798,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#2                         3 + 5
 
-  1...b3-b2 # 
+      1...b3-b2 # 
 
   1.Rc4-e4 ! 
       1...c5-c4 
@@ -954,7 +950,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#1                         2 + 3
 
-  1...Se1-c2 # 
+      1...Se1-c2 # 
 
   1.h3-h4 ! 
       1...Se1-c2 # 
@@ -1365,7 +1361,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   semi-r##!1                  3 + 2
 
-  1...Ka3-b2 ##! 
+      1...Ka3-b2 ##! 
 
 the side to play can capture the king
 solution finished. 

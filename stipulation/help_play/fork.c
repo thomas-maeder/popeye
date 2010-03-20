@@ -13,31 +13,26 @@
 /* Allocate a STHelpFork slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_help_fork_slice(stip_length_type length,
                                   stip_length_type min_length,
-                                  slice_index to_goal)
+                                  slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_set_successor(proxy,to_goal);
-    to_goal = proxy;
-  }
+  assert(slices[proxy_to_goal].type==STProxy);
 
   if (min_length+1<slack_length_help)
     min_length += 2;
-  result = alloc_branch_fork(STHelpFork,length,min_length,to_goal);
+  result = alloc_branch_fork(STHelpFork,length,min_length,proxy_to_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -82,14 +77,12 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
 void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
-  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy_to_goal].type==STProxy);
-  prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
+  prod->setplay_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

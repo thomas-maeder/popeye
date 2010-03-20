@@ -489,27 +489,23 @@ static stip_structure_visitor const direct_guards_inserters[] =
 
 /* Instrument a branch with STDirectDefense slices
  * @param si root of branch to be instrumented
- * @param to_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies slice leading towards goal
  * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_direct_guards(slice_index si, slice_index to_goal)
+slice_index slice_insert_direct_guards(slice_index si,
+                                       slice_index proxy_to_goal)
 {
   stip_structure_traversal st;
-  init_param param = { to_goal, si } ;
+  init_param param = { proxy_to_goal, si } ;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
-    to_goal = proxy;
-  }
+  assert(slices[proxy_to_goal].type==STProxy);
 
   stip_structure_traversal_init(&st,&direct_guards_inserters,&param);
   stip_traverse_structure(si,&st);

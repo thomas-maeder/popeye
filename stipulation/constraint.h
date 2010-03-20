@@ -213,43 +213,48 @@ void reflex_filter_impose_starter(slice_index si, stip_structure_traversal *st);
 /* Instrument a branch with STReflexGuard slices for a reflex
  * stipulation 
  * @param si root of branch to be instrumented
- * @param avoided identifies what branch needs to be guarded from
+ * @param proxy_to_avoided identifies what branch needs to be guarded from
  * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_reflex_filters(slice_index si, slice_index avoided);
+slice_index slice_insert_reflex_filters(slice_index si,
+                                        slice_index proxy_to_avoided);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
  * stipulation 
  * @param si root of branch to be instrumented
- * @param avoided identifies what branch needs to be guarded from
+ * @param proxy_to_avoided identifies what branch needs to be guarded from
  * @return identifier of branch entry slice after insertion
  */
 slice_index slice_insert_reflex_filters_semi(slice_index si,
-                                             slice_index avoided);
+                                             slice_index proxy_to_avoided);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_attacker_filter_insert_root(slice_index si, stip_structure_traversal *st);
+void reflex_attacker_filter_insert_root(slice_index si,
+                                        stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_defender_filter_insert_root(slice_index si, stip_structure_traversal *st);
+void reflex_defender_filter_insert_root(slice_index si,
+                                        stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_help_filter_insert_root(slice_index si, stip_structure_traversal *st);
+void reflex_help_filter_insert_root(slice_index si,
+                                    stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_series_filter_insert_root(slice_index si, stip_structure_traversal *st);
+void reflex_series_filter_insert_root(slice_index si,
+                                      stip_structure_traversal *st);
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies

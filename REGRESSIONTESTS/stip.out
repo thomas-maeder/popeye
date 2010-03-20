@@ -845,8 +845,7 @@ Loesung beendet.
 
 a) 
 
-  1.d7-d8=D # ! 
-
+  1.d7-d8=D # 
 b) exact-#2
 
   1.d7-d8=T + ! 
@@ -866,6 +865,10 @@ d) exact-#4
   1.d7-d8=S ! 
       1...Sb7*d8 [+wSg1] 
           2.Sg1*f3 [+sBf7] 
+              2...Sd8-b7 
+                  3.Sf3-d2 
+                      3...Sb7-d8 
+                          4.Sd2-e4 # 
               2...Sd8-e6 
                   3.Sf3-d2 
                       3...Se6-d4 
@@ -877,10 +880,6 @@ d) exact-#4
                       3...Se6-f8 
                           4.Sd2-e4 # 
                       3...Se6-d8 
-                          4.Sd2-e4 # 
-              2...Sd8-b7 
-                  3.Sf3-d2 
-                      3...Sb7-d8 
                           4.Sd2-e4 # 
 
 Loesung beendet. 
@@ -914,8 +913,7 @@ Loesung beendet.
 
 a) 
 
-  1.Tg6-e6 # ! 
-
+  1.Tg6-e6 # 
 b) exact-#2
 
   1.Sd4-f3 + ! 
@@ -970,8 +968,7 @@ Loesung beendet.
 
 a) 
 
-  1.d7-d8=D # ! 
-
+  1.d7-d8=D # 
 b) exact-#2
 
   1.d7-d8=T + ! 

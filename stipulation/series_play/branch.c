@@ -33,36 +33,31 @@ void shorten_series_pipe(slice_index pipe)
  * opponent of the series's starter.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies proxy slice leading towards goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
 slice_index alloc_series_branch_next_other_starter(stip_length_type length,
                                                    stip_length_type min_length,
-                                                   slice_index to_goal)
+                                                   slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_series);
-
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
-    to_goal = proxy;
-  }
+  assert(slices[proxy_to_goal].type==STProxy);
 
   result = alloc_proxy_slice();
 
   {
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const inverter = alloc_move_inverter_series_filter();
-    slice_index const fork = alloc_series_fork_slice(length,min_length,to_goal);
+    slice_index const fork = alloc_series_fork_slice(length,min_length,
+                                                     proxy_to_goal);
 
     shorten_series_pipe(fork);
 
@@ -82,31 +77,25 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
  * as the series.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies proxy slice leading towards goal
+ * @param proxy_to_goal identifies proxy slice leading towards goal
  * @return index of adapter slice of allocated series branch
  */
 slice_index alloc_series_branch_next_same_starter(stip_length_type length,
                                                   stip_length_type min_length,
-                                                  slice_index to_goal)
+                                                  slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_series);
+  assert(slices[proxy_to_goal].type==STProxy);
 
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
-    to_goal = proxy;
-  }
-
-  result = alloc_series_fork_slice(length,min_length,to_goal);
+  result = alloc_series_fork_slice(length,min_length,proxy_to_goal);
 
   {
     slice_index const move = alloc_series_move_slice(length,min_length);

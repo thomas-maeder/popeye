@@ -323,8 +323,6 @@ Loesung beendet.
   1.Dd5-a8[Ia4] ! Zugzwang.
       1...f2-f1=D[Ia3] 
           2.f7-f8=D[Ia4] Zugzwang.
-              2...Kc8-d7[Ib3] 
-                  3.Da8-c6[Id1] # 
               2...Df1-g2[Ib5] 
                   3.Df8-e7[Ia4] Zugzwang.
                       3...Dg2-g1[Ia3] 
@@ -335,6 +333,8 @@ Loesung beendet.
                   3.Df8-e8[Ia4] Zugzwang.
                       3...Dg1-h2[Ib5] 
                           4.Da8*b8[Ic5] # 
+              2...Kc8-d7[Ib3] 
+                  3.Da8-c6[Id1] # 
       1...f2-f1=S[Ia3] 
           2.f7-f8=S[Ia4] Zugzwang.
               2...Sf1-h2[Ic5] 

@@ -41,8 +41,6 @@ void reflex_filter_resolve_proxies(slice_index si, stip_structure_traversal *st)
 /* Allocate a STReflexRootSolvableFilter slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies slice that leads towards goal from
- *                      the branch
  * @param proxy_to_avoided prototype of slice that must not be solvable
  * @return index of allocated slice
  */
@@ -73,8 +71,6 @@ slice_index alloc_reflex_root_solvable_filter(stip_length_type length,
 /* Allocate a STReflexAttackerFilter slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies slice that leads towards goal from
- *                      the branch
  * @param proxy_to_avoided prototype of slice that must not be solvable
  * @return index of allocated slice
  */
@@ -105,7 +101,8 @@ static slice_index alloc_reflex_attacker_filter(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_attacker_filter_insert_root(slice_index si, stip_structure_traversal *st)
+void reflex_attacker_filter_insert_root(slice_index si,
+                                        stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   slice_index const next = slices[si].u.pipe.next;
@@ -654,21 +651,13 @@ void reflex_defender_filter_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (prod->sibling==no_slice)
-  {
-    /* semi-reflex stipulation */
-    prod->sibling = slices[si].prev;
-    assert(slices[prod->sibling].type==STAttackRoot);
-  }
+  stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.branch.length==slack_length_battle)
   {
-    slice_index const proxy_to_avoided = slices[si].u.reflex_guard.avoided;
-    assert(slices[proxy_to_avoided].type==STProxy);
-    prod->setplay_slice = slices[proxy_to_avoided].u.pipe.next;
+    slice_index const copy = copy_slice(si);
+    pipe_link(copy,prod->setplay_slice);
+    prod->setplay_slice = copy;
   }
-  else
-    stip_traverse_structure(slices[si].u.pipe.next,st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1291,37 +1280,33 @@ static stip_structure_visitor const reflex_guards_inserters[] =
 /* Instrument a branch with STReflex* slices for a (non-semi)
  * reflex stipulation 
  * @param si root of branch to be instrumented
- * @param avoided identifies branch that needs to be guarded from
+ * @param proxy_to_avoided identifies branch that needs to be guarded from
  * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_reflex_filters(slice_index si, slice_index avoided)
+slice_index slice_insert_reflex_filters(slice_index si,
+                                        slice_index proxy_to_avoided)
 {
   stip_structure_traversal st;
   init_param param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",avoided);
+  TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
   param.result = si;
 
-  if (slices[avoided].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,avoided);
-    avoided = proxy;
-  }
+  assert(slices[proxy_to_avoided].type==STProxy);
 
   {
-    slice_index const avoided_leaf = slices[avoided].u.pipe.next;
+    slice_index const avoided_leaf = slices[proxy_to_avoided].u.pipe.next;
     Goal const avoided_goal = slices[avoided_leaf].u.leaf.goal;
     slice_index const direct_avoided = alloc_leaf_slice(STLeafDirect,
                                                         avoided_goal);
 
-    param.to_be_avoided[0] = avoided;
+    param.to_be_avoided[0] = proxy_to_avoided;
     param.to_be_avoided[1] = alloc_proxy_slice();
     pipe_link(param.to_be_avoided[1],direct_avoided);
 
@@ -1448,30 +1433,25 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
 /* Instrument a branch with STReflex* slices for a semi-reflex
  * stipulation 
  * @param si root of branch to be instrumented
- * @param avoided identifies branch that needs to be guarded from
+ * @param proxy_to_avoided identifies branch that needs to be guarded from
  * @return identifier of branch entry slice after insertion
  */
 slice_index slice_insert_reflex_filters_semi(slice_index si,
-                                             slice_index avoided)
+                                             slice_index proxy_to_avoided)
 {
   stip_structure_traversal st;
   init_param param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",avoided);
+  TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
 
   param.result = si;
 
-  if (slices[avoided].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,avoided);
-    avoided = proxy;
-  }
+  assert(slices[proxy_to_avoided].type==STProxy);
 
-  param.to_be_avoided[0] = avoided;
+  param.to_be_avoided[0] = proxy_to_avoided;
   param.to_be_avoided[1] = no_slice;
 
   stip_structure_traversal_init(&st,&reflex_guards_inserters_semi,&param);

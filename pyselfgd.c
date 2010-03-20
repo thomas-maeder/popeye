@@ -275,7 +275,7 @@ boolean self_attack_defend_in_n(slice_index si, stip_length_type n)
 
   if (n<=n_max_for_goal && !slice_defend(to_goal))
     result = false;
-  else if (next!=no_slice)
+  else if (n>slack_length_battle)
     result = defense_defend_in_n(next,n);
   else
     result = true;
@@ -351,29 +351,23 @@ boolean self_attack_root_solve(slice_index si)
  * @param si slice index
  * @param st state of traversal
  */
-void self_attack_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void self_attack_root_make_setplay_slice(slice_index si,
+                                         stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
-  slice_index const length = slices[si].u.branch.length;
-  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length==slack_length_battle)
-  {
-    assert(slices[proxy_to_goal].type==STProxy);
-    prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
-  }
-  else
+  stip_traverse_structure_children(si,st);
+
   {
     slice_index const copy = copy_slice(si);
-    stip_traverse_structure(slices[si].u.pipe.next,st);
     pipe_link(copy,prod->setplay_slice);
     prod->setplay_slice = copy;
   }
-
+  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -383,7 +377,8 @@ void self_attack_root_make_setplay_slice(slice_index si, stip_structure_traversa
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void self_attack_root_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st)
+void self_attack_root_reduce_to_postkey_play(slice_index si,
+                                             stip_structure_traversal *st)
 {
   slice_index *postkey_slice = st->param;
 
@@ -579,7 +574,8 @@ static void self_guards_inserter_defense_move(slice_index si,
 
 /* Insert a STSelfAttack after each STAttackMove and STAttackRoot slice
  */
-static void self_guards_inserter_attack_move(slice_index si, stip_structure_traversal *st)
+static void self_guards_inserter_attack_move(slice_index si,
+                                             stip_structure_traversal *st)
 {
   slice_index const * const proxy_to_goal = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -680,29 +676,23 @@ static stip_structure_visitor const self_guards_inserters[] =
 
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented
- * @param to_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies slice leading towards goal
  * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_self_guards(slice_index si, slice_index to_goal)
+slice_index slice_insert_self_guards(slice_index si, slice_index proxy_to_goal)
 {
   stip_structure_traversal st;
   slice_index const result = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
+  assert(slices[proxy_to_goal].type==STProxy);
 
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
-    to_goal = proxy;
-  }
-
-  stip_structure_traversal_init(&st,&self_guards_inserters,&to_goal);
+  stip_structure_traversal_init(&st,&self_guards_inserters,&proxy_to_goal);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -23,8 +23,7 @@ no check if pawn can't promote due to single box type 1
   =1                          9 + 3
           SingleBox    Type1
 
-  1.Bb8-d6 = ! 
-
+  1.Bb8-d6 = 
 solution finished. 
 
 
@@ -84,8 +83,7 @@ solution finished.
   #1                          4 + 1
           SingleBox    Type1
 
-  1.a7-a8=Q # ! 
-
+  1.a7-a8=Q # 
 solution finished. 
 
 

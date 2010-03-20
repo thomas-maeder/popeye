@@ -3,6 +3,7 @@
 #include "pyoutput.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/help_play/root.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -78,7 +79,8 @@ boolean attack_root_root_solve(slice_index si)
  * @param si slice index
  * @param st state of traversal
  */
-void attack_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void attack_root_make_setplay_slice(slice_index si,
+                                    stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 
@@ -94,6 +96,12 @@ void attack_root_make_setplay_slice(slice_index si, stip_structure_traversal *st
 
   stip_traverse_structure_children(si,st);
 
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    prod->setplay_slice = alloc_help_root_slice(length-1,length-1,
+                                                prod->setplay_slice,no_slice);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -103,7 +111,8 @@ void attack_root_make_setplay_slice(slice_index si, stip_structure_traversal *st
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void attack_root_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st)
+void attack_root_reduce_to_postkey_play(slice_index si,
+                                        stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const *postkey_slice = st->param;

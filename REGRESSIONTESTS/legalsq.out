@@ -108,17 +108,17 @@ Loesung beendet.
           2.Ka1-b2 
               2...Sc8-a7 
                   3.Kb2-c3 
-                      3...La8-h1 
-                          4.Kc3-d4 
-                              4...Sa7-c8 
-                                  5.Kd4-e5 # 
-                              4...Lh1-a8 
-                                  5.Kd4-e5 # 
                       3...Sa7-c8 
                           4.Kc3-d4 
+                              4...Sc8-a7 
+                                  5.Kd4-e5 # 
                               4...La8-h1 
                                   5.Kd4-e5 # 
-                              4...Sc8-a7 
+                      3...La8-h1 
+                          4.Kc3-d4 
+                              4...Lh1-a8 
+                                  5.Kd4-e5 # 
+                              4...Sa7-c8 
                                   5.Kd4-e5 # 
               2...La8-h1 
                   3.Kb2-c3 

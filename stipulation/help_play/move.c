@@ -249,3 +249,26 @@ boolean help_move_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ */
+void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  setplay_slice_production * const prod = st->param;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[next].prev==si)
+    prod->setplay_slice = si;
+  else
+    /* this is the first move (i.e. the one that is omitted in set play) */
+    pipe_traverse_next(si,st); 
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

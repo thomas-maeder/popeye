@@ -460,7 +460,8 @@ void stip_structure_traversal_init(stip_structure_traversal *st,
  * @return state of si in traversal *st
  */
 stip_structure_traversal_state
-get_stip_structure_traversal_state(slice_index si, stip_structure_traversal *st);
+get_stip_structure_traversal_state(slice_index si,
+                                   stip_structure_traversal *st);
 
 /* Structure visitor doing nothing. Makes it easier to initialise
  * operations table
@@ -473,12 +474,110 @@ void stip_structure_visitor_noop(slice_index si, stip_structure_traversal *st);
  * @param si slice whose children to traverse
  * @param st address of structure defining traversal
  */
-void stip_traverse_structure_children(slice_index si, stip_structure_traversal *st);
+void stip_traverse_structure_children(slice_index si,
+                                      stip_structure_traversal *st);
 
-/* (Approximately) depth-first traversl of a stipulation sub-tree
+/* (Approximately) depth-first traversal of a stipulation sub-tree
  * @param root root of the sub-tree to traverse
  * @param st address of structure defining traversal
  */
 void stip_traverse_structure(slice_index root, stip_structure_traversal *st);
+
+
+struct stip_move_traversal;
+
+/* Type of callback for stipulation traversals
+ */
+typedef void (*stip_move_visitor)(slice_index si,
+                                  struct stip_move_traversal *st);
+
+/* Mapping of slice types to structure visitors.
+ */
+typedef stip_move_visitor const (*stip_move_visitors)[nr_slice_types];
+
+typedef struct stip_move_traversal
+{
+    stip_move_visitors ops;
+    stip_length_type n;
+    void *param;
+} stip_move_traversal;
+
+/* Initialise a move traversal structure
+ * @param st to be initialised
+ * @param ops operations to be invoked on slices
+ * @param param parameter to be passed t operations
+ */
+void stip_move_traversal_init(stip_move_traversal *st,
+                              stip_move_visitors ops,
+                              void *param);
+
+/* Traversal of moves of the stipulation
+ * @param root identifies start of the stipulation (sub)tree
+ * @param st address of data structure holding parameters for the operation
+ */
+void stip_traverse_moves(slice_index root, stip_move_traversal *st);
+
+/* Traversal of the moves of some pipe slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_pipe(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves of some branch slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves beyond a series fork slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves beyond a help shortcut slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_help_shortcut(slice_index si,
+                                       stip_move_traversal *st);
+
+/* Traversal of the moves beyond a help fork slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_help_fork(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves beyond a series shortcut slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_shortcut(slice_index si,
+                                         stip_move_traversal *st);
+
+/* Traversal of the moves beyond a series fork slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_fork(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves of an operand of a binary operator
+ * @param op identifies operand
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_binary_operand(slice_index op,
+                                        stip_move_traversal *st);
+
+/* Traversal of the moves of a binary operator
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_binary(slice_index si, stip_move_traversal *st);
+
+/* No-op callback for move traversals
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_noop(slice_index si, stip_move_traversal *st);
 
 #endif

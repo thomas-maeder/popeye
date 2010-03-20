@@ -1,4 +1,5 @@
 #include "stipulation/help_play/play.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
@@ -49,8 +50,35 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
     case STSeriesMove:
     case STSeriesHashed:
     {
-      stip_length_type const n_ser = n-slack_length_help+slack_length_series;
-      result = series_solve_in_n(si,n_ser);
+      stip_length_type const nseries = n-slack_length_help+slack_length_series;
+      result = series_solve_in_n(si,nseries);
+      break;
+    }
+
+    case STVariationWriter:
+    case STDirectDefense:
+    case STSelfDefense:
+    case STReflexAttackerFilter:
+    {
+      stip_length_type const nbattle = n-slack_length_help+slack_length_battle;
+      stip_length_type const parity = (nbattle-slack_length_battle)%2;
+      stip_length_type const n_min = slack_length_battle-parity;
+      if (attack_has_solution_in_n(si,nbattle,n_min)<=nbattle)
+      {
+        stip_length_type const length = attack_solve_in_n(si,nbattle,n_min);
+        assert(length<=nbattle);
+        result = true;
+      }
+      else
+        result = false;
+      break;
+    }
+
+    case STSelfAttack:
+    case STReflexDefenderFilter:
+    {
+      stip_length_type const nbattle = n-slack_length_help+slack_length_battle;
+      result = !defense_defend_in_n(si,nbattle);
       break;
     }
 

@@ -23,8 +23,7 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
   =1                          9 + 3
      NurPartiesatzSteine    Typ1
 
-  1.Lb8-d6 = ! 
-
+  1.Lb8-d6 = 
 Loesung beendet. 
 
 
@@ -84,8 +83,7 @@ Loesung beendet.
   #1                          4 + 1
      NurPartiesatzSteine    Typ1
 
-  1.a7-a8=D # ! 
-
+  1.a7-a8=D # 
 Loesung beendet. 
 
 

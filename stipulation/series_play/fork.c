@@ -9,29 +9,24 @@
 /* Allocate a STSeriesFork slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
-                                    slice_index to_goal)
+                                    slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
-    to_goal = proxy;
-  }
+  assert(slices[proxy_to_goal].type==STProxy);
 
-  result = alloc_branch_fork(STSeriesFork,length,min_length,to_goal);
+  result = alloc_branch_fork(STSeriesFork,length,min_length,proxy_to_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

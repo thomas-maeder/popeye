@@ -14,6 +14,7 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/help_play/root.h"
+#include "stipulation/help_play/play.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
@@ -208,6 +209,13 @@ boolean defense_defend_in_n(slice_index si, stip_length_type n)
     case STMaxTimeDefenderFilter:
       result = maxtime_defender_filter_defend_in_n(si,n);
       break;
+
+    case STHelpMove:
+    {
+      stip_length_type const nhelp = n-slack_length_battle+slack_length_help;
+      result = !help_solve_in_n(si,nhelp);
+      break;
+    }
 
     default:
       assert(0);

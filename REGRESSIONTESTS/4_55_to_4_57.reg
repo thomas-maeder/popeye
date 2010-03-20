@@ -59,8 +59,7 @@ solving interrupted.
 +---a---b---c---d---e---f---g---h---+
   ser-dia1                  16 + 16
 
-  1.a2-a3 dia ! 
-
+  1.a2-a3 dia 
 solution finished. 
 
 
@@ -88,8 +87,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-dia1                 16 + 16
 
-  1.a2-a3 dia ! 
-
 solution finished. 
 
 
@@ -116,8 +113,6 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   phser-dia1                16 + 16
-
-  1.a2-a3 dia ! 
 
 solution finished. 
 

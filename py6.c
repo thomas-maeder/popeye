@@ -2734,7 +2734,8 @@ void insert_hash_element_leaf_direct(slice_index si, stip_structure_traversal *s
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-void insert_hash_element_branch_help(slice_index si, stip_structure_traversal *st)
+void insert_hash_element_branch_help(slice_index si,
+                                     stip_structure_traversal *st)
 {
   branch_level * const level = st->param;
 
@@ -2742,6 +2743,7 @@ void insert_hash_element_branch_help(slice_index si, stip_structure_traversal *s
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",*level);
   if (*level==nested_branch)
   {
     /* First traverse childen, then insert STHelpHashed slice;
@@ -2765,7 +2767,36 @@ void insert_hash_element_branch_help(slice_index si, stip_structure_traversal *s
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-void insert_hash_element_leaf_help(slice_index si, stip_structure_traversal *st)
+void insert_hash_element_help_fork(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  branch_level * const level = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",*level);
+  if (*level==nested_branch)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    stip_traverse_structure(slices[si].u.branch_fork.next,st);
+    *level = nested_branch;
+    stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
+    *level = toplevel_branch;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+void insert_hash_element_leaf_help(slice_index si,
+                                   stip_structure_traversal *st)
 {
   branch_level const * const level = st->param;;
 
@@ -2773,6 +2804,7 @@ void insert_hash_element_leaf_help(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",*level);
   if (*level==nested_branch)
     insert_help_hashed_slice(si);
 
@@ -2784,7 +2816,8 @@ void insert_hash_element_leaf_help(slice_index si, stip_structure_traversal *st)
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-void insert_hash_element_branch_series(slice_index si, stip_structure_traversal *st)
+void insert_hash_element_branch_series(slice_index si,
+                                       stip_structure_traversal *st)
 {
   branch_level * const level = st->param;
 
@@ -2817,7 +2850,7 @@ static stip_structure_visitor const hash_element_inserters[] =
   &insert_hash_element_attack_move,          /* STAttackMove */
   &insert_hash_element_nested,               /* STDefenseMove */
   &insert_hash_element_branch_help,          /* STHelpMove */
-  &stip_traverse_structure_children,                  /* STHelpFork */
+  &insert_hash_element_help_fork,                  /* STHelpFork */
   &insert_hash_element_branch_series,        /* STSeriesMove */
   &stip_traverse_structure_children,                  /* STSeriesFork */
   &insert_hash_element_leaf_direct,          /* STLeafDirect */

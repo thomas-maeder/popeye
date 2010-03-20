@@ -34,35 +34,29 @@ void shorten_help_pipe(slice_index pipe)
 /* Allocate a help branch.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param to_goal identifies slice leading towards goal
+ * @param proxy_to_goal identifies slice leading towards goal
  * @return index of initial slice of allocated help branch
  */
 slice_index alloc_help_branch(stip_length_type length,
                               stip_length_type min_length,
-                              slice_index to_goal)
+                              slice_index proxy_to_goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",to_goal);
+  TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
   assert(length>slack_length_help);
-
-  if (slices[to_goal].type!=STProxy)
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    pipe_link(proxy,to_goal);
-    to_goal = proxy;
-  }
+  assert(slices[proxy_to_goal].type==STProxy);
 
   if ((length-slack_length_help)%2==0)
   {
     slice_index const branch1 = alloc_help_move_slice(length,min_length);
     slice_index const branch2 = alloc_help_move_slice(length,min_length);
-    result = alloc_help_fork_slice(length,min_length,to_goal);
+    result = alloc_help_fork_slice(length,min_length,proxy_to_goal);
 
     shorten_help_pipe(branch2);
 
@@ -72,7 +66,8 @@ slice_index alloc_help_branch(stip_length_type length,
   }
   else
   {
-    slice_index const fork = alloc_help_fork_slice(length,min_length,to_goal);
+    slice_index const fork = alloc_help_fork_slice(length,min_length,
+                                                   proxy_to_goal);
     slice_index const branch1 = alloc_help_move_slice(length,min_length);
     slice_index const branch2 = alloc_help_move_slice(length,min_length);
     result = alloc_proxy_slice();

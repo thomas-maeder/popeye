@@ -22,6 +22,8 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
   switch (slices[si].type)
   {
     case STHelpShortcut:
+    case STHelpFork:
+    case STHelpMove:
       help_solve_in_n(si,n);
       break;
 
