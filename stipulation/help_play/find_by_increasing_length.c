@@ -54,57 +54,6 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
-/* Shorten a help branch that is the root of set play. Reduces the
- * length members of slices[root] and rewires the members to the
- * appropriate positions.
- * @param root index of the help root slice to be shortened
- */
-static void shorten_setplay_root_branch(slice_index root)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParamListEnd();
-
-  if ((slices[root].u.shortcut.length-slack_length_help)%2==0)
-  {
-    slice_index const help_shortcut = slices[root].u.pipe.next;
-    slice_index const root_branch = slices[help_shortcut].u.pipe.next;
-    slice_index const proxy = slices[root_branch].u.pipe.next;
-    slice_index const branch1 = slices[proxy].u.pipe.next;
-    slice_index const fork = slices[branch1].u.pipe.next;
-    assert(slices[help_shortcut].type==STHelpShortcut);
-    assert(slices[root_branch].type==STHelpMove);
-    assert(slices[branch1].type==STHelpMove);
-    assert(slices[fork].type==STHelpFork);
-    slices[root_branch].u.pipe.next = fork;
-    slices[help_shortcut].u.shortcut.short_sols = branch1;
-    shorten_help_pipe(root);
-    shorten_help_pipe(help_shortcut);
-    shorten_help_pipe(root_branch);
-  }
-  else
-  {
-    slice_index const help_shortcut = slices[root].u.pipe.next;
-    slice_index const root_branch = slices[help_shortcut].u.pipe.next;
-    slice_index const fork = slices[root_branch].u.pipe.next;
-    slice_index const branch1 = slices[fork].u.pipe.next;
-    slice_index const proxy = slices[branch1].u.pipe.next;
-    assert(slices[help_shortcut].type==STHelpShortcut);
-    assert(slices[root_branch].type==STHelpMove);
-    assert(slices[fork].type==STHelpFork);
-    assert(slices[branch1].type==STHelpMove);
-    assert(slices[proxy].type==STProxy);
-    slices[root_branch].u.pipe.next = proxy;
-    slices[help_shortcut].u.shortcut.short_sols = fork;
-    shorten_help_pipe(root);
-    shorten_help_pipe(help_shortcut);
-    shorten_help_pipe(root_branch);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
