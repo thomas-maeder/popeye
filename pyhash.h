@@ -63,11 +63,6 @@ void HashStats(unsigned int level, char *trailer);
 void IncHashRateLevel(void);
 void DecHashRateLevel(void);
 
-/* Allocate a STAttackHashed slice and insert it
- * @param si identifies slice before which to insert the new slice
- */
-void insert_attack_hashed_slice(slice_index si);
-
 /* Determine and write the threats after the move that has just been
  * played.
  * @param threats table where to add threats
@@ -127,11 +122,6 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_min);
 
-/* Allocate a STHelpHashed slice
- * @param si identifies slice before which to insert the new slice
- */
-void insert_help_hashed_slice(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -161,11 +151,6 @@ void hashed_help_solve_threats_in_n(table threats,
                                     slice_index si,
                                     stip_length_type n);
 
-/* Allocate a STSeriesHashed slice
- * @param si identifies slice before which to insert the new slice
- */
-void insert_series_hashed_slice(slice_index si);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -188,5 +173,9 @@ boolean hashed_series_has_solution_in_n(slice_index si, stip_length_type n);
 void hashed_series_solve_threats_in_n(table threats,
                                       slice_index si,
                                       stip_length_type n);
+
+/* Instrument stipulation with hashing slices
+ */
+void stip_insert_hash_slices(void);
 
 #endif

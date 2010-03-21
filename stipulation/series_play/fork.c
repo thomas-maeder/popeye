@@ -154,7 +154,7 @@ void series_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st
   TraceFunctionParamListEnd();
 
   assert(slices[proxy_to_goal].type==STProxy);
-  prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
+  prod->setplay_slice = proxy_to_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

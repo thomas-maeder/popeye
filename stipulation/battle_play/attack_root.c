@@ -98,8 +98,9 @@ void attack_root_make_setplay_slice(slice_index si,
 
   {
     stip_length_type const length = slices[si].u.branch.length;
-    prod->setplay_slice = alloc_help_root_slice(length-1,length-1,
-                                                prod->setplay_slice,no_slice);
+    slice_index const help_root = alloc_help_root_slice(length-1,length-1);
+    pipe_link(help_root,prod->setplay_slice);
+    prod->setplay_slice = help_root;
   }
 
   TraceFunctionExit(__func__);

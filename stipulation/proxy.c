@@ -70,3 +70,24 @@ void proxy_slice_resolve(slice_index *si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Spin off a set play slice
+ * @param si slice index
+ * @param st state of traversal
+ */
+void proxy_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  setplay_slice_production * const prod = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (prod->setplay_slice==slices[si].u.pipe.next)
+    prod->setplay_slice = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

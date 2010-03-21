@@ -2013,35 +2013,40 @@ static slice_index alloc_attack_hashed_slice(stip_length_type length,
  * slice and insert it before the slice
  * @param si identifies STAttackMove or STLeafDirect slice
  */
-void insert_attack_hashed_slice(slice_index si)
+static void insert_attack_hashed_slice(slice_index si)
 {
+  slice_index const prev = slices[si].prev;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafDirect:
+  if (slices[prev].type!=STAttackHashed)
+    switch (slices[si].type)
     {
-      stip_length_type const length = slack_length_battle+1;
-      stip_length_type const min_length = slack_length_battle+1;
-      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
-      break;
-    }
+      case STLeafDirect:
+      {
+        stip_length_type const length = slack_length_battle+1;
+        stip_length_type const min_length = slack_length_battle+1;
+        pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,
+                                                              min_length));
+        break;
+      }
 
-    case STAttackMove:
-    {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
-      break;
-    }
+      case STAttackMove:
+      {
+        stip_length_type const length = slices[si].u.branch.length;
+        stip_length_type const min_length = slices[si].u.branch.min_length;
+        pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,
+                                                              min_length));
+        break;
+      }
 
-    default:
-      assert(0);
-      break;
-  }
+      default:
+        assert(0);
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2075,36 +2080,39 @@ static slice_index alloc_help_hashed_slice(stip_length_type length,
  * and insert it before the slice
  * @param si identifies ST{Branch,Leaf}Help slice
  */
-void insert_help_hashed_slice(slice_index si)
+static void insert_help_hashed_slice(slice_index si)
 {
+  slice_index const prev = slices[si].prev;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
 
-  switch (slices[si].type)
-  {
-    case STLeafHelp:
+  if (slices[prev].type!=STHelpHashed)
+    switch (slices[si].type)
     {
-      stip_length_type const length = slack_length_help+1;
-      stip_length_type const min_length = slack_length_help+1;
-      pipe_append(slices[si].prev,alloc_help_hashed_slice(length,min_length));
-      break;
-    }
+      case STLeafHelp:
+      {
+        stip_length_type const length = slack_length_help+1;
+        stip_length_type const min_length = slack_length_help+1;
+        pipe_append(prev,alloc_help_hashed_slice(length,min_length));
+        break;
+      }
 
-    case STHelpMove:
-    {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      pipe_append(slices[si].prev,alloc_help_hashed_slice(length,min_length));
-      break;
-    }
+      case STHelpMove:
+      {
+        stip_length_type const length = slices[si].u.branch.length;
+        stip_length_type const min_length = slices[si].u.branch.min_length;
+        pipe_append(prev,alloc_help_hashed_slice(length,min_length));
+        break;
+      }
 
-    default:
-      assert(0);
-      break;
-  }
+      default:
+        assert(0);
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2114,8 +2122,10 @@ void insert_help_hashed_slice(slice_index si)
  * and insert it before the slice
  * @param si identifies STSeriesMove slice
  */
-void insert_series_hashed_slice(slice_index si)
+static void insert_series_hashed_slice(slice_index si)
 {
+  slice_index const prev = slices[si].prev;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2123,11 +2133,257 @@ void insert_series_hashed_slice(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   assert(slices[si].type==STSeriesMove);
 
+  if (slices[prev].type!=STSeriesHashed)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(slices[si].prev,alloc_branch(STSeriesHashed,length,min_length));
+    pipe_append(prev,alloc_branch(STSeriesHashed,length,min_length));
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_attack_move(slice_index si,
+                                            stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",st->remaining);
+  TraceValue("%u\n",st->full_length);
+  if (st->remaining<st->full_length)
+    insert_attack_hashed_slice(si);
+  stip_traverse_moves_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_defense_move(slice_index si,
+                                             stip_move_traversal *st)
+{
+  branch_level * const level = st->param;
+  branch_level const save_level = *level;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *level = nested_branch;
+  stip_traverse_moves_branch(si,st);
+  *level = save_level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean is_goal_move_oriented(slice_index leaf)
+{
+  boolean result;
+  Goal const goal = slices[leaf].u.leaf.goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",leaf);
+  TraceFunctionParamListEnd();
+
+  result = (goal==goal_target
+            || goal==goal_ep
+            || goal==goal_capture
+            || goal==goal_steingewinn
+            || goal==goal_castling);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_leaf_direct(slice_index si,
+                                            stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* In move orientated stipulations (%, z, x etc.) it's less
+   * expensive to compute an end in 1. TLi
+   */
+  if (st->level>0 && !is_goal_move_oriented(si))
+    insert_attack_hashed_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_branch_help(slice_index si,
+                                            stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",st->remaining);
+  TraceValue("%u\n",st->full_length);
+  if (st->remaining<st->full_length)
+    insert_help_hashed_slice(si);
+  stip_traverse_moves_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_leaf_help(slice_index si,
+                                          stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->level>0)
+    insert_help_hashed_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_branch_series(slice_index si,
+                                              stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",st->remaining);
+  TraceValue("%u\n",st->full_length);
+  if (st->remaining<st->full_length)
+    insert_series_hashed_slice(si);
+
+  stip_traverse_moves_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static stip_move_visitor const hash_element_inserters[] =
+{
+  &stip_traverse_moves_pipe,          /* STProxy */
+  &insert_hash_element_attack_move,   /* STAttackMove */
+  &insert_hash_element_defense_move,  /* STDefenseMove */
+  &insert_hash_element_branch_help,   /* STHelpMove */
+  &stip_traverse_moves_help_fork,     /* STHelpFork */
+  &insert_hash_element_branch_series, /* STSeriesMove */
+  &stip_traverse_moves_series_fork,   /* STSeriesFork */
+  &insert_hash_element_leaf_direct,   /* STLeafDirect */
+  &insert_hash_element_leaf_help,     /* STLeafHelp */
+  &stip_traverse_moves_noop,          /* STLeafForced */
+  &stip_traverse_moves_binary,        /* STReciprocal */
+  &stip_traverse_moves_binary,        /* STQuodlibet */
+  &stip_traverse_moves_pipe,          /* STNot */
+  &stip_traverse_moves_pipe,          /* STMoveInverterRootSolvableFilter */
+  &stip_traverse_moves_pipe,          /* STMoveInverterSolvableFilter */
+  &stip_traverse_moves_pipe,          /* STMoveInverterSeriesFilter */
+  &stip_traverse_moves_branch,        /* STAttackRoot */
+  &stip_traverse_moves_pipe,          /* STBattlePlaySolutionWriter */
+  &stip_traverse_moves_pipe,          /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_moves_pipe,          /* STContinuationWriter */
+  &stip_traverse_moves_pipe,          /* STTryWriter */
+  &stip_traverse_moves_pipe,          /* STThreatWriter */
+  &stip_traverse_moves_pipe,          /* STThreatEnforcer */
+  &stip_traverse_moves_pipe,          /* STRefutationsCollector */
+  &stip_traverse_moves_pipe,          /* STVariationWriter */
+  &stip_traverse_moves_pipe,          /* STRefutingVariationWriter */
+  &stip_traverse_moves_pipe,          /* STNoShortVariations */
+  &stip_traverse_moves_pipe,          /* STAttackHashed */
+  &stip_traverse_moves_root,          /* STHelpRoot */
+  &stip_traverse_moves_pipe,          /* STHelpShortcut */
+  &stip_traverse_moves_pipe,          /* STHelpHashed */
+  &stip_traverse_moves_root,          /* STSeriesRoot */
+  &stip_traverse_moves_pipe,          /* STSeriesShortcut */
+  &stip_traverse_moves_pipe,          /* STParryFork */
+  &stip_traverse_moves_pipe,          /* STSeriesHashed */
+  &stip_traverse_moves_pipe,          /* STSelfCheckGuardRootSolvableFilter */
+  &stip_traverse_moves_pipe,          /* STSelfCheckGuardSolvableFilter */
+  &stip_traverse_moves_pipe,          /* STSelfCheckGuardRootDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STSelfCheckGuardAttackerFilter */
+  &stip_traverse_moves_pipe,          /* STSelfCheckGuardDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STSelfCheckGuardHelpFilter */
+  &stip_traverse_moves_pipe,          /* STSelfCheckGuardSeriesFilter */
+  &stip_traverse_moves_battle_fork,   /* STDirectDefenseRootSolvableFilter */
+  &stip_traverse_moves_battle_fork,   /* STDirectDefense */
+  &stip_traverse_moves_help_fork,     /* STReflexHelpFilter */
+  &stip_traverse_moves_series_fork,   /* STReflexSeriesFilter */
+  &stip_traverse_moves_battle_fork,   /* STReflexRootSolvableFilter */
+  &stip_traverse_moves_battle_fork,   /* STReflexAttackerFilter */
+  &stip_traverse_moves_battle_fork,   /* STReflexDefenderFilter */
+  &stip_traverse_moves_battle_fork,   /* STSelfAttack */
+  &stip_traverse_moves_battle_fork,   /* STSelfDefense */
+  &stip_traverse_moves_pipe,          /* STRestartGuardRootDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STRestartGuardHelpFilter */
+  &stip_traverse_moves_pipe,          /* STRestartGuardSeriesFilter */
+  &stip_traverse_moves_pipe,          /* STIntelligentHelpFilter */
+  &stip_traverse_moves_pipe,          /* STIntelligentSeriesFilter */
+  &stip_traverse_moves_pipe,          /* STGoalReachableGuardHelpFilter */
+  &stip_traverse_moves_pipe,          /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_moves_pipe,          /* STKeepMatingGuardRootDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STKeepMatingGuardAttackerFilter */
+  &stip_traverse_moves_pipe,          /* STKeepMatingGuardDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STKeepMatingGuardHelpFilter */
+  &stip_traverse_moves_pipe,          /* STKeepMatingGuardSeriesFilter */
+  &stip_traverse_moves_pipe,          /* STMaxFlightsquares */
+  &stip_traverse_moves_pipe,          /* STDegenerateTree */
+  &stip_traverse_moves_pipe,          /* STMaxNrNonTrivial */
+  &stip_traverse_moves_pipe,          /* STMaxThreatLength */
+  &stip_traverse_moves_pipe,          /* STMaxTimeRootDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STMaxTimeDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STMaxTimeHelpFilter */
+  &stip_traverse_moves_pipe,          /* STMaxTimeSeriesFilter */
+  &stip_traverse_moves_pipe,          /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_moves_pipe,          /* STMaxSolutionsRootDefenderFilter */
+  &stip_traverse_moves_pipe,          /* STMaxSolutionsHelpFilter */
+  &stip_traverse_moves_pipe,          /* STMaxSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,          /* STStopOnShortSolutionsRootSolvableFilter */
+  &stip_traverse_moves_pipe,          /* STStopOnShortSolutionsHelpFilter */
+  &stip_traverse_moves_pipe           /* STStopOnShortSolutionsSeriesFilter */
+};
+
+void stip_insert_hash_slices(void)
+{
+  stip_move_traversal st;
+  branch_level level = toplevel_branch;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(root_slice);
+
+  stip_move_traversal_init(&st,&hash_element_inserters,&level);
+  stip_traverse_moves(root_slice,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

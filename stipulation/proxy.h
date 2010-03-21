@@ -30,4 +30,10 @@ void dealloc_proxy_slices(void);
  */
 void proxy_slice_resolve(slice_index *si);
 
+/* Spin off a set play slice
+ * @param si slice index
+ * @param st state of traversal
+ */
+void proxy_make_setplay_slice(slice_index si, stip_structure_traversal *st);
+
 #endif

@@ -17,28 +17,22 @@
 
 #define ENUMERATION_TYPENAME SliceType
 #define ENUMERATORS \
-                                                \
   ENUMERATOR(STProxy),                                                  \
-                                                                        \
     ENUMERATOR(STAttackMove),    /* M-N attacking moves in battle play */       \
     ENUMERATOR(STDefenseMove),                                 \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */         \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */       \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
-                                                                        \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
     ENUMERATOR(STLeafForced),      /* forced goal in 1 half move */     \
-                                                                        \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
-                                                                        \
     ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
-                                                                        \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */      \
     ENUMERATOR(STBattlePlaySolutionWriter), /* writes battle play solutions */ \
     ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
@@ -51,17 +45,13 @@
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */    \
-                                                                        \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
-                                                                        \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
-                                                                        \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
-                                                                        \
     ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardRootDefenderFilter),  /* stop when a side exposes its king */ \
@@ -69,7 +59,6 @@
     ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSeriesFilter),  /* stop when a side exposes its king */ \
-                                                                        \
     ENUMERATOR(STDirectDefenseRootSolvableFilter),  /* just before root */ \
     ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
@@ -79,11 +68,9 @@
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfAttack),      /* self play, just played attack */  \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-                                                                        \
     ENUMERATOR(STRestartGuardRootDefenderFilter),    /* write move numbers */ \
     ENUMERATOR(STRestartGuardHelpFilter),    /* write move numbers */ \
     ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
-                                                                        \
     ENUMERATOR(STIntelligentHelpFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardHelpFilter), /* goal still reachable in intelligent mode? */ \
@@ -97,21 +84,17 @@
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
-                                                                        \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
-                                                                        \
     ENUMERATOR(STMaxSolutionsRootSolvableFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsHelpFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsSeriesFilter), /* deals with option maxsolutions */  \
-                                                                        \
     ENUMERATOR(STStopOnShortSolutionsRootSolvableFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsHelpFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsSeriesFilter), /* deals with option stoponshortsolutions */  \
-                                                                        \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -498,7 +481,9 @@ typedef stip_move_visitor const (*stip_move_visitors)[nr_slice_types];
 typedef struct stip_move_traversal
 {
     stip_move_visitors ops;
-    stip_length_type n;
+    unsigned int level;
+    stip_length_type full_length;
+    stip_length_type remaining;
     void *param;
 } stip_move_traversal;
 
@@ -528,6 +513,12 @@ void stip_traverse_moves_pipe(slice_index si, stip_move_traversal *st);
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves beyond a series shortcut slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_root(slice_index si, stip_move_traversal *st);
 
 /* Traversal of the moves beyond a series fork slice 
  * @param si identifies root of subtree

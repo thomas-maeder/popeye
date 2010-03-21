@@ -54,8 +54,12 @@ void help_move_insert_root(slice_index si, stip_structure_traversal *st)
     slice_index const prev = slices[si].prev;
 
     slice_index const root_branch = copy_slice(si);
-    *root = alloc_help_root_slice(length,min_length,root_branch,prev);
+    slice_index const shortcut = alloc_help_shortcut(length,min_length,prev);
+    pipe_link(shortcut,root_branch);
 
+    *root = alloc_help_root_slice(length,min_length);
+    pipe_link(*root,shortcut);
+    
     shorten_help_pipe(si);
     shorten_help_pipe(si);
   }

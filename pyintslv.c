@@ -23,6 +23,7 @@ void intelligent_solvable_root_solve_in_n(slice_index si, stip_length_type n)
   {
     case STHelpShortcut:
     case STHelpFork:
+    case STHelpHashed:
     case STHelpMove:
       help_solve_in_n(si,n);
       break;

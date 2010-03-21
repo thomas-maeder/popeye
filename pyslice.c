@@ -270,6 +270,7 @@ boolean slice_root_solve(slice_index si)
 
     case STHelpRoot:
     case STHelpHashed:
+    case STHelpMove:
     case STLeafHelp:
     case STReflexHelpFilter:
       result = help_root_solve(si);
