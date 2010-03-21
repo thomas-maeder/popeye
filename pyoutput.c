@@ -174,8 +174,6 @@ void init_output(slice_index si)
 
   TraceEnumerator(output_mode,current_mode,"\n");
   
-//   assert(current_mode!=output_mode_none);
-
   if (current_mode==output_mode_tree)
   {
     move_depth = nr_color_inversions_in_ply[nbply+1];

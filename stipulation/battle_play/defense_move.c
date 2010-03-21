@@ -251,7 +251,6 @@ void defense_move_make_setplay_slice(slice_index si, stip_structure_traversal *s
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-//   if (prod->sibling!=no_slice)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -268,7 +267,8 @@ void defense_move_make_setplay_slice(slice_index si, stip_structure_traversal *s
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void defense_move_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st)
+void defense_move_reduce_to_postkey_play(slice_index si,
+                                         stip_structure_traversal *st)
 {
   slice_index *postkey_slice = st->param;
 
