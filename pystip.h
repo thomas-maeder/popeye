@@ -526,6 +526,13 @@ void stip_traverse_moves_root(slice_index si, stip_move_traversal *st);
  */
 void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st);
 
+/* Traversal of the moves beyond a reflex attacker filter slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_reflex_attack_filter(slice_index si,
+                                              stip_move_traversal *st);
+
 /* Traversal of the moves beyond a help shortcut slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
