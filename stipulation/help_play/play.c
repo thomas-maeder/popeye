@@ -55,6 +55,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
+    case STThreatEnforcer:
     case STVariationWriter:
     case STDirectDefense:
     case STSelfDefense:

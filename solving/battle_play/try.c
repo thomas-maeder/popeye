@@ -189,16 +189,17 @@ refutations_collector_has_solution_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  assert(n==slices[si].u.branch.length);
+
   result = attack_has_solution_in_n(next,n,n_min);
 
-  if (result>length)
+  if (result>n)
   {
     assert(get_top_table()==refutations);
     append_to_top_table();
