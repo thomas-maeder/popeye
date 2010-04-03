@@ -609,11 +609,11 @@ Loesung beendet.
                       3...h2-h1=D 
                           4.0-0-0 # 
                       3...h2-h1=S 
-                          4.0-0-0 # 
                           4.Tb2-g2 # 
+                          4.0-0-0 # 
                       3...h2-h1=T 
-                          4.0-0-0 # 
                           4.Tb2-g2 # 
+                          4.0-0-0 # 
                       3...h2-h1=L 
                           4.0-0-0 # 
       1...b4-b3 
@@ -1029,11 +1029,11 @@ Loesung beendet.
                           4.Th5*h4 Drohung:
                                   5.Th4-h8 # 
                               4...f7-f6 
+                                  5.Lf5-e6 Drohung:
+                                          6.Th4-h8 # 
                                   5.Th4-h8 + 
                                       5...Ke8-f7 
                                           6.Th8-f8 # 
-                                  5.Lf5-e6 Drohung:
-                                          6.Th4-h8 # 
                       3...Ta4-e4 + 
                           4.Sg3*e4 Drohung:
                                   5.Th5-h8 # 
@@ -1866,12 +1866,12 @@ Loesung beendet.
                           4.Td1-d8 # 
       1...Kf8-e8 
           2.Kc1-b2 Zugzwang.
-              2...Sb5-a3 
-                  3.Kb2*a3 Zugzwang.
-                      3...Ke8-f8 
-                          4.Td1-d8 # 
               2...Sb5-c3 
                   3.Kb2*c3 Zugzwang.
+                      3...Ke8-f8 
+                          4.Td1-d8 # 
+              2...Sb5-a3 
+                  3.Kb2*a3 Zugzwang.
                       3...Ke8-f8 
                           4.Td1-d8 # 
               2...Sb5-d4 

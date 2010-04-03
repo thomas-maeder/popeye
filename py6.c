@@ -1871,11 +1871,13 @@ static boolean verify_position(void)
     nonoptgenre = true;
   }
 
-  if (flagwhitemummer || nonoptgenre)
+  if (flagwhitemummer || nonoptgenre || exist[hunter0b]
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3))
     move_generation_mode_opti_per_side[White] = 
         move_generation_optimized_by_killer_move;
 
-  if (flagblackmummer || nonoptgenre)
+  if (flagblackmummer || nonoptgenre || exist[hunter0b]
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3))
     move_generation_mode_opti_per_side[Black] = 
         move_generation_optimized_by_killer_move;
 
@@ -2868,7 +2870,9 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[stoponshort])
         stip_insert_stoponshortsolutions_filters();
 
-      stip_insert_variation_handlers();
+      if (OptFlag[solvariantes])
+        stip_insert_variation_handlers();
+
       stip_insert_continuation_handlers();
           
       if (OptFlag[noshort])
@@ -2879,7 +2883,7 @@ static Token iterate_twins(Token prev_token)
       else if (OptFlag[solessais] || OptFlag[soltout])
         stip_insert_try_handlers();
 
-      if (!OptFlag[nothreat])
+      if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers();
 
       stip_impose_starter(slices[root_slice].starter);

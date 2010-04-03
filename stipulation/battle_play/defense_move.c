@@ -193,7 +193,7 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
 
   active_slice[nbply+1] = si;
   move_generation_mode =
-      n-1>slack_length_battle+2
+      n-1>slack_length_battle
       ? move_generation_mode_opti_per_side[defender]
       : move_generation_optimized_by_killer_move;
   genmove(defender);

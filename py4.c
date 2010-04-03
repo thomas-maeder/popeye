@@ -184,40 +184,44 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture)
 }
 
 static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
-  boolean       flag= false;
-  numecoup      sic_nbc= nbcou;
+  boolean result = false;
+  numecoup const sic_nbc = nbcou;
+  Side const ad = advers(camp);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,camp,"");
   TraceFunctionParamListEnd();
 
   do {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)) {
-      if (!flag && !echecc(nbply,camp)) {
-        Side ad= advers(camp);
-        flag= true;
-        *nr_opponent_moves= 0;
-        move_generation_mode= move_generation_not_optimized;
-        genmove(ad);
-        move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
-        while (encore()) {
-          if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)) {
-            if (!echecc(nbply,ad))
-              (*nr_opponent_moves)++;
-          }
-          repcoup();
-        }
-        finply();
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !result
+        && !echecc(nbply,camp))
+    {
+      result= true;
+      *nr_opponent_moves = 0;
+      move_generation_mode= move_generation_not_optimized;
+      genmove(ad);
+      move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
+      while (encore())
+      {
+        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+            && !echecc(nbply,ad))
+          ++*nr_opponent_moves;
+        repcoup();
       }
+
+      finply();
     }
+
     repcoup();
-  } while (sic_nbc == nbcou);
-  nbcou= sic_nbc;
+  } while (sic_nbc==nbcou);
+
+  nbcou = sic_nbc;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",flag);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return flag;
+  return result;
 }
 
 void init_move_generation_optimizer(void) {
@@ -308,12 +312,13 @@ static void add_to_empile_optimization_table(square sq_departure,
    * number of opponent moves */
   add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,initsquare);
   
-  if (count_opponent_moves(&nr_opponent_moves, trait[nbply])) {
+  if (count_opponent_moves(&nr_opponent_moves,trait[nbply]))
+  {
     empile_optimization_table_elmt * const
       curr_elmt = empile_optimization_table+empile_optimization_table_count;
     TraceValue("%d\n",nr_opponent_moves);
     if (is_killer_move(sq_departure,sq_arrival,sq_capture))
-      nr_opponent_moves-= empile_optimization_priorize_killmove_by;
+      nr_opponent_moves -= empile_optimization_priorize_killmove_by;
     curr_elmt->move.departure= sq_departure;
     curr_elmt->move.arrival= sq_arrival;
     curr_elmt->move.capture= sq_capture;
@@ -1954,6 +1959,12 @@ typedef enum
 static void filter(square i, numecoup prevnbcou, UPDOWN u)
 {
   numecoup s = prevnbcou+1;
+
+  /* to support move_generation_optimized_by_nr_opponent_moves, we'd
+   * have to filter in empile_optimization_table
+   */
+  assert(move_generation_mode!=move_generation_optimized_by_nr_opponent_moves);
+
   while (s<=nbcou)
     if ((u==DOWN && move_generation_stack[s].arrival-i>-8)
         || (u==UP && move_generation_stack[s].arrival-i<8))
@@ -1969,6 +1980,12 @@ static void filter(square i, numecoup prevnbcou, UPDOWN u)
 
 static void genhunt(square i, piece p, PieNam pabs)
 {
+  TraceFunctionEntry(__func__);
+  TraceSquare(i);
+  TracePiece(p);
+  TraceFunctionParam("%d",p);
+  TraceFunctionParamListEnd();
+
   /*   PieNam const pabs = abs(p);  */
   assert(pabs>=Hunter0);
   assert(pabs<Hunter0+maxnrhuntertypes);
@@ -1996,6 +2013,9 @@ static void genhunt(square i, piece p, PieNam pabs)
       filter(i,savenbcou,UP);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void gfeerrest(square sq_departure, piece p, Side camp)

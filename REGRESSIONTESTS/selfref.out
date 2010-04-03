@@ -139,11 +139,6 @@ Loesung beendet.
                       3...La3*f8 # 
 
   1.Db3-c2 ! Zugzwang.
-      1...Tb2*c2 
-          2.Sg5-e4 + 
-              2...Kf6-e6 
-                  3.Se4-c5 + 
-                      3...Tc2*c5 # 
       1...Sa1*c2 
           2.Td5-d6 + 
               2...Kf6-f5 
@@ -189,9 +184,12 @@ Loesung beendet.
                       3...La3*f8 # 
                   3.f7-f8=T + 
                       3...La3*f8 # 
+      1...Tb2*c2 
+          2.Sg5-e4 + 
+              2...Kf6-e6 
+                  3.Se4-c5 + 
+                      3...Tc2*c5 # 
       1...b4-b3 
-          2.Dc2-c3 + 
-              2...Sb1*c3 # 
           2.f7-f8=D + 
               2...La3*f8 # 
           2.f7-f8=T + 
@@ -200,6 +198,8 @@ Loesung beendet.
               2...La3*d6 # 
           2.Dc2-c6 + 
               2...La3-d6 # 
+          2.Dc2-c3 + 
+              2...Sb1*c3 # 
 
 Loesung beendet. 
 
