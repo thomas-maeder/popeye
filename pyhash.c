@@ -144,26 +144,12 @@ boolean isHashBufferValid[maxply+1];
 
 void validateHashBuffer(void)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceCurrentHashBuffer();
-
   isHashBufferValid[nbply] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 void invalidateHashBuffer(void)
 {
-  TraceFunctionEntry(__func__);
-
-  TraceValue("%u\n",nbply);
   isHashBufferValid[nbply] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 #if defined(TESTHASH)

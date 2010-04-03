@@ -393,8 +393,6 @@ static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate)
 
       for (k= vec_queen_end; k>=vec_queen_start; k--) {
         sq_departure= rn+vec[k];
-        TraceSquare(sq_departure);
-        TraceText("\n");
         if (e[sq_departure]==roib
             && evaluate(sq_departure,rn,rn)
             && imcheck(sq_departure,rn))
@@ -1054,11 +1052,6 @@ boolean echecc(ply ply_id, Side camp)
 {
   boolean result;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",ply_id);
-  TraceEnumerator(Side,camp,"");
-  TraceFunctionParamListEnd();
-
   nextply(ply_id);
 
   if ((camp==White) != CondFlag[vogt])
@@ -1110,9 +1103,6 @@ boolean echecc(ply ply_id, Side camp)
 
   finply();
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
   return result;
 } /* end of echecc */
 

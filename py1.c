@@ -618,33 +618,14 @@ boolean ridcheck(square sq_king,
   numvec  k;
   square sq_departure;
 
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_king);
-  TraceFunctionParam("%u",kanf);
-  TraceFunctionParam("%u",kend);
-  TracePiece(p);
-  TraceFunctionParamListEnd();
-
-  for (k= kanf; k<= kend; k++) {
-    TraceValue("%u\n",k);
+  for (k= kanf; k<= kend; k++)
+  {
     finligne(sq_king,vec[k],rider,sq_departure);
-    TraceSquare(sq_departure);
-    TracePiece(rider);
-    TraceValue("%u\n",rider==p);
     if (rider==p
         && evaluate(sq_departure,sq_king,sq_king)
         && ridimcheck(sq_departure,sq_king,vec[k]))
-    {
-      TraceFunctionExit(__func__);
-      TraceFunctionResult("%u",true);
-      TraceFunctionResultEnd();
       return true;
-    }
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",false);
-  TraceFunctionResultEnd();
   return false;
 }
 
