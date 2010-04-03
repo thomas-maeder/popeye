@@ -25,12 +25,6 @@ void slice_solve_threats(table threats, slice_index si);
  */
 boolean slice_are_threats_refuted(table threats, slice_index si);
 
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean slice_root_defend(slice_index si, unsigned int max_number_refutations);
-
 /* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -58,26 +52,5 @@ boolean slice_root_solve(slice_index si);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type slice_has_solution(slice_index si);
-
-/* Determine whether a slice.has just been solved with the just played
- * move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean slice_has_non_starter_solved(slice_index si);
-
-/* Determine whether there are refutations
- * @param leaf slice index
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
- */
-unsigned int slice_count_refutations(slice_index si,
-                                     unsigned int max_result);
-
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean slice_defend(slice_index si);
 
 #endif

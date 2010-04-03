@@ -8,26 +8,6 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void self_attack_root_make_setplay_slice(slice_index si, stip_structure_traversal *st);
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void self_attack_root_reduce_to_postkey_play(slice_index si,
-                                             stip_structure_traversal *st);
-
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean self_attack_root_defend(slice_index si);
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -93,38 +73,6 @@ stip_length_type self_defense_solve_in_n(slice_index si,
  */
 boolean self_defense_solve(slice_index si);
 
-/* Try to defend after an attempted key move at non-root level
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @return true iff the defender can defend
- */
-boolean self_attack_defend_in_n(slice_index si, stip_length_type n);
-
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
- */
-unsigned int self_attack_can_defend_in_n(slice_index si,
-                                         stip_length_type n,
-                                         unsigned int max_result);
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean self_attack_root_solve(slice_index si);
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void self_attack_impose_starter(slice_index si, stip_structure_traversal *st);
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
@@ -143,11 +91,5 @@ slice_index slice_insert_self_guards(slice_index si, slice_index proxy_to_goal);
  * @param st address of structure representing traversal
  */
 void self_defense_insert_root(slice_index si, stip_structure_traversal *st);
-
-/* Insert root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void self_attack_insert_root(slice_index si, stip_structure_traversal *st);
 
 #endif

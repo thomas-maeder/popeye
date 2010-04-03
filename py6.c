@@ -548,7 +548,6 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children,           /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,           /* STReflexAttackerFilter */
   &stip_traverse_structure_children,           /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,           /* STSelfAttack */
   &stip_traverse_structure_children,           /* STSelfDefense */
   &stip_traverse_structure_children,           /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,           /* STRestartGuardHelpFilter */
@@ -565,6 +564,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children,           /* STMaxFlightsquares */
   &stip_traverse_structure_children,           /* STDegenerateTree */
   &stip_traverse_structure_children,           /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,           /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,           /* STMaxThreatLength */
   &stip_traverse_structure_children,           /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children,           /* STMaxTimeDefenderFilter */
@@ -2105,14 +2105,16 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STLeafDirect:
-    case STLeafForced:
+    case STDefenseMove:
       result = whitetoplay_means_shorten_root_slice;
       break;
 
     case STHelpRoot:
     case STHelpShortcut:
     case STHelpMove:
+    case STSelfCheckGuardHelpFilter:
     case STMoveInverterRootSolvableFilter:
+    case STSelfCheckGuardRootSolvableFilter:
     case STNot:
     case STProxy:
     {
@@ -2178,7 +2180,9 @@ static void apply_whitetoplay(slice_index proxy)
       {
         slice_index const shortened = help_root_shorten_help_play(next);
         slice_index const inverter = alloc_move_inverter_root_solvable_filter();
-        pipe_link(inverter,shortened);
+        slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
+        pipe_link(inverter,guard);
+        pipe_link(guard,shortened);
         pipe_link(proxy,inverter);
       }
       else
@@ -2197,10 +2201,12 @@ static void apply_whitetoplay(slice_index proxy)
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       slice_index const inverter = next;
-      slice_index const next_next = slices[inverter].u.pipe.next;
-      if (slices[next_next].prev==inverter)
+      slice_index const guard = slices[inverter].u.pipe.next;
+      slice_index const next_next = slices[guard].u.pipe.next;
+      if (slices[next_next].prev==guard)
         slice_set_predecessor(next_next,slices[inverter].prev);
       dealloc_slice(inverter);
+      dealloc_slice(guard);
       if (meaning==whitetoplay_means_shorten_root_slice
           && slices[next_next].type==STHelpRoot)
         pipe_set_successor(proxy,help_root_shorten_help_play(next_next));
@@ -2367,7 +2373,6 @@ static stip_structure_visitor const mating_side_finders[] =
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfAttack */
   &stip_traverse_structure_children, /* STSelfDefense */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
@@ -2384,6 +2389,7 @@ static stip_structure_visitor const mating_side_finders[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxTimeDefenderFilter */
@@ -2485,7 +2491,6 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfAttack */
   &stip_traverse_structure_children, /* STSelfDefense */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
@@ -2502,6 +2507,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxTimeDefenderFilter */
@@ -2599,7 +2605,6 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfAttack */
   &stip_traverse_structure_children, /* STSelfDefense */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
@@ -2616,6 +2621,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxTimeDefenderFilter */

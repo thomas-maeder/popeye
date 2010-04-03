@@ -55,36 +55,54 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean threat_writer_root_defend(slice_index si);
+boolean threat_writer_root_defend(slice_index si, stip_length_type n_min);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean threat_writer_defend_in_n(slice_index si, stip_length_type n);
+boolean threat_writer_defend_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int threat_writer_can_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           unsigned int max_result);
+stip_length_type
+threat_writer_can_defend_in_n(slice_index si,
+                              stip_length_type n,
+                              unsigned int max_nr_refutations);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void threat_writer_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st);
+void threat_writer_reduce_to_postkey_play(slice_index si,
+                                          stip_structure_traversal *st);
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si root of sub-tree where to resolve proxies
+ * @param st address of structure representing the traversal
+ */
+void threat_writer_resolve_proxies(slice_index si,
+                                   stip_structure_traversal *st);
 
 /* Instrument the stipulation representation so that it can deal with
  * threats

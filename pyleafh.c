@@ -262,33 +262,6 @@ boolean leaf_h_solve(slice_index leaf)
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean leaf_h_defend(slice_index leaf)
-{
-  boolean result;
-  Side const starter = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (is_end_in_1_possible(starter,leaf))
-  {
-    result = false;
-    leaf_h_solve_final_move(leaf);
-  }
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

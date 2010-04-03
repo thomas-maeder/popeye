@@ -9,6 +9,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
+#include "stipulation/help_play/shortcut.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -107,8 +108,6 @@ boolean help_move_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
 
   active_slice[nbply+1] = si;
   genmove(side_at_move);

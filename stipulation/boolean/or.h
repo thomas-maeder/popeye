@@ -43,27 +43,6 @@ boolean quodlibet_are_threats_refuted(table threats, slice_index si);
  */
 has_solution_type quodlibet_has_solution(slice_index si);
 
-/* Determine whether a quodlibet slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean quodlibet_has_non_starter_solved(slice_index si);
-
-/* Determine whether there are refutations
- * @param leaf slice index
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
- */
-unsigned int quodlibet_count_refutations(slice_index si,
-                                         unsigned int max_result);
-
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean quodlibet_defend(slice_index si);
-
 /* Solve a quodlibet slice
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -75,13 +54,6 @@ boolean quodlibet_solve(slice_index si);
  * @return true iff >=1 solution was found
  */
 boolean quodlibet_root_solve(slice_index si);
-
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean quodlibet_root_defend(slice_index si,
-                              unsigned int max_number_refutations);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

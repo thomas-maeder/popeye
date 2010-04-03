@@ -39,37 +39,44 @@ static slice_index alloc_try_writer_slice(stip_length_type length,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean try_writer_root_defend(slice_index si)
+boolean try_writer_root_defend(slice_index si, stip_length_type n_min)
 {
-  unsigned int nr_refutations;
+  stip_length_type nr_moves_needed;
   stip_length_type const length = slices[si].u.branch.length;
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   refutations = allocate_table();
 
-  nr_refutations = defense_can_defend_in_n(next,length,max_nr_refutations);
-  if (nr_refutations==0)
+  nr_moves_needed = defense_can_defend_in_n(next,length,max_nr_refutations);
+  if (nr_moves_needed>slack_length_battle
+      && n_min<=slack_length_battle
+      && n_min<length)
+    n_min += 2;
+  if (nr_moves_needed<=length)
   {
     result = false;
     write_attack(attack_key);
-    continuation_writer_solve_postkey(si);
+    continuation_writer_solve_postkey(si,n_min);
     write_end_of_solution();
   }
   else
   {
     result = true;
 
-    if (nr_refutations<=max_nr_refutations)
+    if (nr_moves_needed==length+2)
     {
       write_attack(attack_try);
-      continuation_writer_solve_postkey(si);
+      continuation_writer_solve_postkey(si,n_min);
       write_refutations(refutations);
       write_end_of_solution();
     }
@@ -83,25 +90,31 @@ boolean try_writer_root_defend(slice_index si)
   return result;
 }
 
+
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int try_writer_can_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        unsigned int max_result)
+stip_length_type try_writer_can_defend_in_n(slice_index si,
+                                            stip_length_type n,
+                                            unsigned int max_nr_refutations)
 {
-  unsigned int result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,max_result);
+  result = defense_can_defend_in_n(next,n,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -374,7 +387,6 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfAttack */
   &stip_traverse_structure_children, /* STSelfDefense */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
@@ -391,6 +403,7 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxTimeDefenderFilter */

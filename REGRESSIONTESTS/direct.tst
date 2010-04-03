@@ -444,7 +444,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         2 + 3
 
-  1...b3-b2 # 
+
+      1...b3-b2 # 
 
 solution finished. 
 
@@ -699,7 +700,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#2                         2 + 4
 
-  1.Rc3-c4 ! 
+  1.Rc3-c4 ! zugzwang.
       1...b3-b2 # 
 
 solution finished. 

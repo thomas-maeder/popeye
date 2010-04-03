@@ -10,12 +10,6 @@
  * slices.
  */
 
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean leaf_h_defend(slice_index leaf);
-
 /* Determine whether there is a solution in a leaf.
  * @param leaf slice index of leaf slice
  * @return whether there is a solution and (to some extent) why not

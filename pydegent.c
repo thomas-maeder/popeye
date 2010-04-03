@@ -241,7 +241,6 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,                 /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,                 /* STReflexAttackerFilter */
   &stip_traverse_structure_children,                 /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,                 /* STSelfAttack */
   &stip_traverse_structure_children,                 /* STSelfDefense */
   &stip_traverse_structure_children,                 /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,                 /* STRestartGuardHelpFilter */
@@ -258,6 +257,7 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,                 /* STMaxFlightsquares */
   &stip_traverse_structure_children,                 /* STDegenerateTree */
   &stip_traverse_structure_children,                 /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,                 /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,                 /* STMaxThreatLength */
   &stip_traverse_structure_children,                 /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children,                 /* STMaxTimeDefenderFilter */

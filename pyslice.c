@@ -182,6 +182,11 @@ boolean slice_solve(slice_index si)
       solution_found = attack_solve(si);
       break;
 
+    case STContinuationWriter:
+    case STDefenseMove:
+      solution_found = !defense_defend(si);
+      break;
+
     case STHelpMove:
     case STHelpHashed:
     case STStopOnShortSolutionsHelpFilter:
@@ -237,10 +242,6 @@ boolean slice_root_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafForced:
-      result = leaf_forced_root_solve(si);
-      break;
-
     case STQuodlibet:
       result = quodlibet_root_solve(si);
       break;
@@ -263,7 +264,6 @@ boolean slice_root_solve(slice_index si)
 
     case STPostKeyPlaySolutionWriter:
     case STDirectDefenseRootSolvableFilter:
-    case STSelfAttack:
     case STReflexDefenderFilter:
       result = defense_root_solve(si);
       break;
@@ -367,6 +367,11 @@ has_solution_type slice_has_solution(slice_index si)
       result = attack_has_solution(si);
       break;
 
+    case STContinuationWriter:
+    case STDefenseMove:
+      result = !defense_can_defend(si);
+      break;
+
     case STHelpRoot:
       result = help_root_has_solution(si);
       break;
@@ -405,150 +410,6 @@ has_solution_type slice_has_solution(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean slice_root_defend(slice_index si, unsigned int max_number_refutations)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafForced:
-      result = leaf_forced_root_defend(si,max_number_refutations);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_root_defend(si,max_number_refutations);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice.has just been solved with the just played
- * move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean slice_has_non_starter_solved(slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafForced:
-      result = leaf_forced_has_non_starter_solved(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_has_non_starter_solved(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are refutations
- * @param leaf slice index
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
- */
-unsigned int slice_count_refutations(slice_index si,
-                                     unsigned int max_result)
-{
-  unsigned int result = max_result+1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafForced:
-      result = leaf_forced_count_refutations(si,max_result);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_count_refutations(si,max_result);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean slice_defend(slice_index si)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STLeafForced:
-      result = leaf_forced_defend(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_defend(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_defend(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

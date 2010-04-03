@@ -111,34 +111,6 @@ boolean quodlibet_root_solve(slice_index si)
   return result;
 }
 
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean quodlibet_root_defend(slice_index si,
-                              unsigned int max_number_refutations)
-{
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-  boolean result1;
-  boolean result2;
-  boolean result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",max_number_refutations);
-  TraceFunctionParamListEnd();
-
-  result1 = slice_root_defend(op1,max_number_refutations);
-  result2 = slice_root_defend(op2,max_number_refutations);
-  result = result1 && result2;
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index
@@ -187,78 +159,6 @@ has_solution_type quodlibet_has_solution(slice_index si)
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionParamListEnd();
-  return result;
-}
-
-/* Determine whether a quodlibet slice.has just been solved with the
- * just played move by the non-starter
- * @param si slice identifier
- * @return true iff the non-starting side has just solved
- */
-boolean quodlibet_has_non_starter_solved(slice_index si)
-{
-  boolean result = true;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = (slice_has_non_starter_solved(op1)
-            || slice_has_non_starter_solved(op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there are refutations
- * @param leaf slice index
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
- */
-unsigned int quodlibet_count_refutations(slice_index si,
-                                         unsigned int max_result)
-{
-  unsigned int result;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_count_refutations(op1,max_result);
-  if (result>max_result)
-    result = slice_count_refutations(op2,max_result);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attempted key move at non-root level
- * @param si slice index
- * @return true iff the defending side can successfully defend
- */
-boolean quodlibet_defend(slice_index si)
-{
-  boolean result;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = slice_defend(op1) && slice_defend(op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
   return result;
 }
 

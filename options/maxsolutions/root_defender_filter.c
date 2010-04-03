@@ -24,18 +24,22 @@ slice_index alloc_maxsolutions_root_defender_filter(void)
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean maxsolutions_root_defender_filter_defend(slice_index si)
+boolean maxsolutions_root_defender_filter_defend(slice_index si,
+                                                 stip_length_type n_min)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   if (max_nr_solutions_found_in_phase()
-      || defense_root_defend(slices[si].u.pipe.next))
+      || defense_root_defend(slices[si].u.pipe.next,n_min))
     result = true;
   else
   {

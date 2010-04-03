@@ -37,28 +37,39 @@ boolean maxthreatlength_guard_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean maxthreatlength_guard_root_defend(slice_index si);
+boolean maxthreatlength_guard_root_defend(slice_index si,
+                                          stip_length_type n_min);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean maxthreatlength_guard_defend_in_n(slice_index si, stip_length_type n);
+boolean maxthreatlength_guard_defend_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int maxthreatlength_guard_can_defend_in_n(slice_index si,
-                                                   stip_length_type n,
-                                                   unsigned int max_result);
+stip_length_type
+maxthreatlength_guard_can_defend_in_n(slice_index si,
+                                      stip_length_type n,
+                                      unsigned int max_nr_refutations);
 
 #endif

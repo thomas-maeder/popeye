@@ -18,7 +18,7 @@
 /* Allocate a STSelfCheckGuardRootSolvableFilter slice
  * @return allocated slice
  */
-static slice_index alloc_selfcheck_guard_root_solvable_filter(void)
+slice_index alloc_selfcheck_guard_root_solvable_filter(void)
 {
   slice_index result;
 
@@ -36,7 +36,7 @@ static slice_index alloc_selfcheck_guard_root_solvable_filter(void)
 /* Allocate a STSelfCheckGuardSolvableFilter slice
  * @return allocated slice
  */
-static slice_index alloc_selfcheck_guard_solvable_filter(void)
+slice_index alloc_selfcheck_guard_solvable_filter(void)
 {
   slice_index result;
 
@@ -54,14 +54,16 @@ static slice_index alloc_selfcheck_guard_solvable_filter(void)
 /* Allocate a STSelfCheckGuardRootDefenderFilter slice
  * @return allocated slice
  */
-static slice_index alloc_selfcheck_guard_root_defender_filter(void)
+slice_index
+alloc_selfcheck_guard_root_defender_filter(stip_length_type length,
+                                           stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STSelfCheckGuardRootDefenderFilter);
+  result = alloc_branch(STSelfCheckGuardRootDefenderFilter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -72,14 +74,15 @@ static slice_index alloc_selfcheck_guard_root_defender_filter(void)
 /* Allocate a STSelfCheckGuardAttackerFilter slice
  * @return allocated slice
  */
-static slice_index alloc_selfcheck_guard_attacker_filter(void)
+slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
+                                                  stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STSelfCheckGuardAttackerFilter);
+  result = alloc_branch(STSelfCheckGuardAttackerFilter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -90,14 +93,15 @@ static slice_index alloc_selfcheck_guard_attacker_filter(void)
 /* Allocate a STSelfCheckGuardDefenderFilter slice
  * @return allocated slice
  */
-static slice_index alloc_selfcheck_guard_defender_filter(void)
+slice_index alloc_selfcheck_guard_defender_filter(stip_length_type length,
+                                                  stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STSelfCheckGuardDefenderFilter);
+  result = alloc_branch(STSelfCheckGuardDefenderFilter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -108,7 +112,7 @@ static slice_index alloc_selfcheck_guard_defender_filter(void)
 /* Allocate a STSelfCheckGuardHelpFilter slice
  * @return allocated slice
  */
-static slice_index alloc_selfcheck_guard_help_filter(void)
+slice_index alloc_selfcheck_guard_help_filter(void)
 {
   slice_index result;
 
@@ -126,7 +130,7 @@ static slice_index alloc_selfcheck_guard_help_filter(void)
 /* Allocate a STSelfCheckGuardSeriesFilter slice
  * @return allocated slice
  */
-static slice_index alloc_selfcheck_guard_series_filter(void)
+slice_index alloc_selfcheck_guard_series_filter(void)
 {
   slice_index result;
 
@@ -209,11 +213,13 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = (n-slack_length_battle)%2;
-  else
+  else if (n>=slack_length_battle)
   {
     slice_index const next = slices[si].u.pipe.next;
     result = attack_solve_threats_in_n(threats,next,n,n_min);
   }
+  else
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -249,9 +255,11 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = 0;
-  else
+    result = 0;//(n+2-slack_length_battle)%2;
+  else if (n>=slack_length_battle)
     result = attack_has_solution_in_n(next,n,n_min);
+  else
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -265,21 +273,24 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean selfcheck_guard_root_defend(slice_index si)
+boolean selfcheck_guard_root_defend(slice_index si, stip_length_type n_min)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = true;
   else
-    result = defense_root_defend(next);
+    result = defense_root_defend(next,n_min);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -287,14 +298,39 @@ boolean selfcheck_guard_root_defend(slice_index si)
   return result;
 }
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
+                                                                stip_structure_traversal *st)
+{
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(next,st);
+  dealloc_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to defend after an attempted key move at non-root level.
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean selfcheck_guard_defend_in_n(slice_index si, stip_length_type n)
+boolean selfcheck_guard_defend_in_n(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_min)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -302,12 +338,13 @@ boolean selfcheck_guard_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = true;
   else
-    result = defense_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -319,30 +356,65 @@ boolean selfcheck_guard_defend_in_n(slice_index si, stip_length_type n)
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int selfcheck_guard_can_defend_in_n(slice_index si,
-                                             stip_length_type n,
-                                             unsigned int max_result)
+stip_length_type
+selfcheck_guard_can_defend_in_n(slice_index si,
+                                stip_length_type n,
+                                unsigned int max_nr_refutations)
 {
-  unsigned int result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = max_result+1;
+    result = n+4;
   else
-    result = defense_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_defender_filter_insert_root(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index root_filter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.pipe.next,st);
+
+  root_filter = alloc_selfcheck_guard_root_defender_filter(length,min_length);
+  pipe_link(root_filter,*root);
+  *root = root_filter;
+
+  slices[si].u.branch.length -= 2;
+  if (min_length>=slack_length_battle+2)
+    slices[si].u.branch.min_length -= 2;
+ 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 
@@ -362,8 +434,6 @@ boolean selfcheck_guard_help_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
 
   result = (!echecc(nbply,advers(slices[si].starter))
             && help_solve_in_n(slices[si].u.pipe.next,n));
@@ -574,9 +644,11 @@ stip_length_type selfcheck_guard_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = 0;
-  else
+    result = 0;//(n+2-slack_length_battle)%2;
+  else if (n>=slack_length_battle)
     result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
+  else
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -607,301 +679,41 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
   return result;
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_solvable_filter_insert_root(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.pipe.next,st);
+
+  {
+    slice_index const
+        root_guard = alloc_selfcheck_guard_root_solvable_filter();
+    pipe_link(root_guard,*root);
+    *root = root_guard;
+    dealloc_slice(si);
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STSelfCheckGuard* slice after a STHelpMove slice
- */
-static void selfcheck_guards_inserter_branch_help(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (slices[next].prev==si)
-    /* we are part of a loop */
-    pipe_append(si,alloc_selfcheck_guard_help_filter());
-  else
-  {
-    /* we are attached to a loop
-     */
-    slice_index const next_prev = slices[next].prev;
-    if (slices[next_prev].type==STSelfCheckGuardHelpFilter)
-      /* a STSelfCheckGuardHelpFilter slice has been inserted in the
-       * loop before next; attach to it
-       */
-      pipe_set_successor(si,next_prev);
-    else
-      /* Create a STSelfCheckGuardHelpFilter slice of our own.  If
-       * we arrive here, si represents the introductory help move of
-       * battle play set play
-       */
-      pipe_append(si,alloc_selfcheck_guard_help_filter());
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a STSeriesMove slice
- */
-static void selfcheck_guards_inserter_branch_series(slice_index si,
-                                                    stip_structure_traversal *st)
-{
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (slices[next].prev==si)
-    /* we are part of a loop */
-    pipe_append(si,alloc_selfcheck_guard_series_filter());
-  else
-  {
-    /* we are attached to a loop
-     */
-    slice_index const next_prev = slices[next].prev;
-    assert(slices[next_prev].type==STSelfCheckGuardSeriesFilter);
-
-    /* a STSelfCheckGuardSeriesFilter slice has been inserted in the
-     * loop before next; attach to it
-     */
-    pipe_set_successor(si,next_prev);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a STAttackRoot slice
- */
-static void selfcheck_guards_inserter_attack_root(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_selfcheck_guard_root_defender_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a STAttackMove slice
- */
-static void selfcheck_guards_inserter_attack_move(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_selfcheck_guard_defender_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a defense move slice
- */
-static void selfcheck_guards_inserter_defense_move(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const next_prev = slices[next].prev;
-    if (slices[next_prev].type==STSelfCheckGuardAttackerFilter)
-      /* We are attached to a loop that has just created an attacker filter;
-       * attach to it.
-       */
-      pipe_set_successor(si,next_prev);
-    else
-      pipe_append(si,alloc_selfcheck_guard_attacker_filter());
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a
- * STMoveInverterRootSolvableFilter slice
- */
-static void selfcheck_guards_inserter_move_inverter_root(slice_index si,
-                                                         stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_selfcheck_guard_root_solvable_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a STMoveInverterSolvableFilter slice
- */
-static void selfcheck_guards_inserter_move_inverter(slice_index si,
-                                                    stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_selfcheck_guard_solvable_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a STMoveInverterSeriesFilter slice
- */
-static void selfcheck_guards_inserter_move_inverter_series(slice_index si,
-                                                           stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_selfcheck_guard_series_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert a STSelfCheckGuard* slice after a STParryFork slice
- */
-static void selfcheck_guards_inserter_parry_fork(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const inverter = slices[si].u.pipe.next;
-    slice_index const parrying = slices[si].u.parry_fork.parrying;
-
-    /* circumvent the STMoveInverterSeriesFilter to prevent it from
-     * creating a STSelfCheckGuard; if we take this path, we already
-     * know that there is no check!
-     */
-    assert(slices[inverter].type==STMoveInverterSeriesFilter);
-    stip_traverse_structure_children(inverter,st);
-    stip_traverse_structure(parrying,st);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static stip_structure_visitor const selfcheck_guards_inserters[] =
-{
-  &stip_traverse_structure_children,                        /* STProxy */
-  &selfcheck_guards_inserter_attack_move,          /* STAttackMove */
-  &selfcheck_guards_inserter_defense_move,         /* STDefenseMove */
-  &selfcheck_guards_inserter_branch_help,          /* STHelpMove */
-  &stip_traverse_structure_children,                        /* STHelpFork */
-  &selfcheck_guards_inserter_branch_series,        /* STSeriesMove */
-  &stip_traverse_structure_children,                        /* STSeriesFork */
-  &stip_structure_visitor_noop,                           /* STLeafDirect */
-  &stip_structure_visitor_noop,                           /* STLeafHelp */
-  &stip_structure_visitor_noop,                           /* STLeafForced */
-  &stip_traverse_structure_children,                        /* STReciprocal */
-  &stip_traverse_structure_children,                        /* STQuodlibet */
-  &stip_traverse_structure_children,                        /* STNot */
-  &selfcheck_guards_inserter_move_inverter_root,   /* STMoveInverterRootSolvableFilter */
-  &selfcheck_guards_inserter_move_inverter,        /* STMoveInverterSolvableFilter */
-  &selfcheck_guards_inserter_move_inverter_series, /* STMoveInverterSeriesFilter */
-  &selfcheck_guards_inserter_attack_root,          /* STAttackRoot */
-  &stip_traverse_structure_children,                        /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,                        /* STPostKeyPlaySolutionWriter */
-  &stip_traverse_structure_children,                        /* STContinuationWriter */
-  &stip_traverse_structure_children,                        /* STTryWriter */
-  &stip_traverse_structure_children,                        /* STThreatWriter */
-  &stip_traverse_structure_children,                        /* STThreatEnforcer */
-  &stip_traverse_structure_children,                        /* STRefutationsCollector */
-  &stip_traverse_structure_children,                        /* STVariationWriter */
-  &stip_traverse_structure_children,                        /* STRefutingVariationWriter */
-  &stip_traverse_structure_children,                        /* STNoShortVariations */
-  &stip_traverse_structure_children,                        /* STAttackHashed */
-  &stip_traverse_structure_children,                        /* STHelpRoot */
-  &stip_traverse_structure_children,                        /* STHelpShortcut */
-  &stip_traverse_structure_children,                        /* STHelpHashed */
-  &stip_traverse_structure_children,                        /* STSeriesRoot */
-  &stip_traverse_structure_children,                        /* STSeriesShortcut */
-  &selfcheck_guards_inserter_parry_fork,           /* STParryFork */
-  &stip_traverse_structure_children,                        /* STSeriesHashed */
-  &stip_structure_visitor_noop,                           /* STSelfCheckGuardRootSolvableFilter */
-  &stip_structure_visitor_noop,                           /* STSelfCheckGuardSolvableFilter */
-  &stip_structure_visitor_noop,                           /* STSelfCheckGuardRootDefenderFilter */
-  &stip_structure_visitor_noop,                           /* STSelfCheckGuardAttackerFilter */
-  &stip_structure_visitor_noop,                           /* STSelfCheckGuardDefenderFilter */
-  &stip_structure_visitor_noop,                           /* STSelfCheckGuardHelpFilter */
-  &stip_structure_visitor_noop,                           /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,                        /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,                        /* STDirectDefense */
-  &stip_traverse_structure_children,                        /* STReflexHelpFilter */
-  &stip_traverse_structure_children,                        /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,                        /* STReflexRootSolvableFilter */
-  &stip_traverse_structure_children,                        /* STReflexAttackerFilter */
-  &stip_traverse_structure_children,                        /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,                        /* STSelfAttack */
-  &stip_traverse_structure_children,                        /* STSelfDefense */
-  &stip_traverse_structure_children,                        /* STRestartGuardRootDefenderFilter */
-  &stip_traverse_structure_children,                        /* STRestartGuardHelpFilter */
-  &stip_traverse_structure_children,                        /* STRestartGuardSeriesFilter */
-  &stip_traverse_structure_children,                        /* STIntelligentHelpFilter */
-  &stip_traverse_structure_children,                        /* STIntelligentSeriesFilter */
-  &stip_traverse_structure_children,                        /* STGoalReachableGuardHelpFilter */
-  &stip_traverse_structure_children,                        /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children,                        /* STKeepMatingGuardRootDefenderFilter */
-  &stip_traverse_structure_children,                        /* STKeepMatingGuardAttackerFilter */
-  &stip_traverse_structure_children,                        /* STKeepMatingGuardDefenderFilter */
-  &stip_traverse_structure_children,                        /* STKeepMatingGuardHelpFilter */
-  &stip_traverse_structure_children,                        /* STKeepMatingGuardSeriesFilter */
-  &stip_traverse_structure_children,                        /* STMaxFlightsquares */
-  &stip_traverse_structure_children,                        /* STDegenerateTree */
-  &stip_traverse_structure_children,                        /* STMaxNrNonTrivial */
-  &stip_traverse_structure_children,                        /* STMaxThreatLength */
-  &stip_traverse_structure_children,                        /* STMaxTimeRootDefenderFilter */
-  &stip_traverse_structure_children,                        /* STMaxTimeDefenderFilter */
-  &stip_traverse_structure_children,                        /* STMaxTimeHelpFilter */
-  &stip_traverse_structure_children,                        /* STMaxTimeSeriesFilter */
-  &stip_traverse_structure_children,                        /* STMaxSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children,                        /* STMaxSolutionsRootDefenderFilter */
-  &stip_traverse_structure_children,                        /* STMaxSolutionsHelpFilter */
-  &stip_traverse_structure_children,                        /* STMaxSolutionsSeriesFilter */
-  &stip_traverse_structure_children,                        /* STStopOnShortSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children,                        /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children                         /* STStopOnShortSolutionsSeriesFilter */
-};
-
 /* Insert a STSelfCheckGuard* at the beginning of a toplevel branch
  */
-static void selfcheck_guards_inserter_toplevel_root(slice_index si,
-                                                    stip_structure_traversal *st)
+static
+void selfcheck_guards_inserter_toplevel_root(slice_index si,
+                                             stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -920,84 +732,84 @@ static void selfcheck_guards_inserter_toplevel_root(slice_index si,
 
 static stip_structure_visitor const selfcheck_guards_toplevel_inserters[] =
 {
-  &stip_traverse_structure_children,                      /* STProxy */
-  &stip_traverse_structure_children,                      /* STAttackMove */
-  &stip_traverse_structure_children,                      /* STDefenseMove */
-  &stip_traverse_structure_children,                      /* STHelpMove */
-  &stip_traverse_structure_children,                      /* STHelpFork */
-  &stip_traverse_structure_children,                      /* STSeriesMove */
-  &stip_traverse_structure_children,                      /* STSeriesFork */
-  &selfcheck_guards_inserter_toplevel_root,      /* STLeafDirect */
-  &selfcheck_guards_inserter_toplevel_root,      /* STLeafHelp */
-  &selfcheck_guards_inserter_toplevel_root,      /* STLeafForced */
-  &stip_traverse_structure_children,                      /* STReciprocal */
-  &stip_traverse_structure_children,                      /* STQuodlibet */
-  &stip_traverse_structure_children,                      /* STNot */
-  &stip_structure_visitor_noop,                         /* STMoveInverterRootSolvableFilter */
-  &stip_traverse_structure_children,                      /* STMoveInverterSolvableFilter */
-  &stip_traverse_structure_children,                      /* STMoveInverterSeriesFilter */
-  &selfcheck_guards_inserter_toplevel_root,      /* STAttackRoot */
-  &stip_traverse_structure_children,                      /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,                      /* STPostKeyPlaySolutionWriter */
-  &stip_traverse_structure_children,                      /* STContinuationWriter */
-  &stip_traverse_structure_children,                      /* STTryWriter */
-  &stip_traverse_structure_children,                      /* STThreatWriter */
-  &stip_traverse_structure_children,                      /* STThreatEnforcer */
-  &stip_traverse_structure_children,                      /* STRefutationsCollector */
-  &stip_traverse_structure_children,                      /* STVariationWriter */
-  &stip_traverse_structure_children,                      /* STRefutingVariationWriter */
-  &stip_traverse_structure_children,                      /* STNoShortVariations */
-  &stip_traverse_structure_children,                      /* STAttackHashed */
-  &selfcheck_guards_inserter_toplevel_root,      /* STHelpRoot */
-  &stip_traverse_structure_children,                      /* STHelpShortcut */
-  &stip_traverse_structure_children,                      /* STHelpHashed */
-  &selfcheck_guards_inserter_toplevel_root,      /* STSeriesRoot */
-  &stip_traverse_structure_children,                      /* STSeriesShortcut */
-  &stip_traverse_structure_children,                      /* STParryFork */
-  &stip_traverse_structure_children,                      /* STSeriesHashed */
-  &stip_structure_visitor_noop,                         /* STSelfCheckGuardRootSolvableFilter */
-  &stip_structure_visitor_noop,                         /* STSelfCheckGuardSolvableFilter */
-  &stip_structure_visitor_noop,                         /* STSelfCheckGuardRootDefenderFilter */
-  &stip_structure_visitor_noop,                         /* STSelfCheckGuardAttackerFilter */
-  &stip_structure_visitor_noop,                         /* STSelfCheckGuardDefenderFilter */
-  &stip_structure_visitor_noop,                         /* STSelfCheckGuardHelpFilter */
-  &stip_structure_visitor_noop,                         /* STSelfCheckGuardSeriesFilter */
-  &selfcheck_guards_inserter_toplevel_root,      /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,                      /* STDirectDefense */
-  &selfcheck_guards_inserter_toplevel_root,      /* STReflexHelpFilter */
-  &selfcheck_guards_inserter_toplevel_root,      /* STReflexSeriesFilter */
-  &selfcheck_guards_inserter_toplevel_root,      /* STReflexRootSolvableFilter */
-  &stip_traverse_structure_children,                      /* STReflexAttackerFilter */
-  &stip_traverse_structure_children,                      /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,                      /* STSelfAttack */
-  &stip_traverse_structure_children,                      /* STSelfDefense */
-  &stip_traverse_structure_children,                      /* STRestartGuardRootDefenderFilter */
-  &stip_traverse_structure_children,                      /* STRestartGuardHelpFilter */
-  &stip_traverse_structure_children,                      /* STRestartGuardSeriesFilter */
-  &stip_traverse_structure_children,                      /* STIntelligentHelpFilter */
-  &stip_traverse_structure_children,                      /* STIntelligentSeriesFilter */
-  &stip_traverse_structure_children,                      /* STGoalReachableGuardHelpFilter */
-  &stip_traverse_structure_children,                      /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children,                      /* STKeepMatingGuardRootDefenderFilter */
-  &stip_traverse_structure_children,                      /* STKeepMatingGuardAttackerFilter */
-  &stip_traverse_structure_children,                      /* STKeepMatingGuardDefenderFilter */
-  &stip_traverse_structure_children,                      /* STKeepMatingGuardHelpFilter */
-  &stip_traverse_structure_children,                      /* STKeepMatingGuardSeriesFilter */
-  &stip_traverse_structure_children,                      /* STMaxFlightsquares */
-  &stip_traverse_structure_children,                      /* STDegenerateTree */
-  &stip_traverse_structure_children,                      /* STMaxNrNonTrivial */
-  &stip_traverse_structure_children,                      /* STMaxThreatLength */
-  &stip_traverse_structure_children,                      /* STMaxTimeRootDefenderFilter */
-  &stip_traverse_structure_children,                      /* STMaxTimeDefenderFilter */
-  &stip_traverse_structure_children,                      /* STMaxTimeHelpFilter */
-  &stip_traverse_structure_children,                      /* STMaxTimeSeriesFilter */
-  &stip_traverse_structure_children,                      /* STMaxSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children,                      /* STMaxSolutionsRootDefenderFilter */
-  &stip_traverse_structure_children,                      /* STMaxSolutionsHelpFilter */
-  &stip_traverse_structure_children,                      /* STMaxSolutionsSeriesFilter */
-  &stip_traverse_structure_children,                      /* STStopOnShortSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children,                      /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children                       /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,        /* STProxy */
+  &stip_traverse_structure_children,        /* STAttackMove */
+  &stip_traverse_structure_children,        /* STDefenseMove */
+  &stip_traverse_structure_children,        /* STHelpMove */
+  &stip_traverse_structure_children,        /* STHelpFork */
+  &stip_traverse_structure_children,        /* STSeriesMove */
+  &stip_traverse_structure_children,        /* STSeriesFork */
+  &selfcheck_guards_inserter_toplevel_root, /* STLeafDirect */
+  &selfcheck_guards_inserter_toplevel_root, /* STLeafHelp */
+  &selfcheck_guards_inserter_toplevel_root, /* STLeafForced */
+  &stip_traverse_structure_children,        /* STReciprocal */
+  &stip_traverse_structure_children,        /* STQuodlibet */
+  &stip_traverse_structure_children,        /* STNot */
+  &stip_structure_visitor_noop,             /* STMoveInverterRootSolvableFilter */
+  &stip_traverse_structure_children,        /* STMoveInverterSolvableFilter */
+  &stip_traverse_structure_children,        /* STMoveInverterSeriesFilter */
+  &selfcheck_guards_inserter_toplevel_root, /* STAttackRoot */
+  &stip_traverse_structure_children,        /* STBattlePlaySolutionWriter */
+  &stip_traverse_structure_children,        /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,        /* STContinuationWriter */
+  &stip_traverse_structure_children,        /* STTryWriter */
+  &stip_traverse_structure_children,        /* STThreatWriter */
+  &stip_traverse_structure_children,        /* STThreatEnforcer */
+  &stip_traverse_structure_children,        /* STRefutationsCollector */
+  &stip_traverse_structure_children,        /* STVariationWriter */
+  &stip_traverse_structure_children,        /* STRefutingVariationWriter */
+  &stip_traverse_structure_children,        /* STNoShortVariations */
+  &stip_traverse_structure_children,        /* STAttackHashed */
+  &selfcheck_guards_inserter_toplevel_root, /* STHelpRoot */
+  &stip_traverse_structure_children,        /* STHelpShortcut */
+  &stip_traverse_structure_children,        /* STHelpHashed */
+  &selfcheck_guards_inserter_toplevel_root, /* STSeriesRoot */
+  &stip_traverse_structure_children,        /* STSeriesShortcut */
+  &stip_traverse_structure_children,        /* STParryFork */
+  &stip_traverse_structure_children,        /* STSeriesHashed */
+  &stip_structure_visitor_noop,             /* STSelfCheckGuardRootSolvableFilter */
+  &stip_structure_visitor_noop,             /* STSelfCheckGuardSolvableFilter */
+  &stip_structure_visitor_noop,             /* STSelfCheckGuardRootDefenderFilter */
+  &stip_structure_visitor_noop,             /* STSelfCheckGuardAttackerFilter */
+  &stip_structure_visitor_noop,             /* STSelfCheckGuardDefenderFilter */
+  &stip_structure_visitor_noop,             /* STSelfCheckGuardHelpFilter */
+  &stip_structure_visitor_noop,             /* STSelfCheckGuardSeriesFilter */
+  &selfcheck_guards_inserter_toplevel_root, /* STDirectDefenseRootSolvableFilter */
+  &stip_traverse_structure_children,        /* STDirectDefense */
+  &selfcheck_guards_inserter_toplevel_root, /* STReflexHelpFilter */
+  &selfcheck_guards_inserter_toplevel_root, /* STReflexSeriesFilter */
+  &selfcheck_guards_inserter_toplevel_root, /* STReflexRootSolvableFilter */
+  &stip_traverse_structure_children,        /* STReflexAttackerFilter */
+  &stip_traverse_structure_children,        /* STReflexDefenderFilter */
+  &stip_traverse_structure_children,        /* STSelfDefense */
+  &stip_traverse_structure_children,        /* STRestartGuardRootDefenderFilter */
+  &stip_traverse_structure_children,        /* STRestartGuardHelpFilter */
+  &stip_traverse_structure_children,        /* STRestartGuardSeriesFilter */
+  &stip_traverse_structure_children,        /* STIntelligentHelpFilter */
+  &stip_traverse_structure_children,        /* STIntelligentSeriesFilter */
+  &stip_traverse_structure_children,        /* STGoalReachableGuardHelpFilter */
+  &stip_traverse_structure_children,        /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,        /* STKeepMatingGuardRootDefenderFilter */
+  &stip_traverse_structure_children,        /* STKeepMatingGuardAttackerFilter */
+  &stip_traverse_structure_children,        /* STKeepMatingGuardDefenderFilter */
+  &stip_traverse_structure_children,        /* STKeepMatingGuardHelpFilter */
+  &stip_traverse_structure_children,        /* STKeepMatingGuardSeriesFilter */
+  &stip_traverse_structure_children,        /* STMaxFlightsquares */
+  &stip_traverse_structure_children,        /* STDegenerateTree */
+  &stip_traverse_structure_children,        /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,        /* STMaxNrNonTrivialCounter */
+  &stip_traverse_structure_children,        /* STMaxThreatLength */
+  &stip_traverse_structure_children,        /* STMaxTimeRootDefenderFilter */
+  &stip_traverse_structure_children,        /* STMaxTimeDefenderFilter */
+  &stip_traverse_structure_children,        /* STMaxTimeHelpFilter */
+  &stip_traverse_structure_children,        /* STMaxTimeSeriesFilter */
+  &stip_traverse_structure_children,        /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,        /* STMaxSolutionsRootDefenderFilter */
+  &stip_traverse_structure_children,        /* STMaxSolutionsHelpFilter */
+  &stip_traverse_structure_children,        /* STMaxSolutionsSeriesFilter */
+  &stip_traverse_structure_children,        /* STStopOnShortSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,        /* STStopOnShortSolutionsHelpFilter */
+  &stip_traverse_structure_children         /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Instrument stipulation with STSelfCheckGuard slices
@@ -1008,11 +820,6 @@ void stip_insert_selfcheck_guards(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  TraceStipulation(root_slice);
-
-  stip_structure_traversal_init(&st,&selfcheck_guards_inserters,0);
-  stip_traverse_structure(root_slice,&st);
 
   TraceStipulation(root_slice);
 

@@ -153,7 +153,6 @@ static stip_structure_visitor const slice_deallocators[] =
   &stip_traverse_structure_children,             /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,             /* STReflexAttackerFilter */
   &stip_traverse_structure_children,             /* STReflexDefenderFilter */
-  &traverse_and_deallocate,             /* STSelfAttack */
   &traverse_and_deallocate,             /* STSelfDefense */
   &stip_traverse_structure_children,             /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,             /* STRestartGuardHelpFilter */
@@ -170,6 +169,7 @@ static stip_structure_visitor const slice_deallocators[] =
   &traverse_and_deallocate,             /* STMaxFlightsquares */
   &traverse_and_deallocate,             /* STDegenerateTree */
   &traverse_and_deallocate,             /* STMaxNrNonTrivial */
+  &traverse_and_deallocate,             /* STMaxNrNonTrivialCounter */
   &traverse_and_deallocate,             /* STMaxThreatLength */
   &traverse_and_deallocate,             /* STMaxTimeRootDefenderFilter */
   &traverse_and_deallocate,             /* STMaxTimeDefenderFilter */

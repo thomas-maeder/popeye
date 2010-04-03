@@ -31,9 +31,11 @@ void stip_insert_restart_guards(void);
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean restart_guard_root_defend(slice_index si);
+boolean restart_guard_root_defend(slice_index si, stip_length_type n_min);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

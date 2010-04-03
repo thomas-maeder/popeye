@@ -14,6 +14,38 @@
  */
 void stip_insert_selfcheck_guards(void);
 
+/* Allocate a STSelfCheckGuardAttackerFilter slice
+ * @return allocated slice
+ */
+slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
+                                                  stip_length_type min_length);
+
+/* Allocate a STSelfCheckGuardDefenderFilter slice
+ * @return allocated slice
+ */
+slice_index alloc_selfcheck_guard_defender_filter(stip_length_type length,
+                                                  stip_length_type min_length);
+
+/* Allocate a STSelfCheckGuardHelpFilter slice
+ * @return allocated slice
+ */
+slice_index alloc_selfcheck_guard_help_filter(void);
+
+/* Allocate a STSelfCheckGuardSeriesFilter slice
+ * @return allocated slice
+ */
+slice_index alloc_selfcheck_guard_series_filter(void);
+
+/* Allocate a STSelfCheckGuardRootSolvableFilter slice
+ * @return allocated slice
+ */
+slice_index alloc_selfcheck_guard_root_solvable_filter(void);
+
+/* Allocate a STSelfCheckGuardSolvableFilter slice
+ * @return allocated slice
+ */
+slice_index alloc_selfcheck_guard_solvable_filter(void);
+
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -22,9 +54,26 @@ boolean selfcheck_guard_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean selfcheck_guard_root_defend(slice_index si);
+boolean selfcheck_guard_root_defend(slice_index si, stip_length_type n_min);
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
+                                                                stip_structure_traversal *st);
+
+/* Allocate a STSelfCheckGuardRootDefenderFilter slice
+ * @return allocated slice
+ */
+slice_index
+alloc_selfcheck_guard_root_defender_filter(stip_length_type length,
+                                           stip_length_type min_length);
 
 /* Solve a slice at non-root level
  * @param si slice index
@@ -50,6 +99,13 @@ stip_length_type selfcheck_guard_solve_in_n(slice_index si,
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type selfcheck_guard_has_solution(slice_index si);
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_solvable_filter_insert_root(slice_index si,
+                                                 stip_structure_traversal *st);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
@@ -86,20 +142,34 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean selfcheck_guard_defend_in_n(slice_index si, stip_length_type n);
+boolean selfcheck_guard_defend_in_n(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_min);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int selfcheck_guard_can_defend_in_n(slice_index si,
-                                             stip_length_type n,
-                                             unsigned int max_result);
+stip_length_type
+selfcheck_guard_can_defend_in_n(slice_index si,
+                                stip_length_type n,
+                                unsigned int max_nr_refutations);
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_defender_filter_insert_root(slice_index si,
+                                                 stip_structure_traversal *st);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

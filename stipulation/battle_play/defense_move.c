@@ -80,33 +80,28 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean defense_move_root_defend(slice_index si)
+boolean defense_move_root_defend(slice_index si, stip_length_type n_min)
 {
   Side const defender = slices[si].starter;
   boolean result = false;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const n_next = length-1;
-  stip_length_type const parity = (n_next-slack_length_battle)%2;
-  stip_length_type n_min = slack_length_battle-parity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_next+min_length>n_min+length)
-    n_min = n_next-(length-min_length);
-
-  active_slice[nbply+1] = si;
   genmove(defender);
 
   while(encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && attack_solve_in_n(next,n_next,n_min)<=n_next)
+        && attack_solve_in_n(next,length-1,n_min-1)>=length)
       result = true;
 
     repcoup();
@@ -125,34 +120,30 @@ boolean defense_move_root_defend(slice_index si)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean defense_move_defend_in_n(slice_index si, stip_length_type n)
+boolean defense_move_defend_in_n(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_min)
 {
   boolean result = false;
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_next = n-1;
-  stip_length_type const parity = (n_next-slack_length_battle)%2;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type n_min = slack_length_battle-parity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_next+min_length>n_min+length)
-    n_min = n_next-(length-min_length);
-
-  active_slice[nbply+1] = si;
   genmove(defender);
 
   while(encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && attack_solve_in_n(next,n_next,n_min)>n_next)
+        && attack_solve_in_n(next,n-1,n_min-1)>=n)
       result = true;
 
     repcoup();
@@ -170,25 +161,29 @@ boolean defense_move_defend_in_n(slice_index si, stip_length_type n)
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int defense_move_can_defend_in_n(slice_index si,
-                                          stip_length_type n,
-                                          unsigned int max_result)
+stip_length_type defense_move_can_defend_in_n(slice_index si,
+                                              stip_length_type n,
+                                              unsigned int max_nr_refutations)
 {
   Side const defender = slices[si].starter;
-  unsigned int result = 0;
+  stip_length_type result = 0;
+  unsigned int nr_refutations = 0;
   slice_index const next = slices[si].u.pipe.next;
-  boolean isDefenderImmobile = true;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type n_min_next;
-  stip_length_type const parity = (n-1)%2;
+  stip_length_type const parity = (n+1-slack_length_battle)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   if (n-1+min_length>slack_length_battle+length)
@@ -204,7 +199,7 @@ unsigned int defense_move_can_defend_in_n(slice_index si,
   genmove(defender);
   move_generation_mode= move_generation_optimized_by_killer_move;
 
-  while (result<=max_result && encore())
+  while (nr_refutations<=max_nr_refutations && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
@@ -213,16 +208,12 @@ unsigned int defense_move_can_defend_in_n(slice_index si,
                                                                    n_min_next);
       if (length_sol>=n)
       {
-        ++result;
+        ++nr_refutations;
         coupfort();
-        isDefenderImmobile = false;
       }
-      else if (length_sol>=n_min_next)
-        isDefenderImmobile = false;
-      else
-      {
-        /* self check */
-      }
+
+      if (length_sol>result)
+        result = length_sol+1;
     }
 
     repcoup();
@@ -230,8 +221,10 @@ unsigned int defense_move_can_defend_in_n(slice_index si,
 
   finply();
 
-  if (isDefenderImmobile)
-    result = max_result+1;
+  if (result==0 || nr_refutations>max_nr_refutations)
+    result = n+4;
+  else if (nr_refutations>0)
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -243,7 +236,8 @@ unsigned int defense_move_can_defend_in_n(slice_index si,
  * @param si slice index
  * @param st state of traversal
  */
-void defense_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void defense_move_make_setplay_slice(slice_index si,
+                                     stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 

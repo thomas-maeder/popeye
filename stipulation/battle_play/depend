@@ -1,11 +1,13 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
-  stipulation/battle_play/branch.h pypipe.h stipulation/proxy.h \
-  stipulation/battle_play/attack_move.h \
+  stipulation/battle_play/branch.h pypipe.h pyselfcg.h \
+  stipulation/proxy.h stipulation/battle_play/attack_move.h \
   stipulation/battle_play/defense_move.h trace.h
 
 stipulation/battle_play/branch.h:
 
 pypipe.h:
+
+pyselfcg.h:
 
 stipulation/proxy.h:
 
@@ -16,7 +18,7 @@ stipulation/battle_play/defense_move.h:
 trace.h:
 stipulation/battle_play/attack_root$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_root.c \
-  stipulation/battle_play/attack_root.h pydata.h pyoutput.h \
+  stipulation/battle_play/attack_root.h pydata.h pyoutput.h pypipe.h \
   stipulation/branch.h stipulation/battle_play/defense_play.h \
   stipulation/help_play/root.h trace.h
 
@@ -25,6 +27,8 @@ stipulation/battle_play/attack_root.h:
 pydata.h:
 
 pyoutput.h:
+
+pypipe.h:
 
 stipulation/branch.h:
 
@@ -208,7 +212,7 @@ pyoutput.h:
 trace.h:
 stipulation/battle_play/threat$(OBJ_SUFFIX): stipulation/battle_play/threat.c \
   stipulation/battle_play/threat.h pydata.h pypipe.h stipulation/branch.h \
-  stipulation/battle_play/defense_play.h \
+  stipulation/proxy.h stipulation/battle_play/defense_play.h \
   stipulation/battle_play/attack_play.h pyoutput.h pymsg.h trace.h
 
 stipulation/battle_play/threat.h:
@@ -218,6 +222,8 @@ pydata.h:
 pypipe.h:
 
 stipulation/branch.h:
+
+stipulation/proxy.h:
 
 stipulation/battle_play/defense_play.h:
 

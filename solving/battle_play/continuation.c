@@ -36,27 +36,35 @@ static slice_index alloc_continuation_writer_slice(stip_length_type length,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean continuation_writer_defend_in_n(slice_index si, stip_length_type n)
+boolean continuation_writer_defend_in_n(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_min)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  unsigned int nr_refutations;
+  stip_length_type nr_moves_needed;
   unsigned int const max_nr_allowed_refutations = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  nr_refutations = defense_can_defend_in_n(next,n,max_nr_allowed_refutations);
-  if (nr_refutations==0)
+  nr_moves_needed = defense_can_defend_in_n(next,n,max_nr_allowed_refutations);
+  if (nr_moves_needed<=n)
   {
     result = false;
     write_attack(attack_regular);
     {
-      boolean const defend_result = defense_defend_in_n(next,n);
+      boolean defend_result;
+      if (nr_moves_needed>slack_length_battle && n_min<=slack_length_battle)
+        n_min += 2;
+      defend_result = defense_defend_in_n(next,n,n_min);
       assert(!defend_result);
     }
   }
@@ -72,21 +80,25 @@ boolean continuation_writer_defend_in_n(slice_index si, stip_length_type n)
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff >=1 variation or a threat was found
  */
-boolean continuation_writer_solve_postkey(slice_index si)
+boolean continuation_writer_solve_postkey(slice_index si,
+                                          stip_length_type n_min)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   output_start_postkey_level();
 
   if (OptFlag[solvariantes])
-    result = !defense_root_defend(next);
+    result = !defense_root_defend(next,n_min);
   else
     result = false;
 
@@ -100,28 +112,34 @@ boolean continuation_writer_solve_postkey(slice_index si)
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean continuation_writer_root_defend(slice_index si)
+boolean continuation_writer_root_defend(slice_index si,
+                                        stip_length_type n_min)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
-  unsigned int nr_refutations;
-  unsigned int const max_nr_allowed_refutations = 0;
+  stip_length_type nr_moves_needed;
+  unsigned int const max_nr_refutations = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  nr_refutations = defense_can_defend_in_n(next,
-                                           length,
-                                           max_nr_allowed_refutations);
-  if (nr_refutations==0)
+  nr_moves_needed = defense_can_defend_in_n(next,length,max_nr_refutations);
+  if (nr_moves_needed>slack_length_battle
+      && n_min<=slack_length_battle
+      && n_min<length)
+    n_min += 2;
+  if (nr_moves_needed<=length)
   {
     result = false;
     write_attack(attack_key);
-    continuation_writer_solve_postkey(si);
+    continuation_writer_solve_postkey(si,n_min);
     write_end_of_solution();
   }
   else
@@ -137,21 +155,27 @@ boolean continuation_writer_root_defend(slice_index si)
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int continuation_writer_can_defend_in_n(slice_index si,
-                                                 stip_length_type n,
-                                                 unsigned int max_result)
+stip_length_type
+continuation_writer_can_defend_in_n(slice_index si,
+                                    stip_length_type n,
+                                    unsigned int max_nr_refutations)
 {
-  unsigned int result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,max_result);
+  result = defense_can_defend_in_n(next,n,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -163,20 +187,19 @@ unsigned int continuation_writer_can_defend_in_n(slice_index si,
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void continuation_writer_prepend(slice_index si, stip_structure_traversal *st)
+static void continuation_writer_prepend(slice_index si,
+                                        stip_structure_traversal *st)
 {
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index const prev = slices[si].prev;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(slices[si].prev,
-                alloc_continuation_writer_slice(length,min_length));
-  }
+  pipe_append(prev,alloc_continuation_writer_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -186,14 +209,14 @@ static stip_structure_visitor const continuation_handler_inserters[] =
 {
   &stip_traverse_structure_children,     /* STProxy */
   &stip_traverse_structure_children,     /* STAttackMove */
-  &continuation_writer_prepend, /* STDefenseMove */
+  &continuation_writer_prepend,          /* STDefenseMove */
   &stip_traverse_structure_children,     /* STHelpMove */
   &stip_traverse_structure_children,     /* STHelpFork */
   &stip_traverse_structure_children,     /* STSeriesMove */
   &stip_traverse_structure_children,     /* STSeriesFork */
-  &stip_structure_visitor_noop,        /* STLeafDirect */
-  &stip_structure_visitor_noop,        /* STLeafHelp */
-  &stip_structure_visitor_noop,        /* STLeafForced */
+  &stip_structure_visitor_noop,          /* STLeafDirect */
+  &stip_structure_visitor_noop,          /* STLeafHelp */
+  &stip_structure_visitor_noop,          /* STLeafForced */
   &stip_traverse_structure_children,     /* STReciprocal */
   &stip_traverse_structure_children,     /* STQuodlibet */
   &stip_traverse_structure_children,     /* STNot */
@@ -233,7 +256,6 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children,     /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,     /* STSelfAttack */
   &stip_traverse_structure_children,     /* STSelfDefense */
   &stip_traverse_structure_children,     /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,     /* STRestartGuardHelpFilter */
@@ -250,6 +272,7 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children,     /* STMaxFlightsquares */
   &stip_traverse_structure_children,     /* STDegenerateTree */
   &stip_traverse_structure_children,     /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,     /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,     /* STMaxThreatLength */
   &stip_traverse_structure_children,     /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children,     /* STMaxTimeDefenderFilter */

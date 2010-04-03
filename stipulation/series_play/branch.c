@@ -1,5 +1,6 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
+#include "pyselfcg.h"
 #include "pymovein.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
@@ -55,16 +56,20 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
 
   {
     slice_index const move = alloc_series_move_slice(length,min_length);
+    slice_index const guard1 = alloc_selfcheck_guard_series_filter();
     slice_index const inverter = alloc_move_inverter_series_filter();
+    slice_index const guard2 = alloc_selfcheck_guard_series_filter();
     slice_index const fork = alloc_series_fork_slice(length,min_length,
                                                      proxy_to_goal);
 
     shorten_series_pipe(fork);
 
     pipe_link(result,move);
-    pipe_link(move,fork);
+    pipe_link(move,guard1);
+    pipe_link(guard1,fork);
     pipe_link(fork,inverter);
-    pipe_link(inverter,result);
+    pipe_link(inverter,guard2);
+    pipe_link(guard2,result);
   }
 
   TraceFunctionExit(__func__);
@@ -99,11 +104,15 @@ slice_index alloc_series_branch_next_same_starter(stip_length_type length,
 
   {
     slice_index const move = alloc_series_move_slice(length,min_length);
+    slice_index const guard1 = alloc_selfcheck_guard_series_filter();
     slice_index const inverter = alloc_move_inverter_series_filter();
+    slice_index const guard2 = alloc_selfcheck_guard_series_filter();
 
     pipe_link(result,move);
-    pipe_link(move,inverter);
-    pipe_link(inverter,result);
+    pipe_link(move,guard1);
+    pipe_link(guard1,inverter);
+    pipe_link(inverter,guard2);
+    pipe_link(guard2,result);
   }
 
   TraceFunctionExit(__func__);

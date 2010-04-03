@@ -126,9 +126,11 @@ static slice_index alloc_maxflight_guard_slice(stip_length_type length)
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean maxflight_guard_root_defend(slice_index si)
+boolean maxflight_guard_root_defend(slice_index si, stip_length_type n_min)
 {
   boolean result;
   Side const defender = slices[si].starter;
@@ -137,12 +139,13 @@ boolean maxflight_guard_root_defend(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   if (n-1>slack_length_battle+2 && has_too_many_flights(defender))
     result = true;
   else
-    result = defense_root_defend(next);
+    result = defense_root_defend(next,n_min);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -155,9 +158,13 @@ boolean maxflight_guard_root_defend(slice_index si)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean maxflight_guard_defend_in_n(slice_index si, stip_length_type n)
+boolean maxflight_guard_defend_in_n(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_min)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -166,6 +173,7 @@ boolean maxflight_guard_defend_in_n(slice_index si, stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.branch.length%2);
@@ -173,7 +181,7 @@ boolean maxflight_guard_defend_in_n(slice_index si, stip_length_type n)
   if (n>slack_length_battle+2 && has_too_many_flights(defender))
     result = true;
   else
-    result = defense_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -185,12 +193,16 @@ boolean maxflight_guard_defend_in_n(slice_index si, stip_length_type n)
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int maxflight_guard_can_defend_in_n(slice_index si,
-                                             stip_length_type n,
-                                             unsigned int max_result)
+stip_length_type
+maxflight_guard_can_defend_in_n(slice_index si,
+                                stip_length_type n,
+                                unsigned int max_nr_refutations)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -199,12 +211,13 @@ unsigned int maxflight_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   if (n>slack_length_battle+2 && has_too_many_flights(defender))
-    result = max_result+1;
+    result = n+4;
   else
-    result = defense_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -285,7 +298,6 @@ static stip_structure_visitor const maxflight_guards_inserters[] =
   &stip_traverse_structure_children,  /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,  /* STReflexAttackerFilter */
   &stip_traverse_structure_children,  /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,  /* STSelfAttack */
   &stip_traverse_structure_children,  /* STSelfDefense */
   &stip_traverse_structure_children,  /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,  /* STRestartGuardHelpFilter */
@@ -302,6 +314,7 @@ static stip_structure_visitor const maxflight_guards_inserters[] =
   &stip_traverse_structure_children,  /* STMaxFlightsquares */
   &stip_traverse_structure_children,  /* STDegenerateTree */
   &stip_traverse_structure_children,  /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,  /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,  /* STMaxThreatLength */
   &stip_traverse_structure_children,  /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children,  /* STMaxTimeDefenderFilter */

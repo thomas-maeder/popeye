@@ -1,6 +1,7 @@
 #include "stipulation/battle_play/attack_root.h"
 #include "pydata.h"
 #include "pyoutput.h"
+#include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/root.h"
@@ -43,6 +44,7 @@ boolean attack_root_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -59,7 +61,7 @@ boolean attack_root_root_solve(slice_index si)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_root_defend(next))
+        && !defense_root_defend(next,min_length-1))
       result = true;
 
     repcoup();

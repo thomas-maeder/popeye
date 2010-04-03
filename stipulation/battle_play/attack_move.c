@@ -104,7 +104,7 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
         && is_current_move_in_table(threats))
     {
       if (defense_can_defend_in_n(next,len_threat-1,nr_refutations_allowed)
-          >nr_refutations_allowed)
+          >=len_threat)
         defense_found = true;
       else
         ++nr_successful_threats;
@@ -151,8 +151,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
   while (!solution_found && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && (defense_can_defend_in_n(next,n-1,nr_refutations_allowed)
-            <=nr_refutations_allowed))
+        && defense_can_defend_in_n(next,n-1,nr_refutations_allowed)<n)
     {
       solution_found = true;
       coupfort();
@@ -220,6 +219,11 @@ static boolean solve_threats_in_n(slice_index si, stip_length_type n)
   boolean result = false;
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_next = n-1;
+  stip_length_type const parity = (n_next-slack_length_battle)%2;
+  stip_length_type n_min = slack_length_battle-parity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -229,10 +233,13 @@ static boolean solve_threats_in_n(slice_index si, stip_length_type n)
   active_slice[nbply+1] = si;
   genmove(attacker);
 
+  if (n_next+min_length>n_min+length)
+    n_min = n_next-(length-min_length);
+
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,n-1))
+        && !defense_defend_in_n(next,n_next,n_min))
     {
       result = true;
       coupfort();
@@ -300,6 +307,11 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_next = n-1;
+  stip_length_type const parity = (n_next-slack_length_battle)%2;
+  stip_length_type n_min = slack_length_battle-parity;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -310,10 +322,13 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
   active_slice[nbply+1] = si;
   genmove(attacker);
 
+  if (n_next+min_length>n_min+length)
+    n_min = n_next-(length-min_length);
+
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,n-1))
+        && !defense_defend_in_n(next,n_next,n_min))
     {
       result = true;
       coupfort();

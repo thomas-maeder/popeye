@@ -51,7 +51,22 @@ static void output_mode_treemode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void output_mode_fork(slice_index si, stip_structure_traversal *st)
+static void output_mode_linemode(slice_index si, stip_structure_traversal *st)
+{
+  output_mode * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *mode = output_mode_line;
+  TraceEnumerator(output_mode,*mode,"\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void output_mode_binary(slice_index si, stip_structure_traversal *st)
 {
   output_mode * const mode = st->param;
   output_mode mode1;
@@ -81,14 +96,14 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
-  &stip_traverse_structure_children, /* STHelpFork */
+  &output_mode_linemode,             /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
-  &stip_traverse_structure_children, /* STSeriesFork */
+  &output_mode_linemode,             /* STSeriesFork */
   &stip_traverse_structure_children, /* STLeafDirect */
   &stip_traverse_structure_children, /* STLeafHelp */
   &stip_traverse_structure_children, /* STLeafForced */
-  &output_mode_fork,                 /* STReciprocal */
-  &output_mode_fork,                 /* STQuodlibet */
+  &output_mode_binary,               /* STReciprocal */
+  &output_mode_binary,               /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
   &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
@@ -126,7 +141,6 @@ static stip_structure_visitor const output_mode_detectors[] =
   &output_mode_treemode,             /* STReflexRootSolvableFilter */
   &output_mode_treemode,             /* STReflexAttackerFilter */
   &output_mode_treemode,             /* STReflexDefenderFilter */
-  &output_mode_treemode,             /* STSelfAttack */
   &output_mode_treemode,             /* STSelfDefense */
   &pipe_traverse_next,               /* STRestartGuardRootDefenderFilter */
   &pipe_traverse_next,               /* STRestartGuardHelpFilter */
@@ -143,6 +157,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &pipe_traverse_next,               /* STMaxFlightsquares */
   &pipe_traverse_next,               /* STDegenerateTree */
   &pipe_traverse_next,               /* STMaxNrNonTrivial */
+  &pipe_traverse_next,               /* STMaxNrNonTrivialCounter */
   &pipe_traverse_next,               /* STMaxThreatLength */
   &output_mode_treemode,             /* STMaxTimeRootDefenderFilter */
   &output_mode_treemode,             /* STMaxTimeDefenderFilter */
@@ -737,34 +752,29 @@ void write_attack(attack_type type)
     TraceValue("%u",move_depth);
     TraceValue("%u\n",nbply);
 
-    if (nbply<start_ply)
-      /* we seem to be solving set play - there is no attack to be written */;
-    else
+    if (nbply>start_ply)
     {
-      if (nbply>start_ply)
+      ply const parent = parent_ply[nbply];
+      if (!is_ply_equal_to_captured(&captured_ply[parent],parent))
       {
-        ply const parent = parent_ply[nbply];
-        if (!is_ply_equal_to_captured(&captured_ply[parent],parent))
-        {
-          ResetPosition();
+        ResetPosition();
 
-          move_depth = 1;
-          TraceValue("->%u\n",move_depth);
+        move_depth = 1;
+        TraceValue("->%u\n",move_depth);
 
-          catchup_with_defense(parent);
-          ++move_depth;
-          TraceValue("->%u\n",move_depth);
+        catchup_with_defense(parent);
+        ++move_depth;
+        TraceValue("->%u\n",move_depth);
 
-          initneutre(advers(trait[nbply]));
-          jouecoup_no_test(nbply);
+        initneutre(advers(trait[nbply]));
+        jouecoup_no_test(nbply);
 
-          nr_continuations_written[move_depth] = 0;
-          nr_defenses_written[move_depth] = 0;
-        }
+        nr_continuations_written[move_depth] = 0;
+        nr_defenses_written[move_depth] = 0;
       }
-
-      write_numbered_indented_attack(nbply,no_goal,type);
     }
+
+    write_numbered_indented_attack(nbply,no_goal,type);
   }
 
   TraceFunctionExit(__func__);

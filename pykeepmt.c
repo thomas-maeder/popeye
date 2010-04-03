@@ -276,21 +276,24 @@ keepmating_guard_direct_solve_threats_in_n(table threats,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean keepmating_guard_root_defend(slice_index si)
+boolean keepmating_guard_root_defend(slice_index si, stip_length_type n_min)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = defense_root_defend(slices[si].u.pipe.next);
+    result = defense_root_defend(slices[si].u.pipe.next,n_min);
   else
     result = true;
 
@@ -305,9 +308,13 @@ boolean keepmating_guard_root_defend(slice_index si)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean keepmating_guard_defend_in_n(slice_index si, stip_length_type n)
+boolean keepmating_guard_defend_in_n(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_min)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -315,12 +322,14 @@ boolean keepmating_guard_defend_in_n(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = defense_defend_in_n(next,n);
+    result = defense_defend_in_n(next,n,n_min);
   else
     result = true;
 
@@ -334,12 +343,16 @@ boolean keepmating_guard_defend_in_n(slice_index si, stip_length_type n)
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param max_result how many refutations should we look for
- * @return number of refutations found (0..max_result+1)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return n+4 refuted - >max_nr_refutations refutations found
+           n+2 refuted - <=max_nr_refutations refutations found
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
  */
-unsigned int keepmating_guard_can_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              unsigned int max_result)
+stip_length_type
+keepmating_guard_can_defend_in_n(slice_index si,
+                                 stip_length_type n,
+                                 unsigned int max_nr_refutations)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
@@ -347,14 +360,16 @@ unsigned int keepmating_guard_can_defend_in_n(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,mating,"\n");
 
   if (is_a_mating_piece_left(mating))
-    result = defense_can_defend_in_n(next,n,max_result);
+    result = defense_can_defend_in_n(next,n,max_nr_refutations);
   else
-    result = max_result+1;
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -799,7 +814,6 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,                  /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,                  /* STReflexAttackerFilter */
   &stip_traverse_structure_children,                  /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,                  /* STSelfAttack */
   &stip_traverse_structure_children,                  /* STSelfDefense */
   &stip_traverse_structure_children,                  /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,                  /* STRestartGuardHelpFilter */
@@ -816,6 +830,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,                  /* STMaxFlightsquares */
   &stip_traverse_structure_children,                  /* STDegenerateTree */
   &stip_traverse_structure_children,                  /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,                  /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,                  /* STMaxThreatLength */
   &stip_traverse_structure_children,                  /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children,                  /* STMaxTimeDefenderFilter */

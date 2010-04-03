@@ -60,6 +60,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
     case STDirectDefense:
     case STSelfDefense:
     case STReflexAttackerFilter:
+    case STSelfCheckGuardAttackerFilter:
     {
       stip_length_type const nbattle = n-slack_length_help+slack_length_battle;
       stip_length_type const parity = (nbattle-slack_length_battle)%2;
@@ -75,11 +76,12 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
-    case STSelfAttack:
     case STReflexDefenderFilter:
     {
       stip_length_type const nbattle = n-slack_length_help+slack_length_battle;
-      result = !defense_defend_in_n(si,nbattle);
+      stip_length_type const parity = (nbattle-slack_length_battle)%2;
+      stip_length_type const n_min = slack_length_battle-parity;
+      result = !defense_defend_in_n(si,nbattle,n_min);
       break;
     }
 

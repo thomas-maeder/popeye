@@ -131,14 +131,17 @@ static slice_index alloc_restart_guard_series_filter(void)
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defending side can successfully defend
  */
-boolean restart_guard_root_defend(slice_index si)
+boolean restart_guard_root_defend(slice_index si, stip_length_type n_min)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   IncrementMoveNbr();
@@ -146,7 +149,7 @@ boolean restart_guard_root_defend(slice_index si)
   if (MoveNbr<=RestartNbr)
     result = true;
   else
-    result = defense_root_defend(slices[si].u.pipe.next);
+    result = defense_root_defend(slices[si].u.pipe.next,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -302,7 +305,6 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_traverse_structure_children,      /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,      /* STReflexAttackerFilter */
   &stip_traverse_structure_children,      /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,      /* STSelfAttack */
   &stip_traverse_structure_children,      /* STSelfDefense */
   &stip_traverse_structure_children,      /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,      /* STRestartGuardHelpFilter */
@@ -319,6 +321,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_traverse_structure_children,      /* STMaxFlightsquares */
   &stip_traverse_structure_children,      /* STDegenerateTree */
   &stip_traverse_structure_children,      /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,      /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,      /* STMaxThreatLength */
   &stip_traverse_structure_children,      /* STMaxTimeRootDefenderFilter */
   &stip_traverse_structure_children,      /* STMaxTimeDefenderFilter */

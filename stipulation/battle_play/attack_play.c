@@ -230,6 +230,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
         result = n;
       break;
 
+    case STMaxNrNonTrivialCounter:
+      result = max_nr_nontrivial_counter_has_solution_in_n(si,n,n_min);
+      break;
+
     default:
       assert(0);
       break;
@@ -355,6 +359,10 @@ stip_length_type attack_solve_threats_in_n(table threats,
     case STLeafDirect:
       assert(n==slack_length_battle+1);
       leaf_d_solve_threats(threats,si);
+      break;
+
+    case STMaxNrNonTrivialCounter:
+      result = max_nr_nontrivial_counter_solve_threats_in_n(threats,si,n,n_min);
       break;
 
     default:
@@ -533,6 +541,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STKeepMatingGuardAttackerFilter:
       result = keepmating_guard_direct_solve_in_n(si,n,n_min);
+      break;
+
+    case STMaxNrNonTrivialCounter:
+      result = max_nr_nontrivial_counter_solve_in_n(si,n,n_min);
       break;
 
     default:

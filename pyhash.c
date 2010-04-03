@@ -329,7 +329,6 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STReflexRootSolvableFilter */
   &slice_property_offset_shifter, /* STReflexAttackerFilter */
   &slice_property_offset_shifter, /* STReflexDefenderFilter */
-  &slice_property_offset_shifter, /* STSelfAttack */
   &slice_property_offset_shifter, /* STSelfDefense */
   &slice_property_offset_shifter, /* STRestartGuardRootDefenderFilter */
   &slice_property_offset_shifter, /* STRestartGuardHelpFilter */
@@ -346,6 +345,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter, /* STMaxFlightsquares */
   &slice_property_offset_shifter, /* STDegenerateTree */
   &slice_property_offset_shifter, /* STMaxNrNonTrivial */
+  &slice_property_offset_shifter, /* STMaxNrNonTrivialCounter */
   &slice_property_offset_shifter, /* STMaxThreatLength */
   &slice_property_offset_shifter, /* STMaxTimeRootDefenderFilter */
   &slice_property_offset_shifter, /* STMaxTimeDefenderFilter */
@@ -680,7 +680,6 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,              /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,              /* STReflexAttackerFilter */
   &stip_traverse_structure_children,              /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,              /* STSelfAttack */
   &stip_traverse_structure_children,              /* STSelfDefense */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
@@ -697,6 +696,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMaxFlightsquares */
   &init_slice_properties_pipe,           /* STDegenerateTree */
   &init_slice_properties_pipe,           /* STMaxNrNonTrivial */
+  &init_slice_properties_pipe,           /* STMaxNrNonTrivialCounter */
   &init_slice_properties_pipe,           /* STMaxThreatLength */
   &init_slice_properties_pipe,           /* STMaxTimeRootDefenderFilter */
   &init_slice_properties_pipe,           /* STMaxTimeDefenderFilter */
@@ -2341,7 +2341,6 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_reflex_attack_filter, /* STReflexRootSolvableFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexAttackerFilter */
   &stip_traverse_moves_battle_fork,          /* STReflexDefenderFilter */
-  &stip_traverse_moves_battle_fork,          /* STSelfAttack */
   &stip_traverse_moves_battle_fork,          /* STSelfDefense */
   &stip_traverse_moves_pipe,                 /* STRestartGuardRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STRestartGuardHelpFilter */
@@ -2358,6 +2357,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STMaxFlightsquares */
   &stip_traverse_moves_pipe,                 /* STDegenerateTree */
   &stip_traverse_moves_pipe,                 /* STMaxNrNonTrivial */
+  &stip_traverse_moves_pipe,                 /* STMaxNrNonTrivialCounter */
   &stip_traverse_moves_pipe,                 /* STMaxThreatLength */
   &stip_traverse_moves_pipe,                 /* STMaxTimeRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STMaxTimeDefenderFilter */
