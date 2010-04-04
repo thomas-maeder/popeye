@@ -200,8 +200,10 @@ static boolean count_opponent_moves(int *nr_opponent_moves, Side camp) {
       result= true;
       *nr_opponent_moves = 0;
       move_generation_mode= move_generation_not_optimized;
+      TraceValue("->%u\n",move_generation_mode);
       genmove(ad);
       move_generation_mode= move_generation_optimized_by_nr_opponent_moves;
+      TraceValue("->%u\n",move_generation_mode);
       while (encore())
       {
         if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)

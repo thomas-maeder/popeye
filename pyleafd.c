@@ -32,6 +32,8 @@ boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
     unsigned int nr_successful_threats = 0;
     boolean defense_found = false;
 
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     generate_move_reaching_goal(leaf,attacker);
 
     while (encore() && !defense_found)
@@ -80,6 +82,8 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
     TraceText("attacker is immobile\n");
   else
   {
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
     generate_move_reaching_goal(leaf,attacker);
 
     while (encore() && result==has_no_solution)
@@ -123,6 +127,8 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
     ErrorMsg(KingCapture);
   else if (!immobile(starter))
   {
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
@@ -172,6 +178,8 @@ static boolean leaf_d_root_cmate_solve(slice_index leaf)
   /* TODO can this be generalised to non-mate goals? */
   if (goal_checker_mate(non_starter)==goal_reached)
   {
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
@@ -221,6 +229,8 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
     ErrorMsg(KingCapture);
   else
   {
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,attacker);
 
@@ -313,6 +323,7 @@ static boolean leaf_d_dmate_solve(slice_index leaf)
 
   if (!immobile(starter))
   {
+    assert(move_generation_mode==move_generation_optimized_by_killer_move);
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
@@ -354,6 +365,7 @@ static boolean leaf_d_cmate_solve(slice_index leaf)
   /* TODO can this be generalised to non-mate goals? */
   if (goal_checker_mate(non_starter)==goal_reached)
   {
+    assert(move_generation_mode==move_generation_optimized_by_killer_move);
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,starter);
 
@@ -390,6 +402,8 @@ static boolean leaf_d_regulargoals_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
 
@@ -462,6 +476,8 @@ void leaf_d_solve_threats(table threats, slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
+  move_generation_mode = move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,attacker);
 

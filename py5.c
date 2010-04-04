@@ -4118,6 +4118,7 @@ boolean immobile(Side camp)
 
     /* exact-maxis, ohneschach */
     move_generation_mode= move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
     if (!CondFlag[ohneschach]) {
       genmove(camp);
       while (encore())
@@ -4158,6 +4159,7 @@ boolean immobile(Side camp)
       }
       finply();
       move_generation_mode= move_generation_optimized_by_killer_move;
+      TraceValue("->%u\n",move_generation_mode);
       genmove(camp);
       while (encore())
       {

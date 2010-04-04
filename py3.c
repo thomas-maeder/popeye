@@ -1285,6 +1285,7 @@ boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
   move_generation_mode = move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
   trait[nbply]= Black;
   we_generate_exact = true;
   gen_bl_ply();
@@ -1292,6 +1293,7 @@ boolean rbultraech(square sq_departure, square sq_arrival, square sq_capture) {
   check = current_killer_state.found;
   we_generate_exact = false;
   move_generation_mode = save_move_generation_mode;
+  TraceValue("->%u\n",move_generation_mode);
   current_killer_state = save_killer_state;
 
   return  check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;
@@ -1308,6 +1310,7 @@ boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   current_killer_state.move.arrival = sq_arrival;
   current_killer_state.found = false;
   move_generation_mode = move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
   trait[nbply]= White;
   we_generate_exact = true;
   gen_wh_ply();
@@ -1315,6 +1318,7 @@ boolean rnultraech(square sq_departure, square sq_arrival, square sq_capture) {
   check = current_killer_state.found;
   we_generate_exact = false;
   move_generation_mode = save_move_generation_mode;
+  TraceValue("->%u\n",move_generation_mode);
   current_killer_state = save_killer_state;
 
   return check ? eval_2(sq_departure,sq_arrival,sq_capture) : false;

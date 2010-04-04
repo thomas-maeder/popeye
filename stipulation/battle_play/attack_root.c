@@ -53,6 +53,8 @@ boolean attack_root_root_solve(slice_index si)
 
   init_output(si);
 
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(attacker);
 

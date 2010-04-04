@@ -80,6 +80,8 @@ void exclusive_init_genmove(Side side)
   TraceFunctionParamListEnd();
 
   CondFlag[exclusive] = false;
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = active_slice[nbply];
   remove_ortho_mating_moves_generation_obstacle();
   generate_move_reaching_goal(exclusive_goal_leaf,side);

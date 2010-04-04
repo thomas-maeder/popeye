@@ -67,6 +67,7 @@ boolean read_min_length_nontrivial(char const *tok)
   unsigned long const requested_min_length_nontrivial = strtoul(tok,&end,10);
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   TraceValue("%s\n",tok);
@@ -76,6 +77,7 @@ boolean read_min_length_nontrivial(char const *tok)
     result = true;
     min_length_nontrivial = (2*(unsigned int)requested_min_length_nontrivial
                              +slack_length_battle);
+    TraceValue("%u\n",min_length_nontrivial);
   }
   else
     result = false;
@@ -124,6 +126,7 @@ static unsigned int count_nontrivial_defenses(slice_index si)
 
     result = 0;
 
+    move_generation_mode = move_generation_not_optimized;
     genmove(attacker);
 
     while (encore() && result<=nr_refutations_allowed)

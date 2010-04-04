@@ -156,6 +156,7 @@ boolean series_root_root_solve(slice_index root)
   assert(slices[root].u.shortcut.min_length>=slack_length_series);
 
   move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
 
   while (len<=full_length)
   {

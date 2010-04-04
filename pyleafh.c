@@ -26,6 +26,8 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   generate_move_reaching_goal(leaf,side_at_move);
 
   --MovesLeft[side_at_move];
@@ -97,6 +99,8 @@ static boolean leaf_h_solve_final_move(slice_index leaf)
 
   TraceValue("%u\n",side_at_move);
 
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = leaf;
   generate_move_reaching_goal(leaf,side_at_move);
 
@@ -141,6 +145,8 @@ static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
 
   if (goal_checker_mate(just_moved)==goal_reached)
   {
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,side_at_move);
 
@@ -179,6 +185,8 @@ static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
 
   if (!immobile(side_at_move))
   {
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(leaf,side_at_move);
 

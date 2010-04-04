@@ -109,6 +109,8 @@ boolean help_move_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  move_generation_mode= move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   
@@ -147,6 +149,8 @@ void help_move_solve_threats_in_n(table threats,
 
   assert(n>slack_length_help);
 
+  move_generation_mode= move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   
@@ -191,6 +195,8 @@ boolean help_move_are_threats_refuted(table threats, slice_index si)
     slice_index const next = slices[si].u.pipe.next;
     stip_length_type const length = slices[si].u.branch.length;
 
+    move_generation_mode= move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = si;
     genmove(attacker);
 
@@ -233,6 +239,8 @@ boolean help_move_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  move_generation_mode= move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   
