@@ -734,20 +734,20 @@ Loesung beendet.
       1...Sc8-b6 
           2.Ta7-a8 + 
               2...Sb6-c8 
-                  3.Tc7*c8 # 
                   3.Ta8*c8 # 
+                  3.Tc7*c8 # 
               2...Sb6*a8 
                   3.Tc7-c8 # 
       1...Sc8-d6 
           2.Ta7-a8 + 
               2...Sd6-c8 
-                  3.Tc7*c8 # 
                   3.Ta8*c8 # 
+                  3.Tc7*c8 # 
       1...Sc8-e7 
           2.Ta7-a8 + 
               2...Se7-c8 
-                  3.Tc7*c8 # 
                   3.Ta8*c8 # 
+                  3.Tc7*c8 # 
           2.Tc7*e7 + 
               2...Ke8-f8 
                   3.Ta7-a8 # 
@@ -838,9 +838,9 @@ Loesung beendet.
               2...Se7-c8 
                   3.Tb8*c8 # 
           2.Td7*e7 + 
-              2...Ke8-d8 
-                  3.Tb7-b8 # 
               2...Ke8-f8 
+                  3.Tb7-b8 # 
+              2...Ke8-d8 
                   3.Tb7-b8 # 
       1...0-0 
           2.Td7*g7 + 
@@ -1356,6 +1356,10 @@ Loesung beendet.
                           4.Th8*f8 # 
       1...Lb5-c4 
           2.Dc7-e5 + 
+              2...Lc4-e6 
+                  3.De5-h8 + 
+                      3...Le6-g8 
+                          4.Dh8*g8 # 
               2...Ke8-f8 
                   3.De5-g7 + 
                       3...Kf8-e8 
@@ -1373,10 +1377,6 @@ Loesung beendet.
                   3.De5-e7 + 
                       3...Kf8-g8 
                           4.De7-g7 # 
-              2...Lc4-e6 
-                  3.De5-h8 + 
-                      3...Le6-g8 
-                          4.Dh8*g8 # 
               2...Ke8-d8 
                   3.Th7-h8 + 
                       3...Lc4-g8 
@@ -1866,12 +1866,12 @@ Loesung beendet.
                           4.Td1-d8 # 
       1...Kf8-e8 
           2.Kc1-b2 Zugzwang.
-              2...Sb5-c3 
-                  3.Kb2*c3 Zugzwang.
-                      3...Ke8-f8 
-                          4.Td1-d8 # 
               2...Sb5-a3 
                   3.Kb2*a3 Zugzwang.
+                      3...Ke8-f8 
+                          4.Td1-d8 # 
+              2...Sb5-c3 
+                  3.Kb2*c3 Zugzwang.
                       3...Ke8-f8 
                           4.Td1-d8 # 
               2...Sb5-d4 
@@ -3202,12 +3202,12 @@ Loesung beendet.
   =2                         10 + 3
 
   1.0-0-0 ! Zugzwang.
-      1...d7*c6 
-          2.c7-c8=L = 
       1...d7-d5 
           2.e5*d6 ep. = 
       1...d7-d6 
           2.e5*d6 = 
+      1...d7*c6 
+          2.c7-c8=L = 
       1...d7*e6 
           2.Td1-f1 = 
 
@@ -3695,8 +3695,8 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...Ke8-d8 
           2.0-0-0 + 
               2...Kd8-e8 
-                  3.De4-c6 # 
                   3.De4-g6 # 
+                  3.De4-c6 # 
               2...Kd8-c8 
                   3.Lc4*e6 # 
           2.Ta1-d1 + 
@@ -3874,8 +3874,8 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...Ke8-d8 
           2.Ta1-d1 + 
               2...Kd8-e8 
-                  3.De4-c6 # 
                   3.De4-g6 # 
+                  3.De4-c6 # 
               2...Kd8-c8 
                   3.Lc4*e6 # 
       1...Th8-f8 

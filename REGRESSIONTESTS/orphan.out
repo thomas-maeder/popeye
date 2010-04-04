@@ -207,8 +207,6 @@ Loesung beendet.
       1...Te7-e8  !
 
   1.g7-g8=O ! Zugzwang.
-      1...Te7-e8 
-          2.De5-d4 # 
       1...Sh1-g3 
           2.De5*f4 # 
       1...Sh1-f2 
@@ -217,6 +215,8 @@ Loesung beendet.
           2.De5-c5 # 
       1...Te7-d7 
           2.De5*e6 # 
+      1...Te7-e8 
+          2.De5-d4 # 
       1...Te7*f7 
           2.De5-d4 # 
 
@@ -678,12 +678,12 @@ Loesung beendet.
   #2                        13 + 15
 
   1.Oa6-c8 ! Zugzwang.
-      1...Sa4-b6 
-          2.Od8-d6 # 
       1...Ta2-a1 
           2.Od8-f6 # 
       1...Sa4*c3 
           2.Oe2-f4 # 
+      1...Sa4-b6 
+          2.Od8-d6 # 
       1...Oc4*b3 
           2.Od8-d6 # 
       1...Oc5*b4 
@@ -885,8 +885,6 @@ Loesung beendet.
   #2                        11 + 15
 
   1.Sd4-b3 ! Zugzwang.
-      1...Dg4-g5 
-          2.De5-f4 # 
       1...Sb1-d2 
           2.Td3-c3 # 
       1...Sb1-c3 
@@ -895,6 +893,8 @@ Loesung beendet.
           2.Td3-c3 # 
       1...Dg4-g6 
           2.De5*e6 # 
+      1...Dg4-g5 
+          2.De5-f4 # 
       1...Sb8-c6 
           2.De5-e4 # 
       1...Lf8-c5 

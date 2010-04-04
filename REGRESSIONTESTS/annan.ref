@@ -31,8 +31,8 @@ cooked, even with suggestion +WPb6 in Chessics #8
 
   1.Sb4-a3 + ! 
       1...Kb5-b6 
-          2.Rc3-f6 # 
           2.Rc4-a4 # 
+          2.Rc3-f6 # 
           2.Bb3-a4 # 
 
   1.Sb4-c5 + ! 
@@ -61,8 +61,8 @@ cooked, even with suggestion +WPb6 in Chessics #8
   1.Rc3-f6 ! threat:
           2.Sb4-c5 # 
       1...b7-b6 
-          2.Sb4-a3 # 
           2.Rf6-f5 # 
+          2.Sb4-a3 # 
           2.Sb4-d6 # 
 
 solution finished. 

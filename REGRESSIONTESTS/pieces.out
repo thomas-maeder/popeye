@@ -953,12 +953,12 @@ Loesung beendet.
                   3.TJb5*b8 # 
               2...TJb6-b7 
                   3.e2-e4 Zugzwang.
+                      3...TJb7-a6 
+                          4.TJb5-b8 # 
                       3...TJb7*e4 
                           4.TJb5-b8 + 
                               4...TJe4-e5 
                                   5.TJb8*e5 # 
-                      3...TJb7-a6 
-                          4.TJb5-b8 # 
                       3...TJb7-d5 
                           4.TJb5-b8 + 
                               4...TJd5-d6 
@@ -999,8 +999,6 @@ Loesung beendet.
   #4                          5 + 2
 
   1.Lf7-a2 ! Zugzwang.
-      1...LJb4-a5 
-          2.LJb8-b2 # 
       1...LJb4-f8 
           2.LJb8-b2 + 
               2...LJf8-f6 
@@ -1017,18 +1015,14 @@ Loesung beendet.
           2.LJb8-b2 + 
               2...LJc5-c3 
                   3.LJb2*c3 # 
+      1...LJb4-a5 
+          2.LJb8-b2 # 
       1...LJb4-b1 
           2.LJb8-b2 # 
       1...LJb4-b2 
           2.LJb8*b2 # 
       1...LJb4-b3 
           2.Ka8-a7 Zugzwang.
-              2...LJb3-d5 
-                  3.LJb8-b2 + 
-                      3...LJd5-d4 + 
-                          4.LJb2*d4 # 
-                      3...Kh8-g8 
-                          4.La2*d5 # 
               2...LJb3-g8 
                   3.LJb8-b2 + 
                       3...LJg8-g7 
@@ -1042,16 +1036,22 @@ Loesung beendet.
                           4.La2*f7 # 
               2...LJb3-e6 
                   3.LJb8-b2 + 
-                      3...Kh8-g8 
-                          4.La2*e6 # 
                       3...LJe6-e5 
                           4.LJb2*e5 # 
+                      3...Kh8-g8 
+                          4.La2*e6 # 
+              2...LJb3-d5 
+                  3.LJb8-b2 + 
+                      3...LJd5-d4 + 
+                          4.LJb2*d4 # 
+                      3...Kh8-g8 
+                          4.La2*d5 # 
               2...LJb3-c4 
                   3.LJb8-b2 + 
-                      3...Kh8-g8 
-                          4.La2*c4 # 
                       3...LJc4-c3 
                           4.LJb2*c3 # 
+                      3...Kh8-g8 
+                          4.La2*c4 # 
               2...LJb3-a4 
                   3.LJb8-b2 # 
               2...LJb3-b1 

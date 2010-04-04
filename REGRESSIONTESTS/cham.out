@@ -261,11 +261,11 @@ Loesung beendet.
             Chamaeleon b5
 
   1.ncLb5-e8=ncT ! Zugzwang.
-      1...Se7-f5 
-          2.nBg7-g8=ncL # 
       1...Se7-c6 
           2.nBg7-g8=ncL # 
       1...Se7-d5 
+          2.nBg7-g8=ncL # 
+      1...Se7-f5 
           2.nBg7-g8=ncL # 
       1...Se7-g6 
           2.nBg7-g8=ncL # 

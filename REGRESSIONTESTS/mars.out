@@ -92,8 +92,8 @@ b) MarsCirce
       1...d4*c6 
           2.Sc1-d3 # 
       1...d4-d3 
-          2.Sc1-a2 # 
           2.Sc1-e2 # 
+          2.Sc1-a2 # 
       1...c5*b6 
           2.Sc1-a2 # 
 
@@ -367,9 +367,6 @@ Loesung beendet.
       1...Kc2-c1 
           2.c7-c8=D + 
               2...Kc1-d1 
-                  3.f7-f8=D = 
-                  3.f7-f8=S = 
-                  3.f7-f8=L = 
                   3.Dc8-a6 = 
                   3.Dc8-b7 = 
                   3.Dc8-h3 = 
@@ -387,11 +384,14 @@ Loesung beendet.
                   3.Dc8-a8 = 
                   3.Dc8-b8 = 
                   3.Dc8-d8 = 
+                  3.f7-f8=D = 
+                  3.f7-f8=S = 
+                  3.f7-f8=L = 
               2...Kc1-b2 
                   3.f7-f8=T = 
       1...Kc2-d1 
-          2.c7-c8=D = 
           2.f7-f8=D = 
+          2.c7-c8=D = 
       1...Kc2-b1 
           2.c7-c8=D + 
               2...Kb1-b2 

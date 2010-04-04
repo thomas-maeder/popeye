@@ -109,8 +109,6 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
       1...kSh4-g2  !
 
   1.kKf1-e1 ! Zugzwang.
-      1...kSh4-g2 
-          2.kTHa5*a1 # 
       1...kTa1-d1 
           2.kTHa5-a1 # 
       1...kTa1-c1 
@@ -118,6 +116,8 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
       1...kTa1-b1 
           2.kTHa5-a1 # 
       1...kSh4-f3 
+          2.kTHa5*a1 # 
+      1...kSh4-g2 
           2.kTHa5*a1 # 
       1...kSh4-g6 
           2.kBf4-f5 # 

@@ -865,6 +865,10 @@ d) exact-#4
   1.d7-d8=S ! 
       1...Sb7*d8 [+wSg1] 
           2.Sg1*f3 [+sBf7] 
+              2...Sd8-b7 
+                  3.Sf3-d2 
+                      3...Sb7-d8 
+                          4.Sd2-e4 # 
               2...Sd8-e6 
                   3.Sf3-d2 
                       3...Se6-d4 
@@ -876,10 +880,6 @@ d) exact-#4
                       3...Se6-f8 
                           4.Sd2-e4 # 
                       3...Se6-d8 
-                          4.Sd2-e4 # 
-              2...Sd8-b7 
-                  3.Sf3-d2 
-                      3...Sb7-d8 
                           4.Sd2-e4 # 
 
 Loesung beendet. 
@@ -980,23 +980,23 @@ c) exact-#3
   1.d7-d8=L ! 
       1...c6-c5 
           2.Ka7*b6 
-              2...c5*d4 
-                  3.Ld8-c7 # 
               2...c5-c4 
+                  3.Ld8-c7 # 
+              2...c5*d4 
                   3.Ld8-c7 # 
 
 d) exact-#4
 
   1.d7-d8=S ! 
-      1...Kd6-c7 
-          2.Sd8-f7 
-              2...c6-c5 
-                  3.d4-d5 
-                      3...c5-c4 
-                          4.d5-d6 # 
       1...c6-c5 
           2.Sd8-f7 + 
               2...Kd6-c7 
+                  3.d4-d5 
+                      3...c5-c4 
+                          4.d5-d6 # 
+      1...Kd6-c7 
+          2.Sd8-f7 
+              2...c6-c5 
                   3.d4-d5 
                       3...c5-c4 
                           4.d5-d6 # 
@@ -1368,9 +1368,6 @@ Loesung beendet.
   semi-r+2                    8 + 8
 
   1.Kc7-c6 ! Zugzwang.
-      1...e3-e2 
-          2.h4-h5 
-              2...e2-e1=RO + 
       1...a3-a2 
           2.d4-d5 
               2...a2-a1=RO + 
@@ -1383,6 +1380,9 @@ Loesung beendet.
       1...d3-d2 
           2.Kc6-b6 
               2...d2-d1=RO + 
+      1...e3-e2 
+          2.h4-h5 
+              2...e2-e1=RO + 
       1...f3-f2 
           2.Kc6-d6 
               2...f2-f1=RO + 

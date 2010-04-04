@@ -350,8 +350,6 @@ solution finished.
                  SAT
 
   1.Qg1-f2 ! zugzwang.
-      1...Sd2-f1 
-          2.Qf2*c2 # 
       1...Sd1*f2 
           2.Re1*c1 # 
       1...Sd1-e3 
@@ -360,6 +358,8 @@ solution finished.
           2.Re1*c1 # 
       1...Sd1-b2 
           2.Re1*c1 # 
+      1...Sd2-f1 
+          2.Qf2*c2 # 
       1...Sd2-f3 
           2.Qf2*c2 # 
       1...Sd2-e4 
@@ -370,8 +370,6 @@ solution finished.
           2.Qf2*c2 # 
 
   1.Re1-e2 ! zugzwang.
-      1...Sd2-f1 
-          2.Re2*c2 # 
       1...Sd1-f2 
           2.Qg1*c1 # 
       1...Sd1-e3 
@@ -380,6 +378,8 @@ solution finished.
           2.Qg1*c1 # 
       1...Sd1-b2 
           2.Qg1*c1 # 
+      1...Sd2-f1 
+          2.Re2*c2 # 
       1...Sd2-f3 
           2.Re2*c2 # 
       1...Sd2-e4 

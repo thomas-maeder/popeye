@@ -32,20 +32,22 @@
                   3.Gc5-e5 + 
                       3...Gf4-f7 
                           4.Ge5-g7 
-                              4...Gf7*c7 
-                                  5.Gg7*c7 # 
                               4...Gf7-c4 
                                   5.Gg7*g3 
+                                      5...Gc4*c7 
+                                          6.Gg3*c7 # 
                                       5...Gc4-f4 
                                           6.Gg3-e5 + 
                                               6...Gf4-f7 
                                                   7.Ge5-g7 
-                                                      7...Gf7*c7 
-                                                          8.Gg7*c7 # 
                                                       7...Gf7-c4 
                                                           8.c2-c3 
+                                                              8...Gc4*c7 
+                                                                  9.Gg7*c7 # 
                                                               8...Gc4-f4 
                                                                   9.c3-c4 
+                                                                      9...Gf4*c7 
+                                                                         10.Gg7*c7 # 
                                                                       9...Gf4-f7 
                                                                          10.f2-f4 
                                                                              10...Gf7*c4 
@@ -56,12 +58,10 @@
                                                                                          12.Gg7-e5 # 
                                                                              10...Gf7*c7 
                                                                                  11.Gg7*c7 # 
-                                                                      9...Gf4*c7 
-                                                                         10.Gg7*c7 # 
-                                                              8...Gc4*c7 
-                                                                  9.Gg7*c7 # 
-                                      5...Gc4*c7 
-                                          6.Gg3*c7 # 
+                                                      7...Gf7*c7 
+                                                          8.Gg7*c7 # 
+                              4...Gf7*c7 
+                                  5.Gg7*c7 # 
 
 Loesung beendet. 
 
@@ -255,17 +255,17 @@ Loesung beendet.
               2...Sg5-h3 
                   3.Th5*h3 # 
       1...Sh7-f8 
-          2.Th2-h5 # 
           2.Th2-h6 # 
+          2.Th2-h5 # 
           2.Th2-h4 # 
           2.Th2-h3 # 
       1...Tg8-g3 
-          2.Th2-h5 # 
           2.Th2-h6 # 
+          2.Th2-h5 # 
           2.Th2-h4 # 
       1...Tg8-g4 
-          2.Th2-h5 # 
           2.Th2-h6 # 
+          2.Th2-h5 # 
           2.Th2-h3 # 
       1...Tg8-g5 
           2.Th2-h6 # 
@@ -276,8 +276,8 @@ Loesung beendet.
           2.Th2-h4 # 
           2.Th2-h3 # 
       1...Tg8-a8 
-          2.Th2-h5 # 
           2.Th2-h6 # 
+          2.Th2-h5 # 
           2.Th2-h4 # 
           2.Th2-h3 # 
       1...Tg8-b8 
@@ -297,10 +297,10 @@ Loesung beendet.
               2...Te8-e3 
                   3.Dg1-e1 # 
       1...Tg8-f8 
-          2.Th2-h3 # 
           2.Th2-h6 # 
           2.Th2-h5 # 
           2.Th2-h4 # 
+          2.Th2-h3 # 
 
 Loesung beendet. 
 

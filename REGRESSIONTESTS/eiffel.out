@@ -252,13 +252,6 @@ Loesung beendet.
              EiffelSchach
 
   1.Da7-f7 ! Zugzwang.
-      1...d5-d4 
-          2.Df7-f5 Zugzwang.
-              2...d4-d3 
-                  3.Df5-c5 Zugzwang.
-                      3...d3-d2 
-                          4.d6-d7 + 
-                              4...d2-d1=D # 
       1...b5-b4 
           2.Df7-f3 Zugzwang.
               2...b4-b3 
@@ -266,6 +259,13 @@ Loesung beendet.
                       3...b3-b2 
                           4.b6-b7 + 
                               4...b2-b1=D # 
+      1...d5-d4 
+          2.Df7-f5 Zugzwang.
+              2...d4-d3 
+                  3.Df5-c5 Zugzwang.
+                      3...d3-d2 
+                          4.d6-d7 + 
+                              4...d2-d1=D # 
 
 Loesung beendet. 
 

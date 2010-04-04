@@ -350,8 +350,6 @@ Loesung beendet.
                  SAT
 
   1.Dg1-f2 ! Zugzwang.
-      1...Sd2-f1 
-          2.Df2*c2 # 
       1...Sd1*f2 
           2.Te1*c1 # 
       1...Sd1-e3 
@@ -360,6 +358,8 @@ Loesung beendet.
           2.Te1*c1 # 
       1...Sd1-b2 
           2.Te1*c1 # 
+      1...Sd2-f1 
+          2.Df2*c2 # 
       1...Sd2-f3 
           2.Df2*c2 # 
       1...Sd2-e4 
@@ -370,8 +370,6 @@ Loesung beendet.
           2.Df2*c2 # 
 
   1.Te1-e2 ! Zugzwang.
-      1...Sd2-f1 
-          2.Te2*c2 # 
       1...Sd1-f2 
           2.Dg1*c1 # 
       1...Sd1-e3 
@@ -380,6 +378,8 @@ Loesung beendet.
           2.Dg1*c1 # 
       1...Sd1-b2 
           2.Dg1*c1 # 
+      1...Sd2-f1 
+          2.Te2*c2 # 
       1...Sd2-f3 
           2.Te2*c2 # 
       1...Sd2-e4 

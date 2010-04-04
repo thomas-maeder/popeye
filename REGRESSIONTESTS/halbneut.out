@@ -215,12 +215,12 @@ Loesung beendet.
             HalbNeutral c5
 
   1.Kh2-g2 ! Zugzwang.
-      1...hTc5-c3=nhT 
-          2.Da2-a5 # 
       1...hTc5-c1=nhT 
           2.Da2-a3 # 
       1...hTc5-c2=nhT + 
           2.nhTc2-b2=whT # 
+      1...hTc5-c3=nhT 
+          2.Da2-a5 # 
       1...hTc5-c8=nhT 
           2.Da2-a3 # 
       1...hTc5-c7=nhT 

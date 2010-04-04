@@ -92,12 +92,12 @@ solution finished.
   1.Bd2-f4 ! threat:
           2.Re7-d7 # 
       1...Bd4-e5 
-          2.Bd3-c4 # 
           2.Rc7-c5 # 
-      1...Bd4-c5 
           2.Bd3-c4 # 
+      1...Bd4-c5 
           2.Rc7*c5 # 
           2.Sb5-c3 # 
+          2.Bd3-c4 # 
       1...Sd8-c6 
           2.Rc7-d7 # 
       1...Sd8-e6 
@@ -192,8 +192,8 @@ solution finished.
       1...Ke4-e5 
           2.Ba1*d4 # 
       1...d7-d5 
-          2.Sa4-c5 # 
           2.Bg8*d5 # 
+          2.Sa4-c5 # 
           2.Sh3-g5 # 
       1...d7*c6 
           2.Sa4-c5 # 
