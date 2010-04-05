@@ -267,6 +267,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STStopOnShortSolutionsHelpFilter:
       case STStopOnShortSolutionsSeriesFilter:
         Trace_branch(si);
+        if (slices[si].u.branch.imminent_goal!=no_goal)
+          fprintf(stdout,"imminent:%2u ",slices[si].u.branch.imminent_goal);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;

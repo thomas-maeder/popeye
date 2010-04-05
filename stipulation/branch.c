@@ -24,6 +24,7 @@ slice_index alloc_branch(SliceType type,
   result = alloc_pipe(type);
   slices[result].u.shortcut.length = length;
   slices[result].u.shortcut.min_length = min_length;
+  slices[result].u.branch.imminent_goal = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

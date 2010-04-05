@@ -2781,6 +2781,148 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
   }
 }
 
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void remember_imminent_goal_branch_battle(slice_index si,
+                                          stip_move_traversal *st)
+{
+  Goal * const goal = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_branch(si,st);
+
+  if (st->remaining==slack_length_battle)
+    slices[si].u.branch.imminent_goal = *goal;
+
+  *goal = no_goal;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void remember_imminent_goal_leaf(slice_index si, stip_move_traversal *st)
+{
+  Goal * const goal = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *goal = slices[si].u.leaf.goal;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static stip_move_visitor const imminent_goal_rememberers[] =
+{
+  &stip_traverse_moves_pipe,                 /* STProxy */
+  &remember_imminent_goal_branch_battle,     /* STAttackMove */
+  &remember_imminent_goal_branch_battle,     /* STDefenseMove */
+  &stip_traverse_moves_branch,               /* STHelpMove */
+  &stip_traverse_moves_help_fork,            /* STHelpFork */
+  &stip_traverse_moves_branch,               /* STSeriesMove */
+  &stip_traverse_moves_series_fork,          /* STSeriesFork */
+  &remember_imminent_goal_leaf,              /* STLeafDirect */
+  &remember_imminent_goal_leaf,              /* STLeafHelp */
+  &remember_imminent_goal_leaf,              /* STLeafForced */
+  &stip_traverse_moves_binary,               /* STReciprocal */
+  &stip_traverse_moves_binary,               /* STQuodlibet */
+  &stip_traverse_moves_pipe,                 /* STNot */
+  &stip_traverse_moves_pipe,                 /* STMoveInverterRootSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
+  remember_imminent_goal_branch_battle,      /* STAttackRoot */
+  &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STContinuationWriter */
+  &stip_traverse_moves_pipe,                 /* STTryWriter */
+  &stip_traverse_moves_pipe,                 /* STThreatWriter */
+  &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
+  &stip_traverse_moves_pipe,                 /* STRefutationsCollector */
+  &stip_traverse_moves_pipe,                 /* STVariationWriter */
+  &stip_traverse_moves_pipe,                 /* STRefutingVariationWriter */
+  &stip_traverse_moves_pipe,                 /* STNoShortVariations */
+  &stip_traverse_moves_pipe,                 /* STAttackHashed */
+  &stip_traverse_moves_root,                 /* STHelpRoot */
+  &stip_traverse_moves_help_shortcut,        /* STHelpShortcut */
+  &stip_traverse_moves_pipe,                 /* STHelpHashed */
+  &stip_traverse_moves_root,                 /* STSeriesRoot */
+  &stip_traverse_moves_series_shortcut,      /* STSeriesShortcut */
+  &stip_traverse_moves_pipe,                 /* STParryFork */
+  &stip_traverse_moves_pipe,                 /* STSeriesHashed */
+  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardAttackerFilter */
+  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
+  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSeriesFilter */
+  &stip_traverse_moves_battle_fork,          /* STDirectDefenseRootSolvableFilter */
+  &stip_traverse_moves_battle_fork,          /* STDirectDefense */
+  &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
+  &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
+  &stip_traverse_moves_reflex_attack_filter, /* STReflexRootSolvableFilter */
+  &stip_traverse_moves_reflex_attack_filter, /* STReflexAttackerFilter */
+  &stip_traverse_moves_battle_fork,          /* STReflexDefenderFilter */
+  &stip_traverse_moves_battle_fork,          /* STSelfDefense */
+  &stip_traverse_moves_pipe,                 /* STRestartGuardRootDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STRestartGuardHelpFilter */
+  &stip_traverse_moves_pipe,                 /* STRestartGuardSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STIntelligentHelpFilter */
+  &stip_traverse_moves_pipe,                 /* STIntelligentSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STGoalReachableGuardHelpFilter */
+  &stip_traverse_moves_pipe,                 /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STKeepMatingGuardRootDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STKeepMatingGuardAttackerFilter */
+  &stip_traverse_moves_pipe,                 /* STKeepMatingGuardDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STKeepMatingGuardHelpFilter */
+  &stip_traverse_moves_pipe,                 /* STKeepMatingGuardSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxFlightsquares */
+  &stip_traverse_moves_pipe,                 /* STDegenerateTree */
+  &stip_traverse_moves_pipe,                 /* STMaxNrNonTrivial */
+  &stip_traverse_moves_pipe,                 /* STMaxNrNonTrivialCounter */
+  &stip_traverse_moves_pipe,                 /* STMaxThreatLength */
+  &stip_traverse_moves_pipe,                 /* STMaxTimeRootDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxTimeDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxTimeHelpFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxTimeSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxSolutionsRootDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxSolutionsHelpFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsRootSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsHelpFilter */
+  &stip_traverse_moves_pipe                  /* STStopOnShortSolutionsSeriesFilter */
+};
+
+static void stip_optimise_final_battle_moves(void)
+{
+  stip_move_traversal st;
+  Goal goal_in_next_slice = no_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(root_slice);
+  
+  stip_move_traversal_init(&st,&imminent_goal_rememberers,&goal_in_next_slice);
+  stip_traverse_moves(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 /* Iterate over the twins of a problem
  * @prev_token token that ended the previous twin
  * @return token that ended the current twin
@@ -2843,6 +2985,8 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
+
+      stip_optimise_final_battle_moves();
 
       stip_insert_selfcheck_guards();
 
