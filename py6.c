@@ -1871,13 +1871,19 @@ static boolean verify_position(void)
     nonoptgenre = true;
   }
 
-  if (flagwhitemummer || nonoptgenre || exist[hunter0b]
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3))
+  if (flagwhitemummer /* counting opponents moves not useful */
+      || nonoptgenre  /* ?? */
+      || exist[ubib] /* sorting by nr of opponents moves doesn't work - why?? */
+      || exist[hunter0b] /* ditto */
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     move_generation_mode_opti_per_side[White] = 
         move_generation_optimized_by_killer_move;
 
-  if (flagblackmummer || nonoptgenre || exist[hunter0b]
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3))
+  if (flagblackmummer /* counting opponents moves not useful */
+      || nonoptgenre /* ?? */
+      || exist[ubib] /* sorting by nr of opponents moves doesn't work  - why?? */
+      || exist[hunter0b] /* ditto */
+      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
     move_generation_mode_opti_per_side[Black] = 
         move_generation_optimized_by_killer_move;
 
