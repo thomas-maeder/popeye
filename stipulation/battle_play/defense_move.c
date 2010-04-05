@@ -96,6 +96,8 @@ boolean defense_move_root_defend(slice_index si, stip_length_type n_min)
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   genmove(defender);
 
   while(encore())
@@ -138,6 +140,8 @@ boolean defense_move_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   genmove(defender);
 
   while(encore())
@@ -155,6 +159,116 @@ boolean defense_move_defend_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void generate_other_pieces(square generated_last, Side defender)
+{
+  square const *selfbnp;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(generated_last);
+  TraceEnumerator(Side,defender,"");
+  TraceFunctionParamListEnd();
+
+  for (selfbnp = boardnum; *selfbnp!=initsquare; ++selfbnp)
+    if (*selfbnp!=generated_last)
+    {
+      piece p = e[*selfbnp];
+      if (p!=vide)
+      {
+        if (TSTFLAG(spec[*selfbnp],Neutral))
+          p = -p;
+        if (defender==White)
+        {
+          if (p>obs)
+            gen_wh_piece(*selfbnp,p);
+        }
+        else
+        {
+          if (p<vide)
+            gen_bl_piece(*selfbnp,p);
+        }
+      }
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void genmove_priorise_killer_piece(Side defender,
+                                          square killerDepartureSquare,
+                                          piece killerPiece)
+{
+  Side const attacker = advers(defender);
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,defender,"");
+  TraceSquare(killerDepartureSquare);
+  TracePiece(killerPiece);
+  TraceFunctionParamListEnd();
+
+  nextply(nbply);
+  trait[nbply] = defender;
+
+  if (TSTFLAG(PieSpExFlags,Neutral))
+    initneutre(attacker);
+  if (TSTFLAG(spec[killerDepartureSquare],Neutral))
+    killerPiece = -e[killerDepartureSquare];
+
+  init_move_generation_optimizer();
+
+  generate_other_pieces(killerDepartureSquare,defender);
+
+  if (defender==White)
+  {
+    if (killerPiece>obs)
+      gen_wh_piece(killerDepartureSquare,killerPiece);
+  }
+  else
+  {
+    if (killerPiece<-obs)
+      gen_bl_piece(killerDepartureSquare,killerPiece);
+  }
+
+  finish_move_generation_optimizer();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void genmove_last_self_defense(slice_index si, Side defender)
+{
+  square const killerDepartureSquare = kpilcd[nbply+1];
+  piece const killerPiece = e[killerDepartureSquare];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,defender,"");
+  TraceFunctionParamListEnd();
+
+  TraceSquare(killerDepartureSquare);
+  TracePiece(killerPiece);
+  TraceText("\n");
+
+  if (slices[si].u.branch.imminent_goal==goal_ep
+      && ep[nbply]==initsquare
+      && ep2[nbply]==initsquare)
+  {
+    /* nothing */
+    /* TODO transform to defender filter */
+    /* TODO ?create other filters? */
+  }
+  else
+  {
+    if ((defender==Black ? flagblackmummer : flagwhitemummer)
+        || killerPiece==obs || killerPiece==vide)
+      genmove(defender);
+    else
+      genmove_priorise_killer_piece(defender,killerDepartureSquare,killerPiece);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Determine whether there are refutations after an attempted key move
@@ -192,12 +306,25 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
     n_min_next = slack_length_battle-parity;
 
   active_slice[nbply+1] = si;
-  move_generation_mode =
-      n-1>slack_length_battle
-      ? move_generation_mode_opti_per_side[defender]
-      : move_generation_optimized_by_killer_move;
-  genmove(defender);
-  move_generation_mode= move_generation_optimized_by_killer_move;
+
+  /* TODO create a design for representing all these move generation
+   * modes
+   */
+  if (n-1>slack_length_battle)
+  {
+    move_generation_mode = move_generation_mode_opti_per_side[defender];
+    TraceValue("->%u\n",move_generation_mode);
+    genmove(defender);
+  }
+  else
+  {
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
+    if (n-1==slack_length_battle || slices[si].u.branch.imminent_goal==no_goal)
+      genmove(defender);
+    else
+      genmove_last_self_defense(si,defender);
+  }
 
   while (nr_refutations<=max_nr_refutations && encore())
   {
