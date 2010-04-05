@@ -95,6 +95,8 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
 
   assert(n%2==slices[si].u.branch.length%2);
 
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(attacker);
 
@@ -145,6 +147,8 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 
   assert(n%2==slices[si].u.branch.length%2);
 
+  move_generation_mode = move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(attacker);
 
@@ -230,6 +234,8 @@ static boolean solve_threats_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  move_generation_mode = move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(attacker);
 
@@ -319,6 +325,8 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  move_generation_mode = move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(attacker);
 
