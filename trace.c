@@ -260,6 +260,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSeriesHashed:
       case STMaxFlightsquares:
       case STMaxNrNonTrivial:
+      case STMaxNrNonTrivialCounter:
+      case STDegenerateTree:
       case STIntelligentHelpFilter:
       case STIntelligentSeriesFilter:
       case STGoalReachableGuardHelpFilter:
@@ -294,7 +296,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKeepMatingGuardDefenderFilter:
       case STKeepMatingGuardHelpFilter:
       case STKeepMatingGuardSeriesFilter:
-        Trace_pipe(si);
+        Trace_branch(si);
         fprintf(stdout,"mating:%s ",
                 Side_names[slices[si].u.keepmating_guard.mating]);
         fprintf(stdout,"\n");
@@ -314,7 +316,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STRestartGuardRootDefenderFilter:
       case STRestartGuardHelpFilter:
       case STRestartGuardSeriesFilter:
-      case STDegenerateTree:
       case STMaxTimeRootDefenderFilter:
       case STMaxTimeDefenderFilter:
       case STMaxTimeHelpFilter:
@@ -324,7 +325,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxSolutionsHelpFilter:
       case STMaxSolutionsSeriesFilter:
       case STStopOnShortSolutionsRootSolvableFilter:
-      case STMaxNrNonTrivialCounter:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

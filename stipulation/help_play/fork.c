@@ -52,12 +52,12 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].u.branch_fork.length-slack_length_battle>=2);
+  assert(slices[si].u.branch_fork.length-slack_length_help>=2);
 
   stip_traverse_structure(slices[si].u.branch_fork.next,st);
 
   slices[si].u.branch_fork.length -= 2;
-  if (slices[si].u.branch_fork.min_length-slack_length_battle>=2)
+  if (slices[si].u.branch_fork.min_length-slack_length_help>=2)
     slices[si].u.branch_fork.min_length -= 2;
 
   {

@@ -1540,8 +1540,8 @@ pykeepmt$(OBJ_SUFFIX): pykeepmt.c pykeepmt.h stipulation/battle_play/attack_play
   pyslice.h pytable.h stipulation/battle_play/defense_play.h \
   stipulation/help_play/play.h boolean.h pystip.h pypipe.h pystip.h \
   pygoal.h boolean.h py.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
-  pyenum.h pylang.h pyslice.h pytable.h stipulation/series_play/play.h \
-  py.h pyleaf.h trace.h
+  pyenum.h pylang.h pyslice.h pytable.h stipulation/branch.h \
+  stipulation/series_play/play.h py.h pyleaf.h trace.h
 
 pykeepmt.h:
 
@@ -1584,6 +1584,8 @@ pylang.h:
 pyslice.h:
 
 pytable.h:
+
+stipulation/branch.h:
 
 stipulation/series_play/play.h:
 
@@ -1816,7 +1818,8 @@ trace.h:
 pydegent$(OBJ_SUFFIX): pydegent.c pydegent.h stipulation/battle_play/attack_play.h \
   pyslice.h pytable.h pydata.h pyproc.h py4.h py.h boolean.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pypipe.h \
-  pystip.h pyslice.h pytable.h pyoutput.h trace.h
+  pystip.h pyslice.h pytable.h pyoutput.h stipulation/branch.h pystip.h \
+  trace.h
 
 pydegent.h:
 
@@ -1859,6 +1862,10 @@ pyslice.h:
 pytable.h:
 
 pyoutput.h:
+
+stipulation/branch.h:
+
+pystip.h:
 
 trace.h:
 pyquodli$(OBJ_SUFFIX): pyquodli.c pyquodli.h py.h boolean.h pyposit.h pyboard.h \

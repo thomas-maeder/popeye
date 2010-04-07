@@ -1,5 +1,6 @@
 #include "pykeepmt.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -34,18 +35,25 @@ static slice_index alloc_keepmating_guard_root_defender_filter(Side mating)
 }
 
 /* Allocate a STKeepMatingGuardAttackerFilter slice
- * @param side mating side
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param mating mating side
  * @return identifier of allocated slice
  */
-static slice_index alloc_keepmating_guard_attacker_filter(Side mating)
+static
+slice_index alloc_keepmating_guard_attacker_filter(stip_length_type length,
+                                                   stip_length_type min_length,
+                                                   Side mating)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceEnumerator(Side,mating,"");
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STKeepMatingGuardAttackerFilter);
+  result = alloc_branch(STKeepMatingGuardAttackerFilter,length,min_length);
   slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
@@ -55,18 +63,25 @@ static slice_index alloc_keepmating_guard_attacker_filter(Side mating)
 }
 
 /* Allocate a STKeepMatingGuardDefenderFilter slice
- * @param side mating side
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param mating mating side
  * @return identifier of allocated slice
  */
-static slice_index alloc_keepmating_guard_defender_filter(Side mating)
+static
+slice_index alloc_keepmating_guard_defender_filter(stip_length_type length,
+                                                   stip_length_type min_length,
+                                                   Side mating)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceEnumerator(Side,mating,"");
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STKeepMatingGuardDefenderFilter);
+  result = alloc_branch(STKeepMatingGuardDefenderFilter,length,min_length);
   slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
@@ -668,6 +683,9 @@ static void keepmating_guards_inserter_defender(slice_index si,
 {
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[next].u.branch.length;
+  stip_length_type const min_length = slices[next].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -676,10 +694,10 @@ static void keepmating_guards_inserter_defender(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if ((*km)[White])
-    guard = alloc_keepmating_guard_attacker_filter(White);
+    guard = alloc_keepmating_guard_attacker_filter(length,min_length,White);
 
   if ((*km)[Black])
-    guard = alloc_keepmating_guard_attacker_filter(Black);
+    guard = alloc_keepmating_guard_attacker_filter(length,min_length,Black);
   
   if (guard!=no_slice)
   {
@@ -719,6 +737,9 @@ static void keepmating_guards_inserter_attack_move(slice_index si,
 {
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[next].u.branch.length;
+  stip_length_type const min_length = slices[next].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -727,10 +748,10 @@ static void keepmating_guards_inserter_attack_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if ((*km)[White])
-    guard = alloc_keepmating_guard_defender_filter(White);
+    guard = alloc_keepmating_guard_defender_filter(length,min_length,White);
 
   if ((*km)[Black])
-    guard = alloc_keepmating_guard_defender_filter(Black);
+    guard = alloc_keepmating_guard_defender_filter(length,min_length,Black);
 
   if (guard!=no_slice)
     pipe_append(si,guard);

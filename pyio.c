@@ -1832,6 +1832,7 @@ static char *ParseLength(char *tok,
         else
         {
           *length *= 2;
+          *length += slack_length_battle-2;
           *min_length = slack_length_battle;
         }
         break;
@@ -2440,7 +2441,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
       stip_length_type min_length;
       result = ParseLength(tok2,STHelpMove,&length,&min_length);
       --length;
-      if (length%2==0)
+      if ((length-slack_length_help)%2==0)
         --min_length;
       else
         ++min_length;
@@ -2452,7 +2453,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const help = alloc_help_branch(length,min_length,
                                                      proxy_leaf);
-          if (length%2==1)
+          if ((length-slack_length_help)%2==1)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
             slice_index const guard = alloc_selfcheck_guard_solvable_filter();
@@ -2582,7 +2583,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
                                                        proxy_avoided);
           slice_index const hook = slice_insert_reflex_filters(branch,
                                                                proxy_avoided);
-          if (length%2==0)
+          if ((length-slack_length_help)%2==0)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
             slice_index const guard = alloc_selfcheck_guard_solvable_filter();
@@ -2616,7 +2617,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_leaf);
-          if (length%2==0)
+          if ((length-slack_length_help)%2==0)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
             slice_index const guard = alloc_selfcheck_guard_solvable_filter();

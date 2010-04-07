@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "pypipe.h"
 #include "pyoutput.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -38,17 +39,22 @@ void init_degenerate_tree(stip_length_type max_length_short)
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STMaxFlightsquares slice
+/* Allocate a STDegenerateTree slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-static slice_index alloc_degenerate_tree_guard_slice(void)
+static slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
+                                                     stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STDegenerateTree);
+  result = alloc_branch(STDegenerateTree,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -180,11 +186,15 @@ boolean degenerate_tree_are_threats_refuted_in_n(table threats,
 static void degenerate_tree_inserter_attack_move(slice_index si,
                                                  stip_structure_traversal *st)
 {
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,alloc_degenerate_tree_guard_slice());
+  pipe_append(slices[si].prev,
+              alloc_degenerate_tree_guard_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

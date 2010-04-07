@@ -110,7 +110,9 @@ static unsigned int count_nontrivial_defenses(slice_index si)
 {
   unsigned int result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const parity = slices[si].u.branch.length%2;
+  stip_length_type const parity = ((slices[si].u.branch.length
+                                    -slack_length_battle)
+                                   %2);
   unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
 
   TraceFunctionEntry(__func__);
@@ -178,16 +180,21 @@ static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length)
 }
 
 /* Allocate a STMaxNrNonTrivialCounter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return identifier of allocated slice
  */
-static slice_index alloc_max_nr_nontrivial_counter(void)
+static slice_index alloc_max_nr_nontrivial_counter(stip_length_type length,
+                                                   stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxNrNonTrivialCounter);
+  result = alloc_branch(STMaxNrNonTrivialCounter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -453,6 +460,10 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
 static void append_nontrivial_counter(slice_index si,
                                       stip_structure_traversal *st)
 {
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[next].u.branch.length;
+  stip_length_type const min_length = slices[next].u.branch.min_length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -463,7 +474,7 @@ static void append_nontrivial_counter(slice_index si,
     slice_index const next = slices[si].u.pipe.next;
     slice_index const next_prev = slices[next].prev;
     if (next_prev==si)
-      pipe_append(si,alloc_max_nr_nontrivial_counter());
+      pipe_append(si,alloc_max_nr_nontrivial_counter(length,min_length));
     else
     {
       assert(slices[next_prev].type==STMaxNrNonTrivialCounter);

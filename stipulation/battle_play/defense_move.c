@@ -467,7 +467,13 @@ void defense_move_make_setplay_slice(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    prod->setplay_slice = alloc_help_move_slice(length,min_length);
+    stip_length_type const length_h = (length
+                                       +slack_length_help
+                                       -slack_length_battle);
+    stip_length_type const min_length_h = (min_length
+                                           +slack_length_help
+                                           -slack_length_battle);
+    prod->setplay_slice = alloc_help_move_slice(length_h,min_length_h);
     pipe_set_successor(prod->setplay_slice,slices[si].u.pipe.next);
   }
 

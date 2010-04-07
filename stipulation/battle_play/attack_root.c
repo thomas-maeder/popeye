@@ -102,7 +102,10 @@ void attack_root_make_setplay_slice(slice_index si,
 
   {
     stip_length_type const length = slices[si].u.branch.length;
-    slice_index const help_root = alloc_help_root_slice(length-1,length-1);
+    stip_length_type const length_h = (length-1
+                                       +slack_length_help
+                                       -slack_length_battle);
+    slice_index const help_root = alloc_help_root_slice(length_h,length_h);
     pipe_link(help_root,prod->setplay_slice);
     prod->setplay_slice = help_root;
   }

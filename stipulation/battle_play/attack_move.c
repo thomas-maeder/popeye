@@ -196,8 +196,6 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-  
-  assert(n%2==slices[si].u.branch.length%2);
 
   if (n_min<=slack_length_battle)
     n_min += 2;
