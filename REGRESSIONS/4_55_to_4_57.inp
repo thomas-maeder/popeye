@@ -34,4 +34,25 @@ stipulation phser-dia1
 pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa3b2c2d2e2f2g2h2
        black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d7e7f7g7h7
 
+next
+
+title not really a regression; just to make sure that the ## rules
+title are correctly implemented
+title b) has no solution because white is immobile in the diagram
+pieces white kh6 pg6
+       black kh8 bg7
+stip ##1
+twin add black ra5
+
+next
+
+title not really a regression; just to make sure that the ##! rules
+title are correctly implemented
+title b) has no solution because white is not mate in the diagram
+pieces white kc8 rb8
+       black ka7 qc5
+stip ##!1
+cond hole d7d8
+twin add white sb4
+
 end

@@ -60,6 +60,7 @@ solving interrupted.
   ser-dia1                  16 + 16
 
   1.a2-a3 dia 
+
 solution finished. 
 
 
@@ -87,6 +88,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-dia1                 16 + 16
 
+
 solution finished. 
 
 
@@ -113,6 +115,79 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   phser-dia1                16 + 16
+
+
+solution finished. 
+
+
+
+not really a regression; just to make sure that the ## rules
+      are correctly implemented
+b) has no solution because white is immobile in the diagram
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   P   K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ##1                         2 + 2
+
+a) 
+
+  1.Kh6-h7 ## 
+
+b) +bRa5 
+
+
+solution finished. 
+
+
+
+not really a regression; just to make sure that the ##! rules
+      are correctly implemented
+b) has no solution because white is not mate in the diagram
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   R   K       .   .   .   .   8
+|                                   |
+7  -K   .   .       .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -Q   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ##!1                        2 + 2
+
+a) 
+
+  1.Kc8-b7 ##! 
+
+b) +wSb4 
+
 
 solution finished. 
 
