@@ -178,7 +178,7 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            0 defense put defender into self-check
+ *            <n_min defense put defender into self-check
  *            n_min..n length of shortest solution found
  *            >n no solution found
  *         (the second case includes the situation in self

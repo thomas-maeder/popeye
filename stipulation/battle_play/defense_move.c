@@ -440,7 +440,7 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
     finply();
   }
 
-  if (result==0 || nr_refutations[nbply+1]>max_nr_refutations)
+  if (result<slack_length_battle || nr_refutations[nbply+1]>max_nr_refutations)
     result = n+4;
   else if (nr_refutations[nbply+1]>0)
     result = n+2;

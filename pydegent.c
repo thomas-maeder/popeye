@@ -71,7 +71,7 @@ static slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            0 defense put defender into self-check
+ *            <n_min defense put defender into self-check
  *            n_min..n length of shortest solution found
  *            >n no solution found
  *         (the second case includes the situation in self

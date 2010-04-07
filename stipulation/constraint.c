@@ -137,7 +137,7 @@ void reflex_attacker_filter_insert_root(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            0 defense put defender into self-check
+ *            <n_min defense put defender into self-check
  *            n_min..n length of shortest solution found
  *            >n no solution found
  *         (the second case includes the situation in self
@@ -161,7 +161,7 @@ stip_length_type reflex_attacker_filter_has_solution_in_n(slice_index si,
   switch (slice_has_solution(avoided))
   {
     case defender_self_check:
-      result = 0;
+      result = n_min-2;
       break;
 
     case has_solution:
