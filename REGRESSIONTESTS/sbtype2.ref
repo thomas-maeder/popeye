@@ -34,6 +34,7 @@
   1.Se3*g2 [h1=S] + 
   1.Se3*g2 [h1=R] + 
   1.Se3*g2 [h1=B] + 
+
 solution finished. 
 
 
@@ -124,6 +125,7 @@ don't get confused with >1 latent pawn
   #2                        13 + 12
           SingleBox    Type2
 
+
   1.Sc4-e3 + ! 
       1...Sf1*e3 [e8=S] 
           2.Se8*c7 # 
@@ -155,6 +157,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 +---a---b---c---d---e---f---g---h---+
   #2                         10 + 9
           SingleBox    Type2
+
 
   1.d7-d8 ! zugzwang.
       1...Qf2*g1 [d8=B] 
@@ -207,6 +210,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 11
           SingleBox    Type2
+
 
   1.f7-f8 ! threat:
           2.Qh1*e4 + 
@@ -276,6 +280,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 12
           SingleBox    Type2
+
 
   1.Qg1-d4 + ! 
       1...c5*d4 [e8=Q] 

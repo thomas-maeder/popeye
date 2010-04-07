@@ -147,6 +147,7 @@ a)
   1.c6*b7[wBb7->h8=wS] x 
   1.c6*b7[wBb7->h8=wT] x 
   1.c6*b7[wBb7->h8=wL] x 
+
 b) Verschiebung a1 ==> a2
 
   1.c7*b8=D[wDb8->a1] x 
@@ -405,6 +406,7 @@ b) Verschiebung a1 ==> a2
   1.c7*b8=S[wSb8->h8] x 
   1.c7*b8=T[wTb8->h8] x 
   1.c7*b8=L[wLb8->h8] x 
+
 Loesung beendet. 
 
 
@@ -437,9 +439,11 @@ a)
 
   1.Kd6*c6[wKc6->c6] = 
   1.Kd6*c6[wKc6->c7] = 
+
 b) AntiSuperCirce  Cheylan
 
   1.Kd6*c6[wKc6->c7] = 
+
 Loesung beendet. 
 
 

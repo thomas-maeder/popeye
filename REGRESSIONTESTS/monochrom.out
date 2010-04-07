@@ -24,6 +24,7 @@
   #4                          8 + 4
           MonochromesSchach
 
+
   1.Td1-h1 ! Zugzwang.
       1...h5*g4 
           2.h2-h4 Zugzwang.

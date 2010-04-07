@@ -85,6 +85,7 @@ erroneous maxflight numbers weren't completely ignored
   ct4                         3 + 1
             AntiSuperCirce
 
+
   1.Ka8-b8 ! 
 
   1.Ka8-a7 ! 
@@ -129,6 +130,7 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
   1.0-0-0 Sa4-b6 # 
 
   1.e4*d3 ep. # 
+
 solution finished. 
 
 
@@ -353,6 +355,7 @@ cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=i
          BlackTransmutedKing
 
   1.b6-b7 # 
+
 solution finished. 
 
 

@@ -56,6 +56,7 @@ Loesung beendet.
   #2                          6 + 7
             EinsteinSchach
 
+
   1.Tc6-c4=L ! Drohung:
           2.Lc4-d3=S # 
       1...Tb1-b5=L 
@@ -160,6 +161,7 @@ Loesung beendet.
   #3                          8 + 2
             EinsteinSchach
 
+
   1.Dd1-f1=T ! Zugzwang.
       1...a6-a5 
           2.Tc1-e1=L Zugzwang.
@@ -225,6 +227,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 4
             EinsteinSchach
+
 
   1.d1-d4 ! Drohung:
           2.Sg4-e3=B # 

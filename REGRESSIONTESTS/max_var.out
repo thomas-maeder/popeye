@@ -57,6 +57,7 @@ Loesung beendet.
   #3                        12 + 10
            Duellantenschach
 
+
   1.Df8-g7 ! Zugzwang.
       1...e2*f1=D + 
           2.Td5-b5 Zugzwang.
@@ -152,6 +153,7 @@ Loesung beendet.
 
 a) 
 
+
   1.Lh5-g4 ! 
       1...h6-h5 
           2.Lg4*h5 
@@ -161,6 +163,7 @@ a)
                           4.Sc7-e8 # 
 
 b)  -sBh6
+
 
   1.Lh5-f7 ! 
       1...Ld1-h5 
@@ -277,6 +280,7 @@ Loesung beendet.
   #6                          3 + 6
       SchwarzerVerfolgungszueger
        WeisserVerfolgungszueger
+
 
   1.Kh6-h5 ! 
       1...h7-h6 

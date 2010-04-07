@@ -26,6 +26,7 @@
 
 a) 
 
+
   1.b6*a7[wPa7->d8=wQ] ! 
       1...Ka8-a7 
           2.Qd8-a5 # 
@@ -33,6 +34,7 @@ a)
 b) =2
 
   1.b6*a7[wPa7->b6] = 
+
   1.b6*a7[wPa7->e8=wQ] ! 
       1...Ka8-a7 
           2.Qe8-c6 = 
@@ -256,6 +258,7 @@ a)
   1.c6*b7[wPb7->h8=wS] x 
   1.c6*b7[wPb7->h8=wR] x 
   1.c6*b7[wPb7->h8=wB] x 
+
 b) shift a1 ==> a2
 
   1.c7*b8=Q[wQb8->a1] x 
@@ -514,6 +517,7 @@ b) shift a1 ==> a2
   1.c7*b8=S[wSb8->h8] x 
   1.c7*b8=R[wRb8->h8] x 
   1.c7*b8=B[wBb8->h8] x 
+
 solution finished. 
 
 
@@ -546,9 +550,11 @@ a)
 
   1.Kd6*c6[wKc6->c6] = 
   1.Kd6*c6[wKc6->c7] = 
+
 b) AntiSuperCirce  Cheylan
 
   1.Kd6*c6[wKc6->c7] = 
+
 solution finished. 
 
 

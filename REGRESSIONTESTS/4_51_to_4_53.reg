@@ -108,6 +108,7 @@ Test: avoid dupliate king moves (e.g. to f5)
   1.Ke5-e6 
   1.Ke5-g5 
   1.Ke5-f5 
+
 solution finished. 
 
 
@@ -176,9 +177,11 @@ solution finished.
 a) 
 
   1.Qc1-c8 # 
+
 b)  -wQc1
 
   1.h7*g8=R [+wQd1] # 
+
 solution finished. 
 
 
@@ -669,6 +672,7 @@ solution finished.
   1.Ka1-b1 
   1.Ka1-a2 [+wBh2] 
   1.Ka1-b2 
+
 solution finished. 
 
 
@@ -699,6 +703,7 @@ solution finished.
   1.Ka1-b1 
   1.Ka1-a2 
   1.Ka1-b2 
+
 solution finished. 
 
 
@@ -726,6 +731,7 @@ there is no solution, but 4.51 gave 1.Qb2#
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 3
                  AMU
+
 
 solution finished. 
 
@@ -843,6 +849,7 @@ solution finished.
   1.h2-h4 
   1.h2-h3 
   1.h2*g3 
+
 solution finished. 
 
 
@@ -873,6 +880,7 @@ solution finished.
 
   1.c6-c7 
   1.c6*b7 [+bBa8] 
+
 solution finished. 
 
 
@@ -904,6 +912,7 @@ solution finished.
   1.c6-c7 
   1.c6*b7 [+bPa8] 
   1.c6*b7 [+bPb8] 
+
 solution finished. 
 
 
@@ -938,6 +947,7 @@ solution finished.
   1.a3*b4 [+bPb5] 
   1.g2-g4 
   1.g2-g3 
+
 solution finished. 
 
 
@@ -975,6 +985,7 @@ cage for promoted pawn, capturer part of cage
   1.g2*h3 [+bPh4] 
   1.e2-e4 
   1.e2-e3 
+
 solution finished. 
 
 
@@ -1157,6 +1168,7 @@ solution finished.
   1.Ke8-d8 
   1.Ke8-e7 
   1.Ke8-f7 
+
 solution finished. 
 
 
@@ -1220,6 +1232,7 @@ consider previous cage after advancing type of promotee
   1.e2*d1=Q [+wQh6] 
   1.e2*d1=Q [+wQc8] 
   1.e2*d1=S [+wQc8] 
+
 solving interrupted. 
 
 
@@ -1574,13 +1587,16 @@ a)
 
   1.f7*e8-a8=Q # 
   1.f7*e8-a8=B # 
+
 b) nPf7 
 
   1.nPf7*e8-a8=nB # 
+
 c) nhPf7 
 
   1.nhPf7*e8-a8=whQ # 
   1.nhPf7*e8-a8=whB # 
+
 solution finished. 
 
 

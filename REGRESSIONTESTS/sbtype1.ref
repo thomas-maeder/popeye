@@ -24,6 +24,7 @@ no check if pawn can't promote due to single box type 1
           SingleBox    Type1
 
   1.Bb8-d6 = 
+
 solution finished. 
 
 
@@ -84,6 +85,7 @@ solution finished.
           SingleBox    Type1
 
   1.a7-a8=Q # 
+
 solution finished. 
 
 
@@ -142,6 +144,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
 +---a---b---c---d---e---f---g---h---+
   #4                          6 + 6
           SingleBox    Type1
+
 
   1.Sf5-g7 ! threat:
           2.Sg7-e6 + 
@@ -226,6 +229,7 @@ Example 1
 +---a---b---c---d---e---f---g---h---+
   #6                          6 + 5
           SingleBox    Type1
+
 
   1.Qd3-h3 + ! 
       1...Rh1*h3 
@@ -328,6 +332,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #3                          9 + 9
           SingleBox    Type1
+
 
   1.e6-e7 ! threat:
           2.Sf2*e4 + 

@@ -296,6 +296,8 @@ boolean leaf_d_root_solve(slice_index leaf)
 
   output_end_continuation_level();
 
+  write_end_of_solution_phase();
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

@@ -673,6 +673,7 @@ Es fehlt ein weisser oder schwarzer Koenig
   #2                        14 + 14
            Take&MakeSchach
 
+
   1.TLd4-b4 ! Drohung:
           2.TLc2-c6 # 
       1...Sa4-c3 
@@ -759,6 +760,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #5                         8 + 12
            Take&MakeSchach
+
 
   1  (Sf7-d6 )
   2  (Sf7-e5 )
@@ -863,6 +865,7 @@ Loesung beendet.
   #2                          8 + 4
            Take&MakeSchach
 
+
   1.Dc8-b8 ! Drohung:
           2.Td5-e5 # 
       1...Sh3*g5-g6 
@@ -903,6 +906,7 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
   #2                          8 + 4
            Take&MakeSchach
 
+
   1.Sc7-b5 ! Drohung:
           2.Td5-e5 # 
       1...Sh4-f3 
@@ -942,6 +946,7 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 11
            Take&MakeSchach
+
 
   1.b7-b8=D ? Drohung:
           2.Db8-g8 # 
@@ -995,6 +1000,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
 +---a---b---c---d---e---f---g---h---+
   #2                         9 + 10
            Take&MakeSchach
+
 
   1.f7-f8=D ? Drohung:
           2.Df8-g8 # 
@@ -1212,6 +1218,7 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
   #2                          9 + 8
            Take&MakeSchach
 
+
   1.Ta8-c8 + ? 
       1...Kc7*c8-a8 
           2.Dh7-g8 # 
@@ -1301,6 +1308,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          9 + 7
            Take&MakeSchach
+
 
   1.Dg3-b8 ! Zugzwang.
       1...a6-a5 

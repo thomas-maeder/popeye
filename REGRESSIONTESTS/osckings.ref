@@ -27,6 +27,7 @@
 
 a) 
 
+
   1.Rg4*b4 ! zugzwang.
       1...Kf5-e5[wK<>bK] 
           2.Rb4-b5 # 
@@ -45,12 +46,14 @@ a)
 
 b) WhiteOscillatingKings    TypeB
 
+
   1.Sf2-d1[wK<>bK] ! zugzwang.
       1...Kc5-d5 
           2.Sd1-e3[wK<>bK] # 
 
 c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
+
 
 solution finished. 
 
@@ -114,6 +117,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
         BlackOscillatingKings
+
 
   1.Qg5-c1 ! zugzwang.
       1...Sg2-f4[wK<>bK] 

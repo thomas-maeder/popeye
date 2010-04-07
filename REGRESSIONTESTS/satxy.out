@@ -55,6 +55,7 @@ Loesung beendet.
   ==6                         2 + 2
                 SAT IV
 
+
   1.h5-h6 ! Zugzwang.
       1...g6-g5 
           2.h6-h7 Zugzwang.
@@ -107,15 +108,19 @@ NullStellung
 a) +wDg1 
 
   1.Ke1-f2 # 
+
 b) +wTd1 
 
   1.Ke1-d2 # 
+
 c) +wLf1 
 
   1.Ke1-e2 # 
+
 d) +wSf8 
 
   1.Sf8-h7 # 
+
 Loesung beendet. 
 
 

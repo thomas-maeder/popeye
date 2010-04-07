@@ -103,6 +103,7 @@ Loesung beendet.
   #2                          6 + 9
            Chamaeleon d7 d6
 
+
   1.cLd7-g4=cT ? Drohung:
           2.cTg4*e4=cD # 
       1...Sb1-d2 
@@ -218,6 +219,7 @@ Loesung beendet.
   #2                     6 + 4 + 1n
          Chamaeleon c6 d6 f4
 
+
   1.cTc6-c7=cD ! Drohung:
           2.cDc7-c4=cS # 
       1...ncSf4-d3=ncL 
@@ -259,6 +261,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                     3 + 4 + 3n
             Chamaeleon b5
+
 
   1.ncLb5-e8=ncT ! Zugzwang.
       1...Se7-c6 
@@ -309,6 +312,7 @@ Loesung beendet.
   #2                          6 + 7
          Chamaeleon d8 c7 h2
 
+
   1.cTd8-d2=cD ! Drohung:
           2.cDc7-d6=cS # 
       1...Sf2-d3 
@@ -348,6 +352,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 7
         Chamaeleon c3 d3 c2 h1
+
 
   1.cTh1-c1=cD ! Zugzwang.
       1...cSc2-a1=cL 
@@ -406,6 +411,7 @@ Loesung beendet.
   #2                     8 + 6 + 1n
             Chamaeleon d7
 
+
   1.ncSd7-f8=ncL ! Zugzwang.
       1...Sa8-b6 
           2.ncLf8-d6=ncT # 
@@ -444,6 +450,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                     7 + 5 + 1n
            Chamaeleon e6 d5
+
 
   1.c3-c4 ! Drohung:
           2.Sg6-h4 + 
@@ -547,6 +554,7 @@ Loesung beendet.
   #2                          8 + 8
             Chamaeleon d7
                 Circe
+
 
   1.c7-c8=cD ! Drohung:
           2.Ld6-c5 # 

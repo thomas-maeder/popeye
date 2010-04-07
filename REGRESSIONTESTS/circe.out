@@ -25,6 +25,7 @@
 Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
                 Circe
 
+
   1.kDh1-c1 ! Drohung:
           2.kSc6-b8 # 
       1...kBd2*c1=D [+wkDd1][skDc1->d8=skD] 
@@ -65,6 +66,7 @@ Loesung beendet.
   #2                         10 + 8
 Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
                 Circe
+
 
   1.kTe8-e7 ! Zugzwang.
       1...kBb2*c1=D [+wkSg1][skDc1->d8=skD] 
@@ -146,6 +148,7 @@ Wo? (nachgedruckt in 'buletin problemistic' 53/1990)
 Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
                 Circe
 
+
   1.kTh5*h7 [+skDd8][wkTh7->h1] ? Drohung:
           2.kTh1*b1 [+skLc8][wkTb1->h1] # 
     Aber
@@ -202,6 +205,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #4                         4 + 12
                 Circe
+
 
   1.Sb3-a5 ! Drohung:
           2.Sa5*c4 [+sBc7] # 

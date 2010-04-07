@@ -34,6 +34,7 @@
   1.Se3*g2 [h1=S] + 
   1.Se3*g2 [h1=T] + 
   1.Se3*g2 [h1=L] + 
+
 Loesung beendet. 
 
 
@@ -124,6 +125,7 @@ Nicht verwirrt werden mit mehr als einem latenten Bauern
   #2                        13 + 12
      NurPartiesatzSteine    Typ2
 
+
   1.Sc4-e3 + ! 
       1...Sf1*e3 [e8=S] 
           2.Se8*c7 # 
@@ -155,6 +157,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 +---a---b---c---d---e---f---g---h---+
   #2                         10 + 9
      NurPartiesatzSteine    Typ2
+
 
   1.d7-d8 ! Zugzwang.
       1...Df2*g1 [d8=L] 
@@ -207,6 +210,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 11
      NurPartiesatzSteine    Typ2
+
 
   1.f7-f8 ! Drohung:
           2.Dh1*e4 + 
@@ -276,6 +280,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 12
      NurPartiesatzSteine    Typ2
+
 
   1.Dg1-d4 + ! 
       1...c5*d4 [e8=D] 

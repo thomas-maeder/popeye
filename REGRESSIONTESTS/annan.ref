@@ -25,6 +25,7 @@ cooked, even with suggestion +WPb6 in Chessics #8
   #2                          6 + 3
             AnnanChess    
 
+
   1.Rc4-c5 + ! 
       1...Kb5-b6 
           2.Rc3-f6 # 
@@ -232,6 +233,7 @@ solving interrupted.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
             AnnanChess    
+
 
   1.Ba1-f6 ! zugzwang.
       1...Kh7-h8 

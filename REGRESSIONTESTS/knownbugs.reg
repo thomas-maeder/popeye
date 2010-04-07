@@ -26,6 +26,7 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
           SingleBox    Type1
 
   1.mRa7-d7 + 
+
 solution finished. 
 
 
@@ -59,14 +60,17 @@ a)
 
   1.Sa3-c2 
   1.Sa3-c4 
+
 b) SingleBox    Type2
 
   1.b7-b8=B [bBh1] 
   1.Sa3-c2 
+
 c) wBa8 
 
   1.b7-b8 
   1.Sa3-c2 
+
 solving interrupted. 
 
 
@@ -97,6 +101,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
                Madrasi
 
   1.Rb8-b1 # 
+
 solution finished. 
 
 
@@ -127,6 +132,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
              EiffelChess
 
   1.Rb8-b1 # 
+
 solution finished. 
 
 

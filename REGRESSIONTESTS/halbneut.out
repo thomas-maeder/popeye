@@ -24,6 +24,7 @@
   #2                          2 + 3
           HalbNeutral a2 f2
 
+
   1.Kg6-h6 ! Zugzwang.
       1...hTa2-a1=nhT 
           2.nhTa1-a8=whT # 
@@ -93,6 +94,7 @@ Loesung beendet.
 
       1...hBh2-h1=nhS 
           2.Dg5-h5 # 
+
 
   1.Dg5-f4 ! Zugzwang.
       1...hBh2-h1=nhS 
@@ -214,6 +216,7 @@ Loesung beendet.
   #2                          4 + 3
             HalbNeutral c5
 
+
   1.Kh2-g2 ! Zugzwang.
       1...hTc5-c1=nhT 
           2.Da2-a3 # 
@@ -267,6 +270,7 @@ Loesung beendet.
   #2                     8 + 8 + 1n
             HalbNeutral d5
 
+
   1.Se5-d3 ! Drohung:
           2.Dg7-d4 # 
       1...b4-b3 
@@ -308,6 +312,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                          8 + 4
             HalbNeutral a7
+
 
   1.Tc8*c4 ? Drohung:
           2.Tc4-a4 Zugzwang.
@@ -495,6 +500,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 4
           HalbNeutral b6 b1
+
 
   1.Lb8-a7 ! Zugzwang.
       1...hTb1-h1=nhT 
@@ -697,6 +703,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 3
             HalbNeutral b8
+
 
   1.Ld8-a5 ! Zugzwang.
       1...hSb8-a6=nhS 
