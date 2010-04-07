@@ -339,7 +339,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STMaxThreatLength:
-        Trace_pipe(si);
+        Trace_branch(si);
         Trace_link("to_attacker",slices[si].u.maxthreatlength_guard.to_attacker);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.maxthreatlength_guard.next,
