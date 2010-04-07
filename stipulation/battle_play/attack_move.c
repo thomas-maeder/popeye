@@ -4,6 +4,7 @@
 #include "pyoutput.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
@@ -27,7 +28,7 @@ slice_index alloc_attack_move_slice(stip_length_type length,
 
   assert(length>slack_length_battle);
   assert(min_length>=slack_length_battle-1);
-  assert((length%2)==(min_length%2));
+  assert((length-slack_length_battle)%2==(min_length-slack_length_battle)%2);
 
   result = alloc_branch(STAttackMove,length,min_length);
 
@@ -311,11 +312,7 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const n_next = n-1;
-  stip_length_type const parity = (n_next-slack_length_battle)%2;
-  stip_length_type n_min = slack_length_battle-parity;
+  stip_length_type n_min = battle_branch_calc_n_min(next,n-1);
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -328,13 +325,10 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
   active_slice[nbply+1] = si;
   genmove(attacker);
 
-  if (n_next+min_length>n_min+length)
-    n_min = n_next-(length-min_length);
-
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,n_next,n_min))
+        && !defense_defend_in_n(next,n-1,n_min))
     {
       result = true;
       coupfort();

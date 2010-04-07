@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -78,23 +79,15 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
     result = !echecc(nbply,slices[si].starter);
   else
   {
-    slice_index const to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
-    stip_length_type const parity = (n-1)%2;
-    stip_length_type const n_max = 2*max_len_threat+parity;
+    stip_length_type const parity = (n+1-slack_length_battle)%2;
+    stip_length_type const n_max = (2*(max_len_threat-1)
+                                    +slack_length_battle+parity);
 
     if (n-1>=n_max)
     {
-      stip_length_type const
-          length = slices[si].u.maxthreatlength_guard.length;
-      stip_length_type const
-          min_length = slices[si].u.maxthreatlength_guard.min_length;
-      stip_length_type n_min;
-
-      if (n_max+min_length>slack_length_battle+length)
-        n_min = n_max-(length-min_length);
-      else
-        n_min = slack_length_battle-parity;
-
+      slice_index const
+          to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
+      stip_length_type n_min = battle_branch_calc_n_min(to_attacker,n_max);
       result = attack_has_solution_in_n(to_attacker,n_max,n_min)>n_max;
     }
     else

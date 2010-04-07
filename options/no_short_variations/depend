@@ -15,7 +15,8 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX):  \
  options/no_short_variations/no_short_variations_attacker_filter.c \
   options/no_short_variations/no_short_variations_attacker_filter.h \
   pydata.h pyproc.h pyoutput.h pypipe.h stipulation/branch.h \
-  stipulation/battle_play/attack_play.h trace.h
+  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
+  trace.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -28,6 +29,8 @@ pyoutput.h:
 pypipe.h:
 
 stipulation/branch.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
 

@@ -4,6 +4,7 @@
 #include "pyoutput.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -38,25 +39,14 @@ slice_index alloc_no_short_variations_slice(stip_length_type length,
 static boolean has_short_solution(slice_index si, stip_length_type n)
 {
   boolean result;
-  stip_length_type n_min;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const parity = n%2;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_min = battle_branch_calc_n_min(si,n);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  n -= 2;
-
-  if (n+min_length>slack_length_battle+length)
-    n_min = n-(length-min_length);
-  else
-    n_min = slack_length_battle-parity;
-
-  result = attack_has_solution_in_n(next,n,n_min)<=n;
+  result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_min)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -88,7 +78,7 @@ boolean no_short_variations_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle && has_short_solution(si,n))
+  if (n>slack_length_battle && has_short_solution(si,n-2))
     result = false;
   else
     result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
@@ -189,7 +179,7 @@ stip_length_type no_short_variations_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle && has_short_solution(si,n))
+  if (n>slack_length_battle && has_short_solution(si,n-2))
     result = false;
   else
     result = attack_solve_in_n(next,n,n_min);

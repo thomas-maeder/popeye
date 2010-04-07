@@ -14,6 +14,7 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pyleafd.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/threat.h"
@@ -253,18 +254,11 @@ has_solution_type attack_has_solution(slice_index si)
 {
   has_solution_type result = has_no_solution;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type n_min;
-  stip_length_type const parity = length%2;
+  stip_length_type const n_min = battle_branch_calc_n_min(si,length);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  if (length+min_length>slack_length_battle+length)
-    n_min = length-(length-min_length);
-  else
-    n_min = slack_length_battle-parity;
 
   result = (attack_has_solution_in_n(si,length,n_min)<=length
             ? has_solution
