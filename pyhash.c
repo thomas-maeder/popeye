@@ -266,84 +266,84 @@ static void slice_property_offset_shifter(slice_index si, stip_structure_travers
 
 static stip_structure_visitor const slice_property_offset_shifters[] =
 {
-  &stip_traverse_structure_children,       /* STProxy */
-  &slice_property_offset_shifter, /* STAttackMove */
-  &slice_property_offset_shifter, /* STDefenseMove */
-  &slice_property_offset_shifter, /* STHelpMove */
-  &slice_property_offset_shifter, /* STHelpFork */
-  &slice_property_offset_shifter, /* STSeriesMove */
-  &slice_property_offset_shifter, /* STSeriesFork */
-  &slice_property_offset_shifter, /* STLeafDirect */
-  &slice_property_offset_shifter, /* STLeafHelp */
-  &slice_property_offset_shifter, /* STLeafForced */
-  &slice_property_offset_shifter, /* STReciprocal */
-  &slice_property_offset_shifter, /* STQuodlibet */
-  &slice_property_offset_shifter, /* STNot */
-  &slice_property_offset_shifter, /* STMoveInverterRootSolvableFilter */
-  &slice_property_offset_shifter, /* STMoveInverterSolvableFilter */
-  &slice_property_offset_shifter, /* STMoveInverterSeriesFilter */
-  &slice_property_offset_shifter, /* STAttackRoot */
-  &slice_property_offset_shifter, /* STBattlePlaySolutionWriter */
-  &slice_property_offset_shifter, /* STPostKeyPlaySolutionWriter */
-  &slice_property_offset_shifter, /* STContinuationWriter */
-  &slice_property_offset_shifter, /* STTryWriter */
-  &slice_property_offset_shifter, /* STThreatWriter */
-  &slice_property_offset_shifter, /* STThreatEnforcer */
-  &slice_property_offset_shifter, /* STRefutationsCollector */
-  &slice_property_offset_shifter, /* STVariationWriter */
-  &slice_property_offset_shifter, /* STRefutingVariationWriter */
-  &slice_property_offset_shifter, /* STNoShortVariations */
-  &slice_property_offset_shifter, /* STAttackHashed */
-  &slice_property_offset_shifter, /* STHelpRoot */
-  &slice_property_offset_shifter, /* STHelpShortcut */
-  &slice_property_offset_shifter, /* STHelpHashed */
-  &slice_property_offset_shifter, /* STSeriesRoot */
-  &slice_property_offset_shifter, /* STSeriesShortcut */
-  &slice_property_offset_shifter, /* STParryFork */
-  &slice_property_offset_shifter, /* STSeriesHashed */
-  &slice_property_offset_shifter, /* STSelfCheckGuardRootSolvableFilter */
-  &slice_property_offset_shifter, /* STSelfCheckGuardSolvableFilter */
-  &slice_property_offset_shifter, /* STSelfCheckGuardRootDefenderFilter */
-  &slice_property_offset_shifter, /* STSelfCheckGuardAttackerFilter */
-  &slice_property_offset_shifter, /* STSelfCheckGuardDefenderFilter */
-  &slice_property_offset_shifter, /* STSelfCheckGuardHelpFilter */
-  &slice_property_offset_shifter, /* STSelfCheckGuardSeriesFilter */
-  &slice_property_offset_shifter, /* STDirectDefenseRootSolvableFilter */
-  &slice_property_offset_shifter, /* STDirectDefense */
-  &slice_property_offset_shifter, /* STReflexHelpFilter */
-  &slice_property_offset_shifter, /* STReflexSeriesFilter */
-  &slice_property_offset_shifter, /* STReflexRootSolvableFilter */
-  &slice_property_offset_shifter, /* STReflexAttackerFilter */
-  &slice_property_offset_shifter, /* STReflexDefenderFilter */
-  &slice_property_offset_shifter, /* STSelfDefense */
-  &slice_property_offset_shifter, /* STRestartGuardRootDefenderFilter */
-  &slice_property_offset_shifter, /* STRestartGuardHelpFilter */
-  &slice_property_offset_shifter, /* STRestartGuardSeriesFilter */
-  &slice_property_offset_shifter, /* STIntelligentHelpFilter */
-  &slice_property_offset_shifter, /* STIntelligentSeriesFilter */
-  &slice_property_offset_shifter, /* STGoalReachableGuardHelpFilter */
-  &slice_property_offset_shifter, /* STGoalReachableGuardSeriesFilter */
-  &slice_property_offset_shifter, /* STKeepMatingGuardRootDefenderFilter */
-  &slice_property_offset_shifter, /* STKeepMatingGuardAttackerFilter */
-  &slice_property_offset_shifter, /* STKeepMatingGuardDefenderFilter */
-  &slice_property_offset_shifter, /* STKeepMatingGuardHelpFilter */
-  &slice_property_offset_shifter, /* STKeepMatingGuardSeriesFilter */
-  &slice_property_offset_shifter, /* STMaxFlightsquares */
-  &slice_property_offset_shifter, /* STDegenerateTree */
-  &slice_property_offset_shifter, /* STMaxNrNonTrivial */
-  &slice_property_offset_shifter, /* STMaxNrNonTrivialCounter */
-  &slice_property_offset_shifter, /* STMaxThreatLength */
-  &slice_property_offset_shifter, /* STMaxTimeRootDefenderFilter */
-  &slice_property_offset_shifter, /* STMaxTimeDefenderFilter */
-  &slice_property_offset_shifter, /* STMaxTimeHelpFilter */
-  &slice_property_offset_shifter, /* STMaxTimeSeriesFilter */
-  &slice_property_offset_shifter, /* STMaxSolutionsRootSolvableFilter */
-  &slice_property_offset_shifter, /* STMaxSolutionsRootDefenderFilter */
-  &slice_property_offset_shifter, /* STMaxSolutionsHelpFilter */
-  &slice_property_offset_shifter, /* STMaxSolutionsSeriesFilter */
-  &slice_property_offset_shifter, /* STStopOnShortSolutionsRootSolvableFilter */
-  &slice_property_offset_shifter, /* STStopOnShortSolutionsHelpFilter */
-  &slice_property_offset_shifter  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STProxy */
+  &slice_property_offset_shifter,    /* STAttackMove */
+  &slice_property_offset_shifter,    /* STDefenseMove */
+  &slice_property_offset_shifter,    /* STHelpMove */
+  &slice_property_offset_shifter,    /* STHelpFork */
+  &slice_property_offset_shifter,    /* STSeriesMove */
+  &slice_property_offset_shifter,    /* STSeriesFork */
+  &slice_property_offset_shifter,    /* STLeafDirect */
+  &slice_property_offset_shifter,    /* STLeafHelp */
+  &slice_property_offset_shifter,    /* STLeafForced */
+  &slice_property_offset_shifter,    /* STReciprocal */
+  &slice_property_offset_shifter,    /* STQuodlibet */
+  &slice_property_offset_shifter,    /* STNot */
+  &slice_property_offset_shifter,    /* STMoveInverterRootSolvableFilter */
+  &slice_property_offset_shifter,    /* STMoveInverterSolvableFilter */
+  &slice_property_offset_shifter,    /* STMoveInverterSeriesFilter */
+  &slice_property_offset_shifter,    /* STAttackRoot */
+  &slice_property_offset_shifter,    /* STBattlePlaySolutionWriter */
+  &slice_property_offset_shifter,    /* STPostKeyPlaySolutionWriter */
+  &slice_property_offset_shifter,    /* STContinuationWriter */
+  &slice_property_offset_shifter,    /* STTryWriter */
+  &slice_property_offset_shifter,    /* STThreatWriter */
+  &slice_property_offset_shifter,    /* STThreatEnforcer */
+  &slice_property_offset_shifter,    /* STRefutationsCollector */
+  &slice_property_offset_shifter,    /* STVariationWriter */
+  &slice_property_offset_shifter,    /* STRefutingVariationWriter */
+  &slice_property_offset_shifter,    /* STNoShortVariations */
+  &slice_property_offset_shifter,    /* STAttackHashed */
+  &slice_property_offset_shifter,    /* STHelpRoot */
+  &slice_property_offset_shifter,    /* STHelpShortcut */
+  &slice_property_offset_shifter,    /* STHelpHashed */
+  &slice_property_offset_shifter,    /* STSeriesRoot */
+  &slice_property_offset_shifter,    /* STSeriesShortcut */
+  &slice_property_offset_shifter,    /* STParryFork */
+  &slice_property_offset_shifter,    /* STSeriesHashed */
+  &slice_property_offset_shifter,    /* STSelfCheckGuardRootSolvableFilter */
+  &slice_property_offset_shifter,    /* STSelfCheckGuardSolvableFilter */
+  &slice_property_offset_shifter,    /* STSelfCheckGuardRootDefenderFilter */
+  &slice_property_offset_shifter,    /* STSelfCheckGuardAttackerFilter */
+  &slice_property_offset_shifter,    /* STSelfCheckGuardDefenderFilter */
+  &slice_property_offset_shifter,    /* STSelfCheckGuardHelpFilter */
+  &slice_property_offset_shifter,    /* STSelfCheckGuardSeriesFilter */
+  &slice_property_offset_shifter,    /* STDirectDefenseRootSolvableFilter */
+  &slice_property_offset_shifter,    /* STDirectDefense */
+  &slice_property_offset_shifter,    /* STReflexHelpFilter */
+  &slice_property_offset_shifter,    /* STReflexSeriesFilter */
+  &slice_property_offset_shifter,    /* STReflexRootSolvableFilter */
+  &slice_property_offset_shifter,    /* STReflexAttackerFilter */
+  &slice_property_offset_shifter,    /* STReflexDefenderFilter */
+  &slice_property_offset_shifter,    /* STSelfDefense */
+  &slice_property_offset_shifter,    /* STRestartGuardRootDefenderFilter */
+  &slice_property_offset_shifter,    /* STRestartGuardHelpFilter */
+  &slice_property_offset_shifter,    /* STRestartGuardSeriesFilter */
+  &slice_property_offset_shifter,    /* STIntelligentHelpFilter */
+  &slice_property_offset_shifter,    /* STIntelligentSeriesFilter */
+  &slice_property_offset_shifter,    /* STGoalReachableGuardHelpFilter */
+  &slice_property_offset_shifter,    /* STGoalReachableGuardSeriesFilter */
+  &slice_property_offset_shifter,    /* STKeepMatingGuardRootDefenderFilter */
+  &slice_property_offset_shifter,    /* STKeepMatingGuardAttackerFilter */
+  &slice_property_offset_shifter,    /* STKeepMatingGuardDefenderFilter */
+  &slice_property_offset_shifter,    /* STKeepMatingGuardHelpFilter */
+  &slice_property_offset_shifter,    /* STKeepMatingGuardSeriesFilter */
+  &slice_property_offset_shifter,    /* STMaxFlightsquares */
+  &slice_property_offset_shifter,    /* STDegenerateTree */
+  &slice_property_offset_shifter,    /* STMaxNrNonTrivial */
+  &slice_property_offset_shifter,    /* STMaxNrNonTrivialCounter */
+  &slice_property_offset_shifter,    /* STMaxThreatLength */
+  &slice_property_offset_shifter,    /* STMaxTimeRootDefenderFilter */
+  &slice_property_offset_shifter,    /* STMaxTimeDefenderFilter */
+  &slice_property_offset_shifter,    /* STMaxTimeHelpFilter */
+  &slice_property_offset_shifter,    /* STMaxTimeSeriesFilter */
+  &slice_property_offset_shifter,    /* STMaxSolutionsRootSolvableFilter */
+  &slice_property_offset_shifter,    /* STMaxSolutionsRootDefenderFilter */
+  &slice_property_offset_shifter,    /* STMaxSolutionsHelpFilter */
+  &slice_property_offset_shifter,    /* STMaxSolutionsSeriesFilter */
+  &slice_property_offset_shifter,    /* STStopOnShortSolutionsRootSolvableFilter */
+  &slice_property_offset_shifter,    /* STStopOnShortSolutionsHelpFilter */
+  &slice_property_offset_shifter     /* STStopOnShortSolutionsSeriesFilter */
 };
 
 typedef struct
@@ -456,7 +456,8 @@ static void init_slice_property_series(slice_index si,
  * @param leaf root slice of subtree
  * @param st address of structure defining traversal
  */
-static void init_slice_properties_pipe(slice_index pipe, stip_structure_traversal *st)
+static void init_slice_properties_pipe(slice_index pipe,
+                                       stip_structure_traversal *st)
 {
   slice_index const next = slices[pipe].u.pipe.next;
 
@@ -478,7 +479,8 @@ static void init_slice_properties_pipe(slice_index pipe, stip_structure_traversa
  * @param si root slice of subtree
  * @param st address of structure defining traversal
  */
-static void init_slice_properties_fork(slice_index fork, stip_structure_traversal *st)
+static void init_slice_properties_binary(slice_index fork,
+                                         stip_structure_traversal *st)
 {
   slice_initializer_state * const sis = st->param;
 
@@ -617,40 +619,40 @@ static void init_slice_properties_hashed_series(slice_index si,
 
 static stip_structure_visitor const slice_properties_initalisers[] =
 {
-  &stip_traverse_structure_children,              /* STProxy */
+  &stip_traverse_structure_children,     /* STProxy */
   &init_slice_properties_pipe,           /* STAttackMove */
-  &stip_traverse_structure_children,              /* STDefenseMove */
+  &stip_traverse_structure_children,     /* STDefenseMove */
   &init_slice_properties_pipe,           /* STHelpMove */
-  &stip_traverse_structure_children,              /* STHelpFork */
+  &stip_traverse_structure_children,     /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
-  &stip_traverse_structure_children,              /* STSeriesFork */
-  &stip_structure_visitor_noop,                 /* STLeafDirect */
-  &stip_structure_visitor_noop,                 /* STLeafHelp */
-  &stip_structure_visitor_noop,                 /* STLeafForced */
-  &init_slice_properties_fork,           /* STReciprocal */
-  &init_slice_properties_fork,           /* STQuodlibet */
+  &stip_traverse_structure_children,     /* STSeriesFork */
+  &stip_structure_visitor_noop,          /* STLeafDirect */
+  &stip_structure_visitor_noop,          /* STLeafHelp */
+  &stip_structure_visitor_noop,          /* STLeafForced */
+  &init_slice_properties_binary,         /* STReciprocal */
+  &init_slice_properties_binary,         /* STQuodlibet */
   &init_slice_properties_pipe,           /* STNot */
   &init_slice_properties_pipe,           /* STMoveInverterRootSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
-  &stip_traverse_structure_children,              /* STAttackRoot */
-  &stip_traverse_structure_children,              /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,              /* STPostKeyPlaySolutionWriter */
-  &stip_traverse_structure_children,              /* STContinuationWriter */
-  &stip_traverse_structure_children,              /* STTryWriter */
-  &stip_traverse_structure_children,              /* STThreatWriter */
-  &stip_traverse_structure_children,              /* STThreatEnforcer */
-  &stip_traverse_structure_children,              /* STRefutationsCollector */
-  &stip_traverse_structure_children,              /* STVariationWriter */
-  &stip_traverse_structure_children,              /* STRefutingVariationWriter */
-  &stip_traverse_structure_children,              /* STNoShortVariations */
+  &stip_traverse_structure_children,     /* STAttackRoot */
+  &stip_traverse_structure_children,     /* STBattlePlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STContinuationWriter */
+  &stip_traverse_structure_children,     /* STTryWriter */
+  &stip_traverse_structure_children,     /* STThreatWriter */
+  &stip_traverse_structure_children,     /* STThreatEnforcer */
+  &stip_traverse_structure_children,     /* STRefutationsCollector */
+  &stip_traverse_structure_children,     /* STVariationWriter */
+  &stip_traverse_structure_children,     /* STRefutingVariationWriter */
+  &stip_traverse_structure_children,     /* STNoShortVariations */
   &init_slice_properties_attack_hashed,  /* STAttackHashed */
-  &stip_traverse_structure_children,              /* STHelpRoot */
-  &stip_traverse_structure_children,              /* STHelpShortcut */
+  &stip_traverse_structure_children,     /* STHelpRoot */
+  &stip_traverse_structure_children,     /* STHelpShortcut */
   &init_slice_properties_hashed_help,    /* STHelpHashed */
-  &stip_traverse_structure_children,              /* STSeriesRoot */
-  &stip_traverse_structure_children,              /* STSeriesShortcut */
-  &stip_traverse_structure_children,              /* STParryFork */
+  &stip_traverse_structure_children,     /* STSeriesRoot */
+  &stip_traverse_structure_children,     /* STSeriesShortcut */
+  &stip_traverse_structure_children,     /* STParryFork */
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
   &init_slice_properties_pipe,           /* STSelfCheckGuardRootSolvableFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardSolvableFilter */
@@ -659,14 +661,14 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STSelfCheckGuardDefenderFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardHelpFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,              /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,              /* STDirectDefense */
-  &stip_traverse_structure_children,              /* STReflexHelpFilter */
-  &stip_traverse_structure_children,              /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,              /* STReflexRootSolvableFilter */
-  &stip_traverse_structure_children,              /* STReflexAttackerFilter */
-  &stip_traverse_structure_children,              /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,              /* STSelfDefense */
+  &stip_traverse_structure_children,     /* STDirectDefenseRootSolvableFilter */
+  &stip_traverse_structure_children,     /* STDirectDefense */
+  &stip_traverse_structure_children,     /* STReflexHelpFilter */
+  &stip_traverse_structure_children,     /* STReflexSeriesFilter */
+  &stip_traverse_structure_children,     /* STReflexRootSolvableFilter */
+  &stip_traverse_structure_children,     /* STReflexAttackerFilter */
+  &stip_traverse_structure_children,     /* STReflexDefenderFilter */
+  &stip_traverse_structure_children,     /* STSelfDefense */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
   &init_slice_properties_pipe,           /* STRestartGuardSeriesFilter */
