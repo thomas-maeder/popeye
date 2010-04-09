@@ -34,7 +34,8 @@ void reset_short_solution_found_in_phase(void);
 boolean has_short_solution_been_found_in_phase(void);
 
 /* Instrument a stipulation with STStopOnShortSolutions*Filter slices
+ * @return true iff the option stoponshort applies
  */
-void stip_insert_stoponshortsolutions_filters(void);
+boolean stip_insert_stoponshortsolutions_filters(void);
 
 #endif

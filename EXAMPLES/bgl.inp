@@ -29,7 +29,6 @@ next
 auth Petko Petkov
 orig Macedonian Problemist 2003
 stip h#3
-opt try def 5 nothr
 fors k7/1n2R3/16/p7/K7/p7/8
 cond bgl 27.42
 

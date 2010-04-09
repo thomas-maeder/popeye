@@ -73,6 +73,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/try.h stipulation/battle_play/variation.h \
   stipulation/battle_play/postkeyplay.h \
   options/no_short_variations/no_short_variations_attacker_filter.h \
+  optimisations/stoponshortsolutions/root_solvable_filter.h \
   stipulation/series_play/play.h trace.h
 
 stipulation/battle_play/attack_play.h:
@@ -118,6 +119,8 @@ stipulation/battle_play/variation.h:
 stipulation/battle_play/postkeyplay.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
+
+optimisations/stoponshortsolutions/root_solvable_filter.h:
 
 stipulation/series_play/play.h:
 

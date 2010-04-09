@@ -5,7 +5,7 @@
 4= rexinclusive ou exact sans motif
 5= trop de solutions
 6= en EchecsHaan les pieces kamikazees sont interdites
-7= jeu d'essai en moins de 2 coups ?
+7= jeu d'essai pas applicable
 8= pieces neutres et orphan ou ami interdit
 9= leofamily avec pieces orthodoxes ?
 10= en circe les pieces impuissantes sont interdites
@@ -112,7 +112,7 @@
 111= Trop de calculations magiques necessaires\n
 112= EchecsRepublicains incompatible avec des conditions qui dependent du fait si un coup donne echec.\n
 113= Popeye ne peut pas décider qui a le trait.\n
-114= Option \"menace\" et enonce exact incompatibles\n
+114= Option \"menace\" pas applicable ou longueur maximale de la menace trop grande\n
 115= EchecsGhost et EchecsHantes incompatibles avec Circe, Anticirce, Kamikaze, Echecs de Haan\n
 116= ApparentSeul pas applicable - ignore\n
 117= Apparent pas applicable - ignore\n

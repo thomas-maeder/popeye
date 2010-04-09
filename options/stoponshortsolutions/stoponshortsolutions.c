@@ -303,12 +303,17 @@ static void insert_filters(slice_index si)
 static void insert_root_solvable_filter(slice_index si,
                                         stip_structure_traversal *st)
 {
+  boolean * const inserted = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,alloc_stoponshortsolutions_root_solvable_filter());
+  pipe_append(slices[si].prev,
+              alloc_stoponshortsolutions_root_solvable_filter());
   insert_filters(si);
+
+  *inserted = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -324,7 +329,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &insert_root_solvable_filter,      /* STLeafDirect */
+  &stip_traverse_structure_children, /* STLeafDirect */
   &insert_root_solvable_filter,      /* STLeafHelp */
   &stip_traverse_structure_children, /* STLeafForced */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -333,7 +338,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
-  &insert_root_solvable_filter,      /* STAttackRoot */
+  &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -398,9 +403,11 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
 };
 
 /* Instrument a stipulation with STStopOnShortSolutions*Filter slices
+ * @return true iff the option stoponshort applies
  */
-void stip_insert_stoponshortsolutions_filters(void)
+boolean stip_insert_stoponshortsolutions_filters(void)
 {
+  boolean result = false;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -408,9 +415,13 @@ void stip_insert_stoponshortsolutions_filters(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&stoponshortsolutions_initialiser_inserters,0);
+  stip_structure_traversal_init(&st,
+                                &stoponshortsolutions_initialiser_inserters,
+                                &result);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }

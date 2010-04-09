@@ -45,7 +45,7 @@ typedef enum
   NonSenseRexiExact      = 4,
   TooManySol             = 5,
   KamikazeAndHaaner      = 6,
-  TryInLessTwo           = 7,
+  TryPlayNotApplicable   = 7,
   NeutralAndOrphanReflKing = 8,
   LeoFamAndOrtho         = 9,
   CirceAndDummy          = 10,

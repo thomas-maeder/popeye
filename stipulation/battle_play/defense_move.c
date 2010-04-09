@@ -208,7 +208,8 @@ static stip_length_type iterate_other_pieces(slice_index si,
                                              stip_length_type n,
                                              stip_length_type n_min_next,
                                              square killer_pos,
-                                             Side defender)
+                                             Side defender,
+                                             unsigned int max_nr_refutations)
 {
   square const *selfbnp;
   stip_length_type result = 0;
@@ -306,7 +307,11 @@ stip_length_type iterate_priorise_killer_piece(slice_index si,
 
   result = try_defenses(si,n,n_min_next,max_nr_refutations);
 
-  result2 = iterate_other_pieces(si,n,n_min_next,killer_pos,defender);
+  result2 = iterate_other_pieces(si,
+                                 n,n_min_next,
+                                 killer_pos,
+                                 defender,
+                                 max_nr_refutations);
   if (result2>result)
     result = result2;
 

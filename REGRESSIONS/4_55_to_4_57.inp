@@ -55,4 +55,35 @@ stip ##!1
 cond hole d7d8
 twin add white sb4
 
+next
+
+title option StopOnShortSolutions is not supported in "battle play"
+stip #3
+option noboard nowk nobk Stoponshort
+
+next
+
+title option Try only applicable in direct stipulations in >1 and self
+title and reflex stipulations
+option noboard nowk nobk try
+stip #1
+twin stip #2
+twin stip s#1
+twin stip r#1
+twin stip h#3
+twin stip ser-h#5
+
+next
+
+title option Threat only applicable in sufficiently long battle play
+option noboard nowk nobk threat 3
+stip #3
+twin stip #4
+twin stip s#3
+twin stip s#4
+twin stip r#3
+twin stip r#4
+twin stip h#7
+twin stip ser-h#8
+
 end

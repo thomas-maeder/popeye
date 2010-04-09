@@ -703,37 +703,6 @@ static boolean verify_position(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom] = true;
 
-  if (slices[root_slice].type==STAttackMove)
-  {
-    slice_index const peer = slices[root_slice].u.pipe.next;
-    slice_index const next = slices[peer].u.pipe.next;
-    assert(slices[peer].type==STDefenseMove);
-
-    if (2*get_max_threat_length()+slack_length_battle
-        <slices[root_slice].u.branch.min_length)
-    {
-      VerifieMsg(ThreatOptionAndExactStipulationIncompatible);
-      return false;
-    }
-
-    if (slices[root_slice].u.branch.length<=get_max_threat_length())
-      reset_max_threat_length();
-
-    if (slices[root_slice].u.branch.length<1
-        && max_nr_refutations>0
-        && slices[next].type!=STLeafHelp)
-    {
-      ErrorMsg(TryInLessTwo);
-      max_nr_refutations = 0;
-    }
-
-    if (OptFlag[stoponshort])
-    {
-      ErrorMsg(NoStopOnShortSolutions);
-      OptFlag[stoponshort] = false;
-    }
-  }
-
   if (get_max_nr_moves(root_slice) >= maxply-2)
   {
     VerifieMsg(BigNumMoves);
@@ -3002,8 +2971,9 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[solflights])
         stip_insert_maxflight_guards();
 
-      if (OptFlag[solmenaces])
-        stip_insert_maxthreatlength_guards();
+      if (OptFlag[solmenaces]
+          && !stip_insert_maxthreatlength_guards())
+        Message(ThreatOptionAndExactStipulationIncompatible);
 
       if (OptFlag[degeneratetree])
         stip_insert_degenerate_tree_guards();
@@ -3017,8 +2987,9 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[maxsols])
         stip_insert_maxsolutions_filters();
 
-      if (OptFlag[stoponshort])
-        stip_insert_stoponshortsolutions_filters();
+      if (OptFlag[stoponshort]
+          && !stip_insert_stoponshortsolutions_filters())
+        Message(NoStopOnShortSolutions);
 
       if (OptFlag[solvariantes])
         stip_insert_variation_handlers();
@@ -3030,8 +3001,11 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[postkeyplay])
         stip_insert_postkey_handlers();
-      else if (OptFlag[solessais] || OptFlag[soltout])
-        stip_insert_try_handlers();
+      else if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+      {
+        if (!stip_insert_try_handlers())
+          Message(TryPlayNotApplicable);
+      }
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers();

@@ -9,10 +9,64 @@
 #include "trace.h"
 
 #include <assert.h>
+#include <limits.h>
+#include <stdlib.h>
 
 /* Table where refutations are collected
  */
 static table refutations;
+
+static unsigned int user_set_max_nr_refutations;
+
+/* Read the maximum number of refutations that the user is interested
+ * to see
+ * @param tok input token from which to read the number
+ * @return true iff the number could be successfully read
+ */
+boolean read_max_nr_refutations(char const *tok)
+{
+  boolean result;
+  char *end;
+  unsigned long ul;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  ul = strtoul(tok,&end,10);
+  if (tok==end || ul>UINT_MAX)
+  {
+    user_set_max_nr_refutations = 0;
+    result = false;
+  }
+  else
+  {
+    user_set_max_nr_refutations = ul;
+    result = true;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Set the maximum number of refutations that the user is interested
+ * to see to some value
+ * @param mnr maximum number of refutations that the user is
+ *            interested to see
+ */
+void set_max_nr_refutations(unsigned int mnr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",mnr);
+  TraceFunctionParamListEnd();
+
+  user_set_max_nr_refutations = mnr;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Allocate a STTryWriter defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
@@ -57,7 +111,9 @@ boolean try_writer_root_defend(slice_index si, stip_length_type n_min)
 
   refutations = allocate_table();
 
-  nr_moves_needed = defense_can_defend_in_n(next,length,max_nr_refutations);
+  nr_moves_needed = defense_can_defend_in_n(next,
+                                            length,
+                                            user_set_max_nr_refutations);
   if (nr_moves_needed>slack_length_battle
       && n_min<=slack_length_battle
       && n_min<length)
@@ -320,6 +376,8 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
  */
 static void substitute_try_writer(slice_index si, stip_structure_traversal *st)
 {
+  boolean * const inserted = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -332,6 +390,8 @@ static void substitute_try_writer(slice_index si, stip_structure_traversal *st)
     pipe_replace(si,alloc_try_writer_slice(length,min_length));
   }
 
+  *inserted = true;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -340,14 +400,14 @@ static stip_structure_visitor const try_handler_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
-  &append_collector,        /* STDefenseMove */
+  &append_collector,                 /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_structure_visitor_noop,    /* STLeafDirect */
-  &stip_structure_visitor_noop,    /* STLeafHelp */
-  &stip_structure_visitor_noop,    /* STLeafForced */
+  &stip_structure_visitor_noop,      /* STLeafDirect */
+  &stip_structure_visitor_noop,      /* STLeafHelp */
+  &stip_structure_visitor_noop,      /* STLeafForced */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -357,7 +417,7 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
-  &substitute_try_writer,   /* STContinuationWriter */
+  &substitute_try_writer,            /* STContinuationWriter */
   &stip_traverse_structure_children, /* STTryWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
@@ -421,16 +481,19 @@ static stip_structure_visitor const try_handler_inserters[] =
 /* Instrument the stipulation representation so that it can deal with
  * tries
  */
-void stip_insert_try_handlers(void)
+boolean stip_insert_try_handlers(void)
 {
+  boolean result;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&try_handler_inserters,0);
+  stip_structure_traversal_init(&st,&try_handler_inserters,&result);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }

@@ -7,6 +7,20 @@
  * This functionality is a superset of that provided by solution_writer
  */
 
+/* Read the maximum number of refutations that the user is interested
+ * to see
+ * @param tok input token from which to read the number
+ * @return true iff the number could be successfully read
+ */
+boolean read_max_nr_refutations(char const *tok);
+
+/* Set the maximum number of refutations that the user is interested
+ * to see to some value
+ * @param mnr maximum number of refutations that the user is
+ *            interested to see
+ */
+void set_max_nr_refutations(unsigned int mnr);
+
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @param n_min minimum number of half-moves of interesting variations
@@ -93,7 +107,9 @@ stip_length_type refutations_collector_solve_in_n(slice_index si,
 
 /* Instrument the stipulation representation so that it can deal with
  * tries
+ * @return true iff the stipulation could be instrumented (i.e. iff
+ *         try play applies to the stipulation)
  */
-void stip_insert_try_handlers(void);
+boolean stip_insert_try_handlers(void);
 
 #endif

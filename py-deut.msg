@@ -36,7 +36,7 @@
 4= Unmotivierte Eingabe von RexInklusive oder Exakt
 5= Zuviele Loesungen
 6= Im HaanerSchach sind Kamikaze-Steine nicht erlaubt
-7= Verfuehrung in weniger als zwei Zuegen
+7= Verfuehrung nicht anwendbar\n
 8= Neutrale Steine und Orphan oder Freund nicht erlaubt
 9= Leofamily mit orthodoxen Figuren nicht erlaubt
 10= Dummy-Figuren bei Circe nicht erlaubt.
@@ -143,7 +143,7 @@
 111= Zu viele magische Berechnungen benoetigt\n
 112= Republikanerschach nicht mit Bedingungen, die davon abhangen, ob gewisse Zuege Schach bieten.\n
 113= Es ist nicht feststellbar, wer am Zug ist\n
-114= Option \"Drohung\" und exact-Forderung unvereinbar\n
+114= Option \"Drohung\" nicht anwendbar order maximale Laenge der Drohung zu gross\n
 115= Geisterschach und Spukschach unvereinbar mit Circe, Anticirce, Kamikaze, Haaner Schach\n
 116= WeissBeginnt nicht anwendbar - ignoriert\n
 117= Satzspiel nicht anwendbar - ignoriert\n

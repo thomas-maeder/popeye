@@ -46,7 +46,8 @@ py1$(OBJ_SUFFIX): py1.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   pyslice.h pytable.h pytable.h pymovenb.h \
   stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
   boolean.h pystip.h pyflight.h pynontrv.h pythreat.h trace.h \
-  platform/maxtime.h
+  platform/maxtime.h stipulation/battle_play/try.h \
+  stipulation/battle_play/defense_play.h
 
 py.h:
 
@@ -109,6 +110,10 @@ pythreat.h:
 trace.h:
 
 platform/maxtime.h:
+
+stipulation/battle_play/try.h:
+
+stipulation/battle_play/defense_play.h:
 py2$(OBJ_SUFFIX): py2.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pystip.h \
   pyleaf.h conditions/exclusive.h boolean.h pyposit.h trace.h
@@ -436,10 +441,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   pynontrv.h pythreat.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h \
   pypipe.h pyint.h stipulation/proxy.h pypipe.h \
   stipulation/battle_play/branch.h stipulation/battle_play/defense_move.h \
-  stipulation/battle_play/defense_play.h stipulation/series_play/branch.h \
-  py.h stipulation/series_play/parry_fork.h \
-  stipulation/help_play/branch.h stipulation/help_play/move.h \
-  conditions/republican.h pyproc.h \
+  stipulation/battle_play/defense_play.h stipulation/battle_play/try.h \
+  stipulation/series_play/branch.h py.h \
+  stipulation/series_play/parry_fork.h stipulation/help_play/branch.h \
+  stipulation/help_play/move.h conditions/republican.h pyproc.h \
   optimisations/maxsolutions/maxsolutions.h \
   optimisations/stoponshortsolutions/stoponshortsolutions.h \
   platform/maxtime.h platform/maxmem.h trace.h
@@ -535,6 +540,8 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/try.h:
 
 stipulation/series_play/branch.h:
 

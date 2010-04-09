@@ -22,6 +22,7 @@
 #include "stipulation/battle_play/variation.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
+#include "optimisations/stoponshortsolutions/root_solvable_filter.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
 
@@ -636,6 +637,10 @@ boolean attack_root_solve_in_n(slice_index si)
 
     case STMaxThreatLength:
       result = maxthreatlength_guard_root_solve(si);
+      break;
+
+    case STStopOnShortSolutionsRootSolvableFilter:
+      result = stoponshortsolutions_root_solvable_filter_root_solve(si);
       break;
 
     default:

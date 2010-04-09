@@ -60,6 +60,7 @@
 #include "pythreat.h"
 #include "trace.h"
 #include "platform/maxtime.h"
+#include "stipulation/battle_play/try.h"
 
 static void initply(ply parent)
 {
@@ -316,8 +317,7 @@ void InitOpt(void)
   resetOptionMaxtime();
 
   reset_max_flights();
-  max_nr_refutations = 0;
-
+  set_max_nr_refutations(0);
   reset_restart_number();
   reset_max_threat_length();
   reset_nontrivial_settings();

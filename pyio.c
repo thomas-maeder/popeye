@@ -86,6 +86,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_move.h"
+#include "stipulation/battle_play/try.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/help_play/branch.h"
@@ -4721,7 +4722,7 @@ static char *ParseOpt(void)
 {
   Opt indexx;
   unsigned int OptCnt = 0;
-  char    *tok, *ptr;
+  char    *tok;
 
   tok = ReadNextTokStr();
   for (indexx = GetUniqIndex(OptCount,OptTab,tok);
@@ -4834,25 +4835,18 @@ static char *ParseOpt(void)
         break;
 
       case soltout:
-      {
-        unsigned long ul;
         tok = ReadNextTokStr();
-        ul = strtoul(tok, &ptr, 10);
-        if (tok==ptr || ul>UINT_MAX)
+        if (!read_max_nr_refutations(tok))
         {
-          IoErrorMsg(WrongInt, 0);
-          max_nr_refutations = 0;
+          OptFlag[soltout] = false;
+          IoErrorMsg(WrongInt,0);
           return ReadNextTokStr();
         }
-        else
-          max_nr_refutations = ul;
         break;
-      }
 
       case solessais:
-        /* for compatibility to older versions. */
-        OptFlag[soltout]= true;
-        max_nr_refutations = 1;
+        OptFlag[soltout]= true; /* for compatibility to older versions. */
+        set_max_nr_refutations(1);
         break;
 
       case nontrivial:

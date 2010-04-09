@@ -26,8 +26,9 @@ boolean read_max_threat_length(const char *textToken);
 stip_length_type get_max_threat_length(void);
 
 /* Instrument stipulation with STMaxThreatLength slices
+ * @return true iff the stipulation could be instrumented
  */
-void stip_insert_maxthreatlength_guards(void);
+boolean stip_insert_maxthreatlength_guards(void);
 
 /* Solve a slice at root level
  * @param si slice index

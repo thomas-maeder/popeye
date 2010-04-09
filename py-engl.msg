@@ -5,7 +5,7 @@
 4= unmotivated input of rex inclusiv
 5= too much solutions
 6= haaner chess not allowed with kamikaze-pieces
-7= tries less than 2 moves ?
+7= try play not applicable\n
 8= neutral pieces together with Orphans or Friends not allowed
 9= leofamily with orthodox pieces ?
 10= dummy-pieces not allowed with circe.
@@ -112,7 +112,7 @@
 111= Too many magic calculations needed\n
 112= RepublicanChess incompatible with conditions that depend on whether a certain move delivers check.\n
 113= Can't decide which side is at the move\n
-114= Option \"Threat\" and exact stipulation incompatible\n
+114= Option \"Threat\" not applicable or indicated maximum threat length too big\n
 115= GhostChess and HauntedChess incompatible with Circe, Anticirce, Kamikaze, Haaner Chess\n
 116= WhiteToPlay not applicable - ignored\n
 117= SetPlay not applicable - ignored\n
