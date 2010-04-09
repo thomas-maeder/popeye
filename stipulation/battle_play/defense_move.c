@@ -386,10 +386,11 @@ stip_length_type iterate_last_self_defenses(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_nr_refutations how many refutations should we look for
- * @return n+4 refuted - >max_nr_refutations refutations found
-           n+2 refuted - <=max_nr_refutations refutations found
+ * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
                          (incl. defense) needed
+           n+2 refuted - <=max_nr_refutations refutations found
+           n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type defense_move_can_defend_in_n(slice_index si,
                                               stip_length_type n,
@@ -445,7 +446,7 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
     finply();
   }
 
-  if (result<slack_length_battle || nr_refutations[nbply+1]>max_nr_refutations)
+  if (nr_refutations[nbply+1]>max_nr_refutations)
     result = n+4;
   else if (nr_refutations[nbply+1]>0)
     result = n+2;

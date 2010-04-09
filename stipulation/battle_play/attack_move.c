@@ -106,8 +106,11 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && is_current_move_in_table(threats))
     {
-      if (defense_can_defend_in_n(next,len_threat-1,nr_refutations_allowed)
-          >=len_threat)
+      stip_length_type const
+          nr_moves_needed = defense_can_defend_in_n(next,
+                                                    len_threat-1,
+                                                    nr_refutations_allowed);
+      if (nr_moves_needed<slack_length_battle || nr_moves_needed>=len_threat)
         defense_found = true;
       else
         ++nr_successful_threats;
@@ -155,11 +158,17 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 
   while (!solution_found && encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_can_defend_in_n(next,n-1,nr_refutations_allowed)<n)
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      solution_found = true;
-      coupfort();
+      stip_length_type const
+          nr_moves_needed = defense_can_defend_in_n(next,
+                                                    n-1,
+                                                    nr_refutations_allowed);
+      if (nr_moves_needed>=slack_length_battle && nr_moves_needed<n)
+      {
+        solution_found = true;
+        coupfort();
+      }
     }
 
     repcoup();

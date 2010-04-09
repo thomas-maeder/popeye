@@ -114,27 +114,32 @@ boolean try_writer_root_defend(slice_index si, stip_length_type n_min)
   nr_moves_needed = defense_can_defend_in_n(next,
                                             length,
                                             user_set_max_nr_refutations);
-  if (nr_moves_needed>slack_length_battle
-      && n_min<=slack_length_battle
-      && n_min<length)
-    n_min += 2;
-  if (nr_moves_needed<=length)
-  {
-    result = false;
-    write_attack(attack_key);
-    continuation_writer_solve_postkey(si,n_min);
-    write_end_of_solution();
-  }
+  if (nr_moves_needed<slack_length_battle)
+    result = true;
   else
   {
-    result = true;
-
-    if (nr_moves_needed==length+2)
+    if (nr_moves_needed>slack_length_battle
+        && n_min<=slack_length_battle
+        && n_min<length)
+      n_min += 2;
+    if (nr_moves_needed<=length)
     {
-      write_attack(attack_try);
+      result = false;
+      write_attack(attack_key);
       continuation_writer_solve_postkey(si,n_min);
-      write_refutations(refutations);
       write_end_of_solution();
+    }
+    else
+    {
+      result = true;
+
+      if (nr_moves_needed==length+2)
+      {
+        write_attack(attack_try);
+        continuation_writer_solve_postkey(si,n_min);
+        write_refutations(refutations);
+        write_end_of_solution();
+      }
     }
   }
 
@@ -152,10 +157,11 @@ boolean try_writer_root_defend(slice_index si, stip_length_type n_min)
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_nr_refutations how many refutations should we look for
- * @return n+4 refuted - >max_nr_refutations refutations found
-           n+2 refuted - <=max_nr_refutations refutations found
+ * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
                          (incl. defense) needed
+           n+2 refuted - <=max_nr_refutations refutations found
+           n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type try_writer_can_defend_in_n(slice_index si,
                                             stip_length_type n,

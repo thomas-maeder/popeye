@@ -229,10 +229,11 @@ boolean defense_defend_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param max_nr_refutations how many refutations should we look for
- * @return n+4 refuted - >max_nr_refutations refutations found
-           n+2 refuted - <=max_nr_refutations refutations found
+ * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
                          (incl. defense) needed
+           n+2 refuted - <=max_nr_refutations refutations found
+           n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type defense_can_defend_in_n(slice_index si,
                                          stip_length_type n,
@@ -298,8 +299,6 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       break;
   }
 
-  assert(result>=slack_length_battle);
-  
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -327,7 +326,9 @@ boolean defense_defend(slice_index si)
   nr_moves_needed = defense_can_defend_in_n(si,
                                             length,
                                             max_nr_allowed_refutations);
-  if (nr_moves_needed<=length)
+  if (nr_moves_needed<slack_length_battle)
+    result = true;
+  else if (nr_moves_needed<=length)
   {
     result = false;
 
@@ -365,7 +366,7 @@ boolean defense_can_defend(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = defense_can_defend_in_n(si,n,max_nr_allowed_refutations);
-  result = nr_moves_needed>n;
+  result = nr_moves_needed<slack_length_battle || nr_moves_needed>n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

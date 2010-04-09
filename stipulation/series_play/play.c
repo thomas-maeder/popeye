@@ -56,10 +56,12 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
 
     case STContinuationWriter:
     {
-      stip_length_type const n_battl = n-slack_length_series+slack_length_battle;
-      stip_length_type const parity = (n_battl-slack_length_battle)%2;
+      stip_length_type const n_battle = (n
+                                         +slack_length_battle
+                                         -slack_length_series);
+      stip_length_type const parity = (n_battle-slack_length_battle)%2;
       stip_length_type const n_min = slack_length_battle-parity;
-      result = !defense_defend_in_n(si,n_battl,n_min);
+      result = !defense_defend_in_n(si,n_battle,n_min);
       break;
     }
 
@@ -220,9 +222,14 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
     case STContinuationWriter:
     {
       unsigned int const max_nr_allowed_refutations = 0;
-      stip_length_type const n_battl = n-slack_length_series+slack_length_battle;
-      result = (defense_can_defend_in_n(si,n_battl,max_nr_allowed_refutations)
-                <=n_battl);
+      stip_length_type const n_battle = (n
+                                         +slack_length_battle
+                                         -slack_length_series);
+      stip_length_type const
+          nr_moves_needed = defense_can_defend_in_n(si,
+                                                    n_battle,
+                                                    max_nr_allowed_refutations);
+      result = nr_moves_needed>=slack_length_battle && nr_moves_needed<=n_battle;
       break;
     }
 
