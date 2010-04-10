@@ -66,10 +66,8 @@ boolean leaf_forced_solve(slice_index leaf)
 
   if (leaf_is_goal_reached(defender,leaf)==goal_reached)
   {
-    output_start_postkey_level();
     active_slice[nbply] = leaf;
     write_final_defense(slices[leaf].u.leaf.goal);
-    output_end_postkey_level();
     result = true;
   }
   else

@@ -39,14 +39,6 @@ void output_end_move_inverted_level(void);
  */
 void output_end_half_duplex(void);
 
-/* Start a new output level consisting of post-key play
- */
-void output_start_postkey_level(void);
-
-/* End the inner-most output level (which consists of post-key play)
- */
-void output_end_postkey_level(void);
-
 
 /* Start a new output level consisting of threats
  */

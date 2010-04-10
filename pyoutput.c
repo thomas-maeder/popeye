@@ -303,41 +303,6 @@ void output_end_half_duplex(void)
 }
 
 
-/* Start a new output level consisting of post-key play
- */
-void output_start_postkey_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree)
-  {
-    nr_defenses_written[move_depth] = 0;
-    nr_continuations_written[move_depth+1] = 0;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* End the inner-most output level (which consists of post-key play)
- */
-void output_end_postkey_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree
-      && move_depth>1
-      && nr_defenses_written[move_depth]==0
-      && nr_continuations_written[move_depth+1]==0)
-    write_end_of_solution();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 /* Start a new output level consisting of threats
  */
 void output_start_threat_level(void)
