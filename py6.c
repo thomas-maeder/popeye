@@ -3001,11 +3001,10 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[postkeyplay])
         stip_insert_postkey_handlers();
-      else if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-      {
-        if (!stip_insert_try_handlers())
-          Message(TryPlayNotApplicable);
-      }
+
+      if (OptFlag[soltout] /* this includes OptFlag[solessais] */
+          && !stip_insert_try_handlers())
+        Message(TryPlayNotApplicable);
 
       if (OptFlag[solvariantes] && !OptFlag[nothreat])
         stip_insert_threat_handlers();
