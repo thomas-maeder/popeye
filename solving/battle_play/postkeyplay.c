@@ -286,7 +286,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &substitute_continuation_writer,   /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STTryWriter */
+  &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STRefutationsCollector */

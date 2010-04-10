@@ -241,7 +241,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STBattlePlaySolutionWriter:
       case STPostKeyPlaySolutionWriter:
       case STContinuationWriter:
-      case STTryWriter:
+      case STRefutationsWriter:
       case STDefenseMove:
       case STThreatEnforcer:
       case STRefutationsCollector:

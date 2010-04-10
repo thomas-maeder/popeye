@@ -37,7 +37,7 @@
     ENUMERATOR(STBattlePlaySolutionWriter), /* writes battle play solutions */ \
     ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
-    ENUMERATOR(STTryWriter), /* writes tries */ \
+    ENUMERATOR(STRefutationsWriter), /* writes refutations */ \
     ENUMERATOR(STThreatWriter), /* writes threats */ \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */ \

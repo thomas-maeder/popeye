@@ -33,10 +33,10 @@ void set_max_nr_refutations(unsigned int mnr);
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
  */
-stip_length_type try_writer_root_defend(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_min,
-                                        unsigned int max_nr_refutations);
+stip_length_type refutations_writer_root_defend(slice_index si,
+                                                stip_length_type n,
+                                                stip_length_type n_min,
+                                                unsigned int max_nr_refutations);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level
@@ -49,9 +49,10 @@ stip_length_type try_writer_root_defend(slice_index si,
            n+2 refuted - <=max_nr_refutations refutations found
            n+4 refuted - >max_nr_refutations refutations found
  */
-stip_length_type try_writer_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            unsigned int max_nr_refutations);
+stip_length_type
+refutations_writer_can_defend_in_n(slice_index si,
+                                   stip_length_type n,
+                                   unsigned int max_nr_refutations);
 
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats

@@ -70,13 +70,13 @@ void set_max_nr_refutations(unsigned int mnr)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STTryWriter defender slice.
+/* Allocate a STRefutationsWriter defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static slice_index alloc_try_writer_slice(stip_length_type length,
-                                          stip_length_type min_length)
+static slice_index alloc_refutations_writer_slice(stip_length_type length,
+                                                  stip_length_type min_length)
 {
   slice_index result;
 
@@ -85,7 +85,7 @@ static slice_index alloc_try_writer_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STTryWriter,length,min_length);
+  result = alloc_branch(STRefutationsWriter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -105,10 +105,10 @@ static slice_index alloc_try_writer_slice(stip_length_type length,
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
  */
-stip_length_type try_writer_root_defend(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_min,
-                                        unsigned int max_nr_refutations)
+stip_length_type refutations_writer_root_defend(slice_index si,
+                                                stip_length_type n,
+                                                stip_length_type n_min,
+                                                unsigned int max_nr_refutations)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -148,9 +148,10 @@ stip_length_type try_writer_root_defend(slice_index si,
            n+2 refuted - <=max_nr_refutations refutations found
            n+4 refuted - >max_nr_refutations refutations found
  */
-stip_length_type try_writer_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            unsigned int max_nr_refutations)
+stip_length_type
+refutations_writer_can_defend_in_n(slice_index si,
+                                   stip_length_type n,
+                                   unsigned int max_nr_refutations)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -365,7 +366,8 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
  * @param si identifies slice to be replaced
  * @param st address of structure defining traversal
  */
-static void prepend_try_writer(slice_index si, stip_structure_traversal *st)
+static void prepend_refutations_writer(slice_index si,
+                                       stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
 
@@ -379,7 +381,7 @@ static void prepend_try_writer(slice_index si, stip_structure_traversal *st)
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prev = slices[si].prev;
-    pipe_append(prev,alloc_try_writer_slice(length,min_length));
+    pipe_append(prev,alloc_refutations_writer_slice(length,min_length));
   }
 
   *inserted = true;
@@ -409,8 +411,8 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
-  &prepend_try_writer,               /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STTryWriter */
+  &prepend_refutations_writer,       /* STContinuationWriter */
+  &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STRefutationsCollector */

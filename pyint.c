@@ -2750,7 +2750,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
-  &stip_traverse_moves_pipe,                 /* STTryWriter */
+  &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
   &stip_traverse_moves_pipe,                 /* STRefutationsCollector */
@@ -3215,7 +3215,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,                  /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,                  /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,                  /* STContinuationWriter */
-  &stip_traverse_structure_children,                  /* STTryWriter */
+  &stip_traverse_structure_children,                  /* STRefutationsWriter */
   &stip_traverse_structure_children,                  /* STThreatWriter */
   &stip_traverse_structure_children,                  /* STThreatEnforcer */
   &stip_traverse_structure_children,                  /* STRefutationsCollector */
@@ -3542,7 +3542,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,               /* STBattlePlaySolutionWriter */
   &intelligent_mode_support_none,               /* STPostKeyPlaySolutionWriter */
   &intelligent_mode_support_none,               /* STContinuationWriter */
-  &intelligent_mode_support_none,               /* STTryWriter */
+  &intelligent_mode_support_none,               /* STRefutationsWriter */
   &intelligent_mode_support_none,               /* STThreatWriter */
   &intelligent_mode_support_none,               /* STThreatEnforcer */
   &intelligent_mode_support_none,               /* STRefutationsCollector */

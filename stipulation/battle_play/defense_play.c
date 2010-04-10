@@ -94,8 +94,8 @@ stip_length_type defense_root_defend(slice_index si,
       result = continuation_writer_root_defend(si,n,n_min,max_nr_refutations);
       break;
 
-    case STTryWriter:
-      result = try_writer_root_defend(si,n,n_min,max_nr_refutations);
+    case STRefutationsWriter:
+      result = refutations_writer_root_defend(si,n,n_min,max_nr_refutations);
       break;
 
     case STThreatWriter:
@@ -271,8 +271,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STTryWriter:
-      result = try_writer_can_defend_in_n(si,n,max_nr_refutations);
+    case STRefutationsWriter:
+      result = refutations_writer_can_defend_in_n(si,n,max_nr_refutations);
       break;
 
     case STContinuationWriter:
