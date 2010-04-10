@@ -262,25 +262,35 @@ static stip_length_type solve_threats(table threats,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defending side can successfully defend
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean threat_writer_root_defend(slice_index si, stip_length_type n_min)
+stip_length_type threat_writer_root_defend(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_min,
+                                           unsigned int max_nr_refutations)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.threat_writer.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   threats[nbply+1] = allocate_table();
-  threat_lengths[nbply+1] = solve_threats(threats[nbply+1],si,length-1);
+  threat_lengths[nbply+1] = solve_threats(threats[nbply+1],si,n-1);
 
-  result = defense_root_defend(next,n_min);
+  result = defense_root_defend(next,n,n_min,max_nr_refutations);
 
   assert(get_top_table()==threats[nbply+1]);
   threat_lengths[nbply+1] = no_threats_found;

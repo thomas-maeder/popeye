@@ -80,20 +80,31 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defending side can successfully defend
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean defense_move_root_defend(slice_index si, stip_length_type n_min)
+stip_length_type defense_move_root_defend(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min,
+                                          unsigned int max_nr_refutations)
 {
+  stip_length_type result = 0;
+  unsigned int nr_refutations = 0;
   Side const defender = slices[si].starter;
-  boolean result = false;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   move_generation_mode = move_generation_not_optimized;
@@ -102,14 +113,22 @@ boolean defense_move_root_defend(slice_index si, stip_length_type n_min)
 
   while(encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && attack_solve_in_n(next,length-1,n_min-1)>=length)
-      result = true;
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      stip_length_type const nr_moves_needed = attack_solve_in_n(next,
+                                                                 n-1,n_min-1);
+      if (nr_moves_needed>result)
+        result = nr_moves_needed;
+      if (nr_moves_needed>n-1)
+        ++nr_refutations;
+    }
 
     repcoup();
   }
 
   finply();
+
+  assert(nr_refutations<=max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

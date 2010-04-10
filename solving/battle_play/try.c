@@ -16,6 +16,8 @@
  */
 static table refutations;
 
+/* Maximum number of refutations to look for as indicated by the user
+ */
 static unsigned int user_set_max_nr_refutations;
 
 /* Read the maximum number of refutations that the user is interested
@@ -93,55 +95,38 @@ static slice_index alloc_try_writer_slice(stip_length_type length,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defending side can successfully defend
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean try_writer_root_defend(slice_index si, stip_length_type n_min)
+stip_length_type try_writer_root_defend(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_min,
+                                        unsigned int max_nr_refutations)
 {
-  stip_length_type nr_moves_needed;
-  stip_length_type const length = slices[si].u.branch.length;
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
+
+  assert(max_nr_refutations<=user_set_max_nr_refutations);
 
   refutations = allocate_table();
 
-  nr_moves_needed = defense_can_defend_in_n(next,
-                                            length,
-                                            user_set_max_nr_refutations);
-  if (nr_moves_needed<slack_length_battle)
-    result = true;
-  else
-  {
-    if (nr_moves_needed>slack_length_battle
-        && n_min<=slack_length_battle
-        && n_min<length)
-      n_min += 2;
-    if (nr_moves_needed<=length)
-    {
-      result = false;
-      write_attack(attack_key);
-      continuation_writer_solve_postkey(si,n_min);
-      write_end_of_solution();
-    }
-    else
-    {
-      result = true;
-
-      if (nr_moves_needed==length+2)
-      {
-        write_attack(attack_try);
-        continuation_writer_solve_postkey(si,n_min);
-        write_refutations(refutations);
-        write_end_of_solution();
-      }
-    }
-  }
+  result = defense_root_defend(next,n,n_min,user_set_max_nr_refutations);
+  if (result==n+2)
+    write_refutations(refutations);
 
   free_table();
 
@@ -376,11 +361,11 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Substitute a try writer for the solution writer
+/* Prepend a try writer to the solution writer
  * @param si identifies slice to be replaced
  * @param st address of structure defining traversal
  */
-static void substitute_try_writer(slice_index si, stip_structure_traversal *st)
+static void prepend_try_writer(slice_index si, stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
 
@@ -393,7 +378,8 @@ static void substitute_try_writer(slice_index si, stip_structure_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_replace(si,alloc_try_writer_slice(length,min_length));
+    slice_index const prev = slices[si].prev;
+    pipe_append(prev,alloc_try_writer_slice(length,min_length));
   }
 
   *inserted = true;
@@ -423,7 +409,7 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
-  &substitute_try_writer,            /* STContinuationWriter */
+  &prepend_try_writer,               /* STContinuationWriter */
   &stip_traverse_structure_children, /* STTryWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */

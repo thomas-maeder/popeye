@@ -38,14 +38,20 @@ slice_index alloc_postkey_solution_writer_slice(stip_length_type length,
 boolean postkey_solution_writer_root_solve(slice_index si)
 {
   boolean result;
+  stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type nr_moves_needed;
+  unsigned int const max_nr_refutations = UINT_MAX;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   init_output(si);
-  result = continuation_writer_solve_postkey(si,min_length);
+  nr_moves_needed = continuation_writer_solve_postkey(si,
+                                                      length,min_length,
+                                                      max_nr_refutations);
+  result = nr_moves_needed<=length;
   write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);

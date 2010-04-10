@@ -208,20 +208,30 @@ static slice_index alloc_max_nr_nontrivial_counter(stip_length_type length,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defending side can successfully defend
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean max_nr_nontrivial_guard_root_defend(slice_index si,
-                                            stip_length_type n_min)
+stip_length_type
+max_nr_nontrivial_guard_root_defend(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type n_min,
+                                    unsigned int max_nr_refutations)
 {
-  boolean result;
-  stip_length_type const n = slices[si].u.branch.length;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   if (n>min_length_nontrivial)
@@ -231,15 +241,15 @@ boolean max_nr_nontrivial_guard_root_defend(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = defense_root_defend(next,n_min);
+      result = defense_root_defend(next,n,n_min,max_nr_refutations);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
     else
-      result = true;
+      result = n+4;
   }
   else
-    result = defense_root_defend(next,n_min);
+    result = defense_root_defend(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

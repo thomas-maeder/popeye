@@ -82,25 +82,30 @@ boolean continuation_writer_defend_in_n(slice_index si,
 /* Solve postkey play play after the move that has just
  * been played in the current ply.
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param max_nr_refutations how many refutations should we look for
  * @return true iff >=1 variation or a threat was found
  */
 boolean continuation_writer_solve_postkey(slice_index si,
-                                          stip_length_type n_min)
+                                          stip_length_type n,
+                                          stip_length_type n_min,
+                                          unsigned int max_nr_refutations)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   output_start_postkey_level();
 
   if (OptFlag[solvariantes])
-    result = !defense_root_defend(next,n_min);
+    result = defense_root_defend(next,n,n_min,max_nr_refutations)>n;
   else
     result = false;
 
@@ -114,42 +119,45 @@ boolean continuation_writer_solve_postkey(slice_index si,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defending side can successfully defend
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean continuation_writer_root_defend(slice_index si,
-                                        stip_length_type n_min)
+stip_length_type continuation_writer_root_defend(slice_index si,
+                                                 stip_length_type n,
+                                                 stip_length_type n_min,
+                                                 unsigned int max_nr_refutations)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type nr_moves_needed;
-  unsigned int const max_nr_refutations = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = defense_can_defend_in_n(next,length,max_nr_refutations);
-  if (nr_moves_needed<slack_length_battle)
-    result = true;
-  else
+  result = defense_can_defend_in_n(next,n,max_nr_refutations);
+
+  if (slack_length_battle<=result && result<=n+2)
   {
-    if (nr_moves_needed>slack_length_battle
+    write_attack(result<=n ? attack_key : attack_try);
+
+    /* suppress short ends in self stipulations if there are longer
+     * variations
+     */
+    if (result>slack_length_battle
         && n_min<=slack_length_battle
-        && n_min<length)
+        && n_min<n)
       n_min += 2;
-    if (nr_moves_needed<=length)
-    {
-      result = false;
-      write_attack(attack_key);
-      continuation_writer_solve_postkey(si,n_min);
-      write_end_of_solution();
-    }
-    else
-      result = true;
+    continuation_writer_solve_postkey(si,n,n_min,max_nr_refutations);
   }
 
   TraceFunctionExit(__func__);
@@ -164,10 +172,10 @@ boolean continuation_writer_root_defend(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
-           <=n solved  - return value is maximum number of moves
-                         (incl. defense) needed
-           n+2 refuted - <=max_nr_refutations refutations found
-           n+4 refuted - >max_nr_refutations refutations found
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type
 continuation_writer_can_defend_in_n(slice_index si,

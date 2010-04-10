@@ -83,12 +83,21 @@ reflex_attacker_filter_direct_solve_threats_in_n(table threats,
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defending side can successfully defend
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean reflex_defender_filter_root_defend(slice_index si,
-                                           stip_length_type n_min);
+stip_length_type
+reflex_defender_filter_root_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min,
+                                   unsigned int max_nr_refutations);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't

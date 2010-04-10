@@ -505,30 +505,39 @@ void reflex_defender_filter_insert_root(slice_index si, stip_structure_traversal
 
 /* Try to defend after an attempted key move at root level
  * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defending side can successfully defend
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean reflex_defender_filter_root_defend(slice_index si,
-                                           stip_length_type n_min)
+stip_length_type
+reflex_defender_filter_root_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min,
+                                   unsigned int max_nr_refutations)
 {
-  boolean result;
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.reflex_guard.min_length==slack_length_battle
+  if (n_min==slack_length_battle
       && slice_solve(slices[si].u.reflex_guard.avoided))
-  {
-    write_end_of_solution();
-    result = false;
-  }
-  else if (slices[si].u.reflex_guard.length>slack_length_battle)
-    result = defense_root_defend(slices[si].u.pipe.next,n_min);
+    result = n_min;
+  else if (n>slack_length_battle)
+    result = defense_root_defend(next,n,n_min,max_nr_refutations);
   else
-    result = false;
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
