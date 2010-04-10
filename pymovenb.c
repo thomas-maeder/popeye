@@ -287,6 +287,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &restart_guards_inserter_attack_root, /* STAttackRoot */
   &stip_structure_visitor_noop,         /* STBattlePlaySolutionWriter */
   &stip_structure_visitor_noop,         /* STPostKeyPlaySolutionWriter */
+  &stip_structure_visitor_noop,         /* STPostKeyPlaySuppressor */
   &stip_structure_visitor_noop,         /* STContinuationWriter */
   &stip_structure_visitor_noop,         /* STRefutationsWriter */
   &stip_structure_visitor_noop,         /* STThreatWriter */

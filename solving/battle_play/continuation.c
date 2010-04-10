@@ -79,44 +79,6 @@ boolean continuation_writer_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve postkey play play after the move that has just
- * been played in the current ply.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param max_nr_refutations how many refutations should we look for
- * @return true iff >=1 variation or a threat was found
- */
-boolean continuation_writer_solve_postkey(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_min,
-                                          unsigned int max_nr_refutations)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  output_start_postkey_level();
-
-  if (OptFlag[solvariantes])
-    result = defense_root_defend(next,n,n_min,max_nr_refutations)>n;
-  else
-    result = false;
-
-  output_end_postkey_level();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -157,7 +119,7 @@ stip_length_type continuation_writer_root_defend(slice_index si,
         && n_min<=slack_length_battle
         && n_min<n)
       n_min += 2;
-    continuation_writer_solve_postkey(si,n,n_min,max_nr_refutations);
+    defense_root_defend(next,n,n_min,max_nr_refutations);
   }
 
   TraceFunctionExit(__func__);
@@ -242,6 +204,7 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children,     /* STAttackRoot */
   &stip_traverse_structure_children,     /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,     /* STContinuationWriter */
   &stip_traverse_structure_children,     /* STRefutationsWriter */
   &stip_traverse_structure_children,     /* STThreatWriter */

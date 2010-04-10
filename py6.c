@@ -518,6 +518,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &root_slice_type_found,             /* STAttackRoot */
   &stip_traverse_structure_children,           /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,           /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,           /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,           /* STContinuationWriter */
   &stip_traverse_structure_children,           /* STRefutationsWriter */
   &stip_traverse_structure_children,           /* STThreatWriter */
@@ -2320,6 +2321,7 @@ static stip_structure_visitor const mating_side_finders[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
@@ -2438,6 +2440,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
@@ -2552,6 +2555,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
@@ -2813,6 +2817,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   remember_imminent_goal_branch_battle,      /* STAttackRoot */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
   &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
@@ -2991,23 +2996,25 @@ static Token iterate_twins(Token prev_token)
           && !stip_insert_stoponshortsolutions_filters())
         Message(NoStopOnShortSolutions);
 
-      if (OptFlag[solvariantes])
-        stip_insert_variation_handlers();
-
       stip_insert_continuation_handlers();
-          
-      if (OptFlag[noshort])
-        stip_insert_no_short_variations_filters();
 
-      if (OptFlag[postkeyplay])
-        stip_insert_postkey_handlers();
-
+      if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
+      {
+        stip_insert_variation_handlers();
+        if (OptFlag[postkeyplay])
+          stip_insert_postkey_handlers();
+        if (!OptFlag[nothreat])
+          stip_insert_threat_handlers();
+      }
+      else
+        stip_insert_postkeyplay_suppressors();
+        
       if (OptFlag[soltout] /* this includes OptFlag[solessais] */
           && !stip_insert_try_handlers())
         Message(TryPlayNotApplicable);
 
-      if (OptFlag[solvariantes] && !OptFlag[nothreat])
-        stip_insert_threat_handlers();
+      if (OptFlag[noshort])
+        stip_insert_no_short_variations_filters();
 
       stip_impose_starter(slices[root_slice].starter);
 

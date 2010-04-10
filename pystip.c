@@ -63,6 +63,7 @@
     ENUMERATOR(STAttackRoot),      /* root level of direct play */      \
     ENUMERATOR(STBattlePlaySolutionWriter), /* writes battle play solutions */ \
     ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
+    ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
     ENUMERATOR(STRefutationsWriter), /* writes refutations */ \
     ENUMERATOR(STThreatWriter), /* deals with threats */ \
@@ -178,6 +179,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STAttackRoot */
   slice_structure_branch, /* STBattlePlaySolutionWriter */
   slice_structure_branch, /* STPostKeyPlaySolutionWriter */
+  slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STContinuationWriter */
   slice_structure_branch, /* STRefutationsWriter */
   slice_structure_branch, /* STThreatWriter */
@@ -327,6 +329,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STAttackRoot */
   &mark_reachable_slice, /* STBattlePlaySolutionWriter */
   &mark_reachable_slice, /* STPostKeyPlaySolutionWriter */
+  &mark_reachable_slice, /* STPostKeyPlaySuppressor */
   &mark_reachable_slice, /* STContinuationWriter */
   &mark_reachable_slice, /* STRefutationsWriter */
   &mark_reachable_slice, /* STThreatWriter */
@@ -630,6 +633,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STAttackRoot */
   &traverse_and_deallocate,       /* STBattlePlaySolutionWriter */
   &traverse_and_deallocate,       /* STPostKeyPlaySolutionWriter */
+  &traverse_and_deallocate,       /* STPostKeyPlaySuppressor */
   &traverse_and_deallocate,       /* STContinuationWriter */
   &traverse_and_deallocate,       /* STRefutationsWriter */
   &traverse_and_deallocate,       /* STThreatWriter */
@@ -745,24 +749,25 @@ static void leaf_insert_root(slice_index si, stip_structure_traversal *st)
 static stip_structure_visitor const root_slice_inserters[] =
 {
   &stip_traverse_structure_children,            /* STProxy */
-  &attack_move_insert_root,            /* STAttackMove */
-  &defense_move_insert_root,           /* STDefenseMove */
-  &help_move_insert_root,              /* STHelpMove */
-  &help_fork_insert_root,              /* STHelpFork */
-  &series_move_insert_root,            /* STSeriesMove */
-  &series_fork_insert_root,            /* STSeriesFork */
-  &leaf_insert_root,                   /* STLeafDirect */
-  &leaf_insert_root,                   /* STLeafHelp */
-  &leaf_insert_root,                   /* STLeafForced */
-  &reci_insert_root,                   /* STReciprocal */
-  &quodlibet_insert_root,              /* STQuodlibet */
-  &not_insert_root,                    /* STNot */
+  &attack_move_insert_root,                     /* STAttackMove */
+  &defense_move_insert_root,                    /* STDefenseMove */
+  &help_move_insert_root,                       /* STHelpMove */
+  &help_fork_insert_root,                       /* STHelpFork */
+  &series_move_insert_root,                     /* STSeriesMove */
+  &series_fork_insert_root,                     /* STSeriesFork */
+  &leaf_insert_root,                            /* STLeafDirect */
+  &leaf_insert_root,                            /* STLeafHelp */
+  &leaf_insert_root,                            /* STLeafForced */
+  &reci_insert_root,                            /* STReciprocal */
+  &quodlibet_insert_root,                       /* STQuodlibet */
+  &not_insert_root,                             /* STNot */
   &stip_traverse_structure_children,            /* STMoveInverterRootSolvableFilter */
-  &move_inverter_insert_root,          /* STMoveInverterSolvableFilter */
+  &move_inverter_insert_root,                   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,            /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,            /* STAttackRoot */
   &stip_traverse_structure_children,            /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,            /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,            /* STContinuationWriter */
   &stip_traverse_structure_children,            /* STRefutationsWriter */
   &stip_traverse_structure_children,            /* STThreatWriter */
@@ -787,13 +792,13 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,            /* STDirectDefenseRootSolvableFilter */
-  &direct_defense_insert_root,         /* STDirectDefense */
-  &reflex_help_filter_insert_root,     /* STReflexHelpFilter */
-  &reflex_series_filter_insert_root,   /* STReflexSeriesFilter */
+  &direct_defense_insert_root,                  /* STDirectDefense */
+  &reflex_help_filter_insert_root,              /* STReflexHelpFilter */
+  &reflex_series_filter_insert_root,            /* STReflexSeriesFilter */
   &stip_traverse_structure_children,            /* STReflexRootSolvableFilter */
-  &reflex_attacker_filter_insert_root, /* STReflexAttackerFilter */
-  &reflex_defender_filter_insert_root, /* STReflexDefenderFilter */
-  &self_defense_insert_root,           /* STSelfDefense */
+  &reflex_attacker_filter_insert_root,          /* STReflexAttackerFilter */
+  &reflex_defender_filter_insert_root,          /* STReflexDefenderFilter */
+  &self_defense_insert_root,                    /* STSelfDefense */
   &stip_traverse_structure_children,            /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,            /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children,            /* STRestartGuardSeriesFilter */
@@ -867,6 +872,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STAttackRoot */
   &pipe_resolve_proxies,             /* STBattlePlaySolutionWriter */
   &pipe_resolve_proxies,             /* STPostKeyPlaySolutionWriter */
+  &pipe_resolve_proxies,             /* STPostKeyPlaySuppressor */
   &pipe_resolve_proxies,             /* STContinuationWriter */
   &pipe_resolve_proxies,             /* STRefutationsWriter */
   &threat_writer_resolve_proxies,    /* STThreatWriter */
@@ -1095,6 +1101,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &get_max_nr_moves_branch,                  /* STAttackRoot */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
   &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
@@ -1258,9 +1265,9 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &find_unique_goal_leaf,   /* STLeafDirect */
-  &find_unique_goal_leaf,   /* STLeafHelp */
-  &find_unique_goal_leaf,   /* STLeafForced */
+  &find_unique_goal_leaf,            /* STLeafDirect */
+  &find_unique_goal_leaf,            /* STLeafHelp */
+  &find_unique_goal_leaf,            /* STLeafForced */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -1270,6 +1277,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
@@ -1535,9 +1543,9 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &stip_traverse_structure_children,   /* STSeriesFork */
-  &stip_structure_visitor_noop,      /* STLeafDirect */
-  &make_leaf_direct,          /* STLeafHelp */
-  &make_leaf_direct,          /* STLeafForced */
+  &stip_structure_visitor_noop,        /* STLeafDirect */
+  &make_leaf_direct,                   /* STLeafHelp */
+  &make_leaf_direct,                   /* STLeafForced */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
   &stip_traverse_structure_children,   /* STNot */
@@ -1547,6 +1555,7 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STAttackRoot */
   &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationWriter */
   &stip_traverse_structure_children,   /* STRefutationsWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
@@ -1703,6 +1712,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STAttackRoot */
   &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationWriter */
   &stip_traverse_structure_children,   /* STRefutationsWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
@@ -1805,6 +1815,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &attack_root_reduce_to_postkey_play,            /* STAttackRoot */
   &stip_traverse_structure_children,              /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,              /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,              /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,              /* STContinuationWriter */
   &stip_traverse_structure_children,              /* STRefutationsWriter */
   &stip_traverse_structure_children,              /* STThreatWriter */
@@ -1940,6 +1951,7 @@ static stip_structure_visitor const setplay_makers[] =
   &attack_root_make_setplay_slice,            /* STAttackRoot */
   &stip_traverse_structure_children,          /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,          /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,          /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,          /* STContinuationWriter */
   &stip_traverse_structure_children,          /* STRefutationsWriter */
   &stip_traverse_structure_children,          /* STThreatWriter */
@@ -2124,9 +2136,9 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &leaf_ends_only_in,       /* STLeafDirect */
-  &leaf_ends_only_in,       /* STLeafHelp */
-  &leaf_ends_only_in,       /* STLeafForced */
+  &leaf_ends_only_in,                /* STLeafDirect */
+  &leaf_ends_only_in,                /* STLeafHelp */
+  &leaf_ends_only_in,                /* STLeafForced */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2136,6 +2148,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
@@ -2246,9 +2259,9 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &stip_traverse_structure_children,   /* STSeriesFork */
-  &slice_ends_in_one_of_leaf, /* STLeafDirect */
-  &slice_ends_in_one_of_leaf, /* STLeafHelp */
-  &slice_ends_in_one_of_leaf, /* STLeafForced */
+  &slice_ends_in_one_of_leaf,          /* STLeafDirect */
+  &slice_ends_in_one_of_leaf,          /* STLeafHelp */
+  &slice_ends_in_one_of_leaf,          /* STLeafForced */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
   &stip_traverse_structure_children,   /* STNot */
@@ -2258,6 +2271,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STAttackRoot */
   &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationWriter */
   &stip_traverse_structure_children,   /* STRefutationsWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
@@ -2357,12 +2371,12 @@ static void make_exact_branch(slice_index branch, stip_structure_traversal *st)
 static stip_structure_visitor const exact_makers[] =
 {
   &stip_traverse_structure_children, /* STProxy */
-  &make_exact_branch,       /* STAttackMove */
-  &make_exact_branch,       /* STDefenseMove */
-  &make_exact_branch,       /* STHelpMove */
-  &make_exact_branch,       /* STHelpFork */
-  &make_exact_branch,       /* STSeriesMove */
-  &make_exact_branch,       /* STSeriesFork */
+  &make_exact_branch,                /* STAttackMove */
+  &make_exact_branch,                /* STDefenseMove */
+  &make_exact_branch,                /* STHelpMove */
+  &make_exact_branch,                /* STHelpFork */
+  &make_exact_branch,                /* STSeriesMove */
+  &make_exact_branch,                /* STSeriesFork */
   &stip_traverse_structure_children, /* STLeafDirect */
   &stip_traverse_structure_children, /* STLeafHelp */
   &stip_traverse_structure_children, /* STLeafForced */
@@ -2372,68 +2386,69 @@ static stip_structure_visitor const exact_makers[] =
   &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
-  &make_exact_branch,       /* STAttackRoot */
-  &make_exact_branch,       /* STBattlePlaySolutionWriter */
-  &make_exact_branch,       /* STPostKeyPlaySolutionWriter */
-  &make_exact_branch,       /* STContinuationWriter */
-  &make_exact_branch,       /* STRefutationsWriter */
-  &make_exact_branch,       /* STThreatWriter */
-  &make_exact_branch,       /* STThreatEnforcer */
-  &make_exact_branch,       /* STRefutationsCollector */
-  &make_exact_branch,       /* STVariationWriter */
-  &make_exact_branch,       /* STRefutingVariationWriter */
-  &make_exact_branch,       /* STNoShortVariations */
+  &make_exact_branch,                /* STAttackRoot */
+  &make_exact_branch,                /* STBattlePlaySolutionWriter */
+  &make_exact_branch,                /* STPostKeyPlaySolutionWriter */
+  &make_exact_branch,                /* STPostKeyPlaySuppressor */
+  &make_exact_branch,                /* STContinuationWriter */
+  &make_exact_branch,                /* STRefutationsWriter */
+  &make_exact_branch,                /* STThreatWriter */
+  &make_exact_branch,                /* STThreatEnforcer */
+  &make_exact_branch,                /* STRefutationsCollector */
+  &make_exact_branch,                /* STVariationWriter */
+  &make_exact_branch,                /* STRefutingVariationWriter */
+  &make_exact_branch,                /* STNoShortVariations */
   &stip_traverse_structure_children, /* STAttackHashed */
-  &make_exact_branch,       /* STHelpRoot */
-  &make_exact_branch,       /* STHelpShortcut */
+  &make_exact_branch,                /* STHelpRoot */
+  &make_exact_branch,                /* STHelpShortcut */
   &stip_traverse_structure_children, /* STHelpHashed */
-  &make_exact_branch,       /* STSeriesRoot */
-  &make_exact_branch,       /* STSeriesShortcut */
+  &make_exact_branch,                /* STSeriesRoot */
+  &make_exact_branch,                /* STSeriesShortcut */
   &stip_traverse_structure_children, /* STParryFork */
   &stip_traverse_structure_children, /* STSeriesHashed */
-  &make_exact_branch,       /* STSelfCheckGuardRootSolvableFilter */
-  &make_exact_branch,       /* STSelfCheckGuardSolvableFilter */
-  &make_exact_branch,       /* STSelfCheckGuardRootDefenderFilter */
-  &make_exact_branch,       /* STSelfCheckGuardAttackerFilter */
-  &make_exact_branch,       /* STSelfCheckGuardDefenderFilter */
-  &make_exact_branch,       /* STSelfCheckGuardHelpFilter */
-  &make_exact_branch,       /* STSelfCheckGuardSeriesFilter */
-  &make_exact_branch,       /* STDirectDefenseRootSolvableFilter */
-  &make_exact_branch,       /* STDirectDefense */
-  &make_exact_branch,       /* STReflexHelpFilter */
-  &make_exact_branch,       /* STReflexSeriesFilter */
-  &make_exact_branch,       /* STReflexRootSolvableFilter */
-  &make_exact_branch,       /* STReflexAttackerFilter */
-  &make_exact_branch,       /* STReflexDefenderFilter */
-  &make_exact_branch,       /* STSelfDefense */
-  &make_exact_branch,       /* STRestartGuardRootDefenderFilter */
-  &make_exact_branch,       /* STRestartGuardHelpFilter */
-  &make_exact_branch,       /* STRestartGuardSeriesFilter */
-  &make_exact_branch,       /* STIntelligentHelpFilter */
-  &make_exact_branch,       /* STIntelligentSeriesFilter */
-  &make_exact_branch,       /* STGoalReachableGuardHelpFilter */
-  &make_exact_branch,       /* STGoalReachableGuardSeriesFilter */
-  &make_exact_branch,       /* STKeepMatingGuardRootDefenderFilter */
-  &make_exact_branch,       /* STKeepMatingGuardAttackerFilter */
-  &make_exact_branch,       /* STKeepMatingGuardDefenderFilter */
-  &make_exact_branch,       /* STKeepMatingGuardHelpFilter */
-  &make_exact_branch,       /* STKeepMatingGuardSeriesFilter */
-  &make_exact_branch,       /* STMaxFlightsquares */
-  &make_exact_branch,       /* STDegenerateTree */
-  &make_exact_branch,       /* STMaxNrNonTrivial */
-  &make_exact_branch,       /* STMaxNrNonTrivialCounter */
-  &make_exact_branch,       /* STMaxThreatLength */
-  &make_exact_branch,       /* STMaxTimeRootDefenderFilter */
-  &make_exact_branch,       /* STMaxTimeDefenderFilter */
-  &make_exact_branch,       /* STMaxTimeHelpFilter */
-  &make_exact_branch,       /* STMaxTimeSeriesFilter */
-  &make_exact_branch,       /* STMaxSolutionsRootSolvableFilter */
-  &make_exact_branch,       /* STMaxSolutionsRootDefenderFilter */
-  &make_exact_branch,       /* STMaxSolutionsHelpFilter */
-  &make_exact_branch,       /* STMaxSolutionsSeriesFilter */
-  &make_exact_branch,       /* STStopOnShortSolutionsRootSolvableFilter */
-  &make_exact_branch,       /* STStopOnShortSolutionsHelpFilter */
-  &make_exact_branch        /* STStopOnShortSolutionsSeriesFilter */
+  &make_exact_branch,                /* STSelfCheckGuardRootSolvableFilter */
+  &make_exact_branch,                /* STSelfCheckGuardSolvableFilter */
+  &make_exact_branch,                /* STSelfCheckGuardRootDefenderFilter */
+  &make_exact_branch,                /* STSelfCheckGuardAttackerFilter */
+  &make_exact_branch,                /* STSelfCheckGuardDefenderFilter */
+  &make_exact_branch,                /* STSelfCheckGuardHelpFilter */
+  &make_exact_branch,                /* STSelfCheckGuardSeriesFilter */
+  &make_exact_branch,                /* STDirectDefenseRootSolvableFilter */
+  &make_exact_branch,                /* STDirectDefense */
+  &make_exact_branch,                /* STReflexHelpFilter */
+  &make_exact_branch,                /* STReflexSeriesFilter */
+  &make_exact_branch,                /* STReflexRootSolvableFilter */
+  &make_exact_branch,                /* STReflexAttackerFilter */
+  &make_exact_branch,                /* STReflexDefenderFilter */
+  &make_exact_branch,                /* STSelfDefense */
+  &make_exact_branch,                /* STRestartGuardRootDefenderFilter */
+  &make_exact_branch,                /* STRestartGuardHelpFilter */
+  &make_exact_branch,                /* STRestartGuardSeriesFilter */
+  &make_exact_branch,                /* STIntelligentHelpFilter */
+  &make_exact_branch,                /* STIntelligentSeriesFilter */
+  &make_exact_branch,                /* STGoalReachableGuardHelpFilter */
+  &make_exact_branch,                /* STGoalReachableGuardSeriesFilter */
+  &make_exact_branch,                /* STKeepMatingGuardRootDefenderFilter */
+  &make_exact_branch,                /* STKeepMatingGuardAttackerFilter */
+  &make_exact_branch,                /* STKeepMatingGuardDefenderFilter */
+  &make_exact_branch,                /* STKeepMatingGuardHelpFilter */
+  &make_exact_branch,                /* STKeepMatingGuardSeriesFilter */
+  &make_exact_branch,                /* STMaxFlightsquares */
+  &make_exact_branch,                /* STDegenerateTree */
+  &make_exact_branch,                /* STMaxNrNonTrivial */
+  &make_exact_branch,                /* STMaxNrNonTrivialCounter */
+  &make_exact_branch,                /* STMaxThreatLength */
+  &make_exact_branch,                /* STMaxTimeRootDefenderFilter */
+  &make_exact_branch,                /* STMaxTimeDefenderFilter */
+  &make_exact_branch,                /* STMaxTimeHelpFilter */
+  &make_exact_branch,                /* STMaxTimeSeriesFilter */
+  &make_exact_branch,                /* STMaxSolutionsRootSolvableFilter */
+  &make_exact_branch,                /* STMaxSolutionsRootDefenderFilter */
+  &make_exact_branch,                /* STMaxSolutionsHelpFilter */
+  &make_exact_branch,                /* STMaxSolutionsSeriesFilter */
+  &make_exact_branch,                /* STStopOnShortSolutionsRootSolvableFilter */
+  &make_exact_branch,                /* STStopOnShortSolutionsHelpFilter */
+  &make_exact_branch                 /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Make the stipulation exact
@@ -2473,6 +2488,7 @@ static stip_structure_visitor const starter_detectors[] =
   &attack_move_detect_starter,       /* STAttackRoot */
   &pipe_detect_starter,              /* STBattlePlaySolutionWriter */
   &pipe_detect_starter,              /* STPostKeyPlaySolutionWriter */
+  &pipe_detect_starter,              /* STPostKeyPlaySuppressor */
   &pipe_detect_starter,              /* STContinuationWriter */
   &pipe_detect_starter,              /* STRefutationsWriter */
   &pipe_detect_starter,              /* STThreatWriter */
@@ -2575,6 +2591,7 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STAttackRoot */
   &pipe_impose_starter,           /* STBattlePlaySolutionWriter */
   &pipe_impose_starter,           /* STPostKeyPlaySolutionWriter */
+  &pipe_impose_starter,           /* STPostKeyPlaySuppressor */
   &pipe_impose_starter,           /* STContinuationWriter */
   &pipe_impose_starter,           /* STRefutationsWriter */
   &pipe_impose_starter,           /* STThreatWriter */
@@ -2857,9 +2874,9 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_branch_fork,  /* STHelpFork */
   &traverse_structure_pipe,         /* STSeriesMove */
   &traverse_structure_branch_fork,  /* STSeriesFork */
-  &stip_structure_visitor_noop,  /* STLeafDirect */
-  &stip_structure_visitor_noop,  /* STLeafHelp */
-  &stip_structure_visitor_noop,  /* STLeafForced */
+  &stip_structure_visitor_noop,     /* STLeafDirect */
+  &stip_structure_visitor_noop,     /* STLeafHelp */
+  &stip_structure_visitor_noop,     /* STLeafForced */
   &traverse_structure_binary,       /* STReciprocal */
   &traverse_structure_binary,       /* STQuodlibet */
   &traverse_structure_pipe,         /* STNot */
@@ -2869,6 +2886,7 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STAttackRoot */
   &traverse_structure_pipe,         /* STBattlePlaySolutionWriter */
   &traverse_structure_pipe,         /* STPostKeyPlaySolutionWriter */
+  &traverse_structure_pipe,         /* STPostKeyPlaySuppressor */
   &traverse_structure_pipe,         /* STContinuationWriter */
   &traverse_structure_pipe,         /* STRefutationsWriter */
   &traverse_structure_pipe,         /* STThreatWriter */

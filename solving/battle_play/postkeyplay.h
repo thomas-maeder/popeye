@@ -13,6 +13,40 @@
  */
 boolean postkey_solution_writer_root_solve(slice_index si);
 
+/* Try to defend after an attempted key move at root level
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
+ */
+stip_length_type
+postkeyplay_suppressor_root_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min,
+                                   unsigned int max_nr_refutations);
+
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
+ */
+stip_length_type
+postkeyplay_suppressor_can_defend_in_n(slice_index si,
+                                       stip_length_type n,
+                                       unsigned int max_nr_refutations);
+
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
@@ -79,5 +113,10 @@ stip_length_type refuting_variation_writer_solve_in_n(slice_index si,
  * refuting variations
  */
 void stip_insert_postkey_handlers(void);
+
+/* Instrument the stipulation representation so that post key play is
+ * suppressed from output
+ */
+void stip_insert_postkeyplay_suppressors(void);
 
 #endif

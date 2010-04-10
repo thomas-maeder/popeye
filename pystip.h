@@ -36,6 +36,7 @@
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */      \
     ENUMERATOR(STBattlePlaySolutionWriter), /* writes battle play solutions */ \
     ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
+    ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
     ENUMERATOR(STRefutationsWriter), /* writes refutations */ \
     ENUMERATOR(STThreatWriter), /* writes threats */ \

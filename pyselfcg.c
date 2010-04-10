@@ -763,6 +763,7 @@ static stip_structure_visitor const selfcheck_guards_toplevel_inserters[] =
   &selfcheck_guards_inserter_toplevel_root, /* STAttackRoot */
   &stip_traverse_structure_children,        /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,        /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,        /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,        /* STContinuationWriter */
   &stip_traverse_structure_children,        /* STRefutationsWriter */
   &stip_traverse_structure_children,        /* STThreatWriter */

@@ -286,7 +286,7 @@ trace.h:
 stipulation/battle_play/postkeyplay$(OBJ_SUFFIX):  \
  stipulation/battle_play/postkeyplay.c \
   stipulation/battle_play/postkeyplay.h pyoutput.h pypipe.h \
-  stipulation/branch.h stipulation/battle_play/continuation.h trace.h
+  stipulation/branch.h trace.h
 
 stipulation/battle_play/postkeyplay.h:
 
@@ -295,7 +295,5 @@ pyoutput.h:
 pypipe.h:
 
 stipulation/branch.h:
-
-stipulation/battle_play/continuation.h:
 
 trace.h:

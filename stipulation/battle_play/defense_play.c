@@ -98,6 +98,12 @@ stip_length_type defense_root_defend(slice_index si,
       result = refutations_writer_root_defend(si,n,n_min,max_nr_refutations);
       break;
 
+    case STPostKeyPlaySuppressor:
+      result = postkeyplay_suppressor_root_defend(si,
+                                                  n,n_min,
+                                                  max_nr_refutations);
+      break;
+
     case STThreatWriter:
       result = threat_writer_root_defend(si,n,n_min,max_nr_refutations);
       break;
@@ -273,6 +279,10 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   {
     case STRefutationsWriter:
       result = refutations_writer_can_defend_in_n(si,n,max_nr_refutations);
+      break;
+
+    case STPostKeyPlaySuppressor:
+      result = postkeyplay_suppressor_can_defend_in_n(si,n,max_nr_refutations);
       break;
 
     case STContinuationWriter:

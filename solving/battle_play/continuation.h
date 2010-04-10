@@ -6,20 +6,6 @@
 /* This module provides functionality dealing with continuations.
  */
 
-/* Solve postkey play play after the move that has just been played in
- * the current ply 
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param max_nr_refutations how many refutations should we look for
- * @return true iff >=1 variation or a threat was found
- */
-boolean continuation_writer_solve_postkey(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_min,
-                                          unsigned int max_nr_refutations);
-
 /* Try to defend after an attempted key move at root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
