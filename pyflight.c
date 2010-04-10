@@ -152,7 +152,7 @@ stip_length_type maxflight_guard_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n-1>slack_length_battle+2 && has_too_many_flights(defender))
+  if (n>slack_length_battle+2 && has_too_many_flights(defender))
     result = n+4;
   else
     result = defense_root_defend(next,n,n_min,max_nr_refutations);
