@@ -1,6 +1,6 @@
 begin
 
-protocol direct.tst
+protocol battle_play.tst
 
 title #1 - Black in check
 pieces white ka6 sc7
