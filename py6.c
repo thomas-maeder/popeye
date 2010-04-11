@@ -2083,6 +2083,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STLeafDirect:
+    case STContinuationWriter:
     case STDefenseMove:
       result = whitetoplay_means_shorten_root_slice;
       break;
@@ -2995,8 +2996,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[stoponshort]
           && !stip_insert_stoponshortsolutions_filters())
         Message(NoStopOnShortSolutions);
-
-      stip_insert_continuation_handlers();
 
       if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
       {

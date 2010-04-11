@@ -901,7 +901,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#1                         1 + 3
 
-  1...Se1-c2 # 
+      1...Se1-c2 # 
 
 solution finished. 
 
@@ -1312,7 +1312,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   semi-r#1                    1 + 3
 
-  1...b3-b2 # 
+      1...b3-b2 # 
 
 solution finished. 
 

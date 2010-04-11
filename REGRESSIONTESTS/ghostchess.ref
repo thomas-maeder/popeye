@@ -514,6 +514,9 @@ solution finished.
           2.Qc2-c4[+buRc2] 
               2...uRc2-c1 # 
       1...Ke3-f2 
+          2.Qc2-c1[+buRc2] 
+              2...uRc2*c1 # 
+              2...uRc2*d2 # 
           2.Qc2-b1[+buRc2] 
               2...uRc2-c1 # 
           2.Qc2-h7[+buRc2] 
@@ -528,9 +531,6 @@ solution finished.
               2...uRc2-c1 # 
           2.Qc2-b3[+buRc2] 
               2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-              2...uRc2*d2 # 
           2.Qc2-a2[+buRc2] 
               2...uRc2-c1 # 
           2.Qc2-b2[+buRc2] 

@@ -25,6 +25,7 @@
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/variation.h"
+#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
@@ -768,7 +769,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySuppressor */
-  &stip_traverse_structure_children,            /* STContinuationWriter */
+  &continuation_writer_insert_root,             /* STContinuationWriter */
   &stip_traverse_structure_children,            /* STRefutationsWriter */
   &stip_traverse_structure_children,            /* STThreatWriter */
   &stip_traverse_structure_children,            /* STThreatEnforcer */
@@ -1798,7 +1799,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
 {
   &stip_traverse_structure_children,              /* STProxy */
   &stip_traverse_structure_children,              /* STAttackMove */
-  &defense_move_reduce_to_postkey_play,           /* STDefenseMove */
+  &stip_traverse_structure_children,              /* STDefenseMove */
   &stip_traverse_structure_children,              /* STHelpMove */
   &stip_traverse_structure_children,              /* STHelpFork */
   &stip_traverse_structure_children,              /* STSeriesMove */
@@ -1816,7 +1817,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,              /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,              /* STPostKeyPlaySuppressor */
-  &stip_traverse_structure_children,              /* STContinuationWriter */
+  &continuation_writer_reduce_to_postkey_play,    /* STContinuationWriter */
   &stip_traverse_structure_children,              /* STRefutationsWriter */
   &stip_traverse_structure_children,              /* STThreatWriter */
   &stip_traverse_structure_children,              /* STThreatEnforcer */

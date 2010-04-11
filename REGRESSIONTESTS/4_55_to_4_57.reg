@@ -221,6 +221,13 @@ try play not applicable
 solution finished. 
 
 
+try play not applicable
+
+zugzwang.
+
+solution finished. 
+
+
 Option "Threat" not applicable or indicated maximum threat length too big
 
 a) 
@@ -246,6 +253,35 @@ Option "Threat" not applicable or indicated maximum threat length too big
 h) ser-h#8
 Option "Threat" not applicable or indicated maximum threat length too big
 
+
+solution finished. 
+
+
+
+don't output reflexmates if variations are not asked for
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -R   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -K   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   K   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#1                         1 + 2
+
+  1.Kb1-a1 ! 
 
 solution finished. 
 

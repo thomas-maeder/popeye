@@ -1,7 +1,8 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
   stipulation/battle_play/branch.h pypipe.h pyselfcg.h \
   stipulation/proxy.h stipulation/battle_play/attack_move.h \
-  stipulation/battle_play/defense_move.h trace.h
+  stipulation/battle_play/defense_move.h \
+  stipulation/battle_play/continuation.h trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -14,6 +15,8 @@ stipulation/proxy.h:
 stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/defense_move.h:
+
+stipulation/battle_play/continuation.h:
 
 trace.h:
 stipulation/battle_play/attack_root$(OBJ_SUFFIX):  \

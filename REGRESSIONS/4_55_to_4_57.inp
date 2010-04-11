@@ -75,6 +75,12 @@ twin stip ser-h#5
 
 next
 
+title option Try not applicable in postkey battle play
+stip #2
+option noboard nowk nobk try postkey
+
+next
+
 title option Threat only applicable in sufficiently long battle play
 option noboard nowk nobk threat 3
 stip #3
@@ -85,5 +91,11 @@ twin stip r#3
 twin stip r#4
 twin stip h#7
 twin stip ser-h#8
+
+next
+
+title don't output reflexmates if variations are not asked for
+pieces white kb1 black kb3 rc8
+stip r#1
 
 end

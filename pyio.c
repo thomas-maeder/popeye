@@ -86,6 +86,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_move.h"
+#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/parry_fork.h"
@@ -2419,12 +2420,16 @@ static char *ParsePlay(char *tok, slice_index proxy)
         slice_index const proxy = alloc_proxy_slice();
         slice_index const after_parry = convert_to_parry_series_branch(next,
                                                                        proxy);
+        slice_index const
+            writer = alloc_continuation_writer_slice(slack_length_battle+1,
+                                                     slack_length_battle+1);
         slice_index const def = alloc_defense_move_slice(slack_length_battle+1,
                                                          slack_length_battle+1);
         slice_index const
             guard = alloc_selfcheck_guard_attacker_filter(slack_length_battle,
                                                           slack_length_battle);
-        pipe_link(proxy,def);
+        pipe_link(proxy,writer);
+        pipe_link(writer,def);
         pipe_link(def,guard);
         pipe_set_successor(guard,after_parry);
       }
