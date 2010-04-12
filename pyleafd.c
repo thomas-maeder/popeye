@@ -5,7 +5,6 @@
 #include "pyoutput.h"
 #include "pyleaf.h"
 #include "pyoutput.h"
-#include "pymsg.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 
 #include <assert.h>
@@ -123,9 +122,7 @@ static boolean leaf_d_root_dmate_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[leaf].starter)))
-    ErrorMsg(KingCapture);
-  else if (!immobile(starter))
+  if (!immobile(starter))
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
@@ -225,37 +222,32 @@ static boolean leaf_d_root_regulargoals_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[leaf].starter)))
-    ErrorMsg(KingCapture);
-  else
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(leaf,attacker);
+
+  reset_nr_found_solutions_per_phase();
+
+  while (encore())
   {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = leaf;
-    generate_move_reaching_goal(leaf,attacker);
-
-    reset_nr_found_solutions_per_phase();
-
-    while (encore())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
-      {
-        result = true;
-        write_final_attack(slices[leaf].u.leaf.goal,attack_key);
-        output_start_leaf_variation_level();
-        output_end_leaf_variation_level();
-        write_end_of_solution();
-      }
-
-      repcoup();
-
-      if (max_nr_solutions_found_in_phase())
-        break;
+      result = true;
+      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
+      output_start_leaf_variation_level();
+      output_end_leaf_variation_level();
+      write_end_of_solution();
     }
 
-    finply();
+    repcoup();
+
+    if (max_nr_solutions_found_in_phase())
+      break;
   }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
