@@ -83,134 +83,6 @@ has_solution_type leaf_h_has_solution(slice_index leaf)
   return result;
 }
 
-/* Determine and find final moves of a help leaf
- * @param side_at_move side to perform the final move
- * @param leaf slice index
- * @return true iff >= 1 solution was found
- */
-static boolean leaf_h_solve_final_move(slice_index leaf)
-{
-  boolean final_move_found = false;
-  Side const side_at_move = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",side_at_move);
-
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,side_at_move);
-
-  --MovesLeft[side_at_move];
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !(isIntelligentModeActive && !isGoalReachable())
-        && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
-    {
-      final_move_found = true;
-      write_final_help_move(slices[leaf].u.leaf.goal);
-    }
-
-    repcoup();
-  }
-
-  ++MovesLeft[side_at_move];
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",final_move_found);
-  TraceFunctionResultEnd();
-  return final_move_found;
-}
-
-/* Solve the final move for a countermate
- * @param leaf identifies leaf slice
- * @return true iff >=1 moves have been found and written
- */
-static boolean leaf_h_cmate_solve_final_move(slice_index leaf)
-{
-  boolean result = false;
-  Side const just_moved = advers(slices[leaf].starter);
-  Side const side_at_move = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (goal_checker_mate(just_moved)==goal_reached)
-  {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = leaf;
-    generate_move_reaching_goal(leaf,side_at_move);
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
-      {
-        result = true;
-        write_final_help_move(goal_countermate);
-      }
-      repcoup();
-    }
-
-    finply();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve the final move for a doublemate
- * @param leaf identifies leaf slice
- * @return true iff >=1 moves have been found and written
- */
-static boolean leaf_h_dmate_solve_final_move(slice_index leaf)
-{
-  boolean result = false;
-  Side const side_at_move = slices[leaf].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (!immobile(side_at_move))
-  {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = leaf;
-    generate_move_reaching_goal(leaf,side_at_move);
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
-      {
-        result = true;
-        write_final_help_move(goal_doublemate);
-      }
-
-      repcoup();
-    }
-
-    finply();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine and write the solution of a leaf slice at root level
  * @param leaf identifies leaf slice
  * @return true iff >=1 solution was found
@@ -243,26 +115,36 @@ boolean leaf_h_root_solve(slice_index leaf)
  */
 boolean leaf_h_solve(slice_index leaf)
 {
-  boolean result;
+  boolean result = false;
+  Side const side_at_move = slices[leaf].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  switch (slices[leaf].u.leaf.goal)
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(leaf,side_at_move);
+
+  --MovesLeft[side_at_move];
+
+  while (encore())
   {
-    case goal_countermate:
-      result = leaf_h_cmate_solve_final_move(leaf);
-      break;
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && !(isIntelligentModeActive && !isGoalReachable())
+        && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
+    {
+      result = true;
+      write_final_help_move(slices[leaf].u.leaf.goal);
+    }
 
-    case goal_doublemate:
-      result = leaf_h_dmate_solve_final_move(leaf);
-      break;
-
-    default:
-      result = leaf_h_solve_final_move(leaf);
-      break;
+    repcoup();
   }
+
+  ++MovesLeft[side_at_move];
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -507,6 +507,80 @@ void remove_ortho_mating_moves_generation_obstacle(void)
   --nr_ortho_mating_moves_generation_obstacles;
 }
 
+static void generate_ortho_moves_reaching_goal(Goal goal, Side side_at_move)
+{
+  square square_a = square_a1;
+  square const OpponentsKing = side_at_move==White ? rn : rb;
+  int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParamListEnd();
+
+  nextply(nbply);
+  trait[nbply]= side_at_move;
+  init_move_generation_optimizer();
+
+  /* Don't try to "optimize" by hand. The double-loop is tested as
+   * the fastest way to compute (due to compiler-optimizations!) */
+  for (i = nr_rows_on_board; i>0; i--, square_a += onerow)
+  {
+    square sq_departure = square_a;
+    int j;
+    for (j = nr_files_on_board; j>0; j--, sq_departure += dir_right)
+    {
+      piece const p = e[sq_departure];
+      if (p!=vide && TSTFLAG(spec[sq_departure],side_at_move))
+      {
+        if (CondFlag[gridchess]
+            && !GridLegal(sq_departure,OpponentsKing))
+        {
+          if (side_at_move==White)
+            gen_wh_piece(sq_departure,p);
+          else
+            gen_bl_piece(sq_departure,p);
+        }
+        else
+        {
+          switch(abs(p))
+          {
+            case King:
+              GenMatingKing(goal,sq_departure,OpponentsKing,side_at_move);
+              break;
+
+            case Pawn:
+              GenMatingPawn(sq_departure,OpponentsKing,side_at_move);
+              break;
+
+            case Knight:
+              TraceText("Knight\n");
+              GenMatingKnight(sq_departure,OpponentsKing,side_at_move);
+              break;
+
+            case Rook:
+              GenMatingRook(sq_departure,OpponentsKing,side_at_move);
+              break;
+
+            case Queen:
+              GenMatingQueen(sq_departure,OpponentsKing,side_at_move);
+              break;
+
+            case Bishop:
+              GenMatingBishop(sq_departure,OpponentsKing,side_at_move);
+              break;
+          }
+        }
+      }
+    }
+  }
+
+  finish_move_generation_optimizer();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Generate moves for side side_at_move; optimise for moves reaching a
  * specific goal.
  * @param leaf leaf slice whose goal is to be reached by generated
@@ -529,74 +603,22 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
   switch (goal)
   {
     case goal_mate:
-    case goal_doublemate:
     case goal_check:
       TraceValue("%u\n",nr_ortho_mating_moves_generation_obstacles);
       if (nr_ortho_mating_moves_generation_obstacles==0)
+        generate_ortho_moves_reaching_goal(goal,side_at_move);
+      else
+        genmove(side_at_move);
+      break;
+
+    case goal_doublemate:
+      if (immobile(side_at_move))
       {
-        square square_a = square_a1;
-        square const OpponentsKing = side_at_move==White ? rn : rb;
-        int i;
-
+        TraceText("attacker is immobile\n");
         nextply(nbply);
-        trait[nbply]= side_at_move;
-        init_move_generation_optimizer();
-
-        /* Don't try to "optimize" by hand. The double-loop is tested as
-         * the fastest way to compute (due to compiler-optimizations!) */
-        for (i = nr_rows_on_board; i>0; i--, square_a += onerow)
-        {
-          square sq_departure = square_a;
-          int j;
-          for (j = nr_files_on_board; j>0; j--, sq_departure += dir_right)
-          {
-            piece const p = e[sq_departure];
-            if (p!=vide && TSTFLAG(spec[sq_departure],side_at_move))
-            {
-              if (CondFlag[gridchess]
-                  && !GridLegal(sq_departure,OpponentsKing))
-              {
-                if (side_at_move==White)
-                  gen_wh_piece(sq_departure,p);
-                else
-                  gen_bl_piece(sq_departure,p);
-              }
-              else
-              {
-                switch(abs(p))
-                {
-                  case King:
-                    GenMatingKing(goal,sq_departure,OpponentsKing,side_at_move);
-                    break;
-
-                  case Pawn:
-                    GenMatingPawn(sq_departure,OpponentsKing,side_at_move);
-                    break;
-
-                  case Knight:
-                    TraceText("Knight\n");
-                    GenMatingKnight(sq_departure,OpponentsKing,side_at_move);
-                    break;
-
-                  case Rook:
-                    GenMatingRook(sq_departure,OpponentsKing,side_at_move);
-                    break;
-
-                  case Queen:
-                    GenMatingQueen(sq_departure,OpponentsKing,side_at_move);
-                    break;
-
-                  case Bishop:
-                    GenMatingBishop(sq_departure,OpponentsKing,side_at_move);
-                    break;
-                }
-              }
-            }
-          }
-        }
-
-        finish_move_generation_optimizer();
       }
+      else if (nr_ortho_mating_moves_generation_obstacles==0)
+        generate_ortho_moves_reaching_goal(goal,side_at_move);
       else
         genmove(side_at_move);
       break;
@@ -617,6 +639,17 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
       else
         /* TODO only generate king moves? */
         genmove(side_at_move);
+      break;
+
+    case goal_countermate:
+      /* TODO can this be generalised to non-mate goals? */
+      if (goal_checker_mate(advers(side_at_move))==goal_reached)
+        /* TODO only generate king and ortho moves if there are no
+         * obstacles?
+         */
+        genmove(side_at_move);
+      else
+        nextply(nbply);
       break;
 
     default:
