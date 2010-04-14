@@ -7,6 +7,8 @@
  * branches
  */
 
+slice_index alloc_defense_branch(void);
+
 /* Allocate a branch that represents battle play
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)

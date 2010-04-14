@@ -141,6 +141,8 @@ stip_length_type refutations_writer_root_defend(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
@@ -151,6 +153,7 @@ stip_length_type refutations_writer_root_defend(slice_index si,
 stip_length_type
 refutations_writer_can_defend_in_n(slice_index si,
                                    stip_length_type n,
+                                   stip_length_type n_min,
                                    unsigned int max_nr_refutations)
 {
   stip_length_type result;
@@ -159,10 +162,11 @@ refutations_writer_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,max_nr_refutations);
+  result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -370,21 +374,25 @@ static void prepend_refutations_writer(slice_index si,
                                        stip_structure_traversal *st)
 {
   boolean * const inserted = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
+  /* no tries in #1; at least s#1 required */
+  if (length>=slack_length_battle)
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    pipe_append(prev,alloc_refutations_writer_slice(length,min_length));
-  }
+    stip_traverse_structure_children(si,st);
 
-  *inserted = true;
+    {
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      slice_index const prev = slices[si].prev;
+      pipe_append(prev,alloc_refutations_writer_slice(length,min_length));
+    }
+
+    *inserted = true;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -435,8 +443,7 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */

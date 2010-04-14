@@ -40,8 +40,9 @@ boolean slice_root_solve(slice_index si);
 #define ENUMERATION_TYPENAME has_solution_type
 #define ENUMERATORS                             \
   ENUMERATOR(defender_self_check),              \
+    ENUMERATOR(has_no_solution),                \
     ENUMERATOR(has_solution),                   \
-    ENUMERATOR(has_no_solution)
+    ENUMERATOR(is_solved)
 
 #define ENUMERATION_DECLARE
 

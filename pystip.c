@@ -88,8 +88,7 @@
     ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSeriesFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STDirectDefenseRootSolvableFilter),  /* just before root */ \
-    ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
+    ENUMERATOR(STDirectDefenderFilter),   /* direct play, just played attack */ \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexSeriesFilter),    /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexRootSolvableFilter),  /* stop when wrong side can reach goal */ \
@@ -204,8 +203,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_pipe,   /* STSelfCheckGuardDefenderFilter */
   slice_structure_pipe,   /* STSelfCheckGuardHelpFilter */
   slice_structure_pipe,   /* STSelfCheckGuardSeriesFilter */
-  slice_structure_fork,   /* STDirectDefenseRootSolvableFilter */
-  slice_structure_fork,   /* STDirectDefense */
+  slice_structure_fork,   /* STDirectDefenderFilter */
   slice_structure_fork,   /* STReflexHelpFilter */
   slice_structure_fork,   /* STReflexSeriesFilter */
   slice_structure_fork,   /* STReflexRootSolvableFilter */
@@ -354,8 +352,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STSelfCheckGuardDefenderFilter */
   &mark_reachable_slice, /* STSelfCheckGuardHelpFilter */
   &mark_reachable_slice, /* STSelfCheckGuardSeriesFilter */
-  &mark_reachable_slice, /* STDirectDefenseRootSolvableFilter */
-  &mark_reachable_slice, /* STDirectDefense */
+  &mark_reachable_slice, /* STDirectDefenderFilter */
   &mark_reachable_slice, /* STReflexHelpFilter */
   &mark_reachable_slice, /* STReflexSeriesFilter */
   &mark_reachable_slice, /* STReflexRootSolvableFilter */
@@ -658,8 +655,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STSelfCheckGuardDefenderFilter */
   &traverse_and_deallocate,       /* STSelfCheckGuardHelpFilter */
   &traverse_and_deallocate,       /* STSelfCheckGuardSeriesFilter */
-  &traverse_and_deallocate,       /* STDirectDefenseRootSolvableFilter */
-  &traverse_and_deallocate,       /* STDirectDefense */
+  &traverse_and_deallocate,       /* STDirectDefenderFilter */
   &traverse_and_deallocate,       /* STReflexHelpFilter */
   &traverse_and_deallocate,       /* STReflexSeriesFilter */
   &traverse_and_deallocate,       /* STReflexRootSolvableFilter */
@@ -792,8 +788,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &selfcheck_guard_defender_filter_insert_root, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,            /* STDirectDefenseRootSolvableFilter */
-  &direct_defense_insert_root,                  /* STDirectDefense */
+  &direct_defender_filter_insert_root,          /* STDirectDefenderFilter */
   &reflex_help_filter_insert_root,              /* STReflexHelpFilter */
   &reflex_series_filter_insert_root,            /* STReflexSeriesFilter */
   &stip_traverse_structure_children,            /* STReflexRootSolvableFilter */
@@ -897,8 +892,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STSelfCheckGuardDefenderFilter */
   &pipe_resolve_proxies,             /* STSelfCheckGuardHelpFilter */
   &pipe_resolve_proxies,             /* STSelfCheckGuardSeriesFilter */
-  &branch_fork_resolve_proxies,      /* STDirectDefenseRootSolvableFilter */
-  &branch_fork_resolve_proxies,      /* STDirectDefense */
+  &branch_fork_resolve_proxies,      /* STDirectDefenderFilter */
   &reflex_filter_resolve_proxies,    /* STReflexHelpFilter */
   &reflex_filter_resolve_proxies,    /* STReflexSeriesFilter */
   &reflex_filter_resolve_proxies,    /* STReflexRootSolvableFilter */
@@ -1126,8 +1120,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_moves_battle_fork,          /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_moves_battle_fork,          /* STDirectDefense */
+  &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexRootSolvableFilter */
@@ -1302,8 +1295,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
@@ -1443,7 +1435,6 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
 
       case STHelpFork:
       case STSeriesFork:
-      case STDirectDefense:
       case STSelfDefense:
       {
         slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -1580,8 +1571,7 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STDirectDefense */
+  &stip_traverse_structure_children,   /* STDirectDefenderFilter */
   &stip_traverse_structure_children,   /* STReflexHelpFilter */
   &stip_traverse_structure_children,   /* STReflexSeriesFilter */
   &stip_traverse_structure_children,   /* STReflexRootSolvableFilter */
@@ -1618,47 +1608,54 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children    /* STStopOnShortSolutionsSeriesFilter */
 };
 
-/* Convert all leaves of a stipulation sub-tree to STLeafDirect
- */
-static void make_leaves_direct(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&leaves_direct_makers,0);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void transform_to_quodlibet_self_defense(slice_index si,
                                                 stip_structure_traversal *st)
 {
-  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
-  slice_index * const new_proxy_to_goal = st->param;
+  slice_index * const proxy_to_goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *new_proxy_to_goal = deep_copy(proxy_to_goal);
-  make_leaves_direct(*new_proxy_to_goal);
+  *proxy_to_goal = deep_copy(slices[si].u.branch_fork.towards_goal);
 
   stip_traverse_structure_children(si,st);
 
-  *new_proxy_to_goal = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void append_direct_defense(slice_index si,stip_structure_traversal *st)
+static void transform_to_quodlibet_semi_reflex(slice_index si,
+                                               stip_structure_traversal *st)
 {
-  slice_index const * const new_proxy_to_goal = st->param;
+  slice_index * const new_proxy_to_goal = st->param;
+  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const leaf_help = slices[proxy_to_goal].u.pipe.next;
+  Goal goal = slices[leaf_help].u.leaf.goal;
+  slice_index new_leaf;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[proxy_to_goal].type==STProxy);
+  assert(slices[leaf_help].type==STLeafHelp);
+
+  new_leaf = alloc_leaf_slice(STLeafForced,goal);
+  *new_proxy_to_goal = alloc_proxy_slice();
+  pipe_link(*new_proxy_to_goal,new_leaf);
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void append_direct_defender_filter(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  slice_index const * const proxy_to_goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1669,7 +1666,8 @@ static void append_direct_defense(slice_index si,stip_structure_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_direct_defense(length,min_length,*new_proxy_to_goal));
+    pipe_append(si,alloc_direct_defender_filter_slice(length,min_length,
+                                                      *proxy_to_goal));
   }
 
   TraceFunctionExit(__func__);
@@ -1695,7 +1693,7 @@ static void transform_to_quodlibet_branch_fork(slice_index si,
 static stip_structure_visitor const to_quodlibet_transformers[] =
 {
   &stip_traverse_structure_children,   /* STProxy */
-  &stip_traverse_structure_children,   /* STAttackMove */
+  &append_direct_defender_filter,      /* STAttackMove */
   &stip_traverse_structure_children,   /* STDefenseMove */
   &stip_traverse_structure_children,   /* STHelpMove */
   &transform_to_quodlibet_branch_fork, /* STHelpFork */
@@ -1733,17 +1731,16 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSolvableFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardRootDefenderFilter */
-  &append_direct_defense,              /* STSelfCheckGuardAttackerFilter */
+  &stip_traverse_structure_children,   /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STDirectDefense */
+  &stip_traverse_structure_children,   /* STDirectDefenderFilter */
   &stip_traverse_structure_children,   /* STReflexHelpFilter */
   &stip_traverse_structure_children,   /* STReflexSeriesFilter */
   &stip_traverse_structure_children,   /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
-  &transform_to_quodlibet_self_defense,/* STReflexDefenderFilter */
+  &transform_to_quodlibet_semi_reflex, /* STReflexDefenderFilter */
   &transform_to_quodlibet_self_defense,/* STSelfDefense */
   &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,   /* STRestartGuardHelpFilter */
@@ -1781,14 +1778,14 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
 void transform_to_quodlibet(void)
 {
   stip_structure_traversal st;
-  slice_index towards_goal = no_slice;
+  slice_index proxy_to_goal = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&to_quodlibet_transformers,&towards_goal);
+  stip_structure_traversal_init(&st,&to_quodlibet_transformers,&proxy_to_goal);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -1840,8 +1837,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,              /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,              /* STSelfCheckGuardSeriesFilter */
-  &direct_defense_root_reduce_to_postkey_play,    /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,              /* STDirectDefense */
+  &direct_defender_filter_reduce_to_postkey_play, /* STDirectDefenderFilter */
   &stip_traverse_structure_children,              /* STReflexHelpFilter */
   &stip_traverse_structure_children,              /* STReflexSeriesFilter */
   &reflex_attacker_filter_reduce_to_postkey_play, /* STReflexRootSolvableFilter */
@@ -1976,8 +1972,7 @@ static stip_structure_visitor const setplay_makers[] =
   &pipe_traverse_next,                        /* STSelfCheckGuardDefenderFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardHelpFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardSeriesFilter */
-  &direct_defense_root_make_setplay_slice,    /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,          /* STDirectDefense */
+  &stip_traverse_structure_children,          /* STDirectDefenderFilter */
   &stip_traverse_structure_children,          /* STReflexHelpFilter */
   &stip_traverse_structure_children,          /* STReflexSeriesFilter */
   &reflex_attacker_filter_make_setplay_slice, /* STReflexRootSolvableFilter */
@@ -2173,8 +2168,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
@@ -2296,8 +2290,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STDirectDefense */
+  &stip_traverse_structure_children,   /* STDirectDefenderFilter */
   &stip_traverse_structure_children,   /* STReflexHelpFilter */
   &stip_traverse_structure_children,   /* STReflexSeriesFilter */
   &stip_traverse_structure_children,   /* STReflexRootSolvableFilter */
@@ -2414,8 +2407,7 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STSelfCheckGuardDefenderFilter */
   &make_exact_branch,                /* STSelfCheckGuardHelpFilter */
   &make_exact_branch,                /* STSelfCheckGuardSeriesFilter */
-  &make_exact_branch,                /* STDirectDefenseRootSolvableFilter */
-  &make_exact_branch,                /* STDirectDefense */
+  &make_exact_branch,                /* STDirectDefenderFilter */
   &make_exact_branch,                /* STReflexHelpFilter */
   &make_exact_branch,                /* STReflexSeriesFilter */
   &make_exact_branch,                /* STReflexRootSolvableFilter */
@@ -2513,8 +2505,7 @@ static stip_structure_visitor const starter_detectors[] =
   &pipe_detect_starter,              /* STSelfCheckGuardDefenderFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardHelpFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardSeriesFilter */
-  &pipe_detect_starter,              /* STDirectDefenseRootSolvableFilter */
-  &pipe_detect_starter,              /* STDirectDefense */
+  &pipe_detect_starter,              /* STDirectDefenderFilter */
   &pipe_detect_starter,              /* STReflexHelpFilter */
   &pipe_detect_starter,              /* STReflexSeriesFilter */
   &pipe_detect_starter,              /* STReflexRootSolvableFilter */
@@ -2616,8 +2607,7 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_starter,           /* STSelfCheckGuardDefenderFilter */
   &pipe_impose_starter,           /* STSelfCheckGuardHelpFilter */
   &pipe_impose_starter,           /* STSelfCheckGuardSeriesFilter */
-  &direct_defense_impose_starter, /* STDirectDefenseRootSolvableFilter */
-  &direct_defense_impose_starter, /* STDirectDefense */
+  &direct_defense_impose_starter, /* STDirectDefenderFilter */
   &reflex_filter_impose_starter,  /* STReflexHelpFilter */
   &reflex_filter_impose_starter,  /* STReflexSeriesFilter */
   &reflex_filter_impose_starter,  /* STReflexRootSolvableFilter */
@@ -2661,7 +2651,7 @@ void stip_impose_starter(Side starter)
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",starter);
+  TraceEnumerator(Side,starter,"");
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&starter_imposers,&starter);
@@ -2911,8 +2901,7 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STSelfCheckGuardDefenderFilter */
   &traverse_structure_pipe,         /* STSelfCheckGuardHelpFilter */
   &traverse_structure_pipe,         /* STSelfCheckGuardSeriesFilter */
-  &traverse_structure_branch_fork,  /* STDirectDefenseRootSolvableFilter */
-  &traverse_structure_branch_fork,  /* STDirectDefense */
+  &traverse_structure_branch_fork,  /* STDirectDefenderFilter */
   &traverse_structure_reflex_guard, /* STReflexHelpFilter */
   &traverse_structure_reflex_guard, /* STReflexSeriesFilter */
   &traverse_structure_reflex_guard, /* STReflexRootSolvableFilter */

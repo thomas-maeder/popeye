@@ -51,6 +51,7 @@
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "pyleaf.h"
 #include "pystip.h"
 #include "pyhash.h"
 #include "pytable.h"
@@ -404,7 +405,7 @@ void InitBoard(void)
 
 void InitStip(void)
 {
-  empile_for_goal_of_leaf_slice = no_slice;
+  empile_for_goal = no_goal;
 
   release_slices();
   root_slice = no_slice;

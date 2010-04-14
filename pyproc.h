@@ -206,7 +206,6 @@ boolean echecc(ply ply_id, Side a);
 
 boolean moves_equal(coup const *move1, coup const *move2);
 void current(ply ply_id, coup *mov);
-void ecritcoup(ply ply_id, Goal goal);
 
 boolean eval_ortho(square departure, square arrival, square capture);
 

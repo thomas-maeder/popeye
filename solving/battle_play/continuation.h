@@ -49,6 +49,8 @@ boolean continuation_writer_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
  *         <=n solved  - return value is maximum number of moves
@@ -59,6 +61,7 @@ boolean continuation_writer_defend_in_n(slice_index si,
 stip_length_type
 continuation_writer_can_defend_in_n(slice_index si,
                                     stip_length_type n,
+                                    stip_length_type n_min,
                                     unsigned int max_nr_refutations);
 
 /* Insert root slices

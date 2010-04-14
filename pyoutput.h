@@ -74,25 +74,28 @@ void output_end_leaf_variation_level(void);
 void init_output(slice_index si);
 
 /* Write a move of the attacking side in direct play
- * @param type of attack
  */
-void write_attack(attack_type type);
+void write_attack(void);
 
 /* Write a final move of the attacking side in direct play
- * @param goal goal reached by the move (no_goal if no goal has been
- *             reached by the move)
- * @param type of attack
  */
-void write_final_attack(Goal goal, attack_type type);
+void write_final_attack(void);
+
+/* Write the decoration (! or ?) for the first move if appropriate
+ * @param current_ply identifies ply in which move was played
+ * @param type identifies decoration to be added if move_depth==1
+ */
+void write_root_attack_decoration(ply current_ply, attack_type type);
+
+void write_goal(Goal goal);
 
 /* Write a defender's move that does not reach a goal
  */
 void write_defense(void);
 
 /* Write a defender's final move
- * @param goal goal reached by the move (!=no_goal)
  */
-void write_final_defense(Goal goal);
+void write_final_defense(void);
 
 /* Write the final move in a help leaf
  * @param goal goal reached by the move (!=no_goal)
@@ -116,5 +119,6 @@ void write_end_of_solution(void);
  */
 void write_end_of_solution_phase(void);
 
+void ecritcoup(ply ply_id);
 
 #endif

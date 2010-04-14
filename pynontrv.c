@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
@@ -143,10 +144,10 @@ static unsigned int count_nontrivial_defenses(slice_index si)
   }
   else
   {
+    stip_length_type const n = min_length_nontrivial+parity;
+    stip_length_type const n_min = battle_branch_calc_n_min(si,n);
     non_trivial_count[nbply+1] = 0;
-    defense_can_defend_in_n(next,
-                            min_length_nontrivial+parity,
-                            nr_refutations_allowed);
+    defense_can_defend_in_n(next,n,n_min,nr_refutations_allowed);
     result = non_trivial_count[nbply+1];
   }
 
@@ -306,6 +307,8 @@ boolean max_nr_nontrivial_guard_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
@@ -316,6 +319,7 @@ boolean max_nr_nontrivial_guard_defend_in_n(slice_index si,
 stip_length_type
 max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
+                                        stip_length_type n_min,
                                         unsigned int max_nr_refutations)
 {
   slice_index const next = slices[si].u.pipe.next;
@@ -324,6 +328,7 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
@@ -334,7 +339,7 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = defense_can_defend_in_n(next,n,max_nr_refutations);
+      result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
@@ -342,7 +347,7 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
       result = n+4;
   }
   else
-    result = defense_can_defend_in_n(next,n,max_nr_refutations);
+    result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -542,8 +547,7 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &nontrivial_guard_inserter_attack_move, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,      /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,      /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,      /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,      /* STDirectDefense */
+  &stip_traverse_structure_children,      /* STDirectDefenderFilter */
   &stip_traverse_structure_children,      /* STReflexHelpFilter */
   &stip_traverse_structure_children,      /* STReflexSeriesFilter */
   &stip_traverse_structure_children,      /* STReflexRootSolvableFilter */

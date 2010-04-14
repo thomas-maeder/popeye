@@ -63,6 +63,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pystip.h"
+#include "pyleaf.h"
 #include "conditions/republican.h"
 #include "trace.h"
 
@@ -723,61 +724,60 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     }
   }
 
-  if (empile_for_goal_of_leaf_slice!=no_slice)
-    switch (slices[empile_for_goal_of_leaf_slice].u.leaf.goal)
-    {
-      case goal_ep:
-        if (sq_arrival!=ep[nbply-1] && sq_arrival!=ep2[nbply-1])
-          return true;
-        else
-          break;
+  switch (empile_for_goal)
+  {
+    case goal_ep:
+      if (sq_arrival!=ep[nbply-1] && sq_arrival!=ep2[nbply-1])
+        return true;
+      else
+        break;
 
-      case goal_target:
-        if (sq_arrival!=slices[empile_for_goal_of_leaf_slice].u.leaf.target)
-          return true;
-        else
-          break;
+    case goal_target:
+      if (sq_arrival!=empile_for_target)
+        return true;
+      else
+        break;
 
-      case goal_capture:
-      case goal_steingewinn:
-        if (e[sq_capture]==vide)
-          return true;
-        else
-          break;
+    case goal_capture:
+    case goal_steingewinn:
+      if (e[sq_capture]==vide)
+        return true;
+      else
+        break;
 
-      case goal_castling:
-        if (sq_capture!=kingside_castling && sq_capture!=queenside_castling)
-          return true;
-        else
-          break;
+    case goal_castling:
+      if (sq_capture!=kingside_castling && sq_capture!=queenside_castling)
+        return true;
+      else
+        break;
 
-      case goal_mate:
-      case goal_doublemate:
-        if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))
+    case goal_mate:
+    case goal_doublemate:
+      if (optim_neutralretractable && TSTFLAG(spec[sq_departure],Neutral))
+      {
+        /* Check if a mating move by a neutral piece can be
+         * retracted by the opponent.
+         * TODO can we optimise like this when we are not generating
+         * goal reaching moves?
+         */
+        if (rb==rn)
         {
-          /* Check if a mating move by a neutral piece can be
-           * retracted by the opponent.
-           * TODO can we optimise like this when we are not generating
-           * goal reaching moves?
-           */
-          if (rb==rn)
+          if (rb==sq_departure)
           {
-            if (rb==sq_departure)
-            {
-              if (e[sq_capture]==vide)
-                return true;
-            }
-            else if (abs(e[sq_departure])!=Pawn || e[sq_capture]==vide)
+            if (e[sq_capture]==vide)
               return true;
           }
-          else if (e[sq_capture]==vide && abs(e[sq_departure])!=Pawn)
+          else if (abs(e[sq_departure])!=Pawn || e[sq_capture]==vide)
             return true;
         }
-        break;
+        else if (e[sq_capture]==vide && abs(e[sq_departure])!=Pawn)
+          return true;
+      }
+      break;
 
-      default:
-        break;
-    }
+    default:
+      break;
+  }
 
   TraceValue("%u\n",move_generation_mode);
   switch (move_generation_mode)

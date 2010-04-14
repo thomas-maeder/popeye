@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "pyhash.h"
 #include "pystip.h"
+#include "pyoutput.h"
 
 #include <assert.h>
 #include <limits.h>
@@ -143,7 +144,7 @@ boolean TraceCurrentMove(ply current_ply)
   if (level<=max_level)
   {
     fprintf(stdout," #%lu %lu ",level,move_counter++);
-    ecritcoup(current_ply,no_goal);
+    ecritcoup(current_ply);
     fprintf(stdout," nbcou:%d",nbcou);
     fprintf(stdout," current_ply:%d\n",current_ply);
     fflush(stdout);
@@ -223,8 +224,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     fprintf(stdout,"%s ",Side_names[slices[si].starter]);
     switch (slices[si].type)
     {
-      case STDirectDefenseRootSolvableFilter:
-      case STDirectDefense:
+      case STDirectDefenderFilter:
       case STSelfDefense:
       case STHelpFork:
       case STSeriesFork:
@@ -271,7 +271,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STStopOnShortSolutionsSeriesFilter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal!=no_goal)
+        {
           fprintf(stdout,"imminent:%2u ",slices[si].u.branch.imminent_goal);
+          if (slices[si].u.branch.imminent_goal==goal_target)
+            TraceSquare(slices[si].u.branch.imminent_target);
+        }
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;

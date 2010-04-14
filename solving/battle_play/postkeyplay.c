@@ -284,6 +284,8 @@ postkeyplay_suppressor_root_defend(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
  *         <=n solved  - return value is maximum number of moves
@@ -294,6 +296,7 @@ postkeyplay_suppressor_root_defend(slice_index si,
 stip_length_type
 postkeyplay_suppressor_can_defend_in_n(slice_index si,
                                        stip_length_type n,
+                                       stip_length_type n_min,
                                        unsigned int max_nr_refutations)
 {
   stip_length_type result;
@@ -302,10 +305,11 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,max_nr_refutations);
+  result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -402,8 +406,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_structure_visitor_noop,      /* STSelfCheckGuardHelpFilter */
   &stip_structure_visitor_noop,      /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_structure_visitor_noop,      /* STReflexHelpFilter */
   &stip_structure_visitor_noop,      /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
@@ -522,8 +525,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_structure_visitor_noop,      /* STSelfCheckGuardHelpFilter */
   &stip_structure_visitor_noop,      /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_structure_visitor_noop,      /* STReflexHelpFilter */
   &stip_structure_visitor_noop,      /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */

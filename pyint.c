@@ -2711,6 +2711,23 @@ static void moves_left_leaf_help(slice_index si, stip_move_traversal *st)
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  */
+static void moves_left_leaf_forced(slice_index si, stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(goal_to_be_reached==no_goal);
+  goal_to_be_reached = slices[si].u.leaf.goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Calculate the number of moves of each side
+ * @param si index of non-root slice
+ * @param st address of structure defining traversal
+ */
 static void moves_left_move(slice_index si, stip_move_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -2739,7 +2756,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &moves_left_leaf_direct,                   /* STLeafDirect */
   &moves_left_leaf_help,                     /* STLeafHelp */
-  &stip_traverse_moves_noop,                 /* STLeafForced */
+  &moves_left_leaf_forced,                   /* STLeafForced */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */
@@ -2773,8 +2790,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_moves_battle_fork,          /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_moves_battle_fork,          /* STDirectDefense */
+  &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexRootSolvableFilter */
@@ -3239,8 +3255,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,                  /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,                  /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,                  /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,                  /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,                  /* STDirectDefense */
+  &stip_traverse_structure_children,                  /* STDirectDefenderFilter */
   &stip_traverse_structure_children,                  /* STReflexHelpFilter */
   &stip_traverse_structure_children,                  /* STReflexSeriesFilter */
   &stip_traverse_structure_children,                  /* STReflexRootSolvableFilter */
@@ -3476,8 +3491,9 @@ static void intelligent_mode_support_detector_leaf(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void intelligent_mode_support_detector_quodlibet(slice_index si,
-                                                        stip_structure_traversal *st)
+static
+void intelligent_mode_support_detector_quodlibet(slice_index si,
+                                                 stip_structure_traversal *st)
 {
   support_for_intelligent_mode * const support = st->param;
   support_for_intelligent_mode support1;
@@ -3507,7 +3523,8 @@ static void intelligent_mode_support_detector_quodlibet(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void intelligent_mode_support_none(slice_index si, stip_structure_traversal *st)
+static void intelligent_mode_support_none(slice_index si,
+                                          stip_structure_traversal *st)
 {
   support_for_intelligent_mode * const support = st->param;
 
@@ -3533,7 +3550,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_fork,      /* STSeriesFork */
   &intelligent_mode_support_detector_leaf,      /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,      /* STLeafHelp */
-  &intelligent_mode_support_none,               /* STLeafForced */
+  &intelligent_mode_support_detector_leaf,      /* STLeafForced */
   &intelligent_mode_support_none,               /* STReciprocal */
   &intelligent_mode_support_detector_quodlibet, /* STQuodlibet */
   &intelligent_mode_support_none,               /* STNot */
@@ -3567,8 +3584,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardSeriesFilter */
-  &intelligent_mode_support_none,               /* STDirectDefenseRootSolvableFilter */
-  &intelligent_mode_support_none,               /* STDirectDefense */
+  &intelligent_mode_support_none,               /* STDirectDefenderFilter */
   &intelligent_mode_support_none,               /* STReflexHelpFilter */
   &intelligent_mode_support_none,               /* STReflexSeriesFilter */
   &intelligent_mode_support_none,               /* STReflexRootSolvableFilter */

@@ -18,14 +18,14 @@
  */
 has_solution_type leaf_forced_has_solution(slice_index leaf)
 {
-  Side const defender = slices[leaf].starter;
+  Side const attacker = advers(slices[leaf].starter);
   has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  switch (leaf_is_goal_reached(defender,leaf))
+  switch (leaf_is_goal_reached(attacker,leaf))
   {
     case goal_not_reached_selfcheck:
       result = defender_self_check;
@@ -36,7 +36,7 @@ has_solution_type leaf_forced_has_solution(slice_index leaf)
       break;
 
     case goal_reached:
-      result = has_solution;
+      result = is_solved;
       break;
 
     default:
@@ -57,18 +57,18 @@ has_solution_type leaf_forced_has_solution(slice_index leaf)
  */
 boolean leaf_forced_solve(slice_index leaf)
 {
-  Side const defender = slices[leaf].starter;
+  Side const attacker = advers(slices[leaf].starter);
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (leaf_is_goal_reached(defender,leaf)==goal_reached)
+  if (leaf_is_goal_reached(attacker,leaf)==goal_reached)
   {
-    active_slice[nbply] = leaf;
-    write_final_defense(slices[leaf].u.leaf.goal);
     result = true;
+    active_slice[nbply] = leaf;
+    write_goal(slices[leaf].u.leaf.goal);
   }
   else
     result = false;

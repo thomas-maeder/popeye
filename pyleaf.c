@@ -8,6 +8,9 @@
 #include <assert.h>
 #include <stdlib.h>
 
+Goal empile_for_goal;
+square empile_for_target;
+
 typedef Flags ColourSpec;
 
 static boolean IsABattery(square KingSquare,
@@ -583,30 +586,26 @@ static void generate_ortho_moves_reaching_goal(Goal goal, Side side_at_move)
 
 /* Generate moves for side side_at_move; optimise for moves reaching a
  * specific goal.
- * @param leaf leaf slice whose goal is to be reached by generated
- *             move(s)
  * @param side_at_move side for which to generate moves
  */
-void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
+void generate_move_reaching_goal(Side side_at_move)
 {
-  Goal const goal = slices[leaf].u.leaf.goal;
-
+  Goal const goal = empile_for_goal;
+  
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
   TraceFunctionParam("%u",side_at_move);
   TraceFunctionParamListEnd();
 
-  if (side_at_move==White ? !flagwhitemummer : !flagblackmummer)
-    empile_for_goal_of_leaf_slice = leaf;
+  if (side_at_move==White ? flagwhitemummer : flagblackmummer)
+    empile_for_goal = no_goal;
 
-  active_slice[nbply+1] = leaf;
   switch (goal)
   {
     case goal_mate:
     case goal_check:
       TraceValue("%u\n",nr_ortho_mating_moves_generation_obstacles);
       if (nr_ortho_mating_moves_generation_obstacles==0)
-        generate_ortho_moves_reaching_goal(goal,side_at_move);
+        generate_ortho_moves_reaching_goal(empile_for_goal,side_at_move);
       else
         genmove(side_at_move);
       break;
@@ -618,7 +617,7 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
         nextply(nbply);
       }
       else if (nr_ortho_mating_moves_generation_obstacles==0)
-        generate_ortho_moves_reaching_goal(goal,side_at_move);
+        generate_ortho_moves_reaching_goal(empile_for_goal,side_at_move);
       else
         genmove(side_at_move);
       break;
@@ -656,8 +655,6 @@ void generate_move_reaching_goal(slice_index leaf, Side side_at_move)
       genmove(side_at_move);
       break;
   }
-
-  empile_for_goal_of_leaf_slice = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

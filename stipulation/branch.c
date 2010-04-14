@@ -22,8 +22,8 @@ slice_index alloc_branch(SliceType type,
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.shortcut.length = length;
-  slices[result].u.shortcut.min_length = min_length;
+  slices[result].u.branch.length = length;
+  slices[result].u.branch.min_length = min_length;
   slices[result].u.branch.imminent_goal = no_goal;
 
   TraceFunctionExit(__func__);
@@ -148,8 +148,7 @@ static stip_structure_visitor const slice_deallocators[] =
   &traverse_and_deallocate,             /* STSelfCheckGuardDefenderFilter */
   &traverse_and_deallocate,             /* STSelfCheckGuardHelpFilter */
   &traverse_and_deallocate,             /* STSelfCheckGuardSeriesFilter */
-  &traverse_and_deallocate,             /* STDirectDefenseRootSolvableFilter */
-  &traverse_and_deallocate,             /* STDirectDefense */
+  &traverse_and_deallocate,             /* STDirectDefenderFilter */
   &stip_traverse_structure_children,             /* STReflexHelpFilter */
   &stip_traverse_structure_children,             /* STReflexSeriesFilter */
   &stip_traverse_structure_children,             /* STReflexRootSolvableFilter */

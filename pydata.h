@@ -69,6 +69,7 @@
 #define PYDATA_H
 
 #include "pyproc.h"
+
 #include <limits.h>
 
 #if !defined(EXTERN)
@@ -84,7 +85,6 @@ EXTERN boolean flag_regression;
 
 EXTERN char versionString[100];
 
-slice_index empile_for_goal_of_leaf_slice;
 EXTERN  boolean         flagpassive, flagcapture,
 			flagactive,
 			flagwhitemummer,

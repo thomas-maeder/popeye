@@ -32,8 +32,9 @@
 #define ENUMERATION_TYPENAME has_solution_type
 #define ENUMERATORS                             \
   ENUMERATOR(defender_self_check),              \
+    ENUMERATOR(has_no_solution),                \
     ENUMERATOR(has_solution),                   \
-    ENUMERATOR(has_no_solution)
+    ENUMERATOR(is_solved)
 
 #define ENUMERATION_MAKESTRINGS
 
@@ -174,7 +175,6 @@ boolean slice_solve(slice_index si)
 
     case STAttackMove:
     case STAttackHashed:
-    case STDirectDefense:
     case STSelfDefense:
     case STReflexAttackerFilter:
     case STDegenerateTree:
@@ -263,7 +263,6 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STPostKeyPlaySolutionWriter:
-    case STDirectDefenseRootSolvableFilter:
     case STReflexDefenderFilter:
       result = defense_root_solve(si);
       break;
@@ -355,7 +354,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAttackRoot:
     case STAttackMove:
-    case STDirectDefense:
     case STSelfDefense:
     case STKeepMatingGuardRootDefenderFilter:
     case STKeepMatingGuardAttackerFilter:
@@ -369,7 +367,7 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STContinuationWriter:
     case STDefenseMove:
-      result = !defense_can_defend(si);
+      result = defense_can_defend(si) ? has_no_solution : has_solution;
       break;
 
     case STHelpRoot:

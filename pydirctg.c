@@ -1,9 +1,11 @@
 #include "pydirctg.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
+#include "pyoutput.h"
+#include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/help_play/branch.h"
+#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -12,15 +14,15 @@
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STDirectDefense slice
+/* Allocate a STDirectDefenderFilter slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_direct_defense(stip_length_type length,
-                                 stip_length_type min_length,
-                                 slice_index proxy_to_goal)
+slice_index alloc_direct_defender_filter_slice(stip_length_type length,
+                                               stip_length_type min_length,
+                                               slice_index proxy_to_goal)
 {
   slice_index result;
 
@@ -30,198 +32,9 @@ slice_index alloc_direct_defense(stip_length_type length,
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch_fork(STDirectDefense,length,min_length,proxy_to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STDirectDefenseRootSolvableFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies slice leading towards goal
- * @return index of allocated slice
- */
-slice_index
-alloc_direct_defense_root_solvable_filter(stip_length_type length,
-                                          stip_length_type min_length,
-                                          slice_index proxy_to_goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch_fork(STDirectDefenseRootSolvableFilter,
+  result = alloc_branch_fork(STDirectDefenderFilter,
                              length,min_length,
                              proxy_to_goal);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Insert root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void direct_defense_insert_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.pipe.next,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index const
-        direct_defense = alloc_direct_defense_root_solvable_filter(length,
-                                                                   min_length,
-                                                                   to_goal);
-    pipe_link(direct_defense,*root);
-    *root = direct_defense;
-
-    slices[si].u.branch.length -= 2;
-    if (min_length>=slack_length_battle+2)
-      slices[si].u.branch.min_length -= 2;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
-/* **************** Implementation of interface Direct ***************
- */
-
-/* Determine whether there is a solution in n half moves.
- * @param si slice index of slice being solved
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
- * @return length of solution found, i.e.:
- *            <n_min defense put defender into self-check
- *            n_min..n length of shortest solution found
- *            >n no solution found
- *         (the second case includes the situation in self
- *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_battle and we return
- *         n_min)
- */
-stip_length_type
-direct_defense_direct_has_solution_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_min)
-{
-  stip_length_type result;
-  slice_index const togoal = slices[si].u.branch_fork.towards_goal;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  if (n_min<=slack_length_battle && slice_has_solution(togoal)==has_solution)
-    result = n_min;
-  else if (n>slack_length_battle)
-    result = attack_has_solution_in_n(next,n,n_min);
-  else
-    result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean direct_defense_are_threats_refuted_in_n(table threats,
-                                                stip_length_type len_threat,
-                                                slice_index si,
-                                                stip_length_type n)
-{
-  boolean result = false;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const togoal = slices[si].u.branch_fork.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(len_threat>=slack_length_battle);
-
-  if (len_threat==slack_length_battle)
-    result = slice_are_threats_refuted(threats,togoal);
-  else
-    result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-direct_defense_direct_solve_threats_in_n(table threats,
-                                         slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_min)
-{
-  stip_length_type result = n+2;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_battle);
-  
-  if (n_min<=slack_length_battle)
-  {
-    slice_index const togoal = slices[si].u.branch_fork.towards_goal;
-    slice_solve_threats(threats,togoal);
-    if (table_length(threats)>0)
-      result = slack_length_battle;
-    else if (n>slack_length_battle)
-      result = attack_solve_threats_in_n(threats,next,n,n_min);
-  }
-  else
-    result = attack_solve_threats_in_n(threats,next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -232,51 +45,94 @@ direct_defense_direct_solve_threats_in_n(table threats,
 /* **************** Implementation of interface Slice **********
  */
 
-/* Solve a slice at root level
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean direct_defense_root_solve(slice_index si)
+stip_length_type
+direct_defender_filter_root_defend(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min,
+                                   unsigned int max_nr_refutations)
 {
-  boolean result = false;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (min_length<=slack_length_battle && slice_root_solve(to_goal))
-    result = true;
+  if (n_min<=slack_length_battle)
+    switch (slice_has_solution(to_goal))
+    {
+      case is_solved:
+        result = n_min;
+        write_final_attack();
+        {
+          boolean const solving_result = slice_solve(to_goal);
+          assert(solving_result);
+        }
+        write_root_attack_decoration(nbply,attack_key);
+        break;
 
-  if (next!=no_slice)
-    /* always evaluate slice_root_solve(next), even if we have found a
-     * short solution */
-    result = attack_root_solve_in_n(next) || result;
+      case has_solution:
+        result = n_min;
+        write_attack();
+        {
+          boolean const solving_result = slice_solve(to_goal);
+          assert(solving_result);
+        }
+        write_root_attack_decoration(nbply,attack_key);
+        break;
+
+      case has_no_solution:
+        if (n>=slack_length_battle)
+          result = defense_root_defend(next,n,n_min,max_nr_refutations);
+        else
+          result = n+4;
+        break;
+
+      default:
+        result = defense_root_defend(next,n,n_min,max_nr_refutations);
+        break;
+    }
+  else
+    result = defense_root_defend(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-/* Solve a slice
+/* Try to defend after an attempted key move at non-root level
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
- *         (n-slack_length_battle)%2 if the previous move led to a
- *            dead end (e.g. self-check)
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @return true iff the defender can defend
  */
-stip_length_type direct_defense_solve_in_n(slice_index si,
+boolean direct_defender_filter_defend_in_n(slice_index si,
                                            stip_length_type n,
                                            stip_length_type n_min)
 {
-  stip_length_type result;
+  boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -284,12 +140,84 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_battle+1 && slice_solve(towards_goal))
-    result = n_min;
-  else if (n>slack_length_battle)
-    result = attack_solve_in_n(next,n,n_min);
+  if (n_min<=slack_length_battle)
+    switch (slice_has_solution(to_goal))
+    {
+      case is_solved:
+        result = false;
+        write_final_attack();
+        {
+          boolean const solving_result = slice_solve(to_goal);
+          assert(solving_result);
+        }
+        break;
+
+      case has_solution:
+        result = false;
+        write_attack();
+        {
+          boolean const solving_result = slice_solve(to_goal);
+          assert(solving_result);
+        }
+        break;
+
+      case has_no_solution:
+        if (n>=slack_length_battle)
+          result = defense_defend_in_n(next,n,n_min);
+        else
+          result = true;
+        break;
+
+      default:
+        result = true;
+        break;
+    }
   else
-    result = n+2;
+    result = defense_defend_in_n(next,n,n_min);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+           <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
+           n+2 refuted - <=max_nr_refutations refutations found
+           n+4 refuted - >max_nr_refutations refutations found
+ */
+stip_length_type
+direct_defender_filter_can_defend_in_n(slice_index si,
+                                       stip_length_type n,
+                                       stip_length_type n_min,
+                                       unsigned int max_nr_refutations)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
+  TraceFunctionParamListEnd();
+
+
+  if (n_min<=slack_length_battle && slice_has_solution(to_goal)>=has_solution)
+    result = n_min;
+  else if (n>=slack_length_battle)
+    result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+  else
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -301,7 +229,8 @@ stip_length_type direct_defense_solve_in_n(slice_index si,
  * @param si slice index
  * @param st state of traversal
  */
-void direct_defense_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void direct_defense_root_make_setplay_slice(slice_index si,
+                                            stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 
@@ -324,25 +253,50 @@ void direct_defense_root_make_setplay_slice(slice_index si, stip_structure_trave
   TraceFunctionResultEnd();
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void direct_defender_filter_insert_root(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+  slice_index root_filter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.pipe.next,st);
+
+  root_filter = copy_slice(si);
+  pipe_link(root_filter,*root);
+  *root = root_filter;
+
+  slices[si].u.branch.length -= 2;
+  if (slices[si].u.branch.min_length>=slack_length_battle+1)
+    slices[si].u.branch.min_length -= 2;
+ 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void direct_defense_root_reduce_to_postkey_play(slice_index si,
-                                                stip_structure_traversal *st)
+void direct_defender_filter_reduce_to_postkey_play(slice_index si,
+                                                   stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const *postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(next,st);
-
-  if (*postkey_slice!=no_slice)
-    dealloc_slice(si);
+  dealloc_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -378,9 +332,9 @@ typedef struct
     slice_index result;
 } init_param;
 
-/* Insert a STDirectDefense slice before each STAttackMove slice
- * @param si identifies slice before which to insert a STDirectDefense
- *           slice
+/* Insert a STDirectDefenderFilter slice after each STAttackMove slice
+ * @param si identifies slice before which to insert a *
+ *           STDirectDefenderFilter slice
  * @param st address of structure representing the traversal
  */
 static void direct_guards_inserter_attack(slice_index si,
@@ -397,8 +351,11 @@ static void direct_guards_inserter_attack(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    param->result = alloc_direct_defense(length,min_length,param->to_goal);
-    pipe_append(slices[si].prev,param->result);
+    slice_index const
+        filter = alloc_direct_defender_filter_slice(length-1,min_length-1,
+                                                    param->to_goal); 
+    pipe_append(si,filter);
+    param->result = si;
   }
 
   TraceFunctionExit(__func__);
@@ -450,8 +407,7 @@ static stip_structure_visitor const direct_guards_inserters[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
@@ -488,7 +444,7 @@ static stip_structure_visitor const direct_guards_inserters[] =
   &stip_traverse_structure_children  /* STStopOnShortSolutionsSeriesFilter */
 };
 
-/* Instrument a branch with STDirectDefense slices
+/* Instrument a branch with STDirectDefenderFilter slices
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal
  * @return identifier of branch entry slice after insertion

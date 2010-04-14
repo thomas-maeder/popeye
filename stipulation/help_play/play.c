@@ -57,7 +57,6 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STThreatEnforcer:
     case STVariationWriter:
-    case STDirectDefense:
     case STSelfDefense:
     case STReflexAttackerFilter:
     case STSelfCheckGuardAttackerFilter:

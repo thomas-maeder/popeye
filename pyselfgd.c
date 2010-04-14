@@ -107,7 +107,7 @@ stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
   assert(n_min>=slack_length_battle-1);
 
   if (n_min==slack_length_battle-1
-      && slice_has_solution(towards_goal)==has_solution)
+      && slice_has_solution(towards_goal)>=has_solution)
     result = n_min;
   else
     result = attack_has_solution_in_n(next,n,n_min);
@@ -146,7 +146,7 @@ boolean self_defense_are_threats_refuted_in_n(table threats,
 
   TraceValue("%u\n",max_n_for_goal);
 
-  if (n<max_n_for_goal && slice_has_solution(towards_goal)==has_solution)
+  if (n<max_n_for_goal && slice_has_solution(towards_goal)>=has_solution)
     result = false;
   else
     result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
@@ -258,17 +258,44 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_battle)
+  switch (slice_has_solution(towards_goal))
   {
-    if (slice_solve(towards_goal))
-      result = n_min;
-    else
+    case is_solved:
+      if (n_min<=slack_length_battle)
+      {
+        result = n_min;
+        write_final_defense();
+        {
+          boolean const solving_result = slice_solve(towards_goal);
+          assert(solving_result);
+        }
+      }
+      else
+        result = slack_length_battle-1;
+      break;
+
+    case has_solution:
+      if (n_min<=slack_length_battle)
+      {
+        result = n_min;
+        write_defense();
+        {
+          boolean const solving_result = slice_solve(towards_goal);
+          assert(solving_result);
+        }
+      }
+      else
+        result = slack_length_battle-1;
+      break;
+
+    case has_no_solution:
       result = attack_solve_in_n(next,n,n_min);
+      break;
+
+    default:
+      result = n_min-2;
+      break;
   }
-  else if (slice_has_solution(towards_goal)==has_solution)
-    result = slack_length_battle-1;
-  else
-    result = attack_solve_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -341,10 +368,7 @@ void self_defense_impose_starter(slice_index si, stip_structure_traversal *st)
 
   slices[si].starter = *starter;
   stip_traverse_structure(slices[si].u.pipe.next,st);
-
-  *starter = advers(*starter);
   stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-  *starter = advers(*starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -432,8 +456,7 @@ static stip_structure_visitor const self_guards_inserters[] =
   &stip_traverse_structure_children,  /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,  /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,  /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,  /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,  /* STDirectDefense */
+  &stip_traverse_structure_children,  /* STDirectDefenderFilter */
   &stip_traverse_structure_children,  /* STReflexHelpFilter */
   &stip_traverse_structure_children,  /* STReflexSeriesFilter */
   &stip_traverse_structure_children,  /* STReflexRootSolvableFilter */

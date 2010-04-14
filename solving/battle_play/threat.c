@@ -184,7 +184,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
     else if (attack_are_threats_refuted_in_n(threats[nbply],len_threat,next,n))
       result = attack_solve_in_n(next,n,n_min);
     else
-      result = (n-slack_length_battle)%2;
+      result = n_min-2;
   }
   else
     /* zugzwang, or we haven't even looked for threats */
@@ -343,6 +343,8 @@ boolean threat_writer_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
@@ -352,6 +354,7 @@ boolean threat_writer_defend_in_n(slice_index si,
  */
 stip_length_type threat_writer_can_defend_in_n(slice_index si,
                                                stip_length_type n,
+                                               stip_length_type n_min,
                                                unsigned int max_nr_refutations)
 {
   stip_length_type result;
@@ -360,10 +363,11 @@ stip_length_type threat_writer_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,max_nr_refutations);
+  result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -521,8 +525,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */

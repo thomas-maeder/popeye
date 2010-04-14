@@ -60,8 +60,7 @@
     ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSeriesFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STDirectDefenseRootSolvableFilter),  /* just before root */ \
-    ENUMERATOR(STDirectDefense),   /* direct play, just played defense */ \
+    ENUMERATOR(STDirectDefenderFilter),   /* direct play, just played attack */ \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexRootSolvableFilter),  /* stop when wrong side can reach goal */ \
@@ -128,6 +127,7 @@ typedef struct
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
             Goal imminent_goal;
+            square imminent_target;
         } branch;
 
         struct
@@ -227,7 +227,7 @@ extern slice_index root_slice;
  */
 enum
 {
-  slack_length_battle = 3, /* half moves */
+  slack_length_battle = 4, /* half moves */
   slack_length_help = 2,   /* half moves */
   slack_length_series = 1  /* half moves */
 };

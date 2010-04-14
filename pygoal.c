@@ -121,8 +121,9 @@ goal_checker_result_type goal_checker_mate(Side just_moved)
       {
         if (TSTFLAG(PieSpExFlags,Paralyse))
         {
-          /* try to find a defender's move that paralyses the checking piece */
           goal_checker_result_type result;
+          move_generation_mode = move_generation_not_optimized;
+          TraceValue("->%u\n",move_generation_mode);
           genmove(ad);
           result = encore() ? goal_reached : goal_not_reached;
           finply();
@@ -160,6 +161,8 @@ static boolean para_stalemate(Side camp)
   if (echecc(nbply,camp))
   {
     boolean result;
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
     genmove(camp);
     result = !encore();
     finply();
@@ -259,6 +262,8 @@ goal_checker_result_type goal_checker_doublemate(Side just_moved)
     boolean flag;
     if (TSTFLAG(PieSpExFlags,Paralyse))
     {
+      move_generation_mode = move_generation_not_optimized;
+      TraceValue("->%u\n",move_generation_mode);
       genmove(ad);
       flag = encore();
       finply();

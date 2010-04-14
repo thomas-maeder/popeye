@@ -24,8 +24,6 @@ slice_index alloc_attack_root_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(length>=slack_length_battle+1);
-  assert(min_length>=slack_length_battle);
   assert((length%2)==(min_length%2));
 
   result = alloc_branch(STAttackRoot,length,min_length);
@@ -55,12 +53,12 @@ boolean attack_root_root_solve(slice_index si)
 
   init_output(si);
 
+  output_start_continuation_level();
+
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(attacker);
-
-  output_start_continuation_level();
 
   while (encore())
   {
@@ -70,7 +68,7 @@ boolean attack_root_root_solve(slice_index si)
           nr_moves_needed = defense_root_defend(next,
                                                 length-1,min_length-1,
                                                 max_nr_refutations);
-      if (slack_length_battle<=nr_moves_needed)
+      if (min_length-1<=nr_moves_needed)
       {
         if (nr_moves_needed<=length-1)
           result = true;
@@ -105,8 +103,7 @@ void attack_root_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* prod->sibling may already have been set by a STDirectDefense
-   * slice
+  /* prod->sibling may already have been set
    */
   if (prod->sibling==no_slice)
     prod->sibling = si;

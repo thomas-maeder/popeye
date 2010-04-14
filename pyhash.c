@@ -309,8 +309,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STSelfCheckGuardDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfCheckGuardHelpFilter */
   &slice_property_offset_shifter,    /* STSelfCheckGuardSeriesFilter */
-  &slice_property_offset_shifter,    /* STDirectDefenseRootSolvableFilter */
-  &slice_property_offset_shifter,    /* STDirectDefense */
+  &slice_property_offset_shifter,    /* STDirectDefenderFilter */
   &slice_property_offset_shifter,    /* STReflexHelpFilter */
   &slice_property_offset_shifter,    /* STReflexSeriesFilter */
   &slice_property_offset_shifter,    /* STReflexRootSolvableFilter */
@@ -438,17 +437,23 @@ static void init_slice_property_series(slice_index si,
   unsigned int const size = bit_width(length);
   data_type const mask = (1<<size)-1;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParamListEnd();
+
   sis->valueOffset -= size;
 
   slice_properties[si].size = size;
   slice_properties[si].valueOffset = sis->valueOffset;
-  TraceValue("%u",si);
-  TraceValue("%u\n",slice_properties[si].valueOffset);
 
   assert(sis->nrBitsLeft>=size);
   sis->nrBitsLeft -= size;
   slice_properties[si].u.s.offsetNoSucc = sis->nrBitsLeft;
   slice_properties[si].u.s.maskNoSucc = mask << sis->nrBitsLeft;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Initialise the slice_properties array according to a subtree of the
@@ -663,8 +668,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STSelfCheckGuardDefenderFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardHelpFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,     /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,     /* STDirectDefense */
+  &stip_traverse_structure_children,     /* STDirectDefenderFilter */
   &stip_traverse_structure_children,     /* STReflexHelpFilter */
   &stip_traverse_structure_children,     /* STReflexSeriesFilter */
   &stip_traverse_structure_children,     /* STReflexRootSolvableFilter */
@@ -2325,8 +2329,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_moves_battle_fork,          /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_moves_battle_fork,          /* STDirectDefense */
+  &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexRootSolvableFilter */

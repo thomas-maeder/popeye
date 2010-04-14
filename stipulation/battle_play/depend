@@ -43,7 +43,7 @@ trace.h:
 stipulation/battle_play/attack_move$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_move.c \
   stipulation/battle_play/attack_move.h pydata.h pyproc.h pyoutput.h \
-  pypipe.h stipulation/branch.h stipulation/battle_play/branch.h \
+  pypipe.h pyleaf.h stipulation/branch.h stipulation/battle_play/branch.h \
   stipulation/battle_play/attack_root.h \
   stipulation/battle_play/defense_play.h trace.h
 
@@ -56,6 +56,8 @@ pyproc.h:
 pyoutput.h:
 
 pypipe.h:
+
+pyleaf.h:
 
 stipulation/branch.h:
 
@@ -153,7 +155,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_play.c \
   stipulation/battle_play/defense_play.h pydirctg.h pyflight.h pykeepmt.h \
   pymovenb.h pynontrv.h pyreflxg.h pyselfcg.h pyselfgd.h pythreat.h \
-  stipulation/battle_play/postkeyplay.h \
+  stipulation/battle_play/branch.h stipulation/battle_play/postkeyplay.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
   stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
   stipulation/help_play/root.h stipulation/help_play/play.h \
@@ -180,6 +182,8 @@ pyselfcg.h:
 pyselfgd.h:
 
 pythreat.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/battle_play/postkeyplay.h:
 

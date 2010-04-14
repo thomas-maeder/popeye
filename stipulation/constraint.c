@@ -583,6 +583,8 @@ boolean reflex_defender_filter_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
@@ -593,6 +595,7 @@ boolean reflex_defender_filter_defend_in_n(slice_index si,
 stip_length_type
 reflex_defender_filter_can_defend_in_n(slice_index si,
                                        stip_length_type n,
+                                       stip_length_type n_min,
                                        unsigned int max_nr_refutations)
 {
   stip_length_type result = n+4;
@@ -606,6 +609,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
@@ -618,7 +622,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
 
       case has_no_solution:
         if (n>slack_length_battle)
-          result = defense_can_defend_in_n(next,n,max_nr_refutations);
+          result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
         break;
 
       default:
@@ -626,7 +630,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
         break;
     }
   else
-    result = defense_can_defend_in_n(next,n,max_nr_refutations);
+    result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1271,8 +1275,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STDirectDefense */
+  &stip_traverse_structure_children,   /* STDirectDefenderFilter */
   &stip_traverse_structure_children,   /* STReflexHelpFilter */
   &stip_traverse_structure_children,   /* STReflexSeriesFilter */
   &stip_traverse_structure_children,   /* STReflexRootSolvableFilter */
@@ -1426,8 +1429,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,    /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,    /* STDirectDefense */
+  &stip_traverse_structure_children,    /* STDirectDefenderFilter */
   &stip_traverse_structure_children,    /* STReflexHelpFilter */
   &stip_traverse_structure_children,    /* STReflexSeriesFilter */
   &stip_traverse_structure_children,    /* STReflexRootSolvableFilter */

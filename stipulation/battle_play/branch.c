@@ -9,6 +9,36 @@
 
 #include <assert.h>
 
+slice_index alloc_defense_branch(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_proxy_slice();
+
+  {
+    slice_index const
+        writer = alloc_continuation_writer_slice(slack_length_battle,
+                                                 slack_length_battle);
+    slice_index const defense = alloc_defense_move_slice(slack_length_battle,
+                                                         slack_length_battle);
+    slice_index const
+        guard = alloc_selfcheck_guard_attacker_filter(slack_length_battle-1,
+                                                      slack_length_battle-1);
+    pipe_link(result,writer);
+    pipe_link(writer,defense);
+    pipe_link(defense,guard);
+    pipe_link(guard,result);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a branch that represents battle play
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -30,22 +60,6 @@ slice_index alloc_battle_branch(stip_length_type length,
 
   result = alloc_proxy_slice();
 
-  if (length==slack_length_battle)
-  {
-    slice_index const
-        writer = alloc_continuation_writer_slice(slack_length_battle,
-                                                 slack_length_battle);
-    slice_index const defense = alloc_defense_move_slice(slack_length_battle,
-                                                         slack_length_battle);
-    slice_index const
-        guard = alloc_selfcheck_guard_attacker_filter(slack_length_battle-1,
-                                                      slack_length_battle-1);
-    pipe_link(result,writer);
-    pipe_link(writer,defense);
-    pipe_link(defense,guard);
-    pipe_link(guard,result);
-  }
-  else
   {
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const
@@ -78,7 +92,7 @@ slice_index alloc_battle_branch(stip_length_type length,
  */
 stip_length_type battle_branch_calc_n_min(slice_index si, stip_length_type n)
 {
-  stip_length_type const parity = (n-slack_length_battle)%2;
+  stip_length_type const parity = (n+2-slack_length_battle)%2;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type result;

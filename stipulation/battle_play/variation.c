@@ -22,8 +22,6 @@ static slice_index alloc_variation_writer_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  if (min_length<slack_length_battle)
-    min_length += 2;
   result = alloc_branch(STVariationWriter,length,min_length);
 
   TraceFunctionExit(__func__);
@@ -293,8 +291,7 @@ static stip_structure_visitor const variation_handler_inserters[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children, /* STDirectDefense */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */

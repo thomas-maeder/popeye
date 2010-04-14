@@ -3,6 +3,7 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
+#include "pyoutput.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
@@ -54,14 +55,18 @@ boolean read_restart_number(char const *optionValue)
 /* Increase the current move number; write the previous move number
  * provided it is above the number where the user asked us to restart
  * solving.
+ * @param si slice index
  */
-static void IncrementMoveNbr(void)
+static void IncrementMoveNbr(slice_index si)
 {
   if (MoveNbr>=RestartNbr)
   {
     sprintf(GlobalStr,"\n%3u  (", MoveNbr);
     StdString(GlobalStr);
-    ecritcoup(nbply,no_goal);
+    ecritcoup(nbply);
+    if (echecc(nbply,slices[si].starter))
+      StdString(" +");
+    StdChar(blank);
 
     if (!flag_regression)
     {
@@ -156,7 +161,7 @@ stip_length_type restart_guard_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  IncrementMoveNbr();
+  IncrementMoveNbr(si);
 
   if (MoveNbr<=RestartNbr)
     result = n+4;
@@ -185,7 +190,7 @@ boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  IncrementMoveNbr();
+  IncrementMoveNbr(si);
 
   TraceValue("%u",MoveNbr);
   TraceValue("%u\n",RestartNbr);
@@ -216,7 +221,7 @@ boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_series);
 
-  IncrementMoveNbr();
+  IncrementMoveNbr(si);
 
   if (MoveNbr<=RestartNbr)
     result = false;
@@ -311,8 +316,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_traverse_structure_children,      /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,      /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,      /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,      /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,      /* STDirectDefense */
+  &stip_traverse_structure_children,      /* STDirectDefenderFilter */
   &stip_traverse_structure_children,      /* STReflexHelpFilter */
   &stip_traverse_structure_children,      /* STReflexSeriesFilter */
   &stip_traverse_structure_children,      /* STReflexRootSolvableFilter */

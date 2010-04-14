@@ -1,6 +1,7 @@
 #include "stipulation/series_play/move.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pyleaf.h"
 #include "pyoutput.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
@@ -107,7 +108,16 @@ boolean series_move_solve_in_n(slice_index si, stip_length_type n)
   move_generation_mode= move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
-  genmove(side_at_move);
+  if (n==slack_length_series+1
+      && slices[si].u.branch.imminent_goal!=no_goal)
+  {
+    empile_for_goal = slices[si].u.branch.imminent_goal;
+    empile_for_target = slices[si].u.branch.imminent_target;
+    generate_move_reaching_goal(side_at_move);
+    empile_for_goal = no_goal;
+  }
+  else
+    genmove(side_at_move);
 
   while (encore())
   {
@@ -234,6 +244,8 @@ boolean series_move_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  move_generation_mode= move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(side_at_move);
   

@@ -55,13 +55,15 @@ boolean continuation_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = defense_can_defend_in_n(next,n,max_nr_allowed_refutations);
+  nr_moves_needed = defense_can_defend_in_n(next,
+                                            n,n_min,
+                                            max_nr_allowed_refutations);
   if (nr_moves_needed<slack_length_battle)
     result = true;
   else if (nr_moves_needed<=n)
   {
     result = false;
-    write_attack(attack_regular);
+    write_attack();
     {
       boolean defend_result;
       if (nr_moves_needed>slack_length_battle && n_min<=slack_length_battle)
@@ -106,11 +108,12 @@ stip_length_type continuation_writer_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,max_nr_refutations);
+  result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   if (slack_length_battle<=result && result<=n+2)
   {
-    write_attack(result<=n ? attack_key : attack_try);
+    write_attack();
+    write_root_attack_decoration(nbply, result<=n ? attack_key : attack_try);
 
     /* suppress short ends in self stipulations if there are longer
      * variations
@@ -132,6 +135,8 @@ stip_length_type continuation_writer_root_defend(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
  *         <=n solved  - return value is maximum number of moves
@@ -142,6 +147,7 @@ stip_length_type continuation_writer_root_defend(slice_index si,
 stip_length_type
 continuation_writer_can_defend_in_n(slice_index si,
                                     stip_length_type n,
+                                    stip_length_type n_min,
                                     unsigned int max_nr_refutations)
 {
   stip_length_type result;
@@ -150,10 +156,11 @@ continuation_writer_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,max_nr_refutations);
+  result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -182,7 +189,7 @@ void continuation_writer_insert_root(slice_index si,
   *root = root_filter;
 
   slices[si].u.branch.length -= 2;
-  if (slices[si].u.branch.min_length>=slack_length_battle+2)
+  if (slices[si].u.branch.min_length>=slack_length_battle+1)
     slices[si].u.branch.min_length -= 2;
  
   TraceFunctionExit(__func__);

@@ -135,8 +135,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &pipe_traverse_next,               /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &output_mode_treemode,             /* STDirectDefenseRootSolvableFilter */
-  &output_mode_treemode,             /* STDirectDefense */
+  &output_mode_treemode,             /* STDirectDefenderFilter */
   &pipe_traverse_next,               /* STReflexHelpFilter */
   &pipe_traverse_next,               /* STReflexSeriesFilter */
   &output_mode_treemode,             /* STReflexRootSolvableFilter */
@@ -539,7 +538,15 @@ static void linesolution(void)
     TraceValue("%u\n",end_marker);
     initneutre(advers(trait[current_ply]));
     jouecoup_no_test(current_ply);
-    ecritcoup(current_ply,end_marker);
+    ecritcoup(current_ply);
+    if (end_marker==no_goal)
+    {
+      if (echecc(current_ply,advers(trait[current_ply])))
+        StdString(" +");
+    }
+    else
+      StdString(goal_end_marker[end_marker]);
+    StdChar(blank);
   }
 
 #ifdef _SE_DECORATE_SOLUTION_
@@ -553,20 +560,13 @@ static void linesolution(void)
   TraceFunctionResultEnd();
 }
 
-/* Write an attacking move along with indentation, move number and
- * attack type decoration (! or ?)
+/* Write an attacking move along with indentation and move number
  * @param current_ply identifies ply in which move was played
- * @param goal identifies goal reached with attacking move
- * @param type identifies decoration to be added if move_depth==1
  */
-static void write_numbered_indented_attack(ply current_ply,
-                                           Goal goal,
-                                           attack_type type)
+static void write_numbered_indented_attack(ply current_ply)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
   if (output_attack_types[current_ply]==threat_attack
@@ -584,12 +584,29 @@ static void write_numbered_indented_attack(ply current_ply,
   }
   sprintf(GlobalStr,"%3u.",move_depth);
   StdString(GlobalStr);
-  ecritcoup(current_ply,goal);
+  ecritcoup(current_ply);
 
   capture_ply(&captured_ply[current_ply],current_ply);
   invalidate_ply_snapshot(&captured_ply[current_ply+1]);
 
-  if (move_depth==1 && !reflex[current_ply])
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Write the decoration (! or ?) for the first move if appropriate
+ * @param current_ply identifies ply in which move was played
+ * @param type identifies decoration to be added if move_depth==1
+ */
+void write_root_attack_decoration(ply current_ply, attack_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",current_ply);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
+
+  if (current_mode==output_mode_tree
+      && move_depth==1
+      && !reflex[current_ply])
   {
     switch (type)
     {
@@ -615,9 +632,8 @@ static void write_numbered_indented_attack(ply current_ply,
 
 /* Write a defense, corrently numbered and indented.
  * @param current_ply identifies the ply where the defense was played in
- * @param goal goal reached by the defense
  */
-static void write_numbered_indented_defense(ply current_ply, Goal goal)
+static void write_numbered_indented_defense(ply current_ply)
 {
   Message(NewLine);
 
@@ -625,7 +641,7 @@ static void write_numbered_indented_defense(ply current_ply, Goal goal)
   StdString(GlobalStr);
   sprintf(GlobalStr,"%3u...",move_depth);
   StdString(GlobalStr);
-  ecritcoup(current_ply,goal);
+  ecritcoup(current_ply);
 
   capture_ply(&captured_ply[current_ply],current_ply);
   invalidate_ply_snapshot(&captured_ply[current_ply+1]);
@@ -661,7 +677,12 @@ static void catchup_with_defense(ply current_ply)
   TraceCurrentMove(current_ply);
 
   if (!is_ply_equal_to_captured(&captured_ply[current_ply],current_ply))
-    write_numbered_indented_defense(current_ply,no_goal);
+  {
+    write_numbered_indented_defense(current_ply);
+    if (echecc(current_ply,advers(trait[current_ply])))
+      StdString(" +");
+    StdChar(blank);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -696,19 +717,23 @@ static void catchup_with_attack(ply current_ply)
   TraceCurrentMove(current_ply);
 
   if (!is_ply_equal_to_captured(&captured_ply[current_ply],current_ply))
-    write_numbered_indented_attack(current_ply,no_goal,attack_key);
+  {
+    write_numbered_indented_attack(current_ply);
+    if (echecc(current_ply,advers(trait[current_ply])))
+      StdString(" +");
+    StdChar(blank);
+    write_root_attack_decoration(current_ply,attack_key);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 /* Write a move of the attacking side in direct play
- * @param type of attack
  */
-void write_attack(attack_type type)
+void write_attack(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
@@ -740,7 +765,10 @@ void write_attack(attack_type type)
       }
     }
 
-    write_numbered_indented_attack(nbply,no_goal,type);
+    write_numbered_indented_attack(nbply);
+    if (echecc(nbply,advers(trait[nbply])))
+      StdString(" +");
+    StdChar(blank);
   }
 
   TraceFunctionExit(__func__);
@@ -748,19 +776,12 @@ void write_attack(attack_type type)
 }
 
 /* Write a move of the attacking side in direct play
- * @param goal goal reached by the move (no_goal if no goal has been
- *             reached by the move)
- * @param type of attack
  */
-void write_final_attack(Goal goal, attack_type type)
+void write_final_attack(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
-  assert(goal!=no_goal);
-  
   if (current_mode==output_mode_tree)
   {
     ply const start_ply = 2;
@@ -788,7 +809,25 @@ void write_final_attack(Goal goal, attack_type type)
 
     nr_defenses_written[move_depth] = 0;
 
-    write_numbered_indented_attack(nbply,goal,type);
+    write_numbered_indented_attack(nbply);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void write_goal(Goal goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  assert(goal!=no_goal);
+
+  if (current_mode==output_mode_tree)
+  {
+    StdString(goal_end_marker[goal]);
+    StdChar(blank);
   }
   else
     linesolution();
@@ -811,23 +850,24 @@ void write_defense(void)
     TraceValue("%u",nr_defenses_written[move_depth]);
     TraceValue("%u\n",nr_continuations_written[move_depth+1]);
 
-    write_numbered_indented_defense(nbply,no_goal);
-  }
+    write_numbered_indented_defense(nbply);
+    TraceValue("%u",active_slice[nbply]);
+    TraceEnumerator(Side,slices[active_slice[nbply]].starter,"\n");
+    if (echecc(nbply,advers(trait[nbply])))
+      StdString(" +");
+    StdChar(blank);
+ }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 /* Write a defender's final move
- * @param goal goal reached by the move (!=no_goal)
  */
-void write_final_defense(Goal goal)
+void write_final_defense(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
-
-  assert(goal!=no_goal);
 
   if (current_mode==output_mode_tree)
   {
@@ -856,13 +896,11 @@ void write_final_defense(Goal goal)
       }
     }
 
-    write_numbered_indented_defense(nbply,goal);
+    write_numbered_indented_defense(nbply);
 
     move_depth = save_move_depth;
     TraceValue("%u\n",move_depth);
   }
-  else
-    linesolution();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -880,7 +918,10 @@ void write_final_help_move(Goal goal)
   assert(goal!=no_goal);
 
   if (current_mode==output_mode_tree)
-    write_final_defense(goal);
+  {
+    write_final_defense();
+    write_goal(goal);
+  }
   else
     linesolution();
 
@@ -925,7 +966,7 @@ void write_end_of_solution_phase(void)
   TraceFunctionResultEnd();
 }
 
-static void editcoup(ply ply_id, coup *mov, Goal goal)
+static void editcoup(ply ply_id, coup *mov)
 {
   char    BlackChar= *GetMsgString(BlackColor);
   char    WhiteChar= *GetMsgString(WhiteColor);
@@ -1200,21 +1241,13 @@ static void editcoup(ply ply_id, coup *mov, Goal goal)
               WriteBGLNumber(buf2, BGL_black));
     StdString(s);
   }
-  if (goal==no_goal)
-  {
-    if (mov->echec)
-      StdString(" +");
-  }
-  else
-    StdString(goal_end_marker[goal]);
-  StdChar(blank);
 } /* editcoup */
 
-void ecritcoup(ply ply_id, Goal goal)
+void ecritcoup(ply ply_id)
 {
   coup mov;
   current(ply_id,&mov);
-  editcoup(ply_id,&mov,goal);
+  editcoup(ply_id,&mov);
 }
 
 /* Write a move as a refutation
@@ -1223,7 +1256,10 @@ void ecritcoup(ply ply_id, Goal goal)
 static void write_refutation(coup *c)
 {
   StdString("\n      1...");
-  editcoup(nbply,c,no_goal);
+  editcoup(nbply,c);
+  if (c->echec)
+    StdString(" +");
+  StdChar(blank);
   StdString(" !");
 
   ++nr_defenses_written[move_depth];

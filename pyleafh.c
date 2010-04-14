@@ -28,7 +28,11 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
-  generate_move_reaching_goal(leaf,side_at_move);
+  empile_for_goal = slices[leaf].u.leaf.goal;
+  empile_for_target = slices[leaf].u.leaf.target;
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(side_at_move);
+  empile_for_goal = no_goal;
 
   --MovesLeft[side_at_move];
 
@@ -125,7 +129,11 @@ boolean leaf_h_solve(slice_index leaf)
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,side_at_move);
+  empile_for_goal = slices[leaf].u.leaf.goal;
+  empile_for_target = slices[leaf].u.leaf.target;
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(side_at_move);
+  empile_for_goal = no_goal;
 
   --MovesLeft[side_at_move];
 

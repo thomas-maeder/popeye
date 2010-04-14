@@ -3,7 +3,13 @@
 
 #include "boolean.h"
 #include "pystip.h"
+#include "pyboard.h"
+#include "pygoal.h"
 #include "py.h"
+
+extern Goal empile_for_goal;
+extern square empile_for_target;
+
 
 /* This module provides functionality dealing with leaf stipulation
  * slices.
@@ -46,10 +52,8 @@ void remove_ortho_mating_moves_generation_obstacle(void);
 /* Generate moves for side side_at_move; optimise for moves reaching a
  * specific goal. If the number of obstacles is ==0, the function
  * optimises by only generating orthodox moves.
- * @param leaf leaf slice whose goal is to be reached by generated
- *             move(s)
  * @param side_at_move side for which to generate moves
  */
-void generate_move_reaching_goal(slice_index leaf, Side side_at_move);
+void generate_move_reaching_goal(Side side_at_move);
 
 #endif

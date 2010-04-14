@@ -152,9 +152,43 @@ has_solution_type quodlibet_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(op1);
-  if (result==has_no_solution)
-    result = slice_has_solution(op2);
+  switch (slice_has_solution(op1))
+  {
+    case defender_self_check:
+      if (slice_has_solution(op2)==is_solved)
+        result = is_solved;
+      else
+        result = defender_self_check;
+      break;
+
+    case has_no_solution:
+      result = slice_has_solution(op2);
+      break;
+      
+    case has_solution:
+      switch (slice_has_solution(op2))
+      {
+        case defender_self_check:
+          result = defender_self_check;
+          break;
+
+        case is_solved:
+          result = is_solved;
+          break;
+
+        default:
+          result = has_solution;
+          break;
+      }
+      
+    case is_solved:
+      result = is_solved;
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

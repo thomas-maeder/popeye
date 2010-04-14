@@ -84,7 +84,11 @@ void exclusive_init_genmove(Side side)
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = active_slice[nbply];
   remove_ortho_mating_moves_generation_obstacle();
-  generate_move_reaching_goal(exclusive_goal_leaf,side);
+  empile_for_goal = slices[exclusive_goal_leaf].u.leaf.goal;
+  empile_for_target = slices[exclusive_goal_leaf].u.leaf.target;
+  active_slice[nbply+1] = exclusive_goal_leaf;
+  generate_move_reaching_goal(side);
+  empile_for_goal = no_goal;
   add_ortho_mating_moves_generation_obstacle();
   CondFlag[exclusive] = true;
 

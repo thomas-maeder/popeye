@@ -8,6 +8,7 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
@@ -39,10 +40,6 @@ boolean defense_root_solve(slice_index si)
   {
     case STPostKeyPlaySolutionWriter:
       result = postkey_solution_writer_root_solve(si);
-      break;
-
-    case STDirectDefenseRootSolvableFilter:
-      result = direct_defense_root_solve(si);
       break;
 
     case STReflexDefenderFilter:
@@ -110,6 +107,12 @@ stip_length_type defense_root_defend(slice_index si,
 
     case STDefenseMove:
       result = defense_move_root_defend(si,n,n_min,max_nr_refutations);
+      break;
+
+    case STDirectDefenderFilter:
+      result = direct_defender_filter_root_defend(si,
+                                                  n,n_min,
+                                                  max_nr_refutations);
       break;
 
     case STReflexDefenderFilter:
@@ -205,6 +208,10 @@ boolean defense_defend_in_n(slice_index si,
       result = defense_move_defend_in_n(si,n,n_min);
       break;
 
+    case STDirectDefenderFilter:
+      result = direct_defender_filter_defend_in_n(si,n,n_min);
+      break;
+
     case STSelfCheckGuardDefenderFilter:
       result = selfcheck_guard_defend_in_n(si,n,n_min);
       break;
@@ -255,6 +262,8 @@ boolean defense_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
@@ -264,6 +273,7 @@ boolean defense_defend_in_n(slice_index si,
  */
 stip_length_type defense_can_defend_in_n(slice_index si,
                                          stip_length_type n,
+                                         stip_length_type n_min,
                                          unsigned int max_nr_refutations)
 {
   stip_length_type result = n+4;
@@ -271,6 +281,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
@@ -278,51 +289,71 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STRefutationsWriter:
-      result = refutations_writer_can_defend_in_n(si,n,max_nr_refutations);
+      result = refutations_writer_can_defend_in_n(si,
+                                                  n,n_min,
+                                                  max_nr_refutations);
       break;
 
     case STPostKeyPlaySuppressor:
-      result = postkeyplay_suppressor_can_defend_in_n(si,n,max_nr_refutations);
+      result = postkeyplay_suppressor_can_defend_in_n(si,
+                                                      n,n_min,
+                                                      max_nr_refutations);
       break;
 
     case STContinuationWriter:
-      result = continuation_writer_can_defend_in_n(si,n,max_nr_refutations);
+      result = continuation_writer_can_defend_in_n(si,
+                                                   n,n_min,
+                                                   max_nr_refutations);
       break;
 
     case STThreatWriter:
-      result = threat_writer_can_defend_in_n(si,n,max_nr_refutations);
+      result = threat_writer_can_defend_in_n(si,n,n_min,max_nr_refutations);
       break;
 
     case STDefenseMove:
-      result = defense_move_can_defend_in_n(si,n,max_nr_refutations);
+      result = defense_move_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      break;
+
+    case STDirectDefenderFilter:
+      result = direct_defender_filter_can_defend_in_n(si,
+                                                      n,n_min,
+                                                      max_nr_refutations);
       break;
 
     case STReflexDefenderFilter:
-      result = reflex_defender_filter_can_defend_in_n(si,n,max_nr_refutations);
+      result = reflex_defender_filter_can_defend_in_n(si,
+                                                      n,n_min,
+                                                      max_nr_refutations);
       break;
 
     case STSelfCheckGuardDefenderFilter:
-      result = selfcheck_guard_can_defend_in_n(si,n,max_nr_refutations);
+      result = selfcheck_guard_can_defend_in_n(si,n,n_min,max_nr_refutations);
       break;
 
     case STKeepMatingGuardDefenderFilter:
-      result = keepmating_guard_can_defend_in_n(si,n,max_nr_refutations);
+      result = keepmating_guard_can_defend_in_n(si,n,n_min,max_nr_refutations);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_can_defend_in_n(si,n,max_nr_refutations);
+      result = maxflight_guard_can_defend_in_n(si,n,n_min,max_nr_refutations);
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_can_defend_in_n(si,n,max_nr_refutations);
+      result = maxthreatlength_guard_can_defend_in_n(si,
+                                                     n,n_min,
+                                                     max_nr_refutations);
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_can_defend_in_n(si,n,max_nr_refutations);
+      result = max_nr_nontrivial_guard_can_defend_in_n(si,
+                                                       n,n_min,
+                                                       max_nr_refutations);
       break;
 
     case STMaxTimeDefenderFilter:
-      result = maxtime_defender_filter_can_defend_in_n(si,n,max_nr_refutations);
+      result = maxtime_defender_filter_can_defend_in_n(si,
+                                                       n,n_min,
+                                                       max_nr_refutations);
       break;
 
     default:
@@ -355,9 +386,9 @@ boolean defense_defend(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = defense_can_defend_in_n(si,
-                                            length,
+                                            length,min_length,
                                             max_nr_allowed_refutations);
-  if (nr_moves_needed<slack_length_battle)
+  if (nr_moves_needed<min_length)
     result = true;
   else if (nr_moves_needed<=length)
   {
@@ -365,7 +396,8 @@ boolean defense_defend(slice_index si)
 
     {
       boolean defend_result;
-      if (nr_moves_needed>slack_length_battle && min_length<=slack_length_battle)
+      if (nr_moves_needed>slack_length_battle
+          && min_length<=slack_length_battle)
         min_length += 2;
       defend_result = defense_defend_in_n(si,length,min_length);
       assert(!defend_result);
@@ -389,6 +421,7 @@ boolean defense_can_defend(slice_index si)
 {
   boolean result = true;
   stip_length_type const n = slices[si].u.branch.length;
+  stip_length_type const n_min = battle_branch_calc_n_min(si,n);
   stip_length_type nr_moves_needed;
   unsigned int const max_nr_allowed_refutations = 0;
 
@@ -396,7 +429,9 @@ boolean defense_can_defend(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = defense_can_defend_in_n(si,n,max_nr_allowed_refutations);
+  nr_moves_needed = defense_can_defend_in_n(si,
+                                            n,n_min,
+                                            max_nr_allowed_refutations);
   result = nr_moves_needed<slack_length_battle || nr_moves_needed>n;
 
   TraceFunctionExit(__func__);

@@ -40,15 +40,12 @@ slice_index alloc_series_fork_slice(stip_length_type length,
  */
 void series_fork_insert_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(slices[si].u.pipe.next,st);
-  slices[*root].u.shortcut.short_sols = si;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -102,7 +99,7 @@ boolean series_fork_has_solution_in_n(slice_index si,
   assert(n>=slack_length_series);
 
   if (n==slack_length_series)
-    result = slice_has_solution(to_goal)==has_solution;
+    result = slice_has_solution(to_goal)>=has_solution;
   else
     result = series_has_solution_in_n(next,n);
 

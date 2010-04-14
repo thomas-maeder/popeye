@@ -245,8 +245,7 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,     /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,     /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,     /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,     /* STDirectDefense */
+  &stip_traverse_structure_children,     /* STDirectDefenderFilter */
   &stip_traverse_structure_children,     /* STReflexHelpFilter */
   &stip_traverse_structure_children,     /* STReflexSeriesFilter */
   &stip_traverse_structure_children,     /* STReflexRootSolvableFilter */

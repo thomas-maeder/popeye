@@ -101,12 +101,13 @@ has_solution_type not_has_solution(slice_index si)
       result = defender_self_check;
       break;
 
-    case has_solution:
-      result = has_no_solution;
-      break;
-
     case has_no_solution:
       result = has_solution;
+      break;
+
+    case has_solution:
+    case is_solved:
+      result = has_no_solution;
       break;
   }
 

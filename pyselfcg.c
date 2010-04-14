@@ -367,6 +367,8 @@ boolean selfcheck_guard_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
  * @return <slack_length_battle - stalemate
            <=n solved  - return value is maximum number of moves
@@ -377,6 +379,7 @@ boolean selfcheck_guard_defend_in_n(slice_index si,
 stip_length_type
 selfcheck_guard_can_defend_in_n(slice_index si,
                                 stip_length_type n,
+                                stip_length_type n_min,
                                 unsigned int max_nr_refutations)
 {
   stip_length_type result;
@@ -385,13 +388,14 @@ selfcheck_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = n+4;
   else
-    result = defense_can_defend_in_n(next,n,max_nr_refutations);
+    result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -422,7 +426,7 @@ void selfcheck_guard_defender_filter_insert_root(slice_index si,
   *root = root_filter;
 
   slices[si].u.branch.length -= 2;
-  if (min_length>=slack_length_battle+2)
+  if (min_length>=slack_length_battle+1)
     slices[si].u.branch.min_length -= 2;
  
   TraceFunctionExit(__func__);
@@ -787,8 +791,7 @@ static stip_structure_visitor const selfcheck_guards_toplevel_inserters[] =
   &stip_structure_visitor_noop,             /* STSelfCheckGuardDefenderFilter */
   &stip_structure_visitor_noop,             /* STSelfCheckGuardHelpFilter */
   &stip_structure_visitor_noop,             /* STSelfCheckGuardSeriesFilter */
-  &selfcheck_guards_inserter_toplevel_root, /* STDirectDefenseRootSolvableFilter */
-  &stip_traverse_structure_children,        /* STDirectDefense */
+  &stip_traverse_structure_children,        /* STDirectDefenderFilter */
   &selfcheck_guards_inserter_toplevel_root, /* STReflexHelpFilter */
   &selfcheck_guards_inserter_toplevel_root, /* STReflexSeriesFilter */
   &selfcheck_guards_inserter_toplevel_root, /* STReflexRootSolvableFilter */

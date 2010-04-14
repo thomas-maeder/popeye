@@ -3,6 +3,7 @@
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pypipe.h"
+#include "pyleaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
@@ -26,8 +27,6 @@ slice_index alloc_attack_move_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(length>slack_length_battle);
-  assert(min_length>=slack_length_battle-1);
   assert((length-slack_length_battle)%2==(min_length-slack_length_battle)%2);
 
   result = alloc_branch(STAttackMove,length,min_length);
@@ -60,7 +59,7 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   *root = direct_root;
 
   slices[si].u.branch.length -= 2;
-  if (min_length>=slack_length_battle+2)
+  if (min_length>=slack_length_battle+1)
     slices[si].u.branch.min_length -= 2;
   
   TraceFunctionExit(__func__);
@@ -86,6 +85,7 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
   boolean result = true;
   unsigned int nr_successful_threats = 0;
   boolean defense_found = false;
+  stip_length_type n_min_next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
@@ -96,10 +96,21 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
 
   assert(n%2==slices[si].u.branch.length%2);
 
+  n_min_next = battle_branch_calc_n_min(next,len_threat-1);
+
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
-  genmove(attacker);
+  if (n<=slack_length_battle
+      && slices[si].u.branch.imminent_goal!=no_goal)
+  {
+    empile_for_goal = slices[si].u.branch.imminent_goal;
+    empile_for_target = slices[si].u.branch.imminent_target;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+  }
+  else
+    genmove(attacker);
 
   while (encore() && !defense_found)
   {
@@ -108,9 +119,9 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
     {
       stip_length_type const
           nr_moves_needed = defense_can_defend_in_n(next,
-                                                    len_threat-1,
+                                                    len_threat-1,n_min_next,
                                                     nr_refutations_allowed);
-      if (nr_moves_needed<slack_length_battle || nr_moves_needed>=len_threat)
+      if (nr_moves_needed<slack_length_battle-1 || nr_moves_needed>=len_threat)
         defense_found = true;
       else
         ++nr_successful_threats;
@@ -137,24 +148,37 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
  * @param n maximum number of half moves until goal
  * @return true iff the attacking side wins
  */
-static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
+static boolean have_we_solution_in_n(slice_index si,
+                                     stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   boolean solution_found = false;
   unsigned int const nr_refutations_allowed = 0;
+  stip_length_type n_min_next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  n_min_next = battle_branch_calc_n_min(next,n-1);
+
   assert(n%2==slices[si].u.branch.length%2);
 
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
-  genmove(attacker);
+  if (n<=slack_length_battle
+      && slices[si].u.branch.imminent_goal!=no_goal)
+  {
+    empile_for_goal = slices[si].u.branch.imminent_goal;
+    empile_for_target = slices[si].u.branch.imminent_target;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+  }
+  else
+    genmove(attacker);
 
   while (!solution_found && encore())
   {
@@ -162,9 +186,9 @@ static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
     {
       stip_length_type const
           nr_moves_needed = defense_can_defend_in_n(next,
-                                                    n-1,
+                                                    n-1,n_min_next,
                                                     nr_refutations_allowed);
-      if (nr_moves_needed>=slack_length_battle && nr_moves_needed<n)
+      if (n_min_next<=nr_moves_needed && nr_moves_needed<n)
       {
         solution_found = true;
         coupfort();
@@ -205,9 +229,10 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_battle)
+  if (n_min<slack_length_battle)
     n_min += 2;
 
   for (result = n_min; result<=n; result += 2)
@@ -231,29 +256,33 @@ static boolean solve_threats_in_n(slice_index si, stip_length_type n)
   boolean result = false;
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const n_next = n-1;
-  stip_length_type const parity = (n_next-slack_length_battle)%2;
-  stip_length_type n_min = slack_length_battle-parity;
+  stip_length_type n_min_next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  n_min_next = battle_branch_calc_n_min(next,n-1);
+
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
-  genmove(attacker);
-
-  if (n_next+min_length>n_min+length)
-    n_min = n_next-(length-min_length);
+  if (n<=slack_length_battle
+      && slices[si].u.branch.imminent_goal!=no_goal)
+  {
+    empile_for_goal = slices[si].u.branch.imminent_goal;
+    empile_for_target = slices[si].u.branch.imminent_target;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+  }
+  else
+    genmove(attacker);
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,n_next,n_min))
+        && !defense_defend_in_n(next,n-1,n_min_next))
     {
       result = true;
       coupfort();
@@ -298,7 +327,7 @@ stip_length_type attack_move_solve_threats_in_n(table threats,
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (n_min<=slack_length_battle)
+  if (n_min<slack_length_battle)
     n_min += 2;
 
   for (result = n_min; result<=n; result += 2)
@@ -321,23 +350,34 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type n_min = battle_branch_calc_n_min(next,n-1);
   boolean result = false;
+  stip_length_type n_min_next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  n_min_next = battle_branch_calc_n_min(next,n-1);
+
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
-  genmove(attacker);
+  if (n<=slack_length_battle
+      && slices[si].u.branch.imminent_goal!=no_goal)
+  {
+    empile_for_goal = slices[si].u.branch.imminent_goal;
+    empile_for_target = slices[si].u.branch.imminent_target;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+  }
+  else
+    genmove(attacker);
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,n-1,n_min))
+        && !defense_defend_in_n(next,n-1,n_min_next))
     {
       result = true;
       coupfort();
@@ -379,7 +419,7 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
   output_start_continuation_level();
 
-  if (n_min<=slack_length_battle)
+  if (n_min<slack_length_battle)
     n_min += 2;
 
   for (result = n_min; result<=n; result += 2)

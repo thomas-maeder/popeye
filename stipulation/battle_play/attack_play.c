@@ -90,10 +90,6 @@ boolean attack_are_threats_refuted_in_n(table threats,
       result = attack_hashed_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
 
-    case STDirectDefense:
-      result = direct_defense_are_threats_refuted_in_n(threats,len_threat,si,n);
-      break;
-
     case STSelfDefense:
       result = self_defense_are_threats_refuted_in_n(threats,len_threat,si,n);
       break;
@@ -201,10 +197,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = series_has_solution_in_n(si,n_ser) ? n : n+2;
       break;
     }
-
-    case STDirectDefense:
-      result = direct_defense_direct_has_solution_in_n(si,n,n_min);
-      break;
 
     case STSelfDefense:
       result = self_defense_direct_has_solution_in_n(si,n,n_min);
@@ -324,10 +316,6 @@ stip_length_type attack_solve_threats_in_n(table threats,
 
     case STAttackHashed:
       result = attack_hashed_solve_threats_in_n(threats,si,n,n_min);
-      break;
-
-    case STDirectDefense:
-      result = direct_defense_direct_solve_threats_in_n(threats,si,n,n_min);
       break;
 
     case STSelfDefense:
@@ -512,10 +500,6 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STAttackHashed:
       result = attack_hashed_solve_in_n(si,n,n_min);
-      break;
-
-    case STDirectDefense:
-      result = direct_defense_solve_in_n(si,n,n_min);
       break;
 
     case STSelfDefense:

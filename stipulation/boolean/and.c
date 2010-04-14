@@ -99,14 +99,20 @@ has_solution_type reci_has_solution(slice_index si)
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
   has_solution_type result;
+  has_solution_type result1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(op1);
-  if (result==has_solution)
-    result = slice_has_solution(op2);
+  result1 = slice_has_solution(op1);
+  if (result1==defender_self_check)
+    result = defender_self_check;
+  else
+  {
+    has_solution_type const result2 = slice_has_solution(op2);
+    result = result1>result2 ? result2 : result1;
+  }
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -149,11 +155,26 @@ boolean reci_root_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  if (slice_has_solution(op2)==has_solution && slice_root_solve(op1))
+  switch (slice_has_solution(op2))
   {
-    boolean const result2 = slice_root_solve(op2);
-    assert(result2);
-    result = true;
+    case has_solution:
+      if (slice_root_solve(op1))
+      {
+        boolean const result2 = slice_root_solve(op2);
+        assert(result2);
+        result = true;
+      }
+      break;
+
+    case is_solved:
+      slice_root_solve(op1);
+      slice_root_solve(op2);
+      result = true;
+      break;
+
+    default:
+      result = false;
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -179,11 +200,26 @@ boolean reci_solve(slice_index si)
   TraceValue("%u",op1);
   TraceValue("%u\n",op2);
 
-  if (slice_has_solution(op2)==has_solution && slice_solve(op1))
+  switch (slice_has_solution(op2))
   {
-    boolean const result2 = slice_solve(op2);
-    assert(result2);
-    result = true;
+    case has_solution:
+      if (slice_solve(op1))
+      {
+        boolean const result2 = slice_solve(op2);
+        assert(result2);
+        result = true;
+      }
+      break;
+
+    case is_solved:
+      slice_solve(op1);
+      slice_solve(op2);
+      result = true;
+      break;
+
+    default:
+      result = false;
+      break;
   }
 
   TraceFunctionExit(__func__);

@@ -33,7 +33,11 @@ boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
 
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
-    generate_move_reaching_goal(leaf,attacker);
+    empile_for_goal = slices[leaf].u.leaf.goal;
+    empile_for_target = slices[leaf].u.leaf.target;
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
 
     while (encore() && !defense_found)
     {
@@ -78,7 +82,11 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
 
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
-  generate_move_reaching_goal(leaf,attacker);
+  empile_for_goal = slices[leaf].u.leaf.goal;
+  empile_for_target = slices[leaf].u.leaf.target;
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(attacker);
+  empile_for_goal = no_goal;
 
   while (encore() && result==has_no_solution)
   {
@@ -123,7 +131,11 @@ boolean leaf_d_root_solve(slice_index leaf)
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,attacker);
+  empile_for_goal = slices[leaf].u.leaf.goal;
+  empile_for_target = slices[leaf].u.leaf.target;
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(attacker);
+  empile_for_goal = no_goal;
 
   reset_nr_found_solutions_per_phase();
 
@@ -133,7 +145,9 @@ boolean leaf_d_root_solve(slice_index leaf)
         && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
       result = true;
-      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
+      write_final_attack();
+      write_goal(slices[leaf].u.leaf.goal);
+      write_root_attack_decoration(nbply,attack_key);
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
       write_end_of_solution();
@@ -175,7 +189,11 @@ boolean leaf_d_solve(slice_index leaf)
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,attacker);
+  empile_for_goal = slices[leaf].u.leaf.goal;
+  empile_for_target = slices[leaf].u.leaf.target;
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(attacker);
+  empile_for_goal = no_goal;
 
   while (encore())
   {
@@ -183,7 +201,9 @@ boolean leaf_d_solve(slice_index leaf)
         && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
       result = true;
-      write_final_attack(slices[leaf].u.leaf.goal,attack_key);
+      write_final_attack();
+      write_goal(slices[leaf].u.leaf.goal);
+      write_root_attack_decoration(nbply,attack_key);
     }
 
     repcoup();
@@ -214,14 +234,19 @@ void leaf_d_solve_threats(table threats, slice_index leaf)
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(leaf,attacker);
+  empile_for_goal = slices[leaf].u.leaf.goal;
+  empile_for_target = slices[leaf].u.leaf.target;
+  active_slice[nbply+1] = leaf;
+  generate_move_reaching_goal(attacker);
+  empile_for_goal = no_goal;
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && leaf_is_goal_reached(attacker,leaf)==goal_reached)
     {
-      write_final_attack(slices[leaf].u.leaf.goal,attack_regular);
+      write_final_attack();
+      write_goal(slices[leaf].u.leaf.goal);
       output_start_leaf_variation_level();
       output_end_leaf_variation_level();
       append_to_top_table();
