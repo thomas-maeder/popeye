@@ -294,7 +294,6 @@ Loesung beendet.
                 Circe
                  SAT
 
-
   1.Ta6-a2 ! Zugzwang.
       1...e3-e2 
           2.Ta2*e2 [+sBe7] + 
@@ -349,7 +348,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 5
                  SAT
-
 
   1.Dg1-f2 ! Zugzwang.
       1...Sd1*f2 
@@ -419,7 +417,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 4
                  SAT
-
 
   1.b2-b4 ! Zugzwang.
       1...a3-a2 

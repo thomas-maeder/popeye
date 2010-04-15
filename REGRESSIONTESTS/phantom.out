@@ -56,7 +56,6 @@ Loesung beendet.
   #2                          3 + 1
             PhantomSchach
 
-
   1.Kc7-c8 ? Zugzwang.
     Aber
       1...Ka8-a7  !
@@ -166,7 +165,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                          2 + 2
             PhantomSchach
-
 
   1.Tg8-g1 + ? 
       1...Kh1-h2 
@@ -322,16 +320,17 @@ Loesung beendet.
 
 a) 
 
-  1.g7-g8=S + 
-  1.g7-g8=T + 
+  1.g7-g8=S + ! 
+
+  1.g7-g8=T + ! 
 
 b) =1
 
-  1.g7-g8=D = 
+  1.g7-g8=D = ! 
 
 c) #1
 
-  1.g7-g8=T # 
+  1.g7-g8=T # ! 
 
 Loesung beendet. 
 

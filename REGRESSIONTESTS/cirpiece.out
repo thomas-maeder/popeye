@@ -26,7 +26,6 @@
 
 a) 
 
-
   1.Da7-d7 ! Drohung:
           2.Lg8-d5 # 
       1...Sa3*b5 [+wTh1] 
@@ -41,7 +40,6 @@ a)
           2.Lf1*d3 # 
 
 b) ChamaeleonCirce    S->L->T->D->S
-
 
   1.Da7-d7 ! Drohung:
           2.Lg8-d5 # 
@@ -58,7 +56,6 @@ b) ChamaeleonCirce    S->L->T->D->S
 
 c) CirceClone
 
-
   1.Da7-d7 ! Drohung:
           2.Lg8-d5 # 
       1...Sa3*b5 [+wSb1] 
@@ -73,7 +70,6 @@ c) CirceClone
           2.Dd1-e1 # 
 
 d) ChamaeleonCirce    S->D->T->L->S
-
 
   1.Da7-d7 ! Drohung:
           2.Lg8-d5 # 
@@ -226,7 +222,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 4
               CirceClone
-
 
   1.Da8-f3 ! Zugzwang.
       1...g4-g3 

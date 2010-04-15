@@ -50,7 +50,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #1                          3 + 1
 
-  1.Se8-c7 # 
+  1.Se8-c7 # ! 
 
 solution finished. 
 
@@ -155,7 +155,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 2
 
-  1.Se8-c7 # 
+  1.Se8-c7 # ! 
 
   1.Ka6-b6 ! threat:
           2.Se8-c7 # 
@@ -187,7 +187,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ##!2                        2 + 3
 
-  1.Kc8-b7 ##! 
+  1.Kc8-b7 ##! ! 
 
 solution finished. 
 
@@ -216,9 +216,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #=2                         2 + 1
 
-  1.Rc3-c1 # 
+  1.Rc3-c1 # ! 
 
-  1.Rc3-b3 = 
+  1.Rc3-b3 = ! 
 
 solution finished. 
 
@@ -246,7 +246,6 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 2
-
 
   1.Kb6-a6 ! zugzwang.
       1...c7-c5 
@@ -284,7 +283,6 @@ solution finished.
       1...Kb8-a8 
           2.Rc6-c8 # 
 
-
   1.Rc6*c5 ! zugzwang.
       1...Kb8-a8 
           2.Rc5-c8 # 
@@ -317,7 +315,6 @@ solution finished.
   #2                          2 + 2
 
 the side to play can capture the king
-
   1.Rc6*c5 ! zugzwang.
       1...Kb8-a8 
           2.Rc5-c8 # 
@@ -404,7 +401,6 @@ solution finished.
           2.Se6-c7 # 
       1...Se8-g7 
           2.Se6-c7 # 
-
 
   1.b2*c3 ! zugzwang.
       1...c6-c5 

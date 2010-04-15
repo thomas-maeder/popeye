@@ -25,7 +25,6 @@
   #12                         9 + 8
          Madrasi RexInklusive
 
-
   1.Gg7-e7 + ! 
       1...Gf7-c4 
           2.Ge7-c5 + 
@@ -127,7 +126,6 @@ Loesung beendet.
   #2                        11 + 11
                 Circe
          Madrasi RexInklusive
-
 
   1.Dd6-a3 + ? 
     Aber
@@ -240,7 +238,6 @@ Loesung beendet.
                Madrasi
              Gitterschach
 
-
   1.Th5*h2 ! Drohung:
           2.Th2*h7 # 
           2.Th2-h6 # 
@@ -258,8 +255,8 @@ Loesung beendet.
               2...Sg5-h3 
                   3.Th5*h3 # 
       1...Sh7-f8 
-          2.Th2-h6 # 
           2.Th2-h5 # 
+          2.Th2-h6 # 
           2.Th2-h4 # 
           2.Th2-h3 # 
       1...Tg8-g3 
@@ -271,18 +268,18 @@ Loesung beendet.
           2.Th2-h5 # 
           2.Th2-h3 # 
       1...Tg8-g5 
+          2.Th2-h3 # 
           2.Th2-h6 # 
           2.Th2-h4 # 
-          2.Th2-h3 # 
       1...Tg8-g6 
-          2.Th2-h5 # 
           2.Th2-h4 # 
+          2.Th2-h5 # 
           2.Th2-h3 # 
       1...Tg8-a8 
+          2.Th2-h3 # 
           2.Th2-h6 # 
           2.Th2-h5 # 
           2.Th2-h4 # 
-          2.Th2-h3 # 
       1...Tg8-b8 
           2.Th2-h6 + 
               2...Tb8-b6 
@@ -300,10 +297,10 @@ Loesung beendet.
               2...Te8-e3 
                   3.Dg1-e1 # 
       1...Tg8-f8 
+          2.Th2-h3 # 
           2.Th2-h6 # 
           2.Th2-h5 # 
           2.Th2-h4 # 
-          2.Th2-h3 # 
 
 Loesung beendet. 
 
@@ -333,7 +330,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #4                          5 + 5
                Madrasi
-
 
   1.Lb6-c7 ! 
 

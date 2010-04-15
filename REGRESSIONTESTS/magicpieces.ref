@@ -39,7 +39,6 @@
       1...Sf7-e5 
           2.mSf6-d7 [bBc5, wSe5] # 
 
-
   1.mQh6-g7 [wSg3, wSf7] ! threat:
           2.Sf7-e5 # 
       1...mPe2-e1=mQ [wBb1, wPe3, bSg3] 
@@ -107,7 +106,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                        15 + 11
 Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
-
 
   1.mPf7-f8=mQ [wPd6, wSf6] + ? 
     but
@@ -254,8 +252,8 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mQ [wPd6, wSf6] # 
           2.Rc7*c6 # 
       1...mPd4-d3 [wSf6] 
-          2.mPf7-f8=mB [wPd6] # 
           2.Rc7*c6 # 
+          2.mPf7-f8=mB [wPd6] # 
       1...mPd4*e3 [wPd6, wSf6] 
           2.mPf7-f8=mS [bPd7] # 
           2.Rc7*c6 # 
@@ -264,8 +262,8 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mB [wPd6] # 
           2.Rc7*c6 # 
       1...mBf4*g3 [wSf6] 
-          2.mPf7-f8=mB [wPd6] # 
           2.Rc7*c6 # 
+          2.mPf7-f8=mB [wPd6] # 
       1...mBf4-h6 [wSf6] 
           2.mPf7-f8=mB [wPd6] # 
           2.Rc7*c6 # 
@@ -404,7 +402,6 @@ Magic h8 g7 f4 g4 h4 a3 d3 f3 g3 h3 c2 d2 e2 g2 c1 e1
 
 a) 
 
-
   1.mQf4-e3 [wRc5, wPe6] ! threat:
           2.mSa3*c4 [bRd6] # 
       1...mBe2*d3 [wPc4, wSg6] 
@@ -433,7 +430,6 @@ a)
           2.mPg7-g8=mR [wSg6] # 
 
 b) wPe6 
-
 
   1.mQf4-e3 [wRc5, bPe6] ! threat:
           2.mSa3*c4 [bRd6] # 
@@ -464,7 +460,6 @@ b) wPe6
 
 +c) wSg6 
 
-
   1.mQf4-e3 [wRc5, bPe6] ! threat:
           2.mSa3*c4 [bRd6] # 
       1...mBe2*d3 [wPc4, bSg6] 
@@ -493,7 +488,6 @@ b) wPe6
           2.mPg7-g8=mB [wPe6] # 
 
 +d) bPe6 
-
 
   1.mQf4-e3 [wRc5, wPe6] ! threat:
           2.mSa3*c4 [bRd6] # 
@@ -553,7 +547,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                        11 + 15
 Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
-
 
   1.mPe7-e8=mR [wSe6, wPf7] + ? 
     but
@@ -626,27 +619,39 @@ solution finished.
 
 a) 
 
-  1.Ka5-b5[+wPa5] 
-  1.Ka5-a6[+wPa5] 
-  1.Ka5-a4[+wPa5] 
-  1.Ka5-b6[+wPa5] 
-  1.Ka5-b4[+wPa5] 
+  1.Ka5-b5[+wPa5] ! 
+
+  1.Ka5-a6[+wPa5] ! 
+
+  1.Ka5-a4[+wPa5] ! 
+
+  1.Ka5-b6[+wPa5] ! 
+
+  1.Ka5-b4[+wPa5] ! 
 
 b) wmKa5 
 
-  1.rmKa5-b5[+wPa5] 
-  1.rmKa5-a6[+wPa5] 
-  1.rmKa5-a4[+wPa5] 
-  1.rmKa5-b6[+wPa5] 
-  1.rmKa5-b4[+wPa5] 
+  1.rmKa5-b5[+wPa5] ! 
+
+  1.rmKa5-a6[+wPa5] ! 
+
+  1.rmKa5-a4[+wPa5] ! 
+
+  1.rmKa5-b6[+wPa5] ! 
+
+  1.rmKa5-b4[+wPa5] ! 
 
 c) nmKa5 
 
-  1.nrmKa5-b5[+wPa5] 
-  1.nrmKa5-a6[+wPa5] 
-  1.nrmKa5-a4[+wPa5] 
-  1.nrmKa5-b6[+wPa5] 
-  1.nrmKa5-b4[+wPa5] 
+  1.nrmKa5-b5[+wPa5] ! 
+
+  1.nrmKa5-a6[+wPa5] ! 
+
+  1.nrmKa5-a4[+wPa5] ! 
+
+  1.nrmKa5-b6[+wPa5] ! 
+
+  1.nrmKa5-b4[+wPa5] ! 
 
 solution finished. 
 

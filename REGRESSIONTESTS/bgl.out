@@ -56,7 +56,6 @@ Loesung beendet.
   #2                          6 + 7
                BGL 7/3
 
-
   1.Kd1-c1 (6/3) ! Zugzwang.
       1...e4-e3 (6/2) 
           2.Df1-d3 (3.17/2) # 
@@ -208,7 +207,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                     6 + 6 + 1n
               BGL -/4.45
-
 
   1.nBg7-g8=nS (-/4.45) ! Zugzwang.
       1...Se2-c1 (-/2.21) 
@@ -423,7 +421,6 @@ Loesung beendet.
   #2                          5 + 4
                BGL 7/4
 
-
   1.De7-e8 (6/4) ! Zugzwang.
       1...Se5*c4 (6/1.76) 
           2.Lf1-g2 (4.59/1.76) # 
@@ -484,7 +481,6 @@ Stoerende Eingabe: twin
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 1
                 BGL 8
-
 
   1.Kd7-c7 (7) ! Drohung:
           2.Tb5-a5 (6) # 

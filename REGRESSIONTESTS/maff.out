@@ -45,7 +45,6 @@ The Problemist 1998 and Sachova skladba 1997
       1...Lf7-e6 
           2.La1-e5 # 
 
-
   1.Sg7-e6 + ! 
       1...Sg5*e6 
           2.Te7*f7 # 
@@ -90,12 +89,11 @@ Loesung beendet.
   #2                          6 + 7
                  MAFF
 
-
   1.Ld2-f4 ! Drohung:
           2.Te7-d7 # 
       1...Ld4-e5 
-          2.Tc7-c5 # 
           2.Ld3-c4 # 
+          2.Tc7-c5 # 
       1...Ld4-c5 
           2.Tc7*c5 # 
           2.Sb5-c3 # 
@@ -111,8 +109,8 @@ Loesung beendet.
           2.Te7*e5 # 
           2.Ld3-c4 # 
       1...Ld4-c5 
-          2.Te7-e5 # 
           2.Ld3-c4 # 
+          2.Te7-e5 # 
       1...Sd8-c6 
           2.Ld3-c4 # 
       1...Sd8-e6 
@@ -146,7 +144,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 13
                  MAFF
-
 
   1.Lg8-d5 + ? 
     Aber
@@ -186,8 +183,8 @@ Loesung beendet.
           2.Sa4-c5 # 
           2.Sh3-g5 # 
       1...Ta6*d6 
-          2.Sa4-c5 # 
           2.Sh3-g5 # 
+          2.Sa4-c5 # 
     Aber
       1...Te8*e7 +  !
 
@@ -199,8 +196,8 @@ Loesung beendet.
           2.Sa4-c5 # 
           2.Sh3-g5 # 
       1...d7*c6 
-          2.Sa4-c5 # 
           2.Sh3-g5 # 
+          2.Sa4-c5 # 
       1...La8*c6 
           2.Sa4-c5 # 
           2.Sh3-g5 # 
@@ -225,8 +222,8 @@ Loesung beendet.
           2.Sa4-c5 # 
           2.Sh3-g5 # 
       1...Ta6*d6 
-          2.Sa4-c5 # 
           2.Sh3-g5 # 
+          2.Sa4-c5 # 
     Aber
       1...Te8*e7  !
 
@@ -290,7 +287,6 @@ Loesung beendet.
   #2                          2 + 2
                  MAFF
 
-
   1.BBb6-c7 ! Zugzwang.
       1...a7-a5 
           2.BBc7-b8=T # 
@@ -327,7 +323,6 @@ Loesung beendet.
   #2                         11 + 4
                  MAFF
 
-
   1.Tf8*f7 + ! 
       1...Ke7-e8 
           2.Tf7-e7 # 
@@ -350,20 +345,20 @@ Loesung beendet.
           2.Sb4-d3 # 
           2.Sb4-a6 # 
       1...Sc4-d2 
-          2.Sb4-a2 # 
-          2.Sb4-c2 # 
-          2.Sb4-d3 # 
           2.Sb4-a6 # 
-      1...Sc4-e3 
           2.Sb4-a2 # 
           2.Sb4-c2 # 
           2.Sb4-d3 # 
+      1...Sc4-e3 
+          2.Sb4-d3 # 
+          2.Sb4-a2 # 
+          2.Sb4-c2 # 
           2.Sb4-a6 # 
       1...Sc4-e5 
+          2.Sb4-a6 # 
           2.Sb4-a2 # 
           2.Sb4-c2 # 
           2.Sb4-d3 # 
-          2.Sb4-a6 # 
       1...Sc4-d6 
           2.Sb4-d5 # 
       1...Sc4-b6 
@@ -372,10 +367,10 @@ Loesung beendet.
           2.Sb4-d3 # 
           2.Sb4-a6 # 
       1...Sc4-a5 
+          2.Sb4-a6 # 
           2.Sb4-a2 # 
           2.Sb4-c2 # 
           2.Sb4-d3 # 
-          2.Sb4-a6 # 
       1...Tf7*f6 
           2.Sb4-d5 # 
       1...Tf7*f8 
@@ -400,20 +395,20 @@ Loesung beendet.
           2.Sb4-d3 # 
           2.Sb4-a6 # 
       1...Sc4-d2 
-          2.Sb4-a2 # 
-          2.Sb4-c2 # 
-          2.Sb4-d3 # 
           2.Sb4-a6 # 
-      1...Sc4-e3 
           2.Sb4-a2 # 
           2.Sb4-c2 # 
           2.Sb4-d3 # 
+      1...Sc4-e3 
+          2.Sb4-d3 # 
+          2.Sb4-a2 # 
+          2.Sb4-c2 # 
           2.Sb4-a6 # 
       1...Sc4-e5 
+          2.Sb4-a6 # 
           2.Sb4-a2 # 
           2.Sb4-c2 # 
           2.Sb4-d3 # 
-          2.Sb4-a6 # 
       1...Sc4-d6 
           2.Sb4-d5 # 
       1...Sc4-b6 
@@ -422,10 +417,10 @@ Loesung beendet.
           2.Sb4-d3 # 
           2.Sb4-a6 # 
       1...Sc4-a5 
+          2.Sb4-a6 # 
           2.Sb4-a2 # 
           2.Sb4-c2 # 
           2.Sb4-d3 # 
-          2.Sb4-a6 # 
       1...Tf7*f6 
           2.Tf8-e8 # 
       1...Tf7*f8 
@@ -455,8 +450,8 @@ Loesung beendet.
           2.Tf8-e8 # 
           2.Tf6-e6 # 
       1...Tf7-g7 
-          2.Tf8-e8 # 
           2.Tf6-e6 # 
+          2.Tf8-e8 # 
     Aber
       1...Tf7*f8  !
       1...Ke7*f6 +  !
@@ -474,8 +469,8 @@ Loesung beendet.
           2.Tf8-e8 # 
           2.Tf6-e6 # 
       1...Tf7-g7 
-          2.Tf8-e8 # 
           2.Tf6-e6 # 
+          2.Tf8-e8 # 
     Aber
       1...Tf7*f8  !
       1...Ke7*f6 +  !

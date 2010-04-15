@@ -24,11 +24,15 @@
   +1                          2 + 1
              GenferSchach
 
-  1.Kc1-d1 + 
-  1.Kc1-c2 + 
-  1.Kc1-b1 + 
-  1.Kc1-b2 + 
-  1.Kc1-d2 + 
+  1.Kc1-d1 + ! 
+
+  1.Kc1-c2 + ! 
+
+  1.Kc1-b1 + ! 
+
+  1.Kc1-b2 + ! 
+
+  1.Kc1-d2 + ! 
 
 Loesung beendet. 
 
@@ -59,7 +63,7 @@ Loesung beendet.
   #1                          1 + 1
       GenferSchach RexInklusive
 
-  1.Dc5-e7 # 
+  1.Dc5-e7 # ! 
 
 Loesung beendet. 
 
@@ -90,7 +94,7 @@ Loesung beendet.
   =1                          4 + 1
       GenferSchach RexInklusive
 
-  1.Tb2-b1 = 
+  1.Tb2-b1 = ! 
 
 Loesung beendet. 
 

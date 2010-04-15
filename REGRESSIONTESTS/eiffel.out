@@ -24,7 +24,6 @@
   #2                        11 + 11
              EiffelSchach
 
-
   1.Kh5-h4 ! Drohung:
           2.Sg7-h5 # 
       1...Lc4-d5 
@@ -66,7 +65,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 6
              EiffelSchach
-
 
   1.Th5-e5 ! Drohung:
           2.Te5-e6 # 

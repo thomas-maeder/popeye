@@ -394,7 +394,6 @@ Loesung beendet.
   #3                         11 + 8
            AndernachSchach
 
-
   1.Tb8-b4 ! Drohung:
           2.Tb4-e4 + 
               2...Lg6*e4=wL 
@@ -409,8 +408,8 @@ Loesung beendet.
               2...Lg6*h7=wL 
                   3.Tb4-e4 # 
               2...Lg6-f7 
-                  3.Dh7-e4 # 
                   3.Tb4-e4 # 
+                  3.Dh7-e4 # 
       1...Sg8*f6=wS + 
           2.Sf6-e8 Drohung:
                   3.Dh7-g7 # 
@@ -455,7 +454,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                         9 + 10
            AndernachSchach
-
 
   1.Le5-f4 ! Drohung:
           2.Gg5-e3 # 
@@ -503,7 +501,6 @@ Loesung beendet.
           2.Sd2-c4 # 
       1...c6-c5 
           2.Td3-d5 # 
-
 
   1.Td3-e3 ! Drohung:
           2.d2-d4 # 
@@ -642,7 +639,6 @@ Loesung beendet.
 
 a) 
 
-
   1.Lg4-f3 ! Drohung:
           2.De6-d5 # 
       1...d6-d5 
@@ -686,7 +682,6 @@ Loesung beendet.
   #2                          5 + 9
            AndernachSchach
 
-
   1.Le3-g5 ! Drohung:
           2.e2-e4 # 
       1...Sc1*e2=wS 
@@ -724,7 +719,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                          6 + 7
            AndernachSchach
-
 
   1.Le3-b6 ! Drohung:
           2.e2-e4 + 

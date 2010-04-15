@@ -21,7 +21,7 @@
 +---a---b---c---d---e---f---g---h---+
   =1                          2 + 2
 
-  1.CPb6-a6 = 
+  1.CPb6-a6 = ! 
 
 solution finished. 
 
@@ -76,7 +76,6 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =2                          2 + 2
-
 
   1.Kc8-c7 ! zugzwang.
       1...CPa7-a6 

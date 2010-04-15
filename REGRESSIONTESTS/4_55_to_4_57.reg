@@ -148,10 +148,9 @@ b) has no solution because white is immobile in the diagram
 
 a) 
 
-  1.Kh6-h7 ## 
+  1.Kh6-h7 ## ! 
 
 b) +bRa5 
-
 
 solution finished. 
 
@@ -184,16 +183,14 @@ b) has no solution because white is not mate in the diagram
 
 a) 
 
-  1.Kc8-b7 ##! 
+  1.Kc8-b7 ##! ! 
 
 b) +wSb4 
-
 
 solution finished. 
 
 
 Option  StopOnShortSolutions  not supported with direct play.
-
 
 solution finished. 
 
@@ -202,9 +199,7 @@ try play not applicable
 
 a) 
 
-
 b) #2
-
 
 c) s#1
 
@@ -232,9 +227,7 @@ Option "Threat" not applicable or indicated maximum threat length too big
 
 a) 
 
-
 b) #4
-
 
 c) s#3
 Option "Threat" not applicable or indicated maximum threat length too big

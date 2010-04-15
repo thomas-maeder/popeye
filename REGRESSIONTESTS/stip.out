@@ -510,7 +510,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   002                        11 + 6
 
-
   1.Lf8-e7 + ? 
     Aber
       1...Kf6*e7  !
@@ -846,7 +845,7 @@ Loesung beendet.
 
 a) 
 
-  1.d7-d8=D # 
+  1.d7-d8=D # ! 
 
 b) exact-#2
 
@@ -915,7 +914,7 @@ Loesung beendet.
 
 a) 
 
-  1.Tg6-e6 # 
+  1.Tg6-e6 # ! 
 
 b) exact-#2
 
@@ -971,7 +970,7 @@ Loesung beendet.
 
 a) 
 
-  1.d7-d8=D # 
+  1.d7-d8=D # ! 
 
 b) exact-#2
 
@@ -1033,7 +1032,6 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zh35                       6 + 10
-
 
   1.Kg8-h8 ! 
       1...b6-b5 
@@ -1335,7 +1333,6 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zd63                        5 + 5
-
 
   1.Lc4-a6 ! Drohung:
           2.Sb2-c4 + 

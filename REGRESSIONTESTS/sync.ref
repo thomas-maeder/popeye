@@ -26,7 +26,6 @@
 
 a) 
 
-
   1.Kc8-c7 ! zugzwang.
       1...a7-a6 
           2.b6-b7 + 
@@ -40,7 +39,6 @@ a)
 b) Circe
    BlackSynchronMover  =4
 
-
   1.Kc8-c7 ! zugzwang.
       1...a7-a6 
           2.b6-b7 + 
@@ -52,7 +50,6 @@ b) Circe
 c) GlasgowChess
    BlackSynchronMover  =3
 
-
   1.Kc8-d8 ! zugzwang.
       1...Ka8-b8 
           2.Kd8-e8 zugzwang.
@@ -61,7 +58,6 @@ c) GlasgowChess
 
 d) AntiAndernachChess
    BlackSynchronMover  =2
-
 
   1.Kc8-c7 ! zugzwang.
       1...a7-a6=wP 

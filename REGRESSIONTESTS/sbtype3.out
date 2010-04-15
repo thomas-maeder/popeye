@@ -52,7 +52,6 @@ Seite der latenten Bauern entscheidet welchen umzuwandeln -> f7*e8 w"are Selbsts
   #1                         3 + 13
      NurPartiesatzSteine    Typ3
 
-
 Loesung beendet. 
 
 
@@ -81,9 +80,11 @@ Loesung beendet.
   +1                          3 + 6
      NurPartiesatzSteine    Typ3
 
-  1.Sh4*f3 + 
-  1.Se3*c2 + 
-  1.Se3*g2 + 
+  1.Sh4*f3 + ! 
+
+  1.Se3*c2 + ! 
+
+  1.Se3*g2 + ! 
 
 Loesung beendet. 
 
@@ -173,8 +174,9 @@ Loesung beendet.
   #1                          5 + 3
      NurPartiesatzSteine    Typ3
 
-  1.[e8=T]Dd8-d4 # 
-  1.[e8=S]Dd8-d5 # 
+  1.[e8=T]Dd8-d4 # ! 
+
+  1.[e8=S]Dd8-d5 # ! 
 
 Loesung beendet. 
 
@@ -203,7 +205,6 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 +---a---b---c---d---e---f---g---h---+
   #2                         10 + 9
      NurPartiesatzSteine    Typ3
-
 
   1.d7-d8 ! Zugzwang.
       1...Df2*g1 
@@ -256,7 +257,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 11
      NurPartiesatzSteine    Typ3
-
 
   1.f7-f8 ! Drohung:
           2.Dh1*e4 + 

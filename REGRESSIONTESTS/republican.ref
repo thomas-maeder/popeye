@@ -29,7 +29,7 @@ a)
 
 b) #1
 
-  1.Ra1-h1[+bKh3] # 
+  1.Ra1-h1[+bKh3] # ! 
 
 solution finished. 
 
@@ -96,7 +96,6 @@ solution finished.
   #2                          3 + 9
        RepublicanChess    Type1
 
-
   1.Sa8-b6 ? threat:
           2.Ra7-a8[+bKh8] # 
     but
@@ -116,10 +115,10 @@ solution finished.
       1...Sa1-c2 
           2.Ra6-a7[+bKa5] # 
       1...Sa1-b3 
+          2.Ra6-a7[+bKa5] # 
           2.Sa8-b6[+bKa4] # 
           2.Ra6-a2[+bKa4] # 
           2.Ra6-a2[+bKa5] # 
-          2.Ra6-a7[+bKa5] # 
       1...b4-b3 
           2.Ra6*a1[+bKa6] # 
           2.Ra6-a3[+bKa6] # 
@@ -159,7 +158,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          5 + 7
        RepublicanChess    Type1
-
 
   1.Se3-f5 ? threat:
           2.Sf5*d6[+bKe8] # 
@@ -205,7 +203,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
        RepublicanChess    Type1
-
 
   1.Ba8-d5 ! zugzwang.
       1...d7-d6 
@@ -285,7 +282,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 4
        RepublicanChess    Type2
-
 
   1.b5-b6 ! zugzwang.
       1...Ba8-c6 

@@ -294,7 +294,6 @@ solution finished.
                 Circe
                  SAT
 
-
   1.Ra6-a2 ! zugzwang.
       1...e3-e2 
           2.Ra2*e2 [+bPe7] + 
@@ -349,7 +348,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 5
                  SAT
-
 
   1.Qg1-f2 ! zugzwang.
       1...Sd1*f2 
@@ -419,7 +417,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 4
                  SAT
-
 
   1.b2-b4 ! zugzwang.
       1...a3-a2 

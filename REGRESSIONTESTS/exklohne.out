@@ -57,7 +57,6 @@ Loesung beendet.
   #3                         5 + 12
             ExklusivSchach
 
-
   1.a6-a7 ! Drohung:
           2.a7-a8=S Drohung:
                   3.Sa8-c7 # 
@@ -138,7 +137,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 6
             ExklusivSchach
-
 
   1.c6-c7 ! Zugzwang.
       1...Kc1-d1 
@@ -426,7 +424,6 @@ Loesung beendet.
 
 a) 
 
-
   1.Ka5-b6 ! 
       1...h6-h5 
           2.Kb6-c7 
@@ -438,7 +435,6 @@ a)
                                   5.Kd8-d7 # 
 
 b) wKa5-->c3
-
 
   1.Kc3-d2 ! 
       1...h6-h5 
@@ -479,7 +475,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                          7 + 3
             ExklusivSchach
-
 
   1.c6-c7 ! Drohung:
           2.c7-c8=S Drohung:
@@ -527,7 +522,6 @@ Loesung beendet.
   #3                         10 + 8
             ExklusivSchach
 
-
   1.Td6-g6 ! Drohung:
           2.a7-a8=L Drohung:
                   3.La8-d5 # 
@@ -574,7 +568,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #4                         7 + 15
             ExklusivSchach
-
 
   1.Le6-c8 ! Drohung:
           2.Lc8-d7 # 
@@ -625,7 +618,6 @@ Loesung beendet.
   #2                         9 + 10
             ExklusivSchach
 
-
   1.Sg6-h4 ! Drohung:
           2.Df6-d8 # 
       1...Lc4*e6 
@@ -662,7 +654,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 9
             ExklusivSchach
-
 
   1.Le7*d6 ! Drohung:
           2.f7-f8=D # 
@@ -703,7 +694,6 @@ Loesung beendet.
   #2                          9 + 7
             ExklusivSchach
 
-
   1.Db5-d7 ! Drohung:
           2.Dd7-a4 # 
       1...d3*c2 
@@ -740,7 +730,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 7
             ExklusivSchach
-
 
   1.Dh8-b2 ? Drohung:
           2.Db2-e5 # 
@@ -798,7 +787,6 @@ Loesung beendet.
   #2                        13 + 10
             ExklusivSchach
 
-
   1.f5-f6 ! Drohung:
           2.Se4-f2 # 
       1...Tg1*a1 
@@ -835,7 +823,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 12
             ExklusivSchach
-
 
   1.Tf4-f7 ! Drohung:
           2.Tg5-g1 # 
@@ -909,7 +896,6 @@ Loesung beendet.
   #2                          8 + 7
               OhneSchach
 
-
   1.Dg6-d6 ! Drohung:
           2.Dd6-b4 # 
       1...Te3*c3 
@@ -953,7 +939,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 8
               OhneSchach
-
 
   1.Te8-e5 ! Drohung:
           2.Te5-d5 # 
@@ -1987,7 +1972,6 @@ Loesung beendet.
               Ohneschlag
               OhneSchach
 
-
   1.Kf7-e7 ! 
       1...Kb8-c7 
           2.b7-b8=T 
@@ -2067,7 +2051,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   =4                          3 + 1
               OhneSchach
-
 
   1.g7-g8=L ! 
       1...Ke8-f8 
@@ -2251,7 +2234,6 @@ Loesung beendet.
   #2                          8 + 5
               OhneSchach
 
-
   1.Tg2-g1 ? Drohung:
           2.Tg1-d1 # 
     Aber
@@ -2331,7 +2313,6 @@ Loesung beendet.
   #2                          4 + 4
               Ohneschlag
               OhneSchach
-
 
   1.Kd5-e5 ? Drohung:
           2.Sd4-f3 # 
@@ -2413,7 +2394,6 @@ Loesung beendet.
 
 a) 
 
-
   1.Se6-d4 ! Drohung:
           2.Sg4-f6 # 
 
@@ -2423,7 +2403,6 @@ a)
       1...Gb3-f3  !
 
 b) sGb3-->d1
-
 
   1.Se6-d4 ? Drohung:
           2.Sg4-f6 # 
@@ -2435,7 +2414,6 @@ b) sGb3-->d1
 
 c) sGb3-->g8
 
-
   1.Se6-d4 ! Drohung:
           2.Sg4-f6 # 
 
@@ -2445,7 +2423,6 @@ c) sGb3-->g8
       1...Gg8-d5  !
 
 d) sGb3-->h5
-
 
   1.Se6-d4 ? Drohung:
           2.Sg4-f6 # 
@@ -2518,7 +2495,6 @@ Loesung beendet.
   #2                          2 + 3
               Ohneschlag
               OhneSchach
-
 
   1.Kd1-e1 ! Zugzwang.
       1...Sb1-d2 
@@ -2631,7 +2607,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          9 + 9
               OhneSchach
-
 
   1.Tf7-f1 ? Drohung:
           2.Lg8-b3 # 
@@ -2779,7 +2754,6 @@ Loesung beendet.
   ze42                        2 + 1
               OhneSchach
 
-
   1.Se4-c3 ? Drohung:
           2.Sc3-e4 z 
     Aber
@@ -2888,7 +2862,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   002                        12 + 4
               OhneSchach
-
 
   1.Lc8-a6 ? Zugzwang.
       1...De3-h6 

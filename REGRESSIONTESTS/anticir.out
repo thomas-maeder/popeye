@@ -52,7 +52,6 @@
       1...Td3-e3 
           2.e7-e8=D # 
 
-
   1.Sa8-b6 ! Drohung:
           2.Kb1-c1 # 
       1...Th2-b2 + 
@@ -95,7 +94,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 12
               AntiCirce
-
 
   1.Kg1-f2 ! Drohung:
           2.Sg3*e2[wSe2->b1] # 
@@ -141,7 +139,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          9 + 6
               AntiCirce
-
 
   1.Sc8-e7 + ? 
     Aber
@@ -190,7 +187,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 12
               AntiCirce
-
 
   1.Sf5-d4 ? Drohung:
           2.Sc2*a1[wSa1->g1] # 
@@ -272,7 +268,6 @@ Loesung beendet.
   #2                         15 + 8
               AntiCirce
 
-
   1.a7-a8=T ! Drohung:
           2.Ta8-a6 # 
       1...De2*e1[sDe1->d8] 
@@ -322,7 +317,6 @@ Loesung beendet.
       1...Td2*d4[sTd4->h8] 
           2.Df2-f5 # 
 
-
   1.Sf6-e4 ! Drohung:
           2.Tg1-c1 # 
           2.Tg1-d1 # 
@@ -342,13 +336,13 @@ Loesung beendet.
           2.Tg1-e1 # 
           2.Tg1-g2 # 
       1...Le7-d6 
+          2.Tg1-g2 # 
           2.Tg1-c1 # 
           2.Tg1-e1 # 
-          2.Tg1-g2 # 
       1...Tf7-f3 
+          2.Tg1-e1 # 
           2.g7-g8=T # 
           2.Tg1-d1 # 
-          2.Tg1-e1 # 
           2.Tg1-g2 # 
       1...Tf7-f4 
           2.g7-g8=T # 
@@ -383,7 +377,6 @@ Loesung beendet.
   #2                          9 + 8
               AntiCirce
 
-
   1.Sg8-e7 + ? 
     Aber
       1...Te8*e7[sTe7->h8]  !
@@ -417,74 +410,74 @@ Loesung beendet.
           2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Dc6-b5 
+          2.Te1-e5 # 
           2.Dd7*b5[wDb5->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Tc4-d4 # 
-          2.Te1-e5 # 
       1...Dc6-a8 
+          2.Tc4-d4 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
-          2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Dc6-b7 
+          2.Te1-e5 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*b7[wDb7->d1] # 
           2.Tc4-d4 # 
-          2.Te1-e5 # 
       1...Dc6*b6[sDb6->d8] 
+          2.Tc4-d4 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*d8[wDd8->d1] # 
-          2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Dc6-c7 
+          2.Te1-e5 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*c7[wDc7->d1] # 
           2.Tc4-d4 # 
-          2.Te1-e5 # 
       1...Tc8-c7 
+          2.Tc4-d4 # 
           2.Dd7*c6[wDc6->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*c7[wDc7->d1] # 
-          2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Tc8-a8 
-          2.Dd7*c6[wDc6->d1] # 
-          2.Dd7*d6[wDd6->d1] # 
-          2.Tc4-d4 # 
           2.Te1-e5 # 
-      1...Tc8-b8 
           2.Dd7*c6[wDc6->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Tc4-d4 # 
+      1...Tc8-b8 
+          2.Tc4-d4 # 
+          2.Dd7*c6[wDc6->d1] # 
+          2.Dd7*d6[wDd6->d1] # 
           2.Te1-e5 # 
       1...Tc8-d8 
+          2.Te1-e5 # 
           2.Dd7*c6[wDc6->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*d8[wDd8->d1] # 
           2.Tc4-d4 # 
-          2.Te1-e5 # 
       1...Te8-e7 
           2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Te8-d8 
+          2.Te1-e5 # 
           2.Sg8-e7 # 
           2.Tc4-d4 # 
-          2.Te1-e5 # 
       1...Te8*g8[sTg8->a8] 
           2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Te8-f8 
+          2.Te1-e5 # 
           2.Sg8-e7 # 
           2.Tc4-d4 # 
-          2.Te1-e5 # 
     Aber
       1...Dc6*d7[sDd7->d8]  !
 
@@ -597,7 +590,6 @@ Loesung beendet.
   #2                         10 + 8
               AntiCirce
 
-
   1.Kf1-g2 ! Zugzwang.
       1...Lb2-a1 
           2.b7*a8=S[wSa8->b1] # 
@@ -658,7 +650,6 @@ Loesung beendet.
   #2                        10 + 13
               AntiCirce
 
-
   1.Da5-b5 ! Drohung:
           2.Td2*d1[wTd1->h1] # 
       1...Kd5-e5 
@@ -699,7 +690,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                         9 + 13
               AntiCirce
-
 
   1.Kg1-h2 ! Drohung:
           2.Sd4*e2[wSe2->b1] # 
@@ -828,7 +818,6 @@ Loesung beendet.
   #2                          8 + 8
               AntiCirce
 
-
   1.Td1-e1 ! Drohung:
           2.f7-f8=D # 
       1...f2*e1=D[sDe1->d8] 
@@ -871,7 +860,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 5
               AntiCirce
-
 
   1.Te7*a7[wTa7->a1] ? Drohung:
           2.Sa5-b7 # 
@@ -929,7 +917,6 @@ Loesung beendet.
   #2                         9 + 11
               AntiCirce
 
-
   1.d6*c7[wBc7->c2] ! Drohung:
           2.Dc5-b6 # 
       1...b2*a1=D[sDa1->d8] 
@@ -969,7 +956,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 14
               AntiCirce
-
 
   1.Lf8-e7 ? Drohung:
           2.Db2-e5 # 
@@ -1109,7 +1095,6 @@ Loesung beendet.
   #2                         8 + 13
               AntiCirce
 
-
   1.d2*c3[wBc3->c2] ! Drohung:
           2.Sd1-f2 # 
       1...e2*d1=D[sDd1->d8] 
@@ -1192,7 +1177,6 @@ Loesung beendet.
   #2                         10 + 9
               AntiCirce
 
-
   1.Sd5*f6[wSf6->g1] ! Drohung:
           2.Td1-f1 # 
       1...Tb1-b4 
@@ -1246,7 +1230,6 @@ Loesung beendet.
   #2                          9 + 3
               AntiCirce
 
-
   1.b7-b8=T ? Zugzwang.
       1...Tc5*c4[sTc4->a8] 
           2.Tb8*a8[wTa8->h1] # 
@@ -1280,8 +1263,8 @@ Loesung beendet.
           2.b7*a8=T[wTa8->h1] # 
           2.Ta6*a8[wTa8->h1] # 
       1...Tc5*b5[sTb5->a8] + 
-          2.b7*a8=T[wTa8->h1] # 
           2.Ta6*a8[wTa8->h1] # 
+          2.b7*a8=T[wTa8->h1] # 
       1...Tc5-c8 + 
           2.b7*c8=T[wTc8->h1] # 
       1...Tc5-c6 
@@ -1499,7 +1482,6 @@ Loesung beendet.
   #3                         9 + 11
           AntiCirce  Cheylan
 
-
   1.f7-f8=T ! Drohung:
           2.Lc8-b7 + 
               2...Kc6-d7 
@@ -1553,7 +1535,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                          9 + 8
               AntiCirce
-
 
   1.c6-c7 ! Zugzwang.
       1...c5*d4[sBd4->d7] 
@@ -1649,7 +1630,6 @@ Loesung beendet.
   #3                          9 + 6
               AntiCirce
 
-
   1.Sg5-f3 ! Zugzwang.
       1...Lc2-b1 
           2.d5*c6[wBc6->c2] + 
@@ -1721,7 +1701,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          5 + 2
               AntiCirce
-
 
   1.Sg2-e1 ! Zugzwang.
       1...Kf1*e1[sKe1->e8] 
@@ -2055,7 +2034,6 @@ Loesung beendet.
   #3                          4 + 2
           AntiCirce  Cheylan
 
-
   1.g2*h3[wBh3->h2] ! Zugzwang.
       1...Kh1-g2 
           2.Te1-h1 Zugzwang.
@@ -2237,7 +2215,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 7
               AntiCirce
-
 
   1.Lf8-c5 ? Zugzwang.
       1...De2-b2 
@@ -2440,7 +2417,6 @@ Loesung beendet.
   #2                         7 + 10
               AntiCirce
 
-
   1.Le8*d7[wLd7->f1] ! Drohung:
           2.Dd8-d7 # 
       1...Sd6*f7[sSf7->g8] 
@@ -2500,7 +2476,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 11
               AntiCirce
-
 
   1.g6-g7 ? Drohung:
           2.Df3-g3 # 
@@ -2673,7 +2648,6 @@ Loesung beendet.
   #2                         10 + 7
               AntiCirce
 
-
   1.a2-a3 ! Drohung:
           2.Ta1-a2 # 
       1...Th1-f1 
@@ -2711,7 +2685,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 16
               AntiCirce
-
 
   1.Sg3*f5[wSf5->b1] ! Drohung:
           2.Sb1-d2 # 

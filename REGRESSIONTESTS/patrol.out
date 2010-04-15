@@ -24,7 +24,6 @@
   #2                         11 + 9
            PatrouilleSchach
 
-
   1.Sh5-f6 ! Drohung:
           2.Sf6-d5 # 
       1...Ke5-d6 
@@ -65,32 +64,31 @@ F1291, The Problemist 14/1-2, 1-3/1992
   #2                        15 + 14
            PatrouilleSchach
 
-
   1.a3*b4 ! Zugzwang.
       1...Ta1-a3 
           2.Sc1-d3 # 
           2.Sc1-a2 # 
       1...Ta1-a2 
-          2.Sc1-d3 # 
           2.Sc1*a2 # 
+          2.Sc1-d3 # 
       1...Lb1*h7 
           2.Sc1-a2 # 
       1...Lb1-g6 
           2.Sc1-a2 # 
       1...Lb1-f5 
-          2.Sc4-e3 # 
           2.Sc1-a2 # 
+          2.Sc4-e3 # 
       1...Lb1-e4 
           2.Sc1-d3 # 
           2.Sc1-a2 # 
       1...Lb1-d3 
-          2.Sc1*d3 # 
           2.Sc1-a2 # 
+          2.Sc1*d3 # 
       1...Lb1-c2 
           2.Sc1-a2 # 
       1...Lb1-a2 
-          2.Sc1-d3 # 
           2.Sc1*a2 # 
+          2.Sc1-d3 # 
       1...Sf1-h2 
           2.Sc4-e3 # 
       1...Sf1-g3 
@@ -190,7 +188,6 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                         12 + 8
            PatrouilleSchach
-
 
   1.Sf3-g5 + ! 
       1...Ke4*e5 
