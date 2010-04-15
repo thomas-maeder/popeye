@@ -2732,7 +2732,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STMoveInverterRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
-  &stip_traverse_moves_pipe,                 /* STAttackRoot */
+  &remember_imminent_goal_branch_battle,     /* STAttackRoot */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
