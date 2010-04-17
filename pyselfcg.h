@@ -15,26 +15,36 @@
 void stip_insert_selfcheck_guards(void);
 
 /* Allocate a STSelfCheckGuardAttackerFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
 slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
                                                   stip_length_type min_length);
 
 /* Allocate a STSelfCheckGuardDefenderFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
 slice_index alloc_selfcheck_guard_defender_filter(stip_length_type length,
                                                   stip_length_type min_length);
 
 /* Allocate a STSelfCheckGuardHelpFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_help_filter(void);
+slice_index alloc_selfcheck_guard_help_filter(stip_length_type length,
+                                              stip_length_type min_length);
 
 /* Allocate a STSelfCheckGuardSeriesFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_series_filter(void);
+slice_index alloc_selfcheck_guard_series_filter(stip_length_type length,
+                                                stip_length_type min_length);
 
 /* Allocate a STSelfCheckGuardRootSolvableFilter slice
  * @return allocated slice
@@ -89,6 +99,17 @@ alloc_selfcheck_guard_root_defender_filter(stip_length_type length,
  * @return true iff >=1 solution was found
  */
 boolean selfcheck_guard_solve(slice_index si);
+
+/* Solve a slice at non-root level
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return number of half moves effectively used
+ *         n+2 if no solution was found
+ *         (n-slack_length_battle)%2 if the previous move led to a
+ *            dead end (e.g. self-check)
+ */
+boolean selfcheck_guard_attacker_filter_root_solve_in_n(slice_index si);
 
 /* Solve a slice at non-root level
  * @param si slice index

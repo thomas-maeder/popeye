@@ -249,6 +249,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSelfCheckGuardRootDefenderFilter:
       case STSelfCheckGuardAttackerFilter:
       case STSelfCheckGuardDefenderFilter:
+      case STSelfCheckGuardHelpFilter:
+      case STSelfCheckGuardSeriesFilter:
       case STNoShortVariations:
       case STVariationWriter:
       case STRefutingVariationWriter:
@@ -311,8 +313,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STSelfCheckGuardRootSolvableFilter:
       case STSelfCheckGuardSolvableFilter:
-      case STSelfCheckGuardHelpFilter:
-      case STSelfCheckGuardSeriesFilter:
       case STProxy:
       case STMoveInverterRootSolvableFilter:
       case STMoveInverterSolvableFilter:

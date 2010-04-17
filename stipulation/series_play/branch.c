@@ -55,21 +55,23 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
+    slice_index const
+        guard1 = alloc_selfcheck_guard_series_filter(length,min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const guard1 = alloc_selfcheck_guard_series_filter();
-    slice_index const inverter = alloc_move_inverter_series_filter();
-    slice_index const guard2 = alloc_selfcheck_guard_series_filter();
     slice_index const fork = alloc_series_fork_slice(length,min_length,
                                                      proxy_to_goal);
+    slice_index const
+        guard2 = alloc_selfcheck_guard_series_filter(length-1,min_length-1);
+    slice_index const inverter = alloc_move_inverter_series_filter();
 
     shorten_series_pipe(fork);
 
-    pipe_link(result,move);
-    pipe_link(move,guard1);
-    pipe_link(guard1,fork);
-    pipe_link(fork,inverter);
-    pipe_link(inverter,guard2);
-    pipe_link(guard2,result);
+    pipe_link(result,guard1);
+    pipe_link(guard1,move);
+    pipe_link(move,fork);
+    pipe_link(fork,guard2);
+    pipe_link(guard2,inverter);
+    pipe_link(inverter,result);
   }
 
   TraceFunctionExit(__func__);
@@ -104,9 +106,11 @@ slice_index alloc_series_branch_next_same_starter(stip_length_type length,
 
   {
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const guard1 = alloc_selfcheck_guard_series_filter();
+    slice_index const
+        guard1 = alloc_selfcheck_guard_series_filter(length,min_length);
     slice_index const inverter = alloc_move_inverter_series_filter();
-    slice_index const guard2 = alloc_selfcheck_guard_series_filter();
+    slice_index const
+        guard2 = alloc_selfcheck_guard_series_filter(length,min_length);
 
     pipe_link(result,move);
     pipe_link(move,guard1);

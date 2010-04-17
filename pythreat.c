@@ -61,9 +61,7 @@ stip_length_type get_max_threat_length(void)
  */
 static stip_length_type get_n_max(stip_length_type n)
 {
-  stip_length_type const parity = (n+1-slack_length_battle)%2;
-  stip_length_type const result = (2*(max_len_threat-1)
-                                  +slack_length_battle+parity);
+  stip_length_type const result = 2*(max_len_threat-1)+slack_length_battle+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -102,12 +100,12 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
   else
   {
     stip_length_type const n_max = get_n_max(n);
-    if (n-1>=n_max)
+    if (n>=n_max)
     {
       slice_index const
           to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
-      stip_length_type n_min = battle_branch_calc_n_min(to_attacker,n_max);
-      result = attack_has_solution_in_n(to_attacker,n_max,n_min)>n_max;
+      stip_length_type n_min = battle_branch_calc_n_min(si,n_max);
+      result = attack_has_solution_in_n(to_attacker,n_max-1,n_min-1)>n_max;
     }
     else
       /* remainder of play is too short for max_len_threat to apply */
@@ -308,7 +306,7 @@ static void maxthreatlength_guard_inserter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (max_len_threat==0 || length-1>=get_n_max(length))
+  if (max_len_threat==0 || length>=get_n_max(length))
   {
     slice_index const
         to_attacker = branch_find_slice(STSelfCheckGuardAttackerFilter,si);

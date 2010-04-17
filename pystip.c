@@ -906,11 +906,11 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STIntelligentSeriesFilter */
   &pipe_resolve_proxies,             /* STGoalReachableGuardHelpFilter */
   &pipe_resolve_proxies,             /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardRootDefenderFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardSeriesFilter */
+  &pipe_resolve_proxies,             /* STKeepMatingGuardRootDefenderFilter */
+  &pipe_resolve_proxies,             /* STKeepMatingGuardAttackerFilter */
+  &pipe_resolve_proxies,             /* STKeepMatingGuardDefenderFilter */
+  &pipe_resolve_proxies,             /* STKeepMatingGuardHelpFilter */
+  &pipe_resolve_proxies,             /* STKeepMatingGuardSeriesFilter */
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
@@ -1380,6 +1380,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
   if (result==no_slice)
   {
     result = copy_slice(si);
+    slices[result].starter = no_side;
     (*copies)[si] = result;
 
     TraceEnumerator(SliceType,slices[si].type,"\n");
@@ -1487,7 +1488,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
  * @param si root of sub-tree
  * @return index of root of copy
  */
-static slice_index deep_copy(slice_index si)
+slice_index stip_deep_copy(slice_index si)
 {
   copies_type copies;
   slice_index i;
@@ -1617,10 +1618,9 @@ static void transform_to_quodlibet_self_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *proxy_to_goal = deep_copy(slices[si].u.branch_fork.towards_goal);
+  *proxy_to_goal = stip_deep_copy(slices[si].u.branch_fork.towards_goal);
 
   stip_traverse_structure_children(si,st);
-
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2505,13 +2505,13 @@ static stip_structure_visitor const starter_detectors[] =
   &pipe_detect_starter,              /* STSelfCheckGuardDefenderFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardHelpFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardSeriesFilter */
-  &pipe_detect_starter,              /* STDirectDefenderFilter */
-  &pipe_detect_starter,              /* STReflexHelpFilter */
-  &pipe_detect_starter,              /* STReflexSeriesFilter */
-  &pipe_detect_starter,              /* STReflexRootSolvableFilter */
-  &pipe_detect_starter,              /* STReflexAttackerFilter */
-  &pipe_detect_starter,              /* STReflexDefenderFilter */
-  &pipe_detect_starter,              /* STSelfDefense */
+  &branch_fork_detect_starter,       /* STDirectDefenderFilter */
+  &branch_fork_detect_starter,       /* STReflexHelpFilter */
+  &branch_fork_detect_starter,       /* STReflexSeriesFilter */
+  &branch_fork_detect_starter,       /* STReflexRootSolvableFilter */
+  &branch_fork_detect_starter,       /* STReflexAttackerFilter */
+  &branch_fork_detect_starter,       /* STReflexDefenderFilter */
+  &branch_fork_detect_starter,       /* STSelfDefense */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */

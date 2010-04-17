@@ -176,12 +176,14 @@ boolean slice_solve(slice_index si)
     case STAttackMove:
     case STAttackHashed:
     case STSelfDefense:
+    case STSelfCheckGuardAttackerFilter:
     case STReflexAttackerFilter:
     case STDegenerateTree:
     case STLeafDirect:
       solution_found = attack_solve(si);
       break;
 
+    case STSelfCheckGuardDefenderFilter:
     case STContinuationWriter:
     case STDefenseMove:
       solution_found = !defense_defend(si);
@@ -189,10 +191,12 @@ boolean slice_solve(slice_index si)
 
     case STHelpMove:
     case STHelpHashed:
+    case STSelfCheckGuardHelpFilter:
     case STStopOnShortSolutionsHelpFilter:
       solution_found = help_solve(si);
       break;
 
+    case STSelfCheckGuardSeriesFilter:
     case STSeriesMove:
     case STSeriesFork:
     case STSeriesHashed:
@@ -259,6 +263,7 @@ boolean slice_root_solve(slice_index si)
     case STAttackHashed:
     case STMaxThreatLength:
     case STReflexRootSolvableFilter:
+    case STSelfCheckGuardAttackerFilter:
       result = attack_root_solve(si);
       break;
 
@@ -268,6 +273,7 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STHelpRoot:
+    case STSelfCheckGuardHelpFilter:
     case STHelpHashed:
     case STHelpMove:
     case STLeafHelp:
@@ -367,6 +373,7 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STContinuationWriter:
     case STDefenseMove:
+    case STSelfCheckGuardDefenderFilter:
       result = defense_can_defend(si) ? has_no_solution : has_solution;
       break;
 

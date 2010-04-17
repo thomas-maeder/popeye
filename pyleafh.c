@@ -18,6 +18,7 @@
 static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 {
   boolean end_found = false;
+  Goal const goal = slices[leaf].u.leaf.goal;
 
   assert(slices[leaf].starter!=no_side);
 
@@ -26,35 +27,38 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  empile_for_goal = slices[leaf].u.leaf.goal;
-  empile_for_target = slices[leaf].u.leaf.target;
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(side_at_move);
-  empile_for_goal = no_goal;
-
-  --MovesLeft[side_at_move];
-
-  while (encore() && !end_found)
+  if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && (!isIntelligentModeActive || isGoalReachable())
-        && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    empile_for_goal = goal;
+    empile_for_target = slices[leaf].u.leaf.target;
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(side_at_move);
+    empile_for_goal = no_goal;
+
+    --MovesLeft[side_at_move];
+
+    while (encore() && !end_found)
     {
-      end_found = true;
-      coupfort();
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && (!isIntelligentModeActive || isGoalReachable())
+          && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
+      {
+        end_found = true;
+        coupfort();
+      }
+
+      repcoup();
+
+      if (hasMaxtimeElapsed())
+        break;
     }
 
-    repcoup();
+    ++MovesLeft[side_at_move];
 
-    if (hasMaxtimeElapsed())
-      break;
+    finply();
   }
-
-  ++MovesLeft[side_at_move];
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",end_found);
@@ -121,38 +125,42 @@ boolean leaf_h_solve(slice_index leaf)
 {
   boolean result = false;
   Side const side_at_move = slices[leaf].starter;
+  Goal const goal = slices[leaf].u.leaf.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = leaf;
-  empile_for_goal = slices[leaf].u.leaf.goal;
-  empile_for_target = slices[leaf].u.leaf.target;
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(side_at_move);
-  empile_for_goal = no_goal;
-
-  --MovesLeft[side_at_move];
-
-  while (encore())
+  if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !(isIntelligentModeActive && !isGoalReachable())
-        && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = leaf;
+    empile_for_goal = goal;
+    empile_for_target = slices[leaf].u.leaf.target;
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(side_at_move);
+    empile_for_goal = no_goal;
+
+    --MovesLeft[side_at_move];
+
+    while (encore())
     {
-      result = true;
-      write_final_help_move(slices[leaf].u.leaf.goal);
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !(isIntelligentModeActive && !isGoalReachable())
+          && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
+      {
+        result = true;
+        write_final_help_move(slices[leaf].u.leaf.goal);
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    ++MovesLeft[side_at_move];
+
+    finply();
   }
-
-  ++MovesLeft[side_at_move];
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

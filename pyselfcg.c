@@ -52,6 +52,8 @@ slice_index alloc_selfcheck_guard_solvable_filter(void)
 }
 
 /* Allocate a STSelfCheckGuardRootDefenderFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
 slice_index
@@ -72,6 +74,8 @@ alloc_selfcheck_guard_root_defender_filter(stip_length_type length,
 }
 
 /* Allocate a STSelfCheckGuardAttackerFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
 slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
@@ -91,6 +95,8 @@ slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
 }
 
 /* Allocate a STSelfCheckGuardDefenderFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
 slice_index alloc_selfcheck_guard_defender_filter(stip_length_type length,
@@ -110,16 +116,19 @@ slice_index alloc_selfcheck_guard_defender_filter(stip_length_type length,
 }
 
 /* Allocate a STSelfCheckGuardHelpFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_help_filter(void)
+slice_index alloc_selfcheck_guard_help_filter(stip_length_type length,
+                                              stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STSelfCheckGuardHelpFilter);
+  result = alloc_branch(STSelfCheckGuardHelpFilter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -128,16 +137,19 @@ slice_index alloc_selfcheck_guard_help_filter(void)
 }
 
 /* Allocate a STSelfCheckGuardSeriesFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-slice_index alloc_selfcheck_guard_series_filter(void)
+slice_index alloc_selfcheck_guard_series_filter(stip_length_type length,
+                                                stip_length_type min_length)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STSelfCheckGuardSeriesFilter);
+  result = alloc_branch(STSelfCheckGuardSeriesFilter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

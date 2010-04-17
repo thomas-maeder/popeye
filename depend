@@ -444,7 +444,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   stipulation/help_play/play.h boolean.h pystip.h pydegent.h pyflight.h \
   pynontrv.h pythreat.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h \
   pypipe.h pyint.h stipulation/proxy.h pypipe.h \
-  stipulation/battle_play/branch.h stipulation/battle_play/defense_move.h \
+  stipulation/battle_play/branch.h stipulation/battle_play/attack_move.h \
+  stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_play.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
   stipulation/series_play/branch.h py.h \
@@ -541,6 +542,8 @@ stipulation/proxy.h:
 pypipe.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/defense_move.h:
 

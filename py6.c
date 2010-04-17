@@ -2081,6 +2081,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
         result = whitetoplay_means_shorten_root_slice;
       break;
 
+    case STSelfCheckGuardDefenderFilter:
     case STLeafDirect:
     case STContinuationWriter:
     case STDefenseMove:
@@ -2643,8 +2644,8 @@ typedef struct
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void remember_imminent_goal_branch_battle(slice_index si,
-                                          stip_move_traversal *st)
+static void remember_imminent_goal_battle_move(slice_index si,
+                                               stip_move_traversal *st)
 {
   imminent_goal_struct * const igs = st->param;
 
@@ -2671,7 +2672,39 @@ void remember_imminent_goal_branch_battle(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void remember_imminent_goal_series_move(slice_index si, stip_move_traversal *st)
+static void remember_imminent_goal_attack_root(slice_index si,
+                                               stip_move_traversal *st)
+{
+  imminent_goal_struct * const igs = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_branch(si,st);
+
+  if (slices[si].u.branch.min_length==slack_length_battle)
+  {
+    stip_length_type const save_remaining = st->remaining;
+    st->remaining = slack_length_battle;
+    stip_traverse_moves_branch(si,st);
+    st->remaining = save_remaining;
+    slices[si].u.branch.imminent_goal = igs->goal;
+    slices[si].u.branch.imminent_target = igs->target;
+    TraceValue("->%u\n",slices[si].u.branch.imminent_goal);
+    igs->goal = no_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void remember_imminent_goal_series_move(slice_index si,
+                                               stip_move_traversal *st)
 {
   imminent_goal_struct * const igs = st->param;
 
@@ -2698,7 +2731,36 @@ void remember_imminent_goal_series_move(slice_index si, stip_move_traversal *st)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void remember_imminent_goal_leaf(slice_index si, stip_move_traversal *st)
+static void remember_imminent_goal_help_move(slice_index si,
+                                      stip_move_traversal *st)
+{
+  imminent_goal_struct * const igs = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_branch(si,st);
+
+  if (st->remaining==slack_length_help+1)
+  {
+    slices[si].u.branch.imminent_goal = igs->goal;
+    slices[si].u.branch.imminent_target = igs->target;
+    TraceValue("->%u\n",slices[si].u.branch.imminent_goal);
+  }
+
+  igs->goal = no_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void remember_imminent_goal_leaf(slice_index si,
+                                        stip_move_traversal *st)
 {
   imminent_goal_struct * const igs = st->param;
 
@@ -2717,9 +2779,9 @@ void remember_imminent_goal_leaf(slice_index si, stip_move_traversal *st)
 static stip_move_visitor const imminent_goal_rememberers[] =
 {
   &stip_traverse_moves_pipe,                 /* STProxy */
-  &remember_imminent_goal_branch_battle,     /* STAttackMove */
-  &remember_imminent_goal_branch_battle,     /* STDefenseMove */
-  &stip_traverse_moves_branch,               /* STHelpMove */
+  &remember_imminent_goal_battle_move,       /* STAttackMove */
+  &remember_imminent_goal_battle_move,       /* STDefenseMove */
+  &remember_imminent_goal_help_move,         /* STHelpMove */
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &remember_imminent_goal_series_move,       /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
@@ -2732,7 +2794,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STMoveInverterRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
-  &remember_imminent_goal_branch_battle,     /* STAttackRoot */
+  &remember_imminent_goal_attack_root,       /* STAttackRoot */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */

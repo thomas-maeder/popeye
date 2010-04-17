@@ -56,11 +56,14 @@ slice_index alloc_help_branch(stip_length_type length,
   if ((length-slack_length_help)%2==0)
   {
     slice_index const branch1 = alloc_help_move_slice(length,min_length);
-    slice_index const guard1 = alloc_selfcheck_guard_help_filter();
+    slice_index const
+        guard1 = alloc_selfcheck_guard_help_filter(length,min_length);
     slice_index const branch2 = alloc_help_move_slice(length,min_length);
-    slice_index const guard2 = alloc_selfcheck_guard_help_filter();
+    slice_index const
+        guard2 = alloc_selfcheck_guard_help_filter(length,min_length);
     result = alloc_help_fork_slice(length,min_length,proxy_to_goal);
 
+    shorten_help_pipe(guard1);
     shorten_help_pipe(branch2);
 
     pipe_link(result,branch1);
@@ -71,23 +74,27 @@ slice_index alloc_help_branch(stip_length_type length,
   }
   else
   {
+    slice_index const guard2 = alloc_selfcheck_guard_help_filter(length,
+                                                                 min_length);
     slice_index const fork = alloc_help_fork_slice(length,min_length,
                                                    proxy_to_goal);
     slice_index const branch1 = alloc_help_move_slice(length,min_length);
-    slice_index const guard1 = alloc_selfcheck_guard_help_filter();
+    slice_index const guard1 = alloc_selfcheck_guard_help_filter(length,
+                                                                 min_length);
     slice_index const branch2 = alloc_help_move_slice(length,min_length);
-    slice_index const guard2 = alloc_selfcheck_guard_help_filter();
+
     result = alloc_proxy_slice();
 
+    shorten_help_pipe(guard2);
     shorten_help_pipe(fork);
     shorten_help_pipe(branch1);
 
-    pipe_link(result,branch2);
+    pipe_link(result,guard1);
+    pipe_link(guard1,branch2);
     pipe_link(branch2,guard2);
     pipe_link(guard2,fork);
     pipe_link(fork,branch1);
-    pipe_link(branch1,guard1);
-    pipe_link(guard1,result);
+    pipe_link(branch1,result);
   }
 
   TraceFunctionExit(__func__);

@@ -311,6 +311,12 @@ void slice_set_predecessor(slice_index slice, slice_index pred);
  */
 void release_slices(void);
 
+/* in-place deep copying a stipulation sub-tree
+ * @param si root of sub-tree
+ * @return index of root of copy
+ */
+slice_index stip_deep_copy(slice_index si);
+
 /* Make sure that there are now allocated slices that are not
  * reachable
  */

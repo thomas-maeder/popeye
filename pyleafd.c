@@ -19,6 +19,7 @@
 boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
+  Goal const goal = slices[leaf].u.leaf.goal;
   boolean result = true;
 
   TraceFunctionEntry(__func__);
@@ -31,29 +32,32 @@ boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
     unsigned int nr_successful_threats = 0;
     boolean defense_found = false;
 
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    empile_for_goal = slices[leaf].u.leaf.goal;
-    empile_for_target = slices[leaf].u.leaf.target;
-    active_slice[nbply+1] = leaf;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
-
-    while (encore() && !defense_found)
+    if (are_prerequisites_for_reaching_goal_met(goal,attacker))
     {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && is_current_move_in_table(threats))
+      move_generation_mode = move_generation_not_optimized;
+      TraceValue("->%u\n",move_generation_mode);
+      empile_for_goal = goal;
+      empile_for_target = slices[leaf].u.leaf.target;
+      active_slice[nbply+1] = leaf;
+      generate_move_reaching_goal(attacker);
+      empile_for_goal = no_goal;
+
+      while (encore() && !defense_found)
       {
-        if (leaf_is_goal_reached(attacker,leaf)==goal_reached)
-          ++nr_successful_threats;
-        else
-          defense_found = true;
+        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+            && is_current_move_in_table(threats))
+        {
+          if (leaf_is_goal_reached(attacker,leaf)==goal_reached)
+            ++nr_successful_threats;
+          else
+            defense_found = true;
+        }
+
+        repcoup();
       }
 
-      repcoup();
+      finply();
     }
-
-    finply();
 
     /* this happens if >=1 threat no longer works or some threats can
      * no longer be played after the defense.
@@ -75,35 +79,39 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
 {
   has_solution_type result = has_no_solution;
   Side const attacker = slices[leaf].starter;
+  Goal const goal = slices[leaf].u.leaf.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  empile_for_goal = slices[leaf].u.leaf.goal;
-  empile_for_target = slices[leaf].u.leaf.target;
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(attacker);
-  empile_for_goal = no_goal;
-
-  while (encore() && result==has_no_solution)
+  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
+    empile_for_goal = goal;
+    empile_for_target = slices[leaf].u.leaf.target;
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+
+    while (encore() && result==has_no_solution)
     {
-      result = has_solution;
-      coupfort();
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+      {
+        result = has_solution;
+        coupfort();
+      }
+
+      repcoup();
+
+      if (hasMaxtimeElapsed())
+        break;
     }
 
-    repcoup();
-
-    if (hasMaxtimeElapsed())
-      break;
+    finply();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -118,6 +126,7 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
 boolean leaf_d_root_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
+  Goal const goal = slices[leaf].u.leaf.goal;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -128,38 +137,41 @@ boolean leaf_d_root_solve(slice_index leaf)
 
   output_start_continuation_level();
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = leaf;
-  empile_for_goal = slices[leaf].u.leaf.goal;
-  empile_for_target = slices[leaf].u.leaf.target;
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(attacker);
-  empile_for_goal = no_goal;
-
-  reset_nr_found_solutions_per_phase();
-
-  while (encore())
+  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = leaf;
+    empile_for_goal = goal;
+    empile_for_target = slices[leaf].u.leaf.target;
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+
+    reset_nr_found_solutions_per_phase();
+
+    while (encore())
     {
-      result = true;
-      write_final_attack();
-      write_goal(slices[leaf].u.leaf.goal);
-      write_root_attack_decoration(nbply,attack_key);
-      output_start_leaf_variation_level();
-      output_end_leaf_variation_level();
-      write_end_of_solution();
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+      {
+        result = true;
+        write_final_attack();
+        write_goal(slices[leaf].u.leaf.goal);
+        write_root_attack_decoration(nbply,attack_key);
+        output_start_leaf_variation_level();
+        output_end_leaf_variation_level();
+        write_end_of_solution();
+      }
+
+      repcoup();
+
+      if (max_nr_solutions_found_in_phase())
+        break;
     }
 
-    repcoup();
-
-    if (max_nr_solutions_found_in_phase())
-      break;
+    finply();
   }
-
-  finply();
 
   output_end_continuation_level();
 
@@ -178,6 +190,7 @@ boolean leaf_d_root_solve(slice_index leaf)
 boolean leaf_d_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
+  Goal const goal = slices[leaf].u.leaf.goal;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -186,30 +199,33 @@ boolean leaf_d_solve(slice_index leaf)
 
   output_start_continuation_level();
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = leaf;
-  empile_for_goal = slices[leaf].u.leaf.goal;
-  empile_for_target = slices[leaf].u.leaf.target;
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(attacker);
-  empile_for_goal = no_goal;
-
-  while (encore())
+  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = leaf;
+    empile_for_goal = goal;
+    empile_for_target = slices[leaf].u.leaf.target;
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+
+    while (encore())
     {
-      result = true;
-      write_final_attack();
-      write_goal(slices[leaf].u.leaf.goal);
-      write_root_attack_decoration(nbply,attack_key);
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+      {
+        result = true;
+        write_final_attack();
+        write_goal(slices[leaf].u.leaf.goal);
+        write_root_attack_decoration(nbply,attack_key);
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
   }
-
-  finply();
 
   output_end_continuation_level();
 
@@ -226,37 +242,41 @@ boolean leaf_d_solve(slice_index leaf)
 void leaf_d_solve_threats(table threats, slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
+  Goal const goal = slices[leaf].u.leaf.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = leaf;
-  empile_for_goal = slices[leaf].u.leaf.goal;
-  empile_for_target = slices[leaf].u.leaf.target;
-  active_slice[nbply+1] = leaf;
-  generate_move_reaching_goal(attacker);
-  empile_for_goal = no_goal;
-
-  while (encore())
+  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = leaf;
+    empile_for_goal = goal;
+    empile_for_target = slices[leaf].u.leaf.target;
+    active_slice[nbply+1] = leaf;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+
+    while (encore())
     {
-      write_final_attack();
-      write_goal(slices[leaf].u.leaf.goal);
-      output_start_leaf_variation_level();
-      output_end_leaf_variation_level();
-      append_to_top_table();
-      coupfort();
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
+      {
+        write_final_attack();
+        write_goal(slices[leaf].u.leaf.goal);
+        output_start_leaf_variation_level();
+        output_end_leaf_variation_level();
+        append_to_top_table();
+        coupfort();
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

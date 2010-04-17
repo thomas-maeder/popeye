@@ -102,20 +102,23 @@ slice_index convert_to_parry_series_branch(slice_index si,
 
   {
     slice_index const branch = branch_find_slice(STSeriesMove,si);
-    slice_index const branch_guard = slices[branch].u.pipe.next;
+    slice_index const series_fork = slices[branch].u.pipe.next;
+    slice_index const branch_guard = slices[series_fork].u.pipe.next;
 
     slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                    branch);
-    slice_index const inverter_guard = slices[inverter].u.pipe.next;
+    slice_index const proxy = slices[inverter].u.pipe.next;
+    slice_index const inverter_guard = slices[proxy].u.pipe.next;
     slice_index const prev = slices[inverter].prev;
-    slice_index const fork = alloc_parry_fork(parrying);
+    slice_index const parry_fork = alloc_parry_fork(parrying);
 
     assert(inverter!=no_slice);
+    assert(slices[series_fork].type==STSeriesFork);
     assert(slices[branch_guard].type==STSelfCheckGuardSeriesFilter);
     assert(slices[inverter_guard].type==STSelfCheckGuardSeriesFilter);
 
     result = alloc_proxy_slice();
-    pipe_append(prev,fork);
+    pipe_append(prev,parry_fork);
     pipe_replace(inverter_guard,result);
 
     if (slices[branch_guard].u.pipe.next==inverter)
@@ -123,7 +126,7 @@ slice_index convert_to_parry_series_branch(slice_index si,
        * in the branch (e.g. in s pser-#N), we have to make sure that
        * the other side gets the chance to parry.
        */
-      pipe_set_successor(branch_guard,fork);
+      pipe_set_successor(branch_guard,parry_fork);
   }
 
   TraceFunctionExit(__func__);

@@ -82,10 +82,11 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   unsigned int const nr_refutations_allowed = 0;
-  boolean result = true;
+  boolean result;
   unsigned int nr_successful_threats = 0;
   boolean defense_found = false;
-  stip_length_type n_min_next;
+  stip_length_type n_min;
+  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",table_length(threats));
@@ -96,46 +97,54 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  n_min_next = battle_branch_calc_n_min(next,len_threat-1);
+  n_min = battle_branch_calc_n_min(si,len_threat);
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
-  if (n<=slack_length_battle
-      && slices[si].u.branch.imminent_goal!=no_goal)
-  {
-    empile_for_goal = slices[si].u.branch.imminent_goal;
-    empile_for_target = slices[si].u.branch.imminent_target;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
-  }
-  else
-    genmove(attacker);
+  if (n_min==slack_length_battle
+      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+    n_min = slack_length_battle+2;
 
-  while (encore() && !defense_found)
+  if (n_min<=n)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && is_current_move_in_table(threats))
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = si;
+    if (n<=slack_length_battle && imminent_goal!=no_goal)
     {
-      stip_length_type const
-          nr_moves_needed = defense_can_defend_in_n(next,
-                                                    len_threat-1,n_min_next,
-                                                    nr_refutations_allowed);
-      if (nr_moves_needed<slack_length_battle-1 || nr_moves_needed>=len_threat)
-        defense_found = true;
-      else
-        ++nr_successful_threats;
+      empile_for_goal = imminent_goal;
+      empile_for_target = slices[si].u.branch.imminent_target;
+      generate_move_reaching_goal(attacker);
+      empile_for_goal = no_goal;
+    }
+    else
+      genmove(attacker);
+
+    while (encore() && !defense_found)
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && is_current_move_in_table(threats))
+      {
+        stip_length_type const
+            nr_moves_needed = defense_can_defend_in_n(next,
+                                                      len_threat-1,n_min-1,
+                                                      nr_refutations_allowed);
+        if (nr_moves_needed<slack_length_battle-1 || nr_moves_needed>=len_threat)
+          defense_found = true;
+        else
+          ++nr_successful_threats;
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
+
+    /* this happens if >=1 threat no longer works or some threats can
+     * no longer be played after the defense.
+     */
+    result = nr_successful_threats<table_length(threats);
   }
-
-  finply();
-
-  /* this happens if >=1 threat no longer works or some threats can
-   * no longer be played after the defense.
-   */
-  result = nr_successful_threats<table_length(threats);
+  else
+    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -155,50 +164,57 @@ static boolean have_we_solution_in_n(slice_index si,
   slice_index const next = slices[si].u.pipe.next;
   boolean solution_found = false;
   unsigned int const nr_refutations_allowed = 0;
-  stip_length_type n_min_next;
+  stip_length_type n_min;
+  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  n_min_next = battle_branch_calc_n_min(next,n-1);
+  n_min = battle_branch_calc_n_min(si,n);
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
-  if (n<=slack_length_battle
-      && slices[si].u.branch.imminent_goal!=no_goal)
-  {
-    empile_for_goal = slices[si].u.branch.imminent_goal;
-    empile_for_target = slices[si].u.branch.imminent_target;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
-  }
-  else
-    genmove(attacker);
+  if (n_min==slack_length_battle
+      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+    n_min = slack_length_battle+2;
 
-  while (!solution_found && encore())
+  if (n_min<=n)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = si;
+    if (n<=slack_length_battle && imminent_goal!=no_goal)
     {
-      stip_length_type const
-          nr_moves_needed = defense_can_defend_in_n(next,
-                                                    n-1,n_min_next,
-                                                    nr_refutations_allowed);
-      if (n_min_next<=nr_moves_needed && nr_moves_needed<n)
+      empile_for_goal = imminent_goal;
+      empile_for_target = slices[si].u.branch.imminent_target;
+      generate_move_reaching_goal(attacker);
+      empile_for_goal = no_goal;
+    }
+    else
+      genmove(attacker);
+
+    while (!solution_found && encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
       {
-        solution_found = true;
-        coupfort();
+        stip_length_type const
+            nr_moves_needed = defense_can_defend_in_n(next,
+                                                      n-1,n_min-1,
+                                                      nr_refutations_allowed);
+        if (n_min-1<=nr_moves_needed && nr_moves_needed<n)
+        {
+          solution_found = true;
+          coupfort();
+        }
       }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceValue("%u",n);
@@ -256,43 +272,50 @@ static boolean solve_threats_in_n(slice_index si, stip_length_type n)
   boolean result = false;
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type n_min_next;
+  stip_length_type n_min;
+  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  n_min_next = battle_branch_calc_n_min(next,n-1);
+  n_min = battle_branch_calc_n_min(si,n);
 
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
-  if (n<=slack_length_battle
-      && slices[si].u.branch.imminent_goal!=no_goal)
-  {
-    empile_for_goal = slices[si].u.branch.imminent_goal;
-    empile_for_target = slices[si].u.branch.imminent_target;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
-  }
-  else
-    genmove(attacker);
+  if (n_min==slack_length_battle
+      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+    n_min = slack_length_battle+2;
 
-  while (encore())
+  if (n_min<=n)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,n-1,n_min_next))
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = si;
+    if (n<=slack_length_battle && imminent_goal!=no_goal)
     {
-      result = true;
-      coupfort();
-      append_to_top_table();
+      empile_for_goal = imminent_goal;
+      empile_for_target = slices[si].u.branch.imminent_target;
+      generate_move_reaching_goal(attacker);
+      empile_for_goal = no_goal;
+    }
+    else
+      genmove(attacker);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !defense_defend_in_n(next,n-1,n_min-1))
+      {
+        result = true;
+        coupfort();
+        append_to_top_table();
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -351,42 +374,49 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   boolean result = false;
-  stip_length_type n_min_next;
+  stip_length_type n_min;
+  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  n_min_next = battle_branch_calc_n_min(next,n-1);
+  n_min = battle_branch_calc_n_min(si,n);
 
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
-  if (n<=slack_length_battle
-      && slices[si].u.branch.imminent_goal!=no_goal)
-  {
-    empile_for_goal = slices[si].u.branch.imminent_goal;
-    empile_for_target = slices[si].u.branch.imminent_target;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
-  }
-  else
-    genmove(attacker);
+  if (n_min==slack_length_battle
+      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+    n_min = slack_length_battle+2;
 
-  while (encore())
+  if (n_min<=n)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && !defense_defend_in_n(next,n-1,n_min_next))
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = si;
+    if (n<=slack_length_battle && imminent_goal!=no_goal)
     {
-      result = true;
-      coupfort();
+      empile_for_goal = imminent_goal;
+      empile_for_target = slices[si].u.branch.imminent_target;
+      generate_move_reaching_goal(attacker);
+      empile_for_goal = no_goal;
+    }
+    else
+      genmove(attacker);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+          && !defense_defend_in_n(next,n-1,n_min-1))
+      {
+        result = true;
+        coupfort();
+      }
+
+      repcoup();
     }
 
-    repcoup();
+    finply();
   }
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -445,7 +475,10 @@ void attack_move_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[si].starter==no_side)
-    slices[si].starter = White;
+  {
+    stip_traverse_structure(slices[si].u.pipe.next,st);
+    slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -584,6 +584,53 @@ static void generate_ortho_moves_reaching_goal(Goal goal, Side side_at_move)
   TraceFunctionResultEnd();
 }
 
+/* Determine whether the prerequisites met for reaching a goal with
+ * the next move
+ * @param goal goal to be reached
+ * @param side_at_move side to execute the move reaching the goal
+ * @return true iff the prerequisites are met
+ */
+boolean are_prerequisites_for_reaching_goal_met(Goal goal, Side side_at_move)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParam("%u",side_at_move);
+  TraceFunctionParamListEnd();
+
+  switch (goal)
+  {
+    case goal_doublemate:
+      result = !immobile(side_at_move);
+      break;
+
+    case goal_ep:
+      result = ep[nbply]!=initsquare || ep2[nbply]!=initsquare;
+      break;
+
+    case goal_castling:
+      result = (side_at_move==White
+                ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
+                : TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle);
+      break;
+
+    case goal_countermate:
+      /* TODO can this be generalised to non-mate goals? */
+      result = goal_checker_mate(advers(side_at_move))==goal_reached;
+      break;
+
+    default:
+      result = true;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Generate moves for side side_at_move; optimise for moves reaching a
  * specific goal.
  * @param side_at_move side for which to generate moves
@@ -611,44 +658,27 @@ void generate_move_reaching_goal(Side side_at_move)
       break;
 
     case goal_doublemate:
-      if (immobile(side_at_move))
-      {
-        TraceText("attacker is immobile\n");
-        nextply(nbply);
-      }
-      else if (nr_ortho_mating_moves_generation_obstacles==0)
+      if (nr_ortho_mating_moves_generation_obstacles==0)
         generate_ortho_moves_reaching_goal(empile_for_goal,side_at_move);
       else
         genmove(side_at_move);
       break;
 
     case goal_ep:
-      if (ep[nbply]==initsquare && ep2[nbply]==initsquare)
-        nextply(nbply);
-      else
-        /* TODO only generate pawn moves? */
-        genmove(side_at_move);
+      /* TODO only generate pawn moves? */
+      genmove(side_at_move);
       break;
 
     case goal_castling:
-      if (side_at_move==White
-          ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
-          : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle)
-        nextply(nbply);
-      else
-        /* TODO only generate king moves? */
-        genmove(side_at_move);
+      /* TODO only generate king moves? */
+      genmove(side_at_move);
       break;
 
     case goal_countermate:
-      /* TODO can this be generalised to non-mate goals? */
-      if (goal_checker_mate(advers(side_at_move))==goal_reached)
-        /* TODO only generate king and ortho moves if there are no
-         * obstacles?
-         */
-        genmove(side_at_move);
-      else
-        nextply(nbply);
+      /* TODO only generate king and ortho moves if there are no
+       * obstacles?
+       */
+      genmove(side_at_move);
       break;
 
     default:

@@ -2,7 +2,7 @@ begin
 
 prot 4_55_to_4_57.reg
 
-title           Since 4.53, solving doesn't stop after the author's
+title           Since 4.53, solving didn't stop after the author's
 title           solution (which is a short solution in 1->ser-h#3)
 title           The stipulation is actually h#2
 author          Kjell Widlert
@@ -38,22 +38,45 @@ next
 
 title not really a regression; just to make sure that the ## rules
 title are correctly implemented
-title b) has no solution because white is immobile in the diagram
+title b) and c) have no solution because white is immobile in the diagram
 pieces white kh6 pg6
        black kh8 bg7
 stip ##1
 twin add black ra5
+twin cont stip ##2
 
 next
 
 title not really a regression; just to make sure that the ##! rules
 title are correctly implemented
-title b) has no solution because white is not mate in the diagram
+title b), c) and f) have no solution because white is not mate in the diagram
 pieces white kc8 rb8
        black ka7 qc5
 stip ##!1
 cond hole d7d8
 twin add white sb4
+twin cont stip ##!2
+twin cont remove b4
+twin cont stip ser-##!1
+twin cont add white sb4
+
+next
+
+title b) has no solution because White is not mate after 1.Qc5+
+cond hole d7d8
+pieces white kc8 rb8
+       black ka7 qa3
+stip h##!1
+twin add white sd4
+
+next
+
+cond hole d7d8
+pieces black kc8 rb8
+       white ka7 qa3
+stip s##!1
+option vari
+twin stip ser-s##!1
 
 next
 
@@ -77,12 +100,12 @@ next
 
 title option Try not applicable in postkey battle play
 stip #2
-option noboard nowk nobk try postkey
+option nowk nobk try postkey
 
 next
 
 title option Threat only applicable in sufficiently long battle play
-option noboard nowk nobk threat 3
+option nowk nobk threat 3
 stip #3
 twin stip #4
 twin stip s#3

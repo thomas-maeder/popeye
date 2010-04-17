@@ -9,28 +9,65 @@
 
 #include <assert.h>
 
+/* Allocate a branch consisting mainly of an attack move
+ * @param  length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @return index of entry slice to allocated branch
+ */
+slice_index alloc_attack_branch(stip_length_type length,
+                                stip_length_type min_length)
+{
+  slice_index result;
+  slice_index attack;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  result = alloc_selfcheck_guard_attacker_filter(length,min_length);
+  attack = alloc_attack_move_slice(length,min_length);
+  pipe_link(result,attack);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Allocate a branch consisting mainly of an defense move
+ * @param  length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @return index of entry slice to allocated branch
+ */
 slice_index alloc_defense_branch(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   result = alloc_proxy_slice();
 
   {
     slice_index const
+        guard1 = alloc_selfcheck_guard_defender_filter(slack_length_battle,
+                                                       slack_length_battle);
+    slice_index const
         writer = alloc_continuation_writer_slice(slack_length_battle,
                                                  slack_length_battle);
     slice_index const defense = alloc_defense_move_slice(slack_length_battle,
                                                          slack_length_battle);
     slice_index const
-        guard = alloc_selfcheck_guard_attacker_filter(slack_length_battle-1,
-                                                      slack_length_battle-1);
-    pipe_link(result,writer);
+        guard2 = alloc_selfcheck_guard_attacker_filter(slack_length_battle-1,
+                                                       slack_length_battle-1);
+    pipe_link(result,guard1);
+    pipe_link(guard1,writer);
     pipe_link(writer,defense);
-    pipe_link(defense,guard);
-    pipe_link(guard,result);
+    pipe_link(defense,guard2);
+    pipe_link(guard2,result);
   }
 
   TraceFunctionExit(__func__);
@@ -105,7 +142,7 @@ stip_length_type battle_branch_calc_n_min(slice_index si, stip_length_type n)
   if (n+min_length>slack_length_battle+length)
     result = n-(length-min_length);
   else
-    result = slack_length_battle-parity;
+    result = slack_length_battle+parity;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

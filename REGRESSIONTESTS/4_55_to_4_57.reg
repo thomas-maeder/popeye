@@ -1,7 +1,7 @@
 
             Kjell Widlert
 1. ea. Preis, Andernach 1993, twin a)
-Since 4.53, solving doesn't stop after the author's
+Since 4.53, solving didn't stop after the author's
 solution (which is a short solution in 1->ser-h#3)
    The stipulation is actually h#2
 
@@ -123,7 +123,7 @@ solution finished.
 
 not really a regression; just to make sure that the ## rules
       are correctly implemented
-b) has no solution because white is immobile in the diagram
+b) and c) have no solution because white is immobile in the diagram
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -152,13 +152,15 @@ a)
 
 b) +bRa5 
 
++c) ##2
+
 solution finished. 
 
 
 
 not really a regression; just to make sure that the ##! rules
       are correctly implemented
-b) has no solution because white is not mate in the diagram
+b), c) and f) have no solution because white is not mate in the diagram
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -186,6 +188,88 @@ a)
   1.Kc8-b7 ##! ! 
 
 b) +wSb4 
+
++c) ##!2
+
++d)  -wSb4
+
+  1.Kc8-b7 ##! ! 
+
++e) ser-##!1
+
+  1.Kc8-b7 ##! 
+
++f) +wSb4 
+
+
+solution finished. 
+
+
+
+b) has no solution because White is not mate after 1.Qc5+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   R   K       .   .   .   .   8
+|                                   |
+7  -K   .   .       .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -Q   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h##!1                       2 + 2
+
+a) 
+
+  1.Qa3-c5 + Kc8-b7 ##! 
+
+b) +wSd4 
+
+
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R  -K       .   .   .   .   8
+|                                   |
+7   K   .   .       .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   Q   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s##!1                       2 + 2
+
+a) 
+
+  1.Qa3-c5 + ! 
+      1...Kc8-b7 ##! 
+
+b) ser-s##!1
+
+  1.Qa3-c5 + Kc8-b7 ##! 
 
 solution finished. 
 
@@ -218,12 +302,58 @@ solution finished.
 
 try play not applicable
 
+option Try not applicable in postkey battle play
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          0 + 0
+
 zugzwang.
 
 solution finished. 
 
 
 Option "Threat" not applicable or indicated maximum threat length too big
+
+option Threat only applicable in sufficiently long battle play
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #3/3                        0 + 0
 
 a) 
 

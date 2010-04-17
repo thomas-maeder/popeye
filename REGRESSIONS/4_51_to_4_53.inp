@@ -23,12 +23,12 @@ condition extinction
 
 next
 
-remark Test: avoid dupliate king moves (e.g. to f5)
+remark Test: avoid duplicate king moves (e.g. to f5)
 pieces white ke5
        black qh2
 condition WhiteReflectiveKing
 stip ~1
-option nobk movenum
+option nobk
 
 next
 
@@ -337,7 +337,7 @@ title consider previous cage after advancing type of promotee
 forsyth rs1qkbsr/pbpppppp/8/1B6/4P3/3P4/PPP1pPPP/RSBQK1SR
 stip ~1
 condition cagecirce
-option halfduplex movenum MaxSolutions 34
+option halfduplex MaxSolutions 34
 
 next
 

@@ -44,9 +44,10 @@ boolean attack_root_root_solve(slice_index si)
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type min_length = slices[si].u.branch.min_length;
   unsigned int const max_nr_refutations = 0;
   boolean result = false;
+  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -56,43 +57,50 @@ boolean attack_root_root_solve(slice_index si)
 
   output_start_continuation_level();
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
-  if (length<=slack_length_battle
-      && slices[si].u.branch.imminent_goal!=no_goal)
-  {
-    empile_for_goal = slices[si].u.branch.imminent_goal;
-    empile_for_target = slices[si].u.branch.imminent_target;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
-  }
-  else
-    genmove(attacker);
+  if (min_length==slack_length_battle
+      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+    min_length = slack_length_battle+2;
 
-  while (encore())
+  if (min_length<=length)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = si;
+    if (length<=slack_length_battle
+        && slices[si].u.branch.imminent_goal!=no_goal)
     {
-      stip_length_type const
-          nr_moves_needed = defense_root_defend(next,
-                                                length-1,min_length-1,
-                                                max_nr_refutations);
-      if (min_length-1<=nr_moves_needed)
+      empile_for_goal = slices[si].u.branch.imminent_goal;
+      empile_for_target = slices[si].u.branch.imminent_target;
+      generate_move_reaching_goal(attacker);
+      empile_for_goal = no_goal;
+    }
+    else
+      genmove(attacker);
+
+    while (encore())
+    {
+      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
       {
-        if (nr_moves_needed<=length-1)
-          result = true;
-        if (nr_moves_needed<=length+1)
-          write_end_of_solution();
+        stip_length_type const
+            nr_moves_needed = defense_root_defend(next,
+                                                  length-1,min_length-1,
+                                                  max_nr_refutations);
+        if (min_length-1<=nr_moves_needed)
+        {
+          if (nr_moves_needed<=length-1)
+            result = true;
+          if (nr_moves_needed<=length+1)
+            write_end_of_solution();
+        }
       }
+
+      repcoup();
     }
 
-    repcoup();
+    output_end_continuation_level();
+
+    finply();
   }
-
-  output_end_continuation_level();
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

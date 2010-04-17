@@ -124,8 +124,8 @@ static void shorten_root_branch_odd_to_even(slice_index root)
   slice_index const guard1 = slices[root_branch].u.pipe.next;
   slice_index const fork = slices[guard1].u.pipe.next;
   slice_index const branch = slices[fork].u.pipe.next;
-  slice_index const guard2 = slices[branch].u.pipe.next;
-  slice_index const proxy = slices[guard2].u.pipe.next;
+  slice_index const proxy = slices[branch].u.pipe.next;
+  slice_index const guard2 = slices[proxy].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -141,8 +141,8 @@ static void shorten_root_branch_odd_to_even(slice_index root)
 
   slices[help_shortcut].u.shortcut.short_sols = fork;
   pipe_set_successor(root_branch,guard2);
-  slices[branch].u.branch.length -= 2;
   slices[fork].u.branch.length -= 2;
+  slices[branch].u.branch.length -= 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
