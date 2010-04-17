@@ -2133,7 +2133,9 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_leaf)
   result = ParseLength(tok,STSeriesMove,&length,&min_length);
   if (result!=0)
   {
-    slice_index const defense_branch = alloc_defense_branch();
+    slice_index const
+        defense_branch = alloc_defense_branch(slack_length_battle,
+                                              slack_length_battle);
     slice_index const hook = slice_insert_self_guards(defense_branch,
                                                       proxy_leaf);
     slice_index const series
@@ -2300,7 +2302,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
       result = ParseLength(tok,STSeriesMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const defense_branch = alloc_defense_branch();
+        slice_index const
+            defense_branch = alloc_defense_branch(slack_length_battle,
+                                                  slack_length_battle);
         slice_index const hook = slice_insert_self_guards(defense_branch,
                                                           proxy_leaf);
         /* in ser-hs, the series is 1 half-move longer than in usual
@@ -2579,7 +2583,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
       result = ParseLength(tok2,STHelpMove,&length,&min_length);
       if (result!=0)
       {
-        slice_index const defense_branch = alloc_defense_branch();
+        slice_index const
+            defense_branch = alloc_defense_branch(slack_length_battle,
+                                                  slack_length_battle);
         slice_index const hook = slice_insert_self_guards(defense_branch,
                                                           proxy_leaf);
         if (length==slack_length_help)

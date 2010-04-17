@@ -40,7 +40,8 @@ slice_index alloc_attack_branch(stip_length_type length,
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of entry slice to allocated branch
  */
-slice_index alloc_defense_branch(void)
+slice_index alloc_defense_branch(stip_length_type length,
+                                 stip_length_type min_length)
 {
   slice_index result;
 
@@ -53,16 +54,12 @@ slice_index alloc_defense_branch(void)
 
   {
     slice_index const
-        guard1 = alloc_selfcheck_guard_defender_filter(slack_length_battle,
-                                                       slack_length_battle);
+        guard1 = alloc_selfcheck_guard_defender_filter(length,min_length);
     slice_index const
-        writer = alloc_continuation_writer_slice(slack_length_battle,
-                                                 slack_length_battle);
-    slice_index const defense = alloc_defense_move_slice(slack_length_battle,
-                                                         slack_length_battle);
+        writer = alloc_continuation_writer_slice(length,min_length);
+    slice_index const defense = alloc_defense_move_slice(length,min_length);
     slice_index const
-        guard2 = alloc_selfcheck_guard_attacker_filter(slack_length_battle-1,
-                                                       slack_length_battle-1);
+        guard2 = alloc_selfcheck_guard_attacker_filter(length-1,min_length-1);
     pipe_link(result,guard1);
     pipe_link(guard1,writer);
     pipe_link(writer,defense);
