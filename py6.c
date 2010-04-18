@@ -2075,6 +2075,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   switch (slices[si].type)
   {
     case STLeafHelp:
+    case STLeafForced:
       if (slices[si].u.leaf.goal==goal_atob)
         result = whitetoplay_means_change_colors;
       else

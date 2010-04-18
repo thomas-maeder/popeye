@@ -95,12 +95,12 @@ void series_move_detect_starter(slice_index si, stip_structure_traversal *st)
 static boolean foreach_move_solve(slice_index si, stip_length_type n)
 {
   boolean result = false;
-  slice_index const next_slice = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.pipe.next;
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && series_solve_in_n(next_slice,n-1))
+        && series_solve_in_n(next,n-1))
       result = true;
 
     repcoup();
@@ -166,7 +166,6 @@ void series_move_solve_threats_in_n(table threats,
                                    stip_length_type n)
 {
   Side const side_at_move = slices[si].starter;
-  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -179,8 +178,7 @@ void series_move_solve_threats_in_n(table threats,
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(side_at_move);
-  result = foreach_move_solve(si,n);
-    
+  foreach_move_solve(si,n);
   finply();
 
   TraceFunctionExit(__func__);

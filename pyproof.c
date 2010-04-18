@@ -511,47 +511,71 @@ void ProofRestoreStartPosition(void)
   TraceFunctionResultEnd();
 }
 
+/* Swap the color of the piece on a square in a position
+ * @param pos address of position
+ * @param s
+ */
+static void swap_color(position *pos, square s)
+{
+  pos->board[s] = -pos->board[s];
+  pos->spec[s]^= BIT(White)+BIT(Black);
+}
+
 /* a=>b: swap pieces' colors in the starting position
  */
 void ProofStartSwapColors(void)
 {
   square const *bnp;
-  unsigned int i;
-
   for (bnp = boardnum; *bnp; bnp++)
     if (!TSTFLAG(start.spec[*bnp],Neutral) && start.board[*bnp]!=vide)
     {
-      start.board[*bnp] = -start.board[*bnp];
-      start.spec[*bnp]^= BIT(White)+BIT(Black);
+      swap_color(&start,*bnp);
+      swap_color(&target,*bnp);
     }
 
-  for (i = 0; i<ProofNbrAllPieces; ++i)
-    ProofPieces[i] = -ProofPieces[i];
+  {
+    unsigned int i;
+    for (i = 0; i<ProofNbrAllPieces; ++i)
+      ProofPieces[i] = -ProofPieces[i];
+  }
+}
+
+/* Swap the content of two squares in a position
+ * @param pos address of position
+ * @param s1
+ * @param s2
+ */
+static void swap_squares(position *pos, square s1, square s2)
+{
+  piece const p = pos->board[s1];
+  Flags const sp = pos->spec[s2];
+
+  pos->board[s1] = pos->board[s2];
+  pos->spec[s1] = pos->spec[s2];
+
+  pos->board[s2] = p;
+  pos->spec[s2] = sp;
 }
 
 /* a=>b: reflect starting position at the horizontal center line
  */
 void ProofStartReflectboard(void)
 {
-  square const *bnp;
-  unsigned int i;
-  
-  for (bnp = boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
   {
-    square const sq_reflected = transformSquare(*bnp,mirra1a8);
-
-    piece const p = start.board[sq_reflected];
-    Flags const sp = start.spec[sq_reflected];
-
-    start.board[sq_reflected] = start.board[*bnp];
-    start.spec[sq_reflected] = start.spec[*bnp];
-
-    start.board[*bnp] = p;
-    start.spec[*bnp] = sp;
+    square const *bnp;
+    for (bnp = boardnum; *bnp<(square_a1+square_h8)/2; ++bnp)
+    {
+      square const sq_reflected = transformSquare(*bnp,mirra1a8);
+      swap_squares(&start,*bnp,sq_reflected);
+      swap_squares(&target,*bnp,sq_reflected);
+    }
   }
 
-  for (i = 0; i<ProofNbrAllPieces; ++i)
-    ProofSquares[i] = transformSquare(ProofSquares[i],mirra1a8);
+  {
+    unsigned int i;
+    for (i = 0; i<ProofNbrAllPieces; ++i)
+      ProofSquares[i] = transformSquare(ProofSquares[i],mirra1a8);
+  }
 }
 
 void ProofSaveTargetPosition(void)
@@ -1602,7 +1626,7 @@ static boolean ProofFairyImpossible(void)
   /* find a solution ... */
   MovesAvailable *= 2;
 
-  for (bnp= boardnum; *bnp; bnp++)
+  for (bnp = boardnum; *bnp; bnp++)
   {
     piece const p = target.board[*bnp];
     if (p!=vide && p!=e[*bnp])

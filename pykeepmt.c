@@ -601,6 +601,21 @@ static void keepmating_guards_inserter_leaf(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void keepmating_guards_inserter_leaf_forced(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  keepmating_type * const km = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*km)[advers(slices[si].starter)] = true;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void keepmating_guards_inserter_quodlibet(slice_index si,
                                                  stip_structure_traversal *st)
 {
@@ -854,7 +869,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_branch_fork, /* STSeriesFork */
   &keepmating_guards_inserter_leaf,        /* STLeafDirect */
   &keepmating_guards_inserter_leaf,        /* STLeafHelp */
-  &keepmating_guards_inserter_leaf,        /* STLeafForced */
+  &keepmating_guards_inserter_leaf_forced, /* STLeafForced */
   &keepmating_guards_inserter_reciprocal,  /* STReciprocal */
   &keepmating_guards_inserter_quodlibet,   /* STQuodlibet */
   &stip_traverse_structure_children,       /* STNot */

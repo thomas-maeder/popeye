@@ -2074,6 +2074,47 @@ static char *ParseEnd(char *tok, slice_index proxy)
   return tok;
 }
 
+/* Parse a h stipulation
+ * @param tok stipulation after "h"
+ * @param proxy identifies proxy slice where to append branch
+ * @param proxy_leaf identifes proxy slice to append to branch
+ * @return input after stipulation if successful, 0 otherwise
+ */
+static char *ParseH(char *tok, slice_index proxy, slice_index proxy_leaf)
+{
+  stip_length_type length;
+  stip_length_type min_length;
+  char *result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",proxy);
+  TraceFunctionParam("%u",proxy_leaf);
+  TraceFunctionParamListEnd();
+
+  result = ParseLength(tok,STHelpMove,&length,&min_length);
+  if (result!=0)
+  {
+    slice_index const branch = alloc_help_branch(length+1,min_length+1,
+                                                 proxy_leaf);
+    if ((length-slack_length_help)%2==0)
+    {
+      slice_index const inverter = alloc_move_inverter_solvable_filter();
+      slice_index const guard = alloc_selfcheck_guard_solvable_filter();
+      pipe_link(proxy,inverter);
+      pipe_link(inverter,guard);
+      pipe_set_successor(guard,branch);
+    }
+    else
+      pipe_set_successor(proxy,branch);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Parse a ser-h stipulation
  * @param tok stipulation after "ser-h"
  * @param proxy identifies proxy slice where to append series
@@ -2519,24 +2560,25 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("dia",tok,3)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    char * const tok2 = ParseEnd(tok,proxy_leaf);
-    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    tok = ParseGoal(tok,STLeafForced,proxy_leaf);
+    if (tok!=0)
     {
-      stip_length_type length;
-      stip_length_type min_length;
-      result = ParseLength(tok2,STHelpMove,&length,&min_length);
-      if (result!=0)
+      slice_index const leaf = slices[proxy_leaf].u.pipe.next;
+      if (leaf!=no_slice)
       {
-        if (length==slack_length_help)
-          pipe_link(proxy,slices[proxy_leaf].u.pipe.next);
-        else
+        stip_length_type length;
+        stip_length_type min_length;
+        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        if (result!=0)
         {
-          slice_index const branch = alloc_help_branch(length,min_length,
+          Side const leaf_starter = ((length-slack_length_help)%2==0
+                                     ? Black
+                                     : White);
+          slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_leaf);
           pipe_set_successor(proxy,branch);
+          slices[leaf].starter = leaf_starter;
         }
-
-        slices[slices[proxy].u.pipe.next].starter = White;
       }
     }
   }
@@ -2544,26 +2586,21 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("a=>b",tok,4)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    char * const tok2 = ParseEnd(tok,proxy_leaf);
-    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    tok = ParseGoal(tok,STLeafForced,proxy_leaf);
+    if (tok!=0)
     {
-      stip_length_type length;
-      stip_length_type min_length;
-      result = ParseLength(tok2,STHelpMove,&length,&min_length);
-      if (result!=0)
+      slice_index const leaf = slices[proxy_leaf].u.pipe.next;
+      if (leaf!=no_slice)
       {
-        Side const leaf_starter = ((length-slack_length_help)%2==0
-                                   ? Black
-                                   : White);
-        if (length==slack_length_help)
+        stip_length_type length;
+        stip_length_type min_length;
+        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        if (result!=0)
         {
-          pipe_link(proxy,slices[proxy_leaf].u.pipe.next);
-          slices[slices[proxy].u.pipe.next].starter = leaf_starter;
-        }
-        else
-        {
-          slice_index const leaf = slices[proxy_leaf].u.pipe.next;
-          slice_index const branch = alloc_help_branch(length,min_length,
+          Side const leaf_starter = ((length-slack_length_help)%2==0
+                                     ? White
+                                     : Black);
+          slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_leaf);
           pipe_set_successor(proxy,branch);
           slices[leaf].starter = leaf_starter;
@@ -2649,33 +2686,14 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (*tok=='h')
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    char * const tok2 = ParseEnd(tok,proxy_leaf);
-    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    tok = ParseGoal(tok+1,STLeafForced,proxy_leaf); /* skip over "h" */
+    if (tok!=0)
     {
-      stip_length_type length;
-      stip_length_type min_length;
-      result = ParseLength(tok2,STHelpMove,&length,&min_length);
-      if (result!=0)
+      slice_index const leaf = slices[proxy_leaf].u.pipe.next;
+      if (leaf!=no_slice)
       {
-        if (length==slack_length_help)
-          pipe_link(proxy,slices[proxy_leaf].u.pipe.next);
-        else
-        {
-          slice_index const branch = alloc_help_branch(length,min_length,
-                                                       proxy_leaf);
-          if ((length-slack_length_help)%2==0)
-          {
-            slice_index const inverter = alloc_move_inverter_solvable_filter();
-            slice_index const guard = alloc_selfcheck_guard_solvable_filter();
-            pipe_link(proxy,inverter);
-            pipe_link(inverter,guard);
-            pipe_set_successor(guard,branch);
-          }
-          else
-            pipe_set_successor(proxy,branch);
-        }
-
-        slices[slices[proxy_leaf].u.pipe.next].starter = White;
+        result = ParseH(tok,proxy,proxy_leaf);
+        slices[leaf].starter = Black;
       }
     }
   }

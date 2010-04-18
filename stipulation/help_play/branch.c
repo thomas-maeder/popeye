@@ -66,11 +66,11 @@ slice_index alloc_help_branch(stip_length_type length,
     shorten_help_pipe(guard1);
     shorten_help_pipe(branch2);
 
-    pipe_link(result,branch1);
+    pipe_link(guard2,branch1);
     pipe_link(branch1,guard1);
     pipe_link(guard1,branch2);
-    pipe_link(branch2,guard2);
-    pipe_link(guard2,result);
+    pipe_link(branch2,result);
+    pipe_link(result,guard2);
   }
   else
   {
@@ -91,9 +91,9 @@ slice_index alloc_help_branch(stip_length_type length,
 
     pipe_link(result,guard1);
     pipe_link(guard1,branch2);
-    pipe_link(branch2,guard2);
-    pipe_link(guard2,fork);
-    pipe_link(fork,branch1);
+    pipe_link(branch2,fork);
+    pipe_link(fork,guard2);
+    pipe_link(guard2,branch1);
     pipe_link(branch1,result);
   }
 

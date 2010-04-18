@@ -2,11 +2,12 @@
 #include "pydata.h"
 #include "pyoutput.h"
 #include "pyslice.h"
-#include "stipulation/help_play/play.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
+#include "pyleaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/help_play/play.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/shortcut.h"
@@ -92,6 +93,28 @@ void help_move_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Try solving with all generated moves
+ * @param si slice index
+ * @param n exact number of moves to reach the end state
+ * @return true iff solved
+ */
+static boolean foreach_move_solve(slice_index si, stip_length_type n)
+{
+  boolean result = false;
+  slice_index const next = slices[si].u.pipe.next;
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && help_solve_in_n(next,n-1))
+      result = true;
+
+    repcoup();
+  }
+
+  return result;
+}
+
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
@@ -101,29 +124,36 @@ boolean help_move_solve_in_n(slice_index si, stip_length_type n)
 
 {
   boolean result = false;
-  slice_index const next_slice = slices[si].u.pipe.next;
   Side const side_at_move = slices[si].starter;
+  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode= move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
-  genmove(side_at_move);
-  
-  while (encore())
+
+  if (n==slack_length_help+1 && goal!=no_goal)
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help_solve_in_n(next_slice,n-1))
-      result = true;
-
-    repcoup();
+    if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
+    {
+      empile_for_goal = goal;
+      empile_for_target = slices[si].u.branch.imminent_target;
+      generate_move_reaching_goal(side_at_move);
+      empile_for_goal = no_goal;
+      result = foreach_move_solve(si,n);
+      finply();
+    }
   }
-
-  finply();
+  else
+  {
+    move_generation_mode= move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    genmove(side_at_move);
+    result = foreach_move_solve(si,n);
+    finply();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -153,19 +183,7 @@ void help_move_solve_threats_in_n(table threats,
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(side_at_move);
-  
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help_solve_in_n(slices[si].u.pipe.next,n-1))
-    {
-      append_to_top_table();
-      coupfort();
-    }
-
-    repcoup();
-  }
-    
+  foreach_move_solve(si,n);
   finply();
 
   TraceFunctionExit(__func__);
@@ -224,6 +242,28 @@ boolean help_move_are_threats_refuted(table threats, slice_index si)
   return result;
 }
 
+/* Iterate moves until a solution has been found
+ * @param si slice index of slice being solved
+ * @param n number of half moves until end state has to be reached
+ * @return true iff a solution has been found
+ */
+static boolean find_solution(slice_index si, stip_length_type n)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  boolean result = false;
+  
+  while (!result && encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && help_has_solution_in_n(next,n-1))
+      result = true;
+
+    repcoup();
+  }
+
+  return result;
+}
+
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
@@ -233,27 +273,35 @@ boolean help_move_has_solution_in_n(slice_index si, stip_length_type n)
 {
   Side const side_at_move = slices[si].starter;
   boolean result = false;
+  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generation_mode= move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
-  genmove(side_at_move);
-  
-  while (encore() && !result)
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help_has_solution_in_n(slices[si].u.pipe.next,n-1))
-      result = true;
 
-    repcoup();
+  if (n==slack_length_help+1 && goal!=no_goal)
+  {
+    if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
+    {
+      empile_for_goal = goal;
+      empile_for_target = slices[si].u.branch.imminent_target;
+      generate_move_reaching_goal(side_at_move);
+      empile_for_goal = no_goal;
+      result = find_solution(si,n);
+      finply();
+    }
   }
-    
-  finply();
+  else
+  {
+    move_generation_mode= move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    genmove(side_at_move);
+    result = find_solution(si,n);
+    finply();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
