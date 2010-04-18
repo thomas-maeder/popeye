@@ -140,7 +140,7 @@ static void shorten_root_branch_odd_to_even(slice_index root)
   assert(slices[proxy].type==STProxy);
 
   slices[help_shortcut].u.shortcut.short_sols = fork;
-  pipe_set_successor(root_branch,guard2);
+  pipe_set_successor(root_branch,proxy);
   slices[fork].u.branch.length -= 2;
   slices[branch].u.branch.length -= 2;
 

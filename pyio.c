@@ -2100,10 +2100,8 @@ static char *ParseH(char *tok, slice_index proxy, slice_index proxy_leaf)
     if ((length-slack_length_help)%2==0)
     {
       slice_index const inverter = alloc_move_inverter_solvable_filter();
-      slice_index const guard = alloc_selfcheck_guard_solvable_filter();
       pipe_link(proxy,inverter);
-      pipe_link(inverter,guard);
-      pipe_set_successor(guard,branch);
+      pipe_set_successor(inverter,branch);
     }
     else
       pipe_set_successor(proxy,branch);

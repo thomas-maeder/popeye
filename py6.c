@@ -2181,17 +2181,13 @@ static void apply_whitetoplay(slice_index proxy)
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       slice_index const inverter = next;
-      slice_index const guard = slices[inverter].u.pipe.next;
-      slice_index const next_next = slices[guard].u.pipe.next;
-      if (slices[next_next].prev==guard)
-        slice_set_predecessor(next_next,slices[inverter].prev);
+      slice_index const inverter_next = slices[inverter].u.pipe.next;
       dealloc_slice(inverter);
-      dealloc_slice(guard);
       if (meaning==whitetoplay_means_shorten_root_slice
-          && slices[next_next].type==STHelpRoot)
-        pipe_set_successor(proxy,help_root_shorten_help_play(next_next));
+          && slices[inverter_next].type==STHelpRoot)
+        pipe_link(proxy,help_root_shorten_help_play(inverter_next));
       else
-        pipe_set_successor(proxy,next_next);
+        pipe_set_successor(proxy,inverter_next);
       break;
     }
 
