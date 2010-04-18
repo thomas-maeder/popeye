@@ -94,7 +94,10 @@ slice_index alloc_keepmating_guard_defender_filter(stip_length_type length,
  * @param side mating side
  * @return identifier of allocated slice
  */
-static slice_index alloc_keepmating_guard_help_filter(Side mating)
+static
+slice_index alloc_keepmating_guard_help_filter(stip_length_type length,
+                                               stip_length_type min_length,
+                                               Side mating)
 {
   slice_index result;
 
@@ -102,7 +105,7 @@ static slice_index alloc_keepmating_guard_help_filter(Side mating)
   TraceEnumerator(Side,mating,"");
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STKeepMatingGuardHelpFilter);
+  result = alloc_branch(STKeepMatingGuardHelpFilter,length,min_length);
   slices[result].u.keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
@@ -807,6 +810,9 @@ static void keepmating_guards_inserter_help_move(slice_index si,
 {
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[next].u.branch.length;
+  stip_length_type const min_length = slices[next].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -815,10 +821,10 @@ static void keepmating_guards_inserter_help_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if ((*km)[White])
-    guard = alloc_keepmating_guard_help_filter(White);
+    guard = alloc_keepmating_guard_help_filter(length,min_length,White);
 
   if ((*km)[Black])
-    guard = alloc_keepmating_guard_help_filter(Black);
+    guard = alloc_keepmating_guard_help_filter(length,min_length,Black);
 
   if (guard!=no_slice)
   {
