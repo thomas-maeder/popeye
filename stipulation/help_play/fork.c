@@ -56,9 +56,7 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure(slices[si].u.branch_fork.next,st);
 
-  slices[si].u.branch_fork.length -= 2;
-  if (slices[si].u.branch_fork.min_length-slack_length_help>=2)
-    slices[si].u.branch_fork.min_length -= 2;
+  help_branch_shorten_slice(si);
 
   {
     slice_index const shortcut = branch_find_slice(STHelpShortcut,*root);

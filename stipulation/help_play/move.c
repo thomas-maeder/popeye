@@ -62,8 +62,7 @@ void help_move_insert_root(slice_index si, stip_structure_traversal *st)
     *root = alloc_help_root_slice(length,min_length);
     pipe_link(*root,shortcut);
     
-    shorten_help_pipe(si);
-    shorten_help_pipe(si);
+    help_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);

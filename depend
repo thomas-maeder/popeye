@@ -309,7 +309,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   optimisations/maxtime/maxtime.h \
   optimisations/maxsolutions/maxsolutions.h \
   optimisations/stoponshortsolutions/stoponshortsolutions.h \
-  stipulation/help_play/root.h
+  stipulation/help_play/root.h stipulation/help_play/branch.h
 
 py.h:
 
@@ -436,6 +436,8 @@ optimisations/maxsolutions/maxsolutions.h:
 optimisations/stoponshortsolutions/stoponshortsolutions.h:
 
 stipulation/help_play/root.h:
+
+stipulation/help_play/branch.h:
 pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pyslice.h \
   pystip.h pytable.h pyquodli.h pyrecipr.h pynot.h pymovein.h pyproof.h \
@@ -1626,8 +1628,8 @@ pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h stipulation/battle_play/attack_play
   stipulation/help_play/play.h boolean.h pystip.h pyslice.h py.h \
   boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
   pystip.h pygoal.h pytable.h pypipe.h stipulation/branch.h \
-  stipulation/series_play/play.h py.h pyproc.h py4.h pydata.h pymsg.h \
-  trace.h
+  stipulation/help_play/branch.h stipulation/series_play/play.h py.h \
+  pyproc.h py4.h pydata.h pymsg.h trace.h
 
 pyselfcg.h:
 
@@ -1672,6 +1674,8 @@ pytable.h:
 pypipe.h:
 
 stipulation/branch.h:
+
+stipulation/help_play/branch.h:
 
 stipulation/series_play/play.h:
 

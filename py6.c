@@ -133,6 +133,7 @@
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 #include "stipulation/help_play/root.h"
+#include "stipulation/help_play/branch.h"
 #ifdef _SE_
 #include "se.h"
 #endif 
@@ -2060,7 +2061,7 @@ typedef enum
 {
   dont_know_meaning_of_whitetoplay,
   whitetoplay_means_change_colors,
-  whitetoplay_means_shorten_root_slice
+  whitetoplay_means_shorten
 } meaning_of_whitetoplay;
 
 static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
@@ -2079,23 +2080,20 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       if (slices[si].u.leaf.goal==goal_atob)
         result = whitetoplay_means_change_colors;
       else
-        result = whitetoplay_means_shorten_root_slice;
+        result = whitetoplay_means_shorten;
       break;
 
     case STSelfCheckGuardDefenderFilter:
     case STLeafDirect:
     case STContinuationWriter:
     case STDefenseMove:
-      result = whitetoplay_means_shorten_root_slice;
+      result = whitetoplay_means_shorten;
       break;
 
-    case STHelpRoot:
     case STHelpShortcut:
     case STHelpMove:
     case STSelfCheckGuardHelpFilter:
-    case STMoveInverterRootSolvableFilter:
-    case STSelfCheckGuardRootSolvableFilter:
-    case STNot:
+    case STMoveInverterSolvableFilter:
     case STProxy:
     {
       slice_index const next = slices[si].u.pipe.next;
@@ -2108,20 +2106,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     {
       slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
       result = detect_meaning_of_whitetoplay(to_goal);
-      break;
-    }
-
-    case STReciprocal:
-    case STQuodlibet:
-    {
-      slice_index const op1 = slices[si].u.binary.op1;
-      meaning_of_whitetoplay const res1 = detect_meaning_of_whitetoplay(op1);
-      slice_index const op2 = slices[si].u.binary.op2;
-      meaning_of_whitetoplay const res2 = detect_meaning_of_whitetoplay(op2);
-      if (res1==res2)
-        result = res1;
-      else
-        result = dont_know_meaning_of_whitetoplay;
       break;
     }
 
@@ -2139,9 +2123,10 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 /* Apply the option White to play
  * @return true iff the option is applicable (and was applied)
  */
-static void apply_whitetoplay(slice_index proxy)
+static boolean apply_whitetoplay(slice_index proxy)
 {
-  slice_index const next = slices[proxy].u.pipe.next;
+  slice_index next = slices[proxy].u.pipe.next;
+  boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",proxy);
@@ -2150,60 +2135,57 @@ static void apply_whitetoplay(slice_index proxy)
   TraceStipulation(proxy);
   assert(slices[proxy].type==STProxy);
 
+  while (slices[next].type==STProxy)
+    next = slices[next].u.pipe.next;
+
   TraceEnumerator(SliceType,slices[next].type,"\n");
   switch (slices[next].type)
   {
-    case STHelpRoot:
+    case STHelpFork:                 /* help play in N.0 */
+    case STSelfCheckGuardHelpFilter: /* help play in N.5, or helfself in N.0 */
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
-      if (meaning==whitetoplay_means_shorten_root_slice)
+      if (meaning==whitetoplay_means_shorten)
       {
-        slice_index const shortened = help_root_shorten_help_play(next);
-        slice_index const inverter = alloc_move_inverter_root_solvable_filter();
-        slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
-        pipe_link(inverter,guard);
-        pipe_link(guard,shortened);
+        slice_index const inverter = alloc_move_inverter_solvable_filter();
+        slice_index const hook = help_branch_shorten(next);
         pipe_link(proxy,inverter);
+        pipe_set_successor(inverter,hook);
       }
       else
       {
         stip_detect_starter();
         stip_impose_starter(advers(slices[root_slice].starter));
       }
+      result = true;
       break;
     }
 
-    case STLeafHelp:
-      slices[next].starter = advers(slices[next].starter);
-      break;
-
-    case STMoveInverterRootSolvableFilter:
+    case STMoveInverterSolvableFilter:
     {
+      /* starting side is already inverted - just allow color change
+       * by removing the inverter
+       */
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
-      slice_index const inverter = next;
-      slice_index const inverter_next = slices[inverter].u.pipe.next;
-      dealloc_slice(inverter);
-      if (meaning==whitetoplay_means_shorten_root_slice
-          && slices[inverter_next].type==STHelpRoot)
-        pipe_link(proxy,help_root_shorten_help_play(inverter_next));
-      else
+      if (meaning==whitetoplay_means_change_colors)
+      {
+        slice_index const inverter = next;
+        slice_index const inverter_next = slices[inverter].u.pipe.next;
+        dealloc_slice(inverter);
         pipe_set_successor(proxy,inverter_next);
+        result = true;
+      }
       break;
     }
-
-    case STQuodlibet:
-    case STReciprocal:
-      apply_whitetoplay(slices[next].u.binary.op1);
-      apply_whitetoplay(slices[next].u.binary.op2);
-      break;
 
     default:
-      pipe_set_successor(proxy,no_slice);
       break;
   }
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 int parseCommandlineOptions(int argc, char *argv[])
@@ -2916,20 +2898,16 @@ static Token iterate_twins(Token prev_token)
     TraceValue("%u\n",shouldDetectStarter);
     if (twin_index==0 || shouldDetectStarter)
     {
-      stip_insert_root_slices();
-      
-      if (OptFlag[postkeyplay] && !stip_apply_postkeyplay())
-        Message(PostKeyPlayNotApplicable);
+      if (OptFlag[whitetoplay] && !apply_whitetoplay(root_slice))
+        Message(WhiteToPlayNotApplicable);
 
-      if (OptFlag[whitetoplay])
-      {
-        apply_whitetoplay(root_slice);
-        if (slices[root_slice].u.pipe.next==no_slice)
-          Message(WhiteToPlayNotApplicable);
-      }
+      stip_insert_root_slices();
 
       if (OptFlag[solapparent] && !OptFlag[restart] && !stip_apply_setplay())
         Message(SetPlayNotApplicable);
+      
+      if (OptFlag[postkeyplay] && !stip_apply_postkeyplay())
+        Message(PostKeyPlayNotApplicable);
 
       stip_detect_starter();
 

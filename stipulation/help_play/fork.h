@@ -27,7 +27,8 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st);
  * @param si slice index
  * @param st state of traversal
  */
-void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st);
+void help_fork_make_setplay_slice(slice_index si,
+                                  stip_structure_traversal *st);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

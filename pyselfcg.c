@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/play.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -533,10 +534,7 @@ void selfcheck_guard_help_insert_root(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(slices[si].u.branch_fork.next,st);
-
-  slices[si].u.branch_fork.length -= 2;
-  if (slices[si].u.branch_fork.min_length-slack_length_help>=2)
-    slices[si].u.branch_fork.min_length -= 2;
+  help_branch_shorten_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

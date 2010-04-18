@@ -23,4 +23,16 @@ slice_index alloc_help_branch(stip_length_type length,
                               stip_length_type min_length,
                               slice_index proxy_to_goal);
 
+/* Shorten a help slice by 2 half moves
+ * @param si identifies slice to be shortened
+ */
+void help_branch_shorten_slice(slice_index si);
+
+/* Shorten a help branch by 1 half move
+ * @param identifies entry slice of branch to be shortened
+ * @return entry slice of shortened branch
+ *         no_slice if shortening isn't applicable
+ */
+slice_index help_branch_shorten(slice_index si);
+
 #endif

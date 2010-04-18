@@ -2610,23 +2610,22 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("hs",tok,2)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    char * const tok2 = ParseEnd(tok+1,proxy_leaf); /* skip over 'h' */
-    if (tok2!=0 && slices[proxy_leaf].u.pipe.next!=no_slice)
+    tok = ParseGoal(tok+2,STLeafForced,proxy_leaf); /* skip over "hs" */
+    if (tok!=0)
     {
-      stip_length_type length;
-      stip_length_type min_length;
-      result = ParseLength(tok2,STHelpMove,&length,&min_length);
-      if (result!=0)
+      slice_index const leaf = slices[proxy_leaf].u.pipe.next;
+      if (leaf!=no_slice)
       {
-        slice_index const
-            defense_branch = alloc_defense_branch(slack_length_battle,
-                                                  slack_length_battle);
-        slice_index const hook = slice_insert_self_guards(defense_branch,
-                                                          proxy_leaf);
-        if (length==slack_length_help)
-          pipe_link(proxy,hook);
-        else
+        stip_length_type length;
+        stip_length_type min_length;
+        result = ParseLength(tok,STHelpMove,&length,&min_length);
+        if (result!=0)
         {
+          slice_index const
+              defense_branch = alloc_defense_branch(slack_length_battle,
+                                                    slack_length_battle);
+          slice_index const hook = slice_insert_self_guards(defense_branch,
+                                                            proxy_leaf);
           slice_index const branch = alloc_help_branch(length,min_length,hook);
           if ((length-slack_length_help)%2==0)
           {
@@ -2638,9 +2637,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
           }
           else
             pipe_set_successor(proxy,branch);
-        }
 
-        slices[slices[proxy_leaf].u.pipe.next].starter = Black;
+          slices[slices[proxy_leaf].u.pipe.next].starter = Black;
+        }
       }
     }
   }

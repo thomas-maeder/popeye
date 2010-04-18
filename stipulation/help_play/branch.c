@@ -8,30 +8,6 @@
 
 #include <assert.h>
 
-/* Shorten a help pipe by a half-move
- * @param pipe identifies pipe to be shortened
- */
-void shorten_help_pipe(slice_index pipe)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParamListEnd();
-
-  --slices[pipe].u.branch.length;
-  --slices[pipe].u.branch.min_length;
-  if (slices[pipe].u.branch.min_length<slack_length_help)
-    slices[pipe].u.branch.min_length += 2;
-  slices[pipe].starter = (slices[pipe].starter==no_side
-                          ? no_side
-                          : advers(slices[pipe].starter));
-  TraceValue("%u",slices[pipe].starter);
-  TraceValue("%u",slices[pipe].u.branch.length);
-  TraceValue("%u\n",slices[pipe].u.branch.min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a help branch.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -55,46 +31,166 @@ slice_index alloc_help_branch(stip_length_type length,
 
   if ((length-slack_length_help)%2==0)
   {
-    slice_index const branch1 = alloc_help_move_slice(length,min_length);
     slice_index const
         guard1 = alloc_selfcheck_guard_help_filter(length,min_length);
-    slice_index const branch2 = alloc_help_move_slice(length,min_length);
+    slice_index const move1 = alloc_help_move_slice(length,min_length);
+    slice_index const proxy = alloc_proxy_slice();
     slice_index const
-        guard2 = alloc_selfcheck_guard_help_filter(length,min_length);
+        guard2 = alloc_selfcheck_guard_help_filter(length-1,min_length-1);
+    slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
+
     result = alloc_help_fork_slice(length,min_length,proxy_to_goal);
 
-    shorten_help_pipe(guard1);
-    shorten_help_pipe(branch2);
-
-    pipe_link(guard2,branch1);
-    pipe_link(branch1,guard1);
-    pipe_link(guard1,branch2);
-    pipe_link(branch2,result);
-    pipe_link(result,guard2);
+    pipe_link(result,guard1);
+    pipe_link(guard1,move1);
+    pipe_link(move1,proxy);
+    pipe_link(proxy,guard2);
+    pipe_link(guard2,move2);
+    pipe_link(move2,result);
   }
   else
   {
-    slice_index const guard2 = alloc_selfcheck_guard_help_filter(length,
-                                                                 min_length);
     slice_index const fork = alloc_help_fork_slice(length,min_length,
                                                    proxy_to_goal);
-    slice_index const branch1 = alloc_help_move_slice(length,min_length);
     slice_index const guard1 = alloc_selfcheck_guard_help_filter(length,
                                                                  min_length);
-    slice_index const branch2 = alloc_help_move_slice(length,min_length);
+    slice_index const move1 = alloc_help_move_slice(length,min_length);
+    slice_index const guard2 = alloc_selfcheck_guard_help_filter(length-1,
+                                                                 min_length-1);
+    slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
 
     result = alloc_proxy_slice();
 
-    shorten_help_pipe(guard2);
-    shorten_help_pipe(fork);
-    shorten_help_pipe(branch1);
-
     pipe_link(result,guard1);
-    pipe_link(guard1,branch2);
-    pipe_link(branch2,fork);
+    pipe_link(guard1,move1);
+    pipe_link(move1,fork);
     pipe_link(fork,guard2);
-    pipe_link(guard2,branch1);
-    pipe_link(branch1,result);
+    pipe_link(guard2,move2);
+    pipe_link(move2,result);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Shorten a help slice by 2 half moves
+ * @param si identifies slice to be shortened
+ */
+void help_branch_shorten_slice(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].u.branch.length -= 2;
+  if (slices[si].u.branch.min_length-slack_length_help>=2)
+    slices[si].u.branch.min_length -= 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Shorten a help branch whose entry slice is a selfcheck guard
+ * @param si identifies entry slice
+ * @return entry slice of shortened branch
+ *         no_slice if shortening isn't applicable
+ */
+static slice_index shorten_guard(slice_index si)
+{
+  slice_index result;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const move = slices[si].u.pipe.next;
+    slice_index const fork = slices[move].u.pipe.next;
+
+    assert(slices[si].type==STSelfCheckGuardHelpFilter);
+    assert(slices[move].type==STHelpMove);
+    assert(slices[fork].type==STHelpFork);
+    
+    result = fork;
+
+    help_branch_shorten_slice(si);
+    help_branch_shorten_slice(move);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Shorten a help branch whose entry slice is a STHelpFork
+ * @param si identifies entry slice
+ * @return entry slice of shortened branch
+ *         no_slice if shortening isn't applicable
+ */
+
+static slice_index shorten_fork(slice_index si)
+{
+  slice_index result;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const guard1 = slices[si].u.pipe.next;
+    slice_index const move1 = slices[guard1].u.pipe.next;
+    slice_index const proxy = slices[move1].u.pipe.next;
+    slice_index const guard2 = slices[proxy].u.pipe.next;
+
+    assert(slices[si].type==STHelpFork);
+    assert(slices[guard1].type==STSelfCheckGuardHelpFilter);
+    assert(slices[move1].type==STHelpMove);
+    assert(slices[proxy].type==STProxy);
+    assert(slices[guard2].type==STSelfCheckGuardHelpFilter);
+    
+    result = guard2;
+
+    help_branch_shorten_slice(si);
+    help_branch_shorten_slice(guard1);
+    help_branch_shorten_slice(move1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Shorten a help branch by 1 half move
+ * @param identifies entry slice of branch to be shortened
+ * @return entry slice of shortened branch
+ *         no_slice if shortening isn't applicable
+ */
+slice_index help_branch_shorten(slice_index si)
+{
+  slice_index result;
+  SliceType const type = slices[si].type;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  switch (type)
+  {
+    case STHelpFork:
+      result = shorten_fork(si);
+      break;
+
+    case STSelfCheckGuardHelpFilter:
+      result = shorten_guard(si);
+      break;
+
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
