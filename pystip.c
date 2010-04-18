@@ -899,9 +899,9 @@ static stip_structure_visitor const proxy_resolvers[] =
   &reflex_filter_resolve_proxies,    /* STReflexAttackerFilter */
   &reflex_filter_resolve_proxies,    /* STReflexDefenderFilter */
   &branch_fork_resolve_proxies,      /* STSelfDefense */
-  &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
-  &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
-  &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */
+  &pipe_resolve_proxies,             /* STRestartGuardRootDefenderFilter */
+  &pipe_resolve_proxies,             /* STRestartGuardHelpFilter */
+  &pipe_resolve_proxies,             /* STRestartGuardSeriesFilter */
   &pipe_resolve_proxies,             /* STIntelligentHelpFilter */
   &pipe_resolve_proxies,             /* STIntelligentSeriesFilter */
   &pipe_resolve_proxies,             /* STGoalReachableGuardHelpFilter */
