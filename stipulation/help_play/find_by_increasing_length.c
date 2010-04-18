@@ -100,8 +100,8 @@ static void shorten_root_branch_even_to_odd(slice_index root)
 
     assert(slices[branch2].type==STHelpMove);
 
+    slices[guard1].u.branch.length -= 2;
     slices[branch].u.branch.length -= 2;
-    slices[fork].u.branch.length -= 2;
     slices[help_shortcut].u.shortcut.short_sols = proxy;
 
     pipe_append(guard1,proxy);

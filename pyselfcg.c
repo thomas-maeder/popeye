@@ -521,6 +521,26 @@ void selfcheck_guard_help_solve_threats_in_n(table threats,
   TraceFunctionResultEnd();
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_help_insert_root(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.branch_fork.next,st);
+
+  slices[si].u.branch_fork.length -= 2;
+  if (slices[si].u.branch_fork.min_length-slack_length_help>=2)
+    slices[si].u.branch_fork.min_length -= 2;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* **************** Implementation of interface Series ***************
  */

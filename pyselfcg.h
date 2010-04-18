@@ -247,6 +247,13 @@ void selfcheck_guard_help_solve_threats_in_n(table threats,
                                              slice_index si,
                                              stip_length_type n);
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_help_insert_root(slice_index si,
+                                      stip_structure_traversal *st);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

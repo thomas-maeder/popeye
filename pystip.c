@@ -786,7 +786,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardAttackerFilter */
   &selfcheck_guard_defender_filter_insert_root, /* STSelfCheckGuardDefenderFilter */
-  &stip_traverse_structure_children,            /* STSelfCheckGuardHelpFilter */
+  &selfcheck_guard_help_insert_root,            /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardSeriesFilter */
   &direct_defender_filter_insert_root,          /* STDirectDefenderFilter */
   &reflex_help_filter_insert_root,              /* STReflexHelpFilter */
