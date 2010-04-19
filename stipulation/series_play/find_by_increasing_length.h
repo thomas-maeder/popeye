@@ -20,20 +20,14 @@ slice_index alloc_series_root_slice(stip_length_type length,
                                     slice_index next,
                                     slice_index short_sols);
 
-/* Shorten a help branch by a half-move. If the branch represents a
- * half-move only, deallocates the branch.
- * @param si identifies the branch
- * @return if the branch slice represents a half-move only, the slice
- *         representing the subsequent play; otherwise si
- */
-slice_index series_root_shorten_help_play(slice_index si);
 
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
  */
-void series_root_make_setplay_slice(slice_index si, stip_structure_traversal *st);
-
+void series_root_make_setplay_slice(slice_index si,
+                                    stip_structure_traversal *st);
+ 
 /* Solve a branch slice at root level.
  * @param si slice index
  * @return true iff >=1 solution was found
