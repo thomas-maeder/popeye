@@ -1,4 +1,5 @@
 #include "pyreflxg.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -123,9 +124,7 @@ void reflex_attacker_filter_insert_root(slice_index si,
     pipe_link(guard,*root);
     *root = guard;
 
-    slices[si].u.branch.length -= 2;
-    if (slices[si].u.branch.min_length-slack_length_battle>2)
-      slices[si].u.branch.min_length -= 2;
+    battle_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);
@@ -766,9 +765,7 @@ void reflex_help_filter_insert_root(slice_index si, stip_structure_traversal *st
     *root = guard;
   }
 
-  slices[si].u.reflex_guard.length -=2;
-  if (slices[si].u.reflex_guard.min_length-slack_length_help>=2)
-    slices[si].u.reflex_guard.min_length -= 2;
+  battle_branch_shorten_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

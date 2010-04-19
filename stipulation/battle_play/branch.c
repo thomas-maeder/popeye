@@ -146,3 +146,20 @@ stip_length_type battle_branch_calc_n_min(slice_index si, stip_length_type n)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Shorten a battle slice by 2 half moves
+ * @param si identifies slice to be shortened
+ */
+void battle_branch_shorten_slice(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  slices[si].u.branch.length -= 2;
+  if (slices[si].u.branch.min_length>=slack_length_battle+1)
+    slices[si].u.branch.min_length -= 2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

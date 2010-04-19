@@ -39,4 +39,9 @@ slice_index alloc_battle_branch(stip_length_type length,
  */
 stip_length_type battle_branch_calc_n_min(slice_index si, stip_length_type n);
 
+/* Shorten a battle slice by 2 half moves
+ * @param si identifies slice to be shortened
+ */
+void battle_branch_shorten_slice(slice_index si);
+
 #endif

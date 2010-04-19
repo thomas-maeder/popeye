@@ -58,9 +58,7 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   pipe_link(direct_root,*root);
   *root = direct_root;
 
-  slices[si].u.branch.length -= 2;
-  if (min_length>=slack_length_battle+1)
-    slices[si].u.branch.min_length -= 2;
+  battle_branch_shorten_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/move.h"
 #include "pyoutput.h"
@@ -52,9 +53,7 @@ void defense_move_insert_root(slice_index si, stip_structure_traversal *st)
     *root = alloc_defense_move_slice(length,min_length);
     pipe_set_successor(*root,slices[si].u.pipe.next);
 
-    slices[si].u.branch.length -= 2;
-    if (slices[si].u.branch.min_length>=slack_length_battle+1)
-      slices[si].u.branch.min_length -= 2;
+    battle_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);

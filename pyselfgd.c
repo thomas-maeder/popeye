@@ -1,5 +1,6 @@
 #include "pyselfgd.h"
 #include "pybrafrk.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
@@ -64,9 +65,7 @@ void self_defense_insert_root(slice_index si, stip_structure_traversal *st)
     pipe_link(self_defense,*root);
     *root = self_defense;
 
-    slices[si].u.branch.length -= 2;
-    if (min_length>=slack_length_battle+2)
-      slices[si].u.branch.min_length -= 2;
+    battle_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);

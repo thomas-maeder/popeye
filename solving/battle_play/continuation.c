@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "pyoutput.h"
 #include "trace.h"
@@ -188,9 +189,7 @@ void continuation_writer_insert_root(slice_index si,
   pipe_link(root_filter,*root);
   *root = root_filter;
 
-  slices[si].u.branch.length -= 2;
-  if (slices[si].u.branch.min_length>=slack_length_battle+1)
-    slices[si].u.branch.min_length -= 2;
+  battle_branch_shorten_slice(si);
  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
