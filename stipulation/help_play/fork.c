@@ -1,5 +1,6 @@
 #include "stipulation/help_play/fork.h"
 #include "pybrafrk.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
