@@ -141,17 +141,16 @@ void series_fork_solve_threats_in_n(table threats,
  * @param si slice index
  * @param st state of traversal
  */
-void series_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void series_fork_make_setplay_slice(slice_index si,
+                                    stip_structure_traversal *st)
 {
-  setplay_slice_production * const prod = st->param;
-  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy_to_goal].type==STProxy);
-  prod->setplay_slice = proxy_to_goal;
+  stip_traverse_structure(to_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
