@@ -51,19 +51,8 @@ void help_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   assert(slices[si].u.branch.length>slack_length_help);
-
   prod->sibling = si;
-
   pipe_traverse_next(si,st);
-
-  if (prod->setplay_slice!=no_slice)
-  {
-    slice_index const length = slices[si].u.branch.length;
-    slice_index const min_length = slices[si].u.branch.min_length;
-    slice_index const root = alloc_help_root_slice(length-1,min_length-1);
-    pipe_set_successor(root,prod->setplay_slice);
-    prod->setplay_slice = root;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -121,11 +110,14 @@ has_solution_type help_root_has_solution(slice_index si)
 
   assert(full_length>=slack_length_help);
 
-  while (len<=full_length && result==has_no_solution)
-  {
-    result = help_has_solution_in_n(next,len);
-    len += 2;
-  }
+  while (len<=full_length)
+    if (help_has_solution_in_n(next,len)<=len)
+    {
+      result = has_solution;
+      break;
+    }
+    else
+      len += 2;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

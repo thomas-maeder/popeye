@@ -1948,6 +1948,21 @@ static char *ParseGoal(char *tok, SliceType type, slice_index proxy)
   return tok;
 }
 
+static void alloc_reci_end(slice_index proxy_nonreci,
+                           slice_index proxy_reci,
+                           slice_index proxy_to_nonreci_leaf,
+                           slice_index proxy_to_reci_leaf)
+{
+  slice_index const non_reci_branch = alloc_help_branch(slack_length_help+2,
+                                                        slack_length_help+2,
+                                                        proxy_to_nonreci_leaf);
+  slice_index const reci_branch = alloc_help_branch(slack_length_help+1,
+                                                    slack_length_help+1,
+                                                    proxy_to_reci_leaf);
+  pipe_set_successor(proxy_nonreci,non_reci_branch);
+  pipe_link(proxy_reci,reci_branch);
+}
+
 static char *ParseReciGoal(char *tok,
                            slice_index proxy_nonreci,
                            slice_index proxy_reci)
@@ -1963,16 +1978,16 @@ static char *ParseReciGoal(char *tok,
     char const *closingParenPos = strchr(tok,')');
     if (closingParenPos!=0)
     {
-      tok = ParseGoal(tok+1,STLeafDirect,proxy_reci);
+      slice_index const proxy_to_reci_leaf = alloc_proxy_slice();
+      tok = ParseGoal(tok+1,STLeafForced,proxy_to_reci_leaf);
       if (tok!=0)
       {
         if (tok==closingParenPos)
         {
-          slice_index const proxy_to_goal = alloc_proxy_slice();
-          result = ParseGoal(tok+1,STLeafHelp,proxy_to_goal);
-          pipe_link(proxy_nonreci,
-                    alloc_help_branch(slack_length_help+1,slack_length_help+1,
-                                      proxy_to_goal));
+          slice_index const proxy_to_nonreci_leaf = alloc_proxy_slice();
+          result = ParseGoal(tok+1,STLeafForced,proxy_to_nonreci_leaf);
+          alloc_reci_end(proxy_nonreci,proxy_reci,
+                         proxy_to_nonreci_leaf,proxy_to_reci_leaf);
         }
         else
           IoErrorMsg(UnrecStip, 0);
@@ -1983,18 +1998,17 @@ static char *ParseReciGoal(char *tok,
   }
   else
   {
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    result = ParseGoal(tok,STLeafHelp,proxy_to_goal);
+    slice_index const proxy_to_nonreci_leaf = alloc_proxy_slice();
+    result = ParseGoal(tok,STLeafForced,proxy_to_nonreci_leaf);
     if (result!=NULL)
     {
       slice_index const nonreci_leaf = slices[proxy_nonreci].u.pipe.next;
       slice_index const goal = slices[nonreci_leaf].u.leaf.goal;
-      slice_index const
-          branch = alloc_help_branch(slack_length_help+1,slack_length_help+1,
-                                     proxy_to_goal);
-      slice_index const leaf = alloc_leaf_slice(STLeafDirect,goal);
-      pipe_set_successor(proxy_nonreci,branch);
-      pipe_link(proxy_reci,leaf);
+      slice_index const reci_leaf = alloc_leaf_slice(STLeafForced,goal);
+      slice_index const proxy_to_reci_leaf = alloc_proxy_slice();
+      pipe_link(proxy_to_reci_leaf,reci_leaf);
+      alloc_reci_end(proxy_nonreci,proxy_reci,
+                     proxy_to_nonreci_leaf,proxy_to_reci_leaf);
     }
   }
 

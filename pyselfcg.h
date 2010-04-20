@@ -87,6 +87,14 @@ stip_length_type selfcheck_guard_root_defend(slice_index si,
 void selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
                                                                 stip_structure_traversal *st);
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ */
+void
+self_check_guard_root_defender_filter_make_setplay_slice(slice_index si,
+                                                         stip_structure_traversal *st);
+
 /* Allocate a STSelfCheckGuardRootDefenderFilter slice
  * @return allocated slice
  */
@@ -253,6 +261,13 @@ void selfcheck_guard_help_solve_threats_in_n(table threats,
  */
 void selfcheck_guard_help_insert_root(slice_index si,
                                       stip_structure_traversal *st);
+
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ */
+void selfcheck_guard_help_make_setplay_slice(slice_index si,
+                                             stip_structure_traversal *st);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

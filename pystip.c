@@ -1933,7 +1933,7 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children,          /* STAttackMove */
   &defense_move_make_setplay_slice,           /* STDefenseMove */
   &help_move_make_setplay_slice,              /* STHelpMove */
-  &help_fork_make_setplay_slice,              /* STHelpFork */
+  &pipe_traverse_next,                        /* STHelpFork */
   &pipe_traverse_next,                        /* STSeriesMove */
   &series_fork_make_setplay_slice,            /* STSeriesFork */
   &stip_traverse_structure_children,          /* STLeafDirect */
@@ -1967,10 +1967,10 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children,          /* STSeriesHashed */
   &pipe_traverse_next,                        /* STSelfCheckGuardRootSolvableFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardSolvableFilter */
-  &pipe_traverse_next,                        /* STSelfCheckGuardRootDefenderFilter */
+  &self_check_guard_root_defender_filter_make_setplay_slice, /* STSelfCheckGuardRootDefenderFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardAttackerFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardDefenderFilter */
-  &pipe_traverse_next,                        /* STSelfCheckGuardHelpFilter */
+  &selfcheck_guard_help_make_setplay_slice,   /* STSelfCheckGuardHelpFilter */
   &pipe_traverse_next,                        /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,          /* STDirectDefenderFilter */
   &stip_traverse_structure_children,          /* STReflexHelpFilter */
@@ -2017,7 +2017,6 @@ static stip_structure_visitor const setplay_makers[] =
 static void combine_set_play(slice_index setplay_slice, slice_index sibling)
 {
   slice_index mi;
-  slice_index guard;
   slice_index op1;
   slice_index op2;
   slice_index const hook = slices[sibling].prev;
@@ -2028,13 +2027,11 @@ static void combine_set_play(slice_index setplay_slice, slice_index sibling)
   TraceFunctionParamListEnd();
 
   mi = alloc_move_inverter_root_solvable_filter();
-  guard = alloc_selfcheck_guard_root_solvable_filter();
-  pipe_link(mi,guard);
 
   if (slices[setplay_slice].prev==no_slice)
-    pipe_link(guard,setplay_slice);
+    pipe_link(mi,setplay_slice);
   else
-    pipe_set_successor(guard,setplay_slice);
+    pipe_set_successor(mi,setplay_slice);
 
   op1 = alloc_proxy_slice();
   pipe_link(op1,mi);

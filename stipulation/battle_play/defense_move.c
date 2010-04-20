@@ -4,6 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
 #include "pyoutput.h"
 #include "trace.h"
@@ -484,15 +485,13 @@ void defense_move_make_setplay_slice(slice_index si,
 
   {
     stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     stip_length_type const length_h = (length
                                        +slack_length_help
                                        -slack_length_battle);
-    stip_length_type const min_length_h = (min_length
-                                           +slack_length_help
-                                           -slack_length_battle);
-    prod->setplay_slice = alloc_help_move_slice(length_h,min_length_h);
-    pipe_set_successor(prod->setplay_slice,slices[si].u.pipe.next);
+    slice_index const move = alloc_help_move_slice(length_h,length_h);
+    prod->setplay_slice = alloc_help_root_slice(length_h,length_h);
+    pipe_link(prod->setplay_slice,move);
+    pipe_set_successor(move,slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);

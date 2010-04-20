@@ -47,42 +47,21 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  */
 void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert(slices[si].u.branch_fork.length-slack_length_help>=2);
-
   stip_traverse_structure(slices[si].u.branch_fork.next,st);
-
   help_branch_shorten_slice(si);
 
   {
+    slice_index * const root = st->param;
     slice_index const shortcut = branch_find_slice(STHelpShortcut,*root);
     assert(shortcut!=no_slice);
     slices[shortcut].u.shortcut.short_sols = si;
   }
   
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  prod->setplay_slice = si;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -133,7 +112,7 @@ boolean help_fork_has_solution_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    result = slice_has_solution(to_goal)==has_solution;
+    result = slice_has_solution(to_goal)>=has_solution;
   else
     result = help_has_solution_in_n(next,n);
 

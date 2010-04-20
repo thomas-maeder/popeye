@@ -5,7 +5,6 @@
 #include "pyleaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/root.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -127,16 +126,6 @@ void attack_root_make_setplay_slice(slice_index si,
     prod->sibling = si;
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const length_h = (length-1
-                                       +slack_length_help
-                                       -slack_length_battle);
-    slice_index const help_root = alloc_help_root_slice(length_h,length_h);
-    pipe_link(help_root,prod->setplay_slice);
-    prod->setplay_slice = help_root;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

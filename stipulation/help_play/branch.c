@@ -33,19 +33,26 @@ slice_index alloc_help_branch(stip_length_type length,
   {
     slice_index const
         guard1 = alloc_selfcheck_guard_help_filter(length,min_length);
+    slice_index const proxy1 = alloc_proxy_slice();
     slice_index const move1 = alloc_help_move_slice(length,min_length);
-    slice_index const proxy = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
     slice_index const
-        guard2 = alloc_selfcheck_guard_help_filter(length-1,min_length-1);
-    slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
+        guard2 = alloc_selfcheck_guard_help_filter(length+1,min_length+1);
+    slice_index const proxy3 = alloc_proxy_slice();
+    slice_index const move2 = alloc_help_move_slice(length+1,min_length+1);
+
+    help_branch_shorten_slice(guard2);
+    help_branch_shorten_slice(move2);
 
     result = alloc_help_fork_slice(length,min_length,proxy_to_goal);
 
     pipe_link(result,guard1);
-    pipe_link(guard1,move1);
-    pipe_link(move1,proxy);
-    pipe_link(proxy,guard2);
-    pipe_link(guard2,move2);
+    pipe_link(guard1,proxy1);
+    pipe_link(proxy1,move1);
+    pipe_link(move1,proxy2);
+    pipe_link(proxy2,guard2);
+    pipe_link(guard2,proxy3);
+    pipe_link(proxy3,move2);
     pipe_link(move2,result);
   }
   else
@@ -54,18 +61,25 @@ slice_index alloc_help_branch(stip_length_type length,
                                                    proxy_to_goal);
     slice_index const guard1 = alloc_selfcheck_guard_help_filter(length,
                                                                  min_length);
+    slice_index const proxy1 = alloc_proxy_slice();
     slice_index const move1 = alloc_help_move_slice(length,min_length);
-    slice_index const guard2 = alloc_selfcheck_guard_help_filter(length-1,
-                                                                 min_length-1);
-    slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
+    slice_index const guard2 = alloc_selfcheck_guard_help_filter(length+1,
+                                                                 min_length+1);
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const move2 = alloc_help_move_slice(length+1,min_length+1);
+
+    help_branch_shorten_slice(guard2);
+    help_branch_shorten_slice(move2);
 
     result = alloc_proxy_slice();
 
     pipe_link(result,guard1);
-    pipe_link(guard1,move1);
+    pipe_link(guard1,proxy1);
+    pipe_link(proxy1,move1);
     pipe_link(move1,fork);
     pipe_link(fork,guard2);
-    pipe_link(guard2,move2);
+    pipe_link(guard2,proxy2);
+    pipe_link(proxy2,move2);
     pipe_link(move2,result);
   }
 
@@ -85,7 +99,7 @@ void help_branch_shorten_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   slices[si].u.branch.length -= 2;
-  if (slices[si].u.branch.min_length-slack_length_help>=2)
+  if (slices[si].u.branch.min_length-slack_length_help>=3)
     slices[si].u.branch.min_length -= 2;
 
   TraceFunctionExit(__func__);
@@ -106,10 +120,12 @@ static slice_index shorten_guard(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const move = slices[si].u.pipe.next;
+    slice_index const proxy = slices[si].u.pipe.next;
+    slice_index const move = slices[proxy].u.pipe.next;
     slice_index const fork = slices[move].u.pipe.next;
 
     assert(slices[si].type==STSelfCheckGuardHelpFilter);
+    assert(slices[proxy].type==STProxy);
     assert(slices[move].type==STHelpMove);
     assert(slices[fork].type==STHelpFork);
     
@@ -141,14 +157,16 @@ static slice_index shorten_fork(slice_index si)
 
   {
     slice_index const guard1 = slices[si].u.pipe.next;
-    slice_index const move1 = slices[guard1].u.pipe.next;
-    slice_index const proxy = slices[move1].u.pipe.next;
-    slice_index const guard2 = slices[proxy].u.pipe.next;
+    slice_index const proxy1 = slices[guard1].u.pipe.next;
+    slice_index const move1 = slices[proxy1].u.pipe.next;
+    slice_index const proxy2 = slices[move1].u.pipe.next;
+    slice_index const guard2 = slices[proxy2].u.pipe.next;
 
     assert(slices[si].type==STHelpFork);
     assert(slices[guard1].type==STSelfCheckGuardHelpFilter);
+    assert(slices[proxy1].type==STProxy);
     assert(slices[move1].type==STHelpMove);
-    assert(slices[proxy].type==STProxy);
+    assert(slices[proxy2].type==STProxy);
     assert(slices[guard2].type==STSelfCheckGuardHelpFilter);
     
     result = guard2;

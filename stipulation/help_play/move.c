@@ -322,7 +322,12 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (slices[next].prev==si)
-    prod->setplay_slice = si;
+  {
+    slice_index const length = slices[si].u.branch.length;
+    slice_index const min_length = slices[si].u.branch.min_length;
+    prod->setplay_slice = alloc_help_root_slice(length,min_length);
+    pipe_set_successor(prod->setplay_slice,si);
+  }
   else
     /* this is the first move (i.e. the one that is omitted in set play) */
     pipe_traverse_next(si,st); 
