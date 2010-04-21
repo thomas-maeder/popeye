@@ -138,13 +138,11 @@ boolean attack_are_threats_refuted_in_n(table threats,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            <n_min defense put defender into self-check
+ *            n_min-4 defense put defender into self-check,
+ *                    or some similar dead end
+ *            n_min-2 defense has solved
  *            n_min..n length of shortest solution found
- *            >n no solution found
- *         (the second case includes the situation in self
- *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_battle and we return
- *         n_min)
+ *            n+2 no solution found
  */
 stip_length_type attack_has_solution_in_n(slice_index si,
                                           stip_length_type n,
@@ -246,7 +244,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
  */
 has_solution_type attack_has_solution(slice_index si)
 {
-  has_solution_type result = has_no_solution;
+  has_solution_type result;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const n_min = battle_branch_calc_n_min(si,length);
 
@@ -254,9 +252,18 @@ has_solution_type attack_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (attack_has_solution_in_n(si,length,n_min)<=length
-            ? has_solution
-            : has_no_solution);
+  {
+    stip_length_type const sol_length = attack_has_solution_in_n(si,
+                                                                 length,n_min);
+    if (sol_length==n_min-4)
+      result = defender_self_check;
+    else if (sol_length==n_min-2)
+      result = is_solved;
+    else if (sol_length<=length)
+      result = has_solution;
+    else
+      result = has_no_solution;
+  }
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

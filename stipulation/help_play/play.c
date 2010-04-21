@@ -65,7 +65,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
                                         +slack_length_battle+1);
       stip_length_type const parity = (nbattle-slack_length_battle)%2;
       stip_length_type const n_min = slack_length_battle+parity;
-      if (attack_has_solution_in_n(si,nbattle,n_min)<=nbattle)
+      stip_length_type const sol_length = attack_has_solution_in_n(si,
+                                                                   nbattle,
+                                                                   n_min);
+      if (n_min-2<=sol_length && sol_length<=nbattle)
       {
         stip_length_type const length = attack_solve_in_n(si,nbattle,n_min);
         assert(length<=nbattle);

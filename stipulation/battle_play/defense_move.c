@@ -202,7 +202,8 @@ static stip_length_type try_defenses(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       stip_length_type const length_sol = attack_has_solution_in_n(next,
-                                                                   n-1,n_min-1);
+                                                                   n-1,
+                                                                   n_min-1);
       if (length_sol>=n)
       {
         ++nr_refutations[nbply];
@@ -418,6 +419,7 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
                                               unsigned int max_nr_refutations)
 {
   Side const defender = slices[si].starter;
+  stip_length_type max_len_continuation;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -435,10 +437,10 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
    * modes
    */
   if (n==slack_length_battle+1 && slices[si].u.branch.imminent_goal!=no_goal)
-    result = iterate_last_self_defenses(si,
-                                        n,n_min,
-                                        defender,
-                                        max_nr_refutations);
+    max_len_continuation = iterate_last_self_defenses(si,
+                                                      n,n_min,
+                                                      defender,
+                                                      max_nr_refutations);
   else
   {
     if (n==slack_length_battle)
@@ -454,15 +456,19 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
       genmove(defender);
     }
 
-    result = try_defenses(si,n,n_min,max_nr_refutations);
+    max_len_continuation = try_defenses(si,n,n_min,max_nr_refutations);
 
     finply();
   }
 
-  if (nr_refutations[nbply+1]>max_nr_refutations)
+  if (max_len_continuation<n_min)
+    result = max_len_continuation+2;
+  else if (nr_refutations[nbply+1]>max_nr_refutations)
     result = n+4;
   else if (nr_refutations[nbply+1]>0)
     result = n+2;
+  else
+    result = max_len_continuation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

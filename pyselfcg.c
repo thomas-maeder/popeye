@@ -246,13 +246,11 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            <n_min defense put defender into self-check
+ *            n_min-4 defense put defender into self-check,
+ *                    or some similar dead end
+ *            n_min-2 defense has solved
  *            n_min..n length of shortest solution found
- *            >n no solution found
- *         (the second case includes the situation in self
- *         stipulations where the defense just played has reached the
- *         goal (in which case n_min<slack_length_battle and we return
- *         n_min)
+ *            n+2 no solution found
  */
 stip_length_type
 selfcheck_guard_direct_has_solution_in_n(slice_index si,
@@ -269,7 +267,7 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = n_min-2;
+    result = n_min-4;
   else if (n>slack_length_battle)
     result = attack_has_solution_in_n(next,n,n_min);
   else
