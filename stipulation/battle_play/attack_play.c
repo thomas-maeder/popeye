@@ -447,10 +447,12 @@ boolean attack_are_threats_refuted(table threats, slice_index si)
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
- *         (n-slack_length_battle)%2 if the previous move led to a
- *            dead end (e.g. self-check)
+ * @return length of solution found and written, i.e.:
+ *            n_min-4 defense put defender into self-check,
+ *                    or some similar dead end
+ *            n_min-2 defense has solved
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
  */
 stip_length_type attack_solve_in_n(slice_index si,
                                    stip_length_type n,
@@ -503,7 +505,7 @@ stip_length_type attack_solve_in_n(slice_index si,
     {
       stip_length_type const n_ser = (n-slack_length_battle-1
                                       +slack_length_series);
-      result = series_solve_in_n(si,n_ser);
+      result = series_solve_in_n(si,n_ser) ? n : n+2;
       break;
     }
 
@@ -524,7 +526,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       break;
 
     case STDegenerateTree:
-      result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
+      result = degenerate_tree_direct_solve_in_n(si,n,n_min);
       break;
 
     case STKeepMatingGuardAttackerFilter:
@@ -565,7 +567,9 @@ boolean attack_solve(slice_index si)
     {
       stip_length_type const length = slack_length_battle+2;
       stip_length_type const min_length = slack_length_battle+2;
-      result = attack_solve_in_n(si,length,min_length)<=length;
+      stip_length_type const sol_length = attack_solve_in_n(si,
+                                                            length,min_length);
+      result = min_length-2<=sol_length && sol_length<=length;
       break;
     }
 
@@ -585,7 +589,9 @@ boolean attack_solve(slice_index si)
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      result = attack_solve_in_n(si,length,min_length)<=length;
+      stip_length_type const sol_length = attack_solve_in_n(si,
+                                                            length,min_length);
+      result = min_length-2<=sol_length && sol_length<=length;
       break;
     }
   }

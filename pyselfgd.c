@@ -258,8 +258,12 @@ void self_attack_root_reduce_to_postkey_play(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
+ * @return length of solution found and written, i.e.:
+ *            n_min-4 defense put defender into self-check,
+ *                    or some similar dead end
+ *            n_min-2 defense has solved
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
  */
 stip_length_type self_defense_solve_in_n(slice_index si,
                                          stip_length_type n,
@@ -277,18 +281,20 @@ stip_length_type self_defense_solve_in_n(slice_index si,
 
   switch (slice_has_solution(towards_goal))
   {
+    case defender_self_check:
+      result = n_min-4;
+      break;
+
     case is_solved:
+      result = n_min-2;
       if (n_min<=slack_length_battle+1)
       {
-        result = n_min;
         write_final_defense();
         {
           boolean const solving_result = slice_solve(towards_goal);
           assert(solving_result);
         }
       }
-      else
-        result = slack_length_battle;
       break;
 
     case has_solution:
@@ -302,7 +308,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
         }
       }
       else
-        result = slack_length_battle;
+        result = n_min-2;
       break;
 
     case has_no_solution:
@@ -310,7 +316,8 @@ stip_length_type self_defense_solve_in_n(slice_index si,
       break;
 
     default:
-      result = n_min-2;
+      assert(0);
+      result = n+2;
       break;
   }
 

@@ -43,6 +43,21 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
                                          stip_length_type n_min);
 
+/* Solve a slice
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return length of solution found and written, i.e.:
+ *            n_min-4 defense put defender into self-check,
+ *                    or some similar dead end
+ *            n_min-2 defense has solved
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type degenerate_tree_direct_solve_in_n(slice_index si,
+                                                   stip_length_type n,
+                                                   stip_length_type n_min);
+
 /* Determine and write the threats after the move that has just been
  * played.
  * @param threats table where to add threats
