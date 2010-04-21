@@ -119,29 +119,31 @@ slice_index alloc_help_branch_even(stip_length_type length,
   TraceFunctionParam("%u",proxy_to_goal);
   TraceFunctionParamListEnd();
 
-  slice_index const
-      guard1 = alloc_selfcheck_guard_help_filter(length,min_length);
-  slice_index const proxy1 = alloc_proxy_slice();
-  slice_index const move1 = alloc_help_move_slice(length,min_length);
-  slice_index const proxy2 = alloc_proxy_slice();
-  slice_index const
-      guard2 = alloc_selfcheck_guard_help_filter(length+1,min_length+1);
-  slice_index const proxy3 = alloc_proxy_slice();
-  slice_index const move2 = alloc_help_move_slice(length+1,min_length+1);
+  {
+    slice_index const
+        guard1 = alloc_selfcheck_guard_help_filter(length,min_length);
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const move1 = alloc_help_move_slice(length,min_length);
+    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const
+        guard2 = alloc_selfcheck_guard_help_filter(length+1,min_length+1);
+    slice_index const proxy3 = alloc_proxy_slice();
+    slice_index const move2 = alloc_help_move_slice(length+1,min_length+1);
 
-  help_branch_shorten_slice(guard2);
-  help_branch_shorten_slice(move2);
+    help_branch_shorten_slice(guard2);
+    help_branch_shorten_slice(move2);
 
-  result = alloc_help_fork_slice(length,min_length,proxy_to_goal);
+    result = alloc_help_fork_slice(length,min_length,proxy_to_goal);
 
-  pipe_link(result,guard1);
-  pipe_link(guard1,proxy1);
-  pipe_link(proxy1,move1);
-  pipe_link(move1,proxy2);
-  pipe_link(proxy2,guard2);
-  pipe_link(guard2,proxy3);
-  pipe_link(proxy3,move2);
-  pipe_link(move2,result);
+    pipe_link(result,guard1);
+    pipe_link(guard1,proxy1);
+    pipe_link(proxy1,move1);
+    pipe_link(move1,proxy2);
+    pipe_link(proxy2,guard2);
+    pipe_link(guard2,proxy3);
+    pipe_link(proxy3,move2);
+    pipe_link(move2,result);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
