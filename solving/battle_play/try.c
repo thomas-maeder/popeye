@@ -381,7 +381,7 @@ static void prepend_refutations_writer(slice_index si,
   TraceFunctionParamListEnd();
 
   /* no tries in #1; at least s#1 required */
-  if (length>=slack_length_battle)
+  if (length>slack_length_battle)
   {
     stip_traverse_structure_children(si,st);
 

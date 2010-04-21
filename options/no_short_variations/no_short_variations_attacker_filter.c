@@ -78,7 +78,7 @@ boolean no_short_variations_are_threats_refuted_in_n(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle && has_short_solution(si,n-2))
+  if (n>slack_length_battle+1 && has_short_solution(si,n-2))
     result = false;
   else
     result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
@@ -179,7 +179,7 @@ stip_length_type no_short_variations_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle && has_short_solution(si,n-2))
+  if (n>slack_length_battle+1 && has_short_solution(si,n-2))
     result = false;
   else
     result = attack_solve_in_n(next,n,n_min);

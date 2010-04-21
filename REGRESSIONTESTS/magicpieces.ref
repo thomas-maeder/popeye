@@ -252,8 +252,8 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mQ [wPd6, wSf6] # 
           2.Rc7*c6 # 
       1...mPd4-d3 [wSf6] 
-          2.Rc7*c6 # 
           2.mPf7-f8=mB [wPd6] # 
+          2.Rc7*c6 # 
       1...mPd4*e3 [wPd6, wSf6] 
           2.mPf7-f8=mS [bPd7] # 
           2.Rc7*c6 # 
@@ -262,8 +262,8 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
           2.mPf7-f8=mB [wPd6] # 
           2.Rc7*c6 # 
       1...mBf4*g3 [wSf6] 
-          2.Rc7*c6 # 
           2.mPf7-f8=mB [wPd6] # 
+          2.Rc7*c6 # 
       1...mBf4-h6 [wSf6] 
           2.mPf7-f8=mB [wPd6] # 
           2.Rc7*c6 # 

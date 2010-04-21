@@ -23,7 +23,7 @@ static unsigned int non_trivial_count[maxply+1];
 void reset_nontrivial_settings(void)
 {
   max_nr_nontrivial = UINT_MAX;
-  min_length_nontrivial = 2*maxply+slack_length_battle;
+  min_length_nontrivial = 2*maxply+slack_length_battle+1;
 }
 
 /* Read the requested non-trivial optimisation settings from user input
@@ -77,7 +77,7 @@ boolean read_min_length_nontrivial(char const *tok)
   {
     result = true;
     min_length_nontrivial = (2*(unsigned int)requested_min_length_nontrivial
-                             +slack_length_battle);
+                             +slack_length_battle+1);
     TraceValue("%u\n",min_length_nontrivial);
   }
   else
@@ -95,7 +95,7 @@ boolean read_min_length_nontrivial(char const *tok)
  */
 stip_length_type get_min_length_nontrivial(void)
 {
-  return (min_length_nontrivial-slack_length_battle)/2;
+  return (min_length_nontrivial-slack_length_battle-1)/2;
 }
 
 
@@ -112,7 +112,7 @@ static unsigned int count_nontrivial_defenses(slice_index si)
   unsigned int result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const parity = ((slices[si].u.branch.length
-                                    -slack_length_battle)
+                                    -slack_length_battle-1)
                                    %2);
   unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
 
@@ -120,7 +120,7 @@ static unsigned int count_nontrivial_defenses(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length_nontrivial+parity==slack_length_battle)
+  if (min_length_nontrivial+parity==slack_length_battle+1)
   {
     /* TODO can this be moved between leaf and goal? */
     /* special case: just check for non-selfchecking moves

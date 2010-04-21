@@ -117,8 +117,8 @@ boolean attack_are_threats_refuted_in_n(table threats,
       break;
 
     case STLeafDirect:
-      assert(len_threat==slack_length_battle);
-      assert(n==slack_length_battle+1);
+      assert(len_threat==slack_length_battle+1);
+      assert(n==slack_length_battle+2);
       result = leaf_d_are_threats_refuted(threats,si);
       break;
 
@@ -193,7 +193,8 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     case STSeriesHashed:
     case STSeriesFork:
     {
-      stip_length_type const n_ser = n-slack_length_battle+slack_length_series;
+      stip_length_type const n_ser = (n-slack_length_battle-1
+                                      +slack_length_series);
       result = series_has_solution_in_n(si,n_ser) ? n : n+2;
       break;
     }
@@ -219,7 +220,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       break;
 
     case STLeafDirect:
-      assert(n==slack_length_battle+1);
+      assert(n==slack_length_battle+2);
       if (leaf_d_has_solution(si)==has_solution)
         result = n;
       break;
@@ -340,7 +341,7 @@ stip_length_type attack_solve_threats_in_n(table threats,
       break;
 
     case STLeafDirect:
-      assert(n==slack_length_battle+1);
+      assert(n==slack_length_battle+2);
       leaf_d_solve_threats(threats,si);
       break;
 
@@ -415,7 +416,7 @@ boolean attack_are_threats_refuted(table threats, slice_index si)
     case STAttackHashed:
     {
       stip_length_type const length = slices[si].u.branch.length;
-      result = attack_are_threats_refuted_in_n(threats,slack_length_battle,
+      result = attack_are_threats_refuted_in_n(threats,slack_length_battle+1,
                                                si,length);
       break;
     }
@@ -480,8 +481,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       break;
 
     case STLeafDirect:
-      assert(n==slack_length_battle+1);
-      assert(n_min==slack_length_battle+1);
+      assert(n==slack_length_battle+2);
+      assert(n_min==slack_length_battle+2);
       result = leaf_d_solve(si) ? n : n+2;
       break;
 
@@ -493,7 +494,8 @@ stip_length_type attack_solve_in_n(slice_index si,
     case STSeriesHashed:
     case STSeriesFork:
     {
-      stip_length_type const n_ser = n-slack_length_battle+slack_length_series;
+      stip_length_type const n_ser = (n-slack_length_battle-1
+                                      +slack_length_series);
       result = series_solve_in_n(si,n_ser);
       break;
     }
@@ -554,8 +556,8 @@ boolean attack_solve(slice_index si)
   {
     case STLeafDirect:
     {
-      stip_length_type const length = slack_length_battle+1;
-      stip_length_type const min_length = slack_length_battle+1;
+      stip_length_type const length = slack_length_battle+2;
+      stip_length_type const min_length = slack_length_battle+2;
       result = attack_solve_in_n(si,length,min_length)<=length;
       break;
     }

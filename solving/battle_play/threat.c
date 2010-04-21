@@ -134,7 +134,7 @@ static boolean has_short_continuation(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n<slack_length_battle+2)
+  if (n<slack_length_battle+3)
     /* remaining play in this slice is too short to allow short
      * continuations
      */
@@ -171,7 +171,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (len_threat<slack_length_battle)
+  if (len_threat<=slack_length_battle)
     /* that attack has something stronger than threats (typically, it
      * delivers check)
      */
@@ -180,7 +180,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
   {
     /* there is a threat - don't report variations shorter than it */
     if (has_short_continuation(si,len_threat,n_min))
-      result = (n-slack_length_battle)%2;
+      result = n_min-2;
     else if (attack_are_threats_refuted_in_n(threats[nbply],len_threat,next,n))
       result = attack_solve_in_n(next,n,n_min);
     else
@@ -251,7 +251,7 @@ static stip_length_type solve_threats(table threats,
   /* We don't write "Zugzwang" if the last attacking move of a full
    * length variation didn't deliver check
    */
-  if (n>=slack_length_battle && result==n+2)
+  if (n>slack_length_battle && result==n+2)
     Message(Zugzwang);
 
   TraceFunctionExit(__func__);

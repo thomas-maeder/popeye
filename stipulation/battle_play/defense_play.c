@@ -242,7 +242,7 @@ boolean defense_defend_in_n(slice_index si,
 
     case STHelpMove:
     {
-      stip_length_type const nhelp = n-slack_length_battle+slack_length_help;
+      stip_length_type const nhelp = n-slack_length_battle-1+slack_length_help;
       result = !help_solve_in_n(si,nhelp);
       break;
     }
@@ -396,8 +396,8 @@ boolean defense_defend(slice_index si)
 
     {
       boolean defend_result;
-      if (nr_moves_needed>slack_length_battle
-          && min_length<=slack_length_battle)
+      if (nr_moves_needed>slack_length_battle+1
+          && min_length<=slack_length_battle+1)
         min_length += 2;
       defend_result = defense_defend_in_n(si,length,min_length);
       assert(!defend_result);
@@ -432,7 +432,7 @@ boolean defense_can_defend(slice_index si)
   nr_moves_needed = defense_can_defend_in_n(si,
                                             n,n_min,
                                             max_nr_allowed_refutations);
-  result = nr_moves_needed<slack_length_battle || nr_moves_needed>n;
+  result = nr_moves_needed<=slack_length_battle || nr_moves_needed>n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

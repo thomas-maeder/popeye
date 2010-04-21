@@ -721,7 +721,7 @@ static boolean find_slice_with_nonstandard_min_length(void)
     switch (slices[si].type)
     {
       case STAttackHashed:
-        result = min_length==length && length>slack_length_battle+1;
+        result = min_length==length && length>slack_length_battle+2;
         break;
 
       case STHelpHashed:
@@ -1373,7 +1373,7 @@ static unsigned int estimateNumberOfHoles(void)
     switch (slices[si].type)
     {
       case STAttackHashed:
-        result += (length-slack_length_battle+1)/2;
+        result += (length-slack_length_battle)/2;
         break;
 
       case STHelpHashed:
@@ -2021,8 +2021,8 @@ static void insert_attack_hashed_slice(slice_index si)
     {
       case STLeafDirect:
       {
-        stip_length_type const length = slack_length_battle+1;
-        stip_length_type const min_length = slack_length_battle+1;
+        stip_length_type const length = slack_length_battle+2;
+        stip_length_type const min_length = slack_length_battle+2;
         pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,
                                                               min_length));
         break;

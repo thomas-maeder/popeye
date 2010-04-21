@@ -103,9 +103,9 @@ stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  assert(n_min>=slack_length_battle-1);
+  assert(n_min>=slack_length_battle);
 
-  if (n_min==slack_length_battle-1
+  if (n_min==slack_length_battle
       && slice_has_solution(towards_goal)>=has_solution)
     result = n_min;
   else
@@ -135,7 +135,8 @@ boolean self_defense_are_threats_refuted_in_n(table threats,
   slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const max_n_for_goal = length-min_length+slack_length_battle;
+  stip_length_type const max_n_for_goal = (length-min_length
+                                           +slack_length_battle+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",len_threat);
@@ -260,7 +261,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   switch (slice_has_solution(towards_goal))
   {
     case is_solved:
-      if (n_min<=slack_length_battle)
+      if (n_min<=slack_length_battle+1)
       {
         result = n_min;
         write_final_defense();
@@ -270,11 +271,11 @@ stip_length_type self_defense_solve_in_n(slice_index si,
         }
       }
       else
-        result = slack_length_battle-1;
+        result = slack_length_battle;
       break;
 
     case has_solution:
-      if (n_min<=slack_length_battle)
+      if (n_min<=slack_length_battle+1)
       {
         result = n_min;
         write_defense();
@@ -284,7 +285,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
         }
       }
       else
-        result = slack_length_battle-1;
+        result = slack_length_battle;
       break;
 
     case has_no_solution:
@@ -318,9 +319,9 @@ boolean self_defense_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length==slack_length_battle-1 && slice_solve(towards_goal))
+  if (min_length==slack_length_battle && slice_solve(towards_goal))
     result = false;
-  else if (length>slack_length_battle
+  else if (length>slack_length_battle+1
            && attack_has_solution_in_n(next,length,min_length)<=length)
     result = attack_solve(next);
   else

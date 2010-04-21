@@ -152,7 +152,7 @@ stip_length_type maxflight_guard_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle+2 && has_too_many_flights(defender))
+  if (n>slack_length_battle+3 && has_too_many_flights(defender))
     result = n+4;
   else
     result = defense_root_defend(next,n,n_min,max_nr_refutations);
@@ -188,7 +188,7 @@ boolean maxflight_guard_defend_in_n(slice_index si,
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (n>slack_length_battle+2 && has_too_many_flights(defender))
+  if (n>slack_length_battle+3 && has_too_many_flights(defender))
     result = true;
   else
     result = defense_defend_in_n(next,n,n_min);
@@ -229,7 +229,7 @@ maxflight_guard_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length_battle+2 && has_too_many_flights(defender))
+  if (n>slack_length_battle+3 && has_too_many_flights(defender))
     result = n+4;
   else
     result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);

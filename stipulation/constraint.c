@@ -494,7 +494,7 @@ void reflex_defender_filter_insert_root(slice_index si, stip_structure_traversal
     *root = guard;
 
     slices[si].u.branch.length -= 2;
-    if (slices[si].u.branch.min_length-slack_length_battle>=2)
+    if (slices[si].u.branch.min_length-slack_length_battle>=3)
       slices[si].u.branch.min_length -= 2;
   }
   
@@ -530,10 +530,10 @@ reflex_defender_filter_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n_min==slack_length_battle
+  if (n_min==slack_length_battle+1
       && slice_solve(slices[si].u.reflex_guard.avoided))
     result = n_min;
-  else if (n>slack_length_battle)
+  else if (n>slack_length_battle+1)
     result = defense_root_defend(next,n,n_min,max_nr_refutations);
   else
     result = n+4;
@@ -567,7 +567,7 @@ boolean reflex_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_battle)
+  if (n==slack_length_battle+1)
     result = !slice_solve(avoided);
   else
     result = defense_defend_in_n(next,n,n_min);
@@ -603,7 +603,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.reflex_guard.min_length;
   stip_length_type const max_n_for_avoided = (length-min_length
-                                              +slack_length_battle);
+                                              +slack_length_battle+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -616,11 +616,11 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
     switch (slice_has_solution(avoided))
     {
       case has_solution:
-        result = slack_length_battle;
+        result = slack_length_battle+1;
         break;
 
       case has_no_solution:
-        if (n>slack_length_battle)
+        if (n>slack_length_battle+1)
           result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
         break;
 
@@ -652,7 +652,7 @@ boolean reflex_defender_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length==slack_length_battle)
+  if (length==slack_length_battle+1)
     result = slice_root_solve(avoided);
   else if (solve_avoided(avoided))
     result = false;
@@ -1143,7 +1143,7 @@ static void reflex_guards_inserter_attack(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    stip_length_type const idx = (length-slack_length_battle)%2;
+    stip_length_type const idx = (length-slack_length_battle-1)%2;
     slice_index const proxy_to_avoided = param->to_be_avoided[idx];
     param->result = alloc_reflex_attacker_filter(length,min_length,
                                                  proxy_to_avoided);
@@ -1172,7 +1172,7 @@ static void reflex_guards_inserter_defense(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    stip_length_type const idx = (length-slack_length_battle)%2;
+    stip_length_type const idx = (length-slack_length_battle-1)%2;
     slice_index const proxy_to_avoided = param->to_be_avoided[idx];
     pipe_append(slices[si].prev,
                 alloc_reflex_defender_filter(length,min_length,
@@ -1371,7 +1371,7 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    stip_length_type const idx = (length-slack_length_battle)%2;
+    stip_length_type const idx = (length-slack_length_battle-1)%2;
     pipe_append(slices[si].prev,
                 alloc_reflex_defender_filter(length,min_length,
                                              param->to_be_avoided[idx]));

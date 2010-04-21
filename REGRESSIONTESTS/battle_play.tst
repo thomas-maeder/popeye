@@ -863,11 +863,11 @@ solution finished.
 
   1.Sd1-b2 ! 
       1...a4-a3 
-          2.e2-e3 
-              2...a3*b2 # 
           2.c3-c4 
               2...a3*b2 # 
           2.e2-e4 
+              2...a3*b2 # 
+          2.e2-e3 
               2...a3*b2 # 
 
 solution finished. 
@@ -956,7 +956,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#1                         2 + 3
 
-      1...Se1-c2 # 
+  1...Se1-c2 # 
 
   1.h3-h4 ! 
       1...Se1-c2 # 
@@ -1367,7 +1367,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   semi-r##!1                  3 + 2
 
-      1...Ka3-b2 ##! 
+  1...Ka3-b2 ##! 
 
 the side to play can capture the king
 solution finished. 
@@ -1433,11 +1433,11 @@ threat:
           2.Rh5*h4 threat:
                   3.Rh4-h8 # 
               2...f7-f6 
+                  3.Bf5-e6 threat:
+                          4.Rh4-h8 # 
                   3.Rh4-h8 + 
                       3...Ke8-f7 
                           4.Rh8-f8 # 
-                  3.Bf5-e6 threat:
-                          4.Rh4-h8 # 
       1...Ra4-e4 + 
           2.Sg3*e4 threat:
                   3.Rh5-h8 # 

@@ -185,7 +185,7 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = false;
-  else if (slack_length_battle<=len_threat
+  else if (slack_length_battle<len_threat
            && len_threat<=n
            && table_length(threats)>0)
     result = attack_are_threats_refuted_in_n(threats,len_threat,
@@ -226,8 +226,8 @@ selfcheck_guard_direct_solve_threats_in_n(table threats,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = (n-slack_length_battle)%2;
-  else if (n>=slack_length_battle)
+    result = n_min-2;
+  else if (n>slack_length_battle)
   {
     slice_index const next = slices[si].u.pipe.next;
     result = attack_solve_threats_in_n(threats,next,n,n_min);
@@ -270,7 +270,7 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = n_min-2;
-  else if (n>=slack_length_battle)
+  else if (n>slack_length_battle)
     result = attack_has_solution_in_n(next,n,n_min);
   else
     result = n+2;
@@ -750,7 +750,7 @@ stip_length_type selfcheck_guard_solve_in_n(slice_index si,
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = n_min-2;
-  else if (n>=slack_length_battle)
+  else if (n>slack_length_battle)
     result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
   else
     result = n+2;

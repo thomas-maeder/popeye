@@ -61,7 +61,7 @@ stip_length_type get_max_threat_length(void)
  */
 static stip_length_type get_n_max(stip_length_type n)
 {
-  stip_length_type const result = 2*(max_len_threat-1)+slack_length_battle+1;
+  stip_length_type const result = 2*(max_len_threat-1)+slack_length_battle+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);

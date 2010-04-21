@@ -75,7 +75,7 @@ direct_defender_filter_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_battle)
+  if (n_min<=slack_length_battle+1)
     switch (slice_has_solution(to_goal))
     {
       case is_solved:
@@ -99,7 +99,7 @@ direct_defender_filter_root_defend(slice_index si,
         break;
 
       case has_no_solution:
-        if (n>=slack_length_battle)
+        if (n>slack_length_battle)
           result = defense_root_defend(next,n,n_min,max_nr_refutations);
         else
           result = n+4;
@@ -141,7 +141,7 @@ boolean direct_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_battle)
+  if (n_min<=slack_length_battle+1)
     switch (slice_has_solution(to_goal))
     {
       case is_solved:
@@ -163,7 +163,7 @@ boolean direct_defender_filter_defend_in_n(slice_index si,
         break;
 
       case has_no_solution:
-        if (n>=slack_length_battle)
+        if (n>slack_length_battle)
           result = defense_defend_in_n(next,n,n_min);
         else
           result = true;
@@ -213,9 +213,10 @@ direct_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
 
-  if (n_min<=slack_length_battle && slice_has_solution(to_goal)>=has_solution)
+  if (n_min<=slack_length_battle+1
+      && slice_has_solution(to_goal)>=has_solution)
     result = n_min;
-  else if (n>=slack_length_battle)
+  else if (n>slack_length_battle)
     result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
   else
     result = n+4;
@@ -241,7 +242,7 @@ void direct_defense_root_make_setplay_slice(slice_index si,
 
   prod->sibling = si;
 
-  if (slices[si].u.branch.length==slack_length_battle+1)
+  if (slices[si].u.branch.length==slack_length_battle+2)
   {
     slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
     assert(slices[proxy_to_goal].type==STProxy);

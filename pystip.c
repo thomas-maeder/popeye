@@ -3010,7 +3010,7 @@ void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st)
   }
 
   TraceValue("%u\n",st->remaining);
-  if (st->remaining<=slack_length_battle)
+  if (st->remaining<=slack_length_battle+1)
   {
     stip_length_type const save_n = st->remaining;
     ++st->level;

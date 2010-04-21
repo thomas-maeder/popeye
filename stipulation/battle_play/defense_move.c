@@ -26,9 +26,9 @@ slice_index alloc_defense_move_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  if (min_length<slack_length_battle)
+  if (min_length<=slack_length_battle)
     min_length += 2;
-  assert(min_length>=slack_length_battle);
+  assert(min_length>slack_length_battle);
   result = alloc_branch(STDefenseMove,length,min_length);
 
   TraceFunctionExit(__func__);
@@ -434,14 +434,14 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
   /* TODO create a design for representing all these move generation
    * modes
    */
-  if (n==slack_length_battle && slices[si].u.branch.imminent_goal!=no_goal)
+  if (n==slack_length_battle+1 && slices[si].u.branch.imminent_goal!=no_goal)
     result = iterate_last_self_defenses(si,
                                         n,n_min,
                                         defender,
                                         max_nr_refutations);
   else
   {
-    if (n-1==slack_length_battle)
+    if (n==slack_length_battle)
     {
       move_generation_mode = move_generation_optimized_by_killer_move;
       TraceValue("->%u\n",move_generation_mode);
@@ -487,7 +487,7 @@ void defense_move_make_setplay_slice(slice_index si,
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const length_h = (length
                                        +slack_length_help
-                                       -slack_length_battle);
+                                       -slack_length_battle-1);
     slice_index const move = alloc_help_move_slice(length_h,length_h);
     prod->setplay_slice = alloc_help_root_slice(length_h,length_h);
     pipe_link(prod->setplay_slice,move);

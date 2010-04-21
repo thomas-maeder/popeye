@@ -481,13 +481,13 @@ Loesung beendet.
                       3...Ta6-h6 
                           4.Tb8-b7 + 
                               4...Kc7-d6 
-                                  5.Tb7-b1 Zugzwang.
-                                      5...Th6-h1 
-                                          6.Ke8-d8 
-                                              6...Th1-h8 # 
                                   5.Ke8-d8 Zugzwang.
                                       5...Th6-h1 
                                           6.Tb7-b1 
+                                              6...Th1-h8 # 
+                                  5.Tb7-b1 Zugzwang.
+                                      5...Th6-h1 
+                                          6.Ke8-d8 
                                               6...Th1-h8 # 
       1...Kb8-a7 
           2.Ke7-d7 Zugzwang.

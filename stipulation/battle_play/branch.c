@@ -88,8 +88,8 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(length>=slack_length_battle);
-  assert(min_length>=slack_length_battle);
+  assert(length>slack_length_battle);
+  assert(min_length>slack_length_battle);
   assert(min_length%2==length%2);
 
   result = alloc_proxy_slice();
@@ -126,7 +126,7 @@ slice_index alloc_battle_branch(stip_length_type length,
  */
 stip_length_type battle_branch_calc_n_min(slice_index si, stip_length_type n)
 {
-  stip_length_type const parity = (n+2-slack_length_battle)%2;
+  stip_length_type const parity = (n-slack_length_battle)%2;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type result;
@@ -136,10 +136,10 @@ stip_length_type battle_branch_calc_n_min(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n+min_length>slack_length_battle+length)
+  if (n+min_length>slack_length_battle+1+length)
     result = n-(length-min_length);
   else
-    result = slack_length_battle+parity;
+    result = slack_length_battle+2-parity;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -157,7 +157,7 @@ void battle_branch_shorten_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   slices[si].u.branch.length -= 2;
-  if (slices[si].u.branch.min_length>=slack_length_battle+1)
+  if (slices[si].u.branch.min_length>=slack_length_battle+2)
     slices[si].u.branch.min_length -= 2;
 
   TraceFunctionExit(__func__);

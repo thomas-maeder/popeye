@@ -55,7 +55,7 @@ maxsolutions_root_defender_filter_defend(slice_index si,
   else
   {
     result = defense_root_defend(next,n,n_min,max_nr_refutations);
-    if (slack_length_battle<=result && result<=n)
+    if (slack_length_battle<result && result<=n)
       increase_nr_found_solutions();
   }
 

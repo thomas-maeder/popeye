@@ -2634,7 +2634,7 @@ static void remember_imminent_goal_battle_move(slice_index si,
 
   stip_traverse_moves_branch(si,st);
 
-  if (st->remaining==slack_length_battle)
+  if (st->remaining==slack_length_battle+1)
   {
     slices[si].u.branch.imminent_goal = igs->goal;
     slices[si].u.branch.imminent_target = igs->target;
@@ -2662,10 +2662,10 @@ static void remember_imminent_goal_attack_root(slice_index si,
 
   stip_traverse_moves_branch(si,st);
 
-  if (slices[si].u.branch.min_length==slack_length_battle)
+  if (slices[si].u.branch.min_length==slack_length_battle+1)
   {
     stip_length_type const save_remaining = st->remaining;
-    st->remaining = slack_length_battle;
+    st->remaining = slack_length_battle+1;
     stip_traverse_moves_branch(si,st);
     st->remaining = save_remaining;
     slices[si].u.branch.imminent_goal = igs->goal;

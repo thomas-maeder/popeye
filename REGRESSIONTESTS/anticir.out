@@ -336,13 +336,13 @@ Loesung beendet.
           2.Tg1-e1 # 
           2.Tg1-g2 # 
       1...Le7-d6 
-          2.Tg1-g2 # 
           2.Tg1-c1 # 
           2.Tg1-e1 # 
+          2.Tg1-g2 # 
       1...Tf7-f3 
-          2.Tg1-e1 # 
           2.g7-g8=T # 
           2.Tg1-d1 # 
+          2.Tg1-e1 # 
           2.Tg1-g2 # 
       1...Tf7-f4 
           2.g7-g8=T # 
@@ -410,74 +410,74 @@ Loesung beendet.
           2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Dc6-b5 
-          2.Te1-e5 # 
           2.Dd7*b5[wDb5->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Tc4-d4 # 
+          2.Te1-e5 # 
       1...Dc6-a8 
-          2.Tc4-d4 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
+          2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Dc6-b7 
-          2.Te1-e5 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*b7[wDb7->d1] # 
           2.Tc4-d4 # 
+          2.Te1-e5 # 
       1...Dc6*b6[sDb6->d8] 
-          2.Tc4-d4 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*d8[wDd8->d1] # 
+          2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Dc6-c7 
-          2.Te1-e5 # 
           2.Dd7*a4[wDa4->d1] # 
           2.Dd7*c8[wDc8->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*c7[wDc7->d1] # 
           2.Tc4-d4 # 
+          2.Te1-e5 # 
       1...Tc8-c7 
-          2.Tc4-d4 # 
           2.Dd7*c6[wDc6->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*c7[wDc7->d1] # 
+          2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Tc8-a8 
+          2.Dd7*c6[wDc6->d1] # 
+          2.Dd7*d6[wDd6->d1] # 
+          2.Tc4-d4 # 
           2.Te1-e5 # 
-          2.Dd7*c6[wDc6->d1] # 
-          2.Dd7*d6[wDd6->d1] # 
-          2.Tc4-d4 # 
       1...Tc8-b8 
-          2.Tc4-d4 # 
           2.Dd7*c6[wDc6->d1] # 
           2.Dd7*d6[wDd6->d1] # 
+          2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Tc8-d8 
-          2.Te1-e5 # 
           2.Dd7*c6[wDc6->d1] # 
           2.Dd7*d6[wDd6->d1] # 
           2.Dd7*d8[wDd8->d1] # 
           2.Tc4-d4 # 
+          2.Te1-e5 # 
       1...Te8-e7 
           2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Te8-d8 
-          2.Te1-e5 # 
           2.Sg8-e7 # 
           2.Tc4-d4 # 
+          2.Te1-e5 # 
       1...Te8*g8[sTg8->a8] 
           2.Tc4-d4 # 
           2.Te1-e5 # 
       1...Te8-f8 
-          2.Te1-e5 # 
           2.Sg8-e7 # 
           2.Tc4-d4 # 
+          2.Te1-e5 # 
     Aber
       1...Dc6*d7[sDd7->d8]  !
 
@@ -1263,8 +1263,8 @@ Loesung beendet.
           2.b7*a8=T[wTa8->h1] # 
           2.Ta6*a8[wTa8->h1] # 
       1...Tc5*b5[sTb5->a8] + 
-          2.Ta6*a8[wTa8->h1] # 
           2.b7*a8=T[wTa8->h1] # 
+          2.Ta6*a8[wTa8->h1] # 
       1...Tc5-c8 + 
           2.b7*c8=T[wTc8->h1] # 
       1...Tc5-c6 

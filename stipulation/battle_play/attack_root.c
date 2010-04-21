@@ -56,16 +56,16 @@ boolean attack_root_root_solve(slice_index si)
 
   output_start_continuation_level();
 
-  if (min_length==slack_length_battle
+  if (min_length==slack_length_battle+1
       && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
-    min_length = slack_length_battle+2;
+    min_length = slack_length_battle+3;
 
   if (min_length<=length)
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = si;
-    if (length<=slack_length_battle
+    if (length<=slack_length_battle+1
         && slices[si].u.branch.imminent_goal!=no_goal)
     {
       empile_for_goal = slices[si].u.branch.imminent_goal;

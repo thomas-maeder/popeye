@@ -1835,8 +1835,8 @@ static char *ParseLength(char *tok,
         else
         {
           *length *= 2;
-          *length += slack_length_battle-2;
-          *min_length = slack_length_battle;
+          *length += slack_length_battle-1;
+          *min_length = slack_length_battle+1;
         }
         break;
 
@@ -2144,8 +2144,8 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_leaf)
   if (result!=0)
   {
     slice_index const
-        defense_branch = alloc_defense_branch(slack_length_battle,
-                                              slack_length_battle);
+        defense_branch = alloc_defense_branch(slack_length_battle+1,
+                                              slack_length_battle+1);
     slice_index const hook = slice_insert_self_guards(defense_branch,
                                                       proxy_leaf);
     slice_index const series
@@ -2246,8 +2246,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
         if (result!=0)
         {
           slice_index const
-              defense_branch = alloc_defense_branch(slack_length_battle,
-                                                    slack_length_battle);
+              defense_branch = alloc_defense_branch(slack_length_battle+1,
+                                                    slack_length_battle+1);
           slice_index const hook = slice_insert_self_guards(defense_branch,
                                                             proxy_leaf);
           /* in ser-hs, the series is 1 half-move longer than in usual
@@ -2410,13 +2410,13 @@ static char *ParsePlay(char *tok, slice_index proxy)
         slice_index const after_parry = convert_to_parry_series_branch(next,
                                                                        proxy);
         slice_index const
-            writer = alloc_continuation_writer_slice(slack_length_battle+1,
-                                                     slack_length_battle+1);
-        slice_index const def = alloc_defense_move_slice(slack_length_battle+1,
-                                                         slack_length_battle+1);
+            writer = alloc_continuation_writer_slice(slack_length_battle+2,
+                                                     slack_length_battle+2);
+        slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
+                                                         slack_length_battle+2);
         slice_index const
-            guard = alloc_selfcheck_guard_attacker_filter(slack_length_battle,
-                                                          slack_length_battle);
+            guard = alloc_selfcheck_guard_attacker_filter(slack_length_battle+1,
+                                                          slack_length_battle+1);
         pipe_link(proxy,writer);
         pipe_link(writer,def);
         pipe_link(def,guard);
@@ -2532,8 +2532,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
         if (result!=0)
         {
           slice_index const
-              defense_branch = alloc_defense_branch(slack_length_battle,
-                                                    slack_length_battle);
+              defense_branch = alloc_defense_branch(slack_length_battle+1,
+                                                    slack_length_battle+1);
           slice_index const hook = slice_insert_self_guards(defense_branch,
                                                             proxy_leaf);
           slice_index const branch = alloc_help_branch(length,min_length,hook);
@@ -2891,14 +2891,14 @@ static char *ParseStructuredStip_branch_d(char *tok,
     tok = ParseStructuredStip_operand(tok,proxy_operand,nextStartLikeBranch);
     if (tok!=0)
     {
-      min_length += slack_length_battle+max_length%2;
-      max_length += slack_length_battle;
+      min_length += slack_length_battle+1+max_length%2;
+      max_length += slack_length_battle+1;
       {
         slice_index branch = alloc_battle_branch(max_length,min_length);
         slice_index hook;
 
         /* TODO get this right */
-        if ((max_length-slack_length_battle)%2==0)
+        if ((max_length-slack_length_battle-1)%2==0)
           hook = slice_insert_direct_guards(branch,proxy_operand);
         else
         {
