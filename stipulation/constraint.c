@@ -502,9 +502,7 @@ void reflex_defender_filter_insert_root(slice_index si, stip_structure_traversal
     pipe_link(guard,*root);
     *root = guard;
 
-    slices[si].u.branch.length -= 2;
-    if (slices[si].u.branch.min_length-slack_length_battle>=3)
-      slices[si].u.branch.min_length -= 2;
+    battle_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);
