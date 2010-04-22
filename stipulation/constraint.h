@@ -42,11 +42,11 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
                                                    stip_length_type n,
                                                    stip_length_type n_min);
 
-/* Solve a slice - adapter for direct slices
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean reflex_attacker_filter_solve(slice_index si);
+has_solution_type reflex_attacker_filter_solve(slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

@@ -99,7 +99,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STLeafHelp:
       assert(n==slack_length_help+1);
-      result = leaf_h_solve(si);
+      result = leaf_h_solve(si)>=has_solution;
       break;
 
     case STReflexHelpFilter:

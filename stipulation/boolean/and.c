@@ -183,13 +183,13 @@ boolean reci_root_solve(slice_index si)
   return result;
 }
 
-/* Continue solving at the end of a reciprocal slice
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean reci_solve(slice_index si)
+has_solution_type reci_solve(slice_index si)
 {
-  boolean result = false;
+  has_solution_type result;
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
 
@@ -202,28 +202,31 @@ boolean reci_solve(slice_index si)
 
   switch (slice_has_solution(op2))
   {
-    case has_solution:
-      if (slice_solve(op1))
+    case is_solved:
+      result = slice_solve(op1);
+      if (result>=has_solution)
       {
-        boolean const result2 = slice_solve(op2);
-        assert(result2);
-        result = true;
+        has_solution_type const result2 = slice_solve(op2);
+        assert(result2==is_solved);
       }
       break;
 
-    case is_solved:
-      slice_solve(op1);
-      slice_solve(op2);
-      result = true;
+    case has_solution:
+      result = slice_solve(op1);
+      if (result>=has_solution)
+      {
+        has_solution_type const result2 = slice_solve(op2);
+        assert(result2==has_solution);
+      }
       break;
 
     default:
-      result = false;
+      result = has_no_solution;
       break;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

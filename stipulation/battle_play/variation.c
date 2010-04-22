@@ -83,6 +83,7 @@ stip_length_type variation_writer_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
   result = attack_has_solution_in_n(next,n,n_min);
@@ -161,29 +162,51 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice - adapter for direct slices
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean variation_writer_solve(slice_index si)
+has_solution_type variation_writer_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type nr_moves;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (attack_has_solution(next)==has_solution)
+  nr_moves = attack_has_solution_in_n(next,length,min_length);
+
+  if (nr_moves==min_length-4)
+    result = defender_self_check;
+  else if (nr_moves==min_length-2)
   {
+    result = is_solved;
+    write_final_defense();
+    {
+      stip_length_type const
+          solve_result = attack_solve_in_n(next,length,min_length);
+      assert(solve_result==min_length-2);
+    }
+  }
+  else if (nr_moves<=length)
+  {
+    result = has_solution;
     write_defense();
-    result = attack_solve(next);
+    {
+      stip_length_type const
+          solve_result = attack_solve_in_n(next,length,min_length);
+      assert(solve_result<=length);
+    }
   }
   else
-    result = false;
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -222,6 +245,33 @@ static void variation_writer_branch_append(slice_index si,
 
   stip_traverse_structure_children(si,st);
   pipe_append(si,alloc_variation_writer_slice(length,min_length));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Append a variation writer if none has been inserted before
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void variation_writer_insert_self_defense(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  slice_index const next = slices[si].u.branch_fork.next;
+  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const goal = slices[proxy_to_goal].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[proxy_to_goal].type==STProxy);
+
+  stip_traverse_structure(next,st);
+
+  pipe_append(proxy_to_goal,
+              alloc_variation_writer_slice(slack_length_battle,
+                                           slack_length_battle));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -297,7 +347,7 @@ static stip_structure_visitor const variation_handler_inserters[] =
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfDefense */
+  &variation_writer_insert_self_defense, /* STSelfDefense */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */

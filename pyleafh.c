@@ -107,7 +107,7 @@ boolean leaf_h_root_solve(slice_index leaf)
   init_output(leaf);
 
   isIntelligentModeActive = false;
-  result = leaf_h_solve(leaf);
+  result = leaf_h_solve(leaf)>=has_solution;
   write_end_of_solution_phase();
   isIntelligentModeActive = save_isIntelligentModeActive;
 
@@ -117,13 +117,13 @@ boolean leaf_h_root_solve(slice_index leaf)
   return result;
 }
 
-/* Determine and write the solution of a help leaf slice.
- * @param leaf slice index
- * @return true iff >=1 solution was found
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean leaf_h_solve(slice_index leaf)
+has_solution_type leaf_h_solve(slice_index leaf)
 {
-  boolean result = false;
+  has_solution_type result = has_no_solution;
   Side const side_at_move = slices[leaf].starter;
   Goal const goal = slices[leaf].u.leaf.goal;
 
@@ -150,7 +150,7 @@ boolean leaf_h_solve(slice_index leaf)
           && !(isIntelligentModeActive && !isGoalReachable())
           && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
       {
-        result = true;
+        result = has_solution;
         write_final_help_move(slices[leaf].u.leaf.goal);
       }
 
@@ -163,7 +163,7 @@ boolean leaf_h_solve(slice_index leaf)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

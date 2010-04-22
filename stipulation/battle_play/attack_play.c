@@ -201,6 +201,40 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = self_defense_direct_has_solution_in_n(si,n,n_min);
       break;
 
+    case STLeafDirect:
+      assert(n==slack_length_battle+2);
+      if (leaf_d_has_solution(si)==has_solution)
+        result = n;
+      break;
+
+    case STLeafForced:
+    case STQuodlibet:
+      assert(n==slack_length_battle);
+      switch (slice_has_solution(si))
+      {
+        case defender_self_check:
+          result = n-4;
+          break;
+
+        case is_solved:
+          result = n-2;
+          break;
+
+        case has_solution:
+          result = n;
+          break;
+
+        case has_no_solution:
+          result = n+2;
+          break;
+
+        default:
+          assert(0);
+          result = n+2;
+          break;
+      }
+      break;
+
     case STReflexAttackerFilter:
       result = reflex_attacker_filter_has_solution_in_n(si,n,n_min);
       break;
@@ -215,12 +249,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STDegenerateTree:
       result = degenerate_tree_direct_has_solution_in_n(si,n,n_min);
-      break;
-
-    case STLeafDirect:
-      assert(n==slack_length_battle+2);
-      if (leaf_d_has_solution(si)==has_solution)
-        result = n;
       break;
 
     case STMaxNrNonTrivialCounter:
@@ -245,14 +273,14 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 has_solution_type attack_has_solution(slice_index si)
 {
   has_solution_type result;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const n_min = battle_branch_calc_n_min(si,length);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const n_min = slices[si].u.branch.min_length;
     stip_length_type const sol_length = attack_has_solution_in_n(si,
                                                                  length,n_min);
     if (sol_length==n_min-4)
@@ -495,6 +523,34 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = leaf_d_solve(si) ? n : n+2;
       break;
 
+    case STLeafForced:
+    case STQuodlibet:
+      assert(n==slack_length_battle);
+      switch (slice_solve(si))
+      {
+        case defender_self_check:
+          result = n-4;
+          break;
+
+        case is_solved:
+          result = n-2;
+          break;
+
+        case has_solution:
+          result = n;
+          break;
+
+        case has_no_solution:
+          result = n+2;
+          break;
+
+        default:
+          assert(0);
+          result = n+2;
+          break;
+      }
+      break;
+
     case STAttackMove:
       result = attack_move_solve_in_n(si,n,n_min);
       break;
@@ -549,13 +605,13 @@ stip_length_type attack_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice - adapter for direct slices
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean attack_solve(slice_index si)
+has_solution_type attack_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -569,7 +625,14 @@ boolean attack_solve(slice_index si)
       stip_length_type const min_length = slack_length_battle+2;
       stip_length_type const sol_length = attack_solve_in_n(si,
                                                             length,min_length);
-      result = min_length-2<=sol_length && sol_length<=length;
+      if (sol_length==min_length-4)
+        result = defender_self_check;
+      else if (sol_length==min_length-2)
+        result = is_solved;
+      else if (sol_length<=length)
+        result = has_solution;
+      else
+        result = has_no_solution;
       break;
     }
 
@@ -591,13 +654,20 @@ boolean attack_solve(slice_index si)
       stip_length_type const min_length = slices[si].u.branch.min_length;
       stip_length_type const sol_length = attack_solve_in_n(si,
                                                             length,min_length);
-      result = min_length-2<=sol_length && sol_length<=length;
+      if (sol_length==min_length-4)
+        result = defender_self_check;
+      else if (sol_length==min_length-2)
+        result = is_solved;
+      else if (sol_length<=length)
+        result = has_solution;
+      else
+        result = has_no_solution;
       break;
     }
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

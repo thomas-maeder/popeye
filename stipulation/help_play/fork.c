@@ -83,7 +83,7 @@ boolean help_fork_solve_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    result = slice_solve(slices[si].u.branch_fork.towards_goal);
+    result = slice_solve(slices[si].u.branch_fork.towards_goal)>=has_solution;
   else
     result = help_solve_in_n(slices[si].u.pipe.next,n);
 

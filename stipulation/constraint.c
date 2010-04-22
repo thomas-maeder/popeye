@@ -287,7 +287,7 @@ static boolean solve_avoided(slice_index avoided)
   TraceFunctionParamListEnd();
 
   output_start_unsolvability_mode();
-  result = slice_solve(avoided);
+  result = slice_solve(avoided)>=has_solution;
   output_end_unsolvability_mode();
 
   if (result)
@@ -379,13 +379,13 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice - adapter for direct slices
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean reflex_attacker_filter_solve(slice_index si)
+has_solution_type reflex_attacker_filter_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -396,10 +396,10 @@ boolean reflex_attacker_filter_solve(slice_index si)
   if (slice_has_solution(avoided)==has_no_solution)
     result = attack_solve(next);
   else
-    result = false;
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
@@ -537,13 +537,35 @@ reflex_defender_filter_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n_min==slack_length_battle+1
-      && slice_solve(slices[si].u.reflex_guard.avoided))
-    result = n_min;
-  else if (n>slack_length_battle+1)
-    result = defense_root_defend(next,n,n_min,max_nr_refutations);
+  if (n_min==slack_length_battle+1)
+    switch (slice_solve(slices[si].u.reflex_guard.avoided))
+    {
+      case is_solved:
+        result = n_min-2;
+        break;
+
+      case has_solution:
+        result = n_min;
+        break;
+
+      case has_no_solution:
+        if (n>slack_length_battle+1)
+          result = defense_root_defend(next,n,n_min,max_nr_refutations);
+        else
+          result = n+4;
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
   else
-    result = n+4;
+  {
+    if (n>slack_length_battle+1)
+      result = defense_root_defend(next,n,n_min,max_nr_refutations);
+    else
+      result = n+4;
+  }
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -575,7 +597,7 @@ boolean reflex_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==slack_length_battle+1)
-    result = !slice_solve(avoided);
+    result = slice_solve(avoided)<has_solution;
   else
     result = defense_defend_in_n(next,n,n_min);
 
@@ -623,7 +645,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
     switch (slice_has_solution(avoided))
     {
       case has_solution:
-        result = slack_length_battle+1;
+        result = n_min;
         break;
 
       case has_no_solution:
@@ -824,7 +846,7 @@ boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n)
 
   /* TODO exact - but what does it mean??? */
   if (n==slack_length_help)
-    result = slice_solve(avoided);
+    result = slice_solve(avoided)>=has_solution;
   else if (slice_has_solution(avoided)==has_solution)
     result = false;
   else 

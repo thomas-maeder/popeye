@@ -43,11 +43,11 @@ boolean quodlibet_are_threats_refuted(table threats, slice_index si);
  */
 has_solution_type quodlibet_has_solution(slice_index si);
 
-/* Solve a quodlibet slice
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean quodlibet_solve(slice_index si);
+has_solution_type quodlibet_solve(slice_index si);
 
 /* Solve a quodlibet slice at root level
  * @param si slice index

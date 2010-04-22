@@ -100,7 +100,7 @@ slice_index alloc_refuting_variation_writer_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  if (min_length<=slack_length_battle)
+  if (min_length<slack_length_battle)
     min_length += 2;
   result = alloc_branch(STRefutingVariationWriter,length,min_length);
 
@@ -323,16 +323,16 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
  */
 static void prepend_refutes_writer(slice_index si, stip_structure_traversal *st)
 {
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index const prev = slices[si].prev;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
+  if (length>slack_length_battle)
     pipe_append(prev,alloc_refuting_variation_writer_slice(length,min_length));
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

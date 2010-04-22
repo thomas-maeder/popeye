@@ -82,8 +82,8 @@ direct_defender_filter_root_defend(slice_index si,
         result = n_min;
         write_final_attack();
         {
-          boolean const solving_result = slice_solve(to_goal);
-          assert(solving_result);
+          has_solution_type const solving_result = slice_solve(to_goal);
+          assert(solving_result==is_solved);
         }
         write_root_attack_decoration(nbply,attack_key);
         break;
@@ -92,8 +92,8 @@ direct_defender_filter_root_defend(slice_index si,
         result = n_min;
         write_attack();
         {
-          boolean const solving_result = slice_solve(to_goal);
-          assert(solving_result);
+          has_solution_type const solving_result = slice_solve(to_goal);
+          assert(solving_result==has_solution);
         }
         write_root_attack_decoration(nbply,attack_key);
         break;
@@ -148,8 +148,8 @@ boolean direct_defender_filter_defend_in_n(slice_index si,
         result = false;
         write_final_attack();
         {
-          boolean const solving_result = slice_solve(to_goal);
-          assert(solving_result);
+          has_solution_type const solving_result = slice_solve(to_goal);
+          assert(solving_result==is_solved);
         }
         break;
 
@@ -157,8 +157,8 @@ boolean direct_defender_filter_defend_in_n(slice_index si,
         result = false;
         write_attack();
         {
-          boolean const solving_result = slice_solve(to_goal);
-          assert(solving_result);
+          has_solution_type const solving_result = slice_solve(to_goal);
+          assert(solving_result==has_solution);
         }
         break;
 

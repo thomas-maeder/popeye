@@ -58,13 +58,13 @@ void not_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine and write the solution
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean not_solve(slice_index si)
+has_solution_type not_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -74,10 +74,29 @@ boolean not_solve(slice_index si)
    * be written to the hash table!
    */
 
-  result = slice_has_solution(slices[si].u.pipe.next)!=has_solution;
+  switch (slice_has_solution(slices[si].u.pipe.next))
+  {
+    case is_solved:
+    case has_solution:
+      result = has_no_solution;
+      break;
+
+    case has_no_solution:
+      result = has_solution;
+      break;
+
+    case defender_self_check:
+      result = defender_self_check;
+      break;
+
+    default:
+      assert(0);
+      result = defender_self_check;
+      break;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

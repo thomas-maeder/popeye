@@ -196,14 +196,15 @@ has_solution_type quodlibet_has_solution(slice_index si)
   return result;
 }
 
-/* Solve a quodlibet slice
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean quodlibet_solve(slice_index si)
+has_solution_type quodlibet_solve(slice_index si)
 {
-  boolean found_solution_op1 = false;
-  boolean found_solution_op2 = false;
+  has_solution_type result;
+  has_solution_type found_solution_op1;
+  has_solution_type found_solution_op2;
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
 
@@ -211,16 +212,18 @@ boolean quodlibet_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
   /* avoid short-cut boolean evaluation */
   found_solution_op1 = slice_solve(op1);
   found_solution_op2 = slice_solve(op2);
 
+  result = (found_solution_op1>found_solution_op2
+            ? found_solution_op1
+            : found_solution_op2);
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u\n",found_solution_op1 || found_solution_op2);
-  return found_solution_op1 || found_solution_op2;
+  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Detect starter field with the starting side if possible.

@@ -25,12 +25,6 @@ void slice_solve_threats(table threats, slice_index si);
  */
 boolean slice_are_threats_refuted(table threats, slice_index si);
 
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_solve(slice_index si);
-
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -47,6 +41,12 @@ boolean slice_root_solve(slice_index si);
 #define ENUMERATION_DECLARE
 
 #include "pyenum.h"
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type slice_solve(slice_index si);
 
 /* Determine whether a composite slice has a solution
  * @param si slice index

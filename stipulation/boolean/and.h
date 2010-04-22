@@ -50,11 +50,11 @@ void reci_solve_threats(table threats, slice_index si);
  */
 boolean reci_root_solve(slice_index si);
 
-/* Continue solving at the end of a reciprocal slice
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean reci_solve(slice_index si);
+has_solution_type reci_solve(slice_index si);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

@@ -15,11 +15,11 @@
  */
 has_solution_type leaf_forced_has_solution(slice_index leaf);
 
-/* Solve at non-root level
- * @param leaf slice index
- * @return true iff >=1 solution was found
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean leaf_forced_solve(slice_index leaf);
+has_solution_type leaf_forced_solve(slice_index leaf);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

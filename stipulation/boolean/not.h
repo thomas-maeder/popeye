@@ -21,11 +21,11 @@ slice_index alloc_not_slice(slice_index op);
  */
 void not_insert_root(slice_index si, stip_structure_traversal *st);
 
-/* Determine and write the solution
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean not_solve(slice_index si);
+has_solution_type not_solve(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index

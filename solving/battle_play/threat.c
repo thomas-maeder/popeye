@@ -442,17 +442,20 @@ static void prepend_threat_writer(slice_index si, stip_structure_traversal *st)
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
-static void prepend_threat_enforcer(slice_index si, stip_structure_traversal *st)
+static void prepend_threat_enforcer(slice_index si,
+                                    stip_structure_traversal *st)
 {
+  stip_length_type const length = slices[si].u.branch.length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
+  if (length>slack_length_battle)
   {
     slice_index const prev = slices[si].prev;
-    stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     pipe_append(prev,alloc_threat_enforcer_slice(length,min_length));
   }

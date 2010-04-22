@@ -69,7 +69,7 @@ boolean series_fork_solve_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_series);
 
   if (n==slack_length_series)
-    result = slice_solve(to_goal);
+    result = slice_solve(to_goal)>=has_solution;
   else
     result = series_solve_in_n(next,n);
 

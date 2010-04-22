@@ -106,7 +106,7 @@ alloc_selfcheck_guard_root_defender_filter(stip_length_type length,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean selfcheck_guard_solve(slice_index si);
+has_solution_type selfcheck_guard_solve(slice_index si);
 
 /* Solve a slice at non-root level
  * @param si slice index

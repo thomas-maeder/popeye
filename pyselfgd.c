@@ -6,7 +6,6 @@
 #include "stipulation/help_play/play.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "pyoutput.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -279,47 +278,54 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  switch (slice_has_solution(towards_goal))
-  {
-    case defender_self_check:
-      result = n_min-4;
-      break;
+  if (n_min<=slack_length_battle+1)
+    switch (slice_solve(towards_goal))
+    {
+      case defender_self_check:
+        result = n_min-4;
+        break;
 
-    case is_solved:
-      result = n_min-2;
-      if (n_min<=slack_length_battle+1)
-      {
-        write_final_defense();
-        {
-          boolean const solving_result = slice_solve(towards_goal);
-          assert(solving_result);
-        }
-      }
-      break;
-
-    case has_solution:
-      if (n_min<=slack_length_battle+1)
-      {
-        result = n_min;
-        write_defense();
-        {
-          boolean const solving_result = slice_solve(towards_goal);
-          assert(solving_result);
-        }
-      }
-      else
+      case is_solved:
         result = n_min-2;
-      break;
+        break;
 
-    case has_no_solution:
-      result = attack_solve_in_n(next,n,n_min);
-      break;
+      case has_solution:
+        result = n_min;
+        break;
 
-    default:
-      assert(0);
-      result = n+2;
-      break;
-  }
+      case has_no_solution:
+        result = attack_solve_in_n(next,n,n_min);
+        break;
+
+      default:
+        assert(0);
+        result = n+2;
+        break;
+    }
+  else
+    switch (slice_has_solution(towards_goal))
+    {
+      case defender_self_check:
+        result = n_min-4;
+        break;
+
+      case is_solved:
+        result = n_min-2;
+        break;
+
+      case has_solution:
+        result = n_min;
+        break;
+
+      case has_no_solution:
+        result = attack_solve_in_n(next,n,n_min);
+        break;
+
+      default:
+        assert(0);
+        result = n+2;
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -327,13 +333,13 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice - adapter for direct slices
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean self_defense_solve(slice_index si)
+has_solution_type self_defense_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
   stip_length_type const length = slices[si].u.branch.length;
@@ -343,16 +349,31 @@ boolean self_defense_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length==slack_length_battle && slice_solve(towards_goal))
-    result = false;
-  else if (length>slack_length_battle+1
-           && attack_has_solution_in_n(next,length,min_length)<=length)
-    result = attack_solve(next);
+  if (min_length==slack_length_battle)
+  {
+    has_solution_type const goal_solution = slice_solve(towards_goal);
+    if (goal_solution==has_no_solution)
+    {
+      if (length>slack_length_battle+1
+          && attack_has_solution_in_n(next,length,min_length)<=length)
+        result = attack_solve(next);
+      else
+        result = has_no_solution;
+    }
+    else
+      result = goal_solution;
+  }
   else
-    result = false;
+  {
+    if (length>slack_length_battle+1
+        && attack_has_solution_in_n(next,length,min_length)<=length)
+      result = attack_solve(next);
+    else
+      result = has_no_solution;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

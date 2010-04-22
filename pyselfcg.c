@@ -708,19 +708,21 @@ boolean selfcheck_guard_root_solve(slice_index si)
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean selfcheck_guard_solve(slice_index si)
+has_solution_type selfcheck_guard_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!echecc(nbply,advers(slices[si].starter))
-            && slice_solve(slices[si].u.pipe.next));
+  if (echecc(nbply,advers(slices[si].starter)))
+    result = defender_self_check;
+  else
+    result = slice_solve(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

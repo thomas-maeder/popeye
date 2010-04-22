@@ -148,11 +148,11 @@ boolean slice_are_threats_refuted(table threats, slice_index si)
 
 /* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean slice_solve(slice_index si)
+has_solution_type slice_solve(slice_index si)
 {
-  boolean solution_found = false;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -162,31 +162,33 @@ boolean slice_solve(slice_index si)
   switch (slices[si].type)
   {
     case STLeafForced:
-      solution_found = leaf_forced_solve(si);
+      result = leaf_forced_solve(si);
       break;
 
     case STLeafHelp:
-      solution_found = leaf_h_solve(si);
+      result = leaf_h_solve(si);
       break;
 
     case STQuodlibet:
-      solution_found = quodlibet_solve(si);
+      result = quodlibet_solve(si);
       break;
 
     case STAttackMove:
     case STAttackHashed:
     case STSelfDefense:
     case STSelfCheckGuardAttackerFilter:
+    case STRefutingVariationWriter:
     case STReflexAttackerFilter:
     case STDegenerateTree:
+    case STVariationWriter:
     case STLeafDirect:
-      solution_found = attack_solve(si);
+      result = attack_solve(si);
       break;
 
     case STSelfCheckGuardDefenderFilter:
     case STContinuationWriter:
     case STDefenseMove:
-      solution_found = !defense_defend(si);
+      result = defense_defend(si) ? has_no_solution : has_solution;
       break;
 
     case STHelpMove:
@@ -194,7 +196,7 @@ boolean slice_solve(slice_index si)
     case STHelpHashed:
     case STSelfCheckGuardHelpFilter:
     case STStopOnShortSolutionsHelpFilter:
-      solution_found = help_solve(si);
+      result = help_solve(si) ? has_solution : has_no_solution;
       break;
 
     case STSelfCheckGuardSeriesFilter:
@@ -202,34 +204,35 @@ boolean slice_solve(slice_index si)
     case STSeriesFork:
     case STSeriesHashed:
     case STStopOnShortSolutionsSeriesFilter:
-      solution_found = series_solve(si);
+      result = series_solve(si) ? has_solution : has_no_solution;
       break;
 
     case STReciprocal:
-      solution_found = reci_solve(si);
+      result = reci_solve(si);
       break;
 
     case STNot:
-      solution_found = not_solve(si);
+      result = not_solve(si);
       break;
 
     case STMoveInverterSolvableFilter:
-      solution_found = move_inverter_solve(si);
+      result = move_inverter_solve(si);
       break;
 
     case STSelfCheckGuardSolvableFilter:
-      solution_found = selfcheck_guard_solve(si);
+      result = selfcheck_guard_solve(si);
       break;
 
     default:
       assert(0);
+      result = has_no_solution;
       break;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",solution_found);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
-  return solution_found;
+  return result;
 }
 
 /* Solve a slice at root level
@@ -369,6 +372,7 @@ has_solution_type slice_has_solution(slice_index si)
     case STKeepMatingGuardSeriesFilter:
     case STDegenerateTree:
     case STAttackHashed:
+    case STVariationWriter:
       result = attack_has_solution(si);
       break;
 

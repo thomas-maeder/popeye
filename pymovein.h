@@ -37,9 +37,9 @@ boolean move_inverter_root_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean move_inverter_solve(slice_index si);
+has_solution_type move_inverter_solve(slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index
