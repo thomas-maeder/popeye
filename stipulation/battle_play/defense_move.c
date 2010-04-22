@@ -443,7 +443,7 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
                                                       max_nr_refutations);
   else
   {
-    if (n==slack_length_battle)
+    if (n<=slack_length_battle+3)
     {
       move_generation_mode = move_generation_optimized_by_killer_move;
       TraceValue("->%u\n",move_generation_mode);
