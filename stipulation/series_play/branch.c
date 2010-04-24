@@ -57,6 +57,7 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
   {
     slice_index const
         guard1 = alloc_selfcheck_guard_series_filter(length,min_length);
+    slice_index const proxy = alloc_proxy_slice();
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const fork = alloc_series_fork_slice(length,min_length,
                                                      proxy_to_goal);
@@ -67,7 +68,8 @@ slice_index alloc_series_branch_next_other_starter(stip_length_type length,
     shorten_series_pipe(fork);
 
     pipe_link(result,guard1);
-    pipe_link(guard1,move);
+    pipe_link(guard1,proxy);
+    pipe_link(proxy,move);
     pipe_link(move,fork);
     pipe_link(fork,guard2);
     pipe_link(guard2,inverter);

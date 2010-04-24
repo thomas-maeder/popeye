@@ -53,6 +53,12 @@ void series_move_insert_root(slice_index si, stip_structure_traversal *st)
     slice_index const prev = slices[si].prev;
 
     slice_index const root_branch = copy_slice(si);
+
+    /* prev has to be a proxy to avoid unnecessary tests for self
+     * check when looking for short solutions
+     */
+    assert(slices[prev].type==STProxy);
+
     *root = alloc_series_root_slice(length,min_length,root_branch,prev);
 
     shorten_series_pipe(si);
