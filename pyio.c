@@ -2308,7 +2308,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
       {
         result = ParseSerS(tok,proxy,proxy_leaf);
         if (result!=0)
-          slices[leaf].starter = Black;
+          slices[leaf].starter = White;
       }
     }
   }
