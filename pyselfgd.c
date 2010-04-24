@@ -208,51 +208,6 @@ stip_length_type self_defense_direct_solve_threats_in_n(table threats,
 /* **************** Implementation of interface Slice ***************
  */
 
-/* Spin off a set play slice
- * @param si slice index
- * @param st state of traversal
- */
-void self_attack_root_make_setplay_slice(slice_index si,
-                                         stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const copy = copy_slice(si);
-    pipe_link(copy,prod->setplay_slice);
-    prod->setplay_slice = copy;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void self_attack_root_reduce_to_postkey_play(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  slice_index *postkey_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *postkey_slice = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -376,26 +331,6 @@ has_solution_type self_defense_solve(slice_index si)
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void self_attack_impose_starter(slice_index si, stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Impose the starting side on a stipulation
