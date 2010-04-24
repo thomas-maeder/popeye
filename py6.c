@@ -2837,7 +2837,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe                  /* STStopOnShortSolutionsSeriesFilter */
 };
 
-static void stip_optimise_final_battle_moves(void)
+static void stip_optimise_final_moves(void)
 {
   stip_move_traversal st;
   Goal goal_in_next_slice = no_goal;
@@ -2973,7 +2973,7 @@ static Token iterate_twins(Token prev_token)
       dealloc_proxy_slices();
       assert_no_leaked_slices();
 
-      stip_optimise_final_battle_moves();
+      stip_optimise_final_moves();
 
       TraceStipulation(root_slice);
     }
