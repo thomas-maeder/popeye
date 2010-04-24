@@ -1123,7 +1123,6 @@ void reflex_filter_impose_starter(slice_index si, stip_structure_traversal *st)
 typedef struct
 {
     slice_index to_be_avoided[2];
-    slice_index result;
 } init_param;
 
 /* In alternate play, insert a STReflexHelpFilter slice before a slice
@@ -1145,10 +1144,8 @@ static void reflex_guards_inserter_help(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  {
-    param->result = alloc_reflex_help_filter(length,min_length,proxy_to_avoided);
-    pipe_append(slices[si].prev,param->result);
-  }
+  pipe_append(slices[si].prev,
+              alloc_reflex_help_filter(length,min_length,proxy_to_avoided));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1174,9 +1171,9 @@ static void reflex_guards_inserter_attack(slice_index si,
   {
     stip_length_type const idx = (length-slack_length_battle-1)%2;
     slice_index const proxy_to_avoided = param->to_be_avoided[idx];
-    param->result = alloc_reflex_attacker_filter(length,min_length,
-                                                 proxy_to_avoided);
-    pipe_append(slices[si].prev,param->result);
+    pipe_append(slices[si].prev,
+                alloc_reflex_attacker_filter(length,min_length,
+                                             proxy_to_avoided));
   }
 
   TraceFunctionExit(__func__);
@@ -1231,8 +1228,8 @@ static void reflex_guards_inserter_series(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  param->result = alloc_reflex_series_filter(length,min_length,proxy_to_avoided);
-  pipe_append(prev,param->result);
+  pipe_append(prev,
+              alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1342,10 +1339,8 @@ static stip_structure_visitor const reflex_guards_inserters[] =
  * reflex stipulation 
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies branch that needs to be guarded from
- * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_reflex_filters(slice_index si,
-                                        slice_index proxy_to_avoided)
+void slice_insert_reflex_filters(slice_index si, slice_index proxy_to_avoided)
 {
   stip_structure_traversal st;
   init_param param;
@@ -1356,8 +1351,6 @@ slice_index slice_insert_reflex_filters(slice_index si,
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
-
-  param.result = si;
 
   assert(slices[proxy_to_avoided].type==STProxy);
 
@@ -1376,9 +1369,7 @@ slice_index slice_insert_reflex_filters(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",param.result);
   TraceFunctionResultEnd();
-  return param.result;
 }
 
 /* In battle play, insert a STReflexDefenderFilter slice before a
@@ -1496,10 +1487,9 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
  * stipulation 
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies branch that needs to be guarded from
- * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_reflex_filters_semi(slice_index si,
-                                             slice_index proxy_to_avoided)
+void slice_insert_reflex_filters_semi(slice_index si,
+                                      slice_index proxy_to_avoided)
 {
   stip_structure_traversal st;
   init_param param;
@@ -1508,8 +1498,6 @@ slice_index slice_insert_reflex_filters_semi(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
-
-  param.result = si;
 
   assert(slices[proxy_to_avoided].type==STProxy);
 
@@ -1520,7 +1508,5 @@ slice_index slice_insert_reflex_filters_semi(slice_index si,
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",param.result);
   TraceFunctionResultEnd();
-  return param.result;
 }

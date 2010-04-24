@@ -238,19 +238,17 @@ void reflex_filter_impose_starter(slice_index si, stip_structure_traversal *st);
  * stipulation 
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies what branch needs to be guarded from
- * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_reflex_filters(slice_index si,
-                                        slice_index proxy_to_avoided);
+void slice_insert_reflex_filters(slice_index si,
+                                 slice_index proxy_to_avoided);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
  * stipulation 
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies what branch needs to be guarded from
- * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_reflex_filters_semi(slice_index si,
-                                             slice_index proxy_to_avoided);
+void slice_insert_reflex_filters_semi(slice_index si,
+                                      slice_index proxy_to_avoided);
 
 /* Insert root slices
  * @param si identifies (non-root) slice

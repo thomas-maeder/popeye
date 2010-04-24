@@ -90,9 +90,7 @@ void direct_defense_impose_starter(slice_index si, stip_structure_traversal *st)
 /* Instrument a branch with STDirectDefenderFilter slices
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal
- * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_direct_guards(slice_index si,
-                                       slice_index proxy_to_goal);
+void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal);
 
 #endif

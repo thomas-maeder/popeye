@@ -326,12 +326,6 @@ void direct_defense_impose_starter(slice_index si, stip_structure_traversal *st)
 /* **************** Stipulation instrumentation ***************
  */
 
-typedef struct
-{
-    slice_index to_goal;
-    slice_index result;
-} init_param;
-
 /* Insert a STDirectDefenderFilter slice after each STAttackMove slice
  * @param si identifies slice before which to insert a *
  *           STDirectDefenderFilter slice
@@ -340,7 +334,7 @@ typedef struct
 static void direct_guards_inserter_attack(slice_index si,
                                           stip_structure_traversal *st)
 {
-  init_param * const param = st->param;
+  slice_index * const to_goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -353,9 +347,8 @@ static void direct_guards_inserter_attack(slice_index si,
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const
         filter = alloc_direct_defender_filter_slice(length-1,min_length-1,
-                                                    param->to_goal); 
+                                                    *to_goal); 
     pipe_append(si,filter);
-    param->result = si;
   }
 
   TraceFunctionExit(__func__);
@@ -447,13 +440,10 @@ static stip_structure_visitor const direct_guards_inserters[] =
 /* Instrument a branch with STDirectDefenderFilter slices
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal
- * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_direct_guards(slice_index si,
-                                       slice_index proxy_to_goal)
+void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
 {
   stip_structure_traversal st;
-  init_param param = { proxy_to_goal, si } ;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -464,13 +454,11 @@ slice_index slice_insert_direct_guards(slice_index si,
 
   assert(slices[proxy_to_goal].type==STProxy);
 
-  stip_structure_traversal_init(&st,&direct_guards_inserters,&param);
+  stip_structure_traversal_init(&st,&direct_guards_inserters,&proxy_to_goal);
   stip_traverse_structure(si,&st);
 
   TraceStipulation(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",param.result);
   TraceFunctionResultEnd();
-  return param.result;
 }

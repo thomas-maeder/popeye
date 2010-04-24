@@ -541,12 +541,10 @@ static stip_structure_visitor const self_guards_inserters[] =
 /* Instrument a branch with STSelfDefense slices
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal
- * @return identifier of branch entry slice after insertion
  */
-slice_index slice_insert_self_guards(slice_index si, slice_index proxy_to_goal)
+void slice_insert_self_guards(slice_index si, slice_index proxy_to_goal)
 {
   stip_structure_traversal st;
-  slice_index const result = si;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -560,7 +558,5 @@ slice_index slice_insert_self_guards(slice_index si, slice_index proxy_to_goal)
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
