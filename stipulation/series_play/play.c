@@ -60,8 +60,7 @@ boolean series_solve_in_n(slice_index si, stip_length_type n)
       stip_length_type const n_battle = (n
                                          +slack_length_battle+1
                                          -slack_length_series);
-      stip_length_type const parity = (n_battle-slack_length_battle)%2;
-      stip_length_type const n_min = slack_length_battle-parity;
+      stip_length_type const n_min = battle_branch_calc_n_min(si,n_battle);
       result = !defense_defend_in_n(si,n_battle,n_min);
       break;
     }
@@ -231,8 +230,7 @@ boolean series_has_solution_in_n(slice_index si, stip_length_type n)
           nr_moves_needed = defense_can_defend_in_n(si,
                                                     n_battle,n_min,
                                                     max_nr_allowed_refutations);
-      result = (nr_moves_needed>=slack_length_battle+1
-                && nr_moves_needed<=n_battle);
+      result = n_min<=nr_moves_needed && nr_moves_needed<=n_battle;
       break;
     }
 

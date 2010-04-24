@@ -59,7 +59,7 @@ boolean continuation_writer_defend_in_n(slice_index si,
   nr_moves_needed = defense_can_defend_in_n(next,
                                             n,n_min,
                                             max_nr_allowed_refutations);
-  if (nr_moves_needed<=slack_length_battle)
+  if (nr_moves_needed<n_min)
     result = true;
   else if (nr_moves_needed<=n)
   {
@@ -112,7 +112,7 @@ stip_length_type continuation_writer_root_defend(slice_index si,
 
   result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
-  if (slack_length_battle<result && result<=n+2)
+  if (n_min<=result && result<=n+2)
   {
     write_attack();
     write_root_attack_decoration(nbply, result<=n ? attack_key : attack_try);
