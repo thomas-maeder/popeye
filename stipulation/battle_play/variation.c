@@ -259,7 +259,6 @@ static void variation_writer_insert_self_defense(slice_index si,
 {
   slice_index const next = slices[si].u.branch_fork.next;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
-  slice_index const goal = slices[proxy_to_goal].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
