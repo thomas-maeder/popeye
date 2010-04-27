@@ -25,12 +25,6 @@ slice_index alloc_help_root_slice(stip_length_type length,
  */
 slice_index help_root_shorten_help_play(slice_index si);
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void help_root_make_setplay_slice(slice_index si, stip_structure_traversal *st);
-
 /* Solve a branch slice at root level.
  * @param si slice index
  * @return no_slice if set play not applicable

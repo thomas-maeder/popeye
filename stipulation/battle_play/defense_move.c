@@ -1,10 +1,10 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pyselfcg.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
 #include "pyoutput.h"
 #include "trace.h"
@@ -53,8 +53,6 @@ void defense_move_insert_root(slice_index si, stip_structure_traversal *st)
     stip_length_type const min_length = slices[si].u.branch.min_length;
     *root = alloc_defense_move_slice(length,min_length);
     pipe_set_successor(*root,slices[si].u.pipe.next);
-
-    battle_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);
@@ -70,9 +68,12 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-  
+
   if (slices[si].starter==no_side)
-    slices[si].starter = Black;
+  {
+    stip_traverse_structure(slices[si].u.pipe.next,st);
+    slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -494,10 +495,10 @@ void defense_move_make_setplay_slice(slice_index si,
     stip_length_type const length_h = (length
                                        +slack_length_help
                                        -slack_length_battle-1);
-    slice_index const move = alloc_help_move_slice(length_h,length_h);
-    prod->setplay_slice = alloc_help_root_slice(length_h,length_h);
-    pipe_link(prod->setplay_slice,move);
-    pipe_set_successor(move,slices[si].u.pipe.next);
+    slice_index const help = alloc_help_move_slice(length_h,length_h);
+    prod->setplay_slice = alloc_selfcheck_guard_help_filter(length_h,length_h);
+    pipe_link(prod->setplay_slice,help);
+    pipe_set_successor(help,slices[si].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);

@@ -411,3 +411,96 @@ don't output reflexmates if variations are not asked for
 solution finished. 
 
 
+
+  only example so far of ser-hdiaN*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7   .  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6  -P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-hdia2                 16 + 16
+
+  1...a7-a6 dia 
+
+  1.Sg1-h3   2.Sh3-g1 a7-a6 dia 
+  1.Sg1-f3   2.Sf3-g1 a7-a6 dia 
+  1.Sb1-c3   2.Sc3-b1 a7-a6 dia 
+  1.Sb1-a3   2.Sa3-b1 a7-a6 dia 
+
+solution finished. 
+
+
+
+  only example so far of ser-ha=>bN*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   P   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-ha=>b2                16 + 16
+
+Initial (Black ->):
+
+  only example so far of ser-ha=>bN*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-ha=>b2                16 + 16
+
+  1...a2-a3 a=>b 
+
+  1.Sb8-a6   2.Sa6-b8 a2-a3 a=>b 
+  1.Sb8-c6   2.Sc6-b8 a2-a3 a=>b 
+  1.Sg8-f6   2.Sf6-g8 a2-a3 a=>b 
+  1.Sg8-h6   2.Sh6-g8 a2-a3 a=>b 
+
+solution finished. 
+
+

@@ -46,6 +46,21 @@ boolean defense_root_solve(slice_index si)
       result = reflex_defender_filter_root_solve(si);
       break;
 
+    case STSelfCheckGuardRootDefenderFilter:
+    {
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      stip_length_type nr_moves_needed;
+      unsigned int const max_nr_refutations = UINT_MAX;
+      init_output(si);
+      nr_moves_needed = defense_root_defend(si,
+                                            length,min_length,
+                                            max_nr_refutations);
+      result = nr_moves_needed<=length;
+      write_end_of_solution_phase();
+      break;
+    }
+      
     default:
       assert(0);
       result = false;

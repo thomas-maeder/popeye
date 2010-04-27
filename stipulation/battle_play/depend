@@ -132,10 +132,10 @@ stipulation/series_play/play.h:
 trace.h:
 stipulation/battle_play/defense_move$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_move.c \
-  stipulation/battle_play/defense_move.h pydata.h pypipe.h \
+  stipulation/battle_play/defense_move.h pydata.h pypipe.h pyselfcg.h \
   stipulation/branch.h stipulation/battle_play/branch.h \
-  stipulation/battle_play/attack_play.h stipulation/help_play/root.h \
-  stipulation/help_play/move.h pyoutput.h trace.h
+  stipulation/battle_play/attack_play.h stipulation/help_play/move.h \
+  pyoutput.h trace.h
 
 stipulation/battle_play/defense_move.h:
 
@@ -143,13 +143,13 @@ pydata.h:
 
 pypipe.h:
 
+pyselfcg.h:
+
 stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
-
-stipulation/help_play/root.h:
 
 stipulation/help_play/move.h:
 

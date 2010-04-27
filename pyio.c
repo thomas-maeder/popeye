@@ -2266,7 +2266,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
             pipe_set_successor(proxy,branch);
           }
 
-          slices[leaf].starter = Black;
+          slices[leaf].starter = White;
         }
       }
     }
@@ -2309,6 +2309,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
         result = ParseSerS(tok,proxy,proxy_leaf);
         if (result!=0)
           slices[leaf].starter = White;
+
+        OptFlag[solvariantes] = true;
       }
     }
   }
@@ -2547,7 +2549,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
           else
             pipe_set_successor(proxy,branch);
 
-          slices[slices[proxy_leaf].u.pipe.next].starter = Black;
+          slices[leaf].starter = White;
         }
       }
     }

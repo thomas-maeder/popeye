@@ -34,6 +34,24 @@ slice_index alloc_series_fork_slice(stip_length_type length,
   return result;
 }
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ */
+void series_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  setplay_slice_production * const prod = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  prod->setplay_slice = slices[si].u.branch_fork.towards_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -132,25 +150,6 @@ void series_fork_solve_threats_in_n(table threats,
     slice_solve_threats(threats,to_goal);
   else
     series_solve_threats_in_n(threats,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void series_fork_make_setplay_slice(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(to_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

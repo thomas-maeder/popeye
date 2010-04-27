@@ -449,7 +449,6 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         2 + 3
 
-
       1...b3-b2 # 
 
 solution finished. 

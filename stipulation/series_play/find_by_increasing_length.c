@@ -47,25 +47,6 @@ slice_index alloc_series_root_slice(stip_length_type length,
   return result;
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void series_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  prod->sibling = si;
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Shorten a root series branch. Reduces the length members of
  * slices[root] and resets the next member to the appropriate
  * position.

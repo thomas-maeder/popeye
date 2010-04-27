@@ -64,6 +64,33 @@ slice_index alloc_move_inverter_series_filter(void)
   return result;
 }
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ */
+void move_inverter_make_setplay_slice(slice_index si,
+                                      stip_structure_traversal *st)
+{
+  setplay_slice_production * const prod = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_traverse_next(si,st);
+
+  {
+    slice_index const inverter = alloc_move_inverter_solvable_filter();
+    pipe_set_successor(inverter,prod->setplay_slice);
+    prod->setplay_slice = inverter;
+  }
+
+  prod->sibling = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

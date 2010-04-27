@@ -46,7 +46,7 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   slice_index * const root = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index direct_root;
+  slice_index attack_root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -54,9 +54,9 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
-  direct_root = alloc_attack_root_slice(length,min_length);
-  pipe_link(direct_root,*root);
-  *root = direct_root;
+  attack_root = alloc_attack_root_slice(length,min_length);
+  pipe_link(attack_root,*root);
+  *root = attack_root;
 
   battle_branch_shorten_slice(si);
   

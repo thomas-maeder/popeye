@@ -23,6 +23,13 @@ slice_index alloc_move_inverter_solvable_filter(void);
  */
 slice_index alloc_move_inverter_series_filter(void);
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ */
+void move_inverter_make_setplay_slice(slice_index si,
+                                      stip_structure_traversal *st);
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

@@ -8,7 +8,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/shortcut.h"
 #include "trace.h"
@@ -45,24 +44,30 @@ slice_index alloc_help_move_slice(stip_length_type length,
 void help_move_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index const prev = slices[si].prev;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  *root = alloc_help_root_slice(length,min_length);
+
+  if (slices[next].prev==si)
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-
-    slice_index const root_branch = copy_slice(si);
+    /* si is part of a loop sping off a root branch */
     slice_index const shortcut = alloc_help_shortcut(length,min_length,prev);
+    slice_index const root_branch = copy_slice(si);
     pipe_link(shortcut,root_branch);
-
-    *root = alloc_help_root_slice(length,min_length);
     pipe_link(*root,shortcut);
-    
-    help_branch_shorten_slice(si);
+  }
+  else
+  {
+    /* si is not part of a loop - reuse it in the root branch */
+    pipe_unlink(prev);
+    pipe_link(*root,si);
   }
   
   TraceFunctionExit(__func__);
@@ -315,22 +320,12 @@ boolean help_move_has_solution_in_n(slice_index si, stip_length_type n)
 void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[next].prev==si)
-  {
-    slice_index const length = slices[si].u.branch.length;
-    slice_index const min_length = slices[si].u.branch.min_length;
-    prod->setplay_slice = alloc_help_root_slice(length,min_length);
-    pipe_set_successor(prod->setplay_slice,si);
-  }
-  else
-    /* this is the first move (i.e. the one that is omitted in set play) */
-    pipe_traverse_next(si,st); 
+  prod->setplay_slice = slices[si].u.pipe.next;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

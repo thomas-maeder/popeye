@@ -21,11 +21,16 @@ slice_index alloc_pipe(SliceType type);
  */
 void pipe_set_successor(slice_index pipe, slice_index succ);
 
-/* Establish a link between a branch slice and its successor
- * @param branch identifies branch slice
- * @param succ identifies branch to become the successor
+/* Establish a link between a pipe slice and its successor
+ * @param pipe identifies pipe slice
+ * @param succ identifies slice to become the successor
  */
-void pipe_link(slice_index branch, slice_index succ);
+void pipe_link(slice_index pipe, slice_index succ);
+
+/* Unlink a pipe and its successor
+ * @param pipe identifies pipe slice
+ */
+void pipe_unlink(slice_index pipe);
 
 /* Replace a slice by another. Links the substitute to the replaced
  * slice's predecessor and successor, but doesn't adjust the links
@@ -51,14 +56,14 @@ void pipe_append(slice_index pos, slice_index appended);
 void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st);
 
 /* Impose the starting side on a stipulation
- * @param pipe identifies branch
+ * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
  */
 void pipe_impose_starter(slice_index pipe, stip_structure_traversal *st);
 
 /* Impose the starting side on a stipulation. Impose the inverted
  * starter on the slice's successor. 
- * @param pipe identifies branch
+ * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
  */
 void pipe_impose_inverted_starter(slice_index pipe, stip_structure_traversal *st);

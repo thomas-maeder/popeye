@@ -56,6 +56,14 @@ slice_index alloc_selfcheck_guard_root_solvable_filter(void);
  */
 slice_index alloc_selfcheck_guard_solvable_filter(void);
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
+                                                                stip_structure_traversal *st);
+
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
@@ -86,14 +94,6 @@ stip_length_type selfcheck_guard_root_defend(slice_index si,
  */
 void selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
                                                                 stip_structure_traversal *st);
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void
-self_check_guard_root_defender_filter_make_setplay_slice(slice_index si,
-                                                         stip_structure_traversal *st);
 
 /* Allocate a STSelfCheckGuardRootDefenderFilter slice
  * @return allocated slice
@@ -133,6 +133,12 @@ boolean selfcheck_guard_attacker_filter_root_solve_in_n(slice_index si);
 stip_length_type selfcheck_guard_solve_in_n(slice_index si,
                                             stip_length_type n,
                                             stip_length_type n_min);
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_attacker_filter_insert_root(slice_index si,
+                                                 stip_structure_traversal *st);
 
 /* Determine whether a slice has a solution
  * @param si slice index
@@ -261,13 +267,6 @@ void selfcheck_guard_help_solve_threats_in_n(table threats,
  */
 void selfcheck_guard_help_insert_root(slice_index si,
                                       stip_structure_traversal *st);
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void selfcheck_guard_help_make_setplay_slice(slice_index si,
-                                             stip_structure_traversal *st);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

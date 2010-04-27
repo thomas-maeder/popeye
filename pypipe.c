@@ -77,6 +77,26 @@ void pipe_link(slice_index pipe, slice_index succ)
   TraceFunctionResultEnd();
 }
 
+/* Unlink a pipe and its successor
+ * @param pipe identifies pipe slice
+ */
+void pipe_unlink(slice_index pipe)
+{
+  slice_index * const succ = &slices[pipe].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParamListEnd();
+
+  if (slices[*succ].prev==pipe)
+    slices[*succ].prev = no_slice;
+
+  *succ = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Replace a slice by another. Links the substitute to the replaced
  * slice's predecessor and successor, but doesn't adjust the links
  * from other slices that may reference the replaced slice.

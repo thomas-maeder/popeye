@@ -107,30 +107,6 @@ boolean attack_root_root_solve(slice_index si)
   return result;
 }
 
-/* Spin off a set play slice
- * @param si slice index
- * @param st state of traversal
- */
-void attack_root_make_setplay_slice(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* prod->sibling may already have been set
-   */
-  if (prod->sibling==no_slice)
-    prod->sibling = si;
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index

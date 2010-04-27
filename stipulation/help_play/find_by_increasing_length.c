@@ -38,26 +38,6 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void help_root_make_setplay_slice(slice_index si, stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[si].u.branch.length>slack_length_help);
-  prod->sibling = si;
-  pipe_traverse_next(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a branch slice at root level.
  * @param si slice index
  * @return true iff >=1 solution was found

@@ -88,6 +88,8 @@ void proxy_make_setplay_slice(slice_index si, stip_structure_traversal *st)
   if (prod->setplay_slice==slices[si].u.pipe.next)
     prod->setplay_slice = si;
 
+  prod->sibling = si;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

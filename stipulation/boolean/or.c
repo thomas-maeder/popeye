@@ -9,28 +9,26 @@
 #include <assert.h>
 
 /* Allocate a quodlibet slice.
- * @param proxy1 proxy to 1st operand
- * @param proxy2 proxy to 2nd operand
+ * @param op1 1st operand
+ * @param op2 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
+slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy1);
-  TraceFunctionParam("%u",proxy2);
+  TraceFunctionParam("%u",op1);
+  TraceFunctionParam("%u",op2);
   TraceFunctionParamListEnd();
 
-  assert(proxy1!=no_slice);
-  assert(slices[proxy1].type==STProxy);
-  assert(proxy2!=no_slice);
-  assert(slices[proxy2].type==STProxy);
+  assert(op1!=no_slice);
+  assert(op2!=no_slice);
 
   result = alloc_slice(STQuodlibet);
 
-  slices[result].u.binary.op1 = proxy1;
-  slices[result].u.binary.op2 = proxy2;
+  slices[result].u.binary.op1 = op1;
+  slices[result].u.binary.op2 = op2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -47,18 +45,19 @@ void quodlibet_insert_root(slice_index si, stip_structure_traversal *st)
   slice_index const op1 = slices[si].u.binary.op1;
   slice_index const op2 = slices[si].u.binary.op2;
   slice_index * const root = st->param;
+  stip_structure_traversal st2 = *st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[op1].u.pipe.next,st);
-  pipe_link(op1,*root);
+  stip_traverse_structure(op1,st);
+  slices[si].u.binary.op1 = *root;
 
   TraceStipulation(si);
 
-  stip_traverse_structure(slices[op2].u.pipe.next,st);
-  pipe_link(op2,*root);
+  stip_traverse_structure(op2,&st2);
+  slices[si].u.binary.op2 = *root;
   
   *root = si;
 
@@ -239,23 +238,21 @@ void quodlibet_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STQuodlibet);
-
-  TraceValue("%u",slices[si].u.binary.op1);
-  TraceValue("%u\n",slices[si].u.binary.op2);
-
-  stip_traverse_structure(op1,st);
-  stip_traverse_structure(op2,st);
-
-  TraceStipulation(si);
-
-  if (slices[op1].starter==no_side)
-    slices[si].starter = slices[op2].starter;
-  else
+  if (slices[si].starter==no_side)
   {
-    assert(slices[op2].starter==no_side
-           || slices[op1].starter==slices[op2].starter);
-    slices[si].starter = slices[op1].starter;
+    stip_traverse_structure(op1,st);
+    stip_traverse_structure(op2,st);
+
+    TraceStipulation(si);
+
+    if (slices[op1].starter==no_side)
+      slices[si].starter = slices[op2].starter;
+    else
+    {
+      assert(slices[op2].starter==no_side
+             || slices[op1].starter==slices[op2].starter);
+      slices[si].starter = slices[op1].starter;
+    }
   }
 
   TraceFunctionExit(__func__);

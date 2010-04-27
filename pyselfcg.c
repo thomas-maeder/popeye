@@ -4,7 +4,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
-#include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/play.h"
 #include "pyproc.h"
 #include "pydata.h"
@@ -279,6 +278,32 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
   return result;
 }
 
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void selfcheck_guard_attacker_filter_insert_root(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+  slice_index root_filter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.pipe.next,st);
+
+  root_filter = alloc_selfcheck_guard_root_solvable_filter();
+  pipe_link(root_filter,*root);
+  *root = root_filter;
+
+  battle_branch_shorten_slice(si);
+ 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 
 /* **************** Implementation of interface DirectDefender **********
  */
@@ -338,32 +363,6 @@ selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
 
   stip_traverse_structure(next,st);
   dealloc_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void
-self_check_guard_root_defender_filter_make_setplay_slice(slice_index si,
-                                                         stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.branch_fork.next,st);
-
-  {
-    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(guard,prod->setplay_slice);
-    prod->setplay_slice = guard;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -463,8 +462,6 @@ void selfcheck_guard_defender_filter_insert_root(slice_index si,
   root_filter = alloc_selfcheck_guard_root_defender_filter(length,min_length);
   pipe_link(root_filter,*root);
   *root = root_filter;
-
-  battle_branch_shorten_slice(si);
  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -564,35 +561,15 @@ void selfcheck_guard_help_insert_root(slice_index si,
     slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
     pipe_link(guard,*root);
     *root = guard;
+
+    if (slices[si].u.pipe.next==no_slice)
+    {
+      /* si is not part of a loop - it is obsolete now */
+      pipe_unlink(slices[si].prev);
+      dealloc_slice(si);
+    }
   }
     
-  help_branch_shorten_slice(si);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void selfcheck_guard_help_make_setplay_slice(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.branch_fork.next,st);
-
-  {
-    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(guard,prod->setplay_slice);
-    prod->setplay_slice = guard;
-  }
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -677,6 +654,27 @@ void selfcheck_guard_series_solve_threats_in_n(table threats,
 
 /* **************** Implementation of interface Slice ***************
  */
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
+                                                                stip_structure_traversal *st)
+{
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(next,st);
+  dealloc_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Solve a slice at root level
  * @param si slice index

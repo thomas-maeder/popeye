@@ -121,4 +121,19 @@ title don't output reflexmates if variations are not asked for
 pieces white kb1 black kb3 rc8
 stip r#1
 
+next
+
+title only example so far of ser-hdiaN*
+fors rsbqkbsr/1ppppppp/p7/8/8/8/PPPPPPPP/RSBQKBSR
+stip ser-hdia2
+option set
+
+next
+
+title only example so far of ser-ha=>bN*
+fors rsbqkbsr/pppppppp/8/8/8/8/PPPPPPPP/RSBQKBSR
+stip ser-ha=>b2
+fors rsbqkbsr/pppppppp/8/8/8/P7/1PPPPPPP/RSBQKBSR
+option set
+
 end

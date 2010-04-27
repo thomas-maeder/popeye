@@ -227,34 +227,6 @@ direct_defender_filter_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void direct_defense_root_make_setplay_slice(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  prod->sibling = si;
-
-  if (slices[si].u.branch.length==slack_length_battle+2)
-  {
-    slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
-    assert(slices[proxy_to_goal].type==STProxy);
-    prod->setplay_slice = slices[proxy_to_goal].u.pipe.next;
-  }
-  else
-    stip_traverse_structure(slices[si].u.pipe.next,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

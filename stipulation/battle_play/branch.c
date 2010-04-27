@@ -64,7 +64,6 @@ slice_index alloc_defense_branch(stip_length_type length,
     pipe_link(guard1,writer);
     pipe_link(writer,defense);
     pipe_link(defense,guard2);
-    pipe_link(guard2,result);
   }
 
   TraceFunctionExit(__func__);
@@ -103,13 +102,13 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
     slice_index const
-        guard2 = alloc_selfcheck_guard_attacker_filter(length-2,min_length-2);
-    pipe_link(result,attack);
+        guard2 = alloc_selfcheck_guard_attacker_filter(length,min_length);
+    pipe_link(result,guard2);
+    pipe_link(guard2,attack);
     pipe_link(attack,guard1);
     pipe_link(guard1,writer);
     pipe_link(writer,defense);
-    pipe_link(defense,guard2);
-    pipe_link(guard2,result);
+    pipe_link(defense,result);
   }
 
   TraceFunctionExit(__func__);

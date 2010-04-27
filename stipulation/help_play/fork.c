@@ -1,6 +1,5 @@
 #include "stipulation/help_play/fork.h"
 #include "pybrafrk.h"
-#include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
@@ -41,6 +40,26 @@ slice_index alloc_help_fork_slice(stip_length_type length,
   return result;
 }
 
+/* Spin off a set play slice at root level
+ * @param si slice index
+ * @param st state of traversal
+ */
+void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  setplay_slice_production * const prod = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[si].u.branch.length>slack_length_help);
+  pipe_traverse_next(si,st);
+  prod->sibling = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -53,7 +72,6 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
 
   assert(slices[si].u.branch_fork.length-slack_length_help>=2);
   stip_traverse_structure(slices[si].u.branch_fork.next,st);
-  help_branch_shorten_slice(si);
 
   {
     slice_index * const root = st->param;

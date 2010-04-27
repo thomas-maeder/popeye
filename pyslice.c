@@ -271,6 +271,7 @@ boolean slice_root_solve(slice_index si)
       result = attack_root_solve(si);
       break;
 
+    case STSelfCheckGuardRootDefenderFilter:
     case STPostKeyPlaySolutionWriter:
     case STReflexDefenderFilter:
       result = defense_root_solve(si);

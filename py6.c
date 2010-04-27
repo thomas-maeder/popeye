@@ -2901,10 +2901,10 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[whitetoplay] && !apply_whitetoplay(root_slice))
         Message(WhiteToPlayNotApplicable);
 
-      stip_insert_root_slices();
-
       if (OptFlag[solapparent] && !OptFlag[restart] && !stip_apply_setplay())
         Message(SetPlayNotApplicable);
+
+      stip_insert_root_slices();
       
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay())
         Message(PostKeyPlayNotApplicable);

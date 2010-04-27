@@ -189,8 +189,6 @@ void continuation_writer_insert_root(slice_index si,
   root_filter = copy_slice(si);
   pipe_link(root_filter,*root);
   *root = root_filter;
-
-  battle_branch_shorten_slice(si);
  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
