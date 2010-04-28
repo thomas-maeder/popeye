@@ -54,29 +54,35 @@ slice_index alloc_postkeyplay_suppressor_slice(stip_length_type length,
   return result;
 }
 
-/* Solve at root level.
+/* Try to defend after an attempted key move at root level
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <slack_length_battle - stalemate
+ *         <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
  */
-boolean postkey_solution_writer_root_solve(slice_index si)
+stip_length_type
+postkey_solution_writer_root_defend(slice_index si,
+                                    stip_length_type n,
+                                    stip_length_type  n_min,
+                                    unsigned int max_nr_refutations)
 {
-  boolean result;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type nr_moves_needed;
-  unsigned int const max_nr_refutations = UINT_MAX;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  init_output(si);
-  nr_moves_needed = defense_root_defend(next,
-                                        length,min_length,
-                                        max_nr_refutations);
-  result = nr_moves_needed<=length;
-  write_end_of_solution_phase();
+  result = defense_root_defend(next,n,n_min,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

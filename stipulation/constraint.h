@@ -19,12 +19,6 @@ boolean reflex_attacker_filter_root_solve(slice_index si);
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reflex_defender_filter_root_solve(slice_index si);
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
 boolean reflex_help_filter_root_solve(slice_index si);
 
 /* Solve a slice

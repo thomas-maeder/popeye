@@ -8,6 +8,7 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
+#include "pyoutput.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
@@ -30,42 +31,19 @@
 boolean defense_root_solve(slice_index si)
 {
   boolean result;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type nr_moves_needed;
+  unsigned int const max_nr_refutations = UINT_MAX;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STPostKeyPlaySolutionWriter:
-      result = postkey_solution_writer_root_solve(si);
-      break;
-
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_root_solve(si);
-      break;
-
-    case STSelfCheckGuardRootDefenderFilter:
-    {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      stip_length_type nr_moves_needed;
-      unsigned int const max_nr_refutations = UINT_MAX;
-      init_output(si);
-      nr_moves_needed = defense_root_defend(si,
-                                            length,min_length,
-                                            max_nr_refutations);
-      result = nr_moves_needed<=length;
-      write_end_of_solution_phase();
-      break;
-    }
-      
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
+  init_output(si);
+  nr_moves_needed = defense_root_defend(si,length,min_length,max_nr_refutations);
+  result = nr_moves_needed<=length;
+  write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,6 +87,11 @@ stip_length_type defense_root_defend(slice_index si,
     case STRefutationsWriter:
       result = refutations_writer_root_defend(si,n,n_min,max_nr_refutations);
       break;
+
+    case STPostKeyPlaySolutionWriter:
+      result = postkey_solution_writer_root_defend(si,
+                                                   n,n_min,
+                                                   max_nr_refutations);
 
     case STPostKeyPlaySuppressor:
       result = postkeyplay_suppressor_root_defend(si,

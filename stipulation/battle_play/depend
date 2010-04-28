@@ -160,7 +160,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_play.c \
   stipulation/battle_play/defense_play.h pydirctg.h pyflight.h pykeepmt.h \
   pymovenb.h pynontrv.h pyreflxg.h pyselfcg.h pyselfgd.h pythreat.h \
-  stipulation/battle_play/branch.h stipulation/battle_play/postkeyplay.h \
+  pyoutput.h stipulation/battle_play/branch.h \
+  stipulation/battle_play/postkeyplay.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
   stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
   stipulation/help_play/root.h stipulation/help_play/play.h \
@@ -187,6 +188,8 @@ pyselfcg.h:
 pyselfgd.h:
 
 pythreat.h:
+
+pyoutput.h:
 
 stipulation/battle_play/branch.h:
 

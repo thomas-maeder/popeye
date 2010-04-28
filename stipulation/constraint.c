@@ -699,34 +699,6 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reflex_defender_filter_root_solve(slice_index si)
-{
-  boolean result;
-  slice_index const length = slices[si].u.reflex_guard.length;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length==slack_length_battle+1)
-    result = slice_root_solve(avoided);
-  else if (solve_avoided(avoided))
-    result = false;
-  else
-    result = slice_root_solve(next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Spin off a set play slice at root level
  * @param si slice index
  * @param st state of traversal
