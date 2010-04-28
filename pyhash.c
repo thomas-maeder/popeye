@@ -2332,7 +2332,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
-  &stip_traverse_moves_reflex_attack_filter, /* STReflexRootSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STReflexRootSolvableFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexAttackerFilter */
   &stip_traverse_moves_battle_fork,          /* STReflexDefenderFilter */
   &stip_traverse_moves_battle_fork,          /* STSelfDefense */
