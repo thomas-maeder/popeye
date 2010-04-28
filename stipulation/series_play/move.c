@@ -1,11 +1,13 @@
 #include "stipulation/series_play/move.h"
 #include "pydata.h"
 #include "pyproc.h"
+#include "pypipe.h"
 #include "pyleaf.h"
 #include "pyoutput.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
 #include "stipulation/branch.h"
+#include "stipulation/help_play/move.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/root.h"
 #include "stipulation/series_play/shortcut.h"
@@ -33,6 +35,28 @@ slice_index alloc_series_move_slice(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void series_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const length_h = (length-slack_length_series
+                                     +slack_length_help);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = alloc_help_move_slice(length_h,length_h);
+  pipe_set_successor(*result,slices[si].u.branch.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Insert root slices
@@ -82,6 +106,24 @@ void series_move_detect_starter(slice_index si, stip_structure_traversal *st)
   }
 
   TraceValue("%u\n",slices[si].starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void series_move_apply_setplay(slice_index si, stip_structure_traversal *st)
+{
+  setplay_slice_production * const prod = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  prod->setplay_slice = stip_make_setplay(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

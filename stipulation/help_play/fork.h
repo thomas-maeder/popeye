@@ -17,11 +17,11 @@ slice_index alloc_help_fork_slice(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index to_goal);
 
-/* Spin off a set play slice at root level
+/* Spin off set play
  * @param si slice index
  * @param st state of traversal
  */
-void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st);
+void help_fork_apply_setplay(slice_index si, stip_structure_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice

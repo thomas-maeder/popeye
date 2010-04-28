@@ -57,7 +57,7 @@ void help_move_insert_root(slice_index si, stip_structure_traversal *st)
 
   if (slices[next].prev==si)
   {
-    /* si is part of a loop sping off a root branch */
+    /* si is part of a loop - spin off a root branch */
     slice_index const shortcut = alloc_help_shortcut(length,min_length,prev);
     slice_index const root_branch = copy_slice(si);
     pipe_link(shortcut,root_branch);
@@ -313,11 +313,35 @@ boolean help_move_has_solution_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Spin off a set play slice at root level
+/* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal
  */
 void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (length>slack_length_help)
+  {
+    *result = copy_slice(si);
+    if (slices[*result].u.branch.min_length==slack_length_help)
+      slices[*result].u.branch.min_length += 2;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 
@@ -325,7 +349,7 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  prod->setplay_slice = slices[si].u.pipe.next;
+  prod->setplay_slice = stip_make_setplay(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

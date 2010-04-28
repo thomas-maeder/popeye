@@ -743,31 +743,6 @@ static void leaf_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void proxy_insert_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.pipe.next,st);
-
-  {
-    slice_index const proxy = alloc_proxy_slice();
-
-    if (slices[*root].prev==no_slice)
-      pipe_link(proxy,*root);
-    else
-      pipe_set_successor(proxy,*root);
-
-    *root = proxy;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static stip_structure_visitor const root_slice_inserters[] =
 {
   &proxy_insert_root,                           /* STProxy */
@@ -1954,21 +1929,130 @@ boolean stip_apply_postkeyplay(void)
 
 static stip_structure_visitor const setplay_makers[] =
 {
-  &proxy_make_setplay_slice,                  /* STProxy */
-  &stip_traverse_structure_children,          /* STAttackMove */
-  &defense_move_make_setplay_slice,           /* STDefenseMove */
-  &help_move_make_setplay_slice,              /* STHelpMove */
-  &help_fork_make_setplay_slice,              /* STHelpFork */
-  &pipe_traverse_next,                        /* STSeriesMove */
-  &series_fork_make_setplay_slice,            /* STSeriesFork */
+  &pipe_traverse_next,               /* STProxy */
+  &pipe_traverse_next,               /* STAttackMove */
+  &defense_move_make_setplay_slice,  /* STDefenseMove */
+  &help_move_make_setplay_slice,     /* STHelpMove */
+  &pipe_traverse_next,               /* STHelpFork */
+  &series_move_make_setplay_slice,   /* STSeriesMove */
+  &series_fork_make_setplay_slice,   /* STSeriesFork */
+  &stip_traverse_structure_children, /* STLeafDirect */
+  &stip_traverse_structure_children, /* STLeafHelp */
+  &stip_traverse_structure_children, /* STLeafForced */
+  &stip_traverse_structure_children, /* STReciprocal */
+  &stip_traverse_structure_children, /* STQuodlibet */
+  &stip_traverse_structure_children, /* STNot */
+  &pipe_traverse_next,               /* STMoveInverterRootSolvableFilter */
+  &pipe_traverse_next,               /* STMoveInverterSolvableFilter */
+  &pipe_traverse_next,               /* STMoveInverterSeriesFilter */
+  &stip_traverse_structure_children, /* STAttackRoot */
+  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
+  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children, /* STContinuationWriter */
+  &stip_traverse_structure_children, /* STRefutationsWriter */
+  &stip_traverse_structure_children, /* STThreatWriter */
+  &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STRefutationsCollector */
+  &stip_traverse_structure_children, /* STVariationWriter */
+  &stip_traverse_structure_children, /* STRefutingVariationWriter */
+  &stip_traverse_structure_children, /* STNoShortVariations */
+  &stip_traverse_structure_children, /* STAttackHashed */
+  &stip_traverse_structure_children, /* STHelpRoot */
+  &pipe_traverse_next,               /* STHelpShortcut */
+  &stip_traverse_structure_children, /* STHelpHashed */
+  &stip_traverse_structure_children, /* STSeriesRoot */
+  &pipe_traverse_next,               /* STSeriesShortcut */
+  &stip_traverse_structure_children, /* STParryFork */
+  &stip_traverse_structure_children, /* STSeriesHashed */
+  &pipe_traverse_next,               /* STSelfCheckGuardRootSolvableFilter */
+  &pipe_traverse_next,               /* STSelfCheckGuardSolvableFilter */
+  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
+  &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
+  &selfcheck_guard_defender_filter_make_setplay_slice, /* STSelfCheckGuardDefenderFilter */
+  &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
+  &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STDirectDefenderFilter */
+  &stip_traverse_structure_children, /* STReflexHelpFilter */
+  &stip_traverse_structure_children, /* STReflexSeriesFilter */
+  &pipe_traverse_next,               /* STReflexRootSolvableFilter */
+  &stip_traverse_structure_children, /* STReflexAttackerFilter */
+  &reflex_guard_defender_filter_make_setplay_slice, /* STReflexDefenderFilter */
+  &stip_traverse_structure_children, /* STSelfDefense */
+  &pipe_traverse_next,               /* STRestartGuardRootDefenderFilter */
+  &pipe_traverse_next,               /* STRestartGuardHelpFilter */
+  &pipe_traverse_next,               /* STRestartGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentHelpFilter */
+  &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
+  &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
+  &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &pipe_traverse_next,               /* STKeepMatingGuardRootDefenderFilter */
+  &pipe_traverse_next,               /* STKeepMatingGuardAttackerFilter */
+  &pipe_traverse_next,               /* STKeepMatingGuardDefenderFilter */
+  &pipe_traverse_next,               /* STKeepMatingGuardHelpFilter */
+  &pipe_traverse_next,               /* STKeepMatingGuardSeriesFilter */
+  &pipe_traverse_next,               /* STMaxFlightsquares */
+  &stip_traverse_structure_children, /* STDegenerateTree */
+  &pipe_traverse_next,               /* STMaxNrNonTrivial */
+  &pipe_traverse_next,               /* STMaxNrNonTrivialCounter */
+  &pipe_traverse_next,               /* STMaxThreatLength */
+  &pipe_traverse_next,               /* STMaxTimeRootDefenderFilter */
+  &pipe_traverse_next,               /* STMaxTimeDefenderFilter */
+  &pipe_traverse_next,               /* STMaxTimeHelpFilter */
+  &pipe_traverse_next,               /* STMaxTimeSeriesFilter */
+  &pipe_traverse_next,               /* STMaxSolutionsRootSolvableFilter */
+  &pipe_traverse_next,               /* STMaxSolutionsRootDefenderFilter */
+  &pipe_traverse_next,               /* STMaxSolutionsHelpFilter */
+  &pipe_traverse_next,               /* STMaxSolutionsSeriesFilter */
+  &pipe_traverse_next,               /* STStopOnShortSolutionsRootSolvableFilter */
+  &pipe_traverse_next,               /* STStopOnShortSolutionsHelpFilter */
+  &pipe_traverse_next                /* STStopOnShortSolutionsSeriesFilter */
+};
+
+/* Produce slices representing set play.
+ * This is supposed to be invoked from within the slice type specific
+ * functions invoked by stip_apply_setplay.
+ * @param si identifies the successor of the slice representing the
+ *           move(s) not played in set play
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index stip_make_setplay(slice_index si)
+{
+  slice_index result = no_slice;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&setplay_makers,&result);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
+}
+
+
+static stip_structure_visitor const setplay_appliers[] =
+{
+  &proxy_apply_setplay,                       /* STProxy */
+  &attack_move_apply_setplay,                 /* STAttackMove */
+  &stip_structure_visitor_noop,               /* STDefenseMove */
+  &help_move_apply_setplay,                   /* STHelpMove */
+  &help_fork_apply_setplay,                   /* STHelpFork */
+  &series_move_apply_setplay,                 /* STSeriesMove */
+  &stip_traverse_structure_children,          /* STSeriesFork */
   &stip_traverse_structure_children,          /* STLeafDirect */
   &stip_traverse_structure_children,          /* STLeafHelp */
-  &stip_traverse_structure_children,          /* STLeafForced */
+  &stip_structure_visitor_noop,               /* STLeafForced */
   &stip_traverse_structure_children,          /* STReciprocal */
   &stip_traverse_structure_children,          /* STQuodlibet */
   &stip_traverse_structure_children,          /* STNot */
   &pipe_traverse_next,                        /* STMoveInverterRootSolvableFilter */
-  &move_inverter_make_setplay_slice,          /* STMoveInverterSolvableFilter */
+  &pipe_traverse_next,                        /* STMoveInverterSolvableFilter */
   &pipe_traverse_next,                        /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,          /* STAttackRoot */
   &stip_traverse_structure_children,          /* STBattlePlaySolutionWriter */
@@ -2000,9 +2084,9 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children,          /* STDirectDefenderFilter */
   &stip_traverse_structure_children,          /* STReflexHelpFilter */
   &stip_traverse_structure_children,          /* STReflexSeriesFilter */
-  &reflex_attacker_filter_make_setplay_slice, /* STReflexRootSolvableFilter */
-  &stip_traverse_structure_children,          /* STReflexAttackerFilter */
-  &reflex_defender_filter_make_setplay_slice, /* STReflexDefenderFilter */
+  &stip_traverse_structure_children,          /* STReflexRootSolvableFilter */
+  &pipe_traverse_next,                        /* STReflexAttackerFilter */
+  &reflex_defender_filter_apply_setplay,      /* STReflexDefenderFilter */
   &stip_traverse_structure_children,          /* STSelfDefense */
   &pipe_traverse_next,                        /* STRestartGuardRootDefenderFilter */
   &pipe_traverse_next,                        /* STRestartGuardHelpFilter */
@@ -2043,6 +2127,7 @@ static void combine_set_play(slice_index setplay_slice, slice_index sibling)
 {
   slice_index mi;
   slice_index op1;
+  slice_index hook = slices[sibling].prev;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",setplay_slice);
@@ -2059,7 +2144,7 @@ static void combine_set_play(slice_index setplay_slice, slice_index sibling)
   op1 = alloc_proxy_slice();
   pipe_link(op1,mi);
 
-  pipe_set_successor(root_slice,alloc_quodlibet_slice(op1,sibling));
+  pipe_set_successor(hook,alloc_quodlibet_slice(op1,sibling));
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -2079,7 +2164,7 @@ boolean stip_apply_setplay(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&setplay_makers,&prod);
+  stip_structure_traversal_init(&st,&setplay_appliers,&prod);
   stip_traverse_structure(slices[root_slice].u.pipe.next,&st);
 
   if (prod.setplay_slice==no_slice)
@@ -2978,11 +3063,14 @@ void stip_traverse_structure_children(slice_index si,
  */
 void stip_traverse_moves_pipe(slice_index si, stip_move_traversal *st)
 {
+  slice_index const next = slices[si].u.pipe.next;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves(slices[si].u.pipe.next,st);
+  if (next!=no_slice)
+    stip_traverse_moves(next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

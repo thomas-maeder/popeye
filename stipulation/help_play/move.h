@@ -29,11 +29,17 @@ void help_move_insert_root(slice_index si, stip_structure_traversal *st);
  */
 void help_move_detect_starter(slice_index si, stip_structure_traversal *st);
 
-/* Spin off a set play slice at root level
+/* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal
  */
 void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st);
+
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void help_move_apply_setplay(slice_index si, stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

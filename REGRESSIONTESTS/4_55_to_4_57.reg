@@ -504,3 +504,34 @@ Initial (Black ->):
 solution finished. 
 
 
+
+   only example so far of ser-sXN*
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4  -B   P   .   .   .   .   .   .   4
+|                                   |
+3  -K  -P   P   .   .   .   .   .   3
+|                                   |
+2   S  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   K  -B   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-s#2                     4 + 6
+
+  1...b3*a2 # 
+
+  1.Sa2*c1   2.Sc1-a2 b3*a2 # 
+
+solution finished. 
+
+

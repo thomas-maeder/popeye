@@ -36,6 +36,19 @@ static stip_length_type move_depth;
 
 static captured_ply_type captured_ply[maxply+1];
 
+typedef enum
+{
+  unknown_attack,
+  continuation_attack,
+  threat_attack
+} output_attack_type;
+
+static output_attack_type output_attack_types[maxply];
+static boolean reflex[maxply];
+static unsigned int nr_continuations_written[maxply];
+static unsigned int nr_defenses_written[maxply];
+
+
 static void output_mode_treemode(slice_index si, stip_structure_traversal *st)
 {
   output_mode * const mode = st->param;
@@ -85,6 +98,24 @@ static void output_mode_binary(slice_index si, stip_structure_traversal *st)
   *mode = mode2==output_mode_none ? mode1 : mode2;
   
   TraceEnumerator(output_mode,*mode,"\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void output_mode_self_defense(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  output_mode * const mode = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.branch.length>slack_length_battle)
+    *mode = output_mode_tree;
+  else
+    stip_traverse_structure(slices[si].u.branch.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -141,7 +172,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &output_mode_treemode,             /* STReflexRootSolvableFilter */
   &output_mode_treemode,             /* STReflexAttackerFilter */
   &output_mode_treemode,             /* STReflexDefenderFilter */
-  &output_mode_treemode,             /* STSelfDefense */
+  &output_mode_self_defense,         /* STSelfDefense */
   &pipe_traverse_next,               /* STRestartGuardRootDefenderFilter */
   &pipe_traverse_next,               /* STRestartGuardHelpFilter */
   &pipe_traverse_next,               /* STRestartGuardSeriesFilter */
@@ -193,6 +224,7 @@ void init_output(slice_index si)
   {
     move_depth = nr_color_inversions_in_ply[nbply+1];
     TraceValue("%u\n",move_depth);
+    nr_continuations_written[move_depth] = 0;
     invalidate_ply_snapshot(&captured_ply[2]);
   }
   else
@@ -201,18 +233,6 @@ void init_output(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-typedef enum
-{
-  unknown_attack,
-  continuation_attack,
-  threat_attack
-} output_attack_type;
-
-static output_attack_type output_attack_types[maxply];
-static boolean reflex[maxply];
-static unsigned int nr_continuations_written[maxply];
-static unsigned int nr_defenses_written[maxply];
 
 /* Start search for reflex unsolvabilities
  */
@@ -311,6 +331,8 @@ void output_start_threat_level(void)
 
   if (current_mode==output_mode_tree)
   {
+    TraceValue("%u",move_depth);
+    TraceValue("%u\n",nr_continuations_written[move_depth]);
     if (nr_continuations_written[move_depth]==0)
       /* option postkey is set - write "threat:" or "zugzwang" on a
        * new line

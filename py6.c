@@ -2148,9 +2148,11 @@ static boolean apply_whitetoplay(slice_index proxy)
       if (meaning==whitetoplay_means_shorten)
       {
         slice_index const inverter = alloc_move_inverter_solvable_filter();
+        slice_index const proxy2 = alloc_proxy_slice();
         slice_index const hook = help_branch_shorten(next);
         pipe_link(proxy,inverter);
-        pipe_set_successor(inverter,hook);
+        pipe_link(inverter,proxy2);
+        pipe_set_successor(proxy2,hook);
       }
       else
       {

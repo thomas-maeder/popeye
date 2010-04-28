@@ -15,6 +15,13 @@
 slice_index alloc_defense_move_slice(stip_length_type length,
                                      stip_length_type min_length);
 
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void defense_move_make_setplay_slice(slice_index si,
+                                     stip_structure_traversal *st);
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -74,12 +81,5 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_min,
                                               unsigned int max_nr_refutations);
-
-/* Spin off a set play slice
- * @param si slice index
- * @param st state of traversal
- */
-void defense_move_make_setplay_slice(slice_index si,
-                                     stip_structure_traversal *st);
 
 #endif

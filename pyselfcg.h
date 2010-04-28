@@ -214,6 +214,15 @@ selfcheck_guard_can_defend_in_n(slice_index si,
                                 stip_length_type n,
                                 stip_length_type n_min,
                                 unsigned int max_nr_refutations);
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void
+selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
+                                                   stip_structure_traversal *st);
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

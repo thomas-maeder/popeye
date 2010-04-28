@@ -18,17 +18,18 @@ slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
                                     slice_index proxy_to_goal);
 
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void series_fork_make_setplay_slice(slice_index si,
+                                    stip_structure_traversal *st);
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
 void series_fork_insert_root(slice_index si, stip_structure_traversal *st);
-
-/* Spin off a set play slice at root level
- * @param si slice index
- * @param st state of traversal
- */
-void series_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

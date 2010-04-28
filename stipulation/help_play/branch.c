@@ -18,7 +18,7 @@ void help_branch_shorten_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   slices[si].u.branch.length -= 2;
-  if (slices[si].u.branch.min_length-slack_length_help>=3)
+  if (slices[si].u.branch.min_length-slack_length_help>=2)
     slices[si].u.branch.min_length -= 2;
 
   TraceFunctionExit(__func__);
@@ -172,15 +172,16 @@ slice_index alloc_help_branch(stip_length_type length,
   assert(length>slack_length_help);
   assert(slices[proxy_to_goal].type==STProxy);
 
+  result = alloc_proxy_slice();
+
   if ((length-slack_length_help)%2==0)
-    result = alloc_help_branch_even(length,min_length,proxy_to_goal);
+    pipe_set_successor(result,
+                       alloc_help_branch_even(length,min_length,proxy_to_goal));
   else
-  {
-    /* this indirect approach avoids some duplication */
-    slice_index const fork = alloc_help_branch_even(length+1,min_length+1,
-                                                    proxy_to_goal);
-    result = shorten_fork(fork);
-  }
+    /* this indirect approach avoids some code duplication */
+    pipe_set_successor(result,
+                       shorten_fork(alloc_help_branch_even(length+1,min_length+1,
+                                                           proxy_to_goal)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

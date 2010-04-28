@@ -37,6 +37,32 @@ slice_index alloc_defense_move_slice(stip_length_type length,
   return result;
 }
 
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void defense_move_make_setplay_slice(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (length>slack_length_battle)
+  {
+    stip_length_type const length_h = (length-slack_length_battle
+                                       +slack_length_help);
+    *result = alloc_help_move_slice(length_h,length_h);
+    pipe_set_successor(*result,slices[si].u.branch.next);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -475,32 +501,4 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Spin off a set play slice
- * @param si slice index
- * @param st state of traversal
- */
-void defense_move_make_setplay_slice(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const length_h = (length
-                                       +slack_length_help
-                                       -slack_length_battle-1);
-    slice_index const help = alloc_help_move_slice(length_h,length_h);
-    prod->setplay_slice = alloc_selfcheck_guard_help_filter(length_h,length_h);
-    pipe_link(prod->setplay_slice,help);
-    pipe_set_successor(help,slices[si].u.pipe.next);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

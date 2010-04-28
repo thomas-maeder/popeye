@@ -71,11 +71,11 @@ void proxy_slice_resolve(slice_index *si)
   TraceFunctionResultEnd();
 }
 
-/* Spin off a set play slice
+/* Spin off set play
  * @param si slice index
  * @param st state of traversal
  */
-void proxy_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void proxy_apply_setplay(slice_index si, stip_structure_traversal *st)
 {
   setplay_slice_production * const prod = st->param;
 
@@ -84,12 +84,43 @@ void proxy_make_setplay_slice(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  if (prod->setplay_slice==slices[si].u.pipe.next)
-    prod->setplay_slice = si;
-
   prod->sibling = si;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void proxy_insert_root(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.pipe.next,st);
+
+  if (slices[si].u.pipe.next==no_slice)
+  {
+    pipe_unlink(slices[si].prev);
+    dealloc_proxy_slice(si);
+  }
+  else
+  {
+    slice_index const proxy = alloc_proxy_slice();
+
+    if (slices[*root].prev==no_slice)
+      pipe_link(proxy,*root);
+    else
+      pipe_set_successor(proxy,*root);
+
+    *root = proxy;
+  }
+  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

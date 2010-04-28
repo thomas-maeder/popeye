@@ -89,4 +89,10 @@ stip_length_type attack_move_solve_in_n(slice_index si,
  */
 void attack_move_detect_starter(slice_index si, stip_structure_traversal *st);
 
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void attack_move_apply_setplay(slice_index si, stip_structure_traversal *st);
+
 #endif

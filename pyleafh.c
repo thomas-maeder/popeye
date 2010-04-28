@@ -108,7 +108,8 @@ boolean leaf_h_root_solve(slice_index leaf)
 
   isIntelligentModeActive = false;
   result = leaf_h_solve(leaf)>=has_solution;
-  write_end_of_solution_phase();
+  if (result)
+    write_end_of_solution_phase();
   isIntelligentModeActive = save_isIntelligentModeActive;
 
   TraceFunctionExit(__func__);

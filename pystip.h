@@ -365,6 +365,16 @@ typedef struct
  */
 boolean stip_apply_postkeyplay(void);
 
+/* Produce slices representing set play.
+ * This is supposed to be invoked from within the slice type specific
+ * functions invoked by stip_apply_setplay.
+ * @param si identifies the successor of the slice representing the
+ *           move(s) not played in set play
+ * @return entry point of the slices representing set play
+ *         no_slice if set play is not applicable
+ */
+slice_index stip_make_setplay(slice_index si);
+
 /* Attempt to add set play to the stipulation
  * @return true iff set play could be added
  */

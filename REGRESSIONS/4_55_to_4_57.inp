@@ -136,4 +136,12 @@ stip ser-ha=>b2
 fors rsbqkbsr/pppppppp/8/8/8/P7/1PPPPPPP/RSBQKBSR
 option set
 
+next
+
+title only example so far of ser-sXN*
+pieces white kb1 sa2 pb4c3
+       black bc1 ka3 ba4 pb2b3b5
+stip ser-s#2
+option set
+
 end

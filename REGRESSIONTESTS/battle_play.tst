@@ -449,7 +449,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         2 + 3
 
-      1...b3-b2 # 
+  1...b3-b2 # 
 
 solution finished. 
 
@@ -539,7 +539,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         3 + 4
 
-      1...b3-b2 # 
+  1...b3-b2 # 
 
   1.h3-h4 ! 
       1...b3-b2 # 

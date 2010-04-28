@@ -9,26 +9,28 @@
 #include <assert.h>
 
 /* Allocate a quodlibet slice.
- * @param op1 1st operand
- * @param op2 2nd operand
+ * @param proxy1 1st operand
+ * @param proxy2 2nd operand
  * @return index of allocated slice
  */
-slice_index alloc_quodlibet_slice(slice_index op1, slice_index op2)
+slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",op1);
-  TraceFunctionParam("%u",op2);
+  TraceFunctionParam("%u",proxy1);
+  TraceFunctionParam("%u",proxy2);
   TraceFunctionParamListEnd();
 
-  assert(op1!=no_slice);
-  assert(op2!=no_slice);
+  assert(proxy1!=no_slice);
+  assert(proxy2!=no_slice);
 
   result = alloc_slice(STQuodlibet);
 
-  slices[result].u.binary.op1 = op1;
-  slices[result].u.binary.op2 = op2;
+  slices[result].u.binary.op1 = proxy1;
+  assert(slices[proxy1].type==STProxy);
+  slices[result].u.binary.op2 = proxy2;
+  assert(slices[proxy2].type==STProxy);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

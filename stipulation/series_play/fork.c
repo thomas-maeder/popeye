@@ -34,19 +34,17 @@ slice_index alloc_series_fork_slice(stip_length_type length,
   return result;
 }
 
-/* Spin off a set play slice at root level
+/* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal
  */
 void series_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
-  setplay_slice_production * const prod = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  prod->setplay_slice = slices[si].u.branch_fork.towards_goal;
+  stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
