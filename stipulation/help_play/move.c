@@ -47,11 +47,14 @@ void help_move_insert_root(slice_index si, stip_structure_traversal *st)
   slice_index const prev = slices[si].prev;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  if (min_length==slack_length_help)
+    min_length += 2;
 
   *root = alloc_help_root_slice(length,min_length);
 
@@ -59,9 +62,10 @@ void help_move_insert_root(slice_index si, stip_structure_traversal *st)
   {
     /* si is part of a loop - spin off a root branch */
     slice_index const shortcut = alloc_help_shortcut(length,min_length,prev);
-    slice_index const root_branch = copy_slice(si);
-    pipe_link(shortcut,root_branch);
+    slice_index const root_branch = alloc_help_move_slice(length,min_length);
     pipe_link(*root,shortcut);
+    pipe_link(shortcut,root_branch);
+    pipe_set_successor(root_branch,next);
   }
   else
   {
@@ -328,9 +332,10 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 
   if (length>slack_length_help)
   {
-    *result = copy_slice(si);
-    if (slices[*result].u.branch.min_length==slack_length_help)
-      slices[*result].u.branch.min_length += 2;
+    slice_index const prev = slices[si].prev;
+    assert(slices[prev].type==STProxy);
+    *result = alloc_proxy_slice();
+    pipe_set_successor(*result,prev);
   }
 
   TraceFunctionExit(__func__);

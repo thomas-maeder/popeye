@@ -97,19 +97,22 @@ void proxy_apply_setplay(slice_index si, stip_structure_traversal *st)
 void proxy_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure(next,st);
 
-  if (slices[si].u.pipe.next==no_slice)
+  if (next==no_slice || slices[next].prev!=si)
   {
-    pipe_unlink(slices[si].prev);
+    slice_index const prev = slices[si].prev;
+    if (prev!=no_slice)
+      pipe_unlink(slices[si].prev);
     dealloc_proxy_slice(si);
   }
-  else
+
   {
     slice_index const proxy = alloc_proxy_slice();
 

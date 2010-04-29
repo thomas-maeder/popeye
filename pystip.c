@@ -837,9 +837,10 @@ void stip_insert_root_slices(void)
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
+  assert(slices[root_slice].type==STProxy);
 
   stip_structure_traversal_init(&st,&root_slice_inserters,&result);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(slices[root_slice].u.pipe.next,&st);
 
   pipe_link(root_slice,result);
 
@@ -1970,7 +1971,7 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &selfcheck_guard_defender_filter_make_setplay_slice, /* STSelfCheckGuardDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
+  &selfcheck_guard_help_make_setplay_slice, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
@@ -2144,6 +2145,7 @@ static void combine_set_play(slice_index setplay_slice, slice_index sibling)
   op1 = alloc_proxy_slice();
   pipe_link(op1,mi);
 
+  pipe_unlink(hook);
   pipe_set_successor(hook,alloc_quodlibet_slice(op1,sibling));
 
   TraceFunctionExit(__func__);

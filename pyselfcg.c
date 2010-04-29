@@ -574,6 +574,33 @@ void selfcheck_guard_help_solve_threats_in_n(table threats,
   TraceFunctionResultEnd();
 }
 
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void selfcheck_guard_help_make_setplay_slice(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[si].u.pipe.next,st);
+
+  if (*result!=no_slice)
+  {
+    slice_index const guard = copy_slice(si);
+    pipe_link(guard,*result);
+    *result = guard;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

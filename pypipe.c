@@ -88,6 +88,8 @@ void pipe_unlink(slice_index pipe)
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
+  assert(pipe!=no_slice);
+
   if (slices[*succ].prev==pipe)
     slices[*succ].prev = no_slice;
 

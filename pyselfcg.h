@@ -270,6 +270,14 @@ void selfcheck_guard_help_solve_threats_in_n(table threats,
                                              slice_index si,
                                              stip_length_type n);
 
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void selfcheck_guard_help_make_setplay_slice(slice_index si,
+                                             stip_structure_traversal *st);
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
