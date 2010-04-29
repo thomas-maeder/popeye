@@ -30,12 +30,6 @@ void dealloc_proxy_slices(void);
  */
 void proxy_slice_resolve(slice_index *si);
 
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void proxy_apply_setplay(slice_index si, stip_structure_traversal *st);
-
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

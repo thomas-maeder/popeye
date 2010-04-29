@@ -348,13 +348,13 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
  */
 void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
 {
-  setplay_slice_production * const prod = st->param;
+  slice_index * const setplay_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  prod->setplay_slice = stip_make_setplay(slices[si].u.pipe.next);
+  *setplay_slice = stip_make_setplay(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

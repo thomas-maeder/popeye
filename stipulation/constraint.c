@@ -729,7 +729,7 @@ reflex_guard_defender_filter_make_setplay_slice(slice_index si,
 void reflex_defender_filter_apply_setplay(slice_index si,
                                           stip_structure_traversal *st)
 {
-  setplay_slice_production * const prod = st->param;
+  slice_index * const setplay_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -747,8 +747,8 @@ void reflex_defender_filter_apply_setplay(slice_index si,
                                            +slack_length_help);
     slice_index const filter = alloc_reflex_help_filter(length_h,min_length_h,
                                                         avoided);
-    pipe_link(filter,prod->setplay_slice);
-    prod->setplay_slice = filter;
+    pipe_link(filter,*setplay_slice);
+    *setplay_slice = filter;
   }
   
   TraceFunctionExit(__func__);

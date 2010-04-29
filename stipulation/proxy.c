@@ -71,25 +71,6 @@ void proxy_slice_resolve(slice_index *si)
   TraceFunctionResultEnd();
 }
 
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void proxy_apply_setplay(slice_index si, stip_structure_traversal *st)
-{
-  setplay_slice_production * const prod = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  prod->sibling = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
