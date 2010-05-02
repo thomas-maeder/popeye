@@ -2916,8 +2916,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
 
-      stip_insert_selfcheck_guards();
-
       if (!init_intelligent_mode())
         Message(IntelligentRestricted);
 

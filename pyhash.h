@@ -98,7 +98,7 @@ boolean attack_hashed_are_threats_refuted_in_n(table threats,
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
  *            n_min-4 defense put defender into self-check,
- *                    or some similar dead end
+ *                    or some to be illegal
  *            n_min-2 defense has solved
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
@@ -113,7 +113,7 @@ stip_length_type attack_hashed_has_solution_in_n(slice_index si,
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
  *            n_min-4 defense put defender into self-check,
- *                    or some similar dead end
+ *                    or some to be illegal
  *            n_min-2 defense has solved
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
@@ -154,16 +154,27 @@ void hashed_help_solve_threats_in_n(table threats,
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ *         n-1 the previous move has solved the next slice
  */
-boolean hashed_series_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ *         n-1 the previous move has solved the next slice
  */
-boolean hashed_series_has_solution_in_n(slice_index si, stip_length_type n);
+stip_length_type hashed_series_has_solution_in_n(slice_index si,
+                                                 stip_length_type n);
 
 /* Determine and write threats
  * @param threats table where to add first moves

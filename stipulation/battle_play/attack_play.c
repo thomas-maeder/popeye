@@ -190,10 +190,20 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
+    case STSelfCheckGuardSeriesFilter:
     {
-      stip_length_type const n_ser = (n-slack_length_battle-1
-                                      +slack_length_series);
-      result = series_has_solution_in_n(si,n_ser) ? n : n+2;
+      stip_length_type const n_ser = ((n-slack_length_battle)/2
+                                      +slack_length_series+1);
+      stip_length_type const nr_moves_needed = series_has_solution_in_n(si,
+                                                                        n_ser);
+      if (nr_moves_needed==n_ser+2)
+        result = n_min-4;
+      else if (nr_moves_needed==n_ser+1)
+        result = n+2;
+      else if (nr_moves_needed==n_ser)
+        result = n;
+      else
+        result = n_min-2;
       break;
     }
 
@@ -558,10 +568,19 @@ stip_length_type attack_solve_in_n(slice_index si,
     case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
+    case STSelfCheckGuardSeriesFilter:
     {
-      stip_length_type const n_ser = (n-slack_length_battle-1
-                                      +slack_length_series);
-      result = series_solve_in_n(si,n_ser) ? n : n+2;
+      stip_length_type const n_ser = ((n-slack_length_battle)/2
+                                      +slack_length_series+1);
+      stip_length_type nr_moves_needed = series_solve_in_n(si,n_ser);
+      if (nr_moves_needed==n_ser+2)
+        result = n_min-4;
+      else if (nr_moves_needed==n_ser+1)
+        result = n+2;
+      else if (nr_moves_needed==n_ser)
+        result = n;
+      else
+        result = n_min-2;
       break;
     }
 

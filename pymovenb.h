@@ -56,7 +56,12 @@ boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n);
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ *         n-1 the previous move has solved the next slice
  */
 boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n);
 

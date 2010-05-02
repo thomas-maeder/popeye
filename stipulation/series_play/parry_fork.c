@@ -12,11 +12,16 @@
 /* Determine and write the solution(s)
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ *         n-1 the previous move has solved the next slice
  */
-boolean parry_fork_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type parry_fork_solve_in_n(slice_index si, stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
   Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -25,7 +30,7 @@ boolean parry_fork_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_solve_in_n(slices[si].u.parry_fork.parrying,n+1);
+    result = series_solve_in_n(slices[si].u.parry_fork.parrying,n+1)-1;
   else
     result = series_solve_in_n(slices[si].u.parry_fork.next,n);
 
@@ -38,11 +43,17 @@ boolean parry_fork_solve_in_n(slice_index si, stip_length_type n)
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ *         n-1 the previous move has solved the next slice
  */
-boolean parry_fork_has_solution_in_n(slice_index si, stip_length_type n)
+stip_length_type parry_fork_has_solution_in_n(slice_index si,
+                                              stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
   Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
@@ -51,7 +62,7 @@ boolean parry_fork_has_solution_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_has_solution_in_n(slices[si].u.parry_fork.parrying,n+1);
+    result = series_has_solution_in_n(slices[si].u.parry_fork.parrying,n+1)-1;
   else
     result = series_has_solution_in_n(slices[si].u.parry_fork.next,n);
 
@@ -85,14 +96,9 @@ static slice_index alloc_parry_fork(slice_index parrying)
 /* Convert a series branch to a parry series branch
  * @param si identifies first slice of the series branch
  * @param parrying identifies slice responsible for parrying
- * @return identifier of slice representing the play after the
- *         parrying logic
  */
-slice_index convert_to_parry_series_branch(slice_index si,
-                                           slice_index parrying)
+void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 {
-  slice_index result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",parrying);
@@ -101,38 +107,21 @@ slice_index convert_to_parry_series_branch(slice_index si,
   TraceStipulation(si);
 
   {
-    slice_index const branch = branch_find_slice(STSeriesMove,si);
-    slice_index const series_fork = slices[branch].u.pipe.next;
-    slice_index const branch_guard = slices[series_fork].u.pipe.next;
-
     slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                   branch);
-    slice_index const proxy = slices[inverter].u.pipe.next;
-    slice_index const inverter_guard = slices[proxy].u.pipe.next;
-    slice_index const prev = slices[inverter].prev;
+                                                   si);
+    slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+                                                inverter);
     slice_index const parry_fork = alloc_parry_fork(parrying);
 
     assert(inverter!=no_slice);
-    assert(slices[series_fork].type==STSeriesFork);
-    assert(slices[branch_guard].type==STSelfCheckGuardSeriesFilter);
-    assert(slices[inverter_guard].type==STSelfCheckGuardSeriesFilter);
+    assert(guard!=no_slice);
 
-    result = alloc_proxy_slice();
-    pipe_append(prev,parry_fork);
-    pipe_replace(inverter_guard,result);
-
-    if (slices[branch_guard].u.pipe.next==inverter)
-      /* if in the play after the branch, the same side is to move as
-       * in the branch (e.g. in s pser-#N), we have to make sure that
-       * the other side gets the chance to parry.
-       */
-      pipe_set_successor(branch_guard,parry_fork);
+    pipe_append(slices[inverter].prev,parry_fork);
+    pipe_link(inverter,slices[guard].u.pipe.next);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Substitute links to proxy slices by the proxy's target

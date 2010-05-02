@@ -181,11 +181,17 @@ has_solution_type move_inverter_has_solution(slice_index si)
 /* Determine whether a slice has a solution
  * @param pipe slice index
  * @param n exact number of half moves until end state has to be reached
- * @return true iff slice si has a solution
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ *         n-1 the previous move has solved the next slice
  */
-boolean move_inverter_series_solve_in_n(slice_index pipe, stip_length_type n)
+stip_length_type move_inverter_series_solve_in_n(slice_index pipe,
+                                                 stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
@@ -202,12 +208,17 @@ boolean move_inverter_series_solve_in_n(slice_index pipe, stip_length_type n)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+2 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+1 no solution found
+ *         n   solution found
+ *         n-1 the previous move has solved the next slice
  */
-boolean move_inverter_series_has_solution_in_n(slice_index si,
-                                               stip_length_type n)
+stip_length_type move_inverter_series_has_solution_in_n(slice_index si,
+                                                        stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -49,9 +49,10 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
     case STSeriesFork:
     case STSeriesMove:
     case STSeriesHashed:
+    case STSelfCheckGuardSeriesFilter:
     {
       stip_length_type const nseries = n-slack_length_help+slack_length_series;
-      result = series_solve_in_n(si,nseries);
+      result = series_solve_in_n(si,nseries)<=nseries;
       break;
     }
 
