@@ -244,7 +244,7 @@ boolean help_move_are_threats_refuted(table threats, slice_index si)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && is_current_move_in_table(threats)
-          && help_has_solution_in_n(next,length-1))
+          && help_has_solution_in_n(next,length-1)<=length-1)
         ++nr_successful_threats;
 
       repcoup();
@@ -267,18 +267,22 @@ boolean help_move_are_threats_refuted(table threats, slice_index si)
 /* Iterate moves until a solution has been found
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @return true iff a solution has been found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-static boolean find_solution(slice_index si, stip_length_type n)
+static stip_length_type find_solution(slice_index si, stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
-  boolean result = false;
+  stip_length_type result = n+2;
   
-  while (!result && encore())
+  while (result>n && encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help_has_solution_in_n(next,n-1))
-      result = true;
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+      result = help_has_solution_in_n(next,n-1)+1;
 
     repcoup();
   }
@@ -289,12 +293,18 @@ static boolean find_solution(slice_index si, stip_length_type n)
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean help_move_has_solution_in_n(slice_index si, stip_length_type n)
+stip_length_type help_move_has_solution_in_n(slice_index si,
+                                             stip_length_type n)
 {
   Side const side_at_move = slices[si].starter;
-  boolean result = false;
+  stip_length_type result;
   Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
@@ -315,6 +325,8 @@ boolean help_move_has_solution_in_n(slice_index si, stip_length_type n)
       result = find_solution(si,n);
       finply();
     }
+    else
+      result = n+2;
   }
   else
   {

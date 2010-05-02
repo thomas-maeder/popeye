@@ -120,9 +120,15 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean help_fork_has_solution_in_n(slice_index si, stip_length_type n)
+stip_length_type help_fork_has_solution_in_n(slice_index si,
+                                             stip_length_type n)
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
@@ -136,7 +142,24 @@ boolean help_fork_has_solution_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    result = slice_has_solution(to_goal)>=has_solution;
+    switch (slice_has_solution(to_goal))
+    {
+      case is_solved:
+        result = n-2;
+        break;
+
+      case has_solution:
+        result = n;
+        break;
+
+      case has_no_solution:
+        result = n+2;
+        break;
+
+      case defender_self_check:
+        result = n+4;
+        break;
+    }
   else
     result = help_has_solution_in_n(next,n);
 

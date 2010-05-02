@@ -25,7 +25,8 @@ slice_index alloc_help_shortcut(stip_length_type length,
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void help_shortcut_resolve_proxies(slice_index si, stip_structure_traversal *st);
+void help_shortcut_resolve_proxies(slice_index si,
+                                   stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -42,8 +43,14 @@ stip_length_type help_shortcut_solve_in_n(slice_index si, stip_length_type n);
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean help_shortcut_has_solution_in_n(slice_index si, stip_length_type n);
+stip_length_type help_shortcut_has_solution_in_n(slice_index si,
+                                                 stip_length_type n);
 
 #endif

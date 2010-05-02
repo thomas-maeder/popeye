@@ -2952,12 +2952,17 @@ stip_length_type goalreachable_guard_help_solve_in_n(slice_index si,
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean goalreachable_guard_help_has_solution_in_n(slice_index si,
-                                                   stip_length_type n)
+stip_length_type
+goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
@@ -2969,8 +2974,10 @@ boolean goalreachable_guard_help_has_solution_in_n(slice_index si,
 
   --MovesLeft[just_moved];
 
-  result = (isGoalReachable()
-            && help_has_solution_in_n(slices[si].u.pipe.next,n));
+  if (isGoalReachable())
+    result = help_has_solution_in_n(slices[si].u.pipe.next,n);
+  else
+    result = n+2;
 
   ++MovesLeft[just_moved];
 
