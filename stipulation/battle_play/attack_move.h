@@ -42,8 +42,7 @@ boolean attack_move_are_threats_refuted_in_n(table threats,
  * @param n maximal number of moves
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some similar dead end
+ *            n_min-4 defense has turned out to be illegal
  *            n_min-2 defense has solved
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
@@ -73,8 +72,7 @@ stip_length_type attack_move_solve_threats_in_n(table threats,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some similar dead end
+ *            n_min-4 defense has turned out to be illegal
  *            n_min-2 defense has solved
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
