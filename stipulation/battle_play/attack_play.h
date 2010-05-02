@@ -77,10 +77,11 @@ void attack_solve_threats(table threats, slice_index si);
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
- *         (n-slack_length_battle)%2 if the previous move led to a
- *            dead end (e.g. self-check)
+ * @return length of solution found and written, i.e.:
+ *            n_min-4 defense has turned out to be illegal
+ *            n_min-2 defense has solved
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
  */
 stip_length_type attack_solve_in_n(slice_index si,
                                    stip_length_type n,
