@@ -238,13 +238,6 @@ boolean defense_defend_in_n(slice_index si,
       result = maxtime_defender_filter_defend_in_n(si,n,n_min);
       break;
 
-    case STHelpMove:
-    {
-      stip_length_type const nhelp = n-slack_length_battle-1+slack_length_help;
-      result = help_solve_in_n(si,nhelp)>nhelp;
-      break;
-    }
-
     default:
       assert(0);
       break;

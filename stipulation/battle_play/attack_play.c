@@ -191,8 +191,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     case STSeriesFork:
     case STSelfCheckGuardSeriesFilter:
     {
-      stip_length_type const n_ser = ((n-slack_length_battle)/2
-                                      +slack_length_series+1);
+      stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
       stip_length_type const nr_moves_needed = series_has_solution_in_n(si,
                                                                         n_ser);
       if (nr_moves_needed==n_ser+2)
@@ -568,8 +567,7 @@ stip_length_type attack_solve_in_n(slice_index si,
     case STSeriesFork:
     case STSelfCheckGuardSeriesFilter:
     {
-      stip_length_type const n_ser = ((n-slack_length_battle)/2
-                                      +slack_length_series+1);
+      stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
       stip_length_type nr_moves_needed = series_solve_in_n(si,n_ser);
       if (nr_moves_needed==n_ser+2)
         result = n_min-4;
