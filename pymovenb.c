@@ -177,11 +177,17 @@ stip_length_type restart_guard_root_defend(slice_index si,
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type restart_guard_help_solve_in_n(slice_index si,
+                                               stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -195,7 +201,7 @@ boolean restart_guard_help_solve_in_n(slice_index si, stip_length_type n)
   TraceValue("%u",MoveNbr);
   TraceValue("%u\n",RestartNbr);
   if (MoveNbr<=RestartNbr)
-    result = false;
+    result = n+2;
   else
     result = help_solve_in_n(slices[si].u.pipe.next,n);
 

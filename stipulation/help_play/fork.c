@@ -66,11 +66,16 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean help_fork_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -80,7 +85,29 @@ boolean help_fork_solve_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   if (n==slack_length_help)
-    result = slice_solve(slices[si].u.branch_fork.towards_goal)>=has_solution;
+    switch (slice_solve(slices[si].u.branch_fork.towards_goal))
+    {
+      case is_solved:
+        result = n-2;
+        break;
+
+      case has_solution:
+        result = n;
+        break;
+
+      case has_no_solution:
+        result = n+2;
+        break;
+
+      case defender_self_check:
+        result = n+4;
+        break;
+
+      default:
+        assert(0);
+        result = n+4;
+        break;
+    }
   else
     result = help_solve_in_n(slices[si].u.pipe.next,n);
 

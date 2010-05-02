@@ -19,9 +19,14 @@ boolean help_root_solve(slice_index si);
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean help_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type help_solve_in_n(slice_index si, stip_length_type n);
 
 /* Solve a branch slice at non-root level.
  * @param si slice index

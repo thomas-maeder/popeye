@@ -32,11 +32,17 @@ slice_index alloc_intelligent_help_filter(stip_length_type length,
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean intelligent_help_filter_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type intelligent_help_filter_solve_in_n(slice_index si,
+                                                    stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

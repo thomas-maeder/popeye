@@ -60,7 +60,7 @@ boolean help_root_root_solve(slice_index root)
 
   while (len<=full_length)
   {
-    if (help_solve_in_n(next,len))
+    if (help_solve_in_n(next,len)<=len)
       result = true;
     len += 2;
   }

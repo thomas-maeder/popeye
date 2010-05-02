@@ -24,11 +24,16 @@
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean help_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
 {
-  boolean result = false;
+  stip_length_type result = n+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -51,8 +56,19 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
     case STSeriesHashed:
     case STSelfCheckGuardSeriesFilter:
     {
-      stip_length_type const nseries = n-slack_length_help+slack_length_series;
-      result = series_solve_in_n(si,nseries)<=nseries;
+      stip_length_type const n_series = n-slack_length_help+slack_length_series;
+      stip_length_type const length = series_solve_in_n(si,n_series);
+      if (length==n_series+2)
+        result = n+4;
+      else if (length==n_series+1)
+        result = n+2;
+      else if (length==n_series)
+        result = n;
+      else
+      {
+        assert(length==n_series-1);
+        result = n-2;
+      }
       break;
     }
 
@@ -62,21 +78,21 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
     case STReflexAttackerFilter:
     case STSelfCheckGuardAttackerFilter:
     {
-      stip_length_type const nbattle = (n-slack_length_help
-                                        +slack_length_battle);
+      stip_length_type const nbattle = n+slack_length_battle-slack_length_help;
       stip_length_type const parity = (nbattle-slack_length_battle)%2;
       stip_length_type const n_min = slack_length_battle+parity;
       stip_length_type const sol_length = attack_has_solution_in_n(si,
                                                                    nbattle,
                                                                    n_min);
-      if (n_min-2<=sol_length && sol_length<=nbattle)
+      if (sol_length==n_min-4)
+        result = n+4;
+      else if (n_min-2<=sol_length && sol_length<=nbattle)
       {
-        stip_length_type const length = attack_solve_in_n(si,nbattle,n_min);
-        assert(length<=nbattle);
-        result = true;
+        result = n;
+        attack_solve_in_n(si,nbattle,n_min);
       }
       else
-        result = false;
+        result = sol_length+slack_length_help-slack_length_battle;
       break;
     }
 
@@ -86,7 +102,7 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
                                         slack_length_battle+1);
       stip_length_type const parity = (nbattle-slack_length_battle)%2;
       stip_length_type const n_min = slack_length_battle+parity;
-      result = !defense_defend_in_n(si,nbattle,n_min);
+      result = defense_defend_in_n(si,nbattle,n_min) ? n : n+2;
       break;
     }
 
@@ -100,7 +116,24 @@ boolean help_solve_in_n(slice_index si, stip_length_type n)
 
     case STLeafHelp:
       assert(n==slack_length_help+1);
-      result = leaf_h_solve(si)>=has_solution;
+      switch (leaf_h_solve(si))
+      {
+        case is_solved:
+          result = n-2;
+          break;
+
+        case has_solution:
+          result = n;
+          break;
+
+        case has_no_solution:
+          result = n+2;
+          break;
+
+        case defender_self_check:
+          result = n+4;
+          break;
+      }
       break;
 
     case STReflexHelpFilter:
@@ -217,7 +250,7 @@ boolean help_solve(slice_index si)
 
   while (len<=full_length)
   {
-    if (help_solve_in_n(si,len))
+    if (help_solve_in_n(si,len)<=len)
       result = true;
     len += 2;
   }

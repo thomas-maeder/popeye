@@ -241,7 +241,7 @@ boolean defense_defend_in_n(slice_index si,
     case STHelpMove:
     {
       stip_length_type const nhelp = n-slack_length_battle-1+slack_length_help;
-      result = !help_solve_in_n(si,nhelp);
+      result = help_solve_in_n(si,nhelp)>nhelp;
       break;
     }
 

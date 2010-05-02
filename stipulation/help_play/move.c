@@ -104,18 +104,26 @@ void help_move_detect_starter(slice_index si, stip_structure_traversal *st)
 /* Try solving with all generated moves
  * @param si slice index
  * @param n exact number of moves to reach the end state
- * @return true iff solved
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-static boolean foreach_move_solve(slice_index si, stip_length_type n)
+static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
 {
-  boolean result = false;
+  stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && help_solve_in_n(next,n-1))
-      result = true;
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      stip_length_type const length_sol = help_solve_in_n(next,n-1)+1;
+      if (length_sol<result)
+        result = length_sol;
+    }
 
     repcoup();
   }
@@ -126,12 +134,16 @@ static boolean foreach_move_solve(slice_index si, stip_length_type n)
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >= 1 solution has been found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean help_move_solve_in_n(slice_index si, stip_length_type n)
-
+stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n)
 {
-  boolean result = false;
+  stip_length_type result;
   Side const side_at_move = slices[si].starter;
   Goal const goal = slices[si].u.branch.imminent_goal;
 
@@ -153,6 +165,8 @@ boolean help_move_solve_in_n(slice_index si, stip_length_type n)
       result = foreach_move_solve(si,n);
       finply();
     }
+    else
+      result = n+2;
   }
   else
   {

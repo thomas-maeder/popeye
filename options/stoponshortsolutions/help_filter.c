@@ -30,12 +30,18 @@ slice_index alloc_stoponshortsolutions_help_filter(stip_length_type length,
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean stoponshortsolutions_help_filter_solve_in_n(slice_index si,
-                                                    stip_length_type n)
+stip_length_type
+stoponshortsolutions_help_filter_solve_in_n(slice_index si,
+                                            stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -43,15 +49,13 @@ boolean stoponshortsolutions_help_filter_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (has_short_solution_been_found_in_phase())
-    result = false;
-  else if (help_solve_in_n(slices[si].u.pipe.next,n))
+    result = n+2;
+  else
   {
+    result = help_solve_in_n(slices[si].u.pipe.next,n);
     if (n<slices[si].u.branch.length)
       short_solution_found();
-    result = true;
   }
-  else
-    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

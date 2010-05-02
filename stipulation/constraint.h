@@ -128,9 +128,15 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type reflex_help_filter_solve_in_n(slice_index si,
+                                               stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

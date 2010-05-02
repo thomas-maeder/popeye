@@ -2852,11 +2852,16 @@ boolean hashed_help_root_solve(slice_index si)
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean hashed_help_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2866,13 +2871,16 @@ boolean hashed_help_solve_in_n(slice_index si, stip_length_type n)
   assert(n>slack_length_help);
 
   if (inhash_help(si,n))
-    result = false;
-  else if (help_solve_in_n(slices[si].u.pipe.next,n))
-    result = true;
+    result = n+2;
   else
   {
-    result = false;
-    addtohash_help(si,n);
+    result = help_solve_in_n(slices[si].u.pipe.next,n);
+
+    /* self check test should be over when we arrive here */
+    assert(result<=n+2);
+
+    if (result==n+2)
+      addtohash_help(si,n);
   }
 
   TraceFunctionExit(__func__);

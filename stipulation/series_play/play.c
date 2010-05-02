@@ -56,7 +56,7 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
     case STHelpMove:
     {
       stip_length_type const n_help = n-slack_length_series+slack_length_help;
-      result = help_solve_in_n(si,n_help) ? n : n+1;
+      result = help_solve_in_n(si,n_help)<=n_help ? n : n+1;
       break;
     }
 

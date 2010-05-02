@@ -846,11 +846,17 @@ boolean reflex_help_filter_root_solve(slice_index si)
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type reflex_help_filter_solve_in_n(slice_index si,
+                                               stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -862,10 +868,8 @@ boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n)
   assert(n>=slack_length_help);
 
   /* TODO exact - but what does it mean??? */
-  if (n==slack_length_help)
-    result = slice_solve(avoided)>=has_solution;
-  else if (slice_has_solution(avoided)==has_solution)
-    result = false;
+  if (slice_has_solution(avoided)==has_solution)
+    result = n+2;
   else 
     result = help_solve_in_n(next,n);
 
@@ -880,7 +884,8 @@ boolean reflex_help_filter_solve_in_n(slice_index si, stip_length_type n)
  * @param n exact number of half moves until end state has to be reached
  * @return true iff >= 1 solution has been found
  */
-boolean reflex_help_filter_has_solution_in_n(slice_index si, stip_length_type n)
+boolean reflex_help_filter_has_solution_in_n(slice_index si,
+                                             stip_length_type n)
 {
   boolean result = false;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -971,7 +976,8 @@ static slice_index alloc_reflex_series_filter(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_series_filter_insert_root(slice_index si, stip_structure_traversal *st)
+void reflex_series_filter_insert_root(slice_index si,
+                                      stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 

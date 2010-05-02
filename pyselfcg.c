@@ -505,19 +505,27 @@ void selfcheck_guard_defender_filter_insert_root(slice_index si,
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
- * @return true iff >=1 solution was found
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
+ *         n-2 the previous move has solved the next slice
  */
-boolean selfcheck_guard_help_solve_in_n(slice_index si, stip_length_type n)
+stip_length_type selfcheck_guard_help_solve_in_n(slice_index si,
+                                                 stip_length_type n)
 {
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = (!echecc(nbply,advers(slices[si].starter))
-            && help_solve_in_n(slices[si].u.pipe.next,n));
+  if (echecc(nbply,advers(slices[si].starter)))
+    result = n+2;
+  else
+    result = help_solve_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
