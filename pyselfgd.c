@@ -108,9 +108,6 @@ stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
         break;
 
       case is_solved:
-        result = n_min-2;
-        break;
-
       case has_solution:
         result = n_min;
         break;

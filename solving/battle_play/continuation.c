@@ -59,9 +59,7 @@ boolean continuation_writer_defend_in_n(slice_index si,
   nr_moves_needed = defense_can_defend_in_n(next,
                                             n,n_min,
                                             max_nr_allowed_refutations);
-  if (nr_moves_needed<n_min)
-    result = true;
-  else if (nr_moves_needed<=n)
+  if (nr_moves_needed<=n)
   {
     result = false;
     write_attack();
@@ -112,7 +110,7 @@ stip_length_type continuation_writer_root_defend(slice_index si,
 
   result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
-  if (n_min<=result && result<=n+2)
+  if (result<=n+2)
   {
     write_attack();
     write_root_attack_decoration(nbply, result<=n ? attack_key : attack_try);
@@ -140,8 +138,7 @@ stip_length_type continuation_writer_root_defend(slice_index si,
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
- * @return <slack_length_battle - stalemate
- *         <=n solved  - return value is maximum number of moves
+ * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
