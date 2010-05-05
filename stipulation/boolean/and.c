@@ -106,8 +106,8 @@ has_solution_type reci_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   result1 = slice_has_solution(op1);
-  if (result1==defender_self_check)
-    result = defender_self_check;
+  if (result1==opponent_self_check)
+    result = opponent_self_check;
   else
   {
     has_solution_type const result2 = slice_has_solution(op2);
@@ -166,12 +166,6 @@ boolean reci_root_solve(slice_index si)
       }
       break;
 
-    case is_solved:
-      slice_root_solve(op1);
-      slice_root_solve(op2);
-      result = true;
-      break;
-
     default:
       result = false;
       break;
@@ -202,18 +196,9 @@ has_solution_type reci_solve(slice_index si)
 
   switch (slice_has_solution(op2))
   {
-    case is_solved:
-      result = slice_solve(op1);
-      if (result>=has_solution)
-      {
-        has_solution_type const result2 = slice_solve(op2);
-        assert(result2==is_solved);
-      }
-      break;
-
     case has_solution:
       result = slice_solve(op1);
-      if (result>=has_solution)
+      if (result==has_solution)
       {
         has_solution_type const result2 = slice_solve(op2);
         assert(result2==has_solution);

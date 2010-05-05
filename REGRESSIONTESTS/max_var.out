@@ -61,34 +61,34 @@ Loesung beendet.
       1...e2*f1=D + 
           2.Td5-b5 Zugzwang.
               2...Df1*h1 
-                  3.Tb5-b1 # 
+                  3.Tb5-b1 #
               2...Df1-g1 
-                  3.Tb5-b1 # 
+                  3.Tb5-b1 #
       1...e2*f1=S 
           2.Dg7-c7 Drohung:
-                  3.Dc7-e5 # 
+                  3.Dc7-e5 #
               2...Th7*c7 
-                  3.Td5-e5 # 
+                  3.Td5-e5 #
       1...e2*f1=T 
           2.Dg7*g6 Drohung:
-                  3.Dg6-b1 # 
-                  3.Dg6-e4 # 
+                  3.Dg6-b1 #
+                  3.Dg6-e4 #
               2...Tf1*h1 
-                  3.Dg6-b1 # 
+                  3.Dg6-b1 #
               2...Tf1-g1 
-                  3.Dg6-b1 # 
+                  3.Dg6-b1 #
       1...e2*f1=L + 
           2.d2-d3 Drohung:
-                  3.Td5-e5 # 
+                  3.Td5-e5 #
       1...g4-g3 
           2.Dg7*g6 Drohung:
-                  3.Dg6-b1 # 
+                  3.Dg6-b1 #
       1...Th7*g7 
           2.d2-d4 Drohung:
-                  3.Lg5-d2 # 
+                  3.Lg5-d2 #
       1...Th7-h8 
           2.Dg7*g6 Drohung:
-                  3.Dg6-b1 # 
+                  3.Dg6-b1 #
 
 Loesung beendet. 
 
@@ -152,23 +152,23 @@ Loesung beendet.
 
 a) 
 
-  1.Lh5-g4 ! 
+  1.Lh5-g4 !
       1...h6-h5 
-          2.Lg4*h5 
+          2.Lg4*h5
               2...Ld1-g4 
-                  3.Se6-c7 
+                  3.Se6-c7
                       3...Lg4-e6 
-                          4.Sc7-e8 # 
+                          4.Sc7-e8 #
 
 b)  -sBh6
 
-  1.Lh5-f7 ! 
+  1.Lh5-f7 !
       1...Ld1-h5 
-          2.Lf7-e8 
+          2.Lf7-e8
               2...Lh5-f7 
-                  3.Se6-f4 
+                  3.Se6-f4
                       3...Lf7-e6 
-                          4.Sf4-h5 # 
+                          4.Sf4-h5 #
 
 Loesung beendet. 
 
@@ -200,12 +200,12 @@ Loesung beendet.
       SchwarzerVerfolgungszueger
        WeisserVerfolgungszueger
 
-  1.Le1*c3 ! 
+  1.Le1*c3 !
       1...Ta1-e1 
-          2.Lc3-a1 + 
+          2.Lc3-a1 +
               2...Se2-c3 + 
-                  3.Lb5-e2 
-                      3...La6-b5 # 
+                  3.Lb5-e2
+                      3...La6-b5 #
 
 Loesung beendet. 
 
@@ -237,16 +237,16 @@ Loesung beendet.
       SchwarzerVerfolgungszueger
        WeisserVerfolgungszueger
 
-  1.Se5*c6 ! 
+  1.Se5*c6 !
       1...De6-e5 
-          2.Ld5-e6 
+          2.Ld5-e6
               2...De5-d5 
-                  3.Sc6-e5 
+                  3.Sc6-e5
                       3...Dd5-c6 
-                          4.Le6-d5 
+                          4.Le6-d5
                               4...Dc6-e6 
-                                  5.c5-c6 
-                                      5...Lb6-c5 # 
+                                  5.c5-c6
+                                      5...Lb6-c5 #
 
 Loesung beendet. 
 
@@ -278,27 +278,27 @@ Loesung beendet.
       SchwarzerVerfolgungszueger
        WeisserVerfolgungszueger
 
-  1.Kh6-h5 ! 
+  1.Kh6-h5 !
       1...h7-h6 
-          2.Le4-h7 
+          2.Le4-h7
               2...Lb7-e4 
-                  3.Tb1-b7 
+                  3.Tb1-b7
                       3...Le4-b1 
-                          4.Lh7-e4 
+                          4.Lh7-e4
                               4...Td7-h7 
-                                  5.Tb7-d7 + 
+                                  5.Tb7-d7 +
                                       5...Sd8-b7 
-                                          6.Td7-d8 # 
+                                          6.Td7-d8 #
 
-  1.Le4*h7 ! 
+  1.Le4*h7 !
       1...Lb7-e4 
-          2.Tb1-b7 
+          2.Tb1-b7
               2...Le4-b1 
-                  3.Lh7-e4 
+                  3.Lh7-e4
                       3...Td7-h7 + 
-                          4.Tb7*h7 + 
+                          4.Tb7*h7 +
                               4...Sd8-b7 
-                                  5.Th7-h8 # 
+                                  5.Th7-h8 #
 
 Loesung beendet. 
 

@@ -25,7 +25,6 @@ slice_index alloc_intelligent_help_filter(stip_length_type length,
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type intelligent_help_filter_solve_in_n(slice_index si,
                                                     stip_length_type n);

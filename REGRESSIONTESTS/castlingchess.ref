@@ -58,11 +58,11 @@ solution finished.
             CastlingChess
 
   1.Rg1-g3 ! threat:
-          2.Kh1-h3/bPh5-h2 
-              2...h2-h1=Q # 
+          2.Kh1-h3/bPh5-h2
+              2...h2-h1=Q #
       1...Sh6-g4 
-          2.Kh1-f3/bRa8-g2 
-              2...Rg2-f2 # 
+          2.Kh1-f3/bRa8-g2
+              2...Rg2-f2 #
 
 solution finished. 
 
@@ -94,12 +94,12 @@ solution finished.
             CastlingChess
 
   1.Kh2-h1 ! threat:
-          2.Kh1-h3/bPh7-h2 
-              2...h2-h1=Q # 
+          2.Kh1-h3/bPh7-h2
+              2...h2-h1=Q #
       1...f4-f3 
-          2.Kh1-f1/bBa1-g1 
-              2...a2-a1=Q # 
-              2...a2-a1=R # 
+          2.Kh1-f1/bBa1-g1
+              2...a2-a1=Q #
+              2...a2-a1=R #
 
 solution finished. 
 

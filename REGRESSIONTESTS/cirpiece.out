@@ -27,62 +27,62 @@
 a) 
 
   1.Da7-d7 ! Drohung:
-          2.Lg8-d5 # 
+          2.Lg8-d5 #
       1...Sa3*b5 [+wTh1] 
-          2.Th1-e1 # 
+          2.Th1-e1 #
       1...Tb6*b5 [+wTh1] 
-          2.Th1-e1 # 
+          2.Th1-e1 #
       1...Tb6*c6 [+wSb1] 
-          2.Sb1*d2 [+sSb8] # 
+          2.Sb1*d2 [+sSb8] #
       1...Lc8*d7 [+wDd1] 
-          2.Dd1-e1 # 
+          2.Dd1-e1 #
       1...Dh8*g8 [+wLf1] 
-          2.Lf1*d3 # 
+          2.Lf1*d3 #
 
 b) ChamaeleonCirce    S->L->T->D->S
 
   1.Da7-d7 ! Drohung:
-          2.Lg8-d5 # 
+          2.Lg8-d5 #
       1...Sa3*b5 [+wDd1] 
-          2.Dd1-e1 # 
+          2.Dd1-e1 #
       1...Tb6*b5 [+wDd1] 
-          2.Dd1-e1 # 
+          2.Dd1-e1 #
       1...Tb6*c6 [+wLf1] 
-          2.Lf1*d3 # 
+          2.Lf1*d3 #
       1...Lc8*d7 [+wSb1] 
-          2.Sb1*d2 [+sLf8] # 
+          2.Sb1*d2 [+sLf8] #
       1...Dh8*g8 [+wTh1] 
-          2.Th1-e1 # 
+          2.Th1-e1 #
 
 c) CirceClone
 
   1.Da7-d7 ! Drohung:
-          2.Lg8-d5 # 
+          2.Lg8-d5 #
       1...Sa3*b5 [+wSb1] 
-          2.Sb1*d2 [+sSb8] # 
+          2.Sb1*d2 [+sSb8] #
       1...Tb6*b5 [+wTh1] 
-          2.Th1-e1 # 
+          2.Th1-e1 #
       1...Tb6*c6 [+wTh1] 
-          2.Th1-e1 # 
+          2.Th1-e1 #
       1...Lc8*d7 [+wLf1] 
-          2.Lf1*d3 [+sLc8] # 
+          2.Lf1*d3 [+sLc8] #
       1...Dh8*g8 [+wDd1] 
-          2.Dd1-e1 # 
+          2.Dd1-e1 #
 
 d) ChamaeleonCirce    S->D->T->L->S
 
   1.Da7-d7 ! Drohung:
-          2.Lg8-d5 # 
+          2.Lg8-d5 #
       1...Sa3*b5 [+wLf1] 
-          2.Lf1*d3 # 
+          2.Lf1*d3 #
       1...Tb6*b5 [+wLf1] 
-          2.Lf1*d3 # 
+          2.Lf1*d3 #
       1...Tb6*c6 [+wDd1] 
-          2.Dd1-e1 # 
+          2.Dd1-e1 #
       1...Lc8*d7 [+wTh1] 
-          2.Th1-e1 # 
+          2.Th1-e1 #
       1...Dh8*g8 [+wSb1] 
-          2.Sb1*d2 [+sDd8] # 
+          2.Sb1*d2 [+sDd8] #
 
 Loesung beendet. 
 
@@ -225,9 +225,9 @@ Loesung beendet.
 
   1.Da8-f3 ! Zugzwang.
       1...g4-g3 
-          2.Df3*h5 [+sDd8] # 
+          2.Df3*h5 [+sDd8] #
       1...g4*f3 [+wBf2] 
-          2.g2-g3 # 
+          2.g2-g3 #
 
 Loesung beendet. 
 
@@ -365,8 +365,8 @@ Loesung beendet.
 
   1.Df2-a2 ! Zugzwang.
       1...Kd8-e8 
-          2.Da2*f7 [+sDd8] + 
-              2...Ke8*f7 [+wDd1] # 
+          2.Da2*f7 [+sDd8] +
+              2...Ke8*f7 [+wDd1] #
 
 Loesung beendet. 
 

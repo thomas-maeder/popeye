@@ -52,8 +52,7 @@ slice_index alloc_direct_defender_filter_slice(stip_length_type length,
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
- * @return <slack_length_battle - stalemate
- *         <=n solved  - return value is maximum number of moves
+ * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
@@ -78,16 +77,6 @@ direct_defender_filter_root_defend(slice_index si,
   if (n_min<=slack_length_battle+1)
     switch (slice_has_solution(to_goal))
     {
-      case is_solved:
-        result = n_min;
-        write_final_attack();
-        {
-          has_solution_type const solving_result = slice_solve(to_goal);
-          assert(solving_result==is_solved);
-        }
-        write_root_attack_decoration(nbply,attack_key);
-        break;
-
       case has_solution:
         result = n_min;
         write_attack();
@@ -144,15 +133,6 @@ boolean direct_defender_filter_defend_in_n(slice_index si,
   if (n_min<=slack_length_battle+1)
     switch (slice_has_solution(to_goal))
     {
-      case is_solved:
-        result = false;
-        write_final_attack();
-        {
-          has_solution_type const solving_result = slice_solve(to_goal);
-          assert(solving_result==is_solved);
-        }
-        break;
-
       case has_solution:
         result = false;
         write_attack();
@@ -213,7 +193,7 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 
 
   if (n_min<=slack_length_battle+1
-      && slice_has_solution(to_goal)>=has_solution)
+      && slice_has_solution(to_goal)==has_solution)
     result = n_min;
   else if (n>slack_length_battle)
     result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);

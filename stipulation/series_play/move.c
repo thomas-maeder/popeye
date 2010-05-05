@@ -137,7 +137,6 @@ void series_move_apply_setplay(slice_index si, stip_structure_traversal *st)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
 {
@@ -146,12 +145,9 @@ static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
 
   while (encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const length_sol = series_solve_in_n(next,n-1)+1;
-      if (length_sol<result)
-        result = length_sol;
-    }
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && series_solve_in_n(next,n-1)==n-1)
+      result = n;
 
     repcoup();
   }
@@ -167,7 +163,6 @@ static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_move_solve_in_n(slice_index si, stip_length_type n)
 {
@@ -272,7 +267,7 @@ boolean series_move_are_threats_refuted(table threats, slice_index si)
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && is_current_move_in_table(threats)
-          && series_has_solution_in_n(next,n-1)<=n-1)
+          && series_has_solution_in_n(next,n-1)==n-1)
         ++nr_successful_threats;
 
       repcoup();
@@ -300,25 +295,22 @@ boolean series_move_are_threats_refuted(table threats, slice_index si)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 static stip_length_type find_solution(slice_index si, stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result = n+1;
   
-  while (result>n && encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      result = series_has_solution_in_n(next,n-1)+1;
-    repcoup();
-  }
-
-  if (result<n)
-    result = n;
-
-  if (result>n)
-    result = n+1;
+  while (encore())
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && series_has_solution_in_n(next,n-1)==n-1)
+    {
+      result = n;
+      repcoup();
+      break;
+    }
+    else
+      repcoup();
 
   return result;
 }
@@ -331,7 +323,6 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_move_has_solution_in_n(slice_index si,
                                                stip_length_type n)

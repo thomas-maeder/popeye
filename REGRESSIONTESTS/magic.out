@@ -95,11 +95,11 @@ Loesung beendet.
       1...Le8-f7=wL 
           2.Te7-e1 Zugzwang.
               2...Sh8*f7=wS 
-                  3.Sf7-e5 # 
+                  3.Sf7-e5 #
       1...Sh8-f7=wS 
           2.Tc8-c1 Zugzwang.
               2...Le8*f7=wL 
-                  3.Lf7-c4 # 
+                  3.Lf7-c4 #
 
 Loesung beendet. 
 
@@ -133,18 +133,18 @@ Loesung beendet.
         SchwarzerLaengstzueger
       MagischeFelder a3 h3 a6 h6
 
-  1.Kh1-h2 ! 
+  1.Kh1-h2 !
       1...Df1-a6=wD 
-          2.Da6-h6=sD 
+          2.Da6-h6=sD
               2...Dh6-c1 
-                  3.Lg1-e3 
+                  3.Lg1-e3
                       3...Dc1-c8 
-                          4.Le3-c1 
+                          4.Le3-c1
                               4...Dc8-h3=wD 
-                                  5.Dh3-a3=sD 
+                                  5.Dh3-a3=sD
                                       5...Da3-f8 
-                                          6.Lc1-a3=sL 
-                                              6...Df8-f1 = 
+                                          6.Lc1-a3=sL
+                                              6...Df8-f1 =
 
 Loesung beendet. 
 
@@ -209,14 +209,14 @@ Lob, Albert H. Kniest Jubil"aumsturnier
         SchwarzerLaengstzueger
           MagischeFelder f6
 
-  1.Lg7-f6=sL ! 
+  1.Lg7-f6=sL !
       1...Lf6-a1 
-          2.Dh8-h4 
+          2.Dh8-h4
               2...La1-h8 
-                  3.Dh4-f6=sD 
+                  3.Dh4-f6=sD
                       3...Df6-a1 
-                          4.g6-g7 
-                              4...Da1*g7 # 
+                          4.g6-g7
+                              4...Da1*g7 #
 
 Loesung beendet. 
 
@@ -248,498 +248,498 @@ Loesung beendet.
          Madrasi RexInklusive
          MagischeFelder g4 f8
 
-  1.Tb5-a5 + ? 
+  1.Tb5-a5 + ?
       1...Ta2*a4 
-          2.f7-f8=sD 
-              2...Tc4*c8 # 
-          2.f7-f8=sS 
-              2...Tc4*c8 # 
-          2.f7-f8=sT 
-              2...Tc4*c8 # 
-              2...Tf8*c8 # 
-          2.f7-f8=sL 
-              2...Tc4*c8 # 
-          2.Se4-c3 
-              2...Tc4*c8 # 
-          2.Se4-d2 
-              2...Tc4*c8 # 
-          2.Se4-f2 
-              2...Tc4*c8 # 
-          2.Se4-g3 
-              2...Tc4*c8 # 
-          2.Se4-g5 
-              2...Tc4*c8 # 
-          2.Lb4-a3 
-              2...Tc4*c8 # 
-          2.Lb4-e1 
-              2...Tc4*c8 # 
-          2.Lb4-d2 
-              2...Tc4*c8 # 
-          2.Lb4-c3 
-              2...Tc4*c8 # 
-          2.f3-f4 
-              2...Tc4*c8 # 
-          2.De3-d2 
-              2...Tc4*c8 # 
-          2.De3-g1 
-              2...Tc4*c8 # 
-          2.De3-f2 
-              2...Tc4*c8 # 
-          2.De3-h6 
-              2...Tc4*c8 # 
-          2.De3-g5 
-              2...Tc4*c8 # 
-          2.De3-f4 
-              2...Tc4*c8 # 
-          2.De3*b6 
-              2...Tc4*c8 # 
-          2.De3-d4 
-              2...Tc4*c8 # 
-          2.De3-e1 
-              2...Tc4*c8 # 
-          2.De3-e2 
-              2...Tc4*c8 # 
-          2.De3*d3 
-              2...Tc4*c8 # 
+          2.f7-f8=sD
+              2...Tc4*c8 #
+          2.f7-f8=sS
+              2...Tc4*c8 #
+          2.f7-f8=sT
+              2...Tc4*c8 #
+              2...Tf8*c8 #
+          2.f7-f8=sL
+              2...Tc4*c8 #
+          2.Se4-c3
+              2...Tc4*c8 #
+          2.Se4-d2
+              2...Tc4*c8 #
+          2.Se4-f2
+              2...Tc4*c8 #
+          2.Se4-g3
+              2...Tc4*c8 #
+          2.Se4-g5
+              2...Tc4*c8 #
+          2.Lb4-a3
+              2...Tc4*c8 #
+          2.Lb4-e1
+              2...Tc4*c8 #
+          2.Lb4-d2
+              2...Tc4*c8 #
+          2.Lb4-c3
+              2...Tc4*c8 #
+          2.f3-f4
+              2...Tc4*c8 #
+          2.De3-d2
+              2...Tc4*c8 #
+          2.De3-g1
+              2...Tc4*c8 #
+          2.De3-f2
+              2...Tc4*c8 #
+          2.De3-h6
+              2...Tc4*c8 #
+          2.De3-g5
+              2...Tc4*c8 #
+          2.De3-f4
+              2...Tc4*c8 #
+          2.De3*b6
+              2...Tc4*c8 #
+          2.De3-d4
+              2...Tc4*c8 #
+          2.De3-e1
+              2...Tc4*c8 #
+          2.De3-e2
+              2...Tc4*c8 #
+          2.De3*d3
+              2...Tc4*c8 #
       1...Tc4-c5 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
-          2.La4-b5 
-              2...Tc5*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
+          2.La4-b5
+              2...Tc5*c8 #
     Aber
       1...b6*a5  !
 
   1.Tb5-c5 ? Drohung:
-          2.f7-f8=sD 
-              2...Df8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
       1...b6*c5 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
     Aber
       1...Dh3-g4=wD  !
 
   1.Se4-c3 ? Drohung:
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
     Aber
       1...Sh2-g4=wS  !
 
   1.Se4-d2 ? Drohung:
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
     Aber
       1...Sh2-g4=wS  !
 
   1.Se4-f2 ? Drohung:
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
     Aber
       1...Sh2-g4=wS  !
 
   1.Se4-g3 ? Drohung:
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
     Aber
       1...Sh2-g4=wS  !
 
   1.Se4-g5 ? Drohung:
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
     Aber
       1...Sh2-g4=wS  !
 
   1.Se4-c5 ? Drohung:
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...b6*c5 
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
     Aber
       1...Tc4-g4=wT  !
 
   1.Lb4-c3 ? Drohung:
-          2.Tb5*b2 
-              2...Tc4*c8 # 
-          2.Tb5-b3 
-              2...Tc4*c8 # 
+          2.Tb5*b2
+              2...Tc4*c8 #
+          2.Tb5-b3
+              2...Tc4*c8 #
       1...b2-b1=T 
-          2.f7-f8=sD 
-              2...Tc4*c8 # 
-          2.f7-f8=sS 
-              2...Tc4*c8 # 
-          2.f7-f8=sT 
-              2...Tc4*c8 # 
-              2...Tf8*c8 # 
-          2.f7-f8=sL 
-              2...Tc4*c8 # 
-          2.Se4-d2 
-              2...Tc4*c8 # 
-          2.Se4-f2 
-              2...Tc4*c8 # 
-          2.Se4-g3 
-              2...Tc4*c8 # 
-          2.Se4-g5 
-              2...Tc4*c8 # 
-          2.La4-d1 
-              2...Tc4*c8 # 
-          2.La4-c2 
-              2...Tc4*c8 # 
-          2.f3-f4 
-              2...Tc4*c8 # 
-          2.De3-c1 
-              2...Tc4*c8 # 
-          2.De3-d2 
-              2...Tc4*c8 # 
-          2.De3-g1 
-              2...Tc4*c8 # 
-          2.De3-f2 
-              2...Tc4*c8 # 
-          2.De3-h6 
-              2...Tc4*c8 # 
-          2.De3-g5 
-              2...Tc4*c8 # 
-          2.De3-f4 
-              2...Tc4*c8 # 
-          2.De3*b6 
-              2...Tc4*c8 # 
-          2.De3-d4 
-              2...Tc4*c8 # 
-          2.De3-e1 
-              2...Tc4*c8 # 
-          2.De3-e2 
-              2...Tc4*c8 # 
-          2.De3*d3 
-              2...Tc4*c8 # 
-          2.Lc3-a1 
-              2...Tc4*c8 # 
-          2.Lc3-e1 
-              2...Tc4*c8 # 
-          2.Lc3-d2 
-              2...Tc4*c8 # 
-          2.Lc3-e5 
-              2...Tc4*c8 # 
-          2.Lc3-d4 
-              2...Tc4*c8 # 
-          2.Lc3-a5 
-              2...Tc4*c8 # 
+          2.f7-f8=sD
+              2...Tc4*c8 #
+          2.f7-f8=sS
+              2...Tc4*c8 #
+          2.f7-f8=sT
+              2...Tc4*c8 #
+              2...Tf8*c8 #
+          2.f7-f8=sL
+              2...Tc4*c8 #
+          2.Se4-d2
+              2...Tc4*c8 #
+          2.Se4-f2
+              2...Tc4*c8 #
+          2.Se4-g3
+              2...Tc4*c8 #
+          2.Se4-g5
+              2...Tc4*c8 #
+          2.La4-d1
+              2...Tc4*c8 #
+          2.La4-c2
+              2...Tc4*c8 #
+          2.f3-f4
+              2...Tc4*c8 #
+          2.De3-c1
+              2...Tc4*c8 #
+          2.De3-d2
+              2...Tc4*c8 #
+          2.De3-g1
+              2...Tc4*c8 #
+          2.De3-f2
+              2...Tc4*c8 #
+          2.De3-h6
+              2...Tc4*c8 #
+          2.De3-g5
+              2...Tc4*c8 #
+          2.De3-f4
+              2...Tc4*c8 #
+          2.De3*b6
+              2...Tc4*c8 #
+          2.De3-d4
+              2...Tc4*c8 #
+          2.De3-e1
+              2...Tc4*c8 #
+          2.De3-e2
+              2...Tc4*c8 #
+          2.De3*d3
+              2...Tc4*c8 #
+          2.Lc3-a1
+              2...Tc4*c8 #
+          2.Lc3-e1
+              2...Tc4*c8 #
+          2.Lc3-d2
+              2...Tc4*c8 #
+          2.Lc3-e5
+              2...Tc4*c8 #
+          2.Lc3-d4
+              2...Tc4*c8 #
+          2.Lc3-a5
+              2...Tc4*c8 #
       1...Tc4*c3 
-          2.Tb5*b2 
-              2...Tc3*c8 # 
+          2.Tb5*b2
+              2...Tc3*c8 #
       1...Tc4-b4 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
       1...Tc4-c5 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*e4 
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4-d4 
-          2.f7-f8=sD 
-              2...Df8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
     Aber
       1...Tc4*a4  !
 
   1.Lb4-c5 ? Drohung:
-          2.f7-f8=sD 
-              2...Df8*c8 # 
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
+          2.f7-f8=sS
+              2...Sf8-d7 #
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Sh2-g4=wS 
-          2.f7-f8=sD 
-              2...Df8*c8 # 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Dh3-g4=wD 
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*c5 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
     Aber
       1...b6*c5  !
 
   1.La4-d1 ? Drohung:
-          2.Tb5-a5 
-              2...Tc4*c8 # 
+          2.Tb5-a5
+              2...Tc4*c8 #
       1...Ta2-a5 
-          2.f7-f8=sD 
-              2...Tc4*c8 # 
-          2.f7-f8=sS 
-              2...Tc4*c8 # 
-          2.f7-f8=sT 
-              2...Tc4*c8 # 
-              2...Tf8*c8 # 
-          2.f7-f8=sL 
-              2...Tc4*c8 # 
-          2.Se4-c3 
-              2...Tc4*c8 # 
-          2.Se4-d2 
-              2...Tc4*c8 # 
-          2.Se4-f2 
-              2...Tc4*c8 # 
-          2.Se4-g3 
-              2...Tc4*c8 # 
-          2.Se4-g5 
-              2...Tc4*c8 # 
-          2.Lb4-a3 
-              2...Tc4*c8 # 
-          2.Lb4-e1 
-              2...Tc4*c8 # 
-          2.Lb4-d2 
-              2...Tc4*c8 # 
-          2.Lb4-c3 
-              2...Tc4*c8 # 
-          2.f3-f4 
-              2...Tc4*c8 # 
-          2.De3-d2 
-              2...Tc4*c8 # 
-          2.De3-g1 
-              2...Tc4*c8 # 
-          2.De3-f2 
-              2...Tc4*c8 # 
-          2.De3-h6 
-              2...Tc4*c8 # 
-          2.De3-g5 
-              2...Tc4*c8 # 
-          2.De3-f4 
-              2...Tc4*c8 # 
-          2.De3*b6 
-              2...Tc4*c8 # 
-          2.De3-d4 
-              2...Tc4*c8 # 
-          2.De3-e1 
-              2...Tc4*c8 # 
-          2.De3-e2 
-              2...Tc4*c8 # 
-          2.De3*d3 
-              2...Tc4*c8 # 
-          2.Ld1-e2 
-              2...Tc4*c8 # 
-          2.Ld1-a4 
-              2...Tc4*c8 # 
-          2.Ld1-b3 
-              2...Tc4*c8 # 
-          2.Ld1-c2 
-              2...Tc4*c8 # 
+          2.f7-f8=sD
+              2...Tc4*c8 #
+          2.f7-f8=sS
+              2...Tc4*c8 #
+          2.f7-f8=sT
+              2...Tc4*c8 #
+              2...Tf8*c8 #
+          2.f7-f8=sL
+              2...Tc4*c8 #
+          2.Se4-c3
+              2...Tc4*c8 #
+          2.Se4-d2
+              2...Tc4*c8 #
+          2.Se4-f2
+              2...Tc4*c8 #
+          2.Se4-g3
+              2...Tc4*c8 #
+          2.Se4-g5
+              2...Tc4*c8 #
+          2.Lb4-a3
+              2...Tc4*c8 #
+          2.Lb4-e1
+              2...Tc4*c8 #
+          2.Lb4-d2
+              2...Tc4*c8 #
+          2.Lb4-c3
+              2...Tc4*c8 #
+          2.f3-f4
+              2...Tc4*c8 #
+          2.De3-d2
+              2...Tc4*c8 #
+          2.De3-g1
+              2...Tc4*c8 #
+          2.De3-f2
+              2...Tc4*c8 #
+          2.De3-h6
+              2...Tc4*c8 #
+          2.De3-g5
+              2...Tc4*c8 #
+          2.De3-f4
+              2...Tc4*c8 #
+          2.De3*b6
+              2...Tc4*c8 #
+          2.De3-d4
+              2...Tc4*c8 #
+          2.De3-e1
+              2...Tc4*c8 #
+          2.De3-e2
+              2...Tc4*c8 #
+          2.De3*d3
+              2...Tc4*c8 #
+          2.Ld1-e2
+              2...Tc4*c8 #
+          2.Ld1-a4
+              2...Tc4*c8 #
+          2.Ld1-b3
+              2...Tc4*c8 #
+          2.Ld1-c2
+              2...Tc4*c8 #
       1...Tc4*b4 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
       1...Tc4-c5 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*e4 
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
     Aber
       1...Tc4-d4  !
 
   1.La4-c2 ! Drohung:
-          2.Tb5-a5 
-              2...Tc4*c8 # 
+          2.Tb5-a5
+              2...Tc4*c8 #
       1...Ta2-a5 
-          2.f7-f8=sD 
-              2...Tc4*c8 # 
-          2.f7-f8=sS 
-              2...Tc4*c8 # 
-          2.f7-f8=sT 
-              2...Tc4*c8 # 
-              2...Tf8*c8 # 
-          2.f7-f8=sL 
-              2...Tc4*c8 # 
-          2.Se4-c3 
-              2...Tc4*c8 # 
-          2.Se4-d2 
-              2...Tc4*c8 # 
-          2.Se4-f2 
-              2...Tc4*c8 # 
-          2.Se4-g3 
-              2...Tc4*c8 # 
-          2.Se4-g5 
-              2...Tc4*c8 # 
-          2.Lb4-a3 
-              2...Tc4*c8 # 
-          2.Lb4-e1 
-              2...Tc4*c8 # 
-          2.Lb4-d2 
-              2...Tc4*c8 # 
-          2.Lb4-c3 
-              2...Tc4*c8 # 
-          2.f3-f4 
-              2...Tc4*c8 # 
-          2.De3-c1 
-              2...Tc4*c8 # 
-          2.De3-d2 
-              2...Tc4*c8 # 
-          2.De3-g1 
-              2...Tc4*c8 # 
-          2.De3-f2 
-              2...Tc4*c8 # 
-          2.De3-h6 
-              2...Tc4*c8 # 
-          2.De3-g5 
-              2...Tc4*c8 # 
-          2.De3-f4 
-              2...Tc4*c8 # 
-          2.De3*b6 
-              2...Tc4*c8 # 
-          2.De3-d4 
-              2...Tc4*c8 # 
-          2.De3-e1 
-              2...Tc4*c8 # 
-          2.De3-e2 
-              2...Tc4*c8 # 
-          2.De3*d3 
-              2...Tc4*c8 # 
-          2.Lc2-b1 
-              2...Tc4*c8 # 
-          2.Lc2-d1 
-              2...Tc4*c8 # 
-          2.Lc2*d3 
-              2...Tc4*c8 # 
-          2.Lc2-a4 
-              2...Tc4*c8 # 
-          2.Lc2-b3 
-              2...Tc4*c8 # 
+          2.f7-f8=sD
+              2...Tc4*c8 #
+          2.f7-f8=sS
+              2...Tc4*c8 #
+          2.f7-f8=sT
+              2...Tc4*c8 #
+              2...Tf8*c8 #
+          2.f7-f8=sL
+              2...Tc4*c8 #
+          2.Se4-c3
+              2...Tc4*c8 #
+          2.Se4-d2
+              2...Tc4*c8 #
+          2.Se4-f2
+              2...Tc4*c8 #
+          2.Se4-g3
+              2...Tc4*c8 #
+          2.Se4-g5
+              2...Tc4*c8 #
+          2.Lb4-a3
+              2...Tc4*c8 #
+          2.Lb4-e1
+              2...Tc4*c8 #
+          2.Lb4-d2
+              2...Tc4*c8 #
+          2.Lb4-c3
+              2...Tc4*c8 #
+          2.f3-f4
+              2...Tc4*c8 #
+          2.De3-c1
+              2...Tc4*c8 #
+          2.De3-d2
+              2...Tc4*c8 #
+          2.De3-g1
+              2...Tc4*c8 #
+          2.De3-f2
+              2...Tc4*c8 #
+          2.De3-h6
+              2...Tc4*c8 #
+          2.De3-g5
+              2...Tc4*c8 #
+          2.De3-f4
+              2...Tc4*c8 #
+          2.De3*b6
+              2...Tc4*c8 #
+          2.De3-d4
+              2...Tc4*c8 #
+          2.De3-e1
+              2...Tc4*c8 #
+          2.De3-e2
+              2...Tc4*c8 #
+          2.De3*d3
+              2...Tc4*c8 #
+          2.Lc2-b1
+              2...Tc4*c8 #
+          2.Lc2-d1
+              2...Tc4*c8 #
+          2.Lc2*d3
+              2...Tc4*c8 #
+          2.Lc2-a4
+              2...Tc4*c8 #
+          2.Lc2-b3
+              2...Tc4*c8 #
       1...Tc4*b4 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
       1...Tc4-c5 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*e4 
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4-d4 
-          2.f7-f8=sD 
-              2...Df8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
 
   1.La4-b3 ? Drohung:
-          2.Tb5-a5 
-              2...Tc4*c8 # 
+          2.Tb5-a5
+              2...Tc4*c8 #
       1...Ta2-a5 
-          2.f7-f8=sD 
-              2...Tc4*c8 # 
-          2.f7-f8=sS 
-              2...Tc4*c8 # 
-          2.f7-f8=sT 
-              2...Tc4*c8 # 
-              2...Tf8*c8 # 
-          2.f7-f8=sL 
-              2...Tc4*c8 # 
-          2.Se4-c3 
-              2...Tc4*c8 # 
-          2.Se4-d2 
-              2...Tc4*c8 # 
-          2.Se4-f2 
-              2...Tc4*c8 # 
-          2.Se4-g3 
-              2...Tc4*c8 # 
-          2.Se4-g5 
-              2...Tc4*c8 # 
-          2.Lb4-a3 
-              2...Tc4*c8 # 
-          2.Lb4-e1 
-              2...Tc4*c8 # 
-          2.Lb4-d2 
-              2...Tc4*c8 # 
-          2.Lb4-c3 
-              2...Tc4*c8 # 
-          2.f3-f4 
-              2...Tc4*c8 # 
-          2.De3-d2 
-              2...Tc4*c8 # 
-          2.De3-g1 
-              2...Tc4*c8 # 
-          2.De3-f2 
-              2...Tc4*c8 # 
-          2.De3-h6 
-              2...Tc4*c8 # 
-          2.De3-g5 
-              2...Tc4*c8 # 
-          2.De3-f4 
-              2...Tc4*c8 # 
-          2.De3*b6 
-              2...Tc4*c8 # 
-          2.De3-d4 
-              2...Tc4*c8 # 
-          2.De3-e1 
-              2...Tc4*c8 # 
-          2.De3-e2 
-              2...Tc4*c8 # 
-          2.De3*d3 
-              2...Tc4*c8 # 
-          2.Lb3-a2 
-              2...Tc4*c8 # 
-          2.Lb3-d1 
-              2...Tc4*c8 # 
-          2.Lb3-c2 
-              2...Tc4*c8 # 
-          2.Lb3-a4 
-              2...Tc4*c8 # 
+          2.f7-f8=sD
+              2...Tc4*c8 #
+          2.f7-f8=sS
+              2...Tc4*c8 #
+          2.f7-f8=sT
+              2...Tc4*c8 #
+              2...Tf8*c8 #
+          2.f7-f8=sL
+              2...Tc4*c8 #
+          2.Se4-c3
+              2...Tc4*c8 #
+          2.Se4-d2
+              2...Tc4*c8 #
+          2.Se4-f2
+              2...Tc4*c8 #
+          2.Se4-g3
+              2...Tc4*c8 #
+          2.Se4-g5
+              2...Tc4*c8 #
+          2.Lb4-a3
+              2...Tc4*c8 #
+          2.Lb4-e1
+              2...Tc4*c8 #
+          2.Lb4-d2
+              2...Tc4*c8 #
+          2.Lb4-c3
+              2...Tc4*c8 #
+          2.f3-f4
+              2...Tc4*c8 #
+          2.De3-d2
+              2...Tc4*c8 #
+          2.De3-g1
+              2...Tc4*c8 #
+          2.De3-f2
+              2...Tc4*c8 #
+          2.De3-h6
+              2...Tc4*c8 #
+          2.De3-g5
+              2...Tc4*c8 #
+          2.De3-f4
+              2...Tc4*c8 #
+          2.De3*b6
+              2...Tc4*c8 #
+          2.De3-d4
+              2...Tc4*c8 #
+          2.De3-e1
+              2...Tc4*c8 #
+          2.De3-e2
+              2...Tc4*c8 #
+          2.De3*d3
+              2...Tc4*c8 #
+          2.Lb3-a2
+              2...Tc4*c8 #
+          2.Lb3-d1
+              2...Tc4*c8 #
+          2.Lb3-c2
+              2...Tc4*c8 #
+          2.Lb3-a4
+              2...Tc4*c8 #
       1...Tc4*b4 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
       1...Tc4-c5 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...Tc4*e4 
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
     Aber
       1...Tc4-d4  !
 
   1.f3-f4 ? Drohung:
-          2.f7-f8=sD 
-              2...Df8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
       1...Tc4*c8 + 
-          2.Tb5-c5 
-              2...b6*c5 # 
+          2.Tb5-c5
+              2...b6*c5 #
     Aber
       1...Sh2-f3  !
 
   1.De3-c5 ? Drohung:
-          2.f7-f8=sS 
-              2...Sf8-d7 # 
+          2.f7-f8=sS
+              2...Sf8-d7 #
       1...Tc4*c5 
-          2.f7-f8=sD 
-              2...Df8*c8 # 
-          2.f7-f8=sT 
-              2...Tf8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
+          2.f7-f8=sT
+              2...Tf8*c8 #
       1...b6*c5 
-          2.f7-f8=sD 
-              2...Df8*c8 # 
+          2.f7-f8=sD
+              2...Df8*c8 #
     Aber
       1...Sh2-g4=wS  !
 
@@ -773,18 +773,18 @@ Loesung beendet.
         SchwarzerLaengstzueger
       MagischeFelder a3 h3 a6 h6
 
-  1.Kh1-h2 ! 
+  1.Kh1-h2 !
       1...Df1-a6=wD 
-          2.Da6-h6=sD 
+          2.Da6-h6=sD
               2...Dh6-c1 
-                  3.Lg1-e3 
+                  3.Lg1-e3
                       3...Dc1-c8 
-                          4.Le3-c1 
+                          4.Le3-c1
                               4...Dc8-h3=wD 
-                                  5.Dh3-a3=sD 
+                                  5.Dh3-a3=sD
                                       5...Da3-f8 
-                                          6.Lc1-a3=sL 
-                                              6...Df8-f1 = 
+                                          6.Lc1-a3=sL
+                                              6...Df8-f1 =
 
 Loesung beendet. 
 
@@ -819,11 +819,11 @@ Loesung beendet.
       1...Le8-f7=wL 
           2.Te7-e1 Zugzwang.
               2...Sh8*f7=wS 
-                  3.Sf7-e5 # 
+                  3.Sf7-e5 #
       1...Sh8-f7=wS 
           2.Tc8-c1 Zugzwang.
               2...Le8*f7=wL 
-                  3.Lf7-c4 # 
+                  3.Lf7-c4 #
 
 Loesung beendet. 
 
@@ -854,107 +854,107 @@ Loesung beendet.
   #4                         11 + 1
          MagischeFelder e1 f3
 
-  1.Sg7-f5 ! 
+  1.Sg7-f5 !
       1...Ke5-f6 
-          2.Sf5-d6 + 
+          2.Sf5-d6 +
               2...Kf6-e7 
-                  3.c6-c7 
+                  3.c6-c7
                       3...Ke7-d7 
-                          4.Tf4-f7 # 
-                  3.Tf4-f7 + 
+                          4.Tf4-f7 #
+                  3.Tf4-f7 +
                       3...Ke7-d8 
-                          4.Tf7-d7 # 
-                          4.c6-c7 # 
-                          4.Sd4-e6 # 
+                          4.Tf7-d7 #
+                          4.c6-c7 #
+                          4.Sd4-e6 #
               2...Kf6-g7 
-                  3.Sd4-e6 + 
+                  3.Sd4-e6 +
                       3...Kg7-g8 
-                          4.Tf4-f8 # 
+                          4.Tf4-f8 #
                       3...Kg7-h8 
-                          4.Tf4-f8 # 
+                          4.Tf4-f8 #
                       3...Kg7-h6 
-                          4.Tf4-h4 # 
+                          4.Tf4-h4 #
               2...Kf6-g5 
-                  3.Sd6-f7 + 
+                  3.Sd6-f7 +
                       3...Kg5-h5 
-                          4.Tf4-h4 # 
-                  3.Sd4-e6 + 
+                          4.Tf4-h4 #
+                  3.Sd4-e6 +
                       3...Kg5-h5 
-                          4.Tf4-h4 # 
+                          4.Tf4-h4 #
                       3...Kg5-h6 
-                          4.Tf4-h4 # 
+                          4.Tf4-h4 #
               2...Kf6-e5 
-                  3.Sd6-f7 # 
+                  3.Sd6-f7 #
 
-  1.Sd4-f3=sS ! 
+  1.Sd4-f3=sS !
       1...Sf3-d2 
-          2.c2-c3 
+          2.c2-c3
               2...Sd2-b1 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd2-f1 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd2-e4 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd2*c4 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd2-b3 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
       1...Sf3-e1=wS 
-          2.f2-f3=sB 
+          2.f2-f3=sB
               2...f3-f2 
-                  3.Ld3-f1 
+                  3.Ld3-f1
                       3...f2*e1=wS 
-                          4.Se1-d3 # 
+                          4.Se1-d3 #
                       3...f2*e1=wL 
-                          4.Le1-c3 # 
+                          4.Le1-c3 #
       1...Sf3-g1 
-          2.c2-c3 
+          2.c2-c3
               2...Sg1-h3 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sg1-e2 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
       1...Sf3-h2 
-          2.c2-c3 
+          2.c2-c3
               2...Sh2-f1 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sh2-g4 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
       1...Sf3-h4 
-          2.c2-c3 
+          2.c2-c3
               2...Sh4-g2 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sh4-g6 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sh4-f5 
-                  3.Tf4*f5 # 
+                  3.Tf4*f5 #
       1...Sf3-g5 
-          2.c2-c3 
+          2.c2-c3
               2...Sg5-e4 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sg5-h3 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sg5-h7 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sg5-f7 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sg5-e6 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
       1...Sf3-d4 
-          2.c2-c3 
+          2.c2-c3
               2...Sd4-b3 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd4-c2 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd4-e2 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd4-f5 
-                  3.Tf4*f5 # 
+                  3.Tf4*f5 #
               2...Sd4-e6 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd4*c6 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
               2...Sd4-b5 
-                  3.Tf4-f5 # 
+                  3.Tf4-f5 #
 
 Loesung beendet. 
 
@@ -986,14 +986,14 @@ Loesung beendet.
           MagischeFelder a8
 
   1.Sa3-b5 ! Drohung:
-          2.Ta2-a8=sT 
-              2...Ta8-a1 # 
+          2.Ta2-a8=sT
+              2...Ta8-a1 #
       1...Sb7-a5 
-          2.Dc6-a8=sD 
-              2...Da8*g2 # 
+          2.Dc6-a8=sD
+              2...Da8*g2 #
       1...Lb8-a7 
-          2.Tg8-a8=sT 
-              2...Ta8-h8 # 
+          2.Tg8-a8=sT
+              2...Ta8-h8 #
 
 Loesung beendet. 
 

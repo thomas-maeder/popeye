@@ -26,27 +26,27 @@
 
   1.Lc4-g8 ! Zugzwang.
       1...Sf2-d1 
-          2.Sc5*d3 # 
+          2.Sc5*d3 #
       1...Sf2*h1 
-          2.Sc5*d3 # 
+          2.Sc5*d3 #
       1...Sf2-h3 
-          2.Sc5*d3 # 
+          2.Sc5*d3 #
       1...Sf2-g4 
-          2.Sc5*d3 # 
+          2.Sc5*d3 #
       1...Sf2-e4 
-          2.Sc5*d3 # 
+          2.Sc5*d3 #
       1...Sd3-b2 
-          2.d2-d3 # 
+          2.d2-d3 #
       1...Sd3-c1 
-          2.d2-d3 # 
+          2.d2-d3 #
       1...Sd3-f4 
-          2.d2-d3 # 
+          2.d2-d3 #
       1...Sd3-e5 
-          2.d2-d3 # 
+          2.d2-d3 #
       1...b4-b3 
-          2.0-0-0 # 
+          2.0-0-0 #
       1...Th8*g8 
-          2.0-0 # 
+          2.0-0 #
 
 Loesung beendet. 
 
@@ -78,45 +78,45 @@ Loesung beendet.
               StrictSAT
 
   1.Th8-h3 ? Drohung:
-          2.Th3-f3 # 
+          2.Th3-f3 #
     Aber
       1...Tg7-g3  !
 
   1.Th8-h4 ? Drohung:
-          2.Th4-e4 # 
+          2.Th4-e4 #
     Aber
       1...Tg7-g4  !
 
   1.Th8-h5 ? Drohung:
-          2.Th5-d5 # 
+          2.Th5-d5 #
     Aber
       1...Tg7-g5  !
 
   1.Th8-h6 ? Drohung:
-          2.Th6-c6 # 
+          2.Th6-c6 #
     Aber
       1...Tg7-g6  !
 
   1.Th8-b8 ! Drohung:
-          2.Tb8-b7 # 
+          2.Tb8-b7 #
 
   1.Th8-c8 ? Drohung:
-          2.Tc8-c6 # 
+          2.Tc8-c6 #
     Aber
       1...Tg7-c7  !
 
   1.Th8-d8 ? Drohung:
-          2.Td8-d5 # 
+          2.Td8-d5 #
     Aber
       1...Tg7-d7  !
 
   1.Th8-e8 ? Drohung:
-          2.Te8-e4 # 
+          2.Te8-e4 #
     Aber
       1...Tg7-e7  !
 
   1.Th8-f8 ? Drohung:
-          2.Tf8-f3 # 
+          2.Tf8-f3 #
     Aber
       1...Tg7-f7  !
 

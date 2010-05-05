@@ -108,7 +108,7 @@ Loesung beendet.
 a) 
 
   1.e7-e8=S ! Drohung:
-          2.Se8*c7 # 
+          2.Se8*c7 #
 
 b) h#2
 
@@ -118,8 +118,8 @@ c) s#2
 
   1.e7-e8=L ! Zugzwang.
       1...e6-e5 
-          2.La4-c2 
-              2...e5-e4 # 
+          2.La4-c2
+              2...e5-e4 #
 
 d) h=2
 
@@ -390,75 +390,75 @@ Loesung beendet.
 
 a) 
 
-  1.Sg8-f6 ! 
+  1.Sg8-f6 !
       1...e3-e2 
-          2.Tg2-f2 # 
+          2.Tg2-f2 #
       1...Te4-a4 
-          2.Sf7*e5 # 
+          2.Sf7*e5 #
       1...Te4-b4 
-          2.Sf7*e5 # 
+          2.Sf7*e5 #
       1...Te4-c4 
-          2.Sf7*e5 # 
+          2.Sf7*e5 #
       1...Te4-d4 
-          2.Sf7*e5 # 
+          2.Sf7*e5 #
       1...Tg4-h4 
-          2.Sf7*g5 # 
+          2.Sf7*g5 #
       1...Se5-c4 
-          2.Df5*g4 # 
+          2.Df5*g4 #
       1...Se5-d3 
-          2.Df5*g4 # 
+          2.Df5*g4 #
       1...Se5-g6 
-          2.Df5*g4 # 
+          2.Df5*g4 #
       1...Se5*f7 
-          2.Df5*g4 # 
+          2.Df5*g4 #
       1...Se5-d7 
-          2.Df5*g4 # 
+          2.Df5*g4 #
       1...Se5-c6 
-          2.Df5*g4 # 
+          2.Df5*g4 #
       1...Sg5-h3 
-          2.Df5*e4 # 
+          2.Df5*e4 #
       1...Sg5-h7 
-          2.Df5*e4 # 
+          2.Df5*e4 #
       1...Sg5*f7 
-          2.Df5*e4 # 
+          2.Df5*e4 #
       1...Sg5-e6 
-          2.Df5*e4 # 
+          2.Df5*e4 #
 
 b) Circe
 
-  1.Sg8-f6 ! 
+  1.Sg8-f6 !
       1...e3-e2 
-          2.Tg2-f2 # 
+          2.Tg2-f2 #
       1...Te4-a4 
-          2.Df5-e4 # 
+          2.Df5-e4 #
       1...Te4-b4 
-          2.Df5-e4 # 
+          2.Df5-e4 #
       1...Te4-c4 
-          2.Df5-e4 # 
+          2.Df5-e4 #
       1...Te4-d4 
-          2.Df5-e4 # 
+          2.Df5-e4 #
       1...Tg4-h4 
-          2.Df5-g4 # 
+          2.Df5-g4 #
       1...Se5-c4 
-          2.Sf7-e5 # 
+          2.Sf7-e5 #
       1...Se5-d3 
-          2.Sf7-e5 # 
+          2.Sf7-e5 #
       1...Se5-g6 
-          2.Sf7-e5 # 
+          2.Sf7-e5 #
       1...Se5*f7 [+wSb1] 
-          2.Sb1-d2 # 
+          2.Sb1-d2 #
       1...Se5-d7 
-          2.Sf7-e5 # 
+          2.Sf7-e5 #
       1...Se5-c6 
-          2.Sf7-e5 # 
+          2.Sf7-e5 #
       1...Sg5-h3 
-          2.Sf7-g5 # 
+          2.Sf7-g5 #
       1...Sg5-h7 
-          2.Sf7-g5 # 
+          2.Sf7-g5 #
       1...Sg5*f7 [+wSb1] 
-          2.Sb1-d2 # 
+          2.Sb1-d2 #
       1...Sg5-e6 
-          2.Sf7-g5 # 
+          2.Sf7-g5 #
 
 Loesung beendet. 
 
@@ -490,31 +490,31 @@ Loesung beendet.
 
 a) 
 
-  1.Tc2-c3 + ! 
+  1.Tc2-c3 + !
       1...Ke3-d4 
-          2.Sc5-e6 # 
+          2.Sc5-e6 #
       1...Ke3-f4 
-          2.Tg5-f5 # 
+          2.Tg5-f5 #
       1...Ke3*f2 
-          2.Sc5*e4 # 
+          2.Sc5*e4 #
       1...Ke3-d2 
-          2.Tg5-d5 # 
+          2.Tg5-d5 #
 
 b) s#2
 
-  1.Tc2-c3 + ! 
+  1.Tc2-c3 + !
       1...Ke3-d4 
-          2.Tg5-d5 + 
-              2...Df7*d5 # 
+          2.Tg5-d5 +
+              2...Df7*d5 #
       1...Ke3-f4 
-          2.Sc5-e6 + 
-              2...Df7*e6 # 
+          2.Sc5-e6 +
+              2...Df7*e6 #
       1...Ke3*f2 
-          2.Tg5-f5 + 
-              2...Sg3*f5 # 
+          2.Tg5-f5 +
+              2...Sg3*f5 #
       1...Ke3-d2 
-          2.Sc5*e4 + 
-              2...Sg3*e4 # 
+          2.Sc5*e4 +
+              2...Sg3*e4 #
 
 Loesung beendet. 
 
@@ -548,27 +548,27 @@ Loesung beendet.
 
 a) 
 
-  1.Tb2*f2 ! 
+  1.Tb2*f2 !
       1...Kd4-c5 
-          2.Dd8*d6 # 
+          2.Dd8*d6 #
       1...Kd4*e5 
-          2.Dd8-f6 # 
+          2.Dd8-f6 #
       1...Kd4-e3 
-          2.Dd8-b6 # 
+          2.Dd8-b6 #
       1...Kd4-c3 
-          2.Sg3-f5 # 
+          2.Sg3-f5 #
 
 b) wBe5-->c5
 
-  1.Sh1*f2 ! 
+  1.Sh1*f2 !
       1...Kd4*c5 
-          2.Dd8-b6 # 
+          2.Dd8-b6 #
       1...Kd4-e5 
-          2.Dd8*d6 # 
+          2.Dd8*d6 #
       1...Kd4-e3 
-          2.Sg3-f5 # 
+          2.Sg3-f5 #
       1...Kd4-c3 
-          2.Dd8-f6 # 
+          2.Dd8-f6 #
 
 Loesung beendet. 
 
@@ -601,27 +601,27 @@ Loesung beendet.
 
 a) 
 
-  1.d2-d4 ! 
+  1.d2-d4 !
       1...Kg5-f6 
-          2.g4-g5 # 
+          2.g4-g5 #
       1...Kg5-h6 
-          2.Le1-d2 # 
+          2.Le1-d2 #
       1...Kg5-h4 
-          2.Se5-f3 # 
+          2.Se5-f3 #
       1...Kg5-f4 
-          2.Sf8-e6 # 
+          2.Sf8-e6 #
 
 b) =2
 
-  1.d2-d4 ! 
+  1.d2-d4 !
       1...Kg5-f6 
-          2.Le1-d2 = 
+          2.Le1-d2 =
       1...Kg5-h6 
-          2.Se5-f3 = 
+          2.Se5-f3 =
       1...Kg5-h4 
-          2.Sf8-e6 = 
+          2.Sf8-e6 =
       1...Kg5-f4 
-          2.g4-g5 = 
+          2.g4-g5 =
 
 Loesung beendet. 
 
@@ -656,34 +656,34 @@ Loesung beendet.
 a) 
 
   1.Gf8-d6 ! Drohung:
-          2.Gd6-b6 # 
+          2.Gd6-b6 #
       1...Ge2*b5 [+wBe2] 
-          2.Ne1-f3 # 
+          2.Ne1-f3 #
       1...Gf2*c5 [+wBf2] 
-          2.Ng4-h2 # 
+          2.Ng4-h2 #
       1...Ga3*d6 [+wGa3] 
-          2.Nb1-f3 # 
+          2.Nb1-f3 #
       1...e7*d6 [+wGe7] 
-          2.Ng4-h2 # 
+          2.Ng4-h2 #
       1...Gg8*b8 [+wLg8] 
-          2.Nh7-f3 # 
+          2.Nh7-f3 #
 
 b) Circe
 
   1.Gf8-d6 ! Drohung:
-          2.Gd6-b6 # 
+          2.Gd6-b6 #
       1...Ge2*b5 [+wBb2] 
-          2.Nb1-f3 # 
+          2.Nb1-f3 #
       1...Gf2*c5 [+wBc2] 
-          2.Ne1-f3 # 
+          2.Ne1-f3 #
       1...Ga3*d6 [+wGd8] 
-          2.Nh7-f3 # 
+          2.Nh7-f3 #
       1...c6*b5 [+wBb2] 
-          2.Nb1-f3 # 
+          2.Nb1-f3 #
       1...e7*d6 [+wGd8] 
-          2.Nh7-f3 # 
+          2.Nh7-f3 #
       1...Gg8*b8 [+wLc1] 
-          2.Ng4-h2 # 
+          2.Ng4-h2 #
 
 Loesung beendet. 
 
@@ -717,33 +717,33 @@ Loesung beendet.
 a) 
 
   1.Ld5-b3 ! Drohung:
-          2.Tg5-g4 # 
-          2.Tg5-d5 # 
+          2.Tg5-g4 #
+          2.Tg5-d5 #
       1...Db8*d6 [+wLc1] 
-          2.Lc1-b2 # 
+          2.Lc1-b2 #
       1...Ld8*g5 [+wTa1] 
-          2.Ta1-a4 # 
+          2.Ta1-a4 #
 
 b) ChamaeleonCirce
 
   1.Ld5-c6 ! Drohung:
-          2.Tg5-g4 # 
+          2.Tg5-g4 #
       1...b7*c6 [+wTh1] 
-          2.Th1-h4 # 
+          2.Th1-h4 #
       1...Db8*d6 [+wTa1] 
-          2.Ta1-a4 # 
+          2.Ta1-a4 #
       1...Ld8*g5 [+wDd1] 
-          2.Dd1-a4 # 
+          2.Dd1-a4 #
 
 c) CirceClone
 
   1.Ld5-a2 ! Drohung:
-          2.Tg5-g4 # 
-          2.Tg5-d5 # 
+          2.Tg5-g4 #
+          2.Tg5-d5 #
       1...Db8*d6 [+wDd1] 
-          2.Dd1-a4 # 
+          2.Dd1-a4 #
       1...Ld8*g5 [+wLc1] 
-          2.Lc1-b2 # 
+          2.Lc1-b2 #
 
 Loesung beendet. 
 
@@ -778,28 +778,28 @@ Loesung beendet.
 a) 
 
   1.Ld4*a7 [+sDd8] ! Drohung:
-          2.Lh7-e4 # 
+          2.Lh7-e4 #
       1...Lc2*d3 [+wSb1] 
-          2.Sb1-d2 # 
+          2.Sb1-d2 #
       1...Sa5*c4 [+wTh1] 
-          2.Th1-h3 # 
+          2.Th1-h3 #
       1...d6-d5 
-          2.Sd3-e5 # 
+          2.Sd3-e5 #
       1...Th8*h7 [+wLf1] 
-          2.Lf1-e2 # 
+          2.Lf1-e2 #
 
 b) AndernachSchach
 
   1.Ld4-b6 ! Drohung:
-          2.Lh7-e4 # 
+          2.Lh7-e4 #
       1...Lc2*d3=wL 
-          2.Ld3-e2 # 
+          2.Ld3-e2 #
       1...Sa5*c4=wS 
-          2.Sc4-d2 # 
+          2.Sc4-d2 #
       1...d6-d5 
-          2.Sd3-e5 # 
+          2.Sd3-e5 #
       1...Th8*h7=wT 
-          2.Th7-h3 # 
+          2.Th7-h3 #
 
 Loesung beendet. 
 
@@ -833,32 +833,32 @@ Loesung beendet.
 a) 
 
   1.Td3*b3 [+sBb7] ! Drohung:
-          2.Le6-d5 # 
+          2.Le6-d5 #
       1...Lb6-e3 + 
-          2.Tb3*e3 [+sLf8] # 
+          2.Tb3*e3 [+sLf8] #
       1...g6*f5 [+wSb1] 
-          2.Sb1-d2 # 
+          2.Sb1-d2 #
       1...Sb8*d7 [+wTh1] 
-          2.Th1*h4 # 
+          2.Th1*h4 #
       1...Te8*e6 [+wLf1] 
-          2.Lf1-d3 # 
+          2.Lf1-d3 #
       1...Lg8*f7 [+wBf2] 
-          2.f2-f3 # 
+          2.f2-f3 #
 
 b) CirceClone
 
   1.Td3-c3 ! Drohung:
-          2.Le6-d5 # 
+          2.Le6-d5 #
       1...Lb6-e3 + 
-          2.Tc3*e3 [+sTh8] # 
+          2.Tc3*e3 [+sTh8] #
       1...g6*f5 [+wBf2] 
-          2.f2-f3 # 
+          2.f2-f3 #
       1...Sb8*d7 [+wSb1] 
-          2.Sb1-d2 # 
+          2.Sb1-d2 #
       1...Te8*e6 [+wTh1] 
-          2.Th1*h4 [+sTh8] # 
+          2.Th1*h4 [+sTh8] #
       1...Lg8*f7 [+wLf1] 
-          2.Lf1-d3 # 
+          2.Lf1-d3 #
 
 Loesung beendet. 
 
@@ -892,24 +892,24 @@ Loesung beendet.
 a) 
 
   1.Se3*g2 ! Drohung:
-          2.Lg3-e5 # 
+          2.Lg3-e5 #
       1...Sh1*g3 [+wLc1] 
-          2.Lc1-e3 # 
+          2.Lc1-e3 #
       1...Tb6*d6 [+wSg1] 
-          2.Sg1-f3 # 
+          2.Sg1-f3 #
       1...Ld8*e7 [+wTa1] 
-          2.Ta1-d1 # 
+          2.Ta1-d1 #
 
 b) CirceClone
 
   1.Se3-f1 ! Drohung:
-          2.Lg3-e5 # 
+          2.Lg3-e5 #
       1...Sh1*g3 [+wSg1] 
-          2.Sg1-f3 # 
+          2.Sg1-f3 #
       1...Tb6*d6 [+wTa1] 
-          2.Ta1-d1 # 
+          2.Ta1-d1 #
       1...Ld8*e7 [+wLc1] 
-          2.Lc1-e3 # 
+          2.Lc1-e3 #
 
 Loesung beendet. 
 
@@ -943,30 +943,30 @@ Loesung beendet.
 a) 
 
   1.Ld4-e3 ! Drohung:
-          2.Sc6-e7 # 
+          2.Sc6-e7 #
       1...b7*c6 [+wSb1] 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Tc8*c7 [+wBc2] 
-          2.c2-c4 # 
+          2.c2-c4 #
       1...Lg8*e6 [+wTh1] 
-          2.Th1-d1 # 
+          2.Th1-d1 #
       1...Sh8*g6 [+wLf1] 
-          2.Lf1-c4 # 
+          2.Lf1-c4 #
 
 b) CirceClone
 
   1.Ld4-c5 ! Drohung:
-          2.Sc6-e7 # 
+          2.Sc6-e7 #
       1...b6*c5 [+wBc2] 
-          2.c2-c4 # 
+          2.c2-c4 #
       1...b7*c6 [+wBc2] 
-          2.c2-c4 # 
+          2.c2-c4 #
       1...Tc8*c7 [+wTa1] 
-          2.Ta1-d1 # 
+          2.Ta1-d1 #
       1...Lg8*e6 [+wLf1] 
-          2.Lf1-c4 # 
+          2.Lf1-c4 #
       1...Sh8*g6 [+wSb1] 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
 
 Loesung beendet. 
 
@@ -1001,30 +1001,30 @@ Loesung beendet.
 a) 
 
   1.Sd5-c7 ! Drohung:
-          2.Lb3-d5 # 
+          2.Lb3-d5 #
       1...d3-d2 
-          2.Lb3-c2 # 
+          2.Lb3-c2 #
       1...a4*b3 [+wLf1] 
-          2.Lf1*d3 # 
+          2.Lf1*d3 #
       1...b7*c6 [+wSb1] 
-          2.Sb1-d2 # 
+          2.Sb1-d2 #
       1...h7*g6 [+wDd1] 
-          2.Dd1*d3 # 
+          2.Dd1*d3 #
       1...Td8*d7 [+wTh1] 
-          2.Th1*h4 [+sDd8] # 
+          2.Th1*h4 [+sDd8] #
 
 b) ChamaeleonCirce
 
   1.Sd5-b4 ! Drohung:
-          2.Lb3-d5 # 
+          2.Lb3-d5 #
       1...a4*b3 [+wTh1] 
-          2.Th1*h4 [+sSb8] # 
+          2.Th1*h4 [+sSb8] #
       1...b7*c6 [+wLf1] 
-          2.Lf1*d3 # 
+          2.Lf1*d3 #
       1...h7*g6 [+wSb1] 
-          2.Sb1-d2 # 
+          2.Sb1-d2 #
       1...Td8*d7 [+wDd1] 
-          2.Dd1*d3 # 
+          2.Dd1*d3 #
 
 Loesung beendet. 
 
@@ -1058,20 +1058,20 @@ Loesung beendet.
 a) 
 
   1.Le8-c6 ! Drohung:
-          2.Sg7-e8 # 
+          2.Sg7-e8 #
       1...g6*f5 [+wBc4] 
-          2.c4-c5 # 
+          2.c4-c5 #
       1...Lf8*g7 [+wSb2] 
-          2.Sb2-c4 # 
+          2.Sb2-c4 #
 
 b) EquipollentsCirce
 
   1.Le8*a4 ! Drohung:
-          2.Sg7-e8 # 
+          2.Sg7-e8 #
       1...g6*f5 [+wBe4] 
-          2.e4-e5 # 
+          2.e4-e5 #
       1...Lf8*g7 [+wSh6] 
-          2.Sh6-f7 # 
+          2.Sh6-f7 #
 
 Loesung beendet. 
 
@@ -1106,42 +1106,42 @@ Loesung beendet.
 a) 
 
   1.Sc6-a7 ! Drohung:
-          2.Ld7-c6 # 
+          2.Ld7-c6 #
       1...Sf6*d7 [+wLf1] 
-          2.Lf1*c4 [+sBc7] # 
+          2.Lf1*c4 [+sBc7] #
       1...Te8*e6 [+wBe2] + 
-          2.Ld7*e6 [+sTa8] # 
+          2.Ld7*e6 [+sTa8] #
       1...Te8*c8 [+wSb1] 
-          2.Sb1*c3 [+sBc7] # 
+          2.Sb1*c3 [+sBc7] #
 
 b) ChamaeleonCirce
 
   1.Sc6*a5 [+sTh8] ! Drohung:
-          2.Sc8-b6 # 
-          2.Ld7-c6 # 
+          2.Sc8-b6 #
+          2.Ld7-c6 #
       1...Sf6*d7 [+wTh1] 
-          2.Th1-d1 # 
+          2.Th1-d1 #
       1...Te8*e6 [+wBe2] + 
-          2.Ld7*e6 [+sDd8] # 
+          2.Ld7*e6 [+sDd8] #
       1...Te8-e7 
-          2.Ld7-c6 # 
+          2.Ld7-c6 #
       1...Te8*c8 [+wLf1] 
-          2.Lf1*c4 [+sBc7] # 
+          2.Lf1*c4 [+sBc7] #
       1...Te8*f8 
-          2.Ld7-c6 # 
+          2.Ld7-c6 #
       1...Th8*f8 
-          2.Ld7-c6 # 
+          2.Ld7-c6 #
 
 c) CirceClone
 
   1.Sc6-b8 ! Drohung:
-          2.Ld7-c6 # 
+          2.Ld7-c6 #
       1...Sf6*d7 [+wSb1] 
-          2.Sb1*c3 # 
+          2.Sb1*c3 #
       1...Te8*e6 [+wTh1] + 
-          2.Ld7*e6 # 
+          2.Ld7*e6 #
       1...Te8*c8 [+wTh1] 
-          2.Th1-d1 # 
+          2.Th1-d1 #
 
 Loesung beendet. 
 
@@ -1174,30 +1174,30 @@ Loesung beendet.
 a) 
 
   1.Dc8-e6 ! Drohung:
-          2.Se5-d7 # 
+          2.Se5-d7 #
       1...Tc4-c5 
-          2.Se5-f3 # 
-          2.Se5-c6 # 
+          2.Se5-f3 #
+          2.Se5-c6 #
       1...Kd4-c5 
-          2.Se5*d3 # 
+          2.Se5*d3 #
       1...Kd4-e3 
-          2.Se5-g4 # 
+          2.Se5-g4 #
       1...Kd4*c3 
-          2.Se5*c4 # 
+          2.Se5*c4 #
 
 b) sTc4<-->sBd3
 
   1.Dc8-f5 ! Drohung:
-          2.Se5-g4 # 
+          2.Se5-g4 #
       1...Td3-e3 
-          2.Se5-f3 # 
-          2.Se5-c6 # 
+          2.Se5-f3 #
+          2.Se5-c6 #
       1...Kd4-c5 
-          2.Se5-d7 # 
+          2.Se5-d7 #
       1...Kd4-e3 
-          2.Se5*c4 # 
+          2.Se5*c4 #
       1...Kd4*c3 
-          2.Se5*d3 # 
+          2.Se5*d3 #
 
 Loesung beendet. 
 
@@ -1230,30 +1230,30 @@ Loesung beendet.
 a) 
 
   1.Df1-e2 ! Drohung:
-          2.De2-e4 # 
+          2.De2-e4 #
       1...Td3-d4 
-          2.Th5-f5 # 
+          2.Th5-f5 #
       1...Td3-e3 
-          2.Th5-f5 # 
+          2.Th5-f5 #
       1...Tf3*f2 
-          2.Sf6-e4 # 
+          2.Sf6-e4 #
       1...Tf3-e3 
-          2.De2-g4 # 
+          2.De2-g4 #
       1...Tf3-g3 + 
-          2.Sf6-g4 # 
+          2.Sf6-g4 #
 
 b) wKg8-->e8
 
   1.Df1-g2 ! Drohung:
-          2.Dg2-g4 # 
+          2.Dg2-g4 #
       1...Td3-e3 + 
-          2.Sf6-e4 # 
+          2.Sf6-e4 #
       1...Tf3*f2 
-          2.Sf6-g4 # 
+          2.Sf6-g4 #
       1...Tf3-e3 + 
-          2.Sf6-e4 # 
+          2.Sf6-e4 #
       1...Tf3-g3 
-          2.Dg2-e4 # 
+          2.Dg2-e4 #
 
 Loesung beendet. 
 

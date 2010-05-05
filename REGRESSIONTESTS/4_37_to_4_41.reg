@@ -57,9 +57,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-  1.MAa8-c7 ! 
+  1.MAa8-c7 !
 
-  1.MAa8-b6 ! 
+  1.MAa8-b6 !
 
 solution finished. 
 
@@ -193,27 +193,27 @@ moves in Maximummer+Imitator problems
            BlackMaximummer
 
       1...e7-e5[Ic3] 
-          2.d5*e6 ep.[Id4] 
+          2.d5*e6 ep.[Id4]
               2...0-0-0[Ie4] 
-                  3.e6-e7[Ie5] 
+                  3.e6-e7[Ie5]
                       3...Rd8-d4[Ie1] 
-                          4.e7-e8=S[Ie2] 
+                          4.e7-e8=S[Ie2]
                               4...Rd4-d8[Ie6] 
-                                  5.Se8-f6[If4] 
-                                      5...Rd8-d5[If1] # 
+                                  5.Se8-f6[If4]
+                                      5...Rd8-d5[If1] #
 
-  1.Ka5-b4[Id4] ! 
+  1.Ka5-b4[Id4] !
       1...Ra8-d8[Ig4] 
-          2.d5-d6[Ig5] 
+          2.d5-d6[Ig5]
               2...Rd8-a8[Id5] 
-                  3.d6-d7[Id6] 
+                  3.d6-d7[Id6]
                       3...e7-e5[Id4] 
-                          4.d7-d8=S[Id5] 
+                          4.d7-d8=S[Id5]
                               4...Ke8-d7[Ic4] 
-                                  5.Kb4-a5[Ib5] 
+                                  5.Kb4-a5[Ib5]
                                       5...Ra8-c8[Id5] 
-                                          6.Sd8-f7[If4] 
-                                              6...Rc8-c5[If1] # 
+                                          6.Sd8-f7[If4]
+                                              6...Rc8-c5[If1] #
 
 solution finished. 
 

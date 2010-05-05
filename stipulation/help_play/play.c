@@ -29,7 +29,6 @@
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
 {
@@ -84,9 +83,9 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       stip_length_type const sol_length = attack_has_solution_in_n(si,
                                                                    nbattle,
                                                                    n_min);
-      if (sol_length==n_min-4)
+      if (sol_length<n_min)
         result = n+4;
-      else if (n_min-2<=sol_length && sol_length<=nbattle)
+      else if (sol_length<=nbattle)
       {
         result = n;
         attack_solve_in_n(si,nbattle,n_min);
@@ -118,10 +117,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       assert(n==slack_length_help+1);
       switch (leaf_h_solve(si))
       {
-        case is_solved:
-          result = n-2;
-          break;
-
         case has_solution:
           result = n;
           break;
@@ -130,7 +125,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
           result = n+2;
           break;
 
-        case defender_self_check:
+        case opponent_self_check:
           result = n+4;
           break;
       }
@@ -250,7 +245,7 @@ boolean help_solve(slice_index si)
 
   while (len<=full_length)
   {
-    if (help_solve_in_n(si,len)<=len)
+    if (help_solve_in_n(si,len)==len)
       result = true;
     len += 2;
   }
@@ -269,7 +264,6 @@ boolean help_solve(slice_index si)
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
 {
@@ -473,7 +467,7 @@ has_solution_type help_has_solution(slice_index si)
 
   while (len<=full_length && result==has_no_solution)
   {
-    if (help_has_solution_in_n(si,len)<=len)
+    if (help_has_solution_in_n(si,len)==len)
       result = has_solution;
 
     len += 2;

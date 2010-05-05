@@ -402,21 +402,21 @@ Hilmar Ebert, Hans Gruber & Stefan Hoening
 
 a) 
 
-  1.kGa8-a6 = ! 
+  1.kGa8-a6 = !
 
 b) exact-=2
 
-  1.kGa8-d8 ! 
+  1.kGa8-d8 !
       1...kGc8-e8 
-          2.kGd8-a5 = 
+          2.kGd8-a5 =
 
 c) exact-=3
 
-  1.kGa8-d8 ! 
+  1.kGa8-d8 !
       1...kGc8-e8 
-          2.kGd8-f8 
+          2.kGd8-f8
               2...kGe8-g8 
-                  3.kGf8-h8 = 
+                  3.kGf8-h8 =
 
 Loesung beendet. 
 
@@ -448,21 +448,21 @@ Loesung beendet.
            Koeniglich a8 c8
               HalbDuplex
 
-  1.a7*b6 ! 
+  1.a7*b6 !
       1...kEQc8-a4 
-          2.b6-b5 + 
+          2.b6-b5 +
               2...kEQa4-c6 
-                  3.kEQa8-e4 
+                  3.kEQa8-e4
                       3...kEQc6-g2 
-                          4.b5-b4 
+                          4.b5-b4
                               4...kEQg2-c6 
-                                  5.b4-b3 
+                                  5.b4-b3
                                       5...kEQc6-g2 
-                                          6.b3-b2 
+                                          6.b3-b2
                                               6...kEQg2-c6 
-                                                  7.b2-b1=D 
+                                                  7.b2-b1=D
                                                       7...kEQc6-g2 
-                                                          8.Db1-c2 # 
+                                                          8.Db1-c2 #
 
 Loesung beendet. 
 

@@ -97,9 +97,7 @@ boolean attack_hashed_are_threats_refuted_in_n(table threats,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -112,9 +110,7 @@ stip_length_type attack_hashed_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -136,7 +132,6 @@ boolean hashed_help_root_solve(slice_index si);
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n);
 
@@ -148,7 +143,6 @@ stip_length_type hashed_help_solve_in_n(slice_index si, stip_length_type n);
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type hashed_help_has_solution_in_n(slice_index si,
                                                stip_length_type n);
@@ -170,7 +164,6 @@ void hashed_help_solve_threats_in_n(table threats,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n);
 
@@ -182,7 +175,6 @@ stip_length_type hashed_series_solve_in_n(slice_index si, stip_length_type n);
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type hashed_series_has_solution_in_n(slice_index si,
                                                  stip_length_type n);

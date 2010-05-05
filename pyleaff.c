@@ -28,7 +28,7 @@ has_solution_type leaf_forced_has_solution(slice_index leaf)
   switch (leaf_is_goal_reached(attacker,leaf))
   {
     case goal_not_reached_selfcheck:
-      result = defender_self_check;
+      result = opponent_self_check;
       break;
 
     case goal_not_reached:
@@ -36,12 +36,12 @@ has_solution_type leaf_forced_has_solution(slice_index leaf)
       break;
 
     case goal_reached:
-      result = is_solved;
+      result = has_solution;
       break;
 
     default:
       assert(0);
-      result = defender_self_check;
+      result = opponent_self_check;
       break;
   }
 
@@ -67,7 +67,7 @@ has_solution_type leaf_forced_solve(slice_index leaf)
   switch (leaf_is_goal_reached(attacker,leaf))
   {
     case goal_not_reached_selfcheck:
-      result = defender_self_check;
+      result = opponent_self_check;
       break;
 
     case goal_not_reached:
@@ -75,14 +75,14 @@ has_solution_type leaf_forced_solve(slice_index leaf)
       break;
 
     case goal_reached:
-      result = is_solved;
+      result = has_solution;
       active_slice[nbply] = leaf;
       write_goal(slices[leaf].u.leaf.goal);
       break;
 
     default:
       assert(0);
-      result = defender_self_check;
+      result = opponent_self_check;
       break;
   }
 

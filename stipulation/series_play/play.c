@@ -31,7 +31,6 @@
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
 {
@@ -56,7 +55,7 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
     case STHelpMove:
     {
       stip_length_type const n_help = n-slack_length_series+slack_length_help;
-      result = help_solve_in_n(si,n_help)<=n_help ? n : n+1;
+      result = help_solve_in_n(si,n_help)==n_help ? n : n+1;
       break;
     }
 
@@ -184,7 +183,7 @@ boolean series_solve(slice_index si)
   assert(full_length>slack_length_series);
 
   while (len<=full_length)
-    if (series_solve_in_n(si,len)<=len)
+    if (series_solve_in_n(si,len)==len)
     {
       result = true;
       break;
@@ -206,7 +205,6 @@ boolean series_solve(slice_index si)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
 {
@@ -317,7 +315,7 @@ has_solution_type series_has_solution(slice_index si)
   assert(full_length>=slack_length_series);
 
   while (len<=full_length)
-    if (series_has_solution_in_n(si,len)<=len)
+    if (series_has_solution_in_n(si,len)==len)
     {
       result = has_solution;
       break;

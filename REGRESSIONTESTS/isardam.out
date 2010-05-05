@@ -60,18 +60,18 @@ Loesung beendet.
 
   1.Td2*d4 ! Zugzwang.
       1...Dg1-e3 
-          2.Da7-a1 # 
+          2.Da7-a1 #
       1...Dg1-f2 
-          2.Da7-g7 # 
+          2.Da7-g7 #
       1...Lc2-b1 
-          2.Da7-a1 # 
-          2.Da7-g7 # 
+          2.Da7-a1 #
+          2.Da7-g7 #
       1...Lc2-d3 
-          2.Da7-d7 # 
+          2.Da7-d7 #
       1...b4-b3 
-          2.Da7-a4 # 
+          2.Da7-a4 #
       1...Ke4-d3 
-          2.Da7-d7 # 
+          2.Da7-d7 #
 
 Loesung beendet. 
 
@@ -105,23 +105,23 @@ Ausschreibungsoriginal, Kingston 1997
 
   1.Te4-d4 ! Zugzwang.
       1...Sd3-b2 
-          2.Kc6-c5 # 
+          2.Kc6-c5 #
       1...Sd3-c1 
-          2.Kc6-c5 # 
+          2.Kc6-c5 #
       1...Sd3-e1 
-          2.Kc6-c5 # 
+          2.Kc6-c5 #
       1...Sd3-f2 
-          2.Kc6-c5 # 
+          2.Kc6-c5 #
       1...Sd3-f4 
-          2.Kc6-c5 # 
+          2.Kc6-c5 #
       1...Sd3-e5 + 
-          2.Kc6-c5 # 
+          2.Kc6-c5 #
       1...Sd3-c5 
-          2.Kc6*c5 # 
+          2.Kc6*c5 #
       1...Tb4-a4 
-          2.Kc6-b5 # 
+          2.Kc6-b5 #
       1...e6-e5 
-          2.Kc6-d5 # 
+          2.Kc6-d5 #
 
 Loesung beendet. 
 
@@ -229,12 +229,12 @@ Loesung beendet.
                Isardam
 
   1.Kh6-g6 ! Drohung:
-          2.h7-h8=D # 
-          2.h7-h8=T # 
+          2.h7-h8=D #
+          2.h7-h8=T #
       1...e2-e1=D 
-          2.h7-h8=T # 
+          2.h7-h8=T #
       1...e2-e1=T 
-          2.h7-h8=D # 
+          2.h7-h8=D #
 
 Loesung beendet. 
 
@@ -267,21 +267,21 @@ Loesung beendet.
 
   1.h7-h8=T ! Zugzwang.
       1...g2-g1=D 
-          2.Kh5-g6 # 
+          2.Kh5-g6 #
       1...g2-g1=S 
-          2.Kh5-g6 # 
+          2.Kh5-g6 #
       1...g2-g1=T 
-          2.Sh1-f2 # 
+          2.Sh1-f2 #
       1...g2-g1=L 
-          2.Kh5-g6 # 
+          2.Kh5-g6 #
       1...g2*h1=D 
-          2.Kh5-g6 # 
+          2.Kh5-g6 #
       1...g2*h1=S 
-          2.Kh5-g6 # 
+          2.Kh5-g6 #
       1...g2*h1=T 
-          2.Kh5-g4 # 
+          2.Kh5-g4 #
       1...g2*h1=L 
-          2.Kh5-g6 # 
+          2.Kh5-g6 #
 
 Loesung beendet. 
 
@@ -313,11 +313,11 @@ Loesung beendet.
                Isardam
 
   1.d4-d5 ! Drohung:
-          2.Sf8-h7 # 
+          2.Sf8-h7 #
       1...Lb8-f4 + 
-          2.Ke4-e5 # 
+          2.Ke4-e5 #
       1...Lc8-g4 + 
-          2.Ke4-f5 # 
+          2.Ke4-f5 #
 
 Loesung beendet. 
 
@@ -350,9 +350,9 @@ Loesung beendet.
 
   1.Dd1-b3 ! Zugzwang.
       1...Kb1*b2 
-          2.Db3-c3 # 
+          2.Db3-c3 #
       1...Kb1-a2 
-          2.Db3-a3 # 
+          2.Db3-a3 #
 
 Loesung beendet. 
 
@@ -385,23 +385,23 @@ Loesung beendet.
 
   1.Ld4-h8 ! Zugzwang.
       1...c5-c4 
-          2.Lh7-d3 
-              2...Kc2*d3 # 
+          2.Lh7-d3
+              2...Kc2*d3 #
       1...Tb8-a8 
-          2.Tc7-d7 
-              2...Ta8-a3 # 
+          2.Tc7-d7
+              2...Ta8-a3 #
       1...Tb8-g8 
-          2.Lh7-g6 
-              2...Tg8*g6 # 
+          2.Lh7-g6
+              2...Tg8*g6 #
       1...Tb8-f8 
-          2.Lh7-f5 
-              2...Tf8*f5 # 
+          2.Lh7-f5
+              2...Tf8*f5 #
       1...Tb8-e8 
-          2.Lh7-e4 
-              2...Te8*e4 # 
+          2.Lh7-e4
+              2...Te8*e4 #
       1...Tb8-d8 
-          2.Lh7-d3 
-              2...Td8*d3 # 
+          2.Lh7-d3
+              2...Td8*d3 #
 
 Loesung beendet. 
 
@@ -433,21 +433,21 @@ Loesung beendet.
                Isardam
 
   1.Ld1-e2 ! Drohung:
-          2.Le2-d3 # 
+          2.Le2-d3 #
       1...Sg2-e1 
-          2.Dg5*g4 # 
+          2.Dg5*g4 #
       1...Sg2-h4 
-          2.Dg5*g4 # 
+          2.Dg5*g4 #
       1...Sg2-f4 
-          2.Sd7-f6 # 
+          2.Sd7-f6 #
       1...Sg2*e3 
-          2.Sd7-c5 # 
-          2.Dg5*e3 # 
-          2.Dg5*g4 # 
+          2.Sd7-c5 #
+          2.Dg5*e3 #
+          2.Dg5*g4 #
       1...Lb8*e5 
-          2.Sd7-c5 # 
+          2.Sd7-c5 #
       1...Te8*e5 
-          2.Sd7-f6 # 
+          2.Sd7-f6 #
 
 Loesung beendet. 
 
@@ -479,13 +479,13 @@ Loesung beendet.
                Isardam
 
   1.Se8-f6 ! Drohung:
-          2.Sf6-d7 # 
+          2.Sf6-d7 #
       1...Db1-b2 
-          2.Td8-e8 # 
+          2.Td8-e8 #
       1...Ta2-b2 
-          2.Dg4-e4 # 
+          2.Dg4-e4 #
       1...Ke5*f6 
-          2.Dg4-g5 # 
+          2.Dg4-g5 #
 
 Loesung beendet. 
 
@@ -518,13 +518,13 @@ The Problemist ix/1997 (early version)
                Isardam
 
   1.Sd6-e8 ! Drohung:
-          2.Se8-c7 # 
+          2.Se8-c7 #
       1...Td1-a1 
-          2.Tf3-h3 # 
+          2.Tf3-h3 #
       1...Te5*e8 
-          2.Tf3-f4 # 
+          2.Tf3-f4 #
       1...Lh8-f6 
-          2.Se8*f6 # 
+          2.Se8*f6 #
 
 Loesung beendet. 
 
@@ -557,29 +557,29 @@ The Problemist i/1998 (Position Reflected)
                Isardam
 
   1.f6-f7 ! Drohung:
-          2.Sc6*e5 # 
+          2.Sc6*e5 #
       1...De5-h8 + 
-          2.Kh7*h8 # 
+          2.Kh7*h8 #
       1...De5-e1 
-          2.Db7*c7 # 
+          2.Db7*c7 #
       1...De5-e2 
-          2.Db7*c7 # 
+          2.Db7*c7 #
       1...De5-e3 
-          2.Db7*c7 # 
+          2.Db7*c7 #
       1...De5-e4 
-          2.Db7*c7 # 
+          2.Db7*c7 #
       1...De5-e7 
-          2.Lb4*e7 # 
+          2.Lb4*e7 #
       1...De5-e6 
-          2.f5*e6 # 
+          2.f5*e6 #
       1...Ld7*c6 
-          2.Db7*c6 # 
+          2.Db7*c6 #
       1...Td8-a8 
-          2.Db7*a8 # 
+          2.Db7*a8 #
       1...Td8-b8 
-          2.Db7*b8 # 
+          2.Db7*b8 #
       1...Td8-c8 
-          2.Db7*c8 # 
+          2.Db7*c8 #
 
 Loesung beendet. 
 
@@ -612,11 +612,11 @@ Loesung beendet.
                Isardam
 
   1.Ld7-e6 ! Drohung:
-          2.Le6*c4 # 
+          2.Le6*c4 #
       1...Dh1-d5 + 
-          2.h7-h8=D # 
+          2.h7-h8=D #
       1...Tb5-d5 + 
-          2.b7-b8=T # 
+          2.b7-b8=T #
 
 Loesung beendet. 
 

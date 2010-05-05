@@ -50,7 +50,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #1                          3 + 1
 
-  1.Se8-c7 # ! 
+  1.Se8-c7 # !
 
 solution finished. 
 
@@ -79,15 +79,15 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 2
 
-zugzwang.
+ zugzwang.
       1...Se8-c7 
-          2.Sd5*c7 # 
+          2.Sd5*c7 #
       1...Se8-d6 
-          2.Sd5-c7 # 
+          2.Sd5-c7 #
       1...Se8-f6 
-          2.Sd5-c7 # 
+          2.Sd5-c7 #
       1...Se8-g7 
-          2.Sd5-c7 # 
+          2.Sd5-c7 #
 
 solution finished. 
 
@@ -116,17 +116,17 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
 
-zugzwang.
+ zugzwang.
       1...h5-h4 
         refutes.
       1...Se8-c7 
-          2.Sd5*c7 # 
+          2.Sd5*c7 #
       1...Se8-d6 
-          2.Sd5-c7 # 
+          2.Sd5-c7 #
       1...Se8-f6 
-          2.Sd5-c7 # 
+          2.Sd5-c7 #
       1...Se8-g7 
-          2.Sd5-c7 # 
+          2.Sd5-c7 #
 
 solution finished. 
 
@@ -155,10 +155,10 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 2
 
-  1.Se8-c7 # ! 
+  1.Se8-c7 # !
 
   1.Ka6-b6 ! threat:
-          2.Se8-c7 # 
+          2.Se8-c7 #
 
 solution finished. 
 
@@ -187,7 +187,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ##!2                        2 + 3
 
-  1.Kc8-b7 ##! ! 
+  1.Kc8-b7 ##! !
 
 solution finished. 
 
@@ -216,9 +216,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #=2                         2 + 1
 
-  1.Rc3-c1 # ! 
+  1.Rc3-c1 # !
 
-  1.Rc3-b3 = ! 
+  1.Rc3-b3 = !
 
 solution finished. 
 
@@ -249,9 +249,9 @@ solution finished.
 
   1.Kb6-a6 ! zugzwang.
       1...c7-c5 
-          2.Sa4-b6 # 
+          2.Sa4-b6 #
       1...c7-c6 
-          2.Sa4-b6 # 
+          2.Sa4-b6 #
 
 solution finished. 
 
@@ -281,11 +281,11 @@ solution finished.
   #2                          2 + 2
 
       1...Kb8-a8 
-          2.Rc6-c8 # 
+          2.Rc6-c8 #
 
   1.Rc6*c5 ! zugzwang.
       1...Kb8-a8 
-          2.Rc5-c8 # 
+          2.Rc5-c8 #
 
 solution finished. 
 
@@ -317,7 +317,7 @@ solution finished.
 the side to play can capture the king
   1.Rc6*c5 ! zugzwang.
       1...Kb8-a8 
-          2.Rc5-c8 # 
+          2.Rc5-c8 #
 
 solution finished. 
 
@@ -346,25 +346,25 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #3                          4 + 3
 
-zugzwang.
+ zugzwang.
       1...c6-c5 
           2.c3-c4 zugzwang.
               2...Se8-c7 + 
-                  3.Se6*c7 # 
+                  3.Se6*c7 #
               2...Se8-d6 
-                  3.Se6-c7 # 
+                  3.Se6-c7 #
               2...Se8-f6 
-                  3.Se6-c7 # 
+                  3.Se6-c7 #
               2...Se8-g7 
-                  3.Se6-c7 # 
+                  3.Se6-c7 #
       1...Se8-c7 + 
-          2.Se6*c7 # 
+          2.Se6*c7 #
       1...Se8-d6 
-          2.Se6-c7 # 
+          2.Se6-c7 #
       1...Se8-f6 
-          2.Se6-c7 # 
+          2.Se6-c7 #
       1...Se8-g7 
-          2.Se6-c7 # 
+          2.Se6-c7 #
 
 solution finished. 
 
@@ -394,33 +394,33 @@ solution finished.
   #3                          4 + 4
 
       1...Se8-c7 + 
-          2.Se6*c7 # 
+          2.Se6*c7 #
       1...Se8-d6 
-          2.Se6-c7 # 
+          2.Se6-c7 #
       1...Se8-f6 
-          2.Se6-c7 # 
+          2.Se6-c7 #
       1...Se8-g7 
-          2.Se6-c7 # 
+          2.Se6-c7 #
 
   1.b2*c3 ! zugzwang.
       1...c6-c5 
           2.c3-c4 zugzwang.
               2...Se8-c7 + 
-                  3.Se6*c7 # 
+                  3.Se6*c7 #
               2...Se8-d6 
-                  3.Se6-c7 # 
+                  3.Se6-c7 #
               2...Se8-f6 
-                  3.Se6-c7 # 
+                  3.Se6-c7 #
               2...Se8-g7 
-                  3.Se6-c7 # 
+                  3.Se6-c7 #
       1...Se8-c7 + 
-          2.Se6*c7 # 
+          2.Se6*c7 #
       1...Se8-d6 
-          2.Se6-c7 # 
+          2.Se6-c7 #
       1...Se8-f6 
-          2.Se6-c7 # 
+          2.Se6-c7 #
       1...Se8-g7 
-          2.Se6-c7 # 
+          2.Se6-c7 #
 
 solution finished. 
 
@@ -478,8 +478,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         2 + 3
 
-  1.Rh3-h4 ! 
-      1...b3-b2 # 
+  1.Rh3-h4 !
+      1...b3-b2 #
 
 solution finished. 
 
@@ -509,8 +509,8 @@ s#1 with incomplete set play (not given)
   s#1                         2 + 4
 
 
-  1.Rc3-c4 ! 
-      1...b3-b2 # 
+  1.Rc3-c4 !
+      1...b3-b2 #
 
 solution finished. 
 
@@ -541,8 +541,8 @@ solution finished.
 
   1...b3-b2 # 
 
-  1.h3-h4 ! 
-      1...b3-b2 # 
+  1.h3-h4 !
+      1...b3-b2 #
 
 solution finished. 
 
@@ -571,15 +571,15 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#1                         3 + 4
 
-  1.f4-f5 ! 
-      1...b3-b2 # 
+  1.f4-f5 !
+      1...b3-b2 #
 
-  1.Rc4-a4 + ? 
+  1.Rc4-a4 + ?
     but
       1...Ka3*a4  !
 
-  1.Rc4-e4 ? 
-      1...b3-b2 # 
+  1.Rc4-e4 ?
+      1...b3-b2 #
     but
       1...c5-c4  !
 
@@ -610,8 +610,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s##!1                       2 + 4
 
-  1.Qa5-c5 + ! 
-      1...Kc8-b7 ##! 
+  1.Qa5-c5 + !
+      1...Kc8-b7 ##!
 
 solution finished. 
 
@@ -640,10 +640,10 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#2                         2 + 3
 
-zugzwang.
+ zugzwang.
       1...b4-b3 
-          2.Qd1-g4 
-              2...b3-b2 # 
+          2.Qd1-g4
+              2...b3-b2 #
 
 solution finished. 
 
@@ -674,8 +674,8 @@ solution finished.
 
   1.Qg4-d1 ! zugzwang.
       1...b4-b3 
-          2.Qd1-g4 
-              2...b3-b2 # 
+          2.Qd1-g4
+              2...b3-b2 #
 
 solution finished. 
 
@@ -705,7 +705,7 @@ solution finished.
   s#2                         2 + 4
 
   1.Rc3-c4 ! zugzwang.
-      1...b3-b2 # 
+      1...b3-b2 #
 
 solution finished. 
 
@@ -734,9 +734,9 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#=2                        3 + 3
 
-  1.Rh2-b2 + ! 
-      1...a3*b2 # 
-      1...c3*b2 # 
+  1.Rh2-b2 + !
+      1...a3*b2 #
+      1...c3*b2 #
 
 solution finished. 
 
@@ -766,15 +766,15 @@ solution finished.
   s#2                         2 + 3
 
       1...b4-b3 
-          2.Qc2-e4 
-              2...b3-b2 # 
-          2.Qc2-c4 
-              2...b3-b2 # 
+          2.Qc2-e4
+              2...b3-b2 #
+          2.Qc2-c4
+              2...b3-b2 #
 
   1.Qc2-d1 ! zugzwang.
       1...b4-b3 
-          2.Qd1-g4 
-              2...b3-b2 # 
+          2.Qd1-g4
+              2...b3-b2 #
 
 solution finished. 
 
@@ -803,12 +803,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#2                         3 + 5
 
-      1...b3-b2 # 
+      1...b3-b2 #
 
-  1.Rc4-e4 ! 
+  1.Rc4-e4 !
       1...c5-c4 
-          2.Re4*c4 
-              2...b3-b2 # 
+          2.Re4*c4
+              2...b3-b2 #
 
 solution finished. 
 
@@ -837,37 +837,37 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   exact-s#2                   5 + 5
 
-  1.Qe1-d2 + ? 
+  1.Qe1-d2 + ?
     but
       1...Kc2*d2  !
 
-  1.Sd1-f2 ? 
+  1.Sd1-f2 ?
       1...a4-a3 
-          2.c3-c4 
-              2...b3-b2 # 
-          2.Sf2-h1 
-              2...b3-b2 # 
-          2.Sf2-h3 
-              2...b3-b2 # 
-          2.Sf2-g4 
-              2...b3-b2 # 
-          2.Sf2-e4 
-              2...b3-b2 # 
-          2.e2-e4 
-              2...b3-b2 # 
-          2.e2-e3 
-              2...b3-b2 # 
+          2.c3-c4
+              2...b3-b2 #
+          2.Sf2-h1
+              2...b3-b2 #
+          2.Sf2-h3
+              2...b3-b2 #
+          2.Sf2-g4
+              2...b3-b2 #
+          2.Sf2-e4
+              2...b3-b2 #
+          2.e2-e4
+              2...b3-b2 #
+          2.e2-e3
+              2...b3-b2 #
     but
       1...b3-b2 +  !
 
-  1.Sd1-b2 ! 
+  1.Sd1-b2 !
       1...a4-a3 
-          2.c3-c4 
-              2...a3*b2 # 
-          2.e2-e4 
-              2...a3*b2 # 
-          2.e2-e3 
-              2...a3*b2 # 
+          2.c3-c4
+              2...a3*b2 #
+          2.e2-e4
+              2...a3*b2 #
+          2.e2-e3
+              2...a3*b2 #
 
 solution finished. 
 
@@ -896,7 +896,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#1                         1 + 3
 
-      1...Se1-c2 # 
+      1...Se1-c2 #
 
 solution finished. 
 
@@ -925,8 +925,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#1                         1 + 3
 
-  1.Kb1-a1 ! 
-      1...Se1-c2 # 
+  1.Kb1-a1 !
+      1...Se1-c2 #
 
 solution finished. 
 
@@ -957,8 +957,8 @@ solution finished.
 
   1...Se1-c2 # 
 
-  1.h3-h4 ! 
-      1...Se1-c2 # 
+  1.h3-h4 !
+      1...Se1-c2 #
 
 solution finished. 
 
@@ -1016,10 +1016,10 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#2                         2 + 4
 
-zugzwang.
+ zugzwang.
       1...b4-b3 
-          2.Sc1-e2 
-              2...b3-b2 # 
+          2.Sc1-e2
+              2...b3-b2 #
 
 solution finished. 
 
@@ -1050,8 +1050,8 @@ solution finished.
 
   1.Bh7-c2 ! zugzwang.
       1...b4-b3 
-          2.Bc2-b1 
-              2...b3-b2 # 
+          2.Bc2-b1
+              2...b3-b2 #
 
 solution finished. 
 
@@ -1080,10 +1080,10 @@ exact r#2 that would have a solution in 1
 +---a---b---c---d---e---f---g---h---+
   exact-r#2                   3 + 2
 
-  1.Ra2-a8 + ! 
+  1.Ra2-a8 + !
       1...Kh8-h7 
-          2.Ra8-a2 
-              2...c2-c1=Q # 
+          2.Ra8-a2
+              2...c2-c1=Q #
 
 solution finished. 
 
@@ -1141,12 +1141,12 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   r#3                         4 + 3
 
-zugzwang.
+ zugzwang.
       1...a5*b4 
           2.Bd1-c2 zugzwang.
               2...b4-b3 
-                  3.Bc2-b1 
-                      3...b3-b2 # 
+                  3.Bc2-b1
+                      3...b3-b2 #
 
 solution finished. 
 
@@ -1179,8 +1179,8 @@ solution finished.
       1...a5*b4 
           2.Bd1-c2 zugzwang.
               2...b4-b3 
-                  3.Bc2-b1 
-                      3...b3-b2 # 
+                  3.Bc2-b1
+                      3...b3-b2 #
 
 solution finished. 
 
@@ -1268,17 +1268,17 @@ would have to deliver mate (issue 2843251)
 
   1.Kc1-b1 ! zugzwang.
       1...g5-g4 
-          2.Rd1-e1 
-              2...d2*e1=Q # 
-              2...d2*e1=R # 
+          2.Rd1-e1
+              2...d2*e1=Q #
+              2...d2*e1=R #
       1...Kh6-h7 
-          2.Rd1-e1 
-              2...d2*e1=Q # 
-              2...d2*e1=R # 
+          2.Rd1-e1
+              2...d2*e1=Q #
+              2...d2*e1=R #
       1...Kh6-h5 
-          2.Rd1-e1 
-              2...d2*e1=Q # 
-              2...d2*e1=R # 
+          2.Rd1-e1
+              2...d2*e1=Q #
+              2...d2*e1=R #
 
 solution finished. 
 
@@ -1307,7 +1307,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   semi-r#1                    1 + 3
 
-      1...b3-b2 # 
+      1...b3-b2 #
 
 solution finished. 
 
@@ -1336,8 +1336,8 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   semi-r#1                    2 + 4
 
-  1.Bg7-h6 ! 
-      1...b3-b2 # 
+  1.Bg7-h6 !
+      1...b3-b2 #
 
 solution finished. 
 
@@ -1396,8 +1396,8 @@ semi-r#2 with short solution; White needn't deliver mate immediately
 +---a---b---c---d---e---f---g---h---+
   semi-r#2                    2 + 4
 
-  1.Bg7-h6 ! 
-      1...b3-b2 # 
+  1.Bg7-h6 !
+      1...b3-b2 #
 
 solution finished. 
 
@@ -1426,30 +1426,30 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #4/1                       6 + 10
 
-threat:
-          2.Rh5-h8 # 
+ threat:
+          2.Rh5-h8 #
       1...Ra4-h4 
           2.Rh5*h4 threat:
-                  3.Rh4-h8 # 
+                  3.Rh4-h8 #
               2...f7-f6 
                   3.Bf5-e6 threat:
-                          4.Rh4-h8 # 
-                  3.Rh4-h8 + 
+                          4.Rh4-h8 #
+                  3.Rh4-h8 +
                       3...Ke8-f7 
-                          4.Rh8-f8 # 
+                          4.Rh8-f8 #
       1...Ra4-e4 + 
           2.Sg3*e4 threat:
-                  3.Rh5-h8 # 
+                  3.Rh5-h8 #
               2...f7-f6 
-                  3.Rh5-h8 + 
+                  3.Rh5-h8 +
                       3...Ke8-f7 
-                          4.Rh8-f8 # 
+                          4.Rh8-f8 #
                   3.Bf5-e6 threat:
-                          4.Rh5-h8 # 
+                          4.Rh5-h8 #
       1...f7-f6 
-          2.Rh5-h8 + 
+          2.Rh5-h8 +
               2...Ke8-f7 
-                  3.Rh8-f8 # 
+                  3.Rh8-f8 #
 
 solution finished. 
 

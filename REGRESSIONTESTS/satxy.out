@@ -65,13 +65,13 @@ Loesung beendet.
                               4...g3-g2 
                                   5.Th8-h1 Zugzwang.
                                       5...g2*h1=D 
-                                          6.Kg1*h1 == 
+                                          6.Kg1*h1 ==
                                       5...g2*h1=S + 
-                                          6.Kg1*h1 == 
+                                          6.Kg1*h1 ==
                                       5...g2*h1=T 
-                                          6.Kg1*h1 == 
+                                          6.Kg1*h1 ==
                                       5...g2*h1=L + 
-                                          6.Kg1*h1 == 
+                                          6.Kg1*h1 ==
 
 Loesung beendet. 
 
@@ -106,19 +106,19 @@ NullStellung
 
 a) +wDg1 
 
-  1.Ke1-f2 # ! 
+  1.Ke1-f2 # !
 
 b) +wTd1 
 
-  1.Ke1-d2 # ! 
+  1.Ke1-d2 # !
 
 c) +wLf1 
 
-  1.Ke1-e2 # ! 
+  1.Ke1-e2 # !
 
 d) +wSf8 
 
-  1.Sf8-h7 # ! 
+  1.Sf8-h7 # !
 
 Loesung beendet. 
 

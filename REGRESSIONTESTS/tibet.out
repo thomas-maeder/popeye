@@ -58,7 +58,7 @@ Loesung beendet.
   h=3                         2 + 2
              TibetSchach
 
-a)
+a) 
 
   1.a3-a2 c7-c8=L   2.a2-a1=D Lc8-a6   3.Da1*a6=wD Da6-g6 = 
 
@@ -95,7 +95,7 @@ Loesung beendet.
   h=3                         2 + 2
              TibetSchach
 
-a)
+a) 
 
   1...f7-f8=T   2.b2-b1=D Tf8-f5   3.Db1*f5=wD Df5-f7 = 
 
@@ -166,7 +166,7 @@ Loesung beendet.
   h#2                         3 + 6
              TibetSchach
 
-a)
+a) 
 
   1.La6*d3=wL c2-c3   2.Ta3*c3=wT Ld3-f1 # 
 

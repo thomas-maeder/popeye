@@ -50,7 +50,6 @@ void series_move_apply_setplay(slice_index si, stip_structure_traversal *st);
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_move_solve_in_n(slice_index si, stip_length_type n);
 
@@ -70,7 +69,6 @@ boolean series_move_are_threats_refuted(table threats, slice_index si);
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_move_has_solution_in_n(slice_index si,
                                                stip_length_type n);

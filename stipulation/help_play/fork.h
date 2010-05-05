@@ -31,7 +31,6 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st);
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n);
 
@@ -43,7 +42,6 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n);
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type help_fork_has_solution_in_n(slice_index si,
                                              stip_length_type n);

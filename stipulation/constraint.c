@@ -157,9 +157,7 @@ void reflex_attacker_filter_insert_root(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -179,13 +177,8 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
 
   switch (slice_has_solution(avoided))
   {
-    case is_solved:
-      assert(0);
-      result = n_min-4;
-      break;
-
-    case defender_self_check:
-      result = n_min-4;
+    case opponent_self_check:
+      result = n_min-2;
       break;
 
     case has_no_solution:
@@ -248,7 +241,7 @@ reflex_attacker_filter_direct_solve_threats_in_n(table threats,
       break;
     }
 
-    case defender_self_check:
+    case opponent_self_check:
       /* must already have been dealt with in an earlier slice */
     default:
       assert(0);
@@ -308,11 +301,11 @@ static boolean solve_avoided(slice_index avoided)
   TraceFunctionParamListEnd();
 
   output_start_unsolvability_mode();
-  result = slice_solve(avoided)>=has_solution;
+  result = slice_solve(avoided)==has_solution;
   output_end_unsolvability_mode();
 
   if (result)
-    write_end_of_solution();
+    write_end_of_solution(avoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -371,9 +364,7 @@ boolean reflex_attacker_filter_root_solve(slice_index si)
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -393,12 +384,7 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
 
   switch (slice_has_solution(avoided))
   {
-    case defender_self_check:
-      result = n_min-4;
-      break;
-
-    case is_solved:
-      assert(0);
+    case opponent_self_check:
       result = n_min-2;
       break;
 
@@ -540,8 +526,7 @@ void reflex_defender_filter_insert_root(slice_index si,
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
- * @return <slack_length_battle - stalemate
- *         <=n solved  - return value is maximum number of moves
+ * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
@@ -565,10 +550,6 @@ reflex_defender_filter_root_defend(slice_index si,
   if (n_min==slack_length_battle+1)
     switch (slice_solve(slices[si].u.reflex_guard.avoided))
     {
-      case is_solved:
-        result = n_min-2;
-        break;
-
       case has_solution:
         result = n_min;
         break;
@@ -622,7 +603,11 @@ boolean reflex_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==slack_length_battle+1)
+  {
+    output_start_defense_level(avoided);
     result = slice_solve(avoided)<has_solution;
+    output_end_defense_level();
+  }
   else
     result = defense_defend_in_n(next,n,n_min);
 
@@ -850,7 +835,6 @@ boolean reflex_help_filter_root_solve(slice_index si)
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type reflex_help_filter_solve_in_n(slice_index si,
                                                stip_length_type n)
@@ -886,7 +870,6 @@ stip_length_type reflex_help_filter_solve_in_n(slice_index si,
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type reflex_help_filter_has_solution_in_n(slice_index si,
                                                       stip_length_type n)
@@ -1039,7 +1022,6 @@ boolean reflex_series_filter_root_solve(slice_index si)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type reflex_series_filter_solve_in_n(slice_index si,
                                                  stip_length_type n)
@@ -1075,7 +1057,6 @@ stip_length_type reflex_series_filter_solve_in_n(slice_index si,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type reflex_series_filter_has_solution_in_n(slice_index si,
                                                         stip_length_type n)

@@ -89,7 +89,7 @@ boolean attack_root_root_solve(slice_index si)
           if (nr_moves_needed<=length-1)
             result = true;
           if (nr_moves_needed<=length+1)
-            write_end_of_solution();
+            write_end_of_solution(si);
         }
       }
 

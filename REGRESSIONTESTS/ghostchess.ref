@@ -481,446 +481,446 @@ solution finished.
               GhostChess
 
   1.Qa4*c2 ? threat:
-          2.Sd2-b1 
-              2...Qg8-g1 # 
-          2.Sd2-e4 
-              2...Qg8-g1 # 
-          2.Sd2-b3 
-              2...Qg8-g1 # 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Sd2-b1
+              2...Qg8-g1 #
+          2.Sd2-e4
+              2...Qg8-g1 #
+          2.Sd2-b3
+              2...Qg8-g1 #
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Ke3-f2 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-e4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-d3[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b3[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-              2...uRc2*d2 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c3[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-e4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-d3[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b3[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+              2...uRc2*d2 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c3[+buRc2]
+              2...uRc2-c1 #
       1...d4-d3 
-          2.Sd2-b1 
-              2...Qg8-g1 # 
-          2.Sd2-e4 
-              2...Qg8-g1 # 
-          2.Sd2-b3 
-              2...Qg8-g1 # 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b3[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c3[+buRc2] 
-              2...uRc2-c1 # 
+          2.Sd2-b1
+              2...Qg8-g1 #
+          2.Sd2-e4
+              2...Qg8-g1 #
+          2.Sd2-b3
+              2...Qg8-g1 #
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b3[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c3[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-a2 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2*a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2*a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-b3 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-c4 
-          2.Sd2-b1 
-              2...Qc4-f1 # 
-          2.Sd2-f1 + 
-              2...Qc4*f1 # 
-          2.Sd2-e4 
-              2...Qc4-f1 # 
-          2.Sd2-b3 
-              2...Qc4-f1 # 
-          2.Qc2-b1[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...Qc4-e2 # 
-              2...uRc2-c1 # 
-          2.Qc2*c4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Kd1-e1 
-              2...Qc4-e2 # 
+          2.Sd2-b1
+              2...Qc4-f1 #
+          2.Sd2-f1 +
+              2...Qc4*f1 #
+          2.Sd2-e4
+              2...Qc4-f1 #
+          2.Sd2-b3
+              2...Qc4-f1 #
+          2.Qc2-b1[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...Qc4-e2 #
+              2...uRc2-c1 #
+          2.Qc2*c4[+buRc2]
+              2...uRc2-c1 #
+          2.Kd1-e1
+              2...Qc4-e2 #
       1...Qg8-d5 
-          2.Sd2-b1 
-              2...Qd5-h1 # 
-          2.Sd2-b3 
-              2...Qd5-h1 # 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Sd2-b1
+              2...Qd5-h1 #
+          2.Sd2-b3
+              2...Qd5-h1 #
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-e6 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-g1 + 
-          2.Sd2-f1 + 
-              2...Qg1*f1 # 
+          2.Sd2-f1 +
+              2...Qg1*f1 #
       1...Qg8-g4 + 
-          2.Kd1-e1 
-              2...Qg4-e2 # 
+          2.Kd1-e1
+              2...Qg4-e2 #
       1...Qg8-g6 
-          2.Sd2-b1 
-              2...Qg6-g1 # 
-          2.Sd2-e4 
-              2...Qg6-g1 # 
-          2.Sd2-b3 
-              2...Qg6-g1 # 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2*g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Sd2-b1
+              2...Qg6-g1 #
+          2.Sd2-e4
+              2...Qg6-g1 #
+          2.Sd2-b3
+              2...Qg6-g1 #
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2*g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-a8 
-          2.Sd2-b1 
-              2...Qa8-h1 # 
-          2.Sd2-b3 
-              2...Qa8-h1 # 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Sd2-b1
+              2...Qa8-h1 #
+          2.Sd2-b3
+              2...Qa8-h1 #
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-b8 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-c8 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2*c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2*c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-d8 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
       1...Qg8-e8 
-          2.Qc2-b1[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-h7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-g6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-f5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-a4[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c1[+buRc2] 
-              2...uRc2*c1 # 
-          2.Qc2-a2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-b2[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c8[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c7[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c6[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c5[+buRc2] 
-              2...uRc2-c1 # 
-          2.Qc2-c4[+buRc2] 
-              2...uRc2-c1 # 
+          2.Qc2-b1[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-h7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-g6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-f5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-a4[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c1[+buRc2]
+              2...uRc2*c1 #
+          2.Qc2-a2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-b2[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c8[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c7[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c6[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c5[+buRc2]
+              2...uRc2-c1 #
+          2.Qc2-c4[+buRc2]
+              2...uRc2-c1 #
     but
       1...Ke3-f4  !
 
-  1.Qa4*d4 + ? 
+  1.Qa4*d4 + ?
     but
       1...Ke3*d4  !
 
   1.Kd1*c2 ! threat:
-          2.Kc2-d1[+buRc2] 
-              2...uRc2-c1 # 
+          2.Kc2-d1[+buRc2]
+              2...uRc2-c1 #
       1...Ke3-e2 
-          2.Sd2-b1 
-              2...d4-d3 # 
+          2.Sd2-b1
+              2...d4-d3 #
       1...Ke3-f4 
-          2.Kc2-d3[+buRc2] 
-              2...uRc2*d2 # 
+          2.Kc2-d3[+buRc2]
+              2...uRc2*d2 #
       1...Qg8-g1 
-          2.Sd2-b3 
-              2...d4-d3 # 
+          2.Sd2-b3
+              2...d4-d3 #
       1...Qg8-g4 
-          2.Kc2-b1[+buRc2] 
-              2...Qg4-d1 # 
+          2.Kc2-b1[+buRc2]
+              2...Qg4-d1 #
 
 solution finished. 
 
@@ -1019,15 +1019,15 @@ solution finished.
              Uncapturable
               GhostChess
 
-  1.Se6-f8 ! 
+  1.Se6-f8 !
       1...Kh8-g7 
-          2.h7-h8=Q + 
+          2.h7-h8=Q +
               2...Kg7-f7 
-                  3.Qh8-g7 + 
+                  3.Qh8-g7 +
                       3...Kf7*g7 
-                          4.Sf8-e6 # 
+                          4.Sf8-e6 #
               2...Kg7*h8 
-                  3.Sf8-g6 # 
+                  3.Sf8-g6 #
 
 solution finished. 
 

@@ -74,7 +74,6 @@ void series_fork_insert_root(slice_index si, stip_structure_traversal *st)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n)
 {
@@ -92,10 +91,6 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n)
   if (n==slack_length_series)
     switch (slice_solve(to_goal))
     {
-      case is_solved:
-        result = n-1;
-        break;
-
       case has_solution:
         result = n;
         break;
@@ -104,7 +99,7 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n)
         result = n+1;
         break;
 
-      case defender_self_check:
+      case opponent_self_check:
         result = n+2;
         break;
 
@@ -130,7 +125,6 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n)
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type series_fork_has_solution_in_n(slice_index si,
                                                stip_length_type n)
@@ -149,10 +143,6 @@ stip_length_type series_fork_has_solution_in_n(slice_index si,
   if (n==slack_length_series)
     switch (slice_has_solution(to_goal))
     {
-      case is_solved:
-        result = slack_length_series-1;
-        break;
-
       case has_solution:
         result = slack_length_series;
         break;
@@ -161,13 +151,13 @@ stip_length_type series_fork_has_solution_in_n(slice_index si,
         result = slack_length_series+1;
         break;
 
-      case defender_self_check:
+      case opponent_self_check:
         result = slack_length_series+2;
         break;
 
       default:
         assert(0);
-        result = n+2;
+        result = slack_length_series+2;
         break;
     }
   else

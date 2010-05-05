@@ -25,43 +25,43 @@
   #12                         9 + 8
          Madrasi RexInklusive
 
-  1.Gg7-e7 + ! 
+  1.Gg7-e7 + !
       1...Gf7-c4 
-          2.Ge7-c5 + 
+          2.Ge7-c5 +
               2...Gc4-f4 
-                  3.Gc5-e5 + 
+                  3.Gc5-e5 +
                       3...Gf4-f7 
-                          4.Ge5-g7 
+                          4.Ge5-g7
                               4...Gf7-c4 
-                                  5.Gg7*g3 
+                                  5.Gg7*g3
                                       5...Gc4*c7 
-                                          6.Gg3*c7 # 
+                                          6.Gg3*c7 #
                                       5...Gc4-f4 
-                                          6.Gg3-e5 + 
+                                          6.Gg3-e5 +
                                               6...Gf4-f7 
-                                                  7.Ge5-g7 
+                                                  7.Ge5-g7
                                                       7...Gf7-c4 
-                                                          8.c2-c3 
+                                                          8.c2-c3
                                                               8...Gc4*c7 
-                                                                  9.Gg7*c7 # 
+                                                                  9.Gg7*c7 #
                                                               8...Gc4-f4 
-                                                                  9.c3-c4 
+                                                                  9.c3-c4
                                                                       9...Gf4*c7 
-                                                                         10.Gg7*c7 # 
+                                                                         10.Gg7*c7 #
                                                                       9...Gf4-f7 
-                                                                         10.f2-f4 
+                                                                         10.f2-f4
                                                                              10...Gf7*c4 
-                                                                                 11.f4-f5 
+                                                                                 11.f4-f5
                                                                                      11...Gc4*c7 
-                                                                                         12.Gg7*c7 # 
+                                                                                         12.Gg7*c7 #
                                                                                      11...Gc4-f4 
-                                                                                         12.Gg7-e5 # 
+                                                                                         12.Gg7-e5 #
                                                                              10...Gf7*c7 
-                                                                                 11.Gg7*c7 # 
+                                                                                 11.Gg7*c7 #
                                                       7...Gf7*c7 
-                                                          8.Gg7*c7 # 
+                                                          8.Gg7*c7 #
                               4...Gf7*c7 
-                                  5.Gg7*c7 # 
+                                  5.Gg7*c7 #
 
 Loesung beendet. 
 
@@ -127,48 +127,48 @@ Loesung beendet.
                 Circe
          Madrasi RexInklusive
 
-  1.Dd6-a3 + ? 
+  1.Dd6-a3 + ?
     Aber
       1...Df3*f8  !
 
-  1.Dd6-b4 + ? 
+  1.Dd6-b4 + ?
     Aber
       1...Df3*f8  !
 
-  1.Td4*c4 + ? 
+  1.Td4*c4 + ?
     Aber
       1...Te1*e4 [+wBe2]  !
 
   1.Sc1-e2 ? Drohung:
-          2.Td4*c4 # 
+          2.Td4*c4 #
       1...Te1*e2 [+wSb1] 
-          2.Sb1*c3 # 
+          2.Sb1*c3 #
       1...Lh8*d4 [+wTa1] 
-          2.Dd6-b4 # 
+          2.Dd6-b4 #
     Aber
       1...Df3*e4  !
 
   1.Sc1*d3 [+sBd7] ! Drohung:
-          2.Sd3-c5 # 
+          2.Sd3-c5 #
       1...Df3*d3 [+wSb1] 
-          2.Dd6-a3 # 
-          2.Dd6-b4 # 
+          2.Dd6-a3 #
+          2.Dd6-b4 #
       1...c7*d6 [+wDd1] 
-          2.Td4*c4 [+sBc7] # 
+          2.Td4*c4 [+sBc7] #
       1...Lh8*d4 [+wTa1] 
-          2.Dd6-b4 # 
+          2.Dd6-b4 #
 
   1.Sc1-b3 ? Drohung:
-          2.Sb3-c5 # 
+          2.Sb3-c5 #
       1...Lh8*d4 [+wTa1] 
-          2.Dd6-b4 # 
+          2.Dd6-b4 #
     Aber
       1...c7*d6 [+wDd1]  !
 
   1.Sc1-a2 ? Drohung:
-          2.Sa2*c3 # 
+          2.Sa2*c3 #
       1...Te1-c1 
-          2.Td4*c4 # 
+          2.Td4*c4 #
     Aber
       1...Lh8*d4 [+wTa1]  !
 
@@ -239,68 +239,68 @@ Loesung beendet.
              Gitterschach
 
   1.Th5*h2 ! Drohung:
-          2.Th2*h7 # 
-          2.Th2-h6 # 
-          2.Th2-h5 # 
-          2.Th2-h4 # 
-          2.Th2-h3 # 
+          2.Th2*h7 #
+          2.Th2-h6 #
+          2.Th2-h5 #
+          2.Th2-h4 #
+          2.Th2-h3 #
       1...Sh7-f6 
-          2.Th2-h4 # 
-          2.Th2-h3 # 
+          2.Th2-h4 #
+          2.Th2-h3 #
       1...Sh7-g5 
-          2.Th2-h6 + 
+          2.Th2-h6 +
               2...Sg5-h3 
-                  3.Th6*h3 # 
-          2.Th2-h5 + 
+                  3.Th6*h3 #
+          2.Th2-h5 +
               2...Sg5-h3 
-                  3.Th5*h3 # 
+                  3.Th5*h3 #
       1...Sh7-f8 
-          2.Th2-h6 # 
-          2.Th2-h5 # 
-          2.Th2-h4 # 
-          2.Th2-h3 # 
+          2.Th2-h6 #
+          2.Th2-h5 #
+          2.Th2-h4 #
+          2.Th2-h3 #
       1...Tg8-g3 
-          2.Th2-h6 # 
-          2.Th2-h5 # 
-          2.Th2-h4 # 
+          2.Th2-h6 #
+          2.Th2-h5 #
+          2.Th2-h4 #
       1...Tg8-g4 
-          2.Th2-h6 # 
-          2.Th2-h5 # 
-          2.Th2-h3 # 
+          2.Th2-h6 #
+          2.Th2-h5 #
+          2.Th2-h3 #
       1...Tg8-g5 
-          2.Th2-h6 # 
-          2.Th2-h4 # 
-          2.Th2-h3 # 
+          2.Th2-h6 #
+          2.Th2-h4 #
+          2.Th2-h3 #
       1...Tg8-g6 
-          2.Th2-h5 # 
-          2.Th2-h4 # 
-          2.Th2-h3 # 
+          2.Th2-h5 #
+          2.Th2-h4 #
+          2.Th2-h3 #
       1...Tg8-a8 
-          2.Th2-h6 # 
-          2.Th2-h5 # 
-          2.Th2-h4 # 
-          2.Th2-h3 # 
+          2.Th2-h6 #
+          2.Th2-h5 #
+          2.Th2-h4 #
+          2.Th2-h3 #
       1...Tg8-b8 
-          2.Th2-h6 + 
+          2.Th2-h6 +
               2...Tb8-b6 
-                  3.Dg1-b1 # 
+                  3.Dg1-b1 #
       1...Tg8-c8 
-          2.Th2-h5 + 
+          2.Th2-h5 +
               2...Tc8-c5 
-                  3.Dg1-c1 # 
+                  3.Dg1-c1 #
       1...Tg8-d8 
-          2.Th2-h4 + 
+          2.Th2-h4 +
               2...Td8-d4 
-                  3.Dg1-d1 # 
+                  3.Dg1-d1 #
       1...Tg8-e8 
-          2.Th2-h3 + 
+          2.Th2-h3 +
               2...Te8-e3 
-                  3.Dg1-e1 # 
+                  3.Dg1-e1 #
       1...Tg8-f8 
-          2.Th2-h6 # 
-          2.Th2-h5 # 
-          2.Th2-h4 # 
-          2.Th2-h3 # 
+          2.Th2-h6 #
+          2.Th2-h5 #
+          2.Th2-h4 #
+          2.Th2-h3 #
 
 Loesung beendet. 
 
@@ -331,7 +331,7 @@ Loesung beendet.
   #4                          5 + 5
                Madrasi
 
-  1.Lb6-c7 ! 
+  1.Lb6-c7 !
 
 Loesung beendet. 
 

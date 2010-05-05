@@ -25,17 +25,17 @@
              EiffelSchach
 
   1.Kh5-h4 ! Drohung:
-          2.Sg7-h5 # 
+          2.Sg7-h5 #
       1...Lc4-d5 
-          2.Tg3-d3 # 
+          2.Tg3-d3 #
       1...Lc4-b5 
-          2.Tg3-b3 # 
+          2.Tg3-b3 #
       1...Ld4-e5 
-          2.Tg3-e3 # 
+          2.Tg3-e3 #
       1...Ld4-c5 
-          2.Tg3-c3 # 
+          2.Tg3-c3 #
       1...Dc8*f5 
-          2.Da5*f5 # 
+          2.Da5*f5 #
 
 Loesung beendet. 
 
@@ -67,17 +67,17 @@ Loesung beendet.
              EiffelSchach
 
   1.Th5-e5 ! Drohung:
-          2.Te5-e6 # 
+          2.Te5-e6 #
       1...Le1-c3 
-          2.Tb5-b1 # 
+          2.Tb5-b1 #
       1...Df1*b5 + 
-          2.La4*b5 # 
+          2.La4*b5 #
       1...Df1-c4 
-          2.Tb5-b4 # 
+          2.Tb5-b4 #
       1...Df1-d3 
-          2.Tb5-b3 # 
+          2.Tb5-b3 #
       1...Df1-e2 
-          2.Tb5-b2 # 
+          2.Tb5-b2 #
 
 Loesung beendet. 
 
@@ -109,14 +109,14 @@ Loesung beendet.
              EiffelSchach
 
   1.Dg8-g2 ! Drohung:
-          2.Te2-e1 + 
-              2...Lh8*c3 # 
+          2.Te2-e1 +
+              2...Lh8*c3 #
       1...Lh8-d4 
-          2.Sc3-b5 
-              2...c6*b5 # 
+          2.Sc3-b5
+              2...c6*b5 #
       1...Lh8-f6 
-          2.Sc3-d5 
-              2...c6*d5 # 
+          2.Sc3-d5
+              2...c6*d5 #
 
 Loesung beendet. 
 
@@ -213,14 +213,14 @@ Loesung beendet.
 
   1.Df6-a1 ! Zugzwang.
       1...d3-d2 
-          2.Tg7-g4 + 
-              2...d2-d1=T # 
+          2.Tg7-g4 +
+              2...d2-d1=T #
       1...d3*c2 
-          2.Tg7-g5 + 
-              2...c2-c1=T # 
+          2.Tg7-g5 +
+              2...c2-c1=T #
       1...d3*e2 
-          2.Tg7-e7 + 
-              2...e2-e1=T # 
+          2.Tg7-e7 +
+              2...e2-e1=T #
 
 Loesung beendet. 
 
@@ -257,15 +257,15 @@ Loesung beendet.
               2...b4-b3 
                   3.Df3-h1 Zugzwang.
                       3...b3-b2 
-                          4.b6-b7 + 
-                              4...b2-b1=D # 
+                          4.b6-b7 +
+                              4...b2-b1=D #
       1...d5-d4 
           2.Df7-f5 Zugzwang.
               2...d4-d3 
                   3.Df5-c5 Zugzwang.
                       3...d3-d2 
-                          4.d6-d7 + 
-                              4...d2-d1=D # 
+                          4.d6-d7 +
+                              4...d2-d1=D #
 
 Loesung beendet. 
 

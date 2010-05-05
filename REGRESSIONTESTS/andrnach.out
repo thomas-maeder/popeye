@@ -353,16 +353,16 @@ Loesung beendet.
 
   1.Ta5-a4 ! Drohung:
           2.Db3-e6 Drohung:
-                  3.Sb4*a2=sS + 
-                      3...Sa2-b4 # 
+                  3.Sb4*a2=sS +
+                      3...Sa2-b4 #
       1...f4-f3 
           2.Lf1*e2=sL Drohung:
-                  3.Sb4*d3=sS + 
-                      3...Sd3-b4 # 
+                  3.Sb4*d3=sS +
+                      3...Sd3-b4 #
       1...Tg7-g2 
           2.Th6*f6=sT Drohung:
-                  3.Sb4*c6=sS + 
-                      3...Sc6-b4 # 
+                  3.Sb4*c6=sS +
+                      3...Sc6-b4 #
 
 Loesung beendet. 
 
@@ -395,35 +395,35 @@ Loesung beendet.
            AndernachSchach
 
   1.Tb8-b4 ! Drohung:
-          2.Tb4-e4 + 
+          2.Tb4-e4 +
               2...Lg6*e4=wL 
-                  3.Dh7-f5 # 
+                  3.Dh7-f5 #
       1...Lg6-e4 
-          2.Dh7-f5 + 
+          2.Dh7-f5 +
               2...Le4*f5=wL 
-                  3.Tb4-e4 # 
+                  3.Tb4-e4 #
       1...Sg8*e7=wS + 
           2.Se7-c8 Drohung:
-                  3.Dh7-c7 # 
+                  3.Dh7-c7 #
               2...Lg6*h7=wL 
-                  3.Tb4-e4 # 
+                  3.Tb4-e4 #
               2...Lg6-f7 
-                  3.Dh7-e4 # 
-                  3.Tb4-e4 # 
+                  3.Dh7-e4 #
+                  3.Tb4-e4 #
       1...Sg8*f6=wS + 
           2.Sf6-e8 Drohung:
-                  3.Dh7-g7 # 
+                  3.Dh7-g7 #
               2...Lg6*h7=wL 
-                  3.Tb4-e4 # 
+                  3.Tb4-e4 #
       1...Sg8*h6=wS + 
           2.Sh6-g8 Drohung:
-                  3.Dh7-h2 # 
+                  3.Dh7-h2 #
               2...Lg6-h5 
-                  3.Dh7-e4 # 
-                  3.Dh7-f5 # 
-                  3.Tb4-e4 # 
+                  3.Dh7-e4 #
+                  3.Dh7-f5 #
+                  3.Tb4-e4 #
               2...Lg6*h7=wL 
-                  3.Tb4-e4 # 
+                  3.Tb4-e4 #
 
 Loesung beendet. 
 
@@ -456,15 +456,15 @@ Loesung beendet.
            AndernachSchach
 
   1.Le5-f4 ! Drohung:
-          2.Gg5-e3 # 
+          2.Gg5-e3 #
       1...Gb3-e3 
-          2.Sd4-b3 # 
+          2.Sd4-b3 #
       1...e4-e3 
-          2.Sd6-e4 # 
+          2.Sd6-e4 #
       1...Ge6-e3 
-          2.Sd4-e6 # 
+          2.Sd4-e6 #
       1...Gb7-g7 
-          2.Sd6-b7 # 
+          2.Sd6-b7 #
 
 Loesung beendet. 
 
@@ -496,20 +496,20 @@ Loesung beendet.
            AndernachSchach
 
       1...Dc1*d2=wD 
-          2.Dd2-g5 # 
+          2.Dd2-g5 #
       1...Sf1*d2=wS 
-          2.Sd2-c4 # 
+          2.Sd2-c4 #
       1...c6-c5 
-          2.Td3-d5 # 
+          2.Td3-d5 #
 
   1.Td3-e3 ! Drohung:
-          2.d2-d4 # 
+          2.d2-d4 #
       1...Sf1*e3=wS 
-          2.Tf7-f5 # 
+          2.Tf7-f5 #
       1...Sf1*d2=wS 
-          2.Sd2-f3 # 
+          2.Sd2-f3 #
       1...Lg1*e3=wL 
-          2.Le3-d4 # 
+          2.Le3-d4 #
 
 Loesung beendet. 
 
@@ -541,36 +541,36 @@ Loesung beendet.
   s#2                         9 + 8
            AndernachSchach
 
-      1...Tg2-g1 # 
-      1...Tg2-d2 # 
-      1...Tg2-e2 # 
-      1...Tg2-f2 # 
+      1...Tg2-g1 #
+      1...Tg2-d2 #
+      1...Tg2-e2 #
+      1...Tg2-f2 #
 
-  1.Le3-g1 ! 
+  1.Le3-g1 !
       1...h2*g1=wD 
-          2.Dg1-e1 + 
-              2...Tg2-f2 # 
+          2.Dg1-e1 +
+              2...Tg2-f2 #
       1...h2*g1=wS 
-          2.Sg1-h3 
-              2...Tg2-g1 # 
-              2...Tg2-d2 # 
-              2...Tg2-e2 # 
-              2...Tg2-f2 # 
-              2...Tg2-h2 # 
+          2.Sg1-h3
+              2...Tg2-g1 #
+              2...Tg2-d2 #
+              2...Tg2-e2 #
+              2...Tg2-f2 #
+              2...Tg2-h2 #
       1...h2*g1=wT 
-          2.Tg1*g2=sT 
-              2...Tg2-g1 # 
-              2...Tg2-d2 # 
-              2...Tg2-e2 # 
-              2...Tg2-f2 # 
-              2...Tg2-h2 # 
+          2.Tg1*g2=sT
+              2...Tg2-g1 #
+              2...Tg2-d2 #
+              2...Tg2-e2 #
+              2...Tg2-f2 #
+              2...Tg2-h2 #
       1...h2*g1=wL 
-          2.Lg1-e3 
-              2...Tg2-g1 # 
-              2...Tg2-d2 # 
-              2...Tg2-e2 # 
-              2...Tg2-f2 # 
-              2...Tg2-h2 # 
+          2.Lg1-e3
+              2...Tg2-g1 #
+              2...Tg2-d2 #
+              2...Tg2-e2 #
+              2...Tg2-f2 #
+              2...Tg2-h2 #
 
 Loesung beendet. 
 
@@ -602,11 +602,11 @@ Loesung beendet.
            AndernachSchach
 
   1.Tc6*a6=sT ! Drohung:
-          2.Lf4*d6=sL + 
-              2...Ld6-f4 # 
+          2.Lf4*d6=sL +
+              2...Ld6-f4 #
       1...Dh3*h5=wD 
-          2.Sg4*h2=sS + 
-              2...Sh2-g4 # 
+          2.Sg4*h2=sS +
+              2...Sh2-g4 #
 
 Loesung beendet. 
 
@@ -640,18 +640,18 @@ Loesung beendet.
 a) 
 
   1.Lg4-f3 ! Drohung:
-          2.De6-d5 # 
+          2.De6-d5 #
       1...d6-d5 
-          2.De6-d6 # 
+          2.De6-d6 #
 
 b) r#2
 
   1.Lc7-d8 ! Drohung:
-          2.De6*d6=sD 
-              2...Dd6-g3 # 
+          2.De6*d6=sD
+              2...Dd6-g3 #
       1...d6-d5 
-          2.De6*d5=sD 
-              2...Dd5-h1 # 
+          2.De6*d5=sD
+              2...Dd5-h1 #
 
 Loesung beendet. 
 
@@ -683,13 +683,13 @@ Loesung beendet.
            AndernachSchach
 
   1.Le3-g5 ! Drohung:
-          2.e2-e4 # 
+          2.e2-e4 #
       1...Sc1*e2=wS 
-          2.Se2-g3 # 
+          2.Se2-g3 #
       1...Th2*e2=wT 
-          2.Te2-e5 # 
+          2.Te2-e5 #
       1...Lg4*e2=wL 
-          2.Le2-g4 # 
+          2.Le2-g4 #
 
 Loesung beendet. 
 
@@ -721,17 +721,17 @@ Loesung beendet.
            AndernachSchach
 
   1.Le3-b6 ! Drohung:
-          2.e2-e4 + 
+          2.e2-e4 +
               2...f4*e3 ep.=wB 
-                  3.e3-e4 # 
+                  3.e3-e4 #
       1...Sc7*b5=wS 
-          2.Sb5-c7 + 
+          2.Sb5-c7 +
               2...Kd5-c4 
-                  3.Te6-c6 # 
+                  3.Te6-c6 #
       1...Sc7*e6=wS 
-          2.Se6-c7 + 
+          2.Se6-c7 +
               2...Kd5-d6 
-                  3.Te8-e6 # 
+                  3.Te8-e6 #
 
 Loesung beendet. 
 

@@ -80,8 +80,7 @@ void self_defense_insert_root(slice_index si, stip_structure_traversal *st)
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -103,11 +102,10 @@ stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
   if (n_min==slack_length_battle)
     switch (slice_has_solution(slices[si].u.branch_fork.towards_goal))
     {
-      case defender_self_check:
-        result = n_min-4;
+      case opponent_self_check:
+        result = n_min-2;
         break;
 
-      case is_solved:
       case has_solution:
         result = n_min;
         break;
@@ -158,7 +156,7 @@ boolean self_defense_are_threats_refuted_in_n(table threats,
 
   TraceValue("%u\n",max_n_for_goal);
 
-  if (n<max_n_for_goal && slice_has_solution(towards_goal)>=has_solution)
+  if (n<max_n_for_goal && slice_has_solution(towards_goal)==has_solution)
     result = false;
   else
     result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
@@ -209,8 +207,7 @@ stip_length_type self_defense_direct_solve_threats_in_n(table threats,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -231,11 +228,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   if (n_min<=slack_length_battle+1)
     switch (slice_solve(towards_goal))
     {
-      case defender_self_check:
-        result = n_min-4;
-        break;
-
-      case is_solved:
+      case opponent_self_check:
         result = n_min-2;
         break;
 
@@ -255,11 +248,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   else
     switch (slice_has_solution(towards_goal))
     {
-      case defender_self_check:
-        result = n_min-4;
-        break;
-
-      case is_solved:
+      case opponent_self_check:
         result = n_min-2;
         break;
 

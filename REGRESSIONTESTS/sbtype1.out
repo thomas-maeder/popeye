@@ -23,7 +23,7 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
   =1                          9 + 3
      NurPartiesatzSteine    Typ1
 
-  1.Lb8-d6 = ! 
+  1.Lb8-d6 = !
 
 Loesung beendet. 
 
@@ -53,8 +53,8 @@ Loesung beendet.
   r=1                        3 + 10
      NurPartiesatzSteine    Typ1
 
-  1.Kb1-a1 ! 
-      1...Lh1-e4 = 
+  1.Kb1-a1 !
+      1...Lh1-e4 =
 
 Loesung beendet. 
 
@@ -84,7 +84,7 @@ Loesung beendet.
   #1                          4 + 1
      NurPartiesatzSteine    Typ1
 
-  1.a7-a8=D # ! 
+  1.a7-a8=D # !
 
 Loesung beendet. 
 
@@ -146,59 +146,59 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
      NurPartiesatzSteine    Typ1
 
   1.Sf5-g7 ! Drohung:
-          2.Sg7-e6 + 
+          2.Sg7-e6 +
               2...Kf4-e4 
-                  3.Dh3-f3 # 
+                  3.Dh3-f3 #
       1...Kf4-e4 
-          2.Dh3-f3 + 
+          2.Dh3-f3 +
               2...Ke4*d4 
-                  3.Sg7-e6 + 
+                  3.Sg7-e6 +
                       3...Kd4-c4 
-                          4.Df3-b3 # 
+                          4.Df3-b3 #
       1...Kf4-g5 
           2.f7*g8=T Drohung:
-                  3.Sg7-h5 # 
+                  3.Sg7-h5 #
               2...Kg5-g6 
-                  3.Dh3-f5 # 
+                  3.Dh3-f5 #
               2...Kg5-f6 
-                  3.Dh3-f5 # 
+                  3.Dh3-f5 #
               2...Kg5-f4 
-                  3.Sg7-e6 + 
+                  3.Sg7-e6 +
                       3...Kf4-e4 
-                          4.Dh3-f3 # 
+                          4.Dh3-f3 #
               2...h6-h5 
-                  3.Sg7*h5 + 
+                  3.Sg7*h5 +
                       3...Kg5-h6 
-                          4.Sh5-f6 # 
+                          4.Sh5-f6 #
               2...Le7-f6 
-                  3.Sg7-e6 # 
-                  3.Dh3-g3 # 
+                  3.Sg7-e6 #
+                  3.Dh3-g3 #
               2...Le7-f8 
-                  3.Sg7-h5 + 
+                  3.Sg7-h5 +
                       3...Lf8-g7 
-                          4.Tg8*g7 # 
-          2.Dh3-f5 + 
+                          4.Tg8*g7 #
+          2.Dh3-f5 +
               2...Kg5-h4 
                   3.Sg7-h5 Drohung:
-                          4.g2-g3 # 
+                          4.g2-g3 #
                       3...Le7-g5 
-                          4.Df5-h3 # 
+                          4.Df5-h3 #
       1...e5*d4 
-          2.Dh3-f3 + 
+          2.Dh3-f3 +
               2...Kf4-e5 
-                  3.Df3-f5 + 
+                  3.Df3-f5 +
                       3...Ke5-d6 
-                          4.Sg7-e8 # 
+                          4.Sg7-e8 #
               2...Kf4-g5 
-                  3.Df3-f5 + 
+                  3.Df3-f5 +
                       3...Kg5-h4 
-                          4.Df5-f4 # 
+                          4.Df5-f4 #
       1...Lg8*f7 
-          2.Dh3-f3 + 
+          2.Dh3-f3 +
               2...Kf4-g5 
-                  3.Df3-g3 + 
+                  3.Df3-g3 +
                       3...Kg5-f6 
-                          4.d4*e5 # 
+                          4.d4*e5 #
 
 Loesung beendet. 
 
@@ -229,79 +229,79 @@ Beispiel 1
   #6                          6 + 5
      NurPartiesatzSteine    Typ1
 
-  1.Dd3-h3 + ! 
+  1.Dd3-h3 + !
       1...Th1*h3 
           2.b7-b8=D Drohung:
-                  3.Db8-f4 # 
+                  3.Db8-f4 #
               2...Th3-a3 + 
                   3.Ka4*a3 Drohung:
-                          4.Db8-f4 # 
+                          4.Db8-f4 #
                       3...b2-b1=S + 
                           4.Ka3-b2 Drohung:
-                                  5.Db8-f4 # 
+                                  5.Db8-f4 #
                               4...Kh4-g4 
                                   5.Db8-e5 Drohung:
-                                          6.De5-g5 # 
+                                          6.De5-g5 #
                       3...Kh4-g4 
                           4.Db8-e5 Drohung:
-                                  5.De5-g5 # 
+                                  5.De5-g5 #
                               4...b2-b1=S + 
                                   5.Ka3-b2 Drohung:
-                                          6.De5-g5 # 
+                                          6.De5-g5 #
               2...Th3-f3 
                   3.Db8-e5 Drohung:
-                          4.De5-g5 # 
+                          4.De5-g5 #
                       3...Tf3-a3 + 
                           4.Ka4*a3 Drohung:
-                                  5.De5-f4 # 
-                                  5.De5-g5 # 
+                                  5.De5-f4 #
+                                  5.De5-g5 #
                               4...b2-b1=S + 
                                   5.Ka3-b2 Drohung:
-                                          6.De5-f4 # 
-                                          6.De5-g5 # 
+                                          6.De5-f4 #
+                                          6.De5-g5 #
                                       5...Kh4-g4 
-                                          6.De5-g5 # 
+                                          6.De5-g5 #
                               4...Kh4-g4 
-                                  5.De5-g5 # 
+                                  5.De5-g5 #
                       3...Tf3-f5 
-                          4.De5-h2 + 
+                          4.De5-h2 +
                               4...Kh4-g4 
-                                  5.Dh2-h3 + 
+                                  5.Dh2-h3 +
                                       5...Kg4-f4 
-                                          6.Dh3-f3 # 
+                                          6.Dh3-f3 #
                       3...Tf3-g3 
-                          4.De5-f4 + 
+                          4.De5-f4 +
                               4...Tg3-g4 
-                                  5.Df4-h2 # 
-                          4.De5-f6 + 
+                                  5.Df4-h2 #
+                          4.De5-f6 +
                               4...Tg3-g5 
-                                  5.Df6*g5 # 
+                                  5.Df6*g5 #
                               4...Kh4-g4 
-                                  5.Df6-g5 # 
-                          4.De5-e7 + 
+                                  5.Df6-g5 #
+                          4.De5-e7 +
                               4...Tg3-g5 
-                                  5.De7*g5 # 
+                                  5.De7*g5 #
                               4...Kh4-g4 
-                                  5.De7-g5 # 
-                                  5.De7-e4 # 
+                                  5.De7-g5 #
+                                  5.De7-e4 #
               2...Th3-g3 
-                  3.Db8-f4 + 
+                  3.Db8-f4 +
                       3...Tg3-g4 
-                          4.Df4-h2 # 
-                  3.Db8-d8 + 
+                          4.Df4-h2 #
+                  3.Db8-d8 +
                       3...Tg3-g5 
-                          4.Dd8*g5 # 
+                          4.Dd8*g5 #
                       3...Kh4-g4 
-                          4.Dd8-g5 # 
+                          4.Dd8-g5 #
               2...Kh4-g4 
                   3.Db8-e5 Drohung:
-                          4.De5-g5 # 
+                          4.De5-g5 #
                       3...Th3-a3 + 
                           4.Ka4*a3 Drohung:
-                                  5.De5-g5 # 
+                                  5.De5-g5 #
                               4...b2-b1=S + 
                                   5.Ka3-b2 Drohung:
-                                          6.De5-g5 # 
+                                          6.De5-g5 #
 
 Loesung beendet. 
 
@@ -332,29 +332,29 @@ Loesung beendet.
      NurPartiesatzSteine    Typ1
 
   1.e6-e7 ! Drohung:
-          2.Sf2*e4 + 
+          2.Sf2*e4 +
               2...De2*e4 
-                  3.e7-e8=S # 
+                  3.e7-e8=S #
               2...f5*e4 
-                  3.e7-e8=S # 
+                  3.e7-e8=S #
       1...De2-g4 
-          2.Dh1-d1 + 
+          2.Dh1-d1 +
               2...Dg4*d1 
-                  3.e7*d8=D # 
+                  3.e7*d8=D #
       1...Tf6-e6 
-          2.Te5-d5 + 
+          2.Te5-d5 +
               2...c6*d5 
-                  3.e7*d8=T # 
+                  3.e7*d8=T #
       1...Tf6-f8 
-          2.Lb6*c7 + 
+          2.Lb6*c7 +
               2...Sa6*c7 
-                  3.e7*f8=L # 
+                  3.e7*f8=L #
 
-  1.Lb6*c7 + ? 
+  1.Lb6*c7 + ?
     Aber
       1...Sa6*c7  !
 
-  1.Tc5-d5 + ? 
+  1.Tc5-d5 + ?
     Aber
       1...c6*d5  !
 

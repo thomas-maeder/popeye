@@ -57,13 +57,13 @@ Loesung beendet.
             EinsteinSchach
 
   1.Tc6-c4=L ! Drohung:
-          2.Lc4-d3=S # 
+          2.Lc4-d3=S #
       1...Tb1-b5=L 
-          2.Lc4*b5=T # 
+          2.Lc4*b5=T #
       1...d4-d3 
-          2.Se2*c3=L # 
+          2.Se2*c3=L #
       1...Lf4-c1=S 
-          2.Se2*g3=L # 
+          2.Se2*g3=L #
 
 Loesung beendet. 
 
@@ -164,7 +164,7 @@ Loesung beendet.
       1...a6-a5 
           2.Tc1-e1=L Zugzwang.
               2...Ka1*b1 
-                  3.Le1-b4=S # 
+                  3.Le1-b4=S #
 
 Loesung beendet. 
 
@@ -227,11 +227,11 @@ Loesung beendet.
             EinsteinSchach
 
   1.d1-d4 ! Drohung:
-          2.Sg4-e3=B # 
+          2.Sg4-e3=B #
       1...c3*d2 ep.=S 
-          2.Se4*d2=L # 
+          2.Se4*d2=L #
       1...c4*d3 ep.=S + 
-          2.c2*d3=S # 
+          2.c2*d3=S #
 
 Loesung beendet. 
 

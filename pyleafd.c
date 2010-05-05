@@ -156,12 +156,10 @@ boolean leaf_d_root_solve(slice_index leaf)
           && leaf_is_goal_reached(attacker,leaf)==goal_reached)
       {
         result = true;
-        write_final_attack();
+        write_attack();
         write_goal(slices[leaf].u.leaf.goal);
         write_root_attack_decoration(nbply,attack_key);
-        output_start_leaf_variation_level();
-        output_end_leaf_variation_level();
-        write_end_of_solution();
+        write_end_of_solution(leaf);
       }
 
       repcoup();
@@ -217,7 +215,7 @@ boolean leaf_d_solve(slice_index leaf)
           && leaf_is_goal_reached(attacker,leaf)==goal_reached)
       {
         result = true;
-        write_final_attack();
+        write_attack();
         write_goal(slices[leaf].u.leaf.goal);
         write_root_attack_decoration(nbply,attack_key);
       }
@@ -265,10 +263,8 @@ void leaf_d_solve_threats(table threats, slice_index leaf)
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
           && leaf_is_goal_reached(attacker,leaf)==goal_reached)
       {
-        write_final_attack();
+        write_attack();
         write_goal(slices[leaf].u.leaf.goal);
-        output_start_leaf_variation_level();
-        output_end_leaf_variation_level();
         append_to_top_table();
         coupfort();
       }

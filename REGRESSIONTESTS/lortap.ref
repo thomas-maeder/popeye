@@ -26,15 +26,15 @@
 
   1.Sd7-e5 ! zugzwang.
       1...Sa1*c2 
-          2.Kb5-c5 # 
+          2.Kb5-c5 #
       1...Sa1-b3 
-          2.Sd1-c3 # 
+          2.Sd1-c3 #
       1...Kd4*e5 
-          2.Be3-d4 # 
+          2.Be3-d4 #
       1...f6*e5 
-          2.Kb5-c4 # 
+          2.Kb5-c4 #
       1...h6-h5 
-          2.Se5-f3 # 
+          2.Se5-f3 #
 
 solution finished. 
 
@@ -264,15 +264,15 @@ solution finished.
   1.Ka6-a7 ! threat:
           2.Ka7-b8 zugzwang.
               2...Rc1-c8 
-                  3.Kb8-c7 
-                      3...Bf5-b1 # 
+                  3.Kb8-c7
+                      3...Bf5-b1 #
       1...Rc1-c8 
           2.Ka7-a8 zugzwang.
               2...Rc8-c1 
                   3.Ka8-b8 zugzwang.
                       3...Rc1-c8 
-                          4.Kb8-c7 
-                              4...Bf5-b1 # 
+                          4.Kb8-c7
+                              4...Bf5-b1 #
 
 solution finished. 
 
@@ -332,17 +332,17 @@ solution finished.
               AntiCirce
                 Lortap
 
-  1.Qg4-e6 + ? 
+  1.Qg4-e6 + ?
     but
       1...Ke1-f1  !
 
-  1.Qg4-b4 + ? 
+  1.Qg4-b4 + ?
     but
       1...Ke1-f1  !
 
-  1.Kd3-d2 + ! 
+  1.Kd3-d2 + !
       1...Ke1-f1 
-          2.Qg4-g1 # 
+          2.Qg4-g1 #
 
 solution finished. 
 

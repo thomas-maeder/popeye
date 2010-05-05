@@ -138,8 +138,7 @@ boolean attack_are_threats_refuted_in_n(table threats,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -195,13 +194,11 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       stip_length_type const nr_moves_needed = series_has_solution_in_n(si,
                                                                         n_ser);
       if (nr_moves_needed==n_ser+2)
-        result = n_min-4;
+        result = n_min-2;
       else if (nr_moves_needed==n_ser+1)
         result = n+2;
-      else if (nr_moves_needed==n_ser)
-        result = n;
       else
-        result = n_min-2;
+        result = n;
       break;
     }
 
@@ -220,11 +217,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       assert(n==slack_length_battle);
       switch (slice_has_solution(si))
       {
-        case defender_self_check:
-          result = n-4;
-          break;
-
-        case is_solved:
+        case opponent_self_check:
           result = n-2;
           break;
 
@@ -291,10 +284,8 @@ has_solution_type attack_has_solution(slice_index si)
     stip_length_type const n_min = slices[si].u.branch.min_length;
     stip_length_type const sol_length = attack_has_solution_in_n(si,
                                                                  length,n_min);
-    if (sol_length==n_min-4)
-      result = defender_self_check;
-    else if (sol_length==n_min-2)
-      result = is_solved;
+    if (sol_length<n_min)
+      result = opponent_self_check;
     else if (sol_length<=length)
       result = has_solution;
     else
@@ -484,8 +475,7 @@ boolean attack_are_threats_refuted(table threats, slice_index si)
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -535,11 +525,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       assert(n==slack_length_battle);
       switch (slice_solve(si))
       {
-        case defender_self_check:
-          result = n-4;
-          break;
-
-        case is_solved:
+        case opponent_self_check:
           result = n-2;
           break;
 
@@ -570,13 +556,11 @@ stip_length_type attack_solve_in_n(slice_index si,
       stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
       stip_length_type nr_moves_needed = series_solve_in_n(si,n_ser);
       if (nr_moves_needed==n_ser+2)
-        result = n_min-4;
+        result = n_min-2;
       else if (nr_moves_needed==n_ser+1)
         result = n+2;
-      else if (nr_moves_needed==n_ser)
-        result = n;
       else
-        result = n_min-2;
+        result = n_min;
       break;
     }
 
@@ -640,10 +624,8 @@ has_solution_type attack_solve(slice_index si)
       stip_length_type const min_length = slack_length_battle+2;
       stip_length_type const sol_length = attack_solve_in_n(si,
                                                             length,min_length);
-      if (sol_length==min_length-4)
-        result = defender_self_check;
-      else if (sol_length==min_length-2)
-        result = is_solved;
+      if (sol_length==min_length-2)
+        result = opponent_self_check;
       else if (sol_length<=length)
         result = has_solution;
       else
@@ -669,10 +651,8 @@ has_solution_type attack_solve(slice_index si)
       stip_length_type const min_length = slices[si].u.branch.min_length;
       stip_length_type const sol_length = attack_solve_in_n(si,
                                                             length,min_length);
-      if (sol_length==min_length-4)
-        result = defender_self_check;
-      else if (sol_length==min_length-2)
-        result = is_solved;
+      if (sol_length==min_length-2)
+        result = opponent_self_check;
       else if (sol_length<=length)
         result = has_solution;
       else

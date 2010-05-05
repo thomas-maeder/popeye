@@ -56,37 +56,37 @@ solution finished.
             AntiMarsCirce
 
       1...Bh3->c8-a6 
-          2.Sb8*a6 # 
+          2.Sb8*a6 #
       1...Bh3->c8-b7 
-          2.Sd8*b7 # 
+          2.Sd8*b7 #
       1...Bh3->c8-e6 
-          2.Sd8*e6 # 
+          2.Sd8*e6 #
       1...Bh3->c8-d7 
-          2.Sb8*d7 # 
+          2.Sb8*d7 #
       1...Bh3*f5 
-          2.Rf7*f5 # 
+          2.Rf7*f5 #
 
   1.Re3*f3 ! zugzwang.
       1...Sd1->g8-e7 
-          2.Rf3->h1-c1 # 
+          2.Rf3->h1-c1 #
       1...Sd1->g8-f6 
-          2.Rf3->h1-c1 # 
+          2.Rf3->h1-c1 #
       1...Sd1->g8-h6 
-          2.Rf3->h1-c1 # 
+          2.Rf3->h1-c1 #
       1...Bh3->c8-a6 
-          2.Sb8*a6 # 
+          2.Sb8*a6 #
       1...Bh3->c8-b7 
-          2.Sd8*b7 # 
+          2.Sd8*b7 #
       1...Bh3->c8-e6 
-          2.Sd8*e6 # 
+          2.Sd8*e6 #
       1...Bh3->c8-d7 
-          2.Sb8*d7 # 
+          2.Sb8*d7 #
       1...Bh3*f5 
-          2.Rf3*f5 # 
+          2.Rf3*f5 #
 
   1.Ka1->e1-d2 ? threat:
-          2.Re3->a1-a5 # 
-          2.Re3->a1-c1 # 
+          2.Re3->a1-a5 #
+          2.Re3->a1-c1 #
     but
       1...Sd1*e3  !
 

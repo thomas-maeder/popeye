@@ -107,7 +107,7 @@ boolean leaf_h_root_solve(slice_index leaf)
   init_output(leaf);
 
   isIntelligentModeActive = false;
-  result = leaf_h_solve(leaf)>=has_solution;
+  result = leaf_h_solve(leaf)==has_solution;
   if (result)
     write_end_of_solution_phase();
   isIntelligentModeActive = save_isIntelligentModeActive;
@@ -152,7 +152,8 @@ has_solution_type leaf_h_solve(slice_index leaf)
           && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
       {
         result = has_solution;
-        write_final_help_move(slices[leaf].u.leaf.goal);
+        write_defense();
+        write_goal(slices[leaf].u.leaf.goal);
       }
 
       repcoup();

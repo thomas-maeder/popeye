@@ -25,15 +25,15 @@
            PatrouilleSchach
 
   1.Sh5-f6 ! Drohung:
-          2.Sf6-d5 # 
+          2.Sf6-d5 #
       1...Ke5-d6 
-          2.Se7-d5 # 
+          2.Se7-d5 #
       1...Ke5*f6 
-          2.Se7-d5 # 
+          2.Se7-d5 #
       1...Ke5*f4 
-          2.Se7-d5 # 
+          2.Se7-d5 #
       1...Ke5-d4 
-          2.Db6-c5 # 
+          2.Db6-c5 #
 
 Loesung beendet. 
 
@@ -66,99 +66,99 @@ F1291, The Problemist 14/1-2, 1-3/1992
 
   1.a3*b4 ! Zugzwang.
       1...Ta1-a3 
-          2.Sc1-d3 # 
-          2.Sc1-a2 # 
+          2.Sc1-d3 #
+          2.Sc1-a2 #
       1...Ta1-a2 
-          2.Sc1-d3 # 
-          2.Sc1*a2 # 
+          2.Sc1-d3 #
+          2.Sc1*a2 #
       1...Lb1*h7 
-          2.Sc1-a2 # 
+          2.Sc1-a2 #
       1...Lb1-g6 
-          2.Sc1-a2 # 
+          2.Sc1-a2 #
       1...Lb1-f5 
-          2.Sc4-e3 # 
-          2.Sc1-a2 # 
+          2.Sc4-e3 #
+          2.Sc1-a2 #
       1...Lb1-e4 
-          2.Sc1-d3 # 
-          2.Sc1-a2 # 
+          2.Sc1-d3 #
+          2.Sc1-a2 #
       1...Lb1-d3 
-          2.Sc1*d3 # 
-          2.Sc1-a2 # 
+          2.Sc1*d3 #
+          2.Sc1-a2 #
       1...Lb1-c2 
-          2.Sc1-a2 # 
+          2.Sc1-a2 #
       1...Lb1-a2 
-          2.Sc1-d3 # 
-          2.Sc1*a2 # 
+          2.Sc1-d3 #
+          2.Sc1*a2 #
       1...Sf1-h2 
-          2.Sc4-e3 # 
+          2.Sc4-e3 #
       1...Sf1-g3 
-          2.Sc4-e3 # 
+          2.Sc4-e3 #
       1...Sf1-e3 
-          2.Sc4*e3 # 
+          2.Sc4*e3 #
       1...Sf1*d2 
-          2.Sc4-e3 # 
+          2.Sc4-e3 #
       1...Sd4*b3 
-          2.Sc1*b3 # 
+          2.Sc1*b3 #
       1...Sd4-c2 
-          2.Sc1-d3 # 
+          2.Sc1-d3 #
       1...Sd4-e2 
-          2.d2-d4 # 
+          2.d2-d4 #
       1...Sd4-f3 
-          2.Sc4-e3 # 
+          2.Sc4-e3 #
       1...Sd4-f5 
-          2.Ge6*g4 # 
+          2.Ge6*g4 #
       1...Sd4*e6 
-          2.Dg8*e6 # 
+          2.Dg8*e6 #
       1...Sd4*c6 
-          2.La4*c6 # 
+          2.La4*c6 #
       1...Sd4-b5 
-          2.Ge6-b6 # 
+          2.Ge6-b6 #
       1...Gg4*d7 
-          2.Td5-e5 # 
+          2.Td5-e5 #
       1...Gg4*c4 
-          2.b3*c4 # 
+          2.b3*c4 #
       1...Gg4-g6 
-          2.Td5-e5 # 
+          2.Td5-e5 #
       1...Dh5-e8 
-          2.Td5-e5 # 
+          2.Td5-e5 #
       1...Dh5-f7 
-          2.Td5-e5 # 
+          2.Td5-e5 #
       1...Dh5-g6 
-          2.Td5-e5 # 
+          2.Td5-e5 #
       1...Dh5-h6 
-          2.Td5-e5 # 
+          2.Td5-e5 #
       1...a7-a5 
-          2.Sc4-b6 # 
+          2.Sc4-b6 #
       1...a7-a6 
-          2.Sc4-b6 # 
+          2.Sc4-b6 #
       1...Lb8-h2 
-          2.Sc4-b6 # 
+          2.Sc4-b6 #
       1...Lb8-g3 
-          2.Sc4-b6 # 
+          2.Sc4-b6 #
       1...Lb8-f4 
-          2.Sc4-b6 # 
+          2.Sc4-b6 #
       1...Lb8-e5 
-          2.Sc4-b6 # 
+          2.Sc4-b6 #
       1...Lb8-c7 
-          2.Gd7-b7 # 
+          2.Gd7-b7 #
       1...Gd8-a8 
-          2.Gd7*d4 # 
+          2.Gd7*d4 #
       1...Gd8*g8 
-          2.Gd7*d4 # 
+          2.Gd7*d4 #
       1...Tf8-f2 
-          2.Gd7*d4 # 
+          2.Gd7*d4 #
       1...Tf8-f3 
-          2.Gd7*d4 # 
+          2.Gd7*d4 #
       1...Tf8-f4 
-          2.Td5-e5 # 
+          2.Td5-e5 #
       1...Tf8-f5 
-          2.Gd7*d4 # 
+          2.Gd7*d4 #
       1...Tf8-f6 
-          2.Gd7*d4 # 
+          2.Gd7*d4 #
       1...Tf8-f7 
-          2.Gd7*d4 # 
+          2.Gd7*d4 #
       1...Tf8-e8 
-          2.Sc4-e3 # 
+          2.Sc4-e3 #
 
 Loesung beendet. 
 
@@ -189,15 +189,15 @@ Loesung beendet.
   #2                         12 + 8
            PatrouilleSchach
 
-  1.Sf3-g5 + ! 
+  1.Sf3-g5 + !
       1...Ke4*e5 
-          2.Sg5-e4 # 
+          2.Sg5-e4 #
       1...Ke4-e3 
-          2.Ta4-e4 # 
+          2.Ta4-e4 #
       1...Ke4-d5 
-          2.Dh1-e4 # 
+          2.Dh1-e4 #
       1...Ke4*f5 
-          2.La8-e4 # 
+          2.La8-e4 #
 
 Loesung beendet. 
 

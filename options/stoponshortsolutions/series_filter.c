@@ -36,7 +36,6 @@ alloc_stoponshortsolutions_series_filter(stip_length_type length,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type
 stoponshortsolutions_series_filter_solve_in_n(slice_index si,
@@ -51,7 +50,7 @@ stoponshortsolutions_series_filter_solve_in_n(slice_index si,
 
   if (has_short_solution_been_found_in_phase())
     result = n+1;
-  else if (series_solve_in_n(slices[si].u.pipe.next,n)<=n)
+  else if (series_solve_in_n(slices[si].u.pipe.next,n)==n)
   {
     if (n<slices[si].u.branch.length)
       short_solution_found();
@@ -74,7 +73,6 @@ stoponshortsolutions_series_filter_solve_in_n(slice_index si,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type
 stoponshortsolutions_series_filter_has_solution_in_n(slice_index si,

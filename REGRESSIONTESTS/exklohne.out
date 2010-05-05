@@ -59,21 +59,21 @@ Loesung beendet.
 
   1.a6-a7 ! Drohung:
           2.a7-a8=S Drohung:
-                  3.Sa8-c7 # 
+                  3.Sa8-c7 #
       1...Tb1*b2 
-          2.a7-a8=T + 
+          2.a7-a8=T +
               2...Tb2-b8 
-                  3.Ta8*b8 # 
+                  3.Ta8*b8 #
       1...Ta2*b2 
-          2.a7-a8=D + 
+          2.a7-a8=D +
               2...Tb2-b8 
-                  3.Da8*c6 # 
+                  3.Da8*c6 #
       1...f4-f3 
           2.a7-a8=L Drohung:
-                  3.La8*c6 # 
+                  3.La8*c6 #
       1...e5-e4 
           2.a7-a8=L Drohung:
-                  3.La8*c6 # 
+                  3.La8*c6 #
 
 Loesung beendet. 
 
@@ -140,15 +140,15 @@ Loesung beendet.
 
   1.c6-c7 ! Zugzwang.
       1...Kc1-d1 
-          2.Sf1-g3 # 
+          2.Sf1-g3 #
       1...Tf6*d6 
-          2.Sf1-d2 # 
+          2.Sf1-d2 #
       1...Tf6-e6 
-          2.Sf1-e3 # 
+          2.Sf1-e3 #
       1...Tf6-h6 
-          2.Sf1-h2 # 
+          2.Sf1-h2 #
       1...Tf6-g6 
-          2.Sf1-g3 # 
+          2.Sf1-g3 #
 
 Loesung beendet. 
 
@@ -424,27 +424,27 @@ Loesung beendet.
 
 a) 
 
-  1.Ka5-b6 ! 
+  1.Ka5-b6 !
       1...h6-h5 
-          2.Kb6-c7 
+          2.Kb6-c7
               2...h5-h4 
-                  3.Kc7-d8 
+                  3.Kc7-d8
                       3...h4-h3 
-                          4.Lb8-c7 
+                          4.Lb8-c7
                               4...h3-h2 
-                                  5.Kd8-d7 # 
+                                  5.Kd8-d7 #
 
 b) wKa5-->c3
 
-  1.Kc3-d2 ! 
+  1.Kc3-d2 !
       1...h6-h5 
-          2.Kd2-e1 
+          2.Kd2-e1
               2...h5-h4 
-                  3.Ke1-f1 
+                  3.Ke1-f1
                       3...h4-h3 
-                          4.Kf1-g1 
+                          4.Kf1-g1
                               4...h3-h2 + 
-                                  5.Lb8*h2 # 
+                                  5.Lb8*h2 #
 
 Loesung beendet. 
 
@@ -478,19 +478,19 @@ Loesung beendet.
 
   1.c6-c7 ! Drohung:
           2.c7-c8=S Drohung:
-                  3.Sc8-e7 # 
+                  3.Sc8-e7 #
           2.c7-c8=L Drohung:
-                  3.Lc8-e6 # 
+                  3.Lc8-e6 #
       1...Lh1*g2 
           2.c7-c8=S Drohung:
-                  3.Sc8-e7 # 
+                  3.Sc8-e7 #
       1...La7*b6 
-          2.c7-c8=T + 
+          2.c7-c8=T +
               2...Lb6-d8 
-                  3.Tc8*d8 # 
+                  3.Tc8*d8 #
       1...La7-b8 
           2.c7-c8=L Drohung:
-                  3.Lc8-e6 # 
+                  3.Lc8-e6 #
 
 Loesung beendet. 
 
@@ -524,20 +524,20 @@ Loesung beendet.
 
   1.Td6-g6 ! Drohung:
           2.a7-a8=L Drohung:
-                  3.La8-d5 # 
+                  3.La8-d5 #
               2...e7-e6 
-                  3.Tf7-a7 # 
+                  3.Tf7-a7 #
       1...Tg4*g6 
-          2.a7-a8=D + 
+          2.a7-a8=D +
               2...Tg6-a6 
-                  3.Da8-d5 # 
+                  3.Da8-d5 #
       1...Th6*g6 
-          2.a7-a8=T + 
+          2.a7-a8=T +
               2...Tg6-a6 
-                  3.Ta8*a6 # 
+                  3.Ta8*a6 #
       1...e7-e6 
           2.a7-a8=S Drohung:
-                  3.Tf7-a7 # 
+                  3.Tf7-a7 #
 
 Loesung beendet. 
 
@@ -570,23 +570,23 @@ Loesung beendet.
             ExklusivSchach
 
   1.Le6-c8 ! Drohung:
-          2.Lc8-d7 # 
+          2.Lc8-d7 #
       1...Lb2-c1 
           2.Sh7-g5 Drohung:
-                  3.Lc8-d7 # 
+                  3.Lc8-d7 #
               2...Ta2-h2 + 
                   3.Sg5-h3 Drohung:
-                          4.Lc8-d7 # 
+                          4.Lc8-d7 #
       1...c4-c3 
           2.Sb6-c4 Drohung:
-                  3.Sh7*f6 # 
+                  3.Sh7*f6 #
               2...c3-c2 
-                  3.Sc4*d6 + 
+                  3.Sc4*d6 +
                       3...Da3*d6 
-                          4.Sh7*f6 # 
+                          4.Sh7*f6 #
               2...b5-b4 
                   3.Sc4*b2 Drohung:
-                          4.Sh7*f6 # 
+                          4.Sh7*f6 #
 
 Loesung beendet. 
 
@@ -619,11 +619,11 @@ Loesung beendet.
             ExklusivSchach
 
   1.Sg6-h4 ! Drohung:
-          2.Df6-d8 # 
+          2.Df6-d8 #
       1...Lc4*e6 
-          2.Ta1-d1 # 
+          2.Ta1-d1 #
       1...Ta6*a8 
-          2.0-0-0 # 
+          2.0-0-0 #
 
 Loesung beendet. 
 
@@ -656,13 +656,13 @@ Loesung beendet.
             ExklusivSchach
 
   1.Le7*d6 ! Drohung:
-          2.f7-f8=D # 
+          2.f7-f8=D #
       1...Lc6-e8 
-          2.f7*e8=S # 
+          2.f7*e8=S #
       1...Ke6*f6 
-          2.e4-e5 # 
+          2.e4-e5 #
       1...Ke6*d6 
-          2.c4-c5 # 
+          2.c4-c5 #
 
 Loesung beendet. 
 
@@ -695,11 +695,11 @@ Loesung beendet.
             ExklusivSchach
 
   1.Db5-d7 ! Drohung:
-          2.Dd7-a4 # 
+          2.Dd7-a4 #
       1...d3*c2 
-          2.g2*f3 # 
+          2.g2*f3 #
       1...f3*g2 
-          2.c2*d3 # 
+          2.c2*d3 #
 
 Loesung beendet. 
 
@@ -732,28 +732,28 @@ Loesung beendet.
             ExklusivSchach
 
   1.Dh8-b2 ? Drohung:
-          2.Db2-e5 # 
+          2.Db2-e5 #
     Aber
       1...c4-c3  !
 
   1.Dh8-h7 ? Drohung:
-          2.La1-e5 # 
+          2.La1-e5 #
     Aber
       1...c4-c3  !
 
   1.Le4-c6 ! Zugzwang.
       1...c4-c3 
-          2.Dh8-e5 # 
+          2.Dh8-e5 #
       1...Sg8-f6 
-          2.La1-e5 # 
+          2.La1-e5 #
 
   1.Kc2-c3 ? Drohung:
-          2.Dh8-e5 # 
+          2.Dh8-e5 #
     Aber
       1...Sg8-f6  !
 
   1.La1-g7 ? Drohung:
-          2.Lg7-e5 # 
+          2.Lg7-e5 #
     Aber
       1...Sg8-f6  !
 
@@ -788,11 +788,11 @@ Loesung beendet.
             ExklusivSchach
 
   1.f5-f6 ! Drohung:
-          2.Se4-f2 # 
+          2.Se4-f2 #
       1...Tg1*a1 
-          2.Se4-g3 # 
+          2.Se4-g3 #
       1...g4-g3 
-          2.Se4-c3 # 
+          2.Se4-c3 #
 
 Loesung beendet. 
 
@@ -825,15 +825,15 @@ Loesung beendet.
             ExklusivSchach
 
   1.Tf4-f7 ! Drohung:
-          2.Tg5-g1 # 
+          2.Tg5-g1 #
       1...d2-d1=D 
-          2.Sd4*b3 # 
+          2.Sd4*b3 #
       1...d2-d1=S 
-          2.Da1-c3 # 
+          2.Da1-c3 #
       1...d2-d1=T 
-          2.Tf7*c7 # 
+          2.Tf7*c7 #
       1...d2-d1=L 
-          2.Tg5*g6 # 
+          2.Tg5*g6 #
 
 Loesung beendet. 
 
@@ -897,19 +897,19 @@ Loesung beendet.
               OhneSchach
 
   1.Dg6-d6 ! Drohung:
-          2.Dd6-b4 # 
+          2.Dd6-b4 #
       1...Te3*c3 
-          2.Dd6-e5 # 
+          2.Dd6-e5 #
       1...Te3-e6 
-          2.Tc3-c4 # 
+          2.Tc3-c4 #
       1...Kd4-e4 
-          2.Dd6-e5 # 
+          2.Dd6-e5 #
       1...Sb6*d5 
-          2.Dd6*d5 # 
-          2.Tc6-c4 # 
-          2.Tc3-c4 # 
+          2.Dd6*d5 #
+          2.Tc6-c4 #
+          2.Tc3-c4 #
       1...Ld7-e6 
-          2.Tc6-c4 # 
+          2.Tc6-c4 #
 
 Loesung beendet. 
 
@@ -941,20 +941,20 @@ Loesung beendet.
               OhneSchach
 
   1.Te8-e5 ! Drohung:
-          2.Te5-d5 # 
+          2.Te5-d5 #
       1...Db2*e5 
-          2.f4*e5 # 
+          2.f4*e5 #
       1...Db2-b7 
-          2.Sg5*f7 # 
+          2.Sg5*f7 #
       1...Db2-g2 
-          2.Sg5-e4 # 
+          2.Sg5-e4 #
       1...Db2-d2 
-          2.La5-b4 # 
+          2.La5-b4 #
       1...f7*g6 
-          2.Dc8-e6 # 
-          2.Te5-e6 # 
+          2.Dc8-e6 #
+          2.Te5-e6 #
       1...Sa8-c7 
-          2.Dc8*c7 # 
+          2.Dc8*c7 #
 
 Loesung beendet. 
 
@@ -1059,16 +1059,16 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1.Ke7-e6 ! 
+  1.Ke7-e6 !
       1...Lc6-h1 
-          2.Ke6-d7 
+          2.Ke6-d7
               2...Ta2-g2 
-                  3.Kd7-c6 
+                  3.Kd7-c6
                       3...Ld4-a7 
-                          4.Kc6*b7 
+                          4.Kc6*b7
                               4...La7-d4 
-                                  5.Kb7*a8 
-                                      5...Tg2-b2 # 
+                                  5.Kb7*a8
+                                      5...Tg2-b2 #
 
 Loesung beendet. 
 
@@ -1196,27 +1196,27 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1.Kd5-d4 ! 
+  1.Kd5-d4 !
       1...Dg7-g2 
-          2.Kd4-c5 
+          2.Kd4-c5
               2...Dg2-a8 
-                  3.Sf6-d5 
+                  3.Sf6-d5
                       3...Da8-h8 
-                          4.c2-c3 
-                              4...Dh8*c3 # 
+                          4.c2-c3
+                              4...Dh8*c3 #
 
-  1.Kd5-c6 ! 
+  1.Kd5-c6 !
       1...Dg7-g1 
-          2.Kc6-b7 
+          2.Kc6-b7
               2...Dg1-g8 
-                  3.Sf6-d5 
+                  3.Sf6-d5
                       3...Dg8-g1 
-                          4.Kb7-a6 
-                              4...Dg1-b6 # 
-                  3.c2-c4 
+                          4.Kb7-a6
+                              4...Dg1-b6 #
+                  3.c2-c4
                       3...Dg8-g1 
-                          4.Kb7-a6 
-                              4...Dg1-b6 # 
+                          4.Kb7-a6
+                              4...Dg1-b6 #
 
 Loesung beendet. 
 
@@ -1442,30 +1442,30 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-      1...Te6-e1 = 
+      1...Te6-e1 =
 
-  1.Kh2-g1 ! 
+  1.Kh2-g1 !
       1...Lb7-e4 
-          2.Kg1*f2 
+          2.Kg1*f2
               2...Le4-b7 
-                  3.Kf2-f1 
+                  3.Kf2-f1
                       3...Lb7-e4 
-                          4.Kf1-e1 
+                          4.Kf1-e1
                               4...Te6-h6 
-                                  5.Ke1-f1 
+                                  5.Ke1-f1
                                       5...Th6-c6 
-                                          6.Kf1-f2 
+                                          6.Kf1-f2
                                               6...Tc6-h6 
-                                                  7.Kf2-e3 
+                                                  7.Kf2-e3
                                                       7...Th6-c6 
-                                                          8.Ke3-d4 
+                                                          8.Ke3-d4
                                                               8...Tc6-h6 
-                                                                  9.Kd4*c3 
+                                                                  9.Kd4*c3
                                                                       9...Le4-b7 
-                                                                         10.Kc3*c2 
+                                                                         10.Kc3*c2
                                                                              10...Th6-d6 
-                                                                                 11.Kc2-c1 
-                                                                                     11...Lb7-e4 = 
+                                                                                 11.Kc2-c1
+                                                                                     11...Lb7-e4 =
 
 Loesung beendet. 
 
@@ -1611,12 +1611,12 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-      1...Df8-a3 # 
+      1...Df8-a3 #
 
-  1.Ka8-a7 ! 
+  1.Ka8-a7 !
       1...Df8-f1 
-          2.Ka7-a8 
-              2...Df1-a6 # 
+          2.Ka7-a8
+              2...Df1-a6 #
 
 Loesung beendet. 
 
@@ -1648,12 +1648,12 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1.Ka8-a7 ! 
+  1.Ka8-a7 !
       1...Dd5-h1 
-          2.Ka7-b8 
+          2.Ka7-b8
               2...Dh1-a1 
-                  3.Kb8-c8 
-                      3...Da1-h8 # 
+                  3.Kb8-c8
+                      3...Da1-h8 #
 
 Loesung beendet. 
 
@@ -1685,28 +1685,28 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-      1...Th5-a5 # 
+      1...Th5-a5 #
 
-  1.Ka8-a7 ! 
+  1.Ka8-a7 !
       1...Th5-b5 
-          2.Ka7-a6 
+          2.Ka7-a6
               2...Tb5-h5 
-                  3.Ka6-b6 
+                  3.Ka6-b6
                       3...Th5-a5 
-                          4.Kb6*a5 
+                          4.Kb6*a5
                               4...Df4-b8 
-                                  5.Ka5-a6 
+                                  5.Ka5-a6
                                       5...Db8-h2 
-                                          6.Ka6-b6 
+                                          6.Ka6-b6
                                               6...Dh2-a2 
-                                                  7.Kb6-b5 
+                                                  7.Kb6-b5
                                                       7...Da2-g8 
-                                                          8.Kb5-a6 
+                                                          8.Kb5-a6
                                                               8...Dg8-b3 
-                                                                  9.Ka6-a7 
+                                                                  9.Ka6-a7
                                                                       9...Db3-g8 
-                                                                         10.Ka7-a8 
-                                                                             10...Dg8-a2 # 
+                                                                         10.Ka7-a8
+                                                                             10...Dg8-a2 #
 
 Loesung beendet. 
 
@@ -1739,45 +1739,45 @@ Loesung beendet.
               OhneSchach
 
       1...Db3-g8 
-          2.Kd2-c2 
+          2.Kd2-c2
               2...Dg8-g1 
-                  3.Kc2-d3 
+                  3.Kc2-d3
                       3...Dg1-a7 
-                          4.Kd3-e4 
+                          4.Kd3-e4
                               4...Da7-g1 
-                                  5.Ke4-f3 
+                                  5.Ke4-f3
                                       5...Dg1-a7 
-                                          6.Kf3-g3 
+                                          6.Kf3-g3
                                               6...Da7-h7 
-                                                  7.Kg3-g4 
+                                                  7.Kg3-g4
                                                       7...Dh7-b1 
-                                                          8.Kg4-h3 
+                                                          8.Kg4-h3
                                                               8...Db1-g6 
-                                                                  9.Kh3-h2 
+                                                                  9.Kh3-h2
                                                                       9...Dg6-b1 
-                                                                         10.Kh2-h1 
-                                                                             10...Db1-h7 # 
+                                                                         10.Kh2-h1
+                                                                             10...Db1-h7 #
 
-  1.Kd2-c1 ! 
+  1.Kd2-c1 !
       1...Db3-g8 
-          2.Kc1-c2 
+          2.Kc1-c2
               2...Dg8-g1 
-                  3.Kc2-d3 
+                  3.Kc2-d3
                       3...Dg1-a7 
-                          4.Kd3-e4 
+                          4.Kd3-e4
                               4...Da7-g1 
-                                  5.Ke4-f3 
+                                  5.Ke4-f3
                                       5...Dg1-a7 
-                                          6.Kf3-g3 
+                                          6.Kf3-g3
                                               6...Da7-h7 
-                                                  7.Kg3-g4 
+                                                  7.Kg3-g4
                                                       7...Dh7-b1 
-                                                          8.Kg4-h3 
+                                                          8.Kg4-h3
                                                               8...Db1-g6 
-                                                                  9.Kh3-h2 
+                                                                  9.Kh3-h2
                                                                       9...Dg6-b1 
-                                                                         10.Kh2-h1 
-                                                                             10...Db1-h7 # 
+                                                                         10.Kh2-h1
+                                                                             10...Db1-h7 #
 
 Loesung beendet. 
 
@@ -1809,28 +1809,28 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-      1...Ta1-e1 # 
+      1...Ta1-e1 #
 
-  1.Ke5-e4 ! 
+  1.Ke5-e4 !
       1...Ta1-a5 
-          2.Ke4-e3 
+          2.Ke4-e3
               2...Ta5-a1 
-                  3.Ke3-e2 
+                  3.Ke3-e2
                       3...Ta1-a5 
-                          4.Ke2-d1 
+                          4.Ke2-d1
                               4...Ta5-e5 
-                                  5.Kd1-c1 
+                                  5.Kd1-c1
                                       5...Te5-a5 
-                                          6.Kc1-b1 
+                                          6.Kc1-b1
                                               6...Ta5-e5 
-                                                  7.Kb1-a2 
+                                                  7.Kb1-a2
                                                       7...Te5-e1 
-                                                          8.Ka2-a3 
+                                                          8.Ka2-a3
                                                               8...Te1-e5 
-                                                                  9.Ka3-a4 
+                                                                  9.Ka3-a4
                                                                       9...Te5-e1 
-                                                                         10.Ka4-a5 
-                                                                             10...Te1-a1 # 
+                                                                         10.Ka4-a5
+                                                                             10...Te1-a1 #
 
 Loesung beendet. 
 
@@ -1862,14 +1862,14 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-  1.Kg5-f5 ! 
+  1.Kg5-f5 !
       1...g7-g5 
-          2.Kf5-f6 
+          2.Kf5-f6
               2...Dg8-h7 
-                  3.Kf6*g5 
+                  3.Kf6*g5
                       3...Dh7-b1 
-                          4.Kg5-h6 
-                              4...Db1-g6 # 
+                          4.Kg5-h6
+                              4...Db1-g6 #
 
 Loesung beendet. 
 
@@ -1901,46 +1901,46 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-      1...Tc1-c8 # 
+      1...Tc1-c8 #
 
-  1.Kf8-e8 ! 
+  1.Kf8-e8 !
       1...Tc1-c7 
-          2.Ke8-d8 
+          2.Ke8-d8
               2...Tc7-c1 
-                  3.Kd8-d7 
+                  3.Kd8-d7
                       3...Tc1-c8 
-                          4.Kd7-d6 
+                          4.Kd7-d6
                               4...Tc8-c1 
-                                  5.Kd6-d5 
+                                  5.Kd6-d5
                                       5...Tc1-c8 
-                                          6.Kd5-e4 
+                                          6.Kd5-e4
                                               6...Tc8-c1 
-                                                  7.Ke4-d3 
+                                                  7.Ke4-d3
                                                       7...Tc1-c8 
-                                                          8.Kd3-e2 
+                                                          8.Kd3-e2
                                                               8...Tc8-c1 
-                                                                  9.Ke2-f2 
+                                                                  9.Ke2-f2
                                                                       9...Tc1-c8 
-                                                                         10.Kf2-g1 
+                                                                         10.Kf2-g1
                                                                              10...Tc8-c2 
-                                                                                 11.Kg1-h2 
+                                                                                 11.Kg1-h2
                                                                                      11...Tc2-c8 
-                                                                                         12.Kh2-h3 
+                                                                                         12.Kh2-h3
                                                                                              12...Tc8-c1 
-                                                                                                 13.Kh3-g4 
+                                                                                                 13.Kh3-g4
                                                                                                      13...Tc1-c8 
-                                                                                                         14.Kg4-h5 
+                                                                                                         14.Kg4-h5
                                                                                                              14...Tc8-c1 
-                                                                                                                 15.Kh5-h6 
+                                                                                                                 15.Kh5-h6
                                                                                                                      15...Tc1-c8 
-                                                                                                                         16.Kh6-h7 
+                                                                                                                         16.Kh6-h7
                                                                                                                              16...Tc8-c1 
-                                                                                                                                 17.Kh7-h8 
+                                                                                                                                 17.Kh7-h8
                                                                                                                                      17...Tc1-c7 
-                                                                                                                                         18.Kh8-g8 
+                                                                                                                                         18.Kh8-g8
                                                                                                                                              18...Tc7-c1 
-                                                                                                                                                 19.Kg8-f8 
-                                                                                                                                                     19...Tc1-c8 # 
+                                                                                                                                                 19.Kg8-f8
+                                                                                                                                                     19...Tc1-c8 #
 
 Loesung beendet. 
 
@@ -1972,23 +1972,23 @@ Loesung beendet.
               Ohneschlag
               OhneSchach
 
-  1.Kf7-e7 ! 
+  1.Kf7-e7 !
       1...Kb8-c7 
-          2.b7-b8=T 
+          2.b7-b8=T
               2...Kc7-c6 
-                  3.Tb8-b5 
+                  3.Tb8-b5
                       3...Kc6-c7 
-                          4.Tb5-b6 
+                          4.Tb5-b6
                               4...Kc7-c8 
-                                  5.Tb6-b7 = 
+                                  5.Tb6-b7 =
       1...Kb8-a7 
-          2.b7-b8=T 
+          2.b7-b8=T
               2...Ka7-a6 
-                  3.Tb8-b5 
+                  3.Tb8-b5
                       3...Ka6-a7 
-                          4.Tb5-b6 
+                          4.Tb5-b6
                               4...Ka7-a8 
-                                  5.Tb6-b7 = 
+                                  5.Tb6-b7 =
 
 Loesung beendet. 
 
@@ -2052,15 +2052,15 @@ Loesung beendet.
   =4                          3 + 1
               OhneSchach
 
-  1.g7-g8=L ! 
+  1.g7-g8=L !
       1...Ke8-f8 
-          2.Lg8-f7 
+          2.Lg8-f7
               2...Kf8-g7 
-                  3.c7-c8=D 
+                  3.c7-c8=D
                       3...Kg7-h7 
-                          4.Dc8-f8 = 
+                          4.Dc8-f8 =
                       3...Kg7-h6 
-                          4.Dc8-g8 = 
+                          4.Dc8-g8 =
 
 Loesung beendet. 
 
@@ -2190,11 +2190,11 @@ Loesung beendet.
         SchwarzerLaengstzueger
               OhneSchach
 
-      1...Te4*a4 # 
+      1...Te4*a4 #
 
   1.Ka8-a7 ! Drohung:
-          2.Ka7-a8 
-              2...Te4*a4 # 
+          2.Ka7-a8
+              2...Te4*a4 #
       1...Te4-e8 
           2.a4-a5 Zugzwang.
               2...Te8-e1 
@@ -2202,8 +2202,8 @@ Loesung beendet.
                       3...Te1-e7 
                           4.a5-a6 Zugzwang.
                               4...Te7-e1 
-                                  5.a6-a7 
-                                      5...Te1-e8 # 
+                                  5.a6-a7
+                                      5...Te1-e8 #
 
 Loesung beendet. 
 
@@ -2235,15 +2235,15 @@ Loesung beendet.
               OhneSchach
 
   1.Tg2-g1 ? Drohung:
-          2.Tg1-d1 # 
+          2.Tg1-d1 #
     Aber
       1...Tb7-h7 +  !
 
   1.Tg2-f2 ! Drohung:
-          2.Tf2-f4 # 
+          2.Tf2-f4 #
 
   1.Tg2-h2 ? Drohung:
-          2.Th2-h4 # 
+          2.Th2-h4 #
     Aber
       1...Tb7-b1 +  !
 
@@ -2315,51 +2315,51 @@ Loesung beendet.
               OhneSchach
 
   1.Kd5-e5 ? Drohung:
-          2.Sd4-f3 # 
-          2.Sd4-e6 # 
+          2.Sd4-f3 #
+          2.Sd4-e6 #
       1...Dd1-f3 
-          2.Sd4-e6 # 
+          2.Sd4-e6 #
       1...h4-h3 
-          2.Sd4-f3 # 
+          2.Sd4-f3 #
     Aber
       1...Dd1-a1  !
 
   1.Kd5-c5 ? Drohung:
-          2.Sd4-f3 # 
-          2.Sd4-e6 # 
+          2.Sd4-f3 #
+          2.Sd4-e6 #
       1...Dd1-f3 
-          2.Sd4-e6 # 
+          2.Sd4-e6 #
       1...h4-h3 
-          2.Sd4-f3 # 
+          2.Sd4-f3 #
     Aber
       1...Dd1-g1  !
 
   1.Kd5-c6 ! Drohung:
-          2.Sd4-f3 # 
-          2.Sd4-e6 # 
+          2.Sd4-f3 #
+          2.Sd4-e6 #
       1...h4-h3 
-          2.Sd4-f3 # 
+          2.Sd4-f3 #
 
   1.Kd5-e6 ? Drohung:
-          2.Sd4-f3 # 
+          2.Sd4-f3 #
     Aber
       1...Dd1-f3  !
 
   1.Kd5-e4 ? Drohung:
-          2.Sd4-f3 # 
-          2.Sd4-e6 # 
+          2.Sd4-f3 #
+          2.Sd4-e6 #
       1...h4-h3 
-          2.Sd4-f3 # 
+          2.Sd4-f3 #
     Aber
       1...Dd1-a4  !
 
   1.Kd5-c4 ? Drohung:
-          2.Sd4-f3 # 
-          2.Sd4-e6 # 
+          2.Sd4-f3 #
+          2.Sd4-e6 #
       1...Dd1-f3 
-          2.Sd4-e6 # 
+          2.Sd4-e6 #
       1...h4-h3 
-          2.Sd4-f3 # 
+          2.Sd4-f3 #
     Aber
       1...Dd1-g4  !
 
@@ -2395,42 +2395,42 @@ Loesung beendet.
 a) 
 
   1.Se6-d4 ! Drohung:
-          2.Sg4-f6 # 
+          2.Sg4-f6 #
 
   1.Sg4-e3 ? Drohung:
-          2.Se6-g5 # 
+          2.Se6-g5 #
     Aber
       1...Gb3-f3  !
 
 b) sGb3-->d1
 
   1.Se6-d4 ? Drohung:
-          2.Sg4-f6 # 
+          2.Sg4-f6 #
     Aber
       1...Gd1-d5  !
 
   1.Sg4-e3 ! Drohung:
-          2.Se6-g5 # 
+          2.Se6-g5 #
 
 c) sGb3-->g8
 
   1.Se6-d4 ! Drohung:
-          2.Sg4-f6 # 
+          2.Sg4-f6 #
 
   1.Sg4-e3 ? Drohung:
-          2.Se6-g5 # 
+          2.Se6-g5 #
     Aber
       1...Gg8-d5  !
 
 d) sGb3-->h5
 
   1.Se6-d4 ? Drohung:
-          2.Sg4-f6 # 
+          2.Sg4-f6 #
     Aber
       1...Gh5-f3  !
 
   1.Sg4-e3 ! Drohung:
-          2.Se6-g5 # 
+          2.Se6-g5 #
 
 Loesung beendet. 
 
@@ -2498,83 +2498,83 @@ Loesung beendet.
 
   1.Kd1-e1 ! Zugzwang.
       1...Sb1-d2 
-          2.Tb2-b1 # 
+          2.Tb2-b1 #
       1...Sb1-c3 
-          2.Tb2-b1 # 
+          2.Tb2-b1 #
       1...Sb1-a3 
-          2.Tb2-b1 # 
+          2.Tb2-b1 #
       1...Da2-g8 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-f7 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-d5 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-c4 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-b3 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a8 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a7 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a6 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a4 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a3 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
 
   1.Kd1-c1 ? Zugzwang.
       1...Sb1-d2 
-          2.Tb2-b1 # 
+          2.Tb2-b1 #
       1...Sb1-c3 
-          2.Tb2-b1 # 
+          2.Tb2-b1 #
       1...Sb1-a3 
-          2.Tb2-b1 # 
+          2.Tb2-b1 #
       1...Da2-g8 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-f7 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-e6 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-d5 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-b3 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a8 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a7 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a6 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a5 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a4 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
     Aber
       1...Da2-a3  !
 
   1.Kd1-e2 ? Zugzwang.
       1...Sb1-d2 
-          2.Tb2-b1 # 
+          2.Tb2-b1 #
       1...Da2-g8 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-f7 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-d5 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-b3 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a8 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a7 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a5 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a4 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
       1...Da2-a3 
-          2.Tb2-a2 # 
+          2.Tb2-a2 #
     Aber
       1...Sb1-a3  !
 
@@ -2609,119 +2609,119 @@ Loesung beendet.
               OhneSchach
 
   1.Tf7-f1 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-f3 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-f4 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-f5 ! Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
 
   1.Tf7-f6 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-c7 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-d7 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-e7 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-f8 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
     Aber
       1...Dh2-h7  !
 
   1.Tf7-h7 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2*h7  !
 
   1.Tf7-g7 ? Drohung:
-          2.Lg8-b3 # 
+          2.Lg8-b3 #
       1...Lb2-c1 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Lb2-a3 
-          2.Sb1-c3 # 
+          2.Sb1-c3 #
       1...Ta8*g8 
-          2.Db7*a6 # 
+          2.Db7*a6 #
     Aber
       1...Dh2-h7  !
 
@@ -2755,40 +2755,40 @@ Loesung beendet.
               OhneSchach
 
   1.Se4-c3 ? Drohung:
-          2.Sc3-e4 z 
+          2.Sc3-e4 z
     Aber
       1...Dg1-c1  !
 
   1.Se4-d2 ! Drohung:
-          2.Sd2-e4 z 
+          2.Sd2-e4 z
 
   1.Se4-f2 ? Drohung:
-          2.Sf2-e4 z 
+          2.Sf2-e4 z
     Aber
       1...Dg1*f2  !
 
   1.Se4-g3 ? Drohung:
-          2.Sg3-e4 z 
+          2.Sg3-e4 z
     Aber
       1...Dg1*g3  !
 
   1.Se4-g5 ? Drohung:
-          2.Sg5-e4 z 
+          2.Sg5-e4 z
     Aber
       1...Dg1*g5  !
 
   1.Se4-f6 ? Drohung:
-          2.Sf6-e4 z 
+          2.Sf6-e4 z
     Aber
       1...Dg1-g6  !
 
   1.Se4-d6 ? Drohung:
-          2.Sd6-e4 z 
+          2.Sd6-e4 z
     Aber
       1...Dg1-g6  !
 
   1.Se4-c5 ? Drohung:
-          2.Sc5-e4 z 
+          2.Sc5-e4 z
     Aber
       1...Dg1-c1  !
 
@@ -2865,460 +2865,460 @@ Loesung beendet.
 
   1.Lc8-a6 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...La5*b6  !
 
   1.Lc8-f5 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...Ka8-b7  !
 
   1.Lc8-e6 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3*e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...Ka8-b7  !
 
   1.Lc8-d7 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...Ka8-b7  !
 
   1.g4-g5 ? Zugzwang.
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3*g5  !
 
   1.c4-c5 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3*c5  !
 
   1.f3-f4 ? Zugzwang.
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-h3 
-          2.0-0-0 
+          2.0-0-0
       1...De3-f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3*f4  !
 
   1.Sd3-b2 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3*b3 
-          2.0-0 
+          2.0-0
       1...De3-d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3-d4  !
 
   1.Sd3-f2 ! Drohung:
-          2.0-0 
+          2.0-0
 
   1.Sd3-f4 ? Zugzwang.
       1...De3*f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3*b3 
-          2.0-0 
+          2.0-0
       1...De3-d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3-d4  !
 
   1.Sd3-e5 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3*b3 
-          2.0-0 
+          2.0-0
       1...De3-d3 
-          2.0-0 
+          2.0-0
       1...De3*e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3-d4  !
 
   1.Sd3-c5 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3*b3 
-          2.0-0 
+          2.0-0
       1...De3-d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3-d4  !
 
   1.Sd3*b4 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*b6 
-          2.0-0-0 
+          2.0-0-0
       1...De3-c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3*b3 
-          2.0-0 
+          2.0-0
       1...De3-d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...De3-d4  !
 
   1.Sb3-d2 ? Drohung:
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...Tb4*c4  !
 
   1.Sb3-d4 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...Tb4-b1 +  !
 
   1.Sb3-c5 ? Zugzwang.
       1...De3-h6 
-          2.0-0 
+          2.0-0
       1...De3-g5 
-          2.0-0 
+          2.0-0
       1...De3-f4 
-          2.0-0 
+          2.0-0
       1...De3*c5 
-          2.0-0-0 
+          2.0-0-0
       1...De3-d4 
-          2.0-0-0 
+          2.0-0-0
       1...De3*d3 
-          2.0-0 
+          2.0-0
       1...De3-e8 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e7 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e6 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e5 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3-e4 
-          2.0-0-0 
-          2.0-0 
+          2.0-0-0
+          2.0-0
       1...De3*f3 
-          2.0-0-0 
+          2.0-0-0
     Aber
       1...Tb4-b1 +  !
 
@@ -3620,32 +3620,32 @@ Loesung beendet.
               OhneSchach
 
   1  (Kh8-h7 )
-  1.Kh8-h7 ! 
+  1.Kh8-h7 !
       1...Tg1-g8 
-          2.Kh7-h6 
+          2.Kh7-h6
               2...Tg8-g1 
-                  3.Kh6-h5 
+                  3.Kh6-h5
                       3...Tg1-g8 
-                          4.Kh5-h4 
+                          4.Kh5-h4
                               4...Tg8-g1 
-                                  5.Kh4-h3 
+                                  5.Kh4-h3
                                       5...Tg1-g8 
-                                          6.Kh3-h2 
+                                          6.Kh3-h2
                                               6...Tg8-g1 
-                                                  7.Kh2*g1 [+sTh8] 
+                                                  7.Kh2*g1 [+sTh8]
                                                       7...Th8-a8 
-                                                          8.Kg1-f1 
+                                                          8.Kg1-f1
                                                               8...Ta8-h8 
-                                                                  9.Kf1-e1 
+                                                                  9.Kf1-e1
                                                                       9...Th8-a8 
-                                                                         10.Ke1-d1 
+                                                                         10.Ke1-d1
                                                                              10...Ta8-h8 
-                                                                                 11.Kd1-c1 
+                                                                                 11.Kd1-c1
                                                                                      11...Th8-a8 
-                                                                                         12.Kc1-b1 
+                                                                                         12.Kc1-b1
                                                                                              12...Ta8-h8 
-                                                                                                 13.Kb1-a1 
-                                                                                                     13...Th8-h1 # 
+                                                                                                 13.Kb1-a1
+                                                                                                     13...Th8-h1 #
 
 Loesung beendet. 
 

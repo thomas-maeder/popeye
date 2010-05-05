@@ -76,7 +76,6 @@ has_solution_type not_solve(slice_index si)
 
   switch (slice_has_solution(slices[si].u.pipe.next))
   {
-    case is_solved:
     case has_solution:
       result = has_no_solution;
       break;
@@ -85,13 +84,13 @@ has_solution_type not_solve(slice_index si)
       result = has_solution;
       break;
 
-    case defender_self_check:
-      result = defender_self_check;
+    case opponent_self_check:
+      result = opponent_self_check;
       break;
 
     default:
       assert(0);
-      result = defender_self_check;
+      result = opponent_self_check;
       break;
   }
 
@@ -116,8 +115,8 @@ has_solution_type not_has_solution(slice_index si)
 
   switch (slice_has_solution(slices[si].u.pipe.next))
   {
-    case defender_self_check:
-      result = defender_self_check;
+    case opponent_self_check:
+      result = opponent_self_check;
       break;
 
     case has_no_solution:
@@ -125,7 +124,6 @@ has_solution_type not_has_solution(slice_index si)
       break;
 
     case has_solution:
-    case is_solved:
       result = has_no_solution;
       break;
   }

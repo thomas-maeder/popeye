@@ -22,8 +22,8 @@ short play after key in reflex stipulations was missed
 +---a---b---c---d---e---f---g---h---+
   r#2                         3 + 1
 
-  1.a3-a4 ! 
-      1...c2-c1=Q # 
+  1.a3-a4 !
+      1...c2-c1=Q #
 
 solution finished. 
 
@@ -85,19 +85,19 @@ erroneous maxflight numbers weren't completely ignored
   ct4                         3 + 1
             AntiSuperCirce
 
-  1.Ka8-b8 ! 
+  1.Ka8-b8 !
 
-  1.Ka8-a7 ! 
+  1.Ka8-a7 !
 
-  1.Ka8-b7 ! 
+  1.Ka8-b7 !
 
-  1.h2-h4 ! 
+  1.h2-h4 !
 
-  1.h2-h3 ! 
+  1.h2-h3 !
 
-  1.g2-g4 ! 
+  1.g2-g4 !
 
-  1.g2-g3 ! 
+  1.g2-g3 !
 
 solution finished. 
 
@@ -353,7 +353,7 @@ cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=i
          WhiteTransmutedKing
          BlackTransmutedKing
 
-  1.b6-b7 # ! 
+  1.b6-b7 # !
 
 solution finished. 
 

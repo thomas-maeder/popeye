@@ -20,8 +20,7 @@ void stip_insert_keepmating_guards(void);
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
- * @return <slack_length_battle - stalemate
- *         <=n solved  - return value is maximum number of moves
+ * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
@@ -36,9 +35,7 @@ stip_length_type keepmating_guard_root_defend(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -52,9 +49,7 @@ keepmating_guard_direct_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense put defender into self-check,
- *                    or some to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -131,7 +126,6 @@ keepmating_guard_direct_solve_threats_in_n(table threats,
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type keepmating_guard_help_solve_in_n(slice_index si,
                                                   stip_length_type n);
@@ -144,7 +138,6 @@ stip_length_type keepmating_guard_help_solve_in_n(slice_index si,
  *             to be illegal
  *         n+2 no solution found
  *         n   solution found
- *         n-2 the previous move has solved the next slice
  */
 stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
                                                          stip_length_type n);
@@ -167,7 +160,6 @@ void keepmating_guard_help_solve_threats_in_n(table threats,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type keepmating_guard_series_solve_in_n(slice_index si,
                                                     stip_length_type n);
@@ -180,7 +172,6 @@ stip_length_type keepmating_guard_series_solve_in_n(slice_index si,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
                                                            stip_length_type n);

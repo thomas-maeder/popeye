@@ -213,8 +213,7 @@ static slice_index alloc_max_nr_nontrivial_counter(stip_length_type length,
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param max_nr_refutations how many refutations should we look for
- * @return <slack_length_battle - stalemate
- *         <=n solved  - return value is maximum number of moves
+ * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
@@ -360,8 +359,7 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
  * @return length of solution found, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -394,8 +392,7 @@ max_nr_nontrivial_counter_has_solution_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */

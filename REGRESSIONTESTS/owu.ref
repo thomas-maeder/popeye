@@ -24,11 +24,11 @@
   #2                          7 + 3
                  OWU
 
-  1.Qa5-e1 + ? 
+  1.Qa5-e1 + ?
     but
       1...Kd1*e1  !
 
-  1.Qa5-d2 + ? 
+  1.Qa5-d2 + ?
     but
       1...Kd1*d2  !
 
@@ -36,38 +36,38 @@
     but
       1...f3*e2  !
 
-  1.Rf2-f1 + ? 
+  1.Rf2-f1 + ?
     but
       1...Kd1*e2  !
 
   1.e2-e3 ? threat:
-          2.Rb2-b1 # 
+          2.Rb2-b1 #
       1...Sd4*c2 
-          2.Qa5-d2 # 
+          2.Qa5-d2 #
       1...Sd4-e2 
-          2.Rf2-f1 # 
+          2.Rf2-f1 #
     but
       1...Sd4-b3  !
 
   1.e2*f3 ? threat:
-          2.Rb2-b1 # 
+          2.Rb2-b1 #
       1...Sd4*c2 
-          2.Qa5-d2 # 
+          2.Qa5-d2 #
       1...Sd4-e2 
-          2.Rf2-f1 # 
+          2.Rf2-f1 #
     but
       1...Sd4-b3  !
 
   1.c2-c4 ! threat:
-          2.Rf2-f1 # 
+          2.Rf2-f1 #
       1...f3*e2 
-          2.Qa5-d2 # 
+          2.Qa5-d2 #
       1...Sd4-c2 
-          2.Rb2-b1 # 
+          2.Rb2-b1 #
       1...Sd4*e2 
-          2.Qa5-d2 # 
+          2.Qa5-d2 #
 
-  1.Rb2-b1 + ? 
+  1.Rb2-b1 + ?
     but
       1...Kd1*c2  !
 

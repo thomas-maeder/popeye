@@ -61,7 +61,7 @@ Loesung beendet.
       1...Ka8-a7  !
 
   1.Kc7-b6 ? Drohung:
-          2.Tc1-c8 # 
+          2.Tc1-c8 #
     Aber
       1...Ka8-b8  !
 
@@ -82,7 +82,7 @@ Loesung beendet.
       1...Ka8-a7  !
 
   1.Tc1-a4 ! Drohung:
-          2.a5-a3 # 
+          2.a5-a3 #
 
   1.Tc1-a2 ? Zugzwang.
     Aber
@@ -97,7 +97,7 @@ Loesung beendet.
       1...Ka8-a7  !
 
   1.Tc1-c6 ? Drohung:
-          2.Tc6-a6 # 
+          2.Tc6-a6 #
     Aber
       1...Ka8-a7  !
 
@@ -166,30 +166,30 @@ Loesung beendet.
   #3                          2 + 2
             PhantomSchach
 
-  1.Tg8-g1 + ? 
+  1.Tg8-g1 + ?
       1...Kh1-h2 
           2.Tg1-g7 Zugzwang.
               2...Kh2-h3 
-                  3.Tg7-g8 # 
+                  3.Tg7-g8 #
     Aber
       1...Kh1*g1  !
 
   1.Tg8-g2 ? Drohung:
-          2.Tg2-f2 # 
+          2.Tg2-f2 #
     Aber
       1...Kh1*g2  !
 
-  1.Tg8-g3 + ! 
+  1.Tg8-g3 + !
       1...Kh1-h2 
           2.Tg3-g7 Zugzwang.
               2...Kh2-h3 
-                  3.Tg7-g8 # 
+                  3.Tg7-g8 #
 
-  1.Tg8-g5 + ? 
+  1.Tg8-g5 + ?
       1...Kh1-h2 
           2.Tg5-g7 Zugzwang.
               2...Kh2-h3 
-                  3.Tg7-g8 # 
+                  3.Tg7-g8 #
     Aber
       1...f6*g5  !
 
@@ -197,7 +197,7 @@ Loesung beendet.
     Aber
       1...f6*g6  !
 
-  1.Tg8-g7 + ? 
+  1.Tg8-g7 + ?
     Aber
       1...Kh1-h2  !
 
@@ -213,7 +213,7 @@ Loesung beendet.
     Aber
       1...Kh1-g2  !
 
-  1.Tg8-h8 + ? 
+  1.Tg8-h8 + ?
     Aber
       1...Kh1-g2  !
 
@@ -320,17 +320,17 @@ Loesung beendet.
 
 a) 
 
-  1.g7-g8=S + ! 
+  1.g7-g8=S + !
 
-  1.g7-g8=T + ! 
+  1.g7-g8=T + !
 
 b) =1
 
-  1.g7-g8=D = ! 
+  1.g7-g8=D = !
 
 c) #1
 
-  1.g7-g8=T # ! 
+  1.g7-g8=T # !
 
 Loesung beendet. 
 

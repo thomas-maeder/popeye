@@ -56,9 +56,9 @@ Loesung beendet.
   #2                     2 + 1 + 1n
 
   1.Df3-b7 ! Drohung:
-          2.Tc8*e8 # 
+          2.Tc8*e8 #
       1...nKg8-f8 
-          2.nKf8*e8 # 
+          2.nKf8*e8 #
 
 Loesung beendet. 
 
@@ -169,8 +169,8 @@ Loesung beendet.
               2...nLa4-e8 
                   3.nBh7-h8=nD Zugzwang.
                       3...nDh8-h2 
-                          4.nBa7-a8=nT 
-                              4...nDh2*b8 # 
+                          4.nBa7-a8=nT
+                              4...nDh2*b8 #
 
 Loesung beendet. 
 
@@ -265,13 +265,13 @@ Loesung beendet.
   #4                     1 + 1 + 4n
         SchwarzerLaengstzueger
 
-  1.nBh7-h8=nS ! 
+  1.nBh7-h8=nS !
       1...nSh8-g6 
-          2.nSBc3-c8=nL 
+          2.nSBc3-c8=nL
               2...nLc8-h3 
-                  3.nBa7-a8=nT + 
+                  3.nBa7-a8=nT +
                       3...nLh3-c8 
-                          4.nBb7*c8=nD # 
+                          4.nBb7*c8=nD #
 
 Loesung beendet. 
 
@@ -302,13 +302,13 @@ Loesung beendet.
   #4                     1 + 1 + 4n
         SchwarzerLaengstzueger
 
-  1.nBBd7-e8=nT ! 
+  1.nBBd7-e8=nT !
       1...nTe8-a8 
-          2.nBBc7-b8=nD 
+          2.nBBc7-b8=nD
               2...nDb8-h2 
-                  3.nBBe7-f8=nS 
+                  3.nBBe7-f8=nS
                       3...nDh2-b8 
-                          4.nBBa7*a8=nL # 
+                          4.nBBa7*a8=nL #
 
 Loesung beendet. 
 
@@ -339,13 +339,13 @@ Loesung beendet.
   #4                     1 + 1 + 4n
         SchwarzerLaengstzueger
 
-  1.nBc7-c8=nT + ! 
+  1.nBc7-c8=nT + !
       1...nTc8-h8 
-          2.nBb7-b8=nD 
+          2.nBb7-b8=nD
               2...nDb8-h2 
-                  3.nBe7-e8=nL 
+                  3.nBe7-e8=nL
                       3...nDh2-b8 
-                          4.nBd7-d8=nS # 
+                          4.nBd7-d8=nS #
 
 Loesung beendet. 
 

@@ -46,7 +46,7 @@ void output_start_threat_level(void);
 
 /* End the inner-most output level (which consists of threats)
  */
-void output_end_threat_level(void);
+void output_end_threat_level(slice_index si, boolean is_zugzwang);
 
 
 /* Start a new output level consisting of regular continuations
@@ -59,13 +59,13 @@ void output_start_continuation_level(void);
 void output_end_continuation_level(void);
 
 
-/* Start a new output level consisting of leaf variations
+/* Start a new output level for defenses
  */
-void output_start_leaf_variation_level(void);
+void output_start_defense_level(slice_index si);
 
-/* End the inner-most output level (which consists of leaf variations)
+/* End the inner-most output level (which consists of defenses)
  */
-void output_end_leaf_variation_level(void);
+void output_end_defense_level(void);
 
 
 /* Initialize based on the stipulation
@@ -76,10 +76,6 @@ void init_output(slice_index si);
 /* Write a move of the attacking side in direct play
  */
 void write_attack(void);
-
-/* Write a final move of the attacking side in direct play
- */
-void write_final_attack(void);
 
 /* Write the decoration (! or ?) for the first move if appropriate
  * @param current_ply identifies ply in which move was played
@@ -93,15 +89,6 @@ void write_goal(Goal goal);
  */
 void write_defense(void);
 
-/* Write a defender's final move
- */
-void write_final_defense(void);
-
-/* Write the final move in a help leaf
- * @param goal goal reached by the move (!=no_goal)
- */
-void write_final_help_move(Goal goal);
-
 /* Mark the defense about to be written as refutation
  */
 void write_refutation_mark(void);
@@ -113,7 +100,7 @@ void write_refutations(table t);
 
 /* Write the end of a solution
  */
-void write_end_of_solution(void);
+void write_end_of_solution(slice_index si);
 
 /* Write the end of a solution phase
  */

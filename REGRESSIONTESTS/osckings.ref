@@ -29,25 +29,25 @@ a)
 
   1.Rg4*b4 ! zugzwang.
       1...Kf5-e5[wK<>bK] 
-          2.Rb4-b5 # 
-          2.Rb4-c4 # 
-          2.Sf2*d3 # 
+          2.Rb4-b5 #
+          2.Rb4-c4 #
+          2.Sf2*d3 #
       1...g5-g4[wK<>bK] 
-          2.Rb4-b5 # 
+          2.Rb4-b5 #
 
   1.Rg4-e4 ! zugzwang.
       1...g5-g4[wK<>bK] 
-          2.Re4-e5 # 
+          2.Re4-e5 #
 
   1.a4-a5 ! zugzwang.
       1...Kf5-e5[wK<>bK] 
-          2.Sf2*d3 # 
+          2.Sf2*d3 #
 
 b) WhiteOscillatingKings    TypeB
 
   1.Sf2-d1[wK<>bK] ! zugzwang.
       1...Kc5-d5 
-          2.Sd1-e3[wK<>bK] # 
+          2.Sd1-e3[wK<>bK] #
 
 c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
@@ -83,8 +83,8 @@ solution finished.
 
   1.Qf2-d4 ! zugzwang.
       1...Bf4-e5[wK<>bK] + 
-          2.Qd4-d5 
-              2...Bf3*d5[wK<>bK] # 
+          2.Qd4-d5
+              2...Bf3*d5[wK<>bK] #
 
 solution finished. 
 
@@ -117,15 +117,15 @@ solution finished.
 
   1.Qg5-c1 ! zugzwang.
       1...Sg2-f4[wK<>bK] 
-          2.Qc1*f4 # 
+          2.Qc1*f4 #
       1...Sg2-e3[wK<>bK] 
-          2.Qc1*e3 # 
+          2.Qc1*e3 #
       1...Kf3-f4[wK<>bK] + 
-          2.Kf4-g3 # 
+          2.Kf4-g3 #
       1...Kf3-e3[wK<>bK] + 
-          2.Ke3-f2 # 
+          2.Ke3-f2 #
       1...g6-g5[wK<>bK] 
-          2.Qc1-c6 # 
+          2.Qc1-c6 #
 
 solution finished. 
 

@@ -155,11 +155,11 @@ has_solution_type quodlibet_has_solution(slice_index si)
 
   switch (slice_has_solution(op1))
   {
-    case defender_self_check:
-      if (slice_has_solution(op2)==is_solved)
-        result = is_solved;
+    case opponent_self_check:
+      if (slice_has_solution(op2)==has_solution)
+        result = has_solution;
       else
-        result = defender_self_check;
+        result = opponent_self_check;
       break;
 
     case has_no_solution:
@@ -169,21 +169,14 @@ has_solution_type quodlibet_has_solution(slice_index si)
     case has_solution:
       switch (slice_has_solution(op2))
       {
-        case defender_self_check:
-          result = defender_self_check;
-          break;
-
-        case is_solved:
-          result = is_solved;
+        case opponent_self_check:
+          result = opponent_self_check;
           break;
 
         default:
           result = has_solution;
           break;
       }
-      
-    case is_solved:
-      result = is_solved;
       break;
 
     default:

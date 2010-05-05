@@ -67,8 +67,7 @@ boolean variation_writer_are_threats_refuted_in_n(table threats,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -133,8 +132,7 @@ stip_length_type variation_writer_solve_threats_in_n(table threats,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -178,18 +176,8 @@ has_solution_type variation_writer_solve(slice_index si)
 
   nr_moves = attack_has_solution_in_n(next,length,min_length);
 
-  if (nr_moves==min_length-4)
-    result = defender_self_check;
-  else if (nr_moves==min_length-2)
-  {
-    result = is_solved;
-    write_final_defense();
-    {
-      stip_length_type const
-          solve_result = attack_solve_in_n(next,length,min_length);
-      assert(solve_result==min_length-2);
-    }
-  }
+  if (nr_moves<min_length)
+    result = opponent_self_check;
   else if (nr_moves<=length)
   {
     result = has_solution;

@@ -23,7 +23,6 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying);
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 boolean parry_fork_solve_in_n(slice_index si, stip_length_type n);
 
@@ -35,7 +34,6 @@ boolean parry_fork_solve_in_n(slice_index si, stip_length_type n);
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type parry_fork_has_solution_in_n(slice_index si,
                                               stip_length_type n);

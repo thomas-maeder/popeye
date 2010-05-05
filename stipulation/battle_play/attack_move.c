@@ -221,8 +221,7 @@ static boolean have_we_solution_in_n(slice_index si,
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -419,8 +418,7 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
- *            n_min-4 defense has turned out to be illegal
- *            n_min-2 defense has solved
+ *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
@@ -438,6 +436,10 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
   assert(n%2==slices[si].u.branch.length%2);
 
+  if (echecc(nbply,slices[si].starter))
+    StdString(" +");
+  StdChar(blank);
+  
   output_start_continuation_level();
 
   if (n_min<=slack_length_battle)

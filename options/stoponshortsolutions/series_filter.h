@@ -27,7 +27,6 @@ alloc_stoponshortsolutions_series_filter(stip_length_type length,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type
 stoponshortsolutions_series_filter_solve_in_n(slice_index si,
@@ -41,7 +40,6 @@ stoponshortsolutions_series_filter_solve_in_n(slice_index si,
  *             to be illegal
  *         n+1 no solution found
  *         n   solution found
- *         n-1 the previous move has solved the next slice
  */
 stip_length_type
 stoponshortsolutions_series_filter_has_solution_in_n(slice_index si,

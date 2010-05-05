@@ -60,7 +60,7 @@ boolean help_root_root_solve(slice_index root)
 
   while (len<=full_length)
   {
-    if (help_solve_in_n(next,len)<=len)
+    if (help_solve_in_n(next,len)==len)
       result = true;
     len += 2;
   }
@@ -91,7 +91,7 @@ has_solution_type help_root_has_solution(slice_index si)
   assert(full_length>=slack_length_help);
 
   while (len<=full_length)
-    if (help_has_solution_in_n(next,len)<=len)
+    if (help_has_solution_in_n(next,len)==len)
     {
       result = has_solution;
       break;

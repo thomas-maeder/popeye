@@ -217,10 +217,10 @@ Loesung beendet.
 
   1.Sg3-f1 ! Drohung:
           2.Dg1-g7 Drohung:
-                  3.Dg7*f7 + 
+                  3.Dg7*f7 +
                       3...Lg8*f7 
-                          4.Le7-d8 
-                              4...0-0 
+                          4.Le7-d8
+                              4...0-0
 
 Loesung beendet. 
 
@@ -510,65 +510,65 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   002                        11 + 6
 
-  1.Lf8-e7 + ? 
+  1.Lf8-e7 + ?
     Aber
       1...Kf6*e7  !
 
-  1.Lf8-g7 + ? 
+  1.Lf8-g7 + ?
     Aber
       1...Kf6-e7  !
 
-  1.Dh6-g5 + ? 
+  1.Dh6-g5 + ?
     Aber
       1...Tg6*g5  !
 
-  1.Dh6-g7 + ? 
+  1.Dh6-g7 + ?
     Aber
       1...Tg6*g7  !
 
-  1.Dh6-h4 + ? 
+  1.Dh6-h4 + ?
     Aber
       1...Tg6-g5  !
 
-  1.Dh6-h8 + ? 
+  1.Dh6-h8 + ?
     Aber
       1...Tg6-g7  !
 
   1.d2-d4 ! Zugzwang.
       1...Sb1-d2 
-          2.0-0-0 
+          2.0-0-0
       1...Sb1-a3 
-          2.0-0-0 
+          2.0-0-0
       1...Tg6*h6 
-          2.0-0 
+          2.0-0
 
   1.d2-d3 ? Zugzwang.
       1...Sb1-d2 
-          2.0-0-0 
+          2.0-0-0
       1...Sb1-a3 
-          2.0-0-0 
+          2.0-0-0
       1...Tg6*h6 
-          2.0-0 
+          2.0-0
     Aber
       1...Kf6-f5  !
 
   1.d2*e3 ? Zugzwang.
       1...Sb1-d2 
-          2.0-0-0 
+          2.0-0-0
       1...Sb1-a3 
-          2.0-0-0 
+          2.0-0-0
       1...Tg6*h6 
-          2.0-0 
+          2.0-0
     Aber
       1...f4*e3  !
 
   1.d2*c3 ? Zugzwang.
       1...Sb1-d2 
-          2.0-0-0 
+          2.0-0-0
       1...Sb1-a3 
-          2.0-0-0 
+          2.0-0-0
       1...Tg6*h6 
-          2.0-0 
+          2.0-0
     Aber
       1...Sb1*c3  !
 
@@ -845,43 +845,43 @@ Loesung beendet.
 
 a) 
 
-  1.d7-d8=D # ! 
+  1.d7-d8=D # !
 
 b) exact-#2
 
-  1.d7-d8=T + ! 
+  1.d7-d8=T + !
       1...Sb7*d8 [+wTa1] 
-          2.Ta1-d1 # 
+          2.Ta1-d1 #
 
 c) exact-#3
 
-  1.d7-d8=L ! 
+  1.d7-d8=L !
       1...Sb7*d8 [+wLc1] 
-          2.Lc1-f4 + 
+          2.Lc1-f4 +
               2...g5*f4 [+wLc1] 
-                  3.Lc1*f4 [+sBf7] # 
+                  3.Lc1*f4 [+sBf7] #
 
 d) exact-#4
 
-  1.d7-d8=S ! 
+  1.d7-d8=S !
       1...Sb7*d8 [+wSg1] 
-          2.Sg1*f3 [+sBf7] 
+          2.Sg1*f3 [+sBf7]
               2...Sd8-b7 
-                  3.Sf3-d2 
+                  3.Sf3-d2
                       3...Sb7-d8 
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
               2...Sd8-e6 
-                  3.Sf3-d2 
+                  3.Sf3-d2
                       3...Se6-d4 
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
                       3...Se6-f4 
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
                       3...Se6-g7 
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
                       3...Se6-f8 
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
                       3...Se6-d8 
-                          4.Sd2-e4 # 
+                          4.Sd2-e4 #
 
 Loesung beendet. 
 
@@ -914,31 +914,31 @@ Loesung beendet.
 
 a) 
 
-  1.Tg6-e6 # ! 
+  1.Tg6-e6 # !
 
 b) exact-#2
 
-  1.Sd4-f3 + ! 
+  1.Sd4-f3 + !
       1...Ke5-f5 
-          2.La8-e4 # 
+          2.La8-e4 #
 
 c) exact-#3
 
-  1.Tg6-c6 ! 
+  1.Tg6-c6 !
       1...Ke5-d5 
-          2.La8-b7 
+          2.La8-b7
               2...Kd5-e5 
-                  3.Tc6-e6 # 
+                  3.Tc6-e6 #
 
 d) exact-#4
 
-  1.Sd4-e2 ! 
+  1.Sd4-e2 !
       1...Ke5-f5 
-          2.Se2-f4 
+          2.Se2-f4
               2...Kf5-e5 
-                  3.Sf4-d3 + 
+                  3.Sf4-d3 +
                       3...Ke5-f5 
-                          4.La8-e4 # 
+                          4.La8-e4 #
 
 Loesung beendet. 
 
@@ -970,39 +970,39 @@ Loesung beendet.
 
 a) 
 
-  1.d7-d8=D # ! 
+  1.d7-d8=D # !
 
 b) exact-#2
 
-  1.d7-d8=T + ! 
+  1.d7-d8=T + !
       1...Kd6-c7 
-          2.Td8-d7 # 
+          2.Td8-d7 #
 
 c) exact-#3
 
-  1.d7-d8=L ! 
+  1.d7-d8=L !
       1...c6-c5 
-          2.Ka7*b6 
+          2.Ka7*b6
               2...c5-c4 
-                  3.Ld8-c7 # 
+                  3.Ld8-c7 #
               2...c5*d4 
-                  3.Ld8-c7 # 
+                  3.Ld8-c7 #
 
 d) exact-#4
 
-  1.d7-d8=S ! 
+  1.d7-d8=S !
       1...c6-c5 
-          2.Sd8-f7 + 
+          2.Sd8-f7 +
               2...Kd6-c7 
-                  3.d4-d5 
+                  3.d4-d5
                       3...c5-c4 
-                          4.d5-d6 # 
+                          4.d5-d6 #
       1...Kd6-c7 
-          2.Sd8-f7 
+          2.Sd8-f7
               2...c6-c5 
-                  3.d4-d5 
+                  3.d4-d5
                       3...c5-c4 
-                          4.d5-d6 # 
+                          4.d5-d6 #
 
 Loesung beendet. 
 
@@ -1033,57 +1033,57 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   zh35                       6 + 10
 
-  1.Kg8-h8 ! 
+  1.Kg8-h8 !
       1...b6-b5 
-          2.Ld5-g8 
+          2.Ld5-g8
               2...b5-b4 
-                  3.Sd6-f7 
+                  3.Sd6-f7
                       3...Tb3-b2 
-                          4.Sf7*g5 + 
+                          4.Sf7*g5 +
                               4...Ka2-a3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...Tb2-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...b4-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                       3...Tb3-a3 
-                          4.Sf7*g5 + 
+                          4.Sf7*g5 +
                               4...Ta3-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...b4-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                       3...Tb3-f3 
-                          4.Sf7*g5 + 
+                          4.Sf7*g5 +
                               4...Tf3-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...Tf3-f7 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...b4-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                       3...Tb3-e3 
-                          4.Sf7*g5 + 
+                          4.Sf7*g5 +
                               4...Te3-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...Te3-e6 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...b4-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                       3...Tb3-d3 
-                          4.Sf7*g5 + 
+                          4.Sf7*g5 +
                               4...Td3-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...Td3-d5 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...b4-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                       3...Tb3-c3 
-                          4.Sf7*g5 + 
+                          4.Sf7*g5 +
                               4...Tc3-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...Tc3-c4 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
                               4...b4-b3 
-                                  5.Sg5-h3 z 
+                                  5.Sg5-h3 z
 
 Loesung beendet. 
 
@@ -1335,12 +1335,12 @@ Loesung beendet.
   zd63                        5 + 5
 
   1.Lc4-a6 ! Drohung:
-          2.Sb2-c4 + 
+          2.Sb2-c4 +
               2...Ka3-a4 
-                  3.Sc4-d6 z 
+                  3.Sc4-d6 z
       1...Ta8-c8 
           2.d7*c8=S Drohung:
-                  3.Sc8-d6 z 
+                  3.Sc8-d6 z
 
 Loesung beendet. 
 
@@ -1372,26 +1372,26 @@ Loesung beendet.
 
   1.Kc7-c6 ! Zugzwang.
       1...a3-a2 
-          2.d4-d5 
-              2...a2-a1=RO + 
+          2.d4-d5
+              2...a2-a1=RO +
       1...b3-b2 
-          2.Kc6-d6 
-              2...b2-b1=RO + 
+          2.Kc6-d6
+              2...b2-b1=RO +
       1...c3-c2 
-          2.Kc6-c7 
-              2...c2-c1=RO + 
+          2.Kc6-c7
+              2...c2-c1=RO +
       1...d3-d2 
-          2.Kc6-b6 
-              2...d2-d1=RO + 
+          2.Kc6-b6
+              2...d2-d1=RO +
       1...e3-e2 
-          2.h4-h5 
-              2...e2-e1=RO + 
+          2.h4-h5
+              2...e2-e1=RO +
       1...f3-f2 
-          2.Kc6-d6 
-              2...f2-f1=RO + 
+          2.Kc6-d6
+              2...f2-f1=RO +
       1...h3-h2 
-          2.Kc6-c5 
-              2...h2*g1=RO + 
+          2.Kc6-c5
+              2...h2*g1=RO +
 
 Loesung beendet. 
 
@@ -1854,49 +1854,49 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   exact-#2                    2 + 1
 
-  1.Td4-d2 ! 
+  1.Td4-d2 !
       1...Ka1-b1 
-          2.Td2-d1 # 
+          2.Td2-d1 #
 
-  1.Td4-d3 ! 
+  1.Td4-d3 !
       1...Ka1-b1 
-          2.Td3-d1 # 
+          2.Td3-d1 #
 
-  1.Td4-d8 ! 
+  1.Td4-d8 !
       1...Ka1-b1 
-          2.Td8-d1 # 
+          2.Td8-d1 #
 
-  1.Td4-d7 ! 
+  1.Td4-d7 !
       1...Ka1-b1 
-          2.Td7-d1 # 
+          2.Td7-d1 #
 
-  1.Td4-d6 ! 
+  1.Td4-d6 !
       1...Ka1-b1 
-          2.Td6-d1 # 
+          2.Td6-d1 #
 
-  1.Td4-d5 ! 
+  1.Td4-d5 !
       1...Ka1-b1 
-          2.Td5-d1 # 
+          2.Td5-d1 #
 
-  1.Td4-h4 ! 
+  1.Td4-h4 !
       1...Ka1-b1 
-          2.Th4-h1 # 
+          2.Th4-h1 #
 
-  1.Td4-g4 ! 
+  1.Td4-g4 !
       1...Ka1-b1 
-          2.Tg4-g1 # 
+          2.Tg4-g1 #
 
-  1.Td4-f4 ! 
+  1.Td4-f4 !
       1...Ka1-b1 
-          2.Tf4-f1 # 
+          2.Tf4-f1 #
 
-  1.Td4-e4 ! 
+  1.Td4-e4 !
       1...Ka1-b1 
-          2.Te4-e1 # 
+          2.Te4-e1 #
 
-  1.Kb3-c2 ! 
+  1.Kb3-c2 !
       1...Ka1-a2 
-          2.Td4-a4 # 
+          2.Td4-a4 #
 
 Loesung beendet. 
 
@@ -2504,22 +2504,22 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   exact-s#2                   6 + 4
 
-  1.b4-b5 ? 
+  1.b4-b5 ?
     Aber
       1...g6-g5  !
 
-  1.b4*a5 ? 
+  1.b4*a5 ?
     Aber
       1...g6-g5  !
 
-  1.h2-h4 ? 
+  1.h2-h4 ?
       1...g6-g5 
-          2.h4*g5 
-              2...a5*b4 # 
+          2.h4*g5
+              2...a5*b4 #
     Aber
       1...a5*b4 +  !
 
-  1.Dd1-d2 + ? 
+  1.Dd1-d2 + ?
     Aber
       1...Kc3*d2  !
 

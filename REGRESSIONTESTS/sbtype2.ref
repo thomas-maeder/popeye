@@ -23,27 +23,27 @@
   +1                          3 + 5
           SingleBox    Type2
 
-  1.Sh4*f3 [h1=S] + ! 
+  1.Sh4*f3 [h1=S] + !
 
-  1.Sh4*f3 [h1=B] + ! 
+  1.Sh4*f3 [h1=B] + !
 
-  1.Sh4*g2 [h1=S] + ! 
+  1.Sh4*g2 [h1=S] + !
 
-  1.Sh4*g2 [h1=B] + ! 
+  1.Sh4*g2 [h1=B] + !
 
-  1.Se3-c2 [h1=S] + ! 
+  1.Se3-c2 [h1=S] + !
 
-  1.Se3-c2 [h1=R] + ! 
+  1.Se3-c2 [h1=R] + !
 
-  1.Se3-c2 [h1=B] + ! 
+  1.Se3-c2 [h1=B] + !
 
-  1.Se3*g2 [h1=Q] + ! 
+  1.Se3*g2 [h1=Q] + !
 
-  1.Se3*g2 [h1=S] + ! 
+  1.Se3*g2 [h1=S] + !
 
-  1.Se3*g2 [h1=R] + ! 
+  1.Se3*g2 [h1=R] + !
 
-  1.Se3*g2 [h1=B] + ! 
+  1.Se3*g2 [h1=B] + !
 
 solution finished. 
 
@@ -135,9 +135,9 @@ don't get confused with >1 latent pawn
   #2                        13 + 12
           SingleBox    Type2
 
-  1.Sc4-e3 + ! 
+  1.Sc4-e3 + !
       1...Sf1*e3 [e8=S] 
-          2.Se8*c7 # 
+          2.Se8*c7 #
 
 solution finished. 
 
@@ -169,27 +169,27 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 
   1.d7-d8 ! zugzwang.
       1...Qf2*g1 [d8=B] 
-          2.Bd8-b6 # 
+          2.Bd8-b6 #
       1...Ke3-f4 
-          2.Qb2-d2 # 
+          2.Qb2-d2 #
       1...c4-c3 
-          2.Sf6-d5 # 
+          2.Sf6-d5 #
       1...e5-e4 
-          2.Sf6-d5 # 
+          2.Sf6-d5 #
       1...f5-f4 
-          2.Sf6*g4 # 
+          2.Sf6*g4 #
       1...Sd6-b5 
-          2.Qb2-d2 # 
+          2.Qb2-d2 #
       1...Sd6-e4 
-          2.Sf6-d5 # 
+          2.Sf6-d5 #
       1...Sd6-f7 
-          2.Qb2-d2 # 
+          2.Qb2-d2 #
       1...Sd6-e8 
-          2.Qb2-d2 # 
+          2.Qb2-d2 #
       1...Sd6-c8 
-          2.Qb2-d2 # 
+          2.Qb2-d2 #
       1...Sd6-b7 
-          2.Qb2-d2 # 
+          2.Qb2-d2 #
 
 solution finished. 
 
@@ -220,43 +220,43 @@ solution finished.
           SingleBox    Type2
 
   1.f7-f8 ! threat:
-          2.Qh1*e4 + 
+          2.Qh1*e4 +
               2...d5*e4 [f8=Q] 
-                  3.Qf8-f5 # 
+                  3.Qf8-f5 #
       1...g3-g2 
-          2.Bh2*f4 + 
+          2.Bh2*f4 +
               2...Bh6*f4 [f8=B] 
-                  3.Bf8*g7 # 
+                  3.Bf8*g7 #
       1...g3*h2 [f8=B] 
-          2.Bf8*g7 + 
+          2.Bf8*g7 +
               2...Bh6*g7 
-                  3.Rg4-g5 # 
+                  3.Rg4-g5 #
       1...f4-f3 
-          2.Rg4*e4 + 
+          2.Rg4*e4 +
               2...d5*e4 [f8=R] 
-                  3.Rf8-f5 # 
+                  3.Rf8-f5 #
       1...d7*e6 
-          2.Sd4-f3 + 
+          2.Sd4-f3 +
               2...e4*f3 [f8=S] 
-                  3.Sf8-d7 # 
+                  3.Sf8-d7 #
 
-  1.Rg4-g5 + ? 
+  1.Rg4-g5 + ?
     but
       1...Bh6*g5 +  !
 
   1.Rg4*h4 ? threat:
-          2.Rh4-h5 + 
+          2.Rh4-h5 +
               2...Bh6-g5 + 
-                  3.Rh5*g5 # 
+                  3.Rh5*g5 #
       1...f4-f3 
-          2.Bh2*g3 + 
+          2.Bh2*g3 +
               2...Bh6-f4 
-                  3.Rh4-h5 # 
-                  3.Bg3*f4 # 
+                  3.Rh4-h5 #
+                  3.Bg3*f4 #
     but
       1...Bh6-g5 +  !
 
-  1.Qh1*e4 + ? 
+  1.Qh1*e4 + ?
     but
       1...d5*e4  !
 
@@ -288,13 +288,13 @@ solution finished.
   #2                        12 + 12
           SingleBox    Type2
 
-  1.Qg1-d4 + ! 
+  1.Qg1-d4 + !
       1...c5*d4 [e8=Q] 
-          2.Qe8-e5 # 
+          2.Qe8-e5 #
 
-  1.Qg1-d1 + ! 
+  1.Qg1-d1 + !
       1...e2*d1=R [e8=Q] 
-          2.Qe8-e5 # 
+          2.Qe8-e5 #
 
 solution finished. 
 

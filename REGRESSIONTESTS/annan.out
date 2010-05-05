@@ -25,45 +25,45 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
   #2                          6 + 3
            Annanschach    
 
-  1.Tc4-c5 + ! 
+  1.Tc4-c5 + !
       1...Kb5-b6 
-          2.Tc3-f6 # 
+          2.Tc3-f6 #
 
-  1.Sb4-a3 + ! 
+  1.Sb4-a3 + !
       1...Kb5-b6 
-          2.Tc4-a4 # 
-          2.Tc3-f6 # 
-          2.Lb3-a4 # 
+          2.Tc4-a4 #
+          2.Tc3-f6 #
+          2.Lb3-a4 #
 
-  1.Sb4-c5 + ! 
+  1.Sb4-c5 + !
       1...Kb5-b6 
-          2.Tc3-f6 # 
+          2.Tc3-f6 #
 
   1.Sb4-a5 ! Zugzwang.
       1...Kb5-b6 
-          2.Lb3-a4 # 
+          2.Lb3-a4 #
       1...b7-b6 
-          2.Tc3-b2 # 
+          2.Tc3-b2 #
 
   1.Tc3-b2 ! Zugzwang.
       1...Kb5-b6 
-          2.Sb4-c3 # 
+          2.Sb4-c3 #
       1...Kb5*c4 
-          2.Lc2-d3 # 
+          2.Lc2-d3 #
       1...Kb5-a4 
-          2.Sb4-c5 # 
+          2.Sb4-c5 #
       1...b7-b6 
-          2.Sb4-a3 # 
-          2.Sb4-d2 # 
-          2.Sb4-d6 # 
-          2.Sb4-a5 # 
+          2.Sb4-a3 #
+          2.Sb4-d2 #
+          2.Sb4-d6 #
+          2.Sb4-a5 #
 
   1.Tc3-f6 ! Drohung:
-          2.Sb4-c5 # 
+          2.Sb4-c5 #
       1...b7-b6 
-          2.Tf6-f5 # 
-          2.Sb4-a3 # 
-          2.Sb4-d6 # 
+          2.Tf6-f5 #
+          2.Sb4-a3 #
+          2.Sb4-d6 #
 
 Loesung beendet. 
 
@@ -128,8 +128,8 @@ Loesung beendet.
 
   1.Tg4-g2 ! Zugzwang.
       1...h3*g2 + 
-          2.Kf1-g1 + 
-              2...Kh1-g3 # 
+          2.Kf1-g1 +
+              2...Kh1-g3 #
 
 Loesung beendet. 
 
@@ -162,11 +162,11 @@ Loesung beendet.
 
   1.c4-c5 ! Zugzwang.
       1...Sb6*c5 
-          2.Kb4-a5 + 
-              2...Kd4*b5 # 
+          2.Kb4-a5 +
+              2...Kd4*b5 #
       1...d6*c5 + 
-          2.Kb4-c4 + 
-              2...Kd4-c6 # 
+          2.Kb4-c4 +
+              2...Kd4-c6 #
 
 Loesung beendet. 
 
@@ -235,7 +235,7 @@ Bearbeitung abgebrochen.
 
   1.La1-f6 ! Zugzwang.
       1...Kh7-h8 
-          2.Kf5-g5 # 
+          2.Kf5-g5 #
 
 Loesung beendet. 
 
