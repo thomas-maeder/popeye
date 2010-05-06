@@ -80,11 +80,11 @@ void append_to_top_table(void)
     change_rec *rec;
     table_position const curr = current_position[number_of_tables];
     change_rec ** const sp= &liste[curr].push_top;
-    *sp = liste[current_position[number_of_tables]-1].push_top;
-    liste[current_position[number_of_tables]].push_bottom = *sp;
+    *sp = liste[curr-1].push_top;
+    liste[curr].push_bottom = *sp;
 
-    assert(colour_change_sp[nbply-1]<=colour_change_sp[nbply]);
-    for (rec = colour_change_sp[nbply-1];
+    assert(colour_change_sp[parent_ply[nbply]]<=colour_change_sp[nbply]);
+    for (rec = colour_change_sp[parent_ply[nbply]];
          rec!=colour_change_sp[nbply];
          ++rec)
       PushChangedColour(*sp,
