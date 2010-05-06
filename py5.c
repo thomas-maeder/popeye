@@ -1194,7 +1194,7 @@ void genmove(Side camp)
   
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(advers(camp));
-  if (nbply == 1)
+  if (nbply==1 && flag_magic)
     PushMagicViews();
   nextply(nbply);
   trait[nbply]= camp;
@@ -3496,9 +3496,7 @@ void repcoup(void)
     }
         
     if (flag_magic)
-    {
-        ChangeMagic(nbply, false);
-    }
+      ChangeMagic(nbply, false);
     
     if (CondFlag[masand]
         && echecc(nbply,advers(trait[nbply]))

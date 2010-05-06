@@ -150,7 +150,11 @@ EXTERN  struct
   int magicpieceid;
   numvec vecnum;
 } magicviews[magicviews_size];
-EXTERN int magictop[maxply + 1];   
+EXTERN struct
+{
+    int bottom;
+    int top;
+} magicstate[maxply + 1];   
 EXTERN int nbmagic;
 EXTERN boolean flag_magic;
 

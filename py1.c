@@ -99,9 +99,17 @@ static void initply(ply parent)
   super[nbply] = superbas;
 
   /*
-    start with the castling rights of the upper level
+    start with the castling rights of the parent level
   */
   castling_flag[nbply] = castling_flag[parent];
+
+  /*
+    start with the SAT state of the parent level
+  */
+  BlackStrictSAT[nbply] = BlackStrictSAT[parent];
+  WhiteStrictSAT[nbply] = WhiteStrictSAT[parent];
+
+  magicstate[nbply] = magicstate[parent];
 
   invalidateHashBuffer();
 }
@@ -1426,62 +1434,60 @@ void unsupported_uncalled_attackfunction(square from, square to) {}
 
 void PushMagicViews(void)
 {
-  if (flag_magic)
-  {
-    square const *bnp;
+  square const *bnp;
   
-    /*new stack */
-    nbmagic = magictop[nbply-1];
+  /*new stack */
+  nbmagic = magicstate[parent_ply[nbply]].top;
+  magicstate[nbply].bottom = nbmagic;
     
-    for (bnp= boardnum; *bnp; bnp++) 
-      if (TSTFLAG(spec[*bnp], Magic))
+  for (bnp= boardnum; *bnp; bnp++) 
+    if (TSTFLAG(spec[*bnp], Magic))
+    {
+      /* for each magic piece */
+      piece const p = e[*bnp];
+      square * const royal = p<=roin ? &rb : &rn;
+      square const royal_save = *royal;
+      square const *bnp1;
+      fromspecificsquare= *bnp;
+      for (bnp1 = boardnum; *bnp1; bnp1++) 
       {
-        /* for each magic piece */
-        piece const p = e[*bnp];
-        square * const royal = p<=roin ? &rb : &rn;
-        square const royal_save = *royal;
-        square const *bnp1;
-        fromspecificsquare= *bnp;
-        for (bnp1 = boardnum; *bnp1; bnp1++) 
+        if (abs(e[*bnp1])>obs 
+            && !TSTFLAG(spec[*bnp1],Magic)
+            && !TSTFLAG(spec[*bnp1],Royal))
         {
-          if (abs(e[*bnp1])>obs 
-              && !TSTFLAG(spec[*bnp1],Magic)
-              && !TSTFLAG(spec[*bnp1],Royal))
+          /* for each non-magic piece 
+             (n.b. check *bnp != *bnp1 redundant above) */
+          *royal = *bnp1;
+
+          if (!attackfunctions[abs(p)])
           {
-            /* for each non-magic piece 
-               (n.b. check *bnp != *bnp1 redundant above) */
-            *royal = *bnp1;
-
-            if (!attackfunctions[abs(p)])
+            /* if single attack at most */
+            if ((*checkfunctions[abs(p)])(*royal,
+                                          p,
+                                          eval_fromspecificsquare))
             {
-              /* if single attack at most */
-              if ((*checkfunctions[abs(p)])(*royal,
-                                            p,
-                                            eval_fromspecificsquare))
-              {
-                numvec attackVec;
-                if (*royal<*bnp)
-                  attackVec = move_vec_code[*bnp-*royal];
-                else
-                  attackVec = -move_vec_code[*royal-*bnp];
-                if (attackVec!=0)
-                  PushMagic(*royal,
-                            DiaRen(spec[*royal]),
-                            DiaRen(spec[fromspecificsquare]),
-                            attackVec);
-              }
+              numvec attackVec;
+              if (*royal<*bnp)
+                attackVec = move_vec_code[*bnp-*royal];
+              else
+                attackVec = -move_vec_code[*royal-*bnp];
+              if (attackVec!=0)
+                PushMagic(*royal,
+                          DiaRen(spec[*royal]),
+                          DiaRen(spec[fromspecificsquare]),
+                          attackVec);
             }
-            else
-              /* call special function to determine all attacks */
-              (*attackfunctions[abs(p)])(fromspecificsquare,*royal);
           }
+          else
+            /* call special function to determine all attacks */
+            (*attackfunctions[abs(p)])(fromspecificsquare,*royal);
         }
-
-        *royal= royal_save;  
       }
 
-    magictop[nbply] = nbmagic;
-  }  
+      *royal= royal_save;  
+    }
+
+  magicstate[nbply].top = nbmagic;
 }
 
 void ChangeMagic(int ply, boolean push)
@@ -1496,18 +1502,18 @@ void ChangeMagic(int ply, boolean push)
   for (bnp= boardnum; *bnp; bnp++) 
   {
     int i;
-    for (i = magictop[ply-1]; i<magictop[ply]; i++)
+    for (i = magicstate[ply].bottom; i<magicstate[ply].top; i++)
       if (magicviews[i].piecesquare==*bnp)  
         break;    /* a magic piece observes a non-magic */
 
-    if (i<magictop[ply])
+    if (i<magicstate[ply].top)
     {
       int j;
       unsigned int nr_changes = 0;
 
       /* now check the rest of the nbply-stack for other attacks of
        * same piece */
-      for (j = i; j<magictop[ply]; j++)
+      for (j = i; j<magicstate[ply].top; j++)
         if (magicviews[j].piecesquare==*bnp)
         {
           int const currid = magicviews[j].pieceid;
@@ -1516,8 +1522,10 @@ void ChangeMagic(int ply, boolean push)
           int k;
           boolean newvec = true;
 
-          /* and check (nbply-1)-stack to see if this is a new attack */
-          for (k = magictop[ply-2]; k<magictop[ply-1]; k++)
+          /* and check parent ply stack to see if this is a new attack */
+          for (k = magicstate[parent_ply[ply]].bottom;
+               k<magicstate[parent_ply[ply]].top;
+               k++)
             if (magicviews[k].pieceid==currid
                 && magicviews[k].magicpieceid==currmagid
                 && magicviews[k].vecnum==currvec)
@@ -1553,7 +1561,7 @@ void ChangeMagic(int ply, boolean push)
 void WriteMagicViews(int ply)
 {
   int i;
-  for (i= magictop[ply - 1]; i < magictop[ply]; i++)
+  for (i= magictop[parent_ply[ply]]; i < magictop[ply]; i++)
   {
     char buf[10];
     WriteSquare(magicviews[i].piecesquare);
