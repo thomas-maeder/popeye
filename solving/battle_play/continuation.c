@@ -41,13 +41,12 @@ slice_index alloc_continuation_writer_slice(stip_length_type length,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean continuation_writer_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_min)
+stip_length_type continuation_writer_defend_in_n(slice_index si,
+                                                 stip_length_type n,
+                                                 stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type nr_moves_needed;
   unsigned int const max_nr_allowed_refutations = 0;
 
   TraceFunctionEntry(__func__);
@@ -56,26 +55,22 @@ boolean continuation_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = defense_can_defend_in_n(next,
-                                            n,n_min,
-                                            max_nr_allowed_refutations);
-  if (nr_moves_needed<=n)
+  result = defense_can_defend_in_n(next,
+                                   n,n_min,
+                                   max_nr_allowed_refutations);
+  if (result<=n)
   {
-    result = false;
-
     write_attack();
 
     {
-      boolean defend_result;
-      if (nr_moves_needed>slack_length_battle+1
+      stip_length_type defend_result;
+      if (result>slack_length_battle+1
           && n_min<=slack_length_battle+1)
         n_min += 2;
       defend_result = defense_defend_in_n(next,n,n_min);
-      assert(!defend_result);
+      assert(defend_result<=n);
     }
   }
-  else
-    result = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -94,10 +89,11 @@ boolean continuation_writer_defend_in_n(slice_index si,
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
  */
-stip_length_type continuation_writer_root_defend(slice_index si,
-                                                 stip_length_type n,
-                                                 stip_length_type n_min,
-                                                 unsigned int max_nr_refutations)
+stip_length_type
+continuation_writer_root_defend(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_min,
+                                unsigned int max_nr_refutations)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;

@@ -175,11 +175,11 @@ stip_length_type defense_move_root_defend(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean defense_move_defend_in_n(slice_index si,
-                                 stip_length_type n,
-                                 stip_length_type n_min)
+stip_length_type defense_move_defend_in_n(slice_index si,
+                                          stip_length_type n,
+                                          stip_length_type n_min)
 {
-  boolean result = false;
+  stip_length_type result = n_min;
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -197,9 +197,13 @@ boolean defense_move_defend_in_n(slice_index si,
 
   while(encore())
   {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && attack_solve_in_n(next,n-1,n_min-1)>=n)
-      result = true;
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      stip_length_type const nr_moves_needed
+          = attack_solve_in_n(next,n-1,n_min-1)+1;
+      if (nr_moves_needed>result)
+        result = nr_moves_needed;
+    }
 
     repcoup();
   }

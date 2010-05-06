@@ -228,11 +228,11 @@ static slice_index alloc_threat_writer_slice(stip_length_type length,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean threat_collector_defend_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min)
+stip_length_type threat_collector_defend_in_n(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -244,7 +244,7 @@ boolean threat_collector_defend_in_n(slice_index si,
   result = defense_defend_in_n(next,n,n_min);
 
   TraceValue("%u\n",nbply);
-  if (threats[nbply]!=table_nil && !result)
+  if (threats[nbply]!=table_nil && result<=n)
     append_to_top_table();
 
   TraceFunctionExit(__func__);
@@ -383,11 +383,11 @@ stip_length_type threat_writer_root_defend(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean threat_writer_defend_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_min)
+stip_length_type threat_writer_defend_in_n(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   ply const threats_ply = nbply+2;
 

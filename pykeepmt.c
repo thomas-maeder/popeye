@@ -296,13 +296,13 @@ stip_length_type keepmating_guard_root_defend(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean keepmating_guard_defend_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min)
+stip_length_type keepmating_guard_defend_in_n(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_min)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
   slice_index const next = slices[si].u.pipe.next;
-  boolean result;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -315,7 +315,7 @@ boolean keepmating_guard_defend_in_n(slice_index si,
   if (is_a_mating_piece_left(mating))
     result = defense_defend_in_n(next,n,n_min);
   else
-    result = true;
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

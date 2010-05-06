@@ -178,11 +178,11 @@ stip_length_type defense_root_defend(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean defense_defend_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_min)
+stip_length_type defense_defend_in_n(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_min)
 {
-  boolean result = true;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -243,6 +243,7 @@ boolean defense_defend_in_n(slice_index si,
 
     default:
       assert(0);
+      result = n+4;
       break;
   }
 
@@ -391,12 +392,12 @@ boolean defense_defend(slice_index si)
     result = false;
 
     {
-      boolean defend_result;
+      stip_length_type defend_result;
       if (nr_moves_needed>slack_length_battle+1
           && min_length<=slack_length_battle+1)
         min_length += 2;
       defend_result = defense_defend_in_n(si,length,min_length);
-      assert(!defend_result);
+      assert(defend_result<=length);
     }
   }
   else

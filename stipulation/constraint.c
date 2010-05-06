@@ -533,11 +533,11 @@ reflex_defender_filter_root_defend(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean reflex_defender_filter_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_min)
+stip_length_type reflex_defender_filter_defend_in_n(slice_index si,
+                                                    stip_length_type n,
+                                                    stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
@@ -550,7 +550,7 @@ boolean reflex_defender_filter_defend_in_n(slice_index si,
   if (n==slack_length_battle+1)
   {
     output_start_defense_level(avoided);
-    result = slice_solve(avoided)<has_solution;
+    result = slice_solve(avoided)==has_solution ? n_min : n+2;
     output_end_defense_level();
   }
   else

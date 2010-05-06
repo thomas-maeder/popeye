@@ -80,9 +80,9 @@ reflex_defender_filter_root_defend(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean reflex_defender_filter_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_min);
+stip_length_type reflex_defender_filter_defend_in_n(slice_index si,
+                                                    stip_length_type n,
+                                                    stip_length_type n_min);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level

@@ -116,11 +116,11 @@ direct_defender_filter_root_defend(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean direct_defender_filter_defend_in_n(slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_min)
+stip_length_type direct_defender_filter_defend_in_n(slice_index si,
+                                                    stip_length_type n,
+                                                    stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
@@ -134,7 +134,7 @@ boolean direct_defender_filter_defend_in_n(slice_index si,
     switch (slice_has_solution(to_goal))
     {
       case has_solution:
-        result = false;
+        result = n_min;
         write_attack();
         {
           has_solution_type const solving_result = slice_solve(to_goal);
@@ -146,11 +146,16 @@ boolean direct_defender_filter_defend_in_n(slice_index si,
         if (n>slack_length_battle)
           result = defense_defend_in_n(next,n,n_min);
         else
-          result = true;
+          result = n+2;
+        break;
+
+      case opponent_self_check:
+        result = n+4;
         break;
 
       default:
-        result = true;
+        assert(0);
+        result = n+4;
         break;
     }
   else

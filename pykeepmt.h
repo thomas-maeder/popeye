@@ -66,9 +66,9 @@ stip_length_type keepmating_guard_direct_solve_in_n(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean keepmating_guard_defend_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min);
+stip_length_type keepmating_guard_defend_in_n(slice_index si,
+                                              stip_length_type n,
+                                              stip_length_type n_min);
 
 /* Determine whether there are refutations after an attempted key move
  * at non-root level

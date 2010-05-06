@@ -293,7 +293,7 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
     while (encore())
     {
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !defense_defend_in_n(next,n-1,n_min-1))
+          && defense_defend_in_n(next,n-1,n_min-1)<=n-1)
       {
         result = true;
         coupfort();

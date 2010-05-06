@@ -333,11 +333,11 @@ selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @return true iff the defender can defend
  */
-boolean selfcheck_guard_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_min)
+stip_length_type selfcheck_guard_defend_in_n(slice_index si,
+                                             stip_length_type n,
+                                             stip_length_type n_min)
 {
-  boolean result;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -347,7 +347,7 @@ boolean selfcheck_guard_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-    result = true;
+    result = n+4;
   else
     result = defense_defend_in_n(next,n,n_min);
 
