@@ -38,12 +38,6 @@ boolean reci_are_threats_refuted(table threats, slice_index si);
  */
 has_solution_type reci_has_solution(slice_index si);
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void reci_solve_threats(table threats, slice_index si);
-
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found

@@ -250,108 +250,6 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve long threats (i.e. threats where the play goes on in the
- * current branch)
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return true iff >=1 threat was found
- */
-static boolean solve_threats_in_n(slice_index si, stip_length_type n)
-{
-  boolean result = false;
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type n_min;
-  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  n_min = battle_branch_calc_n_min(si,n);
-
-  if (n_min==slack_length_battle+1
-      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
-    n_min = slack_length_battle+3;
-
-  if (n_min<=n)
-  {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = si;
-    if (n<=slack_length_battle+1 && imminent_goal!=no_goal)
-    {
-      empile_for_goal = imminent_goal;
-      empile_for_target = slices[si].u.branch.imminent_target;
-      generate_move_reaching_goal(attacker);
-      empile_for_goal = no_goal;
-    }
-    else
-      genmove(attacker);
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && !defense_defend_in_n(next,n-1,n_min-1))
-      {
-        result = true;
-        coupfort();
-        append_to_top_table();
-      }
-
-      repcoup();
-    }
-
-    finply();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type attack_move_solve_threats_in_n(table threats,
-                                                slice_index si,
-                                                stip_length_type n,
-                                                stip_length_type n_min)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.branch.length%2);
-
-  if (n_min<=slack_length_battle)
-    n_min += 2;
-
-  for (result = n_min; result<=n; result += 2)
-    if (solve_threats_in_n(si,result))
-      break;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Find long solutions (i.e. solutions where the play goes on in the
  * current branch)
  * @param si slice index
@@ -436,9 +334,12 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (echecc(nbply,slices[si].starter))
+  if (encore()
+      && echecc(nbply,slices[si].starter))
+  {
     StdString(" +");
-  StdChar(blank);
+    StdChar(blank);
+  }
   
   output_start_continuation_level();
 

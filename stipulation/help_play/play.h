@@ -44,21 +44,6 @@ boolean help_solve(slice_index si);
  */
 stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n);
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void help_solve_threats_in_n(table threats,
-                             slice_index si,
-                             stip_length_type n);
-
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void help_solve_threats(table threats, slice_index si);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

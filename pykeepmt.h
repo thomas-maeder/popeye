@@ -101,23 +101,6 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
                                                   slice_index si,
                                                   stip_length_type n);
 
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-keepmating_guard_direct_solve_threats_in_n(table threats,
-                                           slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_min);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -142,16 +125,6 @@ stip_length_type keepmating_guard_help_solve_in_n(slice_index si,
 stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
                                                          stip_length_type n);
   
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void keepmating_guard_help_solve_threats_in_n(table threats,
-                                              slice_index si,
-                                              stip_length_type n);
-
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -175,14 +148,5 @@ stip_length_type keepmating_guard_series_solve_in_n(slice_index si,
  */
 stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
                                                            stip_length_type n);
-
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void keepmating_guard_series_solve_threats_in_n(table threats,
-                                                slice_index si,
-                                                stip_length_type n);
 
 #endif

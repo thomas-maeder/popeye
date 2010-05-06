@@ -67,26 +67,6 @@ void quodlibet_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void quodlibet_solve_threats(table threats, slice_index si)
-{
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_solve_threats(threats,op1);
-  slice_solve_threats(threats,op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a quodlibet slice at root level
  * @param si slice index
  */

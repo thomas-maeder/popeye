@@ -18,11 +18,11 @@
 #define ENUMERATION_TYPENAME SliceType
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
-    ENUMERATOR(STAttackMove),    /* M-N attacking moves in battle play */       \
-    ENUMERATOR(STDefenseMove),                                 \
-    ENUMERATOR(STHelpMove),      /* M-N moves of help play */         \
+    ENUMERATOR(STAttackMove),    /* M-N attacking moves in battle play */ \
+    ENUMERATOR(STDefenseMove),                                          \
+    ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
-    ENUMERATOR(STSeriesMove),    /* M-N moves of series play */       \
+    ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
@@ -38,14 +38,15 @@
     ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
-    ENUMERATOR(STRefutationsWriter), /* writes refutations */ \
-    ENUMERATOR(STThreatWriter), /* writes threats */ \
+    ENUMERATOR(STRefutationsWriter), /* writes refutations */           \
+    ENUMERATOR(STThreatWriter), /* writes threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
-    ENUMERATOR(STRefutationsCollector), /* collections refutations */ \
-    ENUMERATOR(STVariationWriter), /* writes variations */ \
+    ENUMERATOR(STThreatCollector), /* collects threats */               \
+    ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
+    ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
-    ENUMERATOR(STAttackHashed),    /* hash table support for attack */    \
+    ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpHashed),      /* help play with hash table */      \
@@ -82,11 +83,11 @@
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
-    ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */   \
+    ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */ \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
-    ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */  \
+    ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */ \
     ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
-    ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
+    ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */    \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxSolutionsRootSolvableFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \

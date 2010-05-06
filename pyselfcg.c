@@ -199,47 +199,6 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
   return result;
 }
 
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-selfcheck_guard_direct_solve_threats_in_n(table threats,
-                                          slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_min)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,advers(slices[si].starter)))
-    result = n_min-2;
-  else if (n>slack_length_battle)
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    result = attack_solve_threats_in_n(threats,next,n,n_min);
-  }
-  else
-    result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -560,29 +519,6 @@ stip_length_type selfcheck_guard_help_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void selfcheck_guard_help_solve_threats_in_n(table threats,
-                                             slice_index si,
-                                             stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  if (!echecc(nbply,advers(slices[si].starter)))
-    help_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal
@@ -705,29 +641,6 @@ stip_length_type selfcheck_guard_series_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void selfcheck_guard_series_solve_threats_in_n(table threats,
-                                               slice_index si,
-                                               stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_series);
-
-  if (!echecc(nbply,advers(slices[si].starter)))
-    series_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Insert root slices

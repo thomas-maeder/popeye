@@ -200,61 +200,6 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-reflex_attacker_filter_direct_solve_threats_in_n(table threats,
-                                                 slice_index si,
-                                                 stip_length_type n,
-                                                 stip_length_type n_min)
-{
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  switch (slice_has_solution(avoided))
-  {
-    case has_solution:
-      /* no threats to be found because of reflex obligations;
-       * cf. issue 2843251 */
-      result = n+2;
-      break;
-
-    case has_no_solution:
-    {
-      slice_index const next = slices[si].u.pipe.next;
-      result = attack_solve_threats_in_n(threats,next,n,n_min);
-      break;
-    }
-
-    case opponent_self_check:
-      /* must already have been dealt with in an earlier slice */
-    default:
-      assert(0);
-      result = n+2;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
@@ -897,34 +842,6 @@ stip_length_type reflex_help_filter_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void reflex_help_filter_solve_threats_in_n(table threats,
-                                           slice_index si,
-                                           stip_length_type n)
-{
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(avoided)==has_no_solution)
-    help_solve_threats_in_n(threats,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 /* **************** Implementation of interface series_filter ************
  */
 
@@ -1083,34 +1000,6 @@ stip_length_type reflex_series_filter_has_solution_in_n(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void reflex_series_filter_solve_threats_in_n(table threats,
-                                             slice_index si,
-                                             stip_length_type n)
-{
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_series);
-
-  /* TODO exact - but what does it mean??? */
-  if (slice_has_solution(avoided)==has_no_solution)
-    series_solve_threats_in_n(threats,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* **************** Implementation of interface Slice ***************
  */
@@ -1298,6 +1187,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STRefutationsWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
+  &stip_traverse_structure_children,   /* STThreatCollector */
   &stip_traverse_structure_children,   /* STRefutationsCollector */
   &stip_traverse_structure_children,   /* STVariationWriter */
   &stip_traverse_structure_children,   /* STRefutingVariationWriter */
@@ -1446,6 +1336,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STRefutationsWriter */
   &stip_traverse_structure_children,    /* STThreatWriter */
   &stip_traverse_structure_children,    /* STThreatEnforcer */
+  &stip_traverse_structure_children,    /* STThreatCollector */
   &stip_traverse_structure_children,    /* STRefutationsCollector */
   &stip_traverse_structure_children,    /* STVariationWriter */
   &stip_traverse_structure_children,    /* STRefutingVariationWriter */

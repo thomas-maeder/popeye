@@ -141,40 +141,6 @@ stip_length_type degenerate_tree_direct_solve_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-degenerate_tree_direct_solve_threats_in_n(table threats,
-                                          slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_min)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  result = attack_solve_threats_in_n(threats,next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param len_threat length of threat(s) in table threats
@@ -252,6 +218,7 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,     /* STRefutationsWriter */
   &stip_traverse_structure_children,     /* STThreatWriter */
   &stip_traverse_structure_children,     /* STThreatEnforcer */
+  &stip_traverse_structure_children,     /* STThreatCollector */
   &stip_traverse_structure_children,     /* STRefutationsCollector */
   &stip_traverse_structure_children,     /* STVariationWriter */
   &stip_traverse_structure_children,     /* STRefutingVariationWriter */

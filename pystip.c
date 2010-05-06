@@ -46,11 +46,11 @@
 #define ENUMERATION_TYPENAME SliceType
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
-    ENUMERATOR(STAttackMove),      /* M-N moves of direct play */     \
-    ENUMERATOR(STDefenseMove),                                 \
-    ENUMERATOR(STHelpMove),      /* M-N moves of help play */         \
+    ENUMERATOR(STAttackMove),      /* M-N moves of direct play */       \
+    ENUMERATOR(STDefenseMove),                                          \
+    ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
-    ENUMERATOR(STSeriesMove),    /* M-N moves of series play */       \
+    ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
@@ -69,8 +69,9 @@
     ENUMERATOR(STRefutationsWriter), /* writes refutations */ \
     ENUMERATOR(STThreatWriter), /* deals with threats */ \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
-    ENUMERATOR(STRefutationsCollector), /* collections refutations */ \
-    ENUMERATOR(STVariationWriter), /* writes variations */ \
+    ENUMERATOR(STThreatCollector), /* collects threats */               \
+    ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
+    ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
     ENUMERATOR(STAttackHashed),    /* direct play with hash table */    \
@@ -96,7 +97,7 @@
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STRestartGuardRootDefenderFilter),    /* write move numbers */ \
-    ENUMERATOR(STRestartGuardHelpFilter),    /* write move numbers */ \
+    ENUMERATOR(STRestartGuardHelpFilter),    /* write move numbers */   \
     ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
     ENUMERATOR(STIntelligentHelpFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
@@ -114,7 +115,7 @@
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxTimeDefenderFilter), /* deals with option maxtime */  \
-    ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */  \
+    ENUMERATOR(STMaxTimeHelpFilter), /* deals with option maxtime */    \
     ENUMERATOR(STMaxTimeSeriesFilter), /* deals with option maxtime */  \
     ENUMERATOR(STMaxSolutionsRootSolvableFilter), /* deals with option maxsolutions */  \
     ENUMERATOR(STMaxSolutionsRootDefenderFilter), /* deals with option maxsolutions */  \
@@ -184,6 +185,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STRefutationsWriter */
   slice_structure_branch, /* STThreatWriter */
   slice_structure_branch, /* STThreatEnforcer */
+  slice_structure_branch, /* STThreatCollector */
   slice_structure_branch, /* STRefutationsCollector */
   slice_structure_branch, /* STVariationWriter */
   slice_structure_branch, /* STRefutingVariationWriter */
@@ -333,6 +335,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STRefutationsWriter */
   &mark_reachable_slice, /* STThreatWriter */
   &mark_reachable_slice, /* STThreatEnforcer */
+  &mark_reachable_slice, /* STThreatCollector */
   &mark_reachable_slice, /* STRefutationsCollector */
   &mark_reachable_slice, /* STVariationWriter */
   &mark_reachable_slice, /* STRefutingVariationWriter */
@@ -636,6 +639,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STRefutationsWriter */
   &traverse_and_deallocate,       /* STThreatWriter */
   &traverse_and_deallocate,       /* STThreatEnforcer */
+  &traverse_and_deallocate,       /* STThreatCollector */
   &traverse_and_deallocate,       /* STRefutationsCollector */
   &traverse_and_deallocate,       /* STVariationWriter */
   &traverse_and_deallocate,       /* STRefutingVariationWriter */
@@ -769,6 +773,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STRefutationsWriter */
   &stip_traverse_structure_children,            /* STThreatWriter */
   &stip_traverse_structure_children,            /* STThreatEnforcer */
+  &stip_traverse_structure_children,            /* STThreatCollector */
   &stip_traverse_structure_children,            /* STRefutationsCollector */
   &stip_traverse_structure_children,            /* STVariationWriter */
   &stip_traverse_structure_children,            /* STRefutingVariationWriter */
@@ -874,6 +879,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STRefutationsWriter */
   &threat_writer_resolve_proxies,    /* STThreatWriter */
   &pipe_resolve_proxies,             /* STThreatEnforcer */
+  &pipe_resolve_proxies,             /* STThreatCollector */
   &pipe_resolve_proxies,             /* STRefutationsCollector */
   &pipe_resolve_proxies,             /* STVariationWriter */
   &pipe_resolve_proxies,             /* STRefutingVariationWriter */
@@ -1102,6 +1108,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
+  &stip_traverse_moves_pipe,                 /* STThreatCollector */
   &stip_traverse_moves_pipe,                 /* STRefutationsCollector */
   &stip_traverse_moves_pipe,                 /* STVariationWriter */
   &stip_traverse_moves_pipe,                 /* STRefutingVariationWriter */
@@ -1277,6 +1284,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -1554,6 +1562,7 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STRefutationsWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
+  &stip_traverse_structure_children,   /* STThreatCollector */
   &stip_traverse_structure_children,   /* STRefutationsCollector */
   &stip_traverse_structure_children,   /* STVariationWriter */
   &stip_traverse_structure_children,   /* STRefutingVariationWriter */
@@ -1717,6 +1726,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STRefutationsWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
+  &stip_traverse_structure_children,   /* STThreatCollector */
   &stip_traverse_structure_children,   /* STRefutationsCollector */
   &stip_traverse_structure_children,   /* STVariationWriter */
   &stip_traverse_structure_children,   /* STRefutingVariationWriter */
@@ -1819,6 +1829,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STRefutationsWriter */
   &stip_traverse_structure_children,              /* STThreatWriter */
   &stip_traverse_structure_children,              /* STThreatEnforcer */
+  &stip_traverse_structure_children,              /* STThreatCollector */
   &stip_traverse_structure_children,              /* STRefutationsCollector */
   &stip_traverse_structure_children,              /* STVariationWriter */
   &stip_traverse_structure_children,              /* STRefutingVariationWriter */
@@ -1954,6 +1965,7 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -2063,6 +2075,7 @@ static stip_structure_visitor const setplay_appliers[] =
   &stip_traverse_structure_children,     /* STRefutationsWriter */
   &stip_traverse_structure_children,     /* STThreatWriter */
   &stip_traverse_structure_children,     /* STThreatEnforcer */
+  &stip_traverse_structure_children,     /* STThreatCollector */
   &stip_traverse_structure_children,     /* STRefutationsCollector */
   &stip_traverse_structure_children,     /* STVariationWriter */
   &stip_traverse_structure_children,     /* STRefutingVariationWriter */
@@ -2252,6 +2265,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -2374,6 +2388,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STRefutationsWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
+  &stip_traverse_structure_children,   /* STThreatCollector */
   &stip_traverse_structure_children,   /* STRefutationsCollector */
   &stip_traverse_structure_children,   /* STVariationWriter */
   &stip_traverse_structure_children,   /* STRefutingVariationWriter */
@@ -2491,6 +2506,7 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STRefutationsWriter */
   &make_exact_branch,                /* STThreatWriter */
   &make_exact_branch,                /* STThreatEnforcer */
+  &make_exact_branch,                /* STThreatCollector */
   &make_exact_branch,                /* STRefutationsCollector */
   &make_exact_branch,                /* STVariationWriter */
   &make_exact_branch,                /* STRefutingVariationWriter */
@@ -2589,6 +2605,7 @@ static stip_structure_visitor const starter_detectors[] =
   &pipe_detect_starter,              /* STRefutationsWriter */
   &pipe_detect_starter,              /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -2691,6 +2708,7 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_starter,           /* STRefutationsWriter */
   &pipe_impose_starter,           /* STThreatWriter */
   &pipe_impose_starter,           /* STThreatEnforcer */
+  &pipe_impose_starter,           /* STThreatCollector */
   &pipe_impose_starter,           /* STRefutationsCollector */
   &pipe_impose_starter,           /* STVariationWriter */
   &pipe_impose_starter,           /* STRefutingVariationWriter */
@@ -2985,6 +3003,7 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STRefutationsWriter */
   &traverse_structure_pipe,         /* STThreatWriter */
   &traverse_structure_pipe,         /* STThreatEnforcer */
+  &traverse_structure_pipe,         /* STThreatCollector */
   &traverse_structure_pipe,         /* STRefutationsCollector */
   &traverse_structure_pipe,         /* STVariationWriter */
   &traverse_structure_pipe,         /* STRefutingVariationWriter */

@@ -164,22 +164,6 @@ boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
                                                  slice_index si,
                                                  stip_length_type n);
 
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-selfcheck_guard_direct_solve_threats_in_n(table threats,
-                                          slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_min);
-
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -264,16 +248,6 @@ stip_length_type selfcheck_guard_help_solve_in_n(slice_index si,
 stip_length_type selfcheck_guard_help_has_solution_in_n(slice_index si,
                                                         stip_length_type n);
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void selfcheck_guard_help_solve_threats_in_n(table threats,
-                                             slice_index si,
-                                             stip_length_type n);
-
-
 /* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal
@@ -312,14 +286,6 @@ stip_length_type selfcheck_guard_series_solve_in_n(slice_index si,
 stip_length_type selfcheck_guard_series_has_solution_in_n(slice_index si,
                                                           stip_length_type n);
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void selfcheck_guard_series_solve_threats_in_n(table threats,
-                                               slice_index si,
-                                               stip_length_type n);
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

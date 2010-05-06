@@ -15,6 +15,11 @@
  */
 typedef unsigned int table;
 
+enum
+{
+  table_nil = 0
+};
+
 /* Reset table module (i.e. free all tables)
  */
 void reset_tables(void);

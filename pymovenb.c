@@ -323,6 +323,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_structure_visitor_noop,         /* STRefutationsWriter */
   &stip_structure_visitor_noop,         /* STThreatWriter */
   &stip_structure_visitor_noop,         /* STThreatEnforcer */
+  &stip_structure_visitor_noop,         /* STThreatCollector */
   &stip_structure_visitor_noop,         /* STRefutationsCollector */
   &stip_structure_visitor_noop,         /* STVariationWriter */
   &stip_structure_visitor_noop,         /* STRefutingVariationWriter */

@@ -40,55 +40,6 @@
 #include "pyenum.h"
 
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void slice_solve_threats(table threats, slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STAttackHashed:
-    case STLeafDirect:
-      attack_solve_threats(threats,si);
-      break;
-
-    case STHelpMove:
-    case STHelpHashed:
-      help_solve_threats(threats,si);
-      break;
-
-    case STSeriesMove:
-    case STSeriesHashed:
-      series_solve_threats(threats,si);
-      break;
-    
-    case STQuodlibet:
-      quodlibet_solve_threats(threats,si);
-      break;
-
-    case STReciprocal:
-      reci_solve_threats(threats,si);
-      break;
-
-    case STNot:
-      not_solve_threats(threats,si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

@@ -524,6 +524,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children,           /* STRefutationsWriter */
   &stip_traverse_structure_children,           /* STThreatWriter */
   &stip_traverse_structure_children,           /* STThreatEnforcer */
+  &stip_traverse_structure_children,           /* STThreatCollector */
   &stip_traverse_structure_children,           /* STRefutationsCollector */
   &stip_traverse_structure_children,           /* STVariationWriter */
   &stip_traverse_structure_children,           /* STRefutingVariationWriter */
@@ -2308,6 +2309,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -2422,6 +2424,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -2783,6 +2786,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
+  &stip_traverse_moves_pipe,                 /* STThreatCollector */
   &stip_traverse_moves_pipe,                 /* STRefutationsCollector */
   &stip_traverse_moves_pipe,                 /* STVariationWriter */
   &stip_traverse_moves_pipe,                 /* STRefutingVariationWriter */

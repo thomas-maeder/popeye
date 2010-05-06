@@ -50,6 +50,7 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STRefutationsWriter */
   &stip_traverse_structure_children,    /* STThreatWriter */
   &stip_traverse_structure_children,    /* STThreatEnforcer */
+  &stip_traverse_structure_children,    /* STThreatCollector */
   &stip_traverse_structure_children,    /* STRefutationsCollector */
   &insert_no_short_variations, /* STVariationWriter */
   &stip_traverse_structure_children,    /* STRefutingVariationWriter */

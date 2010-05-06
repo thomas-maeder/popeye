@@ -120,23 +120,6 @@ has_solution_type reci_has_solution(slice_index si)
   return result;
 }
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void reci_solve_threats(table threats, slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slice_solve_threats(threats,slices[si].u.binary.op1);
-  slice_solve_threats(threats,slices[si].u.binary.op2);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve at root level at the end of a reciprocal slice
  * @param si slice index
  * @return true iff >=1 solution was found

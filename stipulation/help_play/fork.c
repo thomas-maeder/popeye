@@ -149,6 +149,11 @@ stip_length_type help_fork_has_solution_in_n(slice_index si,
       case opponent_self_check:
         result = n+4;
         break;
+
+      default:
+        assert(0);
+        result = n+4;
+        break;
     }
   else
     result = help_has_solution_in_n(next,n);
@@ -157,32 +162,4 @@ stip_length_type help_fork_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void help_fork_solve_threats_in_n(table threats,
-                                  slice_index si,
-                                  stip_length_type n)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  if (n==slack_length_help)
-    slice_solve_threats(threats,to_goal);
-  else
-    help_solve_threats_in_n(threats,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

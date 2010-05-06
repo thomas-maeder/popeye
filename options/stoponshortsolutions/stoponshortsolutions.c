@@ -224,6 +224,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STRefutationsWriter */
   &stip_traverse_structure_children,        /* STThreatWriter */
   &stip_traverse_structure_children,        /* STThreatEnforcer */
+  &stip_traverse_structure_children,        /* STThreatCollector */
   &stip_traverse_structure_children,        /* STRefutationsCollector */
   &stip_traverse_structure_children,        /* STVariationWriter */
   &stip_traverse_structure_children,        /* STRefutingVariationWriter */
@@ -346,6 +347,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */

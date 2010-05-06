@@ -244,47 +244,6 @@ boolean keepmating_guard_are_threats_refuted_in_n(table threats,
   return result;
 }
 
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-keepmating_guard_direct_solve_threats_in_n(table threats,
-                                           slice_index si,
-                                           stip_length_type n,
-                                           stip_length_type n_min)
-{
-  Side const mating = slices[si].u.keepmating_guard.mating;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  if (is_a_mating_piece_left(mating))
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    result = attack_solve_threats_in_n(threats,next,n,n_min);
-  }
-  else
-    result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
 /* **************** Implementation of interface DirectDefender **********
  */
 
@@ -476,32 +435,6 @@ stip_length_type keepmating_guard_help_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void keepmating_guard_help_solve_threats_in_n(table threats,
-                                              slice_index si,
-                                              stip_length_type n)
-{
-  Side const mating = slices[si].u.keepmating_guard.mating;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  if (is_a_mating_piece_left(mating))
-    help_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 /* **************** Implementation of interface Series ***************
  */
 
@@ -570,35 +503,6 @@ stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void keepmating_guard_series_solve_threats_in_n(table threats,
-                                                slice_index si,
-                                                stip_length_type n)
-{
-  Side const mating = slices[si].u.keepmating_guard.mating;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_series);
-
-  if (is_a_mating_piece_left(mating))
-    series_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
-/* **************** Implementation of interface Slice ***************
- */
 
 
 /* **************** Stipulation instrumentation ***************
@@ -910,6 +814,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,       /* STRefutationsWriter */
   &stip_traverse_structure_children,       /* STThreatWriter */
   &stip_traverse_structure_children,       /* STThreatEnforcer */
+  &stip_traverse_structure_children,       /* STThreatCollector */
   &stip_traverse_structure_children,       /* STRefutationsCollector */
   &stip_traverse_structure_children,       /* STVariationWriter */
   &stip_traverse_structure_children,       /* STRefutingVariationWriter */

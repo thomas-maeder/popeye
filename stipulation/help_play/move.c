@@ -178,35 +178,6 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void help_move_solve_threats_in_n(table threats,
-                                  slice_index si,
-                                  stip_length_type n)
-{
-  Side const side_at_move = slices[si].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  move_generation_mode= move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
-  genmove(side_at_move);
-  foreach_move_solve(si,n);
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

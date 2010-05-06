@@ -34,16 +34,9 @@ slice_index active_slice[maxply];
 
 static stip_length_type move_depth;
 
-typedef enum
-{
-  unknown_attack,
-  continuation_attack,
-  threat_attack
-} output_attack_type;
+static boolean is_threat[maxply];
 
-static output_attack_type output_attack_types[maxply];
-
-static boolean reflex[maxply];
+static boolean is_reflex[maxply];
 
 static unsigned int nr_continuations_written[maxply];
 
@@ -148,6 +141,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -271,7 +265,7 @@ void output_start_unsolvability_mode(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  reflex[nbply+1] = true;
+  is_reflex[nbply+1] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -284,7 +278,7 @@ void output_end_unsolvability_mode(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  reflex[nbply+1] = false;
+  is_reflex[nbply+1] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -368,18 +362,9 @@ void output_start_threat_level(void)
        */
       Message(NewLine);
 
-    ++move_depth;
-    TraceValue("%u\n",move_depth);
-
-    nr_continuations_written[move_depth] = 0;
-    nr_continuations_written[move_depth+1] = 0;
-
     /* nbply will be increased by genmove() in a moment */
-    output_attack_types[nbply+1] = threat_attack;
+    is_threat[nbply+1] = true;
   }
-
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",output_attack_types[nbply+1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -403,15 +388,8 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
       StdChar(blank);
       Message(Zugzwang);
     }
-  
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",output_attack_types[nbply+1]);
 
-    assert(output_attack_types[nbply+1]==threat_attack);
-    output_attack_types[nbply+1] = unknown_attack;
-
-    --move_depth;
-    TraceValue("%u\n",move_depth);
+    is_threat[nbply+1] = false;
   }
 
   TraceFunctionExit(__func__);
@@ -433,12 +411,6 @@ void output_start_continuation_level(void)
 
     nr_continuations_written[move_depth] = 0;
     nr_continuations_written[move_depth+1] = 0;
-
-    /* nbply will be increased by genmove() in a moment */
-    output_attack_types[nbply+1] = continuation_attack;
-
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",output_attack_types[nbply+1]);
   }
 
   TraceFunctionExit(__func__);
@@ -457,11 +429,6 @@ void output_end_continuation_level(void)
   {
     --move_depth;
     TraceValue("%u",move_depth);
-
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",output_attack_types[nbply+1]);
-
-    output_attack_types[nbply+1] = unknown_attack;
   }
 
   TraceFunctionExit(__func__);
@@ -634,7 +601,7 @@ void write_root_attack_decoration(ply current_ply, attack_type type)
 
   if (current_mode==output_mode_tree
       && move_depth==1
-      && !reflex[current_ply])
+      && !is_reflex[current_ply])
     pending_decoration = type;
 
   TraceFunctionExit(__func__);
@@ -650,8 +617,7 @@ void write_attack(void)
 
   if (current_mode==output_mode_tree)
   {
-    if (output_attack_types[nbply]==threat_attack
-        && nr_continuations_written[move_depth]==0)
+    if (is_threat[nbply] && nr_continuations_written[move_depth]==0)
     {
       write_pending_decoration();
       StdChar(blank);
@@ -741,7 +707,7 @@ void write_end_of_solution(slice_index si)
   {
     write_pending_decoration();
 
-    if (!reflex[nbply])
+    if (!is_reflex[nbply])
       Message(NewLine);
   }
 
@@ -957,7 +923,7 @@ static void editcoup(ply ply_id, coup *mov)
 
         if (mov->push_top - mov->push_bottom > 0) 
         {
-          change_rec * rec;
+          change_rec const * rec;
           StdString(" [");
           for (rec= mov->push_bottom; rec - mov->push_top < 0; rec++)
           {
@@ -972,16 +938,18 @@ static void editcoup(ply ply_id, coup *mov)
 
       } else {
 
-        if (colour_change_sp[ply_id] - colour_change_sp[ply_id - 1] > 0) 
+        if (colour_change_sp[ply_id] > colour_change_sp[parent_ply[ply_id]]) 
         {
-          change_rec * rec;
+          change_rec const * rec;
           StdString(" [");
-          for (rec= colour_change_sp[ply_id - 1]; rec - colour_change_sp[ply_id] < 0; rec++)
+          for (rec = colour_change_sp[parent_ply[ply_id]];
+               rec<colour_change_sp[ply_id];
+               rec++)
           {
             StdChar(rec->pc > vide ? WhiteChar : BlackChar);
             WritePiece(rec->pc);
             WriteSquare(rec->square);
-            if (colour_change_sp[ply_id] - rec > 1)
+            if (colour_change_sp[ply_id]-rec > 1)
               StdString(", ");
           } 
           StdChar(']');

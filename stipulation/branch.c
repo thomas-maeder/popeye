@@ -129,6 +129,7 @@ static stip_structure_visitor const slice_deallocators[] =
   &traverse_and_deallocate,             /* STRefutationsWriter */
   &traverse_and_deallocate,             /* STThreatWriter */
   &traverse_and_deallocate,             /* STThreatEnforcer */
+  &traverse_and_deallocate,             /* STThreatCollector */
   &traverse_and_deallocate,             /* STRefutationsCollector */
   &traverse_and_deallocate,             /* STVariationWriter */
   &traverse_and_deallocate,             /* STRefutingVariationWriter */

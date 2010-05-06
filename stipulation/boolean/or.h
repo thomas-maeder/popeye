@@ -22,12 +22,6 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2);
  */
 void quodlibet_insert_root(slice_index si, stip_structure_traversal *st);
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void quodlibet_solve_threats(table threats, slice_index si);
-
 /* Determine whether the defense just played defends against the threats.
  * @param threats table containing the threats
  * @param si slice index

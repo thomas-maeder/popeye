@@ -48,6 +48,29 @@ static slice_index alloc_threat_enforcer_slice(stip_length_type length,
   return result;
 }
 
+/* Allocate a STThreatCollector slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @return index of allocated slice
+ */
+static slice_index alloc_threat_collector_slice(stip_length_type length,
+                                                stip_length_type min_length)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch(STThreatCollector,length,min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether attacker can end in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -70,41 +93,6 @@ stip_length_type threat_enforcer_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   result = attack_has_solution_in_n(next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type threat_enforcer_solve_threats_in_n(table threats,
-                                                    slice_index si,
-                                                    stip_length_type n,
-                                                    stip_length_type n_min)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",threats);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  result = attack_solve_threats_in_n(threats,next,n,n_min);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -159,13 +147,16 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const len_threat = threat_lengths[nbply];
+  ply const threats_ply = nbply+1;
+  stip_length_type const len_threat = threat_lengths[threats_ply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",len_threat);
 
   if (len_threat<=slack_length_battle)
     /* that attack has something stronger than threats (typically, it
@@ -175,10 +166,19 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
   else if (len_threat<=n)
   {
     /* there is a threat - don't report variations shorter than it */
+    table const threats_table = threats[threats_ply];
+    TraceValue("%u\n",threats_ply);
     if (has_short_continuation(si,len_threat,n_min))
       result = n_min-2;
-    else if (attack_are_threats_refuted_in_n(threats[nbply],len_threat,next,n))
+    else if (attack_are_threats_refuted_in_n(threats_table,len_threat,next,n))
+    {
+      /* prevent threat_collector_defend_in_n() from adding the
+       * reported continuations to the threats table
+       */
+      threats[threats_ply] = table_nil;
       result = attack_solve_in_n(next,n,n_min);
+      threats[threats_ply] = threats_table;
+    }
     else
       result = n_min-2;
   }
@@ -219,6 +219,75 @@ static slice_index alloc_threat_writer_slice(stip_length_type length,
   return result;
 }
 
+/* Try to defend after an attempted key move at non-root level
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @return true iff the defender can defend
+ */
+boolean threat_collector_defend_in_n(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_min)
+{
+  boolean result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParamListEnd();
+
+  result = defense_defend_in_n(next,n,n_min);
+
+  TraceValue("%u\n",nbply);
+  if (threats[nbply]!=table_nil && !result)
+    append_to_top_table();
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there are refutations after an attempted key move
+ * at non-root level
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <=n solved  - return value is maximum number of moves
+                         (incl. defense) needed
+           n+2 refuted - <=max_nr_refutations refutations found
+           n+4 refuted - >max_nr_refutations refutations found
+ */
+stip_length_type
+threat_collector_can_defend_in_n(slice_index si,
+                                 stip_length_type n,
+                                 stip_length_type n_min,
+                                 unsigned int max_nr_refutations)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",max_nr_refutations);
+  TraceFunctionParamListEnd();
+
+  result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+
+  TraceFunctionExit(__func__);
+  TraceValue("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve threats after an attacker's move
  * @param threats table where to add threats
  * @param si slice index
@@ -240,16 +309,21 @@ static stip_length_type solve_threats(table threats,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  nextply(nbply);
+  active_slice[nbply] = si;
+
   output_start_threat_level();
-  result = attack_solve_threats_in_n(threats,attack_side,n,n_min);
+  result = attack_solve_in_n(attack_side,n,n_min);
 
   {
-    /* We don't write "Zugzwang" if the last attacking move of a full
-     * length variation didn't deliver check
+    /* We don't signal "Zugzwang" after the last attacking move of a
+     * self play variation
      */
     boolean const write_zugzwang = n>slack_length_battle && result==n+2;
     output_end_threat_level(si,write_zugzwang);
   }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -275,6 +349,7 @@ stip_length_type threat_writer_root_defend(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  ply const threats_ply = nbply+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -283,13 +358,14 @@ stip_length_type threat_writer_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  threats[nbply+1] = allocate_table();
-  threat_lengths[nbply+1] = solve_threats(threats[nbply+1],si,n-1);
+  TraceValue("%u\n",threats_ply);
+  threats[threats_ply] = allocate_table();
+  threat_lengths[threats_ply] = solve_threats(threats[threats_ply],si,n-1);
 
   result = defense_root_defend(next,n,n_min,max_nr_refutations);
 
-  assert(get_top_table()==threats[nbply+1]);
-  threat_lengths[nbply+1] = no_threats_found;
+  assert(get_top_table()==threats[threats_ply]);
+  threat_lengths[threats_ply] = no_threats_found;
   free_table();
 
   TraceFunctionExit(__func__);
@@ -313,6 +389,7 @@ boolean threat_writer_defend_in_n(slice_index si,
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
+  ply const threats_ply = nbply+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -320,14 +397,16 @@ boolean threat_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  threats[nbply+1] = allocate_table();
-  threat_lengths[nbply+1] = solve_threats(threats[nbply+1],si,n-1);
+  TraceValue("%u\n",threats_ply);
+  threats[threats_ply] = allocate_table();
+  threat_lengths[threats_ply] = solve_threats(threats[nbply+1],si,n-1);
 
   result = defense_defend_in_n(next,n,n_min);
 
-  assert(get_top_table()==threats[nbply+1]);
-  threat_lengths[nbply+1] = no_threats_found;
+  assert(get_top_table()==threats[threats_ply]);
   free_table();
+  threat_lengths[threats_ply] = no_threats_found;
+  threats[threats_ply] = table_nil;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -461,6 +540,26 @@ static void prepend_threat_enforcer(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Append a threat collector slice to an attack move slice
+ * @param si identifies slice around which to insert threat handlers
+ * @param st address of structure defining traversal
+ */
+static void append_threat_collector(slice_index si, stip_structure_traversal *st)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(si,alloc_threat_collector_slice(length,min_length));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Avoid the parrying move when inserting threat handlers
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
@@ -483,7 +582,7 @@ static void threat_writer_avoid_parrying(slice_index si,
 static stip_structure_visitor const threat_handler_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
-  &stip_traverse_structure_children, /* STAttackMove */
+  &append_threat_collector,          /* STAttackMove */
   &prepend_threat_writer,            /* STDefenseMove */
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpFork */
@@ -506,6 +605,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &prepend_threat_enforcer,          /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -579,7 +679,10 @@ void stip_insert_threat_handlers(void)
   stip_traverse_structure(root_slice,&st);
 
   for (i = 0; i<=maxply; ++i)
+  {
     threat_lengths[i] = no_threats_found;
+    threats[i] = table_nil;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

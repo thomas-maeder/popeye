@@ -201,6 +201,10 @@ boolean defense_defend_in_n(slice_index si,
       result = threat_writer_defend_in_n(si,n,n_min);
       break;
 
+    case STThreatCollector:
+      result = threat_collector_defend_in_n(si,n,n_min);
+      break;
+
     case STDefenseMove:
       result = defense_move_defend_in_n(si,n,n_min);
       break;
@@ -297,6 +301,11 @@ stip_length_type defense_can_defend_in_n(slice_index si,
 
     case STThreatWriter:
       result = threat_writer_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      break;
+
+
+    case STThreatCollector:
+      result = threat_collector_can_defend_in_n(si,n,n_min,max_nr_refutations);
       break;
 
     case STDefenseMove:

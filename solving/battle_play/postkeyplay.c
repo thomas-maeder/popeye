@@ -1,6 +1,7 @@
 #include "stipulation/battle_play/postkeyplay.h"
 #include "pyoutput.h"
 #include "pypipe.h"
+#include "pydata.h"
 #include "stipulation/branch.h"
 #include "trace.h"
 
@@ -178,42 +179,6 @@ refuting_variation_writer_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type
-refuting_variation_writer_solve_threats_in_n(table threats,
-                                             slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_min)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",threats);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  result = attack_solve_threats_in_n(threats,next,n,n_min);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -237,8 +202,16 @@ stip_length_type refuting_variation_writer_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   result = attack_solve_in_n(next,n,n_min);
+
   if (result>n)
-    write_refutation_mark();
+  {
+    if (encore())
+      write_refutation_mark();
+    else
+    {
+      /* no defense was played - we have been solving threats */
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -389,6 +362,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &prepend_refutes_writer,           /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
@@ -508,6 +482,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STRefutationsWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
+  &stip_traverse_structure_children, /* STThreatCollector */
   &stip_traverse_structure_children, /* STRefutationsCollector */
   &stip_traverse_structure_children, /* STVariationWriter */
   &stip_traverse_structure_children, /* STRefutingVariationWriter */

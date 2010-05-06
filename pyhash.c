@@ -290,6 +290,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STRefutationsWriter */
   &slice_property_offset_shifter,    /* STThreatWriter */
   &slice_property_offset_shifter,    /* STThreatEnforcer */
+  &slice_property_offset_shifter,    /* STThreatCollector */
   &slice_property_offset_shifter,    /* STRefutationsCollector */
   &slice_property_offset_shifter,    /* STVariationWriter */
   &slice_property_offset_shifter,    /* STRefutingVariationWriter */
@@ -649,6 +650,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STRefutationsWriter */
   &stip_traverse_structure_children,     /* STThreatWriter */
   &stip_traverse_structure_children,     /* STThreatEnforcer */
+  &stip_traverse_structure_children,     /* STThreatCollector */
   &stip_traverse_structure_children,     /* STRefutationsCollector */
   &stip_traverse_structure_children,     /* STVariationWriter */
   &stip_traverse_structure_children,     /* STRefutingVariationWriter */
@@ -2310,6 +2312,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
+  &stip_traverse_moves_pipe,                 /* STThreatCollector */
   &stip_traverse_moves_pipe,                 /* STRefutationsCollector */
   &stip_traverse_moves_pipe,                 /* STVariationWriter */
   &stip_traverse_moves_pipe,                 /* STRefutingVariationWriter */
@@ -2547,49 +2550,6 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   }
   else
     result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine and write the threats after the move that has just been
- * played.
- * @param threats table where to add threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return length of threats
- *         (n-slack_length_battle)%2 if the attacker has something
- *           stronger than threats (i.e. has delivered check)
- *         n+2 if there is no threat
- */
-stip_length_type attack_hashed_solve_threats_in_n(table threats,
-                                                  slice_index si,
-                                                  stip_length_type n,
-                                                  stip_length_type n_min)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.branch.length%2);
-
-  result = adjust_n_min(si,n,n_min);
-  if (result<=n)
-  {
-    result = attack_solve_threats_in_n(threats,next,n,n_min);
-    if (table_length(threats)>0)
-      addtohash_dir_succ(si,result);
-    else
-      addtohash_dir_nosucc(si,n);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2920,34 +2880,6 @@ stip_length_type hashed_help_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void hashed_help_solve_threats_in_n(table threats,
-                                    slice_index si,
-                                    stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_help);
-
-  if (!inhash_help(si,n))
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    help_solve_threats_in_n(threats,next,n);
-    if (table_length(threats)==0)
-      addtohash_help(si,n);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Look up whether the current position in the hash table to find out
  * if it has a solution in a number of half-moves
  * @param si index slice where current position was reached
@@ -3116,34 +3048,6 @@ stip_length_type hashed_series_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void hashed_series_solve_threats_in_n(table threats,
-                                      slice_index si,
-                                      stip_length_type n)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>slack_length_series);
-
-  if (!inhash_series(si,n))
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    series_solve_threats_in_n(threats,next,n);
-    if (table_length(threats)==0)
-      addtohash_series(si,n);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* assert()s below this line must remain active even in "productive"

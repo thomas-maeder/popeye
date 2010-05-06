@@ -286,7 +286,7 @@ pyoutput.h:
 
 trace.h:
 stipulation/battle_play/variation$(OBJ_SUFFIX): stipulation/battle_play/variation.c \
-  stipulation/battle_play/variation.h pyoutput.h pypipe.h \
+  stipulation/battle_play/variation.h pyoutput.h pypipe.h pydata.h \
   stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
 
 stipulation/battle_play/variation.h:
@@ -295,6 +295,8 @@ pyoutput.h:
 
 pypipe.h:
 
+pydata.h:
+
 stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
@@ -302,7 +304,7 @@ stipulation/battle_play/attack_play.h:
 trace.h:
 stipulation/battle_play/postkeyplay$(OBJ_SUFFIX):  \
  stipulation/battle_play/postkeyplay.c \
-  stipulation/battle_play/postkeyplay.h pyoutput.h pypipe.h \
+  stipulation/battle_play/postkeyplay.h pyoutput.h pypipe.h pydata.h \
   stipulation/branch.h trace.h
 
 stipulation/battle_play/postkeyplay.h:
@@ -310,6 +312,8 @@ stipulation/battle_play/postkeyplay.h:
 pyoutput.h:
 
 pypipe.h:
+
+pydata.h:
 
 stipulation/branch.h:
 

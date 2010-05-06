@@ -55,13 +55,4 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n);
 stip_length_type series_fork_has_solution_in_n(slice_index si,
                                                stip_length_type n);
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void series_fork_solve_threats_in_n(table threats,
-                                    slice_index si,
-                                    stip_length_type n);
-
 #endif

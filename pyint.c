@@ -2762,6 +2762,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
+  &stip_traverse_moves_pipe,                 /* STThreatCollector */
   &stip_traverse_moves_pipe,                 /* STRefutationsCollector */
   &stip_traverse_moves_pipe,                 /* STVariationWriter */
   &stip_traverse_moves_pipe,                 /* STRefutingVariationWriter */
@@ -2976,35 +2977,6 @@ goalreachable_guard_help_has_solution_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void goalreachable_guard_help_solve_threats_in_n(table threats,
-                                                 slice_index si,
-                                                 stip_length_type n)
-{
-  Side const just_moved = advers(slices[si].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_help);
-
-  --MovesLeft[just_moved];
-
-  if (isGoalReachable())
-    help_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
-
-  ++MovesLeft[just_moved];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -3084,35 +3056,6 @@ goalreachable_guard_series_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write threats
- * @param threats table where to add first moves
- * @param si slice index of slice being solved
- * @param n exact number of half moves until end state has to be reached
- */
-void goalreachable_guard_series_solve_threats_in_n(table threats,
-                                                   slice_index si,
-                                                   stip_length_type n)
-{
-  Side const just_moved = advers(slices[si].starter);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n>=slack_length_series);
-
-  --MovesLeft[just_moved];
-
-  if (isGoalReachable())
-    series_solve_threats_in_n(threats,slices[si].u.pipe.next,n);
-
-  ++MovesLeft[just_moved];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 static
@@ -3264,6 +3207,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STRefutationsWriter */
   &stip_traverse_structure_children,         /* STThreatWriter */
   &stip_traverse_structure_children,         /* STThreatEnforcer */
+  &stip_traverse_structure_children,         /* STThreatCollector */
   &stip_traverse_structure_children,         /* STRefutationsCollector */
   &stip_traverse_structure_children,         /* STVariationWriter */
   &stip_traverse_structure_children,         /* STRefutingVariationWriter */
@@ -3593,6 +3537,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,               /* STRefutationsWriter */
   &intelligent_mode_support_none,               /* STThreatWriter */
   &intelligent_mode_support_none,               /* STThreatEnforcer */
+  &intelligent_mode_support_none,               /* STThreatCollector */
   &intelligent_mode_support_none,               /* STRefutationsCollector */
   &intelligent_mode_support_none,               /* STVariationWriter */
   &intelligent_mode_support_none,               /* STRefutingVariationWriter */
