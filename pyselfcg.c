@@ -311,6 +311,7 @@ void
 selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
                                                            stip_structure_traversal *st)
 {
+  slice_index *postkey_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -318,7 +319,14 @@ selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(next,st);
-  dealloc_slice(si);
+
+  {
+    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
+    pipe_link(guard,*postkey_slice);
+    *postkey_slice = guard;
+
+    dealloc_slice(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

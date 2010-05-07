@@ -1893,10 +1893,8 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
 static void install_postkey_slice(slice_index postkey_slice)
 {
   slice_index const inverter = alloc_move_inverter_root_solvable_filter();
-  slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
   assert(slices[root_slice].type==STProxy);
-  pipe_link(inverter,guard);
-  pipe_link(guard,postkey_slice);
+  pipe_link(inverter,postkey_slice);
   pipe_link(root_slice,inverter);
 }
 
