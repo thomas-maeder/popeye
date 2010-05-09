@@ -139,6 +139,7 @@ boolean series_root_root_solve(slice_index root)
   /* Do *not* delegate to slice_solve() here:
    * If slice_solve() has found solutions of a certain length, it won't
    * look for longer solutions.
+   * Here, on the other hand, we want to find solutions of any length.
    */
   while (len<=full_length)
   {
