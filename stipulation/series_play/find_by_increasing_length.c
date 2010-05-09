@@ -136,8 +136,8 @@ boolean series_root_root_solve(slice_index root)
 
   assert(slices[root].u.shortcut.min_length>=slack_length_series);
 
-  /* Do *not* delegate to slice_solve() here:
-   * If slice_solve() has found solutions of a certain length, it won't
+  /* Do *not* delegate to series_solve() here:
+   * If series_solve() has found solutions of a certain length, it won't
    * look for longer solutions.
    * Here, on the other hand, we want to find solutions of any length.
    */
