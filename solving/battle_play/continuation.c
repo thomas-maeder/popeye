@@ -60,7 +60,7 @@ stip_length_type continuation_writer_defend_in_n(slice_index si,
                                    max_nr_allowed_refutations);
   if (result<=n)
   {
-    write_attack();
+    write_battle_move();
 
     {
       stip_length_type defend_result;
@@ -109,8 +109,8 @@ continuation_writer_root_defend(slice_index si,
 
   if (result<=n+2)
   {
-    write_attack();
-    write_root_attack_decoration(nbply, result<=n ? attack_key : attack_try);
+    write_battle_move();
+    write_battle_move_decoration(nbply, result<=n ? attack_key : attack_try);
 
     /* suppress short ends in self stipulations if there are longer
      * variations

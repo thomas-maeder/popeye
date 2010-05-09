@@ -152,7 +152,7 @@ has_solution_type leaf_h_solve(slice_index leaf)
           && leaf_is_goal_reached(side_at_move,leaf)==goal_reached)
       {
         result = has_solution;
-        write_defense();
+        write_battle_move();
         write_goal(slices[leaf].u.leaf.goal);
       }
 

@@ -73,21 +73,17 @@ void output_end_defense_level(void);
  */
 void init_output(slice_index si);
 
-/* Write a move of the attacking side in direct play
+/* Write a move in battle play
  */
-void write_attack(void);
+void write_battle_move(void);
 
 /* Write the decoration (! or ?) for the first move if appropriate
  * @param current_ply identifies ply in which move was played
  * @param type identifies decoration to be added if move_depth==1
  */
-void write_root_attack_decoration(ply current_ply, attack_type type);
+void write_battle_move_decoration(ply current_ply, attack_type type);
 
 void write_goal(Goal goal);
-
-/* Write a defender's move that does not reach a goal
- */
-void write_defense(void);
 
 /* Mark the defense about to be written as refutation
  */

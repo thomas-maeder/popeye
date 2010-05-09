@@ -116,7 +116,7 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (encore())
-    write_defense();
+    write_battle_move();
   else
   {
     /* no defense was played - we are solving threats */
@@ -153,7 +153,7 @@ has_solution_type variation_writer_solve(slice_index si)
   else if (nr_moves<=length)
   {
     result = has_solution;
-    write_defense();
+    write_battle_move();
     {
       stip_length_type const
           solve_result = attack_solve_in_n(next,length,min_length);

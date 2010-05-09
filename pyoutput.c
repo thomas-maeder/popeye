@@ -29,16 +29,15 @@
 static output_mode current_mode = output_mode_none;
 
 static unsigned int nr_color_inversions_in_ply[maxply];
+static unsigned int nr_color_inversions;
 
 slice_index active_slice[maxply];
-
-static stip_length_type move_depth;
 
 static boolean is_threat[maxply];
 
 static boolean is_reflex[maxply];
 
-static unsigned int nr_continuations_written[maxply];
+static unsigned int nr_moves_written[maxply];
 
 static attack_type pending_decoration = attack_regular;
 
@@ -216,11 +215,7 @@ void init_output(slice_index si)
   TraceEnumerator(output_mode,current_mode,"\n");
   
   if (current_mode==output_mode_tree)
-  {
-    move_depth = nr_color_inversions_in_ply[nbply+1];
-    TraceValue("%u\n",move_depth);
-    nr_continuations_written[move_depth] = 0;
-  }
+    nr_moves_written[nbply] = 0;
   else
     current_mode = output_mode_line;
 
@@ -292,16 +287,8 @@ void output_start_move_inverted_level(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree)
-  {
-    ++move_depth;
-    TraceValue("%u\n",move_depth);
-    nr_continuations_written[move_depth+1] = 1; /* prevent initial newline */
-  }
-
+  ++nr_color_inversions;
   ++nr_color_inversions_in_ply[nbply+1];
-
-  TraceValue("%u\n",nbply+1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -318,14 +305,8 @@ void output_end_move_inverted_level(void)
   se_end_set_play();   
 #endif
 
-  if (current_mode==output_mode_tree)
-  {
-    --move_depth;
-    TraceValue("%u\n",move_depth);
-  }
-
   --nr_color_inversions_in_ply[nbply+1];
-
+  --nr_color_inversions;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -354,9 +335,9 @@ void output_start_threat_level(void)
 
   if (current_mode==output_mode_tree)
   {
-    TraceValue("%u",move_depth);
-    TraceValue("%u\n",nr_continuations_written[move_depth]);
-    if (nr_continuations_written[move_depth]==0)
+    TraceValue("%u",nbply);
+    TraceValue("%u\n",nr_moves_written[nbply]);
+    if (nr_moves_written[nbply-1]==0)
       /* option postkey is set - write "threat:" or "zugzwang" on a
        * new line
        */
@@ -379,9 +360,6 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
 
   if (current_mode==output_mode_tree)
   {
-    if (nr_continuations_written[move_depth]==0)
-      ++nr_continuations_written[move_depth];
-
     if (is_zugzwang)
     {
       write_pending_decoration();
@@ -406,10 +384,7 @@ void output_start_continuation_level(slice_index si)
 
   if (current_mode==output_mode_tree)
   {
-    ++move_depth;
-    TraceValue("%u\n",move_depth);
-
-    if (move_depth>1
+    if (nbply>1
         && encore()
         && echecc(nbply,slices[si].starter))
     {
@@ -417,8 +392,8 @@ void output_start_continuation_level(slice_index si)
       StdChar(blank);
     }
 
-    nr_continuations_written[move_depth] = 0;
-    nr_continuations_written[move_depth+1] = 0;
+    /* nbply will be increased by genmove() in a moment */
+    nr_moves_written[nbply+1] = 0;
   }
 
   TraceFunctionExit(__func__);
@@ -432,12 +407,6 @@ void output_end_continuation_level(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree)
-  {
-    --move_depth;
-    TraceValue("%u",move_depth);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -598,9 +567,9 @@ static void linesolution(void)
 
 /* Write the decoration (! or ?) for the first move if appropriate
  * @param current_ply identifies ply in which move was played
- * @param type identifies decoration to be added if move_depth==1
+ * @param type identifies decoration to be added
  */
-void write_root_attack_decoration(ply current_ply, attack_type type)
+void write_battle_move_decoration(ply current_ply, attack_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",current_ply);
@@ -608,7 +577,7 @@ void write_root_attack_decoration(ply current_ply, attack_type type)
   TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree
-      && move_depth==1
+      && nbply==2
       && !is_reflex[current_ply])
     pending_decoration = type;
 
@@ -616,34 +585,38 @@ void write_root_attack_decoration(ply current_ply, attack_type type)
   TraceFunctionResultEnd();
 }
 
-/* Write a move of the attacking side in direct play
+/* Write a move in battle play
  */
-void write_attack(void)
+void write_battle_move(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (current_mode==output_mode_tree)
   {
-    if (is_threat[nbply] && nr_continuations_written[move_depth]==0)
+    unsigned int const move_depth = nbply+nr_color_inversions;
+
+    write_pending_decoration();
+
+    if (is_threat[nbply] && nr_moves_written[nbply]==0)
     {
-      write_pending_decoration();
       StdChar(blank);
       Message(Threat);
     }
 
     Message(NewLine);
 
-    ++nr_continuations_written[move_depth];
-
-    if (move_depth>1)
+    sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,blank,move_depth/2);
+    StdString(GlobalStr);
+    if (move_depth%2==1)
     {
-      sprintf(GlobalStr,"%*c",(int)(8*move_depth-8),blank);
+      sprintf(GlobalStr,"..");
       StdString(GlobalStr);
     }
-    sprintf(GlobalStr,"%3u.",move_depth);
-    StdString(GlobalStr);
+
     ecritcoup(nbply);
+
+    ++nr_moves_written[nbply];
   }
 
   TraceFunctionExit(__func__);
@@ -667,39 +640,14 @@ void write_goal(Goal goal)
   TraceFunctionResultEnd();
 }
 
-/* Write a defender's move that does not reach a goal
- */
-void write_defense(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree)
-  {
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",move_depth);
-
-    write_pending_decoration();
-
-    Message(NewLine);
-
-    sprintf(GlobalStr,"%*c",(int)(8*move_depth-4),blank);
-    StdString(GlobalStr);
-    sprintf(GlobalStr,"%3u...",move_depth);
-    StdString(GlobalStr);
-    ecritcoup(nbply);
- }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Mark the defense about to be written as refutation
  */
 void write_refutation_mark(void)
 {
+  unsigned int const move_depth = nbply+nr_color_inversions;
+
   Message(NewLine);
-  sprintf(GlobalStr,"%*c",(int)(8*move_depth),blank);
+  sprintf(GlobalStr,"%*c",4*move_depth-4,blank);
   StdString(GlobalStr);
   Message(Refutation);
 }
