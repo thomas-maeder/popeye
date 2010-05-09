@@ -26,10 +26,4 @@ slice_index alloc_series_root_slice(stip_length_type length,
  */
 boolean series_root_root_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type series_root_has_solution(slice_index si);
-
 #endif

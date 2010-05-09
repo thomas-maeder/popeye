@@ -136,9 +136,10 @@ boolean series_root_root_solve(slice_index root)
 
   assert(slices[root].u.shortcut.min_length>=slack_length_series);
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-
+  /* Do *not* delegate to slice_solve() here:
+   * If slice_solve() has found solutions of a certain length, it won't
+   * look for longer solutions.
+   */
   while (len<=full_length)
   {
     if (series_solve_in_n(next,len)==len)
@@ -150,38 +151,6 @@ boolean series_root_root_solve(slice_index root)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type series_root_has_solution(slice_index si)
-{
-  has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type len = slices[si].u.branch.min_length;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(full_length>=slack_length_series);
-
-  while (len<=full_length)
-    if (series_has_solution_in_n(next,len)==len)
-    {
-      result = has_solution;
-      break;
-    }
-    else
-      ++len;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
