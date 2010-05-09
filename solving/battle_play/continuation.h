@@ -62,14 +62,6 @@ continuation_writer_can_defend_in_n(slice_index si,
                                     stip_length_type n_min,
                                     unsigned int max_nr_refutations);
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void continuation_writer_reduce_to_postkey_play(slice_index si,
-                                                stip_structure_traversal *st);
-
 /* Instrument the stipulation representation so that it can deal with
  * continuations
  */
