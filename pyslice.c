@@ -236,16 +236,12 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STHelpRoot:
-    case STSelfCheckGuardHelpFilter:
     case STHelpHashed:
-    case STHelpMove:
     case STLeafHelp:
-    case STReflexHelpFilter:
       result = help_root_solve(si);
       break;
 
     case STSeriesRoot:
-    case STReflexSeriesFilter:
       result = series_root_solve(si);
       break;
 

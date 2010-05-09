@@ -1,7 +1,9 @@
 #include "pyreflxg.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "pyslice.h"
@@ -712,7 +714,8 @@ void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_help_filter_insert_root(slice_index si, stip_structure_traversal *st)
+void reflex_help_filter_insert_root(slice_index si,
+                                    stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -739,7 +742,7 @@ void reflex_help_filter_insert_root(slice_index si, stip_structure_traversal *st
     /* si is part of a loop */
     pipe_link(guard,*root);
     *root = guard;
-    battle_branch_shorten_slice(si);
+    help_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);
@@ -884,6 +887,7 @@ void reflex_series_filter_insert_root(slice_index si,
                                       stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -892,13 +896,10 @@ void reflex_series_filter_insert_root(slice_index si,
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
   {
-    slice_index const guard = copy_slice(si);
+    slice_index const guard = alloc_reflex_root_solvable_filter(avoided);
     pipe_link(guard,*root);
     *root = guard;
-
-    --slices[si].u.branch.length;
-    if (slices[si].u.branch.min_length>slack_length_series)
-      --slices[si].u.branch.min_length;
+    shorten_series_pipe(si);
   }
   
   TraceFunctionExit(__func__);
