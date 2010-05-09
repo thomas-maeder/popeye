@@ -320,13 +320,8 @@ selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
 
   stip_traverse_structure(next,st);
 
-  {
-    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(guard,*postkey_slice);
-    *postkey_slice = guard;
-
-    dealloc_slice(si);
-  }
+  pipe_link(si,*postkey_slice);
+  *postkey_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
