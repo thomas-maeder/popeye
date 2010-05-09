@@ -244,11 +244,13 @@ boolean help_solve(slice_index si)
   assert(full_length>slack_length_help);
 
   while (len<=full_length)
-  {
     if (help_solve_in_n(si,len)==len)
+    {
       result = true;
-    len += 2;
-  }
+      break;
+    }
+    else
+      len += 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -279,6 +281,10 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
   {
     case STHelpMove:
       result = help_move_has_solution_in_n(si,n);
+      break;
+
+    case STHelpRoot:
+      result = help_root_has_solution_in_n(si,n);
       break;
 
     case STHelpShortcut:
@@ -381,13 +387,14 @@ has_solution_type help_has_solution(slice_index si)
 
   assert(full_length>=slack_length_help);
 
-  while (len<=full_length && result==has_no_solution)
-  {
+  while (len<=full_length)
     if (help_has_solution_in_n(si,len)==len)
+    {
       result = has_solution;
-
-    len += 2;
-  }
+      break;
+    }
+    else
+      len += 2;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

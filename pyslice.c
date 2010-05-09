@@ -3,7 +3,6 @@
 #include "trace.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyleaf.h"
@@ -343,9 +342,6 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STHelpRoot:
-      result = help_root_has_solution(si);
-      break;
-
     case STHelpMove:
     case STSelfCheckGuardHelpFilter:
       result = help_has_solution(si);

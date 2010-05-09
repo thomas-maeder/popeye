@@ -55,9 +55,11 @@ boolean help_root_root_solve(slice_index root)
 
   init_output(root);
 
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-
+  /* Do *not* delegate to help_solve() here:
+   * If help_solve() has found solutions of a certain length, it won't
+   * look for longer solutions.
+   * Here, on the other hand, we want to find solutions of any length.
+   */
   while (len<=full_length)
   {
     if (help_solve_in_n(next,len)==len)
@@ -73,34 +75,30 @@ boolean help_root_root_solve(slice_index root)
   return result;
 }
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
  */
-has_solution_type help_root_has_solution(slice_index si)
+stip_length_type help_root_has_solution_in_n(slice_index si,
+                                             stip_length_type n)
 {
-  has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type len = slices[si].u.branch.min_length;
-  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(full_length>=slack_length_help);
-
-  while (len<=full_length)
-    if (help_has_solution_in_n(next,len)==len)
-    {
-      result = has_solution;
-      break;
-    }
-    else
-      len += 2;
+  result = help_has_solution_in_n(slices[si].u.pipe.next,n);
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
+

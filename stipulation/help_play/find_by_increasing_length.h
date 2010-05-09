@@ -33,10 +33,16 @@ slice_index help_root_shorten_help_play(slice_index si);
  */
 boolean help_root_root_solve(slice_index si);
 
-/* Determine whether a slice has a solution
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
+/* Determine whether there is a solution in n half moves.
+ * @param si slice index of slice being solved
+ * @param n exact number of half moves until end state has to be reached
+ * @return length of solution found, i.e.:
+ *         n+4 the move leading to the current position has turned out
+ *             to be illegal
+ *         n+2 no solution found
+ *         n   solution found
  */
-has_solution_type help_root_has_solution(slice_index si);
+stip_length_type help_root_has_solution_in_n(slice_index si,
+                                             stip_length_type n);
 
 #endif
