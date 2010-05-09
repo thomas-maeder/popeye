@@ -2949,6 +2949,8 @@ static Token iterate_twins(Token prev_token)
           && !stip_insert_stoponshortsolutions_filters())
         Message(NoStopOnShortSolutions);
 
+      stip_insert_continuation_handlers();
+
       if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
       {
         stip_insert_variation_handlers();

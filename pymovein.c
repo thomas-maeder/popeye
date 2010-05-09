@@ -126,11 +126,9 @@ boolean move_inverter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_start_continuation_level();
   output_start_move_inverted_level();
   result = slice_root_solve(slices[si].u.pipe.next);
   output_end_move_inverted_level();
-  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

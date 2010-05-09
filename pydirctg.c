@@ -1,7 +1,6 @@
 #include "pydirctg.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "pyoutput.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
@@ -75,29 +74,14 @@ direct_defender_filter_root_defend(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n_min<=slack_length_battle+1)
-    switch (slice_has_solution(to_goal))
-    {
-      case has_solution:
-        result = n_min;
-        write_attack();
-        {
-          has_solution_type const solving_result = slice_solve(to_goal);
-          assert(solving_result==has_solution);
-        }
-        write_root_attack_decoration(nbply,attack_key);
-        break;
-
-      case has_no_solution:
-        if (n>slack_length_battle)
-          result = defense_root_defend(next,n,n_min,max_nr_refutations);
-        else
-          result = n+4;
-        break;
-
-      default:
-        result = defense_root_defend(next,n,n_min,max_nr_refutations);
-        break;
-    }
+  {
+    if (defense_root_solve(to_goal))
+      result = n_min;
+    else if (n>slack_length_battle)
+      result = defense_root_defend(next,n,n_min,max_nr_refutations);
+    else
+      result = n+4;
+  }
   else
     result = defense_root_defend(next,n,n_min,max_nr_refutations);
 
@@ -131,33 +115,14 @@ stip_length_type direct_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n_min<=slack_length_battle+1)
-    switch (slice_has_solution(to_goal))
-    {
-      case has_solution:
-        result = n_min;
-        write_attack();
-        {
-          has_solution_type const solving_result = slice_solve(to_goal);
-          assert(solving_result==has_solution);
-        }
-        break;
-
-      case has_no_solution:
-        if (n>slack_length_battle)
-          result = defense_defend_in_n(next,n,n_min);
-        else
-          result = n+2;
-        break;
-
-      case opponent_self_check:
-        result = n+4;
-        break;
-
-      default:
-        assert(0);
-        result = n+4;
-        break;
-    }
+  {
+    if (!defense_defend(to_goal))
+      result = n_min;
+    else if (n>slack_length_battle)
+      result = defense_defend_in_n(next,n,n_min);
+    else
+      result = n+2;
+  }
   else
     result = defense_defend_in_n(next,n,n_min);
 
@@ -198,7 +163,7 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 
 
   if (n_min<=slack_length_battle+1
-      && slice_has_solution(to_goal)==has_solution)
+      && !defense_can_defend(to_goal))
     result = n_min;
   else if (n>slack_length_battle)
     result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);

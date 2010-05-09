@@ -769,7 +769,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySuppressor */
-  &continuation_writer_insert_root,             /* STContinuationWriter */
+  &stip_traverse_structure_children,            /* STContinuationWriter */
   &stip_traverse_structure_children,            /* STRefutationsWriter */
   &stip_traverse_structure_children,            /* STThreatWriter */
   &stip_traverse_structure_children,            /* STThreatEnforcer */
@@ -1807,7 +1807,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
 {
   &stip_traverse_structure_children,              /* STProxy */
   &stip_traverse_structure_children,              /* STAttackMove */
-  &stip_traverse_structure_children,              /* STDefenseMove */
+  &defense_move_reduce_to_postkey_play,           /* STDefenseMove */
   &stip_traverse_structure_children,              /* STHelpMove */
   &stip_traverse_structure_children,              /* STHelpFork */
   &stip_traverse_structure_children,              /* STSeriesMove */
@@ -1825,7 +1825,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,              /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,              /* STPostKeyPlaySuppressor */
-  &continuation_writer_reduce_to_postkey_play,    /* STContinuationWriter */
+  &stip_traverse_structure_children,              /* STContinuationWriter */
   &stip_traverse_structure_children,              /* STRefutationsWriter */
   &stip_traverse_structure_children,              /* STThreatWriter */
   &stip_traverse_structure_children,              /* STThreatEnforcer */

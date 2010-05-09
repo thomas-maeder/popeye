@@ -62,13 +62,6 @@ continuation_writer_can_defend_in_n(slice_index si,
                                     stip_length_type n_min,
                                     unsigned int max_nr_refutations);
 
-/* Insert root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void continuation_writer_insert_root(slice_index si,
-                                     stip_structure_traversal *st);
-
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
@@ -76,5 +69,10 @@ void continuation_writer_insert_root(slice_index si,
  */
 void continuation_writer_reduce_to_postkey_play(slice_index si,
                                                 stip_structure_traversal *st);
+
+/* Instrument the stipulation representation so that it can deal with
+ * continuations
+ */
+void stip_insert_continuation_handlers(void);
 
 #endif

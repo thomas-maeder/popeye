@@ -82,7 +82,9 @@ postkey_solution_writer_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
+  init_output(si);
   result = defense_root_defend(next,n,n_min,max_nr_refutations);
+  write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -450,7 +452,8 @@ static void append_postkeyplay_suppressor(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(si,alloc_postkeyplay_suppressor_slice(length,min_length));
+  if (length>slack_length_battle)
+    pipe_append(si,alloc_postkeyplay_suppressor_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

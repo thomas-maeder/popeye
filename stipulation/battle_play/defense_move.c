@@ -63,6 +63,26 @@ void defense_move_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void defense_move_reduce_to_postkey_play(slice_index si,
+                                         stip_structure_traversal *st)
+{
+  slice_index *postkey_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *postkey_slice = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

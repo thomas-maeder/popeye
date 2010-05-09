@@ -40,10 +40,8 @@ boolean defense_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_output(si);
   nr_moves_needed = defense_root_defend(si,length,min_length,max_nr_refutations);
   result = nr_moves_needed<=length;
-  write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -158,6 +156,30 @@ stip_length_type defense_root_defend(slice_index si,
                                                         max_nr_refutations);
       break;
 
+    case STLeafForced:
+    case STQuodlibet:
+      assert(n==slack_length_battle);
+      switch (slice_solve(si))
+      {
+        case opponent_self_check:
+          result = n+4;
+          break;
+
+        case has_solution:
+          result = n;
+          break;
+
+        case has_no_solution:
+          result = n+2;
+          break;
+
+        default:
+          assert(0);
+          result = n+4;
+          break;
+      }
+      break;
+
     default:
       assert(0);
       break;
@@ -239,6 +261,30 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STMaxTimeDefenderFilter:
       result = maxtime_defender_filter_defend_in_n(si,n,n_min);
+      break;
+
+    case STLeafForced:
+    case STQuodlibet:
+      assert(n==slack_length_battle);
+      switch (slice_solve(si))
+      {
+        case opponent_self_check:
+          result = n+4;
+          break;
+
+        case has_solution:
+          result = n;
+          break;
+
+        case has_no_solution:
+          result = n+2;
+          break;
+
+        default:
+          assert(0);
+          result = n+4;
+          break;
+      }
       break;
 
     default:
@@ -355,6 +401,30 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                                        max_nr_refutations);
       break;
 
+    case STLeafForced:
+    case STQuodlibet:
+      assert(n==slack_length_battle);
+      switch (slice_has_solution(si))
+      {
+        case opponent_self_check:
+          result = n+4;
+          break;
+
+        case has_solution:
+          result = n;
+          break;
+
+        case has_no_solution:
+          result = n+4;
+          break;
+
+        default:
+          assert(0);
+          result = n+4;
+          break;
+      }
+      break;
+
     default:
       assert(0);
       break;
@@ -377,31 +447,12 @@ boolean defense_defend(slice_index si)
   boolean result = true;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
-  stip_length_type nr_moves_needed;
-  unsigned int const max_nr_allowed_refutations = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = defense_can_defend_in_n(si,
-                                            length,min_length,
-                                            max_nr_allowed_refutations);
-  if (nr_moves_needed<=length)
-  {
-    result = false;
-
-    {
-      stip_length_type defend_result;
-      if (nr_moves_needed>slack_length_battle+1
-          && min_length<=slack_length_battle+1)
-        min_length += 2;
-      defend_result = defense_defend_in_n(si,length,min_length);
-      assert(defend_result<=length);
-    }
-  }
-  else
-    result = true;
+  result = defense_defend_in_n(si,length,min_length)>length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

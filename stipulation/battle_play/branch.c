@@ -4,7 +4,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/continuation.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -55,14 +54,11 @@ slice_index alloc_defense_branch(stip_length_type length,
   {
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length,min_length);
-    slice_index const
-        writer = alloc_continuation_writer_slice(length,min_length);
     slice_index const defense = alloc_defense_move_slice(length,min_length);
     slice_index const
         guard2 = alloc_selfcheck_guard_attacker_filter(length-1,min_length-1);
     pipe_link(result,guard1);
-    pipe_link(guard1,writer);
-    pipe_link(writer,defense);
+    pipe_link(guard1,defense);
     pipe_link(defense,guard2);
   }
 
@@ -98,8 +94,6 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length-1,min_length-1);
-    slice_index const writer = alloc_continuation_writer_slice(length-1,
-                                                               min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
     slice_index const
@@ -107,8 +101,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(proxy,guard2);
     pipe_link(guard2,attack);
     pipe_link(attack,guard1);
-    pipe_link(guard1,writer);
-    pipe_link(writer,defense);
+    pipe_link(guard1,defense);
     pipe_link(defense,proxy);
 
     pipe_set_successor(result,proxy);

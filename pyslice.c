@@ -138,7 +138,14 @@ has_solution_type slice_solve(slice_index si)
     case STSelfCheckGuardDefenderFilter:
     case STContinuationWriter:
     case STDefenseMove:
-      result = defense_defend(si) ? has_no_solution : has_solution;
+      if (defense_can_defend(si))
+        result = has_no_solution;
+      else
+      {
+        boolean const defend_result = defense_defend(si);
+        assert(!defend_result);
+        result = has_solution;
+      }
       break;
 
     case STHelpMove:
@@ -224,6 +231,8 @@ boolean slice_root_solve(slice_index si)
     case STSelfCheckGuardRootDefenderFilter:
     case STPostKeyPlaySolutionWriter:
     case STReflexDefenderFilter:
+    case STContinuationWriter:
+    case STThreatWriter:
       result = defense_root_solve(si);
       break;
 

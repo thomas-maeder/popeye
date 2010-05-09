@@ -22,6 +22,14 @@ slice_index alloc_defense_move_slice(stip_length_type length,
 void defense_move_make_setplay_slice(slice_index si,
                                      stip_structure_traversal *st);
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void defense_move_reduce_to_postkey_play(slice_index si,
+                                         stip_structure_traversal *st);
+
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
