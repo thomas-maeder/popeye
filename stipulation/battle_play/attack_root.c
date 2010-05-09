@@ -54,7 +54,7 @@ boolean attack_root_root_solve(slice_index si)
 
   init_output(si);
 
-  output_start_continuation_level();
+  output_start_continuation_level(si);
 
   if (min_length==slack_length_battle+1
       && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))

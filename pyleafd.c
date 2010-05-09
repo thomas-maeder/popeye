@@ -135,7 +135,7 @@ boolean leaf_d_root_solve(slice_index leaf)
 
   init_output(leaf);
 
-  output_start_continuation_level();
+  output_start_continuation_level(leaf);
 
   if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {
@@ -196,7 +196,7 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  output_start_continuation_level();
+  output_start_continuation_level(leaf);
 
   if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {

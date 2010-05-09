@@ -399,7 +399,7 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
 
 /* Start a new output level consisting of regular continuations
  */
-void output_start_continuation_level(void)
+void output_start_continuation_level(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -408,6 +408,14 @@ void output_start_continuation_level(void)
   {
     ++move_depth;
     TraceValue("%u\n",move_depth);
+
+    if (move_depth>1
+        && encore()
+        && echecc(nbply,slices[si].starter))
+    {
+      StdString(" +");
+      StdChar(blank);
+    }
 
     nr_continuations_written[move_depth] = 0;
     nr_continuations_written[move_depth+1] = 0;

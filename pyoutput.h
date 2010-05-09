@@ -51,7 +51,7 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang);
 
 /* Start a new output level consisting of regular continuations
  */
-void output_start_continuation_level(void);
+void output_start_continuation_level(slice_index si);
 
 /* End the inner-most output level (which consists of regular
  * continuations)

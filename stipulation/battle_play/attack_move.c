@@ -333,15 +333,8 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.branch.length%2);
-
-  if (encore()
-      && echecc(nbply,slices[si].starter))
-  {
-    StdString(" +");
-    StdChar(blank);
-  }
   
-  output_start_continuation_level();
+  output_start_continuation_level(si);
 
   if (n_min<=slack_length_battle)
     n_min += 2;
