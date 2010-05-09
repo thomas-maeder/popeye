@@ -1248,35 +1248,31 @@ static stip_structure_visitor const reflex_guards_inserters[] =
 /* Instrument a branch with STReflex* slices for a (non-semi)
  * reflex stipulation 
  * @param si root of branch to be instrumented
- * @param proxy_to_avoided identifies branch that needs to be guarded from
+ * @param proxy_to_avoided_attack identifies branch that the
+ *                                attacker attempts to avoid
+ * @param proxy_to_avoided_defense identifies branch that the
+ *                                 defender attempts to avoid
  */
-void slice_insert_reflex_filters(slice_index si, slice_index proxy_to_avoided)
+void slice_insert_reflex_filters(slice_index si,
+                                 slice_index proxy_to_avoided_attack,
+                                 slice_index proxy_to_avoided_defense)
 {
   stip_structure_traversal st;
-  init_param param;
+  init_param param = { { proxy_to_avoided_defense, proxy_to_avoided_attack } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParam("%u",proxy_to_avoided_attack);
+  TraceFunctionParam("%u",proxy_to_avoided_defense);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  assert(slices[proxy_to_avoided].type==STProxy);
+  assert(slices[proxy_to_avoided_attack].type==STProxy);
+  assert(slices[proxy_to_avoided_defense].type==STProxy);
 
-  {
-    slice_index const avoided_leaf = slices[proxy_to_avoided].u.pipe.next;
-    Goal const avoided_goal = slices[avoided_leaf].u.leaf.goal;
-    slice_index const direct_avoided = alloc_leaf_slice(STLeafDirect,
-                                                        avoided_goal);
-
-    param.to_be_avoided[0] = proxy_to_avoided;
-    param.to_be_avoided[1] = alloc_proxy_slice();
-    pipe_link(param.to_be_avoided[1],direct_avoided);
-
-    stip_structure_traversal_init(&st,&reflex_guards_inserters,&param);
-    stip_traverse_structure(si,&st);
-  }
+  stip_structure_traversal_init(&st,&reflex_guards_inserters,&param);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

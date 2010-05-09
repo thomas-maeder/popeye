@@ -216,13 +216,17 @@ void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
  */
 void reflex_filter_impose_starter(slice_index si, stip_structure_traversal *st);
 
-/* Instrument a branch with STReflexGuard slices for a reflex
- * stipulation 
+/* Instrument a branch with STReflex* slices for a (non-semi)
+ * reflex stipulation 
  * @param si root of branch to be instrumented
- * @param proxy_to_avoided identifies what branch needs to be guarded from
+ * @param proxy_to_avoided_attack identifies branch that the
+ *                                attacker attempts to avoid
+ * @param proxy_to_avoided_defense identifies branch that the
+ *                                 defender attempts to avoid
  */
 void slice_insert_reflex_filters(slice_index si,
-                                 slice_index proxy_to_avoided);
+                                 slice_index proxy_to_avoided_attack,
+                                 slice_index proxy_to_avoided_defense);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
  * stipulation 
@@ -264,6 +268,7 @@ void reflex_series_filter_insert_root(slice_index si,
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
  */
-void reflex_filter_resolve_proxies(slice_index si, stip_structure_traversal *st);
+void reflex_filter_resolve_proxies(slice_index si,
+                                   stip_structure_traversal *st);
 
 #endif

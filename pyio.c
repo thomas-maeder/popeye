@@ -2311,16 +2311,25 @@ static char *ParsePlay(char *tok, slice_index proxy)
 
   else if (strncmp("ser-r",tok,5) == 0)
   {
-    slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+5,STLeafForced,proxy_leaf); /* skip over "ser-r" */
+    slice_index const proxy_avoided_defense = alloc_proxy_slice();
+    /* skip over "ser-r" */
+    tok = ParseGoal(tok+5,STLeafForced,proxy_avoided_defense);
     if (tok!=0)
     {
-      slice_index const leaf = slices[proxy_leaf].u.pipe.next;
-      if (leaf!=no_slice)
+      slice_index const
+          avoided_defense = slices[proxy_avoided_defense].u.pipe.next;
+      if (avoided_defense!=no_slice)
       {
-        result = ParseSerH(tok,proxy,proxy_leaf);
-        slice_insert_reflex_filters(proxy,proxy_leaf);
-        slices[leaf].starter = White;
+        slice_index const proxy_avoided_attack = alloc_proxy_slice();
+        Goal const avoided_goal = slices[avoided_defense].u.leaf.goal;
+        slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,
+                                                            avoided_goal);
+        result = ParseSerH(tok,proxy,proxy_avoided_defense);
+        pipe_link(proxy_avoided_attack,avoided_attack);
+        slice_insert_reflex_filters(proxy,
+                                    proxy_avoided_attack,
+                                    proxy_avoided_defense);
+        slices[avoided_defense].starter = White;
       }
     }
   }
@@ -2545,12 +2554,13 @@ static char *ParsePlay(char *tok, slice_index proxy)
 
   else if (strncmp("hr",tok,2)==0)
   {
-    slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseGoal(tok+2,STLeafHelp,proxy_avoided); /* skip over "hr" */
+    slice_index const proxy_avoided_defense = alloc_proxy_slice();
+    tok = ParseGoal(tok+2,STLeafHelp,proxy_avoided_defense); /* skip over "hr" */
     if (tok!=0)
     {
-      slice_index const avoided = slices[proxy_avoided].u.pipe.next;
-      if (avoided!=no_slice)
+      slice_index const
+          avoided_defense = slices[proxy_avoided_defense].u.pipe.next;
+      if (avoided_defense!=no_slice)
       {
         stip_length_type length;
         stip_length_type min_length;
@@ -2558,12 +2568,19 @@ static char *ParsePlay(char *tok, slice_index proxy)
         if (result!=0)
         {
           if (length==slack_length_help)
-            pipe_link(proxy,slices[proxy_avoided].u.pipe.next);
+            pipe_link(proxy,slices[proxy_avoided_defense].u.pipe.next);
           else
           {
+            slice_index const proxy_avoided_attack = alloc_proxy_slice();
+            Goal const avoided_goal = slices[avoided_defense].u.leaf.goal;
+            slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,
+                                                                avoided_goal);
             slice_index const branch = alloc_help_branch(length,min_length,
-                                                         proxy_avoided);
-            slice_insert_reflex_filters(branch,proxy_avoided);
+                                                         proxy_avoided_defense);
+            pipe_link(proxy_avoided_attack,avoided_attack);
+            slice_insert_reflex_filters(branch,
+                                        proxy_avoided_attack,
+                                        proxy_avoided_defense);
             if ((length-slack_length_help)%2==0)
             {
               slice_index const inverter = alloc_move_inverter_solvable_filter();
@@ -2576,7 +2593,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
               pipe_link(proxy,branch);
           }
 
-          slices[avoided].starter = Black;
+          slices[avoided_defense].starter = Black;
         }
       }
     }
@@ -2647,23 +2664,31 @@ static char *ParsePlay(char *tok, slice_index proxy)
 
   else if (*tok=='r')
   {
-    slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseGoal(tok+1,STLeafHelp,proxy_avoided); /* skip over 'r' */
+    slice_index const proxy_avoided_defense = alloc_proxy_slice();
+    tok = ParseGoal(tok+1,STLeafHelp,proxy_avoided_defense);/* skip over 'r' */
     if (tok!=0)
     {
-      slice_index const avoided = slices[proxy_avoided].u.pipe.next;
-      if (avoided!=no_slice)
+      slice_index const
+          avoided_defense = slices[proxy_avoided_defense].u.pipe.next;
+      if (avoided_defense!=no_slice)
       {
         stip_length_type length;
         stip_length_type min_length;
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const proxy_avoided_attack = alloc_proxy_slice();
+          Goal const avoided_goal = slices[avoided_defense].u.leaf.goal;
+          slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,
+                                                              avoided_goal);
           slice_index const branch = alloc_battle_branch(length+1,
                                                          min_length+1);
-          slice_insert_reflex_filters(branch,proxy_avoided);
+          pipe_link(proxy_avoided_attack,avoided_attack);
+          slice_insert_reflex_filters(branch,
+                                      proxy_avoided_attack,
+                                      proxy_avoided_defense);
           pipe_link(proxy,branch);
-          slices[avoided].starter = Black;
+          slices[avoided_defense].starter = Black;
         }
       }
     }
