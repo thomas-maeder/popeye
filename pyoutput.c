@@ -576,9 +576,7 @@ void write_battle_move_decoration(ply current_ply, attack_type type)
   TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree
-      && nbply==2
-      && !is_reflex[current_ply])
+  if (!is_reflex[current_ply])
     pending_decoration = type;
 
   TraceFunctionExit(__func__);
