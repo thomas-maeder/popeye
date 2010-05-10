@@ -247,34 +247,13 @@ static boolean solve_avoided(slice_index avoided)
   TraceFunctionParam("%u",avoided);
   TraceFunctionParamListEnd();
 
-  output_start_unsolvability_mode();
-  result = slice_solve(avoided)==has_solution;
-  output_end_unsolvability_mode();
-
-  if (result)
+  if (slice_solve(avoided)==has_solution)
+  {
+    result = true;
     write_end_of_solution(avoided);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve slice that is to be avoided at root level
- * @param avoided slice to be avoided
- * @return true iff >=1 solution was found
- */
-static boolean solve_root_avoided(slice_index avoided)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",avoided);
-  TraceFunctionParamListEnd();
-
-  output_start_unsolvability_mode();
-  result = slice_root_solve(avoided);
-  output_end_unsolvability_mode();
+  }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -296,7 +275,7 @@ boolean reflex_attacker_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (solve_root_avoided(avoided))
+  if (solve_avoided(avoided))
     result = false;
   else
     result = slice_root_solve(next);

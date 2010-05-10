@@ -217,7 +217,6 @@ boolean leaf_d_solve(slice_index leaf)
         result = true;
         write_battle_move();
         write_goal(slices[leaf].u.leaf.goal);
-        write_battle_move_decoration(nbply,attack_key);
       }
 
       repcoup();

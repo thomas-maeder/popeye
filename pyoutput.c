@@ -35,8 +35,6 @@ slice_index active_slice[maxply];
 
 static boolean is_threat[maxply];
 
-static boolean is_reflex[maxply];
-
 static unsigned int nr_moves_written[maxply];
 
 static attack_type pending_decoration = attack_regular;
@@ -252,33 +250,6 @@ static void write_pending_decoration(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Start search for reflex unsolvabilities
- */
-void output_start_unsolvability_mode(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  is_reflex[nbply+1] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* End search for reflex unsolvabilities
- */
-void output_end_unsolvability_mode(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  is_reflex[nbply+1] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* Start a new output level consisting of set play
  */
@@ -576,8 +547,7 @@ void write_battle_move_decoration(ply current_ply, attack_type type)
   TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
-  if (!is_reflex[current_ply])
-    pending_decoration = type;
+  pending_decoration = type;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -660,9 +630,7 @@ void write_end_of_solution(slice_index si)
   if (current_mode==output_mode_tree)
   {
     write_pending_decoration();
-
-    if (!is_reflex[nbply])
-      Message(NewLine);
+    Message(NewLine);
   }
 
   TraceFunctionExit(__func__);

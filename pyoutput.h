@@ -18,15 +18,6 @@ extern slice_index active_slice[maxply];
 void write_indentation(void);
 
 
-/* Start search for reflex unsolvabilities
- */
-void output_start_unsolvability_mode(void);
-
-/* End search for reflex unsolvabilities
- */
-void output_end_unsolvability_mode(void);
-
-
 /* Start a new output level with inverted side at move
  */
 void output_start_move_inverted_level(void);
