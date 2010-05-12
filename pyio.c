@@ -2320,12 +2320,15 @@ static char *ParsePlay(char *tok, slice_index proxy)
           avoided_defense = slices[proxy_avoided_defense].u.pipe.next;
       if (avoided_defense!=no_slice)
       {
+        Goal const goal = slices[avoided_defense].u.leaf.goal;
+        slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,goal);
+        slice_index const not_attack = alloc_not_slice(avoided_attack);
         slice_index const proxy_avoided_attack = alloc_proxy_slice();
-        Goal const avoided_goal = slices[avoided_defense].u.leaf.goal;
-        slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,
-                                                            avoided_goal);
+
+        pipe_link(proxy_avoided_attack,not_attack);
+        pipe_link(proxy_avoided_defense,avoided_defense);
+
         result = ParseSerH(tok,proxy,proxy_avoided_defense);
-        pipe_link(proxy_avoided_attack,avoided_attack);
         slice_insert_reflex_filters(proxy,
                                     proxy_avoided_attack,
                                     proxy_avoided_defense);
@@ -2571,13 +2574,18 @@ static char *ParsePlay(char *tok, slice_index proxy)
             pipe_link(proxy,slices[proxy_avoided_defense].u.pipe.next);
           else
           {
-            slice_index const proxy_avoided_attack = alloc_proxy_slice();
-            Goal const avoided_goal = slices[avoided_defense].u.leaf.goal;
+            Goal const goal = slices[avoided_defense].u.leaf.goal;
             slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,
-                                                                avoided_goal);
+                                                                goal);
+            slice_index const not_attack = alloc_not_slice(avoided_attack);
+            slice_index const proxy_avoided_attack = alloc_proxy_slice();
+
+            slice_index const not_defense = alloc_not_slice(avoided_defense);
+
             slice_index const branch = alloc_help_branch(length,min_length,
                                                          proxy_avoided_defense);
-            pipe_link(proxy_avoided_attack,avoided_attack);
+            pipe_link(proxy_avoided_attack,not_attack);
+            pipe_link(proxy_avoided_defense,not_defense);
             slice_insert_reflex_filters(branch,
                                         proxy_avoided_attack,
                                         proxy_avoided_defense);
@@ -2628,8 +2636,10 @@ static char *ParsePlay(char *tok, slice_index proxy)
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const not = alloc_not_slice(avoided);
           slice_index const branch = alloc_battle_branch(length+1,
                                                          min_length+1);
+          pipe_link(proxy_avoided,not);
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
           pipe_link(proxy,branch);
           slices[avoided].starter = Black;
@@ -2677,13 +2687,20 @@ static char *ParsePlay(char *tok, slice_index proxy)
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
+          Goal const goal = slices[avoided_defense].u.leaf.goal;
+          slice_index const avoided_leaf = alloc_leaf_slice(STLeafForced,goal);
+          slice_index const avoided_attack = alloc_attack_move_slice(slack_length_battle+1,slack_length_battle+1);
+          slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const proxy_avoided_attack = alloc_proxy_slice();
-          Goal const avoided_goal = slices[avoided_defense].u.leaf.goal;
-          slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,
-                                                              avoided_goal);
+
+          slice_index const not_defense = alloc_not_slice(avoided_defense);
+          
           slice_index const branch = alloc_battle_branch(length+1,
                                                          min_length+1);
-          pipe_link(proxy_avoided_attack,avoided_attack);
+          pipe_link(avoided_attack,avoided_leaf);
+          pipe_link(not_attack,avoided_attack);
+          pipe_link(proxy_avoided_attack,not_attack);
+          pipe_link(proxy_avoided_defense,not_defense);
           slice_insert_reflex_filters(branch,
                                       proxy_avoided_attack,
                                       proxy_avoided_defense);

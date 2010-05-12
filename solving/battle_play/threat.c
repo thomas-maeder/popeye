@@ -483,10 +483,22 @@ void threat_writer_resolve_proxies(slice_index si,
   pipe_resolve_proxies(si,st);
   proxy_slice_resolve(&slices[si].u.threat_writer.attack_side);
 
-  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+
+/* The following enumeration type represents the state of threat
+ * handler insertion; this helps us avoiding unnecessary threat
+ * handler slices (e.g. we only need a threat collector slice if we
+ * have already inserted a threat writer and a threat enforcer slice.
+ */
+typedef enum
+{
+  threat_handler_inserted_none,
+  threat_handler_inserted_writer,
+  threat_handler_inserted_enforcer
+} threat_handler_insertion_state;
 
 /* Prepend a threat writer slice to a defense move slice
  * @param si identifies slice around which to insert threat handlers
@@ -494,21 +506,29 @@ void threat_writer_resolve_proxies(slice_index si,
  */
 static void prepend_threat_writer(slice_index si, stip_structure_traversal *st)
 {
+  threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
   if (length>slack_length_battle+1)
   {
-    slice_index const prev = slices[si].prev;
-    slice_index const attack_side = slices[si].u.pipe.next;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(prev,alloc_threat_writer_slice(length,min_length,attack_side));
+    *state = threat_handler_inserted_writer;
+    stip_traverse_structure_children(si,st);
+    *state = save_state;
+
+    {
+      slice_index const prev = slices[si].prev;
+      slice_index const attack_side = slices[si].u.pipe.next;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      pipe_append(prev,alloc_threat_writer_slice(length,min_length,attack_side));
+    }
   }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -521,20 +541,28 @@ static void prepend_threat_writer(slice_index si, stip_structure_traversal *st)
 static void prepend_threat_enforcer(slice_index si,
                                     stip_structure_traversal *st)
 {
+  threat_handler_insertion_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
 
-  if (length>slack_length_battle)
+  if (*state==threat_handler_inserted_writer && length>slack_length_battle)
   {
-    slice_index const prev = slices[si].prev;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(prev,alloc_threat_enforcer_slice(length,min_length));
+    *state = threat_handler_inserted_enforcer;
+    stip_traverse_structure_children(si,st);
+    *state = threat_handler_inserted_writer;
+
+    {
+      slice_index const prev = slices[si].prev;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      pipe_append(prev,alloc_threat_enforcer_slice(length,min_length));
+    }
   }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -546,6 +574,7 @@ static void prepend_threat_enforcer(slice_index si,
  */
 static void append_threat_collector(slice_index si, stip_structure_traversal *st)
 {
+  threat_handler_insertion_state const * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -554,26 +583,31 @@ static void append_threat_collector(slice_index si, stip_structure_traversal *st
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_threat_collector_slice(length,min_length));
+
+  if (*state==threat_handler_inserted_enforcer)
+    pipe_append(si,alloc_threat_collector_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Avoid the parrying move when inserting threat handlers
+/* Reset the threat handler insertaion state for the subsequent slices
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
-static void threat_writer_avoid_parrying(slice_index si,
-                                         stip_structure_traversal *st)
+static void threat_handler_reset_insertion_state(slice_index si,
+                                                 stip_structure_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  *state = threat_handler_inserted_none;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -581,85 +615,85 @@ static void threat_writer_avoid_parrying(slice_index si,
 
 static stip_structure_visitor const threat_handler_inserters[] =
 {
-  &stip_traverse_structure_children, /* STProxy */
-  &append_threat_collector,          /* STAttackMove */
-  &prepend_threat_writer,            /* STDefenseMove */
-  &stip_structure_visitor_noop,      /* STHelpMove */
-  &stip_structure_visitor_noop,      /* STHelpFork */
-  &stip_structure_visitor_noop,      /* STSeriesMove */
-  &stip_structure_visitor_noop,      /* STSeriesFork */
-  &stip_structure_visitor_noop,      /* STLeafDirect */
-  &stip_structure_visitor_noop,      /* STLeafHelp */
-  &stip_structure_visitor_noop,      /* STLeafForced */
-  &stip_traverse_structure_children, /* STReciprocal */
-  &stip_traverse_structure_children, /* STQuodlibet */
-  &stip_traverse_structure_children, /* STNot */
-  &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
-  &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
-  &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
-  &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
-  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
-  &stip_traverse_structure_children, /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
-  &stip_traverse_structure_children, /* STThreatWriter */
-  &stip_traverse_structure_children, /* STThreatEnforcer */
-  &stip_traverse_structure_children, /* STThreatCollector */
-  &stip_traverse_structure_children, /* STRefutationsCollector */
-  &prepend_threat_enforcer,          /* STVariationWriter */
-  &stip_traverse_structure_children, /* STRefutingVariationWriter */
-  &stip_traverse_structure_children, /* STNoShortVariations */
-  &stip_traverse_structure_children, /* STAttackHashed */
-  &stip_structure_visitor_noop,      /* STHelpRoot */
-  &stip_structure_visitor_noop,      /* STHelpShortcut */
-  &stip_traverse_structure_children, /* STHelpHashed */
-  &stip_structure_visitor_noop,      /* STSeriesRoot */
-  &stip_structure_visitor_noop,      /* STSeriesShortcut */
-  &threat_writer_avoid_parrying,     /* STParryFork */
-  &stip_traverse_structure_children, /* STSeriesHashed */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenderFilter */
-  &stip_traverse_structure_children, /* STReflexHelpFilter */
-  &stip_traverse_structure_children, /* STReflexSeriesFilter */
-  &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
-  &stip_traverse_structure_children, /* STReflexAttackerFilter */
-  &stip_traverse_structure_children, /* STReflexDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfDefense */
-  &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
-  &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
-  &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STIntelligentHelpFilter */
-  &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
-  &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
-  &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardRootDefenderFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STMaxFlightsquares */
-  &stip_traverse_structure_children, /* STDegenerateTree */
-  &stip_traverse_structure_children, /* STMaxNrNonTrivial */
-  &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
-  &stip_traverse_structure_children, /* STMaxThreatLength */
-  &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
-  &stip_traverse_structure_children, /* STMaxTimeDefenderFilter */
-  &stip_traverse_structure_children, /* STMaxTimeHelpFilter */
-  &stip_traverse_structure_children, /* STMaxTimeSeriesFilter */
-  &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
-  &stip_traverse_structure_children, /* STMaxSolutionsHelpFilter */
-  &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
-  &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children, /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,     /* STProxy */
+  &append_threat_collector,              /* STAttackMove */
+  &prepend_threat_writer,                /* STDefenseMove */
+  &stip_structure_visitor_noop,          /* STHelpMove */
+  &stip_structure_visitor_noop,          /* STHelpFork */
+  &stip_structure_visitor_noop,          /* STSeriesMove */
+  &stip_structure_visitor_noop,          /* STSeriesFork */
+  &stip_structure_visitor_noop,          /* STLeafDirect */
+  &stip_structure_visitor_noop,          /* STLeafHelp */
+  &stip_structure_visitor_noop,          /* STLeafForced */
+  &stip_traverse_structure_children,     /* STReciprocal */
+  &stip_traverse_structure_children,     /* STQuodlibet */
+  &threat_handler_reset_insertion_state, /* STNot */
+  &stip_traverse_structure_children,     /* STMoveInverterRootSolvableFilter */
+  &stip_traverse_structure_children,     /* STMoveInverterSolvableFilter */
+  &stip_traverse_structure_children,     /* STMoveInverterSeriesFilter */
+  &stip_traverse_structure_children,     /* STAttackRoot */
+  &stip_traverse_structure_children,     /* STBattlePlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children,     /* STContinuationWriter */
+  &stip_traverse_structure_children,     /* STRefutationsWriter */
+  &stip_traverse_structure_children,     /* STThreatWriter */
+  &stip_traverse_structure_children,     /* STThreatEnforcer */
+  &stip_traverse_structure_children,     /* STThreatCollector */
+  &stip_traverse_structure_children,     /* STRefutationsCollector */
+  &prepend_threat_enforcer,              /* STVariationWriter */
+  &stip_traverse_structure_children,     /* STRefutingVariationWriter */
+  &stip_traverse_structure_children,     /* STNoShortVariations */
+  &stip_traverse_structure_children,     /* STAttackHashed */
+  &stip_structure_visitor_noop,          /* STHelpRoot */
+  &stip_structure_visitor_noop,          /* STHelpShortcut */
+  &stip_traverse_structure_children,     /* STHelpHashed */
+  &stip_structure_visitor_noop,          /* STSeriesRoot */
+  &stip_structure_visitor_noop,          /* STSeriesShortcut */
+  &stip_traverse_structure_children,     /* STParryFork */
+  &stip_traverse_structure_children,     /* STSeriesHashed */
+  &stip_traverse_structure_children,     /* STSelfCheckGuardRootSolvableFilter */
+  &stip_traverse_structure_children,     /* STSelfCheckGuardSolvableFilter */
+  &stip_traverse_structure_children,     /* STSelfCheckGuardRootDefenderFilter */
+  &stip_traverse_structure_children,     /* STSelfCheckGuardAttackerFilter */
+  &stip_traverse_structure_children,     /* STSelfCheckGuardDefenderFilter */
+  &stip_traverse_structure_children,     /* STSelfCheckGuardHelpFilter */
+  &stip_traverse_structure_children,     /* STSelfCheckGuardSeriesFilter */
+  &stip_traverse_structure_children,     /* STDirectDefenderFilter */
+  &stip_traverse_structure_children,     /* STReflexHelpFilter */
+  &stip_traverse_structure_children,     /* STReflexSeriesFilter */
+  &stip_traverse_structure_children,     /* STReflexRootSolvableFilter */
+  &stip_traverse_structure_children,     /* STReflexAttackerFilter */
+  &stip_traverse_structure_children,     /* STReflexDefenderFilter */
+  &stip_traverse_structure_children,     /* STSelfDefense */
+  &stip_traverse_structure_children,     /* STRestartGuardRootDefenderFilter */
+  &stip_traverse_structure_children,     /* STRestartGuardHelpFilter */
+  &stip_traverse_structure_children,     /* STRestartGuardSeriesFilter */
+  &stip_traverse_structure_children,     /* STIntelligentHelpFilter */
+  &stip_traverse_structure_children,     /* STIntelligentSeriesFilter */
+  &stip_traverse_structure_children,     /* STGoalReachableGuardHelpFilter */
+  &stip_traverse_structure_children,     /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,     /* STKeepMatingGuardRootDefenderFilter */
+  &stip_traverse_structure_children,     /* STKeepMatingGuardAttackerFilter */
+  &stip_traverse_structure_children,     /* STKeepMatingGuardDefenderFilter */
+  &stip_traverse_structure_children,     /* STKeepMatingGuardHelpFilter */
+  &stip_traverse_structure_children,     /* STKeepMatingGuardSeriesFilter */
+  &stip_traverse_structure_children,     /* STMaxFlightsquares */
+  &stip_traverse_structure_children,     /* STDegenerateTree */
+  &stip_traverse_structure_children,     /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,     /* STMaxNrNonTrivialCounter */
+  &stip_traverse_structure_children,     /* STMaxThreatLength */
+  &stip_traverse_structure_children,     /* STMaxTimeRootDefenderFilter */
+  &stip_traverse_structure_children,     /* STMaxTimeDefenderFilter */
+  &stip_traverse_structure_children,     /* STMaxTimeHelpFilter */
+  &stip_traverse_structure_children,     /* STMaxTimeSeriesFilter */
+  &stip_traverse_structure_children,     /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,     /* STMaxSolutionsRootDefenderFilter */
+  &stip_traverse_structure_children,     /* STMaxSolutionsHelpFilter */
+  &stip_traverse_structure_children,     /* STMaxSolutionsSeriesFilter */
+  &stip_traverse_structure_children,     /* STStopOnShortSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,     /* STStopOnShortSolutionsHelpFilter */
+  &stip_traverse_structure_children      /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Instrument the stipulation representation so that it can deal with
@@ -668,6 +702,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
 void stip_insert_threat_handlers(void)
 {
   stip_structure_traversal st;
+  threat_handler_insertion_state state = threat_handler_inserted_none;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -675,7 +710,7 @@ void stip_insert_threat_handlers(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&threat_handler_inserters,0);
+  stip_structure_traversal_init(&st,&threat_handler_inserters,&state);
   stip_traverse_structure(root_slice,&st);
 
   for (i = 0; i<=maxply; ++i)

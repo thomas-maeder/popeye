@@ -1641,7 +1641,8 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
 {
   slice_index * const new_proxy_to_goal = st->param;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
-  slice_index const leaf_help = slices[proxy_to_goal].u.pipe.next;
+  slice_index const not = slices[proxy_to_goal].u.pipe.next;
+  slice_index const leaf_help = slices[not].u.pipe.next;
   Goal goal = slices[leaf_help].u.leaf.goal;
   slice_index new_leaf;
 

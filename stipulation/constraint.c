@@ -133,17 +133,18 @@ void reflex_attacker_filter_insert_root(slice_index si,
                                         stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure(avoided,st);
 
   {
-    slice_index const avoided = slices[si].u.reflex_guard.avoided;
-    slice_index const guard = alloc_reflex_root_solvable_filter(avoided);
+    slice_index const guard = alloc_reflex_root_solvable_filter(*root);
+    stip_traverse_structure(next,st);
     pipe_link(guard,*root);
     *root = guard;
 
@@ -184,11 +185,11 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
       break;
 
     case has_no_solution:
-      result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
+      result = n+2;
       break;
 
     case has_solution:
-      result = n+2;
+      result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_min);
       break;
 
     default:
@@ -226,34 +227,8 @@ reflex_attacker_filter_are_threats_refuted_in_n(table threats,
   TraceFunctionParamListEnd();
 
   assert(slice_has_solution(slices[si].u.reflex_guard.avoided)
-         ==has_no_solution);
+         ==has_solution);
   result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve slice that is to be avoided
- * @param avoided slice to be avoided
- * @return true iff >=1 solution was found
- */
-static boolean solve_avoided(slice_index avoided)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",avoided);
-  TraceFunctionParamListEnd();
-
-  if (slice_solve(avoided)==has_solution)
-  {
-    result = true;
-    write_end_of_solution(avoided);
-  }
-  else
-    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -275,16 +250,17 @@ boolean reflex_attacker_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (solve_avoided(avoided))
-    result = false;
-  else
+  if (slice_root_solve(avoided))
     result = slice_root_solve(next);
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
+
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -315,11 +291,11 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
       break;
 
     case has_solution:
-      result = n+2;
+      result = attack_solve_in_n(next,n,n_min);
       break;
 
     case has_no_solution:
-      result = attack_solve_in_n(next,n,n_min);
+      result = n+2;
       break;
 
     default:
@@ -348,7 +324,7 @@ has_solution_type reflex_attacker_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_has_solution(avoided)==has_no_solution)
+  if (slice_has_solution(avoided)==has_solution)
     result = attack_solve(next);
   else
     result = has_no_solution;
@@ -477,14 +453,14 @@ reflex_defender_filter_root_defend(slice_index si,
     switch (slice_solve(slices[si].u.reflex_guard.avoided))
     {
       case has_solution:
-        result = n_min;
-        break;
-
-      case has_no_solution:
         if (n>slack_length_battle+1)
           result = defense_root_defend(next,n,n_min,max_nr_refutations);
         else
           result = n+4;
+        break;
+
+      case has_no_solution:
+        result = n_min;
         break;
 
       default:
@@ -531,7 +507,7 @@ stip_length_type reflex_defender_filter_defend_in_n(slice_index si,
   if (n==slack_length_battle+1)
   {
     output_start_defense_level(avoided);
-    result = slice_solve(avoided)==has_solution ? n_min : n+2;
+    result = slice_solve(avoided)==has_solution ? n+2 : n_min;
     output_end_defense_level();
   }
   else
@@ -580,12 +556,12 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
     switch (slice_has_solution(avoided))
     {
       case has_solution:
-        result = n_min;
+        if (n>slack_length_battle+1)
+          result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
         break;
 
       case has_no_solution:
-        if (n>slack_length_battle+1)
-          result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+        result = n_min;
         break;
 
       default:
@@ -743,10 +719,10 @@ boolean reflex_help_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (solve_avoided(avoided) || length==slack_length_help)
-    result = false;
-  else
+  if (slice_solve(avoided)==has_solution && length>slack_length_help)
     result = slice_root_solve(next);
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -779,9 +755,9 @@ stip_length_type reflex_help_filter_solve_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-    result = n+2;
-  else 
     result = help_solve_in_n(next,n);
+  else 
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -814,9 +790,9 @@ stip_length_type reflex_help_filter_has_solution_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-   result = n+2;
-  else
     result = help_has_solution_in_n(next,n);
+  else
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -900,10 +876,10 @@ boolean reflex_series_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (solve_avoided(avoided) || length==slack_length_series)
-    result = false;
-  else
+  if (slice_solve(avoided)==has_solution && length>slack_length_series)
     result = slice_root_solve(next);
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -936,9 +912,9 @@ stip_length_type reflex_series_filter_solve_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-    result = n+1;
-  else
     result = series_solve_in_n(next,n);
+  else
+    result = n+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -971,9 +947,9 @@ stip_length_type reflex_series_filter_has_solution_in_n(slice_index si,
 
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
-    result = n+1;
-  else
     result = series_has_solution_in_n(next,n);
+  else
+    result = n+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

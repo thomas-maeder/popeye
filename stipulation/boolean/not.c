@@ -43,16 +43,7 @@ void not_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  if (slices[si].u.pipe.next==*root)
-    *root = si;
-  else
-  {
-    slice_index const not = copy_slice(si);
-    pipe_link(not,*root);
-    *root = not;
-  }
+  *root = si;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -70,11 +61,7 @@ has_solution_type not_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* Don't write anything, but return the correct value so that it can
-   * be written to the hash table!
-   */
-
-  switch (slice_has_solution(slices[si].u.pipe.next))
+  switch (slice_solve(slices[si].u.pipe.next))
   {
     case has_solution:
       result = has_no_solution;
@@ -84,13 +71,9 @@ has_solution_type not_solve(slice_index si)
       result = has_solution;
       break;
 
-    case opponent_self_check:
-      result = opponent_self_check;
-      break;
-
     default:
       assert(0);
-      result = opponent_self_check;
+      result = false;
       break;
   }
 
@@ -160,10 +143,27 @@ boolean not_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.pipe.next)==has_no_solution;
+  init_output(si);
+
+  switch (slice_solve(slices[si].u.pipe.next))
+  {
+    case has_solution:
+      write_end_of_solution_phase();
+      result = false;
+      break;
+
+    case has_no_solution:
+      result = true;
+      break;
+
+    default:
+      assert(0);
+      result = false;
+      break;
+  }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

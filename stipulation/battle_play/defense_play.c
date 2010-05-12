@@ -372,6 +372,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       break;
 
     case STSelfCheckGuardDefenderFilter:
+    case STSelfCheckGuardRootDefenderFilter:
       result = selfcheck_guard_can_defend_in_n(si,n,n_min,max_nr_refutations);
       break;
 
