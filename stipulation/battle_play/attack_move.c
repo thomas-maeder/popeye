@@ -58,8 +58,6 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   pipe_link(attack_root,*root);
   *root = attack_root;
 
-  battle_branch_shorten_slice(si);
-  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
