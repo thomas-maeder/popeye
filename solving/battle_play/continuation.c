@@ -164,6 +164,13 @@ continuation_writer_can_defend_in_n(slice_index si,
   return result;
 }
 
+typedef enum
+{
+  continuation_handler_not_needed,
+  continuation_handler_needed,
+  continuation_handler_inserted
+} continuation_handler_insertion_state;
+
 /* Inserting continuation handlers in both parts of a binary
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
@@ -186,9 +193,10 @@ static void continuation_handler_insert_binary(slice_index si,
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void continuation_writer_branch_append(slice_index si,
-                                              stip_structure_traversal *st)
+static void continuation_writer_append(slice_index si,
+                                       stip_structure_traversal *st)
 {
+  continuation_handler_insertion_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -197,7 +205,68 @@ static void continuation_writer_branch_append(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_continuation_writer_slice(length,min_length));
+
+  TraceValue("%u\n",*state);
+  if (*state==continuation_handler_needed)
+  {
+    pipe_append(si,alloc_continuation_writer_slice(length,min_length));
+    *state = continuation_handler_inserted;
+    TraceValue("->%u\n",*state);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Append a continuation writer if none has been inserted before
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void continuation_writer_append_to_move(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  continuation_handler_insertion_state * const state = st->param;
+  continuation_handler_insertion_state const save_state = *state;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  TraceValue("%u\n",*state);
+  if (*state==continuation_handler_needed)
+  {
+    pipe_append(si,alloc_continuation_writer_slice(length-1,min_length-1));
+    *state = continuation_handler_inserted;
+    TraceValue("->%u\n",*state);
+  }
+
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Inform predecessors that a continuation writer is needed
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void continuation_writer_mark_need(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  continuation_handler_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  *state = continuation_handler_needed;
+  TraceValue("->%u\n",*state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -208,8 +277,8 @@ static void continuation_writer_branch_append(slice_index si,
  * @param st address of structure defining traversal
  */
 static
-void continuation_writer_insert_direct_attack(slice_index si,
-                                              stip_structure_traversal *st)
+void continuation_writer_insert_defender_filter(slice_index si,
+                                                stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.branch_fork.next;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
@@ -234,22 +303,22 @@ void continuation_writer_insert_direct_attack(slice_index si,
 static stip_structure_visitor const continuation_handler_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
-  &stip_traverse_structure_children, /* STAttackMove */
-  &stip_traverse_structure_children, /* STDefenseMove */
+  &continuation_writer_append_to_move, /* STAttackMove */
+  &continuation_writer_mark_need,    /* STDefenseMove */
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpFork */
   &stip_structure_visitor_noop,      /* STSeriesMove */
   &stip_structure_visitor_noop,      /* STSeriesFork */
   &stip_structure_visitor_noop,      /* STLeafDirect */
   &stip_structure_visitor_noop,      /* STLeafHelp */
-  &stip_structure_visitor_noop,      /* STLeafForced */
+  &continuation_writer_mark_need,    /* STLeafForced */
   &continuation_handler_insert_binary,  /* STReciprocal */
   &continuation_handler_insert_binary,  /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
   &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
-  &stip_traverse_structure_children, /* STAttackRoot */
+  &continuation_writer_append_to_move, /* STAttackRoot */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
@@ -272,12 +341,12 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &continuation_writer_branch_append,/* STSelfCheckGuardRootDefenderFilter */
+  &continuation_writer_append,       /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
-  &continuation_writer_branch_append,/* STSelfCheckGuardDefenderFilter */
+  &continuation_writer_append,       /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
-  &continuation_writer_insert_direct_attack, /* STDirectDefenderFilter */
+  &continuation_writer_insert_defender_filter, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
@@ -320,13 +389,14 @@ static stip_structure_visitor const continuation_handler_inserters[] =
 void stip_insert_continuation_handlers(void)
 {
   stip_structure_traversal st;
+  continuation_handler_insertion_state state = continuation_handler_not_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&continuation_handler_inserters,0);
+  stip_structure_traversal_init(&st,&continuation_handler_inserters,&state);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
