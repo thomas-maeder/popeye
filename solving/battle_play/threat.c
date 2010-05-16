@@ -491,13 +491,14 @@ void threat_writer_resolve_proxies(slice_index si,
 /* The following enumeration type represents the state of threat
  * handler insertion; this helps us avoiding unnecessary threat
  * handler slices (e.g. we only need a threat collector slice if we
- * have already inserted a threat writer and a threat enforcer slice.
+ * have already inserted a threat writer and a threat enforcer slice).
  */
 typedef enum
 {
   threat_handler_inserted_none,
   threat_handler_inserted_writer,
-  threat_handler_inserted_enforcer
+  threat_handler_inserted_enforcer,
+  threat_handler_inserted_collector
 } threat_handler_insertion_state;
 
 /* Prepend a threat writer slice to a defense move slice
@@ -574,18 +575,27 @@ static void prepend_threat_enforcer(slice_index si,
  */
 static void append_threat_collector(slice_index si, stip_structure_traversal *st)
 {
-  threat_handler_insertion_state const * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  threat_handler_insertion_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
 
   if (*state==threat_handler_inserted_enforcer)
-    pipe_append(si,alloc_threat_collector_slice(length,min_length));
+  {
+    *state = threat_handler_inserted_collector;
+    stip_traverse_structure_children(si,st);
+    *state = threat_handler_inserted_enforcer;
+
+    {
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      pipe_append(si,alloc_threat_collector_slice(length,min_length));
+    }
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
