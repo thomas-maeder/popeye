@@ -294,22 +294,37 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
   return result;
 }
 
+
+/* The following enumeration type represents the state of postkey
+ * handler insertion; this helps us avoiding unnecessary postkey
+ * handler slices
+ */
+typedef enum
+{
+  postkey_handler_inserted_none,
+  postkey_handler_inserted_writer
+} postkey_handler_insertion_state;
+
 /* Append a variation writer
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
 static void prepend_refutes_writer(slice_index si, stip_structure_traversal *st)
 {
+  postkey_handler_insertion_state const * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index const prev = slices[si].prev;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle)
+  if (*state==postkey_handler_inserted_writer
+      && length>slack_length_battle)
+  {
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const prev = slices[si].prev;
     pipe_append(prev,alloc_refuting_variation_writer_slice(length,min_length));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -322,17 +337,26 @@ static void prepend_refutes_writer(slice_index si, stip_structure_traversal *st)
 static void substitute_continuation_writer(slice_index si,
                                            stip_structure_traversal *st)
 {
+  postkey_handler_insertion_state * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
+  if (*state==postkey_handler_inserted_none)
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_replace(si,alloc_postkey_solution_writer_slice(length,min_length));
+    *state = postkey_handler_inserted_writer;
+    stip_traverse_structure_children(si,st);
+    *state = postkey_handler_inserted_none;
+
+    {
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      pipe_replace(si,alloc_postkey_solution_writer_slice(length,min_length));
+    }
   }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -427,11 +451,12 @@ static stip_structure_visitor const postkey_handler_inserters[] =
 void stip_insert_postkey_handlers(void)
 {
   stip_structure_traversal st;
+  postkey_handler_insertion_state state = postkey_handler_inserted_none;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&postkey_handler_inserters,0);
+  stip_structure_traversal_init(&st,&postkey_handler_inserters,&state);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
