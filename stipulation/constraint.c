@@ -989,32 +989,6 @@ typedef struct
     slice_index to_be_avoided[2];
 } init_param;
 
-/* In alternate play, insert a STReflexHelpFilter slice before a slice
- * where the reflex stipulation might force the side at the move to
- * reach the goal
- */
-static void reflex_guards_inserter_help(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  init_param * const param = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const idx = (length-slack_length_help)%2;
-  slice_index const proxy_to_avoided = param->to_be_avoided[idx];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(slices[si].prev,
-              alloc_reflex_help_filter(length,min_length,proxy_to_avoided));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* In battle play, insert a STReflexAttackFilter slice before a
  * slice where the reflex stipulation might force the side at the move
  * to reach the goal
@@ -1119,10 +1093,10 @@ static void reflex_guards_inserter_branch_fork(slice_index si,
 
 static stip_structure_visitor const reflex_guards_inserters[] =
 {
-  &stip_traverse_structure_children,            /* STProxy */
+  &stip_traverse_structure_children,   /* STProxy */
   &reflex_guards_inserter_attack,      /* STAttackMove */
   &reflex_guards_inserter_defense,     /* STDefenseMove */
-  &reflex_guards_inserter_help,        /* STHelpMove */
+  &stip_traverse_structure_children,   /* STHelpMove */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &reflex_guards_inserter_series,      /* STSeriesMove */
   &reflex_guards_inserter_branch_fork, /* STSeriesFork */
@@ -1199,6 +1173,33 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsHelpFilter */
   &stip_traverse_structure_children    /* STStopOnShortSolutionsSeriesFilter */
 };
+
+/* In alternate play, insert a STReflexHelpFilter slice before a slice
+ * where the reflex stipulation might force the side at the move to
+ * reach the goal
+ */
+static void reflex_guards_inserter_help(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const idx = (length-slack_length_help+1)%2;
+  slice_index const proxy_to_avoided = param->to_be_avoided[idx];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (proxy_to_avoided!=no_slice)
+    pipe_append(slices[si].prev,
+                alloc_reflex_help_filter(length,min_length,proxy_to_avoided));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Instrument a branch with STReflex* slices for a (non-semi)
  * reflex stipulation 
