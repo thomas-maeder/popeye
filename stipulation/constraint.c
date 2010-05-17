@@ -1047,32 +1047,6 @@ static void reflex_guards_inserter_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* In series play, insert a STReflexSeriesFilter slice before a slice where
- * the reflex stipulation might force the side at the move to reach
- * the goal
- */
-static void reflex_guards_inserter_series(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  init_param * const param = st->param;
-  slice_index const proxy_to_avoided = param->to_be_avoided[1];
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index const prev = slices[si].prev;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(prev,
-              alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Prevent STReflex* slice insertion from recursing into the following
  * branch
  */
@@ -1098,7 +1072,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &reflex_guards_inserter_defense,     /* STDefenseMove */
   &stip_traverse_structure_children,   /* STHelpMove */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
-  &reflex_guards_inserter_series,      /* STSeriesMove */
+  &stip_traverse_structure_children,   /* STSeriesMove */
   &reflex_guards_inserter_branch_fork, /* STSeriesFork */
   &stip_structure_visitor_noop,        /* STLeafDirect */
   &stip_structure_visitor_noop,        /* STLeafHelp */
@@ -1234,6 +1208,32 @@ void slice_insert_reflex_filters(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* In series play, insert a STReflexSeriesFilter slice before a slice where
+ * the reflex stipulation might force the side at the move to reach
+ * the goal
+ */
+static void reflex_guards_inserter_series(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  slice_index const proxy_to_avoided = param->to_be_avoided[0];
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index const prev = slices[si].prev;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_append(prev,
+              alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* In battle play, insert a STReflexDefenderFilter slice before a
  * defense slice
  * @param si identifies defense slice
@@ -1265,12 +1265,12 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
 
 static stip_structure_visitor const reflex_guards_inserters_semi[] =
 {
-  &stip_traverse_structure_children,             /* STProxy */
-  &stip_traverse_structure_children,             /* STAttackMove */
+  &stip_traverse_structure_children,    /* STProxy */
+  &stip_traverse_structure_children,    /* STAttackMove */
   &reflex_guards_inserter_defense_semi, /* STDefenseMove */
   &reflex_guards_inserter_help,         /* STHelpMove */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
-  &stip_traverse_structure_children,             /* STSeriesMove */
+  &reflex_guards_inserter_series,       /* STSeriesMove */
   &reflex_guards_inserter_branch_fork,  /* STSeriesFork */
   &stip_structure_visitor_noop,         /* STLeafDirect */
   &stip_structure_visitor_noop,         /* STLeafHelp */
