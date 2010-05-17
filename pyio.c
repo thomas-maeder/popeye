@@ -2557,7 +2557,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("hr",tok,2)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+2,STLeafHelp,proxy_leaf); /* skip over "hr" */
+    tok = ParseGoal(tok+2,STLeafForced,proxy_leaf); /* skip over "hr" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2569,15 +2569,20 @@ static char *ParsePlay(char *tok, slice_index proxy)
         if (result!=0)
         {
           Goal const goal = slices[leaf].u.leaf.goal;
-          slice_index const avoided_attack = alloc_leaf_slice(STLeafDirect,
-                                                              goal);
-          slice_index const not_attack = alloc_not_slice(avoided_attack);
-          slice_index const proxy_avoided_attack = alloc_proxy_slice();
+          slice_index const avoided_leaf = alloc_leaf_slice(STLeafForced,goal);
+          slice_index const
+              avoided = alloc_attack_move_slice(slack_length_battle+1,
+                                                slack_length_battle+1);
+          slice_index const not = alloc_not_slice(avoided);
+          slice_index const proxy_avoided = alloc_proxy_slice();
 
-          slice_index const branch = alloc_help_branch(length,min_length,
+          slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_leaf);
-          pipe_link(proxy_avoided_attack,not_attack);
-          slice_insert_reflex_filters_semi(branch,proxy_avoided_attack);
+
+          pipe_link(avoided,avoided_leaf);
+          pipe_link(proxy_avoided,not);
+
+          slice_insert_reflex_filters_semi(branch,proxy_avoided);
           if ((length-slack_length_help)%2==0)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
@@ -2589,7 +2594,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
           else
             pipe_link(proxy,branch);
 
-          slices[leaf].starter = Black;
+          slices[leaf].starter = White;
         }
       }
     }
