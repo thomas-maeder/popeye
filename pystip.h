@@ -64,7 +64,6 @@
     ENUMERATOR(STDirectDefenderFilter),   /* direct play, just played attack */ \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
-    ENUMERATOR(STReflexRootSolvableFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \

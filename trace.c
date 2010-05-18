@@ -365,7 +365,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STReflexHelpFilter:
       case STReflexSeriesFilter:
-      case STReflexRootSolvableFilter:
       case STReflexAttackerFilter:
       case STReflexDefenderFilter:
         Trace_branch(si);

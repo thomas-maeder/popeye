@@ -247,7 +247,6 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STDirectDefenderFilter */
   &stip_traverse_structure_children,        /* STReflexHelpFilter */
   &stip_traverse_structure_children,        /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,        /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,        /* STReflexAttackerFilter */
   &stip_traverse_structure_children,        /* STReflexDefenderFilter */
   &stip_traverse_structure_children,        /* STSelfDefense */
@@ -370,7 +369,6 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
-  &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */

@@ -302,7 +302,6 @@ static stip_structure_visitor const variation_handler_inserters[] =
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
-  &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &variation_writer_insert_self_defense, /* STSelfDefense */

@@ -172,7 +172,6 @@ static stip_structure_visitor const output_mode_detectors[] =
   &output_mode_treemode,             /* STDirectDefenderFilter */
   &pipe_traverse_next,               /* STReflexHelpFilter */
   &pipe_traverse_next,               /* STReflexSeriesFilter */
-  &output_mode_treemode,             /* STReflexRootSolvableFilter */
   &output_mode_treemode,             /* STReflexAttackerFilter */
   &output_mode_treemode,             /* STReflexDefenderFilter */
   &output_mode_self_defense,         /* STSelfDefense */

@@ -72,30 +72,6 @@ static slice_index alloc_reflex_help_filter(stip_length_type length,
 /* **************** Implementation of interface attacker_filter **************
  */
 
-/* Allocate a STReflexRootSolvableFilter slice
- * @param proxy_to_avoided prototype of slice that must not be solvable
- * @return index of allocated slice
- */
-static
-slice_index alloc_reflex_root_solvable_filter(slice_index proxy_to_avoided)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_avoided);
-  TraceFunctionParamListEnd();
-
-  /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexRootSolvableFilter,
-                             0,0,
-                             proxy_to_avoided);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STReflexAttackerFilter slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -140,11 +116,10 @@ void reflex_attacker_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(avoided,st);
+  stip_traverse_structure(next,st);
 
   {
-    slice_index const guard = alloc_reflex_root_solvable_filter(*root);
-    stip_traverse_structure(next,st);
+    slice_index const guard = copy_slice(si);
     pipe_link(guard,*root);
     *root = guard;
 
@@ -1112,7 +1087,6 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STDirectDefenderFilter */
   &stip_traverse_structure_children,   /* STReflexHelpFilter */
   &stip_traverse_structure_children,   /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,   /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
   &stip_traverse_structure_children,   /* STReflexDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfDefense */
@@ -1310,7 +1284,6 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STDirectDefenderFilter */
   &stip_traverse_structure_children,    /* STReflexHelpFilter */
   &stip_traverse_structure_children,    /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,    /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,    /* STReflexAttackerFilter */
   &stip_traverse_structure_children,    /* STReflexDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfDefense */

@@ -313,7 +313,6 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STDirectDefenderFilter */
   &slice_property_offset_shifter,    /* STReflexHelpFilter */
   &slice_property_offset_shifter,    /* STReflexSeriesFilter */
-  &slice_property_offset_shifter,    /* STReflexRootSolvableFilter */
   &slice_property_offset_shifter,    /* STReflexAttackerFilter */
   &slice_property_offset_shifter,    /* STReflexDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfDefense */
@@ -673,7 +672,6 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STDirectDefenderFilter */
   &stip_traverse_structure_children,     /* STReflexHelpFilter */
   &stip_traverse_structure_children,     /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,     /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
@@ -2335,7 +2333,6 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
-  &stip_traverse_moves_pipe,                 /* STReflexRootSolvableFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexAttackerFilter */
   &stip_traverse_moves_battle_fork,          /* STReflexDefenderFilter */
   &stip_traverse_moves_battle_fork,          /* STSelfDefense */

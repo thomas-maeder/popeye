@@ -152,7 +152,6 @@ static stip_structure_visitor const slice_deallocators[] =
   &traverse_and_deallocate,             /* STDirectDefenderFilter */
   &stip_traverse_structure_children,             /* STReflexHelpFilter */
   &stip_traverse_structure_children,             /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,             /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,             /* STReflexAttackerFilter */
   &stip_traverse_structure_children,             /* STReflexDefenderFilter */
   &traverse_and_deallocate,             /* STSelfDefense */

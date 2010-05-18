@@ -547,7 +547,6 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children,           /* STDirectDefenderFilter */
   &stip_traverse_structure_children,           /* STReflexHelpFilter */
   &stip_traverse_structure_children,           /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,           /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children,           /* STReflexAttackerFilter */
   &stip_traverse_structure_children,           /* STReflexDefenderFilter */
   &stip_traverse_structure_children,           /* STSelfDefense */
@@ -2332,7 +2331,6 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
-  &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
@@ -2447,7 +2445,6 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
-  &stip_traverse_structure_children, /* STReflexRootSolvableFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
@@ -2809,7 +2806,6 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
-  &stip_traverse_moves_reflex_attack_filter, /* STReflexRootSolvableFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexAttackerFilter */
   &stip_traverse_moves_battle_fork,          /* STReflexDefenderFilter */
   &stip_traverse_moves_battle_fork,          /* STSelfDefense */
