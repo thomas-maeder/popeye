@@ -673,7 +673,6 @@ void reflex_help_filter_insert_root(slice_index si,
                                     stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index guard;
 
   TraceFunctionEntry(__func__);
@@ -682,7 +681,7 @@ void reflex_help_filter_insert_root(slice_index si,
 
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
-  guard = alloc_reflex_root_solvable_filter(avoided);
+  guard = copy_slice(si);
   
   if (slices[si].u.pipe.next==no_slice)
   {
@@ -719,7 +718,7 @@ boolean reflex_help_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_solve(avoided)==has_solution && length>slack_length_help)
+  if (slice_root_solve(avoided) && length>slack_length_help)
     result = slice_root_solve(next);
   else
     result = false;
@@ -842,7 +841,6 @@ void reflex_series_filter_insert_root(slice_index si,
                                       stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -851,7 +849,7 @@ void reflex_series_filter_insert_root(slice_index si,
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
   {
-    slice_index const guard = alloc_reflex_root_solvable_filter(avoided);
+    slice_index const guard = copy_slice(si);
     pipe_link(guard,*root);
     *root = guard;
     shorten_series_pipe(si);

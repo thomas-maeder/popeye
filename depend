@@ -445,8 +445,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   pytable.h pymovenb.h stipulation/battle_play/defense_play.h \
   stipulation/help_play/play.h boolean.h pystip.h pydegent.h pyflight.h \
   pynontrv.h pythreat.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h \
-  pypipe.h pyint.h stipulation/proxy.h pypipe.h stipulation/branch.h \
-  stipulation/battle_play/branch.h stipulation/battle_play/attack_move.h \
+  pypipe.h pyint.h pyoutput.h stipulation/proxy.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/branch.h \
+  stipulation/battle_play/attack_move.h \
   stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_play.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
@@ -538,6 +539,8 @@ pyselfcg.h:
 pypipe.h:
 
 pyint.h:
+
+pyoutput.h:
 
 stipulation/proxy.h:
 
@@ -2347,12 +2350,16 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
+  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
   pytable.h pystip.h pyoutput.h pytable.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2369,10 +2376,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 pygoal.h:
 

@@ -52,8 +52,6 @@ boolean attack_root_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_output(si);
-
   output_start_continuation_level(si);
 
   if (min_length==slack_length_battle+1
@@ -89,7 +87,7 @@ boolean attack_root_root_solve(slice_index si)
           if (nr_moves_needed<=length-1)
             result = true;
           if (nr_moves_needed<=length+1)
-            write_end_of_solution(si);
+            write_end_of_solution();
         }
       }
 

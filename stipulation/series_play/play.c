@@ -150,6 +150,10 @@ boolean series_root_solve(slice_index si)
       result = series_root_root_solve(si);
       break;
 
+    case STReflexSeriesFilter:
+      result = reflex_series_filter_root_solve(si);
+      break;
+
     default:
       assert(0);
       break;

@@ -1,6 +1,5 @@
 #include "stipulation/help_play/root.h"
 #include "pydata.h"
-#include "pyoutput.h"
 #include "pyslice.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/play.h"
@@ -52,8 +51,6 @@ boolean help_root_root_solve(slice_index root)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
-
-  init_output(root);
 
   /* Do *not* delegate to help_solve() here:
    * If help_solve() has found solutions of a certain length, it won't

@@ -133,8 +133,6 @@ boolean leaf_d_root_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  init_output(leaf);
-
   output_start_continuation_level(leaf);
 
   if (are_prerequisites_for_reaching_goal_met(goal,attacker))
@@ -159,7 +157,7 @@ boolean leaf_d_root_solve(slice_index leaf)
         write_battle_move();
         write_goal(slices[leaf].u.leaf.goal);
         write_battle_move_decoration(nbply,attack_key);
-        write_end_of_solution(leaf);
+        write_end_of_solution();
       }
 
       repcoup();

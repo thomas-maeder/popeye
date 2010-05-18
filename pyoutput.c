@@ -21,7 +21,6 @@
     ENUMERATOR(output_mode_line), \
     ENUMERATOR(output_mode_none)
 
-#define ENUMERATION_DECLARE
 #define ENUMERATION_MAKESTRINGS
 
 #include "pyenum.h"
@@ -39,6 +38,18 @@ static unsigned int nr_moves_written[maxply];
 
 static attack_type pending_decoration = attack_regular;
 
+
+void set_output_mode(output_mode mode)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(output_mode,mode,"");
+  TraceFunctionParamListEnd();
+
+  current_mode = mode;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void output_mode_treemode(slice_index si, stip_structure_traversal *st)
 {
@@ -622,7 +633,7 @@ void write_refutation_mark(void)
 
 /* Write the end of a solution
  */
-void write_end_of_solution(slice_index si)
+void write_end_of_solution(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

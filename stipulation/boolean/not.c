@@ -143,8 +143,6 @@ boolean not_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  init_output(si);
-
   switch (slice_solve(slices[si].u.pipe.next))
   {
     case has_solution:

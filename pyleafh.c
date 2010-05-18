@@ -104,8 +104,6 @@ boolean leaf_h_root_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  init_output(leaf);
-
   isIntelligentModeActive = false;
   result = leaf_h_solve(leaf)==has_solution;
   if (result)

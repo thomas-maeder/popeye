@@ -11,6 +11,17 @@
  */
 extern slice_index active_slice[maxply];
 
+#define ENUMERATION_TYPENAME output_mode
+#define ENUMERATORS \
+  ENUMERATOR(output_mode_tree), \
+    ENUMERATOR(output_mode_line), \
+    ENUMERATOR(output_mode_none)
+
+#define ENUMERATION_DECLARE
+
+#include "pyenum.h"
+
+void set_output_mode(output_mode mode);
 
 /* Write the appropriate amount of whitespace for the following output
  * to be correctely indented.
@@ -87,7 +98,7 @@ void write_refutations(table t);
 
 /* Write the end of a solution
  */
-void write_end_of_solution(slice_index si);
+void write_end_of_solution(void);
 
 /* Write the end of a solution phase
  */

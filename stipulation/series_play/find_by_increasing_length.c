@@ -132,8 +132,6 @@ boolean series_root_root_solve(slice_index root)
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
-  init_output(root);
-
   assert(slices[root].u.shortcut.min_length>=slack_length_series);
 
   /* Do *not* delegate to series_solve() here:
