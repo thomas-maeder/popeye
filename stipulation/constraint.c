@@ -383,10 +383,6 @@ void reflex_defender_filter_insert_root(slice_index si,
 
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
-  TraceValue("%u\n",*root);
-  if (*root==slices[si].u.pipe.next)
-    *root = si;
-  else
   {
     slice_index const guard = copy_slice(si);
     pipe_link(guard,*root);
