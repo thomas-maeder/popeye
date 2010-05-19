@@ -280,6 +280,8 @@ static
 void continuation_writer_insert_defender_filter(slice_index si,
                                                 stip_structure_traversal *st)
 {
+  continuation_handler_insertion_state * const state = st->param;
+  continuation_handler_insertion_state const save_state = *state;
   slice_index const next = slices[si].u.branch_fork.next;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
 
@@ -289,12 +291,15 @@ void continuation_writer_insert_defender_filter(slice_index si,
 
   assert(slices[proxy_to_goal].type==STProxy);
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure(proxy_to_goal,st);
 
-  if (slices[slices[proxy_to_goal].u.pipe.next].type!=STContinuationWriter)
+  TraceValue("%u\n",*state);
+  if (*state==continuation_handler_needed)
     pipe_append(proxy_to_goal,
                 alloc_continuation_writer_slice(slack_length_battle,
                                                 slack_length_battle));
+  *state = save_state;
+  stip_traverse_structure(next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
