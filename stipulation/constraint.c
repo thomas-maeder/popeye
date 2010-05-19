@@ -9,7 +9,6 @@
 #include "pyslice.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "pyoutput.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
@@ -475,11 +474,7 @@ stip_length_type reflex_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n==slack_length_battle+1)
-  {
-    output_start_defense_level(avoided);
     result = slice_solve(avoided)==has_solution ? n+2 : n_min;
-    output_end_defense_level();
-  }
   else
     result = defense_defend_in_n(next,n,n_min);
 
