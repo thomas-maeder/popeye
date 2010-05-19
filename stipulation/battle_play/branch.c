@@ -90,7 +90,6 @@ slice_index alloc_battle_branch(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
-    slice_index const proxy = alloc_proxy_slice();
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length-1,min_length-1);
@@ -98,13 +97,11 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                          min_length-1);
     slice_index const
         guard2 = alloc_selfcheck_guard_attacker_filter(length,min_length);
-    pipe_link(proxy,guard2);
+    pipe_link(result,guard2);
     pipe_link(guard2,attack);
     pipe_link(attack,guard1);
     pipe_link(guard1,defense);
-    pipe_link(defense,proxy);
-
-    pipe_set_successor(result,proxy);
+    pipe_link(defense,result);
   }
 
   TraceFunctionExit(__func__);

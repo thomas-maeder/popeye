@@ -2667,7 +2667,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
                                                          min_length+1);
           pipe_link(proxy_avoided,not);
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
-          pipe_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
           slices[avoided].starter = Black;
 
           set_output_mode(output_mode_tree);
@@ -2693,7 +2693,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
           slice_index const branch = alloc_battle_branch(length+1,
                                                          min_length+1);
           slice_insert_self_guards(branch,proxy_leaf);
-          pipe_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
           slices[leaf].starter = White;
 
           set_output_mode(output_mode_tree);
@@ -2734,7 +2734,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
           slice_insert_reflex_filters(branch,
                                       proxy_avoided_attack,
                                       proxy_avoided_defense);
-          pipe_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
           slices[avoided_defense].starter = Black;
 
           set_output_mode(output_mode_tree);
@@ -2759,7 +2759,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const branch = alloc_battle_branch(length,min_length);
           slice_insert_direct_guards(branch,proxy_leaf);
-          pipe_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
           slices[leaf].starter = Black;
 
           set_output_mode(output_mode_tree);
