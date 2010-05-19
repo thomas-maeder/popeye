@@ -109,7 +109,6 @@ void reflex_attacker_filter_insert_root(slice_index si,
                                         stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
