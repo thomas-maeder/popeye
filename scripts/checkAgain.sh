@@ -23,7 +23,7 @@ do
     # only true if *.tst isn't expanded because there is no matching file
     if [ -f $f ]
     then
-        stem=`echo $f | sed -e 's/[.]reg$//'`
+        stem=`echo $f | sed -e 's/[.]tst$//'`
         echo ../TESTS/$stem.inp
     fi
 done
