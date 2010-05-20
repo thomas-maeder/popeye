@@ -1,0 +1,17 @@
+begin
+
+prot help_play.tst
+
+title h#1 with set play, but black king is in check
+pieces white ka6 bh2 sc4 black kb8
+stip h#1
+option set
+
+next
+
+title not 1.Qb2+ because of exact-
+pieces white ka1 qb5 bb1
+       black ka3 pc3
+stip exact-hr#2
+
+end

@@ -1,0 +1,10 @@
+begin
+
+prot series_play.tst
+
+title not 1.Qb2+ because of exact-
+pieces white ka1 qb5 bb1 pb6
+       black ka3 pc3b7
+stip exact-ser-r#2
+
+end
