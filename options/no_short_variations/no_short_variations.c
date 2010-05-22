@@ -5,7 +5,8 @@
 
 #include <assert.h>
 
-static void insert_no_short_variations(slice_index si, stip_structure_traversal *st)
+static void append_no_short_variations(slice_index si,
+                                       stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -16,8 +17,7 @@ static void insert_no_short_variations(slice_index si, stip_structure_traversal 
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(slices[si].prev,
-                alloc_no_short_variations_slice(length,min_length));
+    pipe_append(si,alloc_no_short_variations_slice(length,min_length));
   }
 
   TraceFunctionExit(__func__);
@@ -33,9 +33,9 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STHelpFork */
   &stip_traverse_structure_children,    /* STSeriesMove */
   &stip_traverse_structure_children,    /* STSeriesFork */
-  &stip_structure_visitor_noop,       /* STLeafDirect */
-  &stip_structure_visitor_noop,       /* STLeafHelp */
-  &stip_structure_visitor_noop,       /* STLeafForced */
+  &stip_structure_visitor_noop,         /* STLeafDirect */
+  &stip_structure_visitor_noop,         /* STLeafHelp */
+  &stip_structure_visitor_noop,         /* STLeafForced */
   &stip_traverse_structure_children,    /* STReciprocal */
   &stip_traverse_structure_children,    /* STQuodlibet */
   &stip_traverse_structure_children,    /* STNot */
@@ -52,7 +52,7 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STThreatEnforcer */
   &stip_traverse_structure_children,    /* STThreatCollector */
   &stip_traverse_structure_children,    /* STRefutationsCollector */
-  &insert_no_short_variations, /* STVariationWriter */
+  &stip_traverse_structure_children,    /* STVariationWriter */
   &stip_traverse_structure_children,    /* STRefutingVariationWriter */
   &stip_traverse_structure_children,    /* STNoShortVariations */
   &stip_traverse_structure_children,    /* STAttackHashed */
@@ -66,7 +66,7 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardSolvableFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardRootDefenderFilter */
-  &stip_traverse_structure_children,    /* STSelfCheckGuardAttackerFilter */
+  &append_no_short_variations,          /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardSeriesFilter */
