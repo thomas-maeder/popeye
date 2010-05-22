@@ -66,6 +66,6 @@ stip_length_type restart_guard_help_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-boolean restart_guard_series_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type restart_guard_series_solve_in_n(slice_index si, stip_length_type n);
 
 #endif

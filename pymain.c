@@ -2,6 +2,7 @@
 #include "pyhash.h"
 #include "pymsg.h"
 #include "py1.h"
+#include "py6.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"

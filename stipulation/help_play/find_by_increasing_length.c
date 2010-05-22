@@ -7,6 +7,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"
+#include "pyoutput.h"
 #include "trace.h"
 
 #include <assert.h>

@@ -24,7 +24,7 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying);
  *         n+1 no solution found
  *         n   solution found
  */
-boolean parry_fork_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type parry_fork_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether the slice has a solution in n half moves.
  * @param si slice index of slice being solved
