@@ -207,43 +207,6 @@ stip_length_type keepmating_guard_direct_solve_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean keepmating_guard_are_threats_refuted_in_n(table threats,
-                                                  stip_length_type len_threat,
-                                                  slice_index si,
-                                                  stip_length_type n)
-{
-  Side const mating = slices[si].u.keepmating_guard.mating;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,mating,"\n");
-
-  if (is_a_mating_piece_left(mating))
-    result = attack_are_threats_refuted_in_n(threats,len_threat,
-                                             slices[si].u.pipe.next,
-                                             n);
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* **************** Implementation of interface DirectDefender **********
  */
 

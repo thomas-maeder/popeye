@@ -62,91 +62,6 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal (after the defense)
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean attack_move_are_threats_refuted_in_n(table threats,
-                                             stip_length_type len_threat,
-                                             slice_index si,
-                                             stip_length_type n)
-{
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-  unsigned int const nr_refutations_allowed = 0;
-  boolean result;
-  unsigned int nr_successful_threats = 0;
-  boolean defense_found = false;
-  stip_length_type n_min;
-  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.branch.length%2);
-
-  n_min = battle_branch_calc_n_min(si,len_threat);
-
-  if (n_min==slack_length_battle+1
-      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
-    n_min = slack_length_battle+3;
-
-  if (n_min<=n)
-  {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = si;
-    if (n<=slack_length_battle+1 && imminent_goal!=no_goal)
-    {
-      empile_for_goal = imminent_goal;
-      empile_for_target = slices[si].u.branch.imminent_target;
-      generate_move_reaching_goal(attacker);
-      empile_for_goal = no_goal;
-    }
-    else
-      genmove(attacker);
-
-    while (encore() && !defense_found)
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && is_current_move_in_table(threats))
-      {
-        if (defense_can_defend_in_n(next,
-                                    len_threat-1,n_min-1,
-                                    nr_refutations_allowed)
-            >=len_threat)
-          defense_found = true;
-        else
-          ++nr_successful_threats;
-      }
-
-      repcoup();
-    }
-
-    finply();
-
-    /* this happens if >=1 threat no longer works or some threats can
-     * no longer be played after the defense.
-     */
-    result = nr_successful_threats<table_length(threats);
-  }
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n maximum number of half moves until goal
@@ -235,8 +150,10 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_battle)
-    n_min += 2;
+  assert(n_min>=slack_length_battle);
+
+  if (n_min==slack_length_battle)
+    n_min = slack_length_battle+2;
 
   for (result = n_min; result<=n; result += 2)
     if (have_we_solution_in_n(si,result))
@@ -334,8 +251,10 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   
   output_start_continuation_level(si);
 
-  if (n_min<=slack_length_battle)
-    n_min += 2;
+  assert(n_min>=slack_length_battle);
+
+  if (n_min==slack_length_battle)
+    n_min = slack_length_battle+2;
 
   for (result = n_min; result<=n; result += 2)
     if (solve_in_n(si,result))

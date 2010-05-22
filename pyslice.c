@@ -39,62 +39,6 @@
 #include "pyenum.h"
 
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean slice_are_threats_refuted(table threats, slice_index si)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STAttackHashed:
-    case STLeafDirect:
-      result = attack_are_threats_refuted(threats,si);
-      break;
-
-    case STHelpMove:
-    case STHelpHashed:
-      result = help_are_threats_refuted(threats,si);
-      break;
-
-    case STSeriesMove:
-    case STSeriesHashed:
-      result = series_are_threats_refuted(threats,si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_are_threats_refuted(threats,si);
-      break;
-
-    case STReciprocal:
-      result = reci_are_threats_refuted(threats,si);
-      break;
-
-    case STNot:
-      result = true;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

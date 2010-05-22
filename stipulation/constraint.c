@@ -176,39 +176,6 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean
-reflex_attacker_filter_are_threats_refuted_in_n(table threats,
-                                                stip_length_type len_threat,
-                                                slice_index si,
-                                                stip_length_type n)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(slice_has_solution(slices[si].u.reflex_guard.avoided)
-         ==has_solution);
-  result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found

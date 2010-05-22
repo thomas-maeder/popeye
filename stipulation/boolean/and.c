@@ -63,32 +63,6 @@ void reci_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @param n number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean reci_are_threats_refuted(table threats, slice_index si)
-{
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = (slice_are_threats_refuted(threats,op1)
-            && slice_are_threats_refuted(threats,op2));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionParam("%u",result);
-  TraceFunctionParamListEnd();
-  return result;
-}
-
 /* Determine whether there is a solution at the end of a quodlibet
  * slice. 
  * @param si slice index

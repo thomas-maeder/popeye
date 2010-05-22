@@ -178,58 +178,6 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean help_move_are_threats_refuted(table threats, slice_index si)
-{
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (table_length(threats)>0)
-  {
-    unsigned int nr_successful_threats = 0;
-    boolean defense_found = false;
-    Side const attacker = slices[si].starter;
-    slice_index const next = slices[si].u.pipe.next;
-    stip_length_type const length = slices[si].u.branch.length;
-
-    move_generation_mode= move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = si;
-    genmove(attacker);
-
-    while (encore() && !defense_found)
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && is_current_move_in_table(threats)
-          && help_has_solution_in_n(next,length-1)==length-1)
-        ++nr_successful_threats;
-
-      repcoup();
-    }
-
-    finply();
-
-    /* this happens if >=1 threat no longer works or some threats can
-     * no longer be played after the defense.
-     */
-    result = nr_successful_threats<table_length(threats);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Iterate moves until a solution has been found
  * @param si slice index of slice being solved
  * @param n number of half moves until end state has to be reached

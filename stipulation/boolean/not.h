@@ -33,12 +33,6 @@ has_solution_type not_solve(slice_index si);
  */
 has_solution_type not_has_solution(slice_index si);
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void not_solve_threats(table threats, slice_index si);
-
 /* Determine and write the solution of a slice
  * @param slice index
  * @return true iff >=1 solution was found

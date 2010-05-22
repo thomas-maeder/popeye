@@ -161,44 +161,6 @@ slice_index alloc_selfcheck_guard_series_filter(stip_length_type length,
 /* **************** Implementation of interface Direct ***************
  */
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
-                                                 stip_length_type len_threat,
-                                                 slice_index si,
-                                                 stip_length_type n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,advers(slices[si].starter)))
-    result = false;
-  else if (slack_length_battle<len_threat
-           && len_threat<=n
-           && table_length(threats)>0)
-    result = attack_are_threats_refuted_in_n(threats,len_threat,
-                                             slices[si].u.pipe.next,
-                                             n);
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached

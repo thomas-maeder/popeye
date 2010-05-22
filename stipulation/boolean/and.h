@@ -22,15 +22,6 @@ slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2);
  */
 void reci_insert_root(slice_index si, stip_structure_traversal *st);
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @param n number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean reci_are_threats_refuted(table threats, slice_index si);
-
 /* Determine whether there is a solution at the end of a reciprocal
  * slice. 
  * @param si slice index

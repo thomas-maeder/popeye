@@ -25,6 +25,22 @@ static stip_length_type threat_lengths[maxply+1];
  */
 static stip_length_type const no_threats_found = UINT_MAX;
 
+/* Represent the current threat related activity in a ply
+ */
+typedef enum
+{
+  threat_idle,
+  threat_solving,
+  threat_enforcing
+} threat_activity;
+
+static threat_activity threat_activities[maxply+1];
+
+/* count threats not defeated by a defense while we are
+ * threat_enforcing
+ */
+static unsigned int nr_threats_to_be_confirmed;
+
 /* Allocate a STThreatEnforcer slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -100,38 +116,6 @@ stip_length_type threat_enforcer_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a short continuation after the defense
- * just played 
- * @param si identifies slice that just played the defense
- * @param n maximum number of half moves until end of branch
- * @param n_min minimal number of half moves to try
- */
-static boolean has_short_continuation(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_min)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (n<slack_length_battle+3)
-    /* remaining play in this slice is too short to allow short
-     * continuations
-     */
-    result = false;
-  else
-    result = attack_has_solution_in_n(next,n-2,n_min)<=n-2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -159,31 +143,38 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
   TraceValue("%u\n",len_threat);
 
   if (len_threat<=slack_length_battle)
-    /* that attack has something stronger than threats (typically, it
+    /* the attack has something stronger than threats (typically, it
      * delivers check)
      */
     result = attack_solve_in_n(next,n,n_min);
   else if (len_threat<=n)
   {
-    /* there is a threat - don't report variations shorter than it */
+    /* there are >=1 threats - don't report variations shorter than
+     * the threats or variations that don't refute any threat
+     */
     table const threats_table = threats[threats_ply];
-    TraceValue("%u\n",threats_ply);
-    if (has_short_continuation(si,len_threat,n_min))
-      result = n_min-2;
-    else if (attack_are_threats_refuted_in_n(threats_table,len_threat,next,n))
-    {
-      /* prevent threat_collector_defend_in_n() from adding the
-       * reported continuations to the threats table
-       */
-      threats[threats_ply] = table_nil;
+    stip_length_type len_test_threats;
+
+    nr_threats_to_be_confirmed = table_length(threats_table);
+
+    threat_activities[threats_ply] = threat_enforcing;
+    len_test_threats = attack_has_solution_in_n(next,len_threat,n_min);
+    threat_activities[threats_ply] = threat_idle;
+
+    if (len_test_threats>len_threat)
+      /* variation is longer than threat */
       result = attack_solve_in_n(next,n,n_min);
-      threats[threats_ply] = threats_table;
-    }
+    else if (len_test_threats==len_threat && nr_threats_to_be_confirmed>0)
+      /* variation has same length as the threat(s), but it has
+       * defeated at least one threat
+       */
+      result = attack_solve_in_n(next,n,n_min);
     else
-      result = n_min-2;
+        /* variation is shorter than threat */
+      result = len_test_threats;
   }
   else
-    /* zugzwang, or we haven't even looked for threats */
+    /* zugzwang, or we haven't looked for threats at all */
     result = attack_solve_in_n(next,n,n_min);
 
   TraceFunctionExit(__func__);
@@ -244,7 +235,7 @@ stip_length_type threat_collector_defend_in_n(slice_index si,
   result = defense_defend_in_n(next,n,n_min);
 
   TraceValue("%u\n",nbply);
-  if (threats[nbply]!=table_nil && result<=n)
+  if (threat_activities[nbply]==threat_solving && result<=n)
     append_to_top_table();
 
   TraceFunctionExit(__func__);
@@ -282,6 +273,31 @@ threat_collector_can_defend_in_n(slice_index si,
 
   result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
 
+  if (threat_activities[nbply]==threat_enforcing
+      && n==threat_lengths[nbply]-1)
+  {
+    if (is_current_move_in_table(threats[nbply]))
+    {
+      if (result<=n)
+      {
+        --nr_threats_to_be_confirmed;
+        if (nr_threats_to_be_confirmed>0)
+          /* threats tried so far still work (perhaps shorter than
+           * before the current defense), but we haven't tried all
+           * threats yet -> don't stop the iteration over the
+           * attacking moves
+           */
+          result = n+2;
+      }
+      else
+        /* we have found a defeated threat -> stop the iteration */
+        result = n;
+    }
+    else
+      /* not a threat -> don't stop the iteration */
+      result = n+2;
+  }
+
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
   TraceFunctionResultEnd();
@@ -312,6 +328,8 @@ static stip_length_type solve_threats(table threats,
   nextply(nbply);
   active_slice[nbply] = si;
 
+  threat_activities[nbply+1] = threat_solving;
+
   output_start_threat_level();
   result = attack_solve_in_n(attack_side,n,n_min);
 
@@ -322,6 +340,8 @@ static stip_length_type solve_threats(table threats,
     boolean const write_zugzwang = n>slack_length_battle && result==n+2;
     output_end_threat_level(si,write_zugzwang);
   }
+
+  threat_activities[nbply+1] = threat_idle;
 
   finply();
 
@@ -726,6 +746,7 @@ void stip_insert_threat_handlers(void)
   {
     threat_lengths[i] = no_threats_found;
     threats[i] = table_nil;
+    threat_activities[i] = threat_idle;
   }
 
   TraceFunctionExit(__func__);

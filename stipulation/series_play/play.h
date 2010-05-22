@@ -7,7 +7,6 @@
 
 #include "py.h"
 #include "pystip.h"
-#include "pytable.h"
 #include "pyslice.h"
 
 /* Solve a slice at root level
@@ -49,13 +48,5 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type series_has_solution(slice_index si);
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean series_are_threats_refuted(table threats, slice_index si);
 
 #endif

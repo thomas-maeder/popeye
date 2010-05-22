@@ -3,7 +3,6 @@
 
 #include "boolean.h"
 #include "pyslice.h"
-#include "pytable.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STNoShortVariations stipulation slices.
@@ -16,19 +15,6 @@
  */
 slice_index alloc_no_short_variations_slice(stip_length_type length,
                                             stip_length_type min_length);
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean no_short_variations_are_threats_refuted_in_n(table threats,
-                                                     stip_length_type len_threat,
-                                                     slice_index si,
-                                                     stip_length_type n);
 
 /* Determine whether a branch slice has a solution
  * @param si slice index

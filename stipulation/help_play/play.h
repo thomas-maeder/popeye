@@ -7,7 +7,6 @@
 
 #include "boolean.h"
 #include "pystip.h"
-#include "pytable.h"
 #include "pyslice.h"
 
 /* Solve a slice at root level
@@ -43,14 +42,6 @@ boolean help_solve(slice_index si);
  *         n   solution found
  */
 stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n);
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean help_are_threats_refuted(table threats, slice_index si);
 
 /* Determine whether a slice has a solution
  * @param si slice index

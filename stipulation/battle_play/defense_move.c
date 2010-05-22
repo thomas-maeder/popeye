@@ -153,6 +153,11 @@ stip_length_type defense_move_root_defend(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
+  assert(n_min>=slack_length_battle);
+
+  if (n_min==slack_length_battle)
+    n_min = slack_length_battle+2;
+
   output_start_defense_level(si);
 
   move_generation_mode = move_generation_not_optimized;
@@ -209,8 +214,13 @@ stip_length_type defense_move_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  output_start_defense_level(si);
+  assert(n_min>=slack_length_battle);
 
+  if (n_min==slack_length_battle)
+    n_min = slack_length_battle+2;
+
+  output_start_defense_level(si);
+  
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   genmove(defender);
@@ -486,6 +496,8 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
+  assert(n_min>=slack_length_battle);
+
   nr_refutations[nbply+1] = 0;
 
   active_slice[nbply+1] = si;
@@ -500,6 +512,9 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
                                                       max_nr_refutations);
   else
   {
+    if (n_min==slack_length_battle)
+      n_min = slack_length_battle+2;
+
     if (n<=slack_length_battle+3)
     {
       move_generation_mode = move_generation_optimized_by_killer_move;

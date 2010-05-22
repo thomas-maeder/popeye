@@ -18,7 +18,7 @@ trace.h:
 stipulation/help_play/root$(OBJ_SUFFIX): stipulation/help_play/root.c \
   stipulation/help_play/root.h pydata.h pyslice.h stipulation/branch.h \
   stipulation/help_play/play.h pypipe.h stipulation/proxy.h \
-  stipulation/help_play/branch.h trace.h
+  stipulation/help_play/branch.h pyoutput.h trace.h
 
 stipulation/help_play/root.h:
 
@@ -35,6 +35,8 @@ pypipe.h:
 stipulation/proxy.h:
 
 stipulation/help_play/branch.h:
+
+pyoutput.h:
 
 trace.h:
 stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \

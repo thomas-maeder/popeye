@@ -328,30 +328,3 @@ has_solution_type series_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean series_are_threats_refuted(table threats, slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  if (slices[si].type==STSeriesMove)
-    result = series_move_are_threats_refuted(threats,si);
-  else
-    result = series_are_threats_refuted(threats,slices[si].u.pipe.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}

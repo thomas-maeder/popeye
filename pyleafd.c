@@ -10,67 +10,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param leaf slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean leaf_d_are_threats_refuted(table threats, slice_index leaf)
-{
-  Side const attacker = slices[leaf].starter;
-  Goal const goal = slices[leaf].u.leaf.goal;
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (table_length(threats)>0)
-  {
-    unsigned int nr_successful_threats = 0;
-    boolean defense_found = false;
-
-    if (are_prerequisites_for_reaching_goal_met(goal,attacker))
-    {
-      move_generation_mode = move_generation_not_optimized;
-      TraceValue("->%u\n",move_generation_mode);
-      empile_for_goal = goal;
-      empile_for_target = slices[leaf].u.leaf.target;
-      active_slice[nbply+1] = leaf;
-      generate_move_reaching_goal(attacker);
-      empile_for_goal = no_goal;
-
-      while (encore() && !defense_found)
-      {
-        if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-            && is_current_move_in_table(threats))
-        {
-          if (leaf_is_goal_reached(attacker,leaf)==goal_reached)
-            ++nr_successful_threats;
-          else
-            defense_found = true;
-        }
-
-        repcoup();
-      }
-
-      finply();
-    }
-
-    /* this happens if >=1 threat no longer works or some threats can
-     * no longer be played after the defense.
-     */
-    result = nr_successful_threats<table_length(threats);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in a direct leaf.
  * @param leaf slice index of leaf slice
  * @return whether there is a solution and (to some extent) why not
@@ -229,51 +168,6 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param leaf index of branch slice
- */
-void leaf_d_solve_threats(table threats, slice_index leaf)
-{
-  Side const attacker = slices[leaf].starter;
-  Goal const goal = slices[leaf].u.leaf.goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-
-  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
-  {
-    move_generation_mode = move_generation_optimized_by_killer_move;
-    TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = leaf;
-    empile_for_goal = goal;
-    empile_for_target = slices[leaf].u.leaf.target;
-    active_slice[nbply+1] = leaf;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
-
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && leaf_is_goal_reached(attacker,leaf)==goal_reached)
-      {
-        write_battle_move();
-        write_goal(slices[leaf].u.leaf.goal);
-        append_to_top_table();
-        coupfort();
-      }
-
-      repcoup();
-    }
-
-    finply();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Detect starter field with the starting side if possible.

@@ -2554,41 +2554,6 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean attack_hashed_are_threats_refuted_in_n(table threats,
-                                               stip_length_type len_threat,
-                                               slice_index si,
-                                               stip_length_type n)
-{
-  boolean result;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type len_threat_min;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  len_threat_min = adjust_n_min(si,len_threat,len_threat);
-  if (len_threat_min<=len_threat)
-    result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static stip_length_type delegate_has_solution_in_n(slice_index si,
                                                    stip_length_type n,
                                                    stip_length_type n_min)

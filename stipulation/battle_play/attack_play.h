@@ -6,30 +6,8 @@
  */
 
 #include "pyslice.h"
-#include "pytable.h"
 
 #include <limits.h>
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean attack_are_threats_refuted_in_n(table threats,
-                                        stip_length_type len_threat,
-                                        slice_index si,
-                                        stip_length_type n);
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param si slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean attack_are_threats_refuted(table threats, slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

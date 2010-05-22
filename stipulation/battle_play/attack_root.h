@@ -4,7 +4,6 @@
 #include "boolean.h"
 #include "pystip.h"
 #include "pyslice.h"
-#include "pytable.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STAttackMove stipulation slices.

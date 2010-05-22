@@ -88,19 +88,6 @@ keepmating_guard_can_defend_in_n(slice_index si,
                                  stip_length_type n_min,
                                  unsigned int max_nr_refutations);
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean keepmating_guard_are_threats_refuted_in_n(table threats,
-                                                  stip_length_type len_threat,
-                                                  slice_index si,
-                                                  stip_length_type n);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

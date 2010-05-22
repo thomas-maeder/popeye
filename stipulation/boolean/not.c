@@ -117,20 +117,6 @@ has_solution_type not_has_solution(slice_index si)
   return result;
 }
 
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param si index of branch slice
- */
-void not_solve_threats(table threats, slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine and write the solution of a slice
  * @param slice index
  * @return true iff >=1 solution was found

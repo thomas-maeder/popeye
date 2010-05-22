@@ -21,19 +21,6 @@ stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
                                                        stip_length_type n,
                                                        stip_length_type n_min);
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean self_defense_are_threats_refuted_in_n(table threats,
-                                              stip_length_type len_threat,
-                                              slice_index si,
-                                              stip_length_type n);
-
 /* Solve a slice
  * @param si slice index
  * @param n maximum number of half moves until goal

@@ -127,45 +127,6 @@ stip_length_type self_defense_direct_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean self_defense_are_threats_refuted_in_n(table threats,
-                                              stip_length_type len_threat,
-                                              slice_index si,
-                                              stip_length_type n)
-{
-  boolean result = true;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const max_n_for_goal = (length-min_length
-                                           +slack_length_battle+1);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",max_n_for_goal);
-
-  if (n<max_n_for_goal && slice_has_solution(towards_goal)==has_solution)
-    result = false;
-  else
-    result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* **************** Implementation of interface Slice ***************
  */

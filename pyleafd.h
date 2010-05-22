@@ -3,27 +3,12 @@
 
 #include "boolean.h"
 #include "pyslice.h"
-#include "pytable.h"
 #include "py.h"
 #include "stipulation/battle_play/attack_play.h"
 
 /* This module provides functionality dealing with direct leaf
  * stipulation slices.
  */
-
-/* Determine and write threats of a slice
- * @param threats table where to store threats
- * @param leaf index of branch slice
- */
-void leaf_d_solve_threats(table threats, slice_index leaf);
-
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param leaf slice index
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean leaf_d_are_threats_refuted(table threats, slice_index leaf);
 
 /* Determine whether there is a solution in a leaf.
  * @param leaf slice index of leaf slice

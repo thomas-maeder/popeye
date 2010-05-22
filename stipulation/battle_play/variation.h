@@ -6,19 +6,6 @@
 /* This module provides functionality dealing with variations
  */
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean variation_writer_are_threats_refuted_in_n(table threats,
-                                                  stip_length_type len_threat,
-                                                  slice_index si,
-                                                  stip_length_type n);
-
 /* Determine whether a branch slice has a solution
  * @param si slice index
  * @param n maximal number of moves

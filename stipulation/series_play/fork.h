@@ -6,7 +6,6 @@
  */
 
 #include "pyslice.h"
-#include "pytable.h"
 
 /* Allocate a STSeriesFork slice.
  * @param length maximum number of half-moves of slice (+ slack)

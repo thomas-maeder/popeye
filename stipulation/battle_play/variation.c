@@ -31,38 +31,6 @@ static slice_index alloc_variation_writer_slice(stip_length_type length,
   return result;
 }
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal (after the defense)
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean variation_writer_are_threats_refuted_in_n(table threats,
-                                                  stip_length_type len_threat,
-                                                  slice_index si,
-                                                  stip_length_type n)
-{
-  slice_index const next = slices[si].u.pipe.next;
-  boolean result = true;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",threats);
-  TraceFunctionParam("%u",table_length(threats));
-  TraceFunctionParam("%u",len_threat);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  result = attack_are_threats_refuted_in_n(threats,len_threat,next,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether attacker can end in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -187,13 +155,25 @@ static void variation_handler_insert_binary(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Append a variation writer if none has been inserted before
+
+/* The following enumeration type represents the state of variation
+ * handler insertion
+ */
+typedef enum
+{
+  variation_handler_none,
+  variation_handler_needed,
+  variation_handler_inserted
+} variation_handler_insertion_state;
+
+/* Prepend a variation writer
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void variation_writer_branch_append(slice_index si,
-                                           stip_structure_traversal *st)
+static void variation_writer_prepend(slice_index si,
+                                     stip_structure_traversal *st)
 {
+  variation_handler_insertion_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -201,8 +181,39 @@ static void variation_writer_branch_append(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_variation_writer_slice(length,min_length));
+  if (*state==variation_handler_needed)
+  {
+    *state = variation_handler_inserted;
+    stip_traverse_structure_children(si,st);
+    *state = variation_handler_needed;
+
+    pipe_append(slices[si].prev,
+                alloc_variation_writer_slice(length,min_length));
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Prepend a variation writer
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void variation_writer_prepend_leaf(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  variation_handler_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*state==variation_handler_needed)
+    pipe_append(slices[si].prev,
+                alloc_variation_writer_slice(slack_length_battle,
+                                             slack_length_battle));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -215,39 +226,40 @@ static void variation_writer_branch_append(slice_index si,
 static void variation_writer_insert_self_defense(slice_index si,
                                                  stip_structure_traversal *st)
 {
+  variation_handler_insertion_state * const state = st->param;
+  variation_handler_insertion_state const save_state = *state;
   slice_index const next = slices[si].u.branch_fork.next;
-  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy_to_goal].type==STProxy);
-
   stip_traverse_structure(next,st);
-
-  pipe_append(proxy_to_goal,
-              alloc_variation_writer_slice(slack_length_battle,
-                                           slack_length_battle));
+  *state = save_state;
+  stip_traverse_structure(to_goal,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Avoid the parrying move when inserting variation writers
+/* Inform slices traversed after a STDefenseMove slice that a
+ * variation writer slice is needed 
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void variation_handler_avoid_parrying(slice_index si,
-                                             stip_structure_traversal *st)
+static void mark_need_for_handler(slice_index si,
+                                  stip_structure_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
+  variation_handler_insertion_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  *state = variation_handler_needed;
+  stip_traverse_structure_children(si,st);
+  *state = variation_handler_none;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -256,18 +268,18 @@ static void variation_handler_avoid_parrying(slice_index si,
 static stip_structure_visitor const variation_handler_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
-  &stip_traverse_structure_children, /* STAttackMove */
-  &stip_traverse_structure_children, /* STDefenseMove */
+  &variation_writer_prepend,         /* STAttackMove */
+  &mark_need_for_handler,            /* STDefenseMove */
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpFork */
   &stip_structure_visitor_noop,      /* STSeriesMove */
   &stip_structure_visitor_noop,      /* STSeriesFork */
   &stip_structure_visitor_noop,      /* STLeafDirect */
   &stip_structure_visitor_noop,      /* STLeafHelp */
-  &stip_structure_visitor_noop,      /* STLeafForced */
+  &variation_writer_prepend_leaf,    /* STLeafForced */
   &variation_handler_insert_binary,  /* STReciprocal */
   &variation_handler_insert_binary,  /* STQuodlibet */
-  &stip_traverse_structure_children, /* STNot */
+  &stip_structure_visitor_noop,      /* STNot */
   &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
@@ -290,12 +302,12 @@ static stip_structure_visitor const variation_handler_inserters[] =
   &stip_traverse_structure_children, /* STHelpHashed */
   &stip_structure_visitor_noop,      /* STSeriesRoot */
   &stip_structure_visitor_noop,      /* STSeriesShortcut */
-  &variation_handler_avoid_parrying, /* STParryFork */
+  &stip_traverse_structure_children, /* STParryFork */
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
-  &variation_writer_branch_append,   /* STSelfCheckGuardAttackerFilter */
+  &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
@@ -341,14 +353,17 @@ static stip_structure_visitor const variation_handler_inserters[] =
 void stip_insert_variation_handlers(void)
 {
   stip_structure_traversal st;
+  variation_handler_insertion_state state = variation_handler_none;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&variation_handler_inserters,0);
+  stip_structure_traversal_init(&st,&variation_handler_inserters,&state);
   stip_traverse_structure(root_slice,&st);
+
+  assert(state==variation_handler_none);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

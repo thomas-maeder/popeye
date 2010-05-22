@@ -150,20 +150,6 @@ has_solution_type selfcheck_guard_has_solution(slice_index si);
 void selfcheck_guard_solvable_filter_insert_root(slice_index si,
                                                  stip_structure_traversal *st);
 
-/* Determine whether the defense just played defends against the threats.
- * @param threats table containing the threats
- * @param len_threat length of threat(s) in table threats
- * @param si slice index
- * @param n maximum number of moves until goal
- * @param n_min minimal number of half moves to try
- * @return true iff the defense defends against at least one of the
- *         threats
- */
-boolean selfcheck_guard_are_threats_refuted_in_n(table threats,
-                                                 stip_length_type len_threat,
-                                                 slice_index si,
-                                                 stip_length_type n);
-
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
