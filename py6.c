@@ -2842,14 +2842,14 @@ static stip_move_visitor const imminent_goal_rememberers[] =
 static void stip_optimise_final_moves(void)
 {
   stip_move_traversal st;
-  Goal goal_in_next_slice = no_goal;
+  imminent_goal_struct state = { no_goal };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
   
-  stip_move_traversal_init(&st,&imminent_goal_rememberers,&goal_in_next_slice);
+  stip_move_traversal_init(&st,&imminent_goal_rememberers,&state);
   stip_traverse_moves(root_slice,&st);
 
   TraceFunctionExit(__func__);
