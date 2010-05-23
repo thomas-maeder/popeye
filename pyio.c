@@ -4933,7 +4933,8 @@ static char *ParseOpt(void)
         break;
 
       case quodlibet:
-        transform_to_quodlibet();
+        if (!transform_to_quodlibet())
+          Message(QuodlibetNotApplicable);
         break;
 
       case nocastling:

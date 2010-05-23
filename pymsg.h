@@ -157,7 +157,8 @@ typedef enum
   WhiteToPlayNotApplicable = 116,
   SetPlayNotApplicable = 117,
   PostKeyPlayNotApplicable = 118,
-  CantDecideOnSideWhichConditionAppliesTo = 119,
+  QuodlibetNotApplicable = 119,
+  CantDecideOnSideWhichConditionAppliesTo = 120,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

@@ -346,9 +346,10 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length);
 stip_length_type get_max_nr_moves(slice_index si);
 
 /* Transform a stipulation tree to "traditional quodlibet form",
- * i.e. a logical OR of direct and self goal. 
+ * i.e. a logical OR of direct and self goal.
+ * @return true iff quodlibet could be applied
  */
-void transform_to_quodlibet(void);
+boolean transform_to_quodlibet(void);
 
 /* Attempt to apply the postkey play option to the current stipulation
  * @return true iff postkey play option is applicable (and has been

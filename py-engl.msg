@@ -117,4 +117,5 @@
 116= WhiteToPlay not applicable - ignored\n
 117= SetPlay not applicable - ignored\n
 118= PostKeyPlay not applicable - ignored\n
-119= Can't decide whether condition applies to White or Black\n
+119= Quodlibet not applicable - ignored\n
+120= Can't decide whether condition applies to White or Black\n

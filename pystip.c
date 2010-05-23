@@ -1775,12 +1775,14 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
- * i.e. a logical OR of direct and self goal. 
+ * i.e. a logical OR of direct and self goal.
+ * @return true iff quodlibet could be applied
  */
-void transform_to_quodlibet(void)
+boolean transform_to_quodlibet(void)
 {
   stip_structure_traversal st;
   slice_index proxy_to_goal = no_slice;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1790,8 +1792,12 @@ void transform_to_quodlibet(void)
   stip_structure_traversal_init(&st,&to_quodlibet_transformers,&proxy_to_goal);
   stip_traverse_structure(root_slice,&st);
 
+  result = proxy_to_goal!=no_slice;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
+  TraceFunctionParam("%u",result);
+  TraceFunctionParamListEnd();
+  return result;
 }
 
 static stip_structure_visitor const to_postkey_play_reducers[] =
