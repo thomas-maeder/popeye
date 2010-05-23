@@ -141,15 +141,17 @@ static void insert_maxsolutions_help_filter(slice_index si, stip_structure_trave
     pipe_append(si,alloc_maxsolutions_help_filter());
   else
   {
-    /* we are attached to a loop
-     */
     slice_index const next_pred = slices[next].prev;
-    assert(slices[next_pred].type==STMaxSolutionsHelpFilter);
-
-    /* a STMaxSolutionsHelpFilter slice has been inserted in the
-     * loop before next; attach to it
-     */
-    pipe_set_successor(si,next_pred);
+    if (slices[next_pred].type==STMaxSolutionsHelpFilter)
+      /* we are attached to a loop; a STMaxSolutionsHelpFilter slice
+       * has been inserted in the loop before next; attach to it
+       */
+      pipe_set_successor(si,next_pred);
+    else
+      /* we are attached to something else; e.g. the help move is at
+       * the beginning of set play in series self play
+       */
+      pipe_append(si,alloc_maxsolutions_help_filter());
   }
 
   TraceFunctionExit(__func__);
