@@ -98,7 +98,9 @@ direct_defender_filter_root_defend(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defender can defend
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 no solution found
  */
 stip_length_type direct_defender_filter_defend_in_n(slice_index si,
                                                     stip_length_type n,

@@ -198,7 +198,9 @@ stip_length_type defense_root_defend(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @return true iff the defender can defend
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 no solution found
  */
 stip_length_type defense_defend_in_n(slice_index si,
                                      stip_length_type n,
@@ -441,7 +443,9 @@ stip_length_type defense_can_defend_in_n(slice_index si,
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
- * @return true iff the defender can defend
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 no solution found
  */
 boolean defense_defend(slice_index si)
 {
