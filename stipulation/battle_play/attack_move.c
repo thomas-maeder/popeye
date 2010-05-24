@@ -62,20 +62,58 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Iterate over the attacker's moves until a solution is found
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return true iff a solution was found
+ */
+static boolean find_solution(slice_index si,
+                             stip_length_type n,
+                             stip_length_type n_min)
+{
+  boolean result = false;
+  unsigned int const nr_refutations_allowed = 0;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParamListEnd();
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && defense_can_defend_in_n(next,
+                                   n-1,n_min-1,
+                                   nr_refutations_allowed)<n)
+    {
+      result = true;
+      coupfort();
+      repcoup();
+      break;
+    }
+    else
+      repcoup();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether this slice has a solution in n half moves
  * @param si slice identifier
  * @param n maximum number of half moves until goal
  * @return true iff the attacking side wins
  */
-static boolean have_we_solution_in_n(slice_index si,
-                                     stip_length_type n)
+static boolean have_we_solution_in_n(slice_index si, stip_length_type n)
 {
+  boolean result = false;
   Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-  boolean solution_found = false;
-  unsigned int const nr_refutations_allowed = 0;
   stip_length_type n_min;
-  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -86,47 +124,53 @@ static boolean have_we_solution_in_n(slice_index si,
 
   assert(n%2==slices[si].u.branch.length%2);
 
-  if (n_min==slack_length_battle+1
-      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
-    n_min = slack_length_battle+3;
-
   if (n_min<=n)
   {
     move_generation_mode = move_generation_optimized_by_killer_move;
     TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = si;
-    if (n<=slack_length_battle+1 && imminent_goal!=no_goal)
-    {
-      empile_for_goal = imminent_goal;
-      empile_for_target = slices[si].u.branch.imminent_target;
-      generate_move_reaching_goal(attacker);
-      empile_for_goal = no_goal;
-    }
-    else
-      genmove(attacker);
-
-    while (!solution_found && encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && defense_can_defend_in_n(next,
-                                     n-1,n_min-1,
-                                     nr_refutations_allowed)<n)
-      {
-        solution_found = true;
-        coupfort();
-      }
-
-      repcoup();
-    }
-
+    genmove(attacker);
+    result = find_solution(si,n,n_min);
     finply();
   }
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",n);
-  TraceFunctionResult("%u",solution_found);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return solution_found;
+  return result;
+}
+
+/* Determine whether there is a solution to the imminent goal
+ * @param si slice identifier
+ * @return true iff we have a solution
+ */
+static boolean have_we_solution_for_imminent_goal(slice_index si)
+{
+  boolean result = false;
+  Side const attacker = slices[si].starter;
+  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+  {
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = si;
+    empile_for_goal = imminent_goal;
+    empile_for_target = slices[si].u.branch.imminent_target;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+    result = find_solution(si,slack_length_battle+1,slack_length_battle+1);
+    finply();
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether attacker can end in n half moves.
@@ -154,10 +198,55 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
 
   if (n_min==slack_length_battle)
     n_min = slack_length_battle+2;
+  else if (n_min==slack_length_battle+1)
+  {
+    if (have_we_solution_for_imminent_goal(si))
+      /* no need to try to determine whether there is a longer solution */
+      n = n_min-2;
+    else
+      n_min = slack_length_battle+3;
+  }
 
   for (result = n_min; result<=n; result += 2)
     if (have_we_solution_in_n(si,result))
       break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try each attacker's move as a solution
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @return true iff >=1 solution was found
+ */
+static boolean foreach_move_solve(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min)
+{
+  boolean result = false;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParamListEnd();
+
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && defense_defend_in_n(next,n-1,n_min-1)<=n-1)
+    {
+      result = true;
+      coupfort();
+    }
+
+    repcoup();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -173,11 +262,9 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
  */
 static boolean solve_in_n(slice_index si, stip_length_type n)
 {
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
   boolean result = false;
+  Side const attacker = slices[si].starter;
   stip_length_type n_min;
-  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -186,37 +273,46 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
 
   n_min = battle_branch_calc_n_min(si,n);
 
-  if (n_min==slack_length_battle+1
-      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
-    n_min = slack_length_battle+3;
-
   if (n_min<=n)
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = si;
-    if (n<=slack_length_battle+1 && imminent_goal!=no_goal)
-    {
-      empile_for_goal = imminent_goal;
-      empile_for_target = slices[si].u.branch.imminent_target;
-      generate_move_reaching_goal(attacker);
-      empile_for_goal = no_goal;
-    }
-    else
-      genmove(attacker);
+    genmove(attacker);
+    result = foreach_move_solve(si,n,n_min);
+    finply();
+  }
 
-    while (encore())
-    {
-      if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-          && defense_defend_in_n(next,n-1,n_min-1)<=n-1)
-      {
-        result = true;
-        coupfort();
-      }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
-      repcoup();
-    }
+/* Find solutions for the imminent goal
+ * @param si slice index
+ * @return true iff >=1 solution was found
+ */
+static boolean solve_imminent_goal(slice_index si)
+{
+  boolean result = false;
+  Side const attacker = slices[si].starter;
+  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+  {
+    move_generation_mode = move_generation_not_optimized;
+    TraceValue("->%u\n",move_generation_mode);
+    active_slice[nbply+1] = si;
+    empile_for_goal = imminent_goal;
+    empile_for_target = slices[si].u.branch.imminent_target;
+    generate_move_reaching_goal(attacker);
+    empile_for_goal = no_goal;
+    result = foreach_move_solve(si,slack_length_battle+1,slack_length_battle+1);
     finply();
   }
 
@@ -255,6 +351,14 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
   if (n_min==slack_length_battle)
     n_min = slack_length_battle+2;
+  else if (n_min==slack_length_battle+1)
+  {
+    if (solve_imminent_goal(si))
+      /* no need to try to find longer solutions */
+      n = n_min-2;
+    else
+      n_min = slack_length_battle+3;
+  }
 
   for (result = n_min; result<=n; result += 2)
     if (solve_in_n(si,result))
