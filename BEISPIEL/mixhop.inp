@@ -1,0 +1,15 @@
+beg
+stip ~1
+opt dupl nowk nobk
+rem fors 3r4/1=p1r=p1=p1/rr1r4/8/2=p1R1=p1/=p7/1r=p1=p1=p1/8
+title reference for mixhopper moves and captures
+title wh should have 8 moves in each position
+title black pieces able to move depend on which is paralysed by w
+cond madr
+fors 3.re4/1=.du1.re=.du1=.du1/.re.re1.re4/8/2=.du1.RE1=.du1/=.du7/1.re=.du1=.du1=.du1/8
+twin subst re be
+twin subst re rm
+twin subst re bm
+twin subst re rw
+twin subst re bw
+end
