@@ -280,10 +280,10 @@ boolean rmhopech(square sq_king,
    *
    *    kend==vec_queen_end, kanf==vec_queen_start: all types (moose,
    *                                                eagle, sparrow)
-   *    kend==vec_bishop_end, kanf==vec_bishop_start: orthogonal types
-   *                              (rookmoose, rooksparrow, bishopeagle)
+   *    kend==vec_bishop_end, kanf==vec_bishop_start: 
+   *        types arriving diagonally (rookmoose, rooksparrow, bishopeagle)
    *    kend==vec_rook_end, kanf==vec_rook_start: diagonal types
-   *                            (bishopmoose, bishopsparrow, rookeagle)
+   *        types arriving orthogonally (bishopmoose, bishopsparrow, rookeagle)
    *
    *    YES, this is definitely different to generating their moves ...
    *                                     NG
@@ -1619,42 +1619,42 @@ boolean rookmoosecheck(square    i,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
+  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
 }
 
 boolean rookeaglecheck(square    i,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_90, p, evaluate);
+  return rmhopech(i, vec_rook_end,vec_rook_start, angle_90, p, evaluate);
 }
 
 boolean rooksparrcheck(square    i,
                        piece p,
                        evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
+  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
 }
 
 boolean bishopmoosecheck(square    i,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_45, p, evaluate);
+  return rmhopech(i, vec_rook_end,vec_rook_start, angle_45, p, evaluate);
 }
 
 boolean bishopeaglecheck(square    i,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_rook_end,vec_rook_start, angle_90, p, evaluate);
+  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_90, p, evaluate);
 }
 
 boolean bishopsparrcheck(square    i,
                          piece p,
                          evalfunction_t *evaluate)
 {
-  return rmhopech(i, vec_bishop_end,vec_bishop_start, angle_135, p, evaluate);
+  return rmhopech(i, vec_rook_end,vec_rook_start, angle_135, p, evaluate);
 }
 
 boolean archcheck(square    i,
