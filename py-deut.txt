@@ -62,6 +62,22 @@ Liste der Quellfiles:
 
 
 
+Rückmeldungen:
+
+Für Fehlermeldungen und Erweiterungsvorschläge verwenden Sie bitte die
+dafuer vorgesehenen Werkzeuge auf sourceforge.net .
+
+Oeffnen Sie in Ihrem Browser
+http://sourceforge.net/tracker/?group_id=200122&atid=972237 (Fehler)
+http://sourceforge.net/tracker/?group_id=200122&atid=972240 (Erweiterungen)
+
+Verwenden Sie den Link "Add new" und fuellen Sie in die Felder
+"Summary" und "Description" die Informationen ein, welche Sie
+uebermitteln moechten. Anschliessend senden Sie Ihre Rueckmeldung mit
+"Add Artifact" ab.
+
+
+
 Starten von Popeye:
 
 Benennen Sie ihre ausgewaehlte ausfuehrbare Datei um in py.exe

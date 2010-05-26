@@ -61,6 +61,22 @@ Source files:
 	LATEX:          Directory containing LaTeX files.
 
 
+
+Providing feedback:
+
+The preferred way of submitting bug reports or feature requests is
+through the tools offered on sourceforge.net .
+
+Please direct your browser to
+http://sourceforge.net/tracker/?group_id=200122&atid=972237 (bug reports)
+http://sourceforge.net/tracker/?group_id=200122&atid=972240 (feature requests)
+
+Use the "Add new" link and fill out the "Summary" and "Description"
+with the information you'd like to submit, then use the "Add Artifact"
+button to submit your bug report or feature request.
+
+
+
 Starting popeye:
 
 Change the name of your preferred executable to py.exe
