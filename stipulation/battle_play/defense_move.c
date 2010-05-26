@@ -474,31 +474,33 @@ stip_length_type iterate_last_self_defenses(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - <=max_nr_refutations refutations found
  *         n+4 refuted - >max_nr_refutations refutations found
  */
-stip_length_type defense_move_can_defend_in_n(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_min,
-                                              unsigned int max_nr_refutations)
+stip_length_type
+defense_move_can_defend_in_n(slice_index si,
+                             stip_length_type n,
+                             stip_length_type n_max_unsolvable,
+                             unsigned int max_nr_refutations)
 {
   Side const defender = slices[si].starter;
   stip_length_type max_len_continuation;
   stip_length_type result;
+  stip_length_type n_min;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  assert(n_min>=slack_length_battle);
+  n_min = battle_branch_calc_n_min(si,n);
 
   nr_refutations[nbply+1] = 0;
 
@@ -514,9 +516,6 @@ stip_length_type defense_move_can_defend_in_n(slice_index si,
                                                       max_nr_refutations);
   else
   {
-    if (n_min==slack_length_battle)
-      n_min = slack_length_battle+2;
-
     if (n<=slack_length_battle+3)
     {
       move_generation_mode = move_generation_optimized_by_killer_move;

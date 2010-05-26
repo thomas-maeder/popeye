@@ -231,12 +231,13 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       unsigned int const max_nr_allowed_refutations = 0;
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
-      stip_length_type const n_min = battle_branch_calc_n_min(si,n_battle);
+      stip_length_type const
+          n_max_unsolvable = battle_branch_calc_n_min(si,n_battle)-2;
       stip_length_type const
           nr_moves_needed = defense_can_defend_in_n(si,
-                                                    n_battle,n_min,
+                                                    n_battle,n_max_unsolvable,
                                                     max_nr_allowed_refutations);
-      if (nr_moves_needed>n_battle || nr_moves_needed<n_min)
+      if (nr_moves_needed>n_battle || nr_moves_needed<=n_max_unsolvable)
         result = n+1;
       else
         result = nr_moves_needed+slack_length_series-slack_length_battle;

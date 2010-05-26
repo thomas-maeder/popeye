@@ -305,8 +305,8 @@ stip_length_type defense_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
@@ -315,7 +315,7 @@ stip_length_type defense_defend_in_n(slice_index si,
  */
 stip_length_type defense_can_defend_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min,
+                                         stip_length_type n_max_unsolvable,
                                          unsigned int max_nr_refutations)
 {
   stip_length_type result = n+4;
@@ -323,7 +323,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
@@ -332,75 +332,87 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   {
     case STRefutationsWriter:
       result = refutations_writer_can_defend_in_n(si,
-                                                  n,n_min,
+                                                  n,n_max_unsolvable,
                                                   max_nr_refutations);
       break;
 
     case STPostKeyPlaySuppressor:
       result = postkeyplay_suppressor_can_defend_in_n(si,
-                                                      n,n_min,
+                                                      n,n_max_unsolvable,
                                                       max_nr_refutations);
       break;
 
     case STContinuationWriter:
       result = continuation_writer_can_defend_in_n(si,
-                                                   n,n_min,
+                                                   n,n_max_unsolvable,
                                                    max_nr_refutations);
       break;
 
     case STThreatWriter:
-      result = threat_writer_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      result = threat_writer_can_defend_in_n(si,
+                                             n,n_max_unsolvable,
+                                             max_nr_refutations);
       break;
 
 
     case STThreatCollector:
-      result = threat_collector_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      result = threat_collector_can_defend_in_n(si,
+                                                n,n_max_unsolvable,
+                                                max_nr_refutations);
       break;
 
     case STDefenseMove:
-      result = defense_move_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      result = defense_move_can_defend_in_n(si,
+                                            n,n_max_unsolvable,
+                                            max_nr_refutations);
       break;
 
     case STDirectDefenderFilter:
       result = direct_defender_filter_can_defend_in_n(si,
-                                                      n,n_min,
+                                                      n,n_max_unsolvable,
                                                       max_nr_refutations);
       break;
 
     case STReflexDefenderFilter:
       result = reflex_defender_filter_can_defend_in_n(si,
-                                                      n,n_min,
+                                                      n,n_max_unsolvable,
                                                       max_nr_refutations);
       break;
 
     case STSelfCheckGuardDefenderFilter:
     case STSelfCheckGuardRootDefenderFilter:
-      result = selfcheck_guard_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      result = selfcheck_guard_can_defend_in_n(si,
+                                               n,n_max_unsolvable,
+                                               max_nr_refutations);
       break;
 
     case STKeepMatingGuardDefenderFilter:
-      result = keepmating_guard_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      result = keepmating_guard_can_defend_in_n(si,
+                                                n,n_max_unsolvable,
+                                                max_nr_refutations);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_can_defend_in_n(si,n,n_min,max_nr_refutations);
+      result = maxflight_guard_can_defend_in_n(si,
+                                               n,n_max_unsolvable,
+                                               max_nr_refutations);
       break;
 
     case STMaxThreatLength:
       result = maxthreatlength_guard_can_defend_in_n(si,
-                                                     n,n_min,
+                                                     n,n_max_unsolvable,
                                                      max_nr_refutations);
       break;
 
     case STMaxNrNonTrivial:
       result = max_nr_nontrivial_guard_can_defend_in_n(si,
-                                                       n,n_min,
+                                                       n,n_max_unsolvable,
                                                        max_nr_refutations);
       break;
 
     case STMaxTimeDefenderFilter:
       result = maxtime_defender_filter_can_defend_in_n(si,
-                                                       n,n_min,
+                                                       n,n_max_unsolvable,
                                                        max_nr_refutations);
       break;
 
@@ -432,6 +444,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       assert(0);
       break;
   }
+
+  assert(result>n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -474,14 +488,16 @@ boolean defense_can_defend(slice_index si)
 {
   boolean result = true;
   stip_length_type const n = slices[si].u.branch.length;
-  stip_length_type const n_min = battle_branch_calc_n_min(si,n);
+  stip_length_type n_max_unsolvable = slices[si].u.branch.min_length-2;
   unsigned int const max_nr_allowed_refutations = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(si,n,n_min,max_nr_allowed_refutations)>n;
+  result = defense_can_defend_in_n(si,
+                                   n,n_max_unsolvable,
+                                   max_nr_allowed_refutations)>n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -145,9 +145,9 @@ static unsigned int count_nontrivial_defenses(slice_index si)
   else
   {
     stip_length_type const n = min_length_nontrivial+parity;
-    stip_length_type const n_min = battle_branch_calc_n_min(si,n);
+    stip_length_type const n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
     non_trivial_count[nbply+1] = 0;
-    defense_can_defend_in_n(next,n,n_min,nr_refutations_allowed);
+    defense_can_defend_in_n(next,n,n_max_unsolvable,nr_refutations_allowed);
     result = non_trivial_count[nbply+1];
   }
 
@@ -308,8 +308,8 @@ stip_length_type max_nr_nontrivial_guard_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
@@ -319,7 +319,7 @@ stip_length_type max_nr_nontrivial_guard_defend_in_n(slice_index si,
 stip_length_type
 max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
                                         stip_length_type n,
-                                        stip_length_type n_min,
+                                        stip_length_type n_max_unsolvable,
                                         unsigned int max_nr_refutations)
 {
   slice_index const next = slices[si].u.pipe.next;
@@ -328,7 +328,7 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
@@ -339,7 +339,9 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+      result = defense_can_defend_in_n(next,
+                                       n,n_max_unsolvable,
+                                       max_nr_refutations);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
@@ -347,7 +349,9 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
       result = n+4;
   }
   else
-    result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+    result = defense_can_defend_in_n(next,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -457,8 +457,8 @@ stip_length_type reflex_defender_filter_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
@@ -468,7 +468,7 @@ stip_length_type reflex_defender_filter_defend_in_n(slice_index si,
 stip_length_type
 reflex_defender_filter_can_defend_in_n(slice_index si,
                                        stip_length_type n,
-                                       stip_length_type n_min,
+                                       stip_length_type n_max_unsolvable,
                                        unsigned int max_nr_refutations)
 {
   stip_length_type result = n+4;
@@ -482,7 +482,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
@@ -491,11 +491,13 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
     {
       case has_solution:
         if (n>slack_length_battle+1)
-          result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+          result = defense_can_defend_in_n(next,
+                                           n,n_max_unsolvable,
+                                           max_nr_refutations);
         break;
 
       case has_no_solution:
-        result = n_min;
+        result = n_max_unsolvable+2;
         break;
 
       default:
@@ -503,7 +505,9 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
         break;
     }
   else
-    result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+    result = defense_can_defend_in_n(next,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

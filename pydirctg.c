@@ -138,8 +138,8 @@ stip_length_type direct_defender_filter_defend_in_n(slice_index si,
  * at non-root level
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
@@ -149,7 +149,7 @@ stip_length_type direct_defender_filter_defend_in_n(slice_index si,
 stip_length_type
 direct_defender_filter_can_defend_in_n(slice_index si,
                                        stip_length_type n,
-                                       stip_length_type n_min,
+                                       stip_length_type n_max_unsolvable,
                                        unsigned int max_nr_refutations)
 {
   stip_length_type result;
@@ -159,16 +159,18 @@ direct_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
 
-  if (n_min<=slack_length_battle+1
+  if (n_max_unsolvable<slack_length_battle
       && !defense_can_defend(to_goal))
-    result = n_min;
+    result = n_max_unsolvable+2;
   else if (n>slack_length_battle)
-    result = defense_can_defend_in_n(next,n,n_min,max_nr_refutations);
+    result = defense_can_defend_in_n(next,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
   else
     result = n+4;
 
@@ -198,8 +200,6 @@ void direct_defender_filter_insert_root(slice_index si,
   pipe_link(root_filter,*root);
   *root = root_filter;
 
-  battle_branch_shorten_slice(si);
- 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
