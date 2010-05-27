@@ -101,7 +101,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
                                         slack_length_battle+1);
       stip_length_type const parity = (nbattle-slack_length_battle)%2;
       stip_length_type const n_min = slack_length_battle+parity;
-      result = defense_defend_in_n(si,nbattle,n_min)<=nbattle ? n : n+2;
+      result = defense_defend_in_n(si,nbattle,n_min,n_min-2)<=nbattle ? n : n+2;
       break;
     }
 

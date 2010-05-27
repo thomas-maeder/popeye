@@ -64,7 +64,9 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
       stip_length_type const n_min = battle_branch_calc_n_min(si,n_battle);
-      result = defense_defend_in_n(si,n_battle,n_min)<=n_battle ? n : n+1;
+      result = (defense_defend_in_n(si,n_battle,n_min,n_min-2)<=n_battle
+                ? n
+                : n+1);
       break;
     }
 

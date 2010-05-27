@@ -169,13 +169,16 @@ stip_length_type maxflight_guard_root_defend(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 no solution found
  */
 stip_length_type maxflight_guard_defend_in_n(slice_index si,
                                              stip_length_type n,
-                                             stip_length_type n_min)
+                                             stip_length_type n_min,
+                                             stip_length_type n_max_unsolvable)
 {
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
@@ -185,6 +188,7 @@ stip_length_type maxflight_guard_defend_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.branch.length%2);
@@ -192,7 +196,7 @@ stip_length_type maxflight_guard_defend_in_n(slice_index si,
   if (n>slack_length_battle+3 && has_too_many_flights(defender))
     result = n+4;
   else
-    result = defense_defend_in_n(next,n,n_min);
+    result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

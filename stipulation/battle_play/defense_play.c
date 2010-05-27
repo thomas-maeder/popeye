@@ -198,13 +198,16 @@ stip_length_type defense_root_defend(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 no solution found
  */
 stip_length_type defense_defend_in_n(slice_index si,
                                      stip_length_type n,
-                                     stip_length_type n_min)
+                                     stip_length_type n_min,
+                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -212,57 +215,58 @@ stip_length_type defense_defend_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STContinuationWriter:
-      result = continuation_writer_defend_in_n(si,n,n_min);
+      result = continuation_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STThreatWriter:
-      result = threat_writer_defend_in_n(si,n,n_min);
+      result = threat_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STThreatCollector:
-      result = threat_collector_defend_in_n(si,n,n_min);
+      result = threat_collector_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STDefenseMove:
-      result = defense_move_defend_in_n(si,n,n_min);
+      result = defense_move_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STDirectDefenderFilter:
-      result = direct_defender_filter_defend_in_n(si,n,n_min);
+      result = direct_defender_filter_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STSelfCheckGuardDefenderFilter:
-      result = selfcheck_guard_defend_in_n(si,n,n_min);
+      result = selfcheck_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STReflexDefenderFilter:
-      result = reflex_defender_filter_defend_in_n(si,n,n_min);
+      result = reflex_defender_filter_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STKeepMatingGuardDefenderFilter:
-      result = keepmating_guard_defend_in_n(si,n,n_min);
+      result = keepmating_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STMaxFlightsquares:
-      result = maxflight_guard_defend_in_n(si,n,n_min);
+      result = maxflight_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STMaxThreatLength:
-      result = maxthreatlength_guard_defend_in_n(si,n,n_min);
+      result = maxthreatlength_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_defend_in_n(si,n,n_min);
+      result = max_nr_nontrivial_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STMaxTimeDefenderFilter:
-      result = maxtime_defender_filter_defend_in_n(si,n,n_min);
+      result = maxtime_defender_filter_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STLeafForced:
@@ -471,7 +475,7 @@ boolean defense_defend(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = defense_defend_in_n(si,length,min_length)>length;
+  result = defense_defend_in_n(si,length,min_length,min_length-2)>length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -234,11 +234,14 @@ stip_length_type attack_move_has_solution_in_n(slice_index si,
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return true iff >=1 solution was found
  */
 static boolean foreach_move_solve(slice_index si,
                                   stip_length_type n,
-                                  stip_length_type n_min)
+                                  stip_length_type n_min,
+                                  stip_length_type n_max_unsolvable)
 {
   boolean result = false;
   slice_index const next = slices[si].u.pipe.next;
@@ -252,7 +255,7 @@ static boolean foreach_move_solve(slice_index si,
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_defend_in_n(next,n-1,n_min-1)<=n-1)
+        && defense_defend_in_n(next,n-1,n_min-1,n_max_unsolvable-1)<=n-1)
     {
       result = true;
       coupfort();
@@ -271,9 +274,13 @@ static boolean foreach_move_solve(slice_index si,
  * current branch)
  * @param si slice index
  * @param n maximum number of half moves until goal
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return true iff >=1 solution in n half-moves was found
  */
-static boolean solve_in_n(slice_index si, stip_length_type n)
+static boolean solve_in_n(slice_index si,
+                          stip_length_type n,
+                          stip_length_type n_max_unsolvable)
 {
   boolean result;
   Side const attacker = slices[si].starter;
@@ -281,13 +288,16 @@ static boolean solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   active_slice[nbply+1] = si;
   genmove(attacker);
-  result = foreach_move_solve(si,n,battle_branch_calc_n_min(si,n));
+  result = foreach_move_solve(si,
+                              n,battle_branch_calc_n_min(si,n),
+                              n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);
@@ -319,7 +329,9 @@ static boolean solve_imminent_goal(slice_index si)
     empile_for_target = slices[si].u.branch.imminent_target;
     generate_move_reaching_goal(attacker);
     empile_for_goal = no_goal;
-    result = foreach_move_solve(si,slack_length_battle+1,slack_length_battle+1);
+    result = foreach_move_solve(si,
+                                slack_length_battle+1,slack_length_battle+1,
+                                slack_length_battle-1);
     finply();
   }
   else
@@ -345,6 +357,7 @@ stip_length_type attack_move_solve_in_n(slice_index si,
                                         stip_length_type n_min)
 {
   stip_length_type result;
+  stip_length_type n_max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -355,6 +368,8 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   assert(n%2==slices[si].u.branch.length%2);
   assert(n_min>=slack_length_battle);
   
+  n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
+
   output_start_continuation_level(si);
 
   if (n_min==slack_length_battle)
@@ -365,12 +380,17 @@ stip_length_type attack_move_solve_in_n(slice_index si,
       /* no need to try to find longer solutions */
       n = n_min-2;
     else
+    {
+      n_max_unsolvable = n_min;
       n_min = slack_length_battle+3;
+    }
   }
 
   for (result = n_min; result<=n; result += 2)
-    if (solve_in_n(si,result))
+    if (solve_in_n(si,result,n_max_unsolvable))
       break;
+    else
+      n_max_unsolvable = result;
 
   output_end_continuation_level();
 

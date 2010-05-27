@@ -39,23 +39,27 @@ slice_index alloc_continuation_writer_slice(stip_length_type length,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations
  *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 no solution found
  */
-stip_length_type continuation_writer_defend_in_n(slice_index si,
-                                                 stip_length_type n,
-                                                 stip_length_type n_min)
+stip_length_type
+continuation_writer_defend_in_n(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_min,
+                                stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   unsigned int const max_nr_allowed_refutations = 0;
-  stip_length_type const n_max_unsolvable = n_min-2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   result = defense_can_defend_in_n(next,
@@ -70,7 +74,7 @@ stip_length_type continuation_writer_defend_in_n(slice_index si,
       if (result>slack_length_battle+1
           && n_min<=slack_length_battle+1)
         n_min += 2;
-      defend_result = defense_defend_in_n(next,result,n_min);
+      defend_result = defense_defend_in_n(next,result,n_min,n_max_unsolvable);
       assert(defend_result<=result);
     }
   }
