@@ -70,8 +70,8 @@ stip_length_type continuation_writer_defend_in_n(slice_index si,
       if (result>slack_length_battle+1
           && n_min<=slack_length_battle+1)
         n_min += 2;
-      defend_result = defense_defend_in_n(next,n,n_min);
-      assert(defend_result<=n);
+      defend_result = defense_defend_in_n(next,result,n_min);
+      assert(defend_result<=result);
     }
   }
 
@@ -123,6 +123,8 @@ continuation_writer_root_defend(slice_index si,
         && n_min<=slack_length_battle+1
         && n_min<n)
       n_min += 2;
+    if (result<n)
+      n = result;
     defense_root_defend(next,n,n_min,max_nr_refutations);
   }
 
