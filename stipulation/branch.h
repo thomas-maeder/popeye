@@ -17,12 +17,6 @@ slice_index alloc_branch(SliceType type,
                          stip_length_type length,
                          stip_length_type min_length);
 
-/* Deallocate a branch
- * @param branch identifies branch
- * @return index of slice representing the play after the branch
- */
-slice_index branch_deallocate(slice_index branch);
-
 /* Find the next slice with a specific type in a branch
  * @param type type of slice to be found
  * @param si identifies the slice where to start searching (si is not

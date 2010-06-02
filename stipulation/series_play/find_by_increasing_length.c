@@ -77,46 +77,6 @@ static void shorten_root_branch(slice_index root)
   TraceFunctionResultEnd();
 }
 
-/* Shorten a series branch by a half-move. If the branch represents a
- * half-move only, deallocates the branch.
- * @param si identifies the branch
- * @return - no_slice if not applicable (already shortened)
- *         - slice representing subsequent play if root has 1 half-move only
- *         - root (shortened) otherwise
- */
-slice_index series_root_shorten_series_play(slice_index root)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParamListEnd();
-
-  assert(slices[root].type==STSeriesRoot);
-  assert(slices[root].u.shortcut.length>slack_length_series);
-
-  if (slices[root].u.shortcut.length==slack_length_series+1)
-  {
-    result = branch_deallocate(root);
-    if (slices[result].type==STMoveInverterSeriesFilter)
-    {
-      slice_index const mi = result;
-      result = slices[result].u.pipe.next;
-      dealloc_slice(mi);
-    }
-  }
-  else
-  {
-    shorten_root_branch(root);
-    result = root;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a branch slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
