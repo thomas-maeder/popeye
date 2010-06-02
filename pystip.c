@@ -737,7 +737,7 @@ static void leaf_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *root = si;
+  *root = copy_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -765,7 +765,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySuppressor */
-  &stip_traverse_structure_children,            /* STContinuationWriter */
+  &continuation_writer_insert_root,             /* STContinuationWriter */
   &stip_traverse_structure_children,            /* STRefutationsWriter */
   &stip_traverse_structure_children,            /* STThreatWriter */
   &stip_traverse_structure_children,            /* STThreatEnforcer */
@@ -832,6 +832,7 @@ void stip_insert_root_slices(void)
 {
   stip_structure_traversal st;
   slice_index result = no_slice;
+  slice_index const next = slices[root_slice].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -840,7 +841,14 @@ void stip_insert_root_slices(void)
   assert(slices[root_slice].type==STProxy);
 
   stip_structure_traversal_init(&st,&root_slice_inserters,&result);
-  stip_traverse_structure(slices[root_slice].u.pipe.next,&st);
+  stip_traverse_structure(next,&st);
+
+  if (slices[next].prev==root_slice)
+  {
+    TraceStipulation(next);
+    TraceStipulation(result);
+    dealloc_slices(next);
+  }
 
   pipe_link(root_slice,result);
 
@@ -2132,6 +2140,7 @@ static void insert_set_play(slice_index setplay_slice)
   slice_index mi;
   slice_index op1;
   slice_index op2;
+  slice_index const next = slices[root_slice].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",setplay_slice);
@@ -2148,10 +2157,13 @@ static void insert_set_play(slice_index setplay_slice)
   pipe_link(op1,mi);
 
   op2 = alloc_proxy_slice();
-  pipe_link(op2,slices[root_slice].u.pipe.next);
+  if (slices[next].prev==root_slice)
+    pipe_link(op2,next);
+  else
+    pipe_set_successor(op2,next);
 
   pipe_unlink(root_slice);
-  pipe_set_successor(root_slice,alloc_quodlibet_slice(op1,op2));
+  pipe_link(root_slice,alloc_quodlibet_slice(op1,op2));
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();

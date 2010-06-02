@@ -227,43 +227,6 @@ void selfcheck_guard_attacker_filter_insert_root(slice_index si,
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param max_nr_refutations how many refutations should we look for
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
- */
-stip_length_type selfcheck_guard_root_defend(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_min,
-                                             unsigned int max_nr_refutations)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",max_nr_refutations);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,advers(slices[si].starter)))
-    result = n+4;
-  else
-    result = defense_root_defend(next,n,n_min,max_nr_refutations);
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
@@ -300,7 +263,8 @@ selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 no solution found
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type selfcheck_guard_defend_in_n(slice_index si,
                                              stip_length_type n,
@@ -536,13 +500,6 @@ void selfcheck_guard_help_insert_root(slice_index si,
     slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
     pipe_link(guard,*root);
     *root = guard;
-
-    if (slices[si].u.pipe.next==no_slice)
-    {
-      /* si is not part of a loop - it is obsolete now */
-      pipe_unlink(slices[si].prev);
-      dealloc_slice(si);
-    }
   }
     
   TraceFunctionExit(__func__);
@@ -634,13 +591,6 @@ void selfcheck_guard_series_insert_root(slice_index si,
     slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
     pipe_link(guard,*root);
     *root = guard;
-
-    if (slices[si].u.pipe.next==no_slice)
-    {
-      /* si is not part of a loop - it is obsolete now */
-      pipe_unlink(slices[si].prev);
-      dealloc_slice(si);
-    }
   }
     
   TraceFunctionExit(__func__);
@@ -785,21 +735,11 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
 void selfcheck_guard_solvable_filter_insert_root(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(slices[si].u.pipe.next,st);
-
-  {
-    slice_index const
-        root_guard = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(root_guard,*root);
-    *root = root_guard;
-    dealloc_slice(si);
-  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -44,24 +44,24 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
  */
 void quodlibet_insert_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
   slice_index * const root = st->param;
-  stip_structure_traversal st2 = *st;
+  slice_index copy;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(op1,st);
-  slices[si].u.binary.op1 = *root;
+  copy = copy_slice(si);
 
-  TraceStipulation(si);
+  stip_traverse_structure(slices[si].u.binary.op1,st);
+  slices[copy].u.binary.op1 = *root;
 
-  stip_traverse_structure(op2,&st2);
-  slices[si].u.binary.op2 = *root;
+  *root = no_slice;
   
-  *root = si;
+  stip_traverse_structure(slices[si].u.binary.op2,st);
+  slices[copy].u.binary.op2 = *root;
+  
+  *root = copy;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

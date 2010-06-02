@@ -2957,10 +2957,12 @@ static Token iterate_twins(Token prev_token)
       }
       else
         stip_insert_postkeyplay_suppressors();
-        
-      if (OptFlag[soltout] /* this includes OptFlag[solessais] */
-          && !stip_insert_try_handlers())
-        Message(TryPlayNotApplicable);
+
+      if (!stip_insert_try_handlers())
+      {
+        if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+          Message(TryPlayNotApplicable);
+      }
 
       if (OptFlag[noshort])
         stip_insert_no_short_variations_filters();

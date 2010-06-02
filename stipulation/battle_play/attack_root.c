@@ -44,7 +44,6 @@ boolean attack_root_root_solve(slice_index si)
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
-  unsigned int const max_nr_refutations = 0;
   boolean result = false;
   Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
@@ -79,9 +78,9 @@ boolean attack_root_root_solve(slice_index si)
       if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
       {
         stip_length_type const
-            nr_moves_needed = defense_root_defend(next,
+            nr_moves_needed = defense_defend_in_n(next,
                                                   length-1,min_length-1,
-                                                  max_nr_refutations);
+                                                  min_length-3);
         if (min_length-1<=nr_moves_needed)
         {
           if (nr_moves_needed<=length-1)

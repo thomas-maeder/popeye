@@ -1300,7 +1300,6 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
   pyslice.h pybrafrk.h pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pypipe.h \
   pydata.h pyproc.h py4.h stipulation/proxy.h pypipe.h \
-  stipulation/battle_play/branch.h pystip.h \
   stipulation/battle_play/defense_play.h trace.h
 
 pydirctg.h:
@@ -1344,10 +1343,6 @@ py4.h:
 stipulation/proxy.h:
 
 pypipe.h:
-
-stipulation/battle_play/branch.h:
-
-pystip.h:
 
 stipulation/battle_play/defense_play.h:
 

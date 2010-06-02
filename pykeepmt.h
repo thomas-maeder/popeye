@@ -14,22 +14,6 @@
  */
 void stip_insert_keepmating_guards(void);
 
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param max_nr_refutations how many refutations should we look for
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
- */
-stip_length_type keepmating_guard_root_defend(slice_index si,
-                                              stip_length_type n,
-                                              stip_length_type n_min,
-                                              unsigned int max_nr_refutations);
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
@@ -68,7 +52,8 @@ stip_length_type keepmating_guard_direct_solve_in_n(slice_index si,
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 no solution found
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type keepmating_guard_defend_in_n(slice_index si,
                                               stip_length_type n,

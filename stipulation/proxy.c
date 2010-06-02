@@ -78,21 +78,12 @@ void proxy_slice_resolve(slice_index *si)
 void proxy_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
-
-  if (next==no_slice || slices[next].prev!=si)
-  {
-    slice_index const prev = slices[si].prev;
-    if (prev!=no_slice)
-      pipe_unlink(slices[si].prev);
-    dealloc_proxy_slice(si);
-  }
+  stip_traverse_structure_children(si,st);
 
   {
     slice_index const proxy = alloc_proxy_slice();
@@ -104,6 +95,9 @@ void proxy_insert_root(slice_index si, stip_structure_traversal *st)
 
     *root = proxy;
   }
+
+  if (slices[slices[si].u.pipe.next].prev!=si)
+    slices[si].u.pipe.next = no_slice;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

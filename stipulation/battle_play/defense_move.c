@@ -125,72 +125,6 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param max_nr_refutations how many refutations should we look for
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
- */
-stip_length_type defense_move_root_defend(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_min,
-                                          unsigned int max_nr_refutations)
-{
-  stip_length_type result = 0;
-  unsigned int nr_refutations = 0;
-  Side const defender = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",max_nr_refutations);
-  TraceFunctionParamListEnd();
-
-  assert(n_min>=slack_length_battle);
-
-  if (n_min==slack_length_battle)
-    n_min = slack_length_battle+2;
-
-  output_start_defense_level(si);
-
-  move_generation_mode = move_generation_not_optimized;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(defender);
-
-  while(encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-    {
-      stip_length_type const nr_moves_needed = attack_solve_in_n(next,
-                                                                 n-1,n_min-1);
-      if (nr_moves_needed>result)
-        result = nr_moves_needed;
-      if (nr_moves_needed>n-1)
-        ++nr_refutations;
-    }
-
-    repcoup();
-  }
-
-  finply();
-
-  output_end_defense_level();
-
-  assert(nr_refutations<=max_nr_refutations);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attempted key move at non-root level.
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -202,7 +136,8 @@ stip_length_type defense_move_root_defend(slice_index si,
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 no solution found
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type defense_move_defend_in_n(slice_index si,
                                           stip_length_type n,

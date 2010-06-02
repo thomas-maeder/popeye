@@ -107,7 +107,6 @@ void move_inverter_insert_root(slice_index si, stip_structure_traversal *st)
         root_inverter = alloc_move_inverter_root_solvable_filter();
     pipe_link(root_inverter,*root);
     *root = root_inverter;
-    dealloc_slice(si);
   }
   
   TraceFunctionExit(__func__);

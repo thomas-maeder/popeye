@@ -341,80 +341,28 @@ void reflex_defender_filter_insert_root(slice_index si,
                                         stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index root_filter;
+  stip_length_type const length = slices[si].u.reflex_guard.length;
+  stip_length_type const min_length = slices[si].u.reflex_guard.min_length;
+  slice_index const next = slices[si].u.reflex_guard.next;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure(avoided,st);
+  root_filter = alloc_reflex_defender_filter(length,min_length,*root);
 
-  {
-    slice_index const guard = copy_slice(si);
-    pipe_link(guard,*root);
-    *root = guard;
-  }
+  *root = no_slice;
+
+  stip_traverse_structure(next,st);
+
+  pipe_link(root_filter,*root);
+  *root = root_filter;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param max_nr_refutations how many refutations should we look for
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
- */
-stip_length_type
-reflex_defender_filter_root_defend(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_min,
-                                   unsigned int max_nr_refutations)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",max_nr_refutations);
-  TraceFunctionParamListEnd();
-
-  if (n_min==slack_length_battle+1)
-    switch (slice_solve(slices[si].u.reflex_guard.avoided))
-    {
-      case has_solution:
-        if (n>slack_length_battle+1)
-          result = defense_root_defend(next,n,n_min,max_nr_refutations);
-        else
-          result = n+4;
-        break;
-
-      case has_no_solution:
-        result = n_min;
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
-  else
-  {
-    if (n>slack_length_battle+1)
-      result = defense_root_defend(next,n,n_min,max_nr_refutations);
-    else
-      result = n+4;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to defend after an attempted key move at non-root level.
@@ -428,7 +376,8 @@ reflex_defender_filter_root_defend(slice_index si,
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 no solution found
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type
 reflex_defender_filter_defend_in_n(slice_index si,
@@ -437,7 +386,7 @@ reflex_defender_filter_defend_in_n(slice_index si,
                                    stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.reflex_guard.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
@@ -447,8 +396,9 @@ reflex_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_battle+1)
-    result = slice_solve(avoided)==has_solution ? n+2 : n_min;
+  if (n_max_unsolvable<slack_length_battle
+      && slice_solve(avoided)==has_no_solution)
+    result = n_min;
   else
     result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
@@ -476,13 +426,9 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
                                        stip_length_type n_max_unsolvable,
                                        unsigned int max_nr_refutations)
 {
-  stip_length_type result = n+4;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.reflex_guard.min_length;
-  stip_length_type const max_n_for_avoided = (length-min_length
-                                              +slack_length_battle+1);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -491,28 +437,11 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n<=max_n_for_avoided)
-    switch (slice_has_solution(avoided))
-    {
-      case has_solution:
-        if (n>slack_length_battle+1)
-          result = defense_can_defend_in_n(next,
-                                           n,n_max_unsolvable,
-                                           max_nr_refutations);
-        break;
-
-      case has_no_solution:
-        result = n_max_unsolvable+2;
-        break;
-
-      default:
-        assert(0);
-        break;
-    }
+  if (n_max_unsolvable<slack_length_battle
+      && slice_has_solution(avoided)==has_no_solution)
+    result = n_max_unsolvable+2;
   else
-    result = defense_can_defend_in_n(next,
-                                     n,n_max_unsolvable,
-                                     max_nr_refutations);
+    result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -616,7 +545,6 @@ void reflex_help_filter_insert_root(slice_index si,
                                     stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
-  slice_index guard;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -624,22 +552,16 @@ void reflex_help_filter_insert_root(slice_index si,
 
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
-  guard = copy_slice(si);
-  
-  if (slices[si].u.pipe.next==no_slice)
   {
-    /* si is not part of a loop */
-    pipe_unlink(slices[si].prev);
+    slice_index const guard = copy_slice(si);
     pipe_link(guard,*root);
     *root = guard;
-    dealloc_slice(si);
-  }
-  else
-  {
-    /* si is part of a loop */
-    pipe_link(guard,*root);
-    *root = guard;
-    help_branch_shorten_slice(si);
+
+    if (slices[si].u.pipe.next==no_slice)
+      /* we are obsolete and are going to be deallocated */
+      slices[si].u.reflex_guard.avoided = no_slice;
+    else
+      help_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);

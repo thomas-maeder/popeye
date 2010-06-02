@@ -215,7 +215,8 @@ stipulation/battle_play/continuation$(OBJ_SUFFIX):  \
  stipulation/battle_play/continuation.c \
   stipulation/battle_play/continuation.h pydata.h pypipe.h \
   stipulation/branch.h stipulation/battle_play/branch.h \
-  stipulation/battle_play/defense_play.h pyoutput.h trace.h
+  stipulation/battle_play/defense_play.h stipulation/battle_play/try.h \
+  pyoutput.h trace.h
 
 stipulation/battle_play/continuation.h:
 
@@ -228,6 +229,8 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/try.h:
 
 pyoutput.h:
 

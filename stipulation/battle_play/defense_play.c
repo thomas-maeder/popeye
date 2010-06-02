@@ -33,160 +33,18 @@ boolean defense_root_solve(slice_index si)
   boolean result;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_max_unsolvable = min_length-2;
   stip_length_type nr_moves_needed;
-  unsigned int const max_nr_refutations = UINT_MAX;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = defense_root_defend(si,length,min_length,max_nr_refutations);
+  nr_moves_needed = defense_defend_in_n(si,length,min_length,n_max_unsolvable);
   result = nr_moves_needed<=length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attempted key move at root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param max_nr_refutations how many refutations should we look for
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
- */
-stip_length_type defense_root_defend(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min,
-                                     unsigned int max_nr_refutations)
-{
-  stip_length_type result = n+4;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",max_nr_refutations);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STContinuationWriter:
-      result = continuation_writer_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STRefutationsWriter:
-      result = refutations_writer_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STPostKeyPlaySolutionWriter:
-      result = postkey_solution_writer_root_defend(si,
-                                                   n,n_min,
-                                                   max_nr_refutations);
-
-    case STPostKeyPlaySuppressor:
-      result = postkeyplay_suppressor_root_defend(si,
-                                                  n,n_min,
-                                                  max_nr_refutations);
-      break;
-
-    case STThreatWriter:
-      result = threat_writer_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STDefenseMove:
-      result = defense_move_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STDirectDefenderFilter:
-      result = direct_defender_filter_root_defend(si,
-                                                  n,n_min,
-                                                  max_nr_refutations);
-      break;
-
-    case STReflexDefenderFilter:
-      result = reflex_defender_filter_root_defend(si,
-                                                  n,n_min,
-                                                  max_nr_refutations);
-      break;
-
-    case STSelfCheckGuardRootDefenderFilter:
-      result = selfcheck_guard_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STKeepMatingGuardRootDefenderFilter:
-      result = keepmating_guard_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STMaxFlightsquares:
-      result = maxflight_guard_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STMaxThreatLength:
-      result = maxthreatlength_guard_root_defend(si,
-                                                 n,n_min,
-                                                 max_nr_refutations);
-      break;
-
-    case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_root_defend(si,
-                                                   n,n_min,
-                                                   max_nr_refutations);
-      break;
-
-    case STRestartGuardRootDefenderFilter:
-      result = restart_guard_root_defend(si,n,n_min,max_nr_refutations);
-      break;
-
-    case STMaxTimeRootDefenderFilter:
-      result = maxtime_root_defender_filter_defend(si,
-                                                   n,n_min,
-                                                   max_nr_refutations);
-      break;
-
-    case STMaxSolutionsRootDefenderFilter:
-      result = maxsolutions_root_defender_filter_defend(si,
-                                                        n,n_min,
-                                                        max_nr_refutations);
-      break;
-
-    case STLeafForced:
-    case STQuodlibet:
-      assert(n==slack_length_battle);
-      switch (slice_solve(si))
-      {
-        case opponent_self_check:
-          result = n+4;
-          break;
-
-        case has_solution:
-          result = n;
-          break;
-
-        case has_no_solution:
-          result = n+2;
-          break;
-
-        default:
-          assert(0);
-          result = n+4;
-          break;
-      }
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -202,7 +60,8 @@ stip_length_type defense_root_defend(slice_index si,
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 no solution found
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type defense_defend_in_n(slice_index si,
                                      stip_length_type n,
@@ -221,12 +80,26 @@ stip_length_type defense_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STRefutationsWriter:
+      result = refutations_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
     case STContinuationWriter:
       result = continuation_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STThreatWriter:
       result = threat_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
+    case STPostKeyPlaySolutionWriter:
+      result = postkey_solution_writer_defend_in_n(si,
+                                                   n,n_min,
+                                                   n_max_unsolvable);
+      break;
+
+    case STPostKeyPlaySuppressor:
+      result = postkeyplay_suppressor_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STThreatCollector:
@@ -241,6 +114,7 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = direct_defender_filter_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
+    case STSelfCheckGuardRootDefenderFilter:
     case STSelfCheckGuardDefenderFilter:
       result = selfcheck_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
@@ -249,6 +123,7 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = reflex_defender_filter_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
+    case STKeepMatingGuardRootDefenderFilter:
     case STKeepMatingGuardDefenderFilter:
       result = keepmating_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
@@ -267,6 +142,22 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STMaxTimeDefenderFilter:
       result = maxtime_defender_filter_defend_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
+    case STMaxSolutionsRootDefenderFilter:
+      result = maxsolutions_root_defender_filter_defend_in_n(si,
+                                                             n,n_min,
+                                                             n_max_unsolvable);
+      break;
+
+    case STRestartGuardRootDefenderFilter:
+      result = restart_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
+    case STMaxTimeRootDefenderFilter:
+      result = maxtime_root_defender_filter_defend_in_n(si,
+                                                        n,n_min,
+                                                        n_max_unsolvable);
       break;
 
     case STLeafForced:

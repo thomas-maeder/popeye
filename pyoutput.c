@@ -246,7 +246,6 @@ static void write_pending_decoration(void)
 
     case attack_key:
       StdString(" !");
-      increase_nr_found_solutions();
       if (OptFlag[beep])
         BeepOnSolution(maxbeep);
       break;
