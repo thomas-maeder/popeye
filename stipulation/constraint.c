@@ -191,7 +191,7 @@ boolean reflex_attacker_filter_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (slice_root_solve(avoided))
-    result = slice_root_solve(next);
+    result = attack_root_solve(next);
   else
     result = false;
 
@@ -584,7 +584,7 @@ boolean reflex_help_filter_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (slice_root_solve(avoided) && length>slack_length_help)
-    result = slice_root_solve(next);
+    result = help_root_solve(next);
   else
     result = false;
 
@@ -740,7 +740,7 @@ boolean reflex_series_filter_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (slice_solve(avoided)==has_solution && length>slack_length_series)
-    result = slice_root_solve(next);
+    result = series_root_solve(next);
   else
     result = false;
 
