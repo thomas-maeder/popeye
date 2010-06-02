@@ -397,7 +397,6 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_structure_visitor_noop,      /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_structure_visitor_noop,      /* STSelfCheckGuardHelpFilter */

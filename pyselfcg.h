@@ -75,15 +75,8 @@ boolean selfcheck_guard_root_solve(slice_index si);
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                                stip_structure_traversal *st);
-
-/* Allocate a STSelfCheckGuardRootDefenderFilter slice
- * @return allocated slice
- */
-slice_index
-alloc_selfcheck_guard_root_defender_filter(stip_length_type length,
-                                           stip_length_type min_length);
+void selfcheckguard_defender_filter_reduce_to_postkey_play(slice_index si,
+                                                           stip_structure_traversal *st);
 
 /* Solve a slice at non-root level
  * @param si slice index

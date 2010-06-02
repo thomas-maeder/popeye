@@ -312,7 +312,6 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STSeriesHashed */
   &slice_property_offset_shifter,    /* STSelfCheckGuardRootSolvableFilter */
   &slice_property_offset_shifter,    /* STSelfCheckGuardSolvableFilter */
-  &slice_property_offset_shifter,    /* STSelfCheckGuardRootDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfCheckGuardAttackerFilter */
   &slice_property_offset_shifter,    /* STSelfCheckGuardDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfCheckGuardHelpFilter */
@@ -671,7 +670,6 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_hashed_series,  /* STSeriesHashed */
   &init_slice_properties_pipe,           /* STSelfCheckGuardRootSolvableFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardSolvableFilter */
-  &init_slice_properties_pipe,           /* STSelfCheckGuardRootDefenderFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardAttackerFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardDefenderFilter */
   &init_slice_properties_pipe,           /* STSelfCheckGuardHelpFilter */
@@ -2338,7 +2336,6 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STSeriesHashed */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */

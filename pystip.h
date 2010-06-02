@@ -56,7 +56,6 @@
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
     ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardRootDefenderFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardAttackerFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \

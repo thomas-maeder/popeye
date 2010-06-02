@@ -2777,7 +2777,6 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STSeriesHashed */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
@@ -3221,7 +3220,6 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STSeriesHashed */
   &stip_traverse_structure_children,         /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,         /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,         /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,         /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,         /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,         /* STSelfCheckGuardHelpFilter */
@@ -3550,7 +3548,6 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STSeriesHashed */
   &stip_traverse_structure_children,            /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,            /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardHelpFilter */

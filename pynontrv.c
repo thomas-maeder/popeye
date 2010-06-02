@@ -467,7 +467,6 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &stip_traverse_structure_children,      /* STSeriesHashed */
   &stip_traverse_structure_children,      /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,      /* STSelfCheckGuardSolvableFilter */
-  &nontrivial_guard_inserter_attack_move, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,      /* STSelfCheckGuardAttackerFilter */
   &nontrivial_guard_inserter_attack_move, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,      /* STSelfCheckGuardHelpFilter */

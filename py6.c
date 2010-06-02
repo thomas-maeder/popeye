@@ -539,7 +539,6 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children,           /* STSeriesHashed */
   &stip_traverse_structure_children,           /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,           /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,           /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,           /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,           /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,           /* STSelfCheckGuardHelpFilter */
@@ -2323,7 +2322,6 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
@@ -2437,7 +2435,6 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
@@ -2798,7 +2795,6 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STSeriesHashed */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */

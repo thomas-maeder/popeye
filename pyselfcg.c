@@ -52,28 +52,6 @@ slice_index alloc_selfcheck_guard_solvable_filter(void)
   return result;
 }
 
-/* Allocate a STSelfCheckGuardRootDefenderFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return allocated slice
- */
-slice_index
-alloc_selfcheck_guard_root_defender_filter(stip_length_type length,
-                                           stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch(STSelfCheckGuardRootDefenderFilter,length,min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STSelfCheckGuardAttackerFilter slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -233,8 +211,8 @@ void selfcheck_guard_attacker_filter_insert_root(slice_index si,
  * @param st address of structure capturing traversal state
  */
 void
-selfcheckguard_root_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                           stip_structure_traversal *st)
+selfcheckguard_defender_filter_reduce_to_postkey_play(slice_index si,
+                                                      stip_structure_traversal *st)
 {
   slice_index *postkey_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
@@ -382,7 +360,7 @@ void selfcheck_guard_defender_filter_insert_root(slice_index si,
 
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
-  root_filter = alloc_selfcheck_guard_root_defender_filter(length,min_length);
+  root_filter = alloc_selfcheck_guard_defender_filter(length,min_length);
   pipe_link(root_filter,*root);
   *root = root_filter;
  

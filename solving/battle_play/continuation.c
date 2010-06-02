@@ -331,7 +331,6 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &continuation_writer_append,       /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &continuation_writer_append,       /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */

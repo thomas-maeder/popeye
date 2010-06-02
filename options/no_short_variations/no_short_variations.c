@@ -65,7 +65,6 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STSeriesHashed */
   &stip_traverse_structure_children,    /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,    /* STSelfCheckGuardRootDefenderFilter */
   &append_no_short_variations,          /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardHelpFilter */

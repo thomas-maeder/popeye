@@ -84,7 +84,6 @@
     ENUMERATOR(STSeriesHashed),    /* series play with hash table */    \
     ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardRootDefenderFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardAttackerFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \
@@ -199,7 +198,6 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STSeriesHashed */
   slice_structure_pipe,   /* STSelfCheckGuardRootSolvableFilter */
   slice_structure_pipe,   /* STSelfCheckGuardSolvableFilter */
-  slice_structure_pipe,   /* STSelfCheckGuardRootDefenderFilter */
   slice_structure_pipe,   /* STSelfCheckGuardAttackerFilter */
   slice_structure_pipe,   /* STSelfCheckGuardDefenderFilter */
   slice_structure_pipe,   /* STSelfCheckGuardHelpFilter */
@@ -348,7 +346,6 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STSeriesHashed */
   &mark_reachable_slice, /* STSelfCheckGuardRootSolvableFilter */
   &mark_reachable_slice, /* STSelfCheckGuardSolvableFilter */
-  &mark_reachable_slice, /* STSelfCheckGuardRootDefenderFilter */
   &mark_reachable_slice, /* STSelfCheckGuardAttackerFilter */
   &mark_reachable_slice, /* STSelfCheckGuardDefenderFilter */
   &mark_reachable_slice, /* STSelfCheckGuardHelpFilter */
@@ -651,7 +648,6 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STSeriesHashed */
   &traverse_and_deallocate,       /* STSelfCheckGuardRootSolvableFilter */
   &traverse_and_deallocate,       /* STSelfCheckGuardSolvableFilter */
-  &traverse_and_deallocate,       /* STSelfCheckGuardRootDefenderFilter */
   &traverse_and_deallocate,       /* STSelfCheckGuardAttackerFilter */
   &traverse_and_deallocate,       /* STSelfCheckGuardDefenderFilter */
   &traverse_and_deallocate,       /* STSelfCheckGuardHelpFilter */
@@ -784,7 +780,6 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STSeriesHashed */
   &stip_traverse_structure_children,            /* STSelfCheckGuardRootSolvableFilter */
   &selfcheck_guard_solvable_filter_insert_root, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,            /* STSelfCheckGuardRootDefenderFilter */
   &selfcheck_guard_attacker_filter_insert_root, /* STSelfCheckGuardAttackerFilter */
   &selfcheck_guard_defender_filter_insert_root, /* STSelfCheckGuardDefenderFilter */
   &selfcheck_guard_help_insert_root,            /* STSelfCheckGuardHelpFilter */
@@ -897,7 +892,6 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STSeriesHashed */
   &pipe_resolve_proxies,             /* STSelfCheckGuardRootSolvableFilter */
   &pipe_resolve_proxies,             /* STSelfCheckGuardSolvableFilter */
-  &pipe_resolve_proxies,             /* STSelfCheckGuardRootDefenderFilter */
   &pipe_resolve_proxies,             /* STSelfCheckGuardAttackerFilter */
   &pipe_resolve_proxies,             /* STSelfCheckGuardDefenderFilter */
   &pipe_resolve_proxies,             /* STSelfCheckGuardHelpFilter */
@@ -1125,7 +1119,6 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STSeriesHashed */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
@@ -1300,7 +1293,6 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
@@ -1417,7 +1409,6 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       case STSeriesHashed:
       case STSelfCheckGuardRootSolvableFilter:
       case STSelfCheckGuardSolvableFilter:
-      case STSelfCheckGuardRootDefenderFilter:
       case STSelfCheckGuardAttackerFilter:
       case STSelfCheckGuardDefenderFilter:
       case STSelfCheckGuardHelpFilter:
@@ -1577,7 +1568,6 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STSeriesHashed */
   &stip_traverse_structure_children,   /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
@@ -1741,7 +1731,6 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STSeriesHashed */
   &stip_traverse_structure_children,   /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
@@ -1849,9 +1838,8 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STSeriesHashed */
   &selfcheckguard_root_solvable_filter_reduce_to_postkey_play,              /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,              /* STSelfCheckGuardSolvableFilter */
-  &selfcheckguard_root_defender_filter_reduce_to_postkey_play, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,              /* STSelfCheckGuardAttackerFilter */
-  &stip_traverse_structure_children,              /* STSelfCheckGuardDefenderFilter */
+  &selfcheckguard_defender_filter_reduce_to_postkey_play, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,              /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,              /* STSelfCheckGuardSeriesFilter */
   &direct_defender_filter_reduce_to_postkey_play, /* STDirectDefenderFilter */
@@ -1982,7 +1970,6 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &pipe_traverse_next,               /* STSelfCheckGuardRootSolvableFilter */
   &pipe_traverse_next,               /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &selfcheck_guard_defender_filter_make_setplay_slice, /* STSelfCheckGuardDefenderFilter */
   &selfcheck_guard_help_make_setplay_slice, /* STSelfCheckGuardHelpFilter */
@@ -2091,7 +2078,6 @@ static stip_structure_visitor const setplay_appliers[] =
   &stip_traverse_structure_children,     /* STSeriesHashed */
   &pipe_traverse_next,                   /* STSelfCheckGuardRootSolvableFilter */
   &pipe_traverse_next,                   /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,     /* STSelfCheckGuardRootDefenderFilter */
   &pipe_traverse_next,                   /* STSelfCheckGuardAttackerFilter */
   &pipe_traverse_next,                   /* STSelfCheckGuardDefenderFilter */
   &pipe_traverse_next,                   /* STSelfCheckGuardHelpFilter */
@@ -2284,7 +2270,6 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
@@ -2406,7 +2391,6 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STSeriesHashed */
   &stip_traverse_structure_children,   /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardRootDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
@@ -2523,7 +2507,6 @@ static stip_structure_visitor const exact_makers[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &make_exact_branch,                /* STSelfCheckGuardRootSolvableFilter */
   &make_exact_branch,                /* STSelfCheckGuardSolvableFilter */
-  &make_exact_branch,                /* STSelfCheckGuardRootDefenderFilter */
   &make_exact_branch,                /* STSelfCheckGuardAttackerFilter */
   &make_exact_branch,                /* STSelfCheckGuardDefenderFilter */
   &make_exact_branch,                /* STSelfCheckGuardHelpFilter */
@@ -2621,7 +2604,6 @@ static stip_structure_visitor const starter_detectors[] =
   &pipe_detect_starter,              /* STSeriesHashed */
   &pipe_detect_starter,              /* STSelfCheckGuardRootSolvableFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardSolvableFilter */
-  &pipe_detect_starter,              /* STSelfCheckGuardRootDefenderFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardAttackerFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardDefenderFilter */
   &pipe_detect_starter,              /* STSelfCheckGuardHelpFilter */
@@ -2723,7 +2705,6 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_starter,           /* STSeriesHashed */
   &pipe_impose_starter,           /* STSelfCheckGuardRootSolvableFilter */
   &pipe_impose_starter,           /* STSelfCheckGuardSolvableFilter */
-  &pipe_impose_starter,           /* STSelfCheckGuardRootDefenderFilter */
   &pipe_impose_starter,           /* STSelfCheckGuardAttackerFilter */
   &pipe_impose_starter,           /* STSelfCheckGuardDefenderFilter */
   &pipe_impose_starter,           /* STSelfCheckGuardHelpFilter */
@@ -3017,7 +2998,6 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STSeriesHashed */
   &traverse_structure_pipe,         /* STSelfCheckGuardRootSolvableFilter */
   &traverse_structure_pipe,         /* STSelfCheckGuardSolvableFilter */
-  &traverse_structure_pipe,         /* STSelfCheckGuardRootDefenderFilter */
   &traverse_structure_pipe,         /* STSelfCheckGuardAttackerFilter */
   &traverse_structure_pipe,         /* STSelfCheckGuardDefenderFilter */
   &traverse_structure_pipe,         /* STSelfCheckGuardHelpFilter */

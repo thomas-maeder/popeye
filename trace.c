@@ -247,7 +247,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STThreatEnforcer:
       case STThreatCollector:
       case STRefutationsCollector:
-      case STSelfCheckGuardRootDefenderFilter:
       case STSelfCheckGuardAttackerFilter:
       case STSelfCheckGuardDefenderFilter:
       case STSelfCheckGuardHelpFilter:
