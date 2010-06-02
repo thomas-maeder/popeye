@@ -298,7 +298,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.shortcut.short_sols,done_slices);
         break;
 
-      case STKeepMatingGuardRootDefenderFilter:
       case STKeepMatingGuardAttackerFilter:
       case STKeepMatingGuardDefenderFilter:
       case STKeepMatingGuardHelpFilter:

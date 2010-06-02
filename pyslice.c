@@ -266,7 +266,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STAttackRoot:
     case STAttackMove:
     case STSelfDefense:
-    case STKeepMatingGuardRootDefenderFilter:
     case STKeepMatingGuardAttackerFilter:
     case STKeepMatingGuardDefenderFilter:
     case STKeepMatingGuardHelpFilter:

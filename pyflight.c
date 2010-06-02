@@ -289,7 +289,6 @@ static stip_structure_visitor const maxflight_guards_inserters[] =
   &stip_traverse_structure_children,  /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,  /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,  /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children,  /* STKeepMatingGuardRootDefenderFilter */
   &stip_traverse_structure_children,  /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,  /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,  /* STKeepMatingGuardHelpFilter */

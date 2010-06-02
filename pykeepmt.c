@@ -13,27 +13,6 @@
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STKeepMatingGuardRootDefenderFilter slice
- * @param side mating side
- * @return identifier of allocated slice
- */
-static slice_index alloc_keepmating_guard_root_defender_filter(Side mating)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,mating,"");
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STKeepMatingGuardRootDefenderFilter);
-  slices[result].u.keepmating_guard.mating = mating;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STKeepMatingGuardAttackerFilter slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -545,34 +524,6 @@ static void keepmating_guards_inserter_branch_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_guards_inserter_attack_root(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  keepmating_type const * const km = st->param;
-  slice_index guard = no_slice;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if ((*km)[White])
-    guard = alloc_keepmating_guard_root_defender_filter(White);
-
-  if ((*km)[Black])
-    guard = alloc_keepmating_guard_root_defender_filter(Black);
-
-  if (guard!=no_slice)
-  {
-    slices[guard].starter = advers(slices[si].starter);
-    pipe_append(si,guard);
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void keepmating_guards_inserter_defender(slice_index si,
                                                 stip_structure_traversal *st)
 {
@@ -738,7 +689,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,       /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children,       /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,       /* STMoveInverterSeriesFilter */
-  &keepmating_guards_inserter_attack_root, /* STAttackRoot */
+  &keepmating_guards_inserter_attack_move, /* STAttackRoot */
   &stip_traverse_structure_children,       /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,       /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,       /* STPostKeyPlaySuppressor */
@@ -778,7 +729,6 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,       /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,       /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,       /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children,       /* STKeepMatingGuardRootDefenderFilter */
   &stip_traverse_structure_children,       /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,       /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,       /* STKeepMatingGuardHelpFilter */

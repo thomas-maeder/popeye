@@ -122,7 +122,6 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = reflex_defender_filter_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
-    case STKeepMatingGuardRootDefenderFilter:
     case STKeepMatingGuardDefenderFilter:
       result = keepmating_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
