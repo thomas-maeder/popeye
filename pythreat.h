@@ -30,12 +30,6 @@ stip_length_type get_max_threat_length(void);
  */
 boolean stip_insert_maxthreatlength_guards(void);
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found and written
- */
-boolean maxthreatlength_guard_root_solve(slice_index si);
-
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

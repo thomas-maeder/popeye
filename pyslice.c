@@ -199,11 +199,6 @@ boolean slice_root_solve(slice_index si)
       result = selfcheck_guard_root_solve(si);
       break;
 
-    case STHelpFork:
-    case STSeriesFork:
-      result = branch_fork_root_solve(si);
-      break;
-
     case STMaxSolutionsRootSolvableFilter:
       result = maxsolutions_root_solvable_filter_root_solve(si);
       break;

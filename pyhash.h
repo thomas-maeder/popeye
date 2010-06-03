@@ -89,12 +89,6 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
                                           stip_length_type n,
                                           stip_length_type n_min);
 
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean hashed_help_root_solve(slice_index si);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

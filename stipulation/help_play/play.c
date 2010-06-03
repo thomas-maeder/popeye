@@ -201,10 +201,6 @@ boolean help_root_solve(slice_index si)
       result = help_root_root_solve(si);
       break;
 
-    case STHelpHashed:
-      result = hashed_help_root_solve(si);
-      break;
-
     case STHelpMove:
       /* TODO we may arrive here when looking for short solutions of
        * some sford stipulations */

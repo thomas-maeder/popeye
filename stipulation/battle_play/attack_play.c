@@ -422,10 +422,6 @@ boolean attack_root_solve_in_n(slice_index si)
       result = attack_root_solve(slices[si].u.pipe.next);
       break;
 
-    case STMaxThreatLength:
-      result = maxthreatlength_guard_root_solve(si);
-      break;
-
     case STStopOnShortSolutionsRootSolvableFilter:
       result = stoponshortsolutions_root_solvable_filter_root_solve(si);
       break;

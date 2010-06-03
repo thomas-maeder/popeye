@@ -38,12 +38,6 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st);
  */
 has_solution_type branch_fork_has_solution(slice_index si);
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean branch_fork_root_solve(slice_index si);
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal
