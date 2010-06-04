@@ -193,7 +193,10 @@ boolean reflex_attacker_filter_root_solve(slice_index si)
   if (slice_root_solve(avoided))
     result = attack_root_solve(next);
   else
+  {
+    write_end_of_solution_phase();
     result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -575,7 +578,6 @@ void reflex_help_filter_insert_root(slice_index si,
 boolean reflex_help_filter_root_solve(slice_index si)
 {
   boolean result;
-  slice_index const length = slices[si].u.reflex_guard.length;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -583,10 +585,13 @@ boolean reflex_help_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_root_solve(avoided) && length>slack_length_help)
+  if (slice_root_solve(avoided))
     result = help_root_solve(next);
   else
+  {
+    write_end_of_solution_phase();
     result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -731,7 +736,6 @@ void reflex_series_filter_insert_root(slice_index si,
 boolean reflex_series_filter_root_solve(slice_index si)
 {
   boolean result;
-  slice_index const length = slices[si].u.reflex_guard.length;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -739,10 +743,13 @@ boolean reflex_series_filter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_solve(avoided)==has_solution && length>slack_length_series)
+  if (slice_root_solve(avoided))
     result = series_root_solve(next);
   else
+  {
+    write_end_of_solution_phase();
     result = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

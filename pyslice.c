@@ -180,8 +180,6 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STHelpRoot:
-    case STHelpHashed:
-    case STLeafHelp:
     case STReflexHelpFilter:
       result = help_root_solve(si);
       break;

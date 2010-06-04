@@ -193,18 +193,8 @@ boolean help_root_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafHelp:
-      result = leaf_h_root_solve(si);
-      break;
-
     case STHelpRoot:
       result = help_root_root_solve(si);
-      break;
-
-    case STHelpMove:
-      /* TODO we may arrive here when looking for short solutions of
-       * some sford stipulations */
-      result = help_solve(si);
       break;
 
     case STReflexHelpFilter:

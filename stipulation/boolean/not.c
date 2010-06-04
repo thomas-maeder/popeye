@@ -132,7 +132,6 @@ boolean not_root_solve(slice_index si)
   switch (slice_solve(slices[si].u.pipe.next))
   {
     case has_solution:
-      write_end_of_solution_phase();
       result = false;
       break;
 
