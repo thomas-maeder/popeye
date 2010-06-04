@@ -265,6 +265,7 @@ typedef struct {
     Flags       roch_sp;
     piece       ghost_piece;
     Flags       ghost_flags;
+  long int bgl_wh, bgl_bl;
 } coup;
 
 typedef struct {

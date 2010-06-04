@@ -108,6 +108,8 @@ static void initply(ply parent)
   */
   BlackStrictSAT[nbply] = BlackStrictSAT[parent];
   WhiteStrictSAT[nbply] = WhiteStrictSAT[parent];
+  BGL_white_store[nbply] = BGL_white_store[parent];
+  BGL_black_store[nbply] = BGL_black_store[parent];
 
   magicstate[nbply] = magicstate[parent];
 

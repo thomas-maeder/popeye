@@ -927,11 +927,11 @@ static void editcoup(ply ply_id, coup *mov)
   {
     char s[30], buf1[12], buf2[12];
     if (BGL_global)
-      sprintf(s, " (%s)", WriteBGLNumber(buf1, BGL_white));
+      sprintf(s, " (%s)", WriteBGLNumber(buf1, mov->bgl_wh));
     else
       sprintf(s, " (%s/%s)",
-              WriteBGLNumber(buf1, BGL_white),
-              WriteBGLNumber(buf2, BGL_black));
+              WriteBGLNumber(buf1, mov->bgl_wh),
+              WriteBGLNumber(buf2, mov->bgl_bl));
     StdString(s);
   }
 } /* editcoup */

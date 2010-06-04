@@ -405,7 +405,7 @@ EXTERN boolean          WhiteStrictSAT[maxply+1],BlackStrictSAT[maxply+1];
 EXTERN square           takemake_departuresquare;
 EXTERN square           takemake_capturesquare;
 EXTERN boolean          flag_synchron;
-EXTERN long int         BGL_black, BGL_white;
+EXTERN long int         BGL_black, BGL_white,BGL_black_store[maxply+1], BGL_white_store[maxply+1];
 EXTERN boolean          BGL_global, BGL_blackinfinity, BGL_whiteinfinity;
 EXTERN boolean			  	blacknull, nullgenre, whitenull;
 EXTERN int         annanvar;

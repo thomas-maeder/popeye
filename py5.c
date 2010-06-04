@@ -3451,11 +3451,13 @@ boolean jouecoup(ply ply_id, joue_type jt)
     {
       BGL_white -= BGL_move_diff_code[abs(move_gen_top->departure
                                           -move_gen_top->arrival)];
+      BGL_white_store[ply_id] = BGL_white;
     }
     if (!BGL_blackinfinity && (BGL_global || trait_ply == Black))
     {
       BGL_black -= BGL_move_diff_code[abs(move_gen_top->departure
                                           -move_gen_top->arrival)];
+      BGL_black_store[ply_id] = BGL_black;
     }
   } /* if (jouegenre) */
 

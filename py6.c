@@ -1832,6 +1832,12 @@ static boolean verify_position(void)
     satXY = WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
+  if (CondFlag[BGL]) 
+  {
+    BGL_white_store[1] = BGL_white;
+    BGL_black_store[1] = BGL_black;
+  }
+
   if (CondFlag[schwarzschacher])
   {
     optim_neutralretractable = false;
@@ -1961,6 +1967,10 @@ void current(ply ply_id, coup *mov)
 
   mov->ghost_piece = e[mov->cdzz];
   mov->ghost_flags = spec[mov->cdzz];
+  if (CondFlag[BGL]) {
+    mov->bgl_wh = BGL_white_store[ply_id];
+    mov->bgl_bl = BGL_black_store[ply_id];
+  }
 }
 
 boolean WriteSpec(Flags sp, boolean printcolours) {
