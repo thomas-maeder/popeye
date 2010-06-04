@@ -1946,7 +1946,7 @@ void current(ply ply_id, coup *mov)
   mov->pjazz =     jouearr[ply_id];
   if (CondFlag[republican])
     republican_current(ply_id,mov);
-  mov->new_spec =  spec[sq];
+  mov->new_spec =  mov->renkam == initsquare ? spec[sq] : spec[mov->renkam];
   mov->hurdle =    chop[coup_id];
   mov->sb3where =  sb3[coup_id].where;
   mov->sb3what = sb3[coup_id].what;
