@@ -1621,8 +1621,9 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   slice_index * const new_proxy_to_goal = st->param;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
   slice_index const not = slices[proxy_to_goal].u.pipe.next;
-  slice_index const leaf_help = slices[not].u.pipe.next;
-  Goal goal = slices[leaf_help].u.leaf.goal;
+  slice_index const branch = slices[not].u.pipe.next;
+  slice_index const leaf = slices[branch].u.pipe.next;
+  Goal goal = slices[leaf].u.leaf.goal;
   slice_index new_leaf;
 
   TraceFunctionEntry(__func__);
@@ -1630,7 +1631,7 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(slices[proxy_to_goal].type==STProxy);
-  assert(slices[leaf_help].type==STLeafHelp);
+  assert(slices[leaf].type==STLeafForced);
 
   new_leaf = alloc_leaf_slice(STLeafForced,goal);
   *new_proxy_to_goal = alloc_proxy_slice();
@@ -1694,7 +1695,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_structure_visitor_noop,        /* STLeafForced */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
-  &stip_traverse_structure_children,   /* STNot */
+  &stip_structure_visitor_noop,        /* STNot */
   &stip_traverse_structure_children,   /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */

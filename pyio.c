@@ -2651,24 +2651,30 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("semi-r",tok,6)==0)
   {
     slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseGoal(tok+6,STLeafHelp,proxy_avoided); /* skip over "semi-r" */
+    tok = ParseGoal(tok+6,STLeafForced,proxy_avoided); /* skip over "semi-r" */
     if (tok!=0)
     {
-      slice_index const avoided = slices[proxy_avoided].u.pipe.next;
-      if (avoided!=no_slice)
+      slice_index const avoided_leaf = slices[proxy_avoided].u.pipe.next;
+      if (avoided_leaf!=no_slice)
       {
         stip_length_type length;
         stip_length_type min_length;
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
-          slice_index const not = alloc_not_slice(avoided);
+          slice_index const
+              avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
+                                                       slack_length_battle+1);
+          slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const branch = alloc_battle_branch(length+1,
                                                          min_length+1);
-          pipe_link(proxy_avoided,not);
+          pipe_link(avoided_attack,avoided_leaf);
+          pipe_link(not_attack,avoided_attack);
+          pipe_link(proxy_avoided,not_attack);
+
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
           pipe_set_successor(proxy,branch);
-          slices[avoided].starter = Black;
+          slices[avoided_leaf].starter = White;
 
           set_output_mode(output_mode_tree);
         }

@@ -5,10 +5,7 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
-#include "pyleaf.h"
-#include "pyleafd.h"
 #include "pyleaff.h"
-#include "pyleafh.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -58,10 +55,6 @@ has_solution_type slice_solve(slice_index si)
       result = leaf_forced_solve(si);
       break;
 
-    case STLeafHelp:
-      result = leaf_h_solve(si);
-      break;
-
     case STQuodlibet:
       result = quodlibet_solve(si);
       break;
@@ -74,7 +67,6 @@ has_solution_type slice_solve(slice_index si)
     case STReflexAttackerFilter:
     case STDegenerateTree:
     case STVariationWriter:
-    case STLeafDirect:
       result = attack_solve(si);
       break;
 
@@ -163,7 +155,6 @@ boolean slice_root_solve(slice_index si)
       break;
 
     case STAttackRoot:
-    case STLeafDirect:
     case STAttackHashed:
     case STMaxThreatLength:
     case STReflexAttackerFilter:
@@ -232,14 +223,6 @@ has_solution_type slice_has_solution(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafDirect:
-      result = leaf_d_has_solution(si);
-      break;
-
-    case STLeafHelp:
-      result = leaf_h_has_solution(si);
-      break;
-
     case STLeafForced:
       result = leaf_forced_has_solution(si);
       break;
