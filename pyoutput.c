@@ -810,19 +810,14 @@ static void editcoup(ply ply_id, coup *mov)
 
     if (mov->renkam) {
       StdChar('[');
-      WriteSpec(mov->speci, mov->pjazz != vide);
+      WriteSpec(mov->new_spec, mov->pjazz != vide);
       WritePiece(mov->pjazz);
       WriteSquare(mov->cazz);
       StdString("->");
       WriteSquare(mov->renkam);
-      if (mov->norm_prom != vide &&
-          (!anyanticirce || (CondFlag[antisuper] && 
-                             ((is_forwardpawn(mov->pjzz)
-                               && !PromSq(mov->tr, mov->cazz)) || 
-                              (is_reversepawn(mov->pjzz)
-                               && !ReversePromSq(mov->tr, mov->cazz)))))) {
+      if (mov->norm_prom != vide && abs(mov->norm_prom) != abs(mov->pjazz)) {
         StdChar('=');
-        WriteSpec(mov->speci, true);
+        WriteSpec(mov->new_spec, true);
         WritePiece(mov->norm_prom);
       }
       StdChar(']');
