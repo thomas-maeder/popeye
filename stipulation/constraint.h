@@ -13,13 +13,7 @@
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reflex_attacker_filter_root_solve(slice_index si);
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reflex_help_filter_root_solve(slice_index si);
+boolean reflex_root_filter_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index
@@ -116,12 +110,6 @@ stip_length_type reflex_help_filter_solve_in_n(slice_index si,
 stip_length_type reflex_help_filter_has_solution_in_n(slice_index si,
                                                       stip_length_type n);
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reflex_series_filter_root_solve(slice_index si);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -166,8 +154,8 @@ void reflex_defender_filter_apply_setplay(slice_index si,
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
-                                                   stip_structure_traversal *st);
+void reflex_root_filter_reduce_to_postkey_play(slice_index si,
+                                               stip_structure_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

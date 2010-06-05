@@ -544,6 +544,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children,           /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,           /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,           /* STDirectDefenderFilter */
+  &stip_traverse_structure_children,           /* STReflexRootFilter */
   &stip_traverse_structure_children,           /* STReflexHelpFilter */
   &stip_traverse_structure_children,           /* STReflexSeriesFilter */
   &stip_traverse_structure_children,           /* STReflexAttackerFilter */
@@ -2336,6 +2337,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
+  &stip_traverse_structure_children, /* STReflexRootFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
@@ -2448,6 +2450,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
+  &stip_traverse_structure_children, /* STReflexRootFilter */
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
@@ -2807,6 +2810,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STReflexRootFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexAttackerFilter */

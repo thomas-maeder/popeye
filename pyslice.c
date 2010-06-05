@@ -55,10 +55,6 @@ has_solution_type slice_solve(slice_index si)
       result = leaf_forced_solve(si);
       break;
 
-    case STQuodlibet:
-      result = quodlibet_solve(si);
-      break;
-
     case STAttackMove:
     case STAttackHashed:
     case STSelfDefense:
@@ -97,6 +93,10 @@ has_solution_type slice_solve(slice_index si)
     case STSeriesHashed:
     case STStopOnShortSolutionsSeriesFilter:
       result = series_solve(si) ? has_solution : has_no_solution;
+      break;
+
+    case STQuodlibet:
+      result = quodlibet_solve(si);
       break;
 
     case STReciprocal:
@@ -142,6 +142,23 @@ boolean slice_root_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STAttackRoot:
+      result = attack_root_solve(si);
+      break;
+
+    case STSelfCheckGuardDefenderFilter:
+    case STPostKeyPlaySolutionWriter:
+      result = defense_root_solve(si);
+      break;
+
+    case STHelpRoot:
+      result = help_root_solve(si);
+      break;
+
+    case STSeriesRoot:
+      result = series_root_solve(si);
+      break;
+
     case STQuodlibet:
       result = quodlibet_root_solve(si);
       break;
@@ -154,30 +171,8 @@ boolean slice_root_solve(slice_index si)
       result = not_root_solve(si);
       break;
 
-    case STAttackRoot:
-    case STAttackHashed:
-    case STMaxThreatLength:
-    case STReflexAttackerFilter:
-    case STSelfCheckGuardAttackerFilter:
-      result = attack_root_solve(si);
-      break;
-
-    case STSelfCheckGuardDefenderFilter:
-    case STPostKeyPlaySolutionWriter:
-    case STReflexDefenderFilter:
-    case STContinuationWriter:
-    case STThreatWriter:
-      result = defense_root_solve(si);
-      break;
-
-    case STHelpRoot:
-    case STReflexHelpFilter:
-      result = help_root_solve(si);
-      break;
-
-    case STSeriesRoot:
-    case STReflexSeriesFilter:
-      result = series_root_solve(si);
+    case STReflexRootFilter:
+      result = reflex_root_filter_solve(si);
       break;
 
     case STMoveInverterRootSolvableFilter:

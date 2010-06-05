@@ -414,10 +414,6 @@ boolean attack_root_solve_in_n(slice_index si)
       result = attack_root_root_solve(si);
       break;
 
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_root_solve(si);
-      break;
-
     case STAttackHashed:
       result = attack_root_solve(slices[si].u.pipe.next);
       break;

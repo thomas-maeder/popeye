@@ -346,6 +346,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_traverse_structure_children,    /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,    /* STDirectDefenderFilter */
+  &stip_traverse_structure_children,    /* STReflexRootFilter */
   &stip_traverse_structure_children,    /* STReflexHelpFilter */
   &stip_traverse_structure_children,    /* STReflexSeriesFilter */
   &stip_traverse_structure_children,    /* STReflexAttackerFilter */

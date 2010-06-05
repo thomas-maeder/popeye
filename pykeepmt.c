@@ -717,6 +717,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,       /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,       /* STSelfCheckGuardSeriesFilter */
   &keepmating_guards_inserter_battle_fork, /* STDirectDefenderFilter */
+  &stip_traverse_structure_children,       /* STReflexRootFilter */
   &stip_traverse_structure_children,       /* STReflexHelpFilter */
   &stip_traverse_structure_children,       /* STReflexSeriesFilter */
   &keepmating_guards_inserter_battle_fork, /* STReflexAttackerFilter */

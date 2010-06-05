@@ -8,6 +8,7 @@
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
+#include "pyoutput.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
@@ -34,6 +35,31 @@ void reflex_filter_resolve_proxies(slice_index si, stip_structure_traversal *st)
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Allocate a STReflexRootFilter slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_goal identifies slice that leads towards goal from
+ *                      the branch
+ * @param proxy_to_avoided prototype of slice that must not be solvable
+ * @return index of allocated slice
+ */
+static slice_index alloc_reflex_root_filter(slice_index proxy_to_avoided)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy_to_avoided);
+  TraceFunctionParamListEnd();
+
+  /* ab(use) the fact that .avoided and .towards_goal are collocated */
+  result = alloc_branch_fork(STReflexRootFilter,0,0,proxy_to_avoided);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Allocate a STReflexHelpFilter slice
@@ -109,6 +135,7 @@ void reflex_attacker_filter_insert_root(slice_index si,
 {
   slice_index * const root = st->param;
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -117,7 +144,7 @@ void reflex_attacker_filter_insert_root(slice_index si,
   stip_traverse_structure(next,st);
 
   {
-    slice_index const guard = copy_slice(si);
+    slice_index const guard = alloc_reflex_root_filter(avoided);
     pipe_link(guard,*root);
     *root = guard;
 
@@ -180,7 +207,7 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reflex_attacker_filter_root_solve(slice_index si)
+boolean reflex_root_filter_solve(slice_index si)
 {
   boolean result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -191,7 +218,7 @@ boolean reflex_attacker_filter_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (slice_root_solve(avoided))
-    result = attack_root_solve(next);
+    result = slice_root_solve(next);
   else
   {
     write_end_of_solution_phase();
@@ -283,8 +310,8 @@ has_solution_type reflex_attacker_filter_solve(slice_index si)
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void reflex_attacker_filter_reduce_to_postkey_play(slice_index si,
-                                                   stip_structure_traversal *st)
+void reflex_root_filter_reduce_to_postkey_play(slice_index si,
+                                               stip_structure_traversal *st)
 {
   slice_index *postkey_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
@@ -548,6 +575,7 @@ void reflex_help_filter_insert_root(slice_index si,
                                     stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -556,7 +584,7 @@ void reflex_help_filter_insert_root(slice_index si,
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
   {
-    slice_index const guard = copy_slice(si);
+    slice_index const guard = alloc_reflex_root_filter(avoided);
     pipe_link(guard,*root);
     *root = guard;
 
@@ -569,34 +597,6 @@ void reflex_help_filter_insert_root(slice_index si,
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reflex_help_filter_root_solve(slice_index si)
-{
-  boolean result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slice_root_solve(avoided))
-    result = help_root_solve(next);
-  else
-  {
-    write_end_of_solution_phase();
-    result = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve in a number of half-moves
@@ -711,6 +711,7 @@ void reflex_series_filter_insert_root(slice_index si,
                                       stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -719,7 +720,7 @@ void reflex_series_filter_insert_root(slice_index si,
   stip_traverse_structure(slices[si].u.pipe.next,st);
 
   {
-    slice_index const guard = copy_slice(si);
+    slice_index const guard = alloc_reflex_root_filter(avoided);
     pipe_link(guard,*root);
     *root = guard;
     shorten_series_pipe(si);
@@ -727,34 +728,6 @@ void reflex_series_filter_insert_root(slice_index si,
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reflex_series_filter_root_solve(slice_index si)
-{
-  boolean result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slice_root_solve(avoided))
-    result = series_root_solve(next);
-  else
-  {
-    write_end_of_solution_phase();
-    result = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Solve in a number of half-moves
@@ -981,6 +954,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,   /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,   /* STDirectDefenderFilter */
+  &stip_traverse_structure_children,   /* STReflexRootFilter */
   &stip_traverse_structure_children,   /* STReflexHelpFilter */
   &stip_traverse_structure_children,   /* STReflexSeriesFilter */
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
@@ -1176,6 +1150,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,    /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,    /* STDirectDefenderFilter */
+  &stip_traverse_structure_children,    /* STReflexRootFilter */
   &stip_traverse_structure_children,    /* STReflexHelpFilter */
   &stip_traverse_structure_children,    /* STReflexSeriesFilter */
   &stip_traverse_structure_children,    /* STReflexAttackerFilter */

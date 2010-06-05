@@ -2782,6 +2782,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_moves_battle_fork,          /* STDirectDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STReflexRootFilter */
   &stip_traverse_moves_help_fork,            /* STReflexHelpFilter */
   &stip_traverse_moves_series_fork,          /* STReflexSeriesFilter */
   &stip_traverse_moves_reflex_attack_filter, /* STReflexAttackerFilter */
@@ -3224,6 +3225,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,         /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,         /* STDirectDefenderFilter */
+  &stip_traverse_structure_children,         /* STReflexRootFilter */
   &stip_traverse_structure_children,         /* STReflexHelpFilter */
   &stip_traverse_structure_children,         /* STReflexSeriesFilter */
   &stip_traverse_structure_children,         /* STReflexAttackerFilter */
@@ -3551,6 +3553,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,            /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children,            /* STDirectDefenderFilter */
+  &intelligent_mode_support_none,               /* STReflexRootFilter */
   &intelligent_mode_support_none,               /* STReflexHelpFilter */
   &intelligent_mode_support_none,               /* STReflexSeriesFilter */
   &intelligent_mode_support_none,               /* STReflexAttackerFilter */

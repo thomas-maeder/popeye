@@ -380,6 +380,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_structure_visitor_noop,      /* STSelfCheckGuardHelpFilter */
   &stip_structure_visitor_noop,      /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
+  &stip_structure_visitor_noop,      /* STReflexRootFilter */
   &stip_structure_visitor_noop,      /* STReflexHelpFilter */
   &stip_structure_visitor_noop,      /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
@@ -499,6 +500,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_structure_visitor_noop,      /* STSelfCheckGuardHelpFilter */
   &stip_structure_visitor_noop,      /* STSelfCheckGuardSeriesFilter */
   &stip_traverse_structure_children, /* STDirectDefenderFilter */
+  &stip_traverse_structure_children, /* STReflexRootFilter */
   &stip_structure_visitor_noop,      /* STReflexHelpFilter */
   &stip_structure_visitor_noop,      /* STReflexSeriesFilter */
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
