@@ -47,36 +47,6 @@ slice_index alloc_series_root_slice(stip_length_type length,
   return result;
 }
 
-/* Shorten a root series branch. Reduces the length members of
- * slices[root] and resets the next member to the appropriate
- * position.
- * @param root index of the series root slice
- */
-static void shorten_root_branch(slice_index root)
-{
-  slice_index fork;
-  slice_index branch;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
-  TraceFunctionParamListEnd();
-
-  fork = branch_find_slice(STSeriesFork,root);
-  branch = slices[fork].u.pipe.next;
-  assert(fork!=no_slice);
-  assert(slices[branch].type==STSeriesMove);
-  if (slices[root].u.shortcut.length==slack_length_series+2)
-  {
-    slices[fork].u.pipe.next = no_slice;
-    dealloc_slice(branch);
-  }
-
-  shorten_series_pipe(root);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a branch slice at root level
  * @param si slice index
  * @return true iff >=1 solution was found
