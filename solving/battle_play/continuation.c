@@ -182,8 +182,9 @@ static void continuation_writer_append(slice_index si,
                                        stip_structure_traversal *st)
 {
   continuation_handler_insertion_state * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slices[next].u.branch.length;
+  stip_length_type const min_length = slices[next].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -329,7 +330,7 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_structure_visitor_noop,      /* STSeriesShortcut */
   &stip_traverse_structure_children, /* STParryFork */
   &stip_traverse_structure_children, /* STSeriesHashed */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
+  &continuation_writer_append,       /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
   &continuation_writer_append,       /* STSelfCheckGuardDefenderFilter */
