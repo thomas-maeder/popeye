@@ -67,31 +67,6 @@ void quodlibet_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Solve a quodlibet slice at root level
- * @param si slice index
- */
-boolean quodlibet_root_solve(slice_index si)
-{
-  boolean result = false;
-  boolean result1;
-  boolean result2;
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result1 = slice_root_solve(op1);
-  result2 = slice_root_solve(op2);
-  result = result1 || result2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a quodlibet slice jas a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

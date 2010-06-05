@@ -10,12 +10,6 @@
  * appropriate function of the slice type-specific module.
  */
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_root_solve(slice_index si);
-
 #define ENUMERATION_TYPENAME has_solution_type
 #define ENUMERATORS                             \
   ENUMERATOR(opponent_self_check),              \

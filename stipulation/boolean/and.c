@@ -97,46 +97,6 @@ has_solution_type reci_has_solution(slice_index si)
   return result;
 }
 
-/* Solve at root level at the end of a reciprocal slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reci_root_solve(slice_index si)
-{
-  boolean result = false;
-
-  slice_index const op1 = slices[si].u.binary.op1;
-  slice_index const op2 = slices[si].u.binary.op2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",op1);
-  TraceValue("%u\n",op2);
-
-  switch (slice_has_solution(op2))
-  {
-    case has_solution:
-      if (slice_root_solve(op1))
-      {
-        boolean const result2 = slice_root_solve(op2);
-        assert(result2);
-        result = true;
-      }
-      break;
-
-    default:
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

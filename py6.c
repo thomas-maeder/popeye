@@ -2061,7 +2061,7 @@ static void reflectboard(void)
 static void solveHalfADuplex(void)
 {
   inithash();
-  slice_root_solve(root_slice);
+  slice_solve(root_slice);
   closehash();
   output_end_half_duplex();
 }

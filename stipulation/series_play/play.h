@@ -9,12 +9,6 @@
 #include "pystip.h"
 #include "pyslice.h"
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean series_root_solve(slice_index si);
-
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached
@@ -26,11 +20,11 @@ boolean series_root_solve(slice_index si);
  */
 stip_length_type series_solve_in_n(slice_index si, stip_length_type n);
 
-/* Solve a branch slice at non-root level.
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean series_solve(slice_index si);
+has_solution_type series_solve(slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

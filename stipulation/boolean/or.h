@@ -34,12 +34,6 @@ has_solution_type quodlibet_has_solution(slice_index si);
  */
 has_solution_type quodlibet_solve(slice_index si);
 
-/* Solve a quodlibet slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean quodlibet_root_solve(slice_index si);
-
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

@@ -46,16 +46,4 @@ stip_length_type attack_solve_in_n(slice_index si,
  */
 has_solution_type attack_solve(slice_index si);
 
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found and written
- */
-boolean attack_root_solve_in_n(slice_index si);
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean attack_root_solve(slice_index si);
-
 #endif

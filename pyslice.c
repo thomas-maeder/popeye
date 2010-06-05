@@ -2,9 +2,12 @@
 #include "pydata.h"
 #include "trace.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/help_play/root.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/root.h"
 #include "pyleaff.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
@@ -55,6 +58,10 @@ has_solution_type slice_solve(slice_index si)
       result = leaf_forced_solve(si);
       break;
 
+    case STAttackRoot:
+      result = attack_root_solve(si);
+      break;
+
     case STAttackMove:
     case STAttackHashed:
     case STSelfDefense:
@@ -79,12 +86,24 @@ has_solution_type slice_solve(slice_index si)
       }
       break;
 
+    case STPostKeyPlaySolutionWriter:
+      result = defense_root_solve(si);
+      break;
+
+    case STHelpRoot:
+      result = help_root_solve(si);
+      break;
+
     case STHelpMove:
     case STHelpFork:
     case STHelpHashed:
     case STSelfCheckGuardHelpFilter:
     case STStopOnShortSolutionsHelpFilter:
-      result = help_solve(si) ? has_solution : has_no_solution;
+      result = help_solve(si);
+      break;
+
+    case STSeriesRoot:
+      result = series_root_solve(si);
       break;
 
     case STSelfCheckGuardSeriesFilter:
@@ -92,7 +111,7 @@ has_solution_type slice_solve(slice_index si)
     case STSeriesFork:
     case STSeriesHashed:
     case STStopOnShortSolutionsSeriesFilter:
-      result = series_solve(si) ? has_solution : has_no_solution;
+      result = series_solve(si);
       break;
 
     case STQuodlibet:
@@ -107,12 +126,32 @@ has_solution_type slice_solve(slice_index si)
       result = not_solve(si);
       break;
 
+    case STReflexRootFilter:
+      result = reflex_root_filter_solve(si);
+      break;
+
+    case STMoveInverterRootSolvableFilter:
+      result = move_inverter_root_solve(si);
+      break;
+
     case STMoveInverterSolvableFilter:
       result = move_inverter_solve(si);
       break;
 
+    case STSelfCheckGuardRootSolvableFilter:
+      result = selfcheck_guard_root_solve(si);
+      break;
+
     case STSelfCheckGuardSolvableFilter:
       result = selfcheck_guard_solve(si);
+      break;
+
+    case STMaxSolutionsRootSolvableFilter:
+      result = maxsolutions_root_solvable_filter_solve(si);
+      break;
+
+    case STStopOnShortSolutionsRootSolvableFilter:
+      result = stoponshortsolutions_root_solvable_filter_solve(si);
       break;
 
     default:
@@ -123,81 +162,6 @@ has_solution_type slice_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice at root level
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean slice_root_solve(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STAttackRoot:
-      result = attack_root_solve(si);
-      break;
-
-    case STPostKeyPlaySolutionWriter:
-      result = defense_root_solve(si);
-      break;
-
-    case STHelpRoot:
-      result = help_root_solve(si);
-      break;
-
-    case STSeriesRoot:
-      result = series_root_solve(si);
-      break;
-
-    case STQuodlibet:
-      result = quodlibet_root_solve(si);
-      break;
-
-    case STReciprocal:
-      result = reci_root_solve(si);
-      break;
-
-    case STNot:
-      result = not_root_solve(si);
-      break;
-
-    case STReflexRootFilter:
-      result = reflex_root_filter_solve(si);
-      break;
-
-    case STMoveInverterRootSolvableFilter:
-      result = move_inverter_root_solve(si);
-      break;
-
-    case STSelfCheckGuardRootSolvableFilter:
-      result = selfcheck_guard_root_solve(si);
-      break;
-
-    case STMaxSolutionsRootSolvableFilter:
-      result = maxsolutions_root_solvable_filter_root_solve(si);
-      break;
-
-    case STStopOnShortSolutionsRootSolvableFilter:
-      result = stoponshortsolutions_root_solvable_filter_root_solve(si);
-      break;
-
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

@@ -24,13 +24,13 @@
 
 #include <assert.h>
 
-/* Solve a slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean defense_root_solve(slice_index si)
+has_solution_type defense_root_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type const n_max_unsolvable = min_length-2;
@@ -41,10 +41,10 @@ boolean defense_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   nr_moves_needed = defense_defend_in_n(si,length,min_length,n_max_unsolvable);
-  result = nr_moves_needed<=length;
+  result = nr_moves_needed<=length ? has_solution : has_no_solution;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

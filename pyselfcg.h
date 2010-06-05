@@ -64,11 +64,11 @@ slice_index alloc_selfcheck_guard_solvable_filter(void);
 void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
                                                                 stip_structure_traversal *st);
 
-/* Solve a slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean selfcheck_guard_root_solve(slice_index si);
+has_solution_type selfcheck_guard_root_solve(slice_index si);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

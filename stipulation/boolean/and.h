@@ -29,12 +29,6 @@ void reci_insert_root(slice_index si, stip_structure_traversal *st);
  */
 has_solution_type reci_has_solution(slice_index si);
 
-/* Solve at root level at the end of a reciprocal slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean reci_root_solve(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

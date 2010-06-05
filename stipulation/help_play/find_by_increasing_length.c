@@ -38,19 +38,19 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
-/* Solve a branch slice at root level.
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean help_root_root_solve(slice_index root)
+has_solution_type help_root_solve(slice_index si)
 {
-  boolean result = false;
-  slice_index const next = slices[root].u.pipe.next;
-  stip_length_type const full_length = slices[root].u.branch.length;
-  stip_length_type len = slices[root].u.branch.min_length;
+  has_solution_type result = has_no_solution;
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   /* Do *not* delegate to help_solve() here:
@@ -61,14 +61,14 @@ boolean help_root_root_solve(slice_index root)
   while (len<=full_length)
   {
     if (help_solve_in_n(next,len)==len)
-      result = true;
+      result = has_solution;
     len += 2;
   }
 
   write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

@@ -13,7 +13,7 @@
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reflex_root_filter_solve(slice_index si);
+has_solution_type reflex_root_filter_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index

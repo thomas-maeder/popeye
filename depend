@@ -1172,11 +1172,13 @@ trace.h:
 pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pydata.h \
   pyproc.h py4.h trace.h stipulation/battle_play/attack_play.h pyslice.h \
+  stipulation/battle_play/attack_root.h boolean.h pystip.h \
   stipulation/battle_play/defense_play.h stipulation/help_play/play.h \
-  boolean.h pystip.h stipulation/series_play/play.h py.h pyleaff.h \
-  pybrafrk.h pyquodli.h pyrecipr.h pynot.h pymovein.h pyhash.h \
-  DHT/dhtbcmem.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h pykeepmt.h \
-  pypipe.h optimisations/maxsolutions/root_solvable_filter.h \
+  stipulation/help_play/root.h stipulation/series_play/play.h py.h \
+  stipulation/series_play/root.h pyleaff.h pybrafrk.h pyquodli.h \
+  pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
+  pydirctg.h pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
+  optimisations/maxsolutions/root_solvable_filter.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h
 
 pyslice.h:
@@ -1213,17 +1215,23 @@ stipulation/battle_play/attack_play.h:
 
 pyslice.h:
 
-stipulation/battle_play/defense_play.h:
-
-stipulation/help_play/play.h:
+stipulation/battle_play/attack_root.h:
 
 boolean.h:
 
 pystip.h:
 
+stipulation/battle_play/defense_play.h:
+
+stipulation/help_play/play.h:
+
+stipulation/help_play/root.h:
+
 stipulation/series_play/play.h:
 
 py.h:
+
+stipulation/series_play/root.h:
 
 pyleaff.h:
 

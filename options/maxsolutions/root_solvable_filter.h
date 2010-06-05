@@ -2,7 +2,7 @@
 #define OPTIMISATIONS_MAXSOLUTIONS_ROOT_SOLVABLE_FILTER_H
 
 #include "py.h"
-#include "pystip.h"
+#include "pyslice.h"
 
 /* This module provides functionality dealing with
  * STMaxSolutionsRootSolvableFilter stipulation slice type.
@@ -15,10 +15,10 @@
  */
 slice_index alloc_maxsolutions_root_solvable_filter(void);
 
-/* Try to defend after an attempted key move at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff the defending side can successfully defend
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean maxsolutions_root_solvable_filter_root_solve(slice_index si);
+has_solution_type maxsolutions_root_solvable_filter_solve(slice_index si);
 
 #endif

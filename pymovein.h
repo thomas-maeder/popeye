@@ -35,11 +35,11 @@ void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st);
  */
 void move_inverter_insert_root(slice_index si, stip_structure_traversal *st);
 
-/* Solve a move inverter at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean move_inverter_root_solve(slice_index si);
+has_solution_type move_inverter_root_solve(slice_index si);
 
 /* Solve a slice
  * @param si slice index

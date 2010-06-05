@@ -25,13 +25,11 @@ slice_index alloc_help_root_slice(stip_length_type length,
  */
 slice_index help_root_shorten_help_play(slice_index si);
 
-/* Solve a branch slice at root level.
+/* Solve a slice
  * @param si slice index
- * @return no_slice if set play not applicable
- *         new root slice index (may be equal to old one) otherwise
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean help_root_root_solve(slice_index si);
+has_solution_type help_root_solve(slice_index si);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved

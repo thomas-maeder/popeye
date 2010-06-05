@@ -20,10 +20,10 @@ slice_index alloc_series_root_slice(stip_length_type length,
                                     slice_index next,
                                     slice_index short_sols);
 
-/* Solve a branch slice at root level.
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean series_root_root_solve(slice_index si);
+has_solution_type series_root_solve(slice_index si);
 
 #endif

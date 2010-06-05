@@ -33,10 +33,4 @@ has_solution_type not_solve(slice_index si);
  */
 has_solution_type not_has_solution(slice_index si);
 
-/* Determine and write the solution of a slice
- * @param slice index
- * @return true iff >=1 solution was found
- */
-boolean not_root_solve(slice_index si);
-
 #endif

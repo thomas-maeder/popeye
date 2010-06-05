@@ -34,17 +34,17 @@ slice_index alloc_attack_root_slice(stip_length_type length,
   return result;
 }
 
-/* Solve at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean attack_root_root_solve(slice_index si)
+has_solution_type attack_root_solve(slice_index si)
 {
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
-  boolean result = false;
+  has_solution_type result = has_no_solution;
   Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
@@ -84,7 +84,7 @@ boolean attack_root_root_solve(slice_index si)
         if (min_length-1<=nr_moves_needed)
         {
           if (nr_moves_needed<=length-1)
-            result = true;
+            result = has_solution;
           if (nr_moves_needed<=length+1)
             write_end_of_solution();
         }
@@ -99,7 +99,7 @@ boolean attack_root_root_solve(slice_index si)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

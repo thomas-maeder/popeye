@@ -116,37 +116,3 @@ has_solution_type not_has_solution(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Determine and write the solution of a slice
- * @param slice index
- * @return true iff >=1 solution was found
- */
-boolean not_root_solve(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  switch (slice_solve(slices[si].u.pipe.next))
-  {
-    case has_solution:
-      result = false;
-      break;
-
-    case has_no_solution:
-      result = true;
-      break;
-
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}

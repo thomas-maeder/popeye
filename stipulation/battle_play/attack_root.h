@@ -25,10 +25,10 @@ slice_index alloc_attack_root_slice(stip_length_type length,
 void attack_root_reduce_to_postkey_play(slice_index si,
                                         stip_structure_traversal *st);
 
-/* Solve a branch slice at root level.
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean attack_root_root_solve(slice_index si);
+has_solution_type attack_root_solve(slice_index si);
 
 #endif

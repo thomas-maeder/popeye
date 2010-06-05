@@ -7,11 +7,11 @@
 
 #include "pyslice.h"
 
-/* Solve a slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean defense_root_solve(slice_index si);
+has_solution_type defense_root_solve(slice_index si);
 
 /* Try to defend after an attempted key move at non-root level.
  * When invoked with some n, the function assumes that the key doesn't

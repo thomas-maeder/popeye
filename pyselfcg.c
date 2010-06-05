@@ -605,13 +605,13 @@ void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Solve a slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean selfcheck_guard_root_solve(slice_index si)
+has_solution_type selfcheck_guard_root_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -623,10 +623,10 @@ boolean selfcheck_guard_root_solve(slice_index si)
     result = false;
   }
   else
-    result = slice_root_solve(slices[si].u.pipe.next);
+    result = slice_solve(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

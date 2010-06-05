@@ -178,44 +178,13 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Solve a slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean help_root_solve(slice_index si)
+has_solution_type help_solve(slice_index si)
 {
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  switch (slices[si].type)
-  {
-    case STHelpRoot:
-      result = help_root_root_solve(si);
-      break;
-
-    default:
-      assert(0);
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a branch slice at non-root level.
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-boolean help_solve(slice_index si)
-{
-  boolean result = false;
+  has_solution_type result = has_no_solution;
   stip_length_type const full_length = slices[si].u.branch.length;
   stip_length_type len = slices[si].u.branch.min_length;
 
@@ -228,14 +197,14 @@ boolean help_solve(slice_index si)
   while (len<=full_length)
     if (help_solve_in_n(si,len)==len)
     {
-      result = true;
+      result = has_solution;
       break;
     }
     else
       len += 2;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

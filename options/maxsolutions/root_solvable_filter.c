@@ -21,13 +21,13 @@ slice_index alloc_maxsolutions_root_solvable_filter(void)
   return result;
 }
 
-/* Solve a slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean maxsolutions_root_solvable_filter_root_solve(slice_index si)
+has_solution_type maxsolutions_root_solvable_filter_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -35,10 +35,10 @@ boolean maxsolutions_root_solvable_filter_root_solve(slice_index si)
 
   reset_nr_found_solutions_per_phase();
 
-  result = slice_root_solve(slices[si].u.pipe.next);
+  result = slice_solve(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

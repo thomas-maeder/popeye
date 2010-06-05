@@ -113,24 +113,24 @@ void move_inverter_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Solve a move inverter slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean move_inverter_root_solve(slice_index si)
+has_solution_type move_inverter_root_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   output_start_move_inverted_level();
-  result = slice_root_solve(slices[si].u.pipe.next);
+  result = slice_solve(slices[si].u.pipe.next);
   output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

@@ -47,22 +47,22 @@ slice_index alloc_series_root_slice(stip_length_type length,
   return result;
 }
 
-/* Solve a branch slice at root level
+/* Solve a slice
  * @param si slice index
- * @return true iff >=1 solution was found
+ * @return whether there is a solution and (to some extent) why not
  */
-boolean series_root_root_solve(slice_index root)
+has_solution_type series_root_solve(slice_index si)
 {
-  boolean result = false;
-  stip_length_type const full_length = slices[root].u.branch.length;
-  stip_length_type len = slices[root].u.branch.min_length;
-  slice_index const next = slices[root].u.pipe.next;
+  has_solution_type result = has_no_solution;
+  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type len = slices[si].u.branch.min_length;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[root].u.shortcut.min_length>=slack_length_series);
+  assert(slices[si].u.shortcut.min_length>=slack_length_series);
 
   /* Do *not* delegate to series_solve() here:
    * If series_solve() has found solutions of a certain length, it won't
@@ -72,14 +72,14 @@ boolean series_root_root_solve(slice_index root)
   while (len<=full_length)
   {
     if (series_solve_in_n(next,len)==len)
-      result = true;
+      result = has_solution;
     ++len;
   }
 
   write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }

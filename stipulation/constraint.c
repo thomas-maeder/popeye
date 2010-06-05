@@ -207,9 +207,9 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
  * @param si slice index
  * @return true iff >=1 solution was found
  */
-boolean reflex_root_filter_solve(slice_index si)
+has_solution_type reflex_root_filter_solve(slice_index si)
 {
-  boolean result;
+  has_solution_type result;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index const next = slices[si].u.pipe.next;
 
@@ -217,16 +217,16 @@ boolean reflex_root_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slice_root_solve(avoided))
-    result = slice_root_solve(next);
+  if (slice_solve(avoided)==has_solution)
+    result = slice_solve(next);
   else
   {
     write_end_of_solution_phase();
-    result = false;
+    result = has_no_solution;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
