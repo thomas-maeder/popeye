@@ -2483,18 +2483,19 @@ static void addtohash_dir_succ(slice_index si, stip_length_type n)
  * @param n_min minimal number of half moves to be tried
  * @return adjusted n_min; n+2 if no solving is useful at all
  */
-static stip_length_type adjust_n_min(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min)
+static
+stip_length_type adjust_n_max_unsolvable(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_max_unsolvable)
 {
-  stip_length_type result = n_min;
+  stip_length_type result = n_max_unsolvable;
   HashBuffer * const hb = &hashBuffers[nbply];
   dhtElement const *he;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   if (!isHashBufferValid[nbply])
@@ -2548,9 +2549,11 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  n_min = adjust_n_min(si,n,n_min);
-  if (n_min<=n)
+  n_max_unsolvable = adjust_n_max_unsolvable(si,n,n_max_unsolvable);
+  if (n_max_unsolvable<n)
   {
+    if (n_min<=n_max_unsolvable)
+      n_min = n_max_unsolvable+2;
     result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min,n_max_unsolvable);
     if (result<=n)
       addtohash_dir_succ(si,result);
