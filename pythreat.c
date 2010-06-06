@@ -105,7 +105,12 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
       slice_index const
           to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
       stip_length_type n_min = battle_branch_calc_n_min(si,n_max);
-      result = attack_has_solution_in_n(to_attacker,n_max-1,n_min-1)>n_max;
+      stip_length_type const n_max_unsolvable = n_min-2;
+      stip_length_type const
+          nr_moves_needed = attack_has_solution_in_n(to_attacker,
+                                                     n_max-1,n_min-1,
+                                                     n_max_unsolvable);
+      result = nr_moves_needed>n_max;
     }
     else
       /* remainder of play is too short for max_len_threat to apply */

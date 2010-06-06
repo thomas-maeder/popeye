@@ -35,18 +35,25 @@ slice_index alloc_no_short_variations_slice(stip_length_type length,
  * in a slice
  * @param si identifies slice that just played the defense
  * @param n maximum number of half moves until end of branch
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return true iff there is a short solution
  */
-static boolean has_short_solution(slice_index si, stip_length_type n)
+static boolean has_short_solution(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   boolean result;
+  slice_index const next = slices[si].u.pipe.next;
   stip_length_type const n_min = battle_branch_calc_n_min(si,n);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(slices[si].u.pipe.next,n,n_min)<=n;
+  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable)<=n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -54,18 +61,23 @@ static boolean has_short_solution(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Determine whether attacker can end in n half moves.
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type no_short_variations_has_solution_in_n(slice_index si,
-                                                       stip_length_type n,
-                                                       stip_length_type n_min)
+stip_length_type
+no_short_variations_has_solution_in_n(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_min,
+                                      stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -73,9 +85,11 @@ stip_length_type no_short_variations_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_min);
+  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,6 +112,7 @@ stip_length_type no_short_variations_solve_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type n_max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -105,9 +120,11 @@ stip_length_type no_short_variations_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
+  n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
+
   if (n>slack_length_battle+1
       && encore() /* otherwise we are solving threats */
-      && has_short_solution(si,n-2))
+      && has_short_solution(si,n-2,n_max_unsolvable))
     result = n_min;
   else
     result = attack_solve_in_n(next,n,n_min);

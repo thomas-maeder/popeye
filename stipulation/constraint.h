@@ -34,10 +34,13 @@ stip_length_type reflex_attacker_filter_solve_in_n(slice_index si,
  */
 has_solution_type reflex_attacker_filter_solve(slice_index si);
 
-/* Determine whether there is a solution in n half moves.
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -46,7 +49,8 @@ has_solution_type reflex_attacker_filter_solve(slice_index si);
 stip_length_type
 reflex_attacker_filter_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min);
+                                         stip_length_type n_min,
+                                         stip_length_type n_max_unsolvable);
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't

@@ -179,10 +179,13 @@ selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
 void selfcheck_guard_defender_filter_insert_root(slice_index si,
                                                  stip_structure_traversal *st);
 
-/* Determine whether there is a solution in n half moves.
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -191,7 +194,8 @@ void selfcheck_guard_defender_filter_insert_root(slice_index si,
 stip_length_type
 selfcheck_guard_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min);
+                                         stip_length_type n_min,
+                                         stip_length_type n_max_unsolvable);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

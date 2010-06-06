@@ -28,10 +28,13 @@
 
 #include <assert.h>
 
-/* Determine whether there is a solution in n half moves.
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -39,7 +42,8 @@
  */
 stip_length_type attack_has_solution_in_n(slice_index si,
                                           stip_length_type n,
-                                          stip_length_type n_min)
+                                          stip_length_type n_min,
+                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
 
@@ -47,37 +51,46 @@ stip_length_type attack_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
+
+  assert(n_min>n_max_unsolvable);
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STThreatEnforcer:
-      result = threat_enforcer_has_solution_in_n(si,n,n_min);
+      result = threat_enforcer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STRefutationsCollector:
-      result = refutations_collector_has_solution_in_n(si,n,n_min);
+      result = refutations_collector_has_solution_in_n(si,
+                                                       n,n_min,
+                                                       n_max_unsolvable);
       break;
 
     case STVariationWriter:
-      result = variation_writer_has_solution_in_n(si,n,n_min);
+      result = variation_writer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STRefutingVariationWriter:
-      result = refuting_variation_writer_has_solution_in_n(si,n,n_min);
+      result = refuting_variation_writer_has_solution_in_n(si,
+                                                           n,n_min,
+                                                           n_max_unsolvable);
       break;
 
     case STNoShortVariations:
-      result = no_short_variations_has_solution_in_n(si,n,n_min);
+      result = no_short_variations_has_solution_in_n(si,
+                                                     n,n_min,
+                                                     n_max_unsolvable);
       break;
 
     case STAttackMove:
-      result = attack_move_has_solution_in_n(si,n,n_min);
+      result = attack_move_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STAttackHashed:
-      result = attack_hashed_has_solution_in_n(si,n,n_min);
+      result = attack_hashed_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STSeriesMove:
@@ -98,13 +111,9 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     }
 
     case STSelfDefense:
-      result = self_defense_direct_has_solution_in_n(si,n,n_min);
-      break;
-
-    case STLeafDirect:
-      assert(n==slack_length_battle+2);
-      if (leaf_d_has_solution(si)==has_solution)
-        result = n;
+      result = self_defense_direct_has_solution_in_n(si,
+                                                     n,n_min,
+                                                     n_max_unsolvable);
       break;
 
     case STLeafForced:
@@ -132,23 +141,33 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       break;
 
     case STReflexAttackerFilter:
-      result = reflex_attacker_filter_has_solution_in_n(si,n,n_min);
+      result = reflex_attacker_filter_has_solution_in_n(si,
+                                                        n,n_min,
+                                                        n_max_unsolvable);
       break;
 
     case STSelfCheckGuardAttackerFilter:
-      result = selfcheck_guard_direct_has_solution_in_n(si,n,n_min);
+      result = selfcheck_guard_direct_has_solution_in_n(si,
+                                                        n,n_min,
+                                                        n_max_unsolvable);
       break;
 
     case STKeepMatingGuardAttackerFilter:
-      result = keepmating_guard_direct_has_solution_in_n(si,n,n_min);
+      result = keepmating_guard_direct_has_solution_in_n(si,
+                                                         n,n_min,
+                                                         n_max_unsolvable);
       break;
 
     case STDegenerateTree:
-      result = degenerate_tree_direct_has_solution_in_n(si,n,n_min);
+      result = degenerate_tree_direct_has_solution_in_n(si,
+                                                        n,n_min,
+                                                        n_max_unsolvable);
       break;
 
     case STMaxNrNonTrivialCounter:
-      result = max_nr_nontrivial_counter_has_solution_in_n(si,n,n_min);
+      result = max_nr_nontrivial_counter_has_solution_in_n(si,
+                                                           n,n_min,
+                                                           n_max_unsolvable);
       break;
 
     default:
@@ -177,8 +196,11 @@ has_solution_type attack_has_solution(slice_index si)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const n_min = slices[si].u.branch.min_length;
-    stip_length_type const sol_length = attack_has_solution_in_n(si,
-                                                                 length,n_min);
+    stip_length_type const n_max_unsolvable = n_min-2;
+    stip_length_type const
+        sol_length = attack_has_solution_in_n(si,
+                                              length,n_min,
+                                              n_max_unsolvable);
     if (sol_length<n_min)
       result = opponent_self_check;
     else if (sol_length<=length)

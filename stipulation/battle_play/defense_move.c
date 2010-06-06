@@ -198,6 +198,7 @@ static stip_length_type try_defenses(slice_index si,
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result = 0;
+  stip_length_type n_max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -206,13 +207,16 @@ static stip_length_type try_defenses(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
+  n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
+
   while (nr_refutations[nbply]<=max_nr_refutations && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const length_sol = attack_has_solution_in_n(next,
-                                                                   n-1,
-                                                                   n_min-1);
+      stip_length_type const
+          length_sol = attack_has_solution_in_n(next,
+                                                n-1,n_min-1,
+                                                n_max_unsolvable-1);
       if (length_sol>=n)
       {
         ++nr_refutations[nbply];
@@ -439,48 +443,55 @@ defense_move_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  n_min = battle_branch_calc_n_min(si,n);
+  assert(n>=slack_length_battle);
 
-  nr_refutations[nbply+1] = 0;
-
-  active_slice[nbply+1] = si;
-
-  /* TODO create a design for representing all these move generation
-   * modes
-   */
-  if (n==slack_length_battle+1 && slices[si].u.branch.imminent_goal!=no_goal)
-    max_len_continuation = iterate_last_self_defenses(si,
-                                                      n,n_min,
-                                                      defender,
-                                                      max_nr_refutations);
+  if (n==slack_length_battle)
+    result = n+4;
   else
   {
-    if (n<=slack_length_battle+3)
-    {
-      move_generation_mode = move_generation_optimized_by_killer_move;
-      TraceValue("->%u\n",move_generation_mode);
-      genmove(defender);
-    }
+    n_min = battle_branch_calc_n_min(si,n);
+
+    nr_refutations[nbply+1] = 0;
+
+    active_slice[nbply+1] = si;
+
+    /* TODO create a design for representing all these move generation
+     * modes
+     */
+    if (n==slack_length_battle+1 && slices[si].u.branch.imminent_goal!=no_goal)
+      max_len_continuation = iterate_last_self_defenses(si,
+                                                        n,n_min,
+                                                        defender,
+                                                        max_nr_refutations);
     else
     {
-      move_generation_mode = move_generation_mode_opti_per_side[defender];
-      TraceValue("->%u\n",move_generation_mode);
-      genmove(defender);
+      if (n<=slack_length_battle+3)
+      {
+        move_generation_mode = move_generation_optimized_by_killer_move;
+        TraceValue("->%u\n",move_generation_mode);
+        genmove(defender);
+      }
+      else
+      {
+        move_generation_mode = move_generation_mode_opti_per_side[defender];
+        TraceValue("->%u\n",move_generation_mode);
+        genmove(defender);
+      }
+
+      max_len_continuation = try_defenses(si,n,n_min,max_nr_refutations);
+
+      finply();
     }
 
-    max_len_continuation = try_defenses(si,n,n_min,max_nr_refutations);
-
-    finply();
+    if (max_len_continuation<n_min)
+      result = n+4;
+    else if (nr_refutations[nbply+1]>max_nr_refutations)
+      result = n+4;
+    else if (nr_refutations[nbply+1]>0)
+      result = n+2;
+    else
+      result = max_len_continuation;
   }
-
-  if (max_len_continuation<n_min)
-    result = n+4;
-  else if (nr_refutations[nbply+1]>max_nr_refutations)
-    result = n+4;
-  else if (nr_refutations[nbply+1]>0)
-    result = n+2;
-  else
-    result = max_len_continuation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -2562,9 +2562,11 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   return result;
 }
 
-static stip_length_type delegate_has_solution_in_n(slice_index si,
-                                                   stip_length_type n,
-                                                   stip_length_type n_min)
+static
+stip_length_type delegate_has_solution_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -2573,9 +2575,10 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_min);
+  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
   if (result<=n)
     addtohash_dir_succ(si,result);
   else
@@ -2587,18 +2590,23 @@ static stip_length_type delegate_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a solution in n half moves.
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type attack_hashed_has_solution_in_n(slice_index si,
-                                                 stip_length_type n,
-                                                 stip_length_type n_min)
+stip_length_type
+attack_hashed_has_solution_in_n(slice_index si,
+                                stip_length_type n,
+                                stip_length_type n_min,
+                                stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   HashBuffer * const hb = &hashBuffers[nbply];
@@ -2608,6 +2616,7 @@ stip_length_type attack_hashed_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(n%2==slices[si].u.branch.length%2);
@@ -2617,7 +2626,7 @@ stip_length_type attack_hashed_has_solution_in_n(slice_index si,
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
-    result = delegate_has_solution_in_n(si,n,n_min);
+    result = delegate_has_solution_in_n(si,n,n_min,n_max_unsolvable);
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
@@ -2628,20 +2637,26 @@ stip_length_type attack_hashed_has_solution_in_n(slice_index si,
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
     hash_value_type const val_nosucc = get_value_attack_nosucc(hue,si);
-    stip_length_type const n_nosucc = 2*val_nosucc + slack_length_battle-1 + parity;
+    stip_length_type const
+        n_nosucc = 2*val_nosucc + slack_length_battle-1 + parity;
     if (n_nosucc>=n && n_nosucc<=n+length-min_length)
       result = n+2;
     else
     {
       hash_value_type const val_succ = get_value_attack_succ(hue,si);
-      stip_length_type const n_succ = 2*val_succ + slack_length_battle+1 + parity;
+      stip_length_type const
+          n_succ = 2*val_succ + slack_length_battle+1 + parity;
       if (n_succ<=n && n_succ+length-min_length>=n)
         result = n_succ;
       else
       {
-        if (n_min<n_nosucc)
-          n_min = n_nosucc;
-        result = delegate_has_solution_in_n(si,n,n_min);
+        if (n_max_unsolvable<n_nosucc)
+        {
+          n_max_unsolvable = n_nosucc;
+          if (n_min<=n_nosucc)
+            n_min = n_nosucc+2;
+        }
+        result = delegate_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       }
     }
   }

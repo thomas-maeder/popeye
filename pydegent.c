@@ -67,10 +67,13 @@ slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
 /* **************** Implementation of interface Direct **********
  */
 
-/* Determine whether there is a solution in n half moves.
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -79,7 +82,8 @@ slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
 stip_length_type
 degenerate_tree_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min)
+                                         stip_length_type n_min,
+                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
   stip_length_type const parity = n%2;
@@ -89,6 +93,7 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   if (n>max_length_short_solutions+parity)
@@ -96,15 +101,15 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
     if (max_length_short_solutions>=slack_length_battle+3)
     {
       stip_length_type const n_interm = max_length_short_solutions-2+parity;
-      result = attack_has_solution_in_n(next,n_interm,n_min);
+      result = attack_has_solution_in_n(next,n_interm,n_min,n_max_unsolvable);
       if (result>n_interm)
-        result = attack_has_solution_in_n(next,n,n);
+        result = attack_has_solution_in_n(next,n,n,n_interm);
     }
     else
-      result = attack_has_solution_in_n(next,n,n);
+      result = attack_has_solution_in_n(next,n,n,n_max_unsolvable);
   }
   else
-    result = attack_has_solution_in_n(next,n,n_min);
+    result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
