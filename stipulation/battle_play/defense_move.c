@@ -101,6 +101,8 @@ void defense_move_insert_root(slice_index si, stip_structure_traversal *st)
     pipe_set_successor(*root,slices[si].u.pipe.next);
   }
   
+  battle_branch_shorten_slice(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
