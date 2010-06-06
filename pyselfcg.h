@@ -95,18 +95,21 @@ has_solution_type selfcheck_guard_solve(slice_index si);
  */
 boolean selfcheck_guard_attacker_filter_root_solve_in_n(slice_index si);
 
-/* Solve a slice at non-root level
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @return number of half moves effectively used
- *         n+2 if no solution was found
- *         (n-slack_length_battle)%2 if the previous move led to a
- *            dead end (e.g. self-check)
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found and written, i.e.:
+ *            n_min-2 defense has turned out to be illegal
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
  */
 stip_length_type selfcheck_guard_solve_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_min);
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable);
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

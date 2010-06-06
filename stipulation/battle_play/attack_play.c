@@ -13,7 +13,7 @@
 #include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
-#include "pyleafd.h"
+#include "pyleaff.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -215,9 +215,11 @@ has_solution_type attack_has_solution(slice_index si)
   return result;
 }
 
-/* Solve a slice
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
  *            n_min-2 defense has turned out to be illegal
@@ -226,7 +228,8 @@ has_solution_type attack_has_solution(slice_index si)
  */
 stip_length_type attack_solve_in_n(slice_index si,
                                    stip_length_type n,
-                                   stip_length_type n_min)
+                                   stip_length_type n_min,
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -234,35 +237,32 @@ stip_length_type attack_solve_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
     case STThreatEnforcer:
-      result = threat_enforcer_solve_in_n(si,n,n_min);
+      result = threat_enforcer_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STRefutationsCollector:
-      result = refutations_collector_solve_in_n(si,n,n_min);
+      result = refutations_collector_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STVariationWriter:
-      result = variation_writer_solve_in_n(si,n,n_min);
+      result = variation_writer_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STRefutingVariationWriter:
-      result = refuting_variation_writer_solve_in_n(si,n,n_min);
+      result = refuting_variation_writer_solve_in_n(si,
+                                                    n,n_min,
+                                                    n_max_unsolvable);
       break;
 
     case STNoShortVariations:
-      result = no_short_variations_solve_in_n(si,n,n_min);
-      break;
-
-    case STLeafDirect:
-      assert(n==slack_length_battle+2);
-      assert(n_min==slack_length_battle+2);
-      result = leaf_d_solve(si) ? n : n+2;
+      result = no_short_variations_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STLeafForced:
@@ -290,7 +290,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       break;
 
     case STAttackMove:
-      result = attack_move_solve_in_n(si,n,n_min);
+      result = attack_move_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STSeriesMove:
@@ -310,31 +310,33 @@ stip_length_type attack_solve_in_n(slice_index si,
     }
 
     case STAttackHashed:
-      result = attack_hashed_solve_in_n(si,n,n_min);
+      result = attack_hashed_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STSelfDefense:
-      result = self_defense_solve_in_n(si,n,n_min);
+      result = self_defense_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STReflexAttackerFilter:
-      result = reflex_attacker_filter_solve_in_n(si,n,n_min);
+      result = reflex_attacker_filter_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STSelfCheckGuardAttackerFilter:
-      result = selfcheck_guard_solve_in_n(si,n,n_min);
+      result = selfcheck_guard_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STDegenerateTree:
-      result = degenerate_tree_direct_solve_in_n(si,n,n_min);
+      result = degenerate_tree_direct_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STKeepMatingGuardAttackerFilter:
-      result = keepmating_guard_direct_solve_in_n(si,n,n_min);
+      result = keepmating_guard_direct_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STMaxNrNonTrivialCounter:
-      result = max_nr_nontrivial_counter_solve_in_n(si,n,n_min);
+      result = max_nr_nontrivial_counter_solve_in_n(si,
+                                                    n,n_min,
+                                                    n_max_unsolvable);
       break;
 
     default:
@@ -363,21 +365,6 @@ has_solution_type attack_solve(slice_index si)
 
   switch (slices[si].type)
   {
-    case STLeafDirect:
-    {
-      stip_length_type const length = slack_length_battle+2;
-      stip_length_type const min_length = slack_length_battle+2;
-      stip_length_type const sol_length = attack_solve_in_n(si,
-                                                            length,min_length);
-      if (sol_length==min_length-2)
-        result = opponent_self_check;
-      else if (sol_length<=length)
-        result = has_solution;
-      else
-        result = has_no_solution;
-      break;
-    }
-
     case STSelfDefense:
       result = self_defense_solve(si);
       break;
@@ -394,8 +381,10 @@ has_solution_type attack_solve(slice_index si)
     {
       stip_length_type const length = slices[si].u.branch.length;
       stip_length_type const min_length = slices[si].u.branch.min_length;
+      stip_length_type const n_max_unsolvable = min_length-2;
       stip_length_type const sol_length = attack_solve_in_n(si,
-                                                            length,min_length);
+                                                            length,min_length,
+                                                            n_max_unsolvable);
       if (sol_length==min_length-2)
         result = opponent_self_check;
       else if (sol_length<=length)

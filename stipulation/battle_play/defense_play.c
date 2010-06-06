@@ -188,6 +188,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       break;
   }
 
+  assert(result>n_max_unsolvable);
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

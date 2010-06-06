@@ -90,7 +90,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       else if (sol_length<=nbattle)
       {
         result = n;
-        attack_solve_in_n(si,nbattle,n_min);
+        attack_solve_in_n(si,nbattle,n_min,n_max_unsolvable);
       }
       else
         result = sol_length+slack_length_help-slack_length_battle;

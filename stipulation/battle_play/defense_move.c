@@ -160,6 +160,8 @@ stip_length_type defense_move_defend_in_n(slice_index si,
   if (n_min==slack_length_battle)
     n_min = slack_length_battle+2;
 
+  n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
+
   output_start_defense_level(si);
   
   move_generation_mode = move_generation_not_optimized;
@@ -171,7 +173,7 @@ stip_length_type defense_move_defend_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       stip_length_type const nr_moves_needed
-          = attack_solve_in_n(next,n-1,n_min-1)+1;
+          = attack_solve_in_n(next,n-1,n_min-1,n_max_unsolvable-1)+1;
       if (nr_moves_needed>result)
         result = nr_moves_needed;
     }

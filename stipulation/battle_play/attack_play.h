@@ -30,10 +30,12 @@ stip_length_type attack_has_solution_in_n(slice_index si,
  */
 has_solution_type attack_has_solution(slice_index si);
 
-/* Solve a slice
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found and written, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -41,7 +43,9 @@ has_solution_type attack_has_solution(slice_index si);
  */
 stip_length_type attack_solve_in_n(slice_index si,
                                    stip_length_type n,
-                                   stip_length_type n_min);
+                                   stip_length_type n_min,
+                                   stip_length_type n_max_unsolvable);
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

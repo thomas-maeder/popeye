@@ -123,10 +123,12 @@ threat_enforcer_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found and written, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -134,7 +136,8 @@ threat_enforcer_has_solution_in_n(slice_index si,
  */
 stip_length_type threat_enforcer_solve_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_min)
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -145,6 +148,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",len_threat);
@@ -153,7 +157,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
     /* the attack has something stronger than threats (typically, it
      * delivers check)
      */
-    result = attack_solve_in_n(next,n,n_min);
+    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
   else if (len_threat<=n)
   {
     /* there are >=1 threats - don't report variations shorter than
@@ -162,31 +166,29 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
     table const threats_table = threats[threats_ply];
     stip_length_type len_test_threats;
 
-    stip_length_type const n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
-
     nr_threats_to_be_confirmed = table_length(threats_table);
 
     threat_activities[threats_ply] = threat_enforcing;
     len_test_threats = attack_has_solution_in_n(next,
-                                                len_threat,n_min,
+                                                len_threat,n_max_unsolvable+2,
                                                 n_max_unsolvable);
     threat_activities[threats_ply] = threat_idle;
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */
-      result = attack_solve_in_n(next,n,n_min);
+      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
     else if (len_test_threats==len_threat && nr_threats_to_be_confirmed>0)
       /* variation has same length as the threat(s), but it has
        * defeated at least one threat
        */
-      result = attack_solve_in_n(next,n,n_min);
+      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
     else
         /* variation is shorter than threat */
       result = len_test_threats;
   }
   else
     /* zugzwang, or we haven't looked for threats at all */
-    result = attack_solve_in_n(next,n,n_min);
+    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -337,6 +339,7 @@ static stip_length_type solve_threats(table threats,
 {
   slice_index const attack_side = slices[si].u.threat_writer.attack_side;
   stip_length_type const n_min = battle_branch_calc_n_min(si,n);
+  stip_length_type const n_max_unsolvable = n_min-2;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -350,7 +353,7 @@ static stip_length_type solve_threats(table threats,
   threat_activities[nbply+1] = threat_solving;
 
   output_start_threat_level();
-  result = attack_solve_in_n(attack_side,n,n_min);
+  result = attack_solve_in_n(attack_side,n,n_min,n_max_unsolvable);
 
   {
     /* We don't signal "Zugzwang" after the last attacking move of a

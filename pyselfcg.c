@@ -661,10 +661,12 @@ has_solution_type selfcheck_guard_solve(slice_index si)
   return result;
 }
 
-/* Solve a slice at non-root level
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found and written, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -672,7 +674,8 @@ has_solution_type selfcheck_guard_solve(slice_index si)
  */
 stip_length_type selfcheck_guard_solve_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_min)
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -680,12 +683,13 @@ stip_length_type selfcheck_guard_solve_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = n_min-2;
   else if (n>slack_length_battle)
-    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min);
+    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min,n_max_unsolvable);
   else
     result = n+2;
 

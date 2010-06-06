@@ -67,10 +67,12 @@ variation_writer_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @return length of solution found and written, i.e.:
  *            n_min-2 defense has turned out to be illegal
  *            n_min..n length of shortest solution found
@@ -78,7 +80,8 @@ variation_writer_has_solution_in_n(slice_index si,
  */
 stip_length_type variation_writer_solve_in_n(slice_index si,
                                              stip_length_type n,
-                                             stip_length_type n_min)
+                                             stip_length_type n_min,
+                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -87,6 +90,7 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   if (encore())
@@ -96,7 +100,7 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
     /* no defense was played - we are solving threats */
   }
 
-  result = attack_solve_in_n(next,n,n_min);
+  result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -113,15 +117,14 @@ has_solution_type variation_writer_solve(slice_index si)
   has_solution_type result;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_max_unsolvable = min_length-2;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type nr_moves;
-  stip_length_type n_max_unsolvable;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  n_max_unsolvable = min_length-2;
   nr_moves = attack_has_solution_in_n(next,length,min_length,n_max_unsolvable);
 
   if (nr_moves<min_length)
@@ -131,8 +134,9 @@ has_solution_type variation_writer_solve(slice_index si)
     result = has_solution;
     write_battle_move();
     {
-      stip_length_type const
-          solve_result = attack_solve_in_n(next,length,min_length);
+      stip_length_type const solve_result = attack_solve_in_n(next,
+                                                              length,min_length,
+                                                              n_max_unsolvable);
       assert(solve_result<=length);
     }
   }
