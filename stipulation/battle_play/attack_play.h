@@ -7,8 +7,6 @@
 
 #include "pyslice.h"
 
-#include <limits.h>
-
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
