@@ -109,6 +109,7 @@ has_solution_type quodlibet_has_solution(slice_index si)
 
     default:
       assert(0);
+      result = opponent_self_check;
       break;
   }
 

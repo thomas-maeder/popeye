@@ -200,6 +200,7 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
 
     default:
       assert(0);
+      reuslt = n+2;
       break;
   }
 
