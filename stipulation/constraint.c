@@ -396,7 +396,9 @@ void reflex_defender_filter_insert_root(slice_index si,
 
   pipe_link(root_filter,*root);
   *root = root_filter;
-  
+   
+  battle_branch_shorten_slice(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
