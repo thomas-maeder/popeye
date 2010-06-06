@@ -316,8 +316,8 @@ static void prepend_refutes_writer(slice_index si, stip_structure_traversal *st)
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void substitute_continuation_writer(slice_index si,
-                                           stip_structure_traversal *st)
+static void substitute_postkey_solution_writer(slice_index si,
+                                               stip_structure_traversal *st)
 {
   postkey_handler_insertion_state * const state = st->param;
 
@@ -346,83 +346,83 @@ static void substitute_continuation_writer(slice_index si,
 
 static stip_structure_visitor const postkey_handler_inserters[] =
 {
-  &stip_traverse_structure_children, /* STProxy */
-  &stip_traverse_structure_children, /* STAttackMove */
-  &stip_traverse_structure_children, /* STDefenseMove */
-  &stip_structure_visitor_noop,      /* STHelpMove */
-  &stip_structure_visitor_noop,      /* STHelpFork */
-  &stip_structure_visitor_noop,      /* STSeriesMove */
-  &stip_structure_visitor_noop,      /* STSeriesFork */
-  &stip_structure_visitor_noop,      /* STLeafDirect */
-  &stip_structure_visitor_noop,      /* STLeafHelp */
-  &stip_structure_visitor_noop,      /* STLeafForced */
-  &stip_traverse_structure_children, /* STReciprocal */
-  &stip_traverse_structure_children, /* STQuodlibet */
-  &stip_traverse_structure_children, /* STNot */
-  &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
-  &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
-  &stip_structure_visitor_noop,      /* STMoveInverterSeriesFilter */
-  &stip_structure_visitor_noop,      /* STAttackRoot */
-  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
-  &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
-  &substitute_continuation_writer,   /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
-  &stip_traverse_structure_children, /* STThreatWriter */
-  &stip_traverse_structure_children, /* STThreatEnforcer */
-  &stip_traverse_structure_children, /* STThreatCollector */
-  &stip_traverse_structure_children, /* STRefutationsCollector */
-  &prepend_refutes_writer,           /* STVariationWriter */
-  &stip_traverse_structure_children, /* STRefutingVariationWriter */
-  &stip_traverse_structure_children, /* STNoShortVariations */
-  &stip_traverse_structure_children, /* STAttackHashed */
-  &stip_structure_visitor_noop,      /* STHelpRoot */
-  &stip_structure_visitor_noop,      /* STHelpShortcut */
-  &stip_structure_visitor_noop,      /* STHelpHashed */
-  &stip_structure_visitor_noop,      /* STSeriesRoot */
-  &stip_structure_visitor_noop,      /* STSeriesShortcut */
-  &stip_structure_visitor_noop,      /* STParryFork */
-  &stip_structure_visitor_noop,      /* STSeriesHashed */
-  &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
-  &stip_structure_visitor_noop,      /* STSelfCheckGuardHelpFilter */
-  &stip_structure_visitor_noop,      /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STDirectDefenderFilter */
-  &stip_structure_visitor_noop,      /* STReflexRootFilter */
-  &stip_structure_visitor_noop,      /* STReflexHelpFilter */
-  &stip_structure_visitor_noop,      /* STReflexSeriesFilter */
-  &stip_traverse_structure_children, /* STReflexAttackerFilter */
-  &stip_traverse_structure_children, /* STReflexDefenderFilter */
-  &stip_traverse_structure_children, /* STSelfDefense */
-  &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
-  &stip_structure_visitor_noop,      /* STRestartGuardHelpFilter */
-  &stip_structure_visitor_noop,      /* STRestartGuardSeriesFilter */
-  &stip_structure_visitor_noop,      /* STIntelligentHelpFilter */
-  &stip_structure_visitor_noop,      /* STIntelligentSeriesFilter */
-  &stip_structure_visitor_noop,      /* STGoalReachableGuardHelpFilter */
-  &stip_structure_visitor_noop,      /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
-  &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
-  &stip_structure_visitor_noop,      /* STKeepMatingGuardHelpFilter */
-  &stip_structure_visitor_noop,      /* STKeepMatingGuardSeriesFilter */
-  &stip_traverse_structure_children, /* STMaxFlightsquares */
-  &stip_traverse_structure_children, /* STDegenerateTree */
-  &stip_traverse_structure_children, /* STMaxNrNonTrivial */
-  &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
-  &stip_traverse_structure_children, /* STMaxThreatLength */
-  &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
-  &stip_traverse_structure_children, /* STMaxTimeDefenderFilter */
-  &stip_structure_visitor_noop,      /* STMaxTimeHelpFilter */
-  &stip_structure_visitor_noop,      /* STMaxTimeSeriesFilter */
-  &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
-  &stip_structure_visitor_noop,      /* STMaxSolutionsHelpFilter */
-  &stip_structure_visitor_noop,      /* STMaxSolutionsSeriesFilter */
-  &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
-  &stip_structure_visitor_noop,      /* STStopOnShortSolutionsHelpFilter */
-  &stip_structure_visitor_noop       /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STProxy */
+  &stip_traverse_structure_children,   /* STAttackMove */
+  &stip_traverse_structure_children,   /* STDefenseMove */
+  &stip_structure_visitor_noop,        /* STHelpMove */
+  &stip_structure_visitor_noop,        /* STHelpFork */
+  &stip_structure_visitor_noop,        /* STSeriesMove */
+  &stip_structure_visitor_noop,        /* STSeriesFork */
+  &stip_structure_visitor_noop,        /* STLeafDirect */
+  &stip_structure_visitor_noop,        /* STLeafHelp */
+  &stip_structure_visitor_noop,        /* STLeafForced */
+  &stip_traverse_structure_children,   /* STReciprocal */
+  &stip_traverse_structure_children,   /* STQuodlibet */
+  &stip_traverse_structure_children,   /* STNot */
+  &stip_traverse_structure_children,   /* STMoveInverterRootSolvableFilter */
+  &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
+  &stip_structure_visitor_noop,        /* STMoveInverterSeriesFilter */
+  &stip_structure_visitor_noop,        /* STAttackRoot */
+  &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
+  &substitute_postkey_solution_writer, /* STContinuationWriter */
+  &stip_traverse_structure_children,   /* STRefutationsWriter */
+  &stip_traverse_structure_children,   /* STThreatWriter */
+  &stip_traverse_structure_children,   /* STThreatEnforcer */
+  &stip_traverse_structure_children,   /* STThreatCollector */
+  &stip_traverse_structure_children,   /* STRefutationsCollector */
+  &prepend_refutes_writer,             /* STVariationWriter */
+  &stip_traverse_structure_children,   /* STRefutingVariationWriter */
+  &stip_traverse_structure_children,   /* STNoShortVariations */
+  &stip_traverse_structure_children,   /* STAttackHashed */
+  &stip_structure_visitor_noop,        /* STHelpRoot */
+  &stip_structure_visitor_noop,        /* STHelpShortcut */
+  &stip_structure_visitor_noop,        /* STHelpHashed */
+  &stip_structure_visitor_noop,        /* STSeriesRoot */
+  &stip_structure_visitor_noop,        /* STSeriesShortcut */
+  &stip_structure_visitor_noop,        /* STParryFork */
+  &stip_structure_visitor_noop,        /* STSeriesHashed */
+  &stip_traverse_structure_children,   /* STSelfCheckGuardRootSolvableFilter */
+  &stip_traverse_structure_children,   /* STSelfCheckGuardSolvableFilter */
+  &stip_traverse_structure_children,   /* STSelfCheckGuardAttackerFilter */
+  &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
+  &stip_structure_visitor_noop,        /* STSelfCheckGuardHelpFilter */
+  &stip_structure_visitor_noop,        /* STSelfCheckGuardSeriesFilter */
+  &stip_traverse_structure_children,   /* STDirectDefenderFilter */
+  &stip_structure_visitor_noop,        /* STReflexRootFilter */
+  &stip_structure_visitor_noop,        /* STReflexHelpFilter */
+  &stip_structure_visitor_noop,        /* STReflexSeriesFilter */
+  &stip_traverse_structure_children,   /* STReflexAttackerFilter */
+  &stip_traverse_structure_children,   /* STReflexDefenderFilter */
+  &stip_traverse_structure_children,   /* STSelfDefense */
+  &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
+  &stip_structure_visitor_noop,        /* STRestartGuardHelpFilter */
+  &stip_structure_visitor_noop,        /* STRestartGuardSeriesFilter */
+  &stip_structure_visitor_noop,        /* STIntelligentHelpFilter */
+  &stip_structure_visitor_noop,        /* STIntelligentSeriesFilter */
+  &stip_structure_visitor_noop,        /* STGoalReachableGuardHelpFilter */
+  &stip_structure_visitor_noop,        /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,   /* STKeepMatingGuardAttackerFilter */
+  &stip_traverse_structure_children,   /* STKeepMatingGuardDefenderFilter */
+  &stip_structure_visitor_noop,        /* STKeepMatingGuardHelpFilter */
+  &stip_structure_visitor_noop,        /* STKeepMatingGuardSeriesFilter */
+  &stip_traverse_structure_children,   /* STMaxFlightsquares */
+  &stip_traverse_structure_children,   /* STDegenerateTree */
+  &stip_traverse_structure_children,   /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,   /* STMaxNrNonTrivialCounter */
+  &stip_traverse_structure_children,   /* STMaxThreatLength */
+  &stip_traverse_structure_children,   /* STMaxTimeRootDefenderFilter */
+  &stip_traverse_structure_children,   /* STMaxTimeDefenderFilter */
+  &stip_structure_visitor_noop,        /* STMaxTimeHelpFilter */
+  &stip_structure_visitor_noop,        /* STMaxTimeSeriesFilter */
+  &stip_traverse_structure_children,   /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,   /* STMaxSolutionsRootDefenderFilter */
+  &stip_structure_visitor_noop,        /* STMaxSolutionsHelpFilter */
+  &stip_structure_visitor_noop,        /* STMaxSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STStopOnShortSolutionsRootSolvableFilter */
+  &stip_structure_visitor_noop,        /* STStopOnShortSolutionsHelpFilter */
+  &stip_structure_visitor_noop         /* STStopOnShortSolutionsSeriesFilter */
 };
 
 /* Instrument the stipulation representation so that it can write
