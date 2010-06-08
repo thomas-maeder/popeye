@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.104 2010/04/07 09:42:31 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.105 2010/06/08 16:44:15 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -284,6 +284,7 @@ $(NESTEDSRCDIRS:%=%/nestedsourcedist): FORCE
 
 clean:	$(NESTEDLIBDIRS:%=%/clean)
 	$(MAKE) CURRPWD=./ -f makefile.local $@
+	rm -f pymain$(OBJ_SUFFIX)
 
 clobber:	clean
 		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES)
