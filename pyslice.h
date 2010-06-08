@@ -14,7 +14,7 @@
 #define ENUMERATORS                             \
   ENUMERATOR(opponent_self_check),              \
     ENUMERATOR(has_no_solution),                \
-    ENUMERATOR(has_solution),                   \
+    ENUMERATOR(has_solution)                    \
 
 #define ENUMERATION_DECLARE
 
