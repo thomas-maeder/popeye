@@ -1,5 +1,7 @@
 #if defined (FXF)
 
+#include <assert.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -86,7 +88,7 @@ typedef struct {
 /* Different size of fxfMINSIZE for 32-/64/Bit compilation */
 enum
 {
-  fxfMINSIZE = sizeof(unsigned long)
+  fxfMINSIZE = sizeof(size_t)
 };
 
 static SizeHead SizeData[fxfMAXSIZE+1];
@@ -101,7 +103,7 @@ static int CurrentSeg= 0;
 static char *Arena= Nil(char);
 #endif /*SEGMENTED*/
 
-static unsigned long GlobalSize;
+static size_t GlobalSize;
 static char *BotFreePtr;
 static char *TopFreePtr;
 
@@ -186,15 +188,16 @@ void PrintFreeMap(FILE *f) {
 #  define  ClrRange(x,l)
 #endif /*FREEMAP, !SEGMENTED*/
 
-int fxfInit(unsigned long Size) {
-  static char *myname= "fxfInit";
+int fxfInit(size_t Size) {
+#if defined(LOG)
+  static char const * const myname= "fxfInit";
+#endif
 #if defined(SEGMENTED)
-  unsigned long asize;
+  size_t asize= Size+ARENA_SEG_SIZE;
   while (ArenaSegCnt > 0) {
     ArenaSegCnt--;
     free(Arena[ArenaSegCnt]);
   }
-  asize= Size+ ARENA_SEG_SIZE;
   while (asize > ARENA_SEG_SIZE) {
     if ((Arena[ArenaSegCnt++]=nNew(ARENA_SEG_SIZE, char)) == Nil(char))
       break;
@@ -269,7 +272,9 @@ void fxfReset(void)
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr
 
 void *fxfAlloc(size_t size) {
-  static char *myname= "fxfAlloc";
+#if defined(LOG) || defined(DEBUG)
+  static char const * const myname= "fxfAlloc";
+#endif
   SizeHead *sh;
   char *ptr;
 
@@ -299,7 +304,8 @@ void *fxfAlloc(size_t size) {
   }
   else {
     /* we have to allocate a new piece */
-    if ((unsigned long)(TopFreePtr-BotFreePtr) >= size) {
+    size_t const sizeCurrentSeg = TopFreePtr-BotFreePtr;
+    if (sizeCurrentSeg>=size) {
       if (size&PTRMASK) {
         /* not aligned */
         ptr= BotFreePtr;
@@ -330,7 +336,7 @@ void *fxfAlloc(size_t size) {
 }
 
 void fxfFree(void *ptr, size_t size) {
-  static char *myname= "fxfFree";
+  static char const * const myname= "fxfFree";
   SizeHead *sh;
 
   DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
@@ -381,50 +387,64 @@ void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize) {
   return nptr;
 }
 
-unsigned long fxfTotal() {
-  unsigned int i;
-  SizeHead *hd;
-  unsigned long UsedBytes, FreeBytes;
+size_t fxfTotal() {
+  SizeHead const *hd = SizeData;
+  size_t UsedBytes = 0;
+  size_t FreeBytes = 0;
 
-  hd= SizeData;
-  UsedBytes= FreeBytes= 0;
+  unsigned int i;
   for (i=0; i<=fxfMAXSIZE; i++,hd++) {
-    if (hd->MallocCount + hd->FreeCount) {
+    if (hd->MallocCount+hd->FreeCount>0) {
       UsedBytes+= hd->MallocCount*i;
       FreeBytes+= hd->FreeCount*i;
     }
   }
+
   return UsedBytes+FreeBytes;
 }
 
 void fxfInfo(FILE *f) {
-  unsigned int i;
-  SizeHead *hd;
-  unsigned long Used, Free;
-  unsigned long UsedBytes, FreeBytes;
-  fprintf(f, "fxfArenaSize = %lu bytes\n", GlobalSize);
-  fprintf(f, "fxfArenaUsed = %lu bytes\n",
-          GlobalSize-(unsigned long)(TopFreePtr-BotFreePtr)
+  size_t const one_kilo = 1<<10;
+  size_t const sizeCurrentSeg = (TopFreePtr-BotFreePtr);
+  size_t const sizeArenaUsed = 
+          GlobalSize-sizeCurrentSeg
 #if defined(SEGMENTED)
           - (ArenaSegCnt-CurrentSeg-1)*ARENA_SEG_SIZE
 #endif /*SEGMENTED*/
-    );
-  fprintf(f, "fxfMAXSIZE   = %u bytes\n", (unsigned int)fxfMAXSIZE);
-  fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
-  UsedBytes= FreeBytes= Used= Free= 0;
-  hd= SizeData;
-  for (i=0; i<=fxfMAXSIZE; i++,hd++) {
-    if (hd->MallocCount + hd->FreeCount) {
-      fprintf(f, "%12u  %10lu%10lu\n", i,
-              hd->MallocCount, hd->FreeCount);
-      Used+= hd->MallocCount;
-      UsedBytes+= hd->MallocCount*i;
-      Free+= hd->FreeCount;
-      FreeBytes+= hd->FreeCount*i;
+      ;
+  assert(GlobalSize/one_kilo<=ULONG_MAX);
+  fprintf(f, "fxfArenaSize = %lu kB\n",
+          (unsigned long)(GlobalSize/one_kilo));
+  assert(sizeArenaUsed/one_kilo<=ULONG_MAX);
+  fprintf(f, "fxfArenaUsed = %lu kB\n",
+          (unsigned long)(sizeArenaUsed/one_kilo));
+  fprintf(f, "fxfMAXSIZE   = %u B\n", (unsigned int)fxfMAXSIZE);
+
+  {
+    SizeHead const *hd = SizeData;
+    unsigned long nrUsed = 0;
+    unsigned long nrFree = 0;
+    size_t UsedBytes = 0;
+    size_t FreeBytes = 0;
+
+    unsigned int i;
+    fprintf(f, "%12s  %10s%10s\n", "Size", "MallocCnt", "FreeCnt");
+    for (i=0; i<=fxfMAXSIZE; i++,hd++) {
+      if (hd->MallocCount+hd->FreeCount>0) {
+        fprintf(f, "%12u  %10lu%10lu\n", i, hd->MallocCount, hd->FreeCount);
+        nrUsed+= hd->MallocCount;
+        UsedBytes+= hd->MallocCount*i;
+        nrFree+= hd->FreeCount;
+        FreeBytes+= hd->FreeCount*i;
+      }
     }
+    fprintf(f, "%12s  %10lu%10lu\n", "Total:", nrUsed, nrFree);
+    assert(UsedBytes/one_kilo<=ULONG_MAX);
+    assert(FreeBytes/one_kilo<=ULONG_MAX);
+    fprintf(f, "%12s  %10lu%10lu\n", "Total kB:",
+            (unsigned long)(UsedBytes/one_kilo),
+            (unsigned long)(FreeBytes/one_kilo));
   }
-  fprintf(f, "%12s  %10lu%10lu\n", "Total:", Used, Free);
-  fprintf(f, "%12s  %10lu%10lu\n", "Total Bytes:", UsedBytes, FreeBytes);
 }
 
 #endif /*FXF*/

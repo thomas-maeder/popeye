@@ -3,12 +3,12 @@
 
 #include <stddef.h>
 
-int fxfInit(unsigned long GlobalSize);
+int fxfInit(size_t GlobalSize);
 void *fxfAlloc(size_t size);
 void *fxfReAlloc(void *ptr, size_t OldSize, size_t NewSize);
 void fxfFree(void *ptr, size_t size);
 void fxfInfo(FILE *);
-unsigned long fxfTotal();
+size_t fxfTotal();
 
 /* Reset the internal data structures to the state that was reached
  * after the latest call to fxfInit() */
