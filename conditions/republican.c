@@ -1,5 +1,6 @@
 #include "republican.h"
 #include "pydata.h"
+#include "pylang.h"
 #include "pyoutput.h"
 #include "pymsg.h"
 #include "pyleaf.h"
