@@ -25,39 +25,39 @@ The Problemist 1998 and Sachova skladba 1997
   #2                         11 + 7
                  MAFF
 
-      1...De2-f3 
+      1...De2-f3
           2.La1-e5 #
-      1...De2*e4 
+      1...De2*e4
           2.Sg7-h5 #
-      1...De2-e3 
+      1...De2-e3
           2.f2*e3 #
-      1...De2*f2 
+      1...De2*f2
           2.Sg7-h5 #
           2.La1-e5 #
-      1...h3*g2 
+      1...h3*g2
           2.La1-e5 #
-      1...Sg5*e4 
+      1...Sg5*e4
           2.La1-e5 #
-      1...Sg5-f3 
+      1...Sg5-f3
           2.Sg7-h5 #
-      1...Sg5-e6 
+      1...Sg5-e6
           2.Te7*f7 #
-      1...Lf7-e6 
+      1...Lf7-e6
           2.La1-e5 #
 
-  1.Sg7-e6 + !
-      1...Sg5*e6 
+   1.Sg7-e6 + !
+      1...Sg5*e6
           2.Te7*f7 #
-      1...Lf7*e6 
+      1...Lf7*e6
           2.La1-e5 #
 
-  1.Lg2-f3 ! Drohung:
+   1.Lg2-f3 ! Drohung:
           2.Dg1*g5 #
-      1...Sg5*e4 
+      1...Sg5*e4
           2.Sg7-h5 #
-      1...Sg5*f3 
+      1...Sg5*f3
           2.Te7*f7 #
-      1...Sg5-e6 
+      1...Sg5-e6
           2.La1-e5 #
 
 Loesung beendet. 
@@ -89,31 +89,31 @@ Loesung beendet.
   #2                          6 + 7
                  MAFF
 
-  1.Ld2-f4 ! Drohung:
+   1.Ld2-f4 ! Drohung:
           2.Te7-d7 #
-      1...Ld4-e5 
+      1...Ld4-e5
           2.Tc7-c5 #
           2.Ld3-c4 #
-      1...Ld4-c5 
+      1...Ld4-c5
           2.Tc7*c5 #
           2.Sb5-c3 #
           2.Ld3-c4 #
-      1...Sd8-c6 
+      1...Sd8-c6
           2.Tc7-d7 #
-      1...Sd8-e6 
+      1...Sd8-e6
           2.Ld3-c4 #
 
-  1.Ld2-b4 ! Drohung:
+   1.Ld2-b4 ! Drohung:
           2.Tc7-d7 #
-      1...Ld4-e5 
+      1...Ld4-e5
           2.Te7*e5 #
           2.Ld3-c4 #
-      1...Ld4-c5 
+      1...Ld4-c5
           2.Te7-e5 #
           2.Ld3-c4 #
-      1...Sd8-c6 
+      1...Sd8-c6
           2.Ld3-c4 #
-      1...Sd8-e6 
+      1...Sd8-e6
           2.Te7-d7 #
 
 Loesung beendet. 
@@ -145,117 +145,117 @@ Loesung beendet.
   #2                        10 + 13
                  MAFF
 
-  1.Lg8-d5 + ?
+   1.Lg8-d5 + ?
     Aber
-      1...La8*d5  !
+      1...La8*d5 !
 
-  1.Lg8-e6 ? Drohung:
+   1.Lg8-e6 ? Drohung:
           2.Le6*f5 #
           2.Dd6-e5 #
-      1...Sd1-e3 
+      1...Sd1-e3
           2.Dd6-e5 #
-      1...Sd1-c3 
+      1...Sd1-c3
           2.Dd6*d4 #
           2.Sa4-c5 #
-      1...Df3-g4 
+      1...Df3-g4
           2.Dd6-e5 #
-      1...d4-d3 
+      1...d4-d3
           2.Sa4-c5 #
           2.Sh3-g5 #
-      1...f4*g3 
+      1...f4*g3
           2.Dd6-e5 #
-      1...Ta6*d6 
+      1...Ta6*d6
           2.Sa4-c5 #
           2.Sh3-g5 #
-      1...d7*e6 
+      1...d7*e6
           2.Dd6-e5 #
-      1...Te8-f8 
+      1...Te8-f8
           2.Dd6-e5 #
     Aber
-      1...Te8-h8 +  !
+      1...Te8-h8 + !
 
-  1.Kh6-h7 ? Drohung:
+   1.Kh6-h7 ? Drohung:
           2.Dd6-e5 #
-      1...Sd1-c3 
+      1...Sd1-c3
           2.Dd6*d4 #
           2.Sa4-c5 #
-      1...d4-d3 
+      1...d4-d3
           2.Sa4-c5 #
           2.Sh3-g5 #
-      1...Ta6*d6 
+      1...Ta6*d6
           2.Sa4-c5 #
           2.Sh3-g5 #
     Aber
-      1...Te8*e7 +  !
+      1...Te8*e7 + !
 
-  1.Dd6-c6 + ?
-      1...Ke4-e5 
+   1.Dd6-c6 + ?
+      1...Ke4-e5
           2.La1*d4 #
-      1...d7-d5 
+      1...d7-d5
           2.Lg8*d5 #
           2.Sa4-c5 #
           2.Sh3-g5 #
-      1...d7*c6 
+      1...d7*c6
           2.Sa4-c5 #
           2.Sh3-g5 #
-      1...La8*c6 
-          2.Sa4-c5 #
-          2.Sh3-g5 #
-    Aber
-      1...Ta6*c6 +  !
-
-  1.Tg3-g6 ? Drohung:
-          2.Dd6-e5 #
-      1...Sd1-c3 
-          2.Dd6*d4 #
-          2.Sa4-c5 #
-      1...Df3*b3 
-          2.Dd6*f4 #
-          2.Dd6*d4 #
-      1...Df3-c3 
-          2.Dd6*f4 #
-      1...Df3-d3 
-          2.Sh3-g5 #
-      1...Df3-e3 
-          2.Sa4-c5 #
-      1...d4-d3 
-          2.Sa4-c5 #
-          2.Sh3-g5 #
-      1...Ta6*d6 
+      1...La8*c6
           2.Sa4-c5 #
           2.Sh3-g5 #
     Aber
-      1...Te8*e7  !
+      1...Ta6*c6 + !
 
-  1.Tb3-b6 ! Drohung:
-          2.Sa4-c5 #
-      1...Sd1-e3 
-          2.Sh3-g5 #
-      1...Df3-h1 
+   1.Tg3-g6 ? Drohung:
           2.Dd6-e5 #
-      1...Df3-g2 
-          2.Dd6-e5 #
-      1...Df3-g4 
-          2.Dd6-e5 #
-      1...Df3-f1 
-          2.Dd6-e5 #
-      1...Df3-f2 
-          2.Dd6-e5 #
-      1...Df3-a3 
-          2.Dd6-e5 #
-      1...Df3-b3 
-          2.Dd6-e5 #
-      1...Df3-c3 
-          2.Dd6-e5 #
-      1...Df3-d3 
-          2.Dd6-e5 #
-      1...Df3-e3 
-          2.Sh3-g5 #
-      1...Df3*g3 
+      1...Sd1-c3
           2.Dd6*d4 #
-      1...Ke4-e3 
+          2.Sa4-c5 #
+      1...Df3*b3
           2.Dd6*f4 #
-      1...Ke4-d3 
+          2.Dd6*d4 #
+      1...Df3-c3
+          2.Dd6*f4 #
+      1...Df3-d3
+          2.Sh3-g5 #
+      1...Df3-e3
+          2.Sa4-c5 #
+      1...d4-d3
+          2.Sa4-c5 #
+          2.Sh3-g5 #
+      1...Ta6*d6
+          2.Sa4-c5 #
+          2.Sh3-g5 #
+    Aber
+      1...Te8*e7 !
+
+   1.Tb3-b6 ! Drohung:
+          2.Sa4-c5 #
+      1...Sd1-e3
+          2.Sh3-g5 #
+      1...Df3-h1
+          2.Dd6-e5 #
+      1...Df3-g2
+          2.Dd6-e5 #
+      1...Df3-g4
+          2.Dd6-e5 #
+      1...Df3-f1
+          2.Dd6-e5 #
+      1...Df3-f2
+          2.Dd6-e5 #
+      1...Df3-a3
+          2.Dd6-e5 #
+      1...Df3-b3
+          2.Dd6-e5 #
+      1...Df3-c3
+          2.Dd6-e5 #
+      1...Df3-d3
+          2.Dd6-e5 #
+      1...Df3-e3
+          2.Sh3-g5 #
+      1...Df3*g3
+          2.Dd6*d4 #
+      1...Ke4-e3
+          2.Dd6*f4 #
+      1...Ke4-d3
           2.Dd6*d4 #
 
 Loesung beendet. 
@@ -287,10 +287,10 @@ Loesung beendet.
   #2                          2 + 2
                  MAFF
 
-  1.BBb6-c7 ! Zugzwang.
-      1...a7-a5 
+   1.BBb6-c7 ! Zugzwang.
+      1...a7-a5
           2.BBc7-b8=T #
-      1...a7-a6 
+      1...a7-a6
           2.BBc7-b8=T #
 
 Loesung beendet. 
@@ -323,222 +323,222 @@ Loesung beendet.
   #2                         11 + 4
                  MAFF
 
-  1.Tf8*f7 + !
-      1...Ke7-e8 
+   1.Tf8*f7 + !
+      1...Ke7-e8
           2.Tf7-e7 #
           2.Tf7-f8 #
           2.Tf6-e6 #
-      1...Sh8*f7 
+      1...Sh8*f7
           2.Sb4-d5 #
 
-  1.Tf8-e8 + ?
+   1.Tf8-e8 + ?
     Aber
-      1...Ke7*f6 +  !
-      1...Ke7*e8 +  !
+      1...Ke7*f6 + !
+      1...Ke7*e8 + !
 
-  1.Lh7-g6 ? Zugzwang.
-      1...Sc4*a3 
+   1.Lh7-g6 ? Zugzwang.
+      1...Sc4*a3
           2.Sb4-d5 #
-      1...Sc4-b2 
+      1...Sc4-b2
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-d2 
+      1...Sc4-d2
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-e3 
+      1...Sc4-e3
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-e5 
+      1...Sc4-e5
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-d6 
+      1...Sc4-d6
           2.Sb4-d5 #
-      1...Sc4-b6 
+      1...Sc4-b6
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-a5 
+      1...Sc4-a5
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Tf7*f6 
+      1...Tf7*f6
           2.Sb4-d5 #
-      1...Tf7*f8 
+      1...Tf7*f8
           2.Tf6-e6 #
-      1...Tf7-h7 
+      1...Tf7-h7
           2.Tf8-e8 #
-      1...Tf7-g7 
+      1...Tf7-g7
           2.Tf8-e8 #
-      1...Sh8*g6 
+      1...Sh8*g6
           2.Tf8*f7 #
           2.Tf6*f7 #
     Aber
-      1...Ke7*f6 +  !
-      1...Ke7*f8 +  !
+      1...Ke7*f6 + !
+      1...Ke7*f8 + !
 
-  1.Lh7-g8 ? Zugzwang.
-      1...Sc4*a3 
+   1.Lh7-g8 ? Zugzwang.
+      1...Sc4*a3
           2.Sb4-d5 #
-      1...Sc4-b2 
+      1...Sc4-b2
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-d2 
+      1...Sc4-d2
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-e3 
+      1...Sc4-e3
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-e5 
+      1...Sc4-e5
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-d6 
+      1...Sc4-d6
           2.Sb4-d5 #
-      1...Sc4-b6 
+      1...Sc4-b6
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Sc4-a5 
+      1...Sc4-a5
           2.Sb4-a2 #
           2.Sb4-c2 #
           2.Sb4-d3 #
           2.Sb4-a6 #
-      1...Tf7*f6 
+      1...Tf7*f6
           2.Tf8-e8 #
-      1...Tf7*f8 
+      1...Tf7*f8
           2.Sb4-d5 #
-      1...Tf7-h7 
+      1...Tf7-h7
           2.Tf6-e6 #
-      1...Tf7-g7 
+      1...Tf7-g7
           2.Tf6-e6 #
-      1...Sh8-g6 
+      1...Sh8-g6
           2.Tf8*f7 #
           2.Tf6*f7 #
     Aber
-      1...Ke7*f8 +  !
-      1...Ke7*f6 +  !
+      1...Ke7*f6 + !
+      1...Ke7*f8 + !
 
-  1.a7-a8=D ? Drohung:
+   1.a7-a8=D ? Drohung:
           2.Tf8-e8 #
           2.Da8-e8 #
           2.Tf6-e6 #
-      1...Sc4-d6 
+      1...Sc4-d6
           2.Tf6-e6 #
-      1...Tf7*f6 
+      1...Tf7*f6
           2.Tf8-e8 #
           2.Da8-d8 #
           2.Sb4-d5 #
-      1...Tf7*h7 
+      1...Tf7*h7
           2.Tf8-e8 #
           2.Tf6-e6 #
-      1...Tf7-g7 
+      1...Tf7-g7
           2.Tf8-e8 #
           2.Tf6-e6 #
     Aber
-      1...Tf7*f8  !
-      1...Ke7*f6 +  !
+      1...Tf7*f8 !
+      1...Ke7*f6 + !
 
-  1.a7-a8=T ? Drohung:
+   1.a7-a8=T ? Drohung:
           2.Tf8-e8 #
           2.Ta8-e8 #
           2.Tf6-e6 #
-      1...Sc4-d6 
+      1...Sc4-d6
           2.Tf6-e6 #
-      1...Tf7*f6 
+      1...Tf7*f6
           2.Tf8-e8 #
           2.Sb4-d5 #
-      1...Tf7*h7 
+      1...Tf7*h7
           2.Tf8-e8 #
           2.Tf6-e6 #
-      1...Tf7-g7 
+      1...Tf7-g7
           2.Tf8-e8 #
           2.Tf6-e6 #
     Aber
-      1...Tf7*f8  !
-      1...Ke7*f6 +  !
+      1...Tf7*f8 !
+      1...Ke7*f6 + !
 
-  1.Tf6-e6 + ?
+   1.Tf6-e6 + ?
     Aber
-      1...Ke7*f8 +  !
-      1...Ke7*e6 +  !
+      1...Ke7*f8 + !
+      1...Ke7*e6 + !
 
-  1.Tf6*f7 + !
-      1...Ke7-e6 
+   1.Tf6*f7 + !
+      1...Ke7-e6
           2.Tf8-e8 #
           2.Tf7-f6 #
           2.Tf7-e7 #
           2.f4-f5 #
-      1...Sh8*f7 
+      1...Sh8*f7
           2.Sb4-d5 #
 
-  1.Sb4-a2 + ?
-      1...Sc4-d6 
+   1.Sb4-a2 + ?
+      1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Ke7*f6 +  !
-      1...Sc4*a3  !
+      1...Ke7*f6 + !
+      1...Sc4*a3 !
 
-  1.Sb4-c2 + ?
-      1...Sc4-d6 
+   1.Sb4-c2 + ?
+      1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Sc4*a3  !
-      1...Ke7*f6 +  !
+      1...Ke7*f6 + !
+      1...Sc4*a3 !
 
-  1.Sb4-d3 + ?
-      1...Sc4-d6 
+   1.Sb4-d3 + ?
+      1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Ke7*f6 +  !
-      1...Sc4*a3  !
+      1...Ke7*f6 + !
+      1...Sc4*a3 !
 
-  1.Sb4-a6 + ?
-      1...Sc4-d6 
+   1.Sb4-a6 + ?
+      1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Sc4*a3  !
-      1...Ke7*f6 +  !
+      1...Ke7*f6 + !
+      1...Sc4*a3 !
 
-  1.La3-b2 ? Drohung:
+   1.La3-b2 ? Drohung:
           2.Tf8-e8 #
           2.Sb4-d5 #
-      1...Sc4*b2 
+      1...Sc4*b2
           2.Sb4-d5 #
-      1...Sc4-e3 
+      1...Sc4-e3
           2.Tf8-e8 #
-      1...Sc4-e5 
+      1...Sc4-e5
           2.Sb4-d5 #
-      1...Sc4-d6 
+      1...Sc4-d6
           2.Sb4-d5 #
-      1...Sc4-b6 
+      1...Sc4-b6
           2.Tf8-e8 #
-      1...Tf7*f8 
+      1...Tf7*f8
           2.Sb4-d5 #
-      1...Tf7*h7 
+      1...Tf7*h7
           2.Tf8-e8 #
-      1...Tf7-g7 
+      1...Tf7-g7
           2.Tf8-e8 #
     Aber
-      1...Tf7*f6  !
-      1...Ke7*f8 +  !
+      1...Tf7*f6 !
+      1...Ke7*f8 + !
 
 Loesung beendet. 
 

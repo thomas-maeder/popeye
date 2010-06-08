@@ -149,6 +149,7 @@ stip_length_type defense_move_defend_in_n(slice_index si,
   stip_length_type result = n_min;
   Side const defender = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const parity = (n-slack_length_battle)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -162,7 +163,7 @@ stip_length_type defense_move_defend_in_n(slice_index si,
   if (n_min==slack_length_battle)
     n_min = slack_length_battle+2;
 
-  n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
+  n_max_unsolvable = slack_length_battle-parity;
 
   output_start_defense_level(si);
   
@@ -202,6 +203,7 @@ static stip_length_type try_defenses(slice_index si,
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result = 0;
+  stip_length_type const parity = (n-slack_length_battle)%2;
   stip_length_type n_max_unsolvable;
 
   TraceFunctionEntry(__func__);
@@ -211,7 +213,7 @@ static stip_length_type try_defenses(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  n_max_unsolvable = battle_branch_calc_n_min(si,n)-2;
+  n_max_unsolvable = slack_length_battle-parity;
 
   while (nr_refutations[nbply]<=max_nr_refutations && encore())
   {

@@ -93,6 +93,8 @@ slice_index alloc_refutations_writer_slice(stip_length_type length,
   return result;
 }
 
+static boolean writing;
+
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -149,7 +151,10 @@ refutations_writer_defend_in_n(slice_index si,
     if (result==n+2)
     {
       assert(refutations!=table_nil);
-      write_refutations(refutations);
+      write_refutations_intro();
+      writing = true;
+      defense_can_defend_in_n(next,n,n_max_unsolvable,table_length(refutations)-1);
+      writing = false;
     }
   }
 
@@ -252,14 +257,28 @@ refutations_collector_has_solution_in_n(slice_index si,
 
   assert(n==slices[si].u.branch.length);
 
-  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
-
-  if (result>n)
+  if (writing)
   {
-    assert(get_top_table()==refutations);
-    TraceValue("%u\n",get_top_table());
-    append_to_top_table();
-    coupfort();
+    if (is_current_move_in_table(refutations))
+    {
+      attack_solve_in_n(next,n,n_max_unsolvable+2,n_max_unsolvable);
+      write_battle_move_decoration(nbply,attack_key);
+      result = n+2;
+    }
+    else
+      result = n;
+  }
+  else
+  {
+    result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+
+    if (result>n)
+    {
+      assert(get_top_table()==refutations);
+      TraceValue("%u\n",get_top_table());
+      append_to_top_table();
+      coupfort();
+    }
   }
 
   TraceFunctionExit(__func__);

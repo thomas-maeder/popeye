@@ -178,12 +178,12 @@ typedef enum
   variation_handler_inserted
 } variation_handler_insertion_state;
 
-/* Prepend a variation writer
+/* Append a variation writer
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void variation_writer_prepend(slice_index si,
-                                     stip_structure_traversal *st)
+static void variation_writer_append(slice_index si,
+                                    stip_structure_traversal *st)
 {
   variation_handler_insertion_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -199,8 +199,7 @@ static void variation_writer_prepend(slice_index si,
     stip_traverse_structure_children(si,st);
     *state = variation_handler_needed;
 
-    pipe_append(slices[si].prev,
-                alloc_variation_writer_slice(length,min_length));
+    pipe_append(si,alloc_variation_writer_slice(length,min_length));
   }
   else
     stip_traverse_structure_children(si,st);
@@ -280,7 +279,7 @@ static void mark_need_for_handler(slice_index si,
 static stip_structure_visitor const variation_handler_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
-  &variation_writer_prepend,         /* STAttackMove */
+  &stip_traverse_structure_children, /* STAttackMove */
   &mark_need_for_handler,            /* STDefenseMove */
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpFork */
@@ -318,7 +317,7 @@ static stip_structure_visitor const variation_handler_inserters[] =
   &stip_traverse_structure_children, /* STSeriesHashed */
   &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children, /* STSelfCheckGuardAttackerFilter */
+  &variation_writer_append,          /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children, /* STSelfCheckGuardSeriesFilter */

@@ -25,57 +25,57 @@
   #2                        11 + 14
   WeisserSuperTransmutierenderKoenig
 
-  1.Df8-d6 + ?
+   1.Df8-d6 + ?
     Aber
-      1...Kd7*d6  !
-      1...c7*d6  !
+      1...c7*d6 !
+      1...Kd7*d6 !
 
-  1.Df8-e7 + ?
+   1.Df8-e7 + ?
     Aber
-      1...Kd7*e7  !
+      1...Kd7*e7 !
 
-  1.Df8*f7 + ?
+   1.Df8*f7 + ?
     Aber
-      1...Kd7-d6  !
+      1...Kd7-d6 !
 
-  1.Df8-e8 + ?
+   1.Df8-e8 + ?
     Aber
-      1...Kd7-d6  !
-      1...Gc6*e8 +  !
+      1...Gc6*e8 + !
+      1...Kd7-d6 !
 
-  1.Ke4*e5 ? Drohung:
+   1.Ke4*e5 ? Drohung:
           2.Df8*f7 #
-      1...Tf3*e3 + 
+      1...Tf3*e3 +
           2.Ke5-d5=T #
-      1...c5*b4 + 
+      1...c5*b4 +
           2.Ke5-e7=D #
-      1...Gc6-e8 
+      1...Gc6-e8
           2.Df8*e8 #
-      1...f7-f6 + 
+      1...f7-f6 +
           2.Ke5-e6=B #
     Aber
-      1...Tf3*f5 +  !
-      1...Le2*c4  !
+      1...Le2*c4 !
+      1...Tf3*f5 + !
 
-  1.Ke4-d5 ! Drohung:
+   1.Ke4-d5 ! Drohung:
           2.Df8*f7 #
-      1...Sc2*e3 + 
+      1...Sc2*e3 +
           2.Kd5-f6=S #
-      1...Sc2*b4 + 
+      1...Sc2*b4 +
           2.Kd5-f6=S #
-      1...Le2*c4 + 
+      1...Le2*c4 +
           2.Kd5*c6=L #
-      1...Sb3-a1 + 
+      1...Sb3-a1 +
           2.Kd5-b7=G #
-      1...Sb3-c1 + 
+      1...Sb3-c1 +
           2.Kd5-b7=G #
-      1...Sb3-d2 + 
+      1...Sb3-d2 +
           2.Kd5-b7=G #
-      1...Sb3-d4 + 
+      1...Sb3-d4 +
           2.Kd5-b7=G #
-      1...Tf3*f5 
+      1...Tf3*f5
           2.Lh7*f5 #
-      1...Gc6-e8 
+      1...Gc6-e8
           2.Df8*e8 #
 
 Loesung beendet. 
@@ -108,148 +108,148 @@ Loesung beendet.
   #2                          7 + 6
   WeisserSuperTransmutierenderKoenig
 
-  1.Td8-g8 ? Drohung:
+   1.Td8-g8 ? Drohung:
           2.Tg8-g1 #
           2.Df2-g1 #
           2.Df2-h4 #
-      1...La2*b3 + 
+      1...La2*b3 +
           2.Kd5*f3=L #
-      1...Ta3*a4 
+      1...Ta3*a4
           2.Tg8-g1 #
           2.Df2-g1 #
-      1...Tb7-b4 
+      1...Tb7-b4
           2.Tg8-g1 #
           2.Df2-g1 #
-      1...Tb7-b5 + 
+      1...Tb7-b5 +
           2.Kd5-d1=T #
-      1...Tb7-d7 + 
+      1...Tb7-d7 +
           2.Kd5-h5=T #
     Aber
-      1...Tb7-g7  !
+      1...Tb7-g7 !
 
-  1.Kd5-d6 ? Drohung:
+   1.Kd5-d6 ? Drohung:
           2.Ta5-h5 #
-      1...Tb7-b4 
+      1...Tb7-b4
           2.La8*f3 #
-      1...Tb7-b5 
+      1...Tb7-b5
           2.La8*f3 #
-      1...Tb7-b6 + 
+      1...Tb7-b6 +
           2.Kd6-d1=T #
-      1...Tb7-d7 + 
+      1...Tb7-d7 +
           2.Kd6-h6=T #
     Aber
-      1...Ta3*a4  !
+      1...Ta3*a4 !
 
-  1.Kd5-d4 ! Drohung:
+   1.Kd5-d4 ! Drohung:
           2.Ta5-h5 #
-      1...Ta3*a4 + 
+      1...Ta3*a4 +
           2.Kd4-d1=T #
-      1...Tb7-b4 + 
+      1...Tb7-b4 +
           2.Kd4-d1=T #
-      1...Tb7-b5 
+      1...Tb7-b5
           2.La8*f3 #
-      1...Tb7-d7 + 
+      1...Tb7-d7 +
           2.Kd4-h4=T #
 
-  1.Kd5-c6 ! Drohung:
+   1.Kd5-c6 ! Drohung:
           2.Td8-d1 #
           2.Ta5-h5 #
-      1...La2*b3 
+      1...La2*b3
           2.Ta5-h5 #
-      1...Ta3*a4 
+      1...Ta3*a4
           2.Td8-d1 #
-      1...Tb7-b4 
+      1...Tb7-b4
           2.Td8-d1 #
-      1...Tb7-b5 
+      1...Tb7-b5
           2.Td8-d1 #
-      1...Tb7-b6 + 
+      1...Tb7-b6 +
           2.Kc6-c1=T #
-      1...Tb7-g7 
+      1...Tb7-g7
           2.Ta5-h5 #
-      1...Tb7-e7 
+      1...Tb7-e7
           2.Ta5-h5 #
-      1...Tb7-d7 
+      1...Tb7-d7
           2.Ta5-h5 #
-      1...Tb7-c7 + 
+      1...Tb7-c7 +
           2.Kc6-h6=T #
 
-  1.Kd5-e6 ? Drohung:
+   1.Kd5-e6 ? Drohung:
           2.Td8-d1 #
           2.Ta5-h5 #
-      1...Ta3*a4 
+      1...Ta3*a4
           2.Td8-d1 #
-      1...Tb7-b4 
-          2.Td8-d1 #
-          2.La8*f3 #
-      1...Tb7-b5 
+      1...Tb7-b4
           2.Td8-d1 #
           2.La8*f3 #
-      1...Tb7-b6 + 
+      1...Tb7-b5
+          2.Td8-d1 #
+          2.La8*f3 #
+      1...Tb7-b6 +
           2.Ke6-e1=T #
-      1...Tb7-g7 
+      1...Tb7-g7
           2.Ta5-h5 #
-      1...Tb7-e7 + 
+      1...Tb7-e7 +
           2.Ke6-h6=T #
-      1...Tb7-d7 
+      1...Tb7-d7
           2.La8*f3 #
           2.Ta5-h5 #
     Aber
-      1...La2*b3 +  !
+      1...La2*b3 + !
 
-  1.Kd5-e4 ! Drohung:
+   1.Kd5-e4 ! Drohung:
           2.Td8-d1 #
           2.Ta5-h5 #
-      1...La2-b1 + 
+      1...La2-b1 +
           2.Ke4*f3=L #
-      1...La2*b3 
+      1...La2*b3
           2.Ta5-h5 #
-      1...Ta3*a4 + 
+      1...Ta3*a4 +
           2.Ke4-e1=T #
-      1...Tb7-b4 + 
+      1...Tb7-b4 +
           2.Ke4-e1=T #
-      1...Tb7-b5 
+      1...Tb7-b5
           2.Td8-d1 #
-      1...Tb7-g7 
+      1...Tb7-g7
           2.Ta5-h5 #
-      1...Tb7-e7 + 
+      1...Tb7-e7 +
           2.Ke4-h4=T #
-      1...Tb7-d7 
+      1...Tb7-d7
           2.Ta5-h5 #
 
-  1.Kd5-c4 ? Drohung:
+   1.Kd5-c4 ? Drohung:
           2.Td8-d1 #
           2.Ta5-h5 #
-      1...Ta3*a4 + 
+      1...Ta3*a4 +
           2.Kc4-c1=T #
-      1...Tb7-b4 + 
+      1...Tb7-b4 +
           2.Kc4-c1=T #
-      1...Tb7-b5 
+      1...Tb7-b5
           2.Td8-d1 #
           2.La8*f3 #
-      1...Tb7-g7 
+      1...Tb7-g7
           2.Ta5-h5 #
-      1...Tb7-e7 
+      1...Tb7-e7
           2.La8*f3 #
           2.Ta5-h5 #
-      1...Tb7-d7 
+      1...Tb7-d7
           2.La8*f3 #
           2.Ta5-h5 #
-      1...Tb7-c7 + 
+      1...Tb7-c7 +
           2.Kc4-h4=T #
     Aber
-      1...La2*b3 +  !
+      1...La2*b3 + !
 
-  1.Df2-g1 + ?
+   1.Df2-g1 + ?
     Aber
-      1...Kh1*g1  !
+      1...Kh1*g1 !
 
-  1.Df2-f1 + ?
+   1.Df2-f1 + ?
     Aber
-      1...Kh1-h2  !
+      1...Kh1-h2 !
 
-  1.Df2-h2 + ?
+   1.Df2-h2 + ?
     Aber
-      1...Kh1*h2  !
+      1...Kh1*h2 !
 
 Loesung beendet. 
 
@@ -280,41 +280,41 @@ Loesung beendet.
   #2                         6 + 11
   WeisserSuperTransmutierenderKoenig
 
-  1.Db6-c7 + ?
+   1.Db6-c7 + ?
     Aber
-      1...Kc8*c7  !
+      1...Kc8*c7 !
 
-  1.Db6-b8 + ?
+   1.Db6-b8 + ?
     Aber
-      1...Kc8*b8  !
+      1...Kc8*b8 !
 
-  1.Db6-b7 + ?
-      1...Kc8*d8 
+   1.Db6-b7 + ?
+      1...Kc8*d8
           2.Db7*d7 #
     Aber
-      1...Kc8*b7  !
+      1...Kc8*b7 !
 
-  1.Kb5-c6 ! Drohung:
+   1.Kb5-c6 ! Drohung:
           2.Db6-c7 #
-      1...Lb3*d5 + 
+      1...Lb3*d5 +
           2.Kc6*d7=L #
-      1...Sd3-e5 + 
+      1...Sd3-e5 +
           2.Kc6-a7=S #
-      1...Sd3*b4 + 
+      1...Sd3*b4 +
           2.Kc6-a7=S #
-      1...Se4-c3 + 
+      1...Se4-c3 +
           2.Kc6-e8=G #
-      1...Se4-d2 + 
+      1...Se4-d2 +
           2.Kc6-e8=G #
-      1...Se4-f2 + 
+      1...Se4-f2 +
           2.Kc6-e8=G #
-      1...Se4-g3 + 
+      1...Se4-g3 +
           2.Kc6-e8=G #
-      1...Se4-g5 + 
+      1...Se4-g5 +
           2.Kc6-e8=G #
-      1...Se4-c5 + 
+      1...Se4-c5 +
           2.Kc6-e8=G #
-      1...Df6*d8 
+      1...Df6*d8
           2.Db6-b7 #
 
 Loesung beendet. 
@@ -347,145 +347,145 @@ Nr. 39, 9. TT Chess Composition Microweb C 17.6.2002
   #2                        13 + 11
   WeisserSuperTransmutierenderKoenig
 
-  1.a7-a8=D ? Drohung:
+   1.a7-a8=D ? Drohung:
           2.Da8-e4 #
-      1...Th4*g4 
+      1...Th4*g4
           2.f3*g4 #
-      1...Lb5-c4 + 
+      1...Lb5-c4 +
           2.Kb3*c4=L #
-      1...Td6-d4 
+      1...Td6-d4
           2.Sc2-e1 #
           2.Sc2*b4 #
-      1...Td6-c6 
+      1...Td6-c6
           2.Sg4*e5 #
-      1...Sc7-d5 
+      1...Sc7-d5
           2.La6*b5 #
-      1...Sc7*a8 
+      1...Sc7*a8
           2.La6*b5 #
-      1...Sd7*c5 + 
+      1...Sd7*c5 +
           2.Kb3*c5=S #
-      1...Sd7-f6 
+      1...Sd7-f6
           2.Sg4*e5 #
     Aber
-      1...Td6-d5  !
+      1...Td6-d5 !
 
-  1.a7-a8=L ? Drohung:
+   1.a7-a8=L ? Drohung:
           2.La8-e4 #
-      1...Th4*g4 
+      1...Th4*g4
           2.f3*g4 #
-      1...Lb5-c4 + 
+      1...Lb5-c4 +
           2.Kb3*c4=L #
-      1...Td6-d4 
+      1...Td6-d4
           2.Sc2-e1 #
           2.Sc2*b4 #
-      1...Td6-c6 
+      1...Td6-c6
           2.Sg4*e5 #
-      1...Sc7-d5 
+      1...Sc7-d5
           2.La6*b5 #
-      1...Sc7*a8 
+      1...Sc7*a8
           2.La6*b5 #
-      1...Sd7*c5 + 
+      1...Sd7*c5 +
           2.Kb3*c5=S #
-      1...Sd7-f6 
+      1...Sd7-f6
           2.Sg4*e5 #
     Aber
-      1...Td6-d5  !
+      1...Td6-d5 !
 
-  1.La6*b5 + ?
+   1.La6*b5 + ?
     Aber
-      1...Sc7*b5  !
+      1...Sc7*b5 !
 
-  1.Tc5-c3 + ?
+   1.Tc5-c3 + ?
     Aber
-      1...b4*c3  !
+      1...b4*c3 !
 
-  1.Tc5-c4 ? Drohung:
+   1.Tc5-c4 ? Drohung:
           2.Sc2-e1 #
           2.Sc2*b4 #
-      1...Lb5*c4 + 
+      1...Lb5*c4 +
           2.Kb3*c4=L #
-      1...Sc7*a6 
+      1...Sc7*a6
           2.Sc2-e1 #
-      1...Sc7-d5 
+      1...Sc7-d5
           2.Sc2-e1 #
-      1...Sd7-c5 + 
+      1...Sd7-c5 +
           2.Kb3*c5=S #
     Aber
-      1...Lb5-a4 +  !
+      1...Lb5-a4 + !
 
-  1.Tc5*b5 ? Drohung:
+   1.Tc5*b5 ? Drohung:
           2.Tb5-d5 #
-      1...Td6-d4 
+      1...Td6-d4
           2.Sc2-e1 #
           2.Sc2*b4 #
-      1...Td6*a6 
+      1...Td6*a6
           2.Sg4*e5 #
-      1...Sc7*b5 
+      1...Sc7*b5
           2.La6*b5 #
-      1...Sd7-c5 + 
+      1...Sd7-c5 +
           2.Kb3*c5=S #
     Aber
-      1...Sc7*a6  !
+      1...Sc7*a6 !
 
-  1.Tc5*e5 ? Drohung:
+   1.Tc5*e5 ? Drohung:
           2.Te5-e3 #
-      1...Lb5-c4 + 
+      1...Lb5-c4 +
           2.Kb3*c4=L #
-      1...Sc7-d5 
+      1...Sc7-d5
           2.La6*b5 #
-      1...Sd7-c5 + 
+      1...Sd7-c5 +
           2.Kb3*c5=S #
-      1...Sd7*e5 
+      1...Sd7*e5
           2.Sg4*e5 #
     Aber
-      1...Td6-e6  !
+      1...Td6-e6 !
 
-  1.Tc5-d5 + ?
-      1...Sc7*d5 
+   1.Tc5-d5 + ?
+      1...Sc7*d5
           2.La6*b5 #
     Aber
-      1...Td6*d5  !
+      1...Td6*d5 !
 
-  1.Sa5-c6 ? Drohung:
+   1.Sa5-c6 ? Drohung:
           2.Sc6*b4 #
           2.Sc2-e1 #
           2.Sc2*b4 #
-      1...Lb5-c4 + 
+      1...Lb5-c4 +
           2.Kb3*c4=L #
-      1...Td6*c6 
+      1...Td6*c6
           2.Sg4*e5 #
-      1...Sc7*a6 
+      1...Sc7*a6
           2.Sc2-e1 #
-      1...Sc7-d5 
+      1...Sc7-d5
           2.La6*b5 #
           2.Sc2-e1 #
     Aber
-      1...Sd7*c5 +  !
+      1...Sd7*c5 + !
 
-  1.Sg4*e5 + ?
+   1.Sg4*e5 + ?
     Aber
-      1...Sd7*e5  !
+      1...Sd7*e5 !
 
-  1.Kb3*b4 ! Drohung:
+   1.Kb3*b4 ! Drohung:
           2.Tc5-c3 #
-      1...Th4*g4 + 
+      1...Th4*g4 +
           2.Kb4-b3=T #
-      1...Lb5-c4 
+      1...Lb5-c4
           2.La6*c4 #
-      1...Td6-d4 + 
+      1...Td6-d4 +
           2.Kb4-b3=T #
-      1...Td6-c6 
+      1...Td6-c6
           2.Tc5-d5 #
-      1...Sd7*c5 
+      1...Sd7*c5
           2.Td8*d6 #
 
-  1.Sc2-e1 + ?
+   1.Sc2-e1 + ?
     Aber
-      1...Kd3-d4  !
+      1...Kd3-d4 !
 
-  1.Sc2*b4 + ?
+   1.Sc2*b4 + ?
     Aber
-      1...Kd3-d4  !
+      1...Kd3-d4 !
 
 Loesung beendet. 
 

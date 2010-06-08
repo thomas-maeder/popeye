@@ -3087,6 +3087,7 @@ void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st)
   if (st->remaining==0)
   {
     st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u",st->full_length);
     st->remaining = slices[si].u.branch.length;
   }
   
@@ -3112,17 +3113,20 @@ void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st)
   if (st->remaining==0)
   {
     st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u",st->full_length);
     st->remaining = slices[si].u.branch.length;
   }
 
   TraceValue("%u\n",st->remaining);
   if (st->remaining<=slack_length_battle+1)
   {
-    stip_length_type const save_n = st->remaining;
+    stip_length_type const save_remaining = st->remaining;
+    stip_length_type const save_full_length = st->full_length;
     ++st->level;
     st->remaining = 0;
     stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
-    st->remaining = save_n;
+    st->full_length = save_full_length;
+    st->remaining = save_remaining;
     --st->level;
   }
   else
@@ -3146,17 +3150,20 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
   if (st->remaining==0)
   {
     st->full_length = slices[si].u.reflex_guard.length;
+    TraceValue("->%u",st->full_length);
     st->remaining = slices[si].u.reflex_guard.length;
   }
 
   TraceValue("%u\n",st->remaining);
   if (st->remaining==slices[si].u.reflex_guard.length)
   {
-    stip_length_type const save_n = st->remaining;
+    stip_length_type const save_remaining = st->remaining;
+    stip_length_type const save_full_length = st->full_length;
     ++st->level;
     st->remaining = 0;
     stip_traverse_moves(slices[si].u.reflex_guard.avoided,st);
-    st->remaining = save_n;
+    st->full_length = save_full_length;
+    st->remaining = save_remaining;
     --st->level;
   }
 
@@ -3198,16 +3205,19 @@ void stip_traverse_moves_help_fork(slice_index si, stip_move_traversal *st)
   if (st->remaining==0)
   {
     st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u\n",st->full_length);
     st->remaining = slices[si].u.branch.length;
   }
 
   if (st->remaining==slack_length_help)
   {
-    stip_length_type const save_n = st->remaining;
+    stip_length_type const save_remaining = st->remaining;
+    stip_length_type const save_full_length = st->full_length;
     ++st->level;
     st->remaining = 0;
     stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
-    st->remaining = save_n;
+    st->full_length = save_full_length;
+    st->remaining = save_remaining;
     --st->level;
   }
   else
@@ -3231,6 +3241,7 @@ void stip_traverse_moves_root(slice_index si, stip_move_traversal *st)
   if (st->remaining==0)
   {
     st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u\n",st->full_length);
     st->remaining = slices[si].u.branch.length;
   }
 
@@ -3274,16 +3285,19 @@ void stip_traverse_moves_series_fork(slice_index si, stip_move_traversal *st)
   if (st->remaining==0)
   {
     st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u\n",st->full_length);
     st->remaining = slices[si].u.branch.length;
   }
 
   if (st->remaining==slack_length_series)
   {
-    stip_length_type const save_n = st->remaining;
+    stip_length_type const save_remaining = st->remaining;
+    stip_length_type const save_full_length = st->full_length;
     ++st->level;
     st->remaining = 0;
     stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
-    st->remaining = save_n;
+    st->full_length = save_full_length;
+    st->remaining = save_remaining;
     --st->level;
   }
   else

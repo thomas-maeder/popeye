@@ -38,6 +38,15 @@ static unsigned int nr_moves_written[maxply];
 
 static attack_type pending_decoration = attack_regular;
 
+typedef enum
+{
+  pending_check_none,
+  pending_check_detected,
+  pending_check_written
+} pending_check_type;
+
+static pending_check_type pending_check;
+
 
 void set_output_mode(output_mode mode)
 {
@@ -46,6 +55,13 @@ void set_output_mode(output_mode mode)
   TraceFunctionParamListEnd();
 
   current_mode = mode;
+
+  if (current_mode==output_mode_tree)
+  {
+    TraceValue("%u\n",nbply);
+    nr_moves_written[nbply+1] = 0;
+    nr_moves_written[nbply+2] = 0;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -222,7 +238,11 @@ void init_output(slice_index si)
   TraceEnumerator(output_mode,current_mode,"\n");
   
   if (current_mode==output_mode_tree)
+  {
+    TraceValue("%u\n",nbply);
     nr_moves_written[nbply] = 0;
+    nr_moves_written[nbply+1] = 0;
+  }
   else
     current_mode = output_mode_line;
 
@@ -236,6 +256,10 @@ static void write_pending_decoration(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  if (pending_check==pending_check_detected)
+    StdString(" +");
+  pending_check = pending_check_written;
 
   switch (pending_decoration)
   {
@@ -353,7 +377,6 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
   TraceFunctionResultEnd();
 }
 
-
 /* Start a new output level consisting of regular continuations
  */
 void output_start_continuation_level(slice_index si)
@@ -363,16 +386,12 @@ void output_start_continuation_level(slice_index si)
 
   if (current_mode==output_mode_tree)
   {
+    TraceValue("%u\n",nr_moves_written[nbply+1]);
     if (nbply>1
         && encore()
+        && nr_moves_written[nbply+1]==0
         && echecc(nbply,slices[si].starter))
-    {
-      StdString(" +");
-      StdChar(blank);
-    }
-
-    /* nbply will be increased by genmove() in a moment */
-    nr_moves_written[nbply+1] = 0;
+      pending_check = pending_check_detected;
   }
 
   TraceFunctionExit(__func__);
@@ -401,8 +420,10 @@ void output_start_defense_level(slice_index si)
 
   if (current_mode==output_mode_tree)
   {
-    if (echecc(nbply,slices[si].starter))
-      StdString(" +");
+    TraceValue("%u\n",nr_moves_written[nbply+1]);
+    if (nr_moves_written[nbply+1]==0
+        && echecc(nbply,slices[si].starter))
+      pending_check = pending_check_detected;
 
     write_pending_decoration();
   }
@@ -417,6 +438,15 @@ void output_end_defense_level(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  if (current_mode==output_mode_tree)
+  {
+    /* prevent output_start_defense_level from writing another check
+     * sign for the same attack
+     */
+    ++nr_moves_written[nbply+1];
+    TraceValue("->%u\n",nr_moves_written[nbply+1]);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -574,6 +604,8 @@ void write_battle_move(void)
 
     write_pending_decoration();
 
+    TraceValue("%u",nbply);
+    TraceValue("%u\n",nr_moves_written[nbply]);
     if (is_threat[nbply] && nr_moves_written[nbply]==0)
     {
       StdChar(blank);
@@ -593,6 +625,9 @@ void write_battle_move(void)
     ecritcoup(nbply);
 
     ++nr_moves_written[nbply];
+    TraceValue("->%u\n",nr_moves_written[nbply]);
+    nr_moves_written[nbply+1] = 0;
+    nr_moves_written[nbply+2] = 0;
   }
 
   TraceFunctionExit(__func__);
@@ -939,35 +974,18 @@ void ecritcoup(ply ply_id)
   editcoup(ply_id,&mov);
 }
 
-/* Write a move as a refutation
- * @param c address of the structure representing the move
- */
-static void write_refutation(coup *c)
-{
-  StdString("\n      1...");
-  editcoup(nbply,c);
-  if (c->echec)
-    StdString(" +");
-  StdChar(blank);
-  StdString(" !");
-}
-
 /* Write the refutations stored in a table
  * @param refutations table containing refutations
  */
-void write_refutations(table refutations)
+void write_refutations_intro(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (table_length(refutations)!=0)
-  {
-    Message(NewLine);
-    sprintf(GlobalStr,"%*c",4,blank);
-    StdString(GlobalStr);
-    Message(But);
-    table_iterate(refutations,&write_refutation);
-  }
+  Message(NewLine);
+  sprintf(GlobalStr,"%*c",4,blank);
+  StdString(GlobalStr);
+  Message(But);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

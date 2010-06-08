@@ -2020,38 +2020,26 @@ static slice_index alloc_attack_hashed_slice(stip_length_type length,
  */
 static void insert_attack_hashed_slice(slice_index si)
 {
-  slice_index const prev = slices[si].prev;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(SliceType,slices[si].type,"\n");
-  if (slices[prev].type!=STAttackHashed)
-    switch (slices[si].type)
+  if (slices[si].type!=STAttackHashed)
+  {
+    if (slices[si].type==STLeafDirect)
     {
-      case STLeafDirect:
-      {
-        stip_length_type const length = slack_length_battle+2;
-        stip_length_type const min_length = slack_length_battle+2;
-        pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,
-                                                              min_length));
-        break;
-      }
-
-      case STAttackMove:
-      {
-        stip_length_type const length = slices[si].u.branch.length;
-        stip_length_type const min_length = slices[si].u.branch.min_length;
-        pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,
-                                                              min_length));
-        break;
-      }
-
-      default:
-        assert(0);
-        break;
+      stip_length_type const length = slack_length_battle+2;
+      stip_length_type const min_length = slack_length_battle+2;
+      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
     }
+    else
+    {
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2162,7 +2150,7 @@ static void insert_hash_element_attack_move(slice_index si,
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
   if (st->remaining<st->full_length)
-    insert_attack_hashed_slice(si);
+    insert_attack_hashed_slice(slices[si].u.pipe.next);
   stip_traverse_moves_branch(si,st);
 
   TraceFunctionExit(__func__);
@@ -2298,7 +2286,7 @@ static void insert_hash_element_branch_series(slice_index si,
 static stip_move_visitor const hash_element_inserters[] =
 {
   &stip_traverse_moves_pipe,                 /* STProxy */
-  &insert_hash_element_attack_move,          /* STAttackMove */
+  &stip_traverse_moves_pipe,                 /* STAttackMove */
   &insert_hash_element_defense_move,         /* STDefenseMove */
   &insert_hash_element_branch_help,          /* STHelpMove */
   &stip_traverse_moves_help_fork,            /* STHelpFork */
@@ -2336,7 +2324,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STSeriesHashed */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_moves_pipe,                 /* STSelfCheckGuardAttackerFilter */
+  &insert_hash_element_attack_move,          /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STSelfCheckGuardSeriesFilter */
@@ -2476,54 +2464,6 @@ static void addtohash_dir_succ(slice_index si, stip_length_type n)
 #endif /*HASHRATE*/
 }
 
-/* Adjust to the knowledge in the hash table the minimal number half
- * moves to be tried in some solving operation.
- * @param si slice index
- * @param n maximum number of half moves allowed for the operation
- * @param n_min minimal number of half moves to be tried
- * @return adjusted n_min; n+2 if no solving is useful at all
- */
-static
-stip_length_type adjust_n_max_unsolvable(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
-{
-  stip_length_type result = n_max_unsolvable;
-  HashBuffer * const hb = &hashBuffers[nbply];
-  dhtElement const *he;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  if (!isHashBufferValid[nbply])
-    (*encode)();
-
-  he = dhtLookupElement(pyhash,hb);
-  if (he!=dhtNilElement)
-  {
-    hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    stip_length_type const parity = (n-slack_length_battle+1)%2;
-
-    hash_value_type const val_nosucc = get_value_attack_nosucc(hue,si);
-    stip_length_type const n_nosucc = 2*val_nosucc +slack_length_battle-1 +parity;
-    if (n_nosucc>=n && n_nosucc<=n+length-min_length)
-      result = n+2;
-    else if (result<n_nosucc)
-      result = n_nosucc;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -2549,19 +2489,7 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  n_max_unsolvable = adjust_n_max_unsolvable(si,n,n_max_unsolvable);
-  if (n_max_unsolvable<n)
-  {
-    if (n_min<=n_max_unsolvable)
-      n_min = n_max_unsolvable+2;
-    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min,n_max_unsolvable);
-    if (result<=n)
-      addtohash_dir_succ(si,result);
-    else
-      addtohash_dir_nosucc(si,n);
-  }
-  else
-    result = n+2;
+  result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

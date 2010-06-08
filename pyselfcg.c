@@ -688,10 +688,8 @@ stip_length_type selfcheck_guard_solve_in_n(slice_index si,
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = n_min-2;
-  else if (n>slack_length_battle)
-    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min,n_max_unsolvable);
   else
-    result = n+2;
+    result = attack_solve_in_n(slices[si].u.pipe.next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

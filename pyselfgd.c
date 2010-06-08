@@ -113,7 +113,10 @@ self_defense_direct_has_solution_in_n(slice_index si,
         break;
 
       case has_solution:
-        result = n_min;
+        if (n_min<slack_length_battle+2)
+          result = n_min;
+        else
+          result = n+2;
         break;
 
       case has_no_solution:

@@ -2919,6 +2919,25 @@ static Token iterate_twins(Token prev_token)
 
       stip_detect_starter();
 
+      stip_insert_continuation_handlers();
+
+      if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
+      {
+        stip_insert_variation_handlers();
+        if (OptFlag[postkeyplay])
+          stip_insert_postkey_handlers();
+        if (!OptFlag[nothreat])
+          stip_insert_threat_handlers();
+      }
+      else
+        stip_insert_postkeyplay_suppressors();
+
+      if (!stip_insert_try_handlers())
+      {
+        if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
+          Message(TryPlayNotApplicable);
+      }
+
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
 
@@ -2950,25 +2969,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[stoponshort]
           && !stip_insert_stoponshortsolutions_filters())
         Message(NoStopOnShortSolutions);
-
-      stip_insert_continuation_handlers();
-
-      if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
-      {
-        stip_insert_variation_handlers();
-        if (OptFlag[postkeyplay])
-          stip_insert_postkey_handlers();
-        if (!OptFlag[nothreat])
-          stip_insert_threat_handlers();
-      }
-      else
-        stip_insert_postkeyplay_suppressors();
-
-      if (!stip_insert_try_handlers())
-      {
-        if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-          Message(TryPlayNotApplicable);
-      }
 
       if (OptFlag[noshort])
         stip_insert_no_short_variations_filters();

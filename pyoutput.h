@@ -92,9 +92,9 @@ void write_goal(Goal goal);
 void write_refutation_mark(void);
 
 /* Write the refutations stored in a table
- * @param t table containing refutations
+ * @param refutations table containing refutations
  */
-void write_refutations(table t);
+void write_refutations_intro(void);
 
 /* Write the end of a solution
  */

@@ -75,9 +75,9 @@ direct_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n_max_unsolvable<slack_length_battle
+  if (n_min<slack_length_battle+2
       && !defense_defend(to_goal))
-    result = n_max_unsolvable+2;
+    result = n_min;
   else
     result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
@@ -119,7 +119,14 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle
       && !defense_can_defend(to_goal))
-    result = n_max_unsolvable+2;
+  {
+    stip_length_type const length = slices[si].u.branch_fork.length;
+    stip_length_type const min_length = slices[si].u.branch_fork.min_length;
+    if (n+min_length<slack_length_battle+2+length)
+      result = n_max_unsolvable+2;
+    else
+      result = n+2;
+  }
   else
     result = defense_can_defend_in_n(next,
                                      n,n_max_unsolvable,

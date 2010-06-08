@@ -482,6 +482,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n_max_unsolvable<slack_length_battle
+      && battle_branch_calc_n_min(si,n)<slack_length_battle+2
       && slice_has_solution(avoided)==has_no_solution)
     result = n_max_unsolvable+2;
   else
