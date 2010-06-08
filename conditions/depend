@@ -20,13 +20,15 @@ pyoutput.h:
 
 trace.h:
 conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republican.h \
-  pyproc.h pydata.h pyoutput.h pymsg.h pyleaf.h
+  pyproc.h pydata.h pylang.h pyoutput.h pymsg.h pyleaf.h
 
 conditions/republican.h:
 
 pyproc.h:
 
 pydata.h:
+
+pylang.h:
 
 pyoutput.h:
 
