@@ -20,6 +20,9 @@ static table refutations;
  */
 static unsigned int user_set_max_nr_refutations;
 
+/* are we currently writing refutations? */
+static boolean are_we_writing_refutations;
+
 /* Read the maximum number of refutations that the user is interested
  * to see
  * @param tok input token from which to read the number
@@ -93,8 +96,6 @@ slice_index alloc_refutations_writer_slice(stip_length_type length,
   return result;
 }
 
-static boolean writing;
-
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -150,11 +151,16 @@ refutations_writer_defend_in_n(slice_index si,
   
     if (result==n+2)
     {
+      /* reduce by 1 so that the iteration stops once all refutations
+       * have been written
+       */
+      unsigned int const nr_refutations = table_length(refutations)-1;
       assert(refutations!=table_nil);
+      assert(table_length(refutations)>0);
       write_refutations_intro();
-      writing = true;
-      defense_can_defend_in_n(next,n,n_max_unsolvable,table_length(refutations)-1);
-      writing = false;
+      are_we_writing_refutations = true;
+      defense_can_defend_in_n(next,n,n_max_unsolvable,nr_refutations);
+      are_we_writing_refutations = false;
     }
   }
 
@@ -257,7 +263,7 @@ refutations_collector_has_solution_in_n(slice_index si,
 
   assert(n==slices[si].u.branch.length);
 
-  if (writing)
+  if (are_we_writing_refutations)
   {
     if (is_current_move_in_table(refutations))
     {
