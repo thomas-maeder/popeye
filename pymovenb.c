@@ -319,7 +319,6 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_traverse_structure_children,    /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,    /* STMoveInverterSeriesFilter */
   &restart_guards_inserter_attack_root, /* STAttackRoot */
-  &stip_structure_visitor_noop,         /* STBattlePlaySolutionWriter */
   &stip_structure_visitor_noop,         /* STPostKeyPlaySolutionWriter */
   &stip_structure_visitor_noop,         /* STPostKeyPlaySuppressor */
   &stip_structure_visitor_noop,         /* STContinuationWriter */

@@ -310,7 +310,6 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &continuation_writer_append_to_move, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */

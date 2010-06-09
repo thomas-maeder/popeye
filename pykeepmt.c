@@ -674,7 +674,6 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,       /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,       /* STMoveInverterSeriesFilter */
   &keepmating_guards_inserter_attack_move, /* STAttackRoot */
-  &stip_traverse_structure_children,       /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,       /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,       /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,       /* STContinuationWriter */

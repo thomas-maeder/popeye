@@ -517,7 +517,6 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children,           /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,           /* STMoveInverterSeriesFilter */
   &root_slice_type_found,             /* STAttackRoot */
-  &stip_traverse_structure_children,           /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,           /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,           /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,           /* STContinuationWriter */
@@ -2308,7 +2307,6 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -2421,7 +2419,6 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -2781,7 +2778,6 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
   &remember_imminent_goal_attack_root,       /* STAttackRoot */
-  &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */

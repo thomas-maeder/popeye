@@ -944,7 +944,6 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,   /* STAttackRoot */
-  &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationWriter */
@@ -1140,7 +1139,6 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,    /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,    /* STAttackRoot */
-  &stip_traverse_structure_children,    /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,    /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,    /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,    /* STContinuationWriter */

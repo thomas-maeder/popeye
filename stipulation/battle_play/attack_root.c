@@ -93,10 +93,10 @@ has_solution_type attack_root_solve(slice_index si)
       repcoup();
     }
 
-    output_end_continuation_level();
-
     finply();
   }
+
+  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

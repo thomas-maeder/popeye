@@ -231,7 +231,6 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,         /* STMoveInverterSeriesFilter */
   &insert_maxsolutions_root_defender_filter, /* STAttackRoot */
-  &stip_traverse_structure_children,         /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,         /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,         /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,         /* STContinuationWriter */
@@ -327,7 +326,6 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &insert_root_solvable_filter,      /* STAttackRoot */
-  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */

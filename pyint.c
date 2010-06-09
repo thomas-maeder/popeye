@@ -2755,7 +2755,6 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
   &stip_traverse_moves_branch,               /* STAttackRoot */
-  &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
@@ -3198,7 +3197,6 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,         /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,         /* STAttackRoot */
-  &stip_traverse_structure_children,         /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,         /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,         /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,         /* STContinuationWriter */
@@ -3526,7 +3524,6 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,            /* STMoveInverterSeriesFilter */
   &intelligent_mode_support_none,               /* STAttackRoot */
-  &intelligent_mode_support_none,               /* STBattlePlaySolutionWriter */
   &intelligent_mode_support_none,               /* STPostKeyPlaySolutionWriter */
   &intelligent_mode_support_none,               /* STPostKeyPlaySuppressor */
   &intelligent_mode_support_none,               /* STContinuationWriter */

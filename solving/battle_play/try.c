@@ -411,7 +411,6 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_structure_visitor_noop,      /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &substitute_refutations_writer,    /* STContinuationWriter */

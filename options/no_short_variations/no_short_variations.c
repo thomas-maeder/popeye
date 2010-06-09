@@ -38,7 +38,6 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,    /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,    /* STAttackRoot */
-  &stip_traverse_structure_children,    /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,    /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,    /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,    /* STContinuationWriter */

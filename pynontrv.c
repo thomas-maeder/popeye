@@ -440,7 +440,6 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &stip_traverse_structure_children,      /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,      /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,      /* STAttackRoot */
-  &stip_traverse_structure_children,      /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,      /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,      /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,      /* STContinuationWriter */
