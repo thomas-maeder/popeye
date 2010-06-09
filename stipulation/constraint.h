@@ -32,12 +32,6 @@ reflex_attacker_filter_solve_in_n(slice_index si,
                                   stip_length_type n_min,
                                   stip_length_type n_max_unsolvable);
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type reflex_attacker_filter_solve(slice_index si);
-
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved

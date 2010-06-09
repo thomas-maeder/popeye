@@ -358,42 +358,22 @@ stip_length_type attack_solve_in_n(slice_index si,
 has_solution_type attack_solve(slice_index si)
 {
   has_solution_type result;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const n_max_unsolvable = min_length-2;
+  stip_length_type nr_moves_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (slices[si].type)
-  {
-    case STSelfDefense:
-      result = self_defense_solve(si);
-      break;
-
-    case STReflexAttackerFilter:
-      result = reflex_attacker_filter_solve(si);
-      break;
-
-    case STVariationWriter:
-      result = variation_writer_solve(si);
-      break;
-
-    default:
-    {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      stip_length_type const n_max_unsolvable = min_length-2;
-      stip_length_type const sol_length = attack_solve_in_n(si,
-                                                            length,min_length,
-                                                            n_max_unsolvable);
-      if (sol_length==min_length-2)
-        result = opponent_self_check;
-      else if (sol_length<=length)
-        result = has_solution;
-      else
-        result = has_no_solution;
-      break;
-    }
-  }
+  nr_moves_needed = attack_solve_in_n(si,length,min_length,n_max_unsolvable);
+  if (nr_moves_needed==min_length-2)
+    result = opponent_self_check;
+  else if (nr_moves_needed<=length)
+    result = has_solution;
+  else
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

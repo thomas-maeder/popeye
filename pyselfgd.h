@@ -42,12 +42,6 @@ stip_length_type self_defense_solve_in_n(slice_index si,
                                          stip_length_type n_min,
                                          stip_length_type n_max_unsolvable);
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type self_defense_solve(slice_index si);
-
 /* Impose the starting side on a stipulation
  * @param si identifies branch
  * @param st address of structure that holds the state of the traversal

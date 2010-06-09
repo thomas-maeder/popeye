@@ -292,31 +292,6 @@ reflex_attacker_filter_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type reflex_attacker_filter_solve(slice_index si)
-{
-  has_solution_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slice_has_solution(avoided)==has_solution)
-    result = attack_solve(next);
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index

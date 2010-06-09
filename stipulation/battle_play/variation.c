@@ -108,65 +108,6 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type variation_writer_solve(slice_index si)
-{
-  has_solution_type result;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const n_max_unsolvable = min_length-2;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type nr_moves;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  nr_moves = attack_has_solution_in_n(next,length,min_length,n_max_unsolvable);
-
-  if (nr_moves<min_length)
-    result = opponent_self_check;
-  else if (nr_moves<=length)
-  {
-    result = has_solution;
-    write_battle_move();
-    {
-      stip_length_type const solve_result = attack_solve_in_n(next,
-                                                              length,min_length,
-                                                              n_max_unsolvable);
-      assert(solve_result<=length);
-    }
-  }
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Inserting variation handlers in both parts of a binary
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void variation_handler_insert_binary(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-  stip_traverse_structure(slices[si].u.binary.op2,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* The following enumeration type represents the state of variation
  * handler insertion
@@ -177,6 +118,41 @@ typedef enum
   variation_handler_needed,
   variation_handler_inserted
 } variation_handler_insertion_state;
+
+/* Inserting variation handlers in both parts of a binary
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void variation_handler_insert_binary(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  variation_handler_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*state==variation_handler_needed)
+  {
+    *state = variation_handler_inserted;
+    stip_traverse_structure(slices[si].u.binary.op1,st);
+    stip_traverse_structure(slices[si].u.binary.op2,st);
+    *state = variation_handler_needed;
+
+    /* TODO calculate length */
+    pipe_append(slices[si].prev,
+                alloc_variation_writer_slice(slack_length_battle,
+                                             slack_length_battle));
+  }
+  else
+  {
+    stip_traverse_structure(slices[si].u.binary.op1,st);
+    stip_traverse_structure(slices[si].u.binary.op2,st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Append a variation writer
  * @param si identifies slice around which to insert try handlers

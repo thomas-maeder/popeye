@@ -167,99 +167,30 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n_min<=slack_length_battle+1)
-    switch (slice_solve(towards_goal))
-    {
-      case opponent_self_check:
-        result = n_min-2;
-        break;
+  switch (slice_has_solution(towards_goal))
+  {
+    case opponent_self_check:
+      result = n_min-2;
+      break;
 
-      case has_solution:
-        result = n_min;
-        break;
+    case has_solution:
+      if (n_min<=slack_length_battle+1)
+        slice_solve(towards_goal);
+      result = n_min;
+      break;
 
-      case has_no_solution:
-        result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
-        break;
+    case has_no_solution:
+      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+      break;
 
-      default:
-        assert(0);
-        result = n+2;
-        break;
-    }
-  else
-    switch (slice_has_solution(towards_goal))
-    {
-      case opponent_self_check:
-        result = n_min-2;
-        break;
-
-      case has_solution:
-        result = n_min;
-        break;
-
-      case has_no_solution:
-        result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
-        break;
-
-      default:
-        assert(0);
-        result = n+2;
-        break;
-    }
+    default:
+      assert(0);
+      result = n+2;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type self_defense_solve(slice_index si)
-{
-  has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type n_max_unsolvable;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  n_max_unsolvable = battle_branch_calc_n_min(si,length)-2;
-
-  if (min_length==slack_length_battle)
-  {
-    has_solution_type const goal_solution = slice_solve(towards_goal);
-    if (goal_solution==has_no_solution)
-    {
-      if (length>slack_length_battle+1
-          && (attack_has_solution_in_n(next,length,min_length,n_max_unsolvable)
-              <=length))
-        result = attack_solve(next);
-      else
-        result = has_no_solution;
-    }
-    else
-      result = goal_solution;
-  }
-  else
-  {
-    if (length>slack_length_battle+1
-        && (attack_has_solution_in_n(next,length,min_length,n_max_unsolvable)
-            <=length))
-      result = attack_solve(next);
-    else
-      result = has_no_solution;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
 }
