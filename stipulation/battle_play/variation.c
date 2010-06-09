@@ -290,7 +290,7 @@ static stip_structure_visitor const variation_handler_inserters[] =
   &variation_writer_prepend_leaf,    /* STLeafForced */
   &variation_handler_insert_binary,  /* STReciprocal */
   &variation_handler_insert_binary,  /* STQuodlibet */
-  &stip_structure_visitor_noop,      /* STNot */
+  &stip_traverse_structure_children, /* STNot */
   &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
