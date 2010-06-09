@@ -135,6 +135,8 @@ refutations_writer_defend_in_n(slice_index si,
 
   if (result<=n+2)
   {
+    stip_length_type defend_result;
+
     write_battle_move();
     write_battle_move_decoration(nbply, result<=n ? attack_key : attack_try);
 
@@ -147,7 +149,9 @@ refutations_writer_defend_in_n(slice_index si,
       n_min += 2;
     if (result<n)
       n = result;
-    defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+    defend_result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+
+    assert(result==defend_result);
   
     if (result==n+2)
     {
