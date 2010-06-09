@@ -162,8 +162,6 @@ typedef struct
         struct /* for type==STKeepMatingGuard */
         {
             slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
             Side mating;
         } keepmating_guard;
 
@@ -178,8 +176,6 @@ typedef struct
         struct /* for type==STMaxThreatLength */
         {
             slice_index next;
-            stip_length_type length;     /* half moves */
-            stip_length_type min_length; /* half moves */
             slice_index to_attacker;
         } maxthreatlength_guard;
 

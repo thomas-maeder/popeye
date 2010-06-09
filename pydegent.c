@@ -40,22 +40,16 @@ void init_degenerate_tree(stip_length_type max_length_short)
  */
 
 /* Allocate a STDegenerateTree slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-static
-slice_index alloc_degenerate_tree_guard_slice(stip_length_type length,
-                                              stip_length_type min_length)
+static slice_index alloc_degenerate_tree_guard_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDegenerateTree,length,min_length);
+  result = alloc_pipe(STDegenerateTree);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -153,15 +147,12 @@ degenerate_tree_direct_solve_in_n(slice_index si,
 static void degenerate_tree_inserter_attack_move(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
-              alloc_degenerate_tree_guard_slice(length,min_length));
+  if (slices[si].u.branch.length>=slack_length_battle+2)
+    pipe_append(slices[si].prev,alloc_degenerate_tree_guard_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

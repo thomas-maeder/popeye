@@ -42,21 +42,16 @@ static threat_activity threat_activities[maxply+1];
 static unsigned int nr_threats_to_be_confirmed;
 
 /* Allocate a STThreatEnforcer slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static slice_index alloc_threat_enforcer_slice(stip_length_type length,
-                                               stip_length_type min_length)
+static slice_index alloc_threat_enforcer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STThreatEnforcer,length,min_length);
+  result = alloc_pipe(STThreatEnforcer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -65,21 +60,16 @@ static slice_index alloc_threat_enforcer_slice(stip_length_type length,
 }
 
 /* Allocate a STThreatCollector slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static slice_index alloc_threat_collector_slice(stip_length_type length,
-                                                stip_length_type min_length)
+static slice_index alloc_threat_collector_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STThreatCollector,length,min_length);
+  result = alloc_pipe(STThreatCollector);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -563,11 +553,7 @@ static void prepend_threat_enforcer(slice_index si,
     stip_traverse_structure_children(si,st);
     *state = threat_handler_inserted_writer;
 
-    {
-      slice_index const prev = slices[si].prev;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      pipe_append(prev,alloc_threat_enforcer_slice(length,min_length));
-    }
+    pipe_append(slices[si].prev,alloc_threat_enforcer_slice());
   }
   else
     stip_traverse_structure_children(si,st);
@@ -595,11 +581,7 @@ static void append_threat_collector(slice_index si, stip_structure_traversal *st
     stip_traverse_structure_children(si,st);
     *state = threat_handler_inserted_enforcer;
 
-    {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      pipe_append(si,alloc_threat_collector_slice(length,min_length));
-    }
+    pipe_append(si,alloc_threat_collector_slice());
   }
   else
     stip_traverse_structure_children(si,st);

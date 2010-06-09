@@ -3,7 +3,6 @@
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pypipe.h"
-#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
@@ -11,19 +10,16 @@
 #include <assert.h>
 
 /* Allocate a STNoShortVariations slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_no_short_variations_slice(stip_length_type length,
-                                            stip_length_type min_length)
+slice_index alloc_no_short_variations_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STNoShortVariations,length,min_length);
+  result = alloc_pipe(STNoShortVariations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -45,7 +41,7 @@ static boolean has_short_solution(slice_index si,
 {
   boolean result;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = battle_branch_calc_n_min(si,n);
+  stip_length_type const n_min = n_max_unsolvable+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

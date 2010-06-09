@@ -2014,37 +2014,6 @@ static slice_index alloc_attack_hashed_slice(stip_length_type length,
   return result;
 }
 
-/* Allocate a STAttackHashed slice for a STAttackMove or STLeafDirect
- * slice and insert it before the slice
- * @param si identifies STAttackMove or STLeafDirect slice
- */
-static void insert_attack_hashed_slice(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  if (slices[si].type!=STAttackHashed)
-  {
-    if (slices[si].type==STLeafDirect)
-    {
-      stip_length_type const length = slack_length_battle+2;
-      stip_length_type const min_length = slack_length_battle+2;
-      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
-    }
-    else
-    {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Allocate a STHelpHashed slice
  * @param length maximal number of half moves until goal
  * @param min_length minimal number of half moves until goal
@@ -2149,8 +2118,14 @@ static void insert_hash_element_attack_move(slice_index si,
 
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
-  if (st->remaining<st->full_length)
-    insert_attack_hashed_slice(slices[si].u.pipe.next);
+  if (st->remaining<st->full_length
+      && slices[slices[si].u.pipe.next].type!=STAttackHashed)
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    pipe_append(si,alloc_attack_hashed_slice(length,min_length));
+  }
+
   stip_traverse_moves_branch(si,st);
 
   TraceFunctionExit(__func__);
@@ -2216,7 +2191,11 @@ static void insert_hash_element_leaf_direct(slice_index si,
    * expensive to compute an end in 1. TLi
    */
   if (st->level>0 && !is_goal_move_oriented(si))
-    insert_attack_hashed_slice(si);
+  {
+    stip_length_type const length = slack_length_battle+1;
+    stip_length_type const min_length = slack_length_battle+1;
+    pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

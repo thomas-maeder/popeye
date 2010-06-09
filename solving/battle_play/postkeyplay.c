@@ -32,22 +32,16 @@ slice_index alloc_postkey_solution_writer_slice(stip_length_type length,
 }
 
 /* Allocate a STPostKeyPlaySuppressor defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static
-slice_index alloc_postkeyplay_suppressor_slice(stip_length_type length,
-                                               stip_length_type min_length)
+static slice_index alloc_postkeyplay_suppressor_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STPostKeyPlaySuppressor,length,min_length);
+  result = alloc_pipe(STPostKeyPlaySuppressor);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -451,14 +445,13 @@ static void append_postkeyplay_suppressor(slice_index si,
                                           stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (length>slack_length_battle)
-    pipe_append(si,alloc_postkeyplay_suppressor_slice(length,min_length));
+    pipe_append(si,alloc_postkeyplay_suppressor_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

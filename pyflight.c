@@ -101,18 +101,16 @@ static boolean has_too_many_flights(Side defender)
  */
 
 /* Initialise a STMaxFlightsquares slice
- * @param length maximum number of half moves until end of branch
  * @return identifier of allocated slice
  */
-static slice_index alloc_maxflight_guard_slice(stip_length_type length)
+static slice_index alloc_maxflight_guard_slice(void)
 {
   slice_index result;
-  stip_length_type const parity = (length-slack_length_battle)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STMaxFlightsquares,length,slack_length_battle+parity);
+  result = alloc_pipe(STMaxFlightsquares);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -153,8 +151,6 @@ stip_length_type maxflight_guard_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-
-  assert(n%2==slices[si].u.branch.length%2);
 
   if (n>slack_length_battle+3 && has_too_many_flights(defender))
     result = n+4;
@@ -223,8 +219,7 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
-              alloc_maxflight_guard_slice(slices[si].u.branch.length));
+  pipe_append(slices[si].prev,alloc_maxflight_guard_slice());
   stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);

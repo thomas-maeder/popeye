@@ -13,12 +13,7 @@ static void append_no_short_variations(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_no_short_variations_slice(length,min_length));
-  }
+  pipe_append(si,alloc_no_short_variations_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
