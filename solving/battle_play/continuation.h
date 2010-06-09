@@ -14,13 +14,6 @@
 slice_index alloc_continuation_writer_slice(stip_length_type length,
                                             stip_length_type min_length);
 
-/* Insert root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void continuation_writer_insert_root(slice_index si,
-                                     stip_structure_traversal *st);
-
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

@@ -4,7 +4,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/battle_play/try.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -31,32 +30,6 @@ slice_index alloc_continuation_writer_slice(stip_length_type length,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Insert root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void continuation_writer_insert_root(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index root_writer;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.pipe.next,st);
-
-  root_writer = alloc_refutations_writer_slice(length,min_length);
-  pipe_link(root_writer,*root);
-  *root = root_writer;
- 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Try to defend after an attempted key move at non-root level
@@ -313,7 +286,8 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
+  &stip_traverse_structure_children, /* STBattlePlaySolver */
+  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STThreatCollector */

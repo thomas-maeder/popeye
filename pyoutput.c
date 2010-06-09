@@ -161,7 +161,8 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
+  &stip_traverse_structure_children, /* STBattlePlaySolver */
+  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STThreatCollector */

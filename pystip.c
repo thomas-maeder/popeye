@@ -65,8 +65,8 @@
     ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
-    ENUMERATOR(STRefutationsWriter), /* writes refutations */ \
-    ENUMERATOR(STThreatWriter), /* deals with threats */ \
+    ENUMERATOR(STBattlePlaySolver), /* find battle play solutions */           \
+    ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */        ENUMERATOR(STThreatWriter), /* deals with threats */ \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
@@ -178,7 +178,8 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STPostKeyPlaySolutionWriter */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STContinuationWriter */
-  slice_structure_branch, /* STRefutationsWriter */
+  slice_structure_branch, /* STBattlePlaySolver */
+  slice_structure_branch, /* STBattlePlaySolutionWriter */
   slice_structure_branch, /* STThreatWriter */
   slice_structure_branch, /* STThreatEnforcer */
   slice_structure_branch, /* STThreatCollector */
@@ -325,7 +326,8 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STPostKeyPlaySolutionWriter */
   &mark_reachable_slice, /* STPostKeyPlaySuppressor */
   &mark_reachable_slice, /* STContinuationWriter */
-  &mark_reachable_slice, /* STRefutationsWriter */
+  &mark_reachable_slice, /* STBattlePlaySolver */
+  &mark_reachable_slice, /* STBattlePlaySolutionWriter */
   &mark_reachable_slice, /* STThreatWriter */
   &mark_reachable_slice, /* STThreatEnforcer */
   &mark_reachable_slice, /* STThreatCollector */
@@ -626,7 +628,8 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STPostKeyPlaySolutionWriter */
   &traverse_and_deallocate,       /* STPostKeyPlaySuppressor */
   &traverse_and_deallocate,       /* STContinuationWriter */
-  &traverse_and_deallocate,       /* STRefutationsWriter */
+  &traverse_and_deallocate,       /* STBattlePlaySolver */
+  &traverse_and_deallocate,       /* STBattlePlaySolutionWriter */
   &traverse_and_deallocate,       /* STThreatWriter */
   &traverse_and_deallocate,       /* STThreatEnforcer */
   &traverse_and_deallocate,       /* STThreatCollector */
@@ -756,8 +759,9 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STAttackRoot */
   &stip_traverse_structure_children,            /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,            /* STPostKeyPlaySuppressor */
-  &continuation_writer_insert_root,             /* STContinuationWriter */
-  &stip_traverse_structure_children,            /* STRefutationsWriter */
+  &stip_traverse_structure_children,            /* STContinuationWriter */
+  &stip_traverse_structure_children,            /* STBattlePlaySolver */
+  &stip_traverse_structure_children,            /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,            /* STThreatWriter */
   &stip_traverse_structure_children,            /* STThreatEnforcer */
   &stip_traverse_structure_children,            /* STThreatCollector */
@@ -868,7 +872,8 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STPostKeyPlaySolutionWriter */
   &pipe_resolve_proxies,             /* STPostKeyPlaySuppressor */
   &pipe_resolve_proxies,             /* STContinuationWriter */
-  &pipe_resolve_proxies,             /* STRefutationsWriter */
+  &pipe_resolve_proxies,             /* STBattlePlaySolver */
+  &pipe_resolve_proxies,             /* STBattlePlaySolutionWriter */
   &threat_writer_resolve_proxies,    /* STThreatWriter */
   &pipe_resolve_proxies,             /* STThreatEnforcer */
   &pipe_resolve_proxies,             /* STThreatCollector */
@@ -1094,7 +1099,8 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
-  &stip_traverse_moves_pipe,                 /* STRefutationsWriter */
+  &stip_traverse_moves_pipe,                 /* STBattlePlaySolver */
+  &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STThreatWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
   &stip_traverse_moves_pipe,                 /* STThreatCollector */
@@ -1267,7 +1273,8 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
+  &stip_traverse_structure_children, /* STBattlePlaySolver */
+  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STThreatCollector */
@@ -1540,7 +1547,8 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationWriter */
-  &stip_traverse_structure_children,   /* STRefutationsWriter */
+  &stip_traverse_structure_children,   /* STBattlePlaySolver */
+  &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
   &stip_traverse_structure_children,   /* STThreatCollector */
@@ -1703,7 +1711,8 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationWriter */
-  &stip_traverse_structure_children,   /* STRefutationsWriter */
+  &stip_traverse_structure_children,   /* STBattlePlaySolver */
+  &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
   &stip_traverse_structure_children,   /* STThreatCollector */
@@ -1809,7 +1818,8 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,              /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,              /* STContinuationWriter */
-  &stip_traverse_structure_children,              /* STRefutationsWriter */
+  &stip_traverse_structure_children,              /* STBattlePlaySolver */
+  &stip_traverse_structure_children,              /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,              /* STThreatWriter */
   &stip_traverse_structure_children,              /* STThreatEnforcer */
   &stip_traverse_structure_children,              /* STThreatCollector */
@@ -1940,7 +1950,8 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
+  &stip_traverse_structure_children, /* STBattlePlaySolver */
+  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STThreatCollector */
@@ -2047,7 +2058,8 @@ static stip_structure_visitor const setplay_appliers[] =
   &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,     /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,     /* STContinuationWriter */
-  &stip_traverse_structure_children,     /* STRefutationsWriter */
+  &stip_traverse_structure_children,     /* STBattlePlaySolver */
+  &stip_traverse_structure_children,     /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,     /* STThreatWriter */
   &stip_traverse_structure_children,     /* STThreatEnforcer */
   &stip_traverse_structure_children,     /* STThreatCollector */
@@ -2238,7 +2250,8 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
+  &stip_traverse_structure_children, /* STBattlePlaySolver */
+  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STThreatCollector */
@@ -2358,7 +2371,8 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationWriter */
-  &stip_traverse_structure_children,   /* STRefutationsWriter */
+  &stip_traverse_structure_children,   /* STBattlePlaySolver */
+  &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
   &stip_traverse_structure_children,   /* STThreatCollector */
@@ -2473,7 +2487,8 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STPostKeyPlaySolutionWriter */
   &make_exact_branch,                /* STPostKeyPlaySuppressor */
   &make_exact_branch,                /* STContinuationWriter */
-  &make_exact_branch,                /* STRefutationsWriter */
+  &make_exact_branch,                /* STBattlePlaySolver */
+  &make_exact_branch,                /* STBattlePlaySolutionWriter */
   &make_exact_branch,                /* STThreatWriter */
   &make_exact_branch,                /* STThreatEnforcer */
   &make_exact_branch,                /* STThreatCollector */
@@ -2569,7 +2584,8 @@ static stip_structure_visitor const starter_detectors[] =
   &pipe_detect_starter,              /* STPostKeyPlaySolutionWriter */
   &pipe_detect_starter,              /* STPostKeyPlaySuppressor */
   &pipe_detect_starter,              /* STContinuationWriter */
-  &pipe_detect_starter,              /* STRefutationsWriter */
+  &pipe_detect_starter,              /* STBattlePlaySolver */
+  &pipe_detect_starter,              /* STBattlePlaySolutionWriter */
   &pipe_detect_starter,              /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STThreatCollector */
@@ -2669,7 +2685,8 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_starter,           /* STPostKeyPlaySolutionWriter */
   &pipe_impose_starter,           /* STPostKeyPlaySuppressor */
   &pipe_impose_starter,           /* STContinuationWriter */
-  &pipe_impose_starter,           /* STRefutationsWriter */
+  &pipe_impose_starter,           /* STBattlePlaySolver */
+  &pipe_impose_starter,           /* STBattlePlaySolutionWriter */
   &pipe_impose_starter,           /* STThreatWriter */
   &pipe_impose_starter,           /* STThreatEnforcer */
   &pipe_impose_starter,           /* STThreatCollector */
@@ -2961,7 +2978,8 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STPostKeyPlaySolutionWriter */
   &traverse_structure_pipe,         /* STPostKeyPlaySuppressor */
   &traverse_structure_pipe,         /* STContinuationWriter */
-  &traverse_structure_pipe,         /* STRefutationsWriter */
+  &traverse_structure_pipe,         /* STBattlePlaySolver */
+  &traverse_structure_pipe,         /* STBattlePlaySolutionWriter */
   &traverse_structure_pipe,         /* STThreatWriter */
   &traverse_structure_pipe,         /* STThreatEnforcer */
   &traverse_structure_pipe,         /* STThreatCollector */

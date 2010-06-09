@@ -79,8 +79,14 @@ stip_length_type defense_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STRefutationsWriter:
-      result = refutations_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
+    case STBattlePlaySolver:
+      result = battle_play_solver_defend_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
+    case STBattlePlaySolutionWriter:
+      result = battle_play_solution_writer_defend_in_n(si,
+                                                       n,n_min,
+                                                       n_max_unsolvable);
       break;
 
     case STContinuationWriter:
@@ -224,10 +230,16 @@ stip_length_type defense_can_defend_in_n(slice_index si,
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STRefutationsWriter:
-      result = refutations_writer_can_defend_in_n(si,
+    case STBattlePlaySolver:
+      result = battle_play_solver_can_defend_in_n(si,
                                                   n,n_max_unsolvable,
                                                   max_nr_refutations);
+      break;
+
+    case STBattlePlaySolutionWriter:
+      result = battle_play_solution_writer_can_defend_in_n(si,
+                                                           n,n_max_unsolvable,
+                                                           max_nr_refutations);
       break;
 
     case STPostKeyPlaySuppressor:

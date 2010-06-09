@@ -358,7 +358,8 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &substitute_postkey_solution_writer, /* STContinuationWriter */
-  &stip_traverse_structure_children,   /* STRefutationsWriter */
+  &stip_traverse_structure_children,   /* STBattlePlaySolver */
+  &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STThreatWriter */
   &stip_traverse_structure_children,   /* STThreatEnforcer */
   &stip_traverse_structure_children,   /* STThreatCollector */
@@ -476,7 +477,8 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &append_postkeyplay_suppressor,    /* STContinuationWriter */
-  &stip_traverse_structure_children, /* STRefutationsWriter */
+  &stip_traverse_structure_children, /* STBattlePlaySolver */
+  &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatWriter */
   &stip_traverse_structure_children, /* STThreatEnforcer */
   &stip_traverse_structure_children, /* STThreatCollector */
