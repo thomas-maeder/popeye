@@ -104,8 +104,6 @@ slice_index alloc_refuting_variation_writer_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  if (min_length<slack_length_battle)
-    min_length += 2;
   result = alloc_branch(STRefutingVariationWriter,length,min_length);
 
   TraceFunctionExit(__func__);
