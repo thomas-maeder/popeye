@@ -473,6 +473,8 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  stip_length_type const length = slices[si].u.branch_fork.length;
+  stip_length_type const min_length = slices[si].u.branch_fork.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -482,7 +484,7 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (n_max_unsolvable<slack_length_battle
-      && battle_branch_calc_n_min(si,n)<slack_length_battle+2
+      && n+min_length<slack_length_battle+2+length
       && slice_has_solution(avoided)==has_no_solution)
     result = n_max_unsolvable+2;
   else
