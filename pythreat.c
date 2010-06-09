@@ -185,10 +185,8 @@ maxthreatlength_guard_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (is_threat_too_long(si,n))
-    result = n+4;
-  else
-    result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+  assert(!is_threat_too_long(si,n));
+  result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
