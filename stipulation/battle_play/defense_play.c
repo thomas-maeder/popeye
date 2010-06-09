@@ -8,7 +8,6 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
-#include "pyoutput.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
