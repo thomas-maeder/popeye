@@ -244,7 +244,6 @@ typedef struct {
 	unsigned int    numi;
 	int             sum;
 	boolean         promi,
-			echec,
 			bool_senti,
 			bool_norm_cham_prom,
 			bool_cir_cham_prom;
