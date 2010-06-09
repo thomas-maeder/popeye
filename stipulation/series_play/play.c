@@ -59,7 +59,7 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       break;
     }
 
-    case STContinuationWriter:
+    case STContinuationSolver:
     {
       stip_length_type const n_battle = (n+slack_length_battle
                                          -slack_length_series);
@@ -193,7 +193,7 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = series_shortcut_has_solution_in_n(si,n);
       break;
 
-    case STContinuationWriter:
+    case STContinuationSolver:
     {
       unsigned int const max_nr_allowed_refutations = 0;
       stip_length_type const n_battle = (n+slack_length_battle

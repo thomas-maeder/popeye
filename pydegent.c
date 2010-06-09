@@ -179,6 +179,7 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,     /* STAttackRoot */
   &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,     /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children,     /* STContinuationSolver */
   &stip_traverse_structure_children,     /* STContinuationWriter */
   &stip_traverse_structure_children,     /* STBattlePlaySolver */
   &stip_traverse_structure_children,     /* STBattlePlaySolutionWriter */

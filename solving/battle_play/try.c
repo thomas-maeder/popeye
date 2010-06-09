@@ -445,6 +445,7 @@ refutations_collector_solve_in_n(slice_index si,
 typedef enum
 {
   try_handler_inserted_none,
+  try_handler_inserted_solver,
   try_handler_inserted_writer,
   try_handler_inserted_collector
 } try_handler_insertion_state;
@@ -462,7 +463,7 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state==try_handler_inserted_writer
+  if (*state==try_handler_inserted_solver
       && length>slack_length_battle
       && user_set_max_nr_refutations>0)
   {
@@ -489,16 +490,39 @@ static void substitute_battle_play_solver(slice_index si,
   TraceFunctionParamListEnd();
 
   if (*state==try_handler_inserted_none)
-    *state = try_handler_inserted_writer;
+    *state = try_handler_inserted_solver;
 
   stip_traverse_structure_children(si,st);
 
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_battle_play_solution_writer());
     pipe_replace(si,alloc_battle_play_solver(length,min_length));
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Prepend a try writer to the solution writer
+ * @param si identifies slice to be replaced
+ * @param st address of structure defining traversal
+ */
+static void substitute_battle_play_solution_writer(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  try_handler_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*state==try_handler_inserted_writer)
+    *state = try_handler_inserted_writer;
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_replace(si,alloc_battle_play_solution_writer());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -525,7 +549,8 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
-  &substitute_battle_play_solver,    /* STContinuationWriter */
+  &substitute_battle_play_solver,    /* STContinuationSolver */
+  &substitute_battle_play_solution_writer,    /* STContinuationWriter */
   &stip_traverse_structure_children, /* STBattlePlaySolver */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatWriter */

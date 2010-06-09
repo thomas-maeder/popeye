@@ -219,6 +219,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STAttackRoot */
   &stip_traverse_structure_children,        /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,        /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children,        /* STContinuationSolver */
   &stip_traverse_structure_children,        /* STContinuationWriter */
   &stip_traverse_structure_children,        /* STBattlePlaySolver */
   &stip_traverse_structure_children,        /* STBattlePlaySolutionWriter */
@@ -340,6 +341,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STBattlePlaySolver */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */

@@ -89,6 +89,10 @@ stip_length_type defense_defend_in_n(slice_index si,
                                                        n_max_unsolvable);
       break;
 
+    case STContinuationSolver:
+      result = continuation_solver_defend_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
     case STContinuationWriter:
       result = continuation_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
@@ -246,6 +250,12 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = postkeyplay_suppressor_can_defend_in_n(si,
                                                       n,n_max_unsolvable,
                                                       max_nr_refutations);
+      break;
+
+    case STContinuationSolver:
+      result = continuation_solver_can_defend_in_n(si,
+                                                   n,n_max_unsolvable,
+                                                   max_nr_refutations);
       break;
 
     case STContinuationWriter:

@@ -74,7 +74,7 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STSelfCheckGuardDefenderFilter:
-    case STContinuationWriter:
+    case STContinuationSolver:
     case STDefenseMove:
       if (defense_can_defend(si))
         result = has_no_solution;
@@ -210,7 +210,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = attack_has_solution(si);
       break;
 
-    case STContinuationWriter:
+    case STContinuationSolver:
     case STDefenseMove:
     case STSelfCheckGuardDefenderFilter:
       result = defense_can_defend(si) ? has_no_solution : has_solution;

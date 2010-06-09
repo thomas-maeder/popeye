@@ -519,6 +519,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &root_slice_type_found,             /* STAttackRoot */
   &stip_traverse_structure_children,           /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children,           /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children,           /* STContinuationSolver */
   &stip_traverse_structure_children,           /* STContinuationWriter */
   &stip_traverse_structure_children,           /* STBattlePlaySolver */
   &stip_traverse_structure_children,           /* STBattlePlaySolutionWriter */
@@ -2092,7 +2093,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STSelfCheckGuardDefenderFilter:
     case STLeafDirect:
-    case STContinuationWriter:
+    case STContinuationSolver:
     case STDefenseMove:
       result = whitetoplay_means_shorten;
       break;
@@ -2310,6 +2311,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STBattlePlaySolver */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
@@ -2423,6 +2425,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STAttackRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STBattlePlaySolver */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
@@ -2783,6 +2786,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &remember_imminent_goal_attack_root,       /* STAttackRoot */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
+  &stip_traverse_moves_pipe,                 /* STContinuationSolver */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolver */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
