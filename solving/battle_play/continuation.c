@@ -103,7 +103,7 @@ continuation_writer_defend_in_n(slice_index si,
           && n_min<=slack_length_battle+1)
         n_min += 2;
       defend_result = defense_defend_in_n(next,result,n_min,n_max_unsolvable);
-      assert(defend_result<=result);
+      assert(defend_result==result);
     }
   }
 
