@@ -40,7 +40,8 @@
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
     ENUMERATOR(STBattlePlaySolver), /* find battle play solutions */           \
     ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */           \
-    ENUMERATOR(STThreatWriter), /* writes threats */                    \
+    ENUMERATOR(STThreatSolver), /* solves threats */                    \
+    ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
     ENUMERATOR(STRefutationsCollector), /* collections refutations */   \
@@ -135,7 +136,7 @@ typedef struct
             slice_index next;
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
-            slice_index attack_side;
+            slice_index defense_move;
         } threat_writer;
 
         struct

@@ -2761,7 +2761,8 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolver */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
-  &stip_traverse_moves_pipe,                 /* STThreatWriter */
+  &stip_traverse_moves_pipe,                 /* STThreatSolver */
+  &stip_traverse_moves_pipe,                 /* STZugzwangWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
   &stip_traverse_moves_pipe,                 /* STThreatCollector */
   &stip_traverse_moves_pipe,                 /* STRefutationsCollector */
@@ -3205,7 +3206,8 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STContinuationWriter */
   &stip_traverse_structure_children,         /* STBattlePlaySolver */
   &stip_traverse_structure_children,         /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,         /* STThreatWriter */
+  &stip_traverse_structure_children,         /* STThreatSolver */
+  &stip_traverse_structure_children,         /* STZugzwangWriter */
   &stip_traverse_structure_children,         /* STThreatEnforcer */
   &stip_traverse_structure_children,         /* STThreatCollector */
   &stip_traverse_structure_children,         /* STRefutationsCollector */
@@ -3534,7 +3536,8 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,               /* STContinuationWriter */
   &intelligent_mode_support_none,               /* STBattlePlaySolver */
   &intelligent_mode_support_none,               /* STBattlePlaySolutionWriter */
-  &intelligent_mode_support_none,               /* STThreatWriter */
+  &intelligent_mode_support_none,               /* STThreatSolver */
+  &intelligent_mode_support_none,               /* STZugzwangWriter */
   &intelligent_mode_support_none,               /* STThreatEnforcer */
   &intelligent_mode_support_none,               /* STThreatCollector */
   &intelligent_mode_support_none,               /* STRefutationsCollector */

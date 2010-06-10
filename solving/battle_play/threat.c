@@ -77,6 +77,109 @@ static slice_index alloc_threat_collector_slice(void)
   return result;
 }
 
+/* Allocate a STZugzwangWriter slice.
+ * @return index of allocated slice
+ */
+static slice_index alloc_zugzwang_writer_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STZugzwangWriter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found, i.e.:
+ *            n_min-2 defense has turned out to be illegal
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type
+zugzwang_writer_has_solution_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min,
+                                  stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found and written, i.e.:
+ *            n_min-2 defense has turned out to be illegal
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type zugzwang_writer_solve_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  slice_index const next = slices[si].u.pipe.next;
+  ply const threats_ply = nbply+1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  if (threat_activities[threats_ply]==threat_solving)
+  {
+    output_start_threat_level();
+    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+
+    {
+      /* We don't signal "Zugzwang" after the last attacking move of a
+       * self play variation
+       */
+      boolean const write_zugzwang = n>slack_length_battle && result==n+2;
+      output_end_threat_level(si,write_zugzwang);
+    }
+  }
+  else
+    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
  * @param si slice index
@@ -177,7 +280,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
       result = len_test_threats;
   }
   else
-    /* zugzwang, or we haven't looked for threats at all */
+    /* zugzwang, or we haven't looked for threats yet */
     result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -186,16 +289,16 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
   return result;
 }
 
-/* Allocate a STThreatWriter defender slice.
+/* Allocate a STThreatSolver defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param attack_side identifies the slice where attack play starts
+ * @param defense_move identifies the slice where attack play starts
  *                    after this slice
  * @return index of allocated slice
  */
-static slice_index alloc_threat_writer_slice(stip_length_type length,
+static slice_index alloc_threat_solver_slice(stip_length_type length,
                                              stip_length_type min_length,
-                                             slice_index attack_side)
+                                             slice_index defense_move)
 {
   slice_index result;
 
@@ -204,8 +307,8 @@ static slice_index alloc_threat_writer_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STThreatWriter,length,min_length);
-  slices[result].u.threat_writer.attack_side = attack_side;
+  result = alloc_branch(STThreatSolver,length,min_length);
+  slices[result].u.threat_writer.defense_move = defense_move;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -316,20 +419,19 @@ threat_collector_can_defend_in_n(slice_index si,
 }
 
 /* Solve threats after an attacker's move
- * @param threats table where to add threats
  * @param si slice index
  * @return length of threats
  *         <slack_length_battle if the attacker has something stronger
  *             than threats (i.e. has delivered check)
  *         n+2 if there is no threat
  */
-static stip_length_type solve_threats(table threats,
-                                      slice_index si,
-                                      stip_length_type n)
+static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
-  slice_index const attack_side = slices[si].u.threat_writer.attack_side;
+  slice_index const defense_move = slices[si].u.threat_writer.defense_move;
+  slice_index const attack_side = slices[defense_move].u.branch.next;
   stip_length_type const n_min = battle_branch_calc_n_min(si,n);
-  stip_length_type const n_max_unsolvable = n_min-2;
+  stip_length_type const parity = (n-slack_length_battle)%2;
+  stip_length_type const n_max_unsolvable = slack_length_battle-2+parity;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -339,22 +441,7 @@ static stip_length_type solve_threats(table threats,
 
   nextply(nbply);
   active_slice[nbply] = si;
-
-  threat_activities[nbply+1] = threat_solving;
-
-  output_start_threat_level();
   result = attack_solve_in_n(attack_side,n,n_min,n_max_unsolvable);
-
-  {
-    /* We don't signal "Zugzwang" after the last attacking move of a
-     * self play variation
-     */
-    boolean const write_zugzwang = n>slack_length_battle && result==n+2;
-    output_end_threat_level(si,write_zugzwang);
-  }
-
-  threat_activities[nbply+1] = threat_idle;
-
   finply();
 
   TraceFunctionExit(__func__);
@@ -377,7 +464,7 @@ static stip_length_type solve_threats(table threats,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - more refutations found than acceptable
  */
-stip_length_type threat_writer_defend_in_n(slice_index si,
+stip_length_type threat_solver_defend_in_n(slice_index si,
                                            stip_length_type n,
                                            stip_length_type n_min,
                                            stip_length_type n_max_unsolvable)
@@ -395,7 +482,10 @@ stip_length_type threat_writer_defend_in_n(slice_index si,
 
   TraceValue("%u\n",threats_ply);
   threats[threats_ply] = allocate_table();
-  threat_lengths[threats_ply] = solve_threats(threats[nbply+1],si,n-1);
+
+  threat_activities[threats_ply] = threat_solving;
+  threat_lengths[threats_ply] = solve_threats(si,n-1);
+  threat_activities[threats_ply] = threat_idle;
 
   result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
@@ -423,7 +513,7 @@ stip_length_type threat_writer_defend_in_n(slice_index si,
  *         n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type
-threat_writer_can_defend_in_n(slice_index si,
+threat_solver_can_defend_in_n(slice_index si,
                               stip_length_type n,
                               stip_length_type n_max_unsolvable,
                               unsigned int max_nr_refutations)
@@ -444,44 +534,6 @@ threat_writer_can_defend_in_n(slice_index si,
   TraceValue("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void threat_writer_reduce_to_postkey_play(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  slice_index *postkey_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *postkey_slice = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
- */
-void threat_writer_resolve_proxies(slice_index si,
-                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_resolve_proxies(si,st);
-  proxy_slice_resolve(&slices[si].u.threat_writer.attack_side);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 
@@ -520,9 +572,8 @@ static void prepend_threat_writer(slice_index si, stip_structure_traversal *st)
 
     {
       slice_index const prev = slices[si].prev;
-      slice_index const attack_side = slices[si].u.pipe.next;
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      pipe_append(prev,alloc_threat_writer_slice(length,min_length,attack_side));
+      pipe_append(prev,alloc_threat_solver_slice(length,min_length,si));
     }
   }
   else
@@ -554,6 +605,7 @@ static void prepend_threat_enforcer(slice_index si,
     *state = threat_handler_inserted_writer;
 
     pipe_append(slices[si].prev,alloc_threat_enforcer_slice());
+    pipe_append(slices[si].prev,alloc_zugzwang_writer_slice());
   }
   else
     stip_traverse_structure_children(si,st);
@@ -637,7 +689,8 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STContinuationWriter */
   &stip_traverse_structure_children,     /* STBattlePlaySolver */
   &stip_traverse_structure_children,     /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,     /* STThreatWriter */
+  &stip_traverse_structure_children,     /* STThreatSolver */
+  &stip_traverse_structure_children,     /* STZugzwangWriter */
   &stip_traverse_structure_children,     /* STThreatEnforcer */
   &stip_traverse_structure_children,     /* STThreatCollector */
   &stip_traverse_structure_children,     /* STRefutationsCollector */

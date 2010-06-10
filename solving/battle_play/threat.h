@@ -93,7 +93,7 @@ threat_collector_can_defend_in_n(slice_index si,
  *                       (incl. defense) needed
  *         n+2 no solution found
  */
-stip_length_type threat_writer_defend_in_n(slice_index si,
+stip_length_type threat_solver_defend_in_n(slice_index si,
                                            stip_length_type n,
                                            stip_length_type n_min,
                                            stip_length_type n_max_unsolvable);
@@ -111,25 +111,44 @@ stip_length_type threat_writer_defend_in_n(slice_index si,
  *         n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type
-threat_writer_can_defend_in_n(slice_index si,
+threat_solver_can_defend_in_n(slice_index si,
                               stip_length_type n,
                               stip_length_type n_min,
                               unsigned int max_nr_refutations);
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
  * @param si slice index
- * @param st address of structure capturing traversal state
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found, i.e.:
+ *            n_min-2 defense has turned out to be illegal
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
  */
-void threat_writer_reduce_to_postkey_play(slice_index si,
-                                          stip_structure_traversal *st);
+stip_length_type
+zugzwang_writer_has_solution_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min,
+                                  stip_length_type n_max_unsolvable);
 
-/* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found and written, i.e.:
+ *            n_min-2 defense has turned out to be illegal
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
  */
-void threat_writer_resolve_proxies(slice_index si,
-                                   stip_structure_traversal *st);
+stip_length_type zugzwang_writer_solve_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable);
 
 /* Instrument the stipulation representation so that it can deal with
  * threats

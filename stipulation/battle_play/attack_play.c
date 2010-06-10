@@ -63,6 +63,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = threat_enforcer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
+    case STZugzwangWriter:
+      result = zugzwang_writer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
     case STRefutationsCollector:
       result = refutations_collector_has_solution_in_n(si,
                                                        n,n_min,
@@ -245,6 +249,10 @@ stip_length_type attack_solve_in_n(slice_index si,
   {
     case STThreatEnforcer:
       result = threat_enforcer_solve_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
+    case STZugzwangWriter:
+      result = zugzwang_writer_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STRefutationsCollector:

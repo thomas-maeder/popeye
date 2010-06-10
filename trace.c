@@ -273,7 +273,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
-      case STThreatWriter:
+      case STThreatSolver:
         Trace_branch(si);
         Trace_link("attack_side:",slices[si].u.threat_writer.attack_side,"");
         fprintf(stdout,"\n");
@@ -313,6 +313,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STContinuationWriter:
       case STThreatEnforcer:
       case STThreatCollector:
+      case STZugzwangWriter:
       case STRestartGuardRootDefenderFilter:
       case STRestartGuardHelpFilter:
       case STRestartGuardSeriesFilter:

@@ -44,7 +44,8 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STContinuationWriter */
   &stip_traverse_structure_children,    /* STBattlePlaySolver */
   &stip_traverse_structure_children,    /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,    /* STThreatWriter */
+  &stip_traverse_structure_children,    /* STThreatSolver */
+  &stip_traverse_structure_children,    /* STZugzwangWriter */
   &stip_traverse_structure_children,    /* STThreatEnforcer */
   &stip_traverse_structure_children,    /* STThreatCollector */
   &stip_traverse_structure_children,    /* STRefutationsCollector */

@@ -296,7 +296,8 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STContinuationWriter */
   &slice_property_offset_shifter,    /* STBattlePlaySolver */
   &slice_property_offset_shifter,    /* STBattlePlaySolutionWriter */
-  &slice_property_offset_shifter,    /* STThreatWriter */
+  &slice_property_offset_shifter,    /* STThreatSolver */
+  &slice_property_offset_shifter,    /* STZugzwangWriter */
   &slice_property_offset_shifter,    /* STThreatEnforcer */
   &slice_property_offset_shifter,    /* STThreatCollector */
   &slice_property_offset_shifter,    /* STRefutationsCollector */
@@ -655,7 +656,8 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STContinuationWriter */
   &stip_traverse_structure_children,     /* STBattlePlaySolver */
   &stip_traverse_structure_children,     /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,     /* STThreatWriter */
+  &stip_traverse_structure_children,     /* STThreatSolver */
+  &stip_traverse_structure_children,     /* STZugzwangWriter */
   &stip_traverse_structure_children,     /* STThreatEnforcer */
   &stip_traverse_structure_children,     /* STThreatCollector */
   &stip_traverse_structure_children,     /* STRefutationsCollector */
@@ -2289,7 +2291,8 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolver */
   &stip_traverse_moves_pipe,                 /* STBattlePlaySolutionWriter */
-  &stip_traverse_moves_pipe,                 /* STThreatWriter */
+  &stip_traverse_moves_pipe,                 /* STThreatSolver */
+  &stip_traverse_moves_pipe,                 /* STZugzwangWriter */
   &stip_traverse_moves_pipe,                 /* STThreatEnforcer */
   &stip_traverse_moves_pipe,                 /* STThreatCollector */
   &stip_traverse_moves_pipe,                 /* STRefutationsCollector */

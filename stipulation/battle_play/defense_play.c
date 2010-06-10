@@ -97,8 +97,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = continuation_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
-    case STThreatWriter:
-      result = threat_writer_defend_in_n(si,n,n_min,n_max_unsolvable);
+    case STThreatSolver:
+      result = threat_solver_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STPostKeyPlaySolutionWriter:
@@ -264,8 +264,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                                    max_nr_refutations);
       break;
 
-    case STThreatWriter:
-      result = threat_writer_can_defend_in_n(si,
+    case STThreatSolver:
+      result = threat_solver_can_defend_in_n(si,
                                              n,n_max_unsolvable,
                                              max_nr_refutations);
       break;
