@@ -4,6 +4,7 @@
 #include "platform/maxtime.h"
 #include "pyint.h"
 #include "pyleaf.h"
+#include "output/output.h"
 #include "pyoutput.h"
 
 #include <assert.h>

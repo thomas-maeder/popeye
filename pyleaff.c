@@ -1,6 +1,7 @@
 #include "pyleaff.h"
 #include "pyleaf.h"
 #include "pydata.h"
+#include "output/output.h"
 #include "pyoutput.h"
 #include "trace.h"
 

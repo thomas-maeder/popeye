@@ -5,7 +5,6 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/continuation.h"
-#include "pyoutput.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -20,8 +19,8 @@ static table refutations;
  */
 static unsigned int user_set_max_nr_refutations;
 
-/* are we currently writing refutations? */
-static boolean are_we_writing_refutations;
+/* are we currently solving refutations? */
+boolean are_we_solving_refutations;
 
 /* Read the maximum number of refutations that the user is interested
  * to see
@@ -96,128 +95,6 @@ static slice_index alloc_battle_play_solver(stip_length_type length,
   return result;
 }
 
-/* Allocate a STBattlePlaySolutionWriter defender slice.
- * @return index of allocated slice
- */
-static slice_index alloc_battle_play_solution_writer(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STBattlePlaySolutionWriter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static attack_type last_attack_success;
-
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @param max_nr_refutations how many refutations should we look for
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
- */
-stip_length_type
-battle_play_solution_writer_can_defend_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_max_unsolvable,
-                                            unsigned int max_nr_refutations)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParam("%u",max_nr_refutations);
-  TraceFunctionParamListEnd();
-
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
-  last_attack_success = result<=n ? attack_key : attack_try;
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attempted key move at non-root level
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - more refutations found than acceptable
- */
-stip_length_type
-battle_play_solution_writer_defend_in_n(slice_index si,
-                                        stip_length_type n,
-                                        stip_length_type n_min,
-                                        stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  write_battle_move();
-  write_battle_move_decoration(nbply,last_attack_success);
-
-  result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
-  
-  if (result==n+2)
-  {
-    assert(refutations!=table_nil);
-    assert(table_length(refutations)>0);
-
-    write_refutations_intro();
-
-    are_we_writing_refutations = true;
-
-    {
-      /* reduce by 1 to stop the iteration immediately when all
-       * refutations have been written
-       */
-      unsigned int const nr_refutations = table_length(refutations)-1;
-      stip_length_type const
-          write_result = defense_can_defend_in_n(next,
-                                                 n,n_max_unsolvable,
-                                                 nr_refutations);
-      assert(write_result==n+4);
-    }
-
-    are_we_writing_refutations = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceValue("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -272,6 +149,25 @@ battle_play_solver_defend_in_n(slice_index si,
       stip_length_type const
           defend_result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
       assert(result==defend_result);
+
+      if (defend_result==n+2)
+      {
+        are_we_solving_refutations = true;
+
+        {
+          /* reduce by 1 to stop the iteration immediately when all
+           * refutations have been written
+           */
+          unsigned int const nr_refutations = table_length(refutations)-1;
+          stip_length_type const
+              write_result = defense_can_defend_in_n(next,
+                                                     n,n_max_unsolvable,
+                                                     nr_refutations);
+          assert(write_result==n+4);
+        }
+
+        are_we_solving_refutations = false;
+      }
     }
   }
 
@@ -374,12 +270,11 @@ refutations_collector_has_solution_in_n(slice_index si,
 
   assert(n==slices[si].u.branch.length);
 
-  if (are_we_writing_refutations)
+  if (are_we_solving_refutations)
   {
     if (is_current_move_in_table(refutations))
     {
       attack_solve_in_n(next,n,n_max_unsolvable+2,n_max_unsolvable);
-      write_battle_move_decoration(nbply,attack_key);
       result = n+2;
     }
     else
@@ -446,7 +341,6 @@ typedef enum
 {
   try_handler_inserted_none,
   try_handler_inserted_solver,
-  try_handler_inserted_writer,
   try_handler_inserted_collector
 } try_handler_insertion_state;
 
@@ -504,30 +398,6 @@ static void substitute_battle_play_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Prepend a try writer to the solution writer
- * @param si identifies slice to be replaced
- * @param st address of structure defining traversal
- */
-static void substitute_battle_play_solution_writer(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  try_handler_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*state==try_handler_inserted_writer)
-    *state = try_handler_inserted_writer;
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_replace(si,alloc_battle_play_solution_writer());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static stip_structure_visitor const try_handler_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
@@ -547,10 +417,10 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_structure_visitor_noop,      /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STDefenseRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &substitute_battle_play_solver,    /* STContinuationSolver */
-  &substitute_battle_play_solution_writer,    /* STContinuationWriter */
+  &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STBattlePlaySolver */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatSolver */
@@ -608,7 +478,12 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children, /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children, /* STRefutationWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Instrument the stipulation representation so that it can deal with

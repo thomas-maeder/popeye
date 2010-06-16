@@ -1,7 +1,6 @@
 #include "stipulation/battle_play/attack_move.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pyoutput.h"
 #include "pypipe.h"
 #include "pyleaf.h"
 #include "stipulation/branch.h"
@@ -58,8 +57,6 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   pipe_link(attack_root,*root);
   *root = attack_root;
 
-  battle_branch_shorten_slice(si);
-  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -131,7 +128,6 @@ static boolean have_we_solution_in_n(slice_index si,
 
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
   genmove(attacker);
   result = find_solution(si,n,n_max_unsolvable);
   finply();
@@ -162,7 +158,6 @@ static boolean have_we_solution_for_imminent_goal(slice_index si)
     stip_length_type const n_max_unsolvable = slack_length_battle-1;
     move_generation_mode = move_generation_optimized_by_killer_move;
     TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = si;
     empile_for_goal = imminent_goal;
     empile_for_target = slices[si].u.branch.imminent_target;
     generate_move_reaching_goal(attacker);
@@ -304,7 +299,6 @@ static boolean solve_in_n(slice_index si,
 
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = si;
   genmove(attacker);
   result = foreach_move_solve(si,n,n_min,n_max_unsolvable);
   finply();
@@ -337,7 +331,6 @@ static boolean solve_imminent_goal(slice_index si)
 
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = si;
     empile_for_goal = imminent_goal;
     empile_for_target = slices[si].u.branch.imminent_target;
     generate_move_reaching_goal(attacker);
@@ -385,8 +378,6 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   if (n_max_unsolvable<=slack_length_battle-2)
     n_max_unsolvable += 2;
 
-  output_start_continuation_level(si);
-
   if (n_min==slack_length_battle)
     n_min = slack_length_battle+2;
   else if (n_min==slack_length_battle+1)
@@ -406,8 +397,6 @@ stip_length_type attack_move_solve_in_n(slice_index si,
       break;
     else
       n_max_unsolvable = result;
-
-  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

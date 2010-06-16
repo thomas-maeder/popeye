@@ -1,6 +1,5 @@
 #include "stipulation/help_play/move.h"
 #include "pydata.h"
-#include "pyoutput.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
@@ -10,6 +9,7 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/shortcut.h"
+#include "output/output.h"
 #include "trace.h"
 
 #include <assert.h>

@@ -237,8 +237,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STAttackRoot:
+      case STDefenseRoot:
       case STAttackMove:
-      case STPostKeyPlaySolutionWriter:
       case STContinuationSolver:
       case STBattlePlaySolver:
       case STDefenseMove:
@@ -262,6 +262,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalReachableGuardSeriesFilter:
       case STStopOnShortSolutionsHelpFilter:
       case STStopOnShortSolutionsSeriesFilter:
+      case STOutputPlaintextTreeCheckDetectorAttackerFilter:
+      case STOutputPlaintextTreeCheckDetectorDefenderFilter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal!=no_goal)
         {
@@ -275,7 +277,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STThreatSolver:
         Trace_branch(si);
-        Trace_link("attack_side:",slices[si].u.threat_writer.attack_side,"");
+        Trace_link("attack_side:",slices[si].u.threat_writer.defense_move,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
@@ -331,6 +333,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxFlightsquares:
       case STDegenerateTree:
       case STNoShortVariations:
+      case STEndOfPhaseWriter:
+      case STEndOfSolutionWriter:
+      case STRefutationWriter:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

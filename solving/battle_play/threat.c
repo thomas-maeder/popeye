@@ -1,4 +1,5 @@
 #include "stipulation/battle_play/threat.h"
+#include "pytable.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
@@ -6,8 +7,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "pyoutput.h"
-#include "pymsg.h"
+#include "output/output.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -25,16 +25,7 @@ static stip_length_type threat_lengths[maxply+1];
  */
 static stip_length_type const no_threats_found = UINT_MAX;
 
-/* Represent the current threat related activity in a ply
- */
-typedef enum
-{
-  threat_idle,
-  threat_solving,
-  threat_enforcing
-} threat_activity;
-
-static threat_activity threat_activities[maxply+1];
+threat_activity threat_activities[maxply+1];
 
 /* count threats not defeated by a defense while we are
  * threat_enforcing
@@ -70,109 +61,6 @@ static slice_index alloc_threat_collector_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STThreatCollector);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STZugzwangWriter slice.
- * @return index of allocated slice
- */
-static slice_index alloc_zugzwang_writer_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STZugzwangWriter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-zugzwang_writer_has_solution_in_n(slice_index si,
-                                  stip_length_type n,
-                                  stip_length_type n_min,
-                                  stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type zugzwang_writer_solve_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_min,
-                                            stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-  ply const threats_ply = nbply+1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  if (threat_activities[threats_ply]==threat_solving)
-  {
-    output_start_threat_level();
-    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
-
-    {
-      /* We don't signal "Zugzwang" after the last attacking move of a
-       * self play variation
-       */
-      boolean const write_zugzwang = n>slack_length_battle && result==n+2;
-      output_end_threat_level(si,write_zugzwang);
-    }
-  }
-  else
-    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -545,7 +433,7 @@ threat_solver_can_defend_in_n(slice_index si,
 typedef enum
 {
   threat_handler_inserted_none,
-  threat_handler_inserted_writer,
+  threat_handler_inserted_solver,
   threat_handler_inserted_enforcer,
   threat_handler_inserted_collector
 } threat_handler_insertion_state;
@@ -554,7 +442,7 @@ typedef enum
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
-static void prepend_threat_writer(slice_index si, stip_structure_traversal *st)
+static void prepend_threat_solver(slice_index si, stip_structure_traversal *st)
 {
   threat_handler_insertion_state * const state = st->param;
   threat_handler_insertion_state const save_state = *state;
@@ -566,7 +454,7 @@ static void prepend_threat_writer(slice_index si, stip_structure_traversal *st)
 
   if (length>slack_length_battle+1)
   {
-    *state = threat_handler_inserted_writer;
+    *state = threat_handler_inserted_solver;
     stip_traverse_structure_children(si,st);
     *state = save_state;
 
@@ -583,32 +471,29 @@ static void prepend_threat_writer(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Prepend a threat enforcer slice to a variation writer slice
+/* Append a threat collector slice to an attack move slice
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
-static void prepend_threat_enforcer(slice_index si,
-                                    stip_structure_traversal *st)
+static void prepend_threat_enforcer(slice_index si, stip_structure_traversal *st)
 {
   threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-
-  if (*state==threat_handler_inserted_writer && length>slack_length_battle)
+  if (length>slack_length_battle && *state==threat_handler_inserted_solver)
   {
-    *state = threat_handler_inserted_enforcer;
-    stip_traverse_structure_children(si,st);
-    *state = threat_handler_inserted_writer;
-
     pipe_append(slices[si].prev,alloc_threat_enforcer_slice());
-    pipe_append(slices[si].prev,alloc_zugzwang_writer_slice());
+    *state = threat_handler_inserted_enforcer;
   }
-  else
-    stip_traverse_structure_children(si,st);
+
+  stip_traverse_structure_children(si,st);
+
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -621,22 +506,31 @@ static void prepend_threat_enforcer(slice_index si,
 static void append_threat_collector(slice_index si, stip_structure_traversal *st)
 {
   threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
+  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-
-  if (*state==threat_handler_inserted_enforcer)
+  if (length>slack_length_battle)
   {
-    *state = threat_handler_inserted_collector;
-    stip_traverse_structure_children(si,st);
-    *state = threat_handler_inserted_enforcer;
+    if (*state==threat_handler_inserted_solver)
+    {
+      pipe_append(slices[si].prev,alloc_threat_enforcer_slice());
+      *state = threat_handler_inserted_enforcer;
+    }
 
-    pipe_append(si,alloc_threat_collector_slice());
+    if (*state==threat_handler_inserted_enforcer)
+    {
+      pipe_append(si,alloc_threat_collector_slice());
+      *state = threat_handler_inserted_collector;
+    }
   }
-  else
-    stip_traverse_structure_children(si,st);
+
+  stip_traverse_structure_children(si,st);
+
+  *state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -668,7 +562,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
 {
   &stip_traverse_structure_children,     /* STProxy */
   &append_threat_collector,              /* STAttackMove */
-  &prepend_threat_writer,                /* STDefenseMove */
+  &prepend_threat_solver,                /* STDefenseMove */
   &stip_structure_visitor_noop,          /* STHelpMove */
   &stip_structure_visitor_noop,          /* STHelpFork */
   &stip_structure_visitor_noop,          /* STSeriesMove */
@@ -683,7 +577,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,     /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,     /* STAttackRoot */
-  &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STDefenseRoot */
   &stip_traverse_structure_children,     /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,     /* STContinuationSolver */
   &stip_traverse_structure_children,     /* STContinuationWriter */
@@ -694,7 +588,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STThreatEnforcer */
   &stip_traverse_structure_children,     /* STThreatCollector */
   &stip_traverse_structure_children,     /* STRefutationsCollector */
-  &prepend_threat_enforcer,              /* STVariationWriter */
+  &stip_traverse_structure_children,     /* STVariationWriter */
   &stip_traverse_structure_children,     /* STRefutingVariationWriter */
   &stip_traverse_structure_children,     /* STNoShortVariations */
   &stip_traverse_structure_children,     /* STAttackHashed */
@@ -715,7 +609,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STReflexRootFilter */
   &stip_traverse_structure_children,     /* STReflexHelpFilter */
   &stip_traverse_structure_children,     /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,     /* STReflexAttackerFilter */
+  &prepend_threat_enforcer,              /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
   &stip_traverse_structure_children,     /* STRestartGuardRootDefenderFilter */
@@ -744,7 +638,12 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,     /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,     /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children      /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,     /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,     /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,     /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,     /* STRefutationWriter */
+  &stip_traverse_structure_children,     /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children      /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Instrument the stipulation representation so that it can deal with

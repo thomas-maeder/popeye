@@ -231,7 +231,7 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,         /* STMoveInverterSeriesFilter */
   &insert_maxsolutions_root_defender_filter, /* STAttackRoot */
-  &stip_traverse_structure_children,         /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,         /* STDefenseRoot */
   &stip_traverse_structure_children,         /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,         /* STContinuationSolver */
   &stip_traverse_structure_children,         /* STContinuationWriter */
@@ -292,7 +292,12 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,         /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,         /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children          /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,         /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,         /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,         /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,         /* STRefutationWriter */
+  &stip_traverse_structure_children,         /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children          /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Insert a STMaxSolutionsRootSolvableFilter slice before some slice
@@ -329,7 +334,7 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &insert_root_solvable_filter,      /* STAttackRoot */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STDefenseRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -390,7 +395,12 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children, /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children, /* STRefutationWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Instrument a stipulation with STMaxSolutions*Filter slices

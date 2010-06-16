@@ -3,7 +3,6 @@
 #include "pyproc.h"
 #include "pypipe.h"
 #include "pyleaf.h"
-#include "pyoutput.h"
 #include "stipulation/series_play/play.h"
 #include "trace.h"
 #include "stipulation/branch.h"
@@ -11,6 +10,7 @@
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/root.h"
 #include "stipulation/series_play/shortcut.h"
+#include "output/output.h"
 
 #include <assert.h>
 

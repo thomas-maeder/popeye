@@ -136,20 +136,21 @@ void reflex_attacker_filter_insert_root(slice_index si,
   slice_index * const root = st->param;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index guard;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure(avoided,st);
+  guard = alloc_reflex_root_filter(*root);
+  *root = no_slice;
+
   stip_traverse_structure(next,st);
+  pipe_link(guard,*root);
+  *root = guard;
 
-  {
-    slice_index const guard = alloc_reflex_root_filter(avoided);
-    pipe_link(guard,*root);
-    *root = guard;
-
-    battle_branch_shorten_slice(si);
-  }
+  battle_branch_shorten_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -302,6 +303,7 @@ void reflex_root_filter_reduce_to_postkey_play(slice_index si,
 {
   slice_index *postkey_slice = st->param;
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -310,7 +312,10 @@ void reflex_root_filter_reduce_to_postkey_play(slice_index si,
   stip_traverse_structure(next,st);
 
   if (*postkey_slice!=no_slice)
+  {
+    dealloc_slices(avoided);
     dealloc_slice(si);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -368,10 +373,7 @@ void reflex_defender_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(avoided,st);
-  root_filter = alloc_reflex_defender_filter(length,min_length,*root);
-
-  *root = no_slice;
+  root_filter = alloc_reflex_defender_filter(length,min_length,avoided);
 
   stip_traverse_structure(next,st);
 
@@ -919,7 +921,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,   /* STAttackRoot */
-  &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STDefenseRoot */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationSolver */
   &stip_traverse_structure_children,   /* STContinuationWriter */
@@ -980,7 +982,12 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children    /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,   /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,   /* STRefutationWriter */
+  &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* In alternate play, insert a STReflexHelpFilter slice before a slice
@@ -1117,7 +1124,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,    /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,    /* STAttackRoot */
-  &stip_traverse_structure_children,    /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,    /* STDefenseRoot */
   &stip_traverse_structure_children,    /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,    /* STContinuationSolver */
   &stip_traverse_structure_children,    /* STContinuationWriter */
@@ -1178,7 +1185,12 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,    /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,    /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children     /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,    /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,    /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,    /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,    /* STRefutationWriter */
+  &stip_traverse_structure_children,    /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children     /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Instrument a branch with STReflex* slices for a semi-reflex

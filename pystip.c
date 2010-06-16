@@ -24,7 +24,6 @@
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/try.h"
-#include "stipulation/battle_play/variation.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/help_play/branch.h"
@@ -62,7 +61,7 @@
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
     ENUMERATOR(STAttackRoot),      /* root level of direct play */      \
-    ENUMERATOR(STPostKeyPlaySolutionWriter), /* writes battle play post key play */ \
+    ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
@@ -123,6 +122,11 @@
     ENUMERATOR(STStopOnShortSolutionsRootSolvableFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsHelpFilter), /* deals with option stoponshortsolutions */  \
      ENUMERATOR(STStopOnShortSolutionsSeriesFilter), /* deals with option stoponshortsolutions */  \
+    ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
+    ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
+    ENUMERATOR(STRefutationWriter), /* writes refutations */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckDetectorAttackerFilter), /* plain text output, tree mode: detect checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckDetectorDefenderFilter), /* plain text output, tree mode: detect checks by the previous move */  \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -177,7 +181,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
   slice_structure_branch, /* STAttackRoot */
-  slice_structure_branch, /* STPostKeyPlaySolutionWriter */
+  slice_structure_branch, /* STDefenseRoot */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STContinuationSolver */
   slice_structure_branch, /* STContinuationWriter */
@@ -238,7 +242,12 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_pipe,   /* STMaxSolutionsSeriesFilter */
   slice_structure_pipe,   /* STStopOnShortSolutionsRootSolvableFilter */
   slice_structure_branch, /* STStopOnShortSolutionsHelpFilter */
-  slice_structure_branch  /* STStopOnShortSolutionsSeriesFilter */
+  slice_structure_branch, /* STStopOnShortSolutionsSeriesFilter */
+  slice_structure_branch, /* STEndOfPhaseWriter */
+  slice_structure_branch, /* STEndOfSolutionWriter */
+  slice_structure_branch, /* STRefutationWriter */
+  slice_structure_branch, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  slice_structure_branch  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Determine whether a slice is of some structural type
@@ -327,7 +336,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STMoveInverterSolvableFilter */
   &mark_reachable_slice, /* STMoveInverterSeriesFilter */
   &mark_reachable_slice, /* STAttackRoot */
-  &mark_reachable_slice, /* STPostKeyPlaySolutionWriter */
+  &mark_reachable_slice, /* STDefenseRoot */
   &mark_reachable_slice, /* STPostKeyPlaySuppressor */
   &mark_reachable_slice, /* STContinuationSolver */
   &mark_reachable_slice, /* STContinuationWriter */
@@ -388,7 +397,12 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STMaxSolutionsSeriesFilter */
   &mark_reachable_slice, /* STStopOnShortSolutionsRootSolvableFilter */
   &mark_reachable_slice, /* STStopOnShortSolutionsHelpFilter */
-  &mark_reachable_slice  /* STStopOnShortSolutionsSeriesFilter */
+  &mark_reachable_slice, /* STStopOnShortSolutionsSeriesFilter */
+  &mark_reachable_slice, /* STEndOfPhaseWriter */
+  &mark_reachable_slice, /* STEndOfSolutionWriter */
+  &mark_reachable_slice, /* STRefutationWriter */
+  &mark_reachable_slice, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &mark_reachable_slice  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Make sure that there are now allocated slices that are not
@@ -631,7 +645,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STMoveInverterSolvableFilter */
   &traverse_and_deallocate,       /* STMoveInverterSeriesFilter */
   &traverse_and_deallocate,       /* STAttackRoot */
-  &traverse_and_deallocate,       /* STPostKeyPlaySolutionWriter */
+  &traverse_and_deallocate,       /* STDefenseRoot */
   &traverse_and_deallocate,       /* STPostKeyPlaySuppressor */
   &traverse_and_deallocate,       /* STContinuationSolver */
   &traverse_and_deallocate,       /* STContinuationWriter */
@@ -692,7 +706,12 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STMaxSolutionsSeriesFilter */
   &traverse_and_deallocate,       /* STStopOnShortSolutionsRootSolvableFilter */
   &traverse_and_deallocate,       /* STStopOnShortSolutionsHelpFilter */
-  &traverse_and_deallocate        /* STStopOnShortSolutionsSeriesFilter */
+  &traverse_and_deallocate,       /* STStopOnShortSolutionsSeriesFilter */
+  &traverse_and_deallocate,       /* STEndOfPhaseWriter */
+  &traverse_and_deallocate,       /* STEndOfSolutionWriter */
+  &traverse_and_deallocate,       /* STRefutationWriter */
+  &traverse_and_deallocate,       /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &traverse_and_deallocate        /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Deallocate slices reachable from a slice
@@ -765,7 +784,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &move_inverter_insert_root,                   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,            /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,            /* STAttackRoot */
-  &stip_traverse_structure_children,            /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,            /* STDefenseRoot */
   &stip_traverse_structure_children,            /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,            /* STContinuationSolver */
   &stip_traverse_structure_children,            /* STContinuationWriter */
@@ -826,7 +845,12 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,            /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,            /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children             /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,            /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,            /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,            /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,            /* STRefutationWriter */
+  &stip_traverse_structure_children,            /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children             /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Wrap the slices representing the initial moves of the solution with
@@ -879,7 +903,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STMoveInverterSolvableFilter */
   &pipe_resolve_proxies,             /* STMoveInverterSeriesFilter */
   &pipe_resolve_proxies,             /* STAttackRoot */
-  &pipe_resolve_proxies,             /* STPostKeyPlaySolutionWriter */
+  &pipe_resolve_proxies,             /* STDefenseRoot */
   &pipe_resolve_proxies,             /* STPostKeyPlaySuppressor */
   &pipe_resolve_proxies,             /* STContinuationSolver */
   &pipe_resolve_proxies,             /* STContinuationWriter */
@@ -940,7 +964,12 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STMaxSolutionsSeriesFilter */
   &pipe_resolve_proxies,             /* STStopOnShortSolutionsRootSolvableFilter */
   &pipe_resolve_proxies,             /* STStopOnShortSolutionsHelpFilter */
-  &pipe_resolve_proxies              /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_resolve_proxies,             /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_resolve_proxies,             /* STEndOfPhaseWriter */
+  &pipe_resolve_proxies,             /* STEndOfSolutionWriter */
+  &pipe_resolve_proxies,             /* STRefutationWriter */
+  &pipe_resolve_proxies,             /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &pipe_resolve_proxies              /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Substitute links to proxy slices by the proxy's target
@@ -1108,7 +1137,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
   &get_max_nr_moves_branch,                  /* STAttackRoot */
-  &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STDefenseRoot */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationSolver */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
@@ -1169,7 +1198,12 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsSeriesFilter */
   &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_moves_pipe                  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STEndOfPhaseWriter */
+  &stip_traverse_moves_pipe,                 /* STEndOfSolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STRefutationWriter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Initialise a move traversal structure
@@ -1284,7 +1318,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STDefenseRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -1345,7 +1379,12 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children, /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children, /* STRefutationWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Determine whether the current stipulation has a unique goal, and
@@ -1560,7 +1599,7 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,   /* STAttackRoot */
-  &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STDefenseRoot */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationSolver */
   &stip_traverse_structure_children,   /* STContinuationWriter */
@@ -1621,7 +1660,12 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children    /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,   /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,   /* STRefutationWriter */
+  &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 static void transform_to_quodlibet_self_defense(slice_index si,
@@ -1726,7 +1770,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,   /* STAttackRoot */
-  &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STDefenseRoot */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationSolver */
   &stip_traverse_structure_children,   /* STContinuationWriter */
@@ -1787,7 +1831,12 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children    /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,   /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,   /* STRefutationWriter */
+  &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -1835,7 +1884,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,              /* STMoveInverterSeriesFilter */
   &attack_root_reduce_to_postkey_play,            /* STAttackRoot */
-  &stip_traverse_structure_children,              /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,              /* STDefenseRoot */
   &stip_traverse_structure_children,              /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,              /* STContinuationSolver */
   &stip_traverse_structure_children,              /* STContinuationWriter */
@@ -1896,7 +1945,12 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,              /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,              /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children               /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,              /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,              /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,              /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,              /* STRefutationWriter */
+  &stip_traverse_structure_children,              /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children               /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Install the slice representing the postkey slice at the stipulation
@@ -1969,7 +2023,7 @@ static stip_structure_visitor const setplay_makers[] =
   &pipe_traverse_next,               /* STMoveInverterSolvableFilter */
   &pipe_traverse_next,               /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STDefenseRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -2030,7 +2084,12 @@ static stip_structure_visitor const setplay_makers[] =
   &pipe_traverse_next,               /* STMaxSolutionsSeriesFilter */
   &pipe_traverse_next,               /* STStopOnShortSolutionsRootSolvableFilter */
   &pipe_traverse_next,               /* STStopOnShortSolutionsHelpFilter */
-  &pipe_traverse_next                /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_traverse_next,               /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_traverse_next,               /* STEndOfPhaseWriter */
+  &pipe_traverse_next,               /* STEndOfSolutionWriter */
+  &pipe_traverse_next,               /* STRefutationWriter */
+  &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &pipe_traverse_next                /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Produce slices representing set play.
@@ -2079,7 +2138,7 @@ static stip_structure_visitor const setplay_appliers[] =
   &move_inverter_apply_setplay,          /* STMoveInverterSolvableFilter */
   &pipe_traverse_next,                   /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,     /* STAttackRoot */
-  &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STDefenseRoot */
   &stip_traverse_structure_children,     /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,     /* STContinuationSolver */
   &stip_traverse_structure_children,     /* STContinuationWriter */
@@ -2140,7 +2199,12 @@ static stip_structure_visitor const setplay_appliers[] =
   &pipe_traverse_next,                   /* STMaxSolutionsSeriesFilter */
   &pipe_traverse_next,                   /* STStopOnShortSolutionsRootSolvableFilter */
   &pipe_traverse_next,                   /* STStopOnShortSolutionsHelpFilter */
-  &pipe_traverse_next                    /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_traverse_next,                   /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_traverse_next,                   /* STEndOfPhaseWriter */
+  &pipe_traverse_next,                   /* STEndOfSolutionWriter */
+  &pipe_traverse_next,                   /* STRefutationWriter */
+  &pipe_traverse_next,                   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &pipe_traverse_next                    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Combine the set play slices into the current stipulation
@@ -2273,7 +2337,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STDefenseRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -2334,7 +2398,12 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children, /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children, /* STRefutationWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Do all leaves of the current stipulation have one of a set of goals?
@@ -2396,7 +2465,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,   /* STAttackRoot */
-  &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STDefenseRoot */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,   /* STContinuationSolver */
   &stip_traverse_structure_children,   /* STContinuationWriter */
@@ -2457,7 +2526,12 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children    /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,   /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,   /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,   /* STRefutationWriter */
+  &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
@@ -2514,7 +2588,7 @@ static stip_structure_visitor const exact_makers[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &make_exact_branch,                /* STAttackRoot */
-  &make_exact_branch,                /* STPostKeyPlaySolutionWriter */
+  &make_exact_branch,                /* STDefenseRoot */
   &make_exact_branch,                /* STPostKeyPlaySuppressor */
   &make_exact_branch,                /* STContinuationSolver */
   &make_exact_branch,                /* STContinuationWriter */
@@ -2575,7 +2649,12 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STMaxSolutionsSeriesFilter */
   &make_exact_branch,                /* STStopOnShortSolutionsRootSolvableFilter */
   &make_exact_branch,                /* STStopOnShortSolutionsHelpFilter */
-  &make_exact_branch                 /* STStopOnShortSolutionsSeriesFilter */
+  &make_exact_branch,                /* STStopOnShortSolutionsSeriesFilter */
+  &make_exact_branch,                /* STEndOfPhaseWriter */
+  &make_exact_branch,                /* STEndOfSolutionWriter */
+  &make_exact_branch,                /* STRefutationWriter */
+  &make_exact_branch,                /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &make_exact_branch                 /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Make the stipulation exact
@@ -2613,7 +2692,7 @@ static stip_structure_visitor const starter_detectors[] =
   &move_inverter_detect_starter,     /* STMoveInverterSolvableFilter */
   &move_inverter_detect_starter,     /* STMoveInverterSeriesFilter */
   &attack_move_detect_starter,       /* STAttackRoot */
-  &pipe_detect_starter,              /* STPostKeyPlaySolutionWriter */
+  &pipe_detect_starter,              /* STDefenseRoot */
   &pipe_detect_starter,              /* STPostKeyPlaySuppressor */
   &pipe_detect_starter,              /* STContinuationSolver */
   &pipe_detect_starter,              /* STContinuationWriter */
@@ -2674,7 +2753,12 @@ static stip_structure_visitor const starter_detectors[] =
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children, /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children, /* STRefutationWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Detect the starting side from the stipulation
@@ -2716,7 +2800,7 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STMoveInverterSolvableFilter */
   &pipe_impose_inverted_starter,  /* STMoveInverterSeriesFilter */
   &pipe_impose_inverted_starter,  /* STAttackRoot */
-  &pipe_impose_starter,           /* STPostKeyPlaySolutionWriter */
+  &pipe_impose_starter,           /* STDefenseRoot */
   &pipe_impose_starter,           /* STPostKeyPlaySuppressor */
   &pipe_impose_starter,           /* STContinuationSolver */
   &pipe_impose_starter,           /* STContinuationWriter */
@@ -2777,7 +2861,12 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_starter,           /* STMaxSolutionsSeriesFilter */
   &pipe_impose_starter,           /* STStopOnShortSolutionsRootSolvableFilter */
   &pipe_impose_starter,           /* STStopOnShortSolutionsHelpFilter */
-  &pipe_impose_starter            /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_impose_starter,           /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_impose_starter,           /* STEndOfPhaseWriter */
+  &pipe_impose_starter,           /* STEndOfSolutionWriter */
+  &pipe_impose_starter,           /* STRefutationWriter */
+  &pipe_impose_starter,           /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &pipe_impose_starter            /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Set the starting side of the stipulation
@@ -3011,7 +3100,7 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STMoveInverterSolvableFilter */
   &traverse_structure_pipe,         /* STMoveInverterSeriesFilter */
   &traverse_structure_pipe,         /* STAttackRoot */
-  &traverse_structure_pipe,         /* STPostKeyPlaySolutionWriter */
+  &traverse_structure_pipe,         /* STDefenseRoot */
   &traverse_structure_pipe,         /* STPostKeyPlaySuppressor */
   &traverse_structure_pipe,         /* STContinuationSolver */
   &traverse_structure_pipe,         /* STContinuationWriter */
@@ -3072,7 +3161,12 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STMaxSolutionsSeriesFilter */
   &traverse_structure_pipe,         /* STStopOnShortSolutionsRootSolvableFilter */
   &traverse_structure_pipe,         /* STStopOnShortSolutionsHelpFilter */
-  &traverse_structure_pipe          /* STStopOnShortSolutionsSeriesFilter */
+  &traverse_structure_pipe,         /* STStopOnShortSolutionsSeriesFilter */
+  &traverse_structure_pipe,         /* STEndOfPhaseWriter */
+  &traverse_structure_pipe,         /* STEndOfSolutionWriter */
+  &traverse_structure_pipe,         /* STRefutationWriter */
+  &traverse_structure_pipe,         /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &traverse_structure_pipe          /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

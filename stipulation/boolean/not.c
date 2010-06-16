@@ -38,12 +38,14 @@ slice_index alloc_not_slice(slice_index op)
 void not_insert_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
+  slice_index not;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *root = si;
+  stip_traverse_structure_children(si,st);
+  *root = alloc_not_slice(*root);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

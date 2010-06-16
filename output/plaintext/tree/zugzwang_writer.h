@@ -1,15 +1,19 @@
-#if !defined(STIPULATION_BATTLE_PLAY_VARIATION_H)
-#define STIPULATION_BATTLE_PLAY_VARIATION_H
+#if !defined(OUTPUT_PLAINTEXT_TREE_ZUGZWANG_WRITER_H)
+#define OUTPUT_PLAINTEXT_TREE_ZUGZWANG_WRITER_H
 
-#include "stipulation/battle_play/attack_play.h"
+#include "boolean.h"
+#include "pystip.h"
+#include "pyslice.h"
 
-/* This module provides functionality dealing with variations
+/* Allocate a STZugzwangWriter slice.
+ * @return index of allocated slice
  */
+slice_index alloc_zugzwang_writer_slice(void);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
  * @param si slice index
- * @param n maximal number of moves
+ * @param n maximum number of half moves until goal
  * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
@@ -19,10 +23,10 @@
  *            n+2 no solution found
  */
 stip_length_type
-variation_writer_has_solution_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_min,
-                                   stip_length_type n_max_unsolvable);
+zugzwang_writer_has_solution_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min,
+                                  stip_length_type n_max_unsolvable);
 
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
@@ -35,14 +39,9 @@ variation_writer_has_solution_in_n(slice_index si,
  *            n_min..n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type variation_writer_solve_in_n(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_min,
-                                             stip_length_type n_max_unsolvable);
-
-/* Instrument the stipulation representation so that it can deal with
- * variations
- */
-void stip_insert_variation_handlers(void);
+stip_length_type zugzwang_writer_solve_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable);
 
 #endif

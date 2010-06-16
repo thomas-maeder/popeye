@@ -1,6 +1,5 @@
 #include "stipulation/battle_play/attack_root.h"
 #include "pydata.h"
-#include "pyoutput.h"
 #include "pypipe.h"
 #include "pyleaf.h"
 #include "stipulation/branch.h"
@@ -51,8 +50,6 @@ has_solution_type attack_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_start_continuation_level(si);
-
   if (min_length==slack_length_battle+1
       && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
     min_length = slack_length_battle+3;
@@ -61,7 +58,6 @@ has_solution_type attack_root_solve(slice_index si)
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
-    active_slice[nbply+1] = si;
     if (length<=slack_length_battle+1
         && slices[si].u.branch.imminent_goal!=no_goal)
     {
@@ -85,8 +81,6 @@ has_solution_type attack_root_solve(slice_index si)
         {
           if (nr_moves_needed<=length-1)
             result = has_solution;
-          if (nr_moves_needed<=length+1)
-            write_end_of_solution();
         }
       }
 
@@ -95,8 +89,6 @@ has_solution_type attack_root_solve(slice_index si)
 
     finply();
   }
-
-  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

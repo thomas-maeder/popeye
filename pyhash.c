@@ -290,7 +290,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STMoveInverterSolvableFilter */
   &slice_property_offset_shifter,    /* STMoveInverterSeriesFilter */
   &slice_property_offset_shifter,    /* STAttackRoot */
-  &slice_property_offset_shifter,    /* STPostKeyPlaySolutionWriter */
+  &slice_property_offset_shifter,    /* STDefenseRoot */
   &slice_property_offset_shifter,    /* STPostKeyPlaySuppressor */
   &slice_property_offset_shifter,    /* STContinuationSolver */
   &slice_property_offset_shifter,    /* STContinuationWriter */
@@ -351,7 +351,12 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STMaxSolutionsSeriesFilter */
   &slice_property_offset_shifter,    /* STStopOnShortSolutionsRootSolvableFilter */
   &slice_property_offset_shifter,    /* STStopOnShortSolutionsHelpFilter */
-  &slice_property_offset_shifter     /* STStopOnShortSolutionsSeriesFilter */
+  &slice_property_offset_shifter,    /* STStopOnShortSolutionsSeriesFilter */
+  &slice_property_offset_shifter,    /* STEndOfPhaseWriter */
+  &slice_property_offset_shifter,    /* STEndOfSolutionWriter */
+  &slice_property_offset_shifter,    /* STRefutationWriter */
+  &slice_property_offset_shifter,    /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &slice_property_offset_shifter     /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 typedef struct
@@ -650,7 +655,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMoveInverterSolvableFilter */
   &init_slice_properties_pipe,           /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,     /* STAttackRoot */
-  &stip_traverse_structure_children,     /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,     /* STDefenseRoot */
   &stip_traverse_structure_children,     /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,     /* STContinuationSolver */
   &stip_traverse_structure_children,     /* STContinuationWriter */
@@ -711,7 +716,12 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMaxSolutionsSeriesFilter */
   &init_slice_properties_pipe,           /* STStopOnShortSolutionsRootSolvableFilter */
   &init_slice_properties_pipe,           /* STStopOnShortSolutionsHelpFilter */
-  &init_slice_properties_pipe            /* STStopOnShortSolutionsSeriesFilter */
+  &init_slice_properties_pipe,           /* STStopOnShortSolutionsSeriesFilter */
+  &init_slice_properties_pipe,           /* STEndOfPhaseWriter */
+  &init_slice_properties_pipe,           /* STEndOfSolutionWriter */
+  &init_slice_properties_pipe,           /* STRefutationWriter */
+  &init_slice_properties_pipe,           /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &init_slice_properties_pipe            /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 static boolean find_slice_with_nonstandard_min_length(void)
@@ -2285,7 +2295,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
   &stip_traverse_moves_branch,               /* STAttackRoot */
-  &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_moves_branch,               /* STDefenseRoot */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationSolver */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
@@ -2346,7 +2356,12 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsSeriesFilter */
   &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_moves_pipe                  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STEndOfPhaseWriter */
+  &stip_traverse_moves_pipe,                 /* STEndOfSolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STRefutationWriter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 void stip_insert_hash_slices(void)

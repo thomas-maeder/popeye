@@ -2755,7 +2755,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMoveInverterSeriesFilter */
   &stip_traverse_moves_branch,               /* STAttackRoot */
-  &stip_traverse_moves_pipe,                 /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STDefenseRoot */
   &stip_traverse_moves_pipe,                 /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                 /* STContinuationSolver */
   &stip_traverse_moves_pipe,                 /* STContinuationWriter */
@@ -2816,7 +2816,12 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsSeriesFilter */
   &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_moves_pipe                  /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STEndOfPhaseWriter */
+  &stip_traverse_moves_pipe,                 /* STEndOfSolutionWriter */
+  &stip_traverse_moves_pipe,                 /* STRefutationWriter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Calculate the number of moves of each side, starting at the root
@@ -3200,7 +3205,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,         /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children,         /* STAttackRoot */
-  &stip_traverse_structure_children,         /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,         /* STDefenseRoot */
   &stip_traverse_structure_children,         /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children,         /* STContinuationSolver */
   &stip_traverse_structure_children,         /* STContinuationWriter */
@@ -3261,7 +3266,12 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,         /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,         /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children          /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,         /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,         /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,         /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,         /* STRefutationWriter */
+  &stip_traverse_structure_children,         /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children          /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Instrument stipulation with STGoalreachableGuard slices
@@ -3530,7 +3540,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children,            /* STMoveInverterSeriesFilter */
   &intelligent_mode_support_none,               /* STAttackRoot */
-  &intelligent_mode_support_none,               /* STPostKeyPlaySolutionWriter */
+  &intelligent_mode_support_none,               /* STDefenseRoot */
   &intelligent_mode_support_none,               /* STPostKeyPlaySuppressor */
   &intelligent_mode_support_none,               /* STContinuationSolver */
   &intelligent_mode_support_none,               /* STContinuationWriter */
@@ -3591,7 +3601,12 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,            /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_children,            /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children             /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,            /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children,            /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children,            /* STEndOfSolutionWriter */
+  &stip_traverse_structure_children,            /* STRefutationWriter */
+  &stip_traverse_structure_children,            /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_traverse_structure_children             /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Determine whether the stipulation supports intelligent mode, and

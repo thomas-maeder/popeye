@@ -4,8 +4,9 @@
 #include "platform/maxtime.h"
 #include "pyoutput.h"
 #include "pyleaf.h"
-#include "pyoutput.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
+#include "output/output.h"
+#include "pyoutput.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -72,7 +73,7 @@ boolean leaf_d_root_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  output_start_continuation_level(leaf);
+  output_start_move_level(leaf);
 
   if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {
@@ -108,8 +109,6 @@ boolean leaf_d_root_solve(slice_index leaf)
     finply();
   }
 
-  output_end_continuation_level();
-
   if (result)
     write_end_of_solution_phase();
 
@@ -133,7 +132,7 @@ boolean leaf_d_solve(slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  output_start_continuation_level(leaf);
+  output_start_move_level(leaf);
 
   if (are_prerequisites_for_reaching_goal_met(goal,attacker))
   {
@@ -161,8 +160,6 @@ boolean leaf_d_solve(slice_index leaf)
 
     finply();
   }
-
-  output_end_continuation_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -1,35 +1,7 @@
 #include "stipulation/battle_play/postkeyplay.h"
-#include "pyoutput.h"
 #include "pypipe.h"
-#include "pydata.h"
-#include "stipulation/branch.h"
+#include "stipulation/battle_play/defense_root.h"
 #include "trace.h"
-
-#include <assert.h>
-
-/* Allocate a STPostKeyPlaySolutionWriter defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-static
-slice_index alloc_postkey_solution_writer_slice(stip_length_type length,
-                                                stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch(STPostKeyPlaySolutionWriter,length,min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Allocate a STPostKeyPlaySuppressor defender slice.
  * @return index of allocated slice
@@ -42,149 +14,6 @@ static slice_index alloc_postkeyplay_suppressor_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STPostKeyPlaySuppressor);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to defend after an attempted key move at non-root level
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - more refutations found than acceptable
- */
-stip_length_type
-postkey_solution_writer_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_min,
-                                    stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
-  write_end_of_solution_phase();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STRefutingVariationWriter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-static
-slice_index alloc_refuting_variation_writer_slice(stip_length_type length,
-                                                  stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch(STRefutingVariationWriter,length,min_length);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-refuting_variation_writer_has_solution_in_n(slice_index si,
-                                            stip_length_type n,
-                                            stip_length_type n_min,
-                                            stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
- *            n+2 no solution found
- */
-stip_length_type
-refuting_variation_writer_solve_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min,
-                                     stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
-
-  if (result>n)
-  {
-    if (encore())
-      write_refutation_mark();
-    else
-    {
-      /* no defense was played - we have been solving threats */
-    }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -220,9 +49,6 @@ postkeyplay_suppressor_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-
-  output_start_defense_level(si);
-  output_end_defense_level();
 
   result = n;
 
@@ -269,98 +95,20 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
 }
 
 
-/* The following enumeration type represents the state of postkey
- * handler insertion; this helps us avoiding unnecessary postkey
- * handler slices
- */
-typedef enum
-{
-  postkey_handler_inserted_none,
-  postkey_handler_inserted_solver,
-  postkey_handler_inserted_writer
-} postkey_handler_insertion_state;
-
-/* Append a variation writer
+/* Remove the STContinuationSolver slice not used in postkey play
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void prepend_refutes_writer(slice_index si, stip_structure_traversal *st)
+static void substitute_defense_root(slice_index si, stip_structure_traversal *st)
 {
-  postkey_handler_insertion_state const * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*state==postkey_handler_inserted_writer
-      && length>slack_length_battle)
-  {
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
-    pipe_append(prev,alloc_refuting_variation_writer_slice(length,min_length));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Append a variation writer
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void substitute_postkey_solution_solver(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  postkey_handler_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*state==postkey_handler_inserted_none)
-  {
-    *state = postkey_handler_inserted_solver;
-    stip_traverse_structure_children(si,st);
-    *state = postkey_handler_inserted_none;
-
-    {
-      stip_length_type const length = slices[si].u.branch.length;
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      pipe_replace(si,alloc_postkey_solution_writer_slice(length,min_length));
-    }
-  }
-  else
-    stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Append a variation writer
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void substitute_postkey_solution_writer(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  postkey_handler_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*state==postkey_handler_inserted_solver)
-  {
-    *state = postkey_handler_inserted_writer;
-    stip_traverse_structure_children(si,st);
-    *state = postkey_handler_inserted_solver;
-
-    pipe_link(slices[si].prev,slices[si].u.pipe.next);
-    dealloc_slice(si);
-  }
-  else
-    stip_traverse_structure_children(si,st);
+  pipe_replace(si,alloc_defense_root_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -385,10 +133,10 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
   &stip_structure_visitor_noop,        /* STMoveInverterSeriesFilter */
   &stip_structure_visitor_noop,        /* STAttackRoot */
-  &stip_traverse_structure_children,   /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children,   /* STDefenseRoot */
   &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
-  &substitute_postkey_solution_solver, /* STContinuationSolver */
-  &substitute_postkey_solution_writer, /* STContinuationWriter */
+  &substitute_defense_root,            /* STContinuationSolver */
+  &stip_traverse_structure_children,   /* STContinuationWriter */
   &stip_traverse_structure_children,   /* STBattlePlaySolver */
   &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children,   /* STThreatSolver */
@@ -396,7 +144,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children,   /* STThreatEnforcer */
   &stip_traverse_structure_children,   /* STThreatCollector */
   &stip_traverse_structure_children,   /* STRefutationsCollector */
-  &prepend_refutes_writer,             /* STVariationWriter */
+  &stip_traverse_structure_children,   /* STVariationWriter */
   &stip_traverse_structure_children,   /* STRefutingVariationWriter */
   &stip_traverse_structure_children,   /* STNoShortVariations */
   &stip_traverse_structure_children,   /* STAttackHashed */
@@ -446,7 +194,12 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_structure_visitor_noop,        /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children,   /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_structure_visitor_noop,        /* STStopOnShortSolutionsHelpFilter */
-  &stip_structure_visitor_noop         /* STStopOnShortSolutionsSeriesFilter */
+  &stip_structure_visitor_noop,        /* STStopOnShortSolutionsSeriesFilter */
+  &stip_structure_visitor_noop,        /* STEndOfPhaseWriter */
+  &stip_structure_visitor_noop,        /* STEndOfSolutionWriter */
+  &stip_structure_visitor_noop,        /* STRefutationWriter */
+  &stip_structure_visitor_noop,        /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_structure_visitor_noop         /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Instrument the stipulation representation so that it can write
@@ -455,14 +208,13 @@ static stip_structure_visitor const postkey_handler_inserters[] =
 void stip_insert_postkey_handlers(void)
 {
   stip_structure_traversal st;
-  postkey_handler_insertion_state state = postkey_handler_inserted_none;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&postkey_handler_inserters,&state);
+  stip_structure_traversal_init(&st,&postkey_handler_inserters,0);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -508,10 +260,10 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_structure_visitor_noop,      /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_children, /* STAttackRoot */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &stip_traverse_structure_children, /* STDefenseRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
-  &stip_traverse_structure_children, /* STContinuationSolver */
-  &append_postkeyplay_suppressor,    /* STContinuationWriter */
+  &append_postkeyplay_suppressor,    /* STContinuationSolver */
+  &stip_traverse_structure_children, /* STContinuationWriter */
   &stip_traverse_structure_children, /* STBattlePlaySolver */
   &stip_traverse_structure_children, /* STBattlePlaySolutionWriter */
   &stip_traverse_structure_children, /* STThreatSolver */
@@ -569,7 +321,12 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_structure_visitor_noop,      /* STMaxSolutionsSeriesFilter */
   &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_structure_visitor_noop,      /* STStopOnShortSolutionsHelpFilter */
-  &stip_structure_visitor_noop       /* STStopOnShortSolutionsSeriesFilter */
+  &stip_structure_visitor_noop,      /* STStopOnShortSolutionsSeriesFilter */
+  &stip_structure_visitor_noop,      /* STEndOfPhaseWriter */
+  &stip_structure_visitor_noop,      /* STEndOfSolutionWriter */
+  &stip_structure_visitor_noop,      /* STRefutationWriter */
+  &stip_structure_visitor_noop,      /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &stip_structure_visitor_noop       /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Instrument the stipulation representation so that post key play is

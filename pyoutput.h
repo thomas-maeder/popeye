@@ -6,11 +6,6 @@
 #include "pystip.h"
 #include "pytable.h"
 
-/* Contains the stipulation slice that was active when the move at a
- * specific ply was played.
- */
-extern slice_index active_slice[maxply];
-
 #define ENUMERATION_TYPENAME output_mode
 #define ENUMERATORS \
   ENUMERATOR(output_mode_tree), \
@@ -21,7 +16,14 @@ extern slice_index active_slice[maxply];
 
 #include "pyenum.h"
 
+/* Set the output mode to be used for the current stipulation
+ */
 void set_output_mode(output_mode mode);
+
+/* Instrument the stipulation structure with slices that implement
+ * the selected output mode.
+ */
+void stip_insert_output_slices(void);
 
 /* Write the appropriate amount of whitespace for the following output
  * to be correctely indented.
@@ -51,23 +53,9 @@ void output_start_threat_level(void);
 void output_end_threat_level(slice_index si, boolean is_zugzwang);
 
 
-/* Start a new output level consisting of regular continuations
+/* Start a new level of moves
  */
-void output_start_continuation_level(slice_index si);
-
-/* End the inner-most output level (which consists of regular
- * continuations)
- */
-void output_end_continuation_level(void);
-
-
-/* Start a new output level for defenses
- */
-void output_start_defense_level(slice_index si);
-
-/* End the inner-most output level (which consists of defenses)
- */
-void output_end_defense_level(void);
+void output_start_move_level(slice_index si);
 
 
 /* Initialize based on the stipulation

@@ -19,11 +19,14 @@
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
-#include "stipulation/battle_play/variation.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
 #include "stipulation/series_play/play.h"
+#include "output/plaintext/tree/check_detector_attacker_filter.h"
+#include "output/plaintext/tree/zugzwang_writer.h"
+#include "output/plaintext/tree/variation_writer.h"
+#include "output/plaintext/tree/refutation_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -172,6 +175,16 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = max_nr_nontrivial_counter_has_solution_in_n(si,
                                                            n,n_min,
                                                            n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeCheckDetectorAttackerFilter:
+      result = output_plaintext_tree_check_detector_has_solution_in_n(si,
+                                                                      n,n_min,
+                                                                      n_max_unsolvable);
+      break;
+
+    case STRefutationWriter:
+      result = refutation_writer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     default:
@@ -345,6 +358,16 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = max_nr_nontrivial_counter_solve_in_n(si,
                                                     n,n_min,
                                                     n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeCheckDetectorAttackerFilter:
+      result = output_plaintext_tree_check_detector_solve_in_n(si,
+                                                               n,n_min,
+                                                               n_max_unsolvable);
+      break;
+
+    case STRefutationWriter:
+      result = refutation_writer_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     default:

@@ -7,6 +7,8 @@
 #include "py1.h"
 #include "conditions/republican.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
+#include "output/output.h"
+#include "output/plaintext/tree/tree.h"
 #include "trace.h"
 #ifdef _SE_
 #include "se.h"
@@ -29,8 +31,6 @@ static output_mode current_mode = output_mode_none;
 
 static unsigned int nr_color_inversions_in_ply[maxply];
 static unsigned int nr_color_inversions;
-
-slice_index active_slice[maxply];
 
 static boolean is_threat[maxply];
 
@@ -61,7 +61,23 @@ void set_output_mode(output_mode mode)
     TraceValue("%u\n",nbply);
     nr_moves_written[nbply+1] = 0;
     nr_moves_written[nbply+2] = 0;
+    pending_check = 0;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with slices that implement
+ * the selected output mode.
+ */
+void stip_insert_output_slices(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (current_mode==output_mode_tree)
+    stip_insert_output_plaintext_tree_slices();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -158,7 +174,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
   &output_mode_treemode,             /* STAttackRoot */
-  &stip_traverse_structure_children, /* STPostKeyPlaySolutionWriter */
+  &output_mode_treemode,             /* STDefenseRoot */
   &stip_traverse_structure_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_children, /* STContinuationSolver */
   &stip_traverse_structure_children, /* STContinuationWriter */
@@ -219,7 +235,12 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
   &pipe_traverse_next,               /* STStopOnShortSolutionsRootSolvableFilter */
   &pipe_traverse_next,               /* STStopOnShortSolutionsHelpFilter */
-  &pipe_traverse_next                /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_traverse_next,               /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_traverse_next,               /* STEndOfPhaseWriter */
+  &pipe_traverse_next,               /* STEndOfSolutionWriter */
+  &pipe_traverse_next,               /* STRefutationWriter */
+  &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &pipe_traverse_next                /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Initialize based on the stipulation
@@ -233,7 +254,7 @@ void init_output(slice_index si)
   TraceFunctionParamListEnd();
 
   current_mode = output_mode_none;
-  
+
   stip_structure_traversal_init(&st,&output_mode_detectors,&current_mode);
   stip_traverse_structure(si,&st);
 
@@ -338,19 +359,16 @@ void output_start_threat_level(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree)
-  {
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",nr_moves_written[nbply]);
-    if (nr_moves_written[nbply-1]==0)
-      /* option postkey is set - write "threat:" or "zugzwang" on a
-       * new line
-       */
-      Message(NewLine);
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",nr_moves_written[nbply]);
+  if (nr_moves_written[nbply-1]==0)
+    /* option postkey is set - write "threat:" or "zugzwang" on a new
+     * line
+     */
+    Message(NewLine);
 
-    /* nbply will be increased by genmove() in a moment */
-    is_threat[nbply+1] = true;
-  }
+  /* nbply will be increased by genmove() in a moment */
+  is_threat[nbply+1] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -363,92 +381,32 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree)
+  if (is_zugzwang)
   {
-    if (is_zugzwang)
-    {
-      write_pending_decoration();
-      StdChar(blank);
-      Message(Zugzwang);
-    }
-
-    is_threat[nbply+1] = false;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Start a new output level consisting of regular continuations
- */
-void output_start_continuation_level(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree)
-  {
-    TraceValue("%u\n",nr_moves_written[nbply+1]);
-    if (nbply>1
-        && encore()
-        && nr_moves_written[nbply+1]==0
-        && echecc(nbply,slices[si].starter))
-      pending_check = pending_check_detected;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* End the inner-most output level (which consists of regular
- * continuations)
- */
-void output_end_continuation_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
-/* Start a new output level for defenses
- */
-void output_start_defense_level(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree)
-  {
-    TraceValue("%u\n",nr_moves_written[nbply+1]);
-    if (nr_moves_written[nbply+1]==0
-        && echecc(nbply,slices[si].starter))
-      pending_check = pending_check_detected;
-
     write_pending_decoration();
+    StdChar(blank);
+    Message(Zugzwang);
   }
+
+  is_threat[nbply+1] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* End the inner-most output level (which consists of defenses)
+/* Start a new level of moves
  */
-void output_end_defense_level(void)
+void output_start_move_level(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree)
-  {
-    /* prevent output_start_defense_level from writing another check
-     * sign for the same attack
-     */
-    ++nr_moves_written[nbply+1];
-    TraceValue("->%u\n",nr_moves_written[nbply+1]);
-  }
+  TraceValue("%u\n",nr_moves_written[nbply+1]);
+  if (nbply>1     /* don't report checks in the diagram position */
+      && encore() /* no need to test check if we are solving threats*/
+      && nr_moves_written[nbply+1]==0 /* have we already tested? */
+      && echecc(nbply,slices[si].starter))
+    pending_check = pending_check_detected;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -672,11 +630,8 @@ void write_end_of_solution(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (current_mode==output_mode_tree)
-  {
-    write_pending_decoration();
-    Message(NewLine);
-  }
+  write_pending_decoration();
+  Message(NewLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -984,6 +939,7 @@ void write_refutations_intro(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  write_pending_decoration();
   Message(NewLine);
   sprintf(GlobalStr,"%*c",4,blank);
   StdString(GlobalStr);

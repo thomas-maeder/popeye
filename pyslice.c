@@ -70,12 +70,20 @@ has_solution_type slice_solve(slice_index si)
     case STReflexAttackerFilter:
     case STDegenerateTree:
     case STVariationWriter:
+    case STOutputPlaintextTreeCheckDetectorAttackerFilter:
       result = attack_solve(si);
+      break;
+
+    case STDefenseRoot:
+      result = defense_root_solve(si);
       break;
 
     case STSelfCheckGuardDefenderFilter:
     case STContinuationSolver:
+    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
     case STDefenseMove:
+    case STReflexDefenderFilter:
+    case STThreatSolver:
       if (defense_can_defend(si))
         result = has_no_solution;
       else
@@ -84,10 +92,6 @@ has_solution_type slice_solve(slice_index si)
         assert(!defend_result);
         result = has_solution;
       }
-      break;
-
-    case STPostKeyPlaySolutionWriter:
-      result = defense_root_solve(si);
       break;
 
     case STHelpRoot:
@@ -154,6 +158,10 @@ has_solution_type slice_solve(slice_index si)
       result = stoponshortsolutions_root_solvable_filter_solve(si);
       break;
 
+    case STEndOfPhaseWriter:
+      result = end_of_phase_writer_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -207,6 +215,7 @@ has_solution_type slice_has_solution(slice_index si)
     case STDegenerateTree:
     case STAttackHashed:
     case STVariationWriter:
+    case STOutputPlaintextTreeCheckDetectorAttackerFilter:
       result = attack_has_solution(si);
       break;
 

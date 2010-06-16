@@ -1,11 +1,16 @@
 #if !defined(STIPULATION_BATTLE_PLAY_TRY_H)
 #define STIPULATION_BATTLE_PLAY_TRY_H
 
+#include "pytable.h"
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with writing tries.
  * This functionality is a superset of that provided by solution_writer
  */
+
+/* are we currently solving refutations?
+ * Exposed for read-only access only */
+extern boolean are_we_solving_refutations;
 
 /* Read the maximum number of refutations that the user is interested
  * to see

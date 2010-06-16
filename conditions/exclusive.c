@@ -4,6 +4,7 @@
 #include "pymsg.h"
 #include "pydata.h"
 #include "pyoutput.h"
+#include "output/output.h"
 #include "trace.h"
 
 static slice_index exclusive_goal_leaf;

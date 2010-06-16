@@ -40,16 +40,14 @@ pyoutput.h:
 
 trace.h:
 stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \
-  stipulation/help_play/move.h pydata.h pyoutput.h pyslice.h pybrafrk.h \
-  pypipe.h pyleaf.h stipulation/branch.h stipulation/proxy.h \
+  stipulation/help_play/move.h pydata.h pyslice.h pybrafrk.h pypipe.h \
+  pyleaf.h stipulation/branch.h stipulation/proxy.h \
   stipulation/help_play/play.h stipulation/help_play/root.h \
-  stipulation/help_play/shortcut.h trace.h
+  stipulation/help_play/shortcut.h output/output.h trace.h
 
 stipulation/help_play/move.h:
 
 pydata.h:
-
-pyoutput.h:
 
 pyslice.h:
 
@@ -68,6 +66,8 @@ stipulation/help_play/play.h:
 stipulation/help_play/root.h:
 
 stipulation/help_play/shortcut.h:
+
+output/output.h:
 
 trace.h:
 stipulation/help_play/shortcut$(OBJ_SUFFIX): stipulation/help_play/shortcut.c \

@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.105 2010/06/08 16:44:15 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.106 2010/06/16 18:29:52 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -204,7 +204,9 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 		optimisations/intelligent \
 		optimisations/maxtime optimisations/maxsolutions \
 		optimisations/stoponshortsolutions \
-		options/no_short_variations
+		options/no_short_variations \
+		output \
+		output/plaintext/tree
 
 NESTEDLIBDIRS = . DHT platform platform/$(PLATFORM) \
 		conditions \
@@ -214,7 +216,9 @@ NESTEDLIBDIRS = . DHT platform platform/$(PLATFORM) \
 		optimisations/intelligent \
 		optimisations/maxtime optimisations/maxsolutions \
 		optimisations/stoponshortsolutions \
-		options/no_short_variations
+		options/no_short_variations \
+		output \
+		output/plaintext/tree
 
 STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \

@@ -19,34 +19,11 @@
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
+#include "output/plaintext/tree/check_detector_defender_filter.h"
+#include "output/plaintext/tree/end_of_solution_writer.h"
 #include "trace.h"
 
 #include <assert.h>
-
-/* Solve a slice
- * @param si slice index
- * @return whether there is a solution and (to some extent) why not
- */
-has_solution_type defense_root_solve(slice_index si)
-{
-  has_solution_type result;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const n_max_unsolvable = min_length-2;
-  stip_length_type nr_moves_needed;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  nr_moves_needed = defense_defend_in_n(si,length,min_length,n_max_unsolvable);
-  result = nr_moves_needed<=length ? has_solution : has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
 
 /* Try to defend after an attempted key move at non-root level
  * When invoked with some n, the function assumes that the key doesn't
@@ -99,12 +76,6 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STThreatSolver:
       result = threat_solver_defend_in_n(si,n,n_min,n_max_unsolvable);
-      break;
-
-    case STPostKeyPlaySolutionWriter:
-      result = postkey_solution_writer_defend_in_n(si,
-                                                   n,n_min,
-                                                   n_max_unsolvable);
       break;
 
     case STPostKeyPlaySuppressor:
@@ -189,6 +160,18 @@ stip_length_type defense_defend_in_n(slice_index si,
           result = n+4;
           break;
       }
+      break;
+
+    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
+      result = output_plaintext_tree_check_detector_defend_in_n(si,
+                                                                n,n_min,
+                                                                n_max_unsolvable);
+      break;
+
+    case STEndOfSolutionWriter:
+      result = end_of_solution_writer_defend_in_n(si,
+                                                  n,n_min,
+                                                  n_max_unsolvable);
       break;
 
     default:
@@ -355,6 +338,12 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       }
       break;
 
+    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
+      result = output_plaintext_tree_check_detector_can_defend_in_n(si,
+                                                                    n,n_max_unsolvable,
+                                                                    max_nr_refutations);
+      break;
+
     default:
       assert(0);
       break;
@@ -381,12 +370,13 @@ boolean defense_defend(slice_index si)
   boolean result = true;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
+  stip_length_type n_max_unsolvable = min_length-2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = defense_defend_in_n(si,length,min_length,min_length-2)>length;
+  result = defense_defend_in_n(si,length,min_length,n_max_unsolvable)>length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

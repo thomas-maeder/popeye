@@ -1,12 +1,11 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pyselfcg.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/move.h"
-#include "pyoutput.h"
+#include "output/output.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -26,9 +25,6 @@ slice_index alloc_defense_move_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  if (min_length<=slack_length_battle)
-    min_length += 2;
-  assert(min_length>slack_length_battle);
   result = alloc_branch(STDefenseMove,length,min_length);
 
   TraceFunctionExit(__func__);
@@ -165,8 +161,6 @@ stip_length_type defense_move_defend_in_n(slice_index si,
 
   n_max_unsolvable = slack_length_battle-parity;
 
-  output_start_defense_level(si);
-  
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
   genmove(defender);
@@ -185,8 +179,6 @@ stip_length_type defense_move_defend_in_n(slice_index si,
   }
 
   finply();
-
-  output_end_defense_level();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
