@@ -26,7 +26,7 @@ boolean read_max_nr_refutations(char const *tok);
  */
 void set_max_nr_refutations(unsigned int mnr);
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
@@ -46,8 +46,7 @@ battle_play_solver_defend_in_n(slice_index si,
                                stip_length_type n_min,
                                stip_length_type n_max_unsolvable);
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
@@ -64,8 +63,7 @@ battle_play_solver_can_defend_in_n(slice_index si,
                                    stip_length_type n_max_unsolvable,
                                    unsigned int max_nr_refutations);
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
@@ -82,7 +80,7 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
                                             stip_length_type n_max_unsolvable,
                                             unsigned int max_nr_refutations);
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index

@@ -78,15 +78,17 @@ has_solution_type selfcheck_guard_root_solve(slice_index si);
 void selfcheckguard_defender_filter_reduce_to_postkey_play(slice_index si,
                                                            stip_structure_traversal *st);
 
-/* Solve a slice at non-root level
+/* Solve a slice at
  * @param si slice index
  * @return true iff >=1 solution was found
  */
 has_solution_type selfcheck_guard_solve(slice_index si);
 
-/* Solve a slice at non-root level
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
- * @param n maximum number of half moves until goal
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
  * @param n_min minimal number of half moves to try
  * @return length of solution found and written, i.e.:
  *            n_min-2 defense has turned out to be illegal
@@ -130,7 +132,7 @@ has_solution_type selfcheck_guard_has_solution(slice_index si);
 void selfcheck_guard_solvable_filter_insert_root(slice_index si,
                                                  stip_structure_traversal *st);
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
@@ -149,8 +151,7 @@ stip_length_type selfcheck_guard_defend_in_n(slice_index si,
                                              stip_length_type n_min,
                                              stip_length_type n_max_unsolvable);
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we

@@ -22,7 +22,7 @@ slice_index alloc_end_of_solution_writer_slice(void)
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index

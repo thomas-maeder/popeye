@@ -134,7 +134,7 @@ static slice_index alloc_restart_guard_series_filter(void)
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index

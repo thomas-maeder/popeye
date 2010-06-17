@@ -211,7 +211,7 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice at root level
+/* Solve a slice
  * @param si slice index
  * @return true iff >=1 solution was found
  */
@@ -386,7 +386,7 @@ void reflex_defender_filter_insert_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Try to defend after an attempted key move at non-root level.
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
@@ -429,8 +429,7 @@ reflex_defender_filter_defend_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we

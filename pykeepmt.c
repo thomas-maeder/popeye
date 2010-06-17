@@ -182,7 +182,7 @@ keepmating_guard_direct_solve_in_n(slice_index si,
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Try to defend after an attempted key move at non-root level.
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
@@ -225,8 +225,7 @@ stip_length_type keepmating_guard_defend_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we

@@ -53,7 +53,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
                                             stip_length_type n_min,
                                             stip_length_type n_max_unsolvable);
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
@@ -73,8 +73,7 @@ threat_collector_defend_in_n(slice_index si,
                              stip_length_type n_min,
                              stip_length_type n_max_unsolvable);
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
@@ -92,7 +91,7 @@ threat_collector_can_defend_in_n(slice_index si,
                                  stip_length_type n_max_unsolvable,
                                  unsigned int max_nr_refutations);
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
@@ -110,8 +109,7 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
                                            stip_length_type n_min,
                                            stip_length_type n_max_unsolvable);
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_min minimum number of half-moves of interesting variations

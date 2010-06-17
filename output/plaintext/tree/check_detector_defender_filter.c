@@ -30,8 +30,7 @@ alloc_output_plaintext_tree_check_detector_defender_filter_slice(stip_length_typ
   return result;
 }
 
-/* Determine whether there are refutations after an attempted key move
- * at non-root level
+/* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
@@ -66,7 +65,7 @@ output_plaintext_tree_check_detector_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Try to defend after an attempted key move at non-root level
+/* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
  * @param si slice index
