@@ -473,7 +473,7 @@ static void prepend_threat_solver(slice_index si, stip_structure_traversal *st)
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
-static void prepend_threat_enforcer(slice_index si, stip_structure_traversal *st)
+static void append_threat_enforcer(slice_index si, stip_structure_traversal *st)
 {
   threat_handler_insertion_state * const state = st->param;
   threat_handler_insertion_state const save_state = *state;
@@ -485,7 +485,7 @@ static void prepend_threat_enforcer(slice_index si, stip_structure_traversal *st
 
   if (length>slack_length_battle && *state==threat_handler_inserted_solver)
   {
-    pipe_append(slices[si].prev,alloc_threat_enforcer_slice());
+    pipe_append(si,alloc_threat_enforcer_slice());
     *state = threat_handler_inserted_enforcer;
   }
 
@@ -511,19 +511,10 @@ static void append_threat_collector(slice_index si, stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle)
+  if (length>slack_length_battle && *state==threat_handler_inserted_enforcer)
   {
-    if (*state==threat_handler_inserted_solver)
-    {
-      pipe_append(slices[si].prev,alloc_threat_enforcer_slice());
-      *state = threat_handler_inserted_enforcer;
-    }
-
-    if (*state==threat_handler_inserted_enforcer)
-    {
-      pipe_append(si,alloc_threat_collector_slice());
-      *state = threat_handler_inserted_collector;
-    }
+    pipe_append(si,alloc_threat_collector_slice());
+    *state = threat_handler_inserted_collector;
   }
 
   stip_traverse_structure_children(si,st);
@@ -599,7 +590,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STSeriesHashed */
   &stip_traverse_structure_children,     /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_children,     /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,     /* STSelfCheckGuardAttackerFilter */
+  &append_threat_enforcer,               /* STSelfCheckGuardAttackerFilter */
   &stip_traverse_structure_children,     /* STSelfCheckGuardDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfCheckGuardHelpFilter */
   &stip_traverse_structure_children,     /* STSelfCheckGuardSeriesFilter */
@@ -607,7 +598,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STReflexRootFilter */
   &stip_traverse_structure_children,     /* STReflexHelpFilter */
   &stip_traverse_structure_children,     /* STReflexSeriesFilter */
-  &prepend_threat_enforcer,              /* STReflexAttackerFilter */
+  &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
   &stip_traverse_structure_children,     /* STRestartGuardRootDefenderFilter */
