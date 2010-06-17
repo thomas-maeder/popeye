@@ -22,7 +22,6 @@ typedef enum
   postkey_play_unknown,
   postkey_play_exclusively,
   postkey_play_included,
-  postkey_play_suppressed
 } postkey_play_state_type;
 
 static postkey_play_state_type postkey_play_state;
@@ -116,20 +115,17 @@ static void instrument_attack_move(slice_index si, stip_structure_traversal *st)
   pipe_traverse_next(si,st);
   variation_writer_insertion_state = save_state;
 
-  if (postkey_play_state!=postkey_play_suppressed)
+  if (variation_writer_insertion_state==variation_writer_needed)
   {
-    if (variation_writer_insertion_state==variation_writer_needed)
-    {
-      if (postkey_play_state==postkey_play_exclusively)
-        pipe_append(slices[si].prev,alloc_refuting_variation_writer_slice(length,
-                                                                          min_length));
-      pipe_append(slices[si].prev,alloc_variation_writer_slice(length,
-                                                               min_length));
-    }
-
-    pipe_append(slices[si].prev,
-                alloc_output_plaintext_tree_check_detector_attacker_filter_slice(length,min_length));
+    if (postkey_play_state==postkey_play_exclusively)
+      pipe_append(slices[si].prev,alloc_refuting_variation_writer_slice(length,
+                                                                        min_length));
+    pipe_append(slices[si].prev,alloc_variation_writer_slice(length,
+                                                             min_length));
   }
+
+  pipe_append(slices[si].prev,
+              alloc_output_plaintext_tree_check_detector_attacker_filter_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -137,24 +133,19 @@ static void instrument_attack_move(slice_index si, stip_structure_traversal *st)
 
 static void instrument_defense_move(slice_index si, stip_structure_traversal *st)
 {
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (postkey_play_state!=postkey_play_suppressed)
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
+  pipe_append(slices[si].prev,
+              alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
 
-    pipe_append(slices[si].prev,
-                alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
-
-    variation_writer_insertion_state = variation_writer_needed;
-    stip_traverse_structure_children(si,st);
-    variation_writer_insertion_state = variation_writer_none;
-  }
-  else
-    stip_traverse_structure_children(si,st);
+  variation_writer_insertion_state = variation_writer_needed;
+  stip_traverse_structure_children(si,st);
+  variation_writer_insertion_state = variation_writer_none;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -215,17 +206,12 @@ static void instrument_battle_play_solver(slice_index si,
 static void instrument_postkeyplay_suppressor(slice_index si,
                                               stip_structure_traversal *st)
 {
-  postkey_play_state_type const save_postkey_play_state = postkey_play_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  postkey_play_state = postkey_play_suppressed;
-  stip_traverse_structure_children(si,st);
-  postkey_play_state = save_postkey_play_state;
 
   pipe_append(slices[si].prev,
               alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
