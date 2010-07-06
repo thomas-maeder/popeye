@@ -2684,7 +2684,7 @@ static stip_structure_visitor const starter_detectors[] =
   &branch_fork_detect_starter,       /* STSeriesFork */
   &leaf_d_detect_starter,            /* STLeafDirect */
   &leaf_h_detect_starter,            /* STLeafHelp */
-  &leaf_forced_detect_starter,       /* STLeafForced */
+  &stip_structure_visitor_noop,      /* STLeafForced */
   &reci_detect_starter,              /* STReciprocal */
   &quodlibet_detect_starter,         /* STQuodlibet */
   &pipe_detect_starter,              /* STNot */

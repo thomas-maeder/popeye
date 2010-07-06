@@ -92,17 +92,3 @@ has_solution_type leaf_forced_solve(slice_index leaf)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void leaf_forced_detect_starter(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
