@@ -4,6 +4,7 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/battle_play/defense_root.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/series_play/play.h"
@@ -23,6 +24,7 @@
 #include "pypipe.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
+#include "output/plaintext/tree/end_of_phase_writer.h"
 
 #include <assert.h>
 #include <stdlib.h>
