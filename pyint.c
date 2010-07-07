@@ -59,7 +59,7 @@ typedef struct {
 
 boolean isIntelligentModeActive;
 
-static Goal goal_to_be_reached;
+static goal_type goal_to_be_reached;
 
 static int MaxPieceAll;
 static int MaxPiece[nr_sides];
@@ -2514,7 +2514,7 @@ static boolean CleanupSols(void)
     return false;
 }
 
-static void IntelligentRegularGoals(stip_length_type n)
+static void IntelligentRegulargoal_types(stip_length_type n)
 {
   square const *bnp;
   piece p;
@@ -2667,7 +2667,7 @@ static void moves_left_leaf_direct(slice_index si, stip_move_traversal *st)
   TraceFunctionParamListEnd();
 
   assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.leaf.goal;
+  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
   ++MovesLeft[White];
 
   TraceValue("%u",MovesLeft[White]);
@@ -2688,7 +2688,7 @@ static void moves_left_leaf_help(slice_index si, stip_move_traversal *st)
   TraceFunctionParamListEnd();
 
   assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.leaf.goal;
+  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
   ++MovesLeft[slices[si].starter];
 
   TraceValue("%u",MovesLeft[White]);
@@ -2709,7 +2709,7 @@ static void moves_left_leaf_forced(slice_index si, stip_move_traversal *st)
   TraceFunctionParamListEnd();
 
   assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.leaf.goal;
+  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2747,7 +2747,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &moves_left_leaf_direct,                   /* STLeafDirect */
   &moves_left_leaf_help,                     /* STLeafHelp */
-  &moves_left_leaf_forced,                   /* STLeafForced */
+  &moves_left_leaf_forced,                   /* STGoalReachedTester */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */
@@ -3197,7 +3197,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STSeriesFork */
   &stip_structure_visitor_noop,              /* STLeafDirect */
   &stip_structure_visitor_noop,              /* STLeafHelp */
-  &stip_structure_visitor_noop,              /* STLeafForced */
+  &stip_structure_visitor_noop,              /* STGoalReachedTester */
   &stip_traverse_structure_children,         /* STReciprocal */
   &stip_traverse_structure_children,         /* STQuodlibet */
   &stip_traverse_structure_children,         /* STNot */
@@ -3274,7 +3274,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children          /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
-/* Instrument stipulation with STGoalreachableGuard slices
+/* Instrument stipulation with STgoal_typereachableGuard slices
  */
 static void stip_insert_intelligent_guards(void)
 {
@@ -3338,7 +3338,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
       || goal_to_be_reached==goal_proof)
     IntelligentProof(n,full_length);
   else if (!help_too_short(n))
-    IntelligentRegularGoals(n);
+    IntelligentRegulargoal_types(n);
 
   result = CleanupSols();
 
@@ -3389,7 +3389,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
       || goal_to_be_reached==goal_proof)
     IntelligentProof(n,full_length);
   else if (!series_too_short(n))
-    IntelligentRegularGoals(n);
+    IntelligentRegulargoal_types(n);
 
   result = CleanupSols();
 
@@ -3452,7 +3452,7 @@ static void intelligent_mode_support_detector_leaf(slice_index si,
   TraceFunctionParamListEnd();
 
   if (*support!=intelligent_not_supported)
-    switch (slices[si].u.leaf.goal)
+    switch (slices[si].u.goal_reached_tester.goal.type)
     {
       case goal_proof:
       case goal_atob:
@@ -3532,7 +3532,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_fork,      /* STSeriesFork */
   &intelligent_mode_support_detector_leaf,      /* STLeafDirect */
   &intelligent_mode_support_detector_leaf,      /* STLeafHelp */
-  &intelligent_mode_support_detector_leaf,      /* STLeafForced */
+  &intelligent_mode_support_detector_leaf,      /* STGoalReachedTester */
   &intelligent_mode_support_none,               /* STReciprocal */
   &intelligent_mode_support_detector_quodlibet, /* STQuodlibet */
   &intelligent_mode_support_none,               /* STNot */

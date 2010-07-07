@@ -19,21 +19,20 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
 {
   has_solution_type result = has_no_solution;
   Side const attacker = slices[leaf].starter;
-  Goal const goal = slices[leaf].u.leaf.goal;
+  Goal const goal = slices[leaf].u.goal_reached_tester.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
+  if (are_prerequisites_for_reaching_goal_met(goal.type,attacker))
   {
     move_generation_mode = move_generation_optimized_by_killer_move;
     TraceValue("->%u\n",move_generation_mode);
     empile_for_goal = goal;
-    empile_for_target = slices[leaf].u.leaf.target;
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
 
     while (encore() && result==has_no_solution)
     {
@@ -66,7 +65,7 @@ has_solution_type leaf_d_has_solution(slice_index leaf)
 boolean leaf_d_root_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
-  Goal const goal = slices[leaf].u.leaf.goal;
+  Goal const goal = slices[leaf].u.goal_reached_tester.goal;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -75,16 +74,15 @@ boolean leaf_d_root_solve(slice_index leaf)
 
   output_start_move_level(leaf);
 
-  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
+  if (are_prerequisites_for_reaching_goal_met(goal.type,attacker))
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     empile_for_goal = goal;
-    empile_for_target = slices[leaf].u.leaf.target;
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
 
     reset_nr_found_solutions_per_phase();
 
@@ -95,7 +93,7 @@ boolean leaf_d_root_solve(slice_index leaf)
       {
         result = true;
         write_battle_move();
-        write_goal(slices[leaf].u.leaf.goal);
+        write_goal(slices[leaf].u.goal_reached_tester.goal.type);
         write_battle_move_decoration(nbply,attack_key);
         write_end_of_solution();
       }
@@ -125,7 +123,7 @@ boolean leaf_d_root_solve(slice_index leaf)
 boolean leaf_d_solve(slice_index leaf)
 {
   Side const attacker = slices[leaf].starter;
-  Goal const goal = slices[leaf].u.leaf.goal;
+  Goal const goal = slices[leaf].u.goal_reached_tester.goal;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -134,16 +132,15 @@ boolean leaf_d_solve(slice_index leaf)
 
   output_start_move_level(leaf);
 
-  if (are_prerequisites_for_reaching_goal_met(goal,attacker))
+  if (are_prerequisites_for_reaching_goal_met(goal.type,attacker))
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     empile_for_goal = goal;
-    empile_for_target = slices[leaf].u.leaf.target;
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
 
     while (encore())
     {
@@ -152,7 +149,7 @@ boolean leaf_d_solve(slice_index leaf)
       {
         result = true;
         write_battle_move();
-        write_goal(slices[leaf].u.leaf.goal);
+        write_goal(slices[leaf].u.goal_reached_tester.goal.type);
       }
 
       repcoup();

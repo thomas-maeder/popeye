@@ -81,6 +81,7 @@
 #include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyselfcg.h"
+#include "stipulation/goal_reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -1742,7 +1743,7 @@ static char *ParsePieSpec(char echo)
 typedef struct
 {
     char const *inputText;
-    Goal goal;
+    goal_type goal;
  } goalInputConfig_t;
 
 /* make sure that input strings that are substrings of other strings
@@ -1867,7 +1868,7 @@ static char *ParseLength(char *tok,
   return tok;
 }
 
-static char *ParseGoal(char *tok, SliceType type, slice_index proxy)
+static char *Parsegoal_type(char *tok, slice_index proxy)
 {
   goalInputConfig_t const *gic;
 
@@ -1880,11 +1881,11 @@ static char *ParseGoal(char *tok, SliceType type, slice_index proxy)
     {
       if (gic->goal==goal_target)
       {
-        slice_index const leaf
-            = alloc_target_leaf_slice(type,SquareNum(tok[1],tok[2]));
+        Goal const goal_leaf = { goal_target, SquareNum(tok[1],tok[2]) };
+        slice_index const leaf = alloc_goal_reached_tester_slice(goal_leaf);
         pipe_link(proxy,leaf);
 
-        if (slices[leaf].u.leaf.target==initsquare)
+        if (slices[leaf].u.goal_reached_tester.goal.target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
           tok = 0;
@@ -1895,9 +1896,12 @@ static char *ParseGoal(char *tok, SliceType type, slice_index proxy)
       }
       else if (gic->goal==goal_mate_or_stale)
       {
-        slice_index const leaf_mate = alloc_leaf_slice(type,goal_mate);
+        Goal const goal_leaf_mate = { goal_mate, initsquare };
+        slice_index const leaf_mate = alloc_goal_reached_tester_slice(goal_leaf_mate);
         slice_index const proxy_mate = alloc_proxy_slice();
-        slice_index const leaf_stale = alloc_leaf_slice(type,goal_stale);
+
+        Goal const goal_leaf_stale = { goal_stale, initsquare };
+        slice_index const leaf_stale = alloc_goal_reached_tester_slice(goal_leaf_stale);
         slice_index const proxy_stale = alloc_proxy_slice();
         slice_index const quod = alloc_quodlibet_slice(proxy_mate,proxy_stale);
 
@@ -1909,7 +1913,8 @@ static char *ParseGoal(char *tok, SliceType type, slice_index proxy)
       }
       else
       {
-        slice_index const leaf = alloc_leaf_slice(type,gic->goal);
+        Goal const goal_leaf = { gic->goal, initsquare };
+        slice_index const leaf = alloc_goal_reached_tester_slice(goal_leaf);
 
         pipe_link(proxy,leaf);
 
@@ -1961,7 +1966,7 @@ static void alloc_reci_end(slice_index *proxy_nonreci,
                                   proxy_to_reci_leaf);
 }
 
-static char *ParseReciGoal(char *tok,
+static char *ParseRecigoal_type(char *tok,
                            slice_index *proxy_nonreci,
                            slice_index *proxy_reci)
 {
@@ -1977,13 +1982,13 @@ static char *ParseReciGoal(char *tok,
     if (closingParenPos!=0)
     {
       slice_index const proxy_to_reci_leaf = alloc_proxy_slice();
-      tok = ParseGoal(tok+1,STLeafForced,proxy_to_reci_leaf);
+      tok = Parsegoal_type(tok+1,proxy_to_reci_leaf);
       if (tok!=0)
       {
         if (tok==closingParenPos)
         {
           slice_index const proxy_to_nonreci_leaf = alloc_proxy_slice();
-          result = ParseGoal(tok+1,STLeafForced,proxy_to_nonreci_leaf);
+          result = Parsegoal_type(tok+1,proxy_to_nonreci_leaf);
           if (result!=NULL)
           {
             slice_index const
@@ -2003,12 +2008,12 @@ static char *ParseReciGoal(char *tok,
   else
   {
     slice_index const proxy_to_nonreci_leaf = alloc_proxy_slice();
-    result = ParseGoal(tok,STLeafForced,proxy_to_nonreci_leaf);
+    result = Parsegoal_type(tok,proxy_to_nonreci_leaf);
     if (result!=NULL)
     {
       slice_index const nonreci_leaf = slices[proxy_to_nonreci_leaf].u.pipe.next;
-      slice_index const goal = slices[nonreci_leaf].u.leaf.goal;
-      slice_index const reci_leaf = alloc_leaf_slice(STLeafForced,goal);
+      Goal const goal = slices[nonreci_leaf].u.goal_reached_tester.goal;
+      slice_index const reci_leaf = alloc_goal_reached_tester_slice(goal);
       slice_index const proxy_to_reci_leaf = alloc_proxy_slice();
       pipe_link(proxy_to_reci_leaf,reci_leaf);
       alloc_reci_end(proxy_nonreci,proxy_reci,
@@ -2033,7 +2038,7 @@ static char *ParseReciEnd(char *tok, slice_index proxy)
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  tok = ParseReciGoal(tok,&op1,&op2);
+  tok = ParseRecigoal_type(tok,&op1,&op2);
   if (op1!=no_slice && op2!=no_slice)
   {
     slice_index const reci = alloc_reciprocal_slice(op1,op2);
@@ -2232,7 +2237,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("ser-hs",tok,6)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+6,STLeafForced,proxy_leaf); /* skip over "ser-hs" */
+    tok = Parsegoal_type(tok+6,proxy_leaf); /* skip over "ser-hs" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2274,7 +2279,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("ser-h",tok,5) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+5,STLeafForced,proxy_leaf); /* skip over "ser-h" */
+    tok = Parsegoal_type(tok+5,proxy_leaf); /* skip over "ser-h" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2283,7 +2288,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         result = ParseSerH(tok,proxy,proxy_leaf);
         if (result!=0)
         {
-          switch (slices[leaf].u.leaf.goal)
+          switch (slices[leaf].u.goal_reached_tester.goal.type)
           {
             case goal_proof:
               slices[proxy].starter = White;
@@ -2303,7 +2308,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("ser-s",tok,5) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+5,STLeafForced,proxy_leaf); /* skip over "ser-s" */
+    tok = Parsegoal_type(tok+5,proxy_leaf); /* skip over "ser-s" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2323,14 +2328,14 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("ser-r",tok,5) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+5,STLeafForced,proxy_leaf); /* skip over "ser-r" */
+    tok = Parsegoal_type(tok+5,proxy_leaf); /* skip over "ser-r" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
       if (leaf!=no_slice)
       {
-        Goal const goal = slices[leaf].u.leaf.goal;
-        slice_index const avoided_leaf = alloc_leaf_slice(STLeafForced,goal);
+        Goal const goal = slices[leaf].u.goal_reached_tester.goal;
+        slice_index const avoided_leaf = alloc_goal_reached_tester_slice(goal);
         slice_index const
             avoided = alloc_attack_move_slice(slack_length_battle+1,
                                               slack_length_battle+1);
@@ -2352,7 +2357,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("ser-",tok,4) == 0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+4,STLeafForced,proxy_leaf); /* skip over "ser-" */
+    tok = Parsegoal_type(tok+4,proxy_leaf); /* skip over "ser-" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2495,7 +2500,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("dia",tok,3)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok,STLeafForced,proxy_leaf);
+    tok = Parsegoal_type(tok,proxy_leaf);
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2523,7 +2528,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("a=>b",tok,4)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok,STLeafForced,proxy_leaf);
+    tok = Parsegoal_type(tok,proxy_leaf);
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2551,7 +2556,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("hs",tok,2)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+2,STLeafForced,proxy_leaf); /* skip over "hs" */
+    tok = Parsegoal_type(tok+2,proxy_leaf); /* skip over "hs" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2590,7 +2595,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("hr",tok,2)==0)
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+2,STLeafForced,proxy_leaf); /* skip over "hr" */
+    tok = Parsegoal_type(tok+2,proxy_leaf); /* skip over "hr" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2601,8 +2606,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
-          Goal const goal = slices[leaf].u.leaf.goal;
-          slice_index const avoided_leaf = alloc_leaf_slice(STLeafForced,goal);
+          Goal const goal = slices[leaf].u.goal_reached_tester.goal;
+          slice_index const avoided_leaf = alloc_goal_reached_tester_slice(goal);
           slice_index const
               avoided = alloc_attack_move_slice(slack_length_battle+1,
                                                 slack_length_battle+1);
@@ -2638,7 +2643,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (*tok=='h')
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+1,STLeafForced,proxy_leaf); /* skip over "h" */
+    tok = Parsegoal_type(tok+1,proxy_leaf); /* skip over "h" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2655,7 +2660,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (strncmp("semi-r",tok,6)==0)
   {
     slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseGoal(tok+6,STLeafForced,proxy_avoided); /* skip over "semi-r" */
+    tok = Parsegoal_type(tok+6,proxy_avoided); /* skip over "semi-r" */
     if (tok!=0)
     {
       slice_index const avoided_leaf = slices[proxy_avoided].u.pipe.next;
@@ -2689,7 +2694,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (*tok=='s')
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+1,STLeafForced,proxy_leaf); /* skip over "s" */
+    tok = Parsegoal_type(tok+1,proxy_leaf); /* skip over "s" */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2715,7 +2720,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else if (*tok=='r')
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok+1,STLeafForced,proxy_leaf);/* skip over 'r' */
+    tok = Parsegoal_type(tok+1,proxy_leaf);/* skip over 'r' */
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2726,8 +2731,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
-          Goal const goal = slices[leaf].u.leaf.goal;
-          slice_index const avoided_leaf = alloc_leaf_slice(STLeafForced,goal);
+          Goal const goal = slices[leaf].u.goal_reached_tester.goal;
+          slice_index const avoided_leaf = alloc_goal_reached_tester_slice(goal);
           slice_index const
               avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
                                                        slack_length_battle+1);
@@ -2763,7 +2768,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
   else
   {
     slice_index const proxy_leaf = alloc_proxy_slice();
-    tok = ParseGoal(tok,STLeafForced,proxy_leaf);
+    tok = Parsegoal_type(tok,proxy_leaf);
     if (tok!=0)
     {
       slice_index const leaf = slices[proxy_leaf].u.pipe.next;
@@ -2874,15 +2879,15 @@ static SliceType ParseStructuredStip_leaf_type(char type_char)
   switch (type_char)
   {
     case 'd':
-      result = STLeafDirect;
+      result = STGoalReachedTester;
       break;
 
     case 'h':
-      result = STLeafHelp;
+      result = STGoalReachedTester;
       break;
 
     case 's':
-      result = STLeafForced;
+      result = STGoalReachedTester;
       break;
 
     default:
@@ -2918,13 +2923,13 @@ static char *ParseStructuredStip_leaf(char *tok,
   {
     case STLeafDirect:
       if (startLikeBranch)
-        tok = ParseGoal(tok+1,STLeafDirect,proxy);
+        tok = Parsegoal_type(tok+1,proxy);
       else
-        tok = ParseGoal(tok+1,STLeafHelp,proxy);
+        tok = Parsegoal_type(tok+1,proxy);
       break;
 
-    case STLeafForced:
-      tok = ParseGoal(tok+1,STLeafForced,proxy);
+    case STGoalReachedTester:
+      tok = Parsegoal_type(tok+1,proxy);
       break;
 
     default:
@@ -2979,7 +2984,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
           slice_insert_direct_guards(branch,proxy_operand);
         else
         {
-          if (slices[slices[proxy_operand].u.pipe.next].type==STLeafForced)
+          if (slices[slices[proxy_operand].u.pipe.next].type==STGoalReachedTester)
             slice_insert_self_guards(branch,proxy_operand);
           else
             slice_insert_reflex_filters_semi(branch,proxy_operand);
@@ -5585,8 +5590,8 @@ static char *ParseTwinning(boolean *stipChanged)
           slice_index const next = slices[root_slice].u.pipe.next;
           if ((slices[next].type==STLeafHelp
                || slices[next].type==STLeafDirect)
-              && (slices[next].u.leaf.goal==goal_proof
-                  || slices[next].u.leaf.goal==goal_atob))
+              && (slices[next].u.goal_reached_tester.goal.type==goal_proof
+                  || slices[next].u.goal_reached_tester.goal.type==goal_atob))
             ProofRestoreTargetPosition();
         }
         StdChar('+');

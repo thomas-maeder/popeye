@@ -53,7 +53,7 @@ static boolean BlockedBishopc1, BlockedBishopf1, BlockedQueend1,
 ProofImpossible_fct_t alternateImpossible;
 static ProofImpossible_fct_t seriesImpossible;
 
-static Goal goal_to_be_reached;
+static goal_type goal_to_be_reached;
 
 stip_length_type current_length;
 
@@ -2063,7 +2063,7 @@ void ProofInitialise(void)
   {
     saveTargetPiecesAndSquares();
 
-    goal_to_be_reached = slices[leaf_unique_goal].u.leaf.goal;
+    goal_to_be_reached = slices[leaf_unique_goal].u.goal_reached_tester.goal.type;
     assert(goal_to_be_reached==goal_proof || goal_to_be_reached==goal_atob);
 
     ProofFairy = (change_moving_piece

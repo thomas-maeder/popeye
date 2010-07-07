@@ -152,16 +152,15 @@ static boolean have_we_solution_for_imminent_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+  if (are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
   {
     stip_length_type const n = slack_length_battle+1;
     stip_length_type const n_max_unsolvable = slack_length_battle-1;
     move_generation_mode = move_generation_optimized_by_killer_move;
     TraceValue("->%u\n",move_generation_mode);
     empile_for_goal = imminent_goal;
-    empile_for_target = slices[si].u.branch.imminent_target;
     generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
     result = find_solution(si,n,n_max_unsolvable);
     finply();
   }
@@ -323,7 +322,7 @@ static boolean solve_imminent_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+  if (are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
   {
     stip_length_type const n = slack_length_battle+1;
     stip_length_type const n_min = slack_length_battle+1;
@@ -332,9 +331,8 @@ static boolean solve_imminent_goal(slice_index si)
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     empile_for_goal = imminent_goal;
-    empile_for_target = slices[si].u.branch.imminent_target;
     generate_move_reaching_goal(attacker);
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
     result = foreach_move_solve(si,n,n_min,n_max_unsolvable);
     finply();
   }

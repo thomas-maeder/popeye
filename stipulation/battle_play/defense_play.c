@@ -138,7 +138,7 @@ stip_length_type defense_defend_in_n(slice_index si,
                                                         n_max_unsolvable);
       break;
 
-    case STLeafForced:
+    case STGoalReachedTester:
     case STQuodlibet:
       assert(n==slack_length_battle);
       switch (slice_solve(si))
@@ -313,7 +313,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                                        max_nr_refutations);
       break;
 
-    case STLeafForced:
+    case STGoalReachedTester:
     case STQuodlibet:
       assert(n==slack_length_battle);
       switch (slice_has_solution(si))

@@ -383,9 +383,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STLeafDirect:
       case STLeafHelp:
-      case STLeafForced:
+      case STGoalReachedTester:
         Trace_link("",slices[si].prev,"<-");
-        fprintf(stdout,"goal:%u\n",slices[si].u.leaf.goal);
+        fprintf(stdout,"goal:%u\n",slices[si].u.goal_reached_tester.goal);
         break;
 
       default:

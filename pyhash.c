@@ -282,7 +282,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STSeriesFork */
   &slice_property_offset_shifter,    /* STLeafDirect */
   &slice_property_offset_shifter,    /* STLeafHelp */
-  &slice_property_offset_shifter,    /* STLeafForced */
+  &slice_property_offset_shifter,    /* STGoalReachedTester */
   &slice_property_offset_shifter,    /* STReciprocal */
   &slice_property_offset_shifter,    /* STQuodlibet */
   &slice_property_offset_shifter,    /* STNot */
@@ -647,7 +647,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STSeriesFork */
   &stip_structure_visitor_noop,          /* STLeafDirect */
   &stip_structure_visitor_noop,          /* STLeafHelp */
-  &stip_structure_visitor_noop,          /* STLeafForced */
+  &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &init_slice_properties_binary,         /* STReciprocal */
   &init_slice_properties_binary,         /* STQuodlibet */
   &init_slice_properties_pipe,           /* STNot */
@@ -1858,7 +1858,7 @@ boolean is_hashtable_allocated(void)
   return pyhash!=0;
 }
 
-static Goal const proof_goals[] = { goal_proof, goal_atob };
+static goal_type const proof_goals[] = { goal_proof, goal_atob };
 
 static unsigned int const nr_proof_goals = (sizeof proof_goals
                                             / sizeof proof_goals[0]);
@@ -2171,7 +2171,7 @@ static void insert_hash_element_defense_move(slice_index si,
 static boolean is_goal_move_oriented(slice_index leaf)
 {
   boolean result;
-  Goal const goal = slices[leaf].u.leaf.goal;
+  goal_type const goal = slices[leaf].u.goal_reached_tester.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
@@ -2287,7 +2287,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &insert_hash_element_leaf_direct,          /* STLeafDirect */
   &insert_hash_element_leaf_help,            /* STLeafHelp */
-  &stip_traverse_moves_noop,                 /* STLeafForced */
+  &stip_traverse_moves_noop,                 /* STGoalReachedTester */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */

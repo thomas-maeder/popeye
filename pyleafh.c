@@ -19,7 +19,7 @@
 static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
 {
   boolean end_found = false;
-  Goal const goal = slices[leaf].u.leaf.goal;
+  Goal const goal = slices[leaf].u.goal_reached_tester.goal;
 
   assert(slices[leaf].starter!=no_side);
 
@@ -28,15 +28,14 @@ static boolean is_end_in_1_possible(Side side_at_move, slice_index leaf)
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
+  if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     empile_for_goal = goal;
-    empile_for_target = slices[leaf].u.leaf.target;
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(side_at_move);
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
 
     --MovesLeft[side_at_move];
 
@@ -125,22 +124,21 @@ has_solution_type leaf_h_solve(slice_index leaf)
 {
   has_solution_type result = has_no_solution;
   Side const side_at_move = slices[leaf].starter;
-  Goal const goal = slices[leaf].u.leaf.goal;
+  Goal const goal = slices[leaf].u.goal_reached_tester.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",leaf);
   TraceFunctionParamListEnd();
 
-  if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
+  if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     active_slice[nbply+1] = leaf;
     empile_for_goal = goal;
-    empile_for_target = slices[leaf].u.leaf.target;
     active_slice[nbply+1] = leaf;
     generate_move_reaching_goal(side_at_move);
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
 
     --MovesLeft[side_at_move];
 
@@ -152,7 +150,7 @@ has_solution_type leaf_h_solve(slice_index leaf)
       {
         result = has_solution;
         write_battle_move();
-        write_goal(slices[leaf].u.leaf.goal);
+        write_goal(slices[leaf].u.goal_reached_tester.goal.type);
       }
 
       repcoup();

@@ -73,7 +73,7 @@ void write_battle_move(void);
  */
 void write_battle_move_decoration(ply current_ply, attack_type type);
 
-void write_goal(Goal goal);
+void write_goal(goal_type goal);
 
 /* Mark the defense about to be written as refutation
  */

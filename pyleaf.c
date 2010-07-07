@@ -9,7 +9,6 @@
 #include <stdlib.h>
 
 Goal empile_for_goal;
-square empile_for_target;
 
 typedef Flags ColourSpec;
 
@@ -206,7 +205,7 @@ static void GenMatingPawn(square sq_departure,
   }
 } /* GenMatingPawn */
 
-static void GenMatingKing(Goal goal,
+static void GenMatingKing(goal_type goal,
                           square sq_departure,
                           square sq_king,
                           ColourSpec ColourMovingPiece)
@@ -510,7 +509,7 @@ void remove_ortho_mating_moves_generation_obstacle(void)
   --nr_ortho_mating_moves_generation_obstacles;
 }
 
-static void generate_ortho_moves_reaching_goal(Goal goal, Side side_at_move)
+static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move)
 {
   square square_a = square_a1;
   square const OpponentsKing = side_at_move==White ? rn : rb;
@@ -590,7 +589,7 @@ static void generate_ortho_moves_reaching_goal(Goal goal, Side side_at_move)
  * @param side_at_move side to execute the move reaching the goal
  * @return true iff the prerequisites are met
  */
-boolean are_prerequisites_for_reaching_goal_met(Goal goal, Side side_at_move)
+boolean are_prerequisites_for_reaching_goal_met(goal_type goal, Side side_at_move)
 {
   boolean result;
 
@@ -644,22 +643,22 @@ void generate_move_reaching_goal(Side side_at_move)
   TraceFunctionParamListEnd();
 
   if (side_at_move==White ? flagwhitemummer : flagblackmummer)
-    empile_for_goal = no_goal;
+    empile_for_goal.type = no_goal;
 
-  switch (goal)
+  switch (goal.type)
   {
     case goal_mate:
     case goal_check:
       TraceValue("%u\n",nr_ortho_mating_moves_generation_obstacles);
       if (nr_ortho_mating_moves_generation_obstacles==0)
-        generate_ortho_moves_reaching_goal(empile_for_goal,side_at_move);
+        generate_ortho_moves_reaching_goal(empile_for_goal.type,side_at_move);
       else
         genmove(side_at_move);
       break;
 
     case goal_doublemate:
       if (nr_ortho_mating_moves_generation_obstacles==0)
-        generate_ortho_moves_reaching_goal(empile_for_goal,side_at_move);
+        generate_ortho_moves_reaching_goal(empile_for_goal.type,side_at_move);
       else
         genmove(side_at_move);
       break;
@@ -722,8 +721,8 @@ goal_checker_result_type leaf_is_goal_reached(Side just_moved,
   TraceFunctionParamListEnd();
   assert(slices[leaf].starter!=no_side);
 
-  TraceValue("%u\n",slices[leaf].u.leaf.goal);
-  switch (slices[leaf].u.leaf.goal)
+  TraceValue("%u\n",slices[leaf].u.goal_reached_tester.goal);
+  switch (slices[leaf].u.goal_reached_tester.goal.type)
   {
     case goal_mate:
       if (CondFlag[blackultraschachzwang]
@@ -742,8 +741,8 @@ goal_checker_result_type leaf_is_goal_reached(Side just_moved,
       break;
 
     case goal_target:
-      assert(slices[leaf].u.leaf.target!=initsquare);
-      result = goal_checker_target(just_moved,slices[leaf].u.leaf.target);
+      assert(slices[leaf].u.goal_reached_tester.goal.target!=initsquare);
+      result = goal_checker_target(just_moved,slices[leaf].u.goal_reached_tester.goal.target);
       break;
 
     case goal_check:

@@ -64,7 +64,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_play.c \
   stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pyreflxg.h \
   pykeepmt.h pyselfcg.h pydirctg.h pyselfgd.h pymovenb.h pyflight.h \
-  pydegent.h pythreat.h pynontrv.h pyleaff.h \
+  pydegent.h pythreat.h pynontrv.h stipulation/goal_reached_tester.h \
   stipulation/battle_play/branch.h stipulation/battle_play/attack_root.h \
   stipulation/battle_play/attack_move.h stipulation/battle_play/threat.h \
   stipulation/battle_play/try.h stipulation/battle_play/postkeyplay.h \
@@ -102,7 +102,7 @@ pythreat.h:
 
 pynontrv.h:
 
-pyleaff.h:
+stipulation/goal_reached_tester.h:
 
 stipulation/battle_play/branch.h:
 

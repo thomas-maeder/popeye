@@ -4,7 +4,7 @@
 #include "pyleaf.h"
 #include "pyleafd.h"
 #include "pyleafh.h"
-#include "pyleaff.h"
+#include "stipulation/goal_reached_tester.h"
 #include "pyrecipr.h"
 #include "pyquodli.h"
 #include "pybrafrk.h"
@@ -53,7 +53,7 @@
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
-    ENUMERATOR(STLeafForced),      /* forced goal in 1 half move */     \
+    ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
@@ -173,7 +173,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_leaf,   /* STLeafDirect */
   slice_structure_leaf,   /* STLeafHelp */
-  slice_structure_leaf,   /* STLeafForced */
+  slice_structure_leaf,   /* STGoalReachedTester */
   slice_structure_binary, /* STReciprocal */
   slice_structure_binary, /* STQuodlibet */
   slice_structure_pipe,   /* STNot */
@@ -328,7 +328,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STSeriesFork */
   &mark_reachable_slice, /* STLeafDirect */
   &mark_reachable_slice, /* STLeafHelp */
-  &mark_reachable_slice, /* STLeafForced */
+  &mark_reachable_slice, /* STGoalReachedTester */
   &mark_reachable_slice, /* STReciprocal */
   &mark_reachable_slice, /* STQuodlibet */
   &mark_reachable_slice, /* STNot */
@@ -503,60 +503,6 @@ void dealloc_slice(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a target leaf slice.
- * Initializes type to STLeaf and leaf fields according to arguments
- * @return index of allocated slice
- */
-slice_index alloc_target_leaf_slice(SliceType type, square s)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
-  TraceSquare(s);
-  TraceFunctionParamListEnd();
-
-  assert(type==STLeafDirect
-         || type==STLeafHelp
-         || type==STLeafForced);
-
-  result = alloc_slice(type);
-  slices[result].u.leaf.goal = goal_target;
-  slices[result].u.leaf.target = s;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a (non-target) leaf slice.
- * Initializes type to STLeaf and leaf fields according to arguments
- * @return index of allocated slice
- */
-slice_index alloc_leaf_slice(SliceType type, Goal goal)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",type);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  assert(type==STLeafDirect
-         || type==STLeafHelp
-         || type==STLeafForced);
-
-  result = alloc_slice(type);
-  slices[result].u.leaf.goal = goal;
-  slices[result].u.leaf.target = initsquare;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a slice as copy of an existing slice
  * @param index of original slice
  * @return index of allocated slice
@@ -637,7 +583,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STSeriesFork */
   &traverse_and_deallocate,       /* STLeafDirect */
   &traverse_and_deallocate,       /* STLeafHelp */
-  &traverse_and_deallocate,       /* STLeafForced */
+  &traverse_and_deallocate,       /* STGoalReachedTester */
   &traverse_and_deallocate,       /* STReciprocal */
   &traverse_and_deallocate,       /* STQuodlibet */
   &traverse_and_deallocate,       /* STNot */
@@ -776,7 +722,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &series_fork_insert_root,                     /* STSeriesFork */
   &leaf_insert_root,                            /* STLeafDirect */
   &leaf_insert_root,                            /* STLeafHelp */
-  &leaf_insert_root,                            /* STLeafForced */
+  &leaf_insert_root,                            /* STGoalReachedTester */
   &reci_insert_root,                            /* STReciprocal */
   &quodlibet_insert_root,                       /* STQuodlibet */
   &not_insert_root,                             /* STNot */
@@ -895,7 +841,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &branch_fork_resolve_proxies,      /* STSeriesFork */
   &stip_traverse_structure_children, /* STLeafDirect */
   &stip_traverse_structure_children, /* STLeafHelp */
-  &stip_traverse_structure_children, /* STLeafForced */
+  &stip_traverse_structure_children, /* STGoalReachedTester */
   &binary_resolve_proxies,           /* STReciprocal */
   &binary_resolve_proxies,           /* STQuodlibet */
   &pipe_resolve_proxies,             /* STNot */
@@ -1129,7 +1075,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &get_max_nr_moves_leaf,                    /* STLeafDirect */
   &get_max_nr_moves_leaf,                    /* STLeafHelp */
-  &get_max_nr_moves_leaf,                    /* STLeafForced */
+  &get_max_nr_moves_leaf,                    /* STGoalReachedTester */
   &get_max_nr_moves_binary,                  /* STReciprocal */
   &get_max_nr_moves_binary,                  /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */
@@ -1272,9 +1218,11 @@ stip_length_type get_max_nr_moves(slice_index si)
 
 static boolean are_goals_equal(slice_index si1, slice_index si2)
 {
-  return ((slices[si1].u.leaf.goal ==slices[si2].u.leaf.goal)
-          && (slices[si1].u.leaf.goal!=goal_target
-              || (slices[si1].u.leaf.target==slices[si2].u.leaf.target)));
+  return ((slices[si1].u.goal_reached_tester.goal.type
+           ==slices[si2].u.goal_reached_tester.goal.type)
+          && (slices[si1].u.goal_reached_tester.goal.type!=goal_target
+              || (slices[si1].u.goal_reached_tester.goal.target
+                  ==slices[si2].u.goal_reached_tester.goal.target)));
 }
 
 enum
@@ -1310,7 +1258,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STSeriesFork */
   &find_unique_goal_leaf,            /* STLeafDirect */
   &find_unique_goal_leaf,            /* STLeafHelp */
-  &find_unique_goal_leaf,            /* STLeafForced */
+  &find_unique_goal_leaf,            /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -1443,7 +1391,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
     {
       case STLeafDirect:
       case STLeafHelp:
-      case STLeafForced:
+      case STGoalReachedTester:
         /* nothing */
         break;
 
@@ -1591,7 +1539,7 @@ static stip_structure_visitor const leaves_direct_makers[] =
   &stip_traverse_structure_children,   /* STSeriesFork */
   &stip_structure_visitor_noop,        /* STLeafDirect */
   &make_leaf_direct,                   /* STLeafHelp */
-  &make_leaf_direct,                   /* STLeafForced */
+  &make_leaf_direct,                   /* STGoalReachedTester */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
   &stip_traverse_structure_children,   /* STNot */
@@ -1693,7 +1641,7 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   slice_index const not = slices[proxy_to_goal].u.pipe.next;
   slice_index const branch = slices[not].u.pipe.next;
   slice_index const leaf = slices[branch].u.pipe.next;
-  Goal goal = slices[leaf].u.leaf.goal;
+  Goal const goal = slices[leaf].u.goal_reached_tester.goal;
   slice_index new_leaf;
 
   TraceFunctionEntry(__func__);
@@ -1701,9 +1649,9 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(slices[proxy_to_goal].type==STProxy);
-  assert(slices[leaf].type==STLeafForced);
+  assert(slices[leaf].type==STGoalReachedTester);
 
-  new_leaf = alloc_leaf_slice(STLeafForced,goal);
+  new_leaf = alloc_goal_reached_tester_slice(goal);
   *new_proxy_to_goal = alloc_proxy_slice();
   pipe_link(*new_proxy_to_goal,new_leaf);
 
@@ -1762,7 +1710,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &transform_to_quodlibet_branch_fork, /* STSeriesFork */
   &stip_structure_visitor_noop,        /* STLeafDirect */
   &stip_structure_visitor_noop,        /* STLeafHelp */
-  &stip_structure_visitor_noop,        /* STLeafForced */
+  &stip_structure_visitor_noop,        /* STGoalReachedTester */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
   &stip_structure_visitor_noop,        /* STNot */
@@ -1876,7 +1824,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STSeriesFork */
   &stip_traverse_structure_children,              /* STLeafDirect */
   &stip_traverse_structure_children,              /* STLeafHelp */
-  &stip_traverse_structure_children,              /* STLeafForced */
+  &stip_traverse_structure_children,              /* STGoalReachedTester */
   &stip_traverse_structure_children,              /* STReciprocal */
   &stip_traverse_structure_children,              /* STQuodlibet */
   &stip_traverse_structure_children,              /* STNot */
@@ -2015,7 +1963,7 @@ static stip_structure_visitor const setplay_makers[] =
   &series_fork_make_setplay_slice,   /* STSeriesFork */
   &stip_traverse_structure_children, /* STLeafDirect */
   &stip_traverse_structure_children, /* STLeafHelp */
-  &stip_traverse_structure_children, /* STLeafForced */
+  &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2130,7 +2078,7 @@ static stip_structure_visitor const setplay_appliers[] =
   &stip_traverse_structure_children,     /* STSeriesFork */
   &stip_traverse_structure_children,     /* STLeafDirect */
   &stip_traverse_structure_children,     /* STLeafHelp */
-  &stip_structure_visitor_noop,          /* STLeafForced */
+  &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &stip_traverse_structure_children,     /* STReciprocal */
   &stip_traverse_structure_children,     /* STQuodlibet */
   &stip_traverse_structure_children,     /* STNot */
@@ -2277,25 +2225,25 @@ boolean stip_apply_setplay(void)
 
 typedef struct
 {
-    Goal const * const goals;
+    goal_type const * const goals;
     size_t const nrGoals;
     boolean * const doGoalsMatch;
 } goal_set;
 
 /* Does a leaf have one of a set of goals?
  * @param goals set of goals
- * @param nrGoals number of elements of goals
+ * @param nrgoal_types number of elements of goals
  * @param si leaf slice identifier
  * @return true iff the leaf has as goal one of the elements of goals.
  */
-static boolean leaf_ends_in_one_of(Goal const goals[],
-                                   size_t nrGoals,
+static boolean leaf_ends_in_one_of(goal_type const goals[],
+                                   size_t nrgoal_types,
                                    slice_index si)
 {
-  Goal const goal = slices[si].u.leaf.goal;
+  goal_type const goal = slices[si].u.goal_reached_tester.goal.type;
 
   size_t i;
-  for (i = 0; i<nrGoals; ++i)
+  for (i = 0; i<nrgoal_types; ++i)
     if (goal==goals[i])
       return true;
 
@@ -2329,7 +2277,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STSeriesFork */
   &leaf_ends_only_in,                /* STLeafDirect */
   &leaf_ends_only_in,                /* STLeafHelp */
-  &leaf_ends_only_in,                /* STLeafForced */
+  &leaf_ends_only_in,                /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2408,10 +2356,10 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
 
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
- * @param nrGoals number of elements of goals
+ * @param nrgoal_types number of elements of goals
  * @return true iff all leaves have as goal one of the elements of goals.
  */
-boolean stip_ends_only_in(Goal const goals[], size_t nrGoals)
+boolean stip_ends_only_in(goal_type const goals[], size_t nrGoals)
 {
   boolean result = true; /* until traversal proves otherwise */
   goal_set set = { goals, nrGoals, &result };
@@ -2457,7 +2405,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STSeriesFork */
   &slice_ends_in_one_of_leaf,          /* STLeafDirect */
   &slice_ends_in_one_of_leaf,          /* STLeafHelp */
-  &slice_ends_in_one_of_leaf,          /* STLeafForced */
+  &slice_ends_in_one_of_leaf,          /* STGoalReachedTester */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
   &stip_traverse_structure_children,   /* STNot */
@@ -2539,7 +2487,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
  * @param nrGoals number of elements of goals
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
-boolean stip_ends_in_one_of(Goal const goals[], size_t nrGoals)
+boolean stip_ends_in_one_of(goal_type const goals[], size_t nrGoals)
 {
   boolean result = false;
   goal_set set = { goals, nrGoals, &result };
@@ -2580,7 +2528,7 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STSeriesFork */
   &stip_traverse_structure_children, /* STLeafDirect */
   &stip_traverse_structure_children, /* STLeafHelp */
-  &stip_traverse_structure_children, /* STLeafForced */
+  &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2684,7 +2632,7 @@ static stip_structure_visitor const starter_detectors[] =
   &branch_fork_detect_starter,       /* STSeriesFork */
   &leaf_d_detect_starter,            /* STLeafDirect */
   &leaf_h_detect_starter,            /* STLeafHelp */
-  &stip_structure_visitor_noop,      /* STLeafForced */
+  &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &reci_detect_starter,              /* STReciprocal */
   &quodlibet_detect_starter,         /* STQuodlibet */
   &pipe_detect_starter,              /* STNot */
@@ -2792,7 +2740,7 @@ static stip_structure_visitor const starter_imposers[] =
   &branch_fork_impose_starter,    /* STSeriesFork */
   &leaf_impose_starter,           /* STLeafDirect */
   &leaf_impose_starter,           /* STLeafHelp */
-  &leaf_impose_starter,           /* STLeafForced */
+  &leaf_impose_starter,           /* STGoalReachedTester */
   &reci_impose_starter,           /* STReciprocal */
   &quodlibet_impose_starter,      /* STQuodlibet */
   &pipe_impose_starter,           /* STNot */
@@ -3092,7 +3040,7 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_branch_fork,  /* STSeriesFork */
   &stip_structure_visitor_noop,     /* STLeafDirect */
   &stip_structure_visitor_noop,     /* STLeafHelp */
-  &stip_structure_visitor_noop,     /* STLeafForced */
+  &stip_structure_visitor_noop,     /* STGoalReachedTester */
   &traverse_structure_binary,       /* STReciprocal */
   &traverse_structure_binary,       /* STQuodlibet */
   &traverse_structure_pipe,         /* STNot */

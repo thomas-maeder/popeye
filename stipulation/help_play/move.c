@@ -149,14 +149,13 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n)
 
   active_slice[nbply+1] = si;
 
-  if (n==slack_length_help+1 && goal!=no_goal)
+  if (n==slack_length_help+1 && goal.type!=no_goal)
   {
-    if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
+    if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
     {
       empile_for_goal = goal;
-      empile_for_target = slices[si].u.branch.imminent_target;
       generate_move_reaching_goal(side_at_move);
-      empile_for_goal = no_goal;
+      empile_for_goal.type = no_goal;
       result = foreach_move_solve(si,n);
       finply();
     }
@@ -229,14 +228,13 @@ stip_length_type help_move_has_solution_in_n(slice_index si,
 
   active_slice[nbply+1] = si;
 
-  if (n==slack_length_help+1 && goal!=no_goal)
+  if (n==slack_length_help+1 && goal.type!=no_goal)
   {
-    if (are_prerequisites_for_reaching_goal_met(goal,side_at_move))
+    if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
     {
       empile_for_goal = goal;
-      empile_for_target = slices[si].u.branch.imminent_target;
       generate_move_reaching_goal(side_at_move);
-      empile_for_goal = no_goal;
+      empile_for_goal.type = no_goal;
       result = find_solution(si,n);
       finply();
     }

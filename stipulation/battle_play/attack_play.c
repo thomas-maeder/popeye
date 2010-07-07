@@ -13,7 +13,7 @@
 #include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
-#include "pyleaff.h"
+#include "stipulation/goal_reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
@@ -123,7 +123,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                      n_max_unsolvable);
       break;
 
-    case STLeafForced:
+    case STGoalReachedTester:
     case STQuodlibet:
       assert(n==slack_length_battle);
       switch (slice_has_solution(si))
@@ -286,7 +286,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = no_short_variations_solve_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
-    case STLeafForced:
+    case STGoalReachedTester:
     case STQuodlibet:
       assert(n==slack_length_battle);
       switch (slice_solve(si))

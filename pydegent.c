@@ -169,7 +169,7 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,     /* STSeriesFork */
   &stip_traverse_structure_children,     /* STLeafDirect */
   &stip_traverse_structure_children,     /* STLeafHelp */
-  &stip_traverse_structure_children,     /* STLeafForced */
+  &stip_traverse_structure_children,     /* STGoalReachedTester */
   &stip_traverse_structure_children,     /* STReciprocal */
   &stip_traverse_structure_children,     /* STQuodlibet */
   &stip_traverse_structure_children,     /* STNot */

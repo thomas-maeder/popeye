@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = branch.c proxy.c
-INCLUDES = branch.h proxy.h
+CFILES = branch.c proxy.c goal_reached_tester.c
+INCLUDES = branch.h proxy.h goal_reached_tester.h
 
 include makefile.rules $(CURRPWD)depend

@@ -166,7 +166,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &output_mode_linemode,             /* STSeriesFork */
   &stip_traverse_structure_children, /* STLeafDirect */
   &stip_traverse_structure_children, /* STLeafHelp */
-  &stip_traverse_structure_children, /* STLeafForced */
+  &stip_traverse_structure_children, /* STGoalReachedTester */
   &output_mode_binary,               /* STReciprocal */
   &output_mode_binary,               /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -416,7 +416,7 @@ static void linesolution(void)
 {
   int next_movenumber = 1;
   Side starting_side;
-  Goal end_marker;
+  goal_type end_marker;
   slice_index slice;
   ply current_ply;
 
@@ -507,7 +507,7 @@ static void linesolution(void)
     }
 
     end_marker = (nbply==current_ply
-                  ? slices[active_slice[current_ply]].u.leaf.goal
+                  ? slices[active_slice[current_ply]].u.goal_reached_tester.goal.type
                   : no_goal);
     TraceValue("%u\n",end_marker);
     initneutre(advers(trait[current_ply]));
@@ -594,7 +594,7 @@ void write_battle_move(void)
   TraceFunctionResultEnd();
 }
 
-void write_goal(Goal goal)
+void write_goal(goal_type goal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",goal);

@@ -26,7 +26,7 @@
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
     ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
-    ENUMERATOR(STLeafForced),      /* forced goal in 1 half move */     \
+    ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
@@ -116,16 +116,16 @@ typedef struct
 
     union
     {
-        struct /* for type==STLeaf* */
-        {
-            Goal goal;
-            square target; /* for goal==goal_target */
-        } leaf;
-
         struct /* for types with 1 principal subsequent slice */
         {
             slice_index next;
         } pipe;
+
+        struct /* for type==STLeaf* */
+        {
+            slice_index next;
+            Goal goal;
+        } goal_reached_tester;
 
         struct
         {
@@ -133,7 +133,6 @@ typedef struct
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
             Goal imminent_goal;
-            square imminent_target;
         } branch;
 
         struct
@@ -284,19 +283,6 @@ void dealloc_slice(slice_index si);
  */
 void dealloc_slices(slice_index si);
 
-/* Allocate a target leaf slice.
- * @param type which STLeaf* type
- * @param s target square
- * @return index of allocated slice
- */
-slice_index alloc_target_leaf_slice(SliceType type, square s);
-
-/* Allocate a (non-target) leaf slice.
- * @param type which STLeaf* type
- * @return index of allocated slice
- */
-slice_index alloc_leaf_slice(SliceType type, Goal goal);
-
 /* Allocate a slice as copy of an existing slice
  * @param index of original slice
  * @return index of allocated slice
@@ -376,17 +362,17 @@ boolean stip_apply_setplay(void);
 
 /* Do all leaves of the current stipulation have one of a set of goals?
  * @param goals set of goals
- * @param nrGoals number of elements of goals
+ * @param nrgoal_types number of elements of goals
  * @return true iff all leaves have as goal one of the elements of goals.
  */
-boolean stip_ends_only_in(Goal const goals[], size_t nrGoals);
+boolean stip_ends_only_in(goal_type const goals[], size_t nrGoals);
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
  * @param goals set of goals
- * @param nrGoals number of elements of goals
+ * @param nrgoal_types number of elements of goals
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
-boolean stip_ends_in_one_of(Goal const goals[], size_t nrGoals);
+boolean stip_ends_in_one_of(goal_type const goals[], size_t nrGoals);
 
 /* Determine whether the current stipulation has a unique goal, and
  * return it.

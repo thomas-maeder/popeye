@@ -508,7 +508,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STSeriesFork */
   &root_slice_type_found,            /* STLeafDirect */
   &root_slice_type_found,            /* STLeafHelp */
-  &root_slice_type_found,            /* STLeafForced */
+  &root_slice_type_found,            /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -662,7 +662,7 @@ static boolean determineRestrictedSide(void)
   return result;
 }
 
-static Goal const proof_goals[] = { goal_proof, goal_atob };
+static goal_type const proof_goals[] = { goal_proof, goal_atob };
 
 static unsigned int const nr_proof_goals = (sizeof proof_goals
                                             / sizeof proof_goals[0]);
@@ -717,10 +717,10 @@ static boolean verify_position(void)
 
   if (CondFlag[parrain])
   {
-    Goal const pieceWinGoals[] = { goal_steingewinn };
-    size_t const nrPieceWinGoals = (sizeof pieceWinGoals
-                                    / sizeof pieceWinGoals[0]);
-    if (stip_ends_in_one_of(pieceWinGoals,nrPieceWinGoals))
+    goal_type const pieceWinGoalTypes[] = { goal_steingewinn };
+    size_t const nrPieceWinGoalTypes = (sizeof pieceWinGoalTypes
+                                        / sizeof pieceWinGoalTypes[0]);
+    if (stip_ends_in_one_of(pieceWinGoalTypes,nrPieceWinGoalTypes))
     {
       VerifieMsg(PercentAndParrain);
       return false;
@@ -728,7 +728,7 @@ static boolean verify_position(void)
   }
 
   {
-    Goal const diastipGoals[] =
+    goal_type const diastipGoalTypes[] =
     {
       goal_circuit,
       goal_exchange,
@@ -736,9 +736,9 @@ static boolean verify_position(void)
       goal_exchangeB
     };
 
-    size_t const nrDiastipGoals = (sizeof diastipGoals
-                                   / sizeof diastipGoals[0]);
-    flagdiastip = stip_ends_only_in(diastipGoals,nrDiastipGoals);
+    size_t const nrDiastipGoalTypes = (sizeof diastipGoalTypes
+                                       / sizeof diastipGoalTypes[0]);
+    flagdiastip = stip_ends_only_in(diastipGoalTypes,nrDiastipGoalTypes);
   }
 
   if (TSTFLAG(PieSpExFlags, HalfNeutral))
@@ -1653,16 +1653,16 @@ static boolean verify_position(void)
 
   if (CondFlag[losingchess])
   {
-    Goal const incompatibleGoals[] =
+    goal_type const incompatibleGoalTypes[] =
     {
       goal_mate,
       goal_check,
       goal_mate_or_stale
     };
-    size_t const nrIncompatibleGoals
-        = sizeof incompatibleGoals / sizeof incompatibleGoals[0];
+    size_t const nrIncompatibleGoalTypes
+        = sizeof incompatibleGoalTypes / sizeof incompatibleGoalTypes[0];
     
-    if (stip_ends_in_one_of(incompatibleGoals,nrIncompatibleGoals))
+    if (stip_ends_in_one_of(incompatibleGoalTypes,nrIncompatibleGoalTypes))
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
       return false;
@@ -1717,8 +1717,8 @@ static boolean verify_position(void)
   }
 
   {
-    Goal const castlingGoal = goal_castling;
-    if (stip_ends_in_one_of(&castlingGoal,1)
+    goal_type const castlingGoalTypes = goal_castling;
+    if (stip_ends_in_one_of(&castlingGoalTypes,1)
         && !castling_supported)
     {
       VerifieMsg(StipNotSupported);
@@ -1756,7 +1756,7 @@ static boolean verify_position(void)
   }
 
   {
-    Goal const doublemate_goals[] = { goal_doublemate };
+    goal_type const doublemate_goals[] = { goal_doublemate };
 
     jouetestgenre = jouetestgenre
         || flag_testlegality
@@ -2089,8 +2089,8 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   switch (slices[si].type)
   {
     case STLeafHelp:
-    case STLeafForced:
-      if (slices[si].u.leaf.goal==goal_atob)
+    case STGoalReachedTester:
+      if (slices[si].u.goal_reached_tester.goal.type==goal_atob)
         result = whitetoplay_means_change_colors;
       else
         result = whitetoplay_means_shorten;
@@ -2306,7 +2306,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STSeriesFork */
   &stip_structure_visitor_noop,      /* STLeafDirect */
   &stip_structure_visitor_noop,      /* STLeafHelp */
-  &stip_structure_visitor_noop,      /* STLeafForced */
+  &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2426,7 +2426,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STSeriesFork */
   &stip_structure_visitor_noop,      /* STLeafDirect */
   &stip_structure_visitor_noop,      /* STLeafHelp */
-  &stip_structure_visitor_noop,      /* STLeafForced */
+  &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2535,7 +2535,7 @@ static boolean initialise_verify_twin(void)
       ProofSaveTargetPosition();
 
       {
-        Goal const proof_goal = goal_proof;
+        goal_type const proof_goal = goal_proof;
         if (stip_ends_in_one_of(&proof_goal,1))
           ProofInitialiseStartPosition();
       }
@@ -2640,12 +2640,6 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
   }
 }
 
-typedef struct
-{
-    Goal goal;
-    square target;
-} imminent_goal_struct;
-
 /* Remember the goal imminent after a defense or attack move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -2653,7 +2647,7 @@ typedef struct
 static void remember_imminent_goal_battle_move(slice_index si,
                                                stip_move_traversal *st)
 {
-  imminent_goal_struct * const igs = st->param;
+  Goal * const goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2663,12 +2657,11 @@ static void remember_imminent_goal_battle_move(slice_index si,
 
   if (st->remaining==slack_length_battle+1)
   {
-    slices[si].u.branch.imminent_goal = igs->goal;
-    slices[si].u.branch.imminent_target = igs->target;
-    TraceValue("->%u\n",slices[si].u.branch.imminent_goal);
+    slices[si].u.branch.imminent_goal = *goal;
+    TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
   }
 
-  igs->goal = no_goal;
+  goal->type = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2681,7 +2674,7 @@ static void remember_imminent_goal_battle_move(slice_index si,
 static void remember_imminent_goal_attack_root(slice_index si,
                                                stip_move_traversal *st)
 {
-  imminent_goal_struct * const igs = st->param;
+  Goal * const goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2695,10 +2688,9 @@ static void remember_imminent_goal_attack_root(slice_index si,
     st->remaining = slack_length_battle+1;
     stip_traverse_moves_branch(si,st);
     st->remaining = save_remaining;
-    slices[si].u.branch.imminent_goal = igs->goal;
-    slices[si].u.branch.imminent_target = igs->target;
-    TraceValue("->%u\n",slices[si].u.branch.imminent_goal);
-    igs->goal = no_goal;
+    slices[si].u.branch.imminent_goal = *goal;
+    TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
+    goal->type = no_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -2712,7 +2704,7 @@ static void remember_imminent_goal_attack_root(slice_index si,
 static void remember_imminent_goal_series_move(slice_index si,
                                                stip_move_traversal *st)
 {
-  imminent_goal_struct * const igs = st->param;
+  Goal * const goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2722,12 +2714,11 @@ static void remember_imminent_goal_series_move(slice_index si,
 
   if (st->remaining==slack_length_series+1)
   {
-    slices[si].u.branch.imminent_goal = igs->goal;
-    slices[si].u.branch.imminent_target = igs->target;
-    TraceValue("->%u\n",slices[si].u.branch.imminent_goal);
+    slices[si].u.branch.imminent_goal = *goal;
+    TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
   }
 
-  igs->goal = no_goal;
+  goal->type = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2740,7 +2731,7 @@ static void remember_imminent_goal_series_move(slice_index si,
 static void remember_imminent_goal_help_move(slice_index si,
                                       stip_move_traversal *st)
 {
-  imminent_goal_struct * const igs = st->param;
+  Goal * const goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2750,12 +2741,11 @@ static void remember_imminent_goal_help_move(slice_index si,
 
   if (st->remaining==slack_length_help+1)
   {
-    slices[si].u.branch.imminent_goal = igs->goal;
-    slices[si].u.branch.imminent_target = igs->target;
-    TraceValue("->%u\n",slices[si].u.branch.imminent_goal);
+    slices[si].u.branch.imminent_goal = *goal;
+    TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
   }
 
-  igs->goal = no_goal;
+  goal->type = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2768,15 +2758,14 @@ static void remember_imminent_goal_help_move(slice_index si,
 static void remember_imminent_goal_leaf(slice_index si,
                                         stip_move_traversal *st)
 {
-  imminent_goal_struct * const igs = st->param;
+  Goal * const goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  igs->goal = slices[si].u.leaf.goal;
-  igs->target = slices[si].u.leaf.target;
-  TraceValue("->%u\n",igs->goal);
+  *goal = slices[si].u.goal_reached_tester.goal;
+  TraceValue("->%u\n",goal->type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2793,7 +2782,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &stip_traverse_moves_noop,                 /* STLeafDirect */
   &stip_traverse_moves_noop,                 /* STLeafHelp */
-  &remember_imminent_goal_leaf,              /* STLeafForced */
+  &remember_imminent_goal_leaf,              /* STGoalReachedTester */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */
@@ -2873,14 +2862,14 @@ static stip_move_visitor const imminent_goal_rememberers[] =
 static void stip_optimise_final_moves(void)
 {
   stip_move_traversal st;
-  imminent_goal_struct state = { no_goal, initsquare };
+  Goal goal = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
   
-  stip_move_traversal_init(&st,&imminent_goal_rememberers,&state);
+  stip_move_traversal_init(&st,&imminent_goal_rememberers,&goal);
   stip_traverse_moves(root_slice,&st);
 
   TraceFunctionExit(__func__);

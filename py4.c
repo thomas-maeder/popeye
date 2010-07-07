@@ -724,7 +724,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
     }
   }
 
-  switch (empile_for_goal)
+  switch (empile_for_goal.type)
   {
     case goal_ep:
       if (sq_arrival!=ep[nbply-1] && sq_arrival!=ep2[nbply-1])
@@ -733,7 +733,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
         break;
 
     case goal_target:
-      if (sq_arrival!=empile_for_target)
+      if (sq_arrival!=empile_for_goal.target)
         return true;
       else
         break;

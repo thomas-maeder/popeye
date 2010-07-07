@@ -9,7 +9,7 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/root.h"
-#include "pyleaff.h"
+#include "stipulation/goal_reached_tester.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -56,8 +56,8 @@ has_solution_type slice_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafForced:
-      result = leaf_forced_solve(si);
+    case STGoalReachedTester:
+      result = goal_reached_tester_solve(si);
       break;
 
     case STAttackRoot:
@@ -191,8 +191,8 @@ has_solution_type slice_has_solution(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafForced:
-      result = leaf_forced_has_solution(si);
+    case STGoalReachedTester:
+      result = goal_reached_tester_has_solution(si);
       break;
 
     case STQuodlibet:

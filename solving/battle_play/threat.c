@@ -558,7 +558,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_structure_visitor_noop,          /* STSeriesFork */
   &stip_structure_visitor_noop,          /* STLeafDirect */
   &stip_structure_visitor_noop,          /* STLeafHelp */
-  &stip_structure_visitor_noop,          /* STLeafForced */
+  &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &stip_traverse_structure_children,     /* STReciprocal */
   &stip_traverse_structure_children,     /* STQuodlibet */
   &threat_handler_reset_insertion_state, /* STNot */

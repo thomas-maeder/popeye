@@ -34,6 +34,12 @@ typedef enum
 
   nr_goals,
   no_goal = nr_goals
+} goal_type;
+
+typedef struct
+{
+    goal_type type;
+    square target; /* for goal==goal_target */
 } Goal;
 
 /* how to decorate a move that reached a goal */

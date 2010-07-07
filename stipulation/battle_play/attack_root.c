@@ -51,7 +51,7 @@ has_solution_type attack_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (min_length==slack_length_battle+1
-      && !are_prerequisites_for_reaching_goal_met(imminent_goal,attacker))
+      && !are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
     min_length = slack_length_battle+3;
 
   if (min_length<=length)
@@ -59,12 +59,11 @@ has_solution_type attack_root_solve(slice_index si)
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
     if (length<=slack_length_battle+1
-        && slices[si].u.branch.imminent_goal!=no_goal)
+        && slices[si].u.branch.imminent_goal.type!=no_goal)
     {
       empile_for_goal = slices[si].u.branch.imminent_goal;
-      empile_for_target = slices[si].u.branch.imminent_target;
       generate_move_reaching_goal(attacker);
-      empile_for_goal = no_goal;
+      empile_for_goal.type = no_goal;
     }
     else
       genmove(attacker);

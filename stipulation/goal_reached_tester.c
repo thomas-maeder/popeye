@@ -1,5 +1,6 @@
-#include "pyleaff.h"
+#include "stipulation/goal_reached_tester.h"
 #include "pyleaf.h"
+#include "pypipe.h"
 #include "pydata.h"
 #include "output/output.h"
 #include "pyoutput.h"
@@ -7,26 +8,46 @@
 
 #include <assert.h>
 
-/* This module provides functionality dealing with leaf slices that
- * detect whether the defending side has just the goal that it defends
- * against.
+/* This module provides functionality dealing with slices that detect
+ * whether a goal has just been reached
  */
 
-/* Determine whether a leaf slice.has just been solved with the move
+/* Allocate a STGoalReachedTester slice.
+ * @param type goal to be tested
+ * @return index of allocated slice
+ */
+slice_index alloc_goal_reached_tester_slice(Goal goal)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STGoalReachedTester);
+  slices[result].u.goal_reached_tester.goal = goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a slice.has just been solved with the move
  * by the non-starter 
- * @param leaf slice identifier
+ * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type leaf_forced_has_solution(slice_index leaf)
+has_solution_type goal_reached_tester_has_solution(slice_index si)
 {
-  Side const attacker = advers(slices[leaf].starter);
+  Side const attacker = advers(slices[si].starter);
   has_solution_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (leaf_is_goal_reached(attacker,leaf))
+  switch (leaf_is_goal_reached(attacker,si))
   {
     case goal_not_reached_selfcheck:
       result = opponent_self_check;
@@ -56,16 +77,16 @@ has_solution_type leaf_forced_has_solution(slice_index leaf)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type leaf_forced_solve(slice_index leaf)
+has_solution_type goal_reached_tester_solve(slice_index si)
 {
-  Side const attacker = advers(slices[leaf].starter);
+  Side const attacker = advers(slices[si].starter);
   has_solution_type result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (leaf_is_goal_reached(attacker,leaf))
+  switch (leaf_is_goal_reached(attacker,si))
   {
     case goal_not_reached_selfcheck:
       result = opponent_self_check;
@@ -77,8 +98,8 @@ has_solution_type leaf_forced_solve(slice_index leaf)
 
     case goal_reached:
       result = has_solution;
-      active_slice[nbply] = leaf;
-      write_goal(slices[leaf].u.leaf.goal);
+      active_slice[nbply] = si;
+      write_goal(slices[si].u.goal_reached_tester.goal.type);
       break;
 
     default:
