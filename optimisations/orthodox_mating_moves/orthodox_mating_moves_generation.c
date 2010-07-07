@@ -1,4 +1,4 @@
-#include "pyleaf.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "trace.h"
 #include "pydata.h"
 #include "platform/maxtime.h"
@@ -589,7 +589,8 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
  * @param side_at_move side to execute the move reaching the goal
  * @return true iff the prerequisites are met
  */
-boolean are_prerequisites_for_reaching_goal_met(goal_type goal, Side side_at_move)
+boolean are_prerequisites_for_reaching_goal_met(goal_type goal,
+                                                Side side_at_move)
 {
   boolean result;
 
@@ -688,144 +689,3 @@ void generate_move_reaching_goal(Side side_at_move)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 } /* generate_move_reaching_goal */
-
-
-/* Determine whether the mating side still has a piece that could
- * deliver the mate.
- * @return true iff the mating side has such a piece
- */
-boolean is_a_mating_piece_left(Side mating_side)
-{
-  boolean const is_white_mating = mating_side==White;
-
-  piece p = roib+1;
-  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
-    p++;
-
-  return p<derbla;
-}
-
-/* Determine whether a side has reached the goal of a leaf slice.
- * @param camp side
- * @param leaf slice index of leaf slice
- * @return whether camp has reached leaf's goal
- */
-goal_checker_result_type leaf_is_goal_reached(Side just_moved,
-                                              slice_index leaf)
-{
-  boolean result = goal_not_reached;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,just_moved,"");
-  TraceFunctionParam("%u",leaf);
-  TraceFunctionParamListEnd();
-  assert(slices[leaf].starter!=no_side);
-
-  TraceValue("%u\n",slices[leaf].u.goal_reached_tester.goal);
-  switch (slices[leaf].u.goal_reached_tester.goal.type)
-  {
-    case goal_mate:
-      if (CondFlag[blackultraschachzwang]
-          || CondFlag[whiteultraschachzwang])
-        result = goal_checker_mate_ultraschachzwang(just_moved);
-      else
-        result = goal_checker_mate(just_moved);
-      break;
-
-    case goal_stale:
-      result = goal_checker_stale(just_moved);
-      break;
-
-    case goal_dblstale:
-      result = goal_checker_dblstale(just_moved);
-      break;
-
-    case goal_target:
-      assert(slices[leaf].u.goal_reached_tester.goal.target!=initsquare);
-      result = goal_checker_target(just_moved,slices[leaf].u.goal_reached_tester.goal.target);
-      break;
-
-    case goal_check:
-      result = goal_checker_check(just_moved);
-      break;
-
-    case goal_capture:
-      result = goal_checker_capture(just_moved);
-      break;
-
-    case goal_steingewinn:
-      result = goal_checker_steingewinn(just_moved);
-      break;
-
-    case goal_ep:
-      result = goal_checker_ep(just_moved);
-      break;
-
-    case goal_doublemate:
-    case goal_countermate:
-      result = goal_checker_doublemate(just_moved);
-      break;
-
-    case goal_castling:
-      result = goal_checker_castling(just_moved);
-      break;
-
-    case goal_autostale:
-      result = goal_checker_autostale(just_moved);
-      break;
-
-    case goal_circuit:
-      result = goal_checker_circuit(just_moved);
-      break;
-
-    case goal_exchange:
-      result = goal_checker_exchange(just_moved);
-      break;
-
-    case goal_circuitB:
-      result = goal_checker_circuitB(just_moved);
-      break;
-
-    case goal_exchangeB:
-      result = goal_checker_exchangeB(just_moved);
-      break;
-
-    case goal_any:
-      result = goal_checker_any(just_moved);
-      break;
-
-    case goal_proof:
-    case goal_atob:
-      result = goal_checker_proof(just_moved);
-      break;
-
-    case goal_mate_or_stale:
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(goal_checker_result_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void leaf_impose_starter(slice_index si, stip_structure_traversal *st)
-{
-  Side const * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

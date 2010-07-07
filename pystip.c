@@ -1,9 +1,6 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "pyquodli.h"
-#include "pyleaf.h"
-#include "pyleafd.h"
-#include "pyleafh.h"
 #include "stipulation/goal_reached_tester.h"
 #include "pyrecipr.h"
 #include "pyquodli.h"
@@ -51,8 +48,6 @@
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
-    ENUMERATOR(STLeafDirect),      /* goal in 1 */                      \
-    ENUMERATOR(STLeafHelp),        /* help-goal in 1 */                 \
     ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
@@ -171,8 +166,6 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STSeriesMove */
   slice_structure_fork,   /* STSeriesFork */
-  slice_structure_leaf,   /* STLeafDirect */
-  slice_structure_leaf,   /* STLeafHelp */
   slice_structure_leaf,   /* STGoalReachedTester */
   slice_structure_binary, /* STReciprocal */
   slice_structure_binary, /* STQuodlibet */
@@ -326,8 +319,6 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STHelpFork */
   &mark_reachable_slice, /* STSeriesMove */
   &mark_reachable_slice, /* STSeriesFork */
-  &mark_reachable_slice, /* STLeafDirect */
-  &mark_reachable_slice, /* STLeafHelp */
   &mark_reachable_slice, /* STGoalReachedTester */
   &mark_reachable_slice, /* STReciprocal */
   &mark_reachable_slice, /* STQuodlibet */
@@ -581,8 +572,6 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STHelpFork */
   &traverse_and_deallocate,       /* STSeriesMove */
   &traverse_and_deallocate,       /* STSeriesFork */
-  &traverse_and_deallocate,       /* STLeafDirect */
-  &traverse_and_deallocate,       /* STLeafHelp */
   &traverse_and_deallocate,       /* STGoalReachedTester */
   &traverse_and_deallocate,       /* STReciprocal */
   &traverse_and_deallocate,       /* STQuodlibet */
@@ -720,8 +709,6 @@ static stip_structure_visitor const root_slice_inserters[] =
   &help_fork_insert_root,                       /* STHelpFork */
   &series_move_insert_root,                     /* STSeriesMove */
   &series_fork_insert_root,                     /* STSeriesFork */
-  &leaf_insert_root,                            /* STLeafDirect */
-  &leaf_insert_root,                            /* STLeafHelp */
   &leaf_insert_root,                            /* STGoalReachedTester */
   &reci_insert_root,                            /* STReciprocal */
   &quodlibet_insert_root,                       /* STQuodlibet */
@@ -839,8 +826,6 @@ static stip_structure_visitor const proxy_resolvers[] =
   &branch_fork_resolve_proxies,      /* STHelpFork */
   &pipe_resolve_proxies,             /* STSeriesMove */
   &branch_fork_resolve_proxies,      /* STSeriesFork */
-  &stip_traverse_structure_children, /* STLeafDirect */
-  &stip_traverse_structure_children, /* STLeafHelp */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &binary_resolve_proxies,           /* STReciprocal */
   &binary_resolve_proxies,           /* STQuodlibet */
@@ -1073,8 +1058,6 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &get_max_nr_moves_branch,                  /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
-  &get_max_nr_moves_leaf,                    /* STLeafDirect */
-  &get_max_nr_moves_leaf,                    /* STLeafHelp */
   &get_max_nr_moves_leaf,                    /* STGoalReachedTester */
   &get_max_nr_moves_binary,                  /* STReciprocal */
   &get_max_nr_moves_binary,                  /* STQuodlibet */
@@ -1256,8 +1239,6 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &find_unique_goal_leaf,            /* STLeafDirect */
-  &find_unique_goal_leaf,            /* STLeafHelp */
   &find_unique_goal_leaf,            /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
@@ -1389,8 +1370,6 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
     TraceEnumerator(SliceType,slices[si].type,"\n");
     switch (slices[si].type)
     {
-      case STLeafDirect:
-      case STLeafHelp:
       case STGoalReachedTester:
         /* nothing */
         break;
@@ -1510,112 +1489,6 @@ slice_index stip_deep_copy(slice_index si)
   return result;
 }
 
-/* Convert a leaf slice to STLeafDirect as part of a traversal
- * @param si identifies leaf slice to be converted
- * @param st address of structure representing the traversal
- */
-static void make_leaf_direct(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  slices[si].type = STLeafDirect;
-  if (slices[si].starter!=no_side)
-    slices[si].starter = advers(slices[si].starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static stip_structure_visitor const leaves_direct_makers[] =
-{
-  &stip_traverse_structure_children,   /* STProxy */
-  &stip_traverse_structure_children,   /* STAttackMove */
-  &stip_traverse_structure_children,   /* STDefenseMove */
-  &stip_traverse_structure_children,   /* STHelpMove */
-  &stip_traverse_structure_children,   /* STHelpFork */
-  &stip_traverse_structure_children,   /* STSeriesMove */
-  &stip_traverse_structure_children,   /* STSeriesFork */
-  &stip_structure_visitor_noop,        /* STLeafDirect */
-  &make_leaf_direct,                   /* STLeafHelp */
-  &make_leaf_direct,                   /* STGoalReachedTester */
-  &stip_traverse_structure_children,   /* STReciprocal */
-  &stip_traverse_structure_children,   /* STQuodlibet */
-  &stip_traverse_structure_children,   /* STNot */
-  &stip_traverse_structure_children,   /* STMoveInverterRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STMoveInverterSolvableFilter */
-  &stip_traverse_structure_children,   /* STMoveInverterSeriesFilter */
-  &stip_traverse_structure_children,   /* STAttackRoot */
-  &stip_traverse_structure_children,   /* STDefenseRoot */
-  &stip_traverse_structure_children,   /* STPostKeyPlaySuppressor */
-  &stip_traverse_structure_children,   /* STContinuationSolver */
-  &stip_traverse_structure_children,   /* STContinuationWriter */
-  &stip_traverse_structure_children,   /* STBattlePlaySolver */
-  &stip_traverse_structure_children,   /* STBattlePlaySolutionWriter */
-  &stip_traverse_structure_children,   /* STThreatSolver */
-  &stip_traverse_structure_children,   /* STZugzwangWriter */
-  &stip_traverse_structure_children,   /* STThreatEnforcer */
-  &stip_traverse_structure_children,   /* STThreatCollector */
-  &stip_traverse_structure_children,   /* STRefutationsCollector */
-  &stip_traverse_structure_children,   /* STVariationWriter */
-  &stip_traverse_structure_children,   /* STRefutingVariationWriter */
-  &stip_traverse_structure_children,   /* STNoShortVariations */
-  &stip_traverse_structure_children,   /* STAttackHashed */
-  &stip_traverse_structure_children,   /* STHelpRoot */
-  &stip_traverse_structure_children,   /* STHelpShortcut */
-  &stip_traverse_structure_children,   /* STHelpHashed */
-  &stip_traverse_structure_children,   /* STSeriesRoot */
-  &stip_traverse_structure_children,   /* STSeriesShortcut */
-  &stip_traverse_structure_children,   /* STParryFork */
-  &stip_traverse_structure_children,   /* STSeriesHashed */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardAttackerFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardDefenderFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardHelpFilter */
-  &stip_traverse_structure_children,   /* STSelfCheckGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STDirectDefenderFilter */
-  &stip_traverse_structure_children,   /* STReflexRootFilter */
-  &stip_traverse_structure_children,   /* STReflexHelpFilter */
-  &stip_traverse_structure_children,   /* STReflexSeriesFilter */
-  &stip_traverse_structure_children,   /* STReflexAttackerFilter */
-  &stip_traverse_structure_children,   /* STReflexDefenderFilter */
-  &stip_traverse_structure_children,   /* STSelfDefense */
-  &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
-  &stip_traverse_structure_children,   /* STRestartGuardHelpFilter */
-  &stip_traverse_structure_children,   /* STRestartGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STIntelligentHelpFilter */
-  &stip_traverse_structure_children,   /* STIntelligentSeriesFilter */
-  &stip_traverse_structure_children,   /* STGoalReachableGuardHelpFilter */
-  &stip_traverse_structure_children,   /* STGoalReachableGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STKeepMatingGuardAttackerFilter */
-  &stip_traverse_structure_children,   /* STKeepMatingGuardDefenderFilter */
-  &stip_traverse_structure_children,   /* STKeepMatingGuardHelpFilter */
-  &stip_traverse_structure_children,   /* STKeepMatingGuardSeriesFilter */
-  &stip_traverse_structure_children,   /* STMaxFlightsquares */
-  &stip_traverse_structure_children,   /* STDegenerateTree */
-  &stip_traverse_structure_children,   /* STMaxNrNonTrivial */
-  &stip_traverse_structure_children,   /* STMaxNrNonTrivialCounter */
-  &stip_traverse_structure_children,   /* STMaxThreatLength */
-  &stip_traverse_structure_children,   /* STMaxTimeRootDefenderFilter */
-  &stip_traverse_structure_children,   /* STMaxTimeDefenderFilter */
-  &stip_traverse_structure_children,   /* STMaxTimeHelpFilter */
-  &stip_traverse_structure_children,   /* STMaxTimeSeriesFilter */
-  &stip_traverse_structure_children,   /* STMaxSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STMaxSolutionsRootDefenderFilter */
-  &stip_traverse_structure_children,   /* STMaxSolutionsHelpFilter */
-  &stip_traverse_structure_children,   /* STMaxSolutionsSeriesFilter */
-  &stip_traverse_structure_children,   /* STStopOnShortSolutionsRootSolvableFilter */
-  &stip_traverse_structure_children,   /* STStopOnShortSolutionsHelpFilter */
-  &stip_traverse_structure_children,   /* STStopOnShortSolutionsSeriesFilter */
-  &stip_traverse_structure_children,   /* STEndOfPhaseWriter */
-  &stip_traverse_structure_children,   /* STEndOfSolutionWriter */
-  &stip_traverse_structure_children,   /* STRefutationWriter */
-  &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_structure_children    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-};
-
 static void transform_to_quodlibet_self_defense(slice_index si,
                                                 stip_structure_traversal *st)
 {
@@ -1708,8 +1581,6 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &transform_to_quodlibet_branch_fork, /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &transform_to_quodlibet_branch_fork, /* STSeriesFork */
-  &stip_structure_visitor_noop,        /* STLeafDirect */
-  &stip_structure_visitor_noop,        /* STLeafHelp */
   &stip_structure_visitor_noop,        /* STGoalReachedTester */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
@@ -1822,8 +1693,6 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STHelpFork */
   &stip_traverse_structure_children,              /* STSeriesMove */
   &stip_traverse_structure_children,              /* STSeriesFork */
-  &stip_traverse_structure_children,              /* STLeafDirect */
-  &stip_traverse_structure_children,              /* STLeafHelp */
   &stip_traverse_structure_children,              /* STGoalReachedTester */
   &stip_traverse_structure_children,              /* STReciprocal */
   &stip_traverse_structure_children,              /* STQuodlibet */
@@ -1961,8 +1830,6 @@ static stip_structure_visitor const setplay_makers[] =
   &pipe_traverse_next,               /* STHelpFork */
   &series_move_make_setplay_slice,   /* STSeriesMove */
   &series_fork_make_setplay_slice,   /* STSeriesFork */
-  &stip_traverse_structure_children, /* STLeafDirect */
-  &stip_traverse_structure_children, /* STLeafHelp */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
@@ -2076,8 +1943,6 @@ static stip_structure_visitor const setplay_appliers[] =
   &pipe_traverse_next,                   /* STHelpFork */
   &series_move_apply_setplay,            /* STSeriesMove */
   &stip_traverse_structure_children,     /* STSeriesFork */
-  &stip_traverse_structure_children,     /* STLeafDirect */
-  &stip_traverse_structure_children,     /* STLeafHelp */
   &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &stip_traverse_structure_children,     /* STReciprocal */
   &stip_traverse_structure_children,     /* STQuodlibet */
@@ -2275,8 +2140,6 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &leaf_ends_only_in,                /* STLeafDirect */
-  &leaf_ends_only_in,                /* STLeafHelp */
   &leaf_ends_only_in,                /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
@@ -2403,8 +2266,6 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &stip_traverse_structure_children,   /* STSeriesFork */
-  &slice_ends_in_one_of_leaf,          /* STLeafDirect */
-  &slice_ends_in_one_of_leaf,          /* STLeafHelp */
   &slice_ends_in_one_of_leaf,          /* STGoalReachedTester */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
@@ -2526,8 +2387,6 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STHelpFork */
   &make_exact_branch,                /* STSeriesMove */
   &make_exact_branch,                /* STSeriesFork */
-  &stip_traverse_structure_children, /* STLeafDirect */
-  &stip_traverse_structure_children, /* STLeafHelp */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
@@ -2630,8 +2489,6 @@ static stip_structure_visitor const starter_detectors[] =
   &branch_fork_detect_starter,       /* STHelpFork */
   &series_move_detect_starter,       /* STSeriesMove */
   &branch_fork_detect_starter,       /* STSeriesFork */
-  &leaf_d_detect_starter,            /* STLeafDirect */
-  &leaf_h_detect_starter,            /* STLeafHelp */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &reci_detect_starter,              /* STReciprocal */
   &quodlibet_detect_starter,         /* STQuodlibet */
@@ -2731,90 +2588,88 @@ void stip_detect_starter(void)
 
 static stip_structure_visitor const starter_imposers[] =
 {
-  &pipe_impose_starter,           /* STProxy */
-  &pipe_impose_inverted_starter,  /* STAttackMove */
-  &pipe_impose_inverted_starter,  /* STDefenseMove */
-  &pipe_impose_inverted_starter,  /* STHelpMove */
-  &branch_fork_impose_starter,    /* STHelpFork */
-  &pipe_impose_inverted_starter,  /* STSeriesMove */
-  &branch_fork_impose_starter,    /* STSeriesFork */
-  &leaf_impose_starter,           /* STLeafDirect */
-  &leaf_impose_starter,           /* STLeafHelp */
-  &leaf_impose_starter,           /* STGoalReachedTester */
-  &reci_impose_starter,           /* STReciprocal */
-  &quodlibet_impose_starter,      /* STQuodlibet */
-  &pipe_impose_starter,           /* STNot */
-  &pipe_impose_inverted_starter,  /* STMoveInverterRootSolvableFilter */
-  &pipe_impose_inverted_starter,  /* STMoveInverterSolvableFilter */
-  &pipe_impose_inverted_starter,  /* STMoveInverterSeriesFilter */
-  &pipe_impose_inverted_starter,  /* STAttackRoot */
-  &pipe_impose_starter,           /* STDefenseRoot */
-  &pipe_impose_starter,           /* STPostKeyPlaySuppressor */
-  &pipe_impose_starter,           /* STContinuationSolver */
-  &pipe_impose_starter,           /* STContinuationWriter */
-  &pipe_impose_starter,           /* STBattlePlaySolver */
-  &pipe_impose_starter,           /* STBattlePlaySolutionWriter */
-  &pipe_impose_starter,           /* STThreatSolver */
-  &pipe_impose_starter,           /* STZugzwangWriter */
-  &pipe_impose_starter,           /* STThreatEnforcer */
-  &pipe_impose_starter,           /* STThreatCollector */
-  &pipe_impose_starter,           /* STRefutationsCollector */
-  &pipe_impose_starter,           /* STVariationWriter */
-  &pipe_impose_starter,           /* STRefutingVariationWriter */
-  &pipe_impose_starter,           /* STNoShortVariations */
-  &pipe_impose_starter,           /* STAttackHashed */
-  &pipe_impose_starter,           /* STHelpRoot */
-  &pipe_impose_starter,           /* STHelpShortcut */
-  &pipe_impose_starter,           /* STHelpHashed */
-  &pipe_impose_starter,           /* STSeriesRoot */
-  &pipe_impose_starter,           /* STSeriesShortcut */
-  &branch_fork_impose_starter,    /* STParryFork */
-  &pipe_impose_starter,           /* STSeriesHashed */
-  &pipe_impose_starter,           /* STSelfCheckGuardRootSolvableFilter */
-  &pipe_impose_starter,           /* STSelfCheckGuardSolvableFilter */
-  &pipe_impose_starter,           /* STSelfCheckGuardAttackerFilter */
-  &pipe_impose_starter,           /* STSelfCheckGuardDefenderFilter */
-  &pipe_impose_starter,           /* STSelfCheckGuardHelpFilter */
-  &pipe_impose_starter,           /* STSelfCheckGuardSeriesFilter */
-  &direct_defense_impose_starter, /* STDirectDefenderFilter */
-  &reflex_filter_impose_starter,  /* STReflexRootFilter */
-  &reflex_filter_impose_starter,  /* STReflexHelpFilter */
-  &reflex_filter_impose_starter,  /* STReflexSeriesFilter */
-  &reflex_filter_impose_starter,  /* STReflexAttackerFilter */
-  &reflex_filter_impose_starter,  /* STReflexDefenderFilter */
-  &self_defense_impose_starter,   /* STSelfDefense */
-  &pipe_impose_starter,           /* STRestartGuardRootDefenderFilter */
-  &pipe_impose_starter,           /* STRestartGuardHelpFilter */
-  &pipe_impose_starter,           /* STRestartGuardSeriesFilter */
-  &pipe_impose_starter,           /* STIntelligentHelpFilter */
-  &pipe_impose_starter,           /* STIntelligentSeriesFilter */
-  &pipe_impose_starter,           /* STGoalReachableGuardHelpFilter */
-  &pipe_impose_starter,           /* STGoalReachableGuardSeriesFilter */
-  &pipe_impose_starter,           /* STKeepMatingGuardAttackerFilter */
-  &pipe_impose_starter,           /* STKeepMatingGuardDefenderFilter */
-  &pipe_impose_starter,           /* STKeepMatingGuardHelpFilter */
-  &pipe_impose_starter,           /* STKeepMatingGuardSeriesFilter */
-  &pipe_impose_starter,           /* STMaxFlightsquares */
-  &pipe_impose_starter,           /* STDegenerateTree */
-  &pipe_impose_starter,           /* STMaxNrNonTrivial */
-  &pipe_impose_starter,           /* STMaxNrNonTrivialCounter */
-  &pipe_impose_starter,           /* STMaxThreatLength */
-  &pipe_impose_starter,           /* STMaxTimeRootDefenderFilter */
-  &pipe_impose_starter,           /* STMaxTimeDefenderFilter */
-  &pipe_impose_starter,           /* STMaxTimeHelpFilter */
-  &pipe_impose_starter,           /* STMaxTimeSeriesFilter */
-  &pipe_impose_starter,           /* STMaxSolutionsRootSolvableFilter */
-  &pipe_impose_starter,           /* STMaxSolutionsRootDefenderFilter */
-  &pipe_impose_starter,           /* STMaxSolutionsHelpFilter */
-  &pipe_impose_starter,           /* STMaxSolutionsSeriesFilter */
-  &pipe_impose_starter,           /* STStopOnShortSolutionsRootSolvableFilter */
-  &pipe_impose_starter,           /* STStopOnShortSolutionsHelpFilter */
-  &pipe_impose_starter,           /* STStopOnShortSolutionsSeriesFilter */
-  &pipe_impose_starter,           /* STEndOfPhaseWriter */
-  &pipe_impose_starter,           /* STEndOfSolutionWriter */
-  &pipe_impose_starter,           /* STRefutationWriter */
-  &pipe_impose_starter,           /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &pipe_impose_starter            /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &pipe_impose_starter,                /* STProxy */
+  &pipe_impose_inverted_starter,       /* STAttackMove */
+  &pipe_impose_inverted_starter,       /* STDefenseMove */
+  &pipe_impose_inverted_starter,       /* STHelpMove */
+  &branch_fork_impose_starter,         /* STHelpFork */
+  &pipe_impose_inverted_starter,       /* STSeriesMove */
+  &branch_fork_impose_starter,         /* STSeriesFork */
+  &goal_reached_tester_impose_starter, /* STGoalReachedTester */
+  &reci_impose_starter,                /* STReciprocal */
+  &quodlibet_impose_starter,           /* STQuodlibet */
+  &pipe_impose_starter,                /* STNot */
+  &pipe_impose_inverted_starter,       /* STMoveInverterRootSolvableFilter */
+  &pipe_impose_inverted_starter,       /* STMoveInverterSolvableFilter */
+  &pipe_impose_inverted_starter,       /* STMoveInverterSeriesFilter */
+  &pipe_impose_inverted_starter,       /* STAttackRoot */
+  &pipe_impose_starter,                /* STDefenseRoot */
+  &pipe_impose_starter,                /* STPostKeyPlaySuppressor */
+  &pipe_impose_starter,                /* STContinuationSolver */
+  &pipe_impose_starter,                /* STContinuationWriter */
+  &pipe_impose_starter,                /* STBattlePlaySolver */
+  &pipe_impose_starter,                /* STBattlePlaySolutionWriter */
+  &pipe_impose_starter,                /* STThreatSolver */
+  &pipe_impose_starter,                /* STZugzwangWriter */
+  &pipe_impose_starter,                /* STThreatEnforcer */
+  &pipe_impose_starter,                /* STThreatCollector */
+  &pipe_impose_starter,                /* STRefutationsCollector */
+  &pipe_impose_starter,                /* STVariationWriter */
+  &pipe_impose_starter,                /* STRefutingVariationWriter */
+  &pipe_impose_starter,                /* STNoShortVariations */
+  &pipe_impose_starter,                /* STAttackHashed */
+  &pipe_impose_starter,                /* STHelpRoot */
+  &pipe_impose_starter,                /* STHelpShortcut */
+  &pipe_impose_starter,                /* STHelpHashed */
+  &pipe_impose_starter,                /* STSeriesRoot */
+  &pipe_impose_starter,                /* STSeriesShortcut */
+  &branch_fork_impose_starter,         /* STParryFork */
+  &pipe_impose_starter,                /* STSeriesHashed */
+  &pipe_impose_starter,                /* STSelfCheckGuardRootSolvableFilter */
+  &pipe_impose_starter,                /* STSelfCheckGuardSolvableFilter */
+  &pipe_impose_starter,                /* STSelfCheckGuardAttackerFilter */
+  &pipe_impose_starter,                /* STSelfCheckGuardDefenderFilter */
+  &pipe_impose_starter,                /* STSelfCheckGuardHelpFilter */
+  &pipe_impose_starter,                /* STSelfCheckGuardSeriesFilter */
+  &direct_defense_impose_starter,      /* STDirectDefenderFilter */
+  &reflex_filter_impose_starter,       /* STReflexRootFilter */
+  &reflex_filter_impose_starter,       /* STReflexHelpFilter */
+  &reflex_filter_impose_starter,       /* STReflexSeriesFilter */
+  &reflex_filter_impose_starter,       /* STReflexAttackerFilter */
+  &reflex_filter_impose_starter,       /* STReflexDefenderFilter */
+  &self_defense_impose_starter,        /* STSelfDefense */
+  &pipe_impose_starter,                /* STRestartGuardRootDefenderFilter */
+  &pipe_impose_starter,                /* STRestartGuardHelpFilter */
+  &pipe_impose_starter,                /* STRestartGuardSeriesFilter */
+  &pipe_impose_starter,                /* STIntelligentHelpFilter */
+  &pipe_impose_starter,                /* STIntelligentSeriesFilter */
+  &pipe_impose_starter,                /* STGoalReachableGuardHelpFilter */
+  &pipe_impose_starter,                /* STGoalReachableGuardSeriesFilter */
+  &pipe_impose_starter,                /* STKeepMatingGuardAttackerFilter */
+  &pipe_impose_starter,                /* STKeepMatingGuardDefenderFilter */
+  &pipe_impose_starter,                /* STKeepMatingGuardHelpFilter */
+  &pipe_impose_starter,                /* STKeepMatingGuardSeriesFilter */
+  &pipe_impose_starter,                /* STMaxFlightsquares */
+  &pipe_impose_starter,                /* STDegenerateTree */
+  &pipe_impose_starter,                /* STMaxNrNonTrivial */
+  &pipe_impose_starter,                /* STMaxNrNonTrivialCounter */
+  &pipe_impose_starter,                /* STMaxThreatLength */
+  &pipe_impose_starter,                /* STMaxTimeRootDefenderFilter */
+  &pipe_impose_starter,                /* STMaxTimeDefenderFilter */
+  &pipe_impose_starter,                /* STMaxTimeHelpFilter */
+  &pipe_impose_starter,                /* STMaxTimeSeriesFilter */
+  &pipe_impose_starter,                /* STMaxSolutionsRootSolvableFilter */
+  &pipe_impose_starter,                /* STMaxSolutionsRootDefenderFilter */
+  &pipe_impose_starter,                /* STMaxSolutionsHelpFilter */
+  &pipe_impose_starter,                /* STMaxSolutionsSeriesFilter */
+  &pipe_impose_starter,                /* STStopOnShortSolutionsRootSolvableFilter */
+  &pipe_impose_starter,                /* STStopOnShortSolutionsHelpFilter */
+  &pipe_impose_starter,                /* STStopOnShortSolutionsSeriesFilter */
+  &pipe_impose_starter,                /* STEndOfPhaseWriter */
+  &pipe_impose_starter,                /* STEndOfSolutionWriter */
+  &pipe_impose_starter,                /* STRefutationWriter */
+  &pipe_impose_starter,                /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &pipe_impose_starter                 /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
 };
 
 /* Set the starting side of the stipulation
@@ -3038,8 +2893,6 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_branch_fork,  /* STHelpFork */
   &traverse_structure_pipe,         /* STSeriesMove */
   &traverse_structure_branch_fork,  /* STSeriesFork */
-  &stip_structure_visitor_noop,     /* STLeafDirect */
-  &stip_structure_visitor_noop,     /* STLeafHelp */
   &stip_structure_visitor_noop,     /* STGoalReachedTester */
   &traverse_structure_binary,       /* STReciprocal */
   &traverse_structure_binary,       /* STQuodlibet */

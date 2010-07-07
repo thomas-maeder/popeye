@@ -221,8 +221,6 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STHelpFork */
   &insert_maxsolutions_series_filter,        /* STSeriesMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
-  &stip_traverse_structure_children,         /* STLeafDirect */
-  &stip_traverse_structure_children,         /* STLeafHelp */
   &stip_structure_visitor_noop,              /* STGoalReachedTester */
   &stip_traverse_structure_children,         /* STReciprocal */
   &stip_traverse_structure_children,         /* STQuodlibet */
@@ -324,8 +322,6 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &insert_root_solvable_filter,      /* STLeafDirect */
-  &insert_root_solvable_filter,      /* STLeafHelp */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */

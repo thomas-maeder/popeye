@@ -17,12 +17,10 @@ pypipe.h:
 
 trace.h:
 stipulation/goal_reached_tester$(OBJ_SUFFIX): stipulation/goal_reached_tester.c \
-  stipulation/goal_reached_tester.h pyleaf.h pypipe.h pydata.h \
-  output/output.h pyoutput.h trace.h
+  stipulation/goal_reached_tester.h pypipe.h pydata.h output/output.h \
+  pyoutput.h trace.h
 
 stipulation/goal_reached_tester.h:
-
-pyleaf.h:
 
 pypipe.h:
 

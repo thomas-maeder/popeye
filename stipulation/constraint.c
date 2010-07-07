@@ -910,8 +910,6 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &reflex_guards_inserter_branch_fork, /* STSeriesFork */
-  &stip_structure_visitor_noop,        /* STLeafDirect */
-  &stip_structure_visitor_noop,        /* STLeafHelp */
   &stip_structure_visitor_noop,        /* STGoalReachedTester */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
@@ -1113,8 +1111,6 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
   &reflex_guards_inserter_series,       /* STSeriesMove */
   &reflex_guards_inserter_branch_fork,  /* STSeriesFork */
-  &stip_structure_visitor_noop,         /* STLeafDirect */
-  &stip_structure_visitor_noop,         /* STLeafHelp */
   &stip_structure_visitor_noop,         /* STGoalReachedTester */
   &stip_traverse_structure_children,    /* STReciprocal */
   &stip_traverse_structure_children,    /* STQuodlibet */

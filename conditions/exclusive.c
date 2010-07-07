@@ -1,8 +1,9 @@
 #include "exclusive.h"
 #include "pystip.h"
-#include "pyleaf.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pymsg.h"
 #include "pydata.h"
+#include "stipulation/goal_reached_tester.h"
 #include "pyoutput.h"
 #include "output/output.h"
 #include "trace.h"
@@ -51,6 +52,7 @@ boolean exclusive_verifie_position(void)
 boolean exclusive_pos_legal(void)
 {
   boolean result;
+  Goal const goal = slices[exclusive_goal_leaf].u.goal_reached_tester.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -59,8 +61,7 @@ boolean exclusive_pos_legal(void)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || (leaf_is_goal_reached(trait[nbply],exclusive_goal_leaf)
-                !=goal_reached));
+            || is_goal_reached(trait[nbply],goal)!=goal_reached);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -75,6 +76,7 @@ boolean exclusive_pos_legal(void)
 void exclusive_init_genmove(Side side)
 {
   unsigned int nr_moves_reaching_goal = 0;
+  Goal const goal = slices[exclusive_goal_leaf].u.goal_reached_tester.goal;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -97,7 +99,7 @@ void exclusive_init_genmove(Side side)
   while (encore() && nr_moves_reaching_goal<2)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && leaf_is_goal_reached(side,exclusive_goal_leaf)==goal_reached)
+        && is_goal_reached(side,goal)==goal_reached)
       ++nr_moves_reaching_goal;
     repcoup();
   }

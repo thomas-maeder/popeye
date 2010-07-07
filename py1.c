@@ -51,7 +51,7 @@
 #include "py1.h"
 #include "pyproc.h"
 #include "pydata.h"
-#include "pyleaf.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pystip.h"
 #include "pyhash.h"
 #include "pytable.h"

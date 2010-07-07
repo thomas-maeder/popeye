@@ -2660,48 +2660,6 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  */
-static void moves_left_leaf_direct(slice_index si, stip_move_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
-  ++MovesLeft[White];
-
-  TraceValue("%u",MovesLeft[White]);
-  TraceValue("%u\n",MovesLeft[Black]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Calculate the number of moves of each side
- * @param si index of non-root slice
- * @param st address of structure defining traversal
- */
-static void moves_left_leaf_help(slice_index si, stip_move_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
-  ++MovesLeft[slices[si].starter];
-
-  TraceValue("%u",MovesLeft[White]);
-  TraceValue("%u\n",MovesLeft[Black]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Calculate the number of moves of each side
- * @param si index of non-root slice
- * @param st address of structure defining traversal
- */
 static void moves_left_leaf_forced(slice_index si, stip_move_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -2745,8 +2703,6 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &stip_traverse_moves_branch,               /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
-  &moves_left_leaf_direct,                   /* STLeafDirect */
-  &moves_left_leaf_help,                     /* STLeafHelp */
   &moves_left_leaf_forced,                   /* STGoalReachedTester */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
@@ -3195,8 +3151,6 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STHelpFork */
   &intelligent_guards_inserter_branch_series,/* STSeriesMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
-  &stip_structure_visitor_noop,              /* STLeafDirect */
-  &stip_structure_visitor_noop,              /* STLeafHelp */
   &stip_structure_visitor_noop,              /* STGoalReachedTester */
   &stip_traverse_structure_children,         /* STReciprocal */
   &stip_traverse_structure_children,         /* STQuodlibet */
@@ -3530,8 +3484,6 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_fork,      /* STHelpFork */
   &stip_traverse_structure_children,            /* STSeriesMove */
   &intelligent_mode_support_detector_fork,      /* STSeriesFork */
-  &intelligent_mode_support_detector_leaf,      /* STLeafDirect */
-  &intelligent_mode_support_detector_leaf,      /* STLeafHelp */
   &intelligent_mode_support_detector_leaf,      /* STGoalReachedTester */
   &intelligent_mode_support_none,               /* STReciprocal */
   &intelligent_mode_support_detector_quodlibet, /* STQuodlibet */

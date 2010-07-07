@@ -280,8 +280,6 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STHelpFork */
   &slice_property_offset_shifter,    /* STSeriesMove */
   &slice_property_offset_shifter,    /* STSeriesFork */
-  &slice_property_offset_shifter,    /* STLeafDirect */
-  &slice_property_offset_shifter,    /* STLeafHelp */
   &slice_property_offset_shifter,    /* STGoalReachedTester */
   &slice_property_offset_shifter,    /* STReciprocal */
   &slice_property_offset_shifter,    /* STQuodlibet */
@@ -556,12 +554,6 @@ static void init_slice_properties_attack_hashed(slice_index si,
   slice_initializer_state * const sis = st->param;
   stip_length_type const length = slices[si].u.branch.length;
 
-  /* TODO This is a bit of a hack - we are hashing for a leaf -> no
-   * help adapter has adjusted the valueOffset!
-   */
-  if (slices[slices[si].u.pipe.next].type==STLeafDirect)
-    --sis->valueOffset;
-
   init_slice_property_attack(si,length,sis);
   hash_slices[nr_hash_slices++] = si;
   stip_traverse_structure_children(si,st);
@@ -575,15 +567,11 @@ static void init_slice_properties_hashed_help(slice_index si,
                                               stip_structure_traversal *st)
 {
   slice_initializer_state * const sis = st->param;
-  unsigned int const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[slices[si].u.pipe.next].type==STLeafHelp)
-    --sis->valueOffset;
-  else
   {
     slice_index const sibling = branch_find_slice(STHelpHashed,si);
     
@@ -602,9 +590,10 @@ static void init_slice_properties_hashed_help(slice_index si,
 
       stip_traverse_structure(sibling,st);
     }
+
+    init_slice_property_help(si,length-slack_length_help,sis);
   }
 
-  init_slice_property_help(si,length-slack_length_help,sis);
   stip_traverse_structure_children(si,st);
 
   hash_slices[nr_hash_slices++] = si;
@@ -645,8 +634,6 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
   &stip_traverse_structure_children,     /* STSeriesFork */
-  &stip_structure_visitor_noop,          /* STLeafDirect */
-  &stip_structure_visitor_noop,          /* STLeafHelp */
   &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &init_slice_properties_binary,         /* STReciprocal */
   &init_slice_properties_binary,         /* STQuodlibet */
@@ -2067,28 +2054,11 @@ static void insert_help_hashed_slice(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
 
   if (slices[prev].type!=STHelpHashed)
-    switch (slices[si].type)
-    {
-      case STLeafHelp:
-      {
-        stip_length_type const length = slack_length_help+1;
-        stip_length_type const min_length = slack_length_help+1;
-        pipe_append(prev,alloc_help_hashed_slice(length,min_length));
-        break;
-      }
-
-      case STHelpMove:
-      {
-        stip_length_type const length = slices[si].u.branch.length;
-        stip_length_type const min_length = slices[si].u.branch.min_length;
-        pipe_append(prev,alloc_help_hashed_slice(length,min_length));
-        break;
-      }
-
-      default:
-        assert(0);
-        break;
-    }
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    pipe_append(prev,alloc_help_hashed_slice(length,min_length));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2189,32 +2159,6 @@ static boolean is_goal_move_oriented(slice_index leaf)
   return result;
 }
 
-
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- */
-static void insert_hash_element_leaf_direct(slice_index si,
-                                            stip_move_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* In move orientated stipulations (%, z, x etc.) it's less
-   * expensive to compute an end in 1. TLi
-   */
-  if (st->level>0 && !is_goal_move_oriented(si))
-  {
-    stip_length_type const length = slack_length_battle+1;
-    stip_length_type const min_length = slack_length_battle+1;
-    pipe_append(slices[si].prev,alloc_attack_hashed_slice(length,min_length));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traverse a slice while inserting hash elements
  * @param si identifies slice
  * @param st address of structure holding status of traversal
@@ -2231,24 +2175,6 @@ static void insert_hash_element_branch_help(slice_index si,
   if (st->remaining<st->full_length)
     insert_help_hashed_slice(si);
   stip_traverse_moves_branch(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- */
-static void insert_hash_element_leaf_help(slice_index si,
-                                          stip_move_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (st->level>0)
-    insert_help_hashed_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2285,8 +2211,6 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &insert_hash_element_branch_series,        /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
-  &insert_hash_element_leaf_direct,          /* STLeafDirect */
-  &insert_hash_element_leaf_help,            /* STLeafHelp */
   &stip_traverse_moves_noop,                 /* STGoalReachedTester */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */

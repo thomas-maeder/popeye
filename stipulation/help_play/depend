@@ -41,9 +41,10 @@ pyoutput.h:
 trace.h:
 stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \
   stipulation/help_play/move.h pydata.h pyslice.h pybrafrk.h pypipe.h \
-  pyleaf.h stipulation/branch.h stipulation/proxy.h \
-  stipulation/help_play/play.h stipulation/help_play/root.h \
-  stipulation/help_play/shortcut.h output/output.h trace.h
+  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
+  stipulation/branch.h stipulation/proxy.h stipulation/help_play/play.h \
+  stipulation/help_play/root.h stipulation/help_play/shortcut.h \
+  output/output.h trace.h
 
 stipulation/help_play/move.h:
 
@@ -55,7 +56,7 @@ pybrafrk.h:
 
 pypipe.h:
 
-pyleaf.h:
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/branch.h:
 
@@ -102,9 +103,8 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
   stipulation/help_play/play.h stipulation/battle_play/attack_play.h \
   stipulation/series_play/play.h stipulation/help_play/root.h \
   stipulation/help_play/move.h stipulation/help_play/shortcut.h \
-  stipulation/help_play/fork.h pyleafh.h pyhash.h pyreflxg.h pykeepmt.h \
-  pyselfcg.h pymovenb.h pyint.h pydata.h \
-  optimisations/intelligent/help_filter.h \
+  stipulation/help_play/fork.h pyhash.h pyreflxg.h pykeepmt.h pyselfcg.h \
+  pymovenb.h pyint.h pydata.h optimisations/intelligent/help_filter.h \
   optimisations/maxtime/help_filter.h \
   optimisations/maxsolutions/help_filter.h \
   optimisations/stoponshortsolutions/help_filter.h trace.h
@@ -122,8 +122,6 @@ stipulation/help_play/move.h:
 stipulation/help_play/shortcut.h:
 
 stipulation/help_play/fork.h:
-
-pyleafh.h:
 
 pyhash.h:
 

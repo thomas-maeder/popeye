@@ -7,6 +7,13 @@
  * whether a goal has just been reached
  */
 
+/* Determine whether a side has reached the goal of a leaf slice.
+ * @param just_moved side that has just moved
+ * @param goal goal to be tested
+ * @return whether just_moved has reached leaf's goal
+ */
+goal_checker_result_type is_goal_reached(Side just_moved, Goal goal);
+
 /* Allocate a STGoalReachedTester slice.
  * @param Goal goal to be tested
  * @return index of allocated slice
@@ -25,5 +32,12 @@ has_solution_type goal_reached_tester_has_solution(slice_index si);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type goal_reached_tester_solve(slice_index si);
+
+/* Impose the starting side on a stipulation
+ * @param si identifies branch
+ * @param st address of structure that holds the state of the traversal
+ */
+void goal_reached_tester_impose_starter(slice_index si,
+                                        stip_structure_traversal *st);
 
 #endif

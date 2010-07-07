@@ -3,7 +3,8 @@
 #include "pylang.h"
 #include "pyoutput.h"
 #include "pymsg.h"
-#include "pyleaf.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
+#include "stipulation/goal_reached_tester.h"
 
 #include <string.h>
 
@@ -22,6 +23,8 @@ static slice_index goal_leaf;
  */
 static void find_mate_square(Side camp)
 {
+  Goal const goal = slices[goal_leaf].u.goal_reached_tester.goal;
+  
   if (camp == White)
   {
     rn = ++super[nbply];
@@ -31,7 +34,7 @@ static void find_mate_square(Side camp)
       if (e[rn]==vide)
       {
         e[rn]= roin;
-        if (leaf_is_goal_reached(camp,goal_leaf)==goal_reached)
+        if (is_goal_reached(camp,goal)==goal_reached)
           return;
         e[rn]= vide;
       }
@@ -51,7 +54,7 @@ static void find_mate_square(Side camp)
       if (e[rb]==vide)
       {
         e[rb]= roib;
-        if (leaf_is_goal_reached(camp,goal_leaf)==goal_reached)
+        if (is_goal_reached(camp,goal)==goal_reached)
           return;
         e[rb]= vide;
       }

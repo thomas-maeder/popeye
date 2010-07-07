@@ -112,7 +112,7 @@
 #include "pythreat.h"
 #include "pynontrv.h"
 #include "pypipe.h"
-#include "pyleaf.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 #include "pyslice.h"
@@ -506,8 +506,6 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &root_slice_type_found,            /* STLeafDirect */
-  &root_slice_type_found,            /* STLeafHelp */
   &root_slice_type_found,            /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
@@ -2088,7 +2086,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
-    case STLeafHelp:
     case STGoalReachedTester:
       if (slices[si].u.goal_reached_tester.goal.type==goal_atob)
         result = whitetoplay_means_change_colors;
@@ -2097,7 +2094,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STSelfCheckGuardDefenderFilter:
-    case STLeafDirect:
     case STContinuationSolver:
     case STDefenseMove:
       result = whitetoplay_means_shorten;
@@ -2304,8 +2300,6 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_structure_visitor_noop,      /* STLeafDirect */
-  &stip_structure_visitor_noop,      /* STLeafHelp */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
@@ -2424,8 +2418,6 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_structure_visitor_noop,      /* STLeafDirect */
-  &stip_structure_visitor_noop,      /* STLeafHelp */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
@@ -2780,8 +2772,6 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &remember_imminent_goal_series_move,       /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
-  &stip_traverse_moves_noop,                 /* STLeafDirect */
-  &stip_traverse_moves_noop,                 /* STLeafHelp */
   &remember_imminent_goal_leaf,              /* STGoalReachedTester */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */

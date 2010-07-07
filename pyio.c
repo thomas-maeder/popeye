@@ -2921,16 +2921,15 @@ static char *ParseStructuredStip_leaf(char *tok,
   /* e.g. d= for a direct leaf with goal stalemate */
   switch (ParseStructuredStip_leaf_type(tok[0]))
   {
-    case STLeafDirect:
-      if (startLikeBranch)
-        tok = Parsegoal_type(tok+1,proxy);
-      else
-        tok = Parsegoal_type(tok+1,proxy);
-      break;
+//       if (startLikeBranch)
+//         tok = Parsegoal_type(tok+1,proxy);
+//       else
+//         tok = Parsegoal_type(tok+1,proxy);
+//       break;
 
-    case STGoalReachedTester:
-      tok = Parsegoal_type(tok+1,proxy);
-      break;
+//     case STGoalReachedTester:
+//       tok = Parsegoal_type(tok+1,proxy);
+//       break;
 
     default:
       tok = 0;
@@ -5584,16 +5583,6 @@ static char *ParseTwinning(boolean *stipChanged)
     {
       if (continued)
       {
-        if (slices[root_slice].type==STHelpMove
-            || slices[root_slice].type==STSeriesMove)
-        {
-          slice_index const next = slices[root_slice].u.pipe.next;
-          if ((slices[next].type==STLeafHelp
-               || slices[next].type==STLeafDirect)
-              && (slices[next].u.goal_reached_tester.goal.type==goal_proof
-                  || slices[next].u.goal_reached_tester.goal.type==goal_atob))
-            ProofRestoreTargetPosition();
-        }
         StdChar('+');
         if (LaTeXout)
           strcat(ActTwinning, "+");

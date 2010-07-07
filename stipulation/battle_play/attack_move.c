@@ -2,7 +2,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
-#include "pyleaf.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"

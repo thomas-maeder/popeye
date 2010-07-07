@@ -68,7 +68,6 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pyslice.h"
-#include "pyleaf.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "output/output.h"

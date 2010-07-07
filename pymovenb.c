@@ -309,8 +309,6 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_structure_visitor_noop,         /* STHelpFork */
   &restart_guards_inserter_series,      /* STSeriesMove */
   &stip_structure_visitor_noop,         /* STSeriesFork */
-  &stip_structure_visitor_noop,         /* STLeafDirect */
-  &stip_structure_visitor_noop,         /* STLeafHelp */
   &stip_structure_visitor_noop,         /* STGoalReachedTester */
   &stip_traverse_structure_children,    /* STReciprocal */
   &restart_guards_inserter_quodlibet,   /* STQuodlibet */

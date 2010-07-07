@@ -164,8 +164,6 @@ static stip_structure_visitor const output_mode_detectors[] =
   &output_mode_linemode,             /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &output_mode_linemode,             /* STSeriesFork */
-  &stip_traverse_structure_children, /* STLeafDirect */
-  &stip_traverse_structure_children, /* STLeafHelp */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &output_mode_binary,               /* STReciprocal */
   &output_mode_binary,               /* STQuodlibet */

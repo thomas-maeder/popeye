@@ -1,9 +1,9 @@
 #include "pykeepmt.h"
+#include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
-#include "pyleaf.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -98,6 +98,21 @@ static slice_index alloc_keepmating_guard_series_filter(Side mating)
 
 /* **************** Implementation of interface Direct ***************
  */
+
+/* Determine whether the mating side still has a piece that could
+ * deliver the mate.
+ * @return true iff the mating side has such a piece
+ */
+static boolean is_a_mating_piece_left(Side mating_side)
+{
+  boolean const is_white_mating = mating_side==White;
+
+  piece p = roib+1;
+  while (p<derbla && nbpiece[is_white_mating ? p : -p]==0)
+    p++;
+
+  return p<derbla;
+}
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
@@ -416,21 +431,6 @@ stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
  */
 typedef boolean keepmating_type[nr_sides];
 
-static void keepmating_guards_inserter_leaf(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  keepmating_type * const km = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  (*km)[slices[si].starter] = true;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void keepmating_guards_inserter_leaf_forced(slice_index si,
                                                    stip_structure_traversal *st)
 {
@@ -663,8 +663,6 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
   &keepmating_guards_inserter_series_move, /* STSeriesMove */
   &keepmating_guards_inserter_branch_fork, /* STSeriesFork */
-  &keepmating_guards_inserter_leaf,        /* STLeafDirect */
-  &keepmating_guards_inserter_leaf,        /* STLeafHelp */
   &keepmating_guards_inserter_leaf_forced, /* STGoalReachedTester */
   &keepmating_guards_inserter_reciprocal,  /* STReciprocal */
   &keepmating_guards_inserter_quodlibet,   /* STQuodlibet */

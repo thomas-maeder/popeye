@@ -265,11 +265,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STOutputPlaintextTreeCheckDetectorAttackerFilter:
       case STOutputPlaintextTreeCheckDetectorDefenderFilter:
         Trace_branch(si);
-        if (slices[si].u.branch.imminent_goal!=no_goal)
+        if (slices[si].u.branch.imminent_goal.type!=no_goal)
         {
-          fprintf(stdout,"imminent:%2u ",slices[si].u.branch.imminent_goal);
-          if (slices[si].u.branch.imminent_goal==goal_target)
-            TraceSquare(slices[si].u.branch.imminent_target);
+          fprintf(stdout,"imminent:%2u ",slices[si].u.branch.imminent_goal.type);
+          if (slices[si].u.branch.imminent_goal.type==goal_target)
+            TraceSquare(slices[si].u.branch.imminent_goal.target);
         }
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
@@ -381,11 +381,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
         break;
 
-      case STLeafDirect:
-      case STLeafHelp:
       case STGoalReachedTester:
         Trace_link("",slices[si].prev,"<-");
-        fprintf(stdout,"goal:%u\n",slices[si].u.goal_reached_tester.goal);
+        fprintf(stdout,"goal:%u\n",slices[si].u.goal_reached_tester.goal.type);
         break;
 
       default:

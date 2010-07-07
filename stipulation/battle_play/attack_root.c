@@ -1,7 +1,7 @@
 #include "stipulation/battle_play/attack_root.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pyleaf.h"
+#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"

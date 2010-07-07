@@ -262,8 +262,6 @@ static stip_structure_visitor const self_guards_inserters[] =
   &stip_traverse_structure_children,  /* STHelpFork */
   &stip_traverse_structure_children,  /* STSeriesMove */
   &stip_traverse_structure_children,  /* STSeriesFork */
-  &stip_structure_visitor_noop,       /* STLeafDirect */
-  &stip_structure_visitor_noop,       /* STLeafHelp */
   &stip_traverse_structure_children,  /* STGoalReachedTester */
   &stip_traverse_structure_children,  /* STReciprocal */
   &stip_traverse_structure_children,  /* STQuodlibet */

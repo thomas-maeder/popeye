@@ -207,8 +207,6 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STHelpFork */
   &insert_stoponshortsolutions_series_move, /* STSeriesMove */
   &stip_traverse_structure_children,        /* STSeriesFork */
-  &stip_structure_visitor_noop,             /* STLeafDirect */
-  &stip_structure_visitor_noop,             /* STLeafHelp */
   &stip_structure_visitor_noop,             /* STGoalReachedTester */
   &stip_traverse_structure_children,        /* STReciprocal */
   &stip_traverse_structure_children,        /* STQuodlibet */
@@ -335,8 +333,6 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_traverse_structure_children, /* STLeafDirect */
-  &insert_root_solvable_filter,      /* STLeafHelp */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */

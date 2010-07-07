@@ -376,7 +376,7 @@ stip_length_type iterate_last_self_defenses(slice_index si,
   TracePiece(killer);
   TraceText("\n");
 
-  if (slices[si].u.branch.imminent_goal==goal_ep
+  if (slices[si].u.branch.imminent_goal.type==goal_ep
       && ep[nbply]==initsquare
       && ep2[nbply]==initsquare)
   {
@@ -455,7 +455,8 @@ defense_move_can_defend_in_n(slice_index si,
     /* TODO create a design for representing all these move generation
      * modes
      */
-    if (n==slack_length_battle+1 && slices[si].u.branch.imminent_goal!=no_goal)
+    if (n==slack_length_battle+1
+        && slices[si].u.branch.imminent_goal.type!=no_goal)
       max_len_continuation = iterate_last_self_defenses(si,
                                                         n,n_min,
                                                         defender,

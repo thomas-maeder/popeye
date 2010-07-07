@@ -18,7 +18,8 @@ stipulation/battle_play/defense_move.h:
 trace.h:
 stipulation/battle_play/attack_root$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_root.c \
-  stipulation/battle_play/attack_root.h pydata.h pypipe.h pyleaf.h \
+  stipulation/battle_play/attack_root.h pydata.h pypipe.h \
+  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
   stipulation/branch.h stipulation/battle_play/defense_play.h trace.h
 
 stipulation/battle_play/attack_root.h:
@@ -27,7 +28,7 @@ pydata.h:
 
 pypipe.h:
 
-pyleaf.h:
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/branch.h:
 
@@ -37,7 +38,8 @@ trace.h:
 stipulation/battle_play/attack_move$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_move.c \
   stipulation/battle_play/attack_move.h pydata.h pyproc.h pypipe.h \
-  pyleaf.h stipulation/branch.h stipulation/battle_play/branch.h \
+  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
+  stipulation/branch.h stipulation/battle_play/branch.h \
   stipulation/battle_play/attack_root.h \
   stipulation/battle_play/defense_play.h trace.h
 
@@ -49,7 +51,7 @@ pyproc.h:
 
 pypipe.h:
 
-pyleaf.h:
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/branch.h:
 
@@ -167,6 +169,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   optimisations/maxtime/root_defender_filter.h \
   optimisations/maxtime/defender_filter.h \
   output/plaintext/tree/check_detector_defender_filter.h \
+  output/plaintext/tree/battle_play_solution_writer.h \
   output/plaintext/tree/end_of_solution_writer.h trace.h
 
 stipulation/battle_play/defense_play.h:
@@ -212,6 +215,8 @@ optimisations/maxtime/root_defender_filter.h:
 optimisations/maxtime/defender_filter.h:
 
 output/plaintext/tree/check_detector_defender_filter.h:
+
+output/plaintext/tree/battle_play_solution_writer.h:
 
 output/plaintext/tree/end_of_solution_writer.h:
 

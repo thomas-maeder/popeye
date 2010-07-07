@@ -5,7 +5,6 @@
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/fork.h"
-#include "pyleafh.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
@@ -113,24 +112,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
 
     case STHelpHashed:
       result = hashed_help_solve_in_n(si,n);
-      break;
-
-    case STLeafHelp:
-      assert(n==slack_length_help+1);
-      switch (leaf_h_solve(si))
-      {
-        case has_solution:
-          result = n;
-          break;
-
-        case has_no_solution:
-          result = n+2;
-          break;
-
-        case opponent_self_check:
-          result = n+4;
-          break;
-      }
       break;
 
     case STReflexHelpFilter:
