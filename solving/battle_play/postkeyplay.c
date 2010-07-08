@@ -123,6 +123,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_structure_visitor_noop,        /* STSeriesMove */
   &stip_structure_visitor_noop,        /* STSeriesFork */
   &stip_structure_visitor_noop,        /* STGoalReachedTester */
+  &stip_structure_visitor_noop,        /* STLeaf */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
   &stip_traverse_structure_children,   /* STNot */
@@ -248,6 +249,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_structure_visitor_noop,      /* STSeriesMove */
   &stip_structure_visitor_noop,      /* STSeriesFork */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
+  &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */

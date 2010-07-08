@@ -1,6 +1,7 @@
 #include "pyslice.h"
 #include "pydata.h"
 #include "trace.h"
+#include "stipulation/leaf.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -56,6 +57,10 @@ has_solution_type slice_solve(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STLeaf:
+      result = leaf_solve(si);
+      break;
+
     case STGoalReachedTester:
       result = goal_reached_tester_solve(si);
       break;
@@ -191,6 +196,10 @@ has_solution_type slice_has_solution(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STLeaf:
+      result = leaf_has_solution(si);
+      break;
+
     case STGoalReachedTester:
       result = goal_reached_tester_has_solution(si);
       break;

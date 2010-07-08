@@ -507,6 +507,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
   &root_slice_type_found,            /* STGoalReachedTester */
+  &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2301,6 +2302,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
+  &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2419,6 +2421,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
+  &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -2773,6 +2776,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &remember_imminent_goal_series_move,       /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &remember_imminent_goal_leaf,              /* STGoalReachedTester */
+  &stip_traverse_moves_noop,                 /* STLeaf */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */

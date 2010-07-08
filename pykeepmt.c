@@ -664,6 +664,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_series_move, /* STSeriesMove */
   &keepmating_guards_inserter_branch_fork, /* STSeriesFork */
   &keepmating_guards_inserter_leaf_forced, /* STGoalReachedTester */
+  &stip_structure_visitor_noop,            /* STLeaf */
   &keepmating_guards_inserter_reciprocal,  /* STReciprocal */
   &keepmating_guards_inserter_quodlibet,   /* STQuodlibet */
   &stip_traverse_structure_children,       /* STNot */

@@ -281,6 +281,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STSeriesMove */
   &slice_property_offset_shifter,    /* STSeriesFork */
   &slice_property_offset_shifter,    /* STGoalReachedTester */
+  &slice_property_offset_shifter,    /* STLeaf */
   &slice_property_offset_shifter,    /* STReciprocal */
   &slice_property_offset_shifter,    /* STQuodlibet */
   &slice_property_offset_shifter,    /* STNot */
@@ -635,6 +636,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STSeriesMove */
   &stip_traverse_structure_children,     /* STSeriesFork */
   &stip_structure_visitor_noop,          /* STGoalReachedTester */
+  &stip_structure_visitor_noop,          /* STLeaf */
   &init_slice_properties_binary,         /* STReciprocal */
   &init_slice_properties_binary,         /* STQuodlibet */
   &init_slice_properties_pipe,           /* STNot */
@@ -2212,6 +2214,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &insert_hash_element_branch_series,        /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &stip_traverse_moves_noop,                 /* STGoalReachedTester */
+  &stip_traverse_moves_noop,                 /* STLeaf */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */

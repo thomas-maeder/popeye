@@ -2704,6 +2704,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_branch,               /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
   &moves_left_leaf_forced,                   /* STGoalReachedTester */
+  &moves_left_leaf_forced,                   /* STLeaf */
   &stip_traverse_moves_binary,               /* STReciprocal */
   &stip_traverse_moves_binary,               /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */
@@ -3152,6 +3153,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &intelligent_guards_inserter_branch_series,/* STSeriesMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
   &stip_structure_visitor_noop,              /* STGoalReachedTester */
+  &stip_structure_visitor_noop,              /* STLeaf */
   &stip_traverse_structure_children,         /* STReciprocal */
   &stip_traverse_structure_children,         /* STQuodlibet */
   &stip_traverse_structure_children,         /* STNot */
@@ -3485,6 +3487,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STSeriesMove */
   &intelligent_mode_support_detector_fork,      /* STSeriesFork */
   &intelligent_mode_support_detector_leaf,      /* STGoalReachedTester */
+  &stip_structure_visitor_noop,                 /* STLeaf */
   &intelligent_mode_support_none,               /* STReciprocal */
   &intelligent_mode_support_detector_quodlibet, /* STQuodlibet */
   &intelligent_mode_support_none,               /* STNot */

@@ -250,6 +250,7 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_structure_visitor_noop,        /* STSeriesMove */
   &stip_structure_visitor_noop,        /* STSeriesFork */
   &continuation_solver_mark_need,      /* STGoalReachedTester */
+  &stip_structure_visitor_noop,        /* STLeaf */
   &stip_traverse_structure_children,   /* STReciprocal */
   &stip_traverse_structure_children,   /* STQuodlibet */
   &stip_traverse_structure_children,   /* STNot */

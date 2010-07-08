@@ -33,7 +33,7 @@ slice_index alloc_pipe(SliceType type)
  */
 static boolean has_successor(slice_index si)
 {
-  return (slices[si].type!=STGoalReachedTester
+  return (slices[si].type!=STLeaf
           && slices[si].type!=STQuodlibet
           && slices[si].type!=STReciprocal);
 }

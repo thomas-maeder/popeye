@@ -33,11 +33,11 @@ has_solution_type goal_reached_tester_has_solution(slice_index si);
  */
 has_solution_type goal_reached_tester_solve(slice_index si);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
  */
-void goal_reached_tester_impose_starter(slice_index si,
-                                        stip_structure_traversal *st);
+void goal_reached_tester_insert_root(slice_index si,
+                                     stip_structure_traversal *st);
 
 #endif

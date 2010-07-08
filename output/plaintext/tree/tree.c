@@ -85,7 +85,8 @@ static void instrument_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_leaf(slice_index si, stip_structure_traversal *st)
+static void instrument_goal_reached_tester(slice_index si,
+                            stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -275,7 +276,8 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &stip_structure_visitor_noop,            /* STHelpFork */
   &stip_structure_visitor_noop,            /* STSeriesMove */
   &stip_structure_visitor_noop,            /* STSeriesFork */
-  &instrument_leaf,                        /* STGoalReachedTester */
+  &instrument_goal_reached_tester,         /* STGoalReachedTester */
+  &stip_structure_visitor_noop,            /* STLeaf */
   &instrument_binary,                      /* STReciprocal */
   &instrument_binary,                      /* STQuodlibet */
   &stip_traverse_structure_children,       /* STNot */

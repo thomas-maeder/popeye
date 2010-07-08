@@ -31,3 +31,8 @@ output/output.h:
 pyoutput.h:
 
 trace.h:
+stipulation/leaf$(OBJ_SUFFIX): stipulation/leaf.c stipulation/leaf.h trace.h
+
+stipulation/leaf.h:
+
+trace.h:

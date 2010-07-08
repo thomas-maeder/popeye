@@ -161,7 +161,7 @@ has_solution_type goal_reached_tester_has_solution(slice_index si)
       break;
 
     case goal_reached:
-      result = has_solution;
+      result = slice_has_solution(slices[si].u.pipe.next);
       break;
 
     default:
@@ -201,9 +201,12 @@ has_solution_type goal_reached_tester_solve(slice_index si)
       break;
 
     case goal_reached:
-      result = has_solution;
-      active_slice[nbply] = si;
-      write_goal(slices[si].u.goal_reached_tester.goal.type);
+      result = slice_solve(slices[si].u.pipe.next);
+      if (result==has_solution)
+      {
+        active_slice[nbply] = si;
+        write_goal(slices[si].u.goal_reached_tester.goal.type);
+      }
       break;
 
     default:
@@ -218,22 +221,25 @@ has_solution_type goal_reached_tester_solve(slice_index si)
   return result;
 }
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
+/* Insert root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
  */
-void goal_reached_tester_impose_starter(slice_index si,
-                                        stip_structure_traversal *st)
+void goal_reached_tester_insert_root(slice_index si,
+                                     stip_structure_traversal *st)
 {
-  Side const * const starter = st->param;
+  slice_index * const root = st->param;
+  slice_index copy;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
   TraceFunctionParamListEnd();
 
-  slices[si].starter = *starter;
-
+  stip_traverse_structure_children(si,st);
+  copy = copy_slice(si);
+  pipe_link(copy,*root);
+  *root = copy;
+  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
