@@ -411,11 +411,10 @@ void output_start_move_level(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void linesolution(void)
+static void linesolution(goal_type goal)
 {
   int next_movenumber = 1;
   Side starting_side;
-  goal_type end_marker;
   slice_index slice;
   ply current_ply;
 
@@ -505,20 +504,13 @@ static void linesolution(void)
       StdString(GlobalStr);
     }
 
-    end_marker = (nbply==current_ply
-                  ? slices[active_slice[current_ply]].u.goal_reached_tester.goal.type
-                  : no_goal);
-    TraceValue("%u\n",end_marker);
     initneutre(advers(trait[current_ply]));
     jouecoup_no_test(current_ply);
     ecritcoup(current_ply);
-    if (end_marker==no_goal)
-    {
-      if (echecc(current_ply,advers(trait[current_ply])))
-        StdString(" +");
-    }
-    else
-      StdString(goal_end_marker[end_marker]);
+    if (nbply==current_ply)
+      StdString(goal_end_marker[goal]);
+    else if (echecc(current_ply,advers(trait[current_ply])))
+      StdString(" +");
     StdChar(blank);
   }
 
@@ -604,7 +596,7 @@ void write_goal(goal_type goal)
   if (current_mode==output_mode_tree)
     StdString(goal_end_marker[goal]);
   else
-    linesolution();
+    linesolution(goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

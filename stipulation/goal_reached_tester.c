@@ -1,7 +1,6 @@
 #include "stipulation/goal_reached_tester.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "output/output.h"
 #include "pyoutput.h"
 #include "trace.h"
 
@@ -142,9 +141,10 @@ slice_index alloc_goal_reached_tester_slice(Goal goal)
  */
 has_solution_type goal_reached_tester_has_solution(slice_index si)
 {
-  Side const attacker = advers(slices[si].starter);
   has_solution_type result;
+  Side const attacker = advers(slices[si].starter);
   Goal const goal = slices[si].u.goal_reached_tester.goal;
+  slice_index const next = slices[si].u.goal_reached_tester.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -161,7 +161,7 @@ has_solution_type goal_reached_tester_has_solution(slice_index si)
       break;
 
     case goal_reached:
-      result = slice_has_solution(slices[si].u.pipe.next);
+      result = slice_has_solution(next);
       break;
 
     default:
@@ -182,9 +182,10 @@ has_solution_type goal_reached_tester_has_solution(slice_index si)
  */
 has_solution_type goal_reached_tester_solve(slice_index si)
 {
-  Side const attacker = advers(slices[si].starter);
   has_solution_type result;
+  Side const attacker = advers(slices[si].starter);
   Goal const goal = slices[si].u.goal_reached_tester.goal;
+  slice_index const next = slices[si].u.goal_reached_tester.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -201,12 +202,9 @@ has_solution_type goal_reached_tester_solve(slice_index si)
       break;
 
     case goal_reached:
-      result = slice_solve(slices[si].u.pipe.next);
+      result = slice_solve(next);
       if (result==has_solution)
-      {
-        active_slice[nbply] = si;
-        write_goal(slices[si].u.goal_reached_tester.goal.type);
-      }
+        write_goal(goal.type);
       break;
 
     default:
@@ -236,6 +234,7 @@ void goal_reached_tester_insert_root(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
+
   copy = copy_slice(si);
   pipe_link(copy,*root);
   *root = copy;
