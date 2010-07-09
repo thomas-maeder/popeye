@@ -197,7 +197,8 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_structure_visitor_noop,        /* STEndOfSolutionWriter */
   &stip_structure_visitor_noop,        /* STRefutationWriter */
   &stip_structure_visitor_noop,        /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_structure_visitor_noop         /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_structure_visitor_noop,        /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_structure_visitor_noop         /* STOutputPlaintextLineLineWriter */
 };
 
 /* Instrument the stipulation representation so that it can write
@@ -323,7 +324,8 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_structure_visitor_noop,      /* STEndOfSolutionWriter */
   &stip_structure_visitor_noop,      /* STRefutationWriter */
   &stip_structure_visitor_noop,      /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_structure_visitor_noop       /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_structure_visitor_noop,      /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_structure_visitor_noop       /* STOutputPlaintextLineLineWriter */
 };
 
 /* Instrument the stipulation representation so that post key play is

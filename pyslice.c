@@ -169,6 +169,10 @@ has_solution_type slice_solve(slice_index si)
       result = end_of_phase_writer_solve(si);
       break;
 
+    case STOutputPlaintextLineLineWriter:
+      result = line_writer_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -263,6 +267,10 @@ has_solution_type slice_has_solution(slice_index si)
     case STSelfCheckGuardRootSolvableFilter:
     case STSelfCheckGuardSolvableFilter:
       result = selfcheck_guard_has_solution(si);
+      break;
+
+    case STOutputPlaintextLineLineWriter:
+      result = line_writer_has_solution(si);
       break;
 
     default:

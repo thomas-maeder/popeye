@@ -481,7 +481,8 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STEndOfSolutionWriter */
   &stip_traverse_structure_children, /* STRefutationWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_structure_children  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineLineWriter */
 };
 
 /* Instrument the stipulation representation so that it can deal with

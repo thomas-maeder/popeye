@@ -331,7 +331,8 @@ static stip_structure_visitor const direct_guards_inserters[] =
   &stip_traverse_structure_children, /* STEndOfSolutionWriter */
   &stip_traverse_structure_children, /* STRefutationWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_structure_children  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineLineWriter */
 };
 
 /* Instrument a branch with STDirectDefenderFilter slices

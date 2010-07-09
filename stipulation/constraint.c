@@ -985,7 +985,8 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STEndOfSolutionWriter */
   &stip_traverse_structure_children,   /* STRefutationWriter */
   &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_structure_children    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children    /* STOutputPlaintextLineLineWriter */
 };
 
 /* In alternate play, insert a STReflexHelpFilter slice before a slice
@@ -1187,7 +1188,8 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STEndOfSolutionWriter */
   &stip_traverse_structure_children,    /* STRefutationWriter */
   &stip_traverse_structure_children,    /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_structure_children     /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children,    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children     /* STOutputPlaintextLineLineWriter */
 };
 
 /* Instrument a branch with STReflex* slices for a semi-reflex

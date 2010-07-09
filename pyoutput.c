@@ -1,18 +1,17 @@
 #include "pyoutput.h"
 #include "pydata.h"
 #include "pymsg.h"
-#include "pyint.h"
 #include "pyslice.h"
 #include "pypipe.h"
 #include "py1.h"
 #include "conditions/republican.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
 #include "output/output.h"
 #include "output/plaintext/tree/tree.h"
+#include "output/plaintext/line/line.h"
 #include "trace.h"
 #ifdef _SE_
 #include "se.h"
-#endif 
+#endif
 
 #include <assert.h>
 #include <stdlib.h>
@@ -29,7 +28,7 @@
 
 static output_mode current_mode = output_mode_none;
 
-static unsigned int nr_color_inversions_in_ply[maxply];
+unsigned int nr_color_inversions_in_ply[maxply];
 static unsigned int nr_color_inversions;
 
 static boolean is_threat[maxply];
@@ -78,6 +77,8 @@ void stip_insert_output_slices(void)
 
   if (current_mode==output_mode_tree)
     stip_insert_output_plaintext_tree_slices();
+  else
+    stip_insert_output_plaintext_line_slices();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -239,7 +240,8 @@ static stip_structure_visitor const output_mode_detectors[] =
   &pipe_traverse_next,               /* STEndOfSolutionWriter */
   &pipe_traverse_next,               /* STRefutationWriter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &pipe_traverse_next                /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &pipe_traverse_next                /* STOutputPlaintextLineLineWriter */
 };
 
 /* Initialize based on the stipulation
@@ -411,120 +413,6 @@ void output_start_move_level(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void linesolution(goal_type goal)
-{
-  int next_movenumber = 1;
-  Side starting_side;
-  slice_index slice;
-  ply current_ply;
-
-  ply const start_ply = 2;
-
-  if (isIntelligentModeActive)
-  {
-    if (SolAlreadyFound())
-      return;
-    else
-    {
-      increase_nr_found_solutions();
-      if (OptFlag[beep])
-        BeepOnSolution(maxbeep);
-    }
-    StoreSol();
-  }
-  else
-  {
-    increase_nr_found_solutions();
-    if (OptFlag[beep])
-      BeepOnSolution(maxbeep);
-  }
-      
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  Message(NewLine);
-
-  slice = active_slice[start_ply];
-  starting_side = slices[root_slice].starter;
-
-  ResetPosition();
-
-  TraceValue("%u\n",nr_color_inversions_in_ply[start_ply]);
-
-  switch (nr_color_inversions_in_ply[start_ply])
-  {
-    case 2:
-      StdString("  1...  ...");
-      next_movenumber = 2;
-      break;
-
-    case 1:
-      StdString("  1...");
-      next_movenumber = 2;
-      break;
-
-    case 0:
-      /* nothing */
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-#ifdef _SE_DECORATE_SOLUTION_
-  se_start_pos();
-#endif
-
-  TraceValue("%u\n",nbply);
-  for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
-  {
-    TraceValue("%u",current_ply);
-    TraceValue("%u",slice);
-    TraceValue("%u\n",active_slice[current_ply]);
-    if (slice!=active_slice[current_ply])
-    {
-      if (slices[slice].type==STSeriesMove
-          && slices[active_slice[current_ply]].type==STSeriesMove
-          && trait[current_ply-1]!=trait[current_ply])
-      {
-        next_movenumber = 1;
-        starting_side = trait[current_ply];
-      }
-
-      slice = active_slice[current_ply];
-    }
-
-    TraceEnumerator(Side,starting_side," ");
-    TraceEnumerator(Side,trait[current_ply],"\n");
-    if (trait[current_ply]==starting_side)
-    {
-      sprintf(GlobalStr,"%3d.",next_movenumber);
-      ++next_movenumber;
-      StdString(GlobalStr);
-    }
-
-    initneutre(advers(trait[current_ply]));
-    jouecoup_no_test(current_ply);
-    ecritcoup(current_ply);
-    if (nbply==current_ply)
-      StdString(goal_end_marker[goal]);
-    else if (echecc(current_ply,advers(trait[current_ply])))
-      StdString(" +");
-    StdChar(blank);
-  }
-
-#ifdef _SE_DECORATE_SOLUTION_
-  se_end_pos();
-#endif
-#ifdef _SE_FORSYTH_
-  se_forsyth();
-#endif
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Write the decoration (! or ?) for the first move if appropriate
  * @param current_ply identifies ply in which move was played
  * @param type identifies decoration to be added
@@ -595,8 +483,6 @@ void write_goal(goal_type goal)
 
   if (current_mode==output_mode_tree)
     StdString(goal_end_marker[goal]);
-  else
-    linesolution(goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

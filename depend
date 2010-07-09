@@ -804,10 +804,9 @@ pymsg.h:
 trace.h:
 pyoutput$(OBJ_SUFFIX): pyoutput.c pyoutput.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pystip.h pytable.h \
-  pydata.h pyproc.h py4.h pymsg.h pyint.h pyslice.h pypipe.h py1.h \
-  conditions/republican.h pyproc.h \
-  optimisations/maxsolutions/maxsolutions.h pystip.h output/output.h \
-  output/plaintext/tree/tree.h trace.h
+  pydata.h pyproc.h py4.h pymsg.h pyslice.h pypipe.h py1.h \
+  conditions/republican.h pyproc.h output/output.h pystip.h \
+  output/plaintext/tree/tree.h output/plaintext/line/line.h trace.h
 
 pyoutput.h:
 
@@ -841,8 +840,6 @@ py4.h:
 
 pymsg.h:
 
-pyint.h:
-
 pyslice.h:
 
 pypipe.h:
@@ -853,13 +850,13 @@ conditions/republican.h:
 
 pyproc.h:
 
-optimisations/maxsolutions/maxsolutions.h:
+output/output.h:
 
 pystip.h:
 
-output/output.h:
-
 output/plaintext/tree/tree.h:
+
+output/plaintext/line/line.h:
 
 trace.h:
 pysignal$(OBJ_SUFFIX): pysignal.c pyproc.h py4.h py.h boolean.h pyposit.h pyboard.h \

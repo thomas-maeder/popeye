@@ -504,7 +504,8 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &stip_traverse_structure_children,      /* STEndOfSolutionWriter */
   &stip_traverse_structure_children,      /* STRefutationWriter */
   &stip_traverse_structure_children,      /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_structure_children       /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children,      /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children       /* STOutputPlaintextLineLineWriter */
 };
 
 /* Instrument stipulation with STMaxNrNonTrivial slices

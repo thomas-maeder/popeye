@@ -16,6 +16,8 @@
 
 #include "pyenum.h"
 
+extern unsigned int nr_color_inversions_in_ply[maxply];
+
 /* Set the output mode to be used for the current stipulation
  */
 void set_output_mode(output_mode mode);

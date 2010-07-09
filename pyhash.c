@@ -355,7 +355,8 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STEndOfSolutionWriter */
   &slice_property_offset_shifter,    /* STRefutationWriter */
   &slice_property_offset_shifter,    /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &slice_property_offset_shifter     /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &slice_property_offset_shifter,    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &slice_property_offset_shifter     /* STOutputPlaintextLineLineWriter */
 };
 
 typedef struct
@@ -710,7 +711,8 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STEndOfSolutionWriter */
   &init_slice_properties_pipe,           /* STRefutationWriter */
   &init_slice_properties_pipe,           /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &init_slice_properties_pipe            /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &init_slice_properties_pipe,           /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &init_slice_properties_pipe            /* STOutputPlaintextLineLineWriter */
 };
 
 static boolean find_slice_with_nonstandard_min_length(void)
@@ -2288,7 +2290,8 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STEndOfSolutionWriter */
   &stip_traverse_moves_pipe,                 /* STRefutationWriter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_moves_pipe                  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextLineLineWriter */
 };
 
 void stip_insert_hash_slices(void)

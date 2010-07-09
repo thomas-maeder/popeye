@@ -382,6 +382,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STGoalReachedTester:
+      case STOutputPlaintextLineLineWriter:
         Trace_pipe(si);
         fprintf(stdout,"goal:%u\n",slices[si].u.goal_reached_tester.goal.type);
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
