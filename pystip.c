@@ -995,25 +995,6 @@ static void get_max_nr_moves_branch(slice_index si, stip_move_traversal *st)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void get_max_nr_moves_leaf(slice_index si, stip_move_traversal *st)
-{
-  stip_length_type * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  ++*result;
-  TraceValue("%u\n",*result);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine contribution of slice subtree to maximum number of moves
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
 static void get_max_nr_moves_binary(slice_index si, stip_move_traversal *st)
 {
   stip_length_type * const result = st->param;
@@ -1051,8 +1032,8 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &get_max_nr_moves_branch,                  /* STSeriesMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
-  &get_max_nr_moves_leaf,                    /* STGoalReachedTester */
-  &get_max_nr_moves_leaf,                    /* STLeaf */
+  &stip_traverse_moves_noop,                 /* STGoalReachedTester */
+  &stip_traverse_moves_noop,                 /* STLeaf */
   &get_max_nr_moves_binary,                  /* STReciprocal */
   &get_max_nr_moves_binary,                  /* STQuodlibet */
   &stip_traverse_moves_pipe,                 /* STNot */
