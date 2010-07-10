@@ -45,7 +45,7 @@ void intelligent_duplicate_avoider_cleanup(void)
     for (sol = stored_solutions;
          sol!=stored_solutions+nr_stored_solutions;
          ++sol)
-      free(sol);
+      free(*sol);
 
     free(stored_solutions);
   }
