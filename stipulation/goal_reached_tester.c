@@ -1,7 +1,6 @@
 #include "stipulation/goal_reached_tester.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "pyoutput.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -203,8 +202,6 @@ has_solution_type goal_reached_tester_solve(slice_index si)
 
     case goal_reached:
       result = slice_solve(next);
-      if (result==has_solution)
-        write_goal(goal.type);
       break;
 
     default:

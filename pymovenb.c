@@ -387,7 +387,8 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_traverse_structure_children,    /* STRefutationWriter */
   &stip_traverse_structure_children,    /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children     /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children,    /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children     /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Instrument stipulation with STRestartGuard slices

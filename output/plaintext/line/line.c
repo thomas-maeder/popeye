@@ -125,7 +125,8 @@ static stip_structure_visitor const line_slice_inserters[] =
   &stip_traverse_structure_children, /* STRefutationWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextLineCheckDetectorAttackerFilter */
   &stip_traverse_structure_children, /* STOutputPlaintextLineCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Instrument the stipulation structure with slices that implement

@@ -243,7 +243,8 @@ static stip_structure_visitor const output_mode_detectors[] =
   &pipe_traverse_next,               /* STRefutationWriter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &pipe_traverse_next                /* STOutputPlaintextLineLineWriter */
+  &pipe_traverse_next,               /* STOutputPlaintextLineLineWriter */
+  &pipe_traverse_next                /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Initialize based on the stipulation

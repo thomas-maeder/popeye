@@ -127,6 +127,7 @@
     ENUMERATOR(STOutputPlaintextTreeCheckDetectorAttackerFilter), /* plain text output, tree mode: detect checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextTreeCheckDetectorDefenderFilter), /* plain text output, tree mode: detect checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
+    ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -249,7 +250,8 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STRefutationWriter */
   slice_structure_branch, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   slice_structure_branch, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  slice_structure_branch  /* STOutputPlaintextLineLineWriter */
+  slice_structure_branch, /* STOutputPlaintextLineLineWriter */
+  slice_structure_branch  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Determine whether a slice is of some structural type
@@ -406,7 +408,8 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STRefutationWriter */
   &mark_reachable_slice, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &mark_reachable_slice, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &mark_reachable_slice  /* STOutputPlaintextLineLineWriter */
+  &mark_reachable_slice, /* STOutputPlaintextLineLineWriter */
+  &mark_reachable_slice  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Make sure that there are now allocated slices that are not
@@ -663,7 +666,8 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STRefutationWriter */
   &traverse_and_deallocate,       /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &traverse_and_deallocate,       /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &traverse_and_deallocate        /* STOutputPlaintextLineLineWriter */
+  &traverse_and_deallocate,       /* STOutputPlaintextLineLineWriter */
+  &traverse_and_deallocate        /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Deallocate slices reachable from a slice
@@ -790,7 +794,8 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STRefutationWriter */
   &stip_traverse_structure_children,            /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,            /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children             /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children,            /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children             /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Wrap the slices representing the initial moves of the solution with
@@ -911,7 +916,8 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STRefutationWriter */
   &pipe_resolve_proxies,             /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &pipe_resolve_proxies,             /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &pipe_resolve_proxies              /* STOutputPlaintextLineLineWriter */
+  &pipe_resolve_proxies,             /* STOutputPlaintextLineLineWriter */
+  &pipe_resolve_proxies              /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Substitute links to proxy slices by the proxy's target
@@ -1128,7 +1134,8 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STRefutationWriter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_moves_pipe                  /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Initialise a move traversal structure
@@ -1314,7 +1321,8 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STRefutationWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Determine whether the current stipulation has a unique goal, and
@@ -1371,7 +1379,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
     TraceEnumerator(SliceType,slices[si].type,"\n");
     switch (slices[si].type)
     {
-      case STGoalReachedTester:
+      case STLeaf:
         /* nothing */
         break;
 
@@ -1386,6 +1394,7 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
       case STMoveInverterRootSolvableFilter:
       case STMoveInverterSolvableFilter:
       case STMoveInverterSeriesFilter:
+      case STGoalReachedTester:
       case STAttackHashed:
       case STHelpHashed:
       case STSeriesHashed:
@@ -1665,7 +1674,8 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STRefutationWriter */
   &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children    /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children,   /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children    /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Transform a stipulation tree to "traditional quodlibet form",
@@ -1781,7 +1791,8 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STRefutationWriter */
   &stip_traverse_structure_children,              /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,              /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children               /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children,              /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children               /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Install the slice representing the postkey slice at the stipulation
@@ -1922,7 +1933,8 @@ static stip_structure_visitor const setplay_makers[] =
   &pipe_traverse_next,               /* STRefutationWriter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &pipe_traverse_next                /* STOutputPlaintextLineLineWriter */
+  &pipe_traverse_next,               /* STOutputPlaintextLineLineWriter */
+  &pipe_traverse_next                /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Produce slices representing set play.
@@ -2039,7 +2051,8 @@ static stip_structure_visitor const setplay_appliers[] =
   &pipe_traverse_next,                   /* STRefutationWriter */
   &pipe_traverse_next,                   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &pipe_traverse_next,                   /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &pipe_traverse_next                    /* STOutputPlaintextLineLineWriter */
+  &pipe_traverse_next,                   /* STOutputPlaintextLineLineWriter */
+  &pipe_traverse_next                    /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Combine the set play slices into the current stipulation
@@ -2240,7 +2253,8 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STRefutationWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Do all leaves of the current stipulation have one of a set of goals?
@@ -2370,7 +2384,8 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STRefutationWriter */
   &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,   /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children    /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children,   /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children    /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
@@ -2495,7 +2510,8 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STRefutationWriter */
   &make_exact_branch,                /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &make_exact_branch,                /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &make_exact_branch                 /* STOutputPlaintextLineLineWriter */
+  &make_exact_branch,                /* STOutputPlaintextLineLineWriter */
+  &make_exact_branch                 /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Make the stipulation exact
@@ -2601,7 +2617,8 @@ static stip_structure_visitor const starter_detectors[] =
   &stip_traverse_structure_children, /* STRefutationWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Detect the starting side from the stipulation
@@ -2711,7 +2728,8 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_starter,                /* STRefutationWriter */
   &pipe_impose_starter,                /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &pipe_impose_starter,                /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &pipe_impose_starter                 /* STOutputPlaintextLineLineWriter */
+  &pipe_impose_starter,                /* STOutputPlaintextLineLineWriter */
+  &pipe_impose_starter                 /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Set the starting side of the stipulation
@@ -3013,7 +3031,8 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STRefutationWriter */
   &traverse_structure_pipe,         /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &traverse_structure_pipe,         /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &traverse_structure_pipe          /* STOutputPlaintextLineLineWriter */
+  &traverse_structure_pipe,         /* STOutputPlaintextLineLineWriter */
+  &traverse_structure_pipe          /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

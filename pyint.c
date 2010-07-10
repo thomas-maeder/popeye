@@ -2706,7 +2706,8 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STRefutationWriter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_moves_pipe                  /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Calculate the number of moves of each side, starting at the root
@@ -3177,7 +3178,8 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STRefutationWriter */
   &stip_traverse_structure_children,         /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,         /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children          /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children,         /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children          /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Instrument stipulation with STgoal_typereachableGuard slices
@@ -3525,7 +3527,8 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STRefutationWriter */
   &stip_traverse_structure_children,            /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,            /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &stip_traverse_structure_children             /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children,            /* STOutputPlaintextLineLineWriter */
+  &stip_traverse_structure_children             /* STOutputPlaintextTreeGoalWriter */
 };
 
 /* Determine whether the stipulation supports intelligent mode, and
