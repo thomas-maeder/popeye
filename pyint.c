@@ -52,8 +52,6 @@ typedef struct {
     boolean used;
 } PIECE;
 
-boolean isIntelligentModeActive;
-
 static goal_type goal_to_be_reached;
 
 static int MaxPieceAll;
@@ -2557,7 +2555,6 @@ static void IntelligentRegulargoal_types(stip_length_type n)
 static void IntelligentProof(stip_length_type n, stip_length_type full_length)
 {
   boolean const save_movenbr = OptFlag[movenbr];
-  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -3554,11 +3551,11 @@ static support_for_intelligent_mode stip_supports_intelligent(void)
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it
  * @return false iff the user asks for intelligent mode, but the
- * stipulation doesn't support it
+ *         stipulation doesn't support it
  */
 boolean init_intelligent_mode(void)
 {
-  boolean result = false;
+  boolean result;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -3567,27 +3564,24 @@ boolean init_intelligent_mode(void)
   {
     case intelligent_not_supported:
       result = !OptFlag[intelligent];
-      isIntelligentModeActive = false;
       break;
 
     case intelligent_not_active_by_default:
       result = true;
-      isIntelligentModeActive = OptFlag[intelligent];
+      if (OptFlag[intelligent])
+        stip_insert_intelligent_guards();
       break;
 
     case intelligent_active_by_default:
       result = true;
-      isIntelligentModeActive = true;
+      stip_insert_intelligent_guards();
       break;
 
     default:
       assert(0);
+      result = false;
       break;
   }
-
-  TraceValue("%u\n",isIntelligentModeActive);
-  if (isIntelligentModeActive)
-    stip_insert_intelligent_guards();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

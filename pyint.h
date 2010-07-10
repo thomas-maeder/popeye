@@ -13,8 +13,6 @@
 
 extern int MovesLeft[nr_sides];
 
-extern boolean isIntelligentModeActive;
-
 
 boolean isGoalReachable(void);
 
