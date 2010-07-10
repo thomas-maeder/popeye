@@ -2679,7 +2679,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STIntelligentSeriesFilter */
   &moves_left_move,                          /* STGoalReachableGuardHelpFilter */
   &moves_left_move,                          /* STGoalReachableGuardSeriesFilter */
-  &moves_left_move,                          /* STIntelligentDuplicateAvoider */
+  &stip_traverse_moves_pipe,                 /* STIntelligentDuplicateAvoider */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardHelpFilter */

@@ -222,7 +222,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STIntelligentSeriesFilter */
   slice_structure_branch, /* STGoalReachableGuardHelpFilter */
   slice_structure_branch, /* STGoalReachableGuardSeriesFilter */
-  slice_structure_branch, /* STIntelligentDuplicateAvoider */
+  slice_structure_pipe,   /* STIntelligentDuplicateAvoider */
   slice_structure_pipe,   /* STKeepMatingGuardAttackerFilter */
   slice_structure_pipe,   /* STKeepMatingGuardDefenderFilter */
   slice_structure_pipe,   /* STKeepMatingGuardHelpFilter */
