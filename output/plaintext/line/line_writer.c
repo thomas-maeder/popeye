@@ -17,7 +17,7 @@
  * Slices of this type write lines in line mode.
  */
 
-void write_line(goal_type goal)
+static void write_line(goal_type goal)
 {
   int next_movenumber = 1;
   Side starting_side;
@@ -35,8 +35,8 @@ void write_line(goal_type goal)
       increase_nr_found_solutions();
       if (OptFlag[beep])
         BeepOnSolution(maxbeep);
+      StoreSol();
     }
-    StoreSol();
   }
   else
   {
