@@ -99,6 +99,7 @@
     ENUMERATOR(STIntelligentSeriesFilter), /* initialises intelligent mode */ \
     ENUMERATOR(STGoalReachableGuardHelpFilter), /* goal still reachable in intelligent mode? */ \
     ENUMERATOR(STGoalReachableGuardSeriesFilter), /* goal still reachable in intelligent mode? */ \
+    ENUMERATOR(STIntelligentDuplicateAvoider), /* avoid double solutions in intelligent mode */ \
     ENUMERATOR(STKeepMatingGuardAttackerFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STKeepMatingGuardDefenderFilter), /* deals with option KeepMatingPiece */ \
     ENUMERATOR(STKeepMatingGuardHelpFilter), /* deals with option KeepMatingPiece */ \
@@ -220,6 +221,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STIntelligentSeriesFilter */
   slice_structure_branch, /* STGoalReachableGuardHelpFilter */
   slice_structure_branch, /* STGoalReachableGuardSeriesFilter */
+  slice_structure_branch, /* STIntelligentDuplicateAvoider */
   slice_structure_pipe,   /* STKeepMatingGuardAttackerFilter */
   slice_structure_pipe,   /* STKeepMatingGuardDefenderFilter */
   slice_structure_pipe,   /* STKeepMatingGuardHelpFilter */
@@ -375,6 +377,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STIntelligentSeriesFilter */
   &mark_reachable_slice, /* STGoalReachableGuardHelpFilter */
   &mark_reachable_slice, /* STGoalReachableGuardSeriesFilter */
+  &mark_reachable_slice, /* STIntelligentDuplicateAvoider */
   &mark_reachable_slice, /* STKeepMatingGuardAttackerFilter */
   &mark_reachable_slice, /* STKeepMatingGuardDefenderFilter */
   &mark_reachable_slice, /* STKeepMatingGuardHelpFilter */
@@ -630,6 +633,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STIntelligentSeriesFilter */
   &traverse_and_deallocate,       /* STGoalReachableGuardHelpFilter */
   &traverse_and_deallocate,       /* STGoalReachableGuardSeriesFilter */
+  &traverse_and_deallocate,       /* STIntelligentDuplicateAvoider */
   &traverse_and_deallocate,       /* STKeepMatingGuardAttackerFilter */
   &traverse_and_deallocate,       /* STKeepMatingGuardDefenderFilter */
   &traverse_and_deallocate,       /* STKeepMatingGuardHelpFilter */
@@ -755,6 +759,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,            /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,            /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,            /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,            /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children,            /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,            /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,            /* STKeepMatingGuardHelpFilter */
@@ -874,6 +879,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STIntelligentSeriesFilter */
   &pipe_resolve_proxies,             /* STGoalReachableGuardHelpFilter */
   &pipe_resolve_proxies,             /* STGoalReachableGuardSeriesFilter */
+  &pipe_resolve_proxies,             /* STIntelligentDuplicateAvoider */
   &pipe_resolve_proxies,             /* STKeepMatingGuardAttackerFilter */
   &pipe_resolve_proxies,             /* STKeepMatingGuardDefenderFilter */
   &pipe_resolve_proxies,             /* STKeepMatingGuardHelpFilter */
@@ -1089,6 +1095,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_pipe,                 /* STIntelligentSeriesFilter */
   &stip_traverse_moves_pipe,                 /* STGoalReachableGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STIntelligentDuplicateAvoider */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardHelpFilter */
@@ -1273,6 +1280,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
@@ -1622,6 +1630,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,   /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,   /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,   /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children,   /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,   /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STKeepMatingGuardHelpFilter */
@@ -1736,6 +1745,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,              /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,              /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,              /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children,              /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,              /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,              /* STKeepMatingGuardHelpFilter */
@@ -1875,6 +1885,7 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &pipe_traverse_next,               /* STKeepMatingGuardAttackerFilter */
   &pipe_traverse_next,               /* STKeepMatingGuardDefenderFilter */
   &pipe_traverse_next,               /* STKeepMatingGuardHelpFilter */
@@ -1990,6 +2001,7 @@ static stip_structure_visitor const setplay_appliers[] =
   &stip_traverse_structure_children,     /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,     /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,     /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,     /* STIntelligentDuplicateAvoider */
   &pipe_traverse_next,                   /* STKeepMatingGuardAttackerFilter */
   &pipe_traverse_next,                   /* STKeepMatingGuardDefenderFilter */
   &pipe_traverse_next,                   /* STKeepMatingGuardHelpFilter */
@@ -2189,6 +2201,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
@@ -2317,6 +2330,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,   /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,   /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,   /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children,   /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,   /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,   /* STKeepMatingGuardHelpFilter */
@@ -2440,6 +2454,7 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STIntelligentSeriesFilter */
   &make_exact_branch,                /* STGoalReachableGuardHelpFilter */
   &make_exact_branch,                /* STGoalReachableGuardSeriesFilter */
+  &make_exact_branch,                /* STIntelligentDuplicateAvoider */
   &make_exact_branch,                /* STKeepMatingGuardAttackerFilter */
   &make_exact_branch,                /* STKeepMatingGuardDefenderFilter */
   &make_exact_branch,                /* STKeepMatingGuardHelpFilter */
@@ -2544,6 +2559,7 @@ static stip_structure_visitor const starter_detectors[] =
   &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
@@ -2652,6 +2668,7 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_starter,                /* STIntelligentSeriesFilter */
   &pipe_impose_starter,                /* STGoalReachableGuardHelpFilter */
   &pipe_impose_starter,                /* STGoalReachableGuardSeriesFilter */
+  &pipe_impose_starter,                /* STIntelligentDuplicateAvoider */
   &pipe_impose_starter,                /* STKeepMatingGuardAttackerFilter */
   &pipe_impose_starter,                /* STKeepMatingGuardDefenderFilter */
   &pipe_impose_starter,                /* STKeepMatingGuardHelpFilter */
@@ -2952,6 +2969,7 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STIntelligentSeriesFilter */
   &traverse_structure_pipe,         /* STGoalReachableGuardHelpFilter */
   &traverse_structure_pipe,         /* STGoalReachableGuardSeriesFilter */
+  &traverse_structure_pipe,         /* STIntelligentDuplicateAvoider */
   &traverse_structure_pipe,         /* STKeepMatingGuardAttackerFilter */
   &traverse_structure_pipe,         /* STKeepMatingGuardDefenderFilter */
   &traverse_structure_pipe,         /* STKeepMatingGuardHelpFilter */

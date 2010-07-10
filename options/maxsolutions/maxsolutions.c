@@ -272,6 +272,7 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,         /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,         /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,         /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children,         /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,         /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,         /* STKeepMatingGuardHelpFilter */
@@ -375,6 +376,7 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */

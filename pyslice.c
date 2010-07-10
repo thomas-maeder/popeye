@@ -25,7 +25,9 @@
 #include "pypipe.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
+#include "optimisations/intelligent/duplicate_avoider.h"
 #include "output/plaintext/tree/end_of_phase_writer.h"
+#include "output/plaintext/line/line_writer.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -173,6 +175,10 @@ has_solution_type slice_solve(slice_index si)
       result = line_writer_solve(si);
       break;
 
+    case STIntelligentDuplicateAvoider:
+      result = intelligent_duplicate_avoider_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -271,6 +277,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STOutputPlaintextLineLineWriter:
       result = line_writer_has_solution(si);
+      break;
+
+    case STIntelligentDuplicateAvoider:
+      result = intelligent_duplicate_avoider_has_solution(si);
       break;
 
     default:

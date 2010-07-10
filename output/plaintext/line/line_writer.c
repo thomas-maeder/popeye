@@ -4,7 +4,6 @@
 #include "pyoutput.h"
 #include "trace.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
-#include "pyint.h"
 #include "pymsg.h"
 #include "output/output.h"
 #ifdef _SE_
@@ -26,24 +25,9 @@ static void write_line(goal_type goal)
 
   ply const start_ply = 2;
 
-  if (isIntelligentModeActive)
-  {
-    if (SolAlreadyFound())
-      return;
-    else
-    {
-      increase_nr_found_solutions();
-      if (OptFlag[beep])
-        BeepOnSolution(maxbeep);
-      StoreSol();
-    }
-  }
-  else
-  {
-    increase_nr_found_solutions();
-    if (OptFlag[beep])
-      BeepOnSolution(maxbeep);
-  }
+  increase_nr_found_solutions();
+  if (OptFlag[beep])
+    BeepOnSolution(maxbeep);
       
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

@@ -17,9 +17,6 @@ extern boolean isIntelligentModeActive;
 
 
 boolean isGoalReachable(void);
-boolean SolAlreadyFound(void);
-void StoreSol(void);
-
 
 boolean IntelligentHelp(slice_index si, stip_length_type n);
 

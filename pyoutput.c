@@ -216,6 +216,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &pipe_traverse_next,               /* STIntelligentSeriesFilter */
   &pipe_traverse_next,               /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &output_mode_treemode,             /* STKeepMatingGuardAttackerFilter */
   &output_mode_treemode,             /* STKeepMatingGuardDefenderFilter */
   &pipe_traverse_next,               /* STKeepMatingGuardHelpFilter */

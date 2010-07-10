@@ -932,6 +932,7 @@ pyint$(OBJ_SUFFIX): pyint.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiec
   stipulation/battle_play/defense_play.h stipulation/branch.h \
   optimisations/intelligent/help_filter.h \
   optimisations/intelligent/series_filter.h \
+  optimisations/intelligent/duplicate_avoider.h \
   optimisations/maxsolutions/maxsolutions.h platform/maxtime.h trace.h
 
 py.h:
@@ -1003,6 +1004,8 @@ stipulation/branch.h:
 optimisations/intelligent/help_filter.h:
 
 optimisations/intelligent/series_filter.h:
+
+optimisations/intelligent/duplicate_avoider.h:
 
 optimisations/maxsolutions/maxsolutions.h:
 
@@ -1201,7 +1204,9 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   DHT/dhtbcmem.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h pykeepmt.h \
   pypipe.h optimisations/maxsolutions/root_solvable_filter.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
-  output/plaintext/tree/end_of_phase_writer.h
+  optimisations/intelligent/duplicate_avoider.h \
+  output/plaintext/tree/end_of_phase_writer.h \
+  output/plaintext/line/line_writer.h
 
 pyslice.h:
 
@@ -1291,7 +1296,11 @@ optimisations/maxsolutions/root_solvable_filter.h:
 
 optimisations/stoponshortsolutions/root_solvable_filter.h:
 
+optimisations/intelligent/duplicate_avoider.h:
+
 output/plaintext/tree/end_of_phase_writer.h:
+
+output/plaintext/line/line_writer.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h \
   stipulation/proxy.h pypipe.h trace.h

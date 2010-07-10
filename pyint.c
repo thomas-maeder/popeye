@@ -30,6 +30,7 @@
 #include "stipulation/branch.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/intelligent/series_filter.h"
+#include "optimisations/intelligent/duplicate_avoider.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "platform/maxtime.h"
 #include "trace.h"
@@ -51,12 +52,6 @@ typedef struct {
     boolean used;
 } PIECE;
 
-typedef struct {
-    square  from;
-    square  to;
-    piece   prom;
-} MOVE;
-
 boolean isIntelligentModeActive;
 
 static goal_type goal_to_be_reached;
@@ -77,13 +72,12 @@ static square const *deposebnp;
 static piece piecechecking;
 static int nbrchecking;
 
-static MOVE **Sols;
-static int SolMax;
-
 static PIECE Mate[nr_squares_on_board];
 static int IndxChP;
 
 static slice_index current_start_slice;
+
+static boolean solutions_found;
 
 #define SetPiece(P, SQ, SP) {e[SQ]= P; spec[SQ]= SP;}
 
@@ -349,55 +343,6 @@ static int FroTo(piece f_p,
   }
   return 1;
 } /* FroTo */
-
-void StoreSol(void) {
-  ply cp;
-
-  if (SolMax>0)
-    Sols = (MOVE**)realloc(Sols, sizeof(MOVE*)*(SolMax+1));
-  else
-    Sols = (MOVE**)malloc(sizeof(MOVE*));
-
-  if (Sols == NULL
-      || (Sols[SolMax] = (MOVE*)malloc(sizeof(MOVE)*(nbply+1))) == NULL) {
-    fprintf(stderr, "Cannot (re)allocate enough memory\n");
-    exit(0);
-  }
-
-  for (cp= 2; cp <= nbply; cp++) {
-    Sols[SolMax][cp].from= move_generation_stack[repere[cp+1]].departure;
-    Sols[SolMax][cp].to= move_generation_stack[repere[cp+1]].arrival;
-    Sols[SolMax][cp].prom= jouearr[cp];
-  }
-
-  SolMax++;
-
-  ++sol_per_matingpos;
-}
-
-boolean SolAlreadyFound(void)
-{
-  if (goal_to_be_reached==goal_atob || goal_to_be_reached==goal_proof)
-    return false;
-  else
-  {
-    ply       cp;
-    int   cs;
-    boolean   found= false;
-
-    repere[nbply+1]= nbcou;
-    for (cs= 0; cs < SolMax && !found; cs++) {
-      found= true;
-      for (cp= 2; cp <= nbply && found; cp++) {
-        found= Sols[cs][cp].from == move_generation_stack[repere[cp+1]].departure
-            && Sols[cs][cp].to   == move_generation_stack[repere[cp+1]].arrival
-            && Sols[cs][cp].prom == jouearr[cp];
-      }
-    }
-
-    return found;
-  }
-}
 
 int  CurMate;
 int WhMovesRequired[maxply+1],
@@ -706,7 +651,7 @@ static void StaleStoreMate(
   }
 #endif
 
-  sol_per_matingpos= 0;
+  sol_per_matingpos = 0;
 
   closehash();
   inithash();
@@ -714,7 +659,8 @@ static void StaleStoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    intelligent_solvable_root_solve_in_n(current_start_slice,n);
+    if (intelligent_solvable_root_solve_in_n(current_start_slice,n))
+      solutions_found = true;
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -929,7 +875,7 @@ static void StoreMate(
   closehash();
   inithash();
 
-  sol_per_matingpos= 0;
+  sol_per_matingpos = 0;
 
 #if defined(DETAILS)
   for (bnp= boardnum; *bnp; bnp++) {
@@ -950,7 +896,8 @@ static void StoreMate(
   {
     boolean const save_movenbr = OptFlag[movenbr];
     OptFlag[movenbr] = false;
-    intelligent_solvable_root_solve_in_n(current_start_slice,n);
+    if (intelligent_solvable_root_solve_in_n(current_start_slice,n))
+      solutions_found = true;
     OptFlag[movenbr] = save_movenbr;
   }
 
@@ -2493,27 +2440,6 @@ static void GenerateBlackKing(stip_length_type n)
 #endif
 } /* GenerateBlackKing */
 
-static void InitSols(void)
-{
-  SolMax = 0;
-}
-
-static boolean CleanupSols(void)
-{
-  if (SolMax>0)
-  {
-    int i;
-    for (i = 0; i<SolMax; i++)
-      free(Sols[i]);
-
-    free(Sols);
-
-    return true;
-  }
-  else
-    return false;
-}
-
 static void IntelligentRegulargoal_types(stip_length_type n)
 {
   square const *bnp;
@@ -2631,6 +2557,7 @@ static void IntelligentRegulargoal_types(stip_length_type n)
 static void IntelligentProof(stip_length_type n, stip_length_type full_length)
 {
   boolean const save_movenbr = OptFlag[movenbr];
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
@@ -2647,8 +2574,9 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
    */
   if (n<full_length)
     OptFlag[movenbr] = false;
-    
-  intelligent_solvable_root_solve_in_n(current_start_slice,n);
+
+  if (intelligent_solvable_root_solve_in_n(current_start_slice,n))
+    solutions_found = true;
 
   OptFlag[movenbr] = save_movenbr;
 
@@ -2754,6 +2682,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STIntelligentSeriesFilter */
   &moves_left_move,                          /* STGoalReachableGuardHelpFilter */
   &moves_left_move,                          /* STGoalReachableGuardSeriesFilter */
+  &moves_left_move,                          /* STIntelligentDuplicateAvoider */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardHelpFilter */
@@ -3144,6 +3073,25 @@ void intelligent_guards_inserter_series_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void intelligent_guards_inserter_goal(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  Goal const goal = slices[si].u.goal_reached_tester.goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  /* we don't produce duplicate solutions when testing proof games */
+  if (goal.type!=goal_atob && goal.type!=goal_proof)
+    pipe_append(si,alloc_intelligent_duplicate_avoider_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static stip_structure_visitor const intelligent_guards_inserters[] =
 {
   &stip_traverse_structure_children,         /* STProxy */
@@ -3153,7 +3101,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STHelpFork */
   &intelligent_guards_inserter_branch_series,/* STSeriesMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
-  &stip_structure_visitor_noop,              /* STGoalReachedTester */
+  &intelligent_guards_inserter_goal,         /* STGoalReachedTester */
   &stip_structure_visitor_noop,              /* STLeaf */
   &stip_traverse_structure_children,         /* STReciprocal */
   &stip_traverse_structure_children,         /* STQuodlibet */
@@ -3204,6 +3152,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,         /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,         /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,         /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children,         /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,         /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,         /* STKeepMatingGuardHelpFilter */
@@ -3290,15 +3239,20 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
      
   MatesMax = 0;
 
-  InitSols();
+  solutions_found = false;
 
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proof)
     IntelligentProof(n,full_length);
-  else if (!help_too_short(n))
-    IntelligentRegulargoal_types(n);
+  else
+  {
+    intelligent_duplicate_avoider_init();
+    if (!help_too_short(n))
+      IntelligentRegulargoal_types(n);
+    intelligent_duplicate_avoider_cleanup();
+  }
 
-  result = CleanupSols();
+  result = solutions_found;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3341,15 +3295,20 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
      
   MatesMax = 0;
 
-  InitSols();
+  solutions_found = false;
 
   if (goal_to_be_reached==goal_atob
       || goal_to_be_reached==goal_proof)
     IntelligentProof(n,full_length);
-  else if (!series_too_short(n))
-    IntelligentRegulargoal_types(n);
+  else
+  {
+    intelligent_duplicate_avoider_init();
+    if (!series_too_short(n))
+      IntelligentRegulargoal_types(n);
+    intelligent_duplicate_avoider_cleanup();
+  }
 
-  result = CleanupSols();
+  result = solutions_found;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3400,8 +3359,9 @@ static void intelligent_mode_support_detector_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void intelligent_mode_support_detector_leaf(slice_index si,
-                                                   stip_structure_traversal *st)
+static
+void intelligent_mode_support_detector_goal(slice_index si,
+                                            stip_structure_traversal *st)
 {
   support_for_intelligent_mode * const support = st->param;
 
@@ -3488,7 +3448,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_fork,      /* STHelpFork */
   &stip_traverse_structure_children,            /* STSeriesMove */
   &intelligent_mode_support_detector_fork,      /* STSeriesFork */
-  &intelligent_mode_support_detector_leaf,      /* STGoalReachedTester */
+  &intelligent_mode_support_detector_goal,      /* STGoalReachedTester */
   &stip_structure_visitor_noop,                 /* STLeaf */
   &intelligent_mode_support_none,               /* STReciprocal */
   &intelligent_mode_support_detector_quodlibet, /* STQuodlibet */
@@ -3539,6 +3499,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children,            /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children,            /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children,            /* STIntelligentDuplicateAvoider */
   &intelligent_mode_support_none,               /* STKeepMatingGuardAttackerFilter */
   &intelligent_mode_support_none,               /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children,            /* STKeepMatingGuardHelpFilter */
@@ -3579,7 +3540,9 @@ static support_for_intelligent_mode stip_supports_intelligent(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&intelligent_mode_support_detectors,&result);
+  stip_structure_traversal_init(&st,
+                                &intelligent_mode_support_detectors,
+                                &result);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

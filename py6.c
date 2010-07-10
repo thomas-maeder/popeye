@@ -557,6 +557,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
@@ -2353,6 +2354,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &intelligent_init_duplex,          /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
@@ -2473,6 +2475,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &intelligent_fini_duplex, /* STIntelligentSeriesFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardHelpFilter */
   &stip_traverse_structure_children, /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardHelpFilter */
@@ -2829,6 +2832,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STIntelligentSeriesFilter */
   &stip_traverse_moves_pipe,                 /* STGoalReachableGuardHelpFilter */
   &stip_traverse_moves_pipe,                 /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_moves_pipe,                 /* STIntelligentDuplicateAvoider */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STKeepMatingGuardHelpFilter */

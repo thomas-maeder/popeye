@@ -173,6 +173,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_structure_visitor_noop,        /* STIntelligentSeriesFilter */
   &stip_structure_visitor_noop,        /* STGoalReachableGuardHelpFilter */
   &stip_structure_visitor_noop,        /* STGoalReachableGuardSeriesFilter */
+  &stip_structure_visitor_noop,        /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children,   /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children,   /* STKeepMatingGuardDefenderFilter */
   &stip_structure_visitor_noop,        /* STKeepMatingGuardHelpFilter */
@@ -300,6 +301,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_structure_visitor_noop,      /* STIntelligentSeriesFilter */
   &stip_structure_visitor_noop,      /* STGoalReachableGuardHelpFilter */
   &stip_structure_visitor_noop,      /* STGoalReachableGuardSeriesFilter */
+  &stip_structure_visitor_noop,      /* STIntelligentDuplicateAvoider */
   &stip_traverse_structure_children, /* STKeepMatingGuardAttackerFilter */
   &stip_traverse_structure_children, /* STKeepMatingGuardDefenderFilter */
   &stip_structure_visitor_noop,      /* STKeepMatingGuardHelpFilter */

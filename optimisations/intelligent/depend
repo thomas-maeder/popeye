@@ -26,3 +26,17 @@ stipulation/series_play/play.h:
 stipulation/branch.h:
 
 trace.h:
+optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX):  \
+ optimisations/intelligent/duplicate_avoider.c \
+  optimisations/intelligent/duplicate_avoider.h pydata.h pypipe.h pyint.h \
+  trace.h
+
+optimisations/intelligent/duplicate_avoider.h:
+
+pydata.h:
+
+pypipe.h:
+
+pyint.h:
+
+trace.h:
