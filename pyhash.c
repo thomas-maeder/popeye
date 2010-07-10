@@ -346,6 +346,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STMaxTimeHelpFilter */
   &slice_property_offset_shifter,    /* STMaxTimeSeriesFilter */
   &slice_property_offset_shifter,    /* STMaxSolutionsRootSolvableFilter */
+  &slice_property_offset_shifter,    /* STMaxSolutionsSolvableFilter */
   &slice_property_offset_shifter,    /* STMaxSolutionsRootDefenderFilter */
   &slice_property_offset_shifter,    /* STMaxSolutionsHelpFilter */
   &slice_property_offset_shifter,    /* STMaxSolutionsSeriesFilter */
@@ -703,6 +704,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMaxTimeHelpFilter */
   &init_slice_properties_pipe,           /* STMaxTimeSeriesFilter */
   &init_slice_properties_pipe,           /* STMaxSolutionsRootSolvableFilter */
+  &init_slice_properties_pipe,           /* STMaxSolutionsSolvableFilter */
   &init_slice_properties_pipe,           /* STMaxSolutionsRootDefenderFilter */
   &init_slice_properties_pipe,           /* STMaxSolutionsHelpFilter */
   &init_slice_properties_pipe,           /* STMaxSolutionsSeriesFilter */
@@ -2283,6 +2285,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_pipe,                 /* STMaxTimeHelpFilter */
   &stip_traverse_moves_pipe,                 /* STMaxTimeSeriesFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxSolutionsSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsHelpFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsSeriesFilter */

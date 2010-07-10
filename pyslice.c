@@ -24,6 +24,7 @@
 #include "pykeepmt.h"
 #include "pypipe.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
+#include "optimisations/maxsolutions/solvable_filter.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "output/plaintext/tree/end_of_phase_writer.h"
@@ -163,6 +164,10 @@ has_solution_type slice_solve(slice_index si)
       result = maxsolutions_root_solvable_filter_solve(si);
       break;
 
+    case STMaxSolutionsSolvableFilter:
+      result = maxsolutions_solvable_filter_solve(si);
+      break;
+
     case STStopOnShortSolutionsRootSolvableFilter:
       result = stoponshortsolutions_root_solvable_filter_solve(si);
       break;
@@ -281,6 +286,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STIntelligentDuplicateAvoider:
       result = intelligent_duplicate_avoider_has_solution(si);
+      break;
+
+    case STMaxSolutionsSolvableFilter:
+      result = maxsolutions_solvable_filter_has_solution(si);
       break;
 
     default:

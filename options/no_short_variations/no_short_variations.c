@@ -94,6 +94,7 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STNoShortVariations */
   &stip_traverse_structure_children,    /* STNo_short_variationsSeriesFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,    /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsSeriesFilter */

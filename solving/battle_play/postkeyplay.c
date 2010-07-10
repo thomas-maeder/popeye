@@ -188,6 +188,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_structure_visitor_noop,        /* STMaxTimeHelpFilter */
   &stip_structure_visitor_noop,        /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children,   /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,   /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children,   /* STMaxSolutionsRootDefenderFilter */
   &stip_structure_visitor_noop,        /* STMaxSolutionsHelpFilter */
   &stip_structure_visitor_noop,        /* STMaxSolutionsSeriesFilter */
@@ -316,6 +317,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_structure_visitor_noop,      /* STMaxTimeHelpFilter */
   &stip_structure_visitor_noop,      /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
   &stip_structure_visitor_noop,      /* STMaxSolutionsHelpFilter */
   &stip_structure_visitor_noop,      /* STMaxSolutionsSeriesFilter */

@@ -572,6 +572,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children, /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
@@ -2369,6 +2370,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children, /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
@@ -2490,6 +2492,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children, /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
@@ -2847,6 +2850,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STMaxTimeHelpFilter */
   &stip_traverse_moves_pipe,                 /* STMaxTimeSeriesFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_moves_pipe,                 /* STMaxSolutionsSolvableFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsHelpFilter */
   &stip_traverse_moves_pipe,                 /* STMaxSolutionsSeriesFilter */

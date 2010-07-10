@@ -1,6 +1,7 @@
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "pypipe.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
+#include "optimisations/maxsolutions/solvable_filter.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
@@ -205,8 +206,26 @@ void insert_maxsolutions_root_defender_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
   pipe_append(si,alloc_maxsolutions_root_defender_filter());
+
+  /* don't recurse further; we don't want to instrument leaves */
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a STMaxSolutionsSolvableFilter before a STLeaf slice
+ */
+static void insert_maxsolutions_solvable_filter(slice_index si,
+                                                stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_append(slices[si].prev,alloc_maxsolutions_solvable_filter());
+
+  /* don't recurse further; we don't want to instrument leaves */
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -221,8 +240,8 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STHelpFork */
   &insert_maxsolutions_series_filter,        /* STSeriesMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
-  &stip_structure_visitor_noop,              /* STGoalReachedTester */
-  &stip_structure_visitor_noop,              /* STLeaf */
+  &stip_traverse_structure_children,         /* STGoalReachedTester */
+  &insert_maxsolutions_solvable_filter,      /* STLeaf */
   &stip_traverse_structure_children,         /* STReciprocal */
   &stip_traverse_structure_children,         /* STQuodlibet */
   &stip_traverse_structure_children,         /* STNot */
@@ -287,6 +306,7 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children,         /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children,         /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,         /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children,         /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children,         /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children,         /* STMaxSolutionsSeriesFilter */
@@ -391,6 +411,7 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children, /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */

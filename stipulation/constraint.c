@@ -976,6 +976,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children,   /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children,   /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,   /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children,   /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children,   /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children,   /* STMaxSolutionsSeriesFilter */
@@ -1180,6 +1181,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children,    /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children,    /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children,    /* STMaxSolutionsSeriesFilter */

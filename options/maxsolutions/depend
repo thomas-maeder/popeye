@@ -2,6 +2,7 @@ optimisations/maxsolutions/maxsolutions$(OBJ_SUFFIX):  \
  optimisations/maxsolutions/maxsolutions.c \
   optimisations/maxsolutions/maxsolutions.h pypipe.h \
   optimisations/maxsolutions/root_solvable_filter.h \
+  optimisations/maxsolutions/solvable_filter.h \
   optimisations/maxsolutions/root_defender_filter.h \
   optimisations/maxsolutions/help_filter.h \
   optimisations/maxsolutions/series_filter.h trace.h
@@ -11,6 +12,8 @@ optimisations/maxsolutions/maxsolutions.h:
 pypipe.h:
 
 optimisations/maxsolutions/root_solvable_filter.h:
+
+optimisations/maxsolutions/solvable_filter.h:
 
 optimisations/maxsolutions/root_defender_filter.h:
 
@@ -25,6 +28,18 @@ optimisations/maxsolutions/root_solvable_filter$(OBJ_SUFFIX):  \
   optimisations/maxsolutions/maxsolutions.h pypipe.h trace.h
 
 optimisations/maxsolutions/root_solvable_filter.h:
+
+optimisations/maxsolutions/maxsolutions.h:
+
+pypipe.h:
+
+trace.h:
+optimisations/maxsolutions/solvable_filter$(OBJ_SUFFIX):  \
+ optimisations/maxsolutions/solvable_filter.c \
+  optimisations/maxsolutions/solvable_filter.h \
+  optimisations/maxsolutions/maxsolutions.h pypipe.h trace.h
+
+optimisations/maxsolutions/solvable_filter.h:
 
 optimisations/maxsolutions/maxsolutions.h:
 

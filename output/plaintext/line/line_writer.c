@@ -3,7 +3,6 @@
 #include "pydata.h"
 #include "pyoutput.h"
 #include "trace.h"
-#include "optimisations/maxsolutions/maxsolutions.h"
 #include "pymsg.h"
 #include "output/output.h"
 #ifdef _SE_
@@ -25,7 +24,6 @@ static void write_line(goal_type goal)
 
   ply const start_ply = 2;
 
-  increase_nr_found_solutions();
   if (OptFlag[beep])
     BeepOnSolution(maxbeep);
       

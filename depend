@@ -1203,6 +1203,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pybrafrk.h pyquodli.h pyrecipr.h pynot.h pymovein.h pyhash.h \
   DHT/dhtbcmem.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h pykeepmt.h \
   pypipe.h optimisations/maxsolutions/root_solvable_filter.h \
+  optimisations/maxsolutions/solvable_filter.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
   optimisations/intelligent/duplicate_avoider.h \
   output/plaintext/tree/end_of_phase_writer.h \
@@ -1293,6 +1294,8 @@ pykeepmt.h:
 pypipe.h:
 
 optimisations/maxsolutions/root_solvable_filter.h:
+
+optimisations/maxsolutions/solvable_filter.h:
 
 optimisations/stoponshortsolutions/root_solvable_filter.h:
 
@@ -2117,16 +2120,12 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
-  pystip.h pyoutput.h pytable.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
+  pyoutput.h pytable.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2143,6 +2142,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

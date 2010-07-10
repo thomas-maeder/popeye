@@ -325,6 +325,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxTimeHelpFilter:
       case STMaxTimeSeriesFilter:
       case STMaxSolutionsRootSolvableFilter:
+      case STMaxSolutionsSolvableFilter:
       case STMaxSolutionsRootDefenderFilter:
       case STMaxSolutionsHelpFilter:
       case STMaxSolutionsSeriesFilter:

@@ -231,6 +231,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &pipe_traverse_next,               /* STMaxTimeHelpFilter */
   &stip_traverse_structure_children, /* STMaxTimeSeriesFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsSolvableFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsRootDefenderFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsHelpFilter */
   &stip_traverse_structure_children, /* STMaxSolutionsSeriesFilter */
