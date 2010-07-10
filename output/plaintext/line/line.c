@@ -5,18 +5,34 @@
 
 #include <assert.h>
 
-
-static void instrument_goal_reached_tester(slice_index si,
-                                           stip_structure_traversal *st)
+static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 {
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
+  Goal const * const goal = st->param;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (goal->type!=no_goal)
+    pipe_append(slices[si].prev,alloc_line_writer_slice(*goal));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_goal_reached_tester(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  Goal * const goal = st->param;
+  Goal const save_goal = *goal;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *goal = slices[si].u.goal_reached_tester.goal;
   stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_line_writer_slice(goal));
+  *goal = save_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -32,7 +48,7 @@ static stip_structure_visitor const line_slice_inserters[] =
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesFork */
   &instrument_goal_reached_tester,   /* STGoalReachedTester */
-  &stip_structure_visitor_noop,      /* STLeaf */
+  &instrument_leaf,                  /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
   &stip_traverse_structure_children, /* STNot */
@@ -116,13 +132,14 @@ static stip_structure_visitor const line_slice_inserters[] =
 void stip_insert_output_plaintext_line_slices(void)
 {
   stip_structure_traversal st;
+  Goal state = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,&line_slice_inserters,0);
+  stip_structure_traversal_init(&st,&line_slice_inserters,&state);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
