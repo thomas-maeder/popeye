@@ -4,6 +4,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 

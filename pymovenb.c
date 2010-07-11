@@ -4,6 +4,7 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
 #include "pyoutput.h"
+#include "output/plaintext/plaintext.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
@@ -63,7 +64,7 @@ static void IncrementMoveNbr(slice_index si)
   {
     sprintf(GlobalStr,"\n%3u  (", MoveNbr);
     StdString(GlobalStr);
-    ecritcoup(nbply);
+    output_plaintext_write_move(nbply);
     if (echecc(nbply,slices[si].starter))
       StdString(" +");
     StdChar(blank);

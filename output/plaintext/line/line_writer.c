@@ -5,7 +5,9 @@
 #include "trace.h"
 #include "pymsg.h"
 #include "output/output.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/line/move_inversion_counter.h"
+#include "platform/beep.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -26,7 +28,7 @@ static void write_line(goal_type goal)
   ply const start_ply = 2;
 
   if (OptFlag[beep])
-    BeepOnSolution(maxbeep);
+    produce_beep();
       
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -96,7 +98,7 @@ static void write_line(goal_type goal)
 
     initneutre(advers(trait[current_ply]));
     jouecoup_no_test(current_ply);
-    ecritcoup(current_ply);
+    output_plaintext_write_move(current_ply);
     if (nbply==current_ply)
       StdString(goal_end_marker[goal]);
     else if (echecc(current_ply,advers(trait[current_ply])))

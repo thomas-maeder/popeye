@@ -439,8 +439,6 @@ void    grabbitn(square sq);
 void    gbobb(square sq);
 void    gbobn(square sq);
 
-void BeepOnSolution(int NumOfBeeps);
-
 boolean nokingcontact(square ia);
 boolean nowazircontact(square ia);
 boolean noferscontact(square ia);

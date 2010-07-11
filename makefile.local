@@ -24,7 +24,7 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pymsg.c pylang.c pyhash.c pyproof.c	       \
 		pytable.c \
 		pyoutput.c \
-		pysignal.c pyintslv.c pyint.c \
+		pyintslv.c pyint.c \
 		pygoal.c pystip.c pyslice.c \
 		pypipe.c \
 		pydirctg.c pyselfgd.c pyreflxg.c \

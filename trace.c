@@ -4,6 +4,7 @@
 #include "pyhash.h"
 #include "pystip.h"
 #include "pyoutput.h"
+#include "output/plaintext/plaintext.h"
 
 #include <assert.h>
 #include <limits.h>
@@ -144,7 +145,7 @@ boolean TraceCurrentMove(ply current_ply)
   if (level<=max_level)
   {
     fprintf(stdout," #%lu %lu ",level,move_counter++);
-    ecritcoup(current_ply);
+    output_plaintext_write_move(current_ply);
     fprintf(stdout," nbcou:%d",nbcou);
     fprintf(stdout," current_ply:%d\n",current_ply);
     fflush(stdout);

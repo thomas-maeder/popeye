@@ -13,3 +13,8 @@ platform/maxtime_impl.h:
 platform/maxtime.h:
 
 pydata.h:
+platform/beep$(OBJ_SUFFIX): platform/beep.c platform/beep.h platform/beep_impl.h
+
+platform/beep.h:
+
+platform/beep_impl.h:

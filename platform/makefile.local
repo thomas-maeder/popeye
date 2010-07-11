@@ -1,6 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = maxmem.c maxtime.c
-INCLUDES = maxmem.h maxtime.h maxtime_impl.h priority.h pytime.h
+CFILES = maxmem.c maxtime.c beep.c
+INCLUDES = maxmem.h maxtime.h maxtime_impl.h priority.h pytime.h \
+	beep.h beep_impl.h
 
 include makefile.rules $(CURRPWD)depend

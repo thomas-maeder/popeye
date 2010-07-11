@@ -42,19 +42,8 @@ void init_output(slice_index si);
  */
 void write_battle_move(void);
 
-/* Remember the decoration (! or ?) for a battle move just written
- * @param type identifies decoration to be written
- */
-void remember_battle_move_decoration(attack_type type);
-
-/* Write a possibly pending move decoration
- */
-void write_pending_decoration(void);
-
 /* Write the end of a solution phase
  */
 void write_end_of_solution_phase(void);
-
-void ecritcoup(ply ply_id);
 
 #endif

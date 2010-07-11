@@ -18,3 +18,9 @@ platform/windows32/priority.obj: platform/windows32/priority.c \
  platform/priority.h
 
 platform/priority.h:
+platform/windows32/beep.obj: platform/windows32/beep.c platform/beep.h \
+ platform/beep_impl.h
+
+platform/beep.h:
+
+platform/beep_impl.h:

@@ -21,3 +21,9 @@ platform/pytime.h:
 platform/unix/priority$(OBJ_SUFFIX): platform/unix/priority.c platform/priority.h
 
 platform/priority.h:
+platform/unix/beep$(OBJ_SUFFIX): platform/unix/beep.c platform/beep.h \
+  platform/beep_impl.h
+
+platform/beep.h:
+
+platform/beep_impl.h:

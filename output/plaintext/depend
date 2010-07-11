@@ -1,11 +1,13 @@
-output/plaintext/end_of_phase_writer$(OBJ_SUFFIX):  \
- output/plaintext/end_of_phase_writer.c \
-  output/plaintext/end_of_phase_writer.h pyoutput.h pypipe.h trace.h
+output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
+  output/plaintext/plaintext.h pyproc.h pydata.h pymsg.h \
+  conditions/republican.h
 
-output/plaintext/end_of_phase_writer.h:
+output/plaintext/plaintext.h:
 
-pyoutput.h:
+pyproc.h:
 
-pypipe.h:
+pydata.h:
 
-trace.h:
+pymsg.h:
+
+conditions/republican.h:

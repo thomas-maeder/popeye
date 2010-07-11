@@ -100,6 +100,7 @@
 #include "conditions/republican.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
+#include "platform/beep.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "trace.h"
@@ -4822,15 +4823,14 @@ static char *ParseOpt(void)
     {
       case beep:
         tok = ReadNextTokStr();
-        if ((maxbeep= atoi(tok)) <= 0)
+        if (!read_nr_beeps(tok))
         {
-          maxbeep= 1;
-          /* we did NOT use tok */
-          continue;
+          OptFlag[beep] = false;
+          IoErrorMsg(WrongInt,0);
+          continue; /* we did NOT use tok */
         }
         else
-          /* we did use tok */
-          break;
+          break; /* we did use tok */
 
       case maxtime:
       {

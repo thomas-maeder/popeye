@@ -12,6 +12,7 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
+#include "platform/beep.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -470,6 +471,54 @@ void stip_insert_output_plaintext_tree_slices(void)
 
   stip_structure_traversal_init(&st,&tree_slice_inserters,&goal);
   stip_traverse_structure(root_slice,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+static attack_type pending_decoration = attack_regular;
+
+/* Write a possibly pending move decoration
+ */
+void write_pending_decoration(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",move_ply);
+  TraceFunctionParamListEnd();
+
+  switch (pending_decoration)
+  {
+    case attack_try:
+      StdString(" ?");
+      break;
+
+    case attack_key:
+      StdString(" !");
+      if (OptFlag[beep])
+        produce_beep();
+      break;
+
+    default:
+      break;
+  }
+
+  pending_decoration = attack_regular;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the decoration (! or ?) for the first move if appropriate
+ * @param type identifies decoration to be added
+ */
+void remember_battle_move_decoration(attack_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",type);
+  TraceFunctionParamListEnd();
+
+  pending_decoration = type;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

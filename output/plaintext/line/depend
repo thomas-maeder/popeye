@@ -14,8 +14,8 @@ output/plaintext/line/move_inversion_counter.h:
 trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \
   output/plaintext/line/line_writer.h pypipe.h pydata.h pyoutput.h \
-  trace.h pymsg.h output/output.h \
-  output/plaintext/line/move_inversion_counter.h
+  trace.h pymsg.h output/output.h output/plaintext/plaintext.h \
+  output/plaintext/line/move_inversion_counter.h platform/beep.h
 
 output/plaintext/line/line_writer.h:
 
@@ -31,7 +31,11 @@ pymsg.h:
 
 output/output.h:
 
+output/plaintext/plaintext.h:
+
 output/plaintext/line/move_inversion_counter.h:
+
+platform/beep.h:
 output/plaintext/line/move_inversion_counter$(OBJ_SUFFIX):  \
  output/plaintext/line/move_inversion_counter.c \
   output/plaintext/line/move_inversion_counter.h pydata.h pypipe.h \

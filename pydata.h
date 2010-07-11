@@ -211,9 +211,6 @@ EXTERN castling_flag_type castling_mutual_exclusive[nr_sides][2];
 EXTERN  unsigned long   sol_per_matingpos, maxsol_per_matingpos;
 EXTERN  boolean         FlagMaxSolsPerMatingPosReached;
 
-/* beep maxbeep times if a solution is found */
-
-EXTERN  int             maxbeep;
 
 /* Optimierung direkte Aufgaben */
 EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];

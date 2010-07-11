@@ -4,6 +4,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 

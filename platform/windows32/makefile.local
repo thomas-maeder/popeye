@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
 
-CFILES = maxmem.c maxtime.c pytime.c priority.c
+CFILES = maxmem.c maxtime.c pytime.c priority.c beep.c
 
 include makefile.rules $(CURRPWD)depend
