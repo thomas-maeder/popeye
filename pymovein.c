@@ -2,11 +2,10 @@
 #include "pyslice.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
-#include "pyproc.h"
-#include "pyoutput.h"
-#include "pydata.h"
-#include "pyintslv.h"
 #include "trace.h"
+#ifdef _SE_
+#include "se.h"
+#endif
 
 #include <assert.h>
 
@@ -125,9 +124,7 @@ has_solution_type move_inverter_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_start_move_inverted_level();
   result = slice_solve(slices[si].u.pipe.next);
-  output_end_move_inverted_level();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -147,9 +144,11 @@ has_solution_type move_inverter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_start_move_inverted_level();
   result = slice_solve(slices[si].u.pipe.next);
-  output_end_move_inverted_level();
+
+#ifdef _SE_DECORATE_SOLUTION_
+  se_end_set_play();   
+#endif
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

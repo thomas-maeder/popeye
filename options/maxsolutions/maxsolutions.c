@@ -319,7 +319,9 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,         /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
   &stip_traverse_structure_children,         /* STOutputPlaintextLineLineWriter */
-  &stip_traverse_structure_children          /* STOutputPlaintextTreeGoalWriter */
+  &stip_traverse_structure_children,         /* STOutputPlaintextTreeGoalWriter */
+  &stip_traverse_structure_children,         /* STOutputPlaintextTreeMoveInversionCounter */
+  &stip_traverse_structure_children          /* STOutputPlaintextLineMoveInversionCounter */
 };
 
 /* Insert a STMaxSolutionsRootSolvableFilter slice before some slice
@@ -425,7 +427,9 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
-  &stip_traverse_structure_children  /* STOutputPlaintextTreeGoalWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
+  &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
 };
 
 /* Instrument a stipulation with STMaxSolutions*Filter slices

@@ -107,7 +107,9 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &stip_traverse_structure_children,    /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
   &stip_traverse_structure_children,    /* STOutputPlaintextLineLineWriter */
-  &stip_traverse_structure_children     /* STOutputPlaintextTreeGoalWriter */
+  &stip_traverse_structure_children,    /* STOutputPlaintextTreeGoalWriter */
+  &stip_traverse_structure_children,    /* STOutputPlaintextTreeMoveInversionCounter */
+  &stip_traverse_structure_children     /* STOutputPlaintextLineMoveInversionCounter */
 };
 
 /* Instrument a stipulation with STNo_short_variationsSeriesFilter slices

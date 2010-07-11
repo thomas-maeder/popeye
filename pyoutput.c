@@ -7,6 +7,8 @@
 #include "conditions/republican.h"
 #include "output/output.h"
 #include "output/plaintext/tree/tree.h"
+#include "output/plaintext/tree/move_inversion_counter.h"
+#include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/line.h"
 #include "trace.h"
 #ifdef _SE_
@@ -27,9 +29,6 @@
 #include "pyenum.h"
 
 static output_mode current_mode = output_mode_none;
-
-unsigned int nr_color_inversions_in_ply[maxply];
-static unsigned int nr_color_inversions;
 
 static boolean is_threat[maxply];
 
@@ -244,7 +243,9 @@ static stip_structure_visitor const output_mode_detectors[] =
   &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
   &pipe_traverse_next,               /* STOutputPlaintextLineLineWriter */
-  &pipe_traverse_next                /* STOutputPlaintextTreeGoalWriter */
+  &pipe_traverse_next,               /* STOutputPlaintextTreeGoalWriter */
+  &pipe_traverse_next,               /* STOutputPlaintextTreeMoveInversionCounter */
+  &pipe_traverse_next                /* STOutputPlaintextLineMoveInversionCounter */
 };
 
 /* Initialize based on the stipulation
@@ -305,38 +306,6 @@ static void write_pending_decoration(void)
   }
 
   pending_decoration = attack_regular;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Start a new output level consisting of set play
- */
-void output_start_move_inverted_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  ++nr_color_inversions;
-  ++nr_color_inversions_in_ply[nbply+1];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* End the inner-most output level (which consists of set play)
- */
-void output_end_move_inverted_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-#ifdef _SE_DECORATE_SOLUTION_
-  se_end_set_play();   
-#endif
-
-  --nr_color_inversions_in_ply[nbply+1];
-  --nr_color_inversions;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -442,7 +411,7 @@ void write_battle_move(void)
 
   if (current_mode==output_mode_tree)
   {
-    unsigned int const move_depth = nbply+nr_color_inversions;
+    unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
 
     write_pending_decoration();
 
@@ -495,7 +464,7 @@ void write_goal(goal_type goal)
  */
 void write_refutation_mark(void)
 {
-  unsigned int const move_depth = nbply+nr_color_inversions;
+  unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
 
   Message(NewLine);
   sprintf(GlobalStr,"%*c",4*move_depth-4,blank);

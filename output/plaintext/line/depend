@@ -1,6 +1,7 @@
 output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
   output/plaintext/line/line.h pypipe.h \
-  output/plaintext/line/line_writer.h trace.h
+  output/plaintext/line/line_writer.h \
+  output/plaintext/line/move_inversion_counter.h trace.h
 
 output/plaintext/line/line.h:
 
@@ -8,10 +9,13 @@ pypipe.h:
 
 output/plaintext/line/line_writer.h:
 
+output/plaintext/line/move_inversion_counter.h:
+
 trace.h:
 output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_writer.c \
   output/plaintext/line/line_writer.h pypipe.h pydata.h pyoutput.h \
-  trace.h pymsg.h output/output.h
+  trace.h pymsg.h output/output.h \
+  output/plaintext/line/move_inversion_counter.h
 
 output/plaintext/line/line_writer.h:
 
@@ -26,3 +30,19 @@ trace.h:
 pymsg.h:
 
 output/output.h:
+
+output/plaintext/line/move_inversion_counter.h:
+output/plaintext/line/move_inversion_counter$(OBJ_SUFFIX):  \
+ output/plaintext/line/move_inversion_counter.c \
+  output/plaintext/line/move_inversion_counter.h pydata.h pypipe.h \
+  pyoutput.h trace.h
+
+output/plaintext/line/move_inversion_counter.h:
+
+pydata.h:
+
+pypipe.h:
+
+pyoutput.h:
+
+trace.h:

@@ -5,6 +5,7 @@
 #include "trace.h"
 #include "pymsg.h"
 #include "output/output.h"
+#include "output/plaintext/line/move_inversion_counter.h"
 #ifdef _SE_
 #include "se.h"
 #endif
@@ -37,9 +38,10 @@ static void write_line(goal_type goal)
 
   ResetPosition();
 
-  TraceValue("%u\n",nr_color_inversions_in_ply[start_ply]);
+  TraceValue("%u\n",
+             output_plaintext_line_nr_move_inversions_in_ply[start_ply]);
 
-  switch (nr_color_inversions_in_ply[start_ply])
+  switch (output_plaintext_line_nr_move_inversions_in_ply[start_ply])
   {
     case 2:
       StdString("  1...  ...");

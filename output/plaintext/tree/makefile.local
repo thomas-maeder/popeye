@@ -5,12 +5,12 @@ CFILES = tree.c end_of_phase_writer.c end_of_solution_writer.c \
 	check_detector_attacker_filter.c check_detector_defender_filter.c \
 	battle_play_solution_writer.c continuation_writer.c \
 	variation_writer.c refuting_variation_writer.c refutation_writer.c \
-	zugzwang_writer.c goal_writer.c
+	zugzwang_writer.c goal_writer.c move_inversion_counter.c
 
 INCLUDES = tree.h end_of_phase_writer.h end_of_solution_writer.h \
 	check_detector_attacker_filter.h check_detector_defender_filter.h \
 	battle_play_solution_writer.h continuation_writer.h \
 	variation_writer.h refuting_variation_writer.h refutation_writer.c \
-	zugzwang_writer.h goal_writer.h
+	zugzwang_writer.h goal_writer.h move_inversion_counter.h
 
 include makefile.rules $(CURRPWD)depend

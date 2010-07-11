@@ -10,7 +10,8 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
   output/plaintext/tree/variation_writer.h \
   output/plaintext/tree/refuting_variation_writer.h \
   output/plaintext/tree/refutation_writer.h \
-  output/plaintext/tree/goal_writer.h trace.h
+  output/plaintext/tree/goal_writer.h \
+  output/plaintext/tree/move_inversion_counter.h trace.h
 
 output/plaintext/tree/tree.h:
 
@@ -39,6 +40,8 @@ output/plaintext/tree/refuting_variation_writer.h:
 output/plaintext/tree/refutation_writer.h:
 
 output/plaintext/tree/goal_writer.h:
+
+output/plaintext/tree/move_inversion_counter.h:
 
 trace.h:
 output/plaintext/tree/end_of_phase_writer$(OBJ_SUFFIX):  \
@@ -211,6 +214,18 @@ output/plaintext/tree/goal_writer$(OBJ_SUFFIX): output/plaintext/tree/goal_write
   output/plaintext/tree/goal_writer.h pypipe.h pyoutput.h trace.h
 
 output/plaintext/tree/goal_writer.h:
+
+pypipe.h:
+
+pyoutput.h:
+
+trace.h:
+output/plaintext/tree/move_inversion_counter$(OBJ_SUFFIX):  \
+ output/plaintext/tree/move_inversion_counter.c \
+  output/plaintext/tree/move_inversion_counter.h pypipe.h pyoutput.h \
+  trace.h
+
+output/plaintext/tree/move_inversion_counter.h:
 
 pypipe.h:
 

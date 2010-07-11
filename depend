@@ -806,7 +806,10 @@ pyoutput$(OBJ_SUFFIX): pyoutput.c pyoutput.h py.h boolean.h pyposit.h pyboard.h 
   pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pystip.h pytable.h \
   pydata.h pyproc.h py4.h pymsg.h pyslice.h pypipe.h py1.h \
   conditions/republican.h pyproc.h output/output.h pystip.h \
-  output/plaintext/tree/tree.h output/plaintext/line/line.h trace.h
+  output/plaintext/tree/tree.h \
+  output/plaintext/tree/move_inversion_counter.h pyslice.h \
+  output/plaintext/line/move_inversion_counter.h \
+  output/plaintext/line/line.h trace.h
 
 pyoutput.h:
 
@@ -855,6 +858,12 @@ output/output.h:
 pystip.h:
 
 output/plaintext/tree/tree.h:
+
+output/plaintext/tree/move_inversion_counter.h:
+
+pyslice.h:
+
+output/plaintext/line/move_inversion_counter.h:
 
 output/plaintext/line/line.h:
 
@@ -1207,6 +1216,9 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
   optimisations/intelligent/duplicate_avoider.h \
   output/plaintext/tree/end_of_phase_writer.h \
+  output/plaintext/tree/goal_writer.h \
+  output/plaintext/tree/move_inversion_counter.h \
+  output/plaintext/line/move_inversion_counter.h \
   output/plaintext/line/line_writer.h
 
 pyslice.h:
@@ -1302,6 +1314,12 @@ optimisations/stoponshortsolutions/root_solvable_filter.h:
 optimisations/intelligent/duplicate_avoider.h:
 
 output/plaintext/tree/end_of_phase_writer.h:
+
+output/plaintext/tree/goal_writer.h:
+
+output/plaintext/tree/move_inversion_counter.h:
+
+output/plaintext/line/move_inversion_counter.h:
 
 output/plaintext/line/line_writer.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
@@ -2011,8 +2029,7 @@ pydata.h:
 trace.h:
 pymovein$(OBJ_SUFFIX): pymovein.c pymovein.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pystip.h pygoal.h \
-  stipulation/series_play/play.h py.h pystip.h pyslice.h pypipe.h \
-  pyproc.h py4.h pyoutput.h pytable.h pydata.h pyintslv.h trace.h
+  stipulation/series_play/play.h py.h pystip.h pyslice.h pypipe.h trace.h
 
 pymovein.h:
 
@@ -2047,18 +2064,6 @@ pystip.h:
 pyslice.h:
 
 pypipe.h:
-
-pyproc.h:
-
-py4.h:
-
-pyoutput.h:
-
-pytable.h:
-
-pydata.h:
-
-pyintslv.h:
 
 trace.h:
 pymovenb$(OBJ_SUFFIX): pymovenb.c pymovenb.h stipulation/battle_play/defense_play.h \
