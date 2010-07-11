@@ -1,9 +1,11 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "pyoutput.h"
+#include "pymsg.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/threat.h"
+#include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 
 /* Allocate a STZugzwangWriter slice.
@@ -89,15 +91,26 @@ stip_length_type zugzwang_writer_solve_in_n(slice_index si,
 
   if (threat_activities[threats_ply]==threat_solving)
   {
-    output_start_threat_level();
+    TraceValue("%u",nbply);
+    if (nbply==2)
+      /* option postkey is set - write "threat:" or "zugzwang" on a new
+       * line
+       */
+      Message(NewLine);
+
     result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
     {
       /* We don't signal "Zugzwang" after the last attacking move of a
        * self play variation
        */
-      boolean const write_zugzwang = n>slack_length_battle && result==n+2;
-      output_end_threat_level(si,write_zugzwang);
+      if (n>slack_length_battle && result==n+2)
+      {
+        flush_pending_check(nbply-1);
+        write_pending_decoration();
+        StdChar(blank);
+        Message(Zugzwang);
+      }
     }
   }
   else

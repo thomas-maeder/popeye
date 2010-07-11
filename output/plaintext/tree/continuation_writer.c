@@ -2,8 +2,12 @@
 #include "pyoutput.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "pytable.h"
+#include "pymsg.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/battle_play/threat.h"
+#include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 
 /* Allocate a STContinuationWriter defender slice.
@@ -57,7 +61,18 @@ continuation_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  flush_pending_check(nbply-1);
+  write_pending_decoration();
+
+  if (threat_activities[nbply]==threat_solving
+      && table_length(get_top_table())==0)
+  {
+    StdChar(blank);
+    Message(Threat);
+  }
+
   write_battle_move();
+  reset_pending_check();
   result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

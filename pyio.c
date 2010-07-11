@@ -2452,17 +2452,13 @@ static char *ParsePlay(char *tok, slice_index proxy)
         slice_index const
             solver = alloc_continuation_solver_slice(slack_length_battle+2,
                                                      slack_length_battle+2);
-        slice_index const
-            writer = alloc_continuation_writer_slice(slack_length_battle+2,
-                                                     slack_length_battle+2);
         slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
                                                          slack_length_battle+2);
         slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
                                                     next);
         convert_to_parry_series_branch(next,proxy);
         pipe_link(proxy,solver);
-        pipe_link(solver,writer);
-        pipe_link(writer,def);
+        pipe_link(solver,def);
         pipe_link(def,slices[guard].prev);
 
         set_output_mode(output_mode_line);

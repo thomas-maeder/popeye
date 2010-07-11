@@ -1,7 +1,10 @@
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "pyoutput.h"
 #include "pypipe.h"
+#include "pydata.h"
+#include "pymsg.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 
 /* Allocate a STEndOfSolutionWriter slice.
@@ -54,7 +57,11 @@ end_of_solution_writer_defend_in_n(slice_index si,
 
   result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
   if (result<=n+2)
-    write_end_of_solution();
+  {
+    flush_pending_check(nbply);
+    write_pending_decoration();
+    Message(NewLine);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

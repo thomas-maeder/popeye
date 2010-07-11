@@ -31,11 +31,7 @@
 
 static output_mode current_mode = output_mode_none;
 
-static boolean is_threat[maxply];
-
 static attack_type pending_decoration = attack_regular;
-
-static unsigned int nr_moves_written[maxply+1];
 
 void set_output_mode(output_mode mode)
 {
@@ -46,12 +42,7 @@ void set_output_mode(output_mode mode)
   current_mode = mode;
 
   if (current_mode==output_mode_tree)
-  {
-    TraceValue("%u\n",nbply);
-    nr_moves_written[nbply+1] = 0;
-    nr_moves_written[nbply+2] = 0;
     reset_pending_check();
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -257,12 +248,7 @@ void init_output(slice_index si)
   TraceEnumerator(output_mode,current_mode,"\n");
   
   if (current_mode==output_mode_tree)
-  {
-    TraceValue("%u\n",nbply);
-    nr_moves_written[nbply] = 0;
-    nr_moves_written[nbply+1] = 0;
     reset_pending_check();
-  }
   else
     current_mode = output_mode_line;
 
@@ -272,13 +258,11 @@ void init_output(slice_index si)
 
 /* Write a possibly pending move decoration
  */
-void write_pending_decoration(ply move_ply)
+void write_pending_decoration(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",move_ply);
   TraceFunctionParamListEnd();
-
-  flush_pending_check(move_ply);
 
   switch (pending_decoration)
   {
@@ -302,53 +286,10 @@ void write_pending_decoration(ply move_ply)
   TraceFunctionResultEnd();
 }
 
-/* Start a new output level consisting of threats
- */
-void output_start_threat_level(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",nr_moves_written[nbply]);
-  if (nr_moves_written[nbply-1]==0)
-    /* option postkey is set - write "threat:" or "zugzwang" on a new
-     * line
-     */
-    Message(NewLine);
-
-  /* nbply will be increased by genmove() in a moment */
-  is_threat[nbply+1] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* End the inner-most output level (which consists of threats)
- */
-void output_end_threat_level(slice_index si, boolean is_zugzwang)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (is_zugzwang)
-  {
-    write_pending_decoration(nbply-1);
-    StdChar(blank);
-    Message(Zugzwang);
-  }
-
-  is_threat[nbply+1] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Write the decoration (! or ?) for the first move if appropriate
- * @param current_ply identifies ply in which move was played
+/* Remember the decoration (! or ?) for the first move if appropriate
  * @param type identifies decoration to be added
  */
-void write_battle_move_decoration(attack_type type)
+void remember_battle_move_decoration(attack_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",type);
@@ -364,82 +305,24 @@ void write_battle_move_decoration(attack_type type)
  */
 void write_battle_move(void)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (current_mode==output_mode_tree)
-  {
-    unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
-
-    write_pending_decoration(nbply-1);
-
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",nr_moves_written[nbply]);
-    if (is_threat[nbply] && nr_moves_written[nbply]==0)
-    {
-      StdChar(blank);
-      Message(Threat);
-    }
-
-    Message(NewLine);
-
-    sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,blank,move_depth/2);
-    StdString(GlobalStr);
-    if (move_depth%2==1)
-    {
-      sprintf(GlobalStr,"..");
-      StdString(GlobalStr);
-    }
-
-    ecritcoup(nbply);
-
-    ++nr_moves_written[nbply];
-    TraceValue("->%u\n",nr_moves_written[nbply]);
-    nr_moves_written[nbply+1] = 0;
-    nr_moves_written[nbply+2] = 0;
-    reset_pending_check();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void write_goal(goal_type goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  assert(goal!=no_goal);
-
-  if (current_mode==output_mode_tree)
-    StdString(goal_end_marker[goal]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Mark the defense about to be written as refutation
- */
-void write_refutation_mark(void)
-{
   unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
 
-  Message(NewLine);
-  sprintf(GlobalStr,"%*c",4*move_depth-4,blank);
-  StdString(GlobalStr);
-  Message(Refutation);
-}
-
-/* Write the end of a solution
- */
-void write_end_of_solution(void)
-{
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  write_pending_decoration(nbply);
+  assert(current_mode==output_mode_tree);
+
   Message(NewLine);
+
+  sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,blank,move_depth/2);
+  StdString(GlobalStr);
+  if (move_depth%2==1)
+  {
+    sprintf(GlobalStr,"..");
+    StdString(GlobalStr);
+  }
+
+  ecritcoup(nbply);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -737,22 +620,4 @@ void ecritcoup(ply ply_id)
   coup mov;
   current(ply_id,&mov);
   editcoup(ply_id,&mov);
-}
-
-/* Write the refutations stored in a table
- * @param refutations table containing refutations
- */
-void write_refutations_intro(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  write_pending_decoration(nbply);
-  Message(NewLine);
-  sprintf(GlobalStr,"%*c",4,blank);
-  StdString(GlobalStr);
-  Message(But);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

@@ -1,9 +1,11 @@
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "pyoutput.h"
 #include "pydata.h"
+#include "pymsg.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "output/plaintext/tree/move_inversion_counter.h"
 #include "trace.h"
 
 /* Allocate a STRefutingVariationWriter slice.
@@ -96,7 +98,13 @@ refuting_variation_writer_solve_in_n(slice_index si,
   if (result>n)
   {
     if (encore())
-      write_refutation_mark();
+    {
+      unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
+      Message(NewLine);
+      sprintf(GlobalStr,"%*c",4*move_depth-4,blank);
+      StdString(GlobalStr);
+      Message(Refutation);
+    }
     else
     {
       /* no defense was played - we have been solving threats */

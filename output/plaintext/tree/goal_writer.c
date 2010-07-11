@@ -1,4 +1,5 @@
 #include "output/plaintext/tree/goal_writer.h"
+#include "pyproc.h"
 #include "pypipe.h"
 #include "pyoutput.h"
 #include "trace.h"
@@ -70,7 +71,7 @@ has_solution_type goal_writer_solve(slice_index si)
   result = slice_solve(next);
 
   if (result==has_solution)
-    write_goal(goal.type);
+    StdString(goal_end_marker[goal.type]);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

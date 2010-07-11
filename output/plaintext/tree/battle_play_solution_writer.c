@@ -1,9 +1,11 @@
 #include "output/plaintext/tree/battle_play_solution_writer.h"
 #include "pyoutput.h"
 #include "pydata.h"
+#include "pymsg.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/try.h"
+#include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -57,7 +59,12 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
 
   if (are_we_solving_refutations)
   {
-    write_refutations_intro();
+    flush_pending_check(nbply);
+    write_pending_decoration();
+    Message(NewLine);
+    sprintf(GlobalStr,"%*c",4,blank);
+    StdString(GlobalStr);
+    Message(But);
     result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
   }
   else
@@ -103,7 +110,8 @@ battle_play_solution_writer_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   write_battle_move();
-  write_battle_move_decoration(last_attack_success);
+  reset_pending_check();
+  remember_battle_move_decoration(last_attack_success);
   result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
