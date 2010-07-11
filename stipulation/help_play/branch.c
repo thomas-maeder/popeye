@@ -215,6 +215,7 @@ slice_index help_branch_shorten(slice_index si)
 
     default:
       assert(0);
+      result = no_slice;
       break;
   }
 

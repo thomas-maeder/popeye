@@ -125,6 +125,7 @@ self_defense_direct_has_solution_in_n(slice_index si,
 
       default:
         assert(0);
+        result = n_min-2;
         break;
     }
   else
