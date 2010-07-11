@@ -19,7 +19,7 @@
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
-#include "output/plaintext/tree/check_detector_defender_filter.h"
+#include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/battle_play_solution_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "trace.h"

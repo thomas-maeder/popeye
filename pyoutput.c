@@ -7,6 +7,7 @@
 #include "conditions/republican.h"
 #include "output/output.h"
 #include "output/plaintext/tree/tree.h"
+#include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
 #include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/line.h"
@@ -32,19 +33,7 @@ static output_mode current_mode = output_mode_none;
 
 static boolean is_threat[maxply];
 
-static unsigned int nr_moves_written[maxply];
-
 static attack_type pending_decoration = attack_regular;
-
-typedef enum
-{
-  pending_check_none,
-  pending_check_detected,
-  pending_check_written
-} pending_check_type;
-
-static pending_check_type pending_check;
-
 
 void set_output_mode(output_mode mode)
 {
@@ -59,7 +48,7 @@ void set_output_mode(output_mode mode)
     TraceValue("%u\n",nbply);
     nr_moves_written[nbply+1] = 0;
     nr_moves_written[nbply+2] = 0;
-    pending_check = 0;
+    reset_pending_check();
   }
 
   TraceFunctionExit(__func__);
@@ -285,9 +274,7 @@ static void write_pending_decoration(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (pending_check==pending_check_detected)
-    StdString(" +");
-  pending_check = pending_check_written;
+  flush_pending_check();
 
   switch (pending_decoration)
   {
@@ -310,20 +297,6 @@ static void write_pending_decoration(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-void output_end_half_duplex(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-#ifdef _SE_DECORATE_SOLUTION_
-  se_end_half_duplex();  
-#endif
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* Start a new output level consisting of threats
  */
@@ -362,24 +335,6 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
   }
 
   is_threat[nbply+1] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Start a new level of moves
- */
-void output_start_move_level(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",nr_moves_written[nbply+1]);
-  if (nbply>1     /* don't report checks in the diagram position */
-      && encore() /* no need to test check if we are solving threats*/
-      && nr_moves_written[nbply+1]==0 /* have we already tested? */
-      && echecc(nbply,slices[si].starter))
-    pending_check = pending_check_detected;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

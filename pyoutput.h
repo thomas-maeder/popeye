@@ -41,10 +41,6 @@ void output_start_move_inverted_level(void);
  */
 void output_end_move_inverted_level(void);
 
-/* End half duplex
- */
-void output_end_half_duplex(void);
-
 
 /* Start a new output level consisting of threats
  */
@@ -53,11 +49,6 @@ void output_start_threat_level(void);
 /* End the inner-most output level (which consists of threats)
  */
 void output_end_threat_level(slice_index si, boolean is_zugzwang);
-
-
-/* Start a new level of moves
- */
-void output_start_move_level(slice_index si);
 
 
 /* Initialize based on the stipulation

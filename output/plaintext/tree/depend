@@ -2,8 +2,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
   output/plaintext/tree/tree.h pydata.h pypipe.h \
   output/plaintext/tree/end_of_phase_writer.h \
   output/plaintext/tree/end_of_solution_writer.h \
-  output/plaintext/tree/check_detector_attacker_filter.h \
-  output/plaintext/tree/check_detector_defender_filter.h \
+  output/plaintext/tree/check_detector.h \
   output/plaintext/tree/continuation_writer.h \
   output/plaintext/tree/zugzwang_writer.h \
   output/plaintext/tree/battle_play_solution_writer.h \
@@ -23,9 +22,7 @@ output/plaintext/tree/end_of_phase_writer.h:
 
 output/plaintext/tree/end_of_solution_writer.h:
 
-output/plaintext/tree/check_detector_attacker_filter.h:
-
-output/plaintext/tree/check_detector_defender_filter.h:
+output/plaintext/tree/check_detector.h:
 
 output/plaintext/tree/continuation_writer.h:
 
@@ -65,34 +62,6 @@ output/plaintext/tree/end_of_solution_writer.h:
 pyoutput.h:
 
 pypipe.h:
-
-stipulation/battle_play/defense_play.h:
-
-trace.h:
-output/plaintext/tree/check_detector_attacker_filter$(OBJ_SUFFIX):  \
- output/plaintext/tree/check_detector_attacker_filter.c \
-  output/plaintext/tree/check_detector_attacker_filter.h pyoutput.h \
-  stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
-
-output/plaintext/tree/check_detector_attacker_filter.h:
-
-pyoutput.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/attack_play.h:
-
-trace.h:
-output/plaintext/tree/check_detector_defender_filter$(OBJ_SUFFIX):  \
- output/plaintext/tree/check_detector_defender_filter.c \
-  output/plaintext/tree/check_detector_defender_filter.h pyoutput.h \
-  stipulation/branch.h stipulation/battle_play/defense_play.h trace.h
-
-output/plaintext/tree/check_detector_defender_filter.h:
-
-pyoutput.h:
-
-stipulation/branch.h:
 
 stipulation/battle_play/defense_play.h:
 
@@ -218,6 +187,24 @@ output/plaintext/tree/goal_writer.h:
 pypipe.h:
 
 pyoutput.h:
+
+trace.h:
+output/plaintext/tree/check_detector$(OBJ_SUFFIX):  \
+ output/plaintext/tree/check_detector.c \
+  output/plaintext/tree/check_detector.h stipulation/branch.h \
+  stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_play.h output/plaintext/tree/tree.h \
+  trace.h
+
+output/plaintext/tree/check_detector.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_play.h:
+
+output/plaintext/tree/tree.h:
 
 trace.h:
 output/plaintext/tree/move_inversion_counter$(OBJ_SUFFIX):  \

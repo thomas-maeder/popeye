@@ -2072,7 +2072,10 @@ static void solveHalfADuplex(void)
   inithash();
   slice_solve(root_slice);
   closehash();
-  output_end_half_duplex();
+
+#ifdef _SE_DECORATE_SOLUTION_
+  se_end_half_duplex();  
+#endif
 }
 
 typedef enum

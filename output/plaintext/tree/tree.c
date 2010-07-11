@@ -3,8 +3,7 @@
 #include "pypipe.h"
 #include "output/plaintext/tree/end_of_phase_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
-#include "output/plaintext/tree/check_detector_attacker_filter.h"
-#include "output/plaintext/tree/check_detector_defender_filter.h"
+#include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/continuation_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/battle_play_solution_writer.h"
@@ -16,6 +15,9 @@
 #include "trace.h"
 
 #include <assert.h>
+
+
+unsigned int nr_moves_written[maxply+1];
 
 /* Are we writing postkey play?
  */
