@@ -7,13 +7,18 @@
 
 typedef enum
 {
+  pending_check_invalid,
   pending_check_none,
   pending_check_detected,
+  no_pending_check_detected,
   pending_check_written
 } pending_check_type;
 
-static pending_check_type pending_check;
-
+static pending_check_type pending_check[maxply+1] =
+{
+  pending_check_invalid,
+  pending_check_written /* no check needed for virtual 'last move' */
+};
 
 /* Reset the pending check state
  */
@@ -22,7 +27,8 @@ void reset_pending_check(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  pending_check = pending_check_none;
+  TraceValue("%u\n",nbply);
+  pending_check[nbply] = pending_check_none;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -30,14 +36,15 @@ void reset_pending_check(void)
 
 /* Write a possible pending check
  */
-void flush_pending_check(void)
+void flush_pending_check(ply move_ply)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",move_ply);
   TraceFunctionParamListEnd();
 
-  if (pending_check==pending_check_detected)
+  if (pending_check[move_ply]==pending_check_detected)
     StdString(" +");
-  pending_check = pending_check_written;
+  pending_check[move_ply] = pending_check_written;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -49,14 +56,18 @@ void flush_pending_check(void)
 static void detect_pending_check(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nr_moves_written[nbply+1]);
-  if (nbply>1     /* don't report checks in the diagram position */
-      && encore() /* no need to test check if we are solving threats */
-      && nr_moves_written[nbply+1]==0 /* have we already tested? */
-      && echecc(nbply,slices[si].starter))
-    pending_check = pending_check_detected;
+  TraceValue("%u\n",nbply);
+  if (encore() /* no need to test check if we are solving threats */
+      && pending_check[nbply]==pending_check_none) /* already tested? */
+  {
+    pending_check[nbply] = (echecc(nbply,slices[si].starter)
+                            ? pending_check_detected
+                            : no_pending_check_detected);
+    TraceValue("%u\n",pending_check[nbply]);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

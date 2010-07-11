@@ -3,8 +3,6 @@
 
 #include "pydata.h"
 
-extern unsigned int nr_moves_written[maxply+1];
-
 
 /* Instrument the stipulation structure with slices that implement
  * plaintext tree mode output.

@@ -11,7 +11,7 @@ void reset_pending_check(void);
 
 /* Write a possible pending check
  */
-void flush_pending_check(void);
+void flush_pending_check(ply move_ply);
 
 /* Allocate a STOutputPlaintextTreeCheckDetectorAttackerFilter slice.
  * @param length maximum number of half-moves of slice (+ slack)

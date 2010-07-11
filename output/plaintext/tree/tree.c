@@ -17,8 +17,6 @@
 #include <assert.h>
 
 
-unsigned int nr_moves_written[maxply+1];
-
 /* Are we writing postkey play?
  */
 typedef enum
@@ -41,6 +39,17 @@ typedef enum
 } variation_writer_insertion_state_type;
 
 static variation_writer_insertion_state_type variation_writer_insertion_state;
+
+typedef enum
+{
+  check_detector_defender_filter_unknown,
+  check_detector_defender_filter_needed,
+  check_detector_defender_filter_inserted
+} check_detector_defender_filter_inseration_state_type;
+
+static
+check_detector_defender_filter_inseration_state_type
+check_detector_defender_filter_inseration_state;
 
 static void instrument_self_defense(slice_index si,
                                     stip_structure_traversal *st)
@@ -132,7 +141,9 @@ static void instrument_attack_move(slice_index si,
                                    stip_structure_traversal *st)
 {
   variation_writer_insertion_state_type const
-      save_state = variation_writer_insertion_state;
+      save_var_state = variation_writer_insertion_state;
+  check_detector_defender_filter_inseration_state_type const
+      save_detector_state = check_detector_defender_filter_inseration_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -141,8 +152,12 @@ static void instrument_attack_move(slice_index si,
   TraceFunctionParamListEnd();
 
   variation_writer_insertion_state = variation_writer_none;
+  check_detector_defender_filter_inseration_state
+      = check_detector_defender_filter_needed;
   pipe_traverse_next(si,st);
-  variation_writer_insertion_state = save_state;
+  check_detector_defender_filter_inseration_state
+      = save_detector_state;
+  variation_writer_insertion_state = save_var_state;
 
   if (variation_writer_insertion_state==variation_writer_needed)
   {
@@ -151,10 +166,10 @@ static void instrument_attack_move(slice_index si,
                   alloc_refuting_variation_writer_slice(length,min_length));
     pipe_append(slices[si].prev,
                 alloc_variation_writer_slice(length,min_length));
-  }
 
-  pipe_append(slices[si].prev,
-              alloc_output_plaintext_tree_check_detector_attacker_filter_slice(length,min_length));
+    pipe_append(slices[si].prev,
+                alloc_output_plaintext_tree_check_detector_attacker_filter_slice(length,min_length));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -169,12 +184,41 @@ static void instrument_defense_move(slice_index si, stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
-              alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
+  if (check_detector_defender_filter_inseration_state
+      ==check_detector_defender_filter_needed)
+    pipe_append(slices[si].prev,
+                alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
 
   variation_writer_insertion_state = variation_writer_needed;
   stip_traverse_structure_children(si,st);
   variation_writer_insertion_state = variation_writer_none;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_reflex_defender_filter(slice_index si, stip_structure_traversal *st)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (check_detector_defender_filter_inseration_state
+      ==check_detector_defender_filter_needed)
+  {
+    pipe_append(slices[si].prev,
+                alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
+    check_detector_defender_filter_inseration_state
+        = check_detector_defender_filter_inserted;
+    stip_traverse_structure_children(si,st);
+    check_detector_defender_filter_inseration_state
+        = check_detector_defender_filter_needed;
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -252,11 +296,19 @@ static void instrument_postkeyplay_suppressor(slice_index si,
 static void instrument_attack_root(slice_index si,
                                    stip_structure_traversal *st)
 {
+  check_detector_defender_filter_inseration_state_type const
+      save_detector_state = check_detector_defender_filter_inseration_state;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  check_detector_defender_filter_inseration_state
+      = check_detector_defender_filter_needed;
   stip_traverse_structure_children(si,st);
+  check_detector_defender_filter_inseration_state
+      = save_detector_state;
+
   pipe_append(si,alloc_end_of_solution_writer_slice());
 
   TraceFunctionExit(__func__);
@@ -361,7 +413,7 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &instrument_attack_move,           /* STReflexAttackerFilter */
-  &stip_traverse_structure_children, /* STReflexDefenderFilter */
+  &instrument_reflex_defender_filter, /* STReflexDefenderFilter */
   &instrument_self_defense,          /* STSelfDefense */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */

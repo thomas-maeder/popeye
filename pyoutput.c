@@ -35,6 +35,8 @@ static boolean is_threat[maxply];
 
 static attack_type pending_decoration = attack_regular;
 
+static unsigned int nr_moves_written[maxply+1];
+
 void set_output_mode(output_mode mode)
 {
   TraceFunctionEntry(__func__);
@@ -259,6 +261,7 @@ void init_output(slice_index si)
     TraceValue("%u\n",nbply);
     nr_moves_written[nbply] = 0;
     nr_moves_written[nbply+1] = 0;
+    reset_pending_check();
   }
   else
     current_mode = output_mode_line;
@@ -269,12 +272,13 @@ void init_output(slice_index si)
 
 /* Write a possibly pending move decoration
  */
-static void write_pending_decoration(void)
+void write_pending_decoration(ply move_ply)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",move_ply);
   TraceFunctionParamListEnd();
 
-  flush_pending_check();
+  flush_pending_check(move_ply);
 
   switch (pending_decoration)
   {
@@ -329,7 +333,7 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
 
   if (is_zugzwang)
   {
-    write_pending_decoration();
+    write_pending_decoration(nbply-1);
     StdChar(blank);
     Message(Zugzwang);
   }
@@ -344,10 +348,9 @@ void output_end_threat_level(slice_index si, boolean is_zugzwang)
  * @param current_ply identifies ply in which move was played
  * @param type identifies decoration to be added
  */
-void write_battle_move_decoration(ply current_ply, attack_type type)
+void write_battle_move_decoration(attack_type type)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",current_ply);
   TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
@@ -368,7 +371,7 @@ void write_battle_move(void)
   {
     unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
 
-    write_pending_decoration();
+    write_pending_decoration(nbply-1);
 
     TraceValue("%u",nbply);
     TraceValue("%u\n",nr_moves_written[nbply]);
@@ -394,6 +397,7 @@ void write_battle_move(void)
     TraceValue("->%u\n",nr_moves_written[nbply]);
     nr_moves_written[nbply+1] = 0;
     nr_moves_written[nbply+2] = 0;
+    reset_pending_check();
   }
 
   TraceFunctionExit(__func__);
@@ -434,7 +438,7 @@ void write_end_of_solution(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  write_pending_decoration();
+  write_pending_decoration(nbply);
   Message(NewLine);
 
   TraceFunctionExit(__func__);
@@ -743,7 +747,7 @@ void write_refutations_intro(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  write_pending_decoration();
+  write_pending_decoration(nbply);
   Message(NewLine);
   sprintf(GlobalStr,"%*c",4,blank);
   StdString(GlobalStr);

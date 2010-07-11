@@ -103,7 +103,7 @@ battle_play_solution_writer_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   write_battle_move();
-  write_battle_move_decoration(nbply,last_attack_success);
+  write_battle_move_decoration(last_attack_success);
   result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

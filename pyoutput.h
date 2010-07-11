@@ -60,11 +60,14 @@ void init_output(slice_index si);
  */
 void write_battle_move(void);
 
-/* Write the decoration (! or ?) for the first move if appropriate
- * @param current_ply identifies ply in which move was played
- * @param type identifies decoration to be added if move_depth==1
+/* Write the decoration (! or ?) for a battle move just written
+ * @param type identifies decoration to be written
  */
-void write_battle_move_decoration(ply current_ply, attack_type type);
+void write_battle_move_decoration(attack_type type);
+
+/* Write a possibly pending move decoration
+ */
+void write_pending_decoration(ply move_ply);
 
 void write_goal(goal_type goal);
 

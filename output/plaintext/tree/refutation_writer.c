@@ -89,7 +89,10 @@ stip_length_type refutation_writer_solve_in_n(slice_index si,
   result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
   if (are_we_solving_refutations)
-    write_battle_move_decoration(nbply,attack_key);
+  {
+    write_battle_move_decoration(attack_key);
+    write_pending_decoration(nbply);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
