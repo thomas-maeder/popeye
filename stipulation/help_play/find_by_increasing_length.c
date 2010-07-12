@@ -7,7 +7,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"
-#include "pyoutput.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -64,8 +63,6 @@ has_solution_type help_root_solve(slice_index si)
       result = has_solution;
     len += 2;
   }
-
-  write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

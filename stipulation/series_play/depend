@@ -29,8 +29,8 @@ stipulation/series_play/shortcut.h:
 
 trace.h:
 stipulation/series_play/root$(OBJ_SUFFIX): stipulation/series_play/root.c \
-  stipulation/series_play/root.h pydata.h pyproc.h pyoutput.h \
-  stipulation/branch.h stipulation/series_play/play.h pypipe.h trace.h \
+  stipulation/series_play/root.h pydata.h pyproc.h stipulation/branch.h \
+  stipulation/series_play/play.h pypipe.h trace.h \
   stipulation/series_play/branch.h stipulation/series_play/shortcut.h
 
 stipulation/series_play/root.h:
@@ -38,8 +38,6 @@ stipulation/series_play/root.h:
 pydata.h:
 
 pyproc.h:
-
-pyoutput.h:
 
 stipulation/branch.h:
 

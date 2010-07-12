@@ -27,7 +27,7 @@
 #include "optimisations/maxsolutions/solvable_filter.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
-#include "output/plaintext/tree/end_of_phase_writer.h"
+#include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
 #include "output/plaintext/line/move_inversion_counter.h"
@@ -317,6 +317,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STOutputPlaintextLineMoveInversionCounter:
       result = output_plaintext_line_move_inversion_counter_has_solution(si);
+      break;
+
+    case STEndOfPhaseWriter:
+      result = end_of_phase_writer_has_solution(si);
       break;
 
     default:

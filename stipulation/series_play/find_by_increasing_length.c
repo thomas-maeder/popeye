@@ -1,7 +1,6 @@
 #include "stipulation/series_play/root.h"
 #include "pydata.h"
 #include "pyproc.h"
-#include "pyoutput.h"
 #include "stipulation/branch.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
@@ -75,8 +74,6 @@ has_solution_type series_root_solve(slice_index si)
       result = has_solution;
     ++len;
   }
-
-  write_end_of_solution_phase();
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

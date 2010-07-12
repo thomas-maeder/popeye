@@ -1,7 +1,6 @@
 output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
   output/plaintext/tree/tree.h pydata.h pymsg.h pypipe.h \
-  output/plaintext/plaintext.h \
-  output/plaintext/tree/end_of_phase_writer.h \
+  output/plaintext/plaintext.h output/plaintext/end_of_phase_writer.h \
   output/plaintext/tree/end_of_solution_writer.h \
   output/plaintext/tree/check_detector.h \
   output/plaintext/tree/continuation_writer.h \
@@ -23,7 +22,7 @@ pypipe.h:
 
 output/plaintext/plaintext.h:
 
-output/plaintext/tree/end_of_phase_writer.h:
+output/plaintext/end_of_phase_writer.h:
 
 output/plaintext/tree/end_of_solution_writer.h:
 
@@ -46,17 +45,6 @@ output/plaintext/tree/goal_writer.h:
 output/plaintext/tree/move_inversion_counter.h:
 
 platform/beep.h:
-
-trace.h:
-output/plaintext/tree/end_of_phase_writer$(OBJ_SUFFIX):  \
- output/plaintext/tree/end_of_phase_writer.c \
-  output/plaintext/tree/end_of_phase_writer.h pyoutput.h pypipe.h trace.h
-
-output/plaintext/tree/end_of_phase_writer.h:
-
-pyoutput.h:
-
-pypipe.h:
 
 trace.h:
 output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX):  \

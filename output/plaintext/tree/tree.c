@@ -3,7 +3,7 @@
 #include "pymsg.h"
 #include "pypipe.h"
 #include "output/plaintext/plaintext.h"
-#include "output/plaintext/tree/end_of_phase_writer.h"
+#include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/continuation_writer.h"
@@ -365,6 +365,19 @@ static void instrument_move_inverter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void instrument_help_root(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_end_of_phase_writer_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static stip_structure_visitor const tree_slice_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
@@ -398,7 +411,7 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
   &stip_traverse_structure_children, /* STNoShortVariations */
   &stip_traverse_structure_children, /* STAttackHashed */
-  &stip_structure_visitor_noop,      /* STHelpRoot */
+  &instrument_help_root,             /* STHelpRoot */
   &stip_structure_visitor_noop,      /* STHelpShortcut */
   &stip_structure_visitor_noop,      /* STHelpHashed */
   &stip_structure_visitor_noop,      /* STSeriesRoot */
@@ -486,7 +499,6 @@ static attack_type pending_decoration = attack_regular;
 void output_plaintext_tree_write_pending_move_decoration(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",move_ply);
   TraceFunctionParamListEnd();
 
   switch (pending_decoration)

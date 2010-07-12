@@ -1,5 +1,6 @@
 #include "output/plaintext/line/line.h"
 #include "pypipe.h"
+#include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/move_inversion_counter.h"
 #include "trace.h"
@@ -53,6 +54,19 @@ static void instrument_move_inverter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void instrument_root(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_end_of_phase_writer_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static stip_structure_visitor const line_slice_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
@@ -86,10 +100,10 @@ static stip_structure_visitor const line_slice_inserters[] =
   &stip_traverse_structure_children, /* STRefutingVariationWriter */
   &stip_traverse_structure_children, /* STNoShortVariations */
   &stip_traverse_structure_children, /* STAttackHashed */
-  &stip_traverse_structure_children, /* STHelpRoot */
+  &instrument_root,                  /* STHelpRoot */
   &stip_traverse_structure_children, /* STHelpShortcut */
   &stip_traverse_structure_children, /* STHelpHashed */
-  &stip_traverse_structure_children, /* STSeriesRoot */
+  &instrument_root,                  /* STSeriesRoot */
   &stip_traverse_structure_children, /* STSeriesShortcut */
   &stip_traverse_structure_children, /* STParryFork */
   &stip_traverse_structure_children, /* STSeriesHashed */
