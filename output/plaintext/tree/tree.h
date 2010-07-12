@@ -9,13 +9,17 @@
  */
 void stip_insert_output_plaintext_tree_slices(void);
 
-/* Remember the decoration (! or ?) for a battle move just written
+/* Remember the decoration (! or ?) for the move just written
  * @param type identifies decoration to be written
  */
-void remember_battle_move_decoration(attack_type type);
+void output_plaintext_tree_remember_move_decoration(attack_type type);
 
 /* Write a possibly pending move decoration
  */
-void write_pending_decoration(void);
+void output_plaintext_tree_write_pending_move_decoration(void);
+
+/* Write a move in battle play
+ */
+void output_plaintext_tree_write_move(void);
 
 #endif

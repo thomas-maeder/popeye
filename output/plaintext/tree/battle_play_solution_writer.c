@@ -61,7 +61,7 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
   if (are_we_solving_refutations)
   {
     flush_pending_check(nbply);
-    write_pending_decoration();
+    output_plaintext_tree_write_pending_move_decoration();
     Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
@@ -110,9 +110,9 @@ battle_play_solution_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  write_battle_move();
+  output_plaintext_tree_write_move();
   reset_pending_check();
-  remember_battle_move_decoration(last_attack_success);
+  output_plaintext_tree_remember_move_decoration(last_attack_success);
   result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

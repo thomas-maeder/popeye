@@ -60,7 +60,7 @@ end_of_solution_writer_defend_in_n(slice_index si,
   if (result<=n+2)
   {
     flush_pending_check(nbply);
-    write_pending_decoration();
+    output_plaintext_tree_write_pending_move_decoration();
     Message(NewLine);
   }
 

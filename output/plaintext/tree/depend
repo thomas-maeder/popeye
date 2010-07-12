@@ -1,5 +1,6 @@
 output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
-  output/plaintext/tree/tree.h pydata.h pypipe.h \
+  output/plaintext/tree/tree.h pydata.h pymsg.h pypipe.h \
+  output/plaintext/plaintext.h \
   output/plaintext/tree/end_of_phase_writer.h \
   output/plaintext/tree/end_of_solution_writer.h \
   output/plaintext/tree/check_detector.h \
@@ -16,7 +17,11 @@ output/plaintext/tree/tree.h:
 
 pydata.h:
 
+pymsg.h:
+
 pypipe.h:
+
+output/plaintext/plaintext.h:
 
 output/plaintext/tree/end_of_phase_writer.h:
 

@@ -63,7 +63,7 @@ continuation_writer_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   flush_pending_check(nbply-1);
-  write_pending_decoration();
+  output_plaintext_tree_write_pending_move_decoration();
 
   if (threat_activities[nbply]==threat_solving
       && table_length(get_top_table())==0)
@@ -72,7 +72,7 @@ continuation_writer_defend_in_n(slice_index si,
     Message(Threat);
   }
 
-  write_battle_move();
+  output_plaintext_tree_write_move();
   reset_pending_check();
   result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
 

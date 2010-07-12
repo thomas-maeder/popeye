@@ -96,8 +96,8 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   if (encore())
   {
     flush_pending_check(nbply-1);
-    write_pending_decoration();
-    write_battle_move();
+    output_plaintext_tree_write_pending_move_decoration();
+    output_plaintext_tree_write_move();
     reset_pending_check();
   }
   else

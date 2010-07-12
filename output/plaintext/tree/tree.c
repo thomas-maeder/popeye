@@ -1,6 +1,8 @@
 #include "output/plaintext/tree/tree.h"
 #include "pydata.h"
+#include "pymsg.h"
 #include "pypipe.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/tree/end_of_phase_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_detector.h"
@@ -481,7 +483,7 @@ static attack_type pending_decoration = attack_regular;
 
 /* Write a possibly pending move decoration
  */
-void write_pending_decoration(void)
+void output_plaintext_tree_write_pending_move_decoration(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",move_ply);
@@ -512,13 +514,38 @@ void write_pending_decoration(void)
 /* Remember the decoration (! or ?) for the first move if appropriate
  * @param type identifies decoration to be added
  */
-void remember_battle_move_decoration(attack_type type)
+void output_plaintext_tree_remember_move_decoration(attack_type type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",type);
   TraceFunctionParamListEnd();
 
   pending_decoration = type;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Write a move
+ */
+void output_plaintext_tree_write_move(void)
+{
+  unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  Message(NewLine);
+
+  sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,blank,move_depth/2);
+  StdString(GlobalStr);
+  if (move_depth%2==1)
+  {
+    sprintf(GlobalStr,"..");
+    StdString(GlobalStr);
+  }
+
+  output_plaintext_write_move(nbply);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

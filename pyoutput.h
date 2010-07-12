@@ -38,10 +38,6 @@ void write_indentation(void);
  */
 void init_output(slice_index si);
 
-/* Write a move in battle play
- */
-void write_battle_move(void);
-
 /* Write the end of a solution phase
  */
 void write_end_of_solution_phase(void);

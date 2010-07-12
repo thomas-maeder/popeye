@@ -108,7 +108,7 @@ stip_length_type zugzwang_writer_solve_in_n(slice_index si,
       if (n>slack_length_battle && result==n+2)
       {
         flush_pending_check(nbply-1);
-        write_pending_decoration();
+        output_plaintext_tree_write_pending_move_decoration();
         StdChar(blank);
         Message(Zugzwang);
       }

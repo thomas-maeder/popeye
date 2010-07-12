@@ -92,9 +92,9 @@ stip_length_type refutation_writer_solve_in_n(slice_index si,
 
   if (are_we_solving_refutations)
   {
-    remember_battle_move_decoration(attack_key);
+    output_plaintext_tree_remember_move_decoration(attack_key);
     flush_pending_check(nbply);
-    write_pending_decoration();
+    output_plaintext_tree_write_pending_move_decoration();
   }
 
   TraceFunctionExit(__func__);

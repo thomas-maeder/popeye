@@ -5,7 +5,6 @@
 #include "pypipe.h"
 #include "py1.h"
 #include "output/output.h"
-#include "output/plaintext/plaintext.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
@@ -249,33 +248,6 @@ void init_output(slice_index si)
     reset_pending_check();
   else
     current_mode = output_mode_line;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Write a move in battle play
- */
-void write_battle_move(void)
-{
-  unsigned int const move_depth = nbply+output_plaintext_tree_nr_move_inversions;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(current_mode==output_mode_tree);
-
-  Message(NewLine);
-
-  sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,blank,move_depth/2);
-  StdString(GlobalStr);
-  if (move_depth%2==1)
-  {
-    sprintf(GlobalStr,"..");
-    StdString(GlobalStr);
-  }
-
-  output_plaintext_write_move(nbply);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
