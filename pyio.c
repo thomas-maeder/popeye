@@ -4823,14 +4823,13 @@ static char *ParseOpt(void)
     {
       case beep:
         tok = ReadNextTokStr();
-        if (!read_nr_beeps(tok))
-        {
-          OptFlag[beep] = false;
-          IoErrorMsg(WrongInt,0);
-          continue; /* we did NOT use tok */
-        }
+        if (read_nr_beeps(tok))
+          break;
         else
-          break; /* we did use tok */
+          /* tok doesn't indicate the number of beeps - hopefully,
+           * it contains the next option
+           */
+          continue;
 
       case maxtime:
       {
