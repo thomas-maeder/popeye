@@ -70,7 +70,6 @@
 #include "pyslice.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
-#include "output/output.h"
 #include "trace.h"
 
 static piece linechampiece(piece p, square sq)
@@ -1837,7 +1836,6 @@ static boolean find_non_capturing_move(ply ply_id,
   TracePiece(p_moving);
   TraceFunctionParamListEnd();
 
-  active_slice[nbply+1] = active_slice[ply_id];
   nextply(nbply);
 
   TraceValue("%d",(int)e[sq_departure]);
