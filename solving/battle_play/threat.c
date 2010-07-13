@@ -7,7 +7,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "output/output.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -326,8 +325,10 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  /* insert an empty ply for the virtual defense played before the
+   * threat
+   */
   nextply(nbply);
-  active_slice[nbply] = si;
   result = attack_solve_in_n(attack_side,n,n_min,n_max_unsolvable);
   finply();
 
