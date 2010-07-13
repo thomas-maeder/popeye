@@ -1,8 +1,10 @@
 # -*- Makefile -*-
 #
 
-CFILES = line.c line_writer.c move_inversion_counter.c
+CFILES = line.c line_writer.c move_inversion_counter.c \
+	end_of_intro_series_marker.c
 
-INCLUDES = line.h line_writer.h move_inversion_counter.h
+INCLUDES = line.h line_writer.h move_inversion_counter.h \
+	end_of_intro_series_marker.h
 
 include makefile.rules $(CURRPWD)depend

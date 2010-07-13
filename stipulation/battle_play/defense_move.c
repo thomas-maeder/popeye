@@ -5,7 +5,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/move.h"
-#include "output/output.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -449,8 +448,6 @@ defense_move_can_defend_in_n(slice_index si,
     n_min = battle_branch_calc_n_min(si,n);
 
     nr_refutations[nbply+1] = 0;
-
-    active_slice[nbply+1] = si;
 
     /* TODO create a design for representing all these move generation
      * modes

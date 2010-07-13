@@ -41,8 +41,7 @@ stipulation/help_play/move$(OBJ_SUFFIX): stipulation/help_play/move.c \
   stipulation/help_play/move.h pydata.h pyslice.h pybrafrk.h pypipe.h \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
   stipulation/branch.h stipulation/proxy.h stipulation/help_play/play.h \
-  stipulation/help_play/root.h stipulation/help_play/shortcut.h \
-  output/output.h trace.h
+  stipulation/help_play/root.h stipulation/help_play/shortcut.h trace.h
 
 stipulation/help_play/move.h:
 
@@ -65,8 +64,6 @@ stipulation/help_play/play.h:
 stipulation/help_play/root.h:
 
 stipulation/help_play/shortcut.h:
-
-output/output.h:
 
 trace.h:
 stipulation/help_play/shortcut$(OBJ_SUFFIX): stipulation/help_play/shortcut.c \

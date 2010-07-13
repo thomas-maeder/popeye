@@ -9,7 +9,6 @@
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/shortcut.h"
-#include "output/output.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -147,8 +146,6 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  active_slice[nbply+1] = si;
-
   if (n==slack_length_help+1 && goal.type!=no_goal)
   {
     if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
@@ -225,8 +222,6 @@ stip_length_type help_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  active_slice[nbply+1] = si;
 
   if (n==slack_length_help+1 && goal.type!=no_goal)
   {

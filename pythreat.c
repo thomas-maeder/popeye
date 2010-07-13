@@ -357,7 +357,8 @@ static stip_structure_visitor const maxthreatlength_guards_inserters[] =
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Instrument stipulation with STMaxThreatLength slices

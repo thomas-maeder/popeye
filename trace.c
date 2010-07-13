@@ -340,6 +340,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STEndOfSolutionWriter:
       case STRefutationWriter:
       case STOutputPlaintextTreeMoveInversionCounter:
+      case STOutputPlaintextLineEndOfIntroSeriesMarker:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

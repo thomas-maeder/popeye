@@ -3,6 +3,7 @@
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/move_inversion_counter.h"
+#include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -67,6 +68,34 @@ static void instrument_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void instrument_series_fork(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index next = slices[to_goal].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(slices[to_goal].type==STProxy);
+  while (slices[next].type==STProxy)
+    next = slices[next].u.pipe.next;
+
+  if (slices[next].type==STSelfCheckGuardSeriesFilter)
+  {
+    slice_index const marker
+        = alloc_output_plaintext_line_end_of_intro_series_marker_slice();
+    pipe_set_successor(marker,to_goal);
+    slices[si].u.branch_fork.towards_goal = marker;
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static stip_structure_visitor const line_slice_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
@@ -75,7 +104,7 @@ static stip_structure_visitor const line_slice_inserters[] =
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
-  &stip_traverse_structure_children, /* STSeriesFork */
+  &instrument_series_fork, /* STSeriesFork */
   &instrument_goal_reached_tester,   /* STGoalReachedTester */
   &instrument_leaf,                  /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -157,7 +186,8 @@ static stip_structure_visitor const line_slice_inserters[] =
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Instrument the stipulation structure with slices that implement

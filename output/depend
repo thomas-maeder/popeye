@@ -1,3 +1,0 @@
-output/output$(OBJ_SUFFIX): output/output.c output/output.h
-
-output/output.h:

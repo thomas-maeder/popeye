@@ -30,6 +30,7 @@
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
+#include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/line_writer.h"
 
@@ -199,6 +200,10 @@ has_solution_type slice_solve(slice_index si)
       result = output_plaintext_line_move_inversion_counter_solve(si);
       break;
 
+    case STOutputPlaintextLineEndOfIntroSeriesMarker:
+      result = output_plaintext_line_end_of_intro_series_marker_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -321,6 +326,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STEndOfPhaseWriter:
       result = end_of_phase_writer_has_solution(si);
+      break;
+
+    case STOutputPlaintextLineEndOfIntroSeriesMarker:
+      result = output_plaintext_line_end_of_intro_series_marker_has_solution(si);
       break;
 
     default:

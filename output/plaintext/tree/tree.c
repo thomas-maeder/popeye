@@ -468,7 +468,8 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Instrument the stipulation structure with slices that implement

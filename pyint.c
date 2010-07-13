@@ -2709,7 +2709,8 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextLineLineWriter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_moves_pipe                  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Calculate the number of moves of each side, starting at the root
@@ -3183,7 +3184,8 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children,         /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children,         /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children          /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children,         /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children          /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Instrument stipulation with STgoal_typereachableGuard slices
@@ -3534,7 +3536,8 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children,            /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children,            /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children             /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children,            /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children             /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Determine whether the stipulation supports intelligent mode, and

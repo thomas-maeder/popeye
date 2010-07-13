@@ -4,7 +4,6 @@
 #include "pyslice.h"
 #include "pypipe.h"
 #include "py1.h"
-#include "output/output.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
@@ -224,7 +223,8 @@ static stip_structure_visitor const output_mode_detectors[] =
   &pipe_traverse_next,               /* STOutputPlaintextLineLineWriter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeGoalWriter */
   &pipe_traverse_next,               /* STOutputPlaintextTreeMoveInversionCounter */
-  &pipe_traverse_next                /* STOutputPlaintextLineMoveInversionCounter */
+  &pipe_traverse_next,               /* STOutputPlaintextLineMoveInversionCounter */
+  &pipe_traverse_next                /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Initialize based on the stipulation

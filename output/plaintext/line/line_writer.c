@@ -4,9 +4,9 @@
 #include "pyoutput.h"
 #include "trace.h"
 #include "pymsg.h"
-#include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/line/move_inversion_counter.h"
+#include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "platform/beep.h"
 #ifdef _SE_
 #include "se.h"
@@ -22,7 +22,6 @@ static void write_line(goal_type goal)
 {
   int next_movenumber = 1;
   Side starting_side;
-  slice_index slice;
   ply current_ply;
 
   ply const start_ply = 2;
@@ -35,7 +34,6 @@ static void write_line(goal_type goal)
 
   Message(NewLine);
 
-  slice = active_slice[start_ply];
   starting_side = slices[root_slice].starter;
 
   ResetPosition();
@@ -71,20 +69,10 @@ static void write_line(goal_type goal)
   TraceValue("%u\n",nbply);
   for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
   {
-    TraceValue("%u",current_ply);
-    TraceValue("%u",slice);
-    TraceValue("%u\n",active_slice[current_ply]);
-    if (slice!=active_slice[current_ply])
+    if (current_ply>start_ply && is_end_of_intro_series[current_ply-1])
     {
-      if (slices[slice].type==STSeriesMove
-          && slices[active_slice[current_ply]].type==STSeriesMove
-          && trait[current_ply-1]!=trait[current_ply])
-      {
-        next_movenumber = 1;
-        starting_side = trait[current_ply];
-      }
-
-      slice = active_slice[current_ply];
+      next_movenumber = 1;
+      starting_side = trait[current_ply];
     }
 
     TraceEnumerator(Side,starting_side," ");

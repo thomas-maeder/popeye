@@ -1,8 +1,0 @@
-# -*- Makefile -*-
-#
-
-CFILES = output.c
-
-INCLUDES = output.h
-
-include makefile.rules $(CURRPWD)depend

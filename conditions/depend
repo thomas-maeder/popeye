@@ -1,8 +1,7 @@
 conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h \
   boolean.h pyposit.h pystip.h \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
-  pymsg.h pydata.h stipulation/goal_reached_tester.h pyoutput.h \
-  output/output.h trace.h
+  pymsg.h pydata.h stipulation/goal_reached_tester.h pyoutput.h trace.h
 
 conditions/exclusive.h:
 
@@ -21,8 +20,6 @@ pydata.h:
 stipulation/goal_reached_tester.h:
 
 pyoutput.h:
-
-output/output.h:
 
 trace.h:
 conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republican.h \

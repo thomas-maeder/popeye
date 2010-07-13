@@ -109,7 +109,8 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children,    /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children,    /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children     /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children,    /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children     /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Instrument a stipulation with STNo_short_variationsSeriesFilter slices

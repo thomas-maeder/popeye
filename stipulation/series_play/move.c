@@ -10,7 +10,6 @@
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/root.h"
 #include "stipulation/series_play/shortcut.h"
-#include "output/output.h"
 
 #include <assert.h>
 
@@ -177,8 +176,6 @@ stip_length_type series_move_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_series);
 
-  active_slice[nbply+1] = si;
-
   if (n==slack_length_series+1 && goal.type!=no_goal)
   {
     if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
@@ -253,8 +250,6 @@ stip_length_type series_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  active_slice[nbply+1] = si;
 
   if (n==slack_length_series+1 && goal.type!=no_goal)
   {

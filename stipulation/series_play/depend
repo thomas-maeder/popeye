@@ -55,8 +55,7 @@ stipulation/series_play/move$(OBJ_SUFFIX): stipulation/series_play/move.c \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
   stipulation/series_play/play.h trace.h stipulation/branch.h \
   stipulation/help_play/move.h stipulation/series_play/branch.h \
-  stipulation/series_play/root.h stipulation/series_play/shortcut.h \
-  output/output.h
+  stipulation/series_play/root.h stipulation/series_play/shortcut.h
 
 stipulation/series_play/move.h:
 
@@ -81,8 +80,6 @@ stipulation/series_play/branch.h:
 stipulation/series_play/root.h:
 
 stipulation/series_play/shortcut.h:
-
-output/output.h:
 stipulation/series_play/fork$(OBJ_SUFFIX): stipulation/series_play/fork.c \
   stipulation/series_play/fork.h pybrafrk.h \
   stipulation/series_play/play.h stipulation/proxy.h trace.h

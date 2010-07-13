@@ -288,7 +288,8 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_structure_visitor_noop,             /* STOutputPlaintextLineLineWriter */
   &stip_structure_visitor_noop,             /* STOutputPlaintextTreeGoalWriter */
   &stip_structure_visitor_noop,             /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_structure_visitor_noop              /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_structure_visitor_noop,             /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_structure_visitor_noop              /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Insert STStopOnShortSolutions*Filter starting at a slice
@@ -421,7 +422,8 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Instrument a stipulation with STStopOnShortSolutions*Filter slices

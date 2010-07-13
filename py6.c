@@ -587,7 +587,8 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 static SliceType findUniqueRootSliceType(void)
@@ -2391,7 +2392,8 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* prepare for solving duplex */
@@ -2516,7 +2518,8 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_children, /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_structure_children  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* restore from preparations for solving duplex */
@@ -2877,7 +2880,8 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextLineLineWriter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_moves_pipe,                 /* STOutputPlaintextTreeMoveInversionCounter */
-  &stip_traverse_moves_pipe                  /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_moves_pipe,                 /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_moves_pipe                  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 static void stip_optimise_final_moves(void)

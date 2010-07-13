@@ -241,7 +241,7 @@ py5$(OBJ_SUFFIX): py5.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
   stipulation/battle_play/attack_play.h pyslice.h pydata.h pymsg.h \
   pyslice.h pystip.h conditions/exclusive.h boolean.h pyposit.h \
-  conditions/republican.h pyproc.h output/output.h pystip.h trace.h
+  conditions/republican.h pyproc.h trace.h
 
 py.h:
 
@@ -290,10 +290,6 @@ pyposit.h:
 conditions/republican.h:
 
 pyproc.h:
-
-output/output.h:
-
-pystip.h:
 
 trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
@@ -807,7 +803,7 @@ trace.h:
 pyoutput$(OBJ_SUFFIX): pyoutput.c pyoutput.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pystip.h pytable.h \
   pydata.h pyproc.h py4.h pymsg.h pyslice.h pypipe.h py1.h \
-  output/output.h pystip.h output/plaintext/tree/tree.h pydata.h \
+  output/plaintext/tree/tree.h pydata.h pystip.h \
   output/plaintext/tree/check_detector.h boolean.h pyslice.h \
   output/plaintext/tree/move_inversion_counter.h \
   output/plaintext/line/move_inversion_counter.h \
@@ -851,13 +847,11 @@ pypipe.h:
 
 py1.h:
 
-output/output.h:
-
-pystip.h:
-
 output/plaintext/tree/tree.h:
 
 pydata.h:
+
+pystip.h:
 
 output/plaintext/tree/check_detector.h:
 
@@ -1198,6 +1192,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   output/plaintext/end_of_phase_writer.h \
   output/plaintext/tree/goal_writer.h \
   output/plaintext/tree/move_inversion_counter.h \
+  output/plaintext/line/end_of_intro_series_marker.h \
   output/plaintext/line/move_inversion_counter.h \
   output/plaintext/line/line_writer.h
 
@@ -1298,6 +1293,8 @@ output/plaintext/end_of_phase_writer.h:
 output/plaintext/tree/goal_writer.h:
 
 output/plaintext/tree/move_inversion_counter.h:
+
+output/plaintext/line/end_of_intro_series_marker.h:
 
 output/plaintext/line/move_inversion_counter.h:
 
@@ -2108,12 +2105,16 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
-  pyoutput.h pytable.h output/plaintext/plaintext.h py.h
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
+  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
+  pystip.h pyoutput.h pytable.h output/plaintext/plaintext.h py.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2130,10 +2131,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 pygoal.h:
 
