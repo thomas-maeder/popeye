@@ -5,7 +5,6 @@
 #include "pydata.h"
 #include "stipulation/goal_reached_tester.h"
 #include "pyoutput.h"
-#include "output/output.h"
 #include "trace.h"
 
 static slice_index exclusive_goal_leaf;
@@ -85,10 +84,8 @@ void exclusive_init_genmove(Side side)
   CondFlag[exclusive] = false;
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
-  active_slice[nbply+1] = active_slice[nbply];
   remove_ortho_mating_moves_generation_obstacle();
   empile_for_goal = slices[exclusive_goal_leaf].u.goal_reached_tester.goal;
-  active_slice[nbply+1] = exclusive_goal_leaf;
   generate_move_reaching_goal(side);
   empile_for_goal.type = no_goal;
   add_ortho_mating_moves_generation_obstacle();
