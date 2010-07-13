@@ -1,7 +1,6 @@
 #include "output/plaintext/line/move_inversion_counter.h"
 #include "pydata.h"
 #include "pypipe.h"
-#include "pyoutput.h"
 #include "trace.h"
 
 #include <assert.h>
