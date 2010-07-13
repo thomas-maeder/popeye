@@ -18,22 +18,22 @@ static boolean is_reaching_goal_allowed[maxply+1];
 boolean exclusive_verifie_position(void)
 {
   boolean result;
-  slice_index exclusive_goal_leaf;
+  Goal goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   /* we have to know which goal has to be reached in a dual-free
    * way */
-  exclusive_goal_leaf = find_unique_goal(root_slice);
-  if (exclusive_goal_leaf==no_slice)
+  goal = find_unique_goal(root_slice);
+  if (goal.type==no_goal)
   {
     VerifieMsg(StipNotSupported);
     result = false;
   }
   else
   {
-    exclusive_goal = slices[exclusive_goal_leaf].u.goal_reached_tester.goal;
+    exclusive_goal = goal;
     flag_testlegality = true;
     optim_neutralretractable = false;
     add_ortho_mating_moves_generation_obstacle();

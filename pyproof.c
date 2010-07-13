@@ -2051,19 +2051,19 @@ static void saveTargetPiecesAndSquares(void)
 
 void ProofInitialise(void)
 {
-  slice_index leaf_unique_goal;
+  Goal unique_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  leaf_unique_goal = find_unique_goal(root_slice);
-  if (leaf_unique_goal==no_slice)
+  unique_goal = find_unique_goal(root_slice);
+  if (unique_goal.type==no_goal)
     VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
   else
   {
     saveTargetPiecesAndSquares();
 
-    goal_to_be_reached = slices[leaf_unique_goal].u.goal_reached_tester.goal.type;
+    goal_to_be_reached = unique_goal.type;
     assert(goal_to_be_reached==goal_proof || goal_to_be_reached==goal_atob);
 
     ProofFairy = (change_moving_piece

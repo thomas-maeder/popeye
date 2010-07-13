@@ -1223,33 +1223,31 @@ stip_length_type get_max_nr_moves(slice_index si)
   return result;
 }
 
-static boolean are_goals_equal(slice_index si1, slice_index si2)
+static boolean are_goals_equal(Goal goal1, Goal goal2)
 {
-  return ((slices[si1].u.goal_reached_tester.goal.type
-           ==slices[si2].u.goal_reached_tester.goal.type)
-          && (slices[si1].u.goal_reached_tester.goal.type!=goal_target
-              || (slices[si1].u.goal_reached_tester.goal.target
-                  ==slices[si2].u.goal_reached_tester.goal.target)));
+  return (goal1.type==goal2.type
+          && (goal1.type!=goal_target || goal1.target==goal2.target));
 }
 
 enum
 {
-  no_unique_goal = max_nr_slices+1
+  no_unique_goal = nr_goals+1
 };
 
 static void find_unique_goal_goal_tester(slice_index si,
                                          stip_structure_traversal *st)
 {
-  slice_index * const found = st->param;
+  Goal * const found = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (*found==no_slice)
-    *found = si;
-  else if (*found!=no_unique_goal && !are_goals_equal(*found,si))
-    *found = no_unique_goal;
+  if (found->type==no_goal)
+    *found = slices[si].u.goal_reached_tester.goal;
+  else if (found->type!=no_unique_goal
+           && !are_goals_equal(*found,slices[si].u.goal_reached_tester.goal))
+    found->type = no_unique_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1355,10 +1353,10 @@ static stip_structure_visitor const unique_goal_finders[] =
  * @return no_slice if goal is not unique; index of a slice with the
  * unique goal otherwise
  */
-slice_index find_unique_goal(slice_index si)
+Goal find_unique_goal(slice_index si)
 {
   stip_structure_traversal st;
-  slice_index result = no_slice;
+  Goal result = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1366,8 +1364,8 @@ slice_index find_unique_goal(slice_index si)
   stip_structure_traversal_init(&st,&unique_goal_finders,&result);
   stip_traverse_structure(root_slice,&st);
 
-  if (result==no_unique_goal)
-    result = no_slice;
+  if (result.type==no_unique_goal)
+    result.type = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

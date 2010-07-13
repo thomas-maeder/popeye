@@ -13,7 +13,7 @@ boolean is_republican_suspended;
 
 static pilecase republican_king_placement;
 
-static Goal republican_goal;
+static Goal republican_goal = { no_goal, initsquare };
 
 /* TODO implement independently from SuperCirce et al.
  */
@@ -88,15 +88,15 @@ boolean republican_verifie_position(void)
   }
   else
   {
-    slice_index const goal_leaf = find_unique_goal(root_slice);
-    if (goal_leaf==no_slice)
+    Goal const goal = find_unique_goal(root_slice);
+    if (goal.type==no_goal)
     {
       VerifieMsg(StipNotSupported);
       return false;
     }
     else
     {
-      republican_goal = slices[goal_leaf].u.goal_reached_tester.goal;
+      republican_goal = goal;
       OptFlag[sansrn] = true;
       OptFlag[sansrb] = true;
       optim_neutralretractable = false;

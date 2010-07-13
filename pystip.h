@@ -383,10 +383,10 @@ boolean stip_ends_in_one_of(goal_type const goals[], size_t nrGoals);
 /* Determine whether the current stipulation has a unique goal, and
  * return it.
  * @param si root of subtree where to look for unique goal
- * @return no_slice if goal is not unique; index of a slice with the
- *         unique goal otherwise
+ * @return Goal with no_goal if goal is not unique;
+ *         the unique goal otherwise
  */
-slice_index find_unique_goal(slice_index si);
+Goal find_unique_goal(slice_index si);
 
 /* Make the stipulation exact
  */
