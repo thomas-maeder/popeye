@@ -13,7 +13,7 @@ boolean is_republican_suspended;
 
 static pilecase republican_king_placement;
 
-static slice_index goal_leaf;
+static Goal republican_goal;
 
 /* TODO implement independently from SuperCirce et al.
  */
@@ -23,8 +23,6 @@ static slice_index goal_leaf;
  */
 static void find_mate_square(Side camp)
 {
-  Goal const goal = slices[goal_leaf].u.goal_reached_tester.goal;
-  
   if (camp == White)
   {
     rn = ++super[nbply];
@@ -34,7 +32,7 @@ static void find_mate_square(Side camp)
       if (e[rn]==vide)
       {
         e[rn]= roin;
-        if (is_goal_reached(camp,goal)==goal_reached)
+        if (is_goal_reached(camp,republican_goal)==goal_reached)
           return;
         e[rn]= vide;
       }
@@ -54,7 +52,7 @@ static void find_mate_square(Side camp)
       if (e[rb]==vide)
       {
         e[rb]= roib;
-        if (is_goal_reached(camp,goal)==goal_reached)
+        if (is_goal_reached(camp,republican_goal)==goal_reached)
           return;
         e[rb]= vide;
       }
@@ -90,7 +88,7 @@ boolean republican_verifie_position(void)
   }
   else
   {
-    goal_leaf = find_unique_goal(root_slice);
+    slice_index const goal_leaf = find_unique_goal(root_slice);
     if (goal_leaf==no_slice)
     {
       VerifieMsg(StipNotSupported);
@@ -98,6 +96,7 @@ boolean republican_verifie_position(void)
     }
     else
     {
+      republican_goal = slices[goal_leaf].u.goal_reached_tester.goal;
       OptFlag[sansrn] = true;
       OptFlag[sansrb] = true;
       optim_neutralretractable = false;
