@@ -1456,8 +1456,8 @@ pyreflxg$(OBJ_SUFFIX): pyreflxg.c pyreflxg.h stipulation/battle_play/attack_play
   stipulation/battle_play/branch.h stipulation/help_play/branch.h \
   stipulation/series_play/branch.h py.h stipulation/series_play/play.h \
   pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h pyboard.h \
-  pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pybrafrk.h pyoutput.h \
-  pytable.h pydata.h pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
+  pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h pybrafrk.h pydata.h \
+  pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
 
 pyreflxg.h:
 
@@ -1508,10 +1508,6 @@ pylang.h:
 pyslice.h:
 
 pybrafrk.h:
-
-pyoutput.h:
-
-pytable.h:
 
 pydata.h:
 

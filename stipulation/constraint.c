@@ -8,7 +8,6 @@
 #include "pypipe.h"
 #include "pyslice.h"
 #include "pybrafrk.h"
-#include "pyoutput.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
@@ -228,10 +227,7 @@ has_solution_type reflex_root_filter_solve(slice_index si)
   if (slice_solve(avoided)==has_solution)
     result = slice_solve(next);
   else
-  {
-    write_end_of_solution_phase();
     result = has_no_solution;
-  }
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -569,24 +565,25 @@ void reflex_help_filter_insert_root(slice_index si,
 {
   slice_index * const root = st->param;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  slice_index guard;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure(avoided,st);
+  guard = alloc_reflex_root_filter(*root);
+  *root = no_slice;
+
   stip_traverse_structure(slices[si].u.pipe.next,st);
+  pipe_link(guard,*root);
+  *root = guard;
 
-  {
-    slice_index const guard = alloc_reflex_root_filter(avoided);
-    pipe_link(guard,*root);
-    *root = guard;
-
-    if (slices[si].u.pipe.next==no_slice)
-      /* we are obsolete and are going to be deallocated */
-      slices[si].u.reflex_guard.avoided = no_slice;
-    else
-      help_branch_shorten_slice(si);
-  }
+  if (slices[si].u.pipe.next==no_slice)
+    /* we are obsolete and are going to be deallocated */
+    slices[si].u.reflex_guard.avoided = no_slice;
+  else
+    help_branch_shorten_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

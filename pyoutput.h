@@ -16,7 +16,6 @@
 
 #include "pyenum.h"
 
-extern unsigned int nr_color_inversions_in_ply[maxply];
 
 /* Set the output mode to be used for the current stipulation
  */
@@ -37,9 +36,5 @@ void write_indentation(void);
  * @param si index of root of subtree that we initialise output for
  */
 void init_output(slice_index si);
-
-/* Write the end of a solution phase
- */
-void write_end_of_solution_phase(void);
 
 #endif

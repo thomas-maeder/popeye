@@ -13,11 +13,11 @@ pymsg.h:
 conditions/republican.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX):  \
  output/plaintext/end_of_phase_writer.c \
-  output/plaintext/end_of_phase_writer.h pyoutput.h pypipe.h trace.h
+  output/plaintext/end_of_phase_writer.h pymsg.h pypipe.h trace.h
 
 output/plaintext/end_of_phase_writer.h:
 
-pyoutput.h:
+pymsg.h:
 
 pypipe.h:
 

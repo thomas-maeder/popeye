@@ -1,5 +1,5 @@
 #include "output/plaintext/end_of_phase_writer.h"
-#include "pyoutput.h"
+#include "pymsg.h"
 #include "pypipe.h"
 #include "trace.h"
 
@@ -54,7 +54,7 @@ has_solution_type end_of_phase_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   result = slice_solve(slices[si].u.pipe.next);
-  write_end_of_solution_phase();
+  Message(NewLine);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

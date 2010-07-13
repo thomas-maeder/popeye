@@ -252,16 +252,3 @@ void init_output(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Write the end of a solution phase
- */
-void write_end_of_solution_phase(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  Message(NewLine);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
