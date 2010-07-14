@@ -107,9 +107,9 @@ static slice_index shorten_fork(slice_index si)
  * @param proxy_to_goal identifies slice leading towards goal
  * @return index of initial slice of allocated help branch
  */
-slice_index alloc_help_branch_even(stip_length_type length,
-                                   stip_length_type min_length,
-                                   slice_index proxy_to_goal)
+static slice_index alloc_help_branch_even(stip_length_type length,
+                                          stip_length_type min_length,
+                                          slice_index proxy_to_goal)
 {
   slice_index result;
 
@@ -155,7 +155,7 @@ slice_index alloc_help_branch_even(stip_length_type length,
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice leading towards goal
- * @return index of initial slice of allocated help branch
+ * @return index of entry slice into allocated series branch
  */
 slice_index alloc_help_branch(stip_length_type length,
                               stip_length_type min_length,
@@ -172,16 +172,15 @@ slice_index alloc_help_branch(stip_length_type length,
   assert(length>slack_length_help);
   assert(slices[proxy_to_goal].type==STProxy);
 
-  result = alloc_proxy_slice();
-
   if ((length-slack_length_help)%2==0)
-    pipe_set_successor(result,
-                       alloc_help_branch_even(length,min_length,proxy_to_goal));
+    result = alloc_help_branch_even(length,min_length,proxy_to_goal);
   else
+  {
     /* this indirect approach avoids some code duplication */
-    pipe_set_successor(result,
-                       shorten_fork(alloc_help_branch_even(length+1,min_length+1,
-                                                           proxy_to_goal)));
+    slice_index const branch = alloc_help_branch_even(length+1,min_length+1,
+                                                      proxy_to_goal);
+    result = shorten_fork(branch);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
