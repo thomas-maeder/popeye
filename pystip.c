@@ -1368,7 +1368,7 @@ Goal find_unique_goal(slice_index si)
     result.type = no_goal;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",result.type);
   TraceFunctionResultEnd();
   return result;
 }
