@@ -2396,7 +2396,10 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const branch = alloc_series_branch(length+1,min_length,
                                                          proxy_next);
-          pipe_set_successor(proxy,branch);
+          if (slices[branch].prev==no_slice)
+            pipe_link(proxy,branch);
+          else
+            pipe_set_successor(proxy,branch);
           slices[next].starter = Black;
 
           set_output_mode(output_mode_line);
@@ -2411,16 +2414,19 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      if (slice_has_structure(next,slice_structure_pipe))
+      slice_index const next_next = slices[next].u.pipe.next;
+      if (slices[next_next].type!=STSeriesMoveToGoal)
       {
         slice_index const proxy = alloc_proxy_slice();
         slice_index const help = alloc_help_move_slice(slack_length_help+1,
                                                        slack_length_help+1);
-        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+        slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                     next);
+        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+                                                    inverter);
         convert_to_parry_series_branch(next,proxy);
         pipe_link(proxy,help);
-        pipe_link(help,slices[guard].prev);
+        pipe_link(help,guard);
 
         set_output_mode(output_mode_line);
       }
@@ -2433,17 +2439,20 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      assert(slice_has_structure(next,slice_structure_pipe));
+      slice_index const next_next = slices[next].u.pipe.next;
+      assert(slices[next_next].type!=STSeriesMoveToGoal);
 
       {
         slice_index const proxy = alloc_proxy_slice();
         slice_index const help = alloc_help_move_slice(slack_length_help+1,
                                                        slack_length_help+1);
-        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+        slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                     next);
+        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+                                                    inverter);
         convert_to_parry_series_branch(next,proxy);
         pipe_link(proxy,help);
-        pipe_link(help,slices[guard].prev);
+        pipe_link(help,guard);
 
         set_output_mode(output_mode_line);
       }
@@ -2457,7 +2466,8 @@ static char *ParsePlay(char *tok, slice_index proxy)
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      if (slice_has_structure(next,slice_structure_pipe))
+      slice_index const next_next = slices[next].u.pipe.next;
+      if (slices[next_next].type!=STSeriesMoveToGoal)
       {
         slice_index const proxy = alloc_proxy_slice();
         slice_index const
@@ -2465,12 +2475,14 @@ static char *ParsePlay(char *tok, slice_index proxy)
                                                      slack_length_battle+2);
         slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
                                                          slack_length_battle+2);
-        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+        slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                     next);
+        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+                                                    inverter);
         convert_to_parry_series_branch(next,proxy);
         pipe_link(proxy,solver);
         pipe_link(solver,def);
-        pipe_link(def,slices[guard].prev);
+        pipe_link(def,guard);
 
         set_output_mode(output_mode_line);
       }

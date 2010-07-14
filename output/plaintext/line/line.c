@@ -82,7 +82,10 @@ static void instrument_series_fork(slice_index si,
   while (slices[next].type==STProxy)
     next = slices[next].u.pipe.next;
 
-  if (slices[next].type==STSelfCheckGuardSeriesFilter)
+  if (slices[next].type==STSelfCheckGuardSeriesFilter
+      || slices[next].type==STSeriesMove
+      || slices[next].type==STSeriesHashed
+      || slices[next].type==STSeriesOR)
   {
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();
@@ -104,7 +107,11 @@ static stip_structure_visitor const line_slice_inserters[] =
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
-  &instrument_series_fork, /* STSeriesFork */
+  &stip_traverse_structure_children, /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children, /* STSeriesNotLastMove */
+  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
+  &instrument_series_fork,           /* STSeriesFork */
+  &instrument_series_fork,           /* STSeriesOR */
   &instrument_goal_reached_tester,   /* STGoalReachedTester */
   &instrument_leaf,                  /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */

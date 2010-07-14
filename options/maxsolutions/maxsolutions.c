@@ -239,7 +239,11 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &insert_maxsolutions_help_filter,          /* STHelpMove */
   &stip_traverse_structure_children,         /* STHelpFork */
   &insert_maxsolutions_series_filter,        /* STSeriesMove */
+  &insert_maxsolutions_series_filter,        /* STSeriesMoveToGoal */
+  &insert_maxsolutions_series_filter,        /* STSeriesNotLastMove */
+  &insert_maxsolutions_series_filter,        /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
+  &stip_traverse_structure_children,         /* STSeriesOR */
   &stip_traverse_structure_children,         /* STGoalReachedTester */
   &insert_maxsolutions_solvable_filter,      /* STLeaf */
   &stip_traverse_structure_children,         /* STReciprocal */
@@ -348,7 +352,11 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
+  &stip_traverse_structure_children, /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children, /* STSeriesNotLastMove */
+  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
+  &stip_traverse_structure_children, /* STSeriesOR */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */

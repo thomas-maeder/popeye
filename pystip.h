@@ -23,7 +23,11 @@
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
+    ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
+    ENUMERATOR(STSeriesNotLastMove),  /* stop solving last series move */ \
+    ENUMERATOR(STSeriesOnlyLastMove),  /* stop solving unless last series move */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
+    ENUMERATOR(STSeriesOR),         /* OR series filter */ \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -32,13 +36,13 @@
     ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
-    ENUMERATOR(STAttackRoot),      /* root attack level of battle play */      \
+    ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
     ENUMERATOR(STBattlePlaySolver), /* find battle play solutions */           \
-    ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */           \
+    ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
@@ -529,6 +533,26 @@ void stip_traverse_moves_root(slice_index si, stip_move_traversal *st);
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves beyond a series OR slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_OR(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves beyond a STSeriesNotLastMove slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_not_last_move(slice_index si,
+                                              stip_move_traversal *st);
+
+/* Traversal of the moves beyond a STSeriesNotLastMove slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_only_last_move(slice_index si,
+                                               stip_move_traversal *st);
 
 /* Traversal of the moves beyond a reflex attacker filter slice 
  * @param si identifies root of subtree

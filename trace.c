@@ -229,6 +229,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STSelfDefense:
       case STHelpFork:
       case STSeriesFork:
+      case STSeriesOR:
         Trace_branch(si);
         Trace_link("2goal:",slices[si].u.branch_fork.towards_goal,"");
         fprintf(stdout,"\n");
@@ -255,6 +256,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STHelpMove:
       case STSeriesRoot:
       case STSeriesMove:
+      case STSeriesMoveToGoal:
       case STHelpHashed:
       case STSeriesHashed:
       case STIntelligentHelpFilter:
@@ -304,6 +306,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
+      case STSeriesNotLastMove:
+      case STSeriesOnlyLastMove:
       case STSelfCheckGuardRootSolvableFilter:
       case STSelfCheckGuardSolvableFilter:
       case STProxy:
@@ -340,6 +344,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STEndOfSolutionWriter:
       case STRefutationWriter:
       case STOutputPlaintextTreeMoveInversionCounter:
+      case STOutputPlaintextLineMoveInversionCounter:
       case STOutputPlaintextLineEndOfIntroSeriesMarker:
         Trace_pipe(si);
         fprintf(stdout,"\n");

@@ -31,7 +31,9 @@
 #include "stipulation/help_play/fork.h"
 #include "stipulation/series_play/root.h"
 #include "stipulation/series_play/move.h"
+#include "stipulation/series_play/move_to_goal.h"
 #include "stipulation/series_play/shortcut.h"
+#include "stipulation/series_play/or.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/proxy.h"
@@ -48,8 +50,12 @@
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
+    ENUMERATOR(STSeriesMoveToGoal),    /* last series move reaching goal */ \
+    ENUMERATOR(STSeriesNotLastMove),  /* stop solving last series move through wrong track */ \
+    ENUMERATOR(STSeriesOnlyLastMove),  /* stop solving unless last series move */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
-    ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */     \
+    ENUMERATOR(STSeriesOR),         /* OR series filter */ \
+    ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
@@ -62,8 +68,9 @@
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
-    ENUMERATOR(STBattlePlaySolver), /* find battle play solutions */           \
-    ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */        ENUMERATOR(STThreatSolver), /* solves threats */ \
+    ENUMERATOR(STBattlePlaySolver), /* find battle play solutions */    \
+    ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */ \
+    ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
     ENUMERATOR(STThreatCollector), /* collects threats */               \
@@ -174,7 +181,11 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STHelpMove */
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STSeriesMove */
+  slice_structure_branch, /* STSeriesMoveToGoal */
+  slice_structure_branch, /* STSeriesNotLastMove */
+  slice_structure_branch, /* STSeriesOnlyLastMove */
   slice_structure_fork,   /* STSeriesFork */
+  slice_structure_fork,   /* STSeriesOR */
   slice_structure_pipe,   /* STGoalReachedTester */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -335,7 +346,11 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STHelpMove */
   &mark_reachable_slice, /* STHelpFork */
   &mark_reachable_slice, /* STSeriesMove */
+  &mark_reachable_slice, /* STSeriesMoveToGoal */
+  &mark_reachable_slice, /* STSeriesNotLastMove */
+  &mark_reachable_slice, /* STSeriesOnlyLastMove */
   &mark_reachable_slice, /* STSeriesFork */
+  &mark_reachable_slice, /* STSeriesOR */
   &mark_reachable_slice, /* STGoalReachedTester */
   &mark_reachable_slice, /* STLeaf */
   &mark_reachable_slice, /* STReciprocal */
@@ -596,7 +611,11 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STHelpMove */
   &traverse_and_deallocate,       /* STHelpFork */
   &traverse_and_deallocate,       /* STSeriesMove */
+  &traverse_and_deallocate,       /* STSeriesMoveToGoal */
+  &traverse_and_deallocate,       /* STSeriesNotLastMove */
+  &traverse_and_deallocate,       /* STSeriesOnlyLastMove */
   &traverse_and_deallocate,       /* STSeriesFork */
+  &traverse_and_deallocate,       /* STSeriesOR */
   &traverse_and_deallocate,       /* STGoalReachedTester */
   &traverse_and_deallocate,       /* STLeaf */
   &traverse_and_deallocate,       /* STReciprocal */
@@ -727,7 +746,11 @@ static stip_structure_visitor const root_slice_inserters[] =
   &help_move_insert_root,                       /* STHelpMove */
   &help_fork_insert_root,                       /* STHelpFork */
   &series_move_insert_root,                     /* STSeriesMove */
-  &series_fork_insert_root,                     /* STSeriesFork */
+  &series_move_to_goal_insert_root,             /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children,            /* STSeriesNotLastMove */
+  &stip_traverse_structure_children,            /* STSeriesOnlyLastMove */
+  &pipe_traverse_next,                          /* STSeriesFork */
+  &pipe_traverse_next,                          /* STSeriesOR */
   &goal_reached_tester_insert_root,             /* STGoalReachedTester */
   &leaf_insert_root,                            /* STLeaf */
   &reci_insert_root,                            /* STReciprocal */
@@ -852,7 +875,11 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STHelpMove */
   &branch_fork_resolve_proxies,      /* STHelpFork */
   &pipe_resolve_proxies,             /* STSeriesMove */
+  &pipe_resolve_proxies,             /* STSeriesMoveToGoal */
+  &pipe_resolve_proxies,             /* STSeriesNotLastMove */
+  &pipe_resolve_proxies,             /* STSeriesOnlyLastMove */
   &branch_fork_resolve_proxies,      /* STSeriesFork */
+  &branch_fork_resolve_proxies,      /* STSeriesOR */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STLeaf */
   &binary_resolve_proxies,           /* STReciprocal */
@@ -1073,7 +1100,11 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &get_max_nr_moves_branch,                  /* STHelpMove */
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &get_max_nr_moves_branch,                  /* STSeriesMove */
+  &get_max_nr_moves_branch,                  /* STSeriesMoveToGoal */
+  &stip_traverse_moves_pipe,                 /* STSeriesNotLastMove */
+  &stip_traverse_moves_pipe,                 /* STSeriesOnlyLastMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
+  &stip_traverse_moves_series_fork,          /* STSeriesOR */
   &stip_traverse_moves_noop,                 /* STGoalReachedTester */
   &stip_traverse_moves_noop,                 /* STLeaf */
   &get_max_nr_moves_binary,                  /* STReciprocal */
@@ -1261,7 +1292,11 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
+  &stip_traverse_structure_children, /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children, /* STSeriesNotLastMove */
+  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
+  &stip_traverse_structure_children, /* STSeriesOR */
   &find_unique_goal_goal_tester,     /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -1617,7 +1652,11 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STHelpMove */
   &transform_to_quodlibet_branch_fork, /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
+  &stip_traverse_structure_children,   /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children,   /* STSeriesNotLastMove */
+  &stip_traverse_structure_children,   /* STSeriesOnlyLastMove */
   &transform_to_quodlibet_branch_fork, /* STSeriesFork */
+  &stip_traverse_structure_children,   /* STSeriesOR */
   &stip_structure_visitor_noop,        /* STGoalReachedTester */
   &stip_structure_visitor_noop,        /* STLeaf */
   &stip_traverse_structure_children,   /* STReciprocal */
@@ -1737,7 +1776,11 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STHelpMove */
   &stip_traverse_structure_children,              /* STHelpFork */
   &stip_traverse_structure_children,              /* STSeriesMove */
+  &stip_traverse_structure_children,              /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children,              /* STSeriesNotLastMove */
+  &stip_traverse_structure_children,              /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,              /* STSeriesFork */
+  &stip_traverse_structure_children,              /* STSeriesOR */
   &stip_traverse_structure_children,              /* STGoalReachedTester */
   &stip_traverse_structure_children,              /* STLeaf */
   &stip_traverse_structure_children,              /* STReciprocal */
@@ -1882,7 +1925,11 @@ static stip_structure_visitor const setplay_makers[] =
   &help_move_make_setplay_slice,     /* STHelpMove */
   &pipe_traverse_next,               /* STHelpFork */
   &series_move_make_setplay_slice,   /* STSeriesMove */
+  &stip_traverse_structure_children, /* STSeriesMoveToGoal */
+  &series_move_make_setplay_slice,   /* STSeriesNotLastMove */
+  &series_move_make_setplay_slice,   /* STSeriesOnlyLastMove */
   &series_fork_make_setplay_slice,   /* STSeriesFork */
+  &stip_traverse_structure_children, /* STSeriesOR */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -2003,7 +2050,11 @@ static stip_structure_visitor const setplay_appliers[] =
   &help_move_apply_setplay,              /* STHelpMove */
   &pipe_traverse_next,                   /* STHelpFork */
   &series_move_apply_setplay,            /* STSeriesMove */
+  &series_move_apply_setplay,            /* STSeriesMoveToGoal */
+  &series_move_apply_setplay,            /* STSeriesNotLastMove */
+  &series_move_apply_setplay,            /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,     /* STSeriesFork */
+  &stip_structure_visitor_noop,          /* STSeriesOR */
   &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &stip_structure_visitor_noop,          /* STLeaf */
   &stip_traverse_structure_children,     /* STReciprocal */
@@ -2208,7 +2259,11 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
+  &stip_traverse_structure_children, /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children, /* STSeriesNotLastMove */
+  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
+  &stip_traverse_structure_children, /* STSeriesOR */
   &ends_only_in,                     /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -2342,7 +2397,11 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STHelpMove */
   &stip_traverse_structure_children,   /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
+  &stip_traverse_structure_children,   /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children,   /* STSeriesNotLastMove */
+  &stip_traverse_structure_children,   /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,   /* STSeriesFork */
+  &stip_traverse_structure_children,   /* STSeriesOR */
   &ends_in_one_of,                     /* STGoalReachedTester */
   &stip_structure_visitor_noop,        /* STLeaf */
   &stip_traverse_structure_children,   /* STReciprocal */
@@ -2471,7 +2530,11 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STHelpMove */
   &make_exact_branch,                /* STHelpFork */
   &make_exact_branch,                /* STSeriesMove */
+  &stip_traverse_structure_children, /* STSeriesMoveToGoal */
+  &make_exact_branch,                /* STSeriesNotLastMove */
+  &make_exact_branch,                /* STSeriesOnlyLastMove */
   &make_exact_branch,                /* STSeriesFork */
+  &stip_traverse_structure_children, /* STSeriesOR */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -2581,7 +2644,11 @@ static stip_structure_visitor const starter_detectors[] =
   &help_move_detect_starter,         /* STHelpMove */
   &branch_fork_detect_starter,       /* STHelpFork */
   &series_move_detect_starter,       /* STSeriesMove */
+  &series_move_detect_starter,       /* STSeriesMoveToGoal */
+  &pipe_detect_starter,              /* STSeriesNotLastMove */
+  &pipe_detect_starter,              /* STSeriesOnlyLastMove */
   &branch_fork_detect_starter,       /* STSeriesFork */
+  &branch_fork_detect_starter,       /* STSeriesOR */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &reci_detect_starter,              /* STReciprocal */
@@ -2695,8 +2762,12 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_inverted_starter,       /* STHelpMove */
   &branch_fork_impose_starter,         /* STHelpFork */
   &pipe_impose_inverted_starter,       /* STSeriesMove */
+  &pipe_impose_inverted_starter,       /* STSeriesMoveToGoal */
+  &pipe_impose_starter,                /* STSeriesNotLastMove */
+  &pipe_impose_starter,                /* STSeriesOnlyLastMove */
   &branch_fork_impose_starter,         /* STSeriesFork */
-  &pipe_impose_starter,                 /* STGoalReachedTester */
+  &branch_fork_impose_starter,         /* STSeriesOR */
+  &pipe_impose_starter,                /* STGoalReachedTester */
   &leaf_impose_starter,                /* STLeaf */
   &reci_impose_starter,                /* STReciprocal */
   &quodlibet_impose_starter,           /* STQuodlibet */
@@ -3001,7 +3072,11 @@ static stip_structure_visitor const traversers[] =
   &traverse_structure_pipe,         /* STHelpMove */
   &traverse_structure_branch_fork,  /* STHelpFork */
   &traverse_structure_pipe,         /* STSeriesMove */
+  &traverse_structure_pipe,         /* STSeriesMoveToGoal */
+  &traverse_structure_pipe,         /* STSeriesNotLastMove */
+  &traverse_structure_pipe,         /* STSeriesOnlyLastMove */
   &traverse_structure_branch_fork,  /* STSeriesFork */
+  &traverse_structure_branch_fork,  /* STSeriesOR */
   &traverse_structure_pipe,         /* STGoalReachedTester */
   &stip_structure_visitor_noop,     /* STLeaf */
   &traverse_structure_binary,       /* STReciprocal */
@@ -3350,6 +3425,66 @@ void stip_traverse_moves_series_fork(slice_index si, stip_move_traversal *st)
     --st->level;
   }
   else
+    stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves beyond a series OR slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_OR(slice_index si, stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==0)
+  {
+    st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u\n",st->full_length);
+    st->remaining = slices[si].u.branch.length;
+  }
+
+  stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves beyond a STSeriesNotLastMove slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_not_last_move(slice_index si,
+                                              stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining>slack_length_series+1)
+    stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves beyond a STSeriesNotLastMove slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_only_last_move(slice_index si,
+                                               stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==slack_length_series+1)
     stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);

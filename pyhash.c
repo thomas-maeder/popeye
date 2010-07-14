@@ -279,7 +279,11 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STHelpMove */
   &slice_property_offset_shifter,    /* STHelpFork */
   &slice_property_offset_shifter,    /* STSeriesMove */
+  &slice_property_offset_shifter,    /* STSeriesMoveToGoal */
+  &slice_property_offset_shifter,    /* STSeriesNotLastMove */
+  &slice_property_offset_shifter,    /* STSeriesOnlyLastMove */
   &slice_property_offset_shifter,    /* STSeriesFork */
+  &slice_property_offset_shifter,    /* STSeriesOR */
   &slice_property_offset_shifter,    /* STGoalReachedTester */
   &slice_property_offset_shifter,    /* STLeaf */
   &slice_property_offset_shifter,    /* STReciprocal */
@@ -641,7 +645,11 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STHelpMove */
   &stip_traverse_structure_children,     /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
+  &init_slice_properties_pipe,           /* STSeriesMoveToGoal */
+  &init_slice_properties_pipe,           /* STSeriesNotLastMove */
+  &init_slice_properties_pipe,           /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,     /* STSeriesFork */
+  &stip_traverse_structure_children,     /* STSeriesOR */
   &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &stip_structure_visitor_noop,          /* STLeaf */
   &init_slice_properties_binary,         /* STReciprocal */
@@ -2083,24 +2091,23 @@ static void insert_help_hashed_slice(slice_index si)
 /* Allocate a STSeriesHashed slice for a STSeriesMove slice
  * and insert it before the slice
  * @param si identifies STSeriesMove slice
+ * @param length maximum number of half moves to provide for
+ * @param min_length minimum number of half moves to provide for
  */
-static void insert_series_hashed_slice(slice_index si)
+static void insert_series_hashed_slice(slice_index si,
+                                       stip_length_type length,
+                                       stip_length_type min_length)
 {
   slice_index const prev = slices[si].prev;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[si].type,"\n");
-  assert(slices[si].type==STSeriesMove);
-
   if (slices[prev].type!=STSeriesHashed)
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     pipe_append(prev,alloc_branch(STSeriesHashed,length,min_length));
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2154,20 +2161,19 @@ static void insert_hash_element_defense_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean is_goal_move_oriented(slice_index leaf)
+static boolean is_goal_move_oriented(Goal goal)
 {
   boolean result;
-  goal_type const goal = slices[leaf].u.goal_reached_tester.goal.type;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",leaf);
+  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  result = (goal==goal_target
-            || goal==goal_ep
-            || goal==goal_capture
-            || goal==goal_steingewinn
-            || goal==goal_castling);
+  result = (goal.type==goal_target
+            || goal.type==goal_ep
+            || goal.type==goal_capture
+            || goal.type==goal_steingewinn
+            || goal.type==goal_castling);
   
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2200,8 +2206,8 @@ static void insert_hash_element_branch_help(slice_index si,
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-static void insert_hash_element_branch_series(slice_index si,
-                                              stip_move_traversal *st)
+static void insert_hash_element_series_move(slice_index si,
+                                            stip_move_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2210,7 +2216,37 @@ static void insert_hash_element_branch_series(slice_index si,
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
   if (st->remaining<st->full_length)
-    insert_series_hashed_slice(si);
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    insert_series_hashed_slice(si,length,min_length);
+  }
+
+  stip_traverse_moves_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_series_move_to_goal(slice_index si,
+                                                    stip_move_traversal *st)
+{
+  Goal const goal = slices[si].u.branch.imminent_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!is_goal_move_oriented(goal))
+  {
+    stip_length_type const length = slack_length_series+1;
+    stip_length_type const min_length = slack_length_series+1;
+    insert_series_hashed_slice(si,length,min_length);
+  }
 
   stip_traverse_moves_branch(si,st);
 
@@ -2225,8 +2261,12 @@ static stip_move_visitor const hash_element_inserters[] =
   &insert_hash_element_defense_move,         /* STDefenseMove */
   &insert_hash_element_branch_help,          /* STHelpMove */
   &stip_traverse_moves_help_fork,            /* STHelpFork */
-  &insert_hash_element_branch_series,        /* STSeriesMove */
+  &insert_hash_element_series_move,          /* STSeriesMove */
+  &insert_hash_element_series_move_to_goal,  /* STSeriesMoveToGoal */
+  &stip_traverse_moves_pipe,                 /* STSeriesNotLastMove */
+  &stip_traverse_moves_pipe,                 /* STSeriesOnlyLastMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
+  &stip_traverse_moves_series_fork,          /* STSeriesOR */
   &stip_traverse_moves_noop,                 /* STGoalReachedTester */
   &stip_traverse_moves_noop,                 /* STLeaf */
   &stip_traverse_moves_binary,               /* STReciprocal */

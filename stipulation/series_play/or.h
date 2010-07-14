@@ -1,28 +1,21 @@
-#if !defined(STIPULATION_SERIES_PLAY_FORK_H)
-#define STIPULATION_SERIES_PLAY_FORK_H
+#if !defined(STIPULATION_SERIES_PLAY_OR_H)
+#define STIPULATION_SERIES_PLAY_OR_H
 
-/* This module provides functionality dealing with STSeriesFork
+/* This module provides functionality dealing with STSeriesOR
  * stipulation slices.
  */
 
 #include "pyslice.h"
 
-/* Allocate a STSeriesFork slice.
+/* Allocate a STSeriesOR slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
-slice_index alloc_series_fork_slice(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index proxy_to_goal);
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void series_fork_make_setplay_slice(slice_index si,
-                                    stip_structure_traversal *st);
+slice_index alloc_series_OR_slice(stip_length_type length,
+                                  stip_length_type min_length,
+                                  slice_index proxy_to_goal);
 
 /* Solve in a number of half-moves
  * @param si identifies slice
@@ -33,7 +26,7 @@ void series_fork_make_setplay_slice(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type series_OR_solve_in_n(slice_index si, stip_length_type n);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
@@ -45,7 +38,7 @@ stip_length_type series_fork_solve_in_n(slice_index si, stip_length_type n);
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type series_fork_has_solution_in_n(slice_index si,
-                                               stip_length_type n);
+stip_length_type series_OR_has_solution_in_n(slice_index si,
+                                             stip_length_type n);
 
 #endif

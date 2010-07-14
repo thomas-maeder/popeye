@@ -129,6 +129,7 @@ has_solution_type slice_solve(slice_index si)
     case STSeriesFork:
     case STSeriesHashed:
     case STStopOnShortSolutionsSeriesFilter:
+    case STSeriesOR:
       result = series_solve(si);
       break;
 

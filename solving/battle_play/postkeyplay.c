@@ -121,7 +121,11 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_structure_visitor_noop,        /* STHelpMove */
   &stip_structure_visitor_noop,        /* STHelpFork */
   &stip_structure_visitor_noop,        /* STSeriesMove */
+  &stip_structure_visitor_noop,        /* STSeriesMoveToGoal */
+  &stip_structure_visitor_noop,        /* STSeriesNotLastMove */
+  &stip_structure_visitor_noop,        /* STSeriesOnlyLastMove */
   &stip_structure_visitor_noop,        /* STSeriesFork */
+  &stip_structure_visitor_noop,        /* STSeriesOR */
   &stip_structure_visitor_noop,        /* STGoalReachedTester */
   &stip_structure_visitor_noop,        /* STLeaf */
   &stip_traverse_structure_children,   /* STReciprocal */
@@ -254,7 +258,11 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpFork */
   &stip_structure_visitor_noop,      /* STSeriesMove */
+  &stip_structure_visitor_noop,      /* STSeriesMoveToGoal */
+  &stip_structure_visitor_noop,      /* STSeriesNotLastMove */
+  &stip_structure_visitor_noop,      /* STSeriesOnlyLastMove */
   &stip_structure_visitor_noop,      /* STSeriesFork */
+  &stip_structure_visitor_noop,      /* STSeriesOR */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */

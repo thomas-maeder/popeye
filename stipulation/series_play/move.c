@@ -2,14 +2,12 @@
 #include "pydata.h"
 #include "pyproc.h"
 #include "pypipe.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "stipulation/series_play/play.h"
 #include "trace.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/move.h"
+#include "stipulation/series_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/root.h"
-#include "stipulation/series_play/shortcut.h"
 
 #include <assert.h>
 
@@ -19,7 +17,7 @@
  * @return index of allocated slice
  */
 slice_index alloc_series_move_slice(stip_length_type length,
-                                   stip_length_type min_length)
+                                    stip_length_type min_length)
 {
   slice_index result;
 
@@ -40,7 +38,8 @@ slice_index alloc_series_move_slice(stip_length_type length,
  * @param si slice index
  * @param st state of traversal
  */
-void series_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+void series_move_make_setplay_slice(slice_index si,
+                                    stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -73,10 +72,14 @@ void series_move_insert_root(slice_index si, stip_structure_traversal *st)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const prev = slices[si].prev;
+    slice_index shortcut = slices[si].prev;
+
     slice_index const root_branch = copy_slice(si);
 
-    *root = alloc_series_root_slice(length,min_length,root_branch,prev);
+    while (slices[shortcut].type!=STProxy)
+      shortcut = slices[shortcut].prev;
+
+    *root = alloc_series_root_slice(length,min_length,root_branch,shortcut);
 
     shorten_series_pipe(si);
   }
@@ -165,9 +168,8 @@ static stip_length_type foreach_move_solve(slice_index si, stip_length_type n)
  */
 stip_length_type series_move_solve_in_n(slice_index si, stip_length_type n)
 {
-  stip_length_type result = n+1;
+  stip_length_type result;
   Side const side_at_move = slices[si].starter;
-  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -176,25 +178,11 @@ stip_length_type series_move_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>slack_length_series);
 
-  if (n==slack_length_series+1 && goal.type!=no_goal)
-  {
-    if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
-    {
-      empile_for_goal = goal;
-      generate_move_reaching_goal(side_at_move);
-      empile_for_goal.type = no_goal;
-      result = foreach_move_solve(si,n);
-      finply();
-    }
-  }
-  else
-  {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    genmove(side_at_move);
-    result = foreach_move_solve(si,n);
-    finply();
-  }
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(side_at_move);
+  result = foreach_move_solve(si,n);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -242,36 +230,19 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
 stip_length_type series_move_has_solution_in_n(slice_index si,
                                                stip_length_type n)
 {
-  Side const side_at_move = slices[si].starter;
   stip_length_type result;
-  Goal const goal = slices[si].u.branch.imminent_goal;
+  Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_series+1 && goal.type!=no_goal)
-  {
-    if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
-    {
-      empile_for_goal = goal;
-      generate_move_reaching_goal(side_at_move);
-      empile_for_goal.type = no_goal;
-      result = find_solution(si,n);
-      finply();
-    }
-    else
-      result = n+1;
-  }
-  else
-  {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    genmove(side_at_move);
-    result = find_solution(si,n);
-    finply();
-  }
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(side_at_move);
+  result = find_solution(si,n);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

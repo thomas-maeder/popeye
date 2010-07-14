@@ -662,7 +662,11 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_help_move,   /* STHelpMove */
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
   &keepmating_guards_inserter_series_move, /* STSeriesMove */
+  &keepmating_guards_inserter_series_move, /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children,       /* STSeriesNotLastMove */
+  &stip_traverse_structure_children,       /* STSeriesOnlyLastMove */
   &keepmating_guards_inserter_branch_fork, /* STSeriesFork */
+  &keepmating_guards_inserter_branch_fork, /* STSeriesOR */
   &keepmating_guards_inserter_leaf_forced, /* STGoalReachedTester */
   &stip_structure_visitor_noop,            /* STLeaf */
   &keepmating_guards_inserter_reciprocal,  /* STReciprocal */

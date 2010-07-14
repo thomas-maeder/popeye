@@ -2,8 +2,10 @@ stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
   stipulation/series_play/branch.h pyslice.h pyselfcg.h pymovein.h \
   stipulation/series_play/play.h pypipe.h stipulation/branch.h \
   stipulation/proxy.h stipulation/series_play/fork.h \
-  stipulation/series_play/move.h stipulation/series_play/shortcut.h \
-  trace.h
+  stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
+  stipulation/series_play/shortcut.h stipulation/series_play/or.h \
+  stipulation/series_play/not_last_move.h \
+  stipulation/series_play/only_last_move.h trace.h
 
 stipulation/series_play/branch.h:
 
@@ -25,7 +27,15 @@ stipulation/series_play/fork.h:
 
 stipulation/series_play/move.h:
 
+stipulation/series_play/move_to_goal.h:
+
 stipulation/series_play/shortcut.h:
+
+stipulation/series_play/or.h:
+
+stipulation/series_play/not_last_move.h:
+
+stipulation/series_play/only_last_move.h:
 
 trace.h:
 stipulation/series_play/root$(OBJ_SUFFIX): stipulation/series_play/root.c \
@@ -51,13 +61,39 @@ stipulation/series_play/branch.h:
 
 stipulation/series_play/shortcut.h:
 stipulation/series_play/move$(OBJ_SUFFIX): stipulation/series_play/move.c \
-  stipulation/series_play/move.h pydata.h pyproc.h pypipe.h \
+  stipulation/series_play/move.h pydata.h pyproc.h pypipe.h trace.h \
+  stipulation/branch.h stipulation/help_play/move.h \
+  stipulation/series_play/play.h stipulation/series_play/branch.h \
+  stipulation/series_play/root.h
+
+stipulation/series_play/move.h:
+
+pydata.h:
+
+pyproc.h:
+
+pypipe.h:
+
+trace.h:
+
+stipulation/branch.h:
+
+stipulation/help_play/move.h:
+
+stipulation/series_play/play.h:
+
+stipulation/series_play/branch.h:
+
+stipulation/series_play/root.h:
+stipulation/series_play/move_to_goal$(OBJ_SUFFIX):  \
+ stipulation/series_play/move_to_goal.c \
+  stipulation/series_play/move_to_goal.h pydata.h pyproc.h pypipe.h \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
   stipulation/series_play/play.h trace.h stipulation/branch.h \
   stipulation/help_play/move.h stipulation/series_play/branch.h \
   stipulation/series_play/root.h stipulation/series_play/shortcut.h
 
-stipulation/series_play/move.h:
+stipulation/series_play/move_to_goal.h:
 
 pydata.h:
 
@@ -80,6 +116,21 @@ stipulation/series_play/branch.h:
 stipulation/series_play/root.h:
 
 stipulation/series_play/shortcut.h:
+stipulation/series_play/or$(OBJ_SUFFIX): stipulation/series_play/or.c \
+  stipulation/series_play/or.h pybrafrk.h stipulation/series_play/root.h \
+  stipulation/series_play/play.h stipulation/proxy.h trace.h
+
+stipulation/series_play/or.h:
+
+pybrafrk.h:
+
+stipulation/series_play/root.h:
+
+stipulation/series_play/play.h:
+
+stipulation/proxy.h:
+
+trace.h:
 stipulation/series_play/fork$(OBJ_SUFFIX): stipulation/series_play/fork.c \
   stipulation/series_play/fork.h pybrafrk.h \
   stipulation/series_play/play.h stipulation/proxy.h trace.h
@@ -133,7 +184,10 @@ stipulation/series_play/play$(OBJ_SUFFIX): stipulation/series_play/play.c \
   stipulation/battle_play/branch.h stipulation/battle_play/defense_play.h \
   stipulation/series_play/fork.h stipulation/series_play/parry_fork.h \
   stipulation/series_play/root.h stipulation/series_play/move.h \
-  stipulation/series_play/shortcut.h \
+  stipulation/series_play/shortcut.h stipulation/series_play/or.h \
+  stipulation/series_play/move_to_goal.h \
+  stipulation/series_play/not_last_move.h \
+  stipulation/series_play/only_last_move.h \
   optimisations/intelligent/series_filter.h \
   optimisations/maxtime/series_filter.h \
   optimisations/maxsolutions/series_filter.h \
@@ -169,6 +223,14 @@ stipulation/series_play/move.h:
 
 stipulation/series_play/shortcut.h:
 
+stipulation/series_play/or.h:
+
+stipulation/series_play/move_to_goal.h:
+
+stipulation/series_play/not_last_move.h:
+
+stipulation/series_play/only_last_move.h:
+
 optimisations/intelligent/series_filter.h:
 
 optimisations/maxtime/series_filter.h:
@@ -178,5 +240,29 @@ optimisations/maxsolutions/series_filter.h:
 optimisations/stoponshortsolutions/series_filter.h:
 
 pyint.h:
+
+trace.h:
+stipulation/series_play/not_last_move$(OBJ_SUFFIX):  \
+ stipulation/series_play/not_last_move.c \
+  stipulation/series_play/not_last_move.h pypipe.h \
+  stipulation/series_play/play.h trace.h
+
+stipulation/series_play/not_last_move.h:
+
+pypipe.h:
+
+stipulation/series_play/play.h:
+
+trace.h:
+stipulation/series_play/only_last_move$(OBJ_SUFFIX):  \
+ stipulation/series_play/only_last_move.c \
+  stipulation/series_play/only_last_move.h pypipe.h \
+  stipulation/series_play/play.h trace.h
+
+stipulation/series_play/only_last_move.h:
+
+pypipe.h:
+
+stipulation/series_play/play.h:
 
 trace.h:

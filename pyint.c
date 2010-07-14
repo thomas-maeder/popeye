@@ -2627,7 +2627,11 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_branch,               /* STHelpMove */
   &stip_traverse_moves_help_fork,            /* STHelpFork */
   &stip_traverse_moves_branch,               /* STSeriesMove */
+  &stip_traverse_moves_branch,               /* STSeriesMoveToGoal */
+  &stip_traverse_moves_series_not_last_move, /* STSeriesNotLastMove */
+  &stip_traverse_moves_series_only_last_move,/* STSeriesOnlyLastMove */
   &stip_traverse_moves_series_fork,          /* STSeriesFork */
+  &stip_traverse_moves_series_OR,            /* STSeriesOR */
   &moves_left_leaf_forced,                   /* STGoalReachedTester */
   &moves_left_leaf_forced,                   /* STLeaf */
   &stip_traverse_moves_binary,               /* STReciprocal */
@@ -2984,8 +2988,8 @@ void intelligent_guards_inserter_branch_help(slice_index si,
 }
 
 static
-void intelligent_guards_inserter_branch_series(slice_index si,
-                                               stip_structure_traversal *st)
+void intelligent_guards_inserter_series_move(slice_index si,
+                                             stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
@@ -3008,6 +3012,28 @@ void intelligent_guards_inserter_branch_series(slice_index si,
       pipe_set_successor(si,next_prev);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static
+void
+intelligent_guards_inserter_series_move_to_goal(slice_index si,
+                                                stip_structure_traversal *st)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type const length = slack_length_series+1;
+  stip_length_type const min_length = slack_length_series+1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  assert(slices[next].prev==si);
+  pipe_append(si,alloc_goalreachable_guard_series_filter(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3101,8 +3127,12 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STDefenseMove */
   &intelligent_guards_inserter_branch_help,  /* STHelpMove */
   &stip_traverse_structure_children,         /* STHelpFork */
-  &intelligent_guards_inserter_branch_series,/* STSeriesMove */
+  &intelligent_guards_inserter_series_move,  /* STSeriesMove */
+  &intelligent_guards_inserter_series_move_to_goal,  /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children,         /* STSeriesNotLastMove */
+  &stip_traverse_structure_children,         /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
+  &stip_traverse_structure_children,         /* STSeriesOR */
   &intelligent_guards_inserter_goal,         /* STGoalReachedTester */
   &stip_structure_visitor_noop,              /* STLeaf */
   &stip_traverse_structure_children,         /* STReciprocal */
@@ -3454,7 +3484,11 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STHelpMove */
   &intelligent_mode_support_detector_fork,      /* STHelpFork */
   &stip_traverse_structure_children,            /* STSeriesMove */
+  &stip_traverse_structure_children,            /* STSeriesMoveToGoal */
+  &stip_traverse_structure_children,            /* STSeriesNotLastMove */
+  &stip_traverse_structure_children,            /* STSeriesOnlyLastMove */
   &intelligent_mode_support_detector_fork,      /* STSeriesFork */
+  &intelligent_mode_support_detector_fork,      /* STSeriesOR */
   &intelligent_mode_support_detector_goal,      /* STGoalReachedTester */
   &stip_structure_visitor_noop,                 /* STLeaf */
   &intelligent_mode_support_none,               /* STReciprocal */
