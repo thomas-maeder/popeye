@@ -1979,7 +1979,7 @@ static void alloc_reci_end(slice_index *proxy_nonreci,
                                   proxy_to_reci);
 }
 
-static char *ParseRecigoal_type(char *tok,
+static char *ParseReciGoal(char *tok,
                            slice_index *proxy_nonreci,
                            slice_index *proxy_reci)
 {
@@ -2052,7 +2052,7 @@ static char *ParseReciEnd(char *tok, slice_index proxy)
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  tok = ParseRecigoal_type(tok,&op1,&op2);
+  tok = ParseReciGoal(tok,&op1,&op2);
   if (op1!=no_slice && op2!=no_slice)
   {
     slice_index const reci = alloc_reciprocal_slice(op1,op2);
@@ -2131,7 +2131,7 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
     pipe_link(proxy_help,
               alloc_help_branch(slack_length_help+1,slack_length_help+1,
                                 proxy_next));
-    pipe_link(proxy,series);
+    pipe_set_successor(proxy,series);
   }
 
   TraceFunctionExit(__func__);
@@ -2167,7 +2167,7 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_next)
     slice_index const series = alloc_series_branch(length+1,min_length,
                                                    defense_branch);
     slice_insert_self_guards(defense_branch,proxy_next);
-    pipe_link(proxy,series);
+    pipe_set_successor(proxy,series);
   }
 
   TraceFunctionExit(__func__);
@@ -2205,7 +2205,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
                                                        +slack_length_series,
                                                        min_length,
                                                        proxy_next);
-        pipe_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
       }
     }
   }
@@ -2240,7 +2240,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         pipe_link(mi,guard);
         pipe_link(guard,slices[proxy_next].u.pipe.next);
         pipe_link(proxy_next,mi);
-        pipe_link(proxy,branch);
+        pipe_set_successor(proxy,branch);
         slices[slices[proxy_next].u.pipe.next].starter = White;
 
         set_output_mode(output_mode_line);
@@ -2279,7 +2279,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
             slice_index const branch = alloc_series_branch(length,min_length,
                                                            help);
         
-            pipe_link(proxy,branch);
+            pipe_set_successor(proxy,branch);
           }
 
           slices[next].starter = White;
@@ -2386,7 +2386,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const branch = alloc_series_branch(length+1,min_length,
                                                          proxy_next);
-          pipe_link(proxy,branch);
+          pipe_set_successor(proxy,branch);
           slices[next].starter = Black;
 
           set_output_mode(output_mode_line);

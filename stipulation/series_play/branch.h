@@ -18,7 +18,7 @@ void shorten_series_pipe(slice_index pipe);
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies slice leading towards goal
- * @return index of adapter slice of allocated series branch
+ * @return index of entry slice into allocated series branch
  */
 slice_index alloc_series_branch(stip_length_type length,
                                 stip_length_type min_length,

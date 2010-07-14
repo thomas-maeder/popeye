@@ -35,7 +35,7 @@ void shorten_series_pipe(slice_index pipe)
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @param proxy_to_goal identifies proxy slice leading towards goal
- * @return index of adapter slice of allocated series branch
+ * @return index of entry slice into allocated series branch
  */
 slice_index alloc_series_branch(stip_length_type length,
                                 stip_length_type min_length,
@@ -52,13 +52,10 @@ slice_index alloc_series_branch(stip_length_type length,
   assert(length>slack_length_series);
   assert(slices[proxy_to_goal].type==STProxy);
 
-  result = alloc_proxy_slice();
-
   {
-    slice_index const proxy1 = alloc_proxy_slice();
     slice_index const
         guard1 = alloc_selfcheck_guard_series_filter(length,min_length);
-    slice_index const proxy2 = alloc_proxy_slice();
+    slice_index const proxy = alloc_proxy_slice();
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const fork = alloc_series_fork_slice(length,min_length,
                                                      proxy_to_goal);
@@ -66,18 +63,18 @@ slice_index alloc_series_branch(stip_length_type length,
         guard2 = alloc_selfcheck_guard_series_filter(length,min_length);
     slice_index const inverter = alloc_move_inverter_series_filter();
 
+    result = alloc_proxy_slice();
+
     shorten_series_pipe(fork);
     shorten_series_pipe(guard2);
 
-    pipe_link(proxy1,guard1);
-    pipe_link(guard1,proxy2);
-    pipe_link(proxy2,move);
+    pipe_link(result,guard1);
+    pipe_link(guard1,proxy);
+    pipe_link(proxy,move);
     pipe_link(move,fork);
     pipe_link(fork,guard2);
     pipe_link(guard2,inverter);
-    pipe_link(inverter,proxy1);
-
-    pipe_set_successor(result,proxy1);
+    pipe_link(inverter,result);
   }
 
   TraceFunctionExit(__func__);
