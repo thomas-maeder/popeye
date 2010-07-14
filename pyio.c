@@ -2138,10 +2138,9 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
     slice_index const help = alloc_help_branch(slack_length_help+1,
                                                slack_length_help+1,
                                                proxy_next);
-    slice_index const series = alloc_series_branch(length+1,min_length,
-                                                   proxy_help);
     pipe_set_successor(proxy_help,help);
-    pipe_set_successor(proxy,series);
+    pipe_set_successor(proxy,
+                       alloc_series_branch(length+1,min_length,proxy_help));
   }
 
   TraceFunctionExit(__func__);
@@ -2285,13 +2284,12 @@ static char *ParsePlay(char *tok, slice_index proxy)
           {
             stip_length_type const help_length = slack_length_help+1;
             slice_index const help_proxy = alloc_proxy_slice();
-            slice_index const help = alloc_help_branch(help_length,help_length,
-                                                       defense_branch);
-            slice_index const branch = alloc_series_branch(length,min_length,
-                                                           help_proxy);
-
-            pipe_set_successor(help_proxy,help);
-            pipe_set_successor(proxy,branch);
+            pipe_set_successor(help_proxy,
+                               alloc_help_branch(help_length,help_length,
+                                                 defense_branch));
+            pipe_set_successor(proxy,
+                               alloc_series_branch(length,min_length,
+                                                   help_proxy));
           }
 
           slices[next].starter = White;

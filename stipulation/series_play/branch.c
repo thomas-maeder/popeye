@@ -42,6 +42,7 @@ slice_index alloc_series_branch(stip_length_type length,
                                 slice_index proxy_to_goal)
 {
   slice_index result;
+  slice_index const to_goal = slices[proxy_to_goal].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
@@ -51,6 +52,7 @@ slice_index alloc_series_branch(stip_length_type length,
 
   assert(length>slack_length_series);
   assert(slices[proxy_to_goal].type==STProxy);
+  assert(to_goal!=no_slice);
 
   {
     slice_index const
