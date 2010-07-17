@@ -280,8 +280,8 @@ void stip_traverse_moves_pipe(slice_index si, stip_move_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (next!=no_slice)
-    stip_traverse_moves(next,st);
+  assert(next!=no_slice);
+  stip_traverse_moves(next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
