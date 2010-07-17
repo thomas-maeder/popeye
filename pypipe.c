@@ -169,32 +169,13 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Impose the starting side on a stipulation
- * @param pipe identifies pipe
- * @param st address of structure that holds the state of the traversal
- */
-void pipe_impose_starter(slice_index pipe, stip_structure_traversal *st)
-{
-  Side const * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[pipe].starter = *starter;
-  stip_traverse_structure(slices[pipe].u.pipe.next,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Impose the starting side on a stipulation. Impose the inverted
  * starter on the slice's successor. 
  * @param pipe identifies pipe
  * @param st address of structure that holds the state of the traversal
  */
-void pipe_impose_inverted_starter(slice_index pipe, stip_structure_traversal *st)
+void pipe_impose_inverted_starter(slice_index pipe,
+                                  stip_structure_traversal *st)
 {
   Side * const starter = st->param;
 

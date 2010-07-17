@@ -173,12 +173,6 @@ void stip_traverse_moves_reflex_root_filter(slice_index branch,
 void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
                                                    stip_structure_traversal *st);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void reflex_filter_impose_starter(slice_index si, stip_structure_traversal *st);
-
 /* Instrument a branch with STReflex* slices for a (non-semi)
  * reflex stipulation 
  * @param si root of branch to be instrumented

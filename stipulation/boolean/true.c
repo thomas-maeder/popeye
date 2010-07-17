@@ -59,25 +59,6 @@ has_solution_type leaf_solve(slice_index si)
   return result;
 }
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void leaf_impose_starter(slice_index si, stip_structure_traversal *st)
-{
-  Side const * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Insert root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal

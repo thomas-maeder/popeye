@@ -42,12 +42,6 @@ stip_length_type self_defense_solve_in_n(slice_index si,
                                          stip_length_type n_min,
                                          stip_length_type n_max_unsolvable);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void self_defense_impose_starter(slice_index si, stip_structure_traversal *st);
-
 /* Instrument a branch with STSelfAttack and STSelfDefense slices
  * @param si root of branch to be instrumented
  * @param proxy_to_goal identifies slice leading towards goal

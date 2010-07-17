@@ -40,10 +40,4 @@ has_solution_type quodlibet_solve(slice_index si);
  */
 void quodlibet_detect_starter(slice_index si, stip_structure_traversal *st);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void quodlibet_impose_starter(slice_index si, stip_structure_traversal *st);
-
 #endif

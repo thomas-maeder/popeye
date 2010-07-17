@@ -836,29 +836,6 @@ stip_length_type reflex_series_filter_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* **************** Implementation of interface Slice ***************
- */
-
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void reflex_filter_impose_starter(slice_index si, stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[si].starter = *starter;
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* **************** Stipulation instrumentation ***************
  */

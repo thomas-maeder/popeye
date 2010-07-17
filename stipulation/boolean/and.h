@@ -41,10 +41,4 @@ has_solution_type reci_solve(slice_index si);
  */
 void reci_detect_starter(slice_index si, stip_structure_traversal *st);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void reci_impose_starter(slice_index si, stip_structure_traversal *st);
-
 #endif
