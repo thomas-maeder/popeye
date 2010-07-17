@@ -16,6 +16,12 @@ stipulation/battle_play/attack_move.h:
 stipulation/battle_play/defense_move.h:
 
 trace.h:
+stipulation/battle_play/fork$(OBJ_SUFFIX): stipulation/battle_play/fork.c \
+  stipulation/battle_play/fork.h trace.h
+
+stipulation/battle_play/fork.h:
+
+trace.h:
 stipulation/battle_play/attack_root$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_root.c \
   stipulation/battle_play/attack_root.h pydata.h pypipe.h \

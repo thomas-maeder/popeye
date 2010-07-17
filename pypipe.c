@@ -267,3 +267,22 @@ has_solution_type pipe_has_solution(slice_index pipe)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Traversal of the moves of some pipe slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_pipe(slice_index si, stip_move_traversal *st)
+{
+  slice_index const next = slices[si].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (next!=no_slice)
+    stip_traverse_moves(next,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

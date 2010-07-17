@@ -23,6 +23,24 @@ slice_index alloc_series_not_last_move_slice(void)
   return result;
 }
 
+/* Traversal of the moves beyond a STSeriesNotLastMove slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_not_last_move(slice_index si,
+                                              stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining>slack_length_series+1)
+    stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index
  * @param n exact number of moves to reach the end state

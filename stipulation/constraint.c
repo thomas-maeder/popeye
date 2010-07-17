@@ -155,6 +155,43 @@ void reflex_attacker_filter_insert_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Traversal of the moves beyond a reflex attacker filter slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_reflex_attack_filter(slice_index si,
+                                              stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==0)
+  {
+    st->full_length = slices[si].u.reflex_guard.length;
+    TraceValue("->%u",st->full_length);
+    st->remaining = slices[si].u.reflex_guard.length;
+  }
+
+  TraceValue("%u\n",st->remaining);
+  if (st->remaining==slices[si].u.reflex_guard.length)
+  {
+    stip_length_type const save_remaining = st->remaining;
+    stip_length_type const save_full_length = st->full_length;
+    ++st->level;
+    st->remaining = 0;
+    stip_traverse_moves(slices[si].u.reflex_guard.avoided,st);
+    st->full_length = save_full_length;
+    st->remaining = save_remaining;
+    --st->level;
+  }
+
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved
@@ -316,6 +353,18 @@ void reflex_root_filter_reduce_to_postkey_play(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Traverse the moves beyond a reflex root filter
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_moves_reflex_root_filter(slice_index si,
+                                            stip_move_traversal *st)
+{
+  stip_traverse_moves_pipe(si,st);
+  stip_traverse_moves(slices[si].u.reflex_guard.avoided,st);
+}
+
 
 /* **************** Implementation of interface defender_filter **********
  */

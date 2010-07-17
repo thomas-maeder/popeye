@@ -67,3 +67,29 @@ slice_index branch_find_slice(SliceType type, slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
+
+/* Traversal of the moves of some branch slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==0)
+  {
+    st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u",st->full_length);
+    st->remaining = slices[si].u.branch.length;
+  }
+  
+  --st->remaining;
+  TraceValue("->%u\n",st->remaining);
+  stip_traverse_moves_pipe(si,st);
+  ++st->remaining;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

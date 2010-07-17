@@ -63,6 +63,41 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Traversal of the moves beyond a help fork slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_help_fork(slice_index si, stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==0)
+  {
+    st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u\n",st->full_length);
+    st->remaining = slices[si].u.branch.length;
+  }
+
+  if (st->remaining==slack_length_help)
+  {
+    stip_length_type const save_remaining = st->remaining;
+    stip_length_type const save_full_length = st->full_length;
+    ++st->level;
+    st->remaining = 0;
+    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
+    st->full_length = save_full_length;
+    st->remaining = save_remaining;
+    --st->level;
+  }
+  else
+    stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

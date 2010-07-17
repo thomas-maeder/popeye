@@ -13,6 +13,13 @@
  */
 slice_index alloc_series_not_last_move_slice(void);
 
+/* Traversal of the moves beyond a STSeriesNotLastMove slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_not_last_move(slice_index si,
+                                              stip_move_traversal *st);
+
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

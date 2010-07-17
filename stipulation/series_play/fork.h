@@ -24,6 +24,13 @@ slice_index alloc_series_fork_slice(stip_length_type length,
 void series_fork_make_setplay_slice(slice_index si,
                                     stip_structure_traversal *st);
 
+/* Traversal of the moves beyond a series fork slice 
+ * fork slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_fork(slice_index si, stip_move_traversal *st);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

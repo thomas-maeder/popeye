@@ -17,6 +17,12 @@ slice_index alloc_series_OR_slice(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index proxy_to_goal);
 
+/* Traversal of the moves beyond a series OR slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_series_OR(slice_index si, stip_move_traversal *st);
+
 /* Solve in a number of half-moves
  * @param si identifies slice
  * @param n exact number of half moves until end state has to be reached

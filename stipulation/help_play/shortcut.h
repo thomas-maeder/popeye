@@ -28,6 +28,13 @@ slice_index alloc_help_shortcut(stip_length_type length,
 void help_shortcut_resolve_proxies(slice_index si,
                                    stip_structure_traversal *st);
 
+/* Traversal of the moves beyond a help shortcut slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_help_shortcut(slice_index si,
+                                       stip_move_traversal *st);
+
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

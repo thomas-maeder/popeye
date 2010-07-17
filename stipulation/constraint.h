@@ -158,6 +158,13 @@ void reflex_defender_filter_apply_setplay(slice_index si,
 void reflex_root_filter_reduce_to_postkey_play(slice_index si,
                                                stip_structure_traversal *st);
 
+/* Traverse the moves beyond a reflex root filter
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_moves_reflex_root_filter(slice_index branch,
+                                            stip_move_traversal *st);
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
@@ -198,6 +205,13 @@ void slice_insert_reflex_filters_semi(slice_index si,
  */
 void reflex_attacker_filter_insert_root(slice_index si,
                                         stip_structure_traversal *st);
+
+/* Traversal of the moves beyond a reflex attacker filter slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_reflex_attack_filter(slice_index si,
+                                              stip_move_traversal *st);
 
 /* Insert root slices
  * @param si identifies (non-root) slice

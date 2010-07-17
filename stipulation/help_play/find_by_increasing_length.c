@@ -37,6 +37,30 @@ slice_index alloc_help_root_slice(stip_length_type length,
   return result;
 }
 
+/* Traversal of the moves beyond a help root slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_help_root(slice_index si, stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+
+  if (st->remaining==0)
+  {
+    st->full_length = slices[si].u.branch.length;
+    TraceValue("->%u\n",st->full_length);
+    st->remaining = slices[si].u.branch.length;
+  }
+
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
