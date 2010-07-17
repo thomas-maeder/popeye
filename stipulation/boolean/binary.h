@@ -32,4 +32,10 @@ void stip_traverse_structure_binary(slice_index fork,
  */
 void stip_traverse_moves_binary(slice_index si, stip_move_traversal *st);
 
+/* Determine contribution of slice subtree to maximum number of moves
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void get_max_nr_moves_binary(slice_index si, stip_move_traversal *st);
+
 #endif

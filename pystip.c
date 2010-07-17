@@ -1308,7 +1308,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void get_max_nr_moves_branch(slice_index si, stip_move_traversal *st)
+static void get_max_nr_moves_move(slice_index si, stip_move_traversal *st)
 {
   stip_length_type * const result = st->param;
 
@@ -1319,39 +1319,7 @@ static void get_max_nr_moves_branch(slice_index si, stip_move_traversal *st)
   ++*result;
   TraceValue("%u\n",*result);
 
-  stip_traverse_moves_branch(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine contribution of slice subtree to maximum number of moves
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void get_max_nr_moves_binary(slice_index si, stip_move_traversal *st)
-{
-  stip_length_type * const result = st->param;
-  stip_length_type const save_result = *result;
-  stip_length_type result1;
-  stip_length_type result2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_binary_operand(slices[si].u.binary.op1,st);
-  result1 = *result;
-  TraceValue("%u\n",result1);
-
-  *result = save_result;
-  stip_traverse_moves_binary_operand(slices[si].u.binary.op2,st);
-  result2 = *result;
-  TraceValue("%u\n",result2);
-
-  if (result1>result2)
-    *result = result1;
-  TraceValue("%u\n",*result);
+  stip_traverse_moves_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1360,12 +1328,12 @@ static void get_max_nr_moves_binary(slice_index si, stip_move_traversal *st)
 static stip_move_visitor const get_max_nr_moves_functions[] =
 {
   &stip_traverse_moves_children, /* STProxy */
-  &get_max_nr_moves_branch,      /* STAttackMove */
-  &get_max_nr_moves_branch,      /* STDefenseMove */
-  &get_max_nr_moves_branch,      /* STHelpMove */
+  &get_max_nr_moves_move,        /* STAttackMove */
+  &get_max_nr_moves_move,        /* STDefenseMove */
+  &get_max_nr_moves_move,        /* STHelpMove */
   &stip_traverse_moves_children, /* STHelpFork */
-  &get_max_nr_moves_branch,      /* STSeriesMove */
-  &get_max_nr_moves_branch,      /* STSeriesMoveToGoal */
+  &get_max_nr_moves_move,        /* STSeriesMove */
+  &get_max_nr_moves_move,        /* STSeriesMoveToGoal */
   &stip_traverse_moves_children, /* STSeriesNotLastMove */
   &stip_traverse_moves_children, /* STSeriesOnlyLastMove */
   &stip_traverse_moves_children, /* STSeriesFork */
@@ -1378,7 +1346,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_moves_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_children, /* STMoveInverterSeriesFilter */
-  &get_max_nr_moves_branch,      /* STAttackRoot */
+  &get_max_nr_moves_move,        /* STAttackRoot */
   &stip_traverse_moves_children, /* STDefenseRoot */
   &stip_traverse_moves_children, /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_children, /* STContinuationSolver */
@@ -3412,8 +3380,8 @@ static stip_moves_visitor const moves_children_traversers[] =
   &stip_traverse_moves_pipe,                  /* STMoveInverterRootSolvableFilter */
   &stip_traverse_moves_pipe,                  /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                  /* STMoveInverterSeriesFilter */
-  &stip_traverse_moves_pipe,                  /* STAttackRoot */
-  &stip_traverse_moves_pipe,                  /* STDefenseRoot */
+  &stip_traverse_moves_branch,                /* STAttackRoot */
+  &stip_traverse_moves_branch,                /* STDefenseRoot */
   &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                  /* STContinuationSolver */
   &stip_traverse_moves_pipe,                  /* STContinuationWriter */
