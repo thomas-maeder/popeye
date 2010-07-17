@@ -50,7 +50,7 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.branch_fork.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     slice_index * const root = st->param;
@@ -61,6 +61,17 @@ void help_fork_insert_root(slice_index si, stip_structure_traversal *st)
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_help_fork(slice_index branch,
+                                       stip_structure_traversal *st)
+{
+  stip_traverse_structure_pipe(branch,st);
+  stip_traverse_structure(slices[branch].u.branch_fork.towards_goal,st);
 }
 
 /* Traversal of the moves beyond a help fork slice 

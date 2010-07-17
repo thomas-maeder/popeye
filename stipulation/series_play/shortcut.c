@@ -55,6 +55,25 @@ void series_shortcut_resolve_proxies(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_series_shortcut(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure(slices[si].u.shortcut.short_sols,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traversal of the moves beyond a series shortcut slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

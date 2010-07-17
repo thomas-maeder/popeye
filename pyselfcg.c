@@ -194,7 +194,7 @@ void selfcheck_guard_attacker_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   root_filter = alloc_selfcheck_guard_root_solvable_filter();
   pipe_link(root_filter,*root);
@@ -220,16 +220,16 @@ selfcheckguard_defender_filter_reduce_to_postkey_play(slice_index si,
                                                       stip_structure_traversal *st)
 {
   slice_index *postkey_slice = st->param;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
-    slice_index const root_filter = alloc_selfcheck_guard_root_solvable_filter();
+    slice_index const
+        root_filter = alloc_selfcheck_guard_root_solvable_filter();
     pipe_link(root_filter,*postkey_slice);
     *postkey_slice = root_filter;
 
@@ -337,7 +337,7 @@ selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   if (*result!=no_slice)
   {
@@ -367,7 +367,7 @@ void selfcheck_guard_defender_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   root_filter = alloc_selfcheck_guard_defender_filter(length,min_length);
   pipe_link(root_filter,*root);
@@ -458,7 +458,7 @@ void selfcheck_guard_help_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   if (*result!=no_slice)
   {
@@ -482,7 +482,7 @@ void selfcheck_guard_help_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.branch_fork.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     slice_index * const root = st->param;
@@ -573,7 +573,7 @@ void selfcheck_guard_series_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.branch_fork.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     slice_index * const root = st->param;
@@ -598,13 +598,11 @@ void selfcheck_guard_series_insert_root(slice_index si,
 void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
                                                                 stip_structure_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);
@@ -730,7 +728,7 @@ void selfcheck_guard_solvable_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

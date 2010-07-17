@@ -303,8 +303,8 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   pygoal.h py.h stipulation/proxy.h pypipe.h trace.h pyoutput.h pytable.h \
   conditions/exclusive.h pyposit.h conditions/republican.h pyproc.h \
   platform/maxmem.h platform/maxtime.h platform/pytime.h \
-  platform/priority.h stipulation/battle_play/try.h pytable.h \
-  stipulation/battle_play/defense_play.h \
+  platform/priority.h stipulation/branch.h stipulation/battle_play/try.h \
+  pytable.h stipulation/battle_play/defense_play.h \
   stipulation/battle_play/postkeyplay.h \
   stipulation/battle_play/attack_play.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/threat.h \
@@ -417,6 +417,8 @@ platform/maxtime.h:
 platform/pytime.h:
 
 platform/priority.h:
+
+stipulation/branch.h:
 
 stipulation/battle_play/try.h:
 
@@ -2115,16 +2117,12 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
-  pystip.h pyoutput.h pytable.h output/plaintext/plaintext.h py.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
+  pyoutput.h pytable.h output/plaintext/plaintext.h py.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2141,6 +2139,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

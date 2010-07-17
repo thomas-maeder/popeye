@@ -114,7 +114,7 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    stip_traverse_structure(slices[si].u.pipe.next,st);
+    stip_traverse_structure_pipe(si,st);
     slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
   }
 

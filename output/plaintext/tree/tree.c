@@ -59,14 +59,13 @@ static void instrument_self_defense(slice_index si,
 {
   variation_writer_insertion_state_type const
       save_state = variation_writer_insertion_state;
-  slice_index const next = slices[si].u.branch_fork.next;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
   variation_writer_insertion_state = save_state;
   stip_traverse_structure(to_goal,st);
 
@@ -113,7 +112,7 @@ static void instrument_goal_reached_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   *goal = slices[si].u.goal_reached_tester.goal;
-  pipe_traverse_next(si,st);
+  stip_traverse_structure_children(si,st);
   *goal = save_goal;
 
   if (variation_writer_insertion_state==variation_writer_needed)
@@ -157,7 +156,7 @@ static void instrument_attack_move(slice_index si,
   variation_writer_insertion_state = variation_writer_none;
   check_detector_defender_filter_inseration_state
       = check_detector_defender_filter_needed;
-  pipe_traverse_next(si,st);
+  stip_traverse_structure_children(si,st);
   check_detector_defender_filter_inseration_state
       = save_detector_state;
   variation_writer_insertion_state = save_var_state;

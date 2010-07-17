@@ -217,7 +217,6 @@ void continuation_solver_insert_defender_filter(slice_index si,
 {
   continuation_handler_insertion_state * const state = st->param;
   continuation_handler_insertion_state const save_state = *state;
-  slice_index const next = slices[si].u.branch_fork.next;
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
@@ -234,7 +233,7 @@ void continuation_solver_insert_defender_filter(slice_index si,
                 alloc_continuation_solver_slice(slack_length_battle,
                                                 slack_length_battle));
   *state = save_state;
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

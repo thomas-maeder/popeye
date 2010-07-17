@@ -23,6 +23,13 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  */
 void help_fork_insert_root(slice_index si, stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_help_fork(slice_index branch,
+                                       stip_structure_traversal *st);
+
 /* Traversal of the moves beyond a help fork slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

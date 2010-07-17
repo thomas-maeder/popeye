@@ -53,7 +53,7 @@ void self_defense_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     stip_length_type const length = slices[si].u.branch.length;
@@ -210,7 +210,7 @@ void self_defense_impose_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   slices[si].starter = *starter;
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
   stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
 
   TraceFunctionExit(__func__);

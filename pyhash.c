@@ -494,7 +494,7 @@ static void init_slice_properties_pipe(slice_index pipe,
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(pipe,st);
   slice_properties[pipe].valueOffset = slice_properties[next].valueOffset;
   TraceValue("%u",pipe);
   TraceValue("%u\n",slice_properties[pipe].valueOffset);

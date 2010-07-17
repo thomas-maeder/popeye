@@ -339,10 +339,10 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_structure_visitor_noop,         /* STNoShortVariations */
   &stip_traverse_structure_children,    /* STAttackHashed */
   &stip_traverse_structure_children,    /* STHelpRoot */
-  &pipe_traverse_next,                  /* STHelpShortcut */
+  &stip_traverse_structure_pipe,        /* STHelpShortcut */
   &stip_traverse_structure_children,    /* STHelpHashed */
   &stip_traverse_structure_children,    /* STSeriesRoot */
-  &pipe_traverse_next,                  /* STSeriesShortcut */
+  &stip_traverse_structure_pipe,        /* STSeriesShortcut */
   &stip_traverse_structure_children,    /* STParryFork */
   &stip_traverse_structure_children,    /* STSeriesHashed */
   &stip_traverse_structure_children,    /* STSelfCheckGuardRootSolvableFilter */

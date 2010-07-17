@@ -133,7 +133,6 @@ void reflex_attacker_filter_insert_root(slice_index si,
                                         stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
   slice_index guard;
 
@@ -145,7 +144,7 @@ void reflex_attacker_filter_insert_root(slice_index si,
   guard = alloc_reflex_root_filter(*root);
   *root = no_slice;
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
   pipe_link(guard,*root);
   *root = guard;
 
@@ -335,14 +334,13 @@ void reflex_root_filter_reduce_to_postkey_play(slice_index si,
                                                stip_structure_traversal *st)
 {
   slice_index *postkey_slice = st->param;
-  slice_index const next = slices[si].u.pipe.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
 
   if (*postkey_slice!=no_slice)
   {
@@ -411,7 +409,6 @@ void reflex_defender_filter_insert_root(slice_index si,
   slice_index root_filter;
   stip_length_type const length = slices[si].u.reflex_guard.length;
   stip_length_type const min_length = slices[si].u.reflex_guard.min_length;
-  slice_index const next = slices[si].u.reflex_guard.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
 
   TraceFunctionEntry(__func__);
@@ -420,7 +417,7 @@ void reflex_defender_filter_insert_root(slice_index si,
 
   root_filter = alloc_reflex_defender_filter(length,min_length,avoided);
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
 
   pipe_link(root_filter,*root);
   *root = root_filter;
@@ -535,7 +532,7 @@ reflex_guard_defender_filter_make_setplay_slice(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     slice_index const guard = alloc_reflex_help_filter(length_h,length_h,
@@ -624,7 +621,7 @@ void reflex_help_filter_insert_root(slice_index si,
   guard = alloc_reflex_root_filter(*root);
   *root = no_slice;
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
   pipe_link(guard,*root);
   *root = guard;
 
@@ -756,7 +753,7 @@ void reflex_series_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     slice_index const guard = alloc_reflex_root_filter(avoided);
@@ -940,7 +937,7 @@ static void reflex_guards_inserter_branch_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   /* don't traverse .avoided! */
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1284,4 +1281,16 @@ void slice_insert_reflex_filters_semi(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_reflex_filter(slice_index branch,
+                                           stip_structure_traversal *st)
+{
+  slice_index const avoided = slices[branch].u.reflex_guard.avoided;
+  stip_traverse_structure_pipe(branch,st);
+  stip_traverse_structure(avoided,st);
 }

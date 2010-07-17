@@ -99,7 +99,7 @@ void move_inverter_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
     slice_index const

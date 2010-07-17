@@ -97,9 +97,8 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
     stip_traverse_structure(towards_goal,st);
     if (slices[towards_goal].starter==no_side)
     {
-      slice_index const next = slices[si].u.pipe.next;
-      stip_traverse_structure(next,st);
-      slices[si].starter = slices[next].starter;
+      stip_traverse_structure_pipe(si,st);
+      slices[si].starter = slices[slices[si].u.pipe.next].starter;
     }
     else
       slices[si].starter = slices[towards_goal].starter;

@@ -51,7 +51,7 @@ void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   attack_root = alloc_attack_root_slice(length,min_length);
   pipe_link(attack_root,*root);
@@ -414,7 +414,7 @@ void attack_move_detect_starter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==no_side)
   {
-    stip_traverse_structure(slices[si].u.pipe.next,st);
+    stip_traverse_structure_pipe(si,st);
     slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
   }
 

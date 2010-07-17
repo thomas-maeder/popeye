@@ -241,4 +241,11 @@ void reflex_series_filter_insert_root(slice_index si,
 void reflex_filter_resolve_proxies(slice_index si,
                                    stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_reflex_filter(slice_index branch,
+                                           stip_structure_traversal *st);
+
 #endif

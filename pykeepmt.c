@@ -498,8 +498,9 @@ static void keepmating_guards_inserter_reciprocal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_guards_inserter_branch_fork(slice_index si,
-                                                   stip_structure_traversal *st)
+static
+void keepmating_guards_inserter_branch_fork(slice_index si,
+                                            stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -510,7 +511,7 @@ static void keepmating_guards_inserter_branch_fork(slice_index si,
    * goal(s).
    */
   stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-  stip_traverse_structure(slices[si].u.pipe.next,st);
+  stip_traverse_structure_pipe(si,st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -555,8 +556,9 @@ static void keepmating_guards_inserter_defender(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_guards_inserter_battle_fork(slice_index si,
-                                                   stip_structure_traversal *st)
+static
+void keepmating_guards_inserter_battle_fork(slice_index si,
+                                            stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -564,7 +566,7 @@ static void keepmating_guards_inserter_battle_fork(slice_index si,
 
   /* towards goal first, to detect the mating side */
   stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-  stip_traverse_structure(slices[si].u.branch_fork.next,st);
+  stip_traverse_structure_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

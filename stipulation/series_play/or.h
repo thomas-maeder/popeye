@@ -17,6 +17,13 @@ slice_index alloc_series_OR_slice(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index proxy_to_goal);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_series_OR(slice_index branch,
+                                       stip_structure_traversal *st);
+
 /* Traversal of the moves beyond a series OR slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

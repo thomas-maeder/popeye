@@ -103,14 +103,13 @@ has_solution_type attack_root_solve(slice_index si)
 void attack_root_reduce_to_postkey_play(slice_index si,
                                         stip_structure_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
   slice_index const *postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
 
   if (*postkey_slice!=no_slice)
     dealloc_slice(si);

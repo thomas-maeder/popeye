@@ -51,6 +51,17 @@ void series_fork_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_series_fork(slice_index branch,
+                                         stip_structure_traversal *st)
+{
+  stip_traverse_structure_pipe(branch,st);
+  stip_traverse_structure(slices[branch].u.branch_fork.towards_goal,st);
+}
+
 /* Traversal of the moves beyond a series fork slice 
  * fork slice 
  * @param si identifies root of subtree

@@ -68,13 +68,6 @@ void pipe_impose_starter(slice_index pipe, stip_structure_traversal *st);
  */
 void pipe_impose_inverted_starter(slice_index pipe, stip_structure_traversal *st);
 
-/* Traverse the sub-graph starting at the successor slice of a pipe
- * slice (but don't traverse possible other children of the pipe
- * slice)
- * @param pipe identifies pipe slice
- */
-void pipe_traverse_next(slice_index pipe, stip_structure_traversal *st);
-
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal
@@ -86,6 +79,13 @@ void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st);
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type pipe_has_solution(slice_index pipe);
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_pipe(slice_index pipe,
+                                  stip_structure_traversal *st);
 
 /* Traversal of the moves of some pipe slice
  * @param si identifies root of subtree

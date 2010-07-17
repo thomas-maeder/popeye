@@ -149,7 +149,6 @@ void direct_defender_filter_insert_root(slice_index si,
   slice_index root_filter;
   stip_length_type const length = slices[si].u.branch_fork.length;
   stip_length_type const min_length = slices[si].u.branch_fork.min_length;
-  slice_index const next = slices[si].u.branch_fork.next;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
@@ -161,7 +160,7 @@ void direct_defender_filter_insert_root(slice_index si,
 
   *root = no_slice;
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
 
   pipe_link(root_filter,*root);
   *root = root_filter;
@@ -177,16 +176,15 @@ void direct_defender_filter_insert_root(slice_index si,
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void direct_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                   stip_structure_traversal *st)
+void
+direct_defender_filter_reduce_to_postkey_play(slice_index si,
+                                              stip_structure_traversal *st)
 {
-  slice_index const next = slices[si].u.pipe.next;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(next,st);
+  stip_traverse_structure_pipe(si,st);
   dealloc_slices(slices[si].u.branch_fork.towards_goal);
   dealloc_slice(si);
 

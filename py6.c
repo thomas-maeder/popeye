@@ -123,6 +123,7 @@
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"

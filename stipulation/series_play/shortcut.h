@@ -28,6 +28,13 @@ slice_index alloc_series_shortcut(stip_length_type length,
 void series_shortcut_resolve_proxies(slice_index si,
                                      stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_series_shortcut(slice_index si,
+                                             stip_structure_traversal *st);
+
 /* Traversal of the moves beyond a series shortcut slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

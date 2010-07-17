@@ -44,4 +44,11 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
  */
 void parry_fork_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_parry_fork(slice_index branch,
+                                        stip_structure_traversal *st);
+
 #endif

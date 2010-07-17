@@ -140,3 +140,15 @@ void parry_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Traverse a subtree
+ * @param branch root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_parry_fork(slice_index branch,
+                                        stip_structure_traversal *st)
+{
+  slice_index const parrying = slices[branch].u.parry_fork.parrying;
+  stip_traverse_structure_pipe(branch,st);
+  stip_traverse_structure(parrying,st);
+}

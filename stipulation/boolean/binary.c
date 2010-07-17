@@ -20,6 +20,25 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Traverse a subtree
+ * @param fork root slice of subtree
+ * @param st address of structure defining traversal
+ */
+void stip_traverse_structure_binary(slice_index fork,
+                                    stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",fork);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(slices[fork].u.binary.op1,st);
+  stip_traverse_structure(slices[fork].u.binary.op2,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traversal of the moves of an operand of a binary operator
  * @param op identifies operand
  * @param st address of structure representing traversal
