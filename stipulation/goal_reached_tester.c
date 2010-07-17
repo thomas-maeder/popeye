@@ -216,12 +216,12 @@ has_solution_type goal_reached_tester_solve(slice_index si)
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void goal_reached_tester_insert_root(slice_index si,
-                                     stip_structure_traversal *st)
+void goal_reached_tester_make_root(slice_index si,
+                                   stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   slice_index copy;

@@ -57,11 +57,11 @@ void series_move_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void series_move_insert_root(slice_index si, stip_structure_traversal *st)
+void series_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 

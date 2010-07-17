@@ -112,12 +112,12 @@ stip_length_type selfcheck_guard_solve_in_n(slice_index si,
                                             stip_length_type n,
                                             stip_length_type n_min,
                                             stip_length_type n_max_unsolvable);
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_attacker_filter_insert_root(slice_index si,
-                                                 stip_structure_traversal *st);
+void selfcheck_guard_attacker_filter_make_root(slice_index si,
+                                               stip_structure_traversal *st);
 
 /* Determine whether a slice has a solution
  * @param si slice index
@@ -125,11 +125,11 @@ void selfcheck_guard_attacker_filter_insert_root(slice_index si,
  */
 has_solution_type selfcheck_guard_has_solution(slice_index si);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_solvable_filter_insert_root(slice_index si,
+void selfcheck_guard_solvable_filter_make_root(slice_index si,
                                                  stip_structure_traversal *st);
 
 /* Try to defend after an attacking move
@@ -176,12 +176,12 @@ void
 selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
                                                    stip_structure_traversal *st);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_defender_filter_insert_root(slice_index si,
-                                                 stip_structure_traversal *st);
+void selfcheck_guard_defender_filter_make_root(slice_index si,
+                                               stip_structure_traversal *st);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
@@ -232,11 +232,11 @@ stip_length_type selfcheck_guard_help_has_solution_in_n(slice_index si,
 void selfcheck_guard_help_make_setplay_slice(slice_index si,
                                              stip_structure_traversal *st);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_help_insert_root(slice_index si,
+void selfcheck_guard_help_make_root(slice_index si,
                                       stip_structure_traversal *st);
 
 /* Solve in a number of half-moves
@@ -263,11 +263,11 @@ stip_length_type selfcheck_guard_series_solve_in_n(slice_index si,
 stip_length_type selfcheck_guard_series_has_solution_in_n(slice_index si,
                                                           stip_length_type n);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_series_insert_root(slice_index si,
+void selfcheck_guard_series_make_root(slice_index si,
                                         stip_structure_traversal *st);
 
 #endif

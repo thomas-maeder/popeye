@@ -180,27 +180,25 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_attacker_filter_insert_root(slice_index si,
-                                                 stip_structure_traversal *st)
+void selfcheck_guard_attacker_filter_make_root(slice_index si,
+                                               stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
-  slice_index root_filter;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
 
-  root_filter = alloc_selfcheck_guard_root_solvable_filter();
-  pipe_link(root_filter,*root);
-  *root = root_filter;
-
-  battle_branch_shorten_slice(si);
+  {
+    slice_index * const root = st->param;
+    slice_index const root_new = alloc_selfcheck_guard_root_solvable_filter();
+    pipe_link(root_new,*root);
+    *root = root_new;
+  }
  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -351,12 +349,12 @@ selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_defender_filter_insert_root(slice_index si,
-                                                 stip_structure_traversal *st)
+void selfcheck_guard_defender_filter_make_root(slice_index si,
+                                               stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -372,8 +370,6 @@ void selfcheck_guard_defender_filter_insert_root(slice_index si,
   root_filter = alloc_selfcheck_guard_defender_filter(length,min_length);
   pipe_link(root_filter,*root);
   *root = root_filter;
- 
-  battle_branch_shorten_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -471,11 +467,11 @@ void selfcheck_guard_help_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_help_insert_root(slice_index si,
+void selfcheck_guard_help_make_root(slice_index si,
                                       stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -562,11 +558,11 @@ stip_length_type selfcheck_guard_series_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void selfcheck_guard_series_insert_root(slice_index si,
+void selfcheck_guard_series_make_root(slice_index si,
                                         stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -715,21 +711,4 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Insert root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void selfcheck_guard_solvable_filter_insert_root(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

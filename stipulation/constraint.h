@@ -193,12 +193,12 @@ void slice_insert_reflex_filters(slice_index si,
 void slice_insert_reflex_filters_semi(slice_index si,
                                       slice_index proxy_to_avoided);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_attacker_filter_insert_root(slice_index si,
-                                        stip_structure_traversal *st);
+void reflex_attacker_filter_make_root(slice_index si,
+                                      stip_structure_traversal *st);
 
 /* Traversal of the moves beyond a reflex attacker filter slice 
  * @param si identifies root of subtree
@@ -207,25 +207,25 @@ void reflex_attacker_filter_insert_root(slice_index si,
 void stip_traverse_moves_reflex_attack_filter(slice_index si,
                                               stip_move_traversal *st);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_defender_filter_insert_root(slice_index si,
-                                        stip_structure_traversal *st);
+void reflex_defender_filter_make_root(slice_index si,
+                                      stip_structure_traversal *st);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_help_filter_insert_root(slice_index si,
+void reflex_help_filter_make_root(slice_index si,
                                     stip_structure_traversal *st);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_series_filter_insert_root(slice_index si,
+void reflex_series_filter_make_root(slice_index si,
                                       stip_structure_traversal *st);
 
 /* Substitute links to proxy slices by the proxy's target

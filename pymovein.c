@@ -87,11 +87,11 @@ void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void move_inverter_insert_root(slice_index si, stip_structure_traversal *st)
+void move_inverter_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 

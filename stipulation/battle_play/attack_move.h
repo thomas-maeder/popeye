@@ -17,11 +17,11 @@
 slice_index alloc_attack_move_slice(stip_length_type length,
                                     stip_length_type min_length);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void attack_move_insert_root(slice_index si, stip_structure_traversal *st);
+void attack_move_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.

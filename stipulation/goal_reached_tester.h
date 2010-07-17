@@ -33,11 +33,11 @@ has_solution_type goal_reached_tester_has_solution(slice_index si);
  */
 has_solution_type goal_reached_tester_solve(slice_index si);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void goal_reached_tester_insert_root(slice_index si,
-                                     stip_structure_traversal *st);
+void goal_reached_tester_make_root(slice_index si,
+                                   stip_structure_traversal *st);
 
 #endif

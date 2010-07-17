@@ -320,6 +320,8 @@ slice_index stip_deep_copy(slice_index si);
  */
 void assert_no_leaked_slices(void);
 
+slice_index stip_make_root_slices(slice_index si);
+
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
  */

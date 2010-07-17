@@ -30,11 +30,11 @@ void defense_move_make_setplay_slice(slice_index si,
 void defense_move_reduce_to_postkey_play(slice_index si,
                                          stip_structure_traversal *st);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void defense_move_insert_root(slice_index si, stip_structure_traversal *st);
+void defense_move_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

@@ -21,11 +21,11 @@ slice_index alloc_series_move_to_goal_slice(Goal goal);
 void series_move_to_goal_detect_starter(slice_index si,
                                         stip_structure_traversal *st);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void series_move_to_goal_insert_root(slice_index si,
+void series_move_to_goal_make_root(slice_index si,
                                      stip_structure_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation

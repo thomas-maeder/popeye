@@ -78,11 +78,11 @@ void defense_move_reduce_to_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void defense_move_insert_root(slice_index si, stip_structure_traversal *st)
+void defense_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -95,8 +95,6 @@ void defense_move_insert_root(slice_index si, stip_structure_traversal *st)
     *root = alloc_defense_move_slice(length,min_length);
     pipe_set_successor(*root,slices[si].u.pipe.next);
   }
-  
-  battle_branch_shorten_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

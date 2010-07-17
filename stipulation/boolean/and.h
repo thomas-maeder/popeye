@@ -16,11 +16,11 @@
  */
 slice_index alloc_reciprocal_slice(slice_index proxy1, slice_index proxy2);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reci_insert_root(slice_index si, stip_structure_traversal *st);
+void reci_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Determine whether there is a solution at the end of a reciprocal
  * slice. 

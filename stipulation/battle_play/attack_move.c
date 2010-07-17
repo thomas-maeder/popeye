@@ -36,11 +36,11 @@ slice_index alloc_attack_move_slice(stip_length_type length,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void attack_move_insert_root(slice_index si, stip_structure_traversal *st)
+void attack_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   stip_length_type const length = slices[si].u.branch.length;

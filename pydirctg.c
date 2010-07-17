@@ -138,34 +138,32 @@ direct_defender_filter_can_defend_in_n(slice_index si,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void direct_defender_filter_insert_root(slice_index si,
-                                        stip_structure_traversal *st)
+void direct_defender_filter_make_root(slice_index si,
+                                      stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   slice_index root_filter;
   stip_length_type const length = slices[si].u.branch_fork.length;
   stip_length_type const min_length = slices[si].u.branch_fork.min_length;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index root_to_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(to_goal,st);
-  root_filter = alloc_direct_defender_filter_slice(length,min_length,*root);
-
-  *root = no_slice;
+  root_to_goal = stip_make_root_slices(to_goal);
+  root_filter = alloc_direct_defender_filter_slice(length,min_length,
+                                                   root_to_goal);
 
   stip_traverse_structure_pipe(si,st);
 
   pipe_link(root_filter,*root);
   *root = root_filter;
-
-  battle_branch_shorten_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

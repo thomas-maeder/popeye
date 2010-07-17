@@ -125,12 +125,12 @@ static slice_index alloc_reflex_attacker_filter(stip_length_type length,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_attacker_filter_insert_root(slice_index si,
-                                        stip_structure_traversal *st)
+void reflex_attacker_filter_make_root(slice_index si,
+                                      stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
@@ -140,15 +140,11 @@ void reflex_attacker_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(avoided,st);
-  guard = alloc_reflex_root_filter(*root);
-  *root = no_slice;
+  guard = alloc_reflex_root_filter(stip_make_root_slices(avoided));
 
   stip_traverse_structure_pipe(si,st);
   pipe_link(guard,*root);
   *root = guard;
-
-  battle_branch_shorten_slice(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -398,12 +394,12 @@ static slice_index alloc_reflex_defender_filter(stip_length_type length,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_defender_filter_insert_root(slice_index si,
-                                        stip_structure_traversal *st)
+void reflex_defender_filter_make_root(slice_index si,
+                                      stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   slice_index root_filter;
@@ -415,14 +411,11 @@ void reflex_defender_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  root_filter = alloc_reflex_defender_filter(length,min_length,avoided);
-
   stip_traverse_structure_pipe(si,st);
 
+  root_filter = alloc_reflex_defender_filter(length,min_length,avoided);
   pipe_link(root_filter,*root);
   *root = root_filter;
-   
-  battle_branch_shorten_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -506,7 +499,9 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
       && slice_has_solution(avoided)==has_no_solution)
     result = n_max_unsolvable+2;
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
+    result = defense_can_defend_in_n(next,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -602,11 +597,11 @@ void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
 /* **************** Implementation of interface help_filter ************
  */
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_help_filter_insert_root(slice_index si,
+void reflex_help_filter_make_root(slice_index si,
                                     stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
@@ -617,9 +612,7 @@ void reflex_help_filter_insert_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(avoided,st);
-  guard = alloc_reflex_root_filter(*root);
-  *root = no_slice;
+  guard = alloc_reflex_root_filter(stip_make_root_slices(avoided));
 
   stip_traverse_structure_pipe(si,st);
   pipe_link(guard,*root);
@@ -739,11 +732,11 @@ static slice_index alloc_reflex_series_filter(stip_length_type length,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_series_filter_insert_root(slice_index si,
+void reflex_series_filter_make_root(slice_index si,
                                       stip_structure_traversal *st)
 {
   slice_index * const root = st->param;

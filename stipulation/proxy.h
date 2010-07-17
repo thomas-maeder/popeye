@@ -30,10 +30,10 @@ void dealloc_proxy_slices(void);
  */
 void proxy_slice_resolve(slice_index *si);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void proxy_insert_root(slice_index si, stip_structure_traversal *st);
+void proxy_make_root(slice_index si, stip_structure_traversal *st);
 
 #endif

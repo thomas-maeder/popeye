@@ -53,12 +53,12 @@ direct_defender_filter_defend_in_n(slice_index si,
                                    stip_length_type n_min,
                                    stip_length_type n_max_unsolvable);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void direct_defender_filter_insert_root(slice_index si,
-                                        stip_structure_traversal *st);
+void direct_defender_filter_make_root(slice_index si,
+                                      stip_structure_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it

@@ -41,11 +41,11 @@ static slice_index alloc_self_defense(stip_length_type length,
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void self_defense_insert_root(slice_index si, stip_structure_traversal *st)
+void self_defense_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
 
@@ -63,8 +63,6 @@ void self_defense_insert_root(slice_index si, stip_structure_traversal *st)
                                                         to_goal);
     pipe_link(self_defense,*root);
     *root = self_defense;
-
-    battle_branch_shorten_slice(si);
   }
   
   TraceFunctionExit(__func__);

@@ -38,11 +38,11 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
   return result;
 }
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void quodlibet_insert_root(slice_index si, stip_structure_traversal *st)
+void quodlibet_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
   slice_index copy;

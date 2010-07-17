@@ -15,11 +15,11 @@
  */
 slice_index alloc_not_slice(slice_index op);
 
-/* Insert root slices
+/* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void not_insert_root(slice_index si, stip_structure_traversal *st);
+void not_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Solve a slice
  * @param si slice index
