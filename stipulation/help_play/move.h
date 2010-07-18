@@ -1,7 +1,6 @@
 #if !defined(STIPULATION_HELP_PLAY_MOVE_H)
 #define STIPULATION_HELP_PLAY_MOVE_H
 
-#include "boolean.h"
 #include "pystip.h"
 
 /* This module provides functionality dealing with STHelpMove
