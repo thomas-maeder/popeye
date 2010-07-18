@@ -1,4 +1,5 @@
 #include "stipulation/battle_play/fork.h"
+#include "pypipe.h"
 #include "trace.h"
 
 

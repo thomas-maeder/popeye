@@ -1,5 +1,6 @@
 #include "stipulation/series_play/fork.h"
 #include "pybrafrk.h"
+#include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
@@ -46,6 +47,23 @@ void series_fork_make_setplay_slice(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void series_fork_make_root(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  shorten_series_pipe(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
