@@ -2853,11 +2853,18 @@ static char *ParseStip(void)
   root_slice = alloc_proxy_slice();
 
   strcpy(AlphaStip,tok);
-  if (ParsePlay(tok,root_slice)
-      && slices[root_slice].u.pipe.next!=no_slice
-      && ActStip[0]=='\0')
-    strcpy(ActStip, AlphaStip);
-
+  if (ParsePlay(tok,root_slice))
+  {
+    if (slices[root_slice].u.pipe.next!=no_slice
+        && ActStip[0]=='\0')
+      strcpy(ActStip, AlphaStip);
+  }
+  else
+  {
+    dealloc_proxy_slice(root_slice);
+    root_slice = no_slice;
+  }
+  
   tok = ReadNextTokStr();
 
   TraceFunctionExit(__func__);
