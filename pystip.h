@@ -24,10 +24,7 @@
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
-    ENUMERATOR(STSeriesNotLastMove),  /* stop solving last series move */ \
-    ENUMERATOR(STSeriesOnlyLastMove),  /* stop solving unless last series move */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
-    ENUMERATOR(STSeriesOR),         /* OR series filter */ \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \

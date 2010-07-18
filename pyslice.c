@@ -126,10 +126,10 @@ has_solution_type slice_solve(slice_index si)
 
     case STSelfCheckGuardSeriesFilter:
     case STSeriesMove:
+    case STSeriesMoveToGoal:
     case STSeriesFork:
     case STSeriesHashed:
     case STStopOnShortSolutionsSeriesFilter:
-    case STSeriesOR:
       result = series_solve(si);
       break;
 
@@ -287,9 +287,11 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STSeriesMove:
+    case STSeriesMoveToGoal:
     case STSeriesHashed:
     case STReflexSeriesFilter:
       result = series_has_solution(si);
+      break;
 
     case STHelpFork:
     case STSeriesFork:

@@ -507,10 +507,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
-  &stip_traverse_structure_children, /* STSeriesNotLastMove */
-  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_traverse_structure_children, /* STSeriesOR */
   &root_slice_type_found,            /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -2316,10 +2313,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
-  &stip_traverse_structure_children, /* STSeriesNotLastMove */
-  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_traverse_structure_children, /* STSeriesOR */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -2446,10 +2440,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
-  &stip_traverse_structure_children, /* STSeriesNotLastMove */
-  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_traverse_structure_children, /* STSeriesOR */
   &stip_structure_visitor_noop,      /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -2785,10 +2776,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_children,       /* STHelpFork */
   &stip_traverse_moves_children,       /* STSeriesMove */
   &stip_traverse_moves_children,       /* STSeriesMoveToGoal */
-  &stip_traverse_moves_children,       /* STSeriesNotLastMove */
-  &stip_traverse_moves_children,       /* STSeriesOnlyLastMove */
   &stip_traverse_moves_children,       /* STSeriesFork */
-  &stip_traverse_moves_children,       /* STSeriesOR */
   &remember_imminent_goal_leaf,        /* STGoalReachedTester */
   &stip_traverse_moves_children,       /* STLeaf */
   &stip_traverse_moves_children,       /* STReciprocal */

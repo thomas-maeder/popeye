@@ -207,10 +207,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STHelpFork */
   &insert_stoponshortsolutions_series_move, /* STSeriesMove */
   &insert_stoponshortsolutions_series_move, /* STSeriesMoveToGoal */
-  &insert_stoponshortsolutions_series_move, /* STSeriesNotLastMove */
-  &insert_stoponshortsolutions_series_move, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,        /* STSeriesFork */
-  &stip_traverse_structure_children,        /* STSeriesOR */
   &stip_structure_visitor_noop,             /* STGoalReachedTester */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_children,        /* STReciprocal */
@@ -345,10 +342,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
-  &stip_traverse_structure_children, /* STSeriesNotLastMove */
-  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_traverse_structure_children, /* STSeriesOR */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */

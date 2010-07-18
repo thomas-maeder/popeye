@@ -2630,10 +2630,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_children,             /* STHelpFork */
   &stip_traverse_moves_children,             /* STSeriesMove */
   &stip_traverse_moves_children,             /* STSeriesMoveToGoal */
-  &stip_traverse_moves_children,             /* STSeriesNotLastMove */
-  &stip_traverse_moves_children,             /* STSeriesOnlyLastMove */
   &stip_traverse_moves_children,             /* STSeriesFork */
-  &stip_traverse_moves_children,             /* STSeriesOR */
   &moves_left_goal,                          /* STGoalReachedTester */
   &stip_traverse_moves_children,             /* STLeaf */
   &stip_traverse_moves_children,             /* STReciprocal */
@@ -3131,10 +3128,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STHelpFork */
   &intelligent_guards_inserter_series_move,  /* STSeriesMove */
   &intelligent_guards_inserter_series_move_to_goal,  /* STSeriesMoveToGoal */
-  &stip_traverse_structure_children,         /* STSeriesNotLastMove */
-  &stip_traverse_structure_children,         /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,         /* STSeriesFork */
-  &stip_traverse_structure_children,         /* STSeriesOR */
   &intelligent_guards_inserter_goal,         /* STGoalReachedTester */
   &stip_structure_visitor_noop,              /* STLeaf */
   &stip_traverse_structure_children,         /* STReciprocal */
@@ -3487,10 +3481,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_detector_fork,      /* STHelpFork */
   &stip_traverse_structure_children,            /* STSeriesMove */
   &stip_traverse_structure_children,            /* STSeriesMoveToGoal */
-  &stip_traverse_structure_children,            /* STSeriesNotLastMove */
-  &stip_traverse_structure_children,            /* STSeriesOnlyLastMove */
   &intelligent_mode_support_detector_fork,      /* STSeriesFork */
-  &intelligent_mode_support_detector_fork,      /* STSeriesOR */
   &intelligent_mode_support_detector_goal,      /* STGoalReachedTester */
   &stip_structure_visitor_noop,                 /* STLeaf */
   &intelligent_mode_support_none,               /* STReciprocal */

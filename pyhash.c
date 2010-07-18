@@ -280,10 +280,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STHelpFork */
   &slice_property_offset_shifter,    /* STSeriesMove */
   &slice_property_offset_shifter,    /* STSeriesMoveToGoal */
-  &slice_property_offset_shifter,    /* STSeriesNotLastMove */
-  &slice_property_offset_shifter,    /* STSeriesOnlyLastMove */
   &slice_property_offset_shifter,    /* STSeriesFork */
-  &slice_property_offset_shifter,    /* STSeriesOR */
   &slice_property_offset_shifter,    /* STGoalReachedTester */
   &slice_property_offset_shifter,    /* STLeaf */
   &slice_property_offset_shifter,    /* STReciprocal */
@@ -646,10 +643,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
   &init_slice_properties_pipe,           /* STSeriesMoveToGoal */
-  &init_slice_properties_pipe,           /* STSeriesNotLastMove */
-  &init_slice_properties_pipe,           /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children,     /* STSeriesFork */
-  &stip_traverse_structure_children,     /* STSeriesOR */
   &stip_structure_visitor_noop,          /* STGoalReachedTester */
   &stip_structure_visitor_noop,          /* STLeaf */
   &init_slice_properties_binary,         /* STReciprocal */
@@ -2263,10 +2257,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STHelpFork */
   &insert_hash_element_series_move,         /* STSeriesMove */
   &insert_hash_element_series_move_to_goal, /* STSeriesMoveToGoal */
-  &stip_traverse_moves_children,            /* STSeriesNotLastMove */
-  &stip_traverse_moves_children,            /* STSeriesOnlyLastMove */
   &stip_traverse_moves_children,            /* STSeriesFork */
-  &stip_traverse_moves_children,            /* STSeriesOR */
   &stip_traverse_moves_children,            /* STGoalReachedTester */
   &stip_traverse_moves_children,            /* STLeaf */
   &stip_traverse_moves_children,            /* STReciprocal */

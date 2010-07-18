@@ -13,10 +13,7 @@
 #include "stipulation/series_play/root.h"
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/shortcut.h"
-#include "stipulation/series_play/or.h"
 #include "stipulation/series_play/move_to_goal.h"
-#include "stipulation/series_play/not_last_move.h"
-#include "stipulation/series_play/only_last_move.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
@@ -126,23 +123,11 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
       result = stoponshortsolutions_series_filter_solve_in_n(si,n);
       break;
 
-    case STSeriesOR:
-      result = series_OR_solve_in_n(si,n);
-      break;
-
     case STSeriesMoveToGoal:
       result = series_move_to_goal_solve_in_n(si,n);
       break;
 
-    case STSeriesNotLastMove:
-      result = series_not_last_move_solve_in_n(si,n);
-      break;
-
-    case STSeriesOnlyLastMove:
-      result = series_only_last_move_solve_in_n(si,n);
-      break;
-
-    case STGoalReachedTester:
+    default:
       assert(n=slack_length_series);
       switch (slice_solve(si))
       {
@@ -162,10 +147,6 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
           assert(0);
           break;
       }
-      break;
-
-    default:
-      assert(0);
       break;
   }
 
@@ -297,23 +278,11 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = stoponshortsolutions_series_filter_has_solution_in_n(si,n);
       break;
 
-    case STSeriesOR:
-      result = series_OR_has_solution_in_n(si,n);
-      break;
-
     case STSeriesMoveToGoal:
       result = series_move_to_goal_has_solution_in_n(si,n);
       break;
 
-    case STSeriesNotLastMove:
-      result = series_not_last_move_has_solution_in_n(si,n);
-      break;
-
-    case STSeriesOnlyLastMove:
-      result = series_only_last_move_has_solution_in_n(si,n);
-      break;
-
-    case STGoalReachedTester:
+    default:
       assert(n=slack_length_series);
       switch (slice_has_solution(si))
       {
@@ -333,10 +302,6 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
           assert(0);
           break;
       }
-      break;
-
-    default:
-      assert(0);
       break;
   }
 

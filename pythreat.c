@@ -276,10 +276,7 @@ static stip_structure_visitor const maxthreatlength_guards_inserters[] =
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
-  &stip_traverse_structure_children, /* STSeriesNotLastMove */
-  &stip_traverse_structure_children, /* STSeriesOnlyLastMove */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &stip_traverse_structure_children, /* STSeriesOR */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */

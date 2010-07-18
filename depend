@@ -1055,10 +1055,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   stipulation/help_play/move.h stipulation/help_play/shortcut.h py.h \
   stipulation/help_play/fork.h stipulation/series_play/root.h \
   stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
-  stipulation/series_play/shortcut.h stipulation/series_play/or.h \
-  stipulation/series_play/fork.h stipulation/series_play/parry_fork.h \
-  stipulation/series_play/not_last_move.h \
-  stipulation/series_play/only_last_move.h stipulation/proxy.h pypipe.h \
+  stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
+  stipulation/series_play/parry_fork.h stipulation/proxy.h pypipe.h \
   trace.h
 
 pystip.h:
@@ -1177,15 +1175,9 @@ stipulation/series_play/move_to_goal.h:
 
 stipulation/series_play/shortcut.h:
 
-stipulation/series_play/or.h:
-
 stipulation/series_play/fork.h:
 
 stipulation/series_play/parry_fork.h:
-
-stipulation/series_play/not_last_move.h:
-
-stipulation/series_play/only_last_move.h:
 
 stipulation/proxy.h:
 
@@ -2119,12 +2111,16 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
-  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
-  pyoutput.h pytable.h output/plaintext/plaintext.h py.h
+trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
+  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
+  pystip.h pyoutput.h pytable.h output/plaintext/plaintext.h py.h
 
 trace.h:
+
+pyproc.h:
+
+py4.h:
 
 py.h:
 
@@ -2141,10 +2137,6 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
-
-pyproc.h:
-
-py4.h:
 
 pygoal.h:
 

@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-CFILES = branch.c root.c move.c move_to_goal.c or.c fork.c parry_fork.c shortcut.c play.c not_last_move.c only_last_move.c
+CFILES = branch.c root.c move.c move_to_goal.c fork.c parry_fork.c shortcut.c play.c
 
-INCLUDES = branch.h root.h move.h move_to_goal.h or.h fork.h parry_fork.h shortcut.h play.h not_last_move.h only_last_move.h
+INCLUDES = branch.h root.h move.h move_to_goal.h fork.h parry_fork.h shortcut.h play.h
 
 include makefile.rules $(CURRPWD)depend

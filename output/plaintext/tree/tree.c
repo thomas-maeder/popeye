@@ -386,10 +386,7 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &stip_structure_visitor_noop,      /* STHelpFork */
   &stip_structure_visitor_noop,      /* STSeriesMove */
   &stip_structure_visitor_noop,      /* STSeriesMoveToGoal */
-  &stip_structure_visitor_noop,      /* STSeriesNotLastMove */
-  &stip_structure_visitor_noop,      /* STSeriesOnlyLastMove */
   &stip_structure_visitor_noop,      /* STSeriesFork */
-  &stip_structure_visitor_noop,      /* STSeriesOR */
   &instrument_goal_reached_tester,   /* STGoalReachedTester */
   &instrument_leaf,                  /* STLeaf */
   &instrument_binary,                /* STReciprocal */
