@@ -1,10 +1,4 @@
 #include "stipulation/help_play/play.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/series_play/play.h"
-#include "stipulation/help_play/root.h"
-#include "stipulation/help_play/move.h"
-#include "stipulation/help_play/shortcut.h"
-#include "stipulation/help_play/fork.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
 #include "pykeepmt.h"
@@ -12,6 +6,13 @@
 #include "pymovenb.h"
 #include "pyint.h"
 #include "pydata.h"
+#include "stipulation/battle_play/attack_play.h"
+#include "stipulation/series_play/play.h"
+#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/move.h"
+#include "stipulation/help_play/move_to_goal.h"
+#include "stipulation/help_play/shortcut.h"
+#include "stipulation/help_play/fork.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/maxtime/help_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
@@ -47,6 +48,10 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
 
     case STHelpMove:
       result = help_move_solve_in_n(si,n);
+      break;
+
+    case STHelpMoveToGoal:
+      result = help_move_to_goal_solve_in_n(si,n);
       break;
 
     case STSeriesFork:
@@ -151,7 +156,25 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       break;
 
     default:
-      assert(0);
+      assert(n=slack_length_help);
+      switch (slice_solve(si))
+      {
+        case opponent_self_check:
+          result = slack_length_help+4;
+          break;
+
+        case has_no_solution:
+          result = slack_length_help+2;
+          break;
+
+        case has_solution:
+          result = slack_length_help;
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
       break;
   }
 
@@ -217,6 +240,10 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
       result = help_move_has_solution_in_n(si,n);
       break;
 
+    case STHelpMoveToGoal:
+      result = help_move_to_goal_has_solution_in_n(si,n);
+      break;
+
     case STHelpRoot:
       result = help_root_has_solution_in_n(si,n);
       break;
@@ -262,7 +289,25 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
       break;
 
     default:
-      assert(0);
+      assert(n=slack_length_help);
+      switch (slice_has_solution(si))
+      {
+        case opponent_self_check:
+          result = slack_length_help+4;
+          break;
+
+        case has_no_solution:
+          result = slack_length_help+2;
+          break;
+
+        case has_solution:
+          result = slack_length_help;
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
       break;
   }
 

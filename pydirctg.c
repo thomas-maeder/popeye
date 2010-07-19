@@ -249,6 +249,7 @@ static stip_structure_visitor const direct_guards_inserters[] =
   &direct_guards_inserter_attack,    /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STBHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */

@@ -23,14 +23,6 @@ slice_index alloc_help_root_slice(stip_length_type length,
  */
 void stip_traverse_moves_help_root(slice_index si, stip_move_traversal *st);
 
-/* Shorten a help branch by a half-move. If the branch represents a
- * half-move only, deallocates the branch.
- * @param si identifies the branch
- * @return if the branch slice represents a half-move only, the slice
- *         representing the subsequent play; otherwise si
- */
-slice_index help_root_shorten_help_play(slice_index si);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

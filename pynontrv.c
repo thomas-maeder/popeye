@@ -426,6 +426,7 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &stip_traverse_structure_children,      /* STAttackMove */
   &append_nontrivial_counter,             /* STDefenseMove */
   &stip_traverse_structure_children,      /* STHelpMove */
+  &stip_traverse_structure_children,      /* STHelpMoveToGoal */
   &stip_traverse_structure_children,      /* STHelpFork */
   &stip_traverse_structure_children,      /* STSeriesMove */
   &stip_traverse_structure_children,      /* STSeriesMoveToGoal */

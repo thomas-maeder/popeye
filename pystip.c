@@ -29,6 +29,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/move.h"
+#include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/series_play/root.h"
@@ -49,6 +50,7 @@
     ENUMERATOR(STAttackMove),      /* M-N moves of direct play */       \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
+    ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesMoveToGoal),    /* last series move reaching goal */ \
@@ -177,6 +179,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STAttackMove */
   slice_structure_branch, /* STDefenseMove */
   slice_structure_branch, /* STHelpMove */
+  slice_structure_branch, /* STHelpMoveToGoal */
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STSeriesMove */
   slice_structure_branch, /* STSeriesMoveToGoal */
@@ -339,6 +342,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STAttackMove */
   &mark_reachable_slice, /* STDefenseMove */
   &mark_reachable_slice, /* STHelpMove */
+  &mark_reachable_slice, /* STHelpMoveToGoal */
   &mark_reachable_slice, /* STHelpFork */
   &mark_reachable_slice, /* STSeriesMove */
   &mark_reachable_slice, /* STSeriesMoveToGoal */
@@ -601,6 +605,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STAttackMove */
   &traverse_and_deallocate,       /* STDefenseMove */
   &traverse_and_deallocate,       /* STHelpMove */
+  &traverse_and_deallocate,       /* STHelpMoveToGoal */
   &traverse_and_deallocate,       /* STHelpFork */
   &traverse_and_deallocate,       /* STSeriesMove */
   &traverse_and_deallocate,       /* STSeriesMoveToGoal */
@@ -739,6 +744,7 @@ static stip_structure_visitor const post_root_shorteners[] =
   &battle_branch_post_root_shorten,  /* STAttackMove */
   &battle_branch_post_root_shorten,  /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
@@ -850,6 +856,7 @@ static stip_structure_visitor const root_slice_makers[] =
   &attack_move_make_root,                     /* STAttackMove */
   &defense_move_make_root,                    /* STDefenseMove */
   &stip_traverse_structure_children,          /* STHelpMove */
+  &stip_traverse_structure_children,          /* STHelpMoveToGoal */
   &stip_traverse_structure_children,          /* STHelpFork */
   &stip_traverse_structure_children,          /* STSeriesMove */
   &stip_traverse_structure_children,          /* STSeriesMoveToGoal */
@@ -988,6 +995,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &battle_branch_make_root,            /* STAttackMove */
   &battle_branch_make_root,            /* STDefenseMove */
   &help_move_make_root,                /* STHelpMove */
+  &help_move_to_goal_make_root,        /* STHelpMoveToGoal */
   &help_fork_make_root,                /* STHelpFork */
   &series_move_make_root,              /* STSeriesMove */
   &series_move_to_goal_make_root,      /* STSeriesMoveToGoal */
@@ -1114,6 +1122,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &pipe_resolve_proxies,             /* STAttackMove */
   &pipe_resolve_proxies,             /* STDefenseMove */
   &pipe_resolve_proxies,             /* STHelpMove */
+  &pipe_resolve_proxies,             /* STHelpMoveToGoal */
   &branch_fork_resolve_proxies,      /* STHelpFork */
   &pipe_resolve_proxies,             /* STSeriesMove */
   &pipe_resolve_proxies,             /* STSeriesMoveToGoal */
@@ -1304,6 +1313,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &get_max_nr_moves_move,        /* STAttackMove */
   &get_max_nr_moves_move,        /* STDefenseMove */
   &get_max_nr_moves_move,        /* STHelpMove */
+  &get_max_nr_moves_move,        /* STHelpMoveToGoal */
   &stip_traverse_moves_children, /* STHelpFork */
   &get_max_nr_moves_move,        /* STSeriesMove */
   &get_max_nr_moves_move,        /* STSeriesMoveToGoal */
@@ -1493,6 +1503,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
@@ -1848,6 +1859,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &append_direct_defender_filter,      /* STAttackMove */
   &stip_traverse_structure_children,   /* STDefenseMove */
   &stip_traverse_structure_children,   /* STHelpMove */
+  &stip_traverse_structure_children,   /* STHelpMoveToGoal */
   &transform_to_quodlibet_branch_fork, /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &stip_traverse_structure_children,   /* STSeriesMoveToGoal */
@@ -1969,6 +1981,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STAttackMove */
   &defense_move_reduce_to_postkey_play,           /* STDefenseMove */
   &stip_traverse_structure_children,              /* STHelpMove */
+  &stip_traverse_structure_children,              /* STHelpMoveToGoal */
   &stip_traverse_structure_children,              /* STHelpFork */
   &stip_traverse_structure_children,              /* STSeriesMove */
   &stip_traverse_structure_children,              /* STSeriesMoveToGoal */
@@ -2115,7 +2128,8 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &defense_move_make_setplay_slice,  /* STDefenseMove */
   &help_move_make_setplay_slice,     /* STHelpMove */
-  &stip_traverse_structure_pipe,     /* STHelpFork */
+  &help_move_make_setplay_slice,     /* STHelpMoveToGoal */
+  &help_fork_make_setplay_slice,     /* STHelpFork */
   &series_move_make_setplay_slice,   /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
   &series_fork_make_setplay_slice,   /* STSeriesFork */
@@ -2237,6 +2251,7 @@ static stip_structure_visitor const setplay_appliers[] =
   &attack_move_apply_setplay,            /* STAttackMove */
   &stip_structure_visitor_noop,          /* STDefenseMove */
   &help_move_apply_setplay,              /* STHelpMove */
+  &stip_traverse_structure_children,     /* STHelpMoveToGoal */
   &stip_traverse_structure_pipe,         /* STHelpFork */
   &series_move_apply_setplay,            /* STSeriesMove */
   &series_move_apply_setplay,            /* STSeriesMoveToGoal */
@@ -2443,6 +2458,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
@@ -2578,6 +2594,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STAttackMove */
   &stip_traverse_structure_children,   /* STDefenseMove */
   &stip_traverse_structure_children,   /* STHelpMove */
+  &stip_traverse_structure_children,   /* STHelpMoveToGoal */
   &stip_traverse_structure_children,   /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &stip_traverse_structure_children,   /* STSeriesMoveToGoal */
@@ -2708,6 +2725,7 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_branch,                /* STAttackMove */
   &make_exact_branch,                /* STDefenseMove */
   &make_exact_branch,                /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &make_exact_branch,                /* STHelpFork */
   &make_exact_branch,                /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
@@ -2819,6 +2837,7 @@ static stip_structure_visitor const starter_detectors[] =
   &attack_move_detect_starter,       /* STAttackMove */
   &defense_move_detect_starter,      /* STDefenseMove */
   &help_move_detect_starter,         /* STHelpMove */
+  &help_move_detect_starter,         /* STHelpMoveToGoal */
   &branch_fork_detect_starter,       /* STHelpFork */
   &series_move_detect_starter,       /* STSeriesMove */
   &series_move_detect_starter,       /* STSeriesMoveToGoal */
@@ -2956,6 +2975,7 @@ static stip_structure_visitor const starter_imposers[] =
   &pipe_impose_inverted_starter,  /* STAttackMove */
   &pipe_impose_inverted_starter,  /* STDefenseMove */
   &pipe_impose_inverted_starter,  /* STHelpMove */
+  &pipe_impose_inverted_starter,  /* STHelpMoveToGoal */
   &default_impose_starter,        /* STHelpFork */
   &pipe_impose_inverted_starter,  /* STSeriesMove */
   &pipe_impose_inverted_starter,  /* STSeriesMoveToGoal */
@@ -3171,6 +3191,7 @@ static stip_structure_visitor const structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackMove */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
   &stip_traverse_structure_pipe,            /* STHelpMove */
+  &stip_traverse_structure_pipe,            /* STHelpMoveToGoal */
   &stip_traverse_structure_help_fork,       /* STHelpFork */
   &stip_traverse_structure_pipe,            /* STSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesMoveToGoal */
@@ -3302,6 +3323,7 @@ static stip_moves_visitor const moves_children_traversers[] =
   &stip_traverse_moves_branch,                /* STAttackMove */
   &stip_traverse_moves_branch,                /* STDefenseMove */
   &stip_traverse_moves_branch,                /* STHelpMove */
+  &stip_traverse_moves_branch,                /* STHelpMoveToGoal */
   &stip_traverse_moves_help_fork,             /* STHelpFork */
   &stip_traverse_moves_branch,                /* STSeriesMove */
   &stip_traverse_moves_branch,                /* STSeriesMoveToGoal */

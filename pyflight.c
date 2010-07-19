@@ -231,6 +231,7 @@ static stip_structure_visitor const maxflight_guards_inserters[] =
   &stip_traverse_structure_children,  /* STAttackMove */
   &maxflight_guard_inserter, /* STDefenseMove */
   &stip_traverse_structure_children,  /* STHelpMove */
+  &stip_traverse_structure_children,  /* STHelpMoveToGoal */
   &stip_traverse_structure_children,  /* STHelpFork */
   &stip_traverse_structure_children,  /* STSeriesMove */
   &stip_traverse_structure_children,  /* STSeriesMoveToGoal */

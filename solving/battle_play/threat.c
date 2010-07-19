@@ -554,6 +554,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &append_threat_collector,              /* STAttackMove */
   &prepend_threat_solver,                /* STDefenseMove */
   &stip_structure_visitor_noop,          /* STHelpMove */
+  &stip_structure_visitor_noop,          /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,          /* STHelpFork */
   &stip_structure_visitor_noop,          /* STSeriesMove */
   &stip_structure_visitor_noop,          /* STSeriesMoveToGoal */

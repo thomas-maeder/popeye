@@ -2627,6 +2627,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_children,             /* STAttackMove */
   &stip_traverse_moves_children,             /* STDefenseMove */
   &stip_traverse_moves_children,             /* STHelpMove */
+  &stip_traverse_moves_children,             /* STHelpMoveToGoal */
   &stip_traverse_moves_children,             /* STHelpFork */
   &stip_traverse_moves_children,             /* STSeriesMove */
   &stip_traverse_moves_children,             /* STSeriesMoveToGoal */
@@ -3125,6 +3126,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STAttackMove */
   &stip_traverse_structure_children,         /* STDefenseMove */
   &intelligent_guards_inserter_branch_help,  /* STHelpMove */
+  &intelligent_guards_inserter_branch_help,  /* STHelpMoveToGoal */
   &stip_traverse_structure_children,         /* STHelpFork */
   &intelligent_guards_inserter_series_move,  /* STSeriesMove */
   &intelligent_guards_inserter_series_move_to_goal,  /* STSeriesMoveToGoal */
@@ -3478,6 +3480,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STAttackMove */
   &intelligent_mode_support_none,               /* STDefenseMove */
   &stip_traverse_structure_children,            /* STHelpMove */
+  &stip_traverse_structure_children,            /* STHelpMoveToGoal */
   &intelligent_mode_support_detector_fork,      /* STHelpFork */
   &stip_traverse_structure_children,            /* STSeriesMove */
   &stip_traverse_structure_children,            /* STSeriesMoveToGoal */

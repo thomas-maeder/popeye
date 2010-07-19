@@ -403,6 +403,7 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &append_collector,                 /* STDefenseMove */
   &stip_structure_visitor_noop,      /* STHelpMove */
+  &stip_structure_visitor_noop,      /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,      /* STHelpFork */
   &stip_structure_visitor_noop,      /* STSeriesMove */
   &stip_structure_visitor_noop,      /* STSeriesMoveToGoal */

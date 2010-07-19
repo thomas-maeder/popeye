@@ -307,6 +307,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_structure_visitor_noop,         /* STAttackMove */
   &stip_structure_visitor_noop,         /* STDefenseMove */
   &restart_guards_inserter_help,        /* STHelpMove */
+  &restart_guards_inserter_help,        /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,         /* STHelpFork */
   &restart_guards_inserter_series,      /* STSeriesMove */
   &restart_guards_inserter_series,      /* STSeriesMoveToGoal */

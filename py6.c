@@ -504,6 +504,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &root_slice_type_found,            /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
@@ -2114,6 +2115,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STHelpShortcut:
     case STHelpMove:
+    case STHelpMoveToGoal:
     case STSelfCheckGuardHelpFilter:
     case STMoveInverterSolvableFilter:
     case STProxy:
@@ -2201,6 +2203,12 @@ static boolean apply_whitetoplay(slice_index proxy)
       }
       break;
     }
+
+    case STHelpMoveToGoal:
+      stip_detect_starter();
+      stip_impose_starter(advers(slices[root_slice].starter));
+      result = true;
+      break;
 
     default:
       break;
@@ -2310,6 +2318,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
@@ -2437,6 +2446,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
@@ -2773,6 +2783,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &remember_imminent_goal_battle_move, /* STAttackMove */
   &remember_imminent_goal_battle_move, /* STDefenseMove */
   &remember_imminent_goal_help_move,   /* STHelpMove */
+  &remember_imminent_goal_help_move,   /* STHelpMoveToGoal */
   &stip_traverse_moves_children,       /* STHelpFork */
   &stip_traverse_moves_children,       /* STSeriesMove */
   &stip_traverse_moves_children,       /* STSeriesMoveToGoal */

@@ -29,6 +29,7 @@ boolean intelligent_solvable_root_solve_in_n(slice_index si,
     case STHelpFork:
     case STHelpHashed:
     case STHelpMove:
+    case STHelpMoveToGoal:
       result = help_solve_in_n(si,n)<=n;
       break;
 

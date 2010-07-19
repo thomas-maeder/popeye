@@ -245,6 +245,7 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &continuation_solver_append_to_move, /* STAttackMove */
   &continuation_solver_mark_need,      /* STDefenseMove */
   &stip_structure_visitor_noop,        /* STHelpMove */
+  &stip_structure_visitor_noop,        /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,        /* STHelpFork */
   &stip_structure_visitor_noop,        /* STSeriesMove */
   &stip_structure_visitor_noop,        /* STSeriesMoveToGoal */

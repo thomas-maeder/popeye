@@ -2134,13 +2134,10 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
   result = ParseLength(tok,STSeriesMove,&length,&min_length);
   if (result!=0)
   {
-    slice_index const proxy_help = alloc_proxy_slice();
     slice_index const help = alloc_help_branch(slack_length_help+1,
                                                slack_length_help+1,
                                                proxy_next);
-    pipe_set_successor(proxy_help,help);
-    pipe_set_successor(proxy,
-                       alloc_series_branch(length+1,min_length,proxy_help));
+    pipe_set_successor(proxy,alloc_series_branch(length+1,min_length,help));
   }
 
   TraceFunctionExit(__func__);

@@ -662,6 +662,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_attack_move, /* STAttackMove */
   &keepmating_guards_inserter_defender,    /* STDefenseMove */
   &keepmating_guards_inserter_help_move,   /* STHelpMove */
+  &keepmating_guards_inserter_help_move,   /* STHelpMoveToGoal */
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
   &keepmating_guards_inserter_series_move, /* STSeriesMove */
   &keepmating_guards_inserter_series_move, /* STSeriesMoveToGoal */

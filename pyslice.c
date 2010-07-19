@@ -113,6 +113,7 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STHelpMove:
+    case STHelpMoveToGoal:
     case STHelpFork:
     case STHelpHashed:
     case STSelfCheckGuardHelpFilter:
@@ -274,12 +275,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STHelpRoot:
     case STHelpMove:
+    case STHelpMoveToGoal:
     case STSelfCheckGuardHelpFilter:
-      result = help_has_solution(si);
-      break;
-
     case STHelpHashed:
-      result = slice_has_solution(slices[si].u.pipe.next);
+      result = help_has_solution(si);
       break;
 
     case STMoveInverterSolvableFilter:

@@ -383,6 +383,7 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &instrument_attack_move,           /* STAttackMove */
   &instrument_defense_move,          /* STDefenseMove */
   &stip_structure_visitor_noop,      /* STHelpMove */
+  &stip_structure_visitor_noop,      /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,      /* STHelpFork */
   &stip_structure_visitor_noop,      /* STSeriesMove */
   &stip_structure_visitor_noop,      /* STSeriesMoveToGoal */

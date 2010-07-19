@@ -139,6 +139,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &output_mode_linemode,             /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */

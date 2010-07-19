@@ -920,6 +920,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &reflex_guards_inserter_attack,      /* STAttackMove */
   &reflex_guards_inserter_defense,     /* STDefenseMove */
   &stip_traverse_structure_children,   /* STHelpMove */
+  &stip_traverse_structure_children,   /* STHelpMoveToGoal */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
   &stip_traverse_structure_children,   /* STSeriesMove */
   &stip_traverse_structure_children,   /* STSeriesMoveToGoal */
@@ -1019,7 +1020,7 @@ static void reflex_guards_inserter_help(slice_index si,
   init_param * const param = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const idx = (length-slack_length_help)%2;
+  stip_length_type const idx = (length+1-slack_length_help)%2;
   slice_index const proxy_to_avoided = param->to_be_avoided[idx];
 
   TraceFunctionEntry(__func__);
@@ -1130,6 +1131,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STAttackMove */
   &reflex_guards_inserter_defense_semi, /* STDefenseMove */
   &reflex_guards_inserter_help,         /* STHelpMove */
+  &reflex_guards_inserter_help,         /* STHelpMoveToGoal */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
   &reflex_guards_inserter_series,       /* STSeriesMove */
   &stip_traverse_structure_children,    /* STSeriesMoveToGoal */
@@ -1234,6 +1236,8 @@ void slice_insert_reflex_filters_semi(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",proxy_to_avoided);
   TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
 
   assert(slices[proxy_to_avoided].type==STProxy);
 

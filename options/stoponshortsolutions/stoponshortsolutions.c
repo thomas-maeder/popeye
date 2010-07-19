@@ -204,6 +204,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STAttackMove */
   &stip_traverse_structure_children,        /* STDefenseMove */
   &insert_stoponshortsolutions_help_move,   /* STHelpMove */
+  &insert_stoponshortsolutions_help_move,   /* STHelpMoveToGoal */
   &stip_traverse_structure_children,        /* STHelpFork */
   &insert_stoponshortsolutions_series_move, /* STSeriesMove */
   &insert_stoponshortsolutions_series_move, /* STSeriesMoveToGoal */
@@ -339,6 +340,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */

@@ -237,6 +237,7 @@ static stip_structure_visitor const maxsolutions_filter_inserters[] =
   &stip_traverse_structure_children,         /* STAttackMove */
   &stip_traverse_structure_children,         /* STDefenseMove */
   &insert_maxsolutions_help_filter,          /* STHelpMove */
+  &insert_maxsolutions_help_filter,          /* STHelpMoveToGoal */
   &stip_traverse_structure_children,         /* STHelpFork */
   &insert_maxsolutions_series_filter,        /* STSeriesMove */
   &insert_maxsolutions_series_filter,        /* STSeriesMoveToGoal */
@@ -347,6 +348,7 @@ static stip_structure_visitor const maxsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STHelpMove */
+  &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */

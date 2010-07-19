@@ -277,6 +277,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STAttackMove */
   &slice_property_offset_shifter,    /* STDefenseMove */
   &slice_property_offset_shifter,    /* STHelpMove */
+  &slice_property_offset_shifter,    /* STHelpMoveToGoal */
   &slice_property_offset_shifter,    /* STHelpFork */
   &slice_property_offset_shifter,    /* STSeriesMove */
   &slice_property_offset_shifter,    /* STSeriesMoveToGoal */
@@ -640,6 +641,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STAttackMove */
   &stip_traverse_structure_children,     /* STDefenseMove */
   &init_slice_properties_pipe,           /* STHelpMove */
+  &init_slice_properties_pipe,           /* STHelpMoveToGoal */
   &stip_traverse_structure_children,     /* STHelpFork */
   &init_slice_properties_pipe,           /* STSeriesMove */
   &init_slice_properties_pipe,           /* STSeriesMoveToGoal */
@@ -2060,8 +2062,12 @@ static slice_index alloc_help_hashed_slice(stip_length_type length,
 /* Allocate a STHelpHashed slice for a ST{Branch,Leaf}Help slice
  * and insert it before the slice
  * @param si identifies ST{Branch,Leaf}Help slice
+ * @param length maximum number of half moves to provide for
+ * @param min_length minimum number of half moves to provide for
  */
-static void insert_help_hashed_slice(slice_index si)
+static void insert_help_hashed_slice(slice_index si,
+                                     stip_length_type length,
+                                     stip_length_type min_length)
 {
   slice_index const prev = slices[si].prev;
 
@@ -2072,11 +2078,7 @@ static void insert_help_hashed_slice(slice_index si)
   TraceEnumerator(SliceType,slices[si].type,"\n");
 
   if (slices[prev].type!=STHelpHashed)
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     pipe_append(prev,alloc_help_hashed_slice(length,min_length));
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2179,8 +2181,8 @@ static boolean is_goal_move_oriented(Goal goal)
  * @param si identifies slice
  * @param st address of structure holding status of traversal
  */
-static void insert_hash_element_branch_help(slice_index si,
-                                            stip_move_traversal *st)
+static void insert_hash_element_help_move(slice_index si,
+                                          stip_move_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2189,7 +2191,39 @@ static void insert_hash_element_branch_help(slice_index si,
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
   if (st->remaining<st->full_length)
-    insert_help_hashed_slice(si);
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    insert_help_hashed_slice(si,length,min_length);
+  }
+
+  stip_traverse_moves_branch(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traverse a slice while inserting hash elements
+ * @param si identifies slice
+ * @param st address of structure holding status of traversal
+ */
+static void insert_hash_element_help_move_to_goal(slice_index si,
+                                                  stip_move_traversal *st)
+{
+  Goal const goal = slices[si].u.branch.imminent_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",st->remaining);
+  TraceValue("%u\n",st->full_length);
+  if (!is_goal_move_oriented(goal))
+  {
+    stip_length_type const length = slack_length_help+1;
+    stip_length_type const min_length = slack_length_help+1;
+    insert_help_hashed_slice(si,length,min_length);
+  }
   stip_traverse_moves_branch(si,st);
 
   TraceFunctionExit(__func__);
@@ -2253,7 +2287,8 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STProxy */
   &stip_traverse_moves_children,            /* STAttackMove */
   &insert_hash_element_defense_move,        /* STDefenseMove */
-  &insert_hash_element_branch_help,         /* STHelpMove */
+  &insert_hash_element_help_move,           /* STHelpMove */
+  &insert_hash_element_help_move_to_goal,   /* STHelpMoveToGoal */
   &stip_traverse_moves_children,            /* STHelpFork */
   &insert_hash_element_series_move,         /* STSeriesMove */
   &insert_hash_element_series_move_to_goal, /* STSeriesMoveToGoal */

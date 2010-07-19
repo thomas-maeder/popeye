@@ -1,6 +1,7 @@
 #include "stipulation/help_play/fork.h"
 #include "pybrafrk.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/help_play/root.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
@@ -46,19 +47,49 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  */
 void help_fork_make_root(slice_index si, stip_structure_traversal *st)
 {
+  slice_index * const root = st->param;
+  stip_length_type min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
-
+  if (length==slack_length_help)
   {
-    slice_index * const root = st->param;
-    slice_index const shortcut = branch_find_slice(STHelpShortcut,*root);
-    assert(shortcut!=no_slice);
-    slices[shortcut].u.shortcut.short_sols = si;
+    *root = alloc_help_root_slice(length,min_length);
+    pipe_set_successor(*root,si);
+  }
+  else
+  {
+    stip_traverse_structure_pipe(si,st);
+
+    {
+      slice_index const shortcut = branch_find_slice(STHelpShortcut,*root);
+      assert(shortcut!=no_slice);
+      slices[shortcut].u.shortcut.short_sols = si;
+    }
   }
   
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = alloc_proxy_slice();
+  pipe_set_successor(*result,si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

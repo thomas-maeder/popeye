@@ -1,9 +1,7 @@
 #include "stipulation/help_play/move.h"
 #include "pydata.h"
-#include "pyslice.h"
 #include "pybrafrk.h"
 #include "pypipe.h"
-#include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/play.h"
@@ -51,9 +49,6 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  if (min_length==slack_length_help)
-    min_length += 2;
 
   *root = alloc_help_root_slice(length,min_length);
 
@@ -139,34 +134,19 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   Side const side_at_move = slices[si].starter;
-  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_help+1 && goal.type!=no_goal)
-  {
-    if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
-    {
-      empile_for_goal = goal;
-      generate_move_reaching_goal(side_at_move);
-      empile_for_goal.type = no_goal;
-      result = foreach_move_solve(si,n);
-      finply();
-    }
-    else
-      result = n+2;
-  }
-  else
-  {
-    move_generation_mode= move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    genmove(side_at_move);
-    result = foreach_move_solve(si,n);
-    finply();
-  }
+  assert(n>slack_length_help);
+
+  move_generation_mode= move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(side_at_move);
+  result = foreach_move_solve(si,n);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -216,34 +196,19 @@ stip_length_type help_move_has_solution_in_n(slice_index si,
 {
   Side const side_at_move = slices[si].starter;
   stip_length_type result;
-  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n==slack_length_help+1 && goal.type!=no_goal)
-  {
-    if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
-    {
-      empile_for_goal = goal;
-      generate_move_reaching_goal(side_at_move);
-      empile_for_goal.type = no_goal;
-      result = find_solution(si,n);
-      finply();
-    }
-    else
-      result = n+2;
-  }
-  else
-  {
-    move_generation_mode= move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    genmove(side_at_move);
-    result = find_solution(si,n);
-    finply();
-  }
+  assert(n>slack_length_help);
+
+  move_generation_mode= move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(side_at_move);
+  result = find_solution(si,n);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -258,13 +223,11 @@ stip_length_type help_move_has_solution_in_n(slice_index si,
 void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_help)
   {
     slice_index const prev = slices[si].prev;
     assert(slices[prev].type==STProxy);
