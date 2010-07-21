@@ -99,16 +99,7 @@ void stip_traverse_moves_series_fork(slice_index si, stip_move_traversal *st)
   }
 
   if (st->remaining==slack_length_series)
-  {
-    stip_length_type const save_remaining = st->remaining;
-    stip_length_type const save_full_length = st->full_length;
-    ++st->level;
-    st->remaining = 0;
-    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
-    st->full_length = save_full_length;
-    st->remaining = save_remaining;
-    --st->level;
-  }
+    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
   else
     stip_traverse_moves_pipe(si,st);
 

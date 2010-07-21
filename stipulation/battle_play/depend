@@ -17,11 +17,13 @@ stipulation/battle_play/defense_move.h:
 
 trace.h:
 stipulation/battle_play/fork$(OBJ_SUFFIX): stipulation/battle_play/fork.c \
-  stipulation/battle_play/fork.h pypipe.h trace.h
+  stipulation/battle_play/fork.h pypipe.h stipulation/branch.h trace.h
 
 stipulation/battle_play/fork.h:
 
 pypipe.h:
+
+stipulation/branch.h:
 
 trace.h:
 stipulation/battle_play/attack_root$(OBJ_SUFFIX):  \
@@ -162,6 +164,37 @@ stipulation/battle_play/attack_play.h:
 stipulation/help_play/move.h:
 
 trace.h:
+stipulation/battle_play/defense_move_against_goal$(OBJ_SUFFIX):  \
+ stipulation/battle_play/defense_move_against_goal.c \
+  stipulation/battle_play/defense_move_against_goal.h pydata.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/branch.h \
+  stipulation/battle_play/attack_play.h trace.h
+
+stipulation/battle_play/defense_move_against_goal.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:
+stipulation/battle_play/defense_fork$(OBJ_SUFFIX):  \
+ stipulation/battle_play/defense_fork.c \
+  stipulation/battle_play/defense_fork.h pybrafrk.h \
+  stipulation/battle_play/defense_play.h trace.h
+
+stipulation/battle_play/defense_fork.h:
+
+pybrafrk.h:
+
+stipulation/battle_play/defense_play.h:
+
+trace.h:
 stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_play.c \
   stipulation/battle_play/defense_play.h pydirctg.h pyflight.h pykeepmt.h \
@@ -169,7 +202,9 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/branch.h stipulation/battle_play/postkeyplay.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
   stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
-  stipulation/help_play/root.h stipulation/help_play/play.h \
+  stipulation/battle_play/defense_move_against_goal.h \
+  stipulation/battle_play/defense_fork.h stipulation/help_play/root.h \
+  stipulation/help_play/play.h \
   optimisations/maxsolutions/root_defender_filter.h \
   optimisations/maxtime/root_defender_filter.h \
   optimisations/maxtime/defender_filter.h \
@@ -208,6 +243,10 @@ stipulation/battle_play/try.h:
 stipulation/battle_play/threat.h:
 
 stipulation/battle_play/defense_move.h:
+
+stipulation/battle_play/defense_move_against_goal.h:
+
+stipulation/battle_play/defense_fork.h:
 
 stipulation/help_play/root.h:
 

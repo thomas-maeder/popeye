@@ -128,12 +128,14 @@
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
+#include "stipulation/battle_play/defense_move_against_goal.h"
+#include "stipulation/battle_play/defense_fork.h"
+#include "stipulation/help_play/root.h"
+#include "stipulation/help_play/branch.h"
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
-#include "stipulation/help_play/root.h"
-#include "stipulation/help_play/branch.h"
 #ifdef _SE_
 #include "se.h"
 #endif 
@@ -503,6 +505,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &root_slice_type_found,            /* STDefenseMove */
+  &root_slice_type_found,            /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
@@ -553,6 +556,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */
@@ -2317,6 +2321,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
@@ -2367,6 +2372,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */
@@ -2445,6 +2451,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
@@ -2495,6 +2502,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */
@@ -2673,28 +2681,73 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
   }
 }
 
+typedef struct
+{
+    Goal goal;
+    slice_index fork_to_goal;
+} final_move_state;
+
 /* Remember the goal imminent after a defense or attack move
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void remember_imminent_goal_battle_move(slice_index si,
+static void remember_imminent_goal_attack_move(slice_index si,
                                                stip_move_traversal *st)
 {
-  Goal * const goal = st->param;
+  final_move_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
 
   if (st->remaining==slack_length_battle+1)
   {
-    slices[si].u.branch.imminent_goal = *goal;
+    slices[si].u.branch.imminent_goal = state->goal;
     TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
   }
 
-  goal->type = no_goal;
+  state->goal.type = no_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void remember_imminent_goal_defense_move(slice_index si,
+                                                stip_move_traversal *st)
+{
+  final_move_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_branch_slice(si,st);
+
+  if (st->remaining==slack_length_battle+1 && state->goal.type!=no_goal)
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const
+        last_defense = alloc_defense_move_against_goal_slice(slack_length_battle+1,
+                                                             slack_length_battle+1);
+    slice_index const fork = alloc_defense_fork_slice(length,min_length,
+                                                      last_defense);
+
+    slices[fork].starter = slices[si].starter;
+    pipe_append(slices[si].prev,fork);
+
+    slices[last_defense].starter = slices[si].starter;
+    slices[last_defense].u.branch.imminent_goal = state->goal;
+    pipe_set_successor(last_defense,slices[si].u.pipe.next);
+  }
+
+  state->goal.type = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2707,23 +2760,23 @@ static void remember_imminent_goal_battle_move(slice_index si,
 static void remember_imminent_goal_attack_root(slice_index si,
                                                stip_move_traversal *st)
 {
-  Goal * const goal = st->param;
+  final_move_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
 
   if (slices[si].u.branch.min_length==slack_length_battle+1)
   {
     stip_length_type const save_remaining = st->remaining;
     st->remaining = slack_length_battle+1;
-    stip_traverse_moves_branch(si,st);
+    stip_traverse_moves_branch_slice(si,st);
     st->remaining = save_remaining;
-    slices[si].u.branch.imminent_goal = *goal;
+    slices[si].u.branch.imminent_goal = state->goal;
     TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
-    goal->type = no_goal;
+    state->goal.type = no_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -2737,14 +2790,42 @@ static void remember_imminent_goal_attack_root(slice_index si,
 static void remember_imminent_goal_leaf(slice_index si,
                                         stip_move_traversal *st)
 {
-  Goal * const goal = st->param;
+  final_move_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *goal = slices[si].u.goal_reached_tester.goal;
-  TraceValue("->%u\n",goal->type);
+  state->goal = slices[si].u.goal_reached_tester.goal;
+  TraceValue("->%u\n",state->goal.type);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves beyond a series fork slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void remember_imminent_goal_self_defense(slice_index si,
+                                         stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(st->remaining!=0);
+
+  if (st->remaining<=slack_length_battle+1)
+  {
+    final_move_state * const state = st->param;
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+    stip_traverse_moves_branch(to_goal,st);
+    if (state->goal.type!=no_goal)
+      state->fork_to_goal = si;
+  }
+  else
+    stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2753,8 +2834,9 @@ static void remember_imminent_goal_leaf(slice_index si,
 static stip_move_visitor const imminent_goal_rememberers[] =
 {
   &stip_traverse_moves_children,       /* STProxy */
-  &remember_imminent_goal_battle_move, /* STAttackMove */
-  &remember_imminent_goal_battle_move, /* STDefenseMove */
+  &remember_imminent_goal_attack_move, /* STAttackMove */
+  &remember_imminent_goal_defense_move, /* STDefenseMove */
+  &stip_traverse_moves_children,        /* STDefenseMoveAgainstGoal */
   &stip_traverse_moves_children,       /* STHelpMove */
   &stip_traverse_moves_children,       /* STHelpMoveToGoal */
   &stip_traverse_moves_children,       /* STHelpFork */
@@ -2804,7 +2886,8 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_children,       /* STReflexSeriesFilter */
   &stip_traverse_moves_children,       /* STReflexAttackerFilter */
   &stip_traverse_moves_children,       /* STReflexDefenderFilter */
-  &stip_traverse_moves_children,       /* STSelfDefense */
+  &remember_imminent_goal_self_defense, /* STSelfDefense */
+  &stip_traverse_moves_children,       /* STDefenseFork */
   &stip_traverse_moves_children,       /* STRestartGuardRootDefenderFilter */
   &stip_traverse_moves_children,       /* STRestartGuardHelpFilter */
   &stip_traverse_moves_children,       /* STRestartGuardSeriesFilter */
@@ -2849,14 +2932,14 @@ static stip_move_visitor const imminent_goal_rememberers[] =
 static void stip_optimise_final_moves(void)
 {
   stip_move_traversal st;
-  Goal goal = { no_goal, initsquare };
+  final_move_state state = { { no_goal, initsquare }, no_slice };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceStipulation(root_slice);
   
-  stip_move_traversal_init(&st,&imminent_goal_rememberers,&goal);
+  stip_move_traversal_init(&st,&imminent_goal_rememberers,&state);
   stip_traverse_moves(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -2983,9 +3066,10 @@ static Token iterate_twins(Token prev_token)
 
       resolve_proxies();
       dealloc_proxy_slices();
-      assert_no_leaked_slices();
 
       stip_optimise_final_moves();
+
+      assert_no_leaked_slices();
 
       TraceStipulation(root_slice);
     }

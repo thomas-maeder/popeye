@@ -72,7 +72,7 @@ slice_index branch_find_slice(SliceType type, slice_index si)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st)
+void stip_traverse_moves_branch_slice(slice_index si, stip_move_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -89,6 +89,32 @@ void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st)
   TraceValue("->%u\n",st->remaining);
   stip_traverse_moves_pipe(si,st);
   ++st->remaining;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves of a branch
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st)
+{
+  stip_length_type const save_remaining = st->remaining;
+  stip_length_type const save_full_length = st->full_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++st->level;
+  st->remaining = 0;
+
+  stip_traverse_moves(si,st);
+
+  st->full_length = save_full_length;
+  st->remaining = save_remaining;
+  --st->level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

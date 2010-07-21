@@ -252,6 +252,7 @@ static stip_structure_visitor const direct_guards_inserters[] =
   &stip_traverse_structure_children, /* STProxy */
   &direct_guards_inserter_attack,    /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STBHelpFork */
@@ -302,6 +303,7 @@ static stip_structure_visitor const direct_guards_inserters[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */

@@ -244,6 +244,7 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children,   /* STProxy */
   &continuation_solver_append_to_move, /* STAttackMove */
   &continuation_solver_mark_need,      /* STDefenseMove */
+  &continuation_solver_mark_need,      /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,        /* STHelpMove */
   &stip_structure_visitor_noop,        /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,        /* STHelpFork */
@@ -294,6 +295,7 @@ static stip_structure_visitor const continuation_handler_inserters[] =
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
   &stip_traverse_structure_children,   /* STReflexDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfDefense */
+  &stip_traverse_structure_children,   /* STDefenseFork */
   &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,   /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children,   /* STRestartGuardSeriesFilter */

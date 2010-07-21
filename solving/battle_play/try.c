@@ -407,6 +407,7 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &append_collector,                 /* STDefenseMove */
+  &append_collector,                 /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,      /* STHelpFork */
@@ -457,6 +458,7 @@ static stip_structure_visitor const try_handler_inserters[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */

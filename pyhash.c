@@ -276,6 +276,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &stip_traverse_structure_children, /* STProxy */
   &slice_property_offset_shifter,    /* STAttackMove */
   &slice_property_offset_shifter,    /* STDefenseMove */
+  &slice_property_offset_shifter,    /* STDefenseMoveAgainstGoal */
   &slice_property_offset_shifter,    /* STHelpMove */
   &slice_property_offset_shifter,    /* STHelpMoveToGoal */
   &slice_property_offset_shifter,    /* STHelpFork */
@@ -326,6 +327,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STReflexAttackerFilter */
   &slice_property_offset_shifter,    /* STReflexDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfDefense */
+  &slice_property_offset_shifter,    /* STDefenseFork */
   &slice_property_offset_shifter,    /* STRestartGuardRootDefenderFilter */
   &slice_property_offset_shifter,    /* STRestartGuardHelpFilter */
   &slice_property_offset_shifter,    /* STRestartGuardSeriesFilter */
@@ -640,6 +642,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STProxy */
   &init_slice_properties_pipe,           /* STAttackMove */
   &stip_traverse_structure_children,     /* STDefenseMove */
+  &stip_traverse_structure_children,     /* STDefenseMoveAgainstGoal */
   &init_slice_properties_pipe,           /* STHelpMove */
   &init_slice_properties_pipe,           /* STHelpMoveToGoal */
   &stip_traverse_structure_children,     /* STHelpFork */
@@ -690,6 +693,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
+  &stip_traverse_structure_children,     /* STDefenseFork */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
   &init_slice_properties_pipe,           /* STRestartGuardSeriesFilter */
@@ -2129,7 +2133,7 @@ static void insert_hash_element_attack_move(slice_index si,
     pipe_append(si,alloc_attack_hashed_slice(length,min_length));
   }
 
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2150,7 +2154,7 @@ static void insert_hash_element_defense_move(slice_index si,
   TraceFunctionParamListEnd();
 
   *level = nested_branch;
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
   *level = save_level;
 
   TraceFunctionExit(__func__);
@@ -2197,7 +2201,7 @@ static void insert_hash_element_help_move(slice_index si,
     insert_help_hashed_slice(si,length,min_length);
   }
 
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2224,7 +2228,7 @@ static void insert_hash_element_help_move_to_goal(slice_index si,
     stip_length_type const min_length = slack_length_help+1;
     insert_help_hashed_slice(si,length,min_length);
   }
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2250,7 +2254,7 @@ static void insert_hash_element_series_move(slice_index si,
     insert_series_hashed_slice(si,length,min_length);
   }
 
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2276,7 +2280,7 @@ static void insert_hash_element_series_move_to_goal(slice_index si,
     insert_series_hashed_slice(si,length,min_length);
   }
 
-  stip_traverse_moves_branch(si,st);
+  stip_traverse_moves_branch_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2287,6 +2291,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STProxy */
   &stip_traverse_moves_children,            /* STAttackMove */
   &insert_hash_element_defense_move,        /* STDefenseMove */
+  &insert_hash_element_defense_move,        /* STDefenseMoveAgainstGoal */
   &insert_hash_element_help_move,           /* STHelpMove */
   &insert_hash_element_help_move_to_goal,   /* STHelpMoveToGoal */
   &stip_traverse_moves_children,            /* STHelpFork */
@@ -2337,6 +2342,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STReflexAttackerFilter */
   &stip_traverse_moves_children,            /* STReflexDefenderFilter */
   &stip_traverse_moves_children,            /* STSelfDefense */
+  &stip_traverse_moves_children,            /* STDefenseFork */
   &stip_traverse_moves_children,            /* STRestartGuardRootDefenderFilter */
   &stip_traverse_moves_children,            /* STRestartGuardHelpFilter */
   &stip_traverse_moves_children,            /* STRestartGuardSeriesFilter */

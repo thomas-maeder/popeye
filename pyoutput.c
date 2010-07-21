@@ -138,6 +138,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &output_mode_linemode,             /* STHelpFork */
@@ -188,6 +189,7 @@ static stip_structure_visitor const output_mode_detectors[] =
   &output_mode_treemode,             /* STReflexAttackerFilter */
   &output_mode_treemode,             /* STReflexDefenderFilter */
   &output_mode_self_defense,         /* STSelfDefense */
+  &output_mode_self_defense,         /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */

@@ -118,6 +118,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children,   /* STProxy */
   &stip_traverse_structure_children,   /* STAttackMove */
   &stip_traverse_structure_children,   /* STDefenseMove */
+  &stip_traverse_structure_children,   /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,        /* STHelpMove */
   &stip_structure_visitor_noop,        /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,        /* STHelpFork */
@@ -168,6 +169,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
   &stip_traverse_structure_children,   /* STReflexDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfDefense */
+  &stip_traverse_structure_children,   /* STDefenseFork */
   &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
   &stip_structure_visitor_noop,        /* STRestartGuardHelpFilter */
   &stip_structure_visitor_noop,        /* STRestartGuardSeriesFilter */
@@ -253,6 +255,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,      /* STHelpFork */
@@ -303,6 +306,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_structure_visitor_noop,      /* STRestartGuardHelpFilter */
   &stip_structure_visitor_noop,      /* STRestartGuardSeriesFilter */

@@ -661,6 +661,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &stip_traverse_structure_children,       /* STProxy */
   &keepmating_guards_inserter_attack_move, /* STAttackMove */
   &keepmating_guards_inserter_defender,    /* STDefenseMove */
+  &keepmating_guards_inserter_defender,    /* STDefenseMoveAgainstGoal */
   &keepmating_guards_inserter_help_move,   /* STHelpMove */
   &keepmating_guards_inserter_help_move,   /* STHelpMoveToGoal */
   &keepmating_guards_inserter_branch_fork, /* STHelpFork */
@@ -711,6 +712,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_battle_fork, /* STReflexAttackerFilter */
   &keepmating_guards_inserter_battle_fork, /* STReflexDefenderFilter */
   &keepmating_guards_inserter_battle_fork, /* STSelfDefense */
+  &keepmating_guards_inserter_battle_fork, /* STDefenseFork */
   &stip_traverse_structure_children,       /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,       /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children,       /* STRestartGuardSeriesFilter */

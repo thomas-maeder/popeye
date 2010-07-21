@@ -20,6 +20,7 @@
   ENUMERATOR(STProxy),                                                  \
     ENUMERATOR(STAttackMove),    /* M-N attacking moves in battle play */ \
     ENUMERATOR(STDefenseMove),                                          \
+    ENUMERATOR(STDefenseMoveAgainstGoal),                               \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
@@ -70,6 +71,7 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
+    ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STRestartGuardRootDefenderFilter),    /* write move numbers */ \
     ENUMERATOR(STRestartGuardHelpFilter),    /* write move numbers */ \
     ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \

@@ -1,5 +1,6 @@
 #include "stipulation/battle_play/fork.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 
@@ -33,16 +34,7 @@ void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st)
 
   TraceValue("%u\n",st->remaining);
   if (st->remaining<=slack_length_battle+1)
-  {
-    stip_length_type const save_remaining = st->remaining;
-    stip_length_type const save_full_length = st->full_length;
-    ++st->level;
-    st->remaining = 0;
-    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
-    st->full_length = save_full_length;
-    st->remaining = save_remaining;
-    --st->level;
-  }
+    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
   else
     stip_traverse_moves_pipe(si,st);
 

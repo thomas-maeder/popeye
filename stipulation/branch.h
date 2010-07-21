@@ -30,6 +30,12 @@ slice_index branch_find_slice(SliceType type, slice_index si);
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
+void stip_traverse_moves_branch_slice(slice_index si, stip_move_traversal *st);
+
+/* Traversal of the moves of a branch
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
 void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st);
 
 #endif

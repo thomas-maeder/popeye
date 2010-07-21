@@ -425,6 +425,7 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &stip_traverse_structure_children,      /* STProxy */
   &stip_traverse_structure_children,      /* STAttackMove */
   &append_nontrivial_counter,             /* STDefenseMove */
+  &append_nontrivial_counter,             /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,      /* STHelpMove */
   &stip_traverse_structure_children,      /* STHelpMoveToGoal */
   &stip_traverse_structure_children,      /* STHelpFork */
@@ -475,6 +476,7 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &stip_traverse_structure_children,      /* STReflexAttackerFilter */
   &stip_traverse_structure_children,      /* STReflexDefenderFilter */
   &stip_traverse_structure_children,      /* STSelfDefense */
+  &stip_traverse_structure_children,      /* STDefenseFork */
   &stip_traverse_structure_children,      /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,      /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children,      /* STRestartGuardSeriesFilter */

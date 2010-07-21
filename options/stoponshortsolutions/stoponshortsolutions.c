@@ -203,6 +203,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STProxy */
   &stip_traverse_structure_children,        /* STAttackMove */
   &stip_traverse_structure_children,        /* STDefenseMove */
+  &stip_traverse_structure_children,        /* STDefenseMoveAgainstGoal */
   &insert_stoponshortsolutions_help_move,   /* STHelpMove */
   &insert_stoponshortsolutions_help_move,   /* STHelpMoveToGoal */
   &stip_traverse_structure_children,        /* STHelpFork */
@@ -253,6 +254,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STReflexAttackerFilter */
   &stip_traverse_structure_children,        /* STReflexDefenderFilter */
   &stip_traverse_structure_children,        /* STSelfDefense */
+  &stip_traverse_structure_children,        /* STDefenseFork */
   &stip_traverse_structure_children,        /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,        /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children,        /* STRestartGuardSeriesFilter */
@@ -339,6 +341,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
@@ -389,6 +392,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */

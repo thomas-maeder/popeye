@@ -1,4 +1,5 @@
 #include "pyreflxg.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
@@ -170,16 +171,7 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
 
   TraceValue("%u\n",st->remaining);
   if (st->remaining==slices[si].u.reflex_guard.length)
-  {
-    stip_length_type const save_remaining = st->remaining;
-    stip_length_type const save_full_length = st->full_length;
-    ++st->level;
-    st->remaining = 0;
-    stip_traverse_moves(slices[si].u.reflex_guard.avoided,st);
-    st->full_length = save_full_length;
-    st->remaining = save_remaining;
-    --st->level;
-  }
+    stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
 
   stip_traverse_moves_pipe(si,st);
 
@@ -919,6 +911,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STProxy */
   &reflex_guards_inserter_attack,      /* STAttackMove */
   &reflex_guards_inserter_defense,     /* STDefenseMove */
+  &reflex_guards_inserter_defense,     /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,   /* STHelpMove */
   &stip_traverse_structure_children,   /* STHelpMoveToGoal */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
@@ -969,6 +962,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
   &stip_traverse_structure_children,   /* STReflexDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfDefense */
+  &stip_traverse_structure_children,   /* STDefenseFork */
   &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,   /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children,   /* STRestartGuardSeriesFilter */
@@ -1130,6 +1124,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STProxy */
   &stip_traverse_structure_children,    /* STAttackMove */
   &reflex_guards_inserter_defense_semi, /* STDefenseMove */
+  &reflex_guards_inserter_defense_semi, /* STDefenseMoveAgainstGoal */
   &reflex_guards_inserter_help,         /* STHelpMove */
   &reflex_guards_inserter_help,         /* STHelpMoveToGoal */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */
@@ -1180,6 +1175,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STReflexAttackerFilter */
   &stip_traverse_structure_children,    /* STReflexDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfDefense */
+  &stip_traverse_structure_children,    /* STDefenseFork */
   &stip_traverse_structure_children,    /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,    /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children,    /* STRestartGuardSeriesFilter */

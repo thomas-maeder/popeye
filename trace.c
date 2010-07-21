@@ -227,6 +227,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STDirectDefenderFilter:
       case STSelfDefense:
+      case STDefenseFork:
       case STHelpFork:
       case STSeriesFork:
         Trace_branch(si);
@@ -243,6 +244,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STContinuationSolver:
       case STBattlePlaySolver:
       case STDefenseMove:
+      case STDefenseMoveAgainstGoal:
       case STRefutationsCollector:
       case STSelfCheckGuardAttackerFilter:
       case STSelfCheckGuardDefenderFilter:
