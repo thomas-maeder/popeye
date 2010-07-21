@@ -183,43 +183,50 @@ stip_length_type defense_move_defend_in_n(slice_index si,
   return result;
 }
 
-static unsigned int nr_refutations[maxply+1];
+static boolean last_defense_stalemate;
 
-static stip_length_type try_defenses(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min,
-                                     unsigned int max_nr_refutations)
+/* Try the defenses generated in the current ply
+ * @param si identifies slice
+ * @param max_nr_refutations maximum number of refutations to look for
+ * @return number of refutations found (0 .. max_nr_refutations+1)
+ */
+static unsigned int try_last_defenses(slice_index si,
+                                      unsigned int max_nr_refutations)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type result = 0;
-  stip_length_type const parity = (n-slack_length_battle)%2;
-  stip_length_type n_max_unsolvable;
+  unsigned int result = 0;
+  stip_length_type const n_max_unsolvable = slack_length_battle-2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  n_max_unsolvable = slack_length_battle-parity;
-
-  while (nr_refutations[nbply]<=max_nr_refutations && encore())
+  while (result<=max_nr_refutations && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
-      stip_length_type const
-          length_sol = attack_has_solution_in_n(next,
-                                                n-1,n_min-1,
-                                                n_max_unsolvable-1);
-      if (length_sol>=n)
+      switch (attack_has_solution_in_n(next,
+                                       slack_length_battle,slack_length_battle,
+                                       n_max_unsolvable))
       {
-        ++nr_refutations[nbply];
-        coupfort();
-      }
+        case slack_length_battle-2:
+          break;
 
-      if (length_sol>result)
-        result = length_sol+1;
+        case slack_length_battle:
+          last_defense_stalemate = false;
+          break;
+
+        case slack_length_battle+2:
+          last_defense_stalemate = false;
+          ++result;
+          coupfort();
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
     }
 
     repcoup();
@@ -231,30 +238,33 @@ static stip_length_type try_defenses(slice_index si,
   return result;
 }
 
-static stip_length_type iterate_other_pieces(slice_index si,
-                                             stip_length_type n,
-                                             stip_length_type n_min,
-                                             square killer_pos,
-                                             Side defender,
-                                             unsigned int max_nr_refutations)
+/* Try defenses by pieces other than the killer piece
+ * @param si identifies slice
+ * @param defender defending side
+ * @param killer_pos square occupied by killer piece
+ * @param max_nr_refutations maximum number of refutations to look for
+ * @return number of refutations found (0 .. max_nr_refutations+1)
+ */
+static unsigned int iterate_non_killer(slice_index si,
+                                       Side defender,
+                                       square killer_pos,
+                                       unsigned int max_nr_refutations)
 {
   square const *selfbnp;
-  stip_length_type result = 0;
+  unsigned int result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
-  TraceSquare(killer_pos);
   TraceEnumerator(Side,defender,"");
+  TraceSquare(killer_pos);
+  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   for (selfbnp = boardnum;
-       *selfbnp!=initsquare && nr_refutations[nbply]<=max_nr_refutations;
+       *selfbnp!=initsquare && result<=max_nr_refutations;
        ++selfbnp)
     if (*selfbnp!=killer_pos)
     {
-      stip_length_type result2;
       piece p = e[*selfbnp];
       if (p!=vide)
       {
@@ -272,9 +282,7 @@ static stip_length_type iterate_other_pieces(slice_index si,
         }
       }
 
-      result2 = try_defenses(si,n,n_min,max_nr_refutations);
-      if (result2>result)
-        result = result2;
+      result += try_last_defenses(si,max_nr_refutations-result);
     }
 
   TraceFunctionExit(__func__);
@@ -283,23 +291,24 @@ static stip_length_type iterate_other_pieces(slice_index si,
   return result;
 }
 
-static
-stip_length_type iterate_priorise_killer_piece(slice_index si,
-                                               stip_length_type n,
-                                               stip_length_type n_min,
-                                               Side defender,
-                                               square killer_pos,
-                                               piece killer,
-                                               unsigned int max_nr_refutations)
+/* Try defenses first by the killer piece, then by the other pieces
+ * @param si identifies slice
+ * @param killer_pos square occupied by killer piece
+ * @param defender defending side
+ * @param max_nr_refutations maximum number of refutations to look for
+ * @return number of refutations found (0 .. max_nr_refutations+1)
+ */
+static unsigned int iterate_killer(slice_index si,
+                                   Side defender,
+                                   square killer_pos,
+                                   piece killer,
+                                   unsigned int max_nr_refutations)
 {
   Side const attacker = advers(defender);
-  stip_length_type result;
-  stip_length_type result2;
+  unsigned int result;
     
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceEnumerator(Side,defender,"");
   TraceSquare(killer_pos);
   TracePiece(killer);
@@ -332,15 +341,13 @@ stip_length_type iterate_priorise_killer_piece(slice_index si,
 
   finish_move_generation_optimizer();
 
-  result = try_defenses(si,n,n_min,max_nr_refutations);
+  result = try_last_defenses(si,max_nr_refutations);
 
-  result2 = iterate_other_pieces(si,
-                                 n,n_min,
-                                 killer_pos,
-                                 defender,
-                                 max_nr_refutations);
-  if (result2>result)
-    result = result2;
+  if (result<=max_nr_refutations)
+  {
+    unsigned int const remaining = max_nr_refutations-result;
+    result += iterate_non_killer(si,defender,killer_pos,remaining);
+  }
 
   finply();
 
@@ -350,24 +357,24 @@ stip_length_type iterate_priorise_killer_piece(slice_index si,
   return result;
 }
 
+/* Try last defenses
+ * @param si identifies slice
+ * @param defender defending side
+ * @param max_nr_refutations maximum number of refutations to look for
+ * @return number of refutations found (0 .. max_nr_refutations+1)
+ */
 static
-stip_length_type iterate_last_self_defenses(slice_index si,
-                                            Side defender,
-                                            unsigned int max_nr_refutations)
+unsigned int iterate_last_self_defenses(slice_index si,
+                                        Side defender,
+                                        unsigned int max_nr_refutations)
 {
-  square const killer_pos = kpilcd[nbply+1];
-  piece const killer = e[killer_pos];
-  stip_length_type result;
+  unsigned int result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,defender,"");
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
-
-  TraceSquare(killer_pos);
-  TracePiece(killer);
-  TraceText("\n");
 
   if (slices[si].u.branch.imminent_goal.type==goal_ep
       && ep[nbply]==initsquare
@@ -376,29 +383,91 @@ stip_length_type iterate_last_self_defenses(slice_index si,
     /* nothing */
     /* TODO transform to defender filter */
     /* TODO ?create other filters? */
-    result = slack_length_battle+5;
+    result = max_nr_refutations+1;
   }
   else
   {
+    square const killer_pos = kpilcd[nbply+1];
+    piece const killer = e[killer_pos];
+
+    TraceSquare(killer_pos);
+    TracePiece(killer);
+    TraceText("\n");
+
+    last_defense_stalemate = true;
+
     if ((defender==Black ? flagblackmummer : flagwhitemummer)
         || killer==obs || killer==vide)
     {
       move_generation_mode = move_generation_optimized_by_killer_move;
       TraceValue("->%u\n",move_generation_mode);
       genmove(defender);
-      result = try_defenses(si,
-                            slack_length_battle+1,slack_length_battle+1,
-                            max_nr_refutations);
+      result = try_last_defenses(si,max_nr_refutations);
       finply();
     }
     else
-      result = iterate_priorise_killer_piece(si,
-                                             slack_length_battle+1,
-                                             slack_length_battle+1,
-                                             defender,
-                                             killer_pos,
-                                             killer,
-                                             max_nr_refutations);
+      result = iterate_killer(si,
+                              defender,
+                              killer_pos,
+                              killer,
+                              max_nr_refutations);
+
+    if (last_defense_stalemate)
+      result = max_nr_refutations+1;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try the defenses generated in the current ply
+ * @param si identifies slice
+ * @param max_nr_refutations maximum number of refutations to look for
+ * @return n_min-2  defending side is stalemated
+ *         n_min..n length of longest continuation (no refutation found)
+ *         n+2      >=1 refutation found
+ */
+static stip_length_type try_defenses(slice_index si,
+                                     stip_length_type n,
+                                     stip_length_type n_min,
+                                     unsigned int max_nr_refutations)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result = n_min-2;
+  unsigned int nr_refutations = 0;
+  stip_length_type const parity = (n-slack_length_battle)%2;
+  stip_length_type n_max_unsolvable;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",max_nr_refutations);
+  TraceFunctionParamListEnd();
+
+  n_max_unsolvable = slack_length_battle-parity;
+
+  while (nr_refutations<=max_nr_refutations && encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
+    {
+      stip_length_type const
+          length_sol = attack_has_solution_in_n(next,
+                                                n-1,n_min-1,
+                                                n_max_unsolvable-1);
+      if (length_sol>=n)
+      {
+        ++nr_refutations;
+        coupfort();
+      }
+
+      if (length_sol>result)
+        result = length_sol+1;
+    }
+
+    repcoup();
   }
 
   TraceFunctionExit(__func__);
@@ -426,8 +495,6 @@ defense_move_can_defend_in_n(slice_index si,
 {
   Side const defender = slices[si].starter;
   stip_length_type result;
-  stip_length_type max_len_continuation;
-  stip_length_type n_min;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -438,19 +505,15 @@ defense_move_can_defend_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  nr_refutations[nbply+1] = 0;
-
   if (n==slack_length_battle+1
       && slices[si].u.branch.imminent_goal.type!=no_goal)
-  {
-    n_min = slack_length_battle+1;
-    max_len_continuation = iterate_last_self_defenses(si,
-                                                      defender,
-                                                      max_nr_refutations);
-  }
+    result = (iterate_last_self_defenses(si,defender,max_nr_refutations)==0
+              ? slack_length_battle+1
+              : slack_length_battle+5);
   else
   {
-    n_min = battle_branch_calc_n_min(si,n);
+    stip_length_type const n_min = battle_branch_calc_n_min(si,n);
+    stip_length_type max_len_continuation;
 
     if (n<=slack_length_battle+3)
       move_generation_mode = move_generation_optimized_by_killer_move;
@@ -461,13 +524,13 @@ defense_move_can_defend_in_n(slice_index si,
     genmove(defender);
     max_len_continuation = try_defenses(si,n,n_min,max_nr_refutations);
     finply();
-  }
 
-  if (max_len_continuation<n_min /* stalemate */
-      || max_len_continuation>n) /* refuted */
-    result = n+4;
-  else
-    result = max_len_continuation;
+    if (max_len_continuation<n_min /* stalemate */
+        || max_len_continuation>n) /* refuted */
+      result = n+4;
+    else
+      result = max_len_continuation;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
