@@ -79,8 +79,10 @@ direct_defender_filter_defend_in_n(slice_index si,
   if (n_min<slack_length_battle+2
       && !defense_defend(to_goal))
     result = n_min;
-  else
+  else if (n>slack_length_battle)
     result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+  else
+    result = slack_length_battle+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -127,10 +129,12 @@ direct_defender_filter_can_defend_in_n(slice_index si,
     else
       result = n+2;
   }
-  else
+  else if (n>slack_length_battle)
     result = defense_can_defend_in_n(next,
                                      n,n_max_unsolvable,
                                      max_nr_refutations);
+  else
+    result = slack_length_battle+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

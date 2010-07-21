@@ -117,6 +117,7 @@ battle_play_solver_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  unsigned int nr_refutations;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -132,6 +133,12 @@ battle_play_solver_defend_in_n(slice_index si,
                                    n,n_max_unsolvable,
                                    user_set_max_nr_refutations);
 
+  nr_refutations = table_length(refutations);
+  if (result==n+4
+      && nr_refutations>0 
+      && nr_refutations<=user_set_max_nr_refutations)
+    result = n+2;
+  
   if (result<=n+2)
   {
     /* suppress short ends in self stipulations if there are longer
@@ -148,7 +155,6 @@ battle_play_solver_defend_in_n(slice_index si,
     {
       stip_length_type const
           defend_result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
-      assert(result==defend_result);
 
       if (defend_result==n+2)
       {
@@ -158,11 +164,10 @@ battle_play_solver_defend_in_n(slice_index si,
           /* reduce by 1 to stop the iteration immediately when all
            * refutations have been written
            */
-          unsigned int const nr_refutations = table_length(refutations)-1;
           stip_length_type const
               write_result = defense_can_defend_in_n(next,
                                                      n,n_max_unsolvable,
-                                                     nr_refutations);
+                                                     nr_refutations-1);
           assert(write_result==n+4);
         }
 
