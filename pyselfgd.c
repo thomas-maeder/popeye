@@ -236,7 +236,7 @@ static stip_structure_visitor const self_guards_inserters[] =
   &stip_traverse_structure_children,  /* STProxy */
   &stip_traverse_structure_children,  /* STAttackMove */
   &self_guards_inserter_defense_move, /* STDefenseMove */
-  &self_guards_inserter_defense_move, /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,  /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,  /* STHelpMove */
   &stip_traverse_structure_children,  /* STHelpMoveToGoal */
   &stip_traverse_structure_children,  /* STHelpFork */

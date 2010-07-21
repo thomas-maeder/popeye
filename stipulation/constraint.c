@@ -911,7 +911,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STProxy */
   &reflex_guards_inserter_attack,      /* STAttackMove */
   &reflex_guards_inserter_defense,     /* STDefenseMove */
-  &reflex_guards_inserter_defense,     /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,   /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,   /* STHelpMove */
   &stip_traverse_structure_children,   /* STHelpMoveToGoal */
   &reflex_guards_inserter_branch_fork, /* STHelpFork */
@@ -1124,7 +1124,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STProxy */
   &stip_traverse_structure_children,    /* STAttackMove */
   &reflex_guards_inserter_defense_semi, /* STDefenseMove */
-  &reflex_guards_inserter_defense_semi, /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,    /* STDefenseMoveAgainstGoal */
   &reflex_guards_inserter_help,         /* STHelpMove */
   &reflex_guards_inserter_help,         /* STHelpMoveToGoal */
   &reflex_guards_inserter_branch_fork,  /* STHelpFork */

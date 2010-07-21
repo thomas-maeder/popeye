@@ -109,13 +109,15 @@ stipulation/series_play/root.h:
 
 stipulation/series_play/shortcut.h:
 stipulation/series_play/fork$(OBJ_SUFFIX): stipulation/series_play/fork.c \
-  stipulation/series_play/fork.h pybrafrk.h \
+  stipulation/series_play/fork.h pybrafrk.h stipulation/branch.h \
   stipulation/series_play/branch.h stipulation/series_play/play.h \
   stipulation/proxy.h trace.h
 
 stipulation/series_play/fork.h:
 
 pybrafrk.h:
+
+stipulation/branch.h:
 
 stipulation/series_play/branch.h:
 

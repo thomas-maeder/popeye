@@ -553,7 +553,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STProxy */
   &append_threat_collector,              /* STAttackMove */
   &prepend_threat_solver,                /* STDefenseMove */
-  &prepend_threat_solver,                /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,     /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,          /* STHelpMove */
   &stip_structure_visitor_noop,          /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,          /* STHelpFork */

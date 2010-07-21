@@ -751,7 +751,7 @@ static stip_structure_visitor const root_slice_makers[] =
   &proxy_make_root,                           /* STProxy */
   &attack_move_make_root,                     /* STAttackMove */
   &defense_move_make_root,                    /* STDefenseMove */
-  &defense_move_make_root,                    /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,          /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,          /* STHelpMove */
   &stip_traverse_structure_children,          /* STHelpMoveToGoal */
   &stip_traverse_structure_children,          /* STHelpFork */
@@ -901,7 +901,7 @@ static stip_structure_visitor const post_root_shorteners[] =
   &stip_traverse_structure_children,    /* STProxy */
   &battle_branch_post_root_shorten,     /* STAttackMove */
   &battle_branch_post_root_shorten_end, /* STDefenseMove */
-  &battle_branch_post_root_shorten,     /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,    /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,    /* STHelpMove */
   &stip_traverse_structure_children,    /* STHelpMoveToGoal */
   &stip_traverse_structure_children,    /* STHelpFork */
@@ -1021,7 +1021,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &proxy_make_root,                    /* STProxy */
   &battle_branch_make_root,            /* STAttackMove */
   &battle_branch_make_root,            /* STDefenseMove */
-  &battle_branch_make_root,            /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,   /* STDefenseMoveAgainstGoal */
   &help_move_make_root,                /* STHelpMove */
   &help_move_to_goal_make_root,        /* STHelpMoveToGoal */
   &help_fork_make_root,                /* STHelpFork */
@@ -1343,7 +1343,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_children, /* STProxy */
   &get_max_nr_moves_move,        /* STAttackMove */
   &get_max_nr_moves_move,        /* STDefenseMove */
-  &get_max_nr_moves_move,        /* STDefenseMoveAgainstGoal */
+  &stip_traverse_moves_children, /* STDefenseMoveAgainstGoal */
   &get_max_nr_moves_move,        /* STHelpMove */
   &get_max_nr_moves_move,        /* STHelpMoveToGoal */
   &stip_traverse_moves_children, /* STHelpFork */
@@ -2020,7 +2020,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STProxy */
   &stip_traverse_structure_children,              /* STAttackMove */
   &defense_move_reduce_to_postkey_play,           /* STDefenseMove */
-  &defense_move_reduce_to_postkey_play,           /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,              /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,              /* STHelpMove */
   &stip_traverse_structure_children,              /* STHelpMoveToGoal */
   &stip_traverse_structure_children,              /* STHelpFork */
@@ -2169,7 +2169,7 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &defense_move_make_setplay_slice,  /* STDefenseMove */
-  &defense_move_make_setplay_slice,  /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &help_move_make_setplay_slice,     /* STHelpMove */
   &help_move_make_setplay_slice,     /* STHelpMoveToGoal */
   &help_fork_make_setplay_slice,     /* STHelpFork */
@@ -2294,7 +2294,7 @@ static stip_structure_visitor const setplay_appliers[] =
   &stip_traverse_structure_children,     /* STProxy */
   &attack_move_apply_setplay,            /* STAttackMove */
   &stip_structure_visitor_noop,          /* STDefenseMove */
-  &stip_structure_visitor_noop,          /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children,     /* STDefenseMoveAgainstGoal */
   &help_move_apply_setplay,              /* STHelpMove */
   &stip_traverse_structure_children,     /* STHelpMoveToGoal */
   &stip_traverse_structure_pipe,         /* STHelpFork */

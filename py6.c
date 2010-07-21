@@ -505,14 +505,14 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &root_slice_type_found,            /* STDefenseMove */
-  &root_slice_type_found,            /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
   &stip_traverse_structure_children, /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
   &stip_traverse_structure_children, /* STSeriesFork */
-  &root_slice_type_found,            /* STGoalReachedTester */
+  &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_structure_visitor_noop,      /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
   &stip_traverse_structure_children, /* STQuodlibet */
