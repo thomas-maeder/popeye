@@ -2733,18 +2733,23 @@ static void remember_imminent_goal_defense_move(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
     slice_index const
         last_defense = alloc_defense_move_against_goal_slice(slack_length_battle+1,
                                                              slack_length_battle+1);
     slice_index const fork = alloc_defense_fork_slice(length,min_length,
-                                                      last_defense);
+                                                      proxy1);
 
     slices[fork].starter = slices[si].starter;
     pipe_append(slices[si].prev,fork);
 
+    pipe_link(proxy1,last_defense);
+    
     slices[last_defense].starter = slices[si].starter;
     slices[last_defense].u.branch.imminent_goal = state->goal;
-    pipe_set_successor(last_defense,slices[si].u.pipe.next);
+    pipe_link(last_defense,proxy2);
+    pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
 
   state->goal.type = no_goal;
@@ -3021,6 +3026,8 @@ static Token iterate_twins(Token prev_token)
           Message(TryPlayNotApplicable);
       }
 
+      stip_optimise_final_moves();
+
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
 
@@ -3066,8 +3073,6 @@ static Token iterate_twins(Token prev_token)
 
       resolve_proxies();
       dealloc_proxy_slices();
-
-      stip_optimise_final_moves();
 
       assert_no_leaked_slices();
 
