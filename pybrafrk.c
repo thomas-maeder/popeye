@@ -12,14 +12,14 @@
  * @param type which slice type
  * @param length maximum number of half moves until end of slice
  * @param min_length minimum number of half moves until end of slice
- * @param proxy_to_goal identifies proxy slice that leads towards goal
- *                      from the branch
+ * @param to_goal identifies proxy slice that leads towards goal
+ *                from the branch
  * @return newly allocated slice
  */
 slice_index alloc_branch_fork(SliceType type,
                               stip_length_type length,
                               stip_length_type min_length,
-                              slice_index proxy_to_goal)
+                              slice_index to_goal)
 {
   slice_index result;
 
@@ -27,13 +27,11 @@ slice_index alloc_branch_fork(SliceType type,
   TraceEnumerator(SliceType,type,"");
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_goal);
+  TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy_to_goal].type==STProxy);
-
   result = alloc_branch(type,length,min_length);
-  slices[result].u.branch_fork.towards_goal = proxy_to_goal;
+  slices[result].u.branch_fork.towards_goal = to_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
