@@ -92,6 +92,9 @@ self_defense_direct_has_solution_in_n(slice_index si,
                                       stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index const length = slices[si].u.branch_fork.length;
+  slice_index const min_length = slices[si].u.branch_fork.min_length;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -101,31 +104,34 @@ self_defense_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n_min>=slack_length_battle);
+  assert(n>=slack_length_battle);
 
   if (n_max_unsolvable<slack_length_battle)
-    switch (slice_has_solution(slices[si].u.branch_fork.towards_goal))
+  {
+    switch (slice_has_solution(to_goal))
     {
       case opponent_self_check:
-        result = n_min-2;
-        break;
-
-      case has_solution:
-        if (n_min<slack_length_battle+2)
-          result = n_min;
-        else
-          result = n+2;
+        result = slack_length_battle-1;
         break;
 
       case has_no_solution:
+        n_max_unsolvable = slack_length_battle;
         result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+        break;
+
+      case has_solution:
+        if (n-slack_length_battle<=length-min_length)
+          result = slack_length_battle;
+        else
+          result = n+1;
         break;
 
       default:
         assert(0);
-        result = n_min-2;
+        result = slack_length_battle-1;
         break;
     }
+  }
   else
     result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
 
@@ -166,27 +172,35 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  switch (slice_has_solution(towards_goal))
+  assert(n>=slack_length_battle);
+
+  if (n_max_unsolvable<slack_length_battle)
   {
-    case opponent_self_check:
-      result = n_min-2;
-      break;
+    switch (slice_has_solution(towards_goal))
+    {
+      case opponent_self_check:
+        result = n_min-2;
+        break;
 
-    case has_solution:
-      if (n_min<=slack_length_battle+1)
-        slice_solve(towards_goal);
-      result = n_min;
-      break;
+      case has_solution:
+        if (n_min<=slack_length_battle+1)
+          slice_solve(towards_goal);
+        result = n_min;
+        break;
 
-    case has_no_solution:
-      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
-      break;
+      case has_no_solution:
+        n_max_unsolvable = slack_length_battle;
+        result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+        break;
 
-    default:
-      assert(0);
-      result = n+2;
-      break;
+      default:
+        assert(0);
+        result = n+2;
+        break;
+    }
   }
+  else
+    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

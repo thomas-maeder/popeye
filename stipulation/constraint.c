@@ -436,6 +436,8 @@ reflex_defender_filter_defend_in_n(slice_index si,
   stip_length_type result;
   slice_index const next = slices[si].u.reflex_guard.next;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
+  stip_length_type const length = slices[si].u.branch_fork.length;
+  stip_length_type const min_length = slices[si].u.branch_fork.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -444,7 +446,10 @@ reflex_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n_max_unsolvable<slack_length_battle
+  assert(n>=slack_length_battle);
+
+  if (n_max_unsolvable<=slack_length_battle
+      && length-min_length+1>=n-slack_length_battle
       && slice_solve(avoided)==has_no_solution)
     result = n_min;
   else
@@ -486,10 +491,12 @@ reflex_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  if (n_max_unsolvable<slack_length_battle
-      && n+min_length<slack_length_battle+2+length
+  assert(n>=slack_length_battle);
+
+  if (n_max_unsolvable<=slack_length_battle
+      && length-min_length+1>=n-slack_length_battle
       && slice_has_solution(avoided)==has_no_solution)
-    result = n_max_unsolvable+2;
+    result = slack_length_battle+1;
   else
     result = defense_can_defend_in_n(next,
                                      n,n_max_unsolvable,
@@ -747,6 +754,33 @@ void reflex_series_filter_make_root(slice_index si,
     shorten_series_pipe(si);
   }
   
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves beyond a reflex attacker filter slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_reflex_series_filter(slice_index si,
+                                              stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==0)
+  {
+    st->full_length = slices[si].u.reflex_guard.length;
+    TraceValue("->%u",st->full_length);
+    st->remaining = slices[si].u.reflex_guard.length;
+  }
+
+  if (st->remaining==slack_length_series+1)
+    stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
+  else
+    stip_traverse_moves_pipe(si,st);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

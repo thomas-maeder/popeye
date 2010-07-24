@@ -1869,7 +1869,7 @@ static void append_direct_defender_filter(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_direct_defender_filter_slice(length,min_length,
+    pipe_append(si,alloc_direct_defender_filter_slice(length-1,min_length-1,
                                                       *proxy_to_goal));
   }
 
@@ -2762,25 +2762,71 @@ boolean stip_ends_in_one_of(goal_type const goals[], size_t nrGoals)
  * @param branch identifies the branch
  * @param st address of structure defining traversal
  */
-static void make_exact_branch(slice_index branch, stip_structure_traversal *st)
+static void make_exact_battle_branch(slice_index branch,
+                                     stip_structure_traversal *st)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  slices[branch].u.branch.min_length = slices[branch].u.branch.length-1;
+
+  stip_traverse_structure_children(branch,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Make a branch exact
+ * @param branch identifies the branch
+ * @param st address of structure defining traversal
+ */
+static void make_exact_help_branch(slice_index branch,
+                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
+  slices[branch].u.branch.min_length = slices[branch].u.branch.length-1;
+
+  stip_traverse_structure_children(branch,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Make a branch exact
+ * @param branch identifies the branch
+ * @param st address of structure defining traversal
+ */
+static void make_exact_series_branch(slice_index branch,
+                                     stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",branch);
+  TraceFunctionParamListEnd();
+
   slices[branch].u.branch.min_length = slices[branch].u.branch.length;
 
   stip_traverse_structure_children(branch,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static stip_structure_visitor const exact_makers[] =
 {
   &stip_traverse_structure_children, /* STProxy */
-  &make_exact_branch,                /* STAttackMove */
-  &make_exact_branch,                /* STDefenseMove */
-  &make_exact_branch,                /* STDefenseMoveAgainstGoal */
-  &make_exact_branch,                /* STHelpMove */
+  &make_exact_battle_branch,         /* STAttackMove */
+  &make_exact_battle_branch,         /* STDefenseMove */
+  &make_exact_battle_branch,         /* STDefenseMoveAgainstGoal */
+  &make_exact_help_branch,           /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
-  &make_exact_branch,                /* STHelpFork */
-  &make_exact_branch,                /* STSeriesMove */
+  &make_exact_help_branch,           /* STHelpFork */
+  &make_exact_series_branch,         /* STSeriesMove */
   &stip_traverse_structure_children, /* STSeriesMoveToGoal */
-  &make_exact_branch,                /* STSeriesFork */
+  &make_exact_series_branch,         /* STSeriesFork */
   &stip_traverse_structure_children, /* STGoalReachedTester */
   &stip_traverse_structure_children, /* STLeaf */
   &stip_traverse_structure_children, /* STReciprocal */
@@ -2789,82 +2835,82 @@ static stip_structure_visitor const exact_makers[] =
   &stip_traverse_structure_children, /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_children, /* STMoveInverterSeriesFilter */
-  &make_exact_branch,                /* STAttackRoot */
-  &make_exact_branch,                /* STDefenseRoot */
-  &make_exact_branch,                /* STPostKeyPlaySuppressor */
-  &make_exact_branch,                /* STContinuationSolver */
-  &make_exact_branch,                /* STContinuationWriter */
-  &make_exact_branch,                /* STBattlePlaySolver */
-  &make_exact_branch,                /* STBattlePlaySolutionWriter */
-  &make_exact_branch,                /* STThreatSolver */
-  &make_exact_branch,                /* STZugzwangWriter */
-  &make_exact_branch,                /* STThreatEnforcer */
-  &make_exact_branch,                /* STThreatCollector */
-  &make_exact_branch,                /* STRefutationsCollector */
-  &make_exact_branch,                /* STVariationWriter */
-  &make_exact_branch,                /* STRefutingVariationWriter */
-  &make_exact_branch,                /* STNoShortVariations */
+  &make_exact_battle_branch,         /* STAttackRoot */
+  &make_exact_battle_branch,         /* STDefenseRoot */
+  &make_exact_battle_branch,         /* STPostKeyPlaySuppressor */
+  &make_exact_battle_branch,         /* STContinuationSolver */
+  &make_exact_battle_branch,         /* STContinuationWriter */
+  &make_exact_battle_branch,         /* STBattlePlaySolver */
+  &make_exact_battle_branch,         /* STBattlePlaySolutionWriter */
+  &make_exact_battle_branch,         /* STThreatSolver */
+  &make_exact_battle_branch,         /* STZugzwangWriter */
+  &make_exact_battle_branch,         /* STThreatEnforcer */
+  &make_exact_battle_branch,         /* STThreatCollector */
+  &make_exact_battle_branch,         /* STRefutationsCollector */
+  &make_exact_battle_branch,         /* STVariationWriter */
+  &make_exact_battle_branch,         /* STRefutingVariationWriter */
+  &make_exact_battle_branch,         /* STNoShortVariations */
   &stip_traverse_structure_children, /* STAttackHashed */
-  &make_exact_branch,                /* STHelpRoot */
-  &make_exact_branch,                /* STHelpShortcut */
+  &make_exact_help_branch,           /* STHelpRoot */
+  &make_exact_help_branch,           /* STHelpShortcut */
   &stip_traverse_structure_children, /* STHelpHashed */
-  &make_exact_branch,                /* STSeriesRoot */
-  &make_exact_branch,                /* STSeriesShortcut */
+  &make_exact_series_branch,         /* STSeriesRoot */
+  &make_exact_series_branch,         /* STSeriesShortcut */
   &stip_traverse_structure_children, /* STParryFork */
   &stip_traverse_structure_children, /* STSeriesHashed */
-  &make_exact_branch,                /* STSelfCheckGuardRootSolvableFilter */
-  &make_exact_branch,                /* STSelfCheckGuardSolvableFilter */
-  &make_exact_branch,                /* STSelfCheckGuardAttackerFilter */
-  &make_exact_branch,                /* STSelfCheckGuardDefenderFilter */
-  &make_exact_branch,                /* STSelfCheckGuardHelpFilter */
-  &make_exact_branch,                /* STSelfCheckGuardSeriesFilter */
-  &make_exact_branch,                /* STDirectDefenderFilter */
-  &make_exact_branch,                /* STReflexRootFilter */
-  &make_exact_branch,                /* STReflexHelpFilter */
-  &make_exact_branch,                /* STReflexSeriesFilter */
-  &make_exact_branch,                /* STReflexAttackerFilter */
-  &make_exact_branch,                /* STReflexDefenderFilter */
-  &make_exact_branch,                /* STSelfDefense */
-  &make_exact_branch,                /* STDefenseFork */
-  &make_exact_branch,                /* STRestartGuardRootDefenderFilter */
-  &make_exact_branch,                /* STRestartGuardHelpFilter */
-  &make_exact_branch,                /* STRestartGuardSeriesFilter */
-  &make_exact_branch,                /* STIntelligentHelpFilter */
-  &make_exact_branch,                /* STIntelligentSeriesFilter */
-  &make_exact_branch,                /* STGoalReachableGuardHelpFilter */
-  &make_exact_branch,                /* STGoalReachableGuardSeriesFilter */
-  &make_exact_branch,                /* STIntelligentDuplicateAvoider */
-  &make_exact_branch,                /* STKeepMatingGuardAttackerFilter */
-  &make_exact_branch,                /* STKeepMatingGuardDefenderFilter */
-  &make_exact_branch,                /* STKeepMatingGuardHelpFilter */
-  &make_exact_branch,                /* STKeepMatingGuardSeriesFilter */
-  &make_exact_branch,                /* STMaxFlightsquares */
-  &make_exact_branch,                /* STDegenerateTree */
-  &make_exact_branch,                /* STMaxNrNonTrivial */
-  &make_exact_branch,                /* STMaxNrNonTrivialCounter */
-  &make_exact_branch,                /* STMaxThreatLength */
-  &make_exact_branch,                /* STMaxTimeRootDefenderFilter */
-  &make_exact_branch,                /* STMaxTimeDefenderFilter */
-  &make_exact_branch,                /* STMaxTimeHelpFilter */
-  &make_exact_branch,                /* STMaxTimeSeriesFilter */
-  &make_exact_branch,                /* STMaxSolutionsRootSolvableFilter */
-  &make_exact_branch,                /* STMaxSolutionsSolvableFilter */
-  &make_exact_branch,                /* STMaxSolutionsRootDefenderFilter */
-  &make_exact_branch,                /* STMaxSolutionsHelpFilter */
-  &make_exact_branch,                /* STMaxSolutionsSeriesFilter */
-  &make_exact_branch,                /* STStopOnShortSolutionsRootSolvableFilter */
-  &make_exact_branch,                /* STStopOnShortSolutionsHelpFilter */
-  &make_exact_branch,                /* STStopOnShortSolutionsSeriesFilter */
-  &make_exact_branch,                /* STEndOfPhaseWriter */
-  &make_exact_branch,                /* STEndOfSolutionWriter */
-  &make_exact_branch,                /* STRefutationWriter */
-  &make_exact_branch,                /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &make_exact_branch,                /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
-  &make_exact_branch,                /* STOutputPlaintextLineLineWriter */
-  &make_exact_branch,                /* STOutputPlaintextTreeGoalWriter */
-  &make_exact_branch,                /* STOutputPlaintextTreeMoveInversionCounter */
-  &make_exact_branch,                /* STOutputPlaintextLineMoveInversionCounter */
-  &make_exact_branch                 /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  &stip_traverse_structure_children, /* STSelfCheckGuardRootSolvableFilter */
+  &stip_traverse_structure_children, /* STSelfCheckGuardSolvableFilter */
+  &make_exact_battle_branch,         /* STSelfCheckGuardAttackerFilter */
+  &make_exact_battle_branch,         /* STSelfCheckGuardDefenderFilter */
+  &make_exact_help_branch,           /* STSelfCheckGuardHelpFilter */
+  &make_exact_series_branch,         /* STSelfCheckGuardSeriesFilter */
+  &make_exact_battle_branch,         /* STDirectDefenderFilter */
+  &make_exact_battle_branch,         /* STReflexRootFilter */
+  &make_exact_help_branch,           /* STReflexHelpFilter */
+  &make_exact_series_branch,         /* STReflexSeriesFilter */
+  &make_exact_battle_branch,         /* STReflexAttackerFilter */
+  &make_exact_battle_branch,         /* STReflexDefenderFilter */
+  &make_exact_battle_branch,         /* STSelfDefense */
+  &make_exact_battle_branch,         /* STDefenseFork */
+  &make_exact_battle_branch,         /* STRestartGuardRootDefenderFilter */
+  &make_exact_help_branch,           /* STRestartGuardHelpFilter */
+  &make_exact_series_branch,         /* STRestartGuardSeriesFilter */
+  &make_exact_help_branch,           /* STIntelligentHelpFilter */
+  &make_exact_series_branch,         /* STIntelligentSeriesFilter */
+  &make_exact_help_branch,           /* STGoalReachableGuardHelpFilter */
+  &make_exact_series_branch,         /* STGoalReachableGuardSeriesFilter */
+  &stip_traverse_structure_children, /* STIntelligentDuplicateAvoider */
+  &make_exact_battle_branch,         /* STKeepMatingGuardAttackerFilter */
+  &make_exact_battle_branch,         /* STKeepMatingGuardDefenderFilter */
+  &make_exact_help_branch,           /* STKeepMatingGuardHelpFilter */
+  &make_exact_series_branch,         /* STKeepMatingGuardSeriesFilter */
+  &make_exact_battle_branch,         /* STMaxFlightsquares */
+  &make_exact_battle_branch,         /* STDegenerateTree */
+  &make_exact_battle_branch,         /* STMaxNrNonTrivial */
+  &make_exact_battle_branch,         /* STMaxNrNonTrivialCounter */
+  &make_exact_battle_branch,         /* STMaxThreatLength */
+  &make_exact_battle_branch,         /* STMaxTimeRootDefenderFilter */
+  &make_exact_battle_branch,         /* STMaxTimeDefenderFilter */
+  &make_exact_help_branch,           /* STMaxTimeHelpFilter */
+  &make_exact_series_branch,         /* STMaxTimeSeriesFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsRootSolvableFilter */
+  &stip_traverse_structure_children, /* STMaxSolutionsSolvableFilter */
+  &make_exact_battle_branch,         /* STMaxSolutionsRootDefenderFilter */
+  &make_exact_help_branch,           /* STMaxSolutionsHelpFilter */
+  &make_exact_series_branch,         /* STMaxSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STStopOnShortSolutionsRootSolvableFilter */
+  &make_exact_help_branch,           /* STStopOnShortSolutionsHelpFilter */
+  &make_exact_series_branch,         /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_children, /* STEndOfPhaseWriter */
+  &stip_traverse_structure_children, /* STEndOfSolutionWriter */
+  &make_exact_battle_branch,         /* STRefutationWriter */
+  &make_exact_battle_branch,         /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
+  &make_exact_battle_branch,         /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineLineWriter */
+  &make_exact_battle_branch,         /* STOutputPlaintextTreeGoalWriter */
+  &make_exact_battle_branch,         /* STOutputPlaintextTreeMoveInversionCounter */
+  &stip_traverse_structure_children, /* STOutputPlaintextLineMoveInversionCounter */
+  &stip_traverse_structure_children  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Make the stipulation exact
@@ -2875,6 +2921,8 @@ void stip_make_exact(void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  TraceStipulation(root_slice);
 
   stip_structure_traversal_init(&st,&exact_makers,0);
   stip_traverse_structure(root_slice,&st);
@@ -3396,7 +3444,7 @@ static stip_moves_visitor const moves_children_traversers[] =
   &stip_traverse_moves_pipe,                  /* STMoveInverterSolvableFilter */
   &stip_traverse_moves_pipe,                  /* STMoveInverterSeriesFilter */
   &stip_traverse_moves_branch_slice,          /* STAttackRoot */
-  &stip_traverse_moves_branch_slice,          /* STDefenseRoot */
+  &stip_traverse_moves_pipe,                  /* STDefenseRoot */
   &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */
   &stip_traverse_moves_pipe,                  /* STContinuationSolver */
   &stip_traverse_moves_pipe,                  /* STContinuationWriter */
@@ -3427,7 +3475,7 @@ static stip_moves_visitor const moves_children_traversers[] =
   &stip_traverse_moves_battle_fork,           /* STDirectDefenderFilter */
   &stip_traverse_moves_reflex_root_filter,    /* STReflexRootFilter */
   &stip_traverse_moves_help_fork,             /* STReflexHelpFilter */
-  &stip_traverse_moves_series_fork,           /* STReflexSeriesFilter */
+  &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
   &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
   &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
   &stip_traverse_moves_battle_fork,           /* STSelfDefense */

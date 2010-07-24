@@ -149,8 +149,7 @@ void battle_branch_shorten_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   slices[si].u.branch.length -= 2;
-  if (slices[si].u.branch.min_length>=slack_length_battle+2)
-    slices[si].u.branch.min_length -= 2;
+  slices[si].u.branch.min_length -= 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -35,8 +35,11 @@ void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st)
   TraceValue("%u\n",st->remaining);
   if (st->remaining<=slack_length_battle+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
-  else
+
+  if (st->remaining>slack_length_battle)
     stip_traverse_moves_pipe(si,st);
+
+  TraceValue("%u\n",st->remaining);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

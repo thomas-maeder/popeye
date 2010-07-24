@@ -157,7 +157,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
     if (len_test_threats>len_threat)
       /* variation is longer than threat */
       result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
-    else if (len_test_threats==len_threat && nr_threats_to_be_confirmed>0)
+    else if (len_test_threats>len_threat-2 && nr_threats_to_be_confirmed>0)
       /* variation has same length as the threat(s), but it has
        * defeated at least one threat
        */
@@ -274,7 +274,7 @@ threat_collector_can_defend_in_n(slice_index si,
   result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
 
   if (threat_activities[nbply]==threat_enforcing
-      && n==threat_lengths[nbply]-1)
+      && n>=threat_lengths[nbply]-2)
   {
     if (is_current_move_in_table(threats[nbply]))
     {
@@ -289,7 +289,7 @@ threat_collector_can_defend_in_n(slice_index si,
            */
           result = n+2;
       }
-      else
+      else if (n==threat_lengths[nbply]-1)
         /* we have found a defeated threat -> stop the iteration */
         result = n;
     }
@@ -316,8 +316,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
   slice_index const defense_move = slices[si].u.threat_writer.defense_move;
   slice_index const attack_side = slices[defense_move].u.branch.next;
   stip_length_type const n_min = battle_branch_calc_n_min(si,n);
-  stip_length_type const parity = (n-slack_length_battle)%2;
-  stip_length_type const n_max_unsolvable = slack_length_battle-2+parity;
+  stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);

@@ -67,7 +67,6 @@ direct_defender_filter_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -76,13 +75,49 @@ direct_defender_filter_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n_min<slack_length_battle+2
-      && !defense_defend(to_goal))
-    result = n_min;
+  assert(n>=slack_length_battle);
+
+  if (n_max_unsolvable<slack_length_battle)
+  {
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+    slice_index const length = slices[si].u.branch_fork.length;
+    slice_index const min_length = slices[si].u.branch_fork.min_length;
+
+    if (n-slack_length_battle<=length-min_length)
+    {
+      if (defense_defend(to_goal))
+      {
+        if (n>slack_length_battle)
+        {
+          n_max_unsolvable = slack_length_battle;
+          result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+        }
+        else
+          result = n+4;
+      }
+      else
+        result = n;
+    }
+    else
+    {
+      if (defense_can_defend(to_goal))
+      {
+        if (n>slack_length_battle)
+        {
+          n_max_unsolvable = slack_length_battle;
+          result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+        }
+        else
+          result = n+4;
+      }
+      else
+        result = n+4;
+    }
+  }
   else if (n>slack_length_battle)
     result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
   else
-    result = slack_length_battle+4;
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,7 +144,6 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -118,23 +152,55 @@ direct_defender_filter_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
+  assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<slack_length_battle
-      && !defense_can_defend(to_goal))
+  if (n_max_unsolvable<slack_length_battle)
   {
-    stip_length_type const length = slices[si].u.branch_fork.length;
-    stip_length_type const min_length = slices[si].u.branch_fork.min_length;
-    if (n+min_length<slack_length_battle+2+length)
-      result = n_max_unsolvable+2;
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+    slice_index const length = slices[si].u.branch_fork.length;
+    slice_index const min_length = slices[si].u.branch_fork.min_length;
+
+    if (n-slack_length_battle<=length-min_length)
+    {
+      if (defense_can_defend(to_goal))
+      {
+        if (n>slack_length_battle)
+        {
+          n_max_unsolvable = slack_length_battle;
+          result = defense_can_defend_in_n(next,
+                                           n,n_max_unsolvable,
+                                           max_nr_refutations);
+        }
+        else
+          result = n+4;
+      }
+      else
+        result = n;
+    }
     else
-      result = n+2;
+    {
+      if (defense_can_defend(to_goal))
+      {
+        if (n>slack_length_battle)
+        {
+          n_max_unsolvable = slack_length_battle;
+          result = defense_can_defend_in_n(next,
+                                           n,n_max_unsolvable,
+                                           max_nr_refutations);
+        }
+        else
+          result = n+4;
+      }
+      else
+        result = n+4;
+    }
   }
   else if (n>slack_length_battle)
     result = defense_can_defend_in_n(next,
                                      n,n_max_unsolvable,
                                      max_nr_refutations);
   else
-    result = slack_length_battle+4;
+    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

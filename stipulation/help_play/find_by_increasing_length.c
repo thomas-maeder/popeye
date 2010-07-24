@@ -69,8 +69,9 @@ has_solution_type help_root_solve(slice_index si)
 {
   has_solution_type result = has_no_solution;
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type len = slices[si].u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type len;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -81,12 +82,9 @@ has_solution_type help_root_solve(slice_index si)
    * look for longer solutions.
    * Here, on the other hand, we want to find solutions of any length.
    */
-  while (len<=full_length)
-  {
+  for (len = min_length+(length-min_length)%2; len<=length; len += 2)
     if (help_solve_in_n(next,len)==len)
       result = has_solution;
-    len += 2;
-  }
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

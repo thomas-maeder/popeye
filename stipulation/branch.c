@@ -114,6 +114,7 @@ void stip_traverse_moves_branch(slice_index si, stip_move_traversal *st)
 
   st->full_length = save_full_length;
   st->remaining = save_remaining;
+  TraceFunctionParam("->%u\n",st->remaining);
   --st->level;
 
   TraceFunctionExit(__func__);

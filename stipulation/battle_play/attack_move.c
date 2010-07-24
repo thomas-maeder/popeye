@@ -152,7 +152,8 @@ static boolean have_we_solution_for_imminent_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
+  if (imminent_goal.type!=no_goal
+      && are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
   {
     stip_length_type const n = slack_length_battle+1;
     stip_length_type const n_max_unsolvable = slack_length_battle-1;
@@ -170,6 +171,33 @@ static boolean have_we_solution_for_imminent_goal(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
+}
+
+/* Find a solution in >1 half move
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found, i.e.:
+ *            n_min-2 defense has turned out to be illegal
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
+ */
+static
+stip_length_type find_non_imminent_solution(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_min,
+                                            stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  for (result = n_min+(n-n_min)%2; result<=n; result += 2)
+    if (have_we_solution_in_n(si,result,n_max_unsolvable))
+      break;
+    else
+      n_max_unsolvable = result;
+
   return result;
 }
 
@@ -192,6 +220,8 @@ attack_move_has_solution_in_n(slice_index si,
                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  slice_index const length = slices[si].u.branch_fork.length;
+  slice_index const min_length = slices[si].u.branch_fork.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -200,30 +230,37 @@ attack_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.branch.length%2);
+  assert(n>=slack_length_battle);
 
-  if (n_max_unsolvable<=slack_length_battle-2)
-    n_max_unsolvable += 2;
-
-  if (n_min==slack_length_battle)
-    n_min = slack_length_battle+2;
-  else if (n_min==slack_length_battle+1)
+  if (n==slack_length_battle)
+    result = slack_length_battle+1;
+  else
   {
-    if (have_we_solution_for_imminent_goal(si))
-      /* no need to try to determine whether there is a longer solution */
-      n = n_min-2;
-    else
-    {
-      n_max_unsolvable = slack_length_battle+1;
-      n_min = slack_length_battle+3;
-    }
-  }
+    if (n_max_unsolvable<slack_length_battle)
+      n_max_unsolvable = slack_length_battle;
 
-  for (result = n_min; result<=n; result += 2)
-    if (have_we_solution_in_n(si,result,n_max_unsolvable))
-      break;
+    if (n_min<=n_max_unsolvable)
+      n_min = n_max_unsolvable+1;
+
+    if (n>n_min+length-min_length)
+    {
+      n_min = n-(length-min_length);
+      result = find_non_imminent_solution(si,n,n_min,n_max_unsolvable);
+    }
+    else if (n_min==slack_length_battle+1)
+    {
+      if (have_we_solution_for_imminent_goal(si))
+        result = slack_length_battle+1;
+      else
+      {
+        n_max_unsolvable = slack_length_battle+1;
+        n_min = slack_length_battle+2;
+        result = find_non_imminent_solution(si,n,n_min,n_max_unsolvable);
+      }
+    }
     else
-      n_max_unsolvable = result;
+      result = find_non_imminent_solution(si,n,n_min,n_max_unsolvable);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -322,7 +359,8 @@ static boolean solve_imminent_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
+  if (imminent_goal.type!=no_goal
+      && are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
   {
     stip_length_type const n = slack_length_battle+1;
     stip_length_type const n_min = slack_length_battle+1;
@@ -338,6 +376,44 @@ static boolean solve_imminent_goal(slice_index si)
   }
   else
     result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice in >1 half moves, by trying n_min, n_min+2 ... n
+ * half-moves. 
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_min minimum number of half-moves of interesting variations
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found and written, i.e.:
+ *            n_min-2 defense has turned out to be illegal
+ *            n_min..n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type solve_non_imminent_goal(slice_index si,
+                                         stip_length_type n,
+                                         stip_length_type n_min,
+                                         stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  for (result = n_min+(n-n_min)%2; result<=n; result += 2)
+    if (solve_in_n(si,result,n_max_unsolvable))
+      break;
+    else
+      n_max_unsolvable = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -370,31 +446,40 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.branch.length%2);
-  assert(n_min>=slack_length_battle);
-  
-  if (n_max_unsolvable<=slack_length_battle-2)
-    n_max_unsolvable += 2;
+  assert(n>=slack_length_battle);
 
-  if (n_min==slack_length_battle)
-    n_min = slack_length_battle+2;
-  else if (n_min==slack_length_battle+1)
+  if (n==slack_length_battle)
+    result = slack_length_battle+1;
+  else
   {
-    if (solve_imminent_goal(si))
-      /* no need to try to find longer solutions */
-      n = n_min-2;
-    else
-    {
-      n_max_unsolvable = slack_length_battle+1;
-      n_min = slack_length_battle+3;
-    }
-  }
+    slice_index const length = slices[si].u.branch_fork.length;
+    slice_index const min_length = slices[si].u.branch_fork.min_length;
 
-  for (result = n_min; result<=n; result += 2)
-    if (solve_in_n(si,result,n_max_unsolvable))
-      break;
+    if (n_max_unsolvable<slack_length_battle)
+      n_max_unsolvable = slack_length_battle;
+
+    if (n_min<=n_max_unsolvable)
+      n_min = n_max_unsolvable+1;
+
+    if (n>n_min+length-min_length)
+    {
+      n_min = n-(length-min_length);
+      result = solve_non_imminent_goal(si,n,n_min,n_max_unsolvable);
+    }
+    else if (n_min==slack_length_battle+1)
+    {
+      if (solve_imminent_goal(si))
+        result = slack_length_battle+1;
+      else
+      {
+        n_max_unsolvable = slack_length_battle+1;
+        n_min = slack_length_battle+2;
+        result = solve_non_imminent_goal(si,n,n_min,n_max_unsolvable);
+      }
+    }
     else
-      n_max_unsolvable = result;
+      result = solve_non_imminent_goal(si,n,n_min,n_max_unsolvable);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

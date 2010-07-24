@@ -228,6 +228,13 @@ void reflex_help_filter_make_root(slice_index si,
 void reflex_series_filter_make_root(slice_index si,
                                       stip_structure_traversal *st);
 
+/* Traversal of the moves beyond a reflex attacker filter slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_reflex_series_filter(slice_index si,
+                                              stip_move_traversal *st);
+
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies
  * @param st address of structure representing the traversal

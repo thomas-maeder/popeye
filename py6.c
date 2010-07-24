@@ -2695,6 +2695,7 @@ static void remember_imminent_goal_attack_move(slice_index si,
                                                stip_move_traversal *st)
 {
   final_move_state * const state = st->param;
+  Goal const save_goal = state->goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2702,13 +2703,13 @@ static void remember_imminent_goal_attack_move(slice_index si,
 
   stip_traverse_moves_branch_slice(si,st);
 
-  if (st->remaining==slack_length_battle+1)
+  if (st->remaining<=slack_length_battle+2)
   {
     slices[si].u.branch.imminent_goal = state->goal;
     TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
   }
 
-  state->goal.type = no_goal;
+  state->goal = save_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2722,6 +2723,7 @@ static void remember_imminent_goal_defense_move(slice_index si,
                                                 stip_move_traversal *st)
 {
   final_move_state * const state = st->param;
+  Goal const save_goal = state->goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2729,15 +2731,16 @@ static void remember_imminent_goal_defense_move(slice_index si,
 
   stip_traverse_moves_branch_slice(si,st);
 
-  if (st->remaining==slack_length_battle+1 && state->goal.type!=no_goal)
+  if (st->remaining<=slack_length_battle+2
+      && state->goal.type!=no_goal)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const
-        last_defense = alloc_defense_move_against_goal_slice(slack_length_battle+1,
-                                                             slack_length_battle+1);
+        last_defense = alloc_defense_move_against_goal_slice(st->remaining,
+                                                             min_length);
     slice_index const fork = alloc_defense_fork_slice(length,min_length,
                                                       proxy1);
 
@@ -2752,7 +2755,7 @@ static void remember_imminent_goal_defense_move(slice_index si,
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
 
-  state->goal.type = no_goal;
+  state->goal = save_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2841,7 +2844,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_children,       /* STProxy */
   &remember_imminent_goal_attack_move, /* STAttackMove */
   &remember_imminent_goal_defense_move, /* STDefenseMove */
-  &stip_traverse_moves_children,        /* STDefenseMoveAgainstGoal */
+  &stip_traverse_moves_noop,            /* STDefenseMoveAgainstGoal */
   &stip_traverse_moves_children,       /* STHelpMove */
   &stip_traverse_moves_children,       /* STHelpMoveToGoal */
   &stip_traverse_moves_children,       /* STHelpFork */

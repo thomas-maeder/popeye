@@ -52,27 +52,21 @@ static unsigned int try_last_defenses(slice_index si,
   while (result<=max_nr_refutations && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
-      switch (attack_has_solution_in_n(next,
-                                       slack_length_battle,slack_length_battle,
-                                       slack_length_battle-2))
+    {
+      stip_length_type const
+          length_sol = attack_has_solution_in_n(next,
+                                                slack_length_battle,
+                                                slack_length_battle,
+                                                slack_length_battle-1);
+      if (length_sol>slack_length_battle)
       {
-        case slack_length_battle-2:
-          break;
-
-        case slack_length_battle:
-          last_defense_stalemate = false;
-          break;
-
-        case slack_length_battle+2:
-          last_defense_stalemate = false;
-          ++result;
-          coupfort();
-          break;
-
-        default:
-          assert(0);
-          break;
+        last_defense_stalemate = false;
+        ++result;
+        coupfort();
       }
+      else if (length_sol==slack_length_battle)
+        last_defense_stalemate = false;
+    }
 
     repcoup();
   }

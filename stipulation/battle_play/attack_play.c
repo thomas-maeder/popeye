@@ -57,8 +57,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n_min>n_max_unsolvable);
-
   TraceEnumerator(SliceType,slices[si].type,"\n");
   switch (slices[si].type)
   {

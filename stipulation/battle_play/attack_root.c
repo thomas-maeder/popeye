@@ -23,8 +23,6 @@ slice_index alloc_attack_root_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert((length%2)==(min_length%2));
-
   result = alloc_branch(STAttackRoot,length,min_length);
 
   TraceFunctionExit(__func__);
@@ -43,6 +41,7 @@ has_solution_type attack_root_solve(slice_index si)
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
+  stip_length_type n_max_unsolvable = slack_length_battle;
   has_solution_type result = has_no_solution;
   Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
@@ -52,7 +51,10 @@ has_solution_type attack_root_solve(slice_index si)
 
   if (min_length==slack_length_battle+1
       && !are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
+  {
     min_length = slack_length_battle+3;
+    n_max_unsolvable = slack_length_battle+1;
+  }
 
   if (min_length<=length)
   {
@@ -75,7 +77,7 @@ has_solution_type attack_root_solve(slice_index si)
         stip_length_type const
             nr_moves_needed = defense_defend_in_n(next,
                                                   length-1,min_length-1,
-                                                  min_length-3);
+                                                  n_max_unsolvable-1);
         if (min_length-1<=nr_moves_needed)
         {
           if (nr_moves_needed<=length-1)

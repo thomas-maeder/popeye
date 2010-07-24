@@ -122,9 +122,10 @@ void stip_traverse_moves_help_fork(slice_index si, stip_move_traversal *st)
     st->remaining = slices[si].u.branch.length;
   }
 
-  if (st->remaining==slack_length_help)
+  if (st->remaining<=slack_length_help+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
-  else
+
+  if (st->remaining>slack_length_help)
     stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
