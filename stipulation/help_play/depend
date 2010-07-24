@@ -100,21 +100,21 @@ stipulation/proxy.h:
 
 trace.h:
 stipulation/help_play/fork$(OBJ_SUFFIX): stipulation/help_play/fork.c \
-  stipulation/help_play/fork.h pybrafrk.h stipulation/help_play/play.h \
-  stipulation/help_play/root.h stipulation/branch.h stipulation/proxy.h \
-  trace.h
+  stipulation/help_play/fork.h pybrafrk.h stipulation/branch.h \
+  stipulation/proxy.h stipulation/help_play/play.h \
+  stipulation/help_play/root.h trace.h
 
 stipulation/help_play/fork.h:
 
 pybrafrk.h:
 
-stipulation/help_play/play.h:
-
-stipulation/help_play/root.h:
-
 stipulation/branch.h:
 
 stipulation/proxy.h:
+
+stipulation/help_play/play.h:
+
+stipulation/help_play/root.h:
 
 trace.h:
 stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \

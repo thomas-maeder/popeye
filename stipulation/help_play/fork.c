@@ -1,9 +1,9 @@
 #include "stipulation/help_play/fork.h"
 #include "pybrafrk.h"
-#include "stipulation/help_play/play.h"
-#include "stipulation/help_play/root.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/help_play/play.h"
+#include "stipulation/help_play/root.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -115,12 +115,7 @@ void stip_traverse_moves_help_fork(slice_index si, stip_move_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==0)
-  {
-    st->full_length = slices[si].u.branch.length;
-    TraceValue("->%u\n",st->full_length);
-    st->remaining = slices[si].u.branch.length;
-  }
+  stip_traverse_moves_branch_init_full_length(si,st);
 
   if (st->remaining<=slack_length_help+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);

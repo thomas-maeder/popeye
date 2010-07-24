@@ -162,14 +162,8 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==0)
-  {
-    st->full_length = slices[si].u.reflex_guard.length;
-    TraceValue("->%u",st->full_length);
-    st->remaining = slices[si].u.reflex_guard.length;
-  }
+  stip_traverse_moves_branch_init_full_length(si,st);
 
-  TraceValue("%u\n",st->remaining);
   if (st->remaining==slices[si].u.reflex_guard.length)
     stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);
 
@@ -769,12 +763,7 @@ void stip_traverse_moves_reflex_series_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==0)
-  {
-    st->full_length = slices[si].u.reflex_guard.length;
-    TraceValue("->%u",st->full_length);
-    st->remaining = slices[si].u.reflex_guard.length;
-  }
+  stip_traverse_moves_branch_init_full_length(si,st);
 
   if (st->remaining==slack_length_series+1)
     stip_traverse_moves_branch(slices[si].u.reflex_guard.avoided,st);

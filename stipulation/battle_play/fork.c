@@ -25,21 +25,13 @@ void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining==0)
-  {
-    st->full_length = slices[si].u.branch.length;
-    TraceValue("->%u",st->full_length);
-    st->remaining = slices[si].u.branch.length;
-  }
+  stip_traverse_moves_branch_init_full_length(si,st);
 
-  TraceValue("%u\n",st->remaining);
   if (st->remaining<=slack_length_battle+1)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
 
   if (st->remaining>slack_length_battle)
     stip_traverse_moves_pipe(si,st);
-
-  TraceValue("%u\n",st->remaining);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -56,14 +56,7 @@ void stip_traverse_moves_series_root(slice_index si, stip_move_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-
-  if (st->remaining==0)
-  {
-    st->full_length = slices[si].u.branch.length;
-    TraceValue("->%u\n",st->full_length);
-    st->remaining = slices[si].u.branch.length;
-  }
-
+  stip_traverse_moves_branch_init_full_length(si,st);
   stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
