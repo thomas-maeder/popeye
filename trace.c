@@ -336,6 +336,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxSolutionsSeriesFilter:
       case STStopOnShortSolutionsRootSolvableFilter:
       case STMaxNrNonTrivial:
+      case STMaxNrNonChecks:
       case STMaxNrNonTrivialCounter:
       case STMaxFlightsquares:
       case STDegenerateTree:

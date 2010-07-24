@@ -111,44 +111,53 @@ static unsigned int count_nontrivial_defenses(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result;
+  slice_index const next = slices[si].u.pipe.next;
+  unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
+  stip_length_type const parity = ((n-slack_length_battle-1)%2);
+  stip_length_type const n_next = min_length_nontrivial+parity;
+  stip_length_type const n_max_unsolvable = slack_length_battle-2+parity;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length_nontrivial<=slack_length_battle+1)
+  non_trivial_count[nbply+1] = 0;
+  defense_can_defend_in_n(next,n_next,n_max_unsolvable,nr_refutations_allowed);
+  result = non_trivial_count[nbply+1];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Count non-checking moves of the defending side. Whether a
+ * particular move is non-trivial is determined by user input.
+ * Stop counting when more than max_nr_nontrivial have been found
+ * @return number of defender's non-trivial moves
+ */
+static unsigned int count_noncheck_defenses(slice_index si, stip_length_type n)
+{
+  unsigned int result = 0;
+  unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
+  Side const attacker = slices[si].starter; 
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  move_generation_mode = move_generation_not_optimized;
+  genmove(attacker);
+
+  while (encore() && result<=nr_refutations_allowed)
   {
-    unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
-    Side const attacker = slices[si].starter; 
+    if (jouecoup(nbply,first_play) && !echecc(nbply,attacker))
+      ++result;
 
-    result = 0;
-
-    move_generation_mode = move_generation_not_optimized;
-    genmove(attacker);
-
-    while (encore() && result<=nr_refutations_allowed)
-    {
-      if (jouecoup(nbply,first_play) && !echecc(nbply,attacker))
-        ++result;
-
-      repcoup();
-    }
-
-    finply();
+    repcoup();
   }
-  else
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
-    stip_length_type const parity = ((n-slack_length_battle-1)%2);
-    stip_length_type const n_next = min_length_nontrivial+parity;
-    stip_length_type const n_max_unsolvable = slack_length_battle-2+parity;
-    non_trivial_count[nbply+1] = 0;
-    defense_can_defend_in_n(next,
-                            n_next,n_max_unsolvable,
-                            nr_refutations_allowed);
-    result = non_trivial_count[nbply+1];
-  }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -176,28 +185,6 @@ static slice_index alloc_max_nr_nontrivial_guard(void)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Allocate a STMaxNrNonTrivialCounter slice
- * @return identifier of allocated slice
- */
-static slice_index alloc_max_nr_nontrivial_counter(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STMaxNrNonTrivialCounter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-
-/* **************** Implementation of interface DirectDefender **********
- */
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -306,6 +293,24 @@ max_nr_nontrivial_guard_can_defend_in_n(slice_index si,
   return result;
 }
 
+/* Allocate a STMaxNrNonTrivialCounter slice
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_max_nr_nontrivial_counter(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMaxNrNonTrivialCounter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved
@@ -379,6 +384,131 @@ max_nr_nontrivial_counter_solve_in_n(slice_index si,
   return result;
 }
 
+/* Allocate a STMaxNrNonChecks slice
+ * @return identifier of allocated slice
+ */
+static slice_index alloc_max_nr_noncheck_guard(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMaxNrNonChecks);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves of interesting variations
+ *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - more refutations found than acceptable
+ */
+stip_length_type
+max_nr_noncheck_guard_defend_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_min,
+                                  stip_length_type n_max_unsolvable)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  if (n>min_length_nontrivial)
+  {
+    unsigned int const nr_noncheck = count_noncheck_defenses(si,n);
+    if (max_nr_nontrivial+1>=nr_noncheck)
+    {
+      ++max_nr_nontrivial;
+      max_nr_nontrivial -= nr_noncheck;
+      result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+      max_nr_nontrivial += nr_noncheck;
+      --max_nr_nontrivial;
+    }
+    else
+      result = n+4;
+  }
+  else
+    result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether there are defenses after an attacking move
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @param max_nr_refutations how many refutations should we look for
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - <=max_nr_refutations refutations found
+ *         n+4 refuted - >max_nr_refutations refutations found
+ */
+stip_length_type
+max_nr_noncheck_guard_can_defend_in_n(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable,
+                                      unsigned int max_nr_refutations)
+{
+  slice_index const next = slices[si].u.pipe.next;
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParam("%u",max_nr_refutations);
+  TraceFunctionParamListEnd();
+
+  if (n>min_length_nontrivial)
+  {
+    unsigned int const nr_noncheck = count_noncheck_defenses(si,n);
+    if (max_nr_nontrivial+1>=nr_noncheck)
+    {
+      ++max_nr_nontrivial;
+      max_nr_nontrivial -= nr_noncheck;
+      result = defense_can_defend_in_n(next,
+                                       n,n_max_unsolvable,
+                                       max_nr_refutations);
+      max_nr_nontrivial += nr_noncheck;
+      --max_nr_nontrivial;
+    }
+    else
+      result = n+4;
+  }
+  else
+    result = defense_can_defend_in_n(next,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* **************** Stipulation instrumentation ***************
  */
 
@@ -390,7 +520,11 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_max_nr_nontrivial_guard());
+
+  if (min_length_nontrivial<=slack_length_battle+1)
+    pipe_append(si,alloc_max_nr_noncheck_guard());
+  else
+    pipe_append(si,alloc_max_nr_nontrivial_guard());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -494,6 +628,7 @@ static stip_structure_visitor const max_nr_nontrivial_guards_inserters[] =
   &stip_traverse_structure_children,      /* STMaxFlightsquares */
   &stip_traverse_structure_children,      /* STDegenerateTree */
   &stip_traverse_structure_children,      /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,      /* STMaxNrNonChecks */
   &stip_traverse_structure_children,      /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,      /* STMaxThreatLength */
   &stip_traverse_structure_children,      /* STMaxTimeRootDefenderFilter */

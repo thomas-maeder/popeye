@@ -343,6 +343,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STMaxFlightsquares */
   &slice_property_offset_shifter,    /* STDegenerateTree */
   &slice_property_offset_shifter,    /* STMaxNrNonTrivial */
+  &slice_property_offset_shifter,    /* STMaxNrNonChecks */
   &slice_property_offset_shifter,    /* STMaxNrNonTrivialCounter */
   &slice_property_offset_shifter,    /* STMaxThreatLength */
   &slice_property_offset_shifter,    /* STMaxTimeRootDefenderFilter */
@@ -709,6 +710,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &init_slice_properties_pipe,           /* STMaxFlightsquares */
   &init_slice_properties_pipe,           /* STDegenerateTree */
   &init_slice_properties_pipe,           /* STMaxNrNonTrivial */
+  &init_slice_properties_pipe,           /* STMaxNrNonChecks */
   &init_slice_properties_pipe,           /* STMaxNrNonTrivialCounter */
   &init_slice_properties_pipe,           /* STMaxThreatLength */
   &init_slice_properties_pipe,           /* STMaxTimeRootDefenderFilter */
@@ -2358,6 +2360,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STMaxFlightsquares */
   &stip_traverse_moves_children,            /* STDegenerateTree */
   &stip_traverse_moves_children,            /* STMaxNrNonTrivial */
+  &stip_traverse_moves_children,            /* STMaxNrNonChecks */
   &stip_traverse_moves_children,            /* STMaxNrNonTrivialCounter */
   &stip_traverse_moves_children,            /* STMaxThreatLength */
   &stip_traverse_moves_children,            /* STMaxTimeRootDefenderFilter */

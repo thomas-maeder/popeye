@@ -116,6 +116,7 @@
     ENUMERATOR(STMaxFlightsquares), /* deals with option MaxFlightsquares */ \
     ENUMERATOR(STDegenerateTree),  /* degenerate tree optimisation */   \
     ENUMERATOR(STMaxNrNonTrivial), /* deals with option NonTrivial */   \
+    ENUMERATOR(STMaxNrNonChecks), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxNrNonTrivialCounter), /* deals with option NonTrivial */   \
     ENUMERATOR(STMaxThreatLength), /* deals with option Threat */       \
     ENUMERATOR(STMaxTimeRootDefenderFilter), /* deals with option maxtime */  \
@@ -247,6 +248,7 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_pipe,   /* STMaxFlightsquares */
   slice_structure_pipe,   /* STDegenerateTree */
   slice_structure_branch, /* STMaxNrNonTrivial */
+  slice_structure_branch, /* STMaxNrNonChecks */
   slice_structure_branch, /* STMaxNrNonTrivialCounter */
   slice_structure_pipe,   /* STMaxThreatLength */
   slice_structure_pipe,   /* STMaxTimeRootDefenderFilter */
@@ -412,6 +414,7 @@ static stip_structure_visitor const reachable_slices_markers[] =
   &mark_reachable_slice, /* STMaxFlightsquares */
   &mark_reachable_slice, /* STDegenerateTree */
   &mark_reachable_slice, /* STMaxNrNonTrivial */
+  &mark_reachable_slice, /* STMaxNrNonChecks */
   &mark_reachable_slice, /* STMaxNrNonTrivialCounter */
   &mark_reachable_slice, /* STMaxThreatLength */
   &mark_reachable_slice, /* STMaxTimeRootDefenderFilter */
@@ -683,6 +686,7 @@ static stip_structure_visitor const deallocators[] =
   &traverse_and_deallocate,       /* STMaxFlightsquares */
   &traverse_and_deallocate,       /* STDegenerateTree */
   &traverse_and_deallocate,       /* STMaxNrNonTrivial */
+  &traverse_and_deallocate,       /* STMaxNrNonChecks */
   &traverse_and_deallocate,       /* STMaxNrNonTrivialCounter */
   &traverse_and_deallocate,       /* STMaxThreatLength */
   &traverse_and_deallocate,       /* STMaxTimeRootDefenderFilter */
@@ -818,6 +822,7 @@ static stip_structure_visitor const root_slice_makers[] =
   &stip_traverse_structure_children,          /* STMaxFlightsquares */
   &stip_traverse_structure_children,          /* STDegenerateTree */
   &stip_traverse_structure_children,          /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,          /* STMaxNrNonChecks */
   &stip_traverse_structure_children,          /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,          /* STMaxThreatLength */
   &stip_traverse_structure_children,          /* STMaxTimeRootDefenderFilter */
@@ -968,6 +973,7 @@ static stip_structure_visitor const post_root_shorteners[] =
   &stip_traverse_structure_children,    /* STMaxFlightsquares */
   &stip_traverse_structure_children,    /* STDegenerateTree */
   &stip_traverse_structure_children,    /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,    /* STMaxNrNonChecks */
   &stip_traverse_structure_children,    /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,    /* STMaxThreatLength */
   &stip_traverse_structure_children,    /* STMaxTimeRootDefenderFilter */
@@ -1088,6 +1094,7 @@ static stip_structure_visitor const root_slice_inserters[] =
   &stip_traverse_structure_children,   /* STMaxFlightsquares */
   &stip_traverse_structure_children,   /* STDegenerateTree */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,   /* STMaxNrNonChecks */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,   /* STMaxThreatLength */
   &stip_traverse_structure_children,   /* STMaxTimeRootDefenderFilter */
@@ -1217,6 +1224,7 @@ static stip_structure_visitor const proxy_resolvers[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonChecks */
   &pipe_resolve_proxies,             /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &pipe_resolve_proxies,             /* STMaxTimeRootDefenderFilter */
@@ -1410,6 +1418,7 @@ static stip_move_visitor const get_max_nr_moves_functions[] =
   &stip_traverse_moves_children, /* STMaxFlightsquares */
   &stip_traverse_moves_children, /* STDegenerateTree */
   &stip_traverse_moves_children, /* STMaxNrNonTrivial */
+  &stip_traverse_moves_children, /* STMaxNrNonChecks */
   &stip_traverse_moves_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_moves_children, /* STMaxThreatLength */
   &stip_traverse_moves_children, /* STMaxTimeRootDefenderFilter */
@@ -1602,6 +1611,7 @@ static stip_structure_visitor const unique_goal_finders[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonChecks */
   &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
@@ -1963,6 +1973,7 @@ static stip_structure_visitor const to_quodlibet_transformers[] =
   &stip_traverse_structure_children,   /* STMaxFlightsquares */
   &stip_traverse_structure_children,   /* STDegenerateTree */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,   /* STMaxNrNonChecks */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,   /* STMaxThreatLength */
   &stip_traverse_structure_children,   /* STMaxTimeRootDefenderFilter */
@@ -2087,6 +2098,7 @@ static stip_structure_visitor const to_postkey_play_reducers[] =
   &stip_traverse_structure_children,              /* STMaxFlightsquares */
   &stip_traverse_structure_children,              /* STDegenerateTree */
   &stip_traverse_structure_children,              /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,              /* STMaxNrNonChecks */
   &stip_traverse_structure_children,              /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,              /* STMaxThreatLength */
   &stip_traverse_structure_children,              /* STMaxTimeRootDefenderFilter */
@@ -2236,6 +2248,7 @@ static stip_structure_visitor const setplay_makers[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonChecks */
   &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
@@ -2361,6 +2374,7 @@ static stip_structure_visitor const setplay_appliers[] =
   &stip_traverse_structure_children,     /* STMaxFlightsquares */
   &stip_traverse_structure_children,     /* STDegenerateTree */
   &stip_traverse_structure_children,     /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,     /* STMaxNrNonChecks */
   &stip_traverse_structure_children,     /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,     /* STMaxThreatLength */
   &stip_traverse_structure_children,     /* STMaxTimeRootDefenderFilter */
@@ -2570,6 +2584,7 @@ static stip_structure_visitor const slice_ends_only_in_checkers[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonChecks */
   &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
@@ -2708,6 +2723,7 @@ static stip_structure_visitor const slice_ends_in_one_of_checkers[] =
   &stip_traverse_structure_children,   /* STMaxFlightsquares */
   &stip_traverse_structure_children,   /* STDegenerateTree */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,   /* STMaxNrNonChecks */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,   /* STMaxThreatLength */
   &stip_traverse_structure_children,   /* STMaxTimeRootDefenderFilter */
@@ -2887,6 +2903,7 @@ static stip_structure_visitor const exact_makers[] =
   &make_exact_battle_branch,         /* STMaxFlightsquares */
   &make_exact_battle_branch,         /* STDegenerateTree */
   &make_exact_battle_branch,         /* STMaxNrNonTrivial */
+  &make_exact_battle_branch,         /* STMaxNrNonChecks */
   &make_exact_battle_branch,         /* STMaxNrNonTrivialCounter */
   &make_exact_battle_branch,         /* STMaxThreatLength */
   &make_exact_battle_branch,         /* STMaxTimeRootDefenderFilter */
@@ -3003,6 +3020,7 @@ static stip_structure_visitor const starter_detectors[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonChecks */
   &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */
@@ -3143,6 +3161,7 @@ static stip_structure_visitor const starter_imposers[] =
   &default_impose_starter,        /* STMaxFlightsquares */
   &default_impose_starter,        /* STDegenerateTree */
   &default_impose_starter,        /* STMaxNrNonTrivial */
+  &default_impose_starter,        /* STMaxNrNonChecks */
   &default_impose_starter,        /* STMaxNrNonTrivialCounter */
   &default_impose_starter,        /* STMaxThreatLength */
   &default_impose_starter,        /* STMaxTimeRootDefenderFilter */
@@ -3361,6 +3380,7 @@ static stip_structure_visitor const structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMaxFlightsquares */
   &stip_traverse_structure_pipe,            /* STDegenerateTree */
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivial */
+  &stip_traverse_structure_pipe,            /* STMaxNrNonChecks */
   &stip_traverse_structure_pipe,            /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_pipe,            /* STMaxThreatLength */
   &stip_traverse_structure_pipe,            /* STMaxTimeRootDefenderFilter */
@@ -3495,6 +3515,7 @@ static stip_moves_visitor const moves_children_traversers[] =
   &stip_traverse_moves_pipe,                  /* STMaxFlightsquares */
   &stip_traverse_moves_pipe,                  /* STDegenerateTree */
   &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivial */
+  &stip_traverse_moves_pipe,                  /* STMaxNrNonChecks */
   &stip_traverse_moves_pipe,                  /* STMaxNrNonTrivialCounter */
   &stip_traverse_moves_pipe,                  /* STMaxThreatLength */
   &stip_traverse_moves_pipe,                  /* STMaxTimeRootDefenderFilter */

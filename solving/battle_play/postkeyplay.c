@@ -185,6 +185,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children,   /* STMaxFlightsquares */
   &stip_traverse_structure_children,   /* STDegenerateTree */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,   /* STMaxNrNonChecks */
   &stip_traverse_structure_children,   /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,   /* STMaxThreatLength */
   &stip_traverse_structure_children,   /* STMaxTimeRootDefenderFilter */
@@ -322,6 +323,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STMaxFlightsquares */
   &stip_traverse_structure_children, /* STDegenerateTree */
   &stip_traverse_structure_children, /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children, /* STMaxNrNonChecks */
   &stip_traverse_structure_children, /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children, /* STMaxThreatLength */
   &stip_traverse_structure_children, /* STMaxTimeRootDefenderFilter */

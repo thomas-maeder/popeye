@@ -123,7 +123,13 @@ stip_length_type defense_defend_in_n(slice_index si,
       break;
 
     case STMaxNrNonTrivial:
-      result = max_nr_nontrivial_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
+      result = max_nr_nontrivial_guard_defend_in_n(si,
+                                                   n,n_min,
+                                                   n_max_unsolvable);
+      break;
+
+    case STMaxNrNonChecks:
+      result = max_nr_noncheck_guard_defend_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STMaxTimeDefenderFilter:
@@ -325,6 +331,12 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = max_nr_nontrivial_guard_can_defend_in_n(si,
                                                        n,n_max_unsolvable,
                                                        max_nr_refutations);
+      break;
+
+    case STMaxNrNonChecks:
+      result = max_nr_noncheck_guard_can_defend_in_n(si,
+                                                     n,n_max_unsolvable,
+                                                     max_nr_refutations);
       break;
 
     case STMaxTimeDefenderFilter:

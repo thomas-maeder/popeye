@@ -2693,6 +2693,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_children,             /* STMaxFlightsquares */
   &stip_traverse_moves_children,             /* STDegenerateTree */
   &stip_traverse_moves_children,             /* STMaxNrNonTrivial */
+  &stip_traverse_moves_children,             /* STMaxNrNonChecks */
   &stip_traverse_moves_children,             /* STMaxNrNonTrivialCounter */
   &stip_traverse_moves_children,             /* STMaxThreatLength */
   &stip_traverse_moves_children,             /* STMaxTimeRootDefenderFilter */
@@ -3194,6 +3195,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STMaxFlightsquares */
   &stip_traverse_structure_children,         /* STDegenerateTree */
   &stip_traverse_structure_children,         /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,         /* STMaxNrNonChecks */
   &stip_traverse_structure_children,         /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,         /* STMaxThreatLength */
   &stip_traverse_structure_children,         /* STMaxTimeRootDefenderFilter */
@@ -3550,6 +3552,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &stip_traverse_structure_children,            /* STMaxFlightsquares */
   &stip_traverse_structure_children,            /* STDegenerateTree */
   &stip_traverse_structure_children,            /* STMaxNrNonTrivial */
+  &stip_traverse_structure_children,            /* STMaxNrNonChecks */
   &stip_traverse_structure_children,            /* STMaxNrNonTrivialCounter */
   &stip_traverse_structure_children,            /* STMaxThreatLength */
   &stip_traverse_structure_children,            /* STMaxTimeRootDefenderFilter */
