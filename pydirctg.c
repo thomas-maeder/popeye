@@ -65,7 +65,7 @@ direct_defender_filter_defend_in_n(slice_index si,
                                    stip_length_type n_min,
                                    stip_length_type n_max_unsolvable)
 {
-  stip_length_type result;
+  stip_length_type result = n+4;;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -79,45 +79,27 @@ direct_defender_filter_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index const length = slices[si].u.branch_fork.length;
-    slice_index const min_length = slices[si].u.branch_fork.min_length;
-
-    if (n-slack_length_battle<=length-min_length)
+    if (defense_defend(slices[si].u.branch_fork.towards_goal))
     {
-      if (defense_defend(to_goal))
+      if (n>slack_length_battle)
       {
-        if (n>slack_length_battle)
-        {
-          n_max_unsolvable = slack_length_battle;
-          result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
-        }
-        else
-          result = n+4;
+        n_max_unsolvable = slack_length_battle;
+        result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
       }
-      else
-        result = n;
     }
     else
     {
-      if (defense_can_defend(to_goal))
-      {
-        if (n>slack_length_battle)
-        {
-          n_max_unsolvable = slack_length_battle;
-          result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
-        }
-        else
-          result = n+4;
-      }
+      slice_index const length = slices[si].u.branch_fork.length;
+      slice_index const min_length = slices[si].u.branch_fork.min_length;
+
+      if (n-slack_length_battle<=length-min_length)
+        result = n;
       else
-        result = n+4;
+        ; /* we have reached the goal earlier than allowed */
     }
   }
   else if (n>slack_length_battle)
     result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
-  else
-    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -142,7 +124,7 @@ direct_defender_filter_can_defend_in_n(slice_index si,
                                        stip_length_type n_max_unsolvable,
                                        unsigned int max_nr_refutations)
 {
-  stip_length_type result;
+  stip_length_type result = n+4;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -156,51 +138,31 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index const length = slices[si].u.branch_fork.length;
-    slice_index const min_length = slices[si].u.branch_fork.min_length;
-
-    if (n-slack_length_battle<=length-min_length)
+    if (defense_can_defend(slices[si].u.branch_fork.towards_goal))
     {
-      if (defense_can_defend(to_goal))
+      if (n>slack_length_battle)
       {
-        if (n>slack_length_battle)
-        {
-          n_max_unsolvable = slack_length_battle;
-          result = defense_can_defend_in_n(next,
-                                           n,n_max_unsolvable,
-                                           max_nr_refutations);
-        }
-        else
-          result = n+4;
+        n_max_unsolvable = slack_length_battle;
+        result = defense_can_defend_in_n(next,
+                                         n,n_max_unsolvable,
+                                         max_nr_refutations);
       }
-      else
-        result = n;
     }
     else
     {
-      if (defense_can_defend(to_goal))
-      {
-        if (n>slack_length_battle)
-        {
-          n_max_unsolvable = slack_length_battle;
-          result = defense_can_defend_in_n(next,
-                                           n,n_max_unsolvable,
-                                           max_nr_refutations);
-        }
-        else
-          result = n+4;
-      }
+      slice_index const length = slices[si].u.branch_fork.length;
+      slice_index const min_length = slices[si].u.branch_fork.min_length;
+
+      if (n-slack_length_battle<=length-min_length)
+        result = n;
       else
-        result = n+4;
+        ; /* we have reached the goal earlier than allowed */
     }
   }
   else if (n>slack_length_battle)
     result = defense_can_defend_in_n(next,
                                      n,n_max_unsolvable,
                                      max_nr_refutations);
-  else
-    result = n+4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
