@@ -65,7 +65,7 @@ direct_defender_filter_defend_in_n(slice_index si,
                                    stip_length_type n_min,
                                    stip_length_type n_max_unsolvable)
 {
-  stip_length_type result = n+4;;
+  stip_length_type result = n+4;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -95,7 +95,9 @@ direct_defender_filter_defend_in_n(slice_index si,
       if (n-slack_length_battle<=length-min_length)
         result = n;
       else
-        ; /* we have reached the goal earlier than allowed */
+      {
+        /* we have reached the goal earlier than allowed */
+      }
     }
   }
   else if (n>slack_length_battle)
@@ -156,7 +158,9 @@ direct_defender_filter_can_defend_in_n(slice_index si,
       if (n-slack_length_battle<=length-min_length)
         result = n;
       else
-        ; /* we have reached the goal earlier than allowed */
+      {
+        /* we have reached the goal earlier than allowed */
+      }
     }
   }
   else if (n>slack_length_battle)
