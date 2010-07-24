@@ -107,22 +107,18 @@ stip_length_type get_min_length_nontrivial(void)
  * Stop counting when more than max_nr_nontrivial have been found
  * @return number of defender's non-trivial moves
  */
-static unsigned int count_nontrivial_defenses(slice_index si, stip_length_type n)
+static unsigned int count_nontrivial_defenses(slice_index si,
+                                              stip_length_type n)
 {
   unsigned int result;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const parity = ((n-slack_length_battle-1)%2);
-  unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (min_length_nontrivial+parity==slack_length_battle+1)
+  if (min_length_nontrivial<=slack_length_battle+1)
   {
-    /* TODO can this be moved between leaf and goal? */
-    /* special case: just check for non-selfchecking moves
-     */
+    unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
     Side const attacker = slices[si].starter; 
 
     result = 0;
@@ -142,10 +138,15 @@ static unsigned int count_nontrivial_defenses(slice_index si, stip_length_type n
   }
   else
   {
+    slice_index const next = slices[si].u.pipe.next;
+    unsigned int const nr_refutations_allowed = max_nr_nontrivial+1;
+    stip_length_type const parity = ((n-slack_length_battle-1)%2);
     stip_length_type const n_next = min_length_nontrivial+parity;
     stip_length_type const n_max_unsolvable = slack_length_battle-2+parity;
     non_trivial_count[nbply+1] = 0;
-    defense_can_defend_in_n(next,n_next,n_max_unsolvable,nr_refutations_allowed);
+    defense_can_defend_in_n(next,
+                            n_next,n_max_unsolvable,
+                            nr_refutations_allowed);
     result = non_trivial_count[nbply+1];
   }
 
@@ -404,6 +405,7 @@ static void append_nontrivial_counter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
+  if (min_length_nontrivial>slack_length_battle+1)
   {
     slice_index const next = slices[si].u.pipe.next;
     slice_index const next_prev = slices[next].prev;
