@@ -8,6 +8,14 @@
 #include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 
+/* Used by STContinuationWriter and STBattlePlaySolutionWriter to
+ * inform STVariationWriter about the maximum length of variations
+ * after the attack just played. STVariationWriter uses this
+ * information to suppress the output of variations that are deemed
+ * too short to be interesting.
+ */
+stip_length_type max_variation_length[maxply+1];
+
 /* Allocate a STVariationWriter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -97,15 +105,26 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   {
     flush_pending_check(nbply-1);
     output_plaintext_tree_write_pending_move_decoration();
-    output_plaintext_tree_write_move();
-    reset_pending_check();
+
+    if (max_variation_length[nbply]>slack_length_battle+2
+        && slices[si].u.branch.length==slack_length_battle)
+      /* variation is too short to be interesting - just determine the
+       * result
+       */
+      result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+    else
+    {
+      output_plaintext_tree_write_move();
+      reset_pending_check();
+      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+    }
   }
   else
   {
     /* no defense was played - we are solving threats */
+    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
   }
 
-  result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

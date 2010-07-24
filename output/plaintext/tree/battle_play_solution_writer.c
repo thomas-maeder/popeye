@@ -7,6 +7,7 @@
 #include "stipulation/battle_play/try.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/variation_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -60,18 +61,26 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
 
   if (are_we_solving_refutations)
   {
+    /* refutations are never too short to be interesting */
+    max_variation_length[nbply+1] = slack_length_battle+1;
+
     flush_pending_check(nbply);
     output_plaintext_tree_write_pending_move_decoration();
     Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
     Message(But);
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
+    result = defense_can_defend_in_n(next,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
   }
   else
   {
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
+    result = defense_can_defend_in_n(next,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
     last_attack_success = result<=n ? attack_key : attack_try;
+    max_variation_length[nbply+1] = result<n ? result : n;
   }
 
   TraceFunctionExit(__func__);

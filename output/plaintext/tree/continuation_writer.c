@@ -9,6 +9,7 @@
 #include "stipulation/battle_play/threat.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/variation_writer.h"
 #include "trace.h"
 
 /* Allocate a STContinuationWriter defender slice.
@@ -110,6 +111,7 @@ continuation_writer_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
+  max_variation_length[nbply+1] = result<n ? result : n;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);

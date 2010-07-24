@@ -76,7 +76,8 @@ output/plaintext/tree/battle_play_solution_writer$(OBJ_SUFFIX):  \
   output/plaintext/tree/battle_play_solution_writer.h pyoutput.h pydata.h \
   pymsg.h pypipe.h stipulation/battle_play/defense_play.h \
   stipulation/battle_play/try.h output/plaintext/tree/tree.h \
-  output/plaintext/tree/check_detector.h trace.h
+  output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/variation_writer.h trace.h
 
 output/plaintext/tree/battle_play_solution_writer.h:
 
@@ -96,6 +97,8 @@ output/plaintext/tree/tree.h:
 
 output/plaintext/tree/check_detector.h:
 
+output/plaintext/tree/variation_writer.h:
+
 trace.h:
 output/plaintext/tree/continuation_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/continuation_writer.c \
@@ -103,7 +106,7 @@ output/plaintext/tree/continuation_writer$(OBJ_SUFFIX):  \
   pypipe.h pytable.h pymsg.h stipulation/branch.h \
   stipulation/battle_play/defense_play.h stipulation/battle_play/threat.h \
   output/plaintext/tree/tree.h output/plaintext/tree/check_detector.h \
-  trace.h
+  output/plaintext/tree/variation_writer.h trace.h
 
 output/plaintext/tree/continuation_writer.h:
 
@@ -126,6 +129,8 @@ stipulation/battle_play/threat.h:
 output/plaintext/tree/tree.h:
 
 output/plaintext/tree/check_detector.h:
+
+output/plaintext/tree/variation_writer.h:
 
 trace.h:
 output/plaintext/tree/variation_writer$(OBJ_SUFFIX):  \

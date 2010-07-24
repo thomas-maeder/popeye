@@ -5,6 +5,14 @@
 #include "pystip.h"
 #include "pyslice.h"
 
+/* Used by STContinuationWriter and STBattlePlaySolutionWriter to
+ * inform STVariationWriter about the maximum length of variations
+ * after the attack just played. STVariationWriter uses this
+ * information to suppress the output of variations that are deemed
+ * too short to be interesting.
+ */
+extern stip_length_type max_variation_length[maxply+1];
+
 /* Allocate a STVariationWriter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)

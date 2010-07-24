@@ -141,14 +141,6 @@ battle_play_solver_defend_in_n(slice_index si,
   
   if (result<=n+2)
   {
-    /* suppress short ends in self stipulations if there are longer
-     * variations
-     */
-    if (result>slack_length_battle+2
-        && n_min<=slack_length_battle+1
-        && n_min<n)
-      n_min += 2;
-
     if (result<n)
       n = result;
 

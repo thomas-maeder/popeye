@@ -67,14 +67,10 @@ continuation_solver_defend_in_n(slice_index si,
                                    max_nr_allowed_refutations);
   if (result<=n)
   {
-    stip_length_type defend_result;
-    /* suppress short ends in self stipulations if there are longer
-     * variations
-     */
-    if (result>slack_length_battle+2
-        && n_min<=slack_length_battle+1)
-      n_min += 2;
-    defend_result = defense_defend_in_n(next,result,n_min,n_max_unsolvable);
+    stip_length_type const
+        defend_result = defense_defend_in_n(next,
+                                            result,n_min,
+                                            n_max_unsolvable);
     assert(defend_result==result);
   }
 
