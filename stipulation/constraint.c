@@ -1106,8 +1106,12 @@ static void reflex_guards_inserter_series(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  pipe_append(prev,
-              alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
+  {
+    slice_index const filter = alloc_reflex_series_filter(length,min_length,
+                                                          proxy_to_avoided);
+    pipe_append(prev,filter);
+    pipe_append(filter,alloc_proxy_slice());
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
