@@ -95,7 +95,7 @@ self_defense_direct_has_solution_in_n(slice_index si,
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
   slice_index const length = slices[si].u.branch_fork.length;
   slice_index const min_length = slices[si].u.branch_fork.min_length;
-  stip_length_type result;
+  stip_length_type result = n+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -111,7 +111,7 @@ self_defense_direct_has_solution_in_n(slice_index si,
     switch (slice_has_solution(to_goal))
     {
       case opponent_self_check:
-        result = slack_length_battle-1;
+        result = slack_length_battle-2;
         break;
 
       case has_no_solution:
@@ -122,13 +122,10 @@ self_defense_direct_has_solution_in_n(slice_index si,
       case has_solution:
         if (n-slack_length_battle<=length-min_length)
           result = slack_length_battle;
-        else
-          result = n+1;
         break;
 
       default:
         assert(0);
-        result = slack_length_battle-1;
         break;
     }
   }
@@ -161,7 +158,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
                                          stip_length_type n_min,
                                          stip_length_type n_max_unsolvable)
 {
-  stip_length_type result;
+  stip_length_type result = n+2;
   slice_index const next = slices[si].u.pipe.next;
   slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
 
@@ -179,23 +176,26 @@ stip_length_type self_defense_solve_in_n(slice_index si,
     switch (slice_has_solution(towards_goal))
     {
       case opponent_self_check:
-        result = n_min-2;
+        result = slack_length_battle-2;
         break;
 
       case has_solution:
         if (n_min<=slack_length_battle+1)
           slice_solve(towards_goal);
-        result = n_min;
+        result = slack_length_battle;
         break;
 
       case has_no_solution:
+        /* delegate to next even if (n==slack_length_battle) - we need
+         * to distinguish between self-check and other ways of not
+         * reaching the goal
+         */
         n_max_unsolvable = slack_length_battle;
         result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
         break;
 
       default:
         assert(0);
-        result = n+2;
         break;
     }
   }
