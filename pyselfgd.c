@@ -180,8 +180,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
         break;
 
       case has_solution:
-        if (n_min<=slack_length_battle+1)
-          slice_solve(towards_goal);
+        slice_solve(towards_goal);
         result = slack_length_battle;
         break;
 
