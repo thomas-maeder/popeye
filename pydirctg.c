@@ -79,21 +79,30 @@ direct_defender_filter_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    if (defense_defend(slices[si].u.branch_fork.towards_goal))
+    slice_index const length = slices[si].u.branch_fork.length;
+    slice_index const min_length = slices[si].u.branch_fork.min_length;
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+
+    if (n-slack_length_battle<=length-min_length)
     {
-      if (n>slack_length_battle)
+      if (defense_defend(to_goal))
+      {
+        if (n>slack_length_battle)
+        {
+          n_max_unsolvable = slack_length_battle;
+          result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+        }
+      }
+      else
+        result = n;
+    }
+    else
+    {
+      if (defense_can_defend(to_goal))
       {
         n_max_unsolvable = slack_length_battle;
         result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
       }
-    }
-    else
-    {
-      slice_index const length = slices[si].u.branch_fork.length;
-      slice_index const min_length = slices[si].u.branch_fork.min_length;
-
-      if (n-slack_length_battle<=length-min_length)
-        result = n;
       else
       {
         /* we have reached the goal earlier than allowed */
