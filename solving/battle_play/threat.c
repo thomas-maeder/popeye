@@ -75,8 +75,8 @@ static slice_index alloc_threat_collector_slice(void)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
@@ -106,17 +106,15 @@ threat_enforcer_has_solution_in_n(slice_index si,
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type threat_enforcer_solve_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_min,
                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -127,7 +125,6 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -137,7 +134,7 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
     /* the attack has something stronger than threats (typically, it
      * delivers check)
      */
-    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+    result = attack_solve_in_n(next,n,n_max_unsolvable);
   else if (len_threat<=n)
   {
     /* there are >=1 threats - don't report variations shorter than
@@ -156,19 +153,19 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */
-      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+      result = attack_solve_in_n(next,n,n_max_unsolvable);
     else if (len_test_threats>len_threat-2 && nr_threats_to_be_confirmed>0)
       /* variation has same length as the threat(s), but it has
        * defeated at least one threat
        */
-      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+      result = attack_solve_in_n(next,n,n_max_unsolvable);
     else
         /* variation is shorter than threat */
       result = len_test_threats;
   }
   else
     /* zugzwang, or we haven't looked for threats yet */
-    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+    result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -208,8 +205,6 @@ static slice_index alloc_threat_solver_slice(stip_length_type length,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -219,7 +214,6 @@ static slice_index alloc_threat_solver_slice(stip_length_type length,
  */
 stip_length_type threat_collector_defend_in_n(slice_index si,
                                               stip_length_type n,
-                                              stip_length_type n_min,
                                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -228,11 +222,10 @@ stip_length_type threat_collector_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+  result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceValue("%u\n",nbply);
   if (threat_activities[nbply]==threat_solving && result<=n)
@@ -315,7 +308,6 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
   slice_index const defense_move = slices[si].u.threat_writer.defense_move;
   slice_index const attack_side = slices[defense_move].u.branch.next;
-  stip_length_type const n_min = battle_branch_calc_n_min(si,n);
   stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type result;
 
@@ -328,7 +320,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
    * threat
    */
   nextply(nbply);
-  result = attack_solve_in_n(attack_side,n,n_min,n_max_unsolvable);
+  result = attack_solve_in_n(attack_side,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);
@@ -342,8 +334,6 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -353,7 +343,6 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
  */
 stip_length_type threat_solver_defend_in_n(slice_index si,
                                            stip_length_type n,
-                                           stip_length_type n_min,
                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -363,7 +352,6 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -374,7 +362,7 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
   threat_lengths[threats_ply] = solve_threats(si,n-1);
   threat_activities[threats_ply] = threat_idle;
 
-  result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+  result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   assert(get_top_table()==threats[threats_ply]);
   free_table();

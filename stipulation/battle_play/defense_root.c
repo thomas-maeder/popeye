@@ -35,7 +35,6 @@ has_solution_type defense_root_solve(slice_index si)
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
   stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type nr_moves_needed;
 
@@ -43,9 +42,7 @@ has_solution_type defense_root_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nr_moves_needed = defense_defend_in_n(next,
-                                        length,min_length,
-                                        n_max_unsolvable-1);
+  nr_moves_needed = defense_defend_in_n(next,length,n_max_unsolvable-1);
   result = nr_moves_needed<=length ? has_solution : has_no_solution;
 
   TraceFunctionExit(__func__);

@@ -20,8 +20,6 @@ slice_index alloc_maxsolutions_root_defender_filter(void);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -32,7 +30,6 @@ slice_index alloc_maxsolutions_root_defender_filter(void);
 stip_length_type
 maxsolutions_root_defender_filter_defend_in_n(slice_index si,
                                               stip_length_type n,
-                                              stip_length_type n_min,
                                               stip_length_type n_max_unsolvable);
 
 #endif

@@ -86,31 +86,22 @@ has_solution_type selfcheck_guard_solve(slice_index si);
 
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
- * @param n_min minimum number of half-moves of interesting variations
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @param n_min minimal number of half moves to try
- * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
- *            n+2 no solution found
+ * @return true if >=1 solution was found
  */
 boolean selfcheck_guard_attacker_filter_root_solve_in_n(slice_index si);
 
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type selfcheck_guard_solve_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_min,
                                             stip_length_type n_max_unsolvable);
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
@@ -137,8 +128,6 @@ void selfcheck_guard_solvable_filter_make_root(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -148,7 +137,6 @@ void selfcheck_guard_solvable_filter_make_root(slice_index si,
  */
 stip_length_type selfcheck_guard_defend_in_n(slice_index si,
                                              stip_length_type n,
-                                             stip_length_type n_min,
                                              stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
@@ -191,8 +179,8 @@ void selfcheck_guard_defender_filter_make_root(slice_index si,
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type

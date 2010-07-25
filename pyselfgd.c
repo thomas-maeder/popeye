@@ -81,8 +81,8 @@ void self_defense_make_root(slice_index si, stip_structure_traversal *st)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
@@ -145,17 +145,15 @@ self_defense_direct_has_solution_in_n(slice_index si,
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type self_defense_solve_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min,
                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
@@ -165,7 +163,6 @@ stip_length_type self_defense_solve_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -190,7 +187,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
          * reaching the goal
          */
         n_max_unsolvable = slack_length_battle;
-        result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+        result = attack_solve_in_n(next,n,n_max_unsolvable);
         break;
 
       default:
@@ -199,7 +196,7 @@ stip_length_type self_defense_solve_in_n(slice_index si,
     }
   }
   else
-    result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+    result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

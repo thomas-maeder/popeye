@@ -89,12 +89,12 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
           sol_length = attack_has_solution_in_n(si,
                                                 nbattle,n_min,
                                                 n_max_unsolvable);
-      if (sol_length<n_min)
+      if (sol_length<slack_length_battle)
         result = n+4;
       else if (sol_length<=nbattle)
       {
         result = n;
-        attack_solve_in_n(si,nbattle,n_min,n_max_unsolvable);
+        attack_solve_in_n(si,nbattle,n_max_unsolvable);
       }
       else
         result = sol_length+slack_length_help-slack_length_battle;
@@ -106,8 +106,10 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       stip_length_type const nbattle = (n-slack_length_help+
                                         slack_length_battle+1);
       stip_length_type const parity = (nbattle-slack_length_battle)%2;
-      stip_length_type const n_min = slack_length_battle+parity;
-      result = defense_defend_in_n(si,nbattle,n_min,n_min-2)<=nbattle ? n : n+2;
+      stip_length_type const n_max_unsolvable = slack_length_battle-1;
+      result = (defense_defend_in_n(si,nbattle,n_max_unsolvable)<=nbattle
+                ? n
+                : n+2);
       break;
     }
 

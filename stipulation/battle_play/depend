@@ -85,7 +85,8 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
   stipulation/series_play/play.h output/plaintext/tree/check_detector.h \
   output/plaintext/tree/zugzwang_writer.h \
   output/plaintext/tree/variation_writer.h \
-  output/plaintext/tree/refutation_writer.h trace.h
+  output/plaintext/tree/refutation_writer.h \
+  output/plaintext/tree/refuting_variation_writer.h trace.h
 
 stipulation/battle_play/attack_play.h:
 
@@ -141,13 +142,14 @@ output/plaintext/tree/variation_writer.h:
 
 output/plaintext/tree/refutation_writer.h:
 
+output/plaintext/tree/refuting_variation_writer.h:
+
 trace.h:
 stipulation/battle_play/defense_move$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_move.c \
   stipulation/battle_play/defense_move.h pydata.h pypipe.h \
-  stipulation/branch.h stipulation/battle_play/branch.h \
-  stipulation/battle_play/attack_play.h stipulation/help_play/move.h \
-  trace.h
+  stipulation/branch.h stipulation/battle_play/attack_play.h \
+  stipulation/help_play/move.h trace.h
 
 stipulation/battle_play/defense_move.h:
 
@@ -156,8 +158,6 @@ pydata.h:
 pypipe.h:
 
 stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
@@ -210,7 +210,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   optimisations/maxtime/defender_filter.h \
   output/plaintext/tree/check_detector.h \
   output/plaintext/tree/battle_play_solution_writer.h \
-  output/plaintext/tree/end_of_solution_writer.h trace.h
+  output/plaintext/tree/end_of_solution_writer.h \
+  output/plaintext/tree/continuation_writer.h trace.h
 
 stipulation/battle_play/defense_play.h:
 
@@ -263,6 +264,8 @@ output/plaintext/tree/check_detector.h:
 output/plaintext/tree/battle_play_solution_writer.h:
 
 output/plaintext/tree/end_of_solution_writer.h:
+
+output/plaintext/tree/continuation_writer.h:
 
 trace.h:
 stipulation/battle_play/continuation$(OBJ_SUFFIX):  \

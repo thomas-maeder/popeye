@@ -181,8 +181,8 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
@@ -205,7 +205,7 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
   switch (slice_has_solution(avoided))
   {
     case opponent_self_check:
-      result = n_min-2;
+      result = slack_length_battle-2;
       break;
 
     case has_no_solution:
@@ -256,18 +256,16 @@ has_solution_type reflex_root_filter_solve(slice_index si)
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
 reflex_attacker_filter_solve_in_n(slice_index si,
                                   stip_length_type n,
-                                  stip_length_type n_min,
                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -277,18 +275,17 @@ reflex_attacker_filter_solve_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   switch (slice_has_solution(avoided))
   {
     case opponent_self_check:
-      result = n_min-2;
+      result = slack_length_battle-2;
       break;
 
     case has_solution:
-      result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+      result = attack_solve_in_n(next,n,n_max_unsolvable);
       break;
 
     case has_no_solution:
@@ -412,8 +409,6 @@ void reflex_defender_filter_make_root(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -424,7 +419,6 @@ void reflex_defender_filter_make_root(slice_index si,
 stip_length_type
 reflex_defender_filter_defend_in_n(slice_index si,
                                    stip_length_type n,
-                                   stip_length_type n_min,
                                    stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -436,7 +430,6 @@ reflex_defender_filter_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -445,9 +438,9 @@ reflex_defender_filter_defend_in_n(slice_index si,
   if (n_max_unsolvable<=slack_length_battle
       && length-min_length+1>=n-slack_length_battle
       && slice_solve(avoided)==has_no_solution)
-    result = n_min;
+    result = slack_length_battle+1;
   else
-    result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+    result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -76,7 +76,7 @@ has_solution_type attack_root_solve(slice_index si)
       {
         stip_length_type const
             nr_moves_needed = defense_defend_in_n(next,
-                                                  length-1,min_length-1,
+                                                  length-1,
                                                   n_max_unsolvable-1);
         if (min_length-1<=nr_moves_needed)
         {

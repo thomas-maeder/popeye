@@ -18,18 +18,16 @@ has_solution_type reflex_root_filter_solve(slice_index si);
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
 reflex_attacker_filter_solve_in_n(slice_index si,
                                   stip_length_type n,
-                                  stip_length_type n_min,
                                   stip_length_type n_max_unsolvable);
 
 /* Determine whether there is a solution in n half moves, by trying
@@ -40,8 +38,8 @@ reflex_attacker_filter_solve_in_n(slice_index si,
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
@@ -55,8 +53,6 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -67,7 +63,6 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
 stip_length_type
 reflex_defender_filter_defend_in_n(slice_index si,
                                    stip_length_type n,
-                                   stip_length_type n_min,
                                    stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move

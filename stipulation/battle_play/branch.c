@@ -110,35 +110,6 @@ slice_index alloc_battle_branch(stip_length_type length,
   return result;
 }
 
-/* Calculate the minimum number of moves to solve for depending of the
- * maximum number and the minimum and maximum length of a slice
- * @param si identifies battle play branch slice
- * @param n maximum number of moves
- * @return minimum number of moves
- */
-stip_length_type battle_branch_calc_n_min(slice_index si, stip_length_type n)
-{
-  stip_length_type const parity = (n-slack_length_battle)%2;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (n+min_length>slack_length_battle+1+length)
-    result = n-(length-min_length);
-  else
-    result = slack_length_battle+2-parity;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Shorten a battle slice by 2 half moves
  * @param si identifies slice to be shortened
  */

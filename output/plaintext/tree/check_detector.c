@@ -107,8 +107,8 @@ alloc_output_plaintext_tree_check_detector_attacker_filter_slice(stip_length_typ
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
@@ -138,18 +138,16 @@ output_plaintext_tree_check_detector_has_solution_in_n(slice_index si,
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found and written, i.e.:
- *            n_min-2 defense has turned out to be illegal
- *            n_min..n length of shortest solution found
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
  *            n+2 no solution found
  */
 stip_length_type
 output_plaintext_tree_check_detector_solve_in_n(slice_index si,
                                                 stip_length_type n,
-                                                stip_length_type n_min,
                                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -158,12 +156,11 @@ output_plaintext_tree_check_detector_solve_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   detect_pending_check(si);
-  result = attack_solve_in_n(next,n,n_min,n_max_unsolvable);
+  result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -237,8 +234,6 @@ output_plaintext_tree_check_detector_can_defend_in_n(slice_index si,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -249,7 +244,6 @@ output_plaintext_tree_check_detector_can_defend_in_n(slice_index si,
 stip_length_type
 output_plaintext_tree_check_detector_defend_in_n(slice_index si,
                                                  stip_length_type n,
-                                                 stip_length_type n_min,
                                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -258,12 +252,11 @@ output_plaintext_tree_check_detector_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   detect_pending_check(si);
-  result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+  result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

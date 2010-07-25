@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -106,10 +105,10 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
     {
       slice_index const
           to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
-      stip_length_type n_min = battle_branch_calc_n_min(si,n_max);
+      stip_length_type const n_min = slack_length_battle;
       stip_length_type const
           nr_moves_needed = attack_has_solution_in_n(to_attacker,
-                                                     n_max-1,n_min-1,
+                                                     n_max-1,n_min,
                                                      n_max_unsolvable-1);
       result = nr_moves_needed>n_max;
     }
@@ -161,8 +160,6 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -173,7 +170,6 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
 stip_length_type
 maxthreatlength_guard_defend_in_n(slice_index si,
                                   stip_length_type n,
-                                  stip_length_type n_min,
                                   stip_length_type n_max_unsolvable)
 {
   slice_index const next = slices[si].u.pipe.next;
@@ -182,12 +178,11 @@ maxthreatlength_guard_defend_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
   assert(!is_threat_too_long(si,n));
-  result = defense_defend_in_n(next,n,n_min,n_max_unsolvable);
+  result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

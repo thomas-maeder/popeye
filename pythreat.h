@@ -35,8 +35,6 @@ boolean stip_insert_maxthreatlength_guards(void);
  * solve in less than n half moves.
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimum number of half-moves of interesting variations
- *              (slack_length_battle <= n_min <= slices[si].u.branch.length)
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
@@ -47,7 +45,6 @@ boolean stip_insert_maxthreatlength_guards(void);
 stip_length_type
 maxthreatlength_guard_defend_in_n(slice_index si,
                                   stip_length_type n,
-                                  stip_length_type n_min,
                                   stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
