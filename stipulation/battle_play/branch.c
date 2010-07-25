@@ -3,6 +3,7 @@
 #include "pyselfcg.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/attack_move.h"
+#include "stipulation/battle_play/attack_end.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_end.h"
 #include "trace.h"
@@ -18,6 +19,7 @@ slice_index alloc_attack_branch(stip_length_type length,
                                 stip_length_type min_length)
 {
   slice_index result;
+  slice_index end;
   slice_index attack;
 
   TraceFunctionEntry(__func__);
@@ -26,8 +28,10 @@ slice_index alloc_attack_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_selfcheck_guard_attacker_filter(length,min_length);
+  end = alloc_attack_end_slice(length,min_length);
   attack = alloc_attack_move_slice(length,min_length);
-  pipe_link(result,attack);
+  pipe_link(result,end);
+  pipe_link(end,attack);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -93,19 +97,21 @@ slice_index alloc_battle_branch(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
+    slice_index const aend = alloc_attack_end_slice(length,min_length);
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length-1,min_length-1);
-    slice_index const end = alloc_defense_end_slice(length-1,min_length-1);
+    slice_index const dend = alloc_defense_end_slice(length-1,min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
     slice_index const
         guard2 = alloc_selfcheck_guard_attacker_filter(length,min_length);
     pipe_link(result,guard2);
-    pipe_link(guard2,attack);
+    pipe_link(guard2,aend);
+    pipe_link(aend,attack);
     pipe_link(attack,guard1);
-    pipe_link(guard1,end);
-    pipe_link(end,defense);
+    pipe_link(guard1,dend);
+    pipe_link(dend,defense);
     pipe_link(defense,result);
   }
 

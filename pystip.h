@@ -71,6 +71,7 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
+    ENUMERATOR(STAttackEnd),      /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseEnd),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STRestartGuardRootDefenderFilter),    /* write move numbers */ \

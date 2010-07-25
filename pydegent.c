@@ -211,6 +211,7 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
+  &stip_traverse_structure_children,     /* STAttackEnd */
   &stip_traverse_structure_children,     /* STDefenseEnd */
   &stip_traverse_structure_children,     /* STDefenseFork */
   &stip_traverse_structure_children,     /* STRestartGuardRootDefenderFilter */

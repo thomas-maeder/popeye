@@ -2677,6 +2677,7 @@ static stip_move_visitor const moves_left_initialisers[] =
   &stip_traverse_moves_children,             /* STReflexAttackerFilter */
   &stip_traverse_moves_children,             /* STReflexDefenderFilter */
   &stip_traverse_moves_children,             /* STSelfDefense */
+  &stip_traverse_moves_children,             /* STAttackEnd */
   &stip_traverse_moves_children,             /* STDefenseEnd */
   &stip_traverse_moves_children,             /* STDefenseFork */
   &stip_traverse_moves_children,             /* STRestartGuardRootDefenderFilter */
@@ -3180,6 +3181,7 @@ static stip_structure_visitor const intelligent_guards_inserters[] =
   &stip_traverse_structure_children,         /* STReflexAttackerFilter */
   &stip_traverse_structure_children,         /* STReflexDefenderFilter */
   &stip_traverse_structure_children,         /* STSelfDefense */
+  &stip_traverse_structure_children,         /* STAttackEnd */
   &stip_traverse_structure_children,         /* STDefenseEnd */
   &stip_traverse_structure_children,         /* STDefenseFork */
   &stip_traverse_structure_children,         /* STRestartGuardRootDefenderFilter */
@@ -3538,6 +3540,7 @@ static stip_structure_visitor const intelligent_mode_support_detectors[] =
   &intelligent_mode_support_none,               /* STReflexAttackerFilter */
   &intelligent_mode_support_none,               /* STReflexDefenderFilter */
   &intelligent_mode_support_none,               /* STSelfDefense */
+  &intelligent_mode_support_none,               /* STAttackEnd */
   &intelligent_mode_support_none,               /* STDefenseEnd */
   &intelligent_mode_support_none,               /* STDefenseFork */
   &intelligent_mode_support_none,               /* STRestartGuardRootDefenderFilter */

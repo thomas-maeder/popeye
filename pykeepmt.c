@@ -566,8 +566,9 @@ void keepmating_guards_inserter_battle_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void keepmating_guards_inserter_attack_move(slice_index si,
-                                                   stip_structure_traversal *st)
+static
+void keepmating_guards_inserter_attack_move(slice_index si,
+                                            stip_structure_traversal *st)
 {
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
@@ -706,7 +707,8 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_battle_fork, /* STReflexAttackerFilter */
   &keepmating_guards_inserter_battle_fork, /* STReflexDefenderFilter */
   &keepmating_guards_inserter_battle_fork, /* STSelfDefense */
-  &keepmating_guards_inserter_battle_fork, /* STDefenseEnd */
+  &stip_traverse_structure_children,       /* STAttackEnd */
+  &stip_traverse_structure_children,       /* STDefenseEnd */
   &keepmating_guards_inserter_battle_fork, /* STDefenseFork */
   &stip_traverse_structure_children,       /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,       /* STRestartGuardHelpFilter */

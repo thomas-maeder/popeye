@@ -327,6 +327,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STReflexAttackerFilter */
   &slice_property_offset_shifter,    /* STReflexDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfDefense */
+  &slice_property_offset_shifter,    /* STAttackEnd */
   &slice_property_offset_shifter,    /* STDefenseEnd */
   &slice_property_offset_shifter,    /* STDefenseFork */
   &slice_property_offset_shifter,    /* STRestartGuardRootDefenderFilter */
@@ -695,6 +696,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
+  &stip_traverse_structure_children,     /* STAttackEnd */
   &stip_traverse_structure_children,     /* STDefenseEnd */
   &stip_traverse_structure_children,     /* STDefenseFork */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
@@ -2346,6 +2348,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STReflexAttackerFilter */
   &stip_traverse_moves_children,            /* STReflexDefenderFilter */
   &stip_traverse_moves_children,            /* STSelfDefense */
+  &stip_traverse_moves_children,            /* STAttackEnd */
   &stip_traverse_moves_children,            /* STDefenseEnd */
   &stip_traverse_moves_children,            /* STDefenseFork */
   &stip_traverse_moves_children,            /* STRestartGuardRootDefenderFilter */

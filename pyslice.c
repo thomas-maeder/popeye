@@ -73,10 +73,8 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STAttackRoot:
-      result = attack_root_solve(si);
-      break;
-
     case STAttackMove:
+    case STAttackEnd:
     case STAttackHashed:
     case STSelfDefense:
     case STSelfCheckGuardAttackerFilter:
@@ -255,6 +253,7 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAttackRoot:
     case STAttackMove:
+    case STAttackEnd:
     case STSelfDefense:
     case STKeepMatingGuardAttackerFilter:
     case STKeepMatingGuardDefenderFilter:

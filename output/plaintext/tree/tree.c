@@ -380,7 +380,7 @@ static void instrument_help_root(slice_index si, stip_structure_traversal *st)
 static stip_structure_visitor const tree_slice_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
-  &instrument_attack_move,           /* STAttackMove */
+  &stip_traverse_structure_children, /* STAttackMove */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,      /* STHelpMove */
@@ -431,8 +431,9 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &stip_traverse_structure_children, /* STReflexHelpFilter */
   &stip_traverse_structure_children, /* STReflexSeriesFilter */
   &instrument_attack_move,           /* STReflexAttackerFilter */
-  &instrument_reflex_defender_filter, /* STReflexDefenderFilter */
+  &instrument_reflex_defender_filter,/* STReflexDefenderFilter */
   &instrument_self_defense,          /* STSelfDefense */
+  &instrument_attack_move,           /* STAttackEnd */
   &instrument_defense_move,          /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */

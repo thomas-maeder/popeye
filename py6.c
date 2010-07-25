@@ -556,6 +556,7 @@ static stip_structure_visitor const slice_type_finders[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STAttackEnd */
   &stip_traverse_structure_children, /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
@@ -2374,6 +2375,7 @@ static stip_structure_visitor const duplex_initialisers[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STAttackEnd */
   &stip_traverse_structure_children, /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
@@ -2506,6 +2508,7 @@ static stip_structure_visitor const duplex_finishers[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STAttackEnd */
   &stip_traverse_structure_children, /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
@@ -2901,6 +2904,7 @@ static stip_move_visitor const imminent_goal_rememberers[] =
   &stip_traverse_moves_children,       /* STReflexAttackerFilter */
   &stip_traverse_moves_children,       /* STReflexDefenderFilter */
   &remember_imminent_goal_self_defense, /* STSelfDefense */
+  &stip_traverse_moves_children,       /* STAttackEnd */
   &stip_traverse_moves_children,       /* STDefenseEnd */
   &stip_traverse_moves_children,       /* STDefenseFork */
   &stip_traverse_moves_children,       /* STRestartGuardRootDefenderFilter */

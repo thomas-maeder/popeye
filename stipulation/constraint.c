@@ -925,7 +925,7 @@ static void reflex_guards_inserter_branch_fork(slice_index si,
 static stip_structure_visitor const reflex_guards_inserters[] =
 {
   &stip_traverse_structure_children,   /* STProxy */
-  &reflex_guards_inserter_attack,      /* STAttackMove */
+  &stip_traverse_structure_children,   /* STAttackMove */
   &stip_traverse_structure_children,   /* STDefenseMove */
   &stip_traverse_structure_children,   /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,   /* STHelpMove */
@@ -978,6 +978,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
   &stip_traverse_structure_children,   /* STReflexDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfDefense */
+  &reflex_guards_inserter_attack,      /* STAttackEnd */
   &reflex_guards_inserter_defense,     /* STDefenseEnd */
   &stip_traverse_structure_children,   /* STDefenseFork */
   &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
@@ -1197,6 +1198,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STReflexAttackerFilter */
   &stip_traverse_structure_children,    /* STReflexDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfDefense */
+  &stip_traverse_structure_children,    /* STAttackEnd */
   &reflex_guards_inserter_defense_semi, /* STDefenseEnd */
   &stip_traverse_structure_children,    /* STDefenseFork */
   &stip_traverse_structure_children,    /* STRestartGuardRootDefenderFilter */
