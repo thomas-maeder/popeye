@@ -29,7 +29,7 @@ slice_index alloc_defense_end_slice(stip_length_type length,
   return result;
 }
 
-/* Traversal of the moves beyond a series fork slice 
+/* Traversal of the moves beyond a defense end slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
