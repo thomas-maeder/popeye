@@ -1,5 +1,7 @@
 #include "stipulation/battle_play/defense_fork.h"
 #include "pybrafrk.h"
+#include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
