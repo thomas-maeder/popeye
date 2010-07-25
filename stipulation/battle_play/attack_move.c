@@ -233,7 +233,7 @@ attack_move_has_solution_in_n(slice_index si,
   assert(n>=slack_length_battle);
 
   if (n==slack_length_battle)
-    result = slack_length_battle+1;
+    result = slack_length_battle+2;
   else
   {
     if (n_max_unsolvable<slack_length_battle)
@@ -440,7 +440,7 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   assert(n>=slack_length_battle);
 
   if (n==slack_length_battle)
-    result = slack_length_battle+1;
+    result = slack_length_battle+2;
   else
   {
     slice_index const length = slices[si].u.branch_fork.length;
