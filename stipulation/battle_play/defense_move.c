@@ -145,6 +145,8 @@ stip_length_type defense_move_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  assert(n>slack_length_battle);
+
   n_max_unsolvable = slack_length_battle;
 
   move_generation_mode = move_generation_not_optimized;
@@ -246,6 +248,8 @@ defense_move_can_defend_in_n(slice_index si,
                              unsigned int max_nr_refutations)
 {
   stip_length_type result;
+  Side const defender = slices[si].starter;
+  stip_length_type max_len_continuation;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -256,26 +260,21 @@ defense_move_can_defend_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  {
-    Side const defender = slices[si].starter;
-    stip_length_type max_len_continuation;
+  if (n<=slack_length_battle+3)
+    move_generation_mode = move_generation_optimized_by_killer_move;
+  else
+    move_generation_mode = move_generation_mode_opti_per_side[defender];
 
-    if (n<=slack_length_battle+3)
-      move_generation_mode = move_generation_optimized_by_killer_move;
-    else
-      move_generation_mode = move_generation_mode_opti_per_side[defender];
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(defender);
+  max_len_continuation = try_defenses(si,n,max_nr_refutations);
+  finply();
 
-    TraceValue("->%u\n",move_generation_mode);
-    genmove(defender);
-    max_len_continuation = try_defenses(si,n,max_nr_refutations);
-    finply();
-
-    if (max_len_continuation<slack_length_battle /* stalemate */
-        || max_len_continuation>n) /* refuted */
-      result = n+4;
-    else
-      result = max_len_continuation;
-  }
+  if (max_len_continuation<slack_length_battle /* stalemate */
+      || max_len_continuation>n) /* refuted */
+        result = n+4;
+  else
+    result = max_len_continuation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

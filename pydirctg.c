@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -62,7 +63,7 @@ direct_defender_filter_defend_in_n(slice_index si,
                                    stip_length_type n,
                                    stip_length_type n_max_unsolvable)
 {
-  stip_length_type result = n+4;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -83,11 +84,8 @@ direct_defender_filter_defend_in_n(slice_index si,
     {
       if (defense_defend(to_goal))
       {
-        if (n>slack_length_battle)
-        {
-          n_max_unsolvable = slack_length_battle;
-          result = defense_defend_in_n(next,n,n_max_unsolvable);
-        }
+        n_max_unsolvable = slack_length_battle;
+        result = defense_defend_in_n(next,n,n_max_unsolvable);
       }
       else
         result = n;
@@ -100,12 +98,11 @@ direct_defender_filter_defend_in_n(slice_index si,
         result = defense_defend_in_n(next,n,n_max_unsolvable);
       }
       else
-      {
         /* we have reached the goal earlier than allowed */
-      }
+        result = n+4;
     }
   }
-  else if (n>slack_length_battle)
+  else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -131,7 +128,7 @@ direct_defender_filter_can_defend_in_n(slice_index si,
                                        stip_length_type n_max_unsolvable,
                                        unsigned int max_nr_refutations)
 {
-  stip_length_type result = n+4;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -147,13 +144,10 @@ direct_defender_filter_can_defend_in_n(slice_index si,
   {
     if (defense_can_defend(slices[si].u.branch_fork.towards_goal))
     {
-      if (n>slack_length_battle)
-      {
-        n_max_unsolvable = slack_length_battle;
-        result = defense_can_defend_in_n(next,
-                                         n,n_max_unsolvable,
-                                         max_nr_refutations);
-      }
+      n_max_unsolvable = slack_length_battle;
+      result = defense_can_defend_in_n(next,
+                                       n,n_max_unsolvable,
+                                       max_nr_refutations);
     }
     else
     {
@@ -163,12 +157,11 @@ direct_defender_filter_can_defend_in_n(slice_index si,
       if (n-slack_length_battle<=length-min_length)
         result = n;
       else
-      {
         /* we have reached the goal earlier than allowed */
-      }
+        result = n+4;
     }
   }
-  else if (n>slack_length_battle)
+  else
     result = defense_can_defend_in_n(next,
                                      n,n_max_unsolvable,
                                      max_nr_refutations);
@@ -246,6 +239,28 @@ void direct_defense_impose_starter(slice_index si, stip_structure_traversal *st)
 
   slices[si].starter = *starter;
   stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Traversal of the moves beyond a series fork slice 
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_direct_defender_filter(slice_index si,
+                                                stip_move_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_branch_init_full_length(si,st);
+
+  if (st->remaining<=slack_length_battle+1)
+    stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
+
+  stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -340,6 +355,7 @@ static stip_structure_visitor const direct_guards_inserters[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */

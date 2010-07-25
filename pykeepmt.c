@@ -706,6 +706,7 @@ static stip_structure_visitor const keepmating_guards_inserters[] =
   &keepmating_guards_inserter_battle_fork, /* STReflexAttackerFilter */
   &keepmating_guards_inserter_battle_fork, /* STReflexDefenderFilter */
   &keepmating_guards_inserter_battle_fork, /* STSelfDefense */
+  &keepmating_guards_inserter_battle_fork, /* STDefenseEnd */
   &keepmating_guards_inserter_battle_fork, /* STDefenseFork */
   &stip_traverse_structure_children,       /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,       /* STRestartGuardHelpFilter */

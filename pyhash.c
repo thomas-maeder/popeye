@@ -327,6 +327,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STReflexAttackerFilter */
   &slice_property_offset_shifter,    /* STReflexDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfDefense */
+  &slice_property_offset_shifter,    /* STDefenseEnd */
   &slice_property_offset_shifter,    /* STDefenseFork */
   &slice_property_offset_shifter,    /* STRestartGuardRootDefenderFilter */
   &slice_property_offset_shifter,    /* STRestartGuardHelpFilter */
@@ -694,6 +695,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
+  &stip_traverse_structure_children,     /* STDefenseEnd */
   &stip_traverse_structure_children,     /* STDefenseFork */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
   &init_slice_properties_pipe,           /* STRestartGuardHelpFilter */
@@ -2293,7 +2295,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STProxy */
   &stip_traverse_moves_children,            /* STAttackMove */
   &insert_hash_element_defense_move,        /* STDefenseMove */
-  &insert_hash_element_defense_move,        /* STDefenseMoveAgainstGoal */
+  &stip_traverse_moves_children,            /* STDefenseMoveAgainstGoal */
   &insert_hash_element_help_move,           /* STHelpMove */
   &insert_hash_element_help_move_to_goal,   /* STHelpMoveToGoal */
   &stip_traverse_moves_children,            /* STHelpFork */
@@ -2344,6 +2346,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STReflexAttackerFilter */
   &stip_traverse_moves_children,            /* STReflexDefenderFilter */
   &stip_traverse_moves_children,            /* STSelfDefense */
+  &stip_traverse_moves_children,            /* STDefenseEnd */
   &stip_traverse_moves_children,            /* STDefenseFork */
   &stip_traverse_moves_children,            /* STRestartGuardRootDefenderFilter */
   &stip_traverse_moves_children,            /* STRestartGuardHelpFilter */

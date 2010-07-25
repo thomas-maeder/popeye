@@ -1053,6 +1053,8 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   stipulation/leaf.h stipulation/battle_play/branch.h \
   stipulation/battle_play/fork.h stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_play.h \
+  stipulation/battle_play/defense_fork.h \
+  stipulation/battle_play/defense_end.h \
   stipulation/battle_play/attack_root.h \
   stipulation/battle_play/attack_move.h stipulation/battle_play/try.h \
   pytable.h stipulation/battle_play/continuation.h \
@@ -1147,6 +1149,10 @@ stipulation/battle_play/fork.h:
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/defense_fork.h:
+
+stipulation/battle_play/defense_end.h:
 
 stipulation/battle_play/attack_root.h:
 
@@ -1355,7 +1361,7 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
   pyslice.h pybrafrk.h pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h pygoal.h pypipe.h \
   pydata.h pyproc.h py4.h stipulation/proxy.h pypipe.h \
-  stipulation/battle_play/branch.h pystip.h \
+  stipulation/branch.h pystip.h stipulation/battle_play/branch.h \
   stipulation/battle_play/defense_play.h trace.h
 
 pydirctg.h:
@@ -1400,9 +1406,11 @@ stipulation/proxy.h:
 
 pypipe.h:
 
-stipulation/battle_play/branch.h:
+stipulation/branch.h:
 
 pystip.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/battle_play/defense_play.h:
 

@@ -75,6 +75,7 @@ static stip_structure_visitor const no_short_variations_filter_inserters[] =
   &stip_traverse_structure_children,    /* STReflexAttackerFilter */
   &stip_traverse_structure_children,    /* STReflexDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfDefense */
+  &stip_traverse_structure_children,    /* STDefenseEnd */
   &stip_traverse_structure_children,    /* STDefenseFork */
   &stip_traverse_structure_children,    /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,    /* STRestartGuardHelpFilter */

@@ -381,8 +381,8 @@ static stip_structure_visitor const tree_slice_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
   &instrument_attack_move,           /* STAttackMove */
-  &instrument_defense_move,          /* STDefenseMove */
-  &instrument_defense_move,          /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children, /* STDefenseMove */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,      /* STHelpMove */
   &stip_structure_visitor_noop,      /* STHelpMoveToGoal */
   &stip_structure_visitor_noop,      /* STHelpFork */
@@ -433,7 +433,8 @@ static stip_structure_visitor const tree_slice_inserters[] =
   &instrument_attack_move,           /* STReflexAttackerFilter */
   &instrument_reflex_defender_filter, /* STReflexDefenderFilter */
   &instrument_self_defense,          /* STSelfDefense */
-  &instrument_self_defense,          /* STDefenseFork */
+  &instrument_defense_move,          /* STDefenseEnd */
+  &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
   &stip_traverse_structure_children, /* STRestartGuardSeriesFilter */

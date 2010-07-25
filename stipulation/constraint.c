@@ -926,7 +926,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
 {
   &stip_traverse_structure_children,   /* STProxy */
   &reflex_guards_inserter_attack,      /* STAttackMove */
-  &reflex_guards_inserter_defense,     /* STDefenseMove */
+  &stip_traverse_structure_children,   /* STDefenseMove */
   &stip_traverse_structure_children,   /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,   /* STHelpMove */
   &stip_traverse_structure_children,   /* STHelpMoveToGoal */
@@ -978,6 +978,7 @@ static stip_structure_visitor const reflex_guards_inserters[] =
   &stip_traverse_structure_children,   /* STReflexAttackerFilter */
   &stip_traverse_structure_children,   /* STReflexDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfDefense */
+  &reflex_guards_inserter_defense,     /* STDefenseEnd */
   &stip_traverse_structure_children,   /* STDefenseFork */
   &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,   /* STRestartGuardHelpFilter */
@@ -1144,7 +1145,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
 {
   &stip_traverse_structure_children,    /* STProxy */
   &stip_traverse_structure_children,    /* STAttackMove */
-  &reflex_guards_inserter_defense_semi, /* STDefenseMove */
+  &stip_traverse_structure_children,    /* STDefenseMove */
   &stip_traverse_structure_children,    /* STDefenseMoveAgainstGoal */
   &reflex_guards_inserter_help,         /* STHelpMove */
   &reflex_guards_inserter_help,         /* STHelpMoveToGoal */
@@ -1196,6 +1197,7 @@ static stip_structure_visitor const reflex_guards_inserters_semi[] =
   &stip_traverse_structure_children,    /* STReflexAttackerFilter */
   &stip_traverse_structure_children,    /* STReflexDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfDefense */
+  &reflex_guards_inserter_defense_semi, /* STDefenseEnd */
   &stip_traverse_structure_children,    /* STDefenseFork */
   &stip_traverse_structure_children,    /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children,    /* STRestartGuardHelpFilter */

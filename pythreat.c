@@ -252,7 +252,8 @@ static void maxthreatlength_guard_inserter(slice_index si,
     boolean * const inserted = st->param;
     slice_index const
         to_attacker = branch_find_slice(STSelfCheckGuardAttackerFilter,si);
-    pipe_append(slices[si].prev,alloc_maxthreatlength_guard(length,to_attacker));
+    pipe_append(slices[si].prev,
+                alloc_maxthreatlength_guard(length,to_attacker));
     *inserted = true;
   }
 
@@ -267,7 +268,7 @@ static stip_structure_visitor const maxthreatlength_guards_inserters[] =
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
   &maxthreatlength_guard_inserter,   /* STDefenseMove */
-  &maxthreatlength_guard_inserter,   /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
   &stip_traverse_structure_children, /* STHelpMoveToGoal */
   &stip_traverse_structure_children, /* STHelpFork */
@@ -318,6 +319,7 @@ static stip_structure_visitor const maxthreatlength_guards_inserters[] =
   &stip_traverse_structure_children, /* STReflexAttackerFilter */
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
+  &stip_traverse_structure_children, /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
   &stip_traverse_structure_children, /* STRestartGuardHelpFilter */
