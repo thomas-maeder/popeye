@@ -26,8 +26,6 @@ slice_index alloc_attack_move_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert((length-slack_length_battle)%2==(min_length-slack_length_battle)%2);
-
   result = alloc_branch(STAttackMove,length,min_length);
 
   TraceFunctionExit(__func__);

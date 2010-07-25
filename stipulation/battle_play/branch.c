@@ -92,7 +92,6 @@ slice_index alloc_battle_branch(stip_length_type length,
 
   assert(length>slack_length_battle);
   assert(min_length>slack_length_battle);
-  assert(min_length%2==length%2);
 
   result = alloc_proxy_slice();
 

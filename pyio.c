@@ -2746,8 +2746,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
-          slice_index const branch = alloc_battle_branch(length+1,
-                                                         min_length+1);
+          slice_index const branch = alloc_battle_branch(length+1,min_length);
           slice_insert_self_guards(branch,proxy_next);
           pipe_set_successor(proxy,branch);
           slices[next].starter = White;
