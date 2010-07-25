@@ -119,6 +119,8 @@ stip_length_type defense_end_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  assert(n>=slack_length_battle);
+
   if (n==slack_length_battle)
     result = slack_length_battle+4;
   else
@@ -158,6 +160,8 @@ defense_end_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
+
+  assert(n>=slack_length_battle);
 
   if (n==slack_length_battle)
     result = slack_length_battle+4;
