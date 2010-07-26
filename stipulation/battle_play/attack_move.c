@@ -229,13 +229,9 @@ attack_move_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
+  assert(n-n_min<=length-min_length);
 
-  if (n>n_min+length-min_length)
-  {
-    n_min = n-(length-min_length);
-    result = find_non_imminent_solution(si,n,n_min,n_max_unsolvable);
-  }
-  else if (n_min==slack_length_battle+1)
+  if (n_min==slack_length_battle+1)
   {
     if (have_we_solution_for_imminent_goal(si))
       result = slack_length_battle+1;
