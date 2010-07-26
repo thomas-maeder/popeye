@@ -96,7 +96,7 @@ stip_length_type attack_root_solve_in_n(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
