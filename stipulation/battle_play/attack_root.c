@@ -50,7 +50,6 @@ stip_length_type attack_root_solve_in_n(slice_index si,
   Side const attacker = slices[si].starter;
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type min_length = slices[si].u.branch.min_length;
   Goal const imminent_goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
@@ -61,21 +60,17 @@ stip_length_type attack_root_solve_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (min_length==slack_length_battle+1
+  if (n_max_unsolvable<=slack_length_battle
+      && imminent_goal.type!=no_goal
       && !are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
-  {
-    min_length = slack_length_battle+3;
     n_max_unsolvable = slack_length_battle+1;
-  }
 
-  if (min_length<=length)
+  if (n_max_unsolvable<length)
   {
     move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    if (length<=slack_length_battle+1
-        && slices[si].u.branch.imminent_goal.type!=no_goal)
+    if (length==slack_length_battle+1 && imminent_goal.type!=no_goal)
     {
-      empile_for_goal = slices[si].u.branch.imminent_goal;
+      empile_for_goal = imminent_goal;
       generate_move_reaching_goal(attacker);
       empile_for_goal.type = no_goal;
     }
