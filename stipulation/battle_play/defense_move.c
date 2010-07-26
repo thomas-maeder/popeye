@@ -192,8 +192,10 @@ static stip_length_type try_defenses(slice_index si,
                                      unsigned int max_nr_refutations)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const n_min = slack_length_battle;
-  stip_length_type const n_max_unsolvable = slack_length_battle-1;
+  slice_index const length = slices[si].u.branch.length;
+  slice_index const min_length = slices[si].u.branch.min_length;
+  stip_length_type n_min;
+  stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type result = slack_length_battle-2;
   unsigned int nr_refutations = 0;
 
@@ -203,22 +205,27 @@ static stip_length_type try_defenses(slice_index si,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
+  if (n-slack_length_battle<length-min_length)
+    n_min = slack_length_battle;
+  else
+    n_min = n-(length-min_length);
+
   while (nr_refutations<=max_nr_refutations && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
       stip_length_type const
           length_sol = attack_has_solution_in_n(next,
-                                                n-1,n_min,
-                                                n_max_unsolvable);
-      if (length_sol>=n)
+                                                n-1,n_min-1,
+                                                n_max_unsolvable-1)+1;
+      if (length_sol>n)
       {
         ++nr_refutations;
         coupfort();
       }
 
-      if (length_sol+1>result)
-        result = length_sol+1;
+      if (result<length_sol)
+        result = length_sol;
     }
 
     repcoup();
