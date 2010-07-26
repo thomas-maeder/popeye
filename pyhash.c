@@ -2600,14 +2600,14 @@ attack_hashed_has_solution_in_n(slice_index si,
     hash_value_type const val_nosucc = get_value_attack_nosucc(hue,si);
     stip_length_type const
         n_nosucc = 2*val_nosucc + slack_length_battle-1 + parity;
-    if (n_nosucc>=n && n_nosucc<=n+length-min_length)
+    if (n_nosucc>=n)
       result = n+2;
     else
     {
       hash_value_type const val_succ = get_value_attack_succ(hue,si);
       stip_length_type const
           n_succ = 2*val_succ + slack_length_battle+1 + parity;
-      if (n_succ<=n && n_succ+length-min_length>=n)
+      if (n_succ<=n && n-n_succ<=length-min_length)
         result = n_succ;
       else
       {
@@ -2615,7 +2615,7 @@ attack_hashed_has_solution_in_n(slice_index si,
         {
           n_max_unsolvable = n_nosucc;
           if (n_min<=n_nosucc)
-            n_min = n_nosucc+2;
+            n_min = n_nosucc+1;
         }
         result = delegate_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       }
