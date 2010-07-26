@@ -374,15 +374,14 @@ static boolean solve_imminent_goal(slice_index si)
 static
 stip_length_type solve_non_imminent_goal(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min,
                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
+  stip_length_type const n_min = n_max_unsolvable+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -413,9 +412,6 @@ stip_length_type attack_move_solve_in_n(slice_index si,
                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const length = slices[si].u.branch.length;
-  slice_index const min_length = slices[si].u.branch.min_length;
-  stip_length_type n_min = n_max_unsolvable+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -425,24 +421,18 @@ stip_length_type attack_move_solve_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n>n_min+length-min_length)
-  {
-    n_min = n-(length-min_length);
-    result = solve_non_imminent_goal(si,n,n_min,n_max_unsolvable);
-  }
-  else if (n_min==slack_length_battle+1)
+  if (n_max_unsolvable==slack_length_battle)
   {
     if (solve_imminent_goal(si))
       result = slack_length_battle+1;
     else
     {
       n_max_unsolvable = slack_length_battle+1;
-      n_min = slack_length_battle+2;
-      result = solve_non_imminent_goal(si,n,n_min,n_max_unsolvable);
+      result = solve_non_imminent_goal(si,n,n_max_unsolvable);
     }
   }
   else
-    result = solve_non_imminent_goal(si,n,n_min,n_max_unsolvable);
+    result = solve_non_imminent_goal(si,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

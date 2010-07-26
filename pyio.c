@@ -2360,7 +2360,7 @@ static char *ParsePlay(char *tok, slice_index proxy)
         slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
         slice_index const
             avoided = alloc_attack_move_slice(slack_length_battle+1,
-                                              slack_length_battle+1);
+                                              slack_length_battle);
         slice_index const not = alloc_not_slice(avoided);
         slice_index const proxy_avoided = alloc_proxy_slice();
 
@@ -2714,10 +2714,9 @@ static char *ParsePlay(char *tok, slice_index proxy)
         {
           slice_index const
               avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
-                                                       slack_length_battle+1);
+                                                       slack_length_battle);
           slice_index const not_attack = alloc_not_slice(avoided_attack);
-          slice_index const branch = alloc_battle_branch(length+1,
-                                                         min_length+1);
+          slice_index const branch = alloc_battle_branch(length+1,min_length);
           pipe_link(avoided_attack,avoided_next);
           pipe_link(not_attack,avoided_attack);
           pipe_link(proxy_avoided,not_attack);
@@ -2776,18 +2775,17 @@ static char *ParsePlay(char *tok, slice_index proxy)
           slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
           slice_index const
               avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
-                                                       slack_length_battle+1);
+                                                       slack_length_battle);
           slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const proxy_avoided_attack = alloc_proxy_slice();
 
           slice_index const
               avoided_defense = alloc_attack_move_slice(slack_length_battle+1,
-                                                        slack_length_battle+1);
+                                                        slack_length_battle);
           slice_index const not_defense = alloc_not_slice(avoided_defense);
           slice_index const proxy_avoided_defense = alloc_proxy_slice();
 
-          slice_index const branch = alloc_battle_branch(length+1,
-                                                         min_length+1);
+          slice_index const branch = alloc_battle_branch(length+1,min_length);
           pipe_link(avoided_tester,leaf);
           pipe_link(avoided_attack,avoided_tester);
           pipe_link(not_attack,avoided_attack);
