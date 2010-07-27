@@ -18,7 +18,8 @@
 #define ENUMERATION_TYPENAME SliceType
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
-    ENUMERATOR(STAttackMove),    /* M-N attacking moves in battle play */ \
+    ENUMERATOR(STAttackMove),                                           \
+    ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STDefenseMoveAgainstGoal),                               \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -72,6 +73,7 @@
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STAttackEnd),      /* battle play, half-moves used up */ \
+    ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseEnd),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STRestartGuardRootDefenderFilter),    /* write move numbers */ \
@@ -220,7 +222,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 100,
+  max_nr_slices = 120,
   no_slice = max_nr_slices
 };
 

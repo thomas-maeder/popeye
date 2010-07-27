@@ -275,6 +275,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
   &slice_property_offset_shifter,    /* STAttackMove */
+  &slice_property_offset_shifter,    /* STAttackMoveToGoal */
   &slice_property_offset_shifter,    /* STDefenseMove */
   &slice_property_offset_shifter,    /* STDefenseMoveAgainstGoal */
   &slice_property_offset_shifter,    /* STHelpMove */
@@ -328,6 +329,7 @@ static stip_structure_visitor const slice_property_offset_shifters[] =
   &slice_property_offset_shifter,    /* STReflexDefenderFilter */
   &slice_property_offset_shifter,    /* STSelfDefense */
   &slice_property_offset_shifter,    /* STAttackEnd */
+  &slice_property_offset_shifter,    /* STAttackFork */
   &slice_property_offset_shifter,    /* STDefenseEnd */
   &slice_property_offset_shifter,    /* STDefenseFork */
   &slice_property_offset_shifter,    /* STRestartGuardRootDefenderFilter */
@@ -644,6 +646,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
 {
   &stip_traverse_structure_children,     /* STProxy */
   &init_slice_properties_pipe,           /* STAttackMove */
+  &init_slice_properties_pipe,           /* STAttackMoveToGoal */
   &stip_traverse_structure_children,     /* STDefenseMove */
   &stip_traverse_structure_children,     /* STDefenseMoveAgainstGoal */
   &init_slice_properties_pipe,           /* STHelpMove */
@@ -697,6 +700,7 @@ static stip_structure_visitor const slice_properties_initalisers[] =
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
   &stip_traverse_structure_children,     /* STAttackEnd */
+  &stip_traverse_structure_children,     /* STAttackFork */
   &stip_traverse_structure_children,     /* STDefenseEnd */
   &stip_traverse_structure_children,     /* STDefenseFork */
   &init_slice_properties_pipe,           /* STRestartGuardRootDefenderFilter */
@@ -2296,6 +2300,7 @@ static stip_move_visitor const hash_element_inserters[] =
 {
   &stip_traverse_moves_children,            /* STProxy */
   &stip_traverse_moves_children,            /* STAttackMove */
+  &stip_traverse_moves_children,            /* STAttackMoveToGoal */
   &insert_hash_element_defense_move,        /* STDefenseMove */
   &stip_traverse_moves_children,            /* STDefenseMoveAgainstGoal */
   &insert_hash_element_help_move,           /* STHelpMove */
@@ -2349,6 +2354,7 @@ static stip_move_visitor const hash_element_inserters[] =
   &stip_traverse_moves_children,            /* STReflexDefenderFilter */
   &stip_traverse_moves_children,            /* STSelfDefense */
   &stip_traverse_moves_children,            /* STAttackEnd */
+  &stip_traverse_moves_children,            /* STAttackFork */
   &stip_traverse_moves_children,            /* STDefenseEnd */
   &stip_traverse_moves_children,            /* STDefenseFork */
   &stip_traverse_moves_children,            /* STRestartGuardRootDefenderFilter */

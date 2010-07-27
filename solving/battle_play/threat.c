@@ -539,6 +539,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
 {
   &stip_traverse_structure_children,     /* STProxy */
   &append_threat_collector,              /* STAttackMove */
+  &stip_traverse_structure_children,     /* STAttackMoveToGoal */
   &prepend_threat_solver,                /* STDefenseMove */
   &prepend_threat_solver,                /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,          /* STHelpMove */
@@ -592,6 +593,7 @@ static stip_structure_visitor const threat_handler_inserters[] =
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
   &stip_traverse_structure_children,     /* STAttackEnd */
+  &stip_traverse_structure_children,     /* STAttackFork */
   &stip_traverse_structure_children,     /* STDefenseEnd */
   &stip_traverse_structure_children,     /* STDefenseFork */
   &stip_traverse_structure_children,     /* STRestartGuardRootDefenderFilter */

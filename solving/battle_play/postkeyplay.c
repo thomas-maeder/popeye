@@ -113,6 +113,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
 {
   &stip_traverse_structure_children,   /* STProxy */
   &stip_traverse_structure_children,   /* STAttackMove */
+  &stip_traverse_structure_children,   /* STAttackMoveToGoal */
   &stip_traverse_structure_children,   /* STDefenseMove */
   &stip_traverse_structure_children,   /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,        /* STHelpMove */
@@ -166,6 +167,7 @@ static stip_structure_visitor const postkey_handler_inserters[] =
   &stip_traverse_structure_children,   /* STReflexDefenderFilter */
   &stip_traverse_structure_children,   /* STSelfDefense */
   &stip_traverse_structure_children,   /* STAttackEnd */
+  &stip_traverse_structure_children,   /* STAttackFork */
   &stip_traverse_structure_children,   /* STDefenseEnd */
   &stip_traverse_structure_children,   /* STDefenseFork */
   &stip_traverse_structure_children,   /* STRestartGuardRootDefenderFilter */
@@ -253,6 +255,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
+  &stip_traverse_structure_children, /* STAttackMoveToGoal */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_structure_visitor_noop,      /* STHelpMove */
@@ -306,6 +309,7 @@ static stip_structure_visitor const postkey_suppressor_inserters[] =
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
   &stip_traverse_structure_children, /* STAttackEnd */
+  &stip_traverse_structure_children, /* STAttackFork */
   &stip_traverse_structure_children, /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */

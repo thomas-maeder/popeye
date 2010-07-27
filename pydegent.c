@@ -150,6 +150,8 @@ static void degenerate_tree_inserter_attack_move(slice_index si,
 
   if (slices[si].u.branch.length>=slack_length_battle+2)
     pipe_append(slices[si].prev,alloc_degenerate_tree_guard_slice());
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -158,7 +160,8 @@ static void degenerate_tree_inserter_attack_move(slice_index si,
 static stip_structure_visitor const degenerate_tree_guards_inserters[] =
 {
   &stip_traverse_structure_children,     /* STProxy */
-  &degenerate_tree_inserter_attack_move, /* STAttackMove */
+  &stip_traverse_structure_children,     /* STAttackMove */
+  &stip_traverse_structure_children,     /* STAttackMoveToGoal */
   &stip_traverse_structure_children,     /* STDefenseMove */
   &stip_traverse_structure_children,     /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children,     /* STHelpMove */
@@ -211,7 +214,8 @@ static stip_structure_visitor const degenerate_tree_guards_inserters[] =
   &stip_traverse_structure_children,     /* STReflexAttackerFilter */
   &stip_traverse_structure_children,     /* STReflexDefenderFilter */
   &stip_traverse_structure_children,     /* STSelfDefense */
-  &stip_traverse_structure_children,     /* STAttackEnd */
+  &degenerate_tree_inserter_attack_move, /* STAttackEnd */
+  &stip_traverse_structure_children,     /* STAttackFork */
   &stip_traverse_structure_children,     /* STDefenseEnd */
   &stip_traverse_structure_children,     /* STDefenseFork */
   &stip_traverse_structure_children,     /* STRestartGuardRootDefenderFilter */

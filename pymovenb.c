@@ -301,6 +301,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
 {
   &stip_traverse_structure_children,    /* STProxy */
   &stip_structure_visitor_noop,         /* STAttackMove */
+  &stip_structure_visitor_noop,         /* STAttackMoveToGoal */
   &stip_structure_visitor_noop,         /* STDefenseMove */
   &stip_structure_visitor_noop,         /* STDefenseMoveAgainstGoal */
   &restart_guards_inserter_help,        /* STHelpMove */
@@ -354,6 +355,7 @@ static stip_structure_visitor const restart_guards_inserters[] =
   &stip_traverse_structure_children,    /* STReflexDefenderFilter */
   &stip_traverse_structure_children,    /* STSelfDefense */
   &stip_traverse_structure_children,    /* STAttackEnd */
+  &stip_traverse_structure_children,    /* STAttackFork */
   &stip_traverse_structure_children,    /* STDefenseEnd */
   &stip_traverse_structure_children,    /* STDefenseFork */
   &stip_traverse_structure_children,    /* STRestartGuardRootDefenderFilter */

@@ -202,6 +202,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
 {
   &stip_traverse_structure_children,        /* STProxy */
   &stip_traverse_structure_children,        /* STAttackMove */
+  &stip_traverse_structure_children,        /* STAttackMoveToGoal */
   &stip_traverse_structure_children,        /* STDefenseMove */
   &stip_traverse_structure_children,        /* STDefenseMoveAgainstGoal */
   &insert_stoponshortsolutions_help_move,   /* STHelpMove */
@@ -255,6 +256,7 @@ static stip_structure_visitor const stoponshortsolutions_filter_inserters[] =
   &stip_traverse_structure_children,        /* STReflexDefenderFilter */
   &stip_traverse_structure_children,        /* STSelfDefense */
   &stip_traverse_structure_children,        /* STAttackEnd */
+  &stip_traverse_structure_children,        /* STAttackFork */
   &stip_traverse_structure_children,        /* STDefenseEnd */
   &stip_traverse_structure_children,        /* STDefenseFork */
   &stip_traverse_structure_children,        /* STRestartGuardRootDefenderFilter */
@@ -343,6 +345,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
 {
   &stip_traverse_structure_children, /* STProxy */
   &stip_traverse_structure_children, /* STAttackMove */
+  &stip_traverse_structure_children, /* STAttackMoveToGoal */
   &stip_traverse_structure_children, /* STDefenseMove */
   &stip_traverse_structure_children, /* STDefenseMoveAgainstGoal */
   &stip_traverse_structure_children, /* STHelpMove */
@@ -396,6 +399,7 @@ stip_structure_visitor const stoponshortsolutions_initialiser_inserters[] =
   &stip_traverse_structure_children, /* STReflexDefenderFilter */
   &stip_traverse_structure_children, /* STSelfDefense */
   &stip_traverse_structure_children, /* STAttackEnd */
+  &stip_traverse_structure_children, /* STAttackFork */
   &stip_traverse_structure_children, /* STDefenseEnd */
   &stip_traverse_structure_children, /* STDefenseFork */
   &stip_traverse_structure_children, /* STRestartGuardRootDefenderFilter */
