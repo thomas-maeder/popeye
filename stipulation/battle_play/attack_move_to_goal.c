@@ -84,8 +84,9 @@ static boolean have_we_solution_for_imminent_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (goal.type!=no_goal
-      && are_prerequisites_for_reaching_goal_met(goal.type,attacker))
+  assert(goal.type!=no_goal);
+
+  if (are_prerequisites_for_reaching_goal_met(goal.type,attacker))
   {
     move_generation_mode = move_generation_optimized_by_killer_move;
     TraceValue("->%u\n",move_generation_mode);
@@ -195,8 +196,9 @@ static boolean solve_imminent_goal(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (goal.type!=no_goal
-      && are_prerequisites_for_reaching_goal_met(goal.type,attacker))
+  assert(goal.type!=no_goal);
+
+  if (are_prerequisites_for_reaching_goal_met(goal.type,attacker))
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
