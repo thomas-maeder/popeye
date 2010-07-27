@@ -9,21 +9,20 @@
 #include <assert.h>
 
 /* Allocate a STDefenseMoveAgainstGoal defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param goal to defend against
  * @return index of allocated slice
  */
-slice_index alloc_defense_move_against_goal_slice(stip_length_type length,
-                                                  stip_length_type min_length)
+slice_index alloc_defense_move_against_goal_slice(Goal goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDefenseMoveAgainstGoal,length,min_length);
+  result = alloc_branch(STDefenseMoveAgainstGoal,
+                        slack_length_battle+1,slack_length_battle);
+  slices[result].u.branch.imminent_goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

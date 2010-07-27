@@ -80,8 +80,6 @@ static boolean have_we_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n%2==slices[si].u.branch.length%2);
-
   move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   genmove(attacker);

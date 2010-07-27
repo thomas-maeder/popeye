@@ -10,12 +10,10 @@
  */
 
 /* Allocate a STAttackMoveToGoal slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param goal goal to be reached
  * @return index of allocated slice
  */
-slice_index alloc_attack_move_to_goal_slice(stip_length_type length,
-                                            stip_length_type min_length);
+slice_index alloc_attack_move_to_goal_slice(Goal goal);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.

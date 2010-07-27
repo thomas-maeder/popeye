@@ -4,7 +4,6 @@
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
@@ -12,21 +11,20 @@
 #include <assert.h>
 
 /* Allocate a STAttackMoveToGoal slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param goal goal to be reached
  * @return index of allocated slice
  */
-slice_index alloc_attack_move_to_goal_slice(stip_length_type length,
-                                            stip_length_type min_length)
+slice_index alloc_attack_move_to_goal_slice(Goal goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STAttackMoveToGoal,length,min_length);
+  result = alloc_branch(STAttackMoveToGoal,
+                        slack_length_battle+1,slack_length_battle);
+  slices[result].u.branch.imminent_goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -80,18 +78,18 @@ static boolean have_we_solution_for_imminent_goal(slice_index si)
 {
   boolean result;
   Side const attacker = slices[si].starter;
-  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
+  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (imminent_goal.type!=no_goal
-      && are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
+  if (goal.type!=no_goal
+      && are_prerequisites_for_reaching_goal_met(goal.type,attacker))
   {
     move_generation_mode = move_generation_optimized_by_killer_move;
     TraceValue("->%u\n",move_generation_mode);
-    empile_for_goal = imminent_goal;
+    empile_for_goal = goal;
     generate_move_reaching_goal(attacker);
     empile_for_goal.type = no_goal;
     result = find_imminent_solution(si);
@@ -191,18 +189,18 @@ static boolean solve_imminent_goal(slice_index si)
 {
   boolean result;
   Side const attacker = slices[si].starter;
-  Goal const imminent_goal = slices[si].u.branch.imminent_goal;
+  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (imminent_goal.type!=no_goal
-      && are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
+  if (goal.type!=no_goal
+      && are_prerequisites_for_reaching_goal_met(goal.type,attacker))
   {
     move_generation_mode = move_generation_not_optimized;
     TraceValue("->%u\n",move_generation_mode);
-    empile_for_goal = imminent_goal;
+    empile_for_goal = goal;
     generate_move_reaching_goal(attacker);
     empile_for_goal.type = no_goal;
     result = foreach_move_solve_imminent(si);

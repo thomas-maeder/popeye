@@ -2728,8 +2728,7 @@ static void remember_imminent_goal_attack_move(slice_index si,
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const
-        last_attack = alloc_attack_move_to_goal_slice(st->remaining,
-                                                      min_length);
+        last_attack = alloc_attack_move_to_goal_slice(state->goal);
     slice_index const fork = alloc_attack_fork_slice(length,min_length,
                                                      proxy1);
 
@@ -2739,7 +2738,6 @@ static void remember_imminent_goal_attack_move(slice_index si,
     pipe_link(proxy1,last_attack);
     
     slices[last_attack].starter = slices[si].starter;
-    slices[last_attack].u.branch.imminent_goal = state->goal;
     pipe_link(last_attack,proxy2);
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
@@ -2774,8 +2772,7 @@ static void remember_imminent_goal_defense_move(slice_index si,
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const
-        last_defense = alloc_defense_move_against_goal_slice(st->remaining,
-                                                             min_length);
+        last_defense = alloc_defense_move_against_goal_slice(state->goal);
     slice_index const fork = alloc_defense_fork_slice(length,min_length,
                                                       proxy1);
 
@@ -2785,7 +2782,6 @@ static void remember_imminent_goal_defense_move(slice_index si,
     pipe_link(proxy1,last_defense);
     
     slices[last_defense].starter = slices[si].starter;
-    slices[last_defense].u.branch.imminent_goal = state->goal;
     pipe_link(last_defense,proxy2);
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
