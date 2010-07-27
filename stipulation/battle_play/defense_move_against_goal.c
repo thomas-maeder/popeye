@@ -4,6 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_move.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -236,7 +237,6 @@ defense_move_against_goal_can_defend_in_n(slice_index si,
   {
     square const killer_pos = kpilcd[nbply+1];
     piece const killer = e[killer_pos];
-    unsigned int nr_refutations;
 
     TraceSquare(killer_pos);
     TracePiece(killer);
@@ -246,25 +246,24 @@ defense_move_against_goal_can_defend_in_n(slice_index si,
 
     if ((defender==Black ? flagblackmummer : flagwhitemummer)
         || killer==obs || killer==vide)
+      result = defense_move_can_defend_in_n(si,
+                                            slack_length_battle+1,
+                                            n_max_unsolvable,
+                                            max_nr_refutations);
+    else
     {
-      move_generation_mode = move_generation_optimized_by_killer_move;
-      TraceValue("->%u\n",move_generation_mode);
-      genmove(defender);
-      nr_refutations = try_last_defenses(si,max_nr_refutations);
-      finply();
-    }
-    else
-      nr_refutations = iterate_killer(si,
-                                      defender,
-                                      killer_pos,
-                                      killer,
-                                      max_nr_refutations);
+      unsigned int const nr_refutations = iterate_killer(si,
+                                                         defender,
+                                                         killer_pos,
+                                                         killer,
+                                                         max_nr_refutations);
 
-    if (last_defense_stalemate /* stalemate */
-        || nr_refutations>0)   /* refuted */
-      result = slack_length_battle+5;
-    else
-      result = slack_length_battle+1;
+      if (last_defense_stalemate /* stalemate */
+          || nr_refutations>0)   /* refuted */
+        result = slack_length_battle+5;
+      else
+        result = slack_length_battle+1;
+    }
   }
 
   TraceFunctionExit(__func__);
