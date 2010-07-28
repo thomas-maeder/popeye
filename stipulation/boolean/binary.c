@@ -44,7 +44,7 @@ void stip_traverse_structure_binary(slice_index fork,
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_binary_operand(slice_index op,
-                                        stip_move_traversal *st)
+                                        stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",op);
@@ -61,7 +61,7 @@ void stip_traverse_moves_binary_operand(slice_index op,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_binary(slice_index si, stip_move_traversal *st)
+void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -78,7 +78,7 @@ void stip_traverse_moves_binary(slice_index si, stip_move_traversal *st)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void get_max_nr_moves_binary(slice_index si, stip_move_traversal *st)
+void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st)
 {
   stip_length_type * const result = st->param;
   stip_length_type const save_result = *result;

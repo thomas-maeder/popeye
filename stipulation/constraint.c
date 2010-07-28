@@ -156,7 +156,7 @@ void reflex_attacker_filter_make_root(slice_index si,
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_reflex_attack_filter(slice_index si,
-                                              stip_move_traversal *st)
+                                              stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -336,7 +336,7 @@ void reflex_root_filter_reduce_to_postkey_play(slice_index si,
  * @param st address of structure defining traversal
  */
 void stip_traverse_moves_reflex_root_filter(slice_index si,
-                                            stip_move_traversal *st)
+                                            stip_moves_traversal *st)
 {
   stip_traverse_moves_pipe(si,st);
   stip_traverse_moves(slices[si].u.reflex_guard.avoided,st);
@@ -750,7 +750,7 @@ void reflex_series_filter_make_root(slice_index si,
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_reflex_series_filter(slice_index si,
-                                              stip_move_traversal *st)
+                                              stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

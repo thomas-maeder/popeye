@@ -17,7 +17,7 @@ void binary_resolve_proxies(slice_index si, stip_structure_traversal *st);
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_binary_operand(slice_index op,
-                                        stip_move_traversal *st);
+                                        stip_moves_traversal *st);
 
 /* Traverse a subtree
  * @param fork root slice of subtree
@@ -30,12 +30,12 @@ void stip_traverse_structure_binary(slice_index fork,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_binary(slice_index si, stip_move_traversal *st);
+void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st);
 
 /* Determine contribution of slice subtree to maximum number of moves
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void get_max_nr_moves_binary(slice_index si, stip_move_traversal *st);
+void get_max_nr_moves_binary(slice_index si, stip_moves_traversal *st);
 
 #endif

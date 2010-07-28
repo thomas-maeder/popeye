@@ -2709,7 +2709,7 @@ typedef struct
  * @param st address of structure representing traversal
  */
 static void remember_imminent_goal_attack_move(slice_index si,
-                                               stip_move_traversal *st)
+                                               stip_moves_traversal *st)
 {
   final_move_state * const state = st->param;
   Goal const save_goal = state->goal;
@@ -2753,7 +2753,7 @@ static void remember_imminent_goal_attack_move(slice_index si,
  * @param st address of structure representing traversal
  */
 static void remember_imminent_goal_defense_move(slice_index si,
-                                                stip_move_traversal *st)
+                                                stip_moves_traversal *st)
 {
   final_move_state * const state = st->param;
   Goal const save_goal = state->goal;
@@ -2797,7 +2797,7 @@ static void remember_imminent_goal_defense_move(slice_index si,
  * @param st address of structure representing traversal
  */
 static void remember_imminent_goal_attack_root(slice_index si,
-                                               stip_move_traversal *st)
+                                               stip_moves_traversal *st)
 {
   final_move_state * const state = st->param;
 
@@ -2827,7 +2827,7 @@ static void remember_imminent_goal_attack_root(slice_index si,
  * @param st address of structure representing traversal
  */
 static void remember_imminent_goal_leaf(slice_index si,
-                                        stip_move_traversal *st)
+                                        stip_moves_traversal *st)
 {
   final_move_state * const state = st->param;
 
@@ -2858,7 +2858,7 @@ enum
 
 static void stip_optimise_final_moves(void)
 {
-  stip_move_traversal st;
+  stip_moves_traversal st;
   final_move_state state = { { no_goal, initsquare }, no_slice };
 
   TraceFunctionEntry(__func__);
@@ -2866,7 +2866,7 @@ static void stip_optimise_final_moves(void)
 
   TraceStipulation(root_slice);
 
-  stip_move_traversal_init(&st,
+  stip_moves_traversal_init(&st,
                            final_move_optimisers,nr_final_move_optimisers,
                            &state);
   stip_traverse_moves(root_slice,&st);

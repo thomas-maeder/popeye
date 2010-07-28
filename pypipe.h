@@ -86,6 +86,6 @@ void stip_traverse_structure_pipe(slice_index pipe,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_pipe(slice_index si, stip_move_traversal *st);
+void stip_traverse_moves_pipe(slice_index si, stip_moves_traversal *st);
 
 #endif

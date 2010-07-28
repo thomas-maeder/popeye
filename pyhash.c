@@ -2127,7 +2127,7 @@ static void insert_series_hashed_slice(slice_index si,
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_attack_move(slice_index si,
-                                            stip_move_traversal *st)
+                                            stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2154,7 +2154,7 @@ static void insert_hash_element_attack_move(slice_index si,
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_defense_move(slice_index si,
-                                             stip_move_traversal *st)
+                                             stip_moves_traversal *st)
 {
   branch_level * const level = st->param;
   branch_level const save_level = *level;
@@ -2196,7 +2196,7 @@ static boolean is_goal_move_oriented(Goal goal)
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_help_move(slice_index si,
-                                          stip_move_traversal *st)
+                                          stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2222,7 +2222,7 @@ static void insert_hash_element_help_move(slice_index si,
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_help_move_to_goal(slice_index si,
-                                                  stip_move_traversal *st)
+                                                  stip_moves_traversal *st)
 {
   Goal const goal = slices[si].u.branch.imminent_goal;
 
@@ -2249,7 +2249,7 @@ static void insert_hash_element_help_move_to_goal(slice_index si,
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_series_move(slice_index si,
-                                            stip_move_traversal *st)
+                                            stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2275,7 +2275,7 @@ static void insert_hash_element_series_move(slice_index si,
  * @param st address of structure holding status of traversal
  */
 static void insert_hash_element_series_move_to_goal(slice_index si,
-                                                    stip_move_traversal *st)
+                                                    stip_moves_traversal *st)
 {
   Goal const goal = slices[si].u.branch.imminent_goal;
 
@@ -2314,7 +2314,7 @@ enum
 
 void stip_insert_hash_slices(void)
 {
-  stip_move_traversal st;
+  stip_moves_traversal st;
   branch_level level = toplevel_branch;
 
   TraceFunctionEntry(__func__);
@@ -2322,7 +2322,7 @@ void stip_insert_hash_slices(void)
 
   TraceStipulation(root_slice);
 
-  stip_move_traversal_init(&st,
+  stip_moves_traversal_init(&st,
                            hash_element_inserters,nr_hash_element_inserters,
                            &level);
   stip_traverse_moves(root_slice,&st);

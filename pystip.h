@@ -482,43 +482,34 @@ void stip_traverse_structure_children(slice_index si,
 void stip_traverse_structure(slice_index root, stip_structure_traversal *st);
 
 
-struct stip_move_traversal;
+struct stip_moves_traversal;
 
-/* Type of callback for stipulation traversals
- */
-typedef void (*stip_move_visitor)(slice_index si,
-                                  struct stip_move_traversal *st);
-
-/* Mapping of slice types to structure visitors.
- */
-typedef stip_move_visitor (*stip_move_visitors)[nr_slice_types];
-
-/* Type of callback for stipulation traversals
+/* Type of visitors for stipulation traversals
  */
 typedef void (*stip_moves_visitor)(slice_index si,
-                                   struct stip_move_traversal *st);
+                                   struct stip_moves_traversal *st);
 
-/* map a slice type to a visitor */
+/* Map a slice type to a visitor */
 typedef struct
 {
     stip_moves_visitor visitors[nr_slice_types];
-} moves_visitors_type;
+} moves_visitor_map_type;
 
 /* hold the state of a moves traversal */
-typedef struct stip_move_traversal
+typedef struct stip_moves_traversal
 {
-    moves_visitors_type ops;
+    moves_visitor_map_type map;
     unsigned int level;
     stip_length_type full_length;
     stip_length_type remaining;
     void *param;
-} stip_move_traversal;
+} stip_moves_traversal;
 
 /* define an alternative visitor for a particular slice type */
 typedef struct
 {
     SliceType type;
-    stip_move_visitor visitor;
+    stip_moves_visitor visitor;
 } moves_traversers_visitors;
 
 /* Initialise a move traversal structure
@@ -530,34 +521,34 @@ typedef struct
  * @param nr_visitors length of moves_traversers_visitors
  * @param param parameter to be passed t operations
  */
-void stip_move_traversal_init(stip_move_traversal *st,
-                              moves_traversers_visitors const visitors[],
-                              unsigned int nr_visitors,
-                              void *param);
+void stip_moves_traversal_init(stip_moves_traversal *st,
+                               moves_traversers_visitors const visitors[],
+                               unsigned int nr_visitors,
+                               void *param);
 
 /* Traversal of moves of the stipulation
  * @param root identifies start of the stipulation (sub)tree
  * @param st address of data structure holding parameters for the operation
  */
-void stip_traverse_moves(slice_index root, stip_move_traversal *st);
+void stip_traverse_moves(slice_index root, stip_moves_traversal *st);
 
 /* Traversal of the moves beyond a series shortcut slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_root(slice_index si, stip_move_traversal *st);
+void stip_traverse_moves_root(slice_index si, stip_moves_traversal *st);
 
 /* No-op callback for move traversals
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_noop(slice_index si, stip_move_traversal *st);
+void stip_traverse_moves_noop(slice_index si, stip_moves_traversal *st);
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree
  * @param root root of the sub-tree to traverse
  * @param st address of structure defining traversal
  */
 void stip_traverse_moves_children(slice_index si,
-                                  stip_move_traversal *st);
+                                  stip_moves_traversal *st);
 
 #endif

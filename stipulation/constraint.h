@@ -158,7 +158,7 @@ void reflex_root_filter_reduce_to_postkey_play(slice_index si,
  * @param st address of structure defining traversal
  */
 void stip_traverse_moves_reflex_root_filter(slice_index branch,
-                                            stip_move_traversal *st);
+                                            stip_moves_traversal *st);
 
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
@@ -200,7 +200,7 @@ void reflex_attacker_filter_make_root(slice_index si,
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_reflex_attack_filter(slice_index si,
-                                              stip_move_traversal *st);
+                                              stip_moves_traversal *st);
 
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
@@ -228,7 +228,7 @@ void reflex_series_filter_make_root(slice_index si,
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_reflex_series_filter(slice_index si,
-                                              stip_move_traversal *st);
+                                              stip_moves_traversal *st);
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si root of sub-tree where to resolve proxies

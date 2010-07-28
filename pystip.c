@@ -1365,7 +1365,7 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void get_max_nr_moves_move(slice_index si, stip_move_traversal *st)
+static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
 {
   stip_length_type * const result = st->param;
 
@@ -1410,14 +1410,14 @@ enum
  */
 stip_length_type get_max_nr_moves(slice_index si)
 {
-  stip_move_traversal st;
+  stip_moves_traversal st;
   stip_length_type result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_move_traversal_init(&st,
+  stip_moves_traversal_init(&st,
                            get_max_nr_moves_functions,
                            nr_get_max_nr_moves_functions,
                            &result);
@@ -3389,7 +3389,7 @@ void stip_traverse_structure_children(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static moves_visitors_type const moves_children_traversers =
+static moves_visitor_map_type const moves_children_traversers =
 {
   {
     &stip_traverse_moves_pipe,                  /* STProxy */
@@ -3496,20 +3496,24 @@ static moves_visitors_type const moves_children_traversers =
 
 /* Initialise a move traversal structure
  * @param st to be initialised
- * @param ops operations to be invoked on slices
+ * @param moves_traversers_visitors array of alternative visitors; for
+ *                                  slices with types not mentioned in
+ *                                  moves_traversers_visitors, the default
+ *                                  visitor will be used
+ * @param nr_visitors length of moves_traversers_visitors
  * @param param parameter to be passed t operations
  */
-void stip_move_traversal_init(stip_move_traversal *st,
-                              moves_traversers_visitors const visitors[],
-                              unsigned int nr_visitors,
-                              void *param)
+void stip_moves_traversal_init(stip_moves_traversal *st,
+                               moves_traversers_visitors const visitors[],
+                               unsigned int nr_visitors,
+                               void *param)
 {
   unsigned int i;
   
-  st->ops = moves_children_traversers;
+  st->map = moves_children_traversers;
 
   for (i = 0; i<nr_visitors; ++i)
-    st->ops.visitors[visitors[i].type] = visitors[i].visitor;
+    st->map.visitors[visitors[i].type] = visitors[i].visitor;
 
   st->level = 0;
   st->remaining = 0;
@@ -3520,7 +3524,7 @@ void stip_move_traversal_init(stip_move_traversal *st,
  * @param root start of the stipulation (sub)tree
  * @param st address of data structure holding parameters for the operation
  */
-void stip_traverse_moves(slice_index root, stip_move_traversal *st)
+void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root);
@@ -3533,7 +3537,7 @@ void stip_traverse_moves(slice_index root, stip_move_traversal *st)
   assert(slices[root].type<=nr_slice_types);
 
   {
-    stip_move_visitor const operation = st->ops.visitors[slices[root].type];
+    stip_moves_visitor const operation = st->map.visitors[slices[root].type];
     assert(operation!=0);
     (*operation)(root,st);
   }
@@ -3546,7 +3550,7 @@ void stip_traverse_moves(slice_index root, stip_move_traversal *st)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_noop(slice_index si, stip_move_traversal *st)
+void stip_traverse_moves_noop(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -3561,7 +3565,7 @@ void stip_traverse_moves_noop(slice_index si, stip_move_traversal *st)
  * @param st address of structure defining traversal
  */
 void stip_traverse_moves_children(slice_index si,
-                                  stip_move_traversal *st)
+                                  stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

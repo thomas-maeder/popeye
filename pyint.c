@@ -2585,7 +2585,7 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  */
-static void moves_left_goal(slice_index si, stip_move_traversal *st)
+static void moves_left_goal(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2604,7 +2604,7 @@ static void moves_left_goal(slice_index si, stip_move_traversal *st)
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  */
-static void moves_left_move(slice_index si, stip_move_traversal *st)
+static void moves_left_move(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2642,7 +2642,7 @@ static void init_moves_left(slice_index si,
                             stip_length_type n,
                             stip_length_type full_length)
 {
-  stip_move_traversal st;
+  stip_moves_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2657,7 +2657,7 @@ static void init_moves_left(slice_index si,
   MovesLeft[Black] = 0;
   MovesLeft[White] = 0;
 
-  stip_move_traversal_init(&st,
+  stip_moves_traversal_init(&st,
                            moves_left_initialisers,nr_moves_left_initialisers,
                            &n);
   st.remaining = n; /* TODO */

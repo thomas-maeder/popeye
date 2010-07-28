@@ -40,7 +40,7 @@ void stip_traverse_structure_help_shortcut(slice_index si,
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_help_shortcut(slice_index si,
-                                       stip_move_traversal *st);
+                                       stip_moves_traversal *st);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved

@@ -78,7 +78,7 @@ void stip_traverse_structure_help_shortcut(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_help_shortcut(slice_index si, stip_move_traversal *st)
+void stip_traverse_moves_help_shortcut(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -23,7 +23,7 @@ slice_index alloc_attack_fork_slice(stip_length_type length,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_attack_fork(slice_index si, stip_move_traversal *st);
+void stip_traverse_moves_attack_fork(slice_index si, stip_moves_traversal *st);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.

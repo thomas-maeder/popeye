@@ -76,7 +76,7 @@ void direct_defense_impose_starter(slice_index si, stip_structure_traversal *st)
  * @param st address of structure representing traversal
  */
 void stip_traverse_moves_direct_defender_filter(slice_index si,
-                                                stip_move_traversal *st);
+                                                stip_moves_traversal *st);
 
 /* Instrument a branch with STDirectDefenderFilter slices
  * @param si root of branch to be instrumented

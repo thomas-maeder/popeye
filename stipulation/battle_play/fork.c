@@ -19,7 +19,7 @@ void stip_traverse_structure_battle_fork(slice_index branch,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_battle_fork(slice_index si, stip_move_traversal *st)
+void stip_traverse_moves_battle_fork(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
