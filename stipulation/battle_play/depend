@@ -105,12 +105,16 @@ stipulation/battle_play/defense_play.h:
 trace.h:
 stipulation/battle_play/attack_fork$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_fork.c \
-  stipulation/battle_play/attack_fork.h pybrafrk.h \
-  stipulation/battle_play/attack_play.h trace.h
+  stipulation/battle_play/attack_fork.h pybrafrk.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
 
 stipulation/battle_play/attack_fork.h:
 
 pybrafrk.h:
+
+pypipe.h:
+
+stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
@@ -234,7 +238,8 @@ stipulation/battle_play/defense_move_against_goal$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_move_against_goal.c \
   stipulation/battle_play/defense_move_against_goal.h pydata.h pypipe.h \
   stipulation/branch.h stipulation/battle_play/branch.h \
-  stipulation/battle_play/attack_play.h trace.h
+  stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_move.h trace.h
 
 stipulation/battle_play/defense_move_against_goal.h:
 
@@ -247,6 +252,8 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_move.h:
 
 trace.h:
 stipulation/battle_play/defense_end$(OBJ_SUFFIX):  \

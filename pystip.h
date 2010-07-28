@@ -491,24 +491,48 @@ typedef void (*stip_move_visitor)(slice_index si,
 
 /* Mapping of slice types to structure visitors.
  */
-typedef stip_move_visitor const (*stip_move_visitors)[nr_slice_types];
+typedef stip_move_visitor (*stip_move_visitors)[nr_slice_types];
 
+/* Type of callback for stipulation traversals
+ */
+typedef void (*stip_moves_visitor)(slice_index si,
+                                   struct stip_move_traversal *st);
+
+/* map a slice type to a visitor */
+typedef struct
+{
+    stip_moves_visitor visitors[nr_slice_types];
+} moves_visitors_type;
+
+/* hold the state of a moves traversal */
 typedef struct stip_move_traversal
 {
-    stip_move_visitors ops;
+    moves_visitors_type ops;
     unsigned int level;
     stip_length_type full_length;
     stip_length_type remaining;
     void *param;
 } stip_move_traversal;
 
+/* define an alternative visitor for a particular slice type */
+typedef struct
+{
+    SliceType type;
+    stip_move_visitor visitor;
+} moves_traversers_visitors;
+
 /* Initialise a move traversal structure
  * @param st to be initialised
- * @param ops operations to be invoked on slices
+ * @param moves_traversers_visitors array of alternative visitors; for
+ *                                  slices with types not mentioned in
+ *                                  moves_traversers_visitors, the default
+ *                                  visitor will be used
+ * @param nr_visitors length of moves_traversers_visitors
  * @param param parameter to be passed t operations
  */
 void stip_move_traversal_init(stip_move_traversal *st,
-                              stip_move_visitors ops,
+                              moves_traversers_visitors const visitors[],
+                              unsigned int nr_visitors,
                               void *param);
 
 /* Traversal of moves of the stipulation
