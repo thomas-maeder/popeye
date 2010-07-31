@@ -49,7 +49,9 @@ void branch_fork_resolve_proxies(slice_index si)
   TraceFunctionParamListEnd();
 
   pipe_resolve_proxies(si);
-  proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal);
+
+  if (slices[si].u.branch_fork.towards_goal!=no_slice)
+    proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

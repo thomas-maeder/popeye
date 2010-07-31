@@ -178,7 +178,8 @@ void pipe_resolve_proxies(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  proxy_slice_resolve(&slices[si].u.pipe.next);
+  if (slices[si].u.pipe.next!=no_slice)
+    proxy_slice_resolve(&slices[si].u.pipe.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
