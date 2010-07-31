@@ -3,16 +3,14 @@
 #include "trace.h"
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
+ * @param si slice where to resolve proxies
  */
-void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
+void binary_resolve_proxies(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
   proxy_slice_resolve(&slices[si].u.binary.op1);
   proxy_slice_resolve(&slices[si].u.binary.op2);
   

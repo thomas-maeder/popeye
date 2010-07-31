@@ -21,10 +21,9 @@ slice_index alloc_branch_fork(SliceType type,
                               slice_index to_goal);
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
+ * @param si slice where to resolve proxies
  */
-void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st);
+void branch_fork_resolve_proxies(slice_index si);
 
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed

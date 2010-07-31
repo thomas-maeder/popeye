@@ -74,15 +74,19 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
  * @param parrying identifies slice responsible for parrying
  * @return allocated slice
  */
-static slice_index alloc_parry_fork(slice_index parrying)
+static slice_index alloc_parry_fork(stip_length_type length,
+                                    stip_length_type min_length,
+                                    slice_index parrying)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",parrying);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STParryFork); 
+  result = alloc_branch(STParryFork,length,min_length); 
   slices[result].u.parry_fork.parrying = parrying;
 
   TraceFunctionExit(__func__);
@@ -109,7 +113,10 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
                                                    si);
     slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
                                                 inverter);
-    slice_index const parry_fork = alloc_parry_fork(parrying);
+    stip_length_type const length = slices[guard].u.branch.length;
+    stip_length_type const min_length = slices[guard].u.branch.min_length;
+    slice_index const parry_fork = alloc_parry_fork(length,min_length,
+                                                    parrying);
 
     assert(inverter!=no_slice);
     assert(guard!=no_slice);
@@ -118,25 +125,6 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
     pipe_link(inverter,slices[guard].u.pipe.next);
   }
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
- */
-void parry_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_resolve_proxies(si,st);
-  if (slices[si].u.parry_fork.parrying!=no_slice)
-    proxy_slice_resolve(&slices[si].u.parry_fork.parrying);
-  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

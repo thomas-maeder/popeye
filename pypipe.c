@@ -169,44 +169,16 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Impose the starting side on a stipulation. Impose the inverted
- * starter on the slice's successor. 
- * @param pipe identifies pipe
- * @param st address of structure that holds the state of the traversal
- */
-void pipe_impose_inverted_starter(slice_index pipe,
-                                  stip_structure_traversal *st)
-{
-  Side * const starter = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",pipe);
-  TraceFunctionParam("%u",*starter);
-  TraceFunctionParamListEnd();
-
-  slices[pipe].starter = *starter;
-
-  *starter = advers(*starter);
-  stip_traverse_structure(slices[pipe].u.pipe.next,st);
-  *starter = slices[pipe].starter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
+ * @param si slice where to resolve proxies
  */
-void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
+void pipe_resolve_proxies(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-  if (slices[si].u.pipe.next!=no_slice)
-    proxy_slice_resolve(&slices[si].u.pipe.next);
+  proxy_slice_resolve(&slices[si].u.pipe.next);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

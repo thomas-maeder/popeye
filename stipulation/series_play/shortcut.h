@@ -21,13 +21,6 @@ slice_index alloc_series_shortcut(stip_length_type length,
                                   stip_length_type min_length,
                                   slice_index short_sols);
 
-/* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
- */
-void series_shortcut_resolve_proxies(slice_index si,
-                                     stip_structure_traversal *st);
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal

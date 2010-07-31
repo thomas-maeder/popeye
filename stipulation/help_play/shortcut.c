@@ -34,27 +34,6 @@ slice_index alloc_help_shortcut(stip_length_type length,
   return result;
 }
 
-/* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
- */
-void help_shortcut_resolve_proxies(slice_index si,
-                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_resolve_proxies(si,st);
-
-  if (slices[si].u.shortcut.short_sols!=no_slice)
-    proxy_slice_resolve(&slices[si].u.shortcut.short_sols);
-
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal

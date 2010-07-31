@@ -177,6 +177,8 @@ typedef struct
         struct
         {
             slice_index next;
+            stip_length_type length;     /* half moves */
+            stip_length_type min_length; /* half moves */
             slice_index parrying;
         } parry_fork;
 
@@ -414,6 +416,7 @@ typedef enum
 void stip_detect_starter(void);
 
 /* Impose the starting side on the stipulation
+ * @param starter starting side at the root of the stipulation
  */
 void stip_impose_starter(Side starter);
 
@@ -427,7 +430,10 @@ typedef void (*stip_structure_visitor)(slice_index si,
 
 /* Mapping of slice types to structure visitors.
  */
-typedef stip_structure_visitor const (*stip_structure_visitors)[nr_slice_types];
+typedef struct
+{
+    stip_structure_visitor visitors[nr_slice_types];
+} structure_visitor_map_type;
 
 typedef enum
 {
@@ -438,19 +444,28 @@ typedef enum
 
 typedef struct stip_structure_traversal
 {
+    structure_visitor_map_type map;
     stip_structure_traversal_state traversed[max_nr_slices];
-    stip_structure_visitors ops;
     void *param;
 } stip_structure_traversal;
+
+/* define an alternative visitor for a particular slice type */
+typedef struct
+{
+    SliceType type;
+    stip_structure_visitor visitor;
+} structure_traversers_visitors;
 
 /* Initialise a structure traversal structure
  * @param st to be initialised
  * @param ops operations to be invoked on slices
  * @param param parameter to be passed t operations
  */
-void stip_structure_traversal_init(stip_structure_traversal *st,
-                                   stip_structure_visitors ops,
-                                   void *param);
+void
+stip_structure_traversal_init(stip_structure_traversal *st,
+                              structure_traversers_visitors const visitors[],
+                              unsigned int nr_visitors,
+                              void *param);
 
 /* Query the structure traversal state of a slice
  * @param si identifies slice for which to query traversal state

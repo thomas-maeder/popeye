@@ -40,19 +40,16 @@ slice_index alloc_branch_fork(SliceType type,
 }
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
+ * @param si slice where to resolve proxies
  */
-void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
+void branch_fork_resolve_proxies(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_resolve_proxies(si,st);
-
-  if (slices[si].u.branch_fork.towards_goal!=no_slice)
-    proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal);
+  pipe_resolve_proxies(si);
+  proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

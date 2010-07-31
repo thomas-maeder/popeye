@@ -63,6 +63,8 @@ slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STSelfCheckGuardAttackerFilter,length,min_length);
@@ -84,6 +86,8 @@ slice_index alloc_selfcheck_guard_defender_filter(stip_length_type length,
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STSelfCheckGuardDefenderFilter,length,min_length);
@@ -105,6 +109,8 @@ slice_index alloc_selfcheck_guard_help_filter(stip_length_type length,
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STSelfCheckGuardHelpFilter,length,min_length);
@@ -126,6 +132,8 @@ slice_index alloc_selfcheck_guard_series_filter(stip_length_type length,
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STSelfCheckGuardSeriesFilter,length,min_length);

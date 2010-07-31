@@ -7,10 +7,9 @@
 #include "pystip.h"
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si root of sub-tree where to resolve proxies
- * @param st address of structure representing the traversal
+ * @param si slice where to resolve proxies
  */
-void binary_resolve_proxies(slice_index si, stip_structure_traversal *st);
+void binary_resolve_proxies(slice_index si);
 
 /* Traversal of the moves of an operand of a binary operator
  * @param op identifies operand

@@ -65,12 +65,6 @@ void direct_defender_filter_make_root(slice_index si,
 void direct_defender_filter_reduce_to_postkey_play(slice_index si,
                                                    stip_structure_traversal *st);
 
-/* Impose the starting side on a stipulation
- * @param si identifies branch
- * @param st address of structure that holds the state of the traversal
- */
-void direct_defense_impose_starter(slice_index si, stip_structure_traversal *st);
-
 /* Traversal of the moves beyond a series fork slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
