@@ -2432,41 +2432,20 @@ static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
   }
 }
 
-typedef struct
+static void optimise_final_attack_move(slice_index si, Goal goal)
 {
-    Goal goal;
-    slice_index fork_to_goal;
-} final_move_state;
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void remember_imminent_goal_attack_move(slice_index si,
-                                               stip_moves_traversal *st)
-{
-  final_move_state * const state = st->param;
-  Goal const save_goal = state->goal;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch_slice(si,st);
-
-  if (st->remaining<=slack_length_battle+2
-      && state->goal.type!=no_goal
-      /* avoid duplicate if there is set play */
-      && slices[slices[si].prev].type!=STAttackFork)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const fork = alloc_attack_fork_slice(length,min_length,proxy1);
+    slice_index const last_attack = alloc_attack_move_to_goal_slice(goal);
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const
-        last_attack = alloc_attack_move_to_goal_slice(state->goal);
-    slice_index const fork = alloc_attack_fork_slice(length,min_length,
-                                                     proxy1);
 
     pipe_append(slices[si].prev,fork);
 
@@ -2475,40 +2454,26 @@ static void remember_imminent_goal_attack_move(slice_index si,
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
 
-  state->goal = save_goal;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void remember_imminent_goal_defense_move(slice_index si,
-                                                stip_moves_traversal *st)
+static void optimise_final_defense_move(slice_index si, Goal goal)
 {
-  final_move_state * const state = st->param;
-  Goal const save_goal = state->goal;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch_slice(si,st);
-
-  if (st->remaining<=slack_length_battle+2
-      && state->goal.type!=no_goal
-      && slices[slices[si].prev].type!=STDefenseFork)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const
-        last_defense = alloc_defense_move_against_goal_slice(state->goal);
     slice_index const fork = alloc_defense_fork_slice(length,min_length,
                                                       proxy1);
+    slice_index const
+        last_defense = alloc_defense_move_against_goal_slice(goal);
+    slice_index const proxy2 = alloc_proxy_slice();
 
     pipe_append(slices[si].prev,fork);
 
@@ -2517,7 +2482,45 @@ static void remember_imminent_goal_defense_move(slice_index si,
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
 
-  state->goal = save_goal;
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef struct
+{
+    Goal goal;
+    slice_index fork_to_goal;
+    boolean is_optimised[max_nr_slices];
+} final_move_state;
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void optimise_final_moves_attack_move(slice_index si,
+                                             stip_moves_traversal *st)
+{
+  final_move_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining<=slack_length_battle+2)
+    {
+      if (state->goal.type!=no_goal)
+        optimise_final_attack_move(si,state->goal);
+      state->is_optimised[si] = true;
+    }
+
+    state->goal = save_goal;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2527,8 +2530,41 @@ static void remember_imminent_goal_defense_move(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void remember_imminent_goal_attack_root(slice_index si,
-                                               stip_moves_traversal *st)
+static void optimise_final_moves_defense_move(slice_index si,
+                                              stip_moves_traversal *st)
+{
+  final_move_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining<=slack_length_battle+2)
+    {
+      if (state->goal.type!=no_goal)
+        optimise_final_defense_move(si,state->goal);
+      state->is_optimised[si] = true;
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void optimise_final_moves_attack_root(slice_index si,
+                                             stip_moves_traversal *st)
 {
   final_move_state * const state = st->param;
 
@@ -2557,8 +2593,7 @@ static void remember_imminent_goal_attack_root(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void remember_imminent_goal_leaf(slice_index si,
-                                        stip_moves_traversal *st)
+static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 {
   final_move_state * const state = st->param;
 
@@ -2575,10 +2610,10 @@ static void remember_imminent_goal_leaf(slice_index si,
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STAttackMove,        &remember_imminent_goal_attack_move },
-  { STDefenseMove,       &remember_imminent_goal_defense_move },
-  { STGoalReachedTester, &remember_imminent_goal_leaf },
-  { STAttackRoot,        &remember_imminent_goal_attack_root }
+  { STAttackMove,        &optimise_final_moves_attack_move },
+  { STDefenseMove,       &optimise_final_moves_defense_move },
+  { STGoalReachedTester, &optimise_final_moves_goal },
+  { STAttackRoot,        &optimise_final_moves_attack_root }
 };
 
 enum
@@ -2590,7 +2625,7 @@ enum
 static void stip_optimise_final_moves(void)
 {
   stip_moves_traversal st;
-  final_move_state state = { { no_goal, initsquare }, no_slice };
+  final_move_state state = { { no_goal, initsquare }, no_slice, { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2681,8 +2716,6 @@ static Token iterate_twins(Token prev_token)
           Message(TryPlayNotApplicable);
       }
 
-      stip_optimise_final_moves();
-
       if (OptFlag[nontrivial])
         stip_insert_max_nr_nontrivial_guards();
 
@@ -2719,6 +2752,8 @@ static Token iterate_twins(Token prev_token)
         stip_insert_no_short_variations_filters();
 
       stip_insert_output_slices();
+
+      stip_optimise_final_moves();
 
       stip_impose_starter(slices[root_slice].starter);
 
