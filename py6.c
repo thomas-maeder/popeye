@@ -2455,7 +2455,9 @@ static void remember_imminent_goal_attack_move(slice_index si,
   stip_traverse_moves_branch_slice(si,st);
 
   if (st->remaining<=slack_length_battle+2
-      && state->goal.type!=no_goal)
+      && state->goal.type!=no_goal
+      /* avoid duplicate if there is set play */
+      && slices[slices[si].prev].type!=STAttackFork)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -2466,12 +2468,9 @@ static void remember_imminent_goal_attack_move(slice_index si,
     slice_index const fork = alloc_attack_fork_slice(length,min_length,
                                                      proxy1);
 
-    slices[fork].starter = slices[si].starter;
     pipe_append(slices[si].prev,fork);
 
     pipe_link(proxy1,last_attack);
-    
-    slices[last_attack].starter = slices[si].starter;
     pipe_link(last_attack,proxy2);
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
@@ -2499,7 +2498,8 @@ static void remember_imminent_goal_defense_move(slice_index si,
   stip_traverse_moves_branch_slice(si,st);
 
   if (st->remaining<=slack_length_battle+2
-      && state->goal.type!=no_goal)
+      && state->goal.type!=no_goal
+      && slices[slices[si].prev].type!=STDefenseFork)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -2510,12 +2510,9 @@ static void remember_imminent_goal_defense_move(slice_index si,
     slice_index const fork = alloc_defense_fork_slice(length,min_length,
                                                       proxy1);
 
-    slices[fork].starter = slices[si].starter;
     pipe_append(slices[si].prev,fork);
 
     pipe_link(proxy1,last_defense);
-    
-    slices[last_defense].starter = slices[si].starter;
     pipe_link(last_defense,proxy2);
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
