@@ -105,9 +105,14 @@ attack_end_has_solution_in_n(slice_index si,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
+    slice_index const length = slices[si].u.branch.length;
+    slice_index const min_length = slices[si].u.branch.min_length;
 
     if (n_max_unsolvable<slack_length_battle)
       n_max_unsolvable = slack_length_battle;
+
+    if (n_max_unsolvable+length-min_length<n-1)
+      n_max_unsolvable = n-(length-min_length)-1;
 
     if (n_min<=n_max_unsolvable)
       n_min = n_max_unsolvable+1;
@@ -136,8 +141,6 @@ stip_length_type attack_end_solve_in_n(slice_index si,
                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const length = slices[si].u.branch.length;
-  slice_index const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -152,6 +155,8 @@ stip_length_type attack_end_solve_in_n(slice_index si,
   else
   {
     slice_index const next = slices[si].u.pipe.next;
+    slice_index const length = slices[si].u.branch.length;
+    slice_index const min_length = slices[si].u.branch.min_length;
 
     if (n_max_unsolvable<slack_length_battle)
       n_max_unsolvable = slack_length_battle;

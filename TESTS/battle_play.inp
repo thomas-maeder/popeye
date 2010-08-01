@@ -42,6 +42,15 @@ option vari
 
 next
 
+title ##!2 with tries (1.Ra6/7?) that only fail because the prerequisite
+title (White has to be mate) is not met
+stip ##!2
+pieces white ka1 ra5 bb1 pa2b3g7
+       black ka3 bh8 sa4 pb4
+option vari
+
+next
+
 title ##!2 with short solution
 pieces white kc8 rb8
        black ka7 qc5 rd5

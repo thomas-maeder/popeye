@@ -164,6 +164,38 @@ solution finished.
 
 
 
+##!2 with tries (1.Ra6/7?) that only fail because the prerequisite
+  (White has to be mate) is not met
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -B   8
+|                                   |
+7   .   .   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   R   .   .   .   .   .   .   .   5
+|                                   |
+4  -S  -P   .   .   .   .   .   .   4
+|                                   |
+3  -K   P   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   B   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ##!2                        6 + 4
+
+   1.Ra5-a8 ! zugzwang.
+      1...Bh8*g7 +
+          2.Ra8*a4 ##!
+
+solution finished. 
+
+
+
        ##!2 with short solution
 
 +---a---b---c---d---e---f---g---h---+

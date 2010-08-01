@@ -131,7 +131,7 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
 
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
-  { STAttackMove,        &insert_goal_optimisation_guards_attack_move },
+  { STAttackEnd,         &insert_goal_optimisation_guards_attack_move },
   { STGoalReachedTester, &insert_goal_optimisation_guards_goal },
   { STAttackRoot,        &insert_goal_optimisation_guards_attack_root }
 };
