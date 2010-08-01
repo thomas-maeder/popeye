@@ -192,11 +192,12 @@ static boolean is_slice_index_free[max_nr_slices];
 
 #define ENUMERATION_TYPENAME slice_structural_type
 #define ENUMERATORS                             \
-  ENUMERATOR(leaf)                              \
-    ENUMERATOR(binary)                          \
-    ENUMERATOR(pipe)                            \
-    ENUMERATOR(branch)                          \
-    ENUMERATOR(fork)
+  ENUMERATOR(slice_structure_leaf),                              \
+    ENUMERATOR(slice_structure_binary),                          \
+    ENUMERATOR(slice_structure_pipe),                            \
+    ENUMERATOR(slice_structure_branch),                          \
+    ENUMERATOR(slice_structure_fork),                            \
+    ENUMERATOR(nr_slice_structure_types)
 
 #define ENUMERATION_MAKESTRINGS
 
