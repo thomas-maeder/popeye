@@ -312,8 +312,9 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   stipulation/battle_play/attack_fork.h \
   stipulation/battle_play/defense_move_against_goal.h \
   stipulation/battle_play/defense_fork.h stipulation/help_play/root.h \
-  stipulation/help_play/branch.h \
+  stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
   options/no_short_variations/no_short_variations.h \
+  optimisations/goals/optimisation_guards.h \
   optimisations/maxtime/maxtime.h \
   optimisations/maxsolutions/maxsolutions.h \
   optimisations/stoponshortsolutions/stoponshortsolutions.h
@@ -450,7 +451,11 @@ stipulation/help_play/root.h:
 
 stipulation/help_play/branch.h:
 
+stipulation/goals/prerequisite_guards.h:
+
 options/no_short_variations/no_short_variations.h:
+
+optimisations/goals/optimisation_guards.h:
 
 optimisations/maxtime/maxtime.h:
 

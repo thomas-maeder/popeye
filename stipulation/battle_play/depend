@@ -130,9 +130,14 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/attack_end.h \
   stipulation/battle_play/attack_fork.h stipulation/battle_play/threat.h \
   stipulation/battle_play/try.h stipulation/battle_play/postkeyplay.h \
+  stipulation/series_play/play.h \
+  stipulation/goals/doublemate/attacker_filter.h \
+  stipulation/goals/countermate/attacker_filter.h \
   options/no_short_variations/no_short_variations_attacker_filter.h \
+  optimisations/goals/castling/attacker_filter.h \
+  optimisations/goals/enpassant/attacker_filter.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
-  stipulation/series_play/play.h output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/check_detector.h \
   output/plaintext/tree/zugzwang_writer.h \
   output/plaintext/tree/variation_writer.h \
   output/plaintext/tree/refutation_writer.h \
@@ -184,11 +189,19 @@ stipulation/battle_play/try.h:
 
 stipulation/battle_play/postkeyplay.h:
 
+stipulation/series_play/play.h:
+
+stipulation/goals/doublemate/attacker_filter.h:
+
+stipulation/goals/countermate/attacker_filter.h:
+
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
-optimisations/stoponshortsolutions/root_solvable_filter.h:
+optimisations/goals/castling/attacker_filter.h:
 
-stipulation/series_play/play.h:
+optimisations/goals/enpassant/attacker_filter.h:
+
+optimisations/stoponshortsolutions/root_solvable_filter.h:
 
 output/plaintext/tree/check_detector.h:
 

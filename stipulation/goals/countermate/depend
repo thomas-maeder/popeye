@@ -1,0 +1,12 @@
+stipulation/goals/countermate/attacker_filter$(OBJ_SUFFIX):  \
+ stipulation/goals/countermate/attacker_filter.c \
+  stipulation/goals/countermate/attacker_filter.h stipulation/branch.h \
+  stipulation/battle_play/attack_play.h trace.h
+
+stipulation/goals/countermate/attacker_filter.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:

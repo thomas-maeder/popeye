@@ -77,27 +77,20 @@ static boolean find_imminent_solution(slice_index si)
 static boolean have_we_solution_for_imminent_goal(slice_index si)
 {
   boolean result;
-  Side const attacker = slices[si].starter;
-  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(goal.type!=no_goal);
+  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
-  if (are_prerequisites_for_reaching_goal_met(goal.type,attacker))
-  {
-    move_generation_mode = move_generation_optimized_by_killer_move;
-    TraceValue("->%u\n",move_generation_mode);
-    empile_for_goal = goal;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal.type = no_goal;
-    result = find_imminent_solution(si);
-    finply();
-  }
-  else
-    result = false;
+  move_generation_mode = move_generation_optimized_by_killer_move;
+  TraceValue("->%u\n",move_generation_mode);
+  empile_for_goal = slices[si].u.branch.imminent_goal;
+  generate_move_reaching_goal(slices[si].starter);
+  empile_for_goal.type = no_goal;
+  result = find_imminent_solution(si);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -189,27 +182,20 @@ static boolean foreach_move_solve_imminent(slice_index si)
 static boolean solve_imminent_goal(slice_index si)
 {
   boolean result;
-  Side const attacker = slices[si].starter;
-  Goal const goal = slices[si].u.branch.imminent_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(goal.type!=no_goal);
+  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
-  if (are_prerequisites_for_reaching_goal_met(goal.type,attacker))
-  {
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    empile_for_goal = goal;
-    generate_move_reaching_goal(attacker);
-    empile_for_goal.type = no_goal;
-    result = foreach_move_solve_imminent(si);
-    finply();
-  }
-  else
-    result = false;
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  empile_for_goal = slices[si].u.branch.imminent_goal;
+  generate_move_reaching_goal(slices[si].starter);
+  empile_for_goal.type = no_goal;
+  result = foreach_move_solve_imminent(si);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

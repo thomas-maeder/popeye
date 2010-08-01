@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = optimisation_guards.c
+INCLUDES = optimisation_guards.h
+
+include makefile.rules $(CURRPWD)depend

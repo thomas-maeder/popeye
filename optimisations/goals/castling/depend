@@ -1,0 +1,14 @@
+optimisations/goals/castling/attacker_filter$(OBJ_SUFFIX):  \
+ optimisations/goals/castling/attacker_filter.c \
+  optimisations/goals/castling/attacker_filter.h pydata.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
+
+optimisations/goals/castling/attacker_filter.h:
+
+pydata.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:

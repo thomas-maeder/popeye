@@ -61,6 +61,10 @@
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesMoveToGoal),    /* last series move reaching goal */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
+    ENUMERATOR(STDoubleMateAttackerFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
+    ENUMERATOR(STCastlingAttackerFilter),  /* enforces precondition for goal castling */ \
+    ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -202,6 +206,10 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STSeriesMove */
   slice_structure_branch, /* STSeriesMoveToGoal */
   slice_structure_fork,   /* STSeriesFork */
+  slice_structure_pipe,   /* STDoubleMateAttackerFilter */
+  slice_structure_pipe,   /* STEnPassantAttackerFilter */
+  slice_structure_branch, /* STCastlingAttackerFilter */
+  slice_structure_pipe,   /* STCounterMateAttackerFilter */
   slice_structure_pipe,   /* STGoalReachedTester */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -535,20 +543,20 @@ void release_slices(void)
 
 static structure_traversers_visitors const root_slice_makers[] =
 {
-  { STProxy,                       &proxy_make_root },
-  { STAttackMove,                  &attack_move_make_root },
-  { STDefenseMove,                 &defense_move_make_root },
-  { STGoalReachedTester,           &goal_reached_tester_make_root },
-  { STLeaf,                        &leaf_make_root },
-  { STQuodlibet,                   &quodlibet_make_root },
-  { STNot,                         &not_make_root },
+  { STProxy,                       &proxy_make_root                          },
+  { STAttackMove,                  &attack_move_make_root                    },
+  { STDefenseMove,                 &defense_move_make_root                   },
+  { STGoalReachedTester,           &goal_reached_tester_make_root            },
+  { STLeaf,                        &leaf_make_root                           },
+  { STQuodlibet,                   &quodlibet_make_root                      },
+  { STNot,                         &not_make_root                            },
   { STSelfCheckGuardAttackerFilter,&selfcheck_guard_attacker_filter_make_root},
   { STSelfCheckGuardDefenderFilter,&selfcheck_guard_defender_filter_make_root},
-  { STDirectDefenderFilter,        &direct_defender_filter_make_root },
-  { STReflexAttackerFilter,        &reflex_attacker_filter_make_root },
-  { STReflexDefenderFilter,        &reflex_defender_filter_make_root },
-  { STSelfDefense,                 &self_defense_make_root },
-  { STDefenseEnd,                  &defense_end_make_root },
+  { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
+  { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
+  { STReflexDefenderFilter,        &reflex_defender_filter_make_root         },
+  { STSelfDefense,                 &self_defense_make_root                   },
+  { STDefenseEnd,                  &defense_end_make_root                    }
 };
 
 enum
@@ -614,7 +622,6 @@ void battle_branch_post_root_shorten(slice_index si,
 static structure_traversers_visitors post_root_shorteners[] =
 {
   { STAttackMove,                   &battle_branch_post_root_shorten,     },
-  { STAttackMoveToGoal,             &battle_branch_post_root_shorten,     },
   { STDefenseMove,                  &battle_branch_post_root_shorten_end, },
   { STSelfCheckGuardAttackerFilter, &battle_branch_post_root_shorten,     },
   { STSelfCheckGuardDefenderFilter, &battle_branch_post_root_shorten,     },
@@ -683,9 +690,7 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STReflexSeriesFilter,           &reflex_series_filter_make_root   },
   { STReflexAttackerFilter,         &battle_branch_make_root          },
   { STReflexDefenderFilter,         &battle_branch_make_root          },
-  { STSelfDefense,                  &battle_branch_make_root          },
-  { STAttackEnd,                    &battle_branch_make_root          },
-  { STDefenseEnd,                   &battle_branch_make_root          }
+  { STSelfDefense,                  &battle_branch_make_root          }
 };
 
 enum
@@ -847,15 +852,15 @@ static void get_max_nr_moves_move(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const get_max_nr_moves_functions[] =
 {
-  { STAttackRoot,             &get_max_nr_moves_move },
-  { STAttackMoveToGoal,       &get_max_nr_moves_move },
-  { STAttackMove,             &get_max_nr_moves_move },
-  { STDefenseMove,            &get_max_nr_moves_move },
-  { STDefenseMoveAgainstGoal, &get_max_nr_moves_move },
-  { STHelpMove,               &get_max_nr_moves_move },
-  { STHelpMoveToGoal,         &get_max_nr_moves_move },
-  { STSeriesMove,             &get_max_nr_moves_move },
-  { STSeriesMoveToGoal,       &get_max_nr_moves_move },
+  { STAttackRoot,             &get_max_nr_moves_move   },
+  { STAttackMoveToGoal,       &get_max_nr_moves_move   },
+  { STAttackMove,             &get_max_nr_moves_move   },
+  { STDefenseMove,            &get_max_nr_moves_move   },
+  { STDefenseMoveAgainstGoal, &get_max_nr_moves_move   },
+  { STHelpMove,               &get_max_nr_moves_move   },
+  { STHelpMoveToGoal,         &get_max_nr_moves_move   },
+  { STSeriesMove,             &get_max_nr_moves_move   },
+  { STSeriesMoveToGoal,       &get_max_nr_moves_move   },
   { STQuodlibet,              &get_max_nr_moves_binary },
   { STReciprocal,             &get_max_nr_moves_binary }
 };
@@ -1961,6 +1966,10 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesMoveToGoal */
   &stip_traverse_structure_series_fork,     /* STSeriesFork */
+  &stip_traverse_structure_pipe,            /* STDoubleMateAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STEnPassantAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STCastlingAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STCounterMateAttackerFilter */
   &stip_traverse_structure_pipe,            /* STGoalReachedTester */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2101,6 +2110,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STSeriesMove */
     &stip_traverse_moves_branch_slice,          /* STSeriesMoveToGoal */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
+    &stip_traverse_moves_pipe,                  /* STDoubleMateAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STEnPassantAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STCastlingAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STCounterMateAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */

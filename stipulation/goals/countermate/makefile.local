@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+CFILES = attacker_filter.c
+
+INCLUDES = attacker_filter.h
+
+include makefile.rules $(CURRPWD)depend

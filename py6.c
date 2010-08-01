@@ -134,7 +134,9 @@
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/goals/prerequisite_guards.h"
 #include "options/no_short_variations/no_short_variations.h"
+#include "optimisations/goals/optimisation_guards.h"
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
@@ -2489,9 +2491,8 @@ static void optimise_final_defense_move(slice_index si, Goal goal)
 typedef struct
 {
     Goal goal;
-    slice_index fork_to_goal;
     boolean is_optimised[max_nr_slices];
-} final_move_state;
+} final_move_optimisation_state;
 
 /* Remember the goal imminent after a defense or attack move
  * @param si identifies root of subtree
@@ -2500,7 +2501,7 @@ typedef struct
 static void optimise_final_moves_attack_move(slice_index si,
                                              stip_moves_traversal *st)
 {
-  final_move_state * const state = st->param;
+  final_move_optimisation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2533,7 +2534,7 @@ static void optimise_final_moves_attack_move(slice_index si,
 static void optimise_final_moves_defense_move(slice_index si,
                                               stip_moves_traversal *st)
 {
-  final_move_state * const state = st->param;
+  final_move_optimisation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2566,7 +2567,7 @@ static void optimise_final_moves_defense_move(slice_index si,
 static void optimise_final_moves_attack_root(slice_index si,
                                              stip_moves_traversal *st)
 {
-  final_move_state * const state = st->param;
+  final_move_optimisation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2595,7 +2596,7 @@ static void optimise_final_moves_attack_root(slice_index si,
  */
 static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 {
-  final_move_state * const state = st->param;
+  final_move_optimisation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2625,7 +2626,7 @@ enum
 static void stip_optimise_final_moves(void)
 {
   stip_moves_traversal st;
-  final_move_state state = { { no_goal, initsquare }, no_slice, { false } };
+  final_move_optimisation_state state = { { no_goal, initsquare }, { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -2633,8 +2634,8 @@ static void stip_optimise_final_moves(void)
   TraceStipulation(root_slice);
 
   stip_moves_traversal_init(&st,
-                           final_move_optimisers,nr_final_move_optimisers,
-                           &state);
+                            final_move_optimisers,nr_final_move_optimisers,
+                            &state);
   stip_traverse_moves(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -2752,6 +2753,10 @@ static Token iterate_twins(Token prev_token)
         stip_insert_no_short_variations_filters();
 
       stip_insert_output_slices();
+
+      stip_insert_goal_prerequisite_guards();
+
+      stip_insert_goal_optimisation_guards();
 
       stip_optimise_final_moves();
 

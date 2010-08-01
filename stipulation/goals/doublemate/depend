@@ -1,0 +1,14 @@
+stipulation/goals/doublemate/attacker_filter$(OBJ_SUFFIX):  \
+ stipulation/goals/doublemate/attacker_filter.c \
+  stipulation/goals/doublemate/attacker_filter.h pyproc.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
+
+stipulation/goals/doublemate/attacker_filter.h:
+
+pyproc.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:

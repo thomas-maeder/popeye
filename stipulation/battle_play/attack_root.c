@@ -60,11 +60,6 @@ stip_length_type attack_root_solve_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n_max_unsolvable<=slack_length_battle
-      && imminent_goal.type!=no_goal
-      && !are_prerequisites_for_reaching_goal_met(imminent_goal.type,attacker))
-    n_max_unsolvable = slack_length_battle+1;
-
   if (n_max_unsolvable<length)
   {
     move_generation_mode = move_generation_not_optimized;
