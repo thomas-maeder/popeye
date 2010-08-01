@@ -525,9 +525,10 @@ static SliceType findUniqueRootSliceType(void)
   stip_structure_traversal st;
   found_slice_types_type found_slice_types = { false };
 
-  stip_structure_traversal_init(&st,
-                                slice_type_finders,nr_slice_type_finders,
-                                &found_slice_types);
+  stip_structure_traversal_init(&st,&found_slice_types);
+  stip_structure_traversal_override(&st,
+                                    slice_type_finders,
+                                    nr_slice_type_finders);
   stip_traverse_structure(root_slice,&st);
 
   for (s = 0; s!=nr_slice_types; ++s)
@@ -2258,9 +2259,10 @@ static void init_duplex(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                duplex_initialisers,nr_duplex_initialisers,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    duplex_initialisers,
+                                    nr_duplex_initialisers);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -2303,9 +2305,8 @@ static void fini_duplex(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                duplex_finishers,nr_duplex_finishers,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,duplex_finishers,nr_duplex_finishers);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

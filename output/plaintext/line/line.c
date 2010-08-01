@@ -128,9 +128,10 @@ void stip_insert_output_plaintext_line_slices(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                line_slice_inserters,nr_line_slice_inserters,
-                                &state);
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    line_slice_inserters,
+                                    nr_line_slice_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

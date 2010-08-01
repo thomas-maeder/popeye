@@ -168,9 +168,10 @@ void init_output(slice_index si)
 
   current_mode = output_mode_none;
 
-  stip_structure_traversal_init(&st,
-                                output_mode_detectors,nr_output_mode_detectors,
-                                &current_mode);
+  stip_structure_traversal_init(&st,&current_mode);
+  stip_structure_traversal_override(&st,
+                                    output_mode_detectors,
+                                    nr_output_mode_detectors);
   stip_traverse_structure(si,&st);
 
   TraceEnumerator(output_mode,current_mode,"\n");

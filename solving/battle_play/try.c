@@ -418,10 +418,10 @@ boolean stip_insert_try_handlers(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                try_handler_inserters,
-                                nr_try_handler_inserters,
-                                &state);
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    try_handler_inserters,
+                                    nr_try_handler_inserters);
   stip_traverse_structure(root_slice,&st);
 
   result = state==try_handler_inserted_collector;

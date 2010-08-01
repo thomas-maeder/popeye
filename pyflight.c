@@ -243,10 +243,10 @@ void stip_insert_maxflight_guards(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                maxflight_guards_inserters,
-                                nr_maxflight_guards_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    maxflight_guards_inserters,
+                                    nr_maxflight_guards_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

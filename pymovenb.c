@@ -327,10 +327,10 @@ void stip_insert_restart_guards(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                restart_guards_inserters,
-                                nr_restart_guards_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    restart_guards_inserters,
+                                    nr_restart_guards_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

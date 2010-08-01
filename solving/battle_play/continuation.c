@@ -265,10 +265,10 @@ void stip_insert_continuation_handlers(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                continuation_handler_inserters,
-                                nr_continuation_handler_inserters,
-                                &state);
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    continuation_handler_inserters,
+                                    nr_continuation_handler_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

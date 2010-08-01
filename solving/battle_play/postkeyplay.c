@@ -134,10 +134,10 @@ void stip_insert_postkey_handlers(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                postkey_handler_inserters,
-                                nr_postkey_handler_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    postkey_handler_inserters,
+                                    nr_postkey_handler_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -189,10 +189,10 @@ void stip_insert_postkeyplay_suppressors(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                postkey_suppressor_inserters,
-                                nr_postkey_suppressor_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    postkey_suppressor_inserters,
+                                    nr_postkey_suppressor_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceStipulation(root_slice);

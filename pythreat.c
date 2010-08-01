@@ -287,10 +287,10 @@ boolean stip_insert_maxthreatlength_guards(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                maxthreatlength_guards_inserters,
-                                nr_maxthreatlength_guards_inserters,
-                                &result);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    maxthreatlength_guards_inserters,
+                                    nr_maxthreatlength_guards_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

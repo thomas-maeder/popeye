@@ -419,9 +419,10 @@ void stip_insert_output_plaintext_tree_slices(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                tree_slice_inserters,nr_tree_slice_inserters,
-                                &goal);
+  stip_structure_traversal_init(&st,&goal);
+  stip_structure_traversal_override(&st,
+                                    tree_slice_inserters,
+                                    nr_tree_slice_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

@@ -973,10 +973,10 @@ void slice_insert_reflex_filters(slice_index si,
   assert(slices[proxy_to_avoided_attack].type==STProxy);
   assert(slices[proxy_to_avoided_defense].type==STProxy);
 
-  stip_structure_traversal_init(&st,
-                                reflex_guards_inserters,
-                                nr_reflex_guards_inserters,
-                                &param);
+  stip_structure_traversal_init(&st,&param);
+  stip_structure_traversal_override(&st,
+                                    reflex_guards_inserters,
+                                    nr_reflex_guards_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -1082,10 +1082,10 @@ void slice_insert_reflex_filters_semi(slice_index si,
   param.to_be_avoided[0] = proxy_to_avoided;
   param.to_be_avoided[1] = no_slice;
 
-  stip_structure_traversal_init(&st,
-                                reflex_guards_inserters_semi,
-                                nr_reflex_guards_inserters_semi,
-                                &param);
+  stip_structure_traversal_init(&st,&param);
+  stip_structure_traversal_override(&st,
+                                    reflex_guards_inserters_semi,
+                                    nr_reflex_guards_inserters_semi);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

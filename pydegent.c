@@ -178,10 +178,10 @@ void stip_insert_degenerate_tree_guards(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                degenerate_tree_guards_inserters,
-                                nr_degenerate_tree_guards_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    degenerate_tree_guards_inserters,
+                                    nr_degenerate_tree_guards_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

@@ -307,10 +307,10 @@ void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
 
   assert(slices[proxy_to_goal].type==STProxy);
 
-  stip_structure_traversal_init(&st,
-                                direct_guards_inserters,
-                                nr_direct_guards_inserters,
-                                &proxy_to_goal);
+  stip_structure_traversal_init(&st,&proxy_to_goal);
+  stip_structure_traversal_override(&st,
+                                    direct_guards_inserters,
+                                    nr_direct_guards_inserters);
   stip_traverse_structure(si,&st);
 
   TraceStipulation(si);

@@ -230,10 +230,10 @@ static void insert_filters(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                stoponshortsolutions_filter_inserters,
-                                nr_stoponshortsolutions_filter_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    stoponshortsolutions_filter_inserters,
+                                    nr_stoponshortsolutions_filter_inserters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -288,10 +288,10 @@ boolean stip_insert_stoponshortsolutions_filters(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                stoponshortsolutions_initialiser_inserters,
-                                nr_stoponshortsolutions_initialiser_inserters,
-                                &result);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    stoponshortsolutions_initialiser_inserters,
+                                    nr_stoponshortsolutions_initialiser_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

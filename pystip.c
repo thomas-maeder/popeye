@@ -202,7 +202,7 @@ static boolean is_slice_index_free[max_nr_slices];
 
 #include "pyenum.h"
 
-static slice_structural_type highest_structural_type[max_nr_slices] =
+static slice_structural_type highest_structural_type[nr_slice_types] =
 {
   slice_structure_pipe,   /* STProxy */
   slice_structure_branch, /* STAttackMove */
@@ -381,7 +381,7 @@ void assert_no_leaked_slices(void)
     slice_index i;
     stip_structure_traversal st;
 
-    stip_structure_traversal_init(&st,0,0,0);
+    stip_structure_traversal_init(&st,0);
     stip_traverse_structure(root_slice,&st);
 
     for (i = 0; i!=max_nr_slices; ++i)
@@ -523,7 +523,7 @@ void dealloc_slices(slice_index si)
 
   TraceStipulation(si);
   
-  stip_structure_traversal_init(&st,0,0,0);
+  stip_structure_traversal_init(&st,0);
   stip_traverse_structure(si,&st);
 
   for (i = 0; i!=max_nr_slices; ++i)
@@ -594,9 +594,9 @@ slice_index stip_make_root_slices(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                root_slice_makers,nr_root_slice_makers,
-                                &result);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    root_slice_makers,nr_root_slice_makers);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -672,9 +672,10 @@ void battle_branch_make_root(slice_index si, stip_structure_traversal *st)
 
   *root = stip_make_root_slices(si);
 
-  stip_structure_traversal_init(&st_nested,
-                                post_root_shorteners,nr_post_root_shorteners,
-                                0);
+  stip_structure_traversal_init(&st_nested,0);
+  stip_structure_traversal_override(&st_nested,
+                                    post_root_shorteners,
+                                    nr_post_root_shorteners);
   stip_traverse_structure(si,&st_nested);
 
   TraceFunctionExit(__func__);
@@ -731,9 +732,10 @@ void stip_insert_root_slices(void)
   TraceStipulation(root_slice);
   assert(slices[root_slice].type==STProxy);
 
-  stip_structure_traversal_init(&st,
-                                root_slice_inserters,nr_root_slice_inserters,
-                                &result);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    root_slice_inserters,
+                                    nr_root_slice_inserters);
   stip_traverse_structure(next,&st);
 
   if (slices[next].prev==root_slice)
@@ -903,9 +905,9 @@ stip_length_type get_max_nr_moves(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_moves_traversal_init(&st,
-                           get_max_nr_moves_functions,
-                           nr_get_max_nr_moves_functions,
-                           &result);
+                            get_max_nr_moves_functions,
+                            nr_get_max_nr_moves_functions,
+                            &result);
   stip_traverse_moves(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -969,9 +971,10 @@ Goal find_unique_goal(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                unique_goal_finders,nr_unique_goal_finders,
-                                &result);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    unique_goal_finders,
+                                    nr_unique_goal_finders);
   stip_traverse_structure(root_slice,&st);
 
   if (result.type==no_unique_goal)
@@ -1252,10 +1255,10 @@ boolean transform_to_quodlibet(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                to_quodlibet_transformers,
-                                nr_to_quodlibet_transformers,
-                                &proxy_to_goal);
+  stip_structure_traversal_init(&st,&proxy_to_goal);
+  stip_structure_traversal_override(&st,
+                                    to_quodlibet_transformers,
+                                    nr_to_quodlibet_transformers);
   stip_traverse_structure(root_slice,&st);
 
   result = proxy_to_goal!=no_slice;
@@ -1312,10 +1315,10 @@ boolean stip_apply_postkeyplay(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                to_postkey_play_reducers,
-                                nr_to_postkey_play_reducers,
-                                &postkey_slice);
+  stip_structure_traversal_init(&st,&postkey_slice);
+  stip_structure_traversal_override(&st,
+                                    to_postkey_play_reducers,
+                                    nr_to_postkey_play_reducers);
   stip_traverse_structure(root_slice,&st);
 
   TraceValue("%u\n",postkey_slice);
@@ -1377,7 +1380,8 @@ slice_index stip_make_setplay(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,setplay_makers,nr_setplay_makers,&result);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,setplay_makers,nr_setplay_makers);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -1457,9 +1461,8 @@ boolean stip_apply_setplay(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                setplay_appliers,nr_setplay_appliers,
-                                &setplay_slice);
+  stip_structure_traversal_init(&st,&setplay_slice);
+  stip_structure_traversal_override(&st,setplay_appliers,nr_setplay_appliers);
   stip_traverse_structure_pipe(root_slice,&st);
 
   if (setplay_slice==no_slice)
@@ -1545,10 +1548,10 @@ boolean stip_ends_only_in(goal_type const goals[], size_t nrGoals)
   TraceFunctionParam("%u",nrGoals);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                slice_ends_only_in_checkers,
-                                nr_slice_ends_only_in_checkers,
-                                &set);
+  stip_structure_traversal_init(&st,&set);
+  stip_structure_traversal_override(&st,
+                                    slice_ends_only_in_checkers,
+                                    nr_slice_ends_only_in_checkers);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -1600,10 +1603,10 @@ boolean stip_ends_in_one_of(goal_type const goals[], size_t nrGoals)
   TraceFunctionParam("%u",nrGoals);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                slice_ends_in_one_of_checkers,
-                                nr_slice_ends_in_one_of_checkers,
-                                &set);
+  stip_structure_traversal_init(&st,&set);
+  stip_structure_traversal_override(&st,
+                                    slice_ends_in_one_of_checkers,
+                                    nr_slice_ends_in_one_of_checkers);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -1707,7 +1710,8 @@ void stip_make_exact(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,exact_makers,nr_exact_makers,0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,exact_makers,nr_exact_makers);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -1773,9 +1777,10 @@ void stip_detect_starter(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                starter_detectors,nr_starter_detectors,
-                                NULL);
+  stip_structure_traversal_init(&st,NULL);
+  stip_structure_traversal_override(&st,
+                                    starter_detectors,
+                                    nr_starter_detectors);
   stip_traverse_structure(root_slice,&st);
 
   TraceStipulation(root_slice);
@@ -2085,11 +2090,11 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe             /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
-void
-stip_structure_traversal_init(stip_structure_traversal *st,
-                              structure_traversers_visitors const visitors[],
-                              unsigned int nr_visitors,
-                              void *param)
+/* Initialise a structure traversal structure with default visitors
+ * @param st to be initialised
+ * @param param parameter to be passed t operations
+ */
+void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
 {
   unsigned int i;
   for (i = 0; i!=max_nr_slices; ++i)
@@ -2098,10 +2103,37 @@ stip_structure_traversal_init(stip_structure_traversal *st,
   for (i = 0; i!=nr_slice_types; ++i)
     st->map.visitors[i] = structure_children_traversers[i];
 
+  st->param = param;
+}
+
+/* Initialise a structure traversal structure with default visitors
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_structure_traversal_override_by_type(stip_structure_traversal *st,
+                                               slice_structural_type type,
+                                               stip_structure_visitor visitor)
+{
+  unsigned int i;
+  for (i = 0; i!=nr_slice_types; ++i)
+    if (highest_structural_type[i]==type)
+      st->map.visitors[i] = visitor;
+}
+
+/* Override some of the visitors of a traversal
+ * @param st to be initialised
+ * @param visitors overriding visitors
+ * @param nr_visitors number of visitors
+ */
+void
+stip_structure_traversal_override(stip_structure_traversal *st,
+                                  structure_traversers_visitors const visitors[],
+                                  unsigned int nr_visitors)
+{
+  unsigned int i;
   for (i = 0; i!=nr_visitors; ++i)
     st->map.visitors[visitors[i].type] = visitors[i].visitor;
-
-  st->param = param;
 }
 
 /* (Approximately) depth-first traversl of a stipulation sub-tree

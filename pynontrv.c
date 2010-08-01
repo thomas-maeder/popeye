@@ -570,10 +570,10 @@ void stip_insert_max_nr_nontrivial_guards(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                max_nr_nontrivial_guards_inserters,
-                                nr_max_nr_nontrivial_guards_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    max_nr_nontrivial_guards_inserters,
+                                    nr_max_nr_nontrivial_guards_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

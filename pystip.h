@@ -461,6 +461,21 @@ typedef struct stip_structure_traversal
     void *param;
 } stip_structure_traversal;
 
+/* Initialise a structure traversal structure with default visitors
+ * @param st to be initialised
+ * @param param parameter to be passed t operations
+ */
+void stip_structure_traversal_init(stip_structure_traversal *st, void *param);
+
+/* Initialise a structure traversal structure with default visitors
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_structure_traversal_override_by_type(stip_structure_traversal *st,
+                                               slice_structural_type type,
+                                               stip_structure_visitor visitor);
+
 /* define an alternative visitor for a particular slice type */
 typedef struct
 {
@@ -468,16 +483,15 @@ typedef struct
     stip_structure_visitor visitor;
 } structure_traversers_visitors;
 
-/* Initialise a structure traversal structure
+/* Override some of the visitors of a traversal
  * @param st to be initialised
- * @param ops operations to be invoked on slices
- * @param param parameter to be passed t operations
+ * @param visitors overriding visitors
+ * @param nr_visitors number of visitors
  */
 void
-stip_structure_traversal_init(stip_structure_traversal *st,
-                              structure_traversers_visitors const visitors[],
-                              unsigned int nr_visitors,
-                              void *param);
+stip_structure_traversal_override(stip_structure_traversal *st,
+                                  structure_traversers_visitors const visitors[],
+                                  unsigned int nr_visitors);
 
 /* Query the structure traversal state of a slice
  * @param si identifies slice for which to query traversal state

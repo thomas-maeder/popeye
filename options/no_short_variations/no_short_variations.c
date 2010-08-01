@@ -42,10 +42,10 @@ void stip_insert_no_short_variations_filters(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                no_short_variations_filter_inserters,
-                                nr_no_short_variations_filter_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    no_short_variations_filter_inserters,
+                                    nr_no_short_variations_filter_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

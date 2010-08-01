@@ -289,16 +289,16 @@ void stip_insert_maxsolutions_filters(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                maxsolutions_filter_inserters,
-                                nr_maxsolutions_filter_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    maxsolutions_filter_inserters,
+                                    nr_maxsolutions_filter_inserters);
   stip_traverse_structure(root_slice,&st);
 
-  stip_structure_traversal_init(&st,
-                                maxsolutions_initialiser_inserters,
-                                nr_maxsolutions_initialiser_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    maxsolutions_initialiser_inserters,
+                                    nr_maxsolutions_initialiser_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

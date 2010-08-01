@@ -3068,10 +3068,10 @@ static void stip_insert_intelligent_guards(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                intelligent_guards_inserters,
-                                nr_intelligent_guards_inserters,
-                                0);
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    intelligent_guards_inserters,
+                                    nr_intelligent_guards_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);
@@ -3355,10 +3355,10 @@ static support_for_intelligent_mode stip_supports_intelligent(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,
-                                intelligent_mode_support_detectors,
-                                nr_intelligent_mode_support_detectors,
-                                &result);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override(&st,
+                                    intelligent_mode_support_detectors,
+                                    nr_intelligent_mode_support_detectors);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

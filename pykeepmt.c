@@ -691,10 +691,10 @@ void stip_insert_keepmating_guards(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                keepmating_guards_inserters,
-                                nr_keepmating_guards_inserters,
-                                km);
+  stip_structure_traversal_init(&st,km);
+  stip_structure_traversal_override(&st,
+                                    keepmating_guards_inserters,
+                                    nr_keepmating_guards_inserters);
   stip_traverse_structure(root_slice,&st);
 
   TraceFunctionExit(__func__);

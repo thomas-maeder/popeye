@@ -567,10 +567,10 @@ void stip_insert_threat_handlers(void)
 
   TraceStipulation(root_slice);
 
-  stip_structure_traversal_init(&st,
-                                threat_handler_inserters,
-                                nr_threat_handler_inserters,
-                                &state);
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    threat_handler_inserters,
+                                    nr_threat_handler_inserters);
   stip_traverse_structure(root_slice,&st);
 
   for (i = 0; i<=maxply; ++i)
