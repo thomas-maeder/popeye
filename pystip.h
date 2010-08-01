@@ -29,10 +29,17 @@
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STDoubleMateAttackerFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STDoubleMateHelpFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STDoubleMateSeriesFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STCounterMateHelpFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STCounterMateSeriesFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STEnPassantDefenderFilter),  /* enforces precondition for goal ep */ \
+    ENUMERATOR(STEnPassantHelpFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingAttackerFilter),  /* enforces precondition for goal castling */ \
-    ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STCastlingHelpFilter),  /* enforces precondition for goal castling */ \
+    ENUMERATOR(STCastlingSeriesFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \

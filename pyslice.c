@@ -121,6 +121,10 @@ has_solution_type slice_solve(slice_index si)
     case STHelpHashed:
     case STSelfCheckGuardHelpFilter:
     case STStopOnShortSolutionsHelpFilter:
+    case STCounterMateHelpFilter:
+    case STDoubleMateHelpFilter:
+    case STEnPassantHelpFilter:
+    case STCastlingHelpFilter:
       result = help_solve(si);
       break;
 
@@ -134,6 +138,8 @@ has_solution_type slice_solve(slice_index si)
     case STSeriesFork:
     case STSeriesHashed:
     case STStopOnShortSolutionsSeriesFilter:
+    case STDoubleMateSeriesFilter:
+    case STCastlingSeriesFilter:
       result = series_solve(si);
       break;
 
@@ -287,6 +293,10 @@ has_solution_type slice_has_solution(slice_index si)
     case STHelpMoveToGoal:
     case STSelfCheckGuardHelpFilter:
     case STHelpHashed:
+    case STCounterMateHelpFilter:
+    case STDoubleMateHelpFilter:
+    case STEnPassantHelpFilter:
+    case STCastlingHelpFilter:
       result = help_has_solution(si);
       break;
 
@@ -298,6 +308,8 @@ has_solution_type slice_has_solution(slice_index si)
     case STSeriesMoveToGoal:
     case STSeriesHashed:
     case STReflexSeriesFilter:
+    case STDoubleMateSeriesFilter:
+    case STCastlingSeriesFilter:
       result = series_has_solution(si);
       break;
 

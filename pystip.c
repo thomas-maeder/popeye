@@ -63,10 +63,17 @@
     ENUMERATOR(STSeriesMoveToGoal),    /* last series move reaching goal */ \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STDoubleMateAttackerFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STDoubleMateHelpFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STDoubleMateSeriesFilter),  /* enforces precondition for doublemate */ \
+    ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STCounterMateHelpFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STCounterMateSeriesFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STEnPassantDefenderFilter),  /* enforces precondition for goal ep */ \
+    ENUMERATOR(STEnPassantHelpFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingAttackerFilter),  /* enforces precondition for goal castling */ \
-    ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
+    ENUMERATOR(STCastlingHelpFilter),  /* enforces precondition for goal castling */ \
+    ENUMERATOR(STCastlingSeriesFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -209,10 +216,17 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STSeriesMoveToGoal */
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_branch, /* STDoubleMateAttackerFilter */
+  slice_structure_branch, /* STDoubleMateHelpFilter */
+  slice_structure_branch, /* STDoubleMateSeriesFilter */
+  slice_structure_branch, /* STCounterMateAttackerFilter */
+  slice_structure_branch, /* STCounterMateHelpFilter */
+  slice_structure_branch, /* STCounterMateSeriesFilter */
   slice_structure_branch, /* STEnPassantAttackerFilter */
   slice_structure_branch, /* STEnPassantDefenderFilter */
+  slice_structure_branch, /* STEnPassantHelpFilter */
   slice_structure_branch, /* STCastlingAttackerFilter */
-  slice_structure_branch, /* STCounterMateAttackerFilter */
+  slice_structure_branch, /* STCastlingHelpFilter */
+  slice_structure_branch, /* STCastlingSeriesFilter */
   slice_structure_pipe,   /* STGoalReachedTester */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -1970,10 +1984,17 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STSeriesMoveToGoal */
   &stip_traverse_structure_series_fork,     /* STSeriesFork */
   &stip_traverse_structure_pipe,            /* STDoubleMateAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STDoubleMateHelpFilter */
+  &stip_traverse_structure_pipe,            /* STDoubleMateSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STCounterMateAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STCounterMateHelpFilter */
+  &stip_traverse_structure_pipe,            /* STCounterMateSeriesFilter */
   &stip_traverse_structure_pipe,            /* STEnPassantAttackerFilter */
   &stip_traverse_structure_pipe,            /* STEnPassantDefenderFilter */
+  &stip_traverse_structure_pipe,            /* STEnPassantHelpFilter */
   &stip_traverse_structure_pipe,            /* STCastlingAttackerFilter */
-  &stip_traverse_structure_pipe,            /* STCounterMateAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STCastlingHelpFilter */
+  &stip_traverse_structure_pipe,            /* STCastlingSeriesFilter */
   &stip_traverse_structure_pipe,            /* STGoalReachedTester */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2115,10 +2136,17 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STSeriesMoveToGoal */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_pipe,                  /* STDoubleMateAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STDoubleMateHelpFilter */
+    &stip_traverse_moves_pipe,                  /* STDoubleMateSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STCounterMateAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STCounterMateHelpFilter */
+    &stip_traverse_moves_pipe,                  /* STCounterMateSeriesFilter */
     &stip_traverse_moves_pipe,                  /* STEnPassantAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STEnPassantDefenderFilter */
+    &stip_traverse_moves_pipe,                  /* STEnPassantHelpFilter */
     &stip_traverse_moves_pipe,                  /* STCastlingAttackerFilter */
-    &stip_traverse_moves_pipe,                  /* STCounterMateAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STCastlingHelpFilter */
+    &stip_traverse_moves_pipe,                  /* STCastlingSeriesFilter */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */

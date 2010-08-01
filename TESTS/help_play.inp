@@ -9,6 +9,34 @@ option set
 
 next
 
+title hep1 (help-en passant)
+pieces white kh1 ph5
+       black kh8 pg7
+stip hep1
+
+next
+
+title h001.5
+pieces white ke1 ra1 ph3
+       black kf8 bh6
+stip h001.5
+
+next
+
+title h##!2
+pieces white ka3 bh7
+       black ka1 qh8 rg7
+stip h##!2
+
+next
+
+title h##2
+pieces white ke4 rh1 sh4 pg3
+       black kg4 qh2 pe2g2g5
+stip h##2
+
+next
+
 title not 1.Qb2+ because of exact-
 pieces white ka1 qb5 bb1
        black ka3 pc3

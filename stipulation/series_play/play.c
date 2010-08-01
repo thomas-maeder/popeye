@@ -13,6 +13,9 @@
 #include "stipulation/series_play/move.h"
 #include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/move_to_goal.h"
+#include "stipulation/goals/countermate/series_filter.h"
+#include "stipulation/goals/doublemate/series_filter.h"
+#include "optimisations/goals/castling/series_filter.h"
 #include "optimisations/intelligent/series_filter.h"
 #include "optimisations/maxtime/series_filter.h"
 #include "optimisations/maxsolutions/series_filter.h"
@@ -120,6 +123,18 @@ stip_length_type series_solve_in_n(slice_index si, stip_length_type n)
 
     case STStopOnShortSolutionsSeriesFilter:
       result = stoponshortsolutions_series_filter_solve_in_n(si,n);
+      break;
+
+    case STCounterMateSeriesFilter:
+      result = countermate_series_filter_solve_in_n(si,n);
+      break;
+
+    case STDoubleMateSeriesFilter:
+      result = doublemate_series_filter_solve_in_n(si,n);
+      break;
+
+    case STCastlingSeriesFilter:
+      result = castling_series_filter_solve_in_n(si,n);
       break;
 
     case STSeriesMoveToGoal:
@@ -276,8 +291,20 @@ stip_length_type series_has_solution_in_n(slice_index si, stip_length_type n)
       result = stoponshortsolutions_series_filter_has_solution_in_n(si,n);
       break;
 
+    case STCounterMateSeriesFilter:
+      result = countermate_series_filter_has_solution_in_n(si,n);
+      break;
+
+    case STDoubleMateSeriesFilter:
+      result = doublemate_series_filter_has_solution_in_n(si,n);
+      break;
+
     case STSeriesMoveToGoal:
       result = series_move_to_goal_has_solution_in_n(si,n);
+      break;
+
+    case STCastlingSeriesFilter:
+      result = castling_series_filter_has_solution_in_n(si,n);
       break;
 
     default:

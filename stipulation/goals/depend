@@ -2,7 +2,11 @@ stipulation/goals/prerequisite_guards$(OBJ_SUFFIX):  \
  stipulation/goals/prerequisite_guards.c \
   stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \
   stipulation/branch.h stipulation/goals/countermate/attacker_filter.h \
-  stipulation/goals/doublemate/attacker_filter.h trace.h
+  stipulation/goals/countermate/help_filter.h \
+  stipulation/goals/countermate/series_filter.h \
+  stipulation/goals/doublemate/attacker_filter.h \
+  stipulation/goals/doublemate/help_filter.h \
+  stipulation/goals/doublemate/series_filter.h trace.h
 
 stipulation/goals/prerequisite_guards.h:
 
@@ -14,6 +18,14 @@ stipulation/branch.h:
 
 stipulation/goals/countermate/attacker_filter.h:
 
+stipulation/goals/countermate/help_filter.h:
+
+stipulation/goals/countermate/series_filter.h:
+
 stipulation/goals/doublemate/attacker_filter.h:
+
+stipulation/goals/doublemate/help_filter.h:
+
+stipulation/goals/doublemate/series_filter.h:
 
 trace.h:

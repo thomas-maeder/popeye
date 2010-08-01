@@ -13,6 +13,10 @@
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/help_play/shortcut.h"
 #include "stipulation/help_play/fork.h"
+#include "stipulation/goals/countermate/help_filter.h"
+#include "stipulation/goals/doublemate/help_filter.h"
+#include "optimisations/goals/enpassant/help_filter.h"
+#include "optimisations/goals/castling/help_filter.h"
 #include "optimisations/intelligent/help_filter.h"
 #include "optimisations/maxtime/help_filter.h"
 #include "optimisations/maxsolutions/help_filter.h"
@@ -156,6 +160,22 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       result = stoponshortsolutions_help_filter_solve_in_n(si,n);
       break;
 
+    case STCounterMateHelpFilter:
+      result = countermate_help_filter_solve_in_n(si,n);
+      break;
+
+    case STDoubleMateHelpFilter:
+      result = doublemate_help_filter_solve_in_n(si,n);
+      break;
+
+    case STEnPassantHelpFilter:
+      result = enpassant_help_filter_solve_in_n(si,n);
+      break;
+
+    case STCastlingHelpFilter:
+      result = castling_help_filter_solve_in_n(si,n);
+      break;
+      
     default:
       assert(n=slack_length_help);
       switch (slice_solve(si))
@@ -287,6 +307,22 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
 
     case STStopOnShortSolutionsHelpFilter:
       result = stoponshortsolutions_help_filter_has_solution_in_n(si,n);
+      break;
+
+    case STCounterMateHelpFilter:
+      result = countermate_help_filter_has_solution_in_n(si,n);
+      break;
+
+    case STDoubleMateHelpFilter:
+      result = doublemate_help_filter_has_solution_in_n(si,n);
+      break;
+
+    case STEnPassantHelpFilter:
+      result = enpassant_help_filter_has_solution_in_n(si,n);
+      break;
+
+    case STCastlingHelpFilter:
+      result = castling_help_filter_has_solution_in_n(si,n);
       break;
 
     default:

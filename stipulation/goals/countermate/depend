@@ -10,3 +10,29 @@ stipulation/branch.h:
 stipulation/battle_play/attack_play.h:
 
 trace.h:
+stipulation/goals/countermate/help_filter$(OBJ_SUFFIX):  \
+ stipulation/goals/countermate/help_filter.c \
+  stipulation/goals/countermate/help_filter.h stipulation/branch.h \
+  stipulation/help_play/play.h trace.h
+
+stipulation/goals/countermate/help_filter.h:
+
+stipulation/branch.h:
+
+stipulation/help_play/play.h:
+
+trace.h:
+stipulation/goals/countermate/series_filter$(OBJ_SUFFIX):  \
+ stipulation/goals/countermate/series_filter.c \
+  stipulation/goals/countermate/series_filter.h pyproc.h trace.h \
+  stipulation/branch.h stipulation/series_play/play.h
+
+stipulation/goals/countermate/series_filter.h:
+
+pyproc.h:
+
+trace.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/play.h:

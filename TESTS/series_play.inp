@@ -2,6 +2,27 @@ begin
 
 prot series_play.tst
 
+title no ser-##2 solution because of stalemate after 1.Kh2-h3
+pieces white kh2 pg3g5h4
+       black kh5 ra2a3g6
+stip ser-##2
+
+next
+
+title ser-h##!2
+pieces white ka3 bb1
+       black ka1 qh8 rg7
+stip ser-h##!2
+
+next
+
+title ser-003 (1.Ke1*e2?  2.Ke2-e1 3.0-0)
+pieces white ke1 rh1 sb5
+       black ka4 ba6 pe2
+stip ser-003
+
+next
+
 title not 1.Qb2+ because of exact-
 pieces white ka1 qb5 bb1 pb6
        black ka3 pc3b7

@@ -123,6 +123,10 @@ stipulation/help_play/play$(OBJ_SUFFIX): stipulation/help_play/play.c \
   stipulation/series_play/play.h stipulation/help_play/root.h \
   stipulation/help_play/move.h stipulation/help_play/move_to_goal.h \
   stipulation/help_play/shortcut.h stipulation/help_play/fork.h \
+  stipulation/goals/countermate/help_filter.h \
+  stipulation/goals/doublemate/help_filter.h \
+  optimisations/goals/enpassant/help_filter.h \
+  optimisations/goals/castling/help_filter.h \
   optimisations/intelligent/help_filter.h \
   optimisations/maxtime/help_filter.h \
   optimisations/maxsolutions/help_filter.h \
@@ -157,6 +161,14 @@ stipulation/help_play/move_to_goal.h:
 stipulation/help_play/shortcut.h:
 
 stipulation/help_play/fork.h:
+
+stipulation/goals/countermate/help_filter.h:
+
+stipulation/goals/doublemate/help_filter.h:
+
+optimisations/goals/enpassant/help_filter.h:
+
+optimisations/goals/castling/help_filter.h:
 
 optimisations/intelligent/help_filter.h:
 

@@ -12,3 +12,31 @@ stipulation/branch.h:
 stipulation/battle_play/attack_play.h:
 
 trace.h:
+stipulation/goals/doublemate/help_filter$(OBJ_SUFFIX):  \
+ stipulation/goals/doublemate/help_filter.c \
+  stipulation/goals/doublemate/help_filter.h pyproc.h \
+  stipulation/branch.h stipulation/help_play/play.h trace.h
+
+stipulation/goals/doublemate/help_filter.h:
+
+pyproc.h:
+
+stipulation/branch.h:
+
+stipulation/help_play/play.h:
+
+trace.h:
+stipulation/goals/doublemate/series_filter$(OBJ_SUFFIX):  \
+ stipulation/goals/doublemate/series_filter.c \
+  stipulation/goals/doublemate/series_filter.h pyproc.h trace.h \
+  stipulation/branch.h stipulation/series_play/play.h
+
+stipulation/goals/doublemate/series_filter.h:
+
+pyproc.h:
+
+trace.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/play.h:

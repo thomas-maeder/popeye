@@ -1,9 +1,6 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "trace.h"
 #include "pydata.h"
-#include "platform/maxtime.h"
-#include "pyint.h"
-#include "pyoutput.h"
+#include "trace.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -581,54 +578,6 @@ static void generate_ortho_moves_reaching_goal(goal_type goal, Side side_at_move
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Determine whether the prerequisites met for reaching a goal with
- * the next move
- * @param goal goal to be reached
- * @param side_at_move side to execute the move reaching the goal
- * @return true iff the prerequisites are met
- */
-boolean are_prerequisites_for_reaching_goal_met(goal_type goal,
-                                                Side side_at_move)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParam("%u",side_at_move);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_doublemate:
-      result = !immobile(side_at_move);
-      break;
-
-    case goal_ep:
-      result = ep[nbply]!=initsquare || ep2[nbply]!=initsquare;
-      break;
-
-    case goal_castling:
-      result = (side_at_move==White
-                ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)>ke1_cancastle
-                : TSTFLAGMASK(castling_flag[nbply],bl_castlings)>ke8_cancastle);
-      break;
-
-    case goal_countermate:
-      /* TODO can this be generalised to non-mate goals? */
-      result = goal_checker_mate(advers(side_at_move))==goal_reached;
-      break;
-
-    default:
-      result = true;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Generate moves for side side_at_move; optimise for moves reaching a

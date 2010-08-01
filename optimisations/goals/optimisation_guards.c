@@ -2,9 +2,13 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/defense_end.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
+#include "optimisations/goals/enpassant/help_filter.h"
 #include "optimisations/goals/castling/attacker_filter.h"
+#include "optimisations/goals/castling/help_filter.h"
+#include "optimisations/goals/castling/series_filter.h"
 
 #include "trace.h"
 
@@ -58,6 +62,66 @@ static void insert_goal_optimisation_defender_filter(slice_index si, Goal goal)
       /* intentionally nothing (assuming that castling can't be
        * forced)
        */
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_goal_optimisation_help_filter(slice_index si, Goal goal)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  switch (goal.type)
+  {
+    case goal_ep:
+      pipe_append(slices[si].prev,
+                  alloc_enpassant_help_filter_slice(length,min_length));
+      break;
+
+    case goal_castling:
+      pipe_append(slices[si].prev,
+                  alloc_castling_help_filter_slice(length,min_length));
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_goal_optimisation_series_filter(slice_index si, Goal goal)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  switch (goal.type)
+  {
+    case goal_ep:
+      /* intentionally nothing (assuming that ser-ep is impossible)
+       */
+      break;
+
+    case goal_castling:
+      pipe_append(slices[si].prev,
+                  alloc_castling_series_filter_slice(length,min_length));
       break;
 
     default:
@@ -176,6 +240,73 @@ void insert_goal_optimisation_guards_attack_root(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
+static void insert_goal_optimisation_guards_help_move(slice_index si,
+                                                      stip_moves_traversal *st)
+{
+  optimisation_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining==slack_length_help+1)
+    {
+      if (state->goal.type!=no_goal)
+        insert_goal_optimisation_help_filter(si,state->goal);
+      state->is_optimised[si] = true;
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with goal optimisation guards.
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+ void insert_goal_optimisation_guards_series_move(slice_index si,
+                                                  stip_moves_traversal *st)
+{
+  optimisation_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining==slack_length_series+1)
+    {
+      if (state->goal.type!=no_goal)
+        insert_goal_optimisation_series_filter(si,state->goal);
+      state->is_optimised[si] = true;
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with goal optimisation guards.
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
 static void insert_goal_optimisation_guards_goal(slice_index si,
                                                  stip_moves_traversal *st)
 {
@@ -197,7 +328,9 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
   { STAttackEnd,         &insert_goal_optimisation_guards_attack_move },
   { STGoalReachedTester, &insert_goal_optimisation_guards_goal },
   { STAttackRoot,        &insert_goal_optimisation_guards_attack_root },
-  { STDefenseEnd,        &insert_goal_optimisation_guards_defense_end }
+  { STDefenseEnd,        &insert_goal_optimisation_guards_defense_end },
+  { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move   },
+  { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move }
 };
 
 enum

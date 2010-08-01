@@ -3,11 +3,15 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/goals/countermate/attacker_filter.h"
+#include "stipulation/goals/countermate/help_filter.h"
+#include "stipulation/goals/countermate/series_filter.h"
 #include "stipulation/goals/doublemate/attacker_filter.h"
+#include "stipulation/goals/doublemate/help_filter.h"
+#include "stipulation/goals/doublemate/series_filter.h"
 
 #include "trace.h"
 
-void insert_goal_prerequisite_guard(slice_index si, Goal goal)
+void insert_goal_prerequisite_guard_attack_move(slice_index si, Goal goal)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -27,6 +31,66 @@ void insert_goal_prerequisite_guard(slice_index si, Goal goal)
     case goal_countermate:
       pipe_append(slices[si].prev,
                   alloc_countermate_attacker_filter_slice(length,min_length));
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void insert_goal_prerequisite_guard_help_move(slice_index si, Goal goal)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  switch (goal.type)
+  {
+    case goal_doublemate:
+      pipe_append(slices[si].prev,
+                  alloc_doublemate_help_filter_slice(length,min_length));
+      break;
+
+    case goal_countermate:
+      pipe_append(slices[si].prev,
+                  alloc_countermate_help_filter_slice(length,min_length));
+      break;
+
+    default:
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void insert_goal_prerequisite_guard_series_move(slice_index si, Goal goal)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  switch (goal.type)
+  {
+    case goal_doublemate:
+      pipe_append(slices[si].prev,
+                  alloc_doublemate_series_filter_slice(length,min_length));
+      break;
+
+    case goal_countermate:
+       pipe_append(slices[si].prev,
+                   alloc_countermate_series_filter_slice(length,min_length));
       break;
 
     default:
@@ -66,7 +130,7 @@ void insert_goal_prerequisite_guards_attack_move(slice_index si,
     if (st->remaining<=slack_length_battle+2)
     {
       if (state->goal.type!=no_goal)
-        insert_goal_prerequisite_guard(si,state->goal);
+        insert_goal_prerequisite_guard_attack_move(si,state->goal);
       state->is_provided[si] = true;
     }
 
@@ -100,8 +164,76 @@ void insert_goal_prerequisite_guards_attack_root(slice_index si,
     stip_traverse_moves_branch_slice(si,st);
     st->remaining = save_remaining;
     if (state->goal.type!=no_goal)
-      insert_goal_prerequisite_guard(si,state->goal);
+      insert_goal_prerequisite_guard_attack_move(si,state->goal);
     state->goal.type = no_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert goal prerequisite guards
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void insert_goal_prerequisite_guards_help_move(slice_index si,
+                                               stip_moves_traversal *st)
+{
+  prerequisite_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_provided[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining==slack_length_help+1)
+    {
+      if (state->goal.type!=no_goal)
+        insert_goal_prerequisite_guard_help_move(si,state->goal);
+      state->is_provided[si] = true;
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert goal prerequisite guards
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void insert_goal_prerequisite_guards_series_move(slice_index si,
+                                                 stip_moves_traversal *st)
+{
+  prerequisite_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_provided[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining==slack_length_series+1)
+    {
+      if (state->goal.type!=no_goal)
+        insert_goal_prerequisite_guard_series_move(si,state->goal);
+      state->is_provided[si] = true;
+    }
+
+    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -128,11 +260,16 @@ static void insert_goal_prerequisite_guards_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* No provision for defense moves so far.
+ * The goals currently supported can't be forced.
+ */
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
   { STAttackEnd,         &insert_goal_prerequisite_guards_attack_move },
   { STGoalReachedTester, &insert_goal_prerequisite_guards_goal        },
-  { STAttackRoot,        &insert_goal_prerequisite_guards_attack_root }
+  { STAttackRoot,        &insert_goal_prerequisite_guards_attack_root },
+  { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move   },
+  { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move }
 };
 
 enum

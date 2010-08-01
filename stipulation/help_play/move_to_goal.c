@@ -99,17 +99,14 @@ stip_length_type help_move_to_goal_solve_in_n(slice_index si,
   assert(goal.type!=no_goal);
   assert(n==slack_length_help+1);
 
-  if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
-  {
-    empile_for_goal = goal;
-    generate_move_reaching_goal(side_at_move);
-    empile_for_goal.type = no_goal;
+  empile_for_goal = goal;
+  generate_move_reaching_goal(side_at_move);
+  empile_for_goal.type = no_goal;
 
-    if (foreach_move_solve(si))
-      result = slack_length_help+1;
+  if (foreach_move_solve(si))
+    result = slack_length_help+1;
 
-    finply();
-  }
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -166,17 +163,14 @@ stip_length_type help_move_to_goal_has_solution_in_n(slice_index si,
   assert(goal.type!=no_goal);
   assert(n==slack_length_help+1);
 
-  if (are_prerequisites_for_reaching_goal_met(goal.type,side_at_move))
-  {
-    empile_for_goal = goal;
-    generate_move_reaching_goal(side_at_move);
-    empile_for_goal.type = no_goal;
+  empile_for_goal = goal;
+  generate_move_reaching_goal(side_at_move);
+  empile_for_goal.type = no_goal;
 
-    if (find_solution(si))
-      result = slack_length_help+1;
+  if (find_solution(si))
+    result = slack_length_help+1;
 
-    finply();
-  }
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

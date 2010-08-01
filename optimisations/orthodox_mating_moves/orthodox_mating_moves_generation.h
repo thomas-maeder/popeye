@@ -26,15 +26,6 @@ void add_ortho_mating_moves_generation_obstacle(void);
  */
 void remove_ortho_mating_moves_generation_obstacle(void);
 
-/* Determine whether the prerequisites met for reaching a goal with
- * the next move
- * @param goal goal to be reached
- * @param side_at_move side to execute the move reaching the goal
- * @return true iff the prerequisites are met
- */
-boolean are_prerequisites_for_reaching_goal_met(goal_type goal,
-                                                Side side_at_move);
-
 /* Generate moves for side side_at_move; optimise for moves reaching a
  * specific goal. If the number of obstacles is ==0, the function
  * optimises by only generating orthodox moves.

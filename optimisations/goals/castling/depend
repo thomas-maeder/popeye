@@ -12,3 +12,31 @@ stipulation/branch.h:
 stipulation/battle_play/attack_play.h:
 
 trace.h:
+optimisations/goals/castling/help_filter$(OBJ_SUFFIX):  \
+ optimisations/goals/castling/help_filter.c \
+  optimisations/goals/castling/help_filter.h pydata.h \
+  stipulation/branch.h stipulation/help_play/play.h trace.h
+
+optimisations/goals/castling/help_filter.h:
+
+pydata.h:
+
+stipulation/branch.h:
+
+stipulation/help_play/play.h:
+
+trace.h:
+optimisations/goals/castling/series_filter$(OBJ_SUFFIX):  \
+ optimisations/goals/castling/series_filter.c \
+  optimisations/goals/castling/series_filter.h pydata.h trace.h \
+  stipulation/branch.h stipulation/series_play/play.h
+
+optimisations/goals/castling/series_filter.h:
+
+pydata.h:
+
+trace.h:
+
+stipulation/branch.h:
+
+stipulation/series_play/play.h:
