@@ -29,30 +29,6 @@ slice_index alloc_attack_end_slice(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void attack_end_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index copy = copy_slice(si);
-    pipe_link(copy,*root);
-    *root = copy;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Traversal of the moves beyond a attack end slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal

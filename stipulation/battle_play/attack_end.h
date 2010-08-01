@@ -17,12 +17,6 @@
 slice_index alloc_attack_end_slice(stip_length_type length,
                                    stip_length_type min_length);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void attack_end_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Traversal of the moves beyond a attack end slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
