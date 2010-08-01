@@ -1078,8 +1078,9 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   stipulation/series_play/root.h stipulation/series_play/move.h \
   stipulation/series_play/move_to_goal.h \
   stipulation/series_play/shortcut.h stipulation/series_play/fork.h \
-  stipulation/series_play/parry_fork.h stipulation/proxy.h pypipe.h \
-  trace.h
+  stipulation/series_play/parry_fork.h \
+  optimisations/goals/enpassant/defender_filter.h stipulation/proxy.h \
+  pypipe.h trace.h
 
 pystip.h:
 
@@ -1210,6 +1211,8 @@ stipulation/series_play/shortcut.h:
 stipulation/series_play/fork.h:
 
 stipulation/series_play/parry_fork.h:
+
+optimisations/goals/enpassant/defender_filter.h:
 
 stipulation/proxy.h:
 

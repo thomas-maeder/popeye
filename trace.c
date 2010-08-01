@@ -241,6 +241,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STDoubleMateAttackerFilter:
       case STEnPassantAttackerFilter:
+      case STEnPassantDefenderFilter:
       case STCastlingAttackerFilter:
       case STCounterMateAttackerFilter:
       case STAttackRoot:

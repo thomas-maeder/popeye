@@ -22,6 +22,7 @@
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
+#include "optimisations/goals/enpassant/defender_filter.h"
 #include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/battle_play_solution_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
@@ -180,6 +181,10 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STEndOfSolutionWriter:
       result = end_of_solution_writer_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STEnPassantDefenderFilter:
+      result = enpassant_defender_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     default:
@@ -373,6 +378,12 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = output_plaintext_tree_check_detector_can_defend_in_n(si,
                                                                     n,n_max_unsolvable,
                                                                     max_nr_refutations);
+      break;
+
+    case STEnPassantDefenderFilter:
+      result = enpassant_defender_filter_can_defend_in_n(si,
+                                                         n,n_max_unsolvable,
+                                                         max_nr_refutations);
       break;
 
     default:

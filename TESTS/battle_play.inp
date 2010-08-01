@@ -153,6 +153,14 @@ option vari
 
 next
 
+title sep1 (self-en passant)
+stip sep1
+pieces white kf1 ba8 pf2
+       black kh1 pe4h2
+option vari
+
+next
+
 title s#1.5
 pieces white ka1 qd1
        black ka3 pa2b4

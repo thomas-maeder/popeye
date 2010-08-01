@@ -8,10 +8,9 @@
  */
 
 /* Allocate a STDefenseMoveAgainstGoal defender slice.
- * @param goal to defend against
  * @return index of allocated slice
  */
-slice_index alloc_defense_move_against_goal_slice(Goal goal);
+slice_index alloc_defense_move_against_goal_slice(void);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index

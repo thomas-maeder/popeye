@@ -42,6 +42,7 @@
 #include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
+#include "optimisations/goals/enpassant/defender_filter.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
 
@@ -63,6 +64,7 @@
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STDoubleMateAttackerFilter),  /* enforces precondition for doublemate */ \
     ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
+    ENUMERATOR(STEnPassantDefenderFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STCastlingAttackerFilter),  /* enforces precondition for goal castling */ \
     ENUMERATOR(STCounterMateAttackerFilter),  /* enforces precondition for counter-mate */ \
     ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */ \
@@ -206,10 +208,11 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_branch, /* STSeriesMove */
   slice_structure_branch, /* STSeriesMoveToGoal */
   slice_structure_fork,   /* STSeriesFork */
-  slice_structure_pipe,   /* STDoubleMateAttackerFilter */
-  slice_structure_pipe,   /* STEnPassantAttackerFilter */
+  slice_structure_branch, /* STDoubleMateAttackerFilter */
+  slice_structure_branch, /* STEnPassantAttackerFilter */
+  slice_structure_branch, /* STEnPassantDefenderFilter */
   slice_structure_branch, /* STCastlingAttackerFilter */
-  slice_structure_pipe,   /* STCounterMateAttackerFilter */
+  slice_structure_branch, /* STCounterMateAttackerFilter */
   slice_structure_pipe,   /* STGoalReachedTester */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -254,9 +257,9 @@ static slice_structural_type highest_structural_type[max_nr_slices] =
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
   slice_structure_fork,   /* STSelfDefense */
-  slice_structure_pipe,   /* STAttackEnd */
+  slice_structure_branch, /* STAttackEnd */
   slice_structure_fork,   /* STAttackFork */
-  slice_structure_pipe,   /* STDefenseEnd */
+  slice_structure_branch, /* STDefenseEnd */
   slice_structure_fork,   /* STDefenseFork */
   slice_structure_pipe,   /* STRestartGuardRootDefenderFilter */
   slice_structure_pipe,   /* STRestartGuardHelpFilter */
@@ -1968,6 +1971,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_series_fork,     /* STSeriesFork */
   &stip_traverse_structure_pipe,            /* STDoubleMateAttackerFilter */
   &stip_traverse_structure_pipe,            /* STEnPassantAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STEnPassantDefenderFilter */
   &stip_traverse_structure_pipe,            /* STCastlingAttackerFilter */
   &stip_traverse_structure_pipe,            /* STCounterMateAttackerFilter */
   &stip_traverse_structure_pipe,            /* STGoalReachedTester */
@@ -2112,6 +2116,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_pipe,                  /* STDoubleMateAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STEnPassantAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STEnPassantDefenderFilter */
     &stip_traverse_moves_pipe,                  /* STCastlingAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STCounterMateAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */

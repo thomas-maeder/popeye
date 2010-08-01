@@ -10,20 +10,17 @@
 #include <assert.h>
 
 /* Allocate a STDefenseMoveAgainstGoal defender slice.
- * @param goal to defend against
  * @return index of allocated slice
  */
-slice_index alloc_defense_move_against_goal_slice(Goal goal)
+slice_index alloc_defense_move_against_goal_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STDefenseMoveAgainstGoal,
                         slack_length_battle+1,slack_length_battle);
-  slices[result].u.branch.imminent_goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -224,15 +221,12 @@ defense_move_against_goal_can_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(n==slack_length_battle+1);
-  assert(slices[si].u.branch.imminent_goal.type!=no_goal);
 
-  if (slices[si].u.branch.imminent_goal.type==goal_ep
-      && ep[nbply]==initsquare
-      && ep2[nbply]==initsquare)
-    /* nothing */
-    /* TODO transform to defender filter */
-    /* TODO ?create other filters? */
-    result = slack_length_battle+5;
+  if ((defender==Black ? flagblackmummer : flagwhitemummer))
+    result = defense_move_can_defend_in_n(si,
+                                          slack_length_battle+1,
+                                          n_max_unsolvable,
+                                          max_nr_refutations);
   else
   {
     square const killer_pos = kpilcd[nbply+1];
@@ -244,8 +238,7 @@ defense_move_against_goal_can_defend_in_n(slice_index si,
 
     last_defense_stalemate = true;
 
-    if ((defender==Black ? flagblackmummer : flagwhitemummer)
-        || killer==obs || killer==vide)
+    if (killer==obs || killer==vide)
       result = defense_move_can_defend_in_n(si,
                                             slack_length_battle+1,
                                             n_max_unsolvable,

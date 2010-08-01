@@ -286,6 +286,7 @@ static structure_traversers_visitors slice_property_offset_shifters[] =
   { STSeriesFork,                                     &slice_property_offset_shifter    },
   { STDoubleMateAttackerFilter,                       &slice_property_offset_shifter    },
   { STEnPassantAttackerFilter,                        &slice_property_offset_shifter    },
+  { STEnPassantDefenderFilter,                        &slice_property_offset_shifter    },
   { STCastlingAttackerFilter,                         &slice_property_offset_shifter    },
   { STCounterMateAttackerFilter,                      &slice_property_offset_shifter    },
  { STGoalReachedTester,                               &slice_property_offset_shifter    },

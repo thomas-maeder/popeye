@@ -100,6 +100,7 @@ has_solution_type slice_solve(slice_index si)
     case STDefenseMove:
     case STReflexDefenderFilter:
     case STThreatSolver:
+    case STEnPassantDefenderFilter:
       if (defense_can_defend(si))
         result = has_no_solution;
       else
@@ -277,6 +278,7 @@ has_solution_type slice_has_solution(slice_index si)
     case STContinuationSolver:
     case STDefenseMove:
     case STSelfCheckGuardDefenderFilter:
+    case STEnPassantDefenderFilter:
       result = defense_can_defend(si) ? has_no_solution : has_solution;
       break;
 

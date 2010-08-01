@@ -12,3 +12,19 @@ stipulation/branch.h:
 stipulation/battle_play/attack_play.h:
 
 trace.h:
+optimisations/goals/enpassant/defender_filter$(OBJ_SUFFIX):  \
+ optimisations/goals/enpassant/defender_filter.c \
+  optimisations/goals/enpassant/defender_filter.h pydata.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/defense_play.h trace.h
+
+optimisations/goals/enpassant/defender_filter.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/defense_play.h:
+
+trace.h:
