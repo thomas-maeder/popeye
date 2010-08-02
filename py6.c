@@ -488,114 +488,89 @@ static void initialise_piece_flags(void)
   }
 }
 
-typedef boolean found_slice_types_type[nr_slice_types];
+typedef boolean is_restricted_type[nr_sides];
 
-static void root_slice_type_found(slice_index si, stip_structure_traversal *st)
+static void find_restricted_side_attack_root(slice_index si,
+                                             stip_structure_traversal *st)
 {
-  found_slice_types_type * const found = st->param;
+  is_restricted_type * const is_restricted = st->param;
   
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  (*found)[slices[si].type] = true;
+  (*is_restricted)[advers(slices[si].starter)] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors slice_type_finders[] =
+static void find_restricted_side_defense_root(slice_index si,
+                                              stip_structure_traversal *st)
 {
-  { STDefenseMove, &root_slice_type_found       },
-  { STAttackRoot,  &root_slice_type_found       },
-  { STHelpRoot,    &root_slice_type_found       },
-  { STSeriesRoot,  &root_slice_type_found       }
+  is_restricted_type * const is_restricted = st->param;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  (*is_restricted)[slices[si].starter] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void find_restricted_side_help_root(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  is_restricted_type * const is_restricted = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  Side const starter = slices[si].starter;
+  Side const restricted_side = ((length-slack_length_help)%2==0
+                                ? advers(starter)
+                                : starter);
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,restricted_side,"\n");
+  (*is_restricted)[restricted_side] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors restricted_side_finders[] =
+{
+  { STAttackRoot,  &find_restricted_side_attack_root  },
+  { STDefenseRoot, &find_restricted_side_defense_root },
+  { STHelpRoot,    &find_restricted_side_help_root    }
 };
 
 enum
 {
-  nr_slice_type_finders = (sizeof slice_type_finders
-                           / sizeof slice_type_finders[0])
+  nr_restricted_side_finders = (sizeof restricted_side_finders
+                                / sizeof restricted_side_finders[0])
 };
 
-static SliceType findUniqueRootSliceType(void)
+static Side findRestrictedSide(void)
 {
-  SliceType found_slice_type = no_slice;
-  SliceType s;
   stip_structure_traversal st;
-  found_slice_types_type found_slice_types = { false };
+  is_restricted_type is_restricted = { false, false };
 
-  stip_structure_traversal_init(&st,&found_slice_types);
+  stip_structure_traversal_init(&st,&is_restricted);
   stip_structure_traversal_override(&st,
-                                    slice_type_finders,
-                                    nr_slice_type_finders);
+                                    restricted_side_finders,
+                                    nr_restricted_side_finders);
   stip_traverse_structure(root_slice,&st);
 
-  for (s = 0; s!=nr_slice_types; ++s)
-    if (found_slice_types[s])
-    {
-      if (found_slice_type==no_slice)
-        found_slice_type = s;
-      else
-        return no_slice_type;
-    }
-
-  return found_slice_type;
-}
-
-static boolean determineRestrictedSide(void)
-{
-  boolean result;
-  SliceType unique_slice_type;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  unique_slice_type = findUniqueRootSliceType();
-  if (unique_slice_type==no_slice_type)
-    result = false;
+  if (is_restricted[White] && !is_restricted[Black])
+    return White;
+  else if (is_restricted[Black] && !is_restricted[White])
+    return Black;
   else
-  {
-    Side const restricted_side = (unique_slice_type==STHelpRoot
-                                  ? slices[root_slice].starter
-                                  : advers(slices[root_slice].starter));
-    if (flagmaxi)
-    {
-      if (restricted_side==Black)
-      {
-        CondFlag[blmax] = true;
-        CondFlag[whmax] = false;
-        bl_ultra = CondFlag[ultra];
-        bl_exact = CondFlag[exact];
-        black_length = len_max;
-        flagblackmummer = true;
-        flagwhitemummer = false;
-      }
-      else
-      {
-        CondFlag[blmax] = false;
-        CondFlag[whmax] = true;
-        wh_ultra = CondFlag[ultra];
-        wh_exact = CondFlag[exact];
-        white_length = len_max;
-        flagwhitemummer = true;
-        flagblackmummer = false;
-      }
-    }
-  
-    if (flagultraschachzwang)
-    {
-      CondFlag[blackultraschachzwang] = restricted_side==Black;
-      CondFlag[whiteultraschachzwang] = restricted_side==White;
-    }
-
-    result = true;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+    return no_side;
 }
 
 static goal_type const proof_goals[] = { goal_proof, goal_atob };
@@ -817,17 +792,52 @@ static boolean verify_position(void)
     }
   }
 
-  if (flagmaxi || flagultraschachzwang)
-    if (!determineRestrictedSide())
+  if (flagmaxi)
+  {
+    Side const restricted_side = findRestrictedSide();
+    if (restricted_side==no_side)
     {
       VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
       return false;
     }
+    else if (restricted_side==Black)
+    {
+      CondFlag[blmax] = true;
+      CondFlag[whmax] = false;
+      bl_ultra = CondFlag[ultra];
+      bl_exact = CondFlag[exact];
+      black_length = len_max;
+      flagblackmummer = true;
+      flagwhitemummer = false;
+    }
+    else
+    {
+      CondFlag[blmax] = false;
+      CondFlag[whmax] = true;
+      wh_ultra = CondFlag[ultra];
+      wh_exact = CondFlag[exact];
+      white_length = len_max;
+      flagwhitemummer = true;
+      flagblackmummer = false;
+    }
+  }
 
   if (flagultraschachzwang)
   {
-    optim_neutralretractable = false;
-    add_ortho_mating_moves_generation_obstacle();
+    Side const restricted_side = findRestrictedSide();
+    if (restricted_side==no_side)
+    {
+      VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
+      return false;
+    }
+    else
+    {
+      CondFlag[blackultraschachzwang] = restricted_side==Black;
+      CondFlag[whiteultraschachzwang] = restricted_side==White;
+
+      optim_neutralretractable = false;
+      add_ortho_mating_moves_generation_obstacle();
+    }
   }
 
   if (CondFlag[cavaliermajeur])
@@ -2698,6 +2708,7 @@ static Token iterate_twins(Token prev_token)
         Message(PostKeyPlayNotApplicable);
 
       stip_detect_starter();
+      stip_impose_starter(slices[root_slice].starter);
 
       stip_insert_continuation_handlers();
 
@@ -2760,8 +2771,6 @@ static Token iterate_twins(Token prev_token)
 
       stip_optimise_final_moves();
 
-      stip_impose_starter(slices[root_slice].starter);
-
       /* only now that we can find out which side's pieces to keep */
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards();
@@ -2770,6 +2779,9 @@ static Token iterate_twins(Token prev_token)
       dealloc_proxy_slices();
 
       assert_no_leaked_slices();
+
+      stip_detect_starter();
+      stip_impose_starter(slices[root_slice].starter);
 
       TraceStipulation(root_slice);
     }

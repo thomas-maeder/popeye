@@ -1721,44 +1721,21 @@ void stip_make_exact(void)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STProxy,                            &pipe_detect_starter          },
   { STAttackMove,                       &attack_move_detect_starter   },
   { STDefenseMove,                      &defense_move_detect_starter  },
   { STHelpMove,                         &help_move_detect_starter     },
   { STHelpMoveToGoal,                   &help_move_detect_starter     },
-  { STHelpFork,                         &branch_fork_detect_starter   },
   { STSeriesMove,                       &series_move_detect_starter   },
   { STSeriesMoveToGoal,                 &series_move_detect_starter   },
-  { STSeriesFork,                       &branch_fork_detect_starter   },
   { STReciprocal,                       &reci_detect_starter          },
   { STQuodlibet,                        &quodlibet_detect_starter     },
-  { STNot,                              &pipe_detect_starter          },
   { STMoveInverterRootSolvableFilter,   &move_inverter_detect_starter },
   { STMoveInverterSolvableFilter,       &move_inverter_detect_starter },
   { STMoveInverterSeriesFilter,         &move_inverter_detect_starter },
   { STAttackRoot,                       &attack_move_detect_starter   },
-  { STDefenseRoot,                      &pipe_detect_starter          },
-  { STHelpRoot,                         &pipe_detect_starter          },
   { STHelpShortcut,                     &pipe_detect_starter          },
-  { STSeriesRoot,                       &pipe_detect_starter          },
   { STSeriesShortcut,                   &pipe_detect_starter          },
-  { STParryFork,                        &pipe_detect_starter          },
-  { STSeriesHashed,                     &pipe_detect_starter          },
-  { STSelfCheckGuardRootSolvableFilter, &pipe_detect_starter          },
-  { STSelfCheckGuardSolvableFilter,     &pipe_detect_starter          },
-  { STSelfCheckGuardAttackerFilter,     &pipe_detect_starter          },
-  { STSelfCheckGuardDefenderFilter,     &pipe_detect_starter          },
-  { STSelfCheckGuardHelpFilter,         &pipe_detect_starter          },
-  { STSelfCheckGuardSeriesFilter,       &pipe_detect_starter          },
-  { STDirectDefenderFilter,             &branch_fork_detect_starter   },
-  { STReflexRootFilter,                 &branch_fork_detect_starter   },
-  { STReflexHelpFilter,                 &branch_fork_detect_starter   },
-  { STReflexSeriesFilter,               &branch_fork_detect_starter   },
-  { STReflexAttackerFilter,             &branch_fork_detect_starter   },
-  { STReflexDefenderFilter,             &branch_fork_detect_starter   },
-  { STSelfDefense,                      &branch_fork_detect_starter   },
-  { STAttackEnd,                        &pipe_detect_starter          },
-  { STDefenseEnd,                       &pipe_detect_starter          }
+  { STParryFork,                        &pipe_detect_starter          }
 };
 
 enum
@@ -1779,6 +1756,15 @@ void stip_detect_starter(void)
   TraceStipulation(root_slice);
 
   stip_structure_traversal_init(&st,NULL);
+  stip_structure_traversal_override_by_type(&st,
+                                            slice_structure_fork,
+                                            &branch_fork_detect_starter);
+  stip_structure_traversal_override_by_type(&st,
+                                            slice_structure_pipe,
+                                            &pipe_detect_starter);
+  stip_structure_traversal_override_by_type(&st,
+                                            slice_structure_branch,
+                                            &pipe_detect_starter);
   stip_structure_traversal_override(&st,
                                     starter_detectors,
                                     nr_starter_detectors);
