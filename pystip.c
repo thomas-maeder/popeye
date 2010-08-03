@@ -1013,92 +1013,36 @@ static slice_index deep_copy_recursive(slice_index si, copies_type *copies)
     (*copies)[si] = result;
 
     TraceEnumerator(SliceType,slices[si].type,"\n");
-    switch (slices[si].type)
+    switch (highest_structural_type[slices[si].type])
     {
-      case STLeaf:
+      case slice_structure_leaf:
         /* nothing */
         break;
 
-      case STAttackMove:
-      case STDefenseMove:
-      case STDefenseEnd:
-      case STHelpRoot:
-      case STHelpMove:
-      case STSeriesMove:
-      case STAttackRoot:
-      case STSeriesRoot:
-      case STNot:
-      case STMoveInverterRootSolvableFilter:
-      case STMoveInverterSolvableFilter:
-      case STMoveInverterSeriesFilter:
-      case STGoalReachedTester:
-      case STAttackHashed:
-      case STHelpHashed:
-      case STSeriesHashed:
-      case STSelfCheckGuardRootSolvableFilter:
-      case STSelfCheckGuardSolvableFilter:
-      case STSelfCheckGuardAttackerFilter:
-      case STSelfCheckGuardDefenderFilter:
-      case STSelfCheckGuardHelpFilter:
-      case STSelfCheckGuardSeriesFilter:
-      case STRestartGuardRootDefenderFilter:
-      case STRestartGuardHelpFilter:
-      case STRestartGuardSeriesFilter:
-      case STGoalReachableGuardHelpFilter:
-      case STGoalReachableGuardSeriesFilter:
-      case STKeepMatingGuardAttackerFilter:
-      case STKeepMatingGuardDefenderFilter:
-      case STKeepMatingGuardHelpFilter:
-      case STKeepMatingGuardSeriesFilter:
-      case STMaxFlightsquares:
-      case STMaxNrNonTrivial:
-      case STMaxThreatLength:
-      case STProxy:
-      case STVariationWriter:
-      case STOutputPlaintextTreeGoalWriter:
+      case slice_structure_pipe:
+      case slice_structure_branch:
       {
         slice_index const next = slices[si].u.pipe.next;
-        slice_index const next_copy = deep_copy_recursive(next,copies);
-        pipe_link(result,next_copy);
+        pipe_link(result,deep_copy_recursive(next,copies);
         break;
       }
 
-      case STHelpFork:
-      case STSeriesFork:
-      case STSelfDefense:
-      case STDefenseFork:
+      case slice_structure_fork:
       {
         slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
         slice_index const to_goal_copy = deep_copy_recursive(to_goal,copies);
         slice_index const next = slices[si].u.pipe.next;
-        slice_index const next_copy = deep_copy_recursive(next,copies);
         slices[result].u.branch_fork.towards_goal = to_goal_copy;
-        pipe_link(result,next_copy);
+        pipe_link(result,deep_copy_recursive(next,copies));
         break;
       }
 
-      case STHelpShortcut:
-      case STSeriesShortcut:
-      {
-        slice_index const next = slices[si].u.pipe.next;
-        slice_index const next_copy = deep_copy_recursive(next,copies);
-        slice_index const short_sols = slices[si].u.shortcut.short_sols;
-        slice_index const short_sols_copy = deep_copy_recursive(short_sols,
-                                                                copies);
-        slices[result].u.shortcut.short_sols = short_sols_copy;
-        pipe_link(result,next_copy);
-        break;
-      }
-
-      case STQuodlibet:
-      case STReciprocal:
+      case slice_structure_binary:
       {
         slice_index const op1 = slices[si].u.binary.op1;
-        slice_index const op1_copy = deep_copy_recursive(op1,copies);
         slice_index const op2 = slices[si].u.binary.op2;
-        slice_index const op2_copy = deep_copy_recursive(op2,copies);
-        slices[result].u.binary.op1 = op1_copy;
-        slices[result].u.binary.op2 = op2_copy;
+        slices[result].u.binary.op1 = deep_copy_recursive(op1,copies);
+        slices[result].u.binary.op2 = deep_copy_recursive(op2,copies);
         break;
       }
 
