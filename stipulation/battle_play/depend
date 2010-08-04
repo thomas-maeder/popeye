@@ -83,7 +83,9 @@ stipulation/battle_play/attack_move_to_goal$(OBJ_SUFFIX):  \
   stipulation/battle_play/attack_move_to_goal.h pydata.h pyproc.h \
   pypipe.h \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
-  stipulation/branch.h stipulation/battle_play/attack_move.h \
+  stipulation/branch.h stipulation/proxy.h \
+  stipulation/battle_play/attack_move.h \
+  stipulation/battle_play/attack_fork.h \
   stipulation/battle_play/defense_play.h trace.h
 
 stipulation/battle_play/attack_move_to_goal.h:
@@ -98,7 +100,11 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 stipulation/branch.h:
 
+stipulation/proxy.h:
+
 stipulation/battle_play/attack_move.h:
+
+stipulation/battle_play/attack_fork.h:
 
 stipulation/battle_play/defense_play.h:
 

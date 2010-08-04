@@ -129,7 +129,6 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
-#include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_guards.h"
@@ -2489,32 +2488,6 @@ static void solve_twin(slice_index si,
   }
 
   Message(NewLine);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void optimise_final_attack_move(slice_index si, Goal goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
-  TraceFunctionParamListEnd();
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const fork = alloc_attack_fork_slice(length,min_length,proxy1);
-    slice_index const last_attack = alloc_attack_move_to_goal_slice(goal);
-    slice_index const proxy2 = alloc_proxy_slice();
-
-    pipe_append(slices[si].prev,fork);
-
-    pipe_link(proxy1,last_attack);
-    pipe_link(last_attack,proxy2);
-    pipe_set_successor(proxy2,slices[si].u.pipe.next);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -4,7 +4,9 @@
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/branch.h"
+#include "stipulation/proxy.h"
 #include "stipulation/battle_play/attack_move.h"
+#include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
@@ -14,7 +16,7 @@
  * @param goal goal to be reached
  * @return index of allocated slice
  */
-slice_index alloc_attack_move_to_goal_slice(Goal goal)
+static slice_index alloc_attack_move_to_goal_slice(Goal goal)
 {
   slice_index result;
 
@@ -30,6 +32,36 @@ slice_index alloc_attack_move_to_goal_slice(Goal goal)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Optimise a STAttackMove slice
+ * @param si identifies slice to be optimised
+ * @param goal goal that slice si attempts to reach
+ */
+void optimise_final_attack_move(slice_index si, Goal goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const fork = alloc_attack_fork_slice(length,min_length,proxy1);
+    slice_index const last_attack = alloc_attack_move_to_goal_slice(goal);
+    slice_index const proxy2 = alloc_proxy_slice();
+
+    pipe_append(slices[si].prev,fork);
+
+    pipe_link(proxy1,last_attack);
+    pipe_link(last_attack,proxy2);
+    pipe_set_successor(proxy2,slices[si].u.pipe.next);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Iterate over the attacker's moves until a solution is found
@@ -238,25 +270,4 @@ attack_move_to_goal_solve_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void attack_move_to_goal_detect_starter(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slices[si].starter==no_side)
-  {
-    stip_traverse_structure_pipe(si,st);
-    slices[si].starter = advers(slices[slices[si].u.pipe.next].starter);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

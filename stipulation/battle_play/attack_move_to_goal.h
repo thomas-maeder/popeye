@@ -9,11 +9,11 @@
  * in STAttackMoveToGoal stipulation slices.
  */
 
-/* Allocate a STAttackMoveToGoal slice.
- * @param goal goal to be reached
- * @return index of allocated slice
+/* Optimise a STAttackMove slice
+ * @param si identifies slice to be optimised
+ * @param goal goal that slice si attempts to reach
  */
-slice_index alloc_attack_move_to_goal_slice(Goal goal);
+void optimise_final_attack_move(slice_index si, Goal goal);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
@@ -47,12 +47,5 @@ stip_length_type
 attack_move_to_goal_solve_in_n(slice_index si,
                                stip_length_type n,
                                stip_length_type n_max_unsolvable);
-
-/* Detect starter field with the starting side if possible.
- * @param si identifies slice being traversed
- * @param st status of traversal
- */
-void attack_move_to_goal_detect_starter(slice_index si,
-                                        stip_structure_traversal *st);
 
 #endif
