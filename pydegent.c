@@ -90,13 +90,17 @@ degenerate_tree_direct_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n>max_length_short_solutions+parity
-      && max_length_short_solutions>=slack_length_battle+3)
+  if (n>max_length_short_solutions+parity)
   {
-    stip_length_type const n_interm = max_length_short_solutions-2+parity;
-    result = attack_has_solution_in_n(next,n_interm,n_min,n_max_unsolvable);
-    if (result>n_interm)
-      result = attack_has_solution_in_n(next,n,n,n_interm);
+    if (max_length_short_solutions>=slack_length_battle+3)
+    {
+      stip_length_type const n_interm = max_length_short_solutions-2+parity;
+      result = attack_has_solution_in_n(next,n_interm,n_min,n_max_unsolvable);
+      if (result>n_interm)
+        result = attack_has_solution_in_n(next,n,n,n_interm);
+    }
+    else
+      result = attack_has_solution_in_n(next,n,n,n_max_unsolvable);
   }
   else
     result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
