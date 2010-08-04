@@ -87,8 +87,11 @@ stip_length_type defense_defend_in_n(slice_index si,
       break;
 
     case STDefenseMove:
-    case STDefenseMoveAgainstGoal:
       result = defense_move_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STDefenseMoveAgainstGoal:
+      result = defense_move_against_goal_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STDefenseFork:
