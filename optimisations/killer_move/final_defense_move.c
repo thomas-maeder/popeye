@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/defense_move_against_goal.h"
+#include "optimisations/killer_move/final_defense_move.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/proxy.h"
@@ -16,7 +16,7 @@ static boolean enabled[nr_sides] =  { false };
 
 /* Reset the enabled state of the optimisation of final defense moves
  */
-void reset_defense_move_against_goal_enabled_state(void)
+void reset_killer_move_final_defense_move_optimisation(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -31,7 +31,7 @@ void reset_defense_move_against_goal_enabled_state(void)
 /* Disable the optimisation of final defense moves for defense by a side
  * @param side side for which to disable the optimisation
  */
-void disable_defense_move_against_goal(Side side)
+void disable_killer_move_final_defense_move_optimisation(Side side)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -43,7 +43,7 @@ void disable_defense_move_against_goal(Side side)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STDefenseMoveAgainstGoal defender slice.
+/* Allocate a STKillerMoveFinalDefenseMove defender slice.
  * @return index of allocated slice
  */
 static slice_index alloc_defense_move_against_goal_slice(void)
@@ -53,7 +53,7 @@ static slice_index alloc_defense_move_against_goal_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDefenseMoveAgainstGoal,
+  result = alloc_branch(STKillerMoveFinalDefenseMove,
                         slack_length_battle+1,slack_length_battle);
 
   TraceFunctionExit(__func__);
@@ -67,7 +67,7 @@ static slice_index alloc_defense_move_against_goal_slice(void)
  * @param goal goal that slice si defends against
  * @return index of allocated slice
  */
-void optimise_final_defense_move(slice_index si, Goal goal)
+void killer_move_optimise_final_defense_move(slice_index si, Goal goal)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -91,6 +91,39 @@ void optimise_final_defense_move(slice_index si, Goal goal)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Try to defend after an attacking move
+ * When invoked with some n, the function assumes that the key doesn't
+ * solve in less than n half moves.
+ * @param si slice index
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return <=n solved  - return value is maximum number of moves
+ *                       (incl. defense) needed
+ *         n+2 refuted - acceptable number of refutations found
+ *         n+4 refuted - more refutations found than acceptable
+ */
+stip_length_type
+killer_move_final_defense_move_defend_in_n(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  result = defense_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean last_defense_stalemate;
@@ -256,39 +289,6 @@ static unsigned int iterate_killer_first(slice_index next,
   return result;
 }
 
-/* Try to defend after an attacking move
- * When invoked with some n, the function assumes that the key doesn't
- * solve in less than n half moves.
- * @param si slice index
- * @param n maximum number of half moves until end state has to be reached
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return <=n solved  - return value is maximum number of moves
- *                       (incl. defense) needed
- *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - more refutations found than acceptable
- */
-stip_length_type
-defense_move_against_goal_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  result = defense_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
  * @param n maximum number of half moves until end state has to be reached
@@ -301,10 +301,10 @@ defense_move_against_goal_defend_in_n(slice_index si,
  *         n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type
-defense_move_against_goal_can_defend_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable,
-                                          unsigned int max_nr_refutations)
+killer_move_final_defense_move_can_defend_in_n(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_max_unsolvable,
+                                               unsigned int max_nr_refutations)
 {
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];

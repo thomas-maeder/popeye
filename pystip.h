@@ -21,7 +21,7 @@
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STDefenseMove),                                          \
-    ENUMERATOR(STDefenseMoveAgainstGoal),                               \
+    ENUMERATOR(STKillerMoveFinalDefenseMove),                               \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \

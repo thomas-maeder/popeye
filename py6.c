@@ -130,12 +130,12 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
-#include "stipulation/battle_play/defense_move_against_goal.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/goals/optimisation_guards.h"
+#include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
@@ -602,7 +602,7 @@ static boolean verify_position(slice_index si)
   nonoptgenre = false;
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
-  reset_defense_move_against_goal_enabled_state();
+  reset_killer_move_final_defense_move_optimisation();
 
   move_generation_mode_opti_per_side[White]
       = move_generation_optimized_by_nr_opponent_moves;
@@ -1848,9 +1848,9 @@ static boolean verify_position(slice_index si)
   }
     
   if (flagblackmummer)
-    disable_defense_move_against_goal(Black);
+    disable_killer_move_final_defense_move_optimisation(Black);
   if (flagwhitemummer)
-    disable_defense_move_against_goal(White);
+    disable_killer_move_final_defense_move_optimisation(White);
 
   return true;
 }
@@ -2581,7 +2581,7 @@ static void optimise_final_moves_defense_move(slice_index si,
     if (st->remaining<=slack_length_battle+2)
     {
       if (state->goal.type!=no_goal)
-        optimise_final_defense_move(si,state->goal);
+        killer_move_optimise_final_defense_move(si,state->goal);
 
       state->is_optimised[si] = true;
     }

@@ -55,7 +55,7 @@
     ENUMERATOR(STAttackMove),                                           \
     ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STDefenseMove),                                          \
-    ENUMERATOR(STDefenseMoveAgainstGoal),                               \
+    ENUMERATOR(STKillerMoveFinalDefenseMove),                               \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
@@ -207,7 +207,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackMove */
   slice_structure_branch, /* STAttackMoveToGoal */
   slice_structure_branch, /* STDefenseMove */
-  slice_structure_branch, /* STDefenseMoveAgainstGoal */
+  slice_structure_branch, /* STKillerMoveFinalDefenseMove */
   slice_structure_branch, /* STHelpMove */
   slice_structure_branch, /* STHelpMoveToGoal */
   slice_structure_fork,   /* STHelpFork */
@@ -807,7 +807,6 @@ static moves_traversers_visitors const get_max_nr_moves_functions[] =
   { STAttackMoveToGoal,       &get_max_nr_moves_move   },
   { STAttackMove,             &get_max_nr_moves_move   },
   { STDefenseMove,            &get_max_nr_moves_move   },
-  { STDefenseMoveAgainstGoal, &get_max_nr_moves_move   },
   { STHelpMove,               &get_max_nr_moves_move   },
   { STHelpMoveToGoal,         &get_max_nr_moves_move   },
   { STSeriesMove,             &get_max_nr_moves_move   },
@@ -1751,7 +1750,7 @@ static SliceType starter_inverters[] =
   STAttackMove,
   STAttackMoveToGoal,
   STDefenseMove,
-  STDefenseMoveAgainstGoal,
+  STKillerMoveFinalDefenseMove,
   STHelpMove,
   STHelpMoveToGoal,
   STSeriesMove,
@@ -1891,7 +1890,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackMove */
   &stip_traverse_structure_pipe,            /* STAttackMoveToGoal */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
-  &stip_traverse_structure_pipe,            /* STDefenseMoveAgainstGoal */
+  &stip_traverse_structure_pipe,            /* STKillerMoveFinalDefenseMove */
   &stip_traverse_structure_pipe,            /* STHelpMove */
   &stip_traverse_structure_pipe,            /* STHelpMoveToGoal */
   &stip_traverse_structure_help_fork,       /* STHelpFork */
@@ -2070,7 +2069,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STAttackMove */
     &stip_traverse_moves_branch_slice,          /* STAttackMoveToGoal */
     &stip_traverse_moves_branch_slice,          /* STDefenseMove */
-    &stip_traverse_moves_branch_slice,          /* STDefenseMoveAgainstGoal */
+    &stip_traverse_moves_branch_slice,          /* STKillerMoveFinalDefenseMove */
     &stip_traverse_moves_branch_slice,          /* STHelpMove */
     &stip_traverse_moves_branch_slice,          /* STHelpMoveToGoal */
     &stip_traverse_moves_help_fork,             /* STHelpFork */

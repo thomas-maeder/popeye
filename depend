@@ -313,12 +313,11 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   stipulation/battle_play/attack_play.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/threat.h \
   stipulation/battle_play/attack_move_to_goal.h \
-  stipulation/battle_play/attack_fork.h \
-  stipulation/battle_play/defense_move_against_goal.h \
-  stipulation/help_play/root.h stipulation/help_play/branch.h \
-  stipulation/goals/prerequisite_guards.h \
+  stipulation/battle_play/attack_fork.h stipulation/help_play/root.h \
+  stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
   options/no_short_variations/no_short_variations.h \
   optimisations/goals/optimisation_guards.h \
+  optimisations/killer_move/final_defense_move.h \
   optimisations/maxtime/maxtime.h \
   optimisations/maxsolutions/maxsolutions.h \
   optimisations/stoponshortsolutions/stoponshortsolutions.h
@@ -447,8 +446,6 @@ stipulation/battle_play/attack_move_to_goal.h:
 
 stipulation/battle_play/attack_fork.h:
 
-stipulation/battle_play/defense_move_against_goal.h:
-
 stipulation/help_play/root.h:
 
 stipulation/help_play/branch.h:
@@ -458,6 +455,8 @@ stipulation/goals/prerequisite_guards.h:
 options/no_short_variations/no_short_variations.h:
 
 optimisations/goals/optimisation_guards.h:
+
+optimisations/killer_move/final_defense_move.h:
 
 optimisations/maxtime/maxtime.h:
 
@@ -2149,16 +2148,12 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
-  pystip.h pyoutput.h pytable.h output/plaintext/plaintext.h py.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
+  pyoutput.h pytable.h output/plaintext/plaintext.h py.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2175,6 +2170,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

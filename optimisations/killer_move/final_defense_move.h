@@ -1,27 +1,31 @@
-#if !defined(STIPULATION_BATTLE_PLAY_DEFENSE_MOVE_AGAINST_GOAL_H)
-#define STIPULATION_BATTLE_PLAY_DEFENSE_MOVE_AGAINST_GOAL_H
+#if !defined(OPTIMISATION_KILLER_MOVE_FINAL_DEFENSE_MOVE_H)
+#define OPTIMISATION_KILLER_MOVE_FINAL_DEFENSE_MOVE_H
 
 #include "stipulation/battle_play/defense_play.h"
 
 /* This module provides functionality dealing with the defending side
- * in STDefenseMoveAgainstGoal stipulation slices.
+ * in STKillerMoveFinalDefenseMove stipulation slices.
+ * These provide an optimisation in stipulations where a defense move
+ * leads to a goal (e.g. selfmate): if we have a "killer" piece, its
+ * moves will be prefered when looking for refutations in the final
+ * move.
  */
 
-/* Reset the enabled state of the optimisation of final defense moves
+/* Reset the enabled state of the optimisation
  */
-void reset_defense_move_against_goal_enabled_state(void);
+void reset_killer_move_final_defense_move_optimisation(void);
 
-/* Disable the optimisation of final defense moves for defense by a side
+/* Disable the optimisation for defense moves by one side
  * @param side side for which to disable the optimisation
  */
-void disable_defense_move_against_goal(Side);
+void disable_killer_move_final_defense_move_optimisation(Side);
 
-/* Optimise a STDefenseMove slice for defending against a goal
+/* Optimise a STDefenseMove slice
  * @param si identifies slice to be optimised
  * @param goal goal that slice si defends against
  * @return index of allocated slice
  */
-void optimise_final_defense_move(slice_index si, Goal goal);
+void killer_move_optimise_final_defense_move(slice_index si, Goal goal);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -36,9 +40,9 @@ void optimise_final_defense_move(slice_index si, Goal goal);
  *         n+4 refuted - more refutations found than acceptable
  */
 stip_length_type
-defense_move_against_goal_defend_in_n(slice_index si,
-                                      stip_length_type n,
-                                      stip_length_type n_max_unsolvable);
+killer_move_final_defense_move_defend_in_n(slice_index si,
+                                           stip_length_type n,
+                                           stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -52,9 +56,9 @@ defense_move_against_goal_defend_in_n(slice_index si,
            n+4 refuted - >max_nr_refutations refutations found
  */
 stip_length_type
-defense_move_against_goal_can_defend_in_n(slice_index si,
-                                          stip_length_type n,
-                                          stip_length_type n_max_unsolvable,
-                                          unsigned int max_nr_refutations);
+killer_move_final_defense_move_can_defend_in_n(slice_index si,
+                                               stip_length_type n,
+                                               stip_length_type n_max_unsolvable,
+                                               unsigned int max_nr_refutations);
 
 #endif

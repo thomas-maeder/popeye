@@ -1,0 +1,8 @@
+# -*- Makefile -*-
+#
+
+CFILES = final_defense_move.c
+
+INCLUDES = final_defense_move.h
+
+include makefile.rules $(CURRPWD)depend

@@ -14,11 +14,11 @@
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_move.h"
-#include "stipulation/battle_play/defense_move_against_goal.h"
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/defense_end.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
+#include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
@@ -90,8 +90,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = defense_move_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseMoveAgainstGoal:
-      result = defense_move_against_goal_defend_in_n(si,n,n_max_unsolvable);
+    case STKillerMoveFinalDefenseMove:
+      result = killer_move_final_defense_move_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STDefenseFork:
@@ -281,8 +281,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                             max_nr_refutations);
       break;
 
-    case STDefenseMoveAgainstGoal:
-      result = defense_move_against_goal_can_defend_in_n(si,
+    case STKillerMoveFinalDefenseMove:
+      result = killer_move_final_defense_move_can_defend_in_n(si,
                                                          n,n_max_unsolvable,
                                                          max_nr_refutations);
       break;
