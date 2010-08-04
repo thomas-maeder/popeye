@@ -149,7 +149,10 @@ stip_length_type defense_move_defend_in_n(slice_index si,
 
   n_max_unsolvable = slack_length_battle;
 
-  move_generation_mode = move_generation_not_optimized;
+  if (n<=slack_length_battle+3)
+    move_generation_mode = move_generation_optimized_by_killer_move;
+  else
+    move_generation_mode = move_generation_mode_opti_per_side[defender];
   TraceValue("->%u\n",move_generation_mode);
   genmove(defender);
 
