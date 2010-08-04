@@ -390,7 +390,6 @@ static void substitute_battle_play_solver(slice_index si,
 static structure_traversers_visitors try_handler_inserters[] =
 {
   { STDefenseMove,            &append_collector              },
-  { STDefenseMoveAgainstGoal, &append_collector              },
   { STGoalReachedTester,      &stip_structure_visitor_noop   },
   { STNot,                    &stip_structure_visitor_noop   },
   { STContinuationSolver,     &substitute_battle_play_solver },
