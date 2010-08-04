@@ -23,7 +23,6 @@ void disable_killer_move_final_defense_move_optimisation(Side);
 /* Optimise a STDefenseMove slice
  * @param si identifies slice to be optimised
  * @param goal goal that slice si defends against
- * @return index of allocated slice
  */
 void killer_move_optimise_final_defense_move(slice_index si, Goal goal);
 
