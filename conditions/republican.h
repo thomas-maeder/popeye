@@ -10,9 +10,10 @@ extern boolean is_republican_suspended;
 
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem
+ * @param si identifies root slice of stipulation
  * @return true iff verification passed
  */
-boolean republican_verifie_position(void);
+boolean republican_verifie_position(slice_index si);
 
 /* Write the Republican Chess diagram caption
  * @param CondLine string containing the condition caption

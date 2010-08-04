@@ -39,8 +39,9 @@ boolean read_min_length_nontrivial(char const *tok);
 stip_length_type get_min_length_nontrivial(void);
 
 /* Instrument stipulation with STMaxNrNonTrivial slices
+ * @param si identifies slice where to start
  */
-void stip_insert_max_nr_nontrivial_guards(void);
+void stip_insert_max_nr_nontrivial_guards(slice_index si);
 
 /* Try to defend after an attacking move
  * @param si slice index

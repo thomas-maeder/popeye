@@ -67,9 +67,10 @@ static void find_mate_square(Side camp)
 
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem
+ * @param si identifies root slice of stipulation
  * @return true iff verification passed
  */
-boolean republican_verifie_position(void)
+boolean republican_verifie_position(slice_index si)
 {
   if (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction])
   {
@@ -88,7 +89,7 @@ boolean republican_verifie_position(void)
   }
   else
   {
-    Goal const goal = find_unique_goal(root_slice);
+    Goal const goal = find_unique_goal(si);
     if (goal.type==no_goal)
     {
       VerifieMsg(StipNotSupported);

@@ -6,12 +6,14 @@
 
 #include "boolean.h"
 #include "pyposit.h"
+#include "pystip.h"
 
 /* Perform the necessary verification steps for solving an Exclusive
  * Chess problem
+ * @param si identifies root slice of stipulation
  * @return true iff verification passed
  */
-boolean exclusive_verifie_position(void);
+boolean exclusive_verifie_position(slice_index si);
 
 /* Do preparations before generating moves for a side in an Exclusive
  * Chess problem

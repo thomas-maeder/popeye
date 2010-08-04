@@ -23,8 +23,9 @@ void reset_degenerate_tree(void);
 void init_degenerate_tree(stip_length_type max_length_short);
 
 /* Instrument stipulation with STDegenerateTree slices
+ * @param si identifies slice where to start
  */
-void stip_insert_degenerate_tree_guards(void);
+void stip_insert_degenerate_tree_guards(slice_index si);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.

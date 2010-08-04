@@ -26,9 +26,10 @@ boolean read_max_threat_length(const char *textToken);
 stip_length_type get_max_threat_length(void);
 
 /* Instrument stipulation with STMaxThreatLength slices
+ * @param si identifies slice where to start
  * @return true iff the stipulation could be instrumented
  */
-boolean stip_insert_maxthreatlength_guards(void);
+boolean stip_insert_maxthreatlength_guards(slice_index si);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

@@ -233,21 +233,23 @@ enum
 };
 
 /* Instrument stipulation with STMaxFlightsquares slices
+ * @param si identifies slice where to start
  */
-void stip_insert_maxflight_guards(void)
+void stip_insert_maxflight_guards(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     maxflight_guards_inserters,
                                     nr_maxflight_guards_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

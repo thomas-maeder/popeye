@@ -652,7 +652,7 @@ static void StaleStoreMate(
   sol_per_matingpos = 0;
 
   closehash();
-  inithash();
+  inithash(current_start_slice);
 
   {
     boolean const save_movenbr = OptFlag[movenbr];
@@ -871,7 +871,7 @@ static void StoreMate(
   castling_supported= is_cast_supp;
 
   closehash();
-  inithash();
+  inithash(current_start_slice);
 
   sol_per_matingpos = 0;
 
@@ -2663,6 +2663,7 @@ static void init_moves_left(slice_index si,
   st.remaining = n; /* TODO */
   stip_traverse_moves(si,&st);
 
+  TraceValue("%u",goal_to_be_reached);
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
 
@@ -3058,21 +3059,23 @@ enum
 };
 
 /* Instrument stipulation with STgoal_typereachableGuard slices
+ * @param si identifies slice where to start
  */
-static void stip_insert_intelligent_guards(void)
+static void stip_insert_intelligent_guards(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     intelligent_guards_inserters,
                                     nr_intelligent_guards_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3345,21 +3348,23 @@ enum
 
 /* Determine whether the stipulation supports intelligent mode, and
  * how much so
+ * @param si identifies slice where to start
  * @return degree of support for ingelligent mode by the stipulation
  */
-static support_for_intelligent_mode stip_supports_intelligent(void)
+static support_for_intelligent_mode stip_supports_intelligent(slice_index si)
 {
   support_for_intelligent_mode result = intelligent_not_active_by_default;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override(&st,
                                     intelligent_mode_support_detectors,
                                     nr_intelligent_mode_support_detectors);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -3369,17 +3374,19 @@ static support_for_intelligent_mode stip_supports_intelligent(void)
 
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it
+ * @param si identifies slice where to start
  * @return false iff the user asks for intelligent mode, but the
  *         stipulation doesn't support it
  */
-boolean init_intelligent_mode(void)
+boolean init_intelligent_mode(slice_index si)
 {
   boolean result;
   
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (stip_supports_intelligent())
+  switch (stip_supports_intelligent(si))
   {
     case intelligent_not_supported:
       result = !OptFlag[intelligent];
@@ -3388,12 +3395,12 @@ boolean init_intelligent_mode(void)
     case intelligent_not_active_by_default:
       result = true;
       if (OptFlag[intelligent])
-        stip_insert_intelligent_guards();
+        stip_insert_intelligent_guards(si);
       break;
 
     case intelligent_active_by_default:
       result = true;
-      stip_insert_intelligent_guards();
+      stip_insert_intelligent_guards(si);
       break;
 
     default:

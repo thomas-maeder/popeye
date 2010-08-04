@@ -148,11 +148,18 @@ typedef struct
             slice_index next;
         } pipe;
 
-        struct /* for type==STLeaf* */
+        struct /* for type==STGoalReachedTester * */
         {
             slice_index next;
             Goal goal;
         } goal_reached_tester;
+
+        struct /* for type==STLineWriter* */
+        {
+            slice_index next;
+            Goal goal;
+            slice_index root_slice;
+        } line_writer;
 
         struct
         {
@@ -211,6 +218,8 @@ typedef struct
         struct /* for type==STMaxThreatLength */
         {
             slice_index next;
+            stip_length_type length_dummy;     /* half moves */
+            stip_length_type min_length_dummy; /* half moves */
             slice_index to_attacker;
         } maxthreatlength_guard;
 
@@ -236,13 +245,11 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 120,
+  max_nr_slices = 180,
   no_slice = max_nr_slices
 };
 
 extern Slice slices[max_nr_slices];
-
-extern slice_index root_slice;
 
 /* The length field of series and help branch slices thus gives the
  * number of half moves of the *human-readable* stipulation.
@@ -325,10 +332,6 @@ slice_index copy_slice(slice_index original);
  */
 void slice_set_predecessor(slice_index slice, slice_index pred);
 
-/* Release all slices
- */
-void release_slices(void);
-
 /* in-place deep copying a stipulation sub-tree
  * @param si root of sub-tree
  * @return index of root of copy
@@ -344,12 +347,9 @@ slice_index stip_make_root_slices(slice_index si);
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types
+ * @param si identifies slice where to start
  */
-void stip_insert_root_slices(void);
-
-/* Substitute links to proxy slices by the proxy's target
- */
-void resolve_proxies(void);
+void stip_insert_root_slices(slice_index si);
 
 /* Set the min_length field of a composite slice.
  * @param si index of composite slice
@@ -367,15 +367,17 @@ stip_length_type get_max_nr_moves(slice_index si);
 
 /* Transform a stipulation tree to "traditional quodlibet form",
  * i.e. a logical OR of direct and self goal.
+ * @param si identifies slice where to start
  * @return true iff quodlibet could be applied
  */
-boolean transform_to_quodlibet(void);
+boolean transform_to_quodlibet(slice_index si);
 
 /* Attempt to apply the postkey play option to the current stipulation
+ * @param si identifies slice where to start
  * @return true iff postkey play option is applicable (and has been
  *              applied)
  */
-boolean stip_apply_postkeyplay(void);
+boolean stip_apply_postkeyplay(slice_index si);
 
 /* Produce slices representing set play.
  * This is supposed to be invoked from within the slice type specific
@@ -388,23 +390,28 @@ boolean stip_apply_postkeyplay(void);
 slice_index stip_make_setplay(slice_index si);
 
 /* Attempt to add set play to the stipulation
+ * @param si identifies the root from which to apply set play
  * @return true iff set play could be added
  */
-boolean stip_apply_setplay(void);
+boolean stip_apply_setplay(slice_index si);
 
 /* Do all leaves of the current stipulation have one of a set of goals?
+ * @param si identifies slice where to start
  * @param goals set of goals
  * @param nrgoal_types number of elements of goals
  * @return true iff all leaves have as goal one of the elements of goals.
  */
-boolean stip_ends_only_in(goal_type const goals[], size_t nrGoals);
+boolean stip_ends_only_in(slice_index si,
+                          goal_type const goals[], size_t nrGoals);
 
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
+ * @param si identifies slice where to start
  * @param goals set of goals
  * @param nrgoal_types number of elements of goals
  * @return true iff >=1 leaf has as goal one of the elements of goals.
  */
-boolean stip_ends_in_one_of(goal_type const goals[], size_t nrGoals);
+boolean stip_ends_in_one_of(slice_index si,
+                            goal_type const goals[], size_t nrGoals);
 
 /* Determine whether the current stipulation has a unique goal, and
  * return it.
@@ -415,8 +422,9 @@ boolean stip_ends_in_one_of(goal_type const goals[], size_t nrGoals);
 Goal find_unique_goal(slice_index si);
 
 /* Make the stipulation exact
+ * @param si identifies slice where to start
  */
-void stip_make_exact(void);
+void stip_make_exact(slice_index si);
 
 typedef enum
 {
@@ -425,13 +433,15 @@ typedef enum
 } who_decides_on_starter;
 
 /* Detect the starting side from the stipulation
+ * @param si identifies slice whose starter to find
  */
-void stip_detect_starter(void);
+void stip_detect_starter(slice_index si);
 
 /* Impose the starting side on the stipulation
+ * @param si identifies slice where to start
  * @param starter starting side at the root of the stipulation
  */
-void stip_impose_starter(Side starter);
+void stip_impose_starter(slice_index si, Side starter);
 
 
 struct stip_structure_traversal;

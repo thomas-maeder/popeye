@@ -344,23 +344,25 @@ enum
  * These guards stop solving if the following move has to reach a
  * goal, but the prerequisites for that goal (if any) aren't met
  * before the move.
+ * @param si identifies slice where to start
  */
-void stip_insert_goal_optimisation_guards(void)
+void stip_insert_goal_optimisation_guards(slice_index si)
 {
   stip_moves_traversal st;
   optimisation_guards_insertion_state state = { { no_goal, initsquare },
                                                 { false } };
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_moves_traversal_init(&st,
                             optimisation_guard_inserters,
                             nr_optimisation_guard_inserters,
                             &state);
-  stip_traverse_moves(root_slice,&st);
+  stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

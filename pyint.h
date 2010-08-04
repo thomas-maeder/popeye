@@ -22,10 +22,11 @@ boolean IntelligentSeries(slice_index si, stip_length_type n);
 
 /* Initialize intelligent mode if the user or the stipulation asks for
  * it
+ * @param si identifies slice where to start
  * @return false iff the user asks for intelligent mode, but the
  * stipulation doesn't support it
  */
-boolean init_intelligent_mode(void);
+boolean init_intelligent_mode(slice_index si);
 
 /* Solve in a number of half-moves
  * @param si identifies slice

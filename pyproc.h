@@ -341,7 +341,7 @@ void    gedgeh(square a, Side b);
 
 void    gmoab(square a);
 void    gmoan(square a);
-Token   ReadTwin(Token tk, boolean *stipChanged);
+Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
 void    ErrString(char const *s);
 void    StdChar(char c);
@@ -405,7 +405,6 @@ boolean riderhoppercheck(square i, numvec kanf, numvec kend, piece p,
 
 void	pyInitSignal(void);
 void	InitCond(void);
-void	InitStip(void);
 char	*MakeTimeString(void);
 
 char *ReadPieces(int cond);

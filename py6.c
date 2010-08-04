@@ -131,7 +131,6 @@
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/defense_move_against_goal.h"
-#include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/goals/prerequisite_guards.h"
@@ -554,7 +553,14 @@ enum
                                 / sizeof restricted_side_finders[0])
 };
 
-static Side findRestrictedSide(void)
+/* Find the side restricted by some condition (e.g. maximummer without
+ * indication of the side)
+ * @param si identifies the slice where to start looking for the
+ *           restricted side
+ * @return the restricted side; no_side if the restricted side can't
+ *         be determined
+ */
+static Side findRestrictedSide(slice_index si)
 {
   stip_structure_traversal st;
   is_restricted_type is_restricted = { false, false };
@@ -563,7 +569,7 @@ static Side findRestrictedSide(void)
   stip_structure_traversal_override(&st,
                                     restricted_side_finders,
                                     nr_restricted_side_finders);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   if (is_restricted[White] && !is_restricted[Black])
     return White;
@@ -578,7 +584,12 @@ static goal_type const proof_goals[] = { goal_proof, goal_atob };
 static unsigned int const nr_proof_goals = (sizeof proof_goals
                                             / sizeof proof_goals[0]);
 
-static boolean verify_position(void)
+/* Verify the user input and our interpretation of it
+ * @param si identifies the root slice of the representation of the
+ *           stipulation
+ * @return true iff the verification was successful
+ */
+static boolean verify_position(slice_index si)
 {
   square const *bnp;
   piece     p;
@@ -591,6 +602,7 @@ static boolean verify_position(void)
   nonoptgenre = false;
   supergenre = false;
   reset_ortho_mating_moves_generation_obstacles();
+  reset_defense_move_against_goal_enabled_state();
 
   move_generation_mode_opti_per_side[White]
       = move_generation_optimized_by_nr_opponent_moves;
@@ -620,7 +632,7 @@ static boolean verify_position(void)
   if (! CondFlag[imitators])
     CondFlag[noiprom] = true;
 
-  if (get_max_nr_moves(root_slice) >= maxply-2)
+  if (get_max_nr_moves(si) >= maxply-2)
   {
     VerifieMsg(BigNumMoves);
     return false;
@@ -631,7 +643,7 @@ static boolean verify_position(void)
     goal_type const pieceWinGoalTypes[] = { goal_steingewinn };
     size_t const nrPieceWinGoalTypes = (sizeof pieceWinGoalTypes
                                         / sizeof pieceWinGoalTypes[0]);
-    if (stip_ends_in_one_of(pieceWinGoalTypes,nrPieceWinGoalTypes))
+    if (stip_ends_in_one_of(si,pieceWinGoalTypes,nrPieceWinGoalTypes))
     {
       VerifieMsg(PercentAndParrain);
       return false;
@@ -649,13 +661,13 @@ static boolean verify_position(void)
 
     size_t const nrDiastipGoalTypes = (sizeof diastipGoalTypes
                                        / sizeof diastipGoalTypes[0]);
-    flagdiastip = stip_ends_only_in(diastipGoalTypes,nrDiastipGoalTypes);
+    flagdiastip = stip_ends_only_in(si,diastipGoalTypes,nrDiastipGoalTypes);
   }
 
   if (TSTFLAG(PieSpExFlags, HalfNeutral))
     SETFLAG(PieSpExFlags, Neutral);
 
-  if (CondFlag[republican] && !republican_verifie_position())
+  if (CondFlag[republican] && !republican_verifie_position(si))
     return false;
 
   if ((bl_royal_sq!=initsquare || wh_royal_sq!=initsquare
@@ -794,7 +806,7 @@ static boolean verify_position(void)
 
   if (flagmaxi)
   {
-    Side const restricted_side = findRestrictedSide();
+    Side const restricted_side = findRestrictedSide(si);
     if (restricted_side==no_side)
     {
       VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
@@ -824,7 +836,7 @@ static boolean verify_position(void)
 
   if (flagultraschachzwang)
   {
-    Side const restricted_side = findRestrictedSide();
+    Side const restricted_side = findRestrictedSide(si);
     if (restricted_side==no_side)
     {
       VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
@@ -1608,7 +1620,7 @@ static boolean verify_position(void)
     size_t const nrIncompatibleGoalTypes
         = sizeof incompatibleGoalTypes / sizeof incompatibleGoalTypes[0];
     
-    if (stip_ends_in_one_of(incompatibleGoalTypes,nrIncompatibleGoalTypes))
+    if (stip_ends_in_one_of(si,incompatibleGoalTypes,nrIncompatibleGoalTypes))
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
       return false;
@@ -1664,7 +1676,7 @@ static boolean verify_position(void)
 
   {
     goal_type const castlingGoalTypes = goal_castling;
-    if (stip_ends_in_one_of(&castlingGoalTypes,1)
+    if (stip_ends_in_one_of(si,&castlingGoalTypes,1)
         && !castling_supported)
     {
       VerifieMsg(StipNotSupported);
@@ -1686,7 +1698,7 @@ static boolean verify_position(void)
   /* a small hack to enable ep keys */
   trait[1] = no_side;
 
-  if (CondFlag[exclusive] && !exclusive_verifie_position())
+  if (CondFlag[exclusive] && !exclusive_verifie_position(si))
     return false;
 
   if (CondFlag[isardam]
@@ -1707,7 +1719,7 @@ static boolean verify_position(void)
     jouetestgenre = jouetestgenre
         || flag_testlegality
         || flagAssassin
-        || stip_ends_in_one_of(doublemate_goals,1)
+        || stip_ends_in_one_of(si,doublemate_goals,1)
         || CondFlag[patience]
         || CondFlag[blackultraschachzwang]
         || CondFlag[whiteultraschachzwang]
@@ -1835,6 +1847,11 @@ static boolean verify_position(void)
     jouegenre = true;
   }
     
+  if (flagblackmummer)
+    disable_defense_move_against_goal(Black);
+  if (flagwhitemummer)
+    disable_defense_move_against_goal(White);
+
   return true;
 }
 
@@ -2008,10 +2025,14 @@ static void reflectboard(void)
   TraceFunctionResultEnd();
 }
 
-static void solveHalfADuplex(void)
+/* Solve "half a duplex" (in non-duplex problems, that's the entire
+ * problem/twin)
+ * @param si identifies the root slice of the stipulation
+ */
+static void solveHalfADuplex(slice_index si)
 {
-  inithash();
-  slice_solve(root_slice);
+  inithash(si);
+  slice_solve(si);
   closehash();
 
 #ifdef _SE_DECORATE_SOLUTION_
@@ -2117,8 +2138,8 @@ static boolean apply_whitetoplay(slice_index proxy)
       }
       else
       {
-        stip_detect_starter();
-        stip_impose_starter(advers(slices[root_slice].starter));
+        stip_detect_starter(proxy);
+        stip_impose_starter(proxy,advers(slices[proxy].starter));
       }
       result = true;
       break;
@@ -2142,8 +2163,8 @@ static boolean apply_whitetoplay(slice_index proxy)
     }
 
     case STHelpMoveToGoal:
-      stip_detect_starter();
-      stip_impose_starter(advers(slices[root_slice].starter));
+      stip_detect_starter(proxy);
+      stip_impose_starter(proxy,advers(slices[proxy].starter));
       result = true;
       break;
 
@@ -2234,13 +2255,19 @@ int parseCommandlineOptions(int argc, char *argv[])
   return idx;
 }
 
-static void intelligent_init_duplex(slice_index si, stip_structure_traversal *st)
+/* Perform initialisations for solving a duplex if we are solving in
+ * intelligent mode
+ * @param si identifies the slice currently being visited
+ * @param st points to the structure holding the state of the traversal
+ */
+static void intelligent_init_duplex(slice_index si,
+                                    stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_impose_starter(advers(slices[root_slice].starter));
+  stip_impose_starter(si,advers(slices[si].starter));
   swapcolors();
   reflectboard();
   StorePosition();
@@ -2261,25 +2288,33 @@ enum
                             / sizeof duplex_initialisers[0])
 };
 
-/* prepare for solving duplex */
-static void init_duplex(void)
+/* Perform initialisations for solving a duplex
+ * @param si identifies the root slice of the stipulation
+ */
+static void init_duplex(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     duplex_initialisers,
                                     nr_duplex_initialisers);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void intelligent_fini_duplex(slice_index si, stip_structure_traversal *st)
+/* Un-initialise from solving a duplex
+ * @param si identifies the slice currently being visited
+ * @param st points to the structure holding the state of the traversal
+ */
+static void intelligent_fini_duplex(slice_index si,
+                                    stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2289,7 +2324,7 @@ static void intelligent_fini_duplex(slice_index si, stip_structure_traversal *st
   {
     reflectboard();
     swapcolors();
-    stip_impose_starter(advers(slices[root_slice].starter));
+    stip_impose_starter(si,advers(slices[si].starter));
   }
 
   TraceFunctionExit(__func__);
@@ -2307,8 +2342,10 @@ enum
   nr_duplex_finishers = (sizeof duplex_finishers / sizeof duplex_finishers[0])
 };
 
-/* restore from preparations for solving duplex */
-static void fini_duplex(void)
+/* Un-initialise from solving a duplex
+ * @param si identifies the root slice of the stipulation
+ */
+static void fini_duplex(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -2317,22 +2354,27 @@ static void fini_duplex(void)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,duplex_finishers,nr_duplex_finishers);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static boolean initialise_verify_twin(void)
+/* Perform verifications and initialisations before solving a twin
+ * (which can be the only twin of the problem)
+ * @param si identifies the root slice of the stipulation
+ */
+static boolean initialise_verify_twin(slice_index si)
 {
   boolean result = false;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   initPieces();
 
-  if (stip_ends_in_one_of(proof_goals,nr_proof_goals))
+  if (stip_ends_in_one_of(si,proof_goals,nr_proof_goals))
   {
     countPieces();
     if (locateRoyal())
@@ -2341,19 +2383,19 @@ static boolean initialise_verify_twin(void)
 
       {
         goal_type const proof_goal = goal_proof;
-        if (stip_ends_in_one_of(&proof_goal,1))
+        if (stip_ends_in_one_of(si,&proof_goal,1))
           ProofInitialiseStartPosition();
       }
 
       ProofRestoreStartPosition();
 
       countPieces();
-      if (locateRoyal() && verify_position())
+      if (locateRoyal() && verify_position(si))
       {
         ProofSaveStartPosition();
         ProofRestoreTargetPosition();
 
-        ProofInitialise();
+        ProofInitialise(si);
 
         if (!OptFlag[noboard])
           WritePosition();
@@ -2361,7 +2403,7 @@ static boolean initialise_verify_twin(void)
 
         ProofRestoreStartPosition();
         if (!OptFlag[noboard])
-          ProofWriteStartPosition();
+          ProofWriteStartPosition(si);
         initialise_piece_flags();
 
         result = true;
@@ -2371,7 +2413,7 @@ static boolean initialise_verify_twin(void)
   else
   {
     countPieces();
-    if (locateRoyal() && verify_position())
+    if (locateRoyal() && verify_position(si))
     {
       if (!OptFlag[noboard])
         WritePosition();
@@ -2388,61 +2430,68 @@ static boolean initialise_verify_twin(void)
 }
 
 /* Solve a twin (maybe the only one of a problem)
+ * @param si identifies the root slice of the stipulation
  * @param twin_index 0 for first, 1 for second ...; if the problem has
  *                   a zero position, solve_twin() is invoked with
- *                   1, 2, ... but not with * 0
+ *                   1, 2, ... but not with 0
  * @param end_of_twin_token token that ended this twin
  */
-static void solve_twin(unsigned int twin_index, Token end_of_twin_token)
+static void solve_twin(slice_index si,
+                       unsigned int twin_index, Token end_of_twin_token)
 {
-  if (initialise_verify_twin())
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",twin_index);
+  TraceFunctionParamListEnd();
+
+  if (twin_index==0)
   {
-    if (twin_index==0)
+    if (LaTeXout)
+      LaTeXBeginDiagram();
+
+    if (end_of_twin_token==TwinProblem)
     {
+      Message(NewLine);
+
       if (LaTeXout)
-        LaTeXBeginDiagram();
-
-      if (end_of_twin_token==TwinProblem)
       {
-        Message(NewLine);
-
-        if (LaTeXout)
-        {
-          LaTeXout = false;
-          WriteTwinNumber();
-          LaTeXout = true;
-        }
-        else
-          WriteTwinNumber();
-
-        Message(NewLine);
+        LaTeXout = false;
+        WriteTwinNumber();
+        LaTeXout = true;
       }
+      else
+        WriteTwinNumber();
+
+      Message(NewLine);
     }
-
-    /* allow line-oriented output to restore the initial position */
-    StorePosition();
-
-    if (!OptFlag[halfduplex])
-      solveHalfADuplex();
-
-    if (OptFlag[halfduplex] || OptFlag[duplex])
-    {
-      /* Set next side to calculate for duplex "twin" */
-      stip_impose_starter(advers(slices[root_slice].starter));
-      TraceStipulation(root_slice);
-
-      init_duplex();
-
-      if (locateRoyal() && verify_position())
-        solveHalfADuplex();
-
-      fini_duplex();
-
-      stip_impose_starter(advers(slices[root_slice].starter));
-    }
-
-    Message(NewLine);
   }
+
+  /* allow line-oriented output to restore the initial position */
+  StorePosition();
+
+  if (!OptFlag[halfduplex])
+    solveHalfADuplex(si);
+
+  if (OptFlag[halfduplex] || OptFlag[duplex])
+  {
+    /* Set next side to calculate for duplex "twin" */
+    stip_impose_starter(si,advers(slices[si].starter));
+    TraceStipulation(si);
+
+    init_duplex(si);
+
+    if (locateRoyal() && verify_position(si))
+      solveHalfADuplex(si);
+
+    fini_duplex(si);
+
+    stip_impose_starter(si,advers(slices[si].starter));
+  }
+
+  Message(NewLine);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void optimise_final_attack_move(slice_index si, Goal goal)
@@ -2464,33 +2513,6 @@ static void optimise_final_attack_move(slice_index si, Goal goal)
 
     pipe_link(proxy1,last_attack);
     pipe_link(last_attack,proxy2);
-    pipe_set_successor(proxy2,slices[si].u.pipe.next);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void optimise_final_defense_move(slice_index si, Goal goal)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal.type);
-  TraceFunctionParamListEnd();
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const proxy1 = alloc_proxy_slice();
-    slice_index const fork = alloc_defense_fork_slice(length,min_length,
-                                                      proxy1);
-    slice_index const last_defense = alloc_defense_move_against_goal_slice();
-    slice_index const proxy2 = alloc_proxy_slice();
-
-    pipe_append(slices[si].prev,fork);
-
-    pipe_link(proxy1,last_defense);
-    pipe_link(last_defense,proxy2);
     pipe_set_successor(proxy2,slices[si].u.pipe.next);
   }
 
@@ -2560,6 +2582,7 @@ static void optimise_final_moves_defense_move(slice_index si,
     {
       if (state->goal.type!=no_goal)
         optimise_final_defense_move(si,state->goal);
+
       state->is_optimised[si] = true;
     }
 
@@ -2633,20 +2656,24 @@ enum
   = (sizeof final_move_optimisers / sizeof final_move_optimisers[0])
 };
 
-static void stip_optimise_final_moves(void)
+/* Perform optimisations at the final moves in battle play
+ * @param si identifies the root slice of the stipulation
+ */
+static void stip_optimise_final_moves(slice_index si)
 {
   stip_moves_traversal st;
   final_move_optimisation_state state = { { no_goal, initsquare }, { false } };
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_moves_traversal_init(&st,
                             final_move_optimisers,nr_final_move_optimisers,
                             &state);
-  stip_traverse_moves(root_slice,&st);
+  stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2660,18 +2687,20 @@ static void stip_optimise_final_moves(void)
 static Token iterate_twins(Token prev_token)
 {
   unsigned int twin_index = 0;
+  slice_index template_slice_hook;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",prev_token);
   TraceFunctionParamListEnd();
 
+  template_slice_hook = alloc_proxy_slice();
+
   do
   {
-    boolean shouldDetectStarter = false;
- 
+    slice_index const prev_template = slices[template_slice_hook].u.pipe.next;
     InitAlways();
 
-    prev_token = ReadTwin(prev_token,&shouldDetectStarter);
+    prev_token = ReadTwin(prev_token,template_slice_hook);
 
     if (twin_index==0)
       /* Set the timer for real calculation time */
@@ -2679,123 +2708,132 @@ static Token iterate_twins(Token prev_token)
 
     if (prev_token==ZeroPosition)
     {
-      boolean dummy;
-
       if (!OptFlag[noboard])
         WritePosition();
 
-      prev_token = ReadTwin(prev_token,&dummy);
-      shouldDetectStarter = true;
+      prev_token = ReadTwin(prev_token,template_slice_hook);
       if (LaTeXout)
         LaTeXBeginDiagram();
 
       ++twin_index;
     }
 
-    TraceValue("%u",twin_index);
-    TraceValue("%u\n",shouldDetectStarter);
-    if (twin_index==0 || shouldDetectStarter)
+    if (prev_template!=slices[template_slice_hook].u.pipe.next)
     {
-      if (OptFlag[whitetoplay] && !apply_whitetoplay(root_slice))
+      if (OptFlag[whitetoplay] && !apply_whitetoplay(template_slice_hook))
         Message(WhiteToPlayNotApplicable);
 
-      if (OptFlag[solapparent] && !OptFlag[restart] && !stip_apply_setplay())
+      if (OptFlag[solapparent] && !OptFlag[restart]
+          && !stip_apply_setplay(template_slice_hook))
         Message(SetPlayNotApplicable);
 
-      stip_insert_root_slices();
+      stip_insert_root_slices(template_slice_hook);
       
-      if (OptFlag[postkeyplay] && !stip_apply_postkeyplay())
+      if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
 
-      stip_detect_starter();
-      stip_impose_starter(slices[root_slice].starter);
-
-      stip_insert_continuation_handlers();
+      stip_insert_continuation_handlers(template_slice_hook);
 
       if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
       {
         if (OptFlag[postkeyplay])
-          stip_insert_postkey_handlers();
+          stip_insert_postkey_handlers(template_slice_hook);
         if (!OptFlag[nothreat])
-          stip_insert_threat_handlers();
+          stip_insert_threat_handlers(template_slice_hook);
       }
       else
-        stip_insert_postkeyplay_suppressors();
+        stip_insert_postkeyplay_suppressors(template_slice_hook);
 
-      if (!stip_insert_try_handlers())
+      if (!stip_insert_try_handlers(template_slice_hook))
       {
         if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
           Message(TryPlayNotApplicable);
       }
 
       if (OptFlag[nontrivial])
-        stip_insert_max_nr_nontrivial_guards();
+        stip_insert_max_nr_nontrivial_guards(template_slice_hook);
 
-      if (!init_intelligent_mode())
+      if (!init_intelligent_mode(template_slice_hook))
         Message(IntelligentRestricted);
 
       if (is_hashtable_allocated())
-        stip_insert_hash_slices();
+        stip_insert_hash_slices(template_slice_hook);
 
       if (OptFlag[solflights])
-        stip_insert_maxflight_guards();
+        stip_insert_maxflight_guards(template_slice_hook);
 
       if (OptFlag[solmenaces]
-          && !stip_insert_maxthreatlength_guards())
+          && !stip_insert_maxthreatlength_guards(template_slice_hook))
         Message(ThreatOptionAndExactStipulationIncompatible);
 
       if (OptFlag[degeneratetree])
-        stip_insert_degenerate_tree_guards();
+        stip_insert_degenerate_tree_guards(template_slice_hook);
 
       if (!OptFlag[intelligent] && OptFlag[movenbr])
-        stip_insert_restart_guards();
+        stip_insert_restart_guards(template_slice_hook);
 
       if (dealWithMaxtime())
-        stip_insert_maxtime_filters();
+        stip_insert_maxtime_filters(template_slice_hook);
 
       if (OptFlag[maxsols])
-        stip_insert_maxsolutions_filters();
+        stip_insert_maxsolutions_filters(template_slice_hook);
 
       if (OptFlag[stoponshort]
-          && !stip_insert_stoponshortsolutions_filters())
+          && !stip_insert_stoponshortsolutions_filters(template_slice_hook))
         Message(NoStopOnShortSolutions);
 
       if (OptFlag[noshort])
-        stip_insert_no_short_variations_filters();
+        stip_insert_no_short_variations_filters(template_slice_hook);
 
-      stip_insert_output_slices();
+      stip_detect_starter(slices[template_slice_hook].u.pipe.next);
+      stip_impose_starter(slices[template_slice_hook].u.pipe.next,
+                          slices[slices[template_slice_hook].u.pipe.next].starter);
+    }
 
-      stip_insert_goal_prerequisite_guards();
+    if (slices[slices[template_slice_hook].u.pipe.next].starter==no_side)
+      VerifieMsg(CantDecideWhoIsAtTheMove);
+    else if (initialise_verify_twin(slices[template_slice_hook].u.pipe.next))
+    {
+      slice_index root_slice = stip_deep_copy(template_slice_hook);
+      stip_impose_starter(root_slice,slices[slices[template_slice_hook].u.pipe.next].starter);
 
-      stip_insert_goal_optimisation_guards();
+      /* Only now - the behavior of some output slices depends on the
+       * starter of the root slice. Initialising them here allows them
+       * to store a reference.
+       */
+      stip_insert_output_slices(root_slice);
 
-      stip_optimise_final_moves();
+      stip_insert_goal_prerequisite_guards(root_slice);
 
       /* only now that we can find out which side's pieces to keep */
       if (OptFlag[keepmating])
-        stip_insert_keepmating_guards();
+        stip_insert_keepmating_guards(root_slice);
 
-      resolve_proxies();
-      dealloc_proxy_slices();
+      stip_insert_goal_optimisation_guards(root_slice);
 
-      assert_no_leaked_slices();
+      stip_optimise_final_moves(root_slice);
 
-      stip_detect_starter();
-      stip_impose_starter(slices[root_slice].starter);
+      resolve_proxies(&root_slice);
 
+      /* if root_slice had type STProxy, its value has just changed,
+       * and the new slice may not have a starter yet. So let's use
+       * template_slice_hook's starter.
+       */
+      stip_impose_starter(root_slice,
+                          slices[slices[template_slice_hook].u.pipe.next].starter);
       TraceStipulation(root_slice);
-    }
 
-    if (slices[root_slice].starter==no_side)
-      VerifieMsg(CantDecideWhoIsAtTheMove);
-    else
-    {
-      TraceValue("%u\n",slices[root_slice].starter);
-      solve_twin(twin_index,prev_token);
+      solve_twin(root_slice,twin_index,prev_token);
+
+      dealloc_slices(root_slice);
     }
 
     ++twin_index;
   } while (prev_token==TwinProblem);
+
+  dealloc_slices(template_slice_hook);
+
+  assert_no_leaked_slices();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",prev_token);
@@ -2815,7 +2853,6 @@ void iterate_problems(void)
     InitBoard();
     InitCond();
     InitOpt();
-    InitStip();
 
     reset_max_solutions();
     FlagMaxSolsPerMatingPosReached = false;

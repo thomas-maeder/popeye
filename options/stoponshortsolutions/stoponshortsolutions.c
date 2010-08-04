@@ -276,23 +276,25 @@ enum
 };
 
 /* Instrument a stipulation with STStopOnShortSolutions*Filter slices
+ * @param si identifies slice where to start
  * @return true iff the option stoponshort applies
  */
-boolean stip_insert_stoponshortsolutions_filters(void)
+boolean stip_insert_stoponshortsolutions_filters(slice_index si)
 {
   boolean result = false;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override(&st,
                                     stoponshortsolutions_initialiser_inserters,
                                     nr_stoponshortsolutions_initialiser_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

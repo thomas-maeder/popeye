@@ -555,23 +555,25 @@ enum
 
 /* Instrument the stipulation representation so that it can deal with
  * threats
+ * @param si identifies slice where to start
  */
-void stip_insert_threat_handlers(void)
+void stip_insert_threat_handlers(slice_index si)
 {
   stip_structure_traversal st;
   threat_handler_insertion_state state = threat_handler_inserted_none;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     threat_handler_inserters,
                                     nr_threat_handler_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   for (i = 0; i<=maxply; ++i)
   {

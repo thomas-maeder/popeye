@@ -408,22 +408,24 @@ enum
 
 /* Instrument the stipulation structure with slices that implement
  * plaintext tree mode output.
+ * @param si identifies slice where to start
  */
-void stip_insert_output_plaintext_tree_slices(void)
+void stip_insert_output_plaintext_tree_slices(slice_index si)
 {
   stip_structure_traversal st;
   Goal goal = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&goal);
   stip_structure_traversal_override(&st,
                                     tree_slice_inserters,
                                     nr_tree_slice_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

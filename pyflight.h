@@ -26,8 +26,9 @@ boolean read_max_flights(const char *textToken);
 unsigned int get_max_flights(void);
 
 /* Instrument stipulation with STMaxFlightsquares slices
+ * @param si identifies slice where to start
  */
-void stip_insert_maxflight_guards(void);
+void stip_insert_maxflight_guards(slice_index si);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

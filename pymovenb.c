@@ -299,17 +299,17 @@ static void restart_guards_inserter_quodlibet(slice_index si,
 
 static structure_traversers_visitors restart_guards_inserters[] =
 {
-  { STHelpMove,                 &restart_guards_inserter_help        },
-  { STHelpMoveToGoal,           &restart_guards_inserter_help        },
-  { STHelpFork,                 &stip_structure_visitor_noop         },
-  { STSeriesMove,               &restart_guards_inserter_series      },
-  { STSeriesMoveToGoal,         &restart_guards_inserter_series      },
-  { STQuodlibet,                &restart_guards_inserter_quodlibet   },
-  { STNot,                      &stip_structure_visitor_noop         },
-  { STAttackRoot,               &restart_guards_inserter_attack_root },
-  { STDefenseRoot,              &stip_structure_visitor_noop         },
-  { STHelpShortcut,             &stip_traverse_structure_pipe        },
-  { STSeriesShortcut,           &stip_traverse_structure_pipe        }
+  { STHelpMove,         &restart_guards_inserter_help        },
+  { STHelpMoveToGoal,   &restart_guards_inserter_help        },
+  { STHelpFork,         &stip_structure_visitor_noop         },
+  { STSeriesMove,       &restart_guards_inserter_series      },
+  { STSeriesMoveToGoal, &restart_guards_inserter_series      },
+  { STQuodlibet,        &restart_guards_inserter_quodlibet   },
+  { STNot,              &stip_structure_visitor_noop         },
+  { STAttackRoot,       &restart_guards_inserter_attack_root },
+  { STDefenseRoot,      &stip_structure_visitor_noop         },
+  { STHelpShortcut,     &stip_traverse_structure_pipe        },
+  { STSeriesShortcut,   &stip_traverse_structure_pipe        }
 };
 
 enum
@@ -319,19 +319,21 @@ enum
 };
 
 /* Instrument stipulation with STRestartGuard slices
+ * @param si identifies slice where to start
  */
-void stip_insert_restart_guards(void)
+void stip_insert_restart_guards(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     restart_guards_inserters,
                                     nr_restart_guards_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

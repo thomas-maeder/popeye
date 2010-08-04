@@ -1,6 +1,10 @@
 #include "stipulation/proxy.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
+#include "stipulation/operators/binary.h"
 #include "trace.h"
+
+#include <assert.h>
 
 /* remember proxy slices
  */
@@ -31,10 +35,18 @@ slice_index alloc_proxy_slice(void)
 void dealloc_proxy_slice(slice_index proxy)
 {
   slice_index const refered = slices[proxy].u.pipe.next;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy);
+  TraceFunctionParamListEnd();
+
   if (slices[refered].prev==proxy)
     slices[refered].prev = slices[proxy].prev;
   dealloc_slice(proxy);
   is_proxy[proxy] = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Deallocate all proxy pipes
@@ -56,16 +68,70 @@ void dealloc_proxy_slices(void)
 
 /* Substitute a possible link to a proxy slice by the proxy's target
  * @param si address of slice index
+ * @param st points at the structure holding the state of the traversal
  */
-void proxy_slice_resolve(slice_index *si)
+void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
 {
+  boolean (* const is_resolved_proxy)[max_nr_slices] = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",*si);
+  TraceFunctionParam("%p",st);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(*si,st);
+
+  TraceEnumerator(SliceType,slices[*si].type,"\n");
+  while (slices[*si].type==STProxy)
+  {
+    (*is_resolved_proxy)[*si] = true;
+    *si = slices[*si].u.pipe.next;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Substitute links to proxy slices by the proxy's target
+ * @param si points to variable holding root slice of stipulation; if
+ *           that slice's type is STProxy, the variable will be updated
+ *           to hold the first non-proxy slice
+ */
+void resolve_proxies(slice_index *si)
+{
+  slice_index i;
+  stip_structure_traversal st;
+  boolean is_resolved_proxy[max_nr_slices] = { false };
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",*si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(SliceType,slices[*si].type,"\n");
-  while (slices[*si].type==STProxy)
-    *si = slices[*si].u.pipe.next;
+  TraceStipulation(*si);
+
+  assert(slices[*si].type==STProxy);
+
+  stip_structure_traversal_init(&st,&is_resolved_proxy);
+  stip_structure_traversal_override_by_type(&st,
+                                            slice_structure_pipe,
+                                            &pipe_resolve_proxies);
+  stip_structure_traversal_override_by_type(&st,
+                                            slice_structure_branch,
+                                            &pipe_resolve_proxies);
+  stip_structure_traversal_override_by_type(&st,
+                                            slice_structure_fork,
+                                            &branch_fork_resolve_proxies);
+  stip_structure_traversal_override_by_type(&st,
+                                            slice_structure_binary,
+                                            &binary_resolve_proxies);
+
+  stip_traverse_structure(*si,&st);
+
+  proxy_slice_resolve(si,&st);
+
+  for (i = 0; i!=max_nr_slices; ++i)
+    if (is_resolved_proxy[i])
+      dealloc_proxy_slice(i);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -42,12 +42,14 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
 
 /* Instrument the stipulation representation so that it can write
  * refuting variations
+ * @param si identifies slice where to start
  */
-void stip_insert_postkey_handlers(void);
+void stip_insert_postkey_handlers(slice_index si);
 
 /* Instrument the stipulation representation so that post key play is
  * suppressed from output
+ * @param si identifies slice where to start
  */
-void stip_insert_postkeyplay_suppressors(void);
+void stip_insert_postkeyplay_suppressors(slice_index si);
 
 #endif

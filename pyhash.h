@@ -56,8 +56,15 @@ unsigned long allochash(unsigned long nr_kilos);
  */
 boolean is_hashtable_allocated(void);
 
-void inithash (void);
+/* Initialise the hashing machinery for the current stipulation
+ * @param si identifies the root slice of the stipulation
+ */
+void inithash (slice_index si);
+
+/* Uninitialise the hashing machinery
+ */
 void closehash (void);
+
 void HashStats(unsigned int level, char *trailer);
 
 void IncHashRateLevel(void);
@@ -142,7 +149,8 @@ stip_length_type hashed_series_has_solution_in_n(slice_index si,
                                                  stip_length_type n);
 
 /* Instrument stipulation with hashing slices
+ * @param si identifies slice where to start
  */
-void stip_insert_hash_slices(void);
+void stip_insert_hash_slices(slice_index si);
 
 #endif

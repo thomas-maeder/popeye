@@ -18,10 +18,9 @@
  * Slices of this type write lines in line mode.
  */
 
-static void write_line(goal_type goal)
+static void write_line(Side starting_side, goal_type goal)
 {
   int next_movenumber = 1;
-  Side starting_side;
   ply current_ply;
 
   ply const start_ply = 2;
@@ -30,11 +29,11 @@ static void write_line(goal_type goal)
     produce_beep();
       
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,starting_side,"");
+  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
   Message(NewLine);
-
-  starting_side = slices[root_slice].starter;
 
   ResetPosition();
 
@@ -66,6 +65,7 @@ static void write_line(goal_type goal)
   se_start_pos();
 #endif
 
+  TraceValue("%u",start_ply);
   TraceValue("%u\n",nbply);
   for (current_ply = start_ply; current_ply<=nbply; ++current_ply)
   {
@@ -76,6 +76,7 @@ static void write_line(goal_type goal)
     }
 
     TraceEnumerator(Side,starting_side," ");
+    TraceValue("%u",current_ply);
     TraceEnumerator(Side,trait[current_ply],"\n");
     if (trait[current_ply]==starting_side)
     {
@@ -106,19 +107,22 @@ static void write_line(goal_type goal)
 }
 
 /* Allocate a STOutputPlaintextLineLineWriter slice.
+ * @param root_slice slice at the start of the solution
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_line_writer_slice(Goal goal)
+slice_index alloc_line_writer_slice(slice_index root_slice, Goal goal)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice);
   TraceFunctionParam("%u",goal.type);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputPlaintextLineLineWriter);
-  slices[result].u.goal_reached_tester.goal = goal;
+  slices[result].u.line_writer.goal = goal;
+  slices[result].u.line_writer.root_slice = root_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -139,7 +143,7 @@ has_solution_type line_writer_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = slice_has_solution(slices[si].u.goal_reached_tester.next);
+  result = slice_has_solution(slices[si].u.line_writer.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -154,16 +158,23 @@ has_solution_type line_writer_has_solution(slice_index si)
 has_solution_type line_writer_solve(slice_index si)
 {
   has_solution_type result;
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.line_writer.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   result = slice_solve(next);
+
   if (result==has_solution)
-    write_line(goal.type);
+  {
+    Goal const goal = slices[si].u.line_writer.goal;
+    slice_index const root_slice = slices[si].u.line_writer.root_slice;
+    Side initial_starter = slices[root_slice].starter;
+    if (areColorsSwapped)
+      initial_starter = advers(initial_starter);
+    write_line(initial_starter,goal.type);
+  }
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

@@ -635,14 +635,14 @@ void ProofRestoreTargetPosition(void)
   TraceFunctionResultEnd();
 }
 
-void ProofWriteStartPosition(void)
+void ProofWriteStartPosition(slice_index start)
 {
   if (goal_to_be_reached==goal_atob)
   {
     char InitialLine[40];
     sprintf(InitialLine,
             "\nInitial (%s ->):\n",
-            PieSpString[UserLanguage][slices[root_slice].starter]);
+            PieSpString[UserLanguage][slices[start].starter]);
     StdString(InitialLine);
     WritePosition();
   }
@@ -2049,14 +2049,15 @@ static void saveTargetPiecesAndSquares(void)
   TraceFunctionResultEnd();
 }
 
-void ProofInitialise(void)
+void ProofInitialise(slice_index si)
 {
   Goal unique_goal;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  unique_goal = find_unique_goal(root_slice);
+  unique_goal = find_unique_goal(si);
   if (unique_goal.type==no_goal)
     VerifieMsg(MultipleGoalsWithProogGameNotAcceptable);
   else

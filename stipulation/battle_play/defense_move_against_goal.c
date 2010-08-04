@@ -1,18 +1,52 @@
 #include "stipulation/battle_play/defense_move_against_goal.h"
 #include "pydata.h"
 #include "pypipe.h"
+#include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_move.h"
+#include "stipulation/battle_play/defense_fork.h"
 #include "trace.h"
 
 #include <assert.h>
 
+/* for which Side(s) is the optimisation currently enabled? */
+static boolean enabled[nr_sides] =  { false };
+
+/* Reset the enabled state of the optimisation of final defense moves
+ */
+void reset_defense_move_against_goal_enabled_state(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  enabled[White] = true;
+  enabled[Black] = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Disable the optimisation of final defense moves for defense by a side
+ * @param side side for which to disable the optimisation
+ */
+void disable_defense_move_against_goal(Side side)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  enabled[side] = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Allocate a STDefenseMoveAgainstGoal defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_defense_move_against_goal_slice(void)
+static slice_index alloc_defense_move_against_goal_slice(void)
 {
   slice_index result;
 
@@ -26,6 +60,40 @@ slice_index alloc_defense_move_against_goal_slice(void)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Optimise a STDefenseMove slice for defending against a goal
+ * @param si identifies slice to be optimised
+ * @param goal goal that slice si defends against
+ * @return index of allocated slice
+ */
+void optimise_final_defense_move(slice_index si, Goal goal)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",enabled[slices[si].starter]);
+  if (enabled[slices[si].starter])
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const fork = alloc_defense_fork_slice(length,min_length,
+                                                      proxy1);
+    slice_index const last_defense = alloc_defense_move_against_goal_slice();
+    slice_index const proxy2 = alloc_proxy_slice();
+
+    pipe_append(slices[si].prev,fork);
+
+    pipe_link(proxy1,last_defense);
+    pipe_link(last_defense,proxy2);
+    pipe_set_successor(proxy2,slices[si].u.pipe.next);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean last_defense_stalemate;
@@ -130,22 +198,20 @@ static unsigned int iterate_non_killer(slice_index si,
 /* Try defenses first by the killer piece, then by the other pieces
  * @param si identifies slice
  * @param killer_pos square occupied by killer piece
- * @param defender defending side
  * @param max_nr_refutations maximum number of refutations to look for
  * @return number of refutations found (0 .. max_nr_refutations+1)
  */
-static unsigned int iterate_killer(slice_index si,
-                                   Side defender,
-                                   square killer_pos,
-                                   piece killer,
-                                   unsigned int max_nr_refutations)
+static unsigned int iterate_killer_first(slice_index si,
+                                         square killer_pos,
+                                         piece killer,
+                                         unsigned int max_nr_refutations)
 {
+  Side const defender = slices[si].starter;
   Side const attacker = advers(defender);
   unsigned int result;
     
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(Side,defender,"");
   TraceSquare(killer_pos);
   TracePiece(killer);
   TraceFunctionParam("%u",max_nr_refutations);
@@ -210,7 +276,8 @@ defense_move_against_goal_can_defend_in_n(slice_index si,
                                           stip_length_type n_max_unsolvable,
                                           unsigned int max_nr_refutations)
 {
-  Side const defender = slices[si].starter;
+  square const killer_pos = kpilcd[nbply+1];
+  piece const killer = e[killer_pos];
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -222,34 +289,25 @@ defense_move_against_goal_can_defend_in_n(slice_index si,
 
   assert(n==slack_length_battle+1);
 
-  if ((defender==Black ? flagblackmummer : flagwhitemummer))
+  TraceSquare(killer_pos);
+  TracePiece(killer);
+  TraceText("\n");
+
+  if (killer==obs || killer==vide)
     result = defense_move_can_defend_in_n(si,
                                           slack_length_battle+1,
                                           n_max_unsolvable,
                                           max_nr_refutations);
   else
   {
-    square const killer_pos = kpilcd[nbply+1];
-    piece const killer = e[killer_pos];
-
-    TraceSquare(killer_pos);
-    TracePiece(killer);
-    TraceText("\n");
-
     last_defense_stalemate = true;
 
-    if (killer==obs || killer==vide)
-      result = defense_move_can_defend_in_n(si,
-                                            slack_length_battle+1,
-                                            n_max_unsolvable,
-                                            max_nr_refutations);
-    else
     {
-      unsigned int const nr_refutations = iterate_killer(si,
-                                                         defender,
-                                                         killer_pos,
-                                                         killer,
-                                                         max_nr_refutations);
+      unsigned int const
+          nr_refutations = iterate_killer_first(si,
+                                                killer_pos,
+                                                killer,
+                                                max_nr_refutations);
 
       if (last_defense_stalemate /* stalemate */
           || nr_refutations>0)   /* refuted */

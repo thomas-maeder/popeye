@@ -646,7 +646,7 @@ static void minimiseValueOffset(void)
 /* Initialise the slice_properties array according to the current
  * stipulation slices.
  */
-static void init_slice_properties(void)
+static void init_slice_properties(slice_index si)
 {
   stip_structure_traversal st;
   slice_initializer_state sis = {
@@ -655,6 +655,7 @@ static void init_slice_properties(void)
   };
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   nr_hash_slices = 0;
@@ -666,7 +667,7 @@ static void init_slice_properties(void)
   stip_structure_traversal_override(&st,
                                     slice_properties_initalisers,
                                     nr_slice_properties_initalisers);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   is_there_slice_with_nonstandard_min_length
       = find_slice_with_nonstandard_min_length();
@@ -1716,9 +1717,13 @@ static goal_type const proof_goals[] = { goal_proof, goal_atob };
 static unsigned int const nr_proof_goals = (sizeof proof_goals
                                             / sizeof proof_goals[0]);
 
-void inithash(void)
+/* Initialise the hashing machinery for the current stipulation
+ * @param si identifies the root slice of the stipulation
+ */
+void inithash(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   ifTESTHASH(
@@ -1736,7 +1741,7 @@ void inithash(void)
 
     minimalElementValueAfterCompression = 2;
 
-    init_slice_properties();
+    init_slice_properties(si);
 
     template_element.d.Data = 0;
     init_elements(&template_element);
@@ -1765,7 +1770,7 @@ void inithash(void)
 
     bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
-    if (stip_ends_in_one_of(proof_goals,nr_proof_goals))
+    if (stip_ends_in_one_of(si,proof_goals,nr_proof_goals))
     {
       encode = ProofEncode;
       if (hashtable_kilos>0 && MaxPositions==0)
@@ -1815,6 +1820,8 @@ void inithash(void)
   TraceFunctionResultEnd();
 } /* inithash */
 
+/* Uninitialise the hashing machinery
+ */
 void closehash(void)
 {
   if (pyhash!=0)
@@ -2144,20 +2151,24 @@ enum
   = (sizeof hash_element_inserters / sizeof hash_element_inserters[0])
 };
 
-void stip_insert_hash_slices(void)
+/* Instrument stipulation with hashing slices
+ * @param si identifies slice where to start
+ */
+void stip_insert_hash_slices(slice_index si)
 {
   stip_moves_traversal st;
   branch_level level = toplevel_branch;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_moves_traversal_init(&st,
                            hash_element_inserters,nr_hash_element_inserters,
                            &level);
-  stip_traverse_moves(root_slice,&st);
+  stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

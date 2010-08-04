@@ -23,8 +23,9 @@ void set_output_mode(output_mode mode);
 
 /* Instrument the stipulation structure with slices that implement
  * the selected output mode.
+ * @param si identifies slice where to start
  */
-void stip_insert_output_slices(void);
+void stip_insert_output_slices(slice_index si);
 
 /* Write the appropriate amount of whitespace for the following output
  * to be correctely indented.

@@ -124,21 +124,23 @@ enum
 
 /* Instrument the stipulation representation so that it can write
  * variations
+ * @param si identifies slice where to start
  */
-void stip_insert_postkey_handlers(void)
+void stip_insert_postkey_handlers(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     postkey_handler_inserters,
                                     nr_postkey_handler_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -179,23 +181,25 @@ enum
 
 /* Instrument the stipulation representation so that post key play is
  * suppressed from output
+ * @param si identifies slice where to start
  */
-void stip_insert_postkeyplay_suppressors(void)
+void stip_insert_postkeyplay_suppressors(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     postkey_suppressor_inserters,
                                     nr_postkey_suppressor_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -254,22 +254,24 @@ enum
 
 /* Instrument the stipulation representation so that it can deal with
  * continuations
+ * @param si identifies slice where to start
  */
-void stip_insert_continuation_handlers(void)
+void stip_insert_continuation_handlers(slice_index si)
 {
   stip_structure_traversal st;
   continuation_handler_insertion_state state = continuation_handler_not_needed;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     continuation_handler_inserters,
                                     nr_continuation_handler_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

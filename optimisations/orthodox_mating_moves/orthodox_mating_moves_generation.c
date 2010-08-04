@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-Goal empile_for_goal;
+Goal empile_for_goal = { no_goal, initsquare };
 
 typedef Flags ColourSpec;
 

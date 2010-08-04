@@ -603,6 +603,7 @@ void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
+  pipe_unlink(slices[si].prev);
   dealloc_slice(si);
 
   TraceFunctionExit(__func__);

@@ -338,14 +338,6 @@ void InitBoard(void)
   nrhuntertypes = 0;
 } /* InitBoard */
 
-void InitStip(void)
-{
-  empile_for_goal.type = no_goal;
-
-  release_slices();
-  root_slice = no_slice;
-}
-
 void InitAlways(void) {
   square i;
 

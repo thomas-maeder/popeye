@@ -560,21 +560,23 @@ enum
 };
 
 /* Instrument stipulation with STMaxNrNonTrivial slices
+ * @param si identifies slice where to start
  */
-void stip_insert_max_nr_nontrivial_guards(void)
+void stip_insert_max_nr_nontrivial_guards(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     max_nr_nontrivial_guards_inserters,
                                     nr_max_nr_nontrivial_guards_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

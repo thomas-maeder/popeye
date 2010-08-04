@@ -120,7 +120,8 @@ threat_solver_can_defend_in_n(slice_index si,
 
 /* Instrument the stipulation representation so that it can deal with
  * threats
+ * @param si identifies slice where to start
  */
-void stip_insert_threat_handlers(void);
+void stip_insert_threat_handlers(slice_index si);
 
 #endif

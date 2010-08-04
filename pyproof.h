@@ -16,8 +16,9 @@
 void ProofEncode(void);
 
 /* Initialise the proof module for the current target position
+ * @param si identifies start slice
  */
-void ProofInitialise(void);
+void ProofInitialise(slice_index si);
 
 /* Proof game: initialize start position from PAS
  */
@@ -49,8 +50,9 @@ void ProofSaveTargetPosition(void);
 void ProofRestoreTargetPosition(void);
 
 /* write start position (0 resp. 1 diagram)
+ * @param start identifies start slice
  */
-void ProofWriteStartPosition(void);
+void ProofWriteStartPosition(slice_index start);
 
 /* Initialise data structure for intelligent solving
  * @param length number of half-moves until goal has to be reached

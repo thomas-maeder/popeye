@@ -95,9 +95,10 @@ refutations_collector_solve_in_n(slice_index si,
 
 /* Instrument the stipulation representation so that it can deal with
  * tries
+ * @param si identifies slice where to start
  * @return true iff the stipulation could be instrumented (i.e. iff
  *         try play applies to the stipulation)
  */
-boolean stip_insert_try_handlers(void);
+boolean stip_insert_try_handlers(slice_index si);
 
 #endif

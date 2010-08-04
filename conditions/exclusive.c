@@ -13,19 +13,21 @@ static boolean is_reaching_goal_allowed[maxply+1];
 
 /* Perform the necessary verification steps for solving an Exclusive
  * Chess problem
+ * @param si identifies root slice of stipulation
  * @return true iff verification passed
  */
-boolean exclusive_verifie_position(void)
+boolean exclusive_verifie_position(slice_index si)
 {
   boolean result;
   Goal goal;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   /* we have to know which goal has to be reached in a dual-free
    * way */
-  goal = find_unique_goal(root_slice);
+  goal = find_unique_goal(si);
   if (goal.type==no_goal)
   {
     VerifieMsg(StipNotSupported);

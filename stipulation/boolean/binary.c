@@ -4,16 +4,18 @@
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies
+ * @param st points at the structure holding the state of the traversal
  */
-void binary_resolve_proxies(slice_index si)
+void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  proxy_slice_resolve(&slices[si].u.binary.op1);
-  proxy_slice_resolve(&slices[si].u.binary.op2);
-  
+  proxy_slice_resolve(&slices[si].u.binary.op1,st);
+  proxy_slice_resolve(&slices[si].u.binary.op2,st);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

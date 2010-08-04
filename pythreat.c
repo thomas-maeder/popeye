@@ -276,22 +276,24 @@ enum
 };
 
 /* Instrument stipulation with STMaxThreatLength slices
+ * @param si identifies slice where to start
  */
-boolean stip_insert_maxthreatlength_guards(void)
+boolean stip_insert_maxthreatlength_guards(slice_index si)
 {
   boolean result;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override(&st,
                                     maxthreatlength_guards_inserters,
                                     nr_maxthreatlength_guards_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

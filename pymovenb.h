@@ -26,8 +26,9 @@ unsigned int get_restart_number(void);
 boolean read_restart_number(char const *optionValue);
 
 /* Instrument stipulation with STRestartGuard slices
+ * @param si identifies slice where to start
  */
-void stip_insert_restart_guards(void);
+void stip_insert_restart_guards(slice_index si);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -66,6 +67,7 @@ stip_length_type restart_guard_help_solve_in_n(slice_index si,
  *         n+1 no solution found
  *         n   solution found
  */
-stip_length_type restart_guard_series_solve_in_n(slice_index si, stip_length_type n);
+stip_length_type restart_guard_series_solve_in_n(slice_index si,
+                                                 stip_length_type n);
 
 #endif

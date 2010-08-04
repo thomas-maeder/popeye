@@ -406,23 +406,27 @@ enum
 
 /* Instrument the stipulation representation so that it can deal with
  * tries
+ * @param si identifies slice where to start
+ * @return true iff the stipulation could be instrumented (i.e. iff
+ *         try play applies to the stipulation)
  */
-boolean stip_insert_try_handlers(void)
+boolean stip_insert_try_handlers(slice_index si)
 {
   boolean result;
   try_handler_insertion_state state = try_handler_inserted_none;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     try_handler_inserters,
                                     nr_try_handler_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   result = state==try_handler_inserted_collector;
 

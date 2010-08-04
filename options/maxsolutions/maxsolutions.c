@@ -279,27 +279,29 @@ enum
 };
 
 /* Instrument a stipulation with STMaxSolutions*Filter slices
+ * @param si identifies slice where to start
  */
-void stip_insert_maxsolutions_filters(void)
+void stip_insert_maxsolutions_filters(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     maxsolutions_filter_inserters,
                                     nr_maxsolutions_filter_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     maxsolutions_initialiser_inserters,
                                     nr_maxsolutions_initialiser_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -32,21 +32,22 @@ enum
 };
 
 /* Instrument a stipulation with STNo_short_variationsSeriesFilter slices
+ * @param si identifies slice where to start
  */
-void stip_insert_no_short_variations_filters(void)
+void stip_insert_no_short_variations_filters(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(root_slice);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     no_short_variations_filter_inserters,
                                     nr_no_short_variations_filter_inserters);
-  stip_traverse_structure(root_slice,&st);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

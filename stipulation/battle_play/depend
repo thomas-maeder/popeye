@@ -250,15 +250,18 @@ trace.h:
 stipulation/battle_play/defense_move_against_goal$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_move_against_goal.c \
   stipulation/battle_play/defense_move_against_goal.h pydata.h pypipe.h \
-  stipulation/branch.h stipulation/battle_play/branch.h \
-  stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_move.h trace.h
+  stipulation/proxy.h stipulation/branch.h \
+  stipulation/battle_play/branch.h stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_move.h \
+  stipulation/battle_play/defense_fork.h trace.h
 
 stipulation/battle_play/defense_move_against_goal.h:
 
 pydata.h:
 
 pypipe.h:
+
+stipulation/proxy.h:
 
 stipulation/branch.h:
 
@@ -267,6 +270,8 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_move.h:
+
+stipulation/battle_play/defense_fork.h:
 
 trace.h:
 stipulation/battle_play/defense_end$(OBJ_SUFFIX):  \

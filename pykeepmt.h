@@ -11,8 +11,9 @@
 #include "stipulation/help_play/play.h"
 
 /* Instrument stipulation with STKeepMatingGuard slices
+ * @param si identifies slice where to start
  */
-void stip_insert_keepmating_guards(void);
+void stip_insert_keepmating_guards(slice_index si);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.

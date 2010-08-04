@@ -2,6 +2,7 @@
 #define OPTIMISATIONS_STOPONSHORTSOLUTIONS_STOPONSHORTSOLUTIONS_H
 
 #include "boolean.h"
+#include "pystip.h"
 
 /* This module provides functionality dealing with the filter slices
  * implement the stoponshortsolutions option and command line parameter. 
@@ -34,8 +35,9 @@ void reset_short_solution_found_in_phase(void);
 boolean has_short_solution_been_found_in_phase(void);
 
 /* Instrument a stipulation with STStopOnShortSolutions*Filter slices
+ * @param si identifies slice where to start
  * @return true iff the option stoponshort applies
  */
-boolean stip_insert_stoponshortsolutions_filters(void);
+boolean stip_insert_stoponshortsolutions_filters(slice_index si);
 
 #endif

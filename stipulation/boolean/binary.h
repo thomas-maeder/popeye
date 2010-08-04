@@ -8,8 +8,9 @@
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies
+ * @param st points at the structure holding the state of the traversal
  */
-void binary_resolve_proxies(slice_index si);
+void binary_resolve_proxies(slice_index si, stip_structure_traversal *st);
 
 /* Traversal of the moves of an operand of a binary operator
  * @param op identifies operand

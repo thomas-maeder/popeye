@@ -7,10 +7,21 @@
  * in STDefenseMoveAgainstGoal stipulation slices.
  */
 
-/* Allocate a STDefenseMoveAgainstGoal defender slice.
+/* Reset the enabled state of the optimisation of final defense moves
+ */
+void reset_defense_move_against_goal_enabled_state(void);
+
+/* Disable the optimisation of final defense moves for defense by a side
+ * @param side side for which to disable the optimisation
+ */
+void disable_defense_move_against_goal(Side);
+
+/* Optimise a STDefenseMove slice for defending against a goal
+ * @param si identifies slice to be optimised
+ * @param goal goal that slice si defends against
  * @return index of allocated slice
  */
-slice_index alloc_defense_move_against_goal_slice(void);
+void optimise_final_defense_move(slice_index si, Goal goal);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index

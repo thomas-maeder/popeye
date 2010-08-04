@@ -123,7 +123,7 @@ pytable.h:
 stipulation/battle_play/defense_play.h:
 py2$(OBJ_SUFFIX): py2.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pymsg.h pystip.h \
-  conditions/exclusive.h boolean.h pyposit.h trace.h
+  conditions/exclusive.h boolean.h pyposit.h pystip.h trace.h
 
 py.h:
 
@@ -158,6 +158,8 @@ conditions/exclusive.h:
 boolean.h:
 
 pyposit.h:
+
+pystip.h:
 
 trace.h:
 py3$(OBJ_SUFFIX): py3.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
@@ -240,7 +242,7 @@ trace.h:
 py5$(OBJ_SUFFIX): py5.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
   stipulation/battle_play/attack_play.h pyslice.h pydata.h pymsg.h \
-  pyslice.h pystip.h conditions/exclusive.h boolean.h pyposit.h \
+  pyslice.h pystip.h conditions/exclusive.h boolean.h pyposit.h pystip.h \
   conditions/republican.h pyproc.h trace.h
 
 py.h:
@@ -287,6 +289,8 @@ boolean.h:
 
 pyposit.h:
 
+pystip.h:
+
 conditions/republican.h:
 
 pyproc.h:
@@ -311,8 +315,8 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   stipulation/battle_play/attack_move_to_goal.h \
   stipulation/battle_play/attack_fork.h \
   stipulation/battle_play/defense_move_against_goal.h \
-  stipulation/battle_play/defense_fork.h stipulation/help_play/root.h \
-  stipulation/help_play/branch.h stipulation/goals/prerequisite_guards.h \
+  stipulation/help_play/root.h stipulation/help_play/branch.h \
+  stipulation/goals/prerequisite_guards.h \
   options/no_short_variations/no_short_variations.h \
   optimisations/goals/optimisation_guards.h \
   optimisations/maxtime/maxtime.h \
@@ -444,8 +448,6 @@ stipulation/battle_play/attack_move_to_goal.h:
 stipulation/battle_play/attack_fork.h:
 
 stipulation/battle_play/defense_move_against_goal.h:
-
-stipulation/battle_play/defense_fork.h:
 
 stipulation/help_play/root.h:
 

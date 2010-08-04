@@ -171,15 +171,18 @@ void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st)
 
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies
+ * @param st points at the structure holding the state of the traversal
  */
-void pipe_resolve_proxies(slice_index si)
+void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+  
   if (slices[si].u.pipe.next!=no_slice)
-    proxy_slice_resolve(&slices[si].u.pipe.next);
+    proxy_slice_resolve(&slices[si].u.pipe.next,st);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

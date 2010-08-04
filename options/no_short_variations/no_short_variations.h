@@ -8,7 +8,8 @@
  */
 
 /* Instrument a stipulation with STNoShortVariations slices
+ * @param si identifies slice where to start
  */
-void stip_insert_no_short_variations_filters(void);
+void stip_insert_no_short_variations_filters(slice_index si);
 
 #endif
