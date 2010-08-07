@@ -326,7 +326,6 @@ boolean t_lioncheck(square i, piece p, evalfunction_t *evaluate);
 boolean f_lioncheck(square i, piece p, evalfunction_t *evaluate);
 boolean marincheck(square a, numvec b, numvec c, piece d, evalfunction_t *evaluate);
 boolean empile(square departure, square arrival, square capture);
-boolean testempile(square departure, square arrival, square capture);
 
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates

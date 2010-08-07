@@ -66,6 +66,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "conditions/republican.h"
 #include "trace.h"
+#include "measure.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -235,6 +236,7 @@ void init_move_generation_optimizer(void) {
   case move_generation_optimized_by_killer_move:
     current_killer_state.move.departure = kpilcd[nbply];
     current_killer_state.move.arrival = kpilca[nbply];
+    current_killer_state.mren = cmren[nbcou];
     current_killer_state.found = false;
     break;
   case move_generation_not_optimized:
@@ -271,6 +273,7 @@ void finish_move_generation_optimizer(void) {
       nbcou++;
       --curr_elmt;
       move_generation_stack[nbcou]= curr_elmt->move;
+      cmren[nbcou] = curr_elmt->mren;
     }
     break;
   }
@@ -278,6 +281,7 @@ void finish_move_generation_optimizer(void) {
     if (current_killer_state.found) {
       nbcou++;
       move_generation_stack[nbcou] = current_killer_state.move;
+      cmren[nbcou] = current_killer_state.mren;
     }
     break;
   case move_generation_not_optimized:
@@ -301,7 +305,8 @@ static void add_to_move_generation_stack(square sq_departure,
 
 static void add_to_empile_optimization_table(square sq_departure,
                                              square sq_arrival,
-                                             square sq_capture)
+                                             square sq_capture,
+                                             square mren)
 {
   int   nr_opponent_moves = 0;
 
@@ -325,6 +330,7 @@ static void add_to_empile_optimization_table(square sq_departure,
     curr_elmt->move.departure= sq_departure;
     curr_elmt->move.arrival= sq_arrival;
     curr_elmt->move.capture= sq_capture;
+    curr_elmt->mren = mren;
     curr_elmt->nr_opponent_moves= nr_opponent_moves;
     empile_optimization_table_count++;
   }
@@ -333,16 +339,21 @@ static void add_to_empile_optimization_table(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-static void save_as_killer_move(square capture)
+static void save_as_killer_move(square capture, square mren)
 {
   current_killer_state.found= true;
   current_killer_state.move.capture= capture;
+  current_killer_state.mren= mren;
 }
+
+DEFINE_COUNTER(empile)
 
 boolean empile(square sq_departure, square sq_arrival, square sq_capture)
 {
   square  hcr, mren= initsquare;
   Side traitnbply;
+
+  INCREMENT_COUNTER(empile);
 
   if (sq_departure==sq_arrival
       && (!nullgenre || sq_arrival != nullsquare))
@@ -783,7 +794,8 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
   switch (move_generation_mode)
   {
     case move_generation_optimized_by_nr_opponent_moves:
-      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture);
+      add_to_empile_optimization_table(sq_departure,sq_arrival,sq_capture,
+                                       mren);
       break;
     case move_generation_optimized_by_killer_move:
       if (!is_killer_move(sq_departure,sq_arrival,sq_capture)
@@ -791,7 +803,7 @@ boolean empile(square sq_departure, square sq_arrival, square sq_capture)
           || flag_testlegality)
         add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
       else
-        save_as_killer_move(sq_capture);
+        save_as_killer_move(sq_capture,mren);
       break;
     case move_generation_not_optimized:
       add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture,mren);
@@ -954,11 +966,16 @@ static void genbouncer(square sq_departure,
   }
 }
 
-boolean testempile(square sq_departure, square sq_arrival, square sq_capture) {
+static numecoup testdebut[maxply+1];
+
+static boolean testempile(square sq_departure,
+                          square sq_arrival,
+                          square sq_capture)
+{
   numecoup k;
 
   if (!TSTFLAG(spec[sq_departure], ColourChange))
-    for (k= nbcou; k > testdebut; k--)
+    for (k= nbcou; k > testdebut[nbply]; k--)
       if (move_generation_stack[k].arrival==sq_arrival)
         return true;
 
@@ -1591,11 +1608,11 @@ static void grfou(square   orig_departure,
 }
 
 static void gcard(square   orig_departure,
-           square   in,
-           numvec   k,
-           int x,
-           Side  camp,
-           generatorfunction_t *generate)
+                  square   in,
+                  numvec   k,
+                  int x,
+                  Side  camp,
+                  generatorfunction_t *generate)
 {
   /* ATTENTION:
      if first call of x is 1
@@ -2541,7 +2558,7 @@ static void gencpb(square i) {
 }
 
 void gfeerblanc(square i, piece p) {
-  testdebut= nbcou;
+  testdebut[nbply]= nbcou;
   switch(p) {
   case nb:
     gebrid(i, vec_knight_start,vec_knight_end);
@@ -2732,7 +2749,7 @@ void gfeerblanc(square i, piece p) {
 }
 
 void gfeernoir(square i, piece p) {
-  testdebut= nbcou;
+  testdebut[nbply]= nbcou;
   switch(p) {
   case nn:
     genrid(i, vec_knight_start,vec_knight_end);

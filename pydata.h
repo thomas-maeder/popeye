@@ -299,7 +299,6 @@ EXTERN  boolean         flagfee,
 EXTERN  square          cirrenroib, cirrenroin,
 			immrenroib, immrenroin;
 
-EXTERN  numecoup        testdebut;
 EXTERN  Flags           pprispec[maxply + 1];
 
 EXTERN  Flags           spec[maxsquare+4];

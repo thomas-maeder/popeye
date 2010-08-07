@@ -41,7 +41,6 @@ int len_losingchess(square sq_departure, square sq_arrival, square sq_capture);
 	/* determines "length" of moves in losing chess (schlagschach) */
 
 boolean empile(square departure, square arrival, square capture);
-boolean testempile(square departure, square arrival, square capture);
 
 
 void	gemoarider(square i, Side camp);
