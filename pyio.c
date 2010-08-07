@@ -2438,7 +2438,7 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      assert(slices[next_next].type!=STSeriesMoveToGoal);
+      assert(slices[slices[next].u.pipe.next].type!=STSeriesMoveToGoal);
 
       {
         slice_index const proxy = alloc_proxy_slice();
