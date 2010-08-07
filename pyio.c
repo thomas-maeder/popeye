@@ -2507,7 +2507,7 @@ static char *ParsePlay(char *tok,
         if (length==slack_length_help && min_length==slack_length_help)
         {
           pipe_link(proxy,slices[proxy_next].u.pipe.next);
-          dealloc_proxy_slice(proxy_next);
+          dealloc_slice(proxy_next);
         }
         else
         {
@@ -2796,7 +2796,7 @@ static char *ParsePlay(char *tok,
           pipe_link(proxy_avoided_attack,not_attack);
 
           pipe_link(avoided_defense,next);
-          dealloc_proxy_slice(proxy_next);
+          dealloc_slice(proxy_next);
           pipe_link(proxy_avoided_defense,not_defense);
           slice_insert_reflex_filters(branch,
                                       proxy_avoided_attack,

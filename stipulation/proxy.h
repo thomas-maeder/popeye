@@ -14,15 +14,6 @@
  */
 slice_index alloc_proxy_slice(void);
 
-/* Deallocate a proxy slice
- * @param proxy identifies the proxy slice
- */
-void dealloc_proxy_slice(slice_index proxy);
-
-/* Deallocate all proxy slices
- */
-void dealloc_proxy_slices(void);
-
 /* Substitute links to proxy slices by the proxy's target
  * @param si points to variable holding root slice of stipulation; if
  *           that slice's type is STProxy, the variable will be updated

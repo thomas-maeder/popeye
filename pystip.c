@@ -515,12 +515,7 @@ void dealloc_slices(slice_index si)
 
   for (i = 0; i!=max_nr_slices; ++i)
     if (st.traversed[i]==slice_traversed)
-    {
-      if (slices[i].type==STProxy)
-        dealloc_proxy_slice(i);
-      else
-        dealloc_slice(i);
-    }
+      dealloc_slice(i);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -717,7 +712,7 @@ void stip_insert_root_slices(slice_index si)
   if (slices[result].type==STProxy)
   {
     slice_index const next = slices[result].u.pipe.next;
-    dealloc_proxy_slice(result);
+    dealloc_slice(result);
     result = next;
   }
   
@@ -1238,7 +1233,7 @@ boolean stip_apply_postkeyplay(slice_index si)
     if (slices[postkey_slice].type==STProxy)
     {
       install_postkey_slice(si,slices[postkey_slice].u.pipe.next);
-      dealloc_proxy_slice(postkey_slice);
+      dealloc_slice(postkey_slice);
     }
     else
       install_postkey_slice(si,postkey_slice);
