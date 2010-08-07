@@ -201,6 +201,9 @@ static unsigned int iterate_non_killer(slice_index next,
       piece p = e[*selfbnp];
       if (p!=vide)
       {
+        move_generation_mode = move_generation_not_optimized;
+        TraceValue("->%u\n",move_generation_mode);
+
         if (TSTFLAG(spec[*selfbnp],Neutral))
           p = -p;
         if (defender==White)
@@ -213,9 +216,9 @@ static unsigned int iterate_non_killer(slice_index next,
           if (p<vide)
             gen_bl_piece(*selfbnp,p);
         }
-      }
 
-      result += try_last_defenses(next,max_nr_refutations-result);
+        result += try_last_defenses(next,max_nr_refutations-result);
+      }
     }
 
   TraceFunctionExit(__func__);
@@ -237,7 +240,7 @@ static unsigned int iterate_killer_first(slice_index next,
 {
   Side const defender = slices[next].starter;
   Side const attacker = advers(defender);
-  unsigned int result;
+  unsigned int result = 0;
     
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",next);
@@ -246,33 +249,36 @@ static unsigned int iterate_killer_first(slice_index next,
   TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-
   nextply(nbply);
   trait[nbply] = defender;
-
   if (TSTFLAG(PieSpExFlags,Neutral))
     initneutre(attacker);
-  if (TSTFLAG(spec[killer_pos],Neutral))
-    killer = -e[killer_pos];
 
-  init_move_generation_optimizer();
-
-  if (defender==White)
+  if (killer!=vide && killer!=obs)
   {
-    if (killer>obs)
-      gen_wh_piece(killer_pos,killer);
-  }
-  else
-  {
-    if (killer<-obs)
-      gen_bl_piece(killer_pos,killer);
-  }
+    if (TSTFLAG(spec[killer_pos],Neutral))
+      killer = -e[killer_pos];
 
-  finish_move_generation_optimizer();
+    move_generation_mode = move_generation_optimized_by_killer_move;
+    TraceValue("->%u\n",move_generation_mode);
 
-  result = try_last_defenses(next,max_nr_refutations);
+    init_move_generation_optimizer();
+
+    if (defender==White)
+    {
+      if (killer>obs)
+        gen_wh_piece(killer_pos,killer);
+    }
+    else
+    {
+      if (killer<-obs)
+        gen_bl_piece(killer_pos,killer);
+    }
+
+    finish_move_generation_optimizer();
+
+    result = try_last_defenses(next,max_nr_refutations);
+  }
 
   if (result<=max_nr_refutations)
   {
@@ -308,6 +314,7 @@ killer_move_final_defense_move_can_defend_in_n(slice_index si,
   square const killer_pos = kpilcd[nbply+1];
   piece const killer = e[killer_pos];
   slice_index const next = slices[si].u.pipe.next;
+  unsigned int nr_refutations;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -324,29 +331,18 @@ killer_move_final_defense_move_can_defend_in_n(slice_index si,
   TracePiece(killer);
   TraceText("\n");
 
-  if (killer==obs || killer==vide)
-    result = defense_can_defend_in_n(next,
-                                     slack_length_battle+1,
-                                     n_max_unsolvable,
-                                     max_nr_refutations);
+  last_defense_stalemate = true;
+
+  nr_refutations = iterate_killer_first(next,
+                                        killer_pos,
+                                        killer,
+                                        max_nr_refutations);
+
+  if (last_defense_stalemate /* stalemate */
+      || nr_refutations>0)   /* refuted */
+    result = slack_length_battle+5;
   else
-  {
-    last_defense_stalemate = true;
-
-    {
-      unsigned int const
-          nr_refutations = iterate_killer_first(next,
-                                                killer_pos,
-                                                killer,
-                                                max_nr_refutations);
-
-      if (last_defense_stalemate /* stalemate */
-          || nr_refutations>0)   /* refuted */
-        result = slack_length_battle+5;
-      else
-        result = slack_length_battle+1;
-    }
-  }
+    result = slack_length_battle+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
