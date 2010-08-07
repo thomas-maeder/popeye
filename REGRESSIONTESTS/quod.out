@@ -24,19 +24,19 @@
   s#=2                        7 + 7
               Quodlibet
 
-  1.Dc1-e1 ! Zugzwang.
-      1...e2*f1=D 
+   1.Dc1-e1 ! Zugzwang.
+      1...e2*f1=D
           2.Kh4*g3
               2...Df1*e1 #
-      1...e2*f1=S 
+      1...e2*f1=S
           2.De1-f2 +
               2...Kg1*f2 =
               2...g3*f2 =
-      1...e2*f1=T 
+      1...e2*f1=T
           2.De1*g3 #
-      1...e2*f1=L 
+      1...e2*f1=L
           2.Kh4*g3 =
-      1...g3-g2 
+      1...g3-g2
           2.Lf1*e2 #
 
 Loesung beendet. 
@@ -68,24 +68,24 @@ Loesung beendet.
   s#=2                        9 + 8
               Quodlibet
 
-  1.h2-h3 ! Drohung:
+   1.h2-h3 ! Drohung:
           2.Dd7*c7 +
               2...Kb8*c7 =
-      1...Dc7-b6 
+      1...Dc7-b6
           2.Dd7-d8 +
               2...Db6*d8 #
-      1...Dc7-d8 + 
+      1...Dc7-d8 +
           2.Dd7*d8 #
-      1...Dc7*c6 
+      1...Dc7*c6
           2.Dd7*c6 =
-      1...Dc7-b7 
+      1...Dc7-b7
           2.Dd7*b7 #
           2.c6*b7 =
-      1...Dc7*d7 
+      1...Dc7*d7
           2.c6-c7 +
+              2...Kb8*c7 =
               2...Dd7*c7 =
               2...Kb8-c8 =
-              2...Kb8*c7 =
 
 Loesung beendet. 
 
@@ -116,18 +116,18 @@ Loesung beendet.
   s#2                         4 + 7
               Quodlibet
 
-  1.Dh5*h6 ! Drohung:
+   1.Dh5*h6 ! Drohung:
           2.Dh6-e3 +
               2...Kd4*e3 #
-      1...c4-c3 
+      1...c4-c3
           2.Dh6-f4 #
-      1...Kd4-e5 
+      1...Kd4-e5
           2.Dh6-f4 +
               2...Ke5*f4 #
-      1...Kd4-c3 
+      1...Kd4-c3
           2.Dh6-d2 +
               2...Kc3*d2 #
-      1...e6-e5 
+      1...e6-e5
           2.Dh6-d2 #
 
 Loesung beendet. 
@@ -159,8 +159,8 @@ Loesung beendet.
   semi-r#2                    8 + 4
               Quodlibet
 
-  1.Ta4-a3 ! Zugzwang.
-      1...e2-e1=D 
+   1.Ta4-a3 ! Zugzwang.
+      1...e2-e1=D
           2.Lf7*e6
               2...De1-e4 #
           2.Lf7-g6
@@ -211,29 +211,29 @@ Loesung beendet.
               2...De1-e4 #
           2.Ta2-b2
               2...De1-e4 #
-      1...e2-e1=S 
+      1...e2-e1=S
           2.Ta3-f3
               2...Se1-g2 #
-      1...e2-e1=T 
+      1...e2-e1=T
           2.Se5-f3
               2...Te1-e4 #
           2.Ta3-f3
               2...Te1-e4 #
-      1...e2-e1=L 
+      1...e2-e1=L
           2.Lf7-h5 #
 
-  1.Ld2-e3 ! Zugzwang.
-      1...Kd1-e1 
+   1.Ld2-e3 ! Zugzwang.
+      1...Kd1-e1
           2.Ta2-a1 #
-      1...e2-e1=D 
+      1...e2-e1=D
           2.Le3-d4
               2...De1-e4 #
-      1...e2-e1=S 
+      1...e2-e1=S
           2.Se5-f3
               2...Se1-d3 #
-      1...e2-e1=T 
+      1...e2-e1=T
           2.Ta4-d4 #
-      1...e2-e1=L 
+      1...e2-e1=L
           2.Lf7-h5 #
 
 Loesung beendet. 
@@ -265,10 +265,10 @@ Loesung beendet.
   semi-r#2                    6 + 3
               Quodlibet
 
-  1.Lg8-e6 ! Zugzwang.
-      1...Sh8-f7 
+   1.Lg8-e6 ! Zugzwang.
+      1...Sh8-f7
           2.Le6-d7 #
-      1...Sh8*g6 
+      1...Sh8*g6
           2.Le6-g4
               2...Sg6-f4 #
 

@@ -26,20 +26,20 @@
 
 a) 
 
-  1.Ta2-a5 ! Drohung:
+   1.Ta2-a5 ! Drohung:
           2.Lb4-c5 #
-      1...c6*d5 
+      1...c6*d5
           2.Sd6-b5 #
-      1...Le6*d5 
+      1...Le6*d5
           2.Sd6-f5 #
 
 b) TransmutierendeKoenige
 
-  1.Ka7-b6 ! Drohung:
+   1.Ka7-b6 ! Drohung:
           2.Lb4-c5 #
-      1...c6*d5 
+      1...c6*d5
           2.Sd6-f5 #
-      1...Le6*d5 
+      1...Le6*d5
           2.Sd6-b5 #
 
 Loesung beendet. 
@@ -152,121 +152,121 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
   #4                         10 + 2
         TransmutierendeKoenige
 
-  1.e6-e7 ! Drohung:
+   1.e6-e7 ! Drohung:
           2.e7-e8=H #
-      1...Hc2*c6-c7 
-          2.e7-e8=H +
-              2...Hc7*d6-e5 
-                  3.He8*e5-e4 +
-                      3...Ke2*e4-e5 
-                          4.b7-b8=H #
-                          4.f6-f7 #
-      1...Ke2-f2 
+      1...Ke2-f2
           2.f6-f7 Drohung:
                   3.f7-f8=H #
-              2...Hc2*c6-c7 
-                  3.f7-f8=H +
-                      3...Hc7*e7-f7 
-                          4.Hf8*f7-f6 #
-              2...Kf2-e2 
-                  3.e7-e8=H #
-              2...Kf2-e3 
-                  3.e7-e8=H #
-              2...Kf2-g3 
+              2...Kf2-g3
                   3.g6-g7 Drohung:
                           4.g7-g8=H #
-                      3...Kg3-h3 
+                      3...Kg3-h3
                           4.h7-h8=H #
-                      3...Kg3-f3 
+                      3...Kg3-f3
                           4.f7-f8=H #
-                      3...Kg3-f4 
+                      3...Kg3-f4
                           4.f7-f8=H #
-                      3...Kg3-h4 
+                      3...Kg3-h4
                           4.h7-h8=H #
-                      3...Kg3-f2 
+                      3...Kg3-f2
                           4.f7-f8=H #
-      1...Ke2-d2 
+              2...Hc2*c6-c7
+                  3.f7-f8=H +
+                      3...Hc7*e7-f7
+                          4.Hf8*f7-f6 #
+              2...Kf2-e3
+                  3.e7-e8=H #
+              2...Kf2-e2
+                  3.e7-e8=H #
+      1...Ke2-f3
+          2.f6-f7 Drohung:
+                  3.f7-f8=H #
+              2...Kf3-e4
+                  3.e7-e8=H #
+              2...Kf3-g3
+                  3.g6-g7 Drohung:
+                          4.g7-g8=H #
+                      3...Kg3-h3
+                          4.h7-h8=H #
+                      3...Kg3-f3
+                          4.f7-f8=H #
+                      3...Kg3-f4
+                          4.f7-f8=H #
+                      3...Kg3-h4
+                          4.h7-h8=H #
+                      3...Kg3-f2
+                          4.f7-f8=H #
+              2...Hc2*c6-c7
+                  3.f7-f8=H +
+                      3...Hc7*e7-f7
+                          4.Hf8*f7-f6 #
+              2...Kf3-g4
+                  3.g6-g7 Drohung:
+                          4.g7-g8=H #
+                      3...Kg4-h4
+                          4.h7-h8=H #
+                      3...Kg4-f4
+                          4.f7-f8=H #
+                      3...Kg4-f5
+                          4.f7-f8=H #
+                      3...Kg4-h5
+                          4.h7-h8=H #
+                      3...Kg4-h3
+                          4.h7-h8=H #
+                      3...Kg4-f3
+                          4.f7-f8=H #
+              2...Kf3-e3
+                  3.e7-e8=H #
+              2...Kf3-e2
+                  3.e7-e8=H #
+      1...Ke2-d3
           2.d6-d7 Drohung:
                   3.d7-d8=H #
-              2...Kd2-e2 
+              2...Kd3-e4
                   3.e7-e8=H #
-              2...Kd2-e3 
-                  3.e7-e8=H #
-      1...Ke2-d3 
-          2.d6-d7 Drohung:
-                  3.d7-d8=H #
-              2...Kd3-e3 
-                  3.e7-e8=H #
-              2...Kd3-c4 
+              2...Kd3-c4
                   3.Sa8-b6 +
-                      3...Kc4-d2 
+                      3...Kc4-d2
                           4.d7-d8=H #
-                      3...Kc4-e3 
+                      3...Kc4-e3
                           4.e7-e8=H #
-                      3...Kc4-e5 
+                      3...Kc4-e5
                           4.e7-e8=H #
                           4.f6-f7 #
-                      3...Kc4-d6 
+                      3...Kc4-d6
                           4.d7-d8=H #
-                      3...Kc4*b6 
+                      3...Kc4*b6
                           4.b7-b8=H #
                   3.c6-c7 Drohung:
                           4.c7-c8=H #
-                      3...Kc4-b4 
+                      3...Kc4-b4
                           4.b7-b8=H #
-                      3...Kc4-b5 
+                      3...Kc4-b5
                           4.b7-b8=H #
-                      3...Kc4-d5 
+                      3...Kc4-d5
                           4.d7-d8=H #
-                      3...Kc4-d3 
+                      3...Kc4-d3
                           4.d7-d8=H #
-                      3...Kc4-b3 
+                      3...Kc4-b3
                           4.b7-b8=H #
-              2...Kd3-e4 
+              2...Kd3-e3
                   3.e7-e8=H #
-              2...Kd3-e2 
+              2...Kd3-e2
                   3.e7-e8=H #
-      1...Ke2-f3 
-          2.f6-f7 Drohung:
-                  3.f7-f8=H #
-              2...Hc2*c6-c7 
-                  3.f7-f8=H +
-                      3...Hc7*e7-f7 
-                          4.Hf8*f7-f6 #
-              2...Kf3-g3 
-                  3.g6-g7 Drohung:
-                          4.g7-g8=H #
-                      3...Kg3-h3 
-                          4.h7-h8=H #
-                      3...Kg3-f3 
-                          4.f7-f8=H #
-                      3...Kg3-f4 
-                          4.f7-f8=H #
-                      3...Kg3-h4 
-                          4.h7-h8=H #
-                      3...Kg3-f2 
-                          4.f7-f8=H #
-              2...Kf3-e3 
+      1...Ke2-d2
+          2.d6-d7 Drohung:
+                  3.d7-d8=H #
+              2...Kd2-e2
                   3.e7-e8=H #
-              2...Kf3-e4 
+              2...Kd2-e3
                   3.e7-e8=H #
-              2...Kf3-g4 
-                  3.g6-g7 Drohung:
-                          4.g7-g8=H #
-                      3...Kg4-h4 
-                          4.h7-h8=H #
-                      3...Kg4-f4 
-                          4.f7-f8=H #
-                      3...Kg4-f5 
-                          4.f7-f8=H #
-                      3...Kg4-h5 
-                          4.h7-h8=H #
-                      3...Kg4-h3 
-                          4.h7-h8=H #
-                      3...Kg4-f3 
-                          4.f7-f8=H #
-              2...Kf3-e2 
-                  3.e7-e8=H #
+      1...Hc2*c6-c7
+          2.e7-e8=H +
+              2...Hc7*d6-e5
+                  3.He8*e5-e4 +
+                      3...Ke2*e4-e5
+                          4.b7-b8=H #
+                          4.f6-f7 #
 
 Loesung beendet. 
 

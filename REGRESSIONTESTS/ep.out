@@ -23,77 +23,77 @@
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 8
 
-  1.c7-c8=D ? Drohung:
+   1.c7-c8=D ? Drohung:
           2.Dc8-e6 #
           2.Dc8-c7 #
           2.Sc5-b7 #
-      1...Lb5*c4 
+      1...Lb5*c4
           2.Dc8-d7 #
           2.Dc8-c6 #
           2.Dc8-c7 #
           2.Sc5-b7 #
-      1...Lb5-d7 
+      1...Lb5-d7
           2.Dc8*d7 #
           2.Dc8-c7 #
-      1...Lb5-c6 
+      1...Lb5-c6
           2.Dc8-e6 #
           2.Dc8*c6 #
           2.Dc8-c7 #
-      1...Lb5-a6 
+      1...Lb5-a6
           2.Dc8-e6 #
           2.Dc8-d7 #
           2.Dc8-c6 #
           2.Dc8-c7 #
-      1...Tf8-f6 
+      1...Tf8-f6
           2.Dc8-c7 #
           2.Dc8-b8 #
           2.Sc5-b7 #
     Aber
-      1...Tf8*c8  !
+      1...Tf8*c8 !
 
-  1.c7-c8=S + ?
+   1.c7-c8=S + ?
     Aber
-      1...Tf8*c8  !
+      1...Tf8*c8 !
 
-  1.Sg6*f8 ? Drohung:
+   1.Sg6*f8 ? Drohung:
           2.c7-c8=S #
           2.Sc5-b7 #
-      1...Lb5-d7 
+      1...Lb5-d7
           2.Sc5-b7 #
-      1...Lb5-c6 
+      1...Lb5-c6
           2.c7-c8=S #
-      1...e7-e6 
+      1...e7-e6
           2.c7-c8=S #
     Aber
-      1...Lb5-a6  !
+      1...Lb5-a6 !
 
-  1.Lh4*g5 ? Drohung:
+   1.Lh4*g5 ? Drohung:
           2.Lg5*e7 #
-      1...Tf8-f6 
+      1...Tf8-f6
           2.c7-c8=S #
-      1...Tf8-f7 
+      1...Tf8-f7
           2.c7-c8=S #
-      1...Tf8-b8 + 
+      1...Tf8-b8 +
           2.c7*b8=D #
           2.c7*b8=L #
     Aber
-      1...Tf8-e8  !
+      1...Tf8-e8 !
 
-  1.f2-f4 ! Drohung:
+   1.f2-f4 ! Drohung:
           2.f4*e5 #
-      1...Tf1*f4 
+      1...Tf1*f4
           2.Th1-d1 #
-      1...g4*f3 ep. 
+      1...g4*f3 ep.
           2.Sc5-b7 #
-      1...e5*f4 
+      1...e5*f4
           2.e4-e5 #
-      1...g5*f4 
+      1...g5*f4
           2.Lh4*e7 #
-      1...Tf8*f4 
+      1...Tf8*f4
           2.c7-c8=S #
-      1...Tf8-f5 
+      1...Tf8-f5
           2.c7-c8=S #
-      1...Tf8-b8 + 
+      1...Tf8-b8 +
           2.c7*b8=D #
           2.c7*b8=L #
 
@@ -125,57 +125,57 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #10/1/1                   10 + 13
 
-  1.De7-f7 + !
-      1...Kd5-e5 
+   1.De7-f7 + !
+      1...Kd5-e5
           2.d2-d4 +
-              2...e4*d3 ep. 
+              2...e4*d3 ep.
                   3.Df7-e7 +
-                      3...Ke5-d5 
+                      3...Ke5-d5
                           4.e2-e4 +
-                              4...f4*e3 ep. 
+                              4...f5*e4
+                                  5.De7*e4 #
+                              4...f4*e3 ep.
                                   5.De7-f7 +
-                                      5...Kd5-e5 
+                                      5...Kd5-e5
                                           6.f2-f4 +
-                                              6...g4*f3 ep. 
+                                              6...g4*f3 ep.
                                                   7.g2-g4 Drohung:
                                                           8.Df7*f5 #
-                                                      7...Sf1-g3 
+                                                      7...d6-d5
+                                                          8.Df7-e7 #
+                                                      7...f5*g4
+                                                          8.Tc4-f4 Drohung:
+                                                                  9.Df7-f5 #
+                                                              8...d6-d5
+                                                                  9.Df7-f6 #
+                                                              8...Sf1-g3
+                                                                  9.h2*g3 Drohung:
+                                                                         10.Df7-f5 #
+                                                                      9...d6-d5
+                                                                         10.Df7-f6 #
+                                                                         10.Df7-e7 #
+                                                      7...Sf1-g3
                                                           8.Df7-e7 +
-                                                              8...Ke5-d5 
+                                                              8...Ke5-d5
                                                                   9.g4*f5 Drohung:
                                                                          10.De7-e6 #
-                                                                      9...Sg3*f5 
+                                                                      9...Sg3*f5
                                                                          10.De7-e4 #
                                                           8.h2*g3 Drohung:
                                                                   9.Df7*f5 #
-                                                              8...f5*g4 
+                                                              8...d6-d5
+                                                                  9.Df7-e7 #
+                                                              8...f5*g4
                                                                   9.Tc4-f4 Drohung:
                                                                          10.Df7-f5 #
-                                                                      9...d6-d5 
+                                                                      9...d6-d5
                                                                          10.Df7-f6 #
                                                                          10.Df7-e7 #
-                                                              8...d6-d5 
-                                                                  9.Df7-e7 #
-                                                      7...h4*g3 ep. 
+                                                      7...h4*g3 ep.
                                                           8.Df7-e7 +
-                                                              8...Ke5-d5 
+                                                              8...Ke5-d5
                                                                   9.De7-f6 Drohung:
                                                                          10.Df6*f5 #
-                                                      7...f5*g4 
-                                                          8.Tc4-f4 Drohung:
-                                                                  9.Df7-f5 #
-                                                              8...Sf1-g3 
-                                                                  9.h2*g3 Drohung:
-                                                                         10.Df7-f5 #
-                                                                      9...d6-d5 
-                                                                         10.Df7-f6 #
-                                                                         10.Df7-e7 #
-                                                              8...d6-d5 
-                                                                  9.Df7-f6 #
-                                                      7...d6-d5 
-                                                          8.Df7-e7 #
-                              4...f5*e4 
-                                  5.De7*e4 #
 
 Loesung beendet. 
 
@@ -205,7 +205,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          5 + 3
 
-  1.h5*g6 ep. ! Drohung:
+   1.h5*g6 ep. ! Drohung:
           2.Th8*h7 #
 
 Loesung beendet. 
@@ -236,7 +236,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #1                         2 + 16
 
-  1.h5*g6 ep. # !
+   1.h5*g6 ep. # !
 
 Loesung beendet. 
 
@@ -266,7 +266,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#1                       13 + 15
 
-  1.c5*b6 ep. + !
+   1.c5*b6 ep. + !
       1...Tb4*b6 #
 
 Loesung beendet. 
@@ -300,225 +300,225 @@ Loesung beendet.
 
 a) 
 
-  1.Kg5*g6 ? Drohung:
+   1.Kg5*g6 ? Drohung:
           2.Se4-g5 #
-      1...d5-d4 
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...c7*d6  !
+      1...c7*d6 !
 
-  1.Kg5-f4 ? Drohung:
+   1.Kg5-f4 ? Drohung:
           2.Se4-g5 #
-      1...d5-d4 
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...c7*d6  !
+      1...c7*d6 !
 
-  1.e5*f6 ep. ! Drohung:
+   1.e5*f6 ep. ! Drohung:
           2.Lf1-h3 #
-      1...d5-d4 
-          2.Lf1-c4 #
-      1...d5*e4 
-          2.Lf1-c4 #
-      1...c7*d6 
+      1...c7*d6
           2.Se4*d6 #
-      1...g7*f6 + 
+      1...d5-d4
+          2.Lf1-c4 #
+      1...d5*e4
+          2.Lf1-c4 #
+      1...g7*f6 +
           2.Se4*f6 #
 
-  1.c5-c6 ? Drohung:
+   1.c5-c6 ? Drohung:
           2.Se4-c5 #
-      1...d5-d4 
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...c7*d6  !
+      1...c7*d6 !
 
-  1.Se4-f6 ? Zugzwang.
-      1...d5-d4 
+   1.Se4-f6 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...c7*d6 
+      1...c7*d6
           2.e5*d6 #
-      1...g7*f6 + 
+      1...g7*f6 +
           2.e5*f6 #
     Aber
-      1...c7-c6  !
+      1...c7-c6 !
 
 b) sBc7-->e7
 
-  1.Kg5*g6 ? Drohung:
+   1.Kg5*g6 ? Drohung:
           2.Se4-g5 #
-      1...d5-d4 
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Kg5-f4 ? Drohung:
+   1.Kg5-f4 ? Drohung:
           2.Se4-g5 #
-      1...d5-d4 
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.e5*f6 ep. ! Drohung:
+   1.e5*f6 ep. ! Drohung:
           2.Lf1-h3 #
-      1...d5-d4 
-          2.Lf1-c4 #
-      1...d5*e4 
-          2.Lf1-c4 #
-      1...e7*d6 
+      1...e7*d6
           2.Se4*d6 #
-      1...e7*f6 + 
+      1...d5-d4
+          2.Lf1-c4 #
+      1...d5*e4
+          2.Lf1-c4 #
+      1...e7*f6 +
           2.Se4*f6 #
-      1...g7*f6 + 
+      1...g7*f6 +
           2.Se4*f6 #
 
-  1.c5-c6 ? Drohung:
+   1.c5-c6 ? Drohung:
           2.Se4-c5 #
-      1...d5-d4 
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Se4-f6 ! Zugzwang.
-      1...d5-d4 
+   1.Se4-f6 ! Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...e7*d6 
+      1...e7*d6
           2.e5*d6 #
-      1...e7*f6 + 
+      1...e7*f6 +
           2.e5*f6 #
-      1...g7*f6 + 
+      1...g7*f6 +
           2.e5*f6 #
 
-  1.f2-f4 ? Zugzwang.
-      1...d5-d4 
+   1.f2-f4 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.f2-f3 ? Zugzwang.
-      1...d5-d4 
+   1.f2-f3 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.d2-d4 ? Zugzwang.
-      1...d5*e4 
+   1.d2-d4 ? Zugzwang.
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Lf1-e2 ? Zugzwang.
-      1...d5-d4 
+   1.Lf1-e2 ? Zugzwang.
+      1...d5-d4
           2.Le2-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Le2-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Le2-g4 #
-      1...f5*e4 
+      1...f5*e4
           2.Le2-g4 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Te1-a1 ? Zugzwang.
-      1...d5-d4 
+   1.Te1-a1 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Te1-b1 ? Zugzwang.
-      1...d5-d4 
+   1.Te1-b1 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Te1-c1 ? Zugzwang.
-      1...d5-d4 
+   1.Te1-c1 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Te1-d1 ? Zugzwang.
-      1...d5-d4 
+   1.Te1-d1 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
-  1.Te1-e3 ? Zugzwang.
-      1...d5-d4 
+   1.Te1-e3 ? Zugzwang.
+      1...d5-d4
           2.Lf1-c4 #
-      1...d5*e4 
+      1...d5*e4
           2.Lf1-c4 #
-      1...f5-f4 
+      1...f5-f4
           2.Lf1-h3 #
-      1...f5*e4 
+      1...f5*e4
           2.Lf1-h3 #
     Aber
-      1...e7*d6  !
+      1...e7*d6 !
 
 Loesung beendet. 
 
@@ -670,12 +670,12 @@ N.Y. State Chess Association, 16.8.1894
  19  (Tg6-f6 )
  20  (Tg6*g7 )
  21  (g5*f6 ep. + )
-  1.g5*f6 ep. + !
-      1...Kg4-f5 
+   1.g5*f6 ep. + !
+      1...Kg4-f5
           2.Tg6-g5 +
-              2...Kf5-e4 
+              2...Kf5-e4
                   3.Dh6-g6 +
-                      3...Ke4-d4 
+                      3...Ke4-d4
                           4.Dg6-d3 #
                           4.c2-c3 #
 
@@ -743,21 +743,21 @@ Loesung beendet.
  25  (Lh5-f3 )
  26  (Lh5-g4 )
  27  (g5*f6 ep. + )
-  1.g5*f6 ep. + !
-      1...Kc2*d1 
+   1.g5*f6 ep. + !
+      1...Kc2*d1
           2.Dg6-g1 +
-              2...Kd1-c2 
+              2...Kd1-c2
                   3.Sd5-e3 +
-                      3...Kc2*d2 
+                      3...Kc2*d2
                           4.Se3-g2 +
-                              4...Kd2-c2 
-                                  5.Lh5-g6 +
-                                      5...Kc2-c3 
-                                          6.Dg1-c5 +
-                                              6...Sa4*c5 #
-                              4...Kd2-c3 
+                              4...Kd2-c3
                                   5.Dg1-c5 +
                                       5...Sa4*c5 #
+                              4...Kd2-c2
+                                  5.Lh5-g6 +
+                                      5...Kc2-c3
+                                          6.Dg1-c5 +
+                                              6...Sa4*c5 #
 
  28  (Sd5-b4 + )
  29  (Sd5-c3 )

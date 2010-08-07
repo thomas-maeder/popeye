@@ -25,43 +25,43 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   #2                          2 + 3
             SwappingKings
 
-  1.Qa4-e8 ? threat:
+   1.Qa4-e8 ? threat:
           2.Qe8-c8[wK<>bK] #
-      1...Ka6-b6 
+      1...Ka6-b6
           2.Qe8-d8[wK<>bK] #
     but
-      1...Sa5-b7  !
+      1...Sa5-b7 !
 
-  1.Qa4-d7 ! threat:
+   1.Qa4-d7 ! threat:
           2.Qd7-c8[wK<>bK] #
           2.Qd7-a7[wK<>bK] #
-      1...Sa5-c6 
+      1...Sa5-b7
+          2.Qd7*b7[wK<>bK] #
+      1...Sa5-c6
           2.Qd7-c8[wK<>bK] #
           2.Qd7-b7[wK<>bK] #
-      1...Sa5-b7 
-          2.Qd7*b7[wK<>bK] #
-      1...Ka6-b6 
+      1...Ka6-b6
           2.Qd7-a7[wK<>bK] #
           2.Qd7-d8[wK<>bK] #
 
-  1.Qa4-d4 ? threat:
+   1.Qa4-d4 ? threat:
           2.Qd4-a7[wK<>bK] #
     but
-      1...Sa5-c6  !
-      1...Ka6-b5  !
+      1...Sa5-c6 !
+      1...Ka6-b5 !
 
-  1.Qa4-b4 ? zugzwang.
-      1...Sa5-b3 
+   1.Qa4-b4 ? zugzwang.
+      1...Sa5-b3
           2.Qb4-b7[wK<>bK] #
-      1...Sa5-c4 
+      1...Sa5-c4
           2.Qb4-b7[wK<>bK] #
-      1...Sa5-c6 
+      1...Sa5-c6
           2.Qb4-b7[wK<>bK] #
-      1...Sa5-b7 
+      1...Sa5-b7
           2.Qb4*b7[wK<>bK] #
     but
-      1...h7-h6  !
-      1...h7-h5  !
+      1...h7-h6 !
+      1...h7-h5 !
 
 solution finished. 
 
@@ -266,7 +266,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   #2                          4 + 3
             SwappingKings
 
-  1.Qg1-a1 ! threat:
+   1.Qg1-a1 ! threat:
           2.Kb2-a3[wK<>bK] #
 
 solution finished. 
@@ -299,18 +299,18 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
   #3                          2 + 1
             SwappingKings
 
-  1.Kf4-g3 ! threat:
+   1.Kf4-g3 ! threat:
           2.Qg6-e4[wK<>bK] threat:
                   3.Qe4-g2[wK<>bK] #
                   3.Qe4-e1[wK<>bK] #
-              2...Kg3-h3 
+              2...Kg3-h3
                   3.Qe4-g2[wK<>bK] #
-              2...Kg3-f2 
+              2...Kg3-f2
                   3.Qe4-g2[wK<>bK] #
                   3.Qe4-h4[wK<>bK] #
-      1...Kh1-g1 
+      1...Kh1-g1
           2.Kg3-h4[wK<>bK] zugzwang.
-              2...Kh4-h3 
+              2...Kh4-h3
                   3.Qg6-g2[wK<>bK] #
 
 solution finished. 

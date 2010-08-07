@@ -25,43 +25,43 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
   #2                          2 + 3
             TauschKoenige
 
-  1.Da4-e8 ? Drohung:
+   1.Da4-e8 ? Drohung:
           2.De8-c8[wK<>sK] #
-      1...Ka6-b6 
+      1...Ka6-b6
           2.De8-d8[wK<>sK] #
     Aber
-      1...Sa5-b7  !
+      1...Sa5-b7 !
 
-  1.Da4-d7 ! Drohung:
+   1.Da4-d7 ! Drohung:
           2.Dd7-c8[wK<>sK] #
           2.Dd7-a7[wK<>sK] #
-      1...Sa5-c6 
+      1...Sa5-b7
+          2.Dd7*b7[wK<>sK] #
+      1...Sa5-c6
           2.Dd7-c8[wK<>sK] #
           2.Dd7-b7[wK<>sK] #
-      1...Sa5-b7 
-          2.Dd7*b7[wK<>sK] #
-      1...Ka6-b6 
+      1...Ka6-b6
           2.Dd7-a7[wK<>sK] #
           2.Dd7-d8[wK<>sK] #
 
-  1.Da4-d4 ? Drohung:
+   1.Da4-d4 ? Drohung:
           2.Dd4-a7[wK<>sK] #
     Aber
-      1...Sa5-c6  !
-      1...Ka6-b5  !
+      1...Sa5-c6 !
+      1...Ka6-b5 !
 
-  1.Da4-b4 ? Zugzwang.
-      1...Sa5-b3 
+   1.Da4-b4 ? Zugzwang.
+      1...Sa5-b3
           2.Db4-b7[wK<>sK] #
-      1...Sa5-c4 
+      1...Sa5-c4
           2.Db4-b7[wK<>sK] #
-      1...Sa5-c6 
+      1...Sa5-c6
           2.Db4-b7[wK<>sK] #
-      1...Sa5-b7 
+      1...Sa5-b7
           2.Db4*b7[wK<>sK] #
     Aber
-      1...h7-h6  !
-      1...h7-h5  !
+      1...h7-h6 !
+      1...h7-h5 !
 
 Loesung beendet. 
 
@@ -266,7 +266,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
   #2                          4 + 3
             TauschKoenige
 
-  1.Dg1-a1 ! Drohung:
+   1.Dg1-a1 ! Drohung:
           2.Kb2-a3[wK<>sK] #
 
 Loesung beendet. 
@@ -299,18 +299,18 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
   #3                          2 + 1
             TauschKoenige
 
-  1.Kf4-g3 ! Drohung:
+   1.Kf4-g3 ! Drohung:
           2.Dg6-e4[wK<>sK] Drohung:
                   3.De4-g2[wK<>sK] #
                   3.De4-e1[wK<>sK] #
-              2...Kg3-h3 
+              2...Kg3-h3
                   3.De4-g2[wK<>sK] #
-              2...Kg3-f2 
+              2...Kg3-f2
                   3.De4-g2[wK<>sK] #
                   3.De4-h4[wK<>sK] #
-      1...Kh1-g1 
+      1...Kh1-g1
           2.Kg3-h4[wK<>sK] Zugzwang.
-              2...Kh4-h3 
+              2...Kh4-h3
                   3.Dg6-g2[wK<>sK] #
 
 Loesung beendet. 

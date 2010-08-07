@@ -29,7 +29,7 @@ a)
 
 b) #1
 
-  1.Ra1-h1[+bKh3] # !
+   1.Ra1-h1[+bKh3] # !
 
 solution finished. 
 
@@ -96,39 +96,39 @@ solution finished.
   #2                          3 + 9
        RepublicanChess    Type1
 
-  1.Sa8-b6 ? threat:
+   1.Sa8-b6 ? threat:
           2.Ra7-a8[+bKh8] #
     but
-      1...Sa1-c2[+wKc5] +  !
+      1...Sa1-c2[+wKc5] + !
 
-  1.Sa8-c7 ! threat:
+   1.Sa8-c7 ! threat:
           2.Ra7-a8[+bKh8] #
-      1...b7-b6 
+      1...b7-b6
           2.Ra7*a6[+bKa5] #
 
-  1.Ra7*a6 ? threat:
+   1.Ra7*a6 ? threat:
           2.Ra6*a1[+bKa5] #
           2.Ra6*a1[+bKa6] #
           2.Ra6-a2[+bKa5] #
           2.Ra6-a2[+bKa6] #
           2.Ra6-a7[+bKa5] #
-      1...Sa1-c2 
+      1...Sa1-c2
           2.Ra6-a7[+bKa5] #
-      1...Sa1-b3 
+      1...Sa1-b3
           2.Sa8-b6[+bKa4] #
           2.Ra6-a2[+bKa4] #
           2.Ra6-a2[+bKa5] #
           2.Ra6-a7[+bKa5] #
-      1...b4-b3 
+      1...b4-b3
           2.Ra6*a1[+bKa6] #
           2.Ra6-a3[+bKa6] #
-      1...b7-b6 
+      1...b7-b6
           2.Sa8-c7[+bKa5] #
           2.Ra6*a1[+bKa5] #
           2.Ra6-a2[+bKa5] #
           2.Ra6-a7[+bKa5] #
     but
-      1...b7*a6  !
+      1...b7*a6 !
 
 solution finished. 
 
@@ -159,20 +159,20 @@ solution finished.
   #2                          5 + 7
        RepublicanChess    Type1
 
-  1.Se3-f5 ? threat:
+   1.Se3-f5 ? threat:
           2.Sf5*d6[+bKe8] #
-      1...Sc3-e4 
+      1...Sc3-e4
           2.Sf5-e3[+bKe6] #
-      1...Sc3-b5 
+      1...Sc3-b5
           2.Sf5-e3[+bKe6] #
     but
-      1...Sc3-e4[+wKg5] +  !
+      1...Sc3-e4[+wKg5] + !
 
-  1.Se3-c4 ! threat:
+   1.Se3-c4 ! threat:
           2.Sc4*d6[+bKe8] #
-      1...Sc3-e4 
+      1...Sc3-e4
           2.Sc4-e3[+bKe6] #
-      1...Sc3-b5 
+      1...Sc3-b5
           2.Sc4-e3[+bKe6] #
 
 solution finished. 
@@ -204,20 +204,20 @@ solution finished.
   #2                          3 + 3
        RepublicanChess    Type1
 
-  1.Ba8-d5 ! zugzwang.
-      1...d7-d6 
+   1.Ba8-d5 ! zugzwang.
+      1...d7-d6
           2.Rf8-f7[+bKe6] #
           2.Rf8-f7[+bKa8] #
-      1...Bb8-a7 
+      1...Bb8-a7
           2.Rf8-c8[+bKa8] #
           2.Rf8-d8[+bKa8] #
           2.Rf8-e8[+bKa8] #
           2.Rf8-h8[+bKa8] #
           2.Rf8-g8[+bKa8] #
           2.Bd5-c6[+bKa8] #
-      1...Bb8-d6 
+      1...Bb8-d6
           2.Rf8-f7[+bKe6] #
-      1...Bb8-c7 
+      1...Bb8-c7
           2.Rf8-a8[+bKb8] #
 
 solution finished. 
@@ -283,16 +283,16 @@ solution finished.
   #2                          6 + 4
        RepublicanChess    Type2
 
-  1.b5-b6 ! zugzwang.
-      1...Ba8-c6 
+   1.b5-b6 ! zugzwang.
+      1...Ba8-c6
           2.Sd8-b7[+bKb5] #
-      1...Ba8-b7 
+      1...Ba8-b7
           2.Sd8-c6[+bKa6] #
 
-  1.a5-a6 ! zugzwang.
-      1...Ba8-c6 
+   1.a5-a6 ! zugzwang.
+      1...Ba8-c6
           2.Sd8*c6[+bKa5] #
-      1...Ba8-b7 
+      1...Ba8-b7
           2.Sd8*b7[+bKa5] #
 
 solution finished. 
@@ -325,14 +325,14 @@ solution finished.
              Chameleon d1
        RepublicanChess    Type2
 
-  1.Re7-e2 ? zugzwang.
-      1...cBd1*e2=cR 
+   1.Re7-e2 ? zugzwang.
+      1...cBd1*e2=cR
           2.Rc7-c2
               2...cRe2-e1=cQ[+wKc1] #
-      1...cBd1-a4=cR 
+      1...cBd1-a4=cR
           2.Qh3-d7
               2...cRa4-a8=cQ[+wKc8] #
-      1...cBd1-c2=cR 
+      1...cBd1-c2=cR
           2.Rc7-a7
               2...cRc2-c1=cQ[+wKe1] #
           2.Rc7-b7
@@ -346,154 +346,154 @@ solution finished.
           2.Rc7-e7
               2...cRc2-c1=cQ[+wKe1] #
     but
-      1...cBd1-b3=cR  !
+      1...cBd1-b3=cR !
 
-  1.Rc7-b7 ! zugzwang.
-      1...cBd1-h5=cR 
-          2.Rb7-b3
-              2...cRh5-a5=cQ[+wKa3] #
-      1...cBd1-g4=cR 
-          2.Rb7-d7
-              2...cRg4-g8=cQ[+wKe8] #
-      1...cBd1-f3=cR 
-          2.Re7-h7
-              2...cRf3-f8=cQ[+wKh8] #
-      1...cBd1-e2=cR 
+   1.Rc7-b7 ! zugzwang.
+      1...cBd1-e2=cR
           2.Re7-c7
               2...cRe2-e8=cQ[+wKc8] #
-      1...cBd1-a4=cR 
+      1...cBd1-h5=cR
+          2.Rb7-b3
+              2...cRh5-a5=cQ[+wKa3] #
+      1...cBd1-g4=cR
+          2.Rb7-d7
+              2...cRg4-g8=cQ[+wKe8] #
+      1...cBd1-f3=cR
+          2.Re7-h7
+              2...cRf3-f8=cQ[+wKh8] #
+      1...cBd1-a4=cR
           2.Rb7-b3
               2...cRa4-a5=cQ[+wKa3] #
-      1...cBd1-b3=cR 
+      1...cBd1-b3=cR
           2.Rb7-d7
               2...cRb3-b8=cQ[+wKd8] #
-      1...cBd1-c2=cR 
+      1...cBd1-c2=cR
           2.Re7-e2
               2...cRc2-c1=cQ[+wKe1] #
 
-  1.Qh3-f1 ? zugzwang.
-      1...cBd1-h5=cR 
+   1.Qh3-f1 ? zugzwang.
+      1...cBd1-h5=cR
           2.Qf1-e2
               2...cRh5-h1=cQ[+wKf1] #
-      1...cBd1-g4=cR 
+      1...cBd1-g4=cR
           2.Rc7-d7
               2...cRg4-g8=cQ[+wKe8] #
           2.Qf1-b1
               2...cRg4-a4=cQ[+wKa2] #
-      1...cBd1-f3=cR 
+      1...cBd1-f3=cR
           2.Re7-d7
               2...cRf3-f8=cQ[+wKd8] #
           2.Re7-h7
               2...cRf3-f8=cQ[+wKh8] #
-      1...cBd1-a4=cR 
+      1...cBd1-a4=cR
           2.Re7-d7
               2...cRa4-a8=cQ[+wKc8] #
-      1...cBd1-b3=cR 
+      1...cBd1-b3=cR
           2.Rc7-d7
               2...cRb3-b8=cQ[+wKd8] #
-      1...cBd1-c2=cR 
+      1...cBd1-c2=cR
           2.Rc7-a7
               2...cRc2-c8=cQ[+wKa8] #
     but
-      1...cBd1-e2=cR  !
+      1...cBd1-e2=cR !
 
-  1.Qh3-d3 ? zugzwang.
-      1...cBd1-h5=cR 
+   1.Qh3-d3 ? zugzwang.
+      1...cBd1-h5=cR
           2.Re7-e2
               2...cRh5-h1=cQ[+wKf1] #
           2.Qd3-e2
               2...cRh5-h1=cQ[+wKf1] #
-      1...cBd1-g4=cR 
+      1...cBd1-g4=cR
           2.Rc7-d7
               2...cRg4-g8=cQ[+wKe8] #
           2.Qd3-b1
               2...cRg4-a4=cQ[+wKa2] #
           2.Qd3-d7
               2...cRg4-g8=cQ[+wKe8] #
-      1...cBd1-f3=cR 
+      1...cBd1-f3=cR
           2.Re7-d7
               2...cRf3-f8=cQ[+wKd8] #
           2.Re7-h7
               2...cRf3-f8=cQ[+wKh8] #
-      1...cBd1-a4=cR 
+      1...cBd1-a4=cR
           2.Re7-d7
               2...cRa4-a8=cQ[+wKc8] #
           2.Qd3-d7
               2...cRa4-a8=cQ[+wKc8] #
-      1...cBd1-b3=cR 
+      1...cBd1-b3=cR
           2.Rc7-d7
               2...cRb3-b8=cQ[+wKd8] #
-      1...cBd1-c2=cR 
+      1...cBd1-c2=cR
           2.Rc7-a7
               2...cRc2-c8=cQ[+wKa8] #
     but
-      1...cBd1-e2=cR  !
+      1...cBd1-e2=cR !
 
-  1.Qh3-e3 ? zugzwang.
-      1...cBd1-h5=cR 
+   1.Qh3-e3 ? zugzwang.
+      1...cBd1-h5=cR
           2.Qe3-e2
               2...cRh5-h1=cQ[+wKf1] #
-      1...cBd1-g4=cR 
+      1...cBd1-g4=cR
           2.Rc7-d7
               2...cRg4-g8=cQ[+wKe8] #
-      1...cBd1-f3=cR 
+      1...cBd1-f3=cR
           2.Re7-h7
               2...cRf3-f8=cQ[+wKh8] #
-      1...cBd1-a4=cR 
+      1...cBd1-a4=cR
           2.Re7-d7
               2...cRa4-a8=cQ[+wKc8] #
-      1...cBd1-b3=cR 
+      1...cBd1-b3=cR
           2.Rc7-d7
               2...cRb3-b8=cQ[+wKd8] #
-      1...cBd1-c2=cR 
+      1...cBd1-c2=cR
           2.Rc7-a7
               2...cRc2-c8=cQ[+wKa8] #
     but
-      1...cBd1-e2=cR  !
+      1...cBd1-e2=cR !
 
-  1.Qh3-h7 ? zugzwang.
-      1...cBd1-g4=cR 
+   1.Qh3-h7 ? zugzwang.
+      1...cBd1-g4=cR
           2.Qh7-b1
               2...cRg4-a4=cQ[+wKa2] #
-      1...cBd1-f3=cR 
+      1...cBd1-f3=cR
           2.Re7-d7
               2...cRf3-f8=cQ[+wKd8] #
-      1...cBd1-e2=cR 
+      1...cBd1-e2=cR
           2.Re7-g7
               2...cRe2-e8=cQ[+wKg8] #
-      1...cBd1-a4=cR 
+      1...cBd1-a4=cR
           2.Re7-d7
               2...cRa4-a8=cQ[+wKc8] #
-      1...cBd1-b3=cR 
+      1...cBd1-b3=cR
           2.Rc7-d7
               2...cRb3-b8=cQ[+wKd8] #
-      1...cBd1-c2=cR 
+      1...cBd1-c2=cR
           2.Rc7-a7
               2...cRc2-c8=cQ[+wKa8] #
     but
-      1...cBd1-h5=cR  !
+      1...cBd1-h5=cR !
 
-  1.Qh3-h5 ? zugzwang.
-      1...cBd1*h5=cR 
+   1.Qh3-h5 ? zugzwang.
+      1...cBd1*h5=cR
           2.Re7-e2
               2...cRh5-h1=cQ[+wKf1] #
-      1...cBd1-g4=cR 
+      1...cBd1-g4=cR
           2.Rc7-d7
               2...cRg4-g8=cQ[+wKe8] #
-      1...cBd1-f3=cR 
+      1...cBd1-f3=cR
           2.Re7-h7
               2...cRf3-f8=cQ[+wKh8] #
-      1...cBd1-a4=cR 
+      1...cBd1-a4=cR
           2.Re7-d7
               2...cRa4-a8=cQ[+wKc8] #
-      1...cBd1-b3=cR 
+      1...cBd1-b3=cR
           2.Rc7-d7
               2...cRb3-b8=cQ[+wKd8] #
-      1...cBd1-c2=cR 
+      1...cBd1-c2=cR
           2.Rc7-a7
               2...cRc2-c8=cQ[+wKa8] #
     but
-      1...cBd1-e2=cR  !
+      1...cBd1-e2=cR !
 
 solution finished. 
 

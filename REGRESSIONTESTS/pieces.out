@@ -101,25 +101,25 @@ Loesung beendet.
   7  (Lc1-h6 )
   8  (Lc1-g5 )
   9  (Lc1-f4 )
-  1.Lc1-f4 !
-      1...Hf3*f4-f5 [+wLc1] 
+   1.Lc1-f4 !
+      1...Hf3*f4-f5 [+wLc1]
           2.Lc1-g5
-              2...Hf5*g5-h5 [+wLc1] + 
+              2...Hf5*g5-h5 [+wLc1] +
                   3.Kh4-g3
-                      3...Hh5*h7-h8 
+                      3...Hh5*h7-h8
                           4.Lc1-b2
-                              4...Hh8*b2-a1 [+wLc1] 
+                              4...Hh8*b2-a1 [+wLc1]
                                   5.Kg3-h4
-                                      5...Ha1*c1-d1 [+wLc1] 
+                                      5...Ha1*c1-d1 [+wLc1]
                                           6.Lc1-d2
-                                              6...Hd1*d2-d3 [+wLc1] 
+                                              6...Hd1*d2-d3 [+wLc1]
                                                   7.Lc1-e3
-                                                      7...Hd3*e3-f3 [+wLc1] 
+                                                      7...Hd3*e3-f3 [+wLc1]
                                                           8.Hc6*f3-g2 [+sHf1] +
-                                                              8...Kb5-c5 
+                                                              8...Kb5-c5
                                                                   9.Lc1-g5
                                                                       9...Hf1*g2-h3 [+wHg8] #
-                                                              8...Kb5-b6 
+                                                              8...Kb5-b6
                                                                   9.Lc1-g5
                                                                       9...Hf1*g2-h3 [+wHg8] #
 
@@ -230,64 +230,64 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 12
 
-  1.Dc8-c5 ! Drohung:
+   1.Dc8-c5 ! Drohung:
           2.Dc5-e3 +
-              2...Sc2*e3 
+              2...Sc2*e3
                   3.f2*e3 #
-      1...ROg1-d4 
-          2.Dc5*f5 +
-              2...ROd4*f5 
-                  3.ROd8-e6 #
-      1...ROg1-e2 
-          2.ROh1-h5 +
-              2...ROe2*h5 
-                  3.ROd8-e6 #
-              2...Kf4*e4 
-                  3.Dc5-d5 #
-      1...Sc2-d4 
-          2.ROd8-e6 +
-              2...Sd4*e6 
-                  3.Dc5-e3 #
-      1...ROa7-b5 
-          2.ROh1-h5 +
-              2...ROb5*h5 
-                  3.Dc5*f5 #
-      1...ROa7-d4 
-          2.ROd8-e6 +
-              2...ROd4*e6 
-                  3.Dc5*f5 #
-      1...ROe8-e2 
-          2.ROd8-e6 +
-              2...ROe2*e6 
-                  3.ROh1-h5 #
-      1...ROe8-c3 + 
+      1...ROe8-c3 +
           2.Dc5*c3 Drohung:
                   3.Dc3-g3 #
                   3.ROh1-h5 #
-              2...ROg1-f3 
+              2...ROg1-f3
                   3.ROd8-e6 #
                   3.Dc3*f3 #
                   3.ROh1-h5 #
-              2...ROg1*g7 
+              2...ROg1*g7
                   3.Dc3-f3 #
-              2...ROg1-e2 
+              2...ROg1-e2
                   3.Dc3-f3 #
-              2...Sc2*e1 
+              2...Sc2*e1
                   3.Dc3-d2 #
                   3.Dc3-e3 #
-              2...Sc2-e3 
+              2...Sc2-e3
                   3.Dc3*e3 #
                   3.f2*e3 #
-              2...ROa7-b5 
+              2...ROa7-b5
                   3.ROh1-h5 #
-      1...ROe8*e4 + 
+      1...ROe8*e4 +
           2.Te1*e4 +
-              2...f5*e4 
+              2...f5*e4
                   3.ROh1-h5 #
-      1...ROe8-b5 
+      1...ROa7-d4
+          2.ROd8-e6 +
+              2...ROd4*e6
+                  3.Dc5*f5 #
+      1...ROg1-d4
           2.Dc5*f5 +
-              2...ROb5*f5 
+              2...ROd4*f5
+                  3.ROd8-e6 #
+      1...Sc2-d4
+          2.ROd8-e6 +
+              2...Sd4*e6
+                  3.Dc5-e3 #
+      1...ROe8-e2
+          2.ROd8-e6 +
+              2...ROe2*e6
                   3.ROh1-h5 #
+      1...ROa7-b5
+          2.ROh1-h5 +
+              2...ROb5*h5
+                  3.Dc5*f5 #
+      1...ROe8-b5
+          2.Dc5*f5 +
+              2...ROb5*f5
+                  3.ROh1-h5 #
+      1...ROg1-e2
+          2.ROh1-h5 +
+              2...ROe2*h5
+                  3.ROd8-e6 #
+              2...Kf4*e4
+                  3.Dc5-d5 #
 
 Loesung beendet. 
 
@@ -317,8 +317,8 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 2
 
-  1.SSb1-d2 ! Zugzwang.
-      1...g4-g3 
+   1.SSb1-d2 ! Zugzwang.
+      1...g4-g3
           2.SSd2-b2 #
 
 Loesung beendet. 
@@ -441,25 +441,25 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#2                        9 + 10
 
-  1.UUa8-f1 ! Drohung:
+   1.UUa8-f1 ! Drohung:
           2.Dh5*h2 +
               2...Dg2*f1 #
-      1...Dg2-h3 
+      1...Dg2-h3
           2.Dh5-h4 +
               2...Dh3*f1 #
-      1...Dg2-f3 
+      1...Dg2-f3
           2.Dh5-g4 +
               2...Df3*f1 #
-      1...Gh2-f2 
+      1...Gh2-f2
           2.Dh5-f3 +
               2...Dg2*f1 #
-      1...g5-g4 
+      1...g5-g4
           2.Gf5-h3 +
               2...Dg2*f1 #
-      1...Ge7-h4 
+      1...Ge7-h4
           2.e6-e7 +
               2...Dg2*f1 #
-      1...Th8*h7 
+      1...Th8*h7
           2.Ge8-c6 +
               2...Dg2*f1 #
 
@@ -841,7 +841,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #3                        10 + 14
 
-  1.Ng3-f5 !
+   1.Ng3-f5 !
 
 Loesung beendet. 
 
@@ -871,14 +871,14 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #5                          3 + 1
 
-  1.Ke6-f6 !
-      1...Ke8-f8 
+   1.Ke6-f6 !
+      1...Ke8-f8
           2.TJd4-e3
-              2...Kf8-g8 
+              2...Kf8-g8
                   3.Kf6-e7
-                      3...Kg8-h7 
+                      3...Kg8-h7
                           4.TJe3-g1
-                              4...Kh7-h6 
+                              4...Kh7-h6
                                   5.LJc3-h8 #
 
 Loesung beendet. 
@@ -909,66 +909,66 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #5                          5 + 2
 
-  1.TJa6-b5 ! Drohung:
+   1.TJa6-b5 ! Drohung:
           2.TJb5-b8 #
-      1...TJa7-g1 
-          2.TJb5-b8 +
-              2...TJg1-g3 
-                  3.TJb8*g3 #
-      1...TJa7-f2 
-          2.TJb5-b8 +
-              2...TJf2-f4 
-                  3.TJb8*f4 #
-      1...TJa7-e3 
-          2.TJb5-b8 +
-              2...TJe3-e5 
-                  3.TJb8*e5 #
-      1...TJa7-d4 
-          2.TJb5-b8 +
-              2...TJd4-d6 
-                  3.TJb8*d6 #
-      1...TJa7-b6 
+      1...TJa7-b6
           2.Lc6-f3 Zugzwang.
-              2...TJb6-a5 
-                  3.TJb5-b8 #
-              2...TJb6-g1 
-                  3.TJb5-b8 +
-                      3...TJg1-g3 
-                          4.TJb8*g3 #
-              2...TJb6-f2 
-                  3.TJb5-b8 #
-              2...TJb6-e3 
-                  3.TJb5-b8 +
-                      3...TJe3-e5 
-                          4.TJb8*e5 #
-              2...TJb6-d4 
-                  3.TJb5-b8 +
-                      3...TJd4-d6 
-                          4.TJb8*d6 #
-              2...TJb6-c5 
-                  3.TJb5-b8 +
-                      3...TJc5-c7 
-                          4.TJb8*c7 #
-              2...TJb6-b8 
-                  3.TJb5*b8 #
-              2...TJb6-b7 
+              2...TJb6-b7
                   3.e2-e4 Zugzwang.
-                      3...TJb7-a6 
-                          4.TJb5-b8 #
-                      3...TJb7*e4 
+                      3...TJb7*e4
                           4.TJb5-b8 +
-                              4...TJe4-e5 
+                              4...TJe4-e5
                                   5.TJb8*e5 #
-                      3...TJb7-d5 
-                          4.TJb5-b8 +
-                              4...TJd5-d6 
-                                  5.TJb8*d6 #
-                      3...TJb7-c6 
-                          4.TJb5-b8 +
-                              4...TJc6-c7 
-                                  5.TJb8*c7 #
-                      3...TJb7-b8 
+                      3...TJb7-b8
                           4.TJb5*b8 #
+                      3...TJb7-c6
+                          4.TJb5-b8 +
+                              4...TJc6-c7
+                                  5.TJb8*c7 #
+                      3...TJb7-a6
+                          4.TJb5-b8 #
+                      3...TJb7-d5
+                          4.TJb5-b8 +
+                              4...TJd5-d6
+                                  5.TJb8*d6 #
+              2...TJb6-e3
+                  3.TJb5-b8 +
+                      3...TJe3-e5
+                          4.TJb8*e5 #
+              2...TJb6-g1
+                  3.TJb5-b8 +
+                      3...TJg1-g3
+                          4.TJb8*g3 #
+              2...TJb6-b8
+                  3.TJb5*b8 #
+              2...TJb6-c5
+                  3.TJb5-b8 +
+                      3...TJc5-c7
+                          4.TJb8*c7 #
+              2...TJb6-d4
+                  3.TJb5-b8 +
+                      3...TJd4-d6
+                          4.TJb8*d6 #
+              2...TJb6-f2
+                  3.TJb5-b8 #
+              2...TJb6-a5
+                  3.TJb5-b8 #
+      1...TJa7-e3
+          2.TJb5-b8 +
+              2...TJe3-e5
+                  3.TJb8*e5 #
+      1...TJa7-g1
+          2.TJb5-b8 +
+              2...TJg1-g3
+                  3.TJb8*g3 #
+      1...TJa7-d4
+          2.TJb5-b8 +
+              2...TJd4-d6
+                  3.TJb8*d6 #
+      1...TJa7-f2
+          2.TJb5-b8 +
+              2...TJf2-f4
+                  3.TJb8*f4 #
 
 Loesung beendet. 
 
@@ -998,70 +998,70 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #4                          5 + 2
 
-  1.Lf7-a2 ! Zugzwang.
-      1...LJb4-f8 
-          2.LJb8-b2 +
-              2...LJf8-f6 
-                  3.LJb2*f6 #
-      1...LJb4-e7 
-          2.LJb8-b2 +
-              2...LJe7-e5 
-                  3.LJb2*e5 #
-      1...LJb4-d6 
-          2.LJb8-b2 +
-              2...LJd6-d4 
-                  3.LJb2*d4 #
-      1...LJb4-c5 
-          2.LJb8-b2 +
-              2...LJc5-c3 
-                  3.LJb2*c3 #
-      1...LJb4-a5 
-          2.LJb8-b2 #
-      1...LJb4-b1 
-          2.LJb8-b2 #
-      1...LJb4-b2 
-          2.LJb8*b2 #
-      1...LJb4-b3 
+   1.Lf7-a2 ! Zugzwang.
+      1...LJb4-b3
           2.Ka8-a7 Zugzwang.
-              2...LJb3-g8 
+              2...Kh8-g8
+                  3.LJb8*b3 +
+                      3...Kg8-h8
+                          4.LJb3-b2 #
+              2...LJb3-c4
                   3.LJb8-b2 +
-                      3...LJg8-g7 
+                      3...LJc4-c3
+                          4.LJb2*c3 #
+                      3...Kh8-g8
+                          4.La2*c4 #
+              2...LJb3-d5
+                  3.LJb8-b2 +
+                      3...Kh8-g8
+                          4.La2*d5 #
+                      3...LJd5-d4 +
+                          4.LJb2*d4 #
+              2...LJb3-e6
+                  3.LJb8-b2 +
+                      3...Kh8-g8
+                          4.La2*e6 #
+                      3...LJe6-e5
+                          4.LJb2*e5 #
+              2...LJb3-b2
+                  3.LJb8*b2 #
+              2...LJb3-f7
+                  3.LJb8-b2 +
+                      3...Kh8-g8
+                          4.La2*f7 #
+                      3...LJf7-f6
+                          4.LJb2*f6 #
+              2...LJb3-b1
+                  3.LJb8-b2 #
+              2...LJb3-a4
+                  3.LJb8-b2 #
+              2...LJb3-g8
+                  3.LJb8-b2 +
+                      3...LJg8-g7
                           4.Lh6*g7 #
                           4.LJb2*g7 #
-              2...LJb3-f7 
-                  3.LJb8-b2 +
-                      3...LJf7-f6 
-                          4.LJb2*f6 #
-                      3...Kh8-g8 
-                          4.La2*f7 #
-              2...LJb3-e6 
-                  3.LJb8-b2 +
-                      3...LJe6-e5 
-                          4.LJb2*e5 #
-                      3...Kh8-g8 
-                          4.La2*e6 #
-              2...LJb3-d5 
-                  3.LJb8-b2 +
-                      3...LJd5-d4 + 
-                          4.LJb2*d4 #
-                      3...Kh8-g8 
-                          4.La2*d5 #
-              2...LJb3-c4 
-                  3.LJb8-b2 +
-                      3...LJc4-c3 
-                          4.LJb2*c3 #
-                      3...Kh8-g8 
-                          4.La2*c4 #
-              2...LJb3-a4 
-                  3.LJb8-b2 #
-              2...LJb3-b1 
-                  3.LJb8-b2 #
-              2...LJb3-b2 
-                  3.LJb8*b2 #
-              2...Kh8-g8 
-                  3.LJb8*b3 +
-                      3...Kg8-h8 
-                          4.LJb3-b2 #
+      1...LJb4-b2
+          2.LJb8*b2 #
+      1...LJb4-c5
+          2.LJb8-b2 +
+              2...LJc5-c3
+                  3.LJb2*c3 #
+      1...LJb4-b1
+          2.LJb8-b2 #
+      1...LJb4-a5
+          2.LJb8-b2 #
+      1...LJb4-d6
+          2.LJb8-b2 +
+              2...LJd6-d4
+                  3.LJb2*d4 #
+      1...LJb4-e7
+          2.LJb8-b2 +
+              2...LJe7-e5
+                  3.LJb2*e5 #
+      1...LJb4-f8
+          2.LJb8-b2 +
+              2...LJf8-f6
+                  3.LJb2*f6 #
 
 Loesung beendet. 
 

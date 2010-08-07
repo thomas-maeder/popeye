@@ -68,101 +68,101 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                         12 + 6
 
-  1.Rg8-d8 ? threat:
+   1.Rg8-d8 ? threat:
           2.Rd8-d7 #
     but
-      1...Kc7*d8  !
+      1...Kc7*d8 !
 
-  1.Rg8-e8 ? zugzwang.
-      1...B1a3-b3 
+   1.Rg8-e8 ? zugzwang.
+      1...B1a3-b3
           2.B1b5-b7 #
-      1...B1a3-a4 
+      1...B1a3-a4
           2.B1b5-c6 #
-      1...B1a3-b2 
+      1...B1a3-b2
           2.B1b5-b8 #
-      1...B1a3-b4 
+      1...B1a3-b4
           2.B1b5-b6 #
-      1...B1g5-f5 
+      1...B1g5-f5
           2.B1f6*f7 #
-      1...B1g5-h4 
+      1...B1g5-h4
           2.B1f6-d8 #
-      1...e6-e5 
+      1...e6-e5
           2.B1f6-c6 #
     but
-      1...B1g5-g7  !
+      1...B1g5-g7 !
 
-  1.Rg8-f8 ? zugzwang.
-      1...B1a3-b3 
+   1.Rg8-f8 ? zugzwang.
+      1...B1a3-b3
           2.B1b5-b7 #
-      1...B1a3-a4 
+      1...B1a3-a4
           2.B1b5-c6 #
-      1...B1a3-b2 
+      1...B1a3-b2
           2.B1b5-b8 #
-      1...B1a3-b4 
+      1...B1a3-b4
           2.B1b5-b6 #
-      1...B1g5-f5 
+      1...B1g5-f5
           2.B1f6*f7 #
-      1...B1g5-h4 
+      1...B1g5-h4
           2.Rf8*f7 #
           2.B1f6-d8 #
-      1...e6-e5 
+      1...e6-e5
           2.B1f6-c6 #
     but
-      1...B1g5-g7  !
+      1...B1g5-g7 !
 
-  1.Rg8-h8 ! zugzwang.
-      1...B1a3-b3 
-          2.B1b5-b7 #
-      1...B1a3-a4 
-          2.B1b5-c6 #
-      1...B1a3-b2 
-          2.B1b5-b8 #
-      1...B1a3-b4 
-          2.B1b5-b6 #
-      1...B1g5-f5 
-          2.B1f6*f7 #
-      1...B1g5-g7 
+   1.Rg8-h8 ! zugzwang.
+      1...B1g5-g7
           2.B1f6-e5 #
-      1...B1g5-h4 
+      1...B1a3-b3
+          2.B1b5-b7 #
+      1...B1a3-a4
+          2.B1b5-c6 #
+      1...B1a3-b2
+          2.B1b5-b8 #
+      1...B1a3-b4
+          2.B1b5-b6 #
+      1...B1g5-f5
+          2.B1f6*f7 #
+      1...B1g5-h4
           2.B1f6-d8 #
-      1...e6-e5 
+      1...e6-e5
           2.B1f6-c6 #
 
-  1.Bc8-a6 ? threat:
+   1.Bc8-a6 ? threat:
           2.Rg8-c8 #
           2.Ra8-c8 #
     but
-      1...B1a3-a4  !
+      1...B1a3-a4 !
 
-  1.Ra8-b8 ? threat:
+   1.Ra8-b8 ? threat:
           2.Rb8-b7 #
     but
-      1...Kc7*b8  !
+      1...Kc7*b8 !
 
-  1.B1f6-e7 ? threat:
+   1.B1f6-e7 ? threat:
           2.B1b5-d7 #
-      1...B1a3-a4 
+      1...B1a3-a4
           2.B1b5-c6 #
     but
-      1...B1g5*e7  !
+      1...B1g5*e7 !
 
-  1.g3-g4 ? zugzwang.
-      1...B1a3-b3 
+   1.g3-g4 ? zugzwang.
+      1...B1a3-b3
           2.B1b5-b7 #
-      1...B1a3-a4 
+      1...B1a3-a4
           2.B1b5-c6 #
-      1...B1a3-b2 
+      1...B1a3-b2
           2.B1b5-b8 #
-      1...B1a3-b4 
+      1...B1a3-b4
           2.B1b5-b6 #
-      1...B1g5-f5 
+      1...B1g5-f5
           2.B1f6*f7 #
-      1...B1g5-h4 
+      1...B1g5-h4
           2.B1f6-d8 #
-      1...e6-e5 
+      1...e6-e5
           2.B1f6-c6 #
     but
-      1...B1g5-g6  !
+      1...B1g5-g6 !
 
 solution finished. 
 

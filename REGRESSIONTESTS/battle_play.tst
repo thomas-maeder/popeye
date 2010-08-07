@@ -379,6 +379,14 @@ solution finished.
   #3                          4 + 3
 
  zugzwang.
+      1...Se8-c7 +
+          2.Se6*c7 #
+      1...Se8-g7
+          2.Se6-c7 #
+      1...Se8-f6
+          2.Se6-c7 #
+      1...Se8-d6
+          2.Se6-c7 #
       1...c6-c5
           2.c3-c4 zugzwang.
               2...Se8-c7 +
@@ -389,14 +397,6 @@ solution finished.
                   3.Se6-c7 #
               2...Se8-g7
                   3.Se6-c7 #
-      1...Se8-c7 +
-          2.Se6*c7 #
-      1...Se8-d6
-          2.Se6-c7 #
-      1...Se8-f6
-          2.Se6-c7 #
-      1...Se8-g7
-          2.Se6-c7 #
 
 solution finished. 
 
@@ -435,6 +435,14 @@ solution finished.
           2.Se6-c7 #
 
    1.b2*c3 ! zugzwang.
+      1...Se8-c7 +
+          2.Se6*c7 #
+      1...Se8-g7
+          2.Se6-c7 #
+      1...Se8-f6
+          2.Se6-c7 #
+      1...Se8-d6
+          2.Se6-c7 #
       1...c6-c5
           2.c3-c4 zugzwang.
               2...Se8-c7 +
@@ -445,14 +453,6 @@ solution finished.
                   3.Se6-c7 #
               2...Se8-g7
                   3.Se6-c7 #
-      1...Se8-c7 +
-          2.Se6*c7 #
-      1...Se8-d6
-          2.Se6-c7 #
-      1...Se8-f6
-          2.Se6-c7 #
-      1...Se8-g7
-          2.Se6-c7 #
 
 solution finished. 
 
@@ -1490,15 +1490,6 @@ solution finished.
 
  threat:
           2.Rh5-h8 #
-      1...Ra4-h4
-          2.Rh5*h4 threat:
-                  3.Rh4-h8 #
-              2...f7-f6
-                  3.Bf5-e6 threat:
-                          4.Rh4-h8 #
-                  3.Rh4-h8 +
-                      3...Ke8-f7
-                          4.Rh8-f8 #
       1...Ra4-e4 +
           2.Sg3*e4 threat:
                   3.Rh5-h8 #
@@ -1508,6 +1499,15 @@ solution finished.
                           4.Rh8-f8 #
                   3.Bf5-e6 threat:
                           4.Rh5-h8 #
+      1...Ra4-h4
+          2.Rh5*h4 threat:
+                  3.Rh4-h8 #
+              2...f7-f6
+                  3.Bf5-e6 threat:
+                          4.Rh4-h8 #
+                  3.Rh4-h8 +
+                      3...Ke8-f7
+                          4.Rh8-f8 #
       1...f7-f6
           2.Rh5-h8 +
               2...Ke8-f7

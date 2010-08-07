@@ -120,33 +120,33 @@ Loesung beendet.
 
 a) 
 
-  1.Sb5*d6 ! Drohung:
+   1.Sb5*d6 ! Drohung:
           2.Sd6-c4 #
-      1...Se2-f4 
+      1...Se2-f4
           2.Dg6-g3 #
-      1...Sf2-e4 
+      1...Sf2-e4
           2.Dg6*e4 #
 
 b) FileCirce
 
-  1.Sb5*a3 [+sBa7] ! Drohung:
+   1.Sb5*a3 [+sBa7] ! Drohung:
           2.Sa3-c4 #
-      1...Ta2*a3 [+wSa1] 
+      1...Ta2*a3 [+wSa1]
           2.Sa1-c2 #
-      1...Se2-f4 
+      1...Se2-f4
           2.Dg6-e4 #
-      1...Sf2-e4 
+      1...Sf2-e4
           2.Dg6-g3 #
 
-  1.Lf1-g2 ! Drohung:
+   1.Lf1-g2 ! Drohung:
           2.Tf8-f3 #
-      1...Se2-c1 
+      1...Se2-c1
           2.Dg6-e4 #
-      1...Se2-g1 
+      1...Se2-g1
           2.Dg6-e4 #
-      1...Se2-g3 
+      1...Se2-g3
           2.Dg6-e4 #
-      1...Se2-f4 
+      1...Se2-f4
           2.Dg6-e4 #
 
 Loesung beendet. 
@@ -249,47 +249,47 @@ Loesung beendet.
         Paralysierend a7 f7 a2
             DiagrammCirce
 
-  1.pBf7-f8=pD ? Drohung:
+   1.pBf7-f8=pD ? Drohung:
           2.Kb5-c5 #
           2.Kb5-b6 #
-      1...ELg1*f8 [+wpDf7] 
+      1...ELg1*f8 [+wpDf7]
           2.Kb5-c6 #
           2.Kb5-c4 #
-      1...ELg1-e4 
+      1...ELg1-e4
           2.Kb5-b6 #
     Aber
-      1...ELg1-h8  !
+      1...ELg1-h8 !
 
-  1.pBf7-f8=pS ? Drohung:
+   1.pBf7-f8=pS ? Drohung:
           2.Kb5-c6 #
-      1...ELg1*f8 [+wpSf7] 
+      1...ELg1*f8 [+wpSf7]
           2.Kb5-c5 #
-      1...Sc8-e7 
+      1...Sc8-e7
           2.Kb5-b6 #
     Aber
-      1...ELg1-d3  !
+      1...ELg1-d3 !
 
-  1.pBf7-f8=pT ? Drohung:
+   1.pBf7-f8=pT ? Drohung:
           2.Kb5-b6 #
-      1...ELg1*f8 [+wpTf7] 
+      1...ELg1*f8 [+wpTf7]
           2.Kb5-c6 #
     Aber
-      1...Sg7-e8  !
+      1...Sg7-e8 !
 
-  1.pBf7-f8=pL ? Drohung:
+   1.pBf7-f8=pL ? Drohung:
           2.Kb5-c5 #
-      1...ELg1*f8 [+wpLf7] 
+      1...ELg1*f8 [+wpLf7]
           2.Kb5-c4 #
-      1...Sc8-e7 
+      1...Sc8-e7
           2.Kb5-b6 #
     Aber
-      1...ELg1-e4  !
+      1...ELg1-e4 !
 
-  1.pBf7-f8=pEL ! Drohung:
+   1.pBf7-f8=pEL ! Drohung:
           2.Kb5-c4 #
-      1...ELg1*f8 [+wpELf7] 
+      1...ELg1*f8 [+wpELf7]
           2.Kb5-b6 #
-      1...Sc8-e7 
+      1...Sc8-e7
           2.Kb5-b6 #
 
 Loesung beendet. 
@@ -664,26 +664,26 @@ Loesung beendet.
   #2                         13 + 7
             SymmetrieCirce
 
-  1.LEd4-f2 ! Drohung:
+   1.LEd4-f2 ! Drohung:
           2.Sc4-e3 #
           2.Sc4-d6 #
-      1...Db1*d1 [+wLe8] 
-          2.Sc4-e3 #
-      1...Td3*d1 [+wLe8] 
-          2.Sc4-e3 #
-      1...Td3-d6 
-          2.LEg8-f8 #
-      1...Td3-d5 
-          2.Sc4-d6 #
-      1...Td3-d4 
-          2.LEg4-f4 #
-      1...Td3-e3 
+      1...Td3-e3
           2.Ld1-f3 #
-      1...Lc5-e3 
+      1...Db1*d1 [+wLe8]
+          2.Sc4-e3 #
+      1...Td3*d1 [+wLe8]
+          2.Sc4-e3 #
+      1...Td3-d6
+          2.LEg8-f8 #
+      1...Td3-d5
+          2.Sc4-d6 #
+      1...Td3-d4
+          2.LEg4-f4 #
+      1...Lc5-e3
           2.Sh1-g3 #
-      1...Lc5-d4 
+      1...Lc5-d4
           2.LEb6-c5 #
-      1...Lc5-d6 
+      1...Lc5-d6
           2.LEg8-c8 #
 
 Loesung beendet. 
@@ -717,18 +717,18 @@ Loesung beendet.
   #3                          5 + 7
             SymmetrieCirce
 
-  1.Df5-f7 ! Drohung:
+   1.Df5-f7 ! Drohung:
           2.Df7-h5 #
-      1...Td7*f7 [+wDc2] 
-          2.Dc2-f2 +
-              2...Tf7*f2 [+wDc7] 
-                  3.Dc7-h7 #
-      1...Tf8*f7 [+wDc2] 
-          2.Dc2-h7 +
-              2...Tf7*h7 [+wDa2] 
-                  3.Da2-f2 #
-      1...Tf8-h8 
+      1...Tf8-h8
           2.Df7-f2 #
+      1...Tf8*f7 [+wDc2]
+          2.Dc2-h7 +
+              2...Tf7*h7 [+wDa2]
+                  3.Da2-f2 #
+      1...Td7*f7 [+wDc2]
+          2.Dc2-f2 +
+              2...Tf7*f2 [+wDc7]
+                  3.Dc7-h7 #
 
 Loesung beendet. 
 
@@ -759,19 +759,19 @@ Loesung beendet.
   #2                         11 + 9
             SymmetrieCirce
 
-  1.Le4-d5 ! Drohung:
+   1.Le4-d5 ! Drohung:
           2.Dc6-c5 #
-      1...Le6*d5 [+wLe4] 
-          2.Dc6*f6 [+sSc3] #
-      1...Sf6*d5 [+wLe4] 
-          2.Dc6-c3 #
-      1...Sf6-e4 
-          2.Dc6-c3 #
-      1...Da7-c5 + 
-          2.Lf8*c5 [+sDf4] #
-      1...Tc7*c6 [+wDf3] + 
+      1...Tc7*c6 [+wDf3] +
           2.Sb4*c6 #
-      1...Tc7-e7 
+      1...Le6*d5 [+wLe4]
+          2.Dc6*f6 [+sSc3] #
+      1...Sf6*d5 [+wLe4]
+          2.Dc6-c3 #
+      1...Sf6-e4
+          2.Dc6-c3 #
+      1...Da7-c5 +
+          2.Lf8*c5 [+sDf4] #
+      1...Tc7-e7
           2.Dc6-c4 #
 
 Loesung beendet. 
@@ -803,17 +803,17 @@ Loesung beendet.
   #2                         8 + 13
             SymmetrieCirce
 
-  1.Dg2-c2 ! Drohung:
+   1.Dg2-c2 ! Drohung:
           2.Dc2*a4 #
-      1...d3*c2 [+wDf7] 
+      1...d3*c2 [+wDf7]
           2.Df7*c4 #
-      1...Sh5-f4 
+      1...Sh5-f4
           2.Ld6*c5 #
-      1...Sh5-g3 
+      1...Sh5-g3
           2.Tb7*b6 #
-      1...Sh5-f6 
+      1...Sh5-f6
           2.Dc2*c3 #
-      1...Tb6-b5 
+      1...Tb6-b5
           2.Se5-c6 #
 
 Loesung beendet. 

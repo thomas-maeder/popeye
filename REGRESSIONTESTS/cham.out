@@ -58,19 +58,19 @@ Loesung beendet.
   s#3                         8 + 8
         Chamaeleon c8 g6 f5 g5
 
-  1.cTg5-g3=cD ! Drohung:
+   1.cTg5-g3=cD ! Drohung:
           2.cDg3-d6=cS +
-              2...c7*d6 
+              2...c7*d6
                   3.cDg6*d6=cS +
                       3...cSf5*d6=cL #
-      1...cLc8-e6=cT 
+      1...cLc8-e6=cT
           2.cDg6-f6=cS +
-              2...cTe6*f6=cD 
+              2...cTe6*f6=cD
                   3.cDg3-g5=cS +
                       3...cDf6*g5=cS #
-      1...cLc8-d7=cT 
+      1...cLc8-d7=cT
           2.Td1-d4 +
-              2...cTd7*d4=cD 
+              2...cTd7*d4=cD
                   3.cDg3-f2=cS +
                       3...cDd4*f2=cS #
 
@@ -103,54 +103,54 @@ Loesung beendet.
   #2                          6 + 9
            Chamaeleon d7 d6
 
-  1.cLd7-g4=cT ? Drohung:
+   1.cLd7-g4=cT ? Drohung:
           2.cTg4*e4=cD #
-      1...Sb1-d2 
+      1...Sb1-d2
           2.De1*d2 #
-      1...Sb1-c3 
+      1...Sb1-c3
           2.De1-d2 #
-      1...Kd4-d3 
+      1...Kd4-d3
           2.cLd6-g3=cT #
     Aber
-      1...Kd4-d5  !
+      1...Kd4-d5 !
 
-  1.cLd7-e6=cT ! Drohung:
+   1.cLd7-e6=cT ! Drohung:
           2.cTe6*e4=cD #
-      1...Sb1-d2 
+      1...Sb1-d2
           2.De1*d2 #
-      1...Sb1-c3 
+      1...Sb1-c3
           2.De1-d2 #
-      1...Kd4-d5 
+      1...Kd4-d5
           2.cLd6-e5=cT #
-      1...Kd4-d3 
+      1...Kd4-d3
           2.cLd6-g3=cT #
-      1...e4-e3 
+      1...e4-e3
           2.cLd6-f4=cT #
 
-  1.cLd6-e7=cT ? Drohung:
+   1.cLd6-e7=cT ? Drohung:
           2.cTe7*e4=cD #
-      1...Sb1-d2 
+      1...Sb1-d2
           2.De1*d2 #
-      1...Sb1-c3 
+      1...Sb1-c3
           2.De1-d2 #
-      1...Kd4-d5 
+      1...Kd4-d5
           2.cLd7-f5=cT #
-      1...Kd4-d3 
+      1...Kd4-d3
           2.cLd7-h3=cT #
-      1...e4-e3 
+      1...e4-e3
           2.cLd7-g4=cT #
     Aber
-      1...c5-c4  !
+      1...c5-c4 !
 
-  1.De1-d2 + ?
+   1.De1-d2 + ?
     Aber
-      1...Sb1*d2  !
+      1...Sb1*d2 !
 
-  1.De1-e3 + ?
-      1...Kd4-d5 
+   1.De1-e3 + ?
+      1...Kd4-d5
           2.De3*c5 #
     Aber
-      1...Kd4*e3  !
+      1...Kd4*e3 !
 
 Loesung beendet. 
 
@@ -218,18 +218,18 @@ Loesung beendet.
   #2                     6 + 4 + 1n
          Chamaeleon c6 d6 f4
 
-  1.cTc6-c7=cD ! Drohung:
+   1.cTc6-c7=cD ! Drohung:
           2.cDc7-c4=cS #
-      1...ncSf4-d3=ncL 
-          2.cSd6-c4=cL #
-      1...ncSf4-g2=ncL 
-          2.cSd6-c8=cL #
-      1...ncSf4-h3=ncL 
-          2.cSd6-b7=cL #
-      1...ncSf4-e6=ncL 
-          2.cSd6-f5=cL #
-      1...ncSf4-d5=ncL 
+      1...ncSf4-d5=ncL
           2.cSd6-e4=cL #
+      1...ncSf4-d3=ncL
+          2.cSd6-c4=cL #
+      1...ncSf4-g2=ncL
+          2.cSd6-c8=cL #
+      1...ncSf4-h3=ncL
+          2.cSd6-b7=cL #
+      1...ncSf4-e6=ncL
+          2.cSd6-f5=cL #
 
 Loesung beendet. 
 
@@ -260,24 +260,24 @@ Loesung beendet.
   #2                     3 + 4 + 3n
             Chamaeleon b5
 
-  1.ncLb5-e8=ncT ! Zugzwang.
-      1...Se7-c6 
+   1.ncLb5-e8=ncT ! Zugzwang.
+      1...Se7-f5
           2.nBg7-g8=ncL #
-      1...Se7-d5 
+      1...Se7-c6
           2.nBg7-g8=ncL #
-      1...Se7-f5 
+      1...Se7-d5
           2.nBg7-g8=ncL #
-      1...Se7-g6 
+      1...Se7-g6
           2.nBg7-g8=ncL #
-      1...Se7-g8 
+      1...Se7-g8
           2.nBh7-h8=ncS #
-      1...Se7-c8 
+      1...Se7-c8
           2.nBg7-g8=ncL #
-      1...nBg7-g5 
+      1...nBg7-g5
           2.De5-f6 #
-      1...Ld8*c7 
+      1...Ld8*c7
           2.De5*e7 #
-      1...ncTe8-h8=ncD 
+      1...ncTe8-h8=ncD
           2.De5-e6 #
 
 Loesung beendet. 
@@ -309,15 +309,15 @@ Loesung beendet.
   #2                          6 + 7
          Chamaeleon d8 c7 h2
 
-  1.cTd8-d2=cD ! Drohung:
+   1.cTd8-d2=cD ! Drohung:
           2.cDc7-d6=cS #
-      1...Sf2-d3 
+      1...Sf2-d3
           2.cDd2-c3=cS #
-      1...Se3*f5 
+      1...Se3*f5
           2.cLh2-e5=cT #
-      1...Se3-c4 
+      1...Se3-c4
           2.cDc7-g3=cS #
-      1...La7-b8 
+      1...La7-b8
           2.cDc7*c5=cS #
 
 Loesung beendet. 
@@ -349,32 +349,32 @@ Loesung beendet.
   #2                          8 + 7
         Chamaeleon c3 d3 c2 h1
 
-  1.cTh1-c1=cD ! Zugzwang.
-      1...cSc2-a1=cL 
+   1.cTh1-c1=cD ! Zugzwang.
+      1...cSc2-a1=cL
           2.cSc3-e2=cL #
-      1...cSc2-e1=cL 
+      1...cSc2-e1=cL
           2.cSc3-e2=cL #
-      1...cSc2-e3=cL 
+      1...cSc2-e3=cL
           2.cSc3-e2=cL #
-      1...cSc2-d4=cL 
+      1...cSc2-d4=cL
           2.cSc3-d5=cL #
-      1...cSc2-b4=cL 
+      1...cSc2-b4=cL
           2.cSc3-b5=cL #
-      1...cSc2-a3=cL 
+      1...cSc2-a3=cL
           2.cSc3-e2=cL #
-      1...cSd3*b2=cL 
+      1...cSd3*b2=cL
           2.cDc1*b2=cS #
-      1...cSd3*c1=cL 
+      1...cSd3*c1=cL
           2.d2-d3 #
-      1...cSd3-e1=cL 
+      1...cSd3-e1=cL
           2.d2-d3 #
-      1...cSd3*f2=cL 
+      1...cSd3*f2=cL
           2.d2-d3 #
-      1...cSd3-f4=cL 
+      1...cSd3-f4=cL
           2.d2-d3 #
-      1...cSd3-e5=cL 
+      1...cSd3-e5=cL
           2.d2-d3 #
-      1...cSd3-b4=cL 
+      1...cSd3-b4=cL
           2.d2-d3 #
 
 Loesung beendet. 
@@ -406,14 +406,14 @@ Loesung beendet.
   #2                     8 + 6 + 1n
             Chamaeleon d7
 
-  1.ncSd7-f8=ncL ! Zugzwang.
-      1...Sa8-b6 
+   1.ncSd7-f8=ncL ! Zugzwang.
+      1...Sa8-b6
           2.ncLf8-d6=ncT #
-      1...Sa8-c7 
+      1...Sa8-c7
           2.ncLf8-c5=ncT #
-      1...ncLf8-b4=ncT 
+      1...ncLf8-b4=ncT
           2.Da4-b3 #
-      1...ncLf8-e7=ncT 
+      1...ncLf8-e7=ncT
           2.Da4-e4 #
 
 Loesung beendet. 
@@ -445,33 +445,33 @@ Loesung beendet.
   #3                     7 + 5 + 1n
            Chamaeleon e6 d5
 
-  1.c3-c4 ! Drohung:
+   1.c3-c4 ! Drohung:
           2.Sg6-h4 +
-              2...Kf5-e5 
+              2...Kf5-e5
                   3.f3-f4 #
-      1...ncSe6-c5=ncL 
+      1...ncSe6-c5=ncL
           2.cLd5-f7=cT +
-              2...Kf5-e6 
+              2...Kf5-e6
                   3.Se4-g5 #
-      1...ncSe6-f4=ncL + 
+      1...ncSe6-f4=ncL +
           2.ncLf4-g5=ncT +
-              2...ncTg5-g3=ncD 
+              2...ncTg5-g3=ncD
                   3.Sg6-h4 #
-      1...ncSe6-g5=ncL + 
+      1...ncSe6-g5=ncL +
           2.ncLg5-f4=ncT +
-              2...ncTf4-h4=ncD 
+              2...ncTf4-h4=ncD
                   3.Se4-g3 #
-      1...ncSe6-f8=ncL 
+      1...ncSe6-f8=ncL
           2.cLd5-f7=cT +
-              2...Kf5-e6 
+              2...Kf5-e6
                   3.Se4-g5 #
-      1...ncSe6-d8=ncL 
+      1...ncSe6-d8=ncL
           2.cLd5-f7=cT +
-              2...Kf5-e6 
+              2...Kf5-e6
                   3.Se4-g5 #
-      1...ncSe6-c7=ncL 
+      1...ncSe6-c7=ncL
           2.cLd5-f7=cT +
-              2...Kf5-e6 
+              2...Kf5-e6
                   3.Se4-g5 #
 
 Loesung beendet. 
@@ -548,19 +548,19 @@ Loesung beendet.
             Chamaeleon d7
                 Circe
 
-  1.c7-c8=cD ! Drohung:
+   1.c7-c8=cD ! Drohung:
           2.Ld6-c5 #
-      1...cLd7-a4=cT + 
+      1...cLd7-a4=cT +
           2.cDc8*f5=cS [+sBf7] #
-      1...cLd7-b5=cT + 
+      1...cLd7-b5=cT +
           2.cDc8*f5=cS [+sBf7] #
-      1...cLd7-c6=cT + 
+      1...cLd7-c6=cT +
           2.cDc8*f5=cS [+sBf7] #
-      1...cLd7-e6=cT + 
+      1...cLd7-e6=cT +
           2.Sa5*b3 [+sBb7] #
-      1...cLd7-e8=cT + 
+      1...cLd7-e8=cT +
           2.cDc8*f5=cS [+sBf7] #
-      1...cLd7*c8=cT [+wcDd1] + 
+      1...cLd7*c8=cT [+wcDd1] +
           2.cDd1*f3=cS [+sBf7] #
 
 Loesung beendet. 

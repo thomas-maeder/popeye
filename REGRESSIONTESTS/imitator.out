@@ -24,22 +24,22 @@
   #2                          2 + 4
              Imitator b6
 
-  1.Kg3-h2[Ic5] ! Zugzwang.
-      1...Sc4-a3[Ia4] + 
+   1.Kg3-h2[Ic5] ! Zugzwang.
+      1...Sc4-a3[Ia4] +
           2.Sf6-h7[Ic5] #
-      1...Sc4-b2[Ib3] + 
+      1...Sc4-b2[Ib3] +
           2.Sf6-g8[Ic5] #
-      1...Sc4-d2[Id3] + 
+      1...Sc4-d2[Id3] +
           2.Sf6-e8[Ic5] #
-      1...Sc4-e3[Ie4] + 
+      1...Sc4-e3[Ie4] +
           2.Sf6-d7[Ic5] #
-      1...Sc4-e5[Ie6] + 
+      1...Sc4-e5[Ie6] +
           2.Sf6-d5[Ic5] #
-      1...Sc4-d6[Id7] + 
+      1...Sc4-d6[Id7] +
           2.Sf6-e4[Ic5] #
-      1...Sc4-b6[Ib7] + 
+      1...Sc4-b6[Ib7] +
           2.Sf6-g4[Ic5] #
-      1...Sc4-a5[Ia6] + 
+      1...Sc4-a5[Ia6] +
           2.Sf6-h5[Ic5] #
 
 Loesung beendet. 
@@ -102,64 +102,64 @@ Loesung beendet.
   #2                        13 + 10
              Imitator c2
 
-      1...Le1-h4[If5] 
+      1...Le1-h4[If5]
           2.b6-b7[If6] #
-      1...Le1-g3[Ie4] 
+      1...Le1-g3[Ie4]
           2.Dc7-b8[Id5] #
-      1...Le1-f2[Id3] 
+      1...Le1-f2[Id3]
           2.Dc7-b7[Ic3] #
 
-  1.Dc7-b8[Ib3] + ?
+   1.Dc7-b8[Ib3] + ?
     Aber
-      1...Lg1-f2[Ia4]  !
+      1...Lg1-f2[Ia4] !
 
-  1.Dc7-a7[Ia2] + ?
+   1.Dc7-a7[Ia2] + ?
     Aber
-      1...Ka8*a7[Ia1]  !
+      1...Ka8*a7[Ia1] !
 
-  1.Dc7-b7[Ib2] + ?
+   1.Dc7-b7[Ib2] + ?
     Aber
-      1...Lg1-f2[Ia3]  !
+      1...Lg1-f2[Ia3] !
 
-  1.Dc7-c8[Ic3] + ?
+   1.Dc7-c8[Ic3] + ?
     Aber
-      1...Lg1-f2[Ib4]  !
+      1...Lg1-f2[Ib4] !
 
-  1.Sc6-b8[Ib4] ? Zugzwang.
-      1...Le1-h4[Ie7] 
+   1.Sc6-b8[Ib4] ? Zugzwang.
+      1...Le1-h4[Ie7]
           2.Dc7-a7[Ic7] #
-      1...Le1-g3[Id6] 
+      1...Le1-g3[Id6]
           2.Dc7-c6[Id5] #
     Aber
-      1...Le1-f2[Ic5]  !
+      1...Le1-f2[Ic5] !
 
-  1.b6-b7[Ic3] + ?
+   1.b6-b7[Ic3] + ?
     Aber
-      1...Lg1-f2[Ib4]  !
+      1...Lg1-f2[Ib4] !
 
-  1.g5-g6[Ic3] ? Zugzwang.
+   1.g5-g6[Ic3] ? Zugzwang.
     Aber
-      1...Lg1-f2[Ib4]  !
+      1...Lg1-f2[Ib4] !
 
-  1.c4-c5[Ic3] ? Zugzwang.
+   1.c4-c5[Ic3] ? Zugzwang.
     Aber
-      1...Lg1-f2[Ib4]  !
+      1...Lg1-f2[Ib4] !
 
-  1.Lf1-h3[Ie4] ? Drohung:
+   1.Lf1-h3[Ie4] ? Drohung:
           2.Dc7-b8[Id5] #
-      1...Le1-g3[Ig6] 
+      1...Le1-g3[Ig6]
           2.Dc7-b7[If6] #
-      1...Le1-f2[If5] 
+      1...Le1-f2[If5]
           2.b6-b7[If6] #
     Aber
-      1...Lg1-f2[Id5]  !
+      1...Lg1-f2[Id5] !
 
-  1.Lf1-g2[Id3] ! Zugzwang.
-      1...Le1-h4[Ig6] 
+   1.Lf1-g2[Id3] ! Zugzwang.
+      1...Le1-h4[Ig6]
           2.Dc7-b7[If6] #
-      1...Le1-g3[If5] 
+      1...Le1-g3[If5]
           2.b6-b7[If6] #
-      1...Le1-f2[Ie4] 
+      1...Le1-f2[Ie4]
           2.Dc7-b8[Id5] #
 
 Loesung beendet. 
@@ -191,24 +191,24 @@ Loesung beendet.
   #4                          4 + 1
              Imitator e1
 
-  1.Ke2-d2[Id1] !
-      1...Kf8-g8[Ie1] 
+   1.Ke2-d2[Id1] !
+      1...Kf8-g8[Ie1]
           2.Tc7-c8[Ie2]
-              2...Kg8-h8[If2] 
+              2...Kg8-h8[If2]
                   3.Td7-d6[If1]
-                      3...Kh8-g8[Ie1] 
+                      3...Kh8-g8[Ie1]
                           4.Td6-a6[Ib1] #
-              2...Kg8-h7[If1] 
+              2...Kg8-h7[If1]
                   3.Td7-a7[Ic1]
-                      3...Kh7-h8[Ic2] 
+                      3...Kh7-h8[Ic2]
                           4.Ta7-a6[Ic1] #
-                      3...Kh7-g8[Ib2] 
+                      3...Kh7-g8[Ib2]
                           4.Ta7-a6[Ib1] #
-      1...Kf8-e8[Ic1] 
+      1...Kf8-e8[Ic1]
           2.Tc7-b7[Ib1]
-              2...Ke8-f8[Ic1] 
+              2...Ke8-f8[Ic1]
                   3.Tb7-b8[Ic2]
-                      3...Kf8-e8[Ib2] 
+                      3...Kf8-e8[Ib2]
                           4.Td7-d6[Ib1] #
 
 Loesung beendet. 
@@ -287,7 +287,7 @@ Loesung beendet.
   #4                         7 + 11
              Imitator a8
 
-  1.Tf1*g1[Ib8] + !
+   1.Tf1*g1[Ib8] + !
 
 Loesung beendet. 
 
@@ -320,46 +320,46 @@ Loesung beendet.
              Imitator d1
                OhneIUW
 
-  1.Dd5-a8[Ia4] ! Zugzwang.
-      1...f2-f1=D[Ia3] 
+   1.Dd5-a8[Ia4] ! Zugzwang.
+      1...f2-f1=D[Ia3]
           2.f7-f8=D[Ia4] Zugzwang.
-              2...Df1-g2[Ib5] 
-                  3.Df8-e7[Ia4] Zugzwang.
-                      3...Dg2-g1[Ia3] 
-                          4.Da8*b8[Ib3] #
-                      3...Dg2-h2[Ib4] 
-                          4.Da8*b8[Ic4] #
-              2...Df1-g1[Ib4] 
+              2...Df1-g1[Ib4]
                   3.Df8-e8[Ia4] Zugzwang.
-                      3...Dg1-h2[Ib5] 
+                      3...Dg1-h2[Ib5]
                           4.Da8*b8[Ic5] #
-              2...Kc8-d7[Ib3] 
+              2...Kc8-d7[Ib3]
                   3.Da8-c6[Id1] #
-      1...f2-f1=S[Ia3] 
+              2...Df1-g2[Ib5]
+                  3.Df8-e7[Ia4] Zugzwang.
+                      3...Dg2-g1[Ia3]
+                          4.Da8*b8[Ib3] #
+                      3...Dg2-h2[Ib4]
+                          4.Da8*b8[Ic4] #
+      1...f2-f1=S[Ia3]
           2.f7-f8=S[Ia4] Zugzwang.
-              2...Sf1-h2[Ic5] 
+              2...Sf1-h2[Ic5]
                   3.Sf8-d7[Ia4] Zugzwang.
-                      3...Kc8*d7[Ib3] 
+                      3...Kc8*d7[Ib3]
                           4.Da8-c6[Id1] #
-              2...Kc8-d7[Ib3] 
+              2...Kc8-d7[Ib3]
                   3.Da8-c6[Id1] #
-      1...f2-f1=T[Ia3] 
+      1...f2-f1=T[Ia3]
           2.f7-f8=T[Ia4] Zugzwang.
-              2...Tf1-g1[Ib4] 
+              2...Tf1-g1[Ib4]
                   3.Tf8-e8[Ia4] Zugzwang.
-                      3...Kc8-d7[Ib3] 
+                      3...Kc8-d7[Ib3]
                           4.Da8-c6[Id1] #
-              2...Kc8-d7[Ib3] 
+              2...Kc8-d7[Ib3]
                   3.Da8-c6[Id1] #
-      1...f2-f1=L[Ia3] 
+      1...f2-f1=L[Ia3]
           2.f7-f8=L[Ia4] Zugzwang.
-              2...Lf1-g2[Ib5] 
+              2...Lf1-g2[Ib5]
                   3.Lf8-e7[Ia4] Zugzwang.
-                      3...Kc8-d7[Ib3] 
+                      3...Kc8-d7[Ib3]
                           4.Da8-c6[Id1] #
-              2...Kc8-d7[Ib3] 
+              2...Kc8-d7[Ib3]
                   3.Da8-c6[Id1] #
-      1...Kc8-d7[Ib3] 
+      1...Kc8-d7[Ib3]
           2.Da8-c6[Id1] #
 
 Loesung beendet. 
@@ -392,28 +392,28 @@ Loesung beendet.
              Imitator b2
                OhneIUW
 
-  1.Sf1-e3[Ia4] ! Zugzwang.
-      1...f2*g1=D[Ib3] + 
+   1.Sf1-e3[Ia4] ! Zugzwang.
+      1...f2*g1=D[Ib3] +
           2.h7*g8=D[Ia4] Zugzwang.
-              2...Dg1-h2[Ib5] 
+              2...Dg1-h2[Ib5]
                   3.Dg8*f7[Ia4]
                       3...Ke1-f2[Ib5] #
-              2...Dg1*h1[Ib4] 
+              2...Dg1*h1[Ib4]
                   3.Dg8-f8[Ia4]
                       3...Ke1-f2[Ib5] #
-      1...f2*g1=S[Ib3] 
+      1...f2*g1=S[Ib3]
           2.h7*g8=S[Ia4] Zugzwang.
-              2...Sg1-h3[Ib6] 
+              2...Sg1-h3[Ib6]
                   3.Sg8-f6[Ia4]
                       3...Ke1-f2[Ib5] #
-      1...f2*g1=T[Ib3] + 
+      1...f2*g1=T[Ib3] +
           2.h7*g8=T[Ia4] Zugzwang.
-              2...Tg1*h1[Ib4] 
+              2...Tg1*h1[Ib4]
                   3.Tg8-f8[Ia4]
                       3...Ke1-f2[Ib5] #
-      1...f2*g1=L[Ib3] 
+      1...f2*g1=L[Ib3]
           2.h7*g8=L[Ia4] Zugzwang.
-              2...Lg1-h2[Ib5] 
+              2...Lg1-h2[Ib5]
                   3.Lg8*f7[Ia4]
                       3...Ke1-f2[Ib5] #
 
@@ -485,53 +485,53 @@ Loesung beendet.
              Imitator b8
                OhneIUW
 
-  1.Sh3-g1[Ia6] ! Zugzwang.
-      1...f2*g1=D[Ib5] 
+   1.Sh3-g1[Ia6] ! Zugzwang.
+      1...f2*g1=D[Ib5]
           2.f7*e8=D[Ia6] Zugzwang.
-              2...Dg1*h2[Ib7] 
+              2...Dg1*h2[Ib7]
                   3.De8-d7[Ia6] Zugzwang.
-                      3...a4*b3[Ib5] 
+                      3...a4*b3[Ib5]
                           4.Ta2-a4[Ib7]
                               4...b3-b2[Ib6] #
-              2...Dg1-h1[Ib6] 
+              2...a4*b3[Ib5]
+                  3.Ta2-a4[Ib7]
+                      3...b3-b2[Ib6] #
+              2...Dg1-h1[Ib6]
                   3.De8-d8[Ia6] Zugzwang.
-                      3...a4*b3[Ib5] 
+                      3...a4*b3[Ib5]
                           4.Ta2-a4[Ib7]
                               4...b3-b2[Ib6] #
-              2...a4*b3[Ib5] 
-                  3.Ta2-a4[Ib7]
-                      3...b3-b2[Ib6] #
-      1...f2*g1=S[Ib5] 
+      1...f2*g1=S[Ib5]
           2.f7*e8=S[Ia6] Zugzwang.
-              2...Sg1-h3[Ib8] 
+              2...Sg1-h3[Ib8]
                   3.Se8-d6[Ia6] Zugzwang.
-                      3...a4*b3[Ib5] 
+                      3...a4*b3[Ib5]
                           4.Ta2-a4[Ib7]
                               4...b3-b2[Ib6] #
-              2...a4*b3[Ib5] 
+              2...a4*b3[Ib5]
                   3.Ta2-a4[Ib7]
                       3...b3-b2[Ib6] #
-      1...f2*g1=T[Ib5] 
+      1...f2*g1=T[Ib5]
           2.f7*e8=T[Ia6] Zugzwang.
-              2...Tg1-h1[Ib6] 
+              2...a4*b3[Ib5]
+                  3.Ta2-a4[Ib7]
+                      3...b3-b2[Ib6] #
+              2...Tg1-h1[Ib6]
                   3.Te8-d8[Ia6] Zugzwang.
-                      3...a4*b3[Ib5] 
+                      3...a4*b3[Ib5]
                           4.Ta2-a4[Ib7]
                               4...b3-b2[Ib6] #
-              2...a4*b3[Ib5] 
-                  3.Ta2-a4[Ib7]
-                      3...b3-b2[Ib6] #
-      1...f2*g1=L[Ib5] 
+      1...f2*g1=L[Ib5]
           2.f7*e8=L[Ia6] Zugzwang.
-              2...Lg1*h2[Ib7] 
+              2...Lg1*h2[Ib7]
                   3.Le8-d7[Ia6] Zugzwang.
-                      3...a4*b3[Ib5] 
+                      3...a4*b3[Ib5]
                           4.Ta2-a4[Ib7]
                               4...b3-b2[Ib6] #
-              2...a4*b3[Ib5] 
+              2...a4*b3[Ib5]
                   3.Ta2-a4[Ib7]
                       3...b3-b2[Ib6] #
-      1...a4*b3[Ib5] 
+      1...a4*b3[Ib5]
           2.Ta2-a4[Ib7]
               2...b3-b2[Ib6] #
 
@@ -566,35 +566,35 @@ Loesung beendet.
              Imitator d5
         SchwarzerLaengstzueger
 
-  1.MAe6-g5[If4] ! Zugzwang.
-      1...cLc6-e4=cT[Ih2] 
+   1.MAe6-g5[If4] ! Zugzwang.
+      1...cLc6-e4=cT[Ih2]
           2.f2-f4[Ih4] Zugzwang.
-              2...cTe4-e8=cD[Ih8] 
+              2...cTe4-e8=cD[Ih8]
                   3.MAg5-e4[If7] Zugzwang.
-                      3...cDe8-a4=cS[Ib3] 
+                      3...cDe8-a4=cS[Ib3]
                           4.Kd6-c6[Ia3] Zugzwang.
-                              4...Ld1-h5[Ie7] + 
+                              4...Ld1-h5[Ie7] +
                                   5.Kc6-b6[Id7]
                                       5...Nd8-a2[Ia1] #
 
-  1.MAe6-d4[Ic3] ! Zugzwang.
-      1...Nd8-h6[Ig1] 
+   1.MAe6-d4[Ic3] ! Zugzwang.
+      1...Nd8-h6[Ig1]
           2.Kd6-e7[Ih2] Zugzwang.
-              2...Ld1-a4[Ie5] 
+              2...Ld1-a4[Ie5]
                   3.MAd4-e6[If7] Zugzwang.
-                      3...Nh6-d4[Ib5] 
+                      3...Nh6-d4[Ib5]
                           4.f2-f4[Ib7] Zugzwang.
-                              4...cLc6-h1=cT[Ig2] 
+                              4...cLc6-h1=cT[Ig2]
                                   5.Ke7-f7[Ih2]
                                       5...cTh1-h7=cD[Ih8] #
 
-  1.MAe6-f4[Ie3] ! Drohung:
+   1.MAe6-f4[Ie3] ! Drohung:
           2.Kd6-c7[Id4] +
-              2...Ld1-a4[Ia7] 
+              2...Ld1-a4[Ia7]
                   3.Kc7-c8[Ia8] Zugzwang.
-                      3...cLc6-h1=cT[If3] 
+                      3...cLc6-h1=cT[If3]
                           4.MAf4-h3[Ih2] Zugzwang.
-                              4...Nd8-b7[If1] 
+                              4...Nd8-b7[If1]
                                   5.Kc8-d8[Ig1]
                                       5...cTh1-b1=cD[Ia1] #
 

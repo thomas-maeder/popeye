@@ -29,7 +29,7 @@
           2.nhTa1-a8=whT #
       1...hTa2-a7=nhT
           2.nhTa7-a8=whT #
-      1...hTa2-a6=nhT + 
+      1...hTa2-a6=nhT +
           2.nhTa6-a8=whT #
       1...hTa2-a5=nhT
           2.nhTa5-a8=whT #
@@ -59,7 +59,7 @@
           2.nhLb6-d4=whL #
       1...hLf2-c5=nhL
           2.nhLc5-d4=whL #
-      1...hLf2-e3=nhL + 
+      1...hLf2-e3=nhL +
           2.nhLe3-d4=whL #
 
 Loesung beendet. 
@@ -215,12 +215,12 @@ Loesung beendet.
             HalbNeutral c5
 
    1.Kh2-g2 ! Zugzwang.
-      1...hTc5-c1=nhT
-          2.Da2-a3 #
-      1...hTc5-c2=nhT + 
-          2.nhTc2-b2=whT #
       1...hTc5-c3=nhT
           2.Da2-a5 #
+      1...hTc5-c1=nhT
+          2.Da2-a3 #
+      1...hTc5-c2=nhT +
+          2.nhTc2-b2=whT #
       1...hTc5-c8=nhT
           2.Da2-a3 #
       1...hTc5-c7=nhT
@@ -229,7 +229,7 @@ Loesung beendet.
           2.Da2-a3 #
       1...hTc5-h5=nhT
           2.nhTh5-h4=whT #
-      1...hTc5-g5=nhT + 
+      1...hTc5-g5=nhT +
           2.nhTg5-g4=whT #
       1...hTc5-f5=nhT
           2.nhTf5-f4=whT #
@@ -269,15 +269,15 @@ Loesung beendet.
 
    1.Se5-d3 ! Drohung:
           2.Dg7-d4 #
+      1...nhSd5-f6=shS
+          2.Dg7*e7 #
       1...b4-b3
           2.nhSd5-c3=whS #
       1...nhSd5-c3=shS
           2.Th5-h4 #
-      1...nhSd5-f6=shS
-          2.Dg7*e7 #
       1...e7-e5
           2.nhSd5-f6=whS #
-      1...Sh8*g6 + 
+      1...Sh8*g6 +
           2.Dg7*g6 #
 
 Loesung beendet. 
@@ -328,66 +328,66 @@ Loesung beendet.
               2...Kd5-c5
                   3.Te7-e5 #
     Aber
-      1...Kd5*c4  !
+      1...Kd5*c4 !
 
    1.Tc8-a8 ? Drohung:
           2.Ka2-a3 Zugzwang.
               2...Kd5-c5
                   3.Te7-e5 #
     Aber
-      1...Kd5-c5  !
+      1...Kd5-c5 !
 
    1.Tc8-b8 ? Drohung:
           2.Ka2-a3 Zugzwang.
               2...Kd5-c5
                   3.Te7-e5 #
     Aber
-      1...Kd5-c5  !
+      1...Kd5-c5 !
 
    1.Tc8-h8 ? Drohung:
           2.Ka2-a3 Zugzwang.
               2...Kd5-c5
                   3.Te7-e5 #
     Aber
-      1...Kd5-c5  !
+      1...Kd5-c5 !
 
    1.Tc8-g8 ? Drohung:
           2.Ka2-a3 Zugzwang.
               2...Kd5-c5
                   3.Te7-e5 #
     Aber
-      1...Kd5-c5  !
+      1...Kd5-c5 !
 
    1.Tc8-f8 ? Drohung:
           2.Ka2-a3 Zugzwang.
               2...Kd5-c5
                   3.Te7-e5 #
     Aber
-      1...Kd5-c5  !
+      1...Kd5-c5 !
 
    1.Tc8-e8 ? Drohung:
           2.Te7-e5 #
     Aber
-      1...Kd5-c5  !
+      1...Kd5-c5 !
 
    1.Tc8-d8 ? Drohung:
           2.Ka2-a3 Zugzwang.
               2...Kd5-c5
                   3.Te7-e5 #
     Aber
-      1...Kd5-c5  !
+      1...Kd5-c5 !
 
    1.Te7-e4 ? Zugzwang.
     Aber
-      1...Kd5*e4  !
+      1...Kd5*e4 !
 
    1.Te7-e5 + ?
     Aber
-      1...Kd5*e5  !
+      1...Kd5*e5 !
 
    1.Te7-e6 ? Zugzwang.
     Aber
-      1...Kd5*e6  !
+      1...Kd5*e6 !
 
    1.hBa7-a8=nhS ! Drohung:
           2.nhSa8*b6=whS #
@@ -397,7 +397,7 @@ Loesung beendet.
                   3.Te7-e5 #
               2...hSc7-a6=nhS
                   3.nhSa6-b4=whS #
-              2...hSc7*b5=nhS + 
+              2...hSc7*b5=nhS +
                   3.nhSb5*c3=whS #
               2...hSc7-e6=nhS
                   3.nhSe6-f4=whS #
@@ -414,7 +414,7 @@ Loesung beendet.
               2...hLb7-c8=nhL
                   3.nhLc8-b7=whL #
     Aber
-      1...nhLa8-c6=shL  !
+      1...nhLa8-c6=shL !
 
    1.Sf5-d4 ? Drohung:
           2.d6-d7 Drohung:
@@ -423,13 +423,13 @@ Loesung beendet.
               2...Kd5-d6
                   3.d7-d8=D #
     Aber
-      1...Kd5*d6  !
+      1...Kd5*d6 !
 
    1.Sf5-e3 + ?
       1...Kd5-d4
           2.Tc8*c4 #
     Aber
-      1...Kd5*d6  !
+      1...Kd5*d6 !
 
    1.Sf5-g3 ? Drohung:
           2.d6-d7 Drohung:
@@ -438,7 +438,7 @@ Loesung beendet.
               2...Kd5-d6
                   3.d7-d8=D #
     Aber
-      1...Kd5*d6  !
+      1...Kd5*d6 !
 
    1.Sf5-h4 ? Drohung:
           2.d6-d7 Drohung:
@@ -447,7 +447,7 @@ Loesung beendet.
               2...Kd5-d6
                   3.d7-d8=D #
     Aber
-      1...Kd5*d6  !
+      1...Kd5*d6 !
 
    1.Sf5-h6 ? Drohung:
           2.d6-d7 Drohung:
@@ -456,7 +456,7 @@ Loesung beendet.
               2...Kd5-d6
                   3.d7-d8=D #
     Aber
-      1...Kd5*d6  !
+      1...Kd5*d6 !
 
    1.Sf5-g7 ? Drohung:
           2.d6-d7 Drohung:
@@ -465,7 +465,7 @@ Loesung beendet.
               2...Kd5-d6
                   3.d7-d8=D #
     Aber
-      1...Kd5*d6  !
+      1...Kd5*d6 !
 
 Loesung beendet. 
 
@@ -522,7 +522,7 @@ Loesung beendet.
       1...hTb1-c1=nhT
           2.nhTc1-c8=whT #
     Aber
-      1...hTb1-h1=nhT  !
+      1...hTb1-h1=nhT !
 
    1.Lb8-g3 ? Zugzwang.
       1...hTb1-h1=nhT
@@ -536,7 +536,7 @@ Loesung beendet.
       1...hTb1-c1=nhT
           2.nhTc1-c8=whT #
     Aber
-      1...hTb1-g1=nhT  !
+      1...hTb1-g1=nhT !
 
    1.Lb8-f4 ? Zugzwang.
       1...hTb1-h1=nhT
@@ -550,7 +550,7 @@ Loesung beendet.
       1...hTb1-c1=nhT
           2.nhTc1-c8=whT #
     Aber
-      1...hTb1-f1=nhT  !
+      1...hTb1-f1=nhT !
 
    1.Lb8-e5 ? Zugzwang.
       1...hTb1-h1=nhT
@@ -564,7 +564,7 @@ Loesung beendet.
       1...hTb1-c1=nhT
           2.nhTc1-c8=whT #
     Aber
-      1...hTb1-e1=nhT  !
+      1...hTb1-e1=nhT !
 
    1.Lb8-d6 ? Zugzwang.
       1...hTb1-h1=nhT
@@ -578,7 +578,7 @@ Loesung beendet.
       1...hTb1-c1=nhT
           2.nhTc1-c8=whT #
     Aber
-      1...hTb1-d1=nhT  !
+      1...hTb1-d1=nhT !
 
    1.Lb8-c7 ? Zugzwang.
       1...hTb1-h1=nhT
@@ -592,7 +592,7 @@ Loesung beendet.
       1...hTb1-d1=nhT
           2.nhTd1-d8=whT #
     Aber
-      1...hTb1-c1=nhT  !
+      1...hTb1-c1=nhT !
 
 Loesung beendet. 
 
@@ -703,7 +703,7 @@ Loesung beendet.
           2.nhSa6-c7=whS #
       1...hSb8-c6=nhS
           2.nhSc6-e7=whS #
-      1...hSb8-d7=nhS + 
+      1...hSb8-d7=nhS +
           2.nhSd7-b6=whS #
 
    1.Ld8-b6 ? Drohung:
@@ -711,23 +711,23 @@ Loesung beendet.
       1...hSb8-c6=nhS
           2.nhSc6-e7=whS #
     Aber
-      1...hSb8-d7=nhS +  !
+      1...hSb8-d7=nhS + !
 
    1.Ld8-c7 ? Zugzwang.
       1...hSb8-c6=nhS
           2.nhSc6-e7=whS #
-      1...hSb8-d7=nhS + 
+      1...hSb8-d7=nhS +
           2.nhSd7-b6=whS #
     Aber
-      1...hSb8-a6=nhS  !
+      1...hSb8-a6=nhS !
 
    1.Ld8-e7 ? Zugzwang.
       1...hSb8-a6=nhS
           2.nhSa6-c7=whS #
-      1...hSb8-d7=nhS + 
+      1...hSb8-d7=nhS +
           2.nhSd7-b6=whS #
     Aber
-      1...hSb8-c6=nhS  !
+      1...hSb8-c6=nhS !
 
    1.Kf6-f5 ? Zugzwang.
       1...hSb8-a6=nhS
@@ -738,17 +738,17 @@ Loesung beendet.
           2.nhSd7-b6=whS #
           2.nhSd7-f6=whS #
     Aber
-      1...f7-f6  !
+      1...f7-f6 !
 
    1.Db4-d4 + ?
     Aber
-      1...Kd5*d4  !
+      1...Kd5*d4 !
 
    1.Db4-c4 + ?
       1...Kd5-d6
           2.Dc4-d4 #
     Aber
-      1...Kd5*c4  !
+      1...Kd5*c4 !
 
 Loesung beendet. 
 

@@ -866,10 +866,6 @@ d) exact-#4
    1.d7-d8=S !
       1...Sb7*d8 [+wSg1]
           2.Sg1*f3 [+sBf7]
-              2...Sd8-b7
-                  3.Sf3-d2
-                      3...Sb7-d8
-                          4.Sd2-e4 #
               2...Sd8-e6
                   3.Sf3-d2
                       3...Se6-d4
@@ -881,6 +877,10 @@ d) exact-#4
                       3...Se6-f8
                           4.Sd2-e4 #
                       3...Se6-d8
+                          4.Sd2-e4 #
+              2...Sd8-b7
+                  3.Sf3-d2
+                      3...Sb7-d8
                           4.Sd2-e4 #
 
 Loesung beendet. 
@@ -983,23 +983,23 @@ c) exact-#3
    1.d7-d8=L !
       1...c6-c5
           2.Ka7*b6
-              2...c5-c4
-                  3.Ld8-c7 #
               2...c5*d4
+                  3.Ld8-c7 #
+              2...c5-c4
                   3.Ld8-c7 #
 
 d) exact-#4
 
    1.d7-d8=S !
-      1...c6-c5
-          2.Sd8-f7 +
-              2...Kd6-c7
-                  3.d4-d5
-                      3...c5-c4
-                          4.d5-d6 #
       1...Kd6-c7
           2.Sd8-f7
               2...c6-c5
+                  3.d4-d5
+                      3...c5-c4
+                          4.d5-d6 #
+      1...c6-c5
+          2.Sd8-f7 +
+              2...Kd6-c7
                   3.d4-d5
                       3...c5-c4
                           4.d5-d6 #
@@ -1038,11 +1038,35 @@ Loesung beendet.
           2.Ld5-g8
               2...b5-b4
                   3.Sd6-f7
+                      3...Tb3-e3
+                          4.Sf7*g5 +
+                              4...Te3-b3
+                                  5.Sg5-h3 z
+                              4...Te3-e6
+                                  5.Sg5-h3 z
+                              4...b4-b3
+                                  5.Sg5-h3 z
                       3...Tb3-b2
                           4.Sf7*g5 +
                               4...Ka2-a3
                                   5.Sg5-h3 z
                               4...Tb2-b3
+                                  5.Sg5-h3 z
+                              4...b4-b3
+                                  5.Sg5-h3 z
+                      3...Tb3-c3
+                          4.Sf7*g5 +
+                              4...Tc3-b3
+                                  5.Sg5-h3 z
+                              4...Tc3-c4
+                                  5.Sg5-h3 z
+                              4...b4-b3
+                                  5.Sg5-h3 z
+                      3...Tb3-d3
+                          4.Sf7*g5 +
+                              4...Td3-b3
+                                  5.Sg5-h3 z
+                              4...Td3-d5
                                   5.Sg5-h3 z
                               4...b4-b3
                                   5.Sg5-h3 z
@@ -1057,30 +1081,6 @@ Loesung beendet.
                               4...Tf3-b3
                                   5.Sg5-h3 z
                               4...Tf3-f7
-                                  5.Sg5-h3 z
-                              4...b4-b3
-                                  5.Sg5-h3 z
-                      3...Tb3-e3
-                          4.Sf7*g5 +
-                              4...Te3-b3
-                                  5.Sg5-h3 z
-                              4...Te3-e6
-                                  5.Sg5-h3 z
-                              4...b4-b3
-                                  5.Sg5-h3 z
-                      3...Tb3-d3
-                          4.Sf7*g5 +
-                              4...Td3-b3
-                                  5.Sg5-h3 z
-                              4...Td3-d5
-                                  5.Sg5-h3 z
-                              4...b4-b3
-                                  5.Sg5-h3 z
-                      3...Tb3-c3
-                          4.Sf7*g5 +
-                              4...Tc3-b3
-                                  5.Sg5-h3 z
-                              4...Tc3-c4
                                   5.Sg5-h3 z
                               4...b4-b3
                                   5.Sg5-h3 z

@@ -163,7 +163,7 @@ pystip.h:
 
 trace.h:
 py3$(OBJ_SUFFIX): py3.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
-  pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h trace.h
+  pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h trace.h measure.h
 
 py.h:
 
@@ -190,11 +190,14 @@ pygoal.h:
 pydata.h:
 
 trace.h:
+
+measure.h:
 py4$(OBJ_SUFFIX): py4.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h py1.h pyproc.h py4.h pygoal.h pydata.h pymsg.h \
   pystip.h \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
-  boolean.h pygoal.h py.h conditions/republican.h pyproc.h trace.h
+  boolean.h pygoal.h py.h conditions/republican.h pyproc.h trace.h \
+  measure.h
 
 py.h:
 
@@ -239,11 +242,13 @@ conditions/republican.h:
 pyproc.h:
 
 trace.h:
+
+measure.h:
 py5$(OBJ_SUFFIX): py5.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h pyproc.h py4.h pygoal.h pyhash.h DHT/dhtbcmem.h \
   stipulation/battle_play/attack_play.h pyslice.h pydata.h pymsg.h \
   pyslice.h pystip.h conditions/exclusive.h boolean.h pyposit.h pystip.h \
-  conditions/republican.h pyproc.h trace.h
+  conditions/republican.h pyproc.h trace.h measure.h
 
 py.h:
 
@@ -296,6 +301,8 @@ conditions/republican.h:
 pyproc.h:
 
 trace.h:
+
+measure.h:
 py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
   pyenum.h pylang.h py1.h pyproc.h py4.h pygoal.h pydata.h pymsg.h \
   pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
@@ -304,9 +311,9 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   boolean.h pystip.h pyselfcg.h pymovenb.h pyflight.h pydegent.h \
   pythreat.h pynontrv.h pypipe.h \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
-  pygoal.h py.h stipulation/proxy.h pypipe.h trace.h pyoutput.h pytable.h \
-  conditions/exclusive.h pyposit.h conditions/republican.h pyproc.h \
-  platform/maxmem.h platform/maxtime.h platform/pytime.h \
+  pygoal.h py.h stipulation/proxy.h pypipe.h trace.h measure.h pyoutput.h \
+  pytable.h conditions/exclusive.h pyposit.h conditions/republican.h \
+  pyproc.h platform/maxmem.h platform/maxtime.h platform/pytime.h \
   platform/priority.h stipulation/branch.h stipulation/battle_play/try.h \
   pytable.h stipulation/battle_play/defense_play.h \
   stipulation/battle_play/postkeyplay.h \
@@ -405,6 +412,8 @@ stipulation/proxy.h:
 pypipe.h:
 
 trace.h:
+
+measure.h:
 
 pyoutput.h:
 
