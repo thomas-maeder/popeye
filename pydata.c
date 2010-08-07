@@ -25,7 +25,8 @@ killer_state const null_killer_state = {
     initsquare,
     initsquare,
     initsquare
-  }
+  },
+  initsquare
 };
 
 change_rec* colour_change_stack_limit = &colour_change_stack[colour_change_stack_size];
