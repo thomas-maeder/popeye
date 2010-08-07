@@ -23,8 +23,7 @@ VERSION=4.56
 # other compilers, that switch is $(DEFINEMACRO)).
 
 # To set one or more of these macros "by hand", use the DEFS
-# variable. Example:
-DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
+# variable. See default setting below.
 
 
 # Target operating system
@@ -93,7 +92,8 @@ DEFS=$(DEFINEMACRO)SIGNALS $(DEFINEMACRO)MSG_IN_MEM $(DEFINEMACRO)FXF
 # ------------------------
 
 # to print some debugging information while solving           DEBUG
-# new tracing machinery                                       DOTRACE
+# tracing machinery                                           DOTRACE
+# measurements machinery                                      DOMEASURE
 # to print even more debugging information                    DETAILS
 # ?                                                           DBMALLOC
 # debugging output for dynamic hash tables                    DEBUG_DHT

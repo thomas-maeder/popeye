@@ -115,6 +115,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "stipulation/proxy.h"
 #include "trace.h"
+#include "measure.h"
 #include "pyslice.h"
 #include "pyoutput.h"
 #include "conditions/exclusive.h"
@@ -2359,6 +2360,7 @@ static void fini_duplex(slice_index si)
   TraceFunctionResultEnd();
 }
 
+
 /* Perform verifications and initialisations before solving a twin
  * (which can be the only twin of the problem)
  * @param si identifies the root slice of the stipulation
@@ -2488,6 +2490,11 @@ static void solve_twin(slice_index si,
   }
 
   Message(NewLine);
+
+  WRITE_COUNTER(empile);
+  WRITE_COUNTER(jouecoup);
+  WRITE_COUNTER(orig_rbechec);
+  WRITE_COUNTER(orig_rnechec);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

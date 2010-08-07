@@ -40,6 +40,7 @@
 #include "pyproc.h"
 #include "pydata.h"
 #include "trace.h"
+#include "measure.h"
 
 boolean rubiech(square  intermediate_square,
                 square  sq_king,
@@ -253,9 +254,14 @@ static boolean marsechecc(ply ply_id, Side camp, evalfunction_t *evaluate)
 } /* marsechecc */
 
 static boolean calc_rnechec(ply ply_id, evalfunction_t *evaluate);
+
+DEFINE_COUNTER(orig_rnechec)
+
 boolean orig_rnechec(ply ply_id, evalfunction_t *evaluate)
 {
   boolean result;
+
+  INCREMENT_COUNTER(orig_rnechec);
 
   if (TSTFLAG(PieSpExFlags,Neutral))
   {
@@ -549,9 +555,14 @@ boolean annan_rnechec(ply ply_id, evalfunction_t *evaluate)
 boolean (*rnechec)(ply ply_id, evalfunction_t *evaluate);
 
 static boolean calc_rbechec(ply ply_id, evalfunction_t *evaluate);
+
+DEFINE_COUNTER(orig_rbechec)
+
 boolean orig_rbechec(ply ply_id, evalfunction_t *evaluate)
 {
   boolean result;
+
+  INCREMENT_COUNTER(orig_rbechec);
 
   if (TSTFLAG(PieSpExFlags,Neutral))
   {

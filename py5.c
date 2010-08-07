@@ -71,6 +71,7 @@
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "trace.h"
+#include "measure.h"
 
 static piece linechampiece(piece p, square sq)
 {
@@ -2100,6 +2101,8 @@ square rencage(ply ply_id,
   return result;
 }
 
+DEFINE_COUNTER(jouecoup)
+
 boolean jouecoup(ply ply_id, joue_type jt)
 {
   square sq_rebirth = initsquare;
@@ -2136,6 +2139,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
   piece pi_arriving = e[sq_departure];
 
   piece pi_departing = pi_arriving;
+
+  INCREMENT_COUNTER(jouecoup);
 
   RB_[ply_id] = rb;
   RN_[ply_id] = rn;
