@@ -46,10 +46,4 @@ stip_length_type self_defense_solve_in_n(slice_index si,
  */
 void slice_insert_self_guards(slice_index si, slice_index proxy_to_goal);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void self_defense_make_root(slice_index si, stip_structure_traversal *st);
-
 #endif

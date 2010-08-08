@@ -98,8 +98,14 @@ slice_index alloc_battle_branch(stip_length_type length,
   {
     slice_index const aend = alloc_attack_end_slice(length,min_length);
     slice_index const attack = alloc_attack_move_slice(length,min_length);
+    slice_index const played = alloc_branch(STAttackMovePlayed,
+                                            length-1,min_length-1);
+    slice_index const shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                                length-1,min_length-1);
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length-1,min_length-1);
+    slice_index const ready = alloc_branch(STReadyForDefense,
+                                           length-1,min_length-1);
     slice_index const dend = alloc_defense_end_slice(length-1,min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
@@ -108,8 +114,11 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(result,guard2);
     pipe_link(guard2,aend);
     pipe_link(aend,attack);
-    pipe_link(attack,guard1);
-    pipe_link(guard1,dend);
+    pipe_link(attack,played);
+    pipe_link(played,shoehorned);
+    pipe_link(shoehorned,guard1);
+    pipe_link(guard1,ready);
+    pipe_link(ready,dend);
     pipe_link(dend,defense);
     pipe_link(defense,result);
   }

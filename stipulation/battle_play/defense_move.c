@@ -83,17 +83,13 @@ void defense_move_reduce_to_postkey_play(slice_index si,
  */
 void defense_move_make_root(slice_index si, stip_structure_traversal *st)
 {
+  slice_index * const root = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index * const root = st->param;
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    *root = alloc_defense_move_slice(length,min_length);
-    pipe_set_successor(*root,slices[si].u.pipe.next);
-  }
+  *root = copy_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

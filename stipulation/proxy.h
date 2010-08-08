@@ -35,4 +35,12 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st);
  */
 void proxy_make_root(slice_index si, stip_structure_traversal *st);
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void proxy_reduce_to_postkey_play(slice_index si,
+                                  stip_structure_traversal *st);
+
 #endif

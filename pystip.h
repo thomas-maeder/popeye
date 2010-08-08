@@ -32,6 +32,9 @@
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseEnd),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
+    ENUMERATOR(STAttackMovePlayed), /* proxy mark after attack moves have been fully played */ \
+    ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
+    ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \

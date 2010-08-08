@@ -206,13 +206,6 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void reflex_defender_filter_make_root(slice_index si,
-                                      stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
 void reflex_help_filter_make_root(slice_index si,
                                     stip_structure_traversal *st);
 

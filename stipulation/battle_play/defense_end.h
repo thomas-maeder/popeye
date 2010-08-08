@@ -21,20 +21,6 @@ slice_index alloc_defense_end_slice(stip_length_type length,
  */
 void stip_traverse_moves_defense_end(slice_index si, stip_moves_traversal *st);
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void defense_end_reduce_to_postkey_play(slice_index si,
-                                        stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void defense_end_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

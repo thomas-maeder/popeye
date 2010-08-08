@@ -111,6 +111,7 @@ static void substitute_defense_root(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors postkey_handler_inserters[] =
 {
+  { STAttackMovePlayed,           &stip_structure_visitor_noop },
   { STContinuationSolver,         &substitute_defense_root     },
   { STHelpRoot,                   &stip_structure_visitor_noop },
   { STSeriesRoot,                 &stip_structure_visitor_noop }

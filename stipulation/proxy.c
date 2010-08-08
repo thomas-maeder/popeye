@@ -24,6 +24,27 @@ slice_index alloc_proxy_slice(void)
   return result;
 }
 
+static boolean is_proxy(si)
+{
+  boolean result;
+
+  switch (slices[si].type)
+  {
+    case STProxy:
+    case STAttackMovePlayed:
+    case STAttackMoveShoeHorningDone:
+    case STReadyForDefense:
+      result = true;
+      break;
+
+    default:
+      result = false;
+      break;
+  }
+
+  return result;
+}
+
 /* Substitute a possible link to a proxy slice by the proxy's target
  * @param si address of slice index
  * @param st points at the structure holding the state of the traversal
@@ -40,7 +61,7 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
   stip_traverse_structure_children(*si,st);
 
   TraceEnumerator(SliceType,slices[*si].type,"\n");
-  while (slices[*si].type==STProxy)
+  while (is_proxy(*si))
   {
     (*is_resolved_proxy)[*si] = true;
     *si = slices[*si].u.pipe.next;
@@ -123,6 +144,24 @@ void proxy_make_root(slice_index si, stip_structure_traversal *st)
   if (slices[slices[si].u.pipe.next].prev!=si)
     slices[si].u.pipe.next = no_slice;
   
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void proxy_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  dealloc_slice(si);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

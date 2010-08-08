@@ -120,41 +120,10 @@ typedef enum
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void continuation_solver_append(slice_index si,
-                                       stip_structure_traversal *st)
+static void continuation_solver_prepend(slice_index si,
+                                        stip_structure_traversal *st)
 {
   continuation_handler_insertion_state * const state = st->param;
-  slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[next].u.branch.length;
-  stip_length_type const min_length = slices[next].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  TraceValue("%u\n",*state);
-  if (*state==continuation_handler_needed)
-  {
-    pipe_append(si,alloc_continuation_solver_slice(length,min_length));
-    *state = continuation_handler_inserted;
-    TraceValue("->%u\n",*state);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Append a continuation solver if none has been inserted before
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void continuation_solver_append_to_move(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  continuation_handler_insertion_state * const state = st->param;
-  continuation_handler_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -164,15 +133,10 @@ static void continuation_solver_append_to_move(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  TraceValue("%u\n",*state);
-  if (*state==continuation_handler_needed)
-  {
-    pipe_append(si,alloc_continuation_solver_slice(length-1,min_length-1));
-    *state = continuation_handler_inserted;
-    TraceValue("->%u\n",*state);
-  }
-
-  *state = save_state;
+  pipe_append(slices[si].prev,
+              alloc_continuation_solver_slice(length,min_length));
+  *state = continuation_handler_inserted;
+  TraceValue("->%u\n",*state);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -234,14 +198,10 @@ void continuation_solver_insert_defender_filter(slice_index si,
 
 static structure_traversers_visitors continuation_handler_inserters[] =
 {
-  { STAttackMove,                       &continuation_solver_append_to_move },
-  { STDefenseMove,                      &continuation_solver_mark_need      },
+  { STReadyForDefense,                  &continuation_solver_prepend        },
   { STGoalReachedTester,                &continuation_solver_mark_need      },
-  { STAttackRoot,                       &continuation_solver_append_to_move },
   { STHelpRoot,                         &stip_structure_visitor_noop        },
   { STSeriesRoot,                       &stip_structure_visitor_noop        },
-  { STSelfCheckGuardRootSolvableFilter, &continuation_solver_append         },
-  { STSelfCheckGuardDefenderFilter,     &continuation_solver_append         },
   { STDirectDefenderFilter,     &continuation_solver_insert_defender_filter }
 };
 

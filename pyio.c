@@ -2716,13 +2716,24 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const aready = alloc_branch(STReadyForDefense,
+                                                  slack_length_battle,
+                                                  slack_length_battle-1);
+          slice_index const aplayed = alloc_branch(STAttackMovePlayed,
+                                                   slack_length_battle,
+                                                   slack_length_battle-1);
+          slice_index const ashoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                                       slack_length_battle,
+                                                       slack_length_battle-1);
           slice_index const
               avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
                                                        slack_length_battle);
           slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const branch = alloc_battle_branch(length+1,min_length);
-          pipe_link(avoided_attack,avoided_next);
-          pipe_link(not_attack,avoided_attack);
+          pipe_link(avoided_attack,aplayed);
+          pipe_link(aplayed,ashoehorned);
+          pipe_link(ashoehorned,aready);
+          pipe_link(aready,avoided_next);
           pipe_link(proxy_avoided,not_attack);
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
@@ -2777,12 +2788,30 @@ static char *ParsePlay(char *tok,
           slice_index const leaf = alloc_leaf_slice();
           Goal const goal = slices[next].u.goal_reached_tester.goal;
           slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
+          slice_index const aready = alloc_branch(STReadyForDefense,
+                                                  slack_length_battle,
+                                                  slack_length_battle-1);
+          slice_index const aplayed = alloc_branch(STAttackMovePlayed,
+                                                   slack_length_battle,
+                                                   slack_length_battle-1);
+          slice_index const ashoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                                       slack_length_battle,
+                                                       slack_length_battle-1);
           slice_index const
               avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
                                                        slack_length_battle);
           slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const proxy_avoided_attack = alloc_proxy_slice();
 
+          slice_index const dready = alloc_branch(STReadyForDefense,
+                                                  slack_length_battle,
+                                                  slack_length_battle-1);
+          slice_index const dplayed = alloc_branch(STAttackMovePlayed,
+                                                   slack_length_battle,
+                                                   slack_length_battle-1);
+          slice_index const dshoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                                       slack_length_battle,
+                                                       slack_length_battle-1);
           slice_index const
               avoided_defense = alloc_attack_move_slice(slack_length_battle+1,
                                                         slack_length_battle);
@@ -2791,11 +2820,16 @@ static char *ParsePlay(char *tok,
 
           slice_index const branch = alloc_battle_branch(length+1,min_length);
           pipe_link(avoided_tester,leaf);
-          pipe_link(avoided_attack,avoided_tester);
-          pipe_link(not_attack,avoided_attack);
+          pipe_link(avoided_attack,aplayed);
+          pipe_link(aplayed,ashoehorned);
+          pipe_link(ashoehorned,aready);
+          pipe_link(aready,avoided_tester);
           pipe_link(proxy_avoided_attack,not_attack);
 
-          pipe_link(avoided_defense,next);
+          pipe_link(avoided_defense,dplayed);
+          pipe_link(dplayed,dshoehorned);
+          pipe_link(dshoehorned,dready);
+          pipe_link(dready,next);
           dealloc_slice(proxy_next);
           pipe_link(proxy_avoided_defense,not_defense);
           slice_insert_reflex_filters(branch,

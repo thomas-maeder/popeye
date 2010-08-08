@@ -41,34 +41,6 @@ static slice_index alloc_self_defense(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void self_defense_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index const self_defense = alloc_self_defense(length,min_length,
-                                                        to_goal);
-    pipe_link(self_defense,*root);
-    *root = self_defense;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* **************** Implementation of interface Direct ***************
  */

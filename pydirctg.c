@@ -270,7 +270,7 @@ static void direct_guards_inserter_attack(slice_index si,
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const
-        filter = alloc_direct_defender_filter_slice(length-1,min_length-1,
+        filter = alloc_direct_defender_filter_slice(length,min_length,
                                                     *to_goal); 
     pipe_append(si,filter);
   }
@@ -281,7 +281,7 @@ static void direct_guards_inserter_attack(slice_index si,
 
 static structure_traversers_visitors direct_guards_inserters[] =
 {
-  { STAttackMove, &direct_guards_inserter_attack }
+  { STAttackMoveShoeHorningDone, &direct_guards_inserter_attack }
 };
 
 enum

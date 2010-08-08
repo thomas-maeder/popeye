@@ -177,7 +177,8 @@ static void instrument_attack_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_defense_move(slice_index si, stip_structure_traversal *st)
+static void instrument_defense_end(slice_index si,
+                                   stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -188,7 +189,7 @@ static void instrument_defense_move(slice_index si, stip_structure_traversal *st
 
   if (check_detector_defender_filter_inseration_state
       ==check_detector_defender_filter_needed)
-    pipe_append(slices[si].prev,
+    pipe_append(si,
                 alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
 
   variation_writer_insertion_state = variation_writer_needed;
@@ -199,7 +200,8 @@ static void instrument_defense_move(slice_index si, stip_structure_traversal *st
   TraceFunctionResultEnd();
 }
 
-static void instrument_reflex_defender_filter(slice_index si, stip_structure_traversal *st)
+static void instrument_reflex_defender_filter(slice_index si,
+                                              stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -278,23 +280,6 @@ static void instrument_battle_play_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_postkeyplay_suppressor(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(slices[si].prev,
-              alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_attack_root(slice_index si,
                                    stip_structure_traversal *st)
 {
@@ -311,7 +296,36 @@ static void instrument_attack_root(slice_index si,
   check_detector_defender_filter_inseration_state
       = save_detector_state;
 
-  pipe_append(si,alloc_end_of_solution_writer_slice());
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static enum
+{
+  end_of_solution_writer_not_inserted,
+  end_of_solution_writer_inserted
+} end_of_solution_writer_insertion_state;
+
+static void instrument_attack_shoehorning_done(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (end_of_solution_writer_insertion_state
+      ==end_of_solution_writer_not_inserted
+      && postkey_play_state!=postkey_play_exclusively)
+  {
+    end_of_solution_writer_insertion_state = end_of_solution_writer_inserted;
+    stip_traverse_structure_children(si,st);
+    end_of_solution_writer_insertion_state =
+        end_of_solution_writer_not_inserted;
+
+    pipe_append(si,alloc_end_of_solution_writer_slice());
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -385,8 +399,9 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STMoveInverterRootSolvableFilter, &instrument_move_inverter           },
   { STMoveInverterSolvableFilter,     &instrument_move_inverter           },
   { STAttackRoot,                     &instrument_attack_root             },
+  { STAttackMoveShoeHorningDone,      &instrument_attack_shoehorning_done },
   { STDefenseRoot,                    &instrument_defense_root            },
-  { STPostKeyPlaySuppressor,          &instrument_postkeyplay_suppressor, },
+  { STPostKeyPlaySuppressor,          &stip_structure_visitor_noop        },
   { STContinuationSolver,             &instrument_continuation_solver     },
   { STBattlePlaySolver,               &instrument_battle_play_solver      },
   { STThreatEnforcer,                 &instrument_threat_enforcer         },
@@ -397,7 +412,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STReflexDefenderFilter,           &instrument_reflex_defender_filter, },
   { STSelfDefense,                    &instrument_self_defense            },
   { STAttackEnd,                      &instrument_attack_move             },
-  { STDefenseEnd,                     &instrument_defense_move            }
+  { STDefenseEnd,                     &instrument_defense_end             }
 };
 
 enum

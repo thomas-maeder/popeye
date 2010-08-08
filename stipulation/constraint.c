@@ -360,33 +360,6 @@ static slice_index alloc_reflex_defender_filter(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void reflex_defender_filter_make_root(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-  slice_index root_filter;
-  stip_length_type const length = slices[si].u.reflex_guard.length;
-  stip_length_type const min_length = slices[si].u.reflex_guard.min_length;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  root_filter = alloc_reflex_defender_filter(length,min_length,avoided);
-  pipe_link(root_filter,*root);
-  *root = root_filter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.

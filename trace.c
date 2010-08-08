@@ -193,7 +193,7 @@ static void Trace_link(char const *prefix, slice_index si, char const *suffix)
   if (si==no_slice)
     fprintf(stdout,"%s--%s ",prefix,suffix);
   else
-    fprintf(stdout,"%s%2u%s ",prefix,si,suffix);
+    fprintf(stdout,"%s%3u%s ",prefix,si,suffix);
 }
 
 static void Trace_slice(slice_index si)
@@ -220,9 +220,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
   {
     done_slices[si] = true;
 
-    fprintf(stdout,"[%2u]: ",si);
+    fprintf(stdout,"[%3u]: ",si);
     fprintf(stdout,"%-34s ",SliceType_names[slices[si].type]);
-    fprintf(stdout,"%s ",Side_names[slices[si].starter]);
+    fprintf(stdout,"%c ",Side_names[slices[si].starter][0]);
     switch (slices[si].type)
     {
       case STDirectDefenderFilter:
@@ -256,6 +256,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAttackEnd:
       case STAttackMove:
       case STAttackMoveToGoal:
+      case STAttackMovePlayed:
+      case STAttackMoveShoeHorningDone:
+      case STReadyForDefense:
       case STContinuationSolver:
       case STBattlePlaySolver:
       case STDefenseEnd:
@@ -417,7 +420,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STLeaf:
-        Trace_link("",slices[si].prev,"<-");
+        Trace_link("",slices[si].prev,"<");
         fprintf(stdout,"\n");
         break;
 

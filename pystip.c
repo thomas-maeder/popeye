@@ -65,6 +65,9 @@
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseEnd),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
+    ENUMERATOR(STAttackMovePlayed), /* proxy mark after attack moves have been fully played */ \
+    ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
+    ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -217,6 +220,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STAttackFork */
   slice_structure_branch, /* STDefenseEnd */
   slice_structure_fork,   /* STDefenseFork */
+  slice_structure_pipe,   /* STAttackMovePlayed */
+  slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
+  slice_structure_pipe,   /* STReadyForDefense */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -521,22 +527,36 @@ void dealloc_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
+void copy_into_root(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index * const root = st->param;
+    slice_index copy = copy_slice(si);
+    pipe_link(copy,*root);
+    *root = copy;
+  }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const root_slice_makers[] =
 {
   { STProxy,                       &proxy_make_root                          },
   { STAttackMove,                  &attack_move_make_root                    },
   { STDefenseMove,                 &defense_move_make_root                   },
-  { STGoalReachedTester,           &goal_reached_tester_make_root            },
   { STLeaf,                        &leaf_make_root                           },
   { STQuodlibet,                   &quodlibet_make_root                      },
-  { STNot,                         &not_make_root                            },
   { STSelfCheckGuardAttackerFilter,&selfcheck_guard_attacker_filter_make_root},
-  { STSelfCheckGuardDefenderFilter,&selfcheck_guard_defender_filter_make_root},
   { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
-  { STReflexDefenderFilter,        &reflex_defender_filter_make_root         },
-  { STSelfDefense,                 &self_defense_make_root                   },
-  { STDefenseEnd,                  &defense_end_make_root                    }
+  { STAttackEnd,                   &stip_traverse_structure_children         }
 };
 
 enum
@@ -552,12 +572,15 @@ slice_index stip_make_root_slices(slice_index si)
 {
   stip_structure_traversal st;
   slice_index result = no_slice;
+  slice_index i;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
+  for (i = 0; i!=nr_slice_structure_types; ++i)
+    stip_structure_traversal_override_by_type(&st,i,&copy_into_root);
   stip_structure_traversal_override(&st,
                                     root_slice_makers,nr_root_slice_makers);
   stip_traverse_structure(si,&st);
@@ -656,7 +679,6 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STSeriesMove,                   &series_move_make_root            },
   { STSeriesMoveToGoal,             &series_move_to_goal_make_root    },
   { STSeriesFork,                   &series_fork_make_root            },
-  { STGoalReachedTester,            &goal_reached_tester_make_root    },
   { STLeaf,                         &leaf_make_root                   },
   { STReciprocal,                   &reci_make_root                   },
   { STQuodlibet,                    &quodlibet_make_root              },
@@ -1050,7 +1072,10 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
   slice_index const not = slices[proxy_to_goal].u.pipe.next;
   slice_index const branch = slices[not].u.pipe.next;
-  slice_index const tester = slices[branch].u.pipe.next;
+  slice_index const played = slices[branch].u.pipe.next;
+  slice_index const shoehorning = slices[played].u.pipe.next;
+  slice_index const readyfordefense = slices[shoehorning].u.pipe.next;
+  slice_index const tester = slices[readyfordefense].u.pipe.next;
   Goal const goal = slices[tester].u.goal_reached_tester.goal;
   slice_index new_tester;
   slice_index new_leaf;
@@ -1060,6 +1085,9 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(slices[proxy_to_goal].type==STProxy);
+  assert(slices[played].type==STAttackMovePlayed);
+  assert(slices[shoehorning].type==STAttackMoveShoeHorningDone);
+  assert(slices[readyfordefense].type==STReadyForDefense);
   assert(slices[tester].type==STGoalReachedTester);
   assert(slices[slices[tester].u.pipe.next].type==STLeaf);
 
@@ -1090,7 +1118,7 @@ static void append_direct_defender_filter(slice_index si,
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_direct_defender_filter_slice(length-1,min_length-1,
+    pipe_append(si,alloc_direct_defender_filter_slice(length,min_length,
                                                       *proxy_to_goal));
   }
 
@@ -1114,12 +1142,12 @@ static void transform_to_quodlibet_branch_fork(slice_index si,
 
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
-  { STAttackMove,             &append_direct_defender_filter       },
-  { STHelpFork,               &transform_to_quodlibet_branch_fork  },
-  { STSeriesFork,             &transform_to_quodlibet_branch_fork  },
-  { STNot,                    &stip_structure_visitor_noop         },
-  { STReflexDefenderFilter,   &transform_to_quodlibet_semi_reflex  },
-  { STSelfDefense,            &transform_to_quodlibet_self_defense }
+  { STAttackMoveShoeHorningDone, &append_direct_defender_filter       },
+  { STHelpFork,                  &transform_to_quodlibet_branch_fork  },
+  { STSeriesFork,                &transform_to_quodlibet_branch_fork  },
+  { STNot,                       &stip_structure_visitor_noop         },
+  { STReflexDefenderFilter,      &transform_to_quodlibet_semi_reflex  },
+  { STSelfDefense,               &transform_to_quodlibet_self_defense }
 };
 
 enum
@@ -1159,17 +1187,43 @@ boolean transform_to_quodlibet(slice_index si)
   return result;
 }
 
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  pipe_unlink(slices[si].prev);
+  pipe_link(si,*root);
+  *root = si;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                      &defense_move_reduce_to_postkey_play                        },
   { STAttackRoot,                       &attack_root_reduce_to_postkey_play                         },
+  { STAttackMovePlayed,                 &proxy_reduce_to_postkey_play                               },
+  { STAttackMoveShoeHorningDone,        &proxy_reduce_to_postkey_play                               },
+  { STReadyForDefense,                  &move_to_postkey_play                                       },
   { STSelfCheckGuardRootSolvableFilter, &selfcheckguard_root_solvable_filter_reduce_to_postkey_play },
   { STSelfCheckGuardDefenderFilter,     &selfcheckguard_defender_filter_reduce_to_postkey_play      },
   { STDirectDefenderFilter,             &direct_defender_filter_reduce_to_postkey_play              },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
   { STReflexDefenderFilter,             &reflex_defender_filter_reduce_to_postkey_play              },
   { STAttackEnd,                        &attack_end_reduce_to_postkey_play                          },
-  { STDefenseEnd,                       &defense_end_reduce_to_postkey_play                         }
+  { STDefenseEnd,                       &move_to_postkey_play                                       }
 };
 
 enum
@@ -1895,6 +1949,9 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
   &stip_traverse_structure_pipe,            /* STDefenseEnd */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
+  &stip_traverse_structure_pipe,            /* STAttackMovePlayed */
+  &stip_traverse_structure_pipe,            /* STAttackMoveShoeHorningDone */
+  &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
@@ -2074,6 +2131,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_defense_end,           /* STDefenseEnd */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
+    &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */
+    &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
+    &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_branch_slice,          /* STHelpMove */

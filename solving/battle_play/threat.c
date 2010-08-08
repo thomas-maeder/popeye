@@ -570,7 +570,7 @@ static void threat_handler_reset_insertion_state(slice_index si,
 
 static structure_traversers_visitors threat_handler_inserters[] =
 {
-  { STAttackMove,                   &append_threat_collector              },
+  { STAttackMovePlayed,             &append_threat_collector              },
   { STDefenseMove,                  &remember_defense_move                },
   { STDefenseEnd,                   &prepend_threat_solver                },
   { STGoalReachedTester,            &stip_structure_visitor_noop          },

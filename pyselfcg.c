@@ -353,32 +353,6 @@ selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void selfcheck_guard_defender_filter_make_root(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index root_filter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  root_filter = alloc_selfcheck_guard_defender_filter(length,min_length);
-  pipe_link(root_filter,*root);
-  *root = root_filter;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* **************** Implementation of interface Help ***************
  */

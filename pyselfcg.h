@@ -164,13 +164,6 @@ void
 selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
                                                    stip_structure_traversal *st);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void selfcheck_guard_defender_filter_make_root(slice_index si,
-                                               stip_structure_traversal *st);
-
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
  * @param si slice index of slice being solved

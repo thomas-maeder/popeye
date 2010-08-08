@@ -215,27 +215,3 @@ has_solution_type goal_reached_tester_solve(slice_index si)
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void goal_reached_tester_make_root(slice_index si,
-                                   stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-  slice_index copy;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  copy = copy_slice(si);
-  pipe_link(copy,*root);
-  *root = copy;
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
