@@ -548,7 +548,7 @@ static void append_nontrivial_counter(slice_index si,
 
 static structure_traversers_visitors max_nr_nontrivial_guards_inserters[] =
 {
-  { STDefenseMove,                  &append_nontrivial_counter             },
+  { STDefenseMovePlayed,            &append_nontrivial_counter             },
   { STSelfCheckGuardDefenderFilter, &nontrivial_guard_inserter_attack_move }
 };
 

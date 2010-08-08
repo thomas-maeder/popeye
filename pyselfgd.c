@@ -199,13 +199,13 @@ static void self_guards_inserter_defense_move(slice_index si,
     if (next_prev==si)
     {
       slice_index const * const proxy_to_goal = st->param;
-      pipe_append(si,alloc_self_defense(length-1,min_length-1,*proxy_to_goal));
+      pipe_append(si,alloc_self_defense(length,min_length,*proxy_to_goal));
     }
     else
     {
       pipe_set_successor(si,next_prev);
-      slices[next_prev].u.branch.length = length-1;
-      slices[next_prev].u.branch.min_length = min_length-1;
+      slices[next_prev].u.branch.length = length;
+      slices[next_prev].u.branch.min_length = min_length;
     }
   }
 
@@ -215,7 +215,7 @@ static void self_guards_inserter_defense_move(slice_index si,
 
 static structure_traversers_visitors self_guards_inserters[] =
 {
-  { STDefenseMove, &self_guards_inserter_defense_move }
+  { STDefenseMovePlayed, &self_guards_inserter_defense_move }
 };
 
 enum

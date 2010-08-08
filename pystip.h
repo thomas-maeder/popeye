@@ -36,6 +36,7 @@
     ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
+    ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     /* help play structural slices */                                   \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
@@ -260,7 +261,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 180,
+  max_nr_slices = 200,
   no_slice = max_nr_slices
 };
 

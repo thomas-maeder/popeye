@@ -21,6 +21,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/fork.h"
 #include "stipulation/battle_play/defense_move.h"
+#include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_fork.h"
 #include "stipulation/battle_play/defense_end.h"
 #include "stipulation/battle_play/attack_root.h"
@@ -69,6 +70,7 @@
     ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
+    ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -225,6 +227,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
   slice_structure_pipe,   /* STAttackMoveLegalityChecked */
   slice_structure_pipe,   /* STReadyForDefense */
+  slice_structure_pipe,   /* STDefenseMovePlayed */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -529,6 +532,21 @@ void dealloc_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
+void copy_into_root_end(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *root = copy_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
 void copy_into_root(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -552,13 +570,13 @@ static structure_traversers_visitors const root_slice_makers[] =
 {
   { STProxy,                       &proxy_make_root                          },
   { STAttackMove,                  &attack_move_make_root                    },
-  { STDefenseMove,                 &defense_move_make_root                   },
   { STLeaf,                        &leaf_make_root                           },
   { STQuodlibet,                   &quodlibet_make_root                      },
   { STSelfCheckGuardAttackerFilter,&selfcheck_guard_attacker_filter_make_root},
   { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
-  { STAttackEnd,                   &stip_traverse_structure_children         }
+  { STAttackEnd,                   &stip_traverse_structure_children         },
+  { STDefenseMovePlayed,           &copy_into_root_end                       }
 };
 
 enum
@@ -1314,7 +1332,7 @@ boolean stip_apply_postkeyplay(slice_index si)
 
 static structure_traversers_visitors setplay_makers[] =
 {
-  { STDefenseMove,                  &defense_move_make_setplay_slice                    },
+  { STDefenseMovePlayed,            &defense_move_played_make_setplay_slice             },
   { STHelpMove,                     &help_move_make_setplay_slice                       },
   { STHelpMoveToGoal,               &help_move_make_setplay_slice                       },
   { STHelpFork,                     &help_fork_make_setplay_slice                       },
@@ -1965,6 +1983,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
+  &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
@@ -2148,6 +2167,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
+    &stip_traverse_moves_pipe,                  /* STDefenseMovePlayed */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_branch_slice,          /* STHelpMove */

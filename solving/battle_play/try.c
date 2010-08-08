@@ -347,11 +347,11 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (*state==try_handler_inserted_solver
-      && length>slack_length_battle
+      && length>=slack_length_battle
       && user_set_max_nr_refutations>0)
   {
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_refutations_collector_slice(length-1,min_length-1));
+    pipe_append(si,alloc_refutations_collector_slice(length,min_length));
     *state = try_handler_inserted_collector;
   }
 
@@ -389,7 +389,7 @@ static void substitute_battle_play_solver(slice_index si,
 
 static structure_traversers_visitors try_handler_inserters[] =
 {
-  { STDefenseMove,            &append_collector              },
+  { STDefenseMovePlayed,      &append_collector              },
   { STGoalReachedTester,      &stip_structure_visitor_noop   },
   { STNot,                    &stip_structure_visitor_noop   },
   { STContinuationSolver,     &substitute_battle_play_solver },

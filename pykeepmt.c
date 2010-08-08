@@ -655,7 +655,7 @@ static structure_traversers_visitors keepmating_guards_inserters[] =
 {
   { STAttackMove,           &keepmating_guards_inserter_attack_move },
   { STAttackMoveToGoal,     &keepmating_guards_inserter_attack_move },
-  { STDefenseMove,          &keepmating_guards_inserter_defender    },
+  { STDefenseMovePlayed,    &keepmating_guards_inserter_defender    },
   { STHelpMove,             &keepmating_guards_inserter_help_move   },
   { STHelpMoveToGoal,       &keepmating_guards_inserter_help_move   },
   { STHelpFork,             &keepmating_guards_inserter_branch_fork },

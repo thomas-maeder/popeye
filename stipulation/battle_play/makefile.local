@@ -6,13 +6,15 @@ CFILES = branch.c fork.c \
 	attack_fork.c attack_play.c attack_end.c \
 	defense_move.c defense_end.c defense_fork.c defense_play.c \
 	continuation.c threat.c try.c postkeyplay.c \
-	defense_root.c
+	defense_root.c \
+	defense_move_played.c
 
 INCLUDES = branch.h fork.h \
 	attack_root.h attack_move.h attack_move_to_goal.h \
 	attack_fork.h attack_play.h attack_end.h \
 	defense_move.h defense_end.h defense_fork.h defense_play.h \
 	continuation.h threat.h try.h postkeyplay.h \
-	defense_root.h
+	defense_root.h \
+	defense_move_played.h
 
 include makefile.rules $(CURRPWD)depend

@@ -1,8 +1,10 @@
 stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
   stipulation/battle_play/branch.h pypipe.h pyselfcg.h \
-  stipulation/proxy.h stipulation/battle_play/attack_move.h \
+  stipulation/proxy.h stipulation/branch.h \
+  stipulation/battle_play/attack_move.h \
   stipulation/battle_play/attack_end.h \
   stipulation/battle_play/defense_move.h \
+  stipulation/battle_play/defense_move_played.h \
   stipulation/battle_play/defense_end.h trace.h
 
 stipulation/battle_play/branch.h:
@@ -13,11 +15,15 @@ pyselfcg.h:
 
 stipulation/proxy.h:
 
+stipulation/branch.h:
+
 stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/attack_end.h:
 
 stipulation/battle_play/defense_move.h:
+
+stipulation/battle_play/defense_move_played.h:
 
 stipulation/battle_play/defense_end.h:
 
@@ -449,5 +455,24 @@ stipulation/battle_play/defense_root.h:
 stipulation/branch.h:
 
 stipulation/battle_play/defense_play.h:
+
+trace.h:
+stipulation/battle_play/defense_move_played$(OBJ_SUFFIX):  \
+ stipulation/battle_play/defense_move_played.c \
+  stipulation/battle_play/defense_move_played.h pydata.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h \
+  stipulation/help_play/move.h trace.h
+
+stipulation/battle_play/defense_move_played.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/help_play/move.h:
 
 trace.h:

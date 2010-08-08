@@ -31,32 +31,6 @@ slice_index alloc_defense_move_slice(stip_length_type length,
   return result;
 }
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void defense_move_make_setplay_slice(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length>slack_length_battle)
-  {
-    stip_length_type const length_h = (length-slack_length_battle
-                                       +slack_length_help);
-    *result = alloc_help_move_slice(length_h,length_h-1);
-    pipe_set_successor(*result,slices[si].u.branch.next);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
@@ -72,24 +46,6 @@ void defense_move_reduce_to_postkey_play(slice_index si,
   TraceFunctionParamListEnd();
 
   *postkey_slice = si;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void defense_move_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *root = copy_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
