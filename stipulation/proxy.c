@@ -24,7 +24,7 @@ slice_index alloc_proxy_slice(void)
   return result;
 }
 
-static boolean is_proxy(si)
+static boolean is_proxy(slice_index si)
 {
   boolean result;
 
@@ -33,6 +33,7 @@ static boolean is_proxy(si)
     case STProxy:
     case STAttackMovePlayed:
     case STAttackMoveShoeHorningDone:
+    case STAttackMoveLegalityChecked:
     case STReadyForDefense:
       result = true;
       break;
