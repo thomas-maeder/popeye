@@ -109,13 +109,6 @@ continuation_solver_can_defend_in_n(slice_index si,
   return result;
 }
 
-typedef enum
-{
-  continuation_handler_not_needed,
-  continuation_handler_needed,
-  continuation_handler_inserted
-} continuation_handler_insertion_state;
-
 /* Append a continuation solver if none has been inserted before
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
@@ -123,7 +116,6 @@ typedef enum
 static void continuation_solver_prepend(slice_index si,
                                         stip_structure_traversal *st)
 {
-  continuation_handler_insertion_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -135,62 +127,6 @@ static void continuation_solver_prepend(slice_index si,
 
   pipe_append(slices[si].prev,
               alloc_continuation_solver_slice(length,min_length));
-  *state = continuation_handler_inserted;
-  TraceValue("->%u\n",*state);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Inform predecessors that a continuation solver is needed
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void continuation_solver_mark_need(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  continuation_handler_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  *state = continuation_handler_needed;
-  TraceValue("->%u\n",*state);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Append a continuation solver if none has been inserted before
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static
-void continuation_solver_insert_defender_filter(slice_index si,
-                                                stip_structure_traversal *st)
-{
-  continuation_handler_insertion_state * const state = st->param;
-  continuation_handler_insertion_state const save_state = *state;
-  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[proxy_to_goal].type==STProxy);
-
-  stip_traverse_structure(proxy_to_goal,st);
-
-  TraceValue("%u\n",*state);
-  if (*state==continuation_handler_needed)
-    pipe_append(proxy_to_goal,
-                alloc_continuation_solver_slice(slack_length_battle,
-                                                slack_length_battle));
-  *state = save_state;
-  stip_traverse_structure_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -198,11 +134,9 @@ void continuation_solver_insert_defender_filter(slice_index si,
 
 static structure_traversers_visitors continuation_handler_inserters[] =
 {
-  { STReadyForDefense,                  &continuation_solver_prepend        },
-  { STGoalReachedTester,                &continuation_solver_mark_need      },
-  { STHelpRoot,                         &stip_structure_visitor_noop        },
-  { STSeriesRoot,                       &stip_structure_visitor_noop        },
-  { STDirectDefenderFilter,     &continuation_solver_insert_defender_filter }
+  { STReadyForDefense, &continuation_solver_prepend },
+  { STHelpRoot,        &stip_structure_visitor_noop },
+  { STSeriesRoot,      &stip_structure_visitor_noop }
 };
 
 enum
@@ -219,7 +153,6 @@ enum
 void stip_insert_continuation_handlers(slice_index si)
 {
   stip_structure_traversal st;
-  continuation_handler_insertion_state state = continuation_handler_not_needed;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -227,7 +160,7 @@ void stip_insert_continuation_handlers(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override(&st,
                                     continuation_handler_inserters,
                                     nr_continuation_handler_inserters);

@@ -1052,12 +1052,16 @@ static void transform_to_quodlibet_self_defense(slice_index si,
                                                 stip_structure_traversal *st)
 {
   slice_index * const proxy_to_goal = st->param;
+  slice_index ready;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  ready = alloc_branch(STReadyForDefense,
+                       slack_length_battle,slack_length_battle-1);
   *proxy_to_goal = stip_deep_copy(slices[si].u.branch_fork.towards_goal);
+  pipe_append(*proxy_to_goal,ready);
 
   stip_traverse_structure_children(si,st);
 
@@ -1077,6 +1081,7 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   slice_index const readyfordefense = slices[shoehorning].u.pipe.next;
   slice_index const tester = slices[readyfordefense].u.pipe.next;
   Goal const goal = slices[tester].u.goal_reached_tester.goal;
+  slice_index ready;
   slice_index new_tester;
   slice_index new_leaf;
 
@@ -1095,8 +1100,12 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   new_tester = alloc_goal_reached_tester_slice(goal);
   pipe_link(new_tester,new_leaf);
 
+  ready = alloc_branch(STReadyForDefense,
+                       slack_length_battle,slack_length_battle-1);
+  pipe_link(ready,new_tester);
+
   *new_proxy_to_goal = alloc_proxy_slice();
-  pipe_link(*new_proxy_to_goal,new_tester);
+  pipe_link(*new_proxy_to_goal,ready);
 
   stip_traverse_structure_children(si,st);
 

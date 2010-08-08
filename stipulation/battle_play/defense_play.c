@@ -436,7 +436,7 @@ boolean defense_can_defend(slice_index si)
 {
   boolean result = true;
   stip_length_type const n = slices[si].u.branch.length;
-  stip_length_type n_max_unsolvable = slices[si].u.branch.min_length-2;
+  stip_length_type n_max_unsolvable = slices[si].u.branch.min_length-1;
   unsigned int const max_nr_allowed_refutations = 0;
 
   TraceFunctionEntry(__func__);

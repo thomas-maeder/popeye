@@ -2858,7 +2858,11 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const ready = alloc_branch(STReadyForDefense,
+                                                 slack_length_battle,
+                                                 slack_length_battle-1);
           slice_index const branch = alloc_battle_branch(length,min_length);
+          pipe_append(proxy_next,ready);
           slice_insert_direct_guards(branch,proxy_next);
           pipe_set_successor(proxy,branch);
           slices[next].starter = Black;
