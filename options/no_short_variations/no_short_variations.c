@@ -21,7 +21,7 @@ static void append_no_short_variations(slice_index si,
 
 static structure_traversers_visitors no_short_variations_filter_inserters[] =
 {
-  { STSelfCheckGuardAttackerFilter, &append_no_short_variations  }
+  { STDefenseMoveLegalityChecked, &append_no_short_variations  }
 };
 
 enum

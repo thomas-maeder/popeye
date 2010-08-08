@@ -191,7 +191,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
 static void Trace_link(char const *prefix, slice_index si, char const *suffix)
 {
   if (si==no_slice)
-    fprintf(stdout,"%s--%s ",prefix,suffix);
+    fprintf(stdout,"%s---%s ",prefix,suffix);
   else
     fprintf(stdout,"%s%3u%s ",prefix,si,suffix);
 }
@@ -266,6 +266,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STDefenseMove:
       case STDefenseMovePlayed:
       case STDefenseMoveShoeHorningDone:
+      case STDefenseMoveLegalityChecked:
       case STKillerMoveFinalDefenseMove:
       case STRefutationsCollector:
       case STSelfCheckGuardAttackerFilter:

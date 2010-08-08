@@ -569,14 +569,14 @@ static void threat_handler_reset_insertion_state(slice_index si,
 
 static structure_traversers_visitors threat_handler_inserters[] =
 {
-  { STAttackMovePlayed,             &append_threat_collector              },
-  { STDefenseMoveShoeHorningDone,   &remember_attack_side                 },
-  { STDefenseEnd,                   &prepend_threat_solver                },
-  { STGoalReachedTester,            &stip_structure_visitor_noop          },
-  { STNot,                          &threat_handler_reset_insertion_state },
-  { STHelpRoot,                     &stip_structure_visitor_noop          },
-  { STSeriesRoot,                   &stip_structure_visitor_noop          },
-  { STSelfCheckGuardAttackerFilter, &append_threat_enforcer               }
+  { STAttackMovePlayed,           &append_threat_collector              },
+  { STDefenseEnd,                 &prepend_threat_solver                },
+  { STDefenseMoveLegalityChecked, &append_threat_enforcer               },
+  { STGoalReachedTester,          &stip_structure_visitor_noop          },
+  { STDefenseMoveShoeHorningDone, &remember_attack_side                 },
+  { STHelpRoot,                   &stip_structure_visitor_noop          },
+  { STSeriesRoot,                 &stip_structure_visitor_noop          },
+  { STNot,                        &threat_handler_reset_insertion_state }
 };
 
 enum

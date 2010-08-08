@@ -1968,6 +1968,9 @@ static void insert_series_hashed_slice(slice_index si,
 static void insert_hash_element_attack_move(slice_index si,
                                             stip_moves_traversal *st)
 {
+  branch_level * const level = st->param;
+  branch_level const save_level = *level;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -1981,26 +1984,6 @@ static void insert_hash_element_attack_move(slice_index si,
     stip_length_type const min_length = slices[si].u.branch.min_length;
     pipe_append(si,alloc_attack_hashed_slice(length,min_length));
   }
-
-  stip_traverse_moves_branch_slice(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traverse a slice while inserting hash elements
- * @param si identifies slice
- * @param st address of structure holding status of traversal
- */
-static void insert_hash_element_defense_move(slice_index si,
-                                             stip_moves_traversal *st)
-{
-  branch_level * const level = st->param;
-  branch_level const save_level = *level;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
 
   *level = nested_branch;
   stip_traverse_moves_branch_slice(si,st);
@@ -2137,12 +2120,11 @@ static void insert_hash_element_series_move_to_goal(slice_index si,
 
 static moves_traversers_visitors const hash_element_inserters[] =
 {
-  { STDefenseMoveShoeHorningDone,   &insert_hash_element_defense_move        },
-  { STHelpMove,                     &insert_hash_element_help_move           },
-  { STHelpMoveToGoal,               &insert_hash_element_help_move_to_goal   },
-  { STSeriesMove,                   &insert_hash_element_series_move         },
-  { STSeriesMoveToGoal,             &insert_hash_element_series_move_to_goal },
-  { STSelfCheckGuardAttackerFilter, &insert_hash_element_attack_move         }
+  { STDefenseMoveLegalityChecked, &insert_hash_element_attack_move         },
+  { STHelpMove,                   &insert_hash_element_help_move           },
+  { STHelpMoveToGoal,             &insert_hash_element_help_move_to_goal   },
+  { STSeriesMove,                 &insert_hash_element_series_move         },
+  { STSeriesMoveToGoal,           &insert_hash_element_series_move_to_goal }
 };
 
 enum

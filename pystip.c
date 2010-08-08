@@ -72,6 +72,7 @@
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
+    ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -230,6 +231,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STReadyForDefense */
   slice_structure_pipe,   /* STDefenseMovePlayed */
   slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
+  slice_structure_pipe,   /* STDefenseMoveLegalityChecked */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -578,6 +580,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
   { STAttackEnd,                   &stip_traverse_structure_children         },
+  { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveShoeHorningDone,  &copy_into_root_end                       }
 };
 
@@ -1218,6 +1221,32 @@ boolean transform_to_quodlibet(slice_index si)
   return result;
 }
 
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+static void trash_for_postkey_play(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  slice_index const * const postkey_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  assert(*postkey_slice!=no_slice);
+
+  pipe_unlink(slices[si].prev);
+  dealloc_slice(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Find the first postkey slice and deallocate unused slices on the
  * way to it
  * @param si slice index
@@ -1225,7 +1254,7 @@ boolean transform_to_quodlibet(slice_index si)
  */
 static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  slice_index * const postkey_slice = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1234,8 +1263,8 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_pipe(si,st);
 
   pipe_unlink(slices[si].prev);
-  pipe_link(si,*root);
-  *root = si;
+  pipe_link(si,*postkey_slice);
+  *postkey_slice = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1244,12 +1273,13 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                      &defense_move_reduce_to_postkey_play                        },
-  { STAttackRoot,                       &attack_root_reduce_to_postkey_play                         },
-  { STAttackMovePlayed,                 &proxy_reduce_to_postkey_play                               },
-  { STAttackMoveShoeHorningDone,        &proxy_reduce_to_postkey_play                               },
+  { STAttackRoot,                       &trash_for_postkey_play                                     },
+  { STAttackMovePlayed,                 &trash_for_postkey_play                                     },
+  { STAttackMoveShoeHorningDone,        &trash_for_postkey_play                                     },
   { STAttackMoveLegalityChecked,        &move_to_postkey_play                                       },
   { STReadyForDefense,                  &move_to_postkey_play                                       },
-  { STSelfCheckGuardRootSolvableFilter, &selfcheckguard_root_solvable_filter_reduce_to_postkey_play },
+  { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                                     },
+  { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                                     },
   { STSelfCheckGuardDefenderFilter,     &selfcheckguard_defender_filter_reduce_to_postkey_play      },
   { STDirectDefenderFilter,             &direct_defender_filter_reduce_to_postkey_play              },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
@@ -1674,6 +1704,21 @@ static structure_traversers_visitors exact_makers[] =
 {
   { STAttackMove,                       &make_exact_battle_branch },
   { STDefenseMove,                      &make_exact_battle_branch },
+  { STAttackEnd,                        &make_exact_battle_branch },
+  { STDefenseEnd,                       &make_exact_battle_branch },
+  { STAttackMovePlayed,                 &make_exact_battle_branch },
+  { STAttackMoveShoeHorningDone,        &make_exact_battle_branch },
+  { STAttackMoveLegalityChecked,        &make_exact_battle_branch },
+  { STReadyForDefense,                  &make_exact_battle_branch },
+  { STDefenseMovePlayed,                &make_exact_battle_branch },
+  { STDefenseMoveShoeHorningDone,       &make_exact_battle_branch },
+  { STDefenseMoveLegalityChecked,       &make_exact_battle_branch },
+  { STDirectDefenderFilter,             &make_exact_battle_branch },
+  { STReflexHelpFilter,                 &make_exact_help_branch   },
+  { STReflexSeriesFilter,               &make_exact_series_branch },
+  { STReflexAttackerFilter,             &make_exact_battle_branch },
+  { STReflexDefenderFilter,             &make_exact_battle_branch },
+  { STSelfDefense,                      &make_exact_battle_branch },
   { STHelpMove,                         &make_exact_help_branch   },
   { STHelpFork,                         &make_exact_help_branch   },
   { STSeriesMove,                       &make_exact_series_branch },
@@ -1681,15 +1726,7 @@ static structure_traversers_visitors exact_makers[] =
   { STSelfCheckGuardAttackerFilter,     &make_exact_battle_branch },
   { STSelfCheckGuardDefenderFilter,     &make_exact_battle_branch },
   { STSelfCheckGuardHelpFilter,         &make_exact_help_branch   },
-  { STSelfCheckGuardSeriesFilter,       &make_exact_series_branch },
-  { STDirectDefenderFilter,             &make_exact_battle_branch },
-  { STReflexHelpFilter,                 &make_exact_help_branch   },
-  { STReflexSeriesFilter,               &make_exact_series_branch },
-  { STReflexAttackerFilter,             &make_exact_battle_branch },
-  { STReflexDefenderFilter,             &make_exact_battle_branch },
-  { STSelfDefense,                      &make_exact_battle_branch },
-  { STAttackEnd,                        &make_exact_battle_branch },
-  { STDefenseEnd,                       &make_exact_battle_branch }
+  { STSelfCheckGuardSeriesFilter,       &make_exact_series_branch }
 };
 
 enum
@@ -1991,6 +2028,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
   &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
+  &stip_traverse_structure_pipe,            /* STDefenseMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
@@ -2176,6 +2214,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_pipe,                  /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
+    &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_branch_slice,          /* STHelpMove */

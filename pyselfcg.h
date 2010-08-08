@@ -56,14 +56,6 @@ slice_index alloc_selfcheck_guard_root_solvable_filter(void);
  */
 slice_index alloc_selfcheck_guard_solvable_filter(void);
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
-                                                                stip_structure_traversal *st);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

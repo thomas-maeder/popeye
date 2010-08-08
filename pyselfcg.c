@@ -564,26 +564,6 @@ void selfcheck_guard_series_make_root(slice_index si,
 /* **************** Implementation of interface Slice ***************
  */
 
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void selfcheckguard_root_solvable_filter_reduce_to_postkey_play(slice_index si,
-                                                                stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  pipe_unlink(slices[si].prev);
-  dealloc_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

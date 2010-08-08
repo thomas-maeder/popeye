@@ -37,6 +37,7 @@ static boolean is_proxy(slice_index si)
     case STReadyForDefense:
     case STDefenseMovePlayed:
     case STDefenseMoveShoeHorningDone:
+    case STDefenseMoveLegalityChecked:
       result = true;
       break;
 
@@ -147,24 +148,6 @@ void proxy_make_root(slice_index si, stip_structure_traversal *st)
   if (slices[slices[si].u.pipe.next].prev!=si)
     slices[si].u.pipe.next = no_slice;
   
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void proxy_reduce_to_postkey_play(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-  dealloc_slice(si);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
