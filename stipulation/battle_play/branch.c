@@ -21,6 +21,7 @@ slice_index alloc_attack_branch(stip_length_type length,
                                 stip_length_type min_length)
 {
   slice_index result;
+  slice_index ready;
   slice_index end;
   slice_index attack;
 
@@ -30,6 +31,7 @@ slice_index alloc_attack_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_selfcheck_guard_attacker_filter(length,min_length);
+  ready = alloc_branch(STReadyForAttack,length,min_length);
   end = alloc_attack_end_slice(length,min_length);
   attack = alloc_attack_move_slice(length,min_length);
   pipe_link(result,end);
@@ -110,6 +112,8 @@ slice_index alloc_battle_branch(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
+    slice_index const aready = alloc_branch(STReadyForAttack,
+                                            length,min_length);
     slice_index const aend = alloc_attack_end_slice(length,min_length);
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const aplayed = alloc_branch(STAttackMovePlayed,
@@ -120,7 +124,7 @@ slice_index alloc_battle_branch(stip_length_type length,
         guard1 = alloc_selfcheck_guard_defender_filter(length-1,min_length-1);
     slice_index const checked = alloc_branch(STAttackMoveLegalityChecked,
                                              length-1,min_length-1);
-    slice_index const ready = alloc_branch(STReadyForDefense,
+    slice_index const dready = alloc_branch(STReadyForDefense,
                                            length-1,min_length-1);
     slice_index const dend = alloc_defense_end_slice(length-1,min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
@@ -138,14 +142,15 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(result,guard2);
     pipe_link(guard2,dchecked);
     pipe_link(dchecked,dfiltered);
-    pipe_link(dfiltered,aend);
+    pipe_link(dfiltered,aready);
+    pipe_link(aready,aend);
     pipe_link(aend,attack);
     pipe_link(attack,aplayed);
     pipe_link(aplayed,ashoehorned);
     pipe_link(ashoehorned,guard1);
     pipe_link(guard1,checked);
-    pipe_link(checked,ready);
-    pipe_link(ready,dend);
+    pipe_link(checked,dready);
+    pipe_link(dready,dend);
     pipe_link(dend,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);

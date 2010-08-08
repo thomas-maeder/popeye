@@ -567,8 +567,8 @@ void keepmating_guards_inserter_battle_fork(slice_index si,
 }
 
 static
-void keepmating_guards_inserter_attack_move(slice_index si,
-                                            stip_structure_traversal *st)
+void keepmating_guards_inserter_attack_move_shoehorning_done(slice_index si,
+                                                             stip_structure_traversal *st)
 {
   keepmating_type const * const km = st->param;
   slice_index guard = no_slice;
@@ -588,7 +588,7 @@ void keepmating_guards_inserter_attack_move(slice_index si,
   if (guard!=no_slice)
   {
     slices[guard].starter = advers(slices[si].starter);
-    pipe_append(si,guard);
+    pipe_append(slices[si].prev,guard);
   }
   
   TraceFunctionExit(__func__);
@@ -653,8 +653,7 @@ static void keepmating_guards_inserter_series_move(slice_index si,
 
 static structure_traversers_visitors keepmating_guards_inserters[] =
 {
-  { STAttackMove,                 &keepmating_guards_inserter_attack_move },
-  { STAttackMoveToGoal,           &keepmating_guards_inserter_attack_move },
+  { STAttackMoveShoeHorningDone, &keepmating_guards_inserter_attack_move_shoehorning_done },
   { STDefenseMoveShoeHorningDone, &keepmating_guards_inserter_defender    },
   { STHelpMove,                   &keepmating_guards_inserter_help_move   },
   { STHelpMoveToGoal,             &keepmating_guards_inserter_help_move   },
@@ -665,7 +664,6 @@ static structure_traversers_visitors keepmating_guards_inserters[] =
   { STGoalReachedTester,          &keepmating_guards_inserter_leaf_forced },
   { STReciprocal,                 &keepmating_guards_inserter_reciprocal  },
   { STQuodlibet,                  &keepmating_guards_inserter_quodlibet   },
-  { STAttackRoot,                 &keepmating_guards_inserter_attack_move },
   { STDirectDefenderFilter,       &keepmating_guards_inserter_battle_fork },
   { STReflexAttackerFilter,       &keepmating_guards_inserter_battle_fork },
   { STReflexDefenderFilter,       &keepmating_guards_inserter_battle_fork },

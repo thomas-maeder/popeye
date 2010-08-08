@@ -148,8 +148,8 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_attack_move(slice_index si,
-                                   stip_structure_traversal *st)
+static void instrument_attack_end(slice_index si,
+                                  stip_structure_traversal *st)
 {
   check_detector_defender_filter_insertion_state_type const
       save_detector_state = check_detector_defender_filter_insertion_state;
@@ -188,7 +188,7 @@ static void instrument_defense_end(slice_index si,
 
   if (check_detector_defender_filter_insertion_state
       ==check_detector_defender_filter_needed)
-    pipe_append(si,
+    pipe_append(slices[si].prev,
                 alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
 
   variation_writer_insertion_state = variation_writer_needed;
@@ -445,10 +445,9 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STRefutationsCollector,           &instrument_refutations_collector   },
   { STHelpRoot,                       &instrument_help_root               },
   { STSeriesRoot,                     &stip_structure_visitor_noop        },
-  { STReflexAttackerFilter,           &instrument_attack_move             },
   { STReflexDefenderFilter,           &instrument_reflex_defender_filter, },
   { STSelfDefense,                    &instrument_self_defense            },
-  { STAttackEnd,                      &instrument_attack_move             },
+  { STAttackEnd,                      &instrument_attack_end              },
   { STDefenseEnd,                     &instrument_defense_end             }
 };
 

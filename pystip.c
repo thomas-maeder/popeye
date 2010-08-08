@@ -66,6 +66,7 @@
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STDefenseEnd),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
+    ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STAttackMovePlayed), /* proxy mark after attack moves have been fully played */ \
     ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
@@ -226,6 +227,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STAttackFork */
   slice_structure_branch, /* STDefenseEnd */
   slice_structure_fork,   /* STDefenseFork */
+  slice_structure_pipe,   /* STReadyForAttack */
   slice_structure_pipe,   /* STAttackMovePlayed */
   slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
   slice_structure_pipe,   /* STAttackMoveLegalityChecked */
@@ -1277,6 +1279,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                      &defense_move_reduce_to_postkey_play                        },
   { STAttackRoot,                       &trash_for_postkey_play                                     },
+  { STReadyForAttack,                   &trash_for_postkey_play                                     },
   { STAttackMovePlayed,                 &trash_for_postkey_play                                     },
   { STAttackMoveShoeHorningDone,        &trash_for_postkey_play                                     },
   { STAttackMoveLegalityChecked,        &move_to_postkey_play                                       },
@@ -1710,6 +1713,7 @@ static structure_traversers_visitors exact_makers[] =
   { STDefenseMove,                      &make_exact_battle_branch },
   { STAttackEnd,                        &make_exact_battle_branch },
   { STDefenseEnd,                       &make_exact_battle_branch },
+  { STReadyForAttack,                   &make_exact_battle_branch },
   { STAttackMovePlayed,                 &make_exact_battle_branch },
   { STAttackMoveShoeHorningDone,        &make_exact_battle_branch },
   { STAttackMoveLegalityChecked,        &make_exact_battle_branch },
@@ -2027,6 +2031,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
   &stip_traverse_structure_pipe,            /* STDefenseEnd */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
+  &stip_traverse_structure_pipe,            /* STReadyForAttack */
   &stip_traverse_structure_pipe,            /* STAttackMovePlayed */
   &stip_traverse_structure_pipe,            /* STAttackMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
@@ -2214,6 +2219,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_defense_end,           /* STDefenseEnd */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
+    &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */

@@ -31,6 +31,7 @@ static boolean is_proxy(slice_index si)
   switch (slices[si].type)
   {
     case STProxy:
+    case STReadyForAttack:
     case STAttackMovePlayed:
     case STAttackMoveShoeHorningDone:
     case STAttackMoveLegalityChecked:
