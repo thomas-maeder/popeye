@@ -45,14 +45,23 @@ static variation_writer_insertion_state_type variation_writer_insertion_state;
 
 typedef enum
 {
+  zugzwang_writer_none,
+  zugzwang_writer_needed,
+  zugzwang_writer_inserted
+} zugzwang_writer_insertion_state_type;
+
+static zugzwang_writer_insertion_state_type zugzwang_writer_insertion_state;
+
+typedef enum
+{
   check_detector_defender_filter_unknown,
   check_detector_defender_filter_needed,
   check_detector_defender_filter_inserted
-} check_detector_defender_filter_inseration_state_type;
+} check_detector_defender_filter_insertion_state_type;
 
 static
-check_detector_defender_filter_inseration_state_type
-check_detector_defender_filter_inseration_state;
+check_detector_defender_filter_insertion_state_type
+check_detector_defender_filter_insertion_state;
 
 static void instrument_self_defense(slice_index si,
                                     stip_structure_traversal *st)
@@ -142,10 +151,8 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 static void instrument_attack_move(slice_index si,
                                    stip_structure_traversal *st)
 {
-  variation_writer_insertion_state_type const
-      save_var_state = variation_writer_insertion_state;
-  check_detector_defender_filter_inseration_state_type const
-      save_detector_state = check_detector_defender_filter_inseration_state;
+  check_detector_defender_filter_insertion_state_type const
+      save_detector_state = check_detector_defender_filter_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -153,25 +160,15 @@ static void instrument_attack_move(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  variation_writer_insertion_state = variation_writer_none;
-  check_detector_defender_filter_inseration_state
+  check_detector_defender_filter_insertion_state
       = check_detector_defender_filter_needed;
   stip_traverse_structure_children(si,st);
-  check_detector_defender_filter_inseration_state
+  check_detector_defender_filter_insertion_state
       = save_detector_state;
-  variation_writer_insertion_state = save_var_state;
 
-  if (variation_writer_insertion_state==variation_writer_needed)
-  {
-    if (postkey_play_state==postkey_play_exclusively)
-      pipe_append(slices[si].prev,
-                  alloc_refuting_variation_writer_slice(length,min_length));
-    pipe_append(slices[si].prev,
-                alloc_variation_writer_slice(length,min_length));
-
+  if (variation_writer_insertion_state==variation_writer_inserted)
     pipe_append(slices[si].prev,
                 alloc_output_plaintext_tree_check_detector_attacker_filter_slice(length,min_length));
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -180,6 +177,8 @@ static void instrument_attack_move(slice_index si,
 static void instrument_defense_end(slice_index si,
                                    stip_structure_traversal *st)
 {
+  variation_writer_insertion_state_type const
+      save_state = variation_writer_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -187,14 +186,14 @@ static void instrument_defense_end(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (check_detector_defender_filter_inseration_state
+  if (check_detector_defender_filter_insertion_state
       ==check_detector_defender_filter_needed)
     pipe_append(si,
                 alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
 
   variation_writer_insertion_state = variation_writer_needed;
   stip_traverse_structure_children(si,st);
-  variation_writer_insertion_state = variation_writer_none;
+  variation_writer_insertion_state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -210,15 +209,15 @@ static void instrument_reflex_defender_filter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (check_detector_defender_filter_inseration_state
+  if (check_detector_defender_filter_insertion_state
       ==check_detector_defender_filter_needed)
   {
     pipe_append(slices[si].prev,
                 alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
-    check_detector_defender_filter_inseration_state
+    check_detector_defender_filter_insertion_state
         = check_detector_defender_filter_inserted;
     stip_traverse_structure_children(si,st);
-    check_detector_defender_filter_inseration_state
+    check_detector_defender_filter_insertion_state
         = check_detector_defender_filter_needed;
   }
   else
@@ -231,13 +230,50 @@ static void instrument_reflex_defender_filter(slice_index si,
 static void instrument_threat_enforcer(slice_index si,
                                        stip_structure_traversal *st)
 {
+  zugzwang_writer_insertion_state_type const
+      save_state = zugzwang_writer_insertion_state;
+  
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  zugzwang_writer_insertion_state = zugzwang_writer_needed;
   stip_traverse_structure_children(si,st);
+  zugzwang_writer_insertion_state = save_state;
 
-  pipe_append(si,alloc_zugzwang_writer_slice());
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_defense_move_filtered(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  variation_writer_insertion_state_type const
+      save_var_state = variation_writer_insertion_state;
+  zugzwang_writer_insertion_state_type const
+      save_zzw_state = zugzwang_writer_insertion_state;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  variation_writer_insertion_state = variation_writer_inserted;
+  zugzwang_writer_insertion_state = zugzwang_writer_inserted;
+  stip_traverse_structure_children(si,st);
+  zugzwang_writer_insertion_state = save_zzw_state;
+  variation_writer_insertion_state = save_var_state;
+
+  if (variation_writer_insertion_state==variation_writer_needed)
+  {
+    if (postkey_play_state==postkey_play_exclusively)
+      pipe_append(si,alloc_refuting_variation_writer_slice(length,min_length));
+    pipe_append(si,alloc_variation_writer_slice(length,min_length));
+  }
+
+  if (zugzwang_writer_insertion_state==zugzwang_writer_needed)
+    pipe_append(si,alloc_zugzwang_writer_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -283,17 +319,17 @@ static void instrument_battle_play_solver(slice_index si,
 static void instrument_attack_root(slice_index si,
                                    stip_structure_traversal *st)
 {
-  check_detector_defender_filter_inseration_state_type const
-      save_detector_state = check_detector_defender_filter_inseration_state;
+  check_detector_defender_filter_insertion_state_type const
+      save_detector_state = check_detector_defender_filter_insertion_state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  check_detector_defender_filter_inseration_state
+  check_detector_defender_filter_insertion_state
       = check_detector_defender_filter_needed;
   stip_traverse_structure_children(si,st);
-  check_detector_defender_filter_inseration_state
+  check_detector_defender_filter_insertion_state
       = save_detector_state;
 
   TraceFunctionExit(__func__);
@@ -405,6 +441,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STContinuationSolver,             &instrument_continuation_solver     },
   { STBattlePlaySolver,               &instrument_battle_play_solver      },
   { STThreatEnforcer,                 &instrument_threat_enforcer         },
+  { STDefenseMoveFiltered,            &instrument_defense_move_filtered   },
   { STRefutationsCollector,           &instrument_refutations_collector   },
   { STHelpRoot,                       &instrument_help_root               },
   { STSeriesRoot,                     &stip_structure_visitor_noop        },

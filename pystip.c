@@ -73,6 +73,7 @@
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STDefenseMoveLegalityChecked), /* proxy mark after slices that have checked the legality of defense moves */ \
+    ENUMERATOR(STDefenseMoveFiltered), /* proxy mark after slices that have filtered irrelevant defense moves */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -232,6 +233,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STDefenseMovePlayed */
   slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
   slice_structure_pipe,   /* STDefenseMoveLegalityChecked */
+  slice_structure_pipe,   /* STDefenseMoveFiltered */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -581,6 +583,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
   { STAttackEnd,                   &stip_traverse_structure_children         },
   { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
+  { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
   { STDefenseMoveShoeHorningDone,  &copy_into_root_end                       }
 };
 
@@ -1280,6 +1283,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STReadyForDefense,                  &move_to_postkey_play                                       },
   { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                                     },
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                                     },
+  { STDefenseMoveFiltered,              &trash_for_postkey_play                                     },
   { STSelfCheckGuardDefenderFilter,     &selfcheckguard_defender_filter_reduce_to_postkey_play      },
   { STDirectDefenderFilter,             &direct_defender_filter_reduce_to_postkey_play              },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
@@ -1713,6 +1717,7 @@ static structure_traversers_visitors exact_makers[] =
   { STDefenseMovePlayed,                &make_exact_battle_branch },
   { STDefenseMoveShoeHorningDone,       &make_exact_battle_branch },
   { STDefenseMoveLegalityChecked,       &make_exact_battle_branch },
+  { STDefenseMoveFiltered,              &make_exact_battle_branch },
   { STDirectDefenderFilter,             &make_exact_battle_branch },
   { STReflexHelpFilter,                 &make_exact_help_branch   },
   { STReflexSeriesFilter,               &make_exact_series_branch },
@@ -2029,6 +2034,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
   &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STDefenseMoveLegalityChecked */
+  &stip_traverse_structure_pipe,            /* STDefenseMoveFiltered */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
@@ -2215,6 +2221,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
+    &stip_traverse_moves_pipe,                  /* STDefenseMoveFiltered */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_branch_slice,          /* STHelpMove */

@@ -38,6 +38,7 @@ static boolean is_proxy(slice_index si)
     case STDefenseMovePlayed:
     case STDefenseMoveShoeHorningDone:
     case STDefenseMoveLegalityChecked:
+    case STDefenseMoveFiltered:
       result = true;
       break;
 
