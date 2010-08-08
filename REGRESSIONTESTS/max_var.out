@@ -26,6 +26,10 @@
 
   1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 # 
 
+              empile:     1808321
+            jouecoup:     1092398
+        orig_rbechec:      235878
+        orig_rnechec:      934608
 Loesung beendet. 
 
 
@@ -57,39 +61,43 @@ Loesung beendet.
   #3                        12 + 10
            Duellantenschach
 
-  1.Df8-g7 ! Zugzwang.
-      1...e2*f1=D + 
+   1.Df8-g7 ! Zugzwang.
+      1...e2*f1=D +
           2.Td5-b5 Zugzwang.
-              2...Df1*h1 
+              2...Df1*h1
                   3.Tb5-b1 #
-              2...Df1-g1 
+              2...Df1-g1
                   3.Tb5-b1 #
-      1...e2*f1=S 
+      1...e2*f1=S
           2.Dg7-c7 Drohung:
                   3.Dc7-e5 #
-              2...Th7*c7 
+              2...Th7*c7
                   3.Td5-e5 #
-      1...e2*f1=T 
+      1...e2*f1=T
           2.Dg7*g6 Drohung:
                   3.Dg6-b1 #
                   3.Dg6-e4 #
-              2...Tf1*h1 
+              2...Tf1*h1
                   3.Dg6-b1 #
-              2...Tf1-g1 
+              2...Tf1-g1
                   3.Dg6-b1 #
-      1...e2*f1=L + 
+      1...e2*f1=L +
           2.d2-d3 Drohung:
                   3.Td5-e5 #
-      1...g4-g3 
+      1...g4-g3
           2.Dg7*g6 Drohung:
                   3.Dg6-b1 #
-      1...Th7*g7 
+      1...Th7*g7
           2.d2-d4 Drohung:
                   3.Lg5-d2 #
-      1...Th7-h8 
+      1...Th7-h8
           2.Dg7*g6 Drohung:
                   3.Dg6-b1 #
 
+              empile:       61239
+            jouecoup:       24417
+        orig_rbechec:       16133
+        orig_rnechec:       17732
 Loesung beendet. 
 
 
@@ -121,6 +129,10 @@ Loesung beendet.
 
   1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 # 
 
+              empile:      323133
+            jouecoup:      263205
+        orig_rbechec:      102162
+        orig_rnechec:      237883
 Loesung beendet. 
 
 
@@ -152,24 +164,32 @@ Loesung beendet.
 
 a) 
 
-  1.Lh5-g4 !
-      1...h6-h5 
+   1.Lh5-g4 !
+      1...h6-h5
           2.Lg4*h5
-              2...Ld1-g4 
+              2...Ld1-g4
                   3.Se6-c7
-                      3...Lg4-e6 
+                      3...Lg4-e6
                           4.Sc7-e8 #
 
+              empile:      288130
+            jouecoup:      168025
+        orig_rbechec:      112668
+        orig_rnechec:      160866
 b)  -sBh6
 
-  1.Lh5-f7 !
-      1...Ld1-h5 
+   1.Lh5-f7 !
+      1...Ld1-h5
           2.Lf7-e8
-              2...Lh5-f7 
+              2...Lh5-f7
                   3.Se6-f4
-                      3...Lf7-e6 
+                      3...Lf7-e6
                           4.Sf4-h5 #
 
+              empile:      332017
+            jouecoup:      192828
+        orig_rbechec:      126752
+        orig_rnechec:      185466
 Loesung beendet. 
 
 
@@ -200,13 +220,17 @@ Loesung beendet.
       SchwarzerVerfolgungszueger
        WeisserVerfolgungszueger
 
-  1.Le1*c3 !
-      1...Ta1-e1 
+   1.Le1*c3 !
+      1...Ta1-e1
           2.Lc3-a1 +
-              2...Se2-c3 + 
+              2...Se2-c3 +
                   3.Lb5-e2
                       3...La6-b5 #
 
+              empile:      152038
+            jouecoup:       32353
+        orig_rbechec:       21616
+        orig_rnechec:       21866
 Loesung beendet. 
 
 
@@ -237,17 +261,21 @@ Loesung beendet.
       SchwarzerVerfolgungszueger
        WeisserVerfolgungszueger
 
-  1.Se5*c6 !
-      1...De6-e5 
+   1.Se5*c6 !
+      1...De6-e5
           2.Ld5-e6
-              2...De5-d5 
+              2...De5-d5
                   3.Sc6-e5
-                      3...Dd5-c6 
+                      3...Dd5-c6
                           4.Le6-d5
-                              4...Dc6-e6 
+                              4...Dc6-e6
                                   5.c5-c6
                                       5...Lb6-c5 #
 
+              empile:     2699292
+            jouecoup:      642682
+        orig_rbechec:      439803
+        orig_rnechec:      413873
 Loesung beendet. 
 
 
@@ -278,28 +306,32 @@ Loesung beendet.
       SchwarzerVerfolgungszueger
        WeisserVerfolgungszueger
 
-  1.Kh6-h5 !
-      1...h7-h6 
+   1.Kh6-h5 !
+      1...h7-h6
           2.Le4-h7
-              2...Lb7-e4 
+              2...Lb7-e4
                   3.Tb1-b7
-                      3...Le4-b1 
+                      3...Le4-b1
                           4.Lh7-e4
-                              4...Td7-h7 
+                              4...Td7-h7
                                   5.Tb7-d7 +
-                                      5...Sd8-b7 
+                                      5...Sd8-b7
                                           6.Td7-d8 #
 
-  1.Le4*h7 !
-      1...Lb7-e4 
+   1.Le4*h7 !
+      1...Lb7-e4
           2.Tb1-b7
-              2...Le4-b1 
+              2...Le4-b1
                   3.Lh7-e4
-                      3...Td7-h7 + 
+                      3...Td7-h7 +
                           4.Tb7*h7 +
-                              4...Sd8-b7 
+                              4...Sd8-b7
                                   5.Th7-h8 #
 
+              empile:    26002566
+            jouecoup:     9786556
+        orig_rbechec:     7320127
+        orig_rnechec:     8134402
 Loesung beendet. 
 
 

@@ -77,6 +77,10 @@
       1...Gc6-e8
           2.Qf8*e8 #
 
+              empile:       41059
+            jouecoup:       32026
+        orig_rbechec:        7467
+        orig_rnechec:       31200
 solution finished. 
 
 
@@ -249,6 +253,10 @@ solution finished.
     but
       1...Kh1*h2 !
 
+              empile:       36808
+            jouecoup:       23410
+        orig_rbechec:       10021
+        orig_rnechec:       21644
 solution finished. 
 
 
@@ -315,6 +323,10 @@ solution finished.
       1...Qf6*d8
           2.Qb6-b7 #
 
+              empile:       15092
+            jouecoup:       12460
+        orig_rbechec:        4030
+        orig_rnechec:       11760
 solution finished. 
 
 
@@ -485,6 +497,10 @@ solution finished.
     but
       1...Kd3-d4 !
 
+              empile:      107101
+            jouecoup:       89142
+        orig_rbechec:       20101
+        orig_rnechec:       87828
 solution finished. 
 
 
@@ -519,6 +535,10 @@ a)
 
   1.Kg7-f8 Kd5-d4   2.a2-a1=Q + Kd4*a1=Q   3.Rh8-g8 Qa1-f6 # 
 
+              empile:     6317423
+            jouecoup:     4513511
+        orig_rbechec:      192558
+        orig_rnechec:     4168795
 b) bPa2-->b2
 
   1.Kg7-f8 Kd5-c5   2.Rh8-g8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q # 
@@ -527,6 +547,10 @@ b) bPa2-->b2
   1.Rh8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q # 
   1.Rh8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q # 
 
+              empile:     6484508
+            jouecoup:     4570915
+        orig_rbechec:      184651
+        orig_rnechec:     4224567
 solution finished. 
 
 

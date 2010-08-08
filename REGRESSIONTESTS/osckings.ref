@@ -27,31 +27,43 @@
 
 a) 
 
-  1.Rg4*b4 ! zugzwang.
-      1...Kf5-e5[wK<>bK] 
+   1.Rg4*b4 ! zugzwang.
+      1...Kf5-e5[wK<>bK]
           2.Rb4-b5 #
           2.Rb4-c4 #
           2.Sf2*d3 #
-      1...g5-g4[wK<>bK] 
+      1...g5-g4[wK<>bK]
           2.Rb4-b5 #
 
-  1.Rg4-e4 ! zugzwang.
-      1...g5-g4[wK<>bK] 
+   1.Rg4-e4 ! zugzwang.
+      1...g5-g4[wK<>bK]
           2.Re4-e5 #
 
-  1.a4-a5 ! zugzwang.
-      1...Kf5-e5[wK<>bK] 
+   1.a4-a5 ! zugzwang.
+      1...Kf5-e5[wK<>bK]
           2.Sf2*d3 #
 
+              empile:        2269
+            jouecoup:        1644
+        orig_rbechec:        1167
+        orig_rnechec:        1817
 b) WhiteOscillatingKings    TypeB
 
-  1.Sf2-d1[wK<>bK] ! zugzwang.
-      1...Kc5-d5 
+   1.Sf2-d1[wK<>bK] ! zugzwang.
+      1...Kc5-d5
           2.Sd1-e3[wK<>bK] #
 
+              empile:        3228
+            jouecoup:        1799
+        orig_rbechec:        2276
+        orig_rnechec:        1620
 c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
 
+              empile:        4789
+            jouecoup:        2156
+        orig_rbechec:        2594
+        orig_rnechec:        2082
 solution finished. 
 
 
@@ -81,11 +93,15 @@ solution finished.
   s#2                         3 + 3
     BlackOscillatingKings    TypeB
 
-  1.Qf2-d4 ! zugzwang.
-      1...Bf4-e5[wK<>bK] + 
+   1.Qf2-d4 ! zugzwang.
+      1...Bf4-e5[wK<>bK] +
           2.Qd4-d5
               2...Bf3*d5[wK<>bK] #
 
+              empile:        4431
+            jouecoup:        2484
+        orig_rbechec:        1796
+        orig_rnechec:        3159
 solution finished. 
 
 
@@ -115,18 +131,22 @@ solution finished.
   #2                          3 + 3
         BlackOscillatingKings
 
-  1.Qg5-c1 ! zugzwang.
-      1...Sg2-f4[wK<>bK] 
+   1.Qg5-c1 ! zugzwang.
+      1...Sg2-f4[wK<>bK]
           2.Qc1*f4 #
-      1...Sg2-e3[wK<>bK] 
+      1...Sg2-e3[wK<>bK]
           2.Qc1*e3 #
-      1...Kf3-f4[wK<>bK] + 
+      1...Kf3-f4[wK<>bK] +
           2.Kf4-g3 #
-      1...Kf3-e3[wK<>bK] + 
+      1...Kf3-e3[wK<>bK] +
           2.Ke3-f2 #
-      1...g6-g5[wK<>bK] 
+      1...g6-g5[wK<>bK]
           2.Qc1-c6 #
 
+              empile:        2051
+            jouecoup:        1323
+        orig_rbechec:        1008
+        orig_rnechec:        1330
 solution finished. 
 
 

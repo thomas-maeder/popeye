@@ -26,43 +26,59 @@
 
 a) 
 
-  1.Kc8-c7 ! zugzwang.
-      1...a7-a6 
+   1.Kc8-c7 ! zugzwang.
+      1...a7-a6
           2.b6-b7 +
-              2...Ka8-a7 
+              2...Ka8-a7
                   3.Kc7-d6 zugzwang.
-                      3...Ka7-b6 
+                      3...Ka7-b6
                           4.b7-b8=Q +
-                              4...Kb6-a5 
+                              4...Kb6-a5
                                   5.Qb8-b3 =
 
+              empile:       42474
+            jouecoup:       27729
+        orig_rbechec:       13534
+        orig_rnechec:       25340
 b) Circe
    BlackSynchronMover  =4
 
-  1.Kc8-c7 ! zugzwang.
-      1...a7-a6 
+   1.Kc8-c7 ! zugzwang.
+      1...a7-a6
           2.b6-b7 +
-              2...Ka8-a7 
+              2...Ka8-a7
                   3.b7-b8=S zugzwang.
-                      3...Ka7-a8 
+                      3...Ka7-a8
                           4.Sb8*a6 [+bPa7] =
 
+              empile:       11407
+            jouecoup:        7703
+        orig_rbechec:        3994
+        orig_rnechec:        7047
 c) GlasgowChess
    BlackSynchronMover  =3
 
-  1.Kc8-d8 ! zugzwang.
-      1...Ka8-b8 
+   1.Kc8-d8 ! zugzwang.
+      1...Ka8-b8
           2.Kd8-e8 zugzwang.
-              2...Kb8-c8 
+              2...Kb8-c8
                   3.b6*a7=Q =
 
+              empile:        3343
+            jouecoup:        3203
+        orig_rbechec:        1558
+        orig_rnechec:        3038
 d) AntiAndernachChess
    BlackSynchronMover  =2
 
-  1.Kc8-c7 ! zugzwang.
-      1...a7-a6=wP 
+   1.Kc8-c7 ! zugzwang.
+      1...a7-a6=wP
           2.Kc7-c8 =
 
+              empile:         215
+            jouecoup:         205
+        orig_rbechec:         106
+        orig_rnechec:         196
 solution finished. 
 
 
@@ -94,44 +110,52 @@ solution finished.
 
 a) 
 
-  1.Kc8-c7 ! threat:
+   1.Kc8-c7 ! threat:
           2.Kc7-d7 zugzwang.
-              2...Ka8-b8 
+              2...Ka8-b8
                   3.Kd7-e6 threat:
                           4.Ke6-d6 threat:
                                   5.Kd6-c5
                                       5...a7*b6 +
-                      3...a7*b6 
+                      3...a7*b6
                           4.Ke6-d5 zugzwang.
-                              4...Kb8-a7 
+                              4...Kb8-a7
                                   5.Kd5-c4
                                       5...b6-b5 +
-      1...a7-a6 
+      1...a7-a6
           2.Kc7-c6 zugzwang.
-              2...a6-a5 
+              2...a6-a5
                   3.Kc6-d5 zugzwang.
-                      3...Ka8-b7 
+                      3...Ka8-b7
                           4.Kd5-c4 zugzwang.
-                              4...Kb7-a6 
+                              4...Kb7-a6
                                   5.Kc4-b3
                                       5...a5-a4 +
 
+              empile:      104217
+            jouecoup:       63241
+        orig_rbechec:       25442
+        orig_rnechec:       39498
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
-  1.Kc8-c7 ! zugzwang.
-      1...a7-a6 
+   1.Kc8-c7 ! zugzwang.
+      1...a7-a6
           2.Kc7-c6 zugzwang.
-              2...a6-a5 
+              2...a6-a5
                   3.Kc6-c5 zugzwang.
-                      3...a5-a4 
+                      3...a5-a4
                           4.Kc5-c4 zugzwang.
-                              4...a4-a3 
+                              4...a4-a3
                                   5.Kc4-c3 zugzwang.
-                                      5...a3-a2 
+                                      5...a3-a2
                                           6.Kc3-c2
                                               6...a2-a1=S +
 
+              empile:        1648
+            jouecoup:         970
+        orig_rbechec:         412
+        orig_rnechec:         576
 solution finished. 
 
 

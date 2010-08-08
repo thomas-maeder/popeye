@@ -27,6 +27,10 @@
 
   1.nDb7-b8 nKa4-a5 +   2.nKa5-a6 nSa2-c3   3.nSc3-b5 nBc4*b5 # 
 
+              empile:      368896
+            jouecoup:      227617
+        orig_rbechec:       40676
+        orig_rnechec:      195151
 Loesung beendet. 
 
 
@@ -60,6 +64,10 @@ Loesung beendet.
       1...nKg8-f8
           2.nKf8*e8 #
 
+              empile:        2342
+            jouecoup:        1006
+        orig_rbechec:         660
+        orig_rnechec:        1011
 Loesung beendet. 
 
 
@@ -92,10 +100,18 @@ a)
 
   1.nBa2-a1=nS nSa1-b3   2.nBc3-c2 nBc2*b3 # 
 
+              empile:       37155
+            jouecoup:       15385
+        orig_rbechec:        1222
+        orig_rnechec:       14649
 b) nBc3-->c2
 
   1.nBc2-c1=nT nTc1-c3   2.nTc3-b3 nBa2*b3 # 
 
+              empile:       57350
+            jouecoup:       20539
+        orig_rbechec:        1419
+        orig_rnechec:       19703
 Loesung beendet. 
 
 
@@ -130,10 +146,18 @@ a)
 
   1.nkBa7-a8=nkL   2.nkBb7*a8=nkT [+nkLc8][nkTa8->h1] # 
 
+              empile:         405
+            jouecoup:         427
+        orig_rbechec:          70
+        orig_rnechec:         424
 b) sKh3-->d2
 
   1.nkBa7-a8=nkD   2.nkBb7*a8=nkS [+nkDd8][nkSa8->b1] # 
 
+              empile:         404
+            jouecoup:         424
+        orig_rbechec:          75
+        orig_rnechec:         420
 Loesung beendet. 
 
 
@@ -172,6 +196,10 @@ Loesung beendet.
                           4.nBa7-a8=nT
                               4...nDh2*b8 #
 
+              empile:      995240
+            jouecoup:      354134
+        orig_rbechec:      103268
+        orig_rnechec:      296536
 Loesung beendet. 
 
 
@@ -203,6 +231,10 @@ Loesung beendet.
 
   1...nSBf2-f8=nS   2.nSBb4-b1=nL nSBe2-e8=nT   3.nLb1-g6 nSBa3*f8=nD # 
 
+              empile:      275101
+            jouecoup:      245284
+        orig_rbechec:       25079
+        orig_rnechec:      237831
 Loesung beendet. 
 
 
@@ -236,6 +268,10 @@ Loesung beendet.
   1.nBBb7-c8=nT   2.nBBa7-b8=nL   3.nTc8-e8   4.nBf7*e8=nD [+nTf7] # 
   1.nBBa7-b8=nL   2.nBBb7*b8=nD [+nLb7]   3.nBf7-f8=nT   4.nBg7*f8=nS [+nTg7] # 
 
+              empile:       50249
+            jouecoup:       25705
+        orig_rbechec:        8148
+        orig_rnechec:       20912
 Loesung beendet. 
 
 
@@ -273,6 +309,10 @@ Loesung beendet.
                       3...nLh3-c8
                           4.nBb7*c8=nD #
 
+              empile:      331669
+            jouecoup:      220227
+        orig_rbechec:      128912
+        orig_rnechec:      210794
 Loesung beendet. 
 
 
@@ -310,6 +350,10 @@ Loesung beendet.
                       3...nDh2-b8
                           4.nBBa7*a8=nL #
 
+              empile:     2135344
+            jouecoup:     1243604
+        orig_rbechec:      719183
+        orig_rnechec:     1209194
 Loesung beendet. 
 
 
@@ -347,6 +391,10 @@ Loesung beendet.
                       3...nDh2-b8
                           4.nBd7-d8=nS #
 
+              empile:      584523
+            jouecoup:      355586
+        orig_rbechec:      212929
+        orig_rnechec:      344151
 Loesung beendet. 
 
 
@@ -379,14 +427,26 @@ a)
 
   1.nSBf2-f1=nL Se2-c3 +   2.Kd5-d4 nSBh4-h8=nL # 
 
+              empile:     1177994
+            jouecoup:      898037
+        orig_rbechec:       88722
+        orig_rnechec:      896776
 b) sLe3-->f6
 
   1.Kd5-e5 Se2-d4   2.nSBh4-h1=nL nSBb4-b8=nL # 
 
+              empile:     1024485
+            jouecoup:      775734
+        orig_rbechec:       77970
+        orig_rnechec:      774586
 c) sKd5-->g6
 
   1.Kg6-h6 Se2-g3   2.nSBb4-b1=nL nSBf2-f8=nL # 
 
+              empile:     1228507
+            jouecoup:      887591
+        orig_rbechec:       94939
+        orig_rnechec:      886287
 Loesung beendet. 
 
 

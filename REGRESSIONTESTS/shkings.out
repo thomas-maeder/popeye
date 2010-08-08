@@ -25,56 +25,60 @@
         TransmutierendeKoenige
             SchutzKoenige
 
-  1.Se8-f6 + ?
+   1.Se8-f6 + ?
     Aber
-      1...Ke4-c3  !
+      1...Ke4-c3 !
 
-  1.Th6-h4 + ?
+   1.Th6-h4 + ?
     Aber
-      1...Ke4*e7  !
+      1...Ke4*e7 !
 
-  1.Th6-e6 + ?
-      1...Ke4-d4 
+   1.Th6-e6 + ?
+      1...Ke4-d4
           2.e2-e3 #
     Aber
-      1...Sd8*e6  !
+      1...Sd8*e6 !
 
-  1.Tc5-e5 + ?
-      1...Ke4-d4 
+   1.Tc5-e5 + ?
+      1...Ke4-d4
           2.e2-e3 #
     Aber
-      1...Ke4*c4  !
+      1...Ke4*c4 !
 
-  1.Lc4-d3 + ?
-      1...Ke4-b7 
+   1.Lc4-d3 + ?
+      1...Ke4-b7
           2.Tc5-b5 #
-      1...Td7*d3 
+      1...Td7*d3
           2.Se8-f6 #
     Aber
-      1...Ke4-a8  !
+      1...Ke4-a8 !
 
-  1.Kf2-f3 + ?
-      1...Sa2-c3 
+   1.Kf2-f3 + ?
+      1...Sa2-c3
           2.Se8-f6 #
-      1...Ke4-d4 
+      1...Ke4-d4
           2.e2-e3 #
-      1...Td7-d4 
+      1...Td7-d4
           2.Tc5-e5 #
-      1...Td7*e7 
+      1...Td7*e7
           2.Th6-h4 #
     Aber
-      1...Td7-d3 +  !
+      1...Td7-d3 + !
 
-  1.Kf2-e3 + !
-      1...Sa2-c3 
+   1.Kf2-e3 + !
+      1...Sa2-c3
           2.Se8-f6 #
-      1...Ke4-d4 
+      1...Ke4-d4
           2.Lg3-e5 #
-      1...Td7-d4 
+      1...Td7-d4
           2.Tc5-e5 #
-      1...Td7*e7 
+      1...Td7*e7
           2.Th6-h4 #
 
+              empile:       23716
+            jouecoup:       14001
+        orig_rbechec:       12247
+        orig_rnechec:       18353
 Loesung beendet. 
 
 
@@ -108,10 +112,18 @@ a)
 
   1.Sf6-h5 Tf7-f5   2.Dg4-h3 + Kg2*h3 # 
 
+              empile:      248155
+            jouecoup:      227414
+        orig_rbechec:       30563
+        orig_rnechec:      232190
 b) wSg5-->g3
 
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 # 
 
+              empile:      274024
+            jouecoup:      251593
+        orig_rbechec:       36195
+        orig_rnechec:      255032
 Loesung beendet. 
 
 
@@ -143,67 +155,75 @@ Loesung beendet.
 
 a) 
 
-  1.Le6-d5 + ?
+   1.Le6-d5 + ?
     Aber
-      1...Lc6*d5  !
+      1...Lc6*d5 !
 
-  1.Le6-h3 ? Drohung:
+   1.Le6-h3 ? Drohung:
           2.Th4-f4 #
           2.Th1-f1 #
           2.0-0 #
-      1...La7-b8 
+      1...La7-b8
           2.Th1-f1 #
           2.0-0 #
     Aber
-      1...e3-e2  !
+      1...e3-e2 !
 
-  1.Th4-f4 + ?
+   1.Th4-f4 + ?
     Aber
-      1...Kf3-g2  !
+      1...Kf3-g2 !
 
-  1.Th4-g4 ? Drohung:
+   1.Th4-g4 ? Drohung:
           2.Th1-f1 #
           2.0-0 #
     Aber
-      1...e3-e2  !
+      1...e3-e2 !
 
-  1.Th1-f1 + !
-      1...Kf3-g2 
+   1.Th1-f1 + !
+      1...Kf3-g2
           2.Sd3-f4 #
 
-  1.Th1-g1 ? Drohung:
+   1.Th1-g1 ? Drohung:
           2.Th4-f4 #
           2.Tg1-g3 #
-      1...e3-e2 
+      1...e3-e2
           2.Tg1-g3 #
     Aber
-      1...La7-b8  !
+      1...La7-b8 !
 
-  1.0-0 + ?
+   1.0-0 + ?
     Aber
-      1...Kf3-g2  !
+      1...Kf3-g2 !
 
+              empile:       15096
+            jouecoup:       10467
+        orig_rbechec:        6567
+        orig_rnechec:       11033
 b) s#3
 
-  1.Le6-d5 + ?
+   1.Le6-d5 + ?
     Aber
-      1...Lc6*d5  !
+      1...Lc6*d5 !
 
-  1.Th4-f4 + ?
+   1.Th4-f4 + ?
     Aber
-      1...Kf3-g2  !
+      1...Kf3-g2 !
 
-  1.Th1-f1 + ?
+   1.Th1-f1 + ?
     Aber
-      1...Kf3-g2  !
+      1...Kf3-g2 !
 
-  1.0-0 + !
-      1...Kf3-g2 
+   1.0-0 + !
+      1...Kf3-g2
           2.Le6-h3 +
-              2...Kg2-h1 
+              2...Kg2-h1
                   3.Sd3-f2 +
                       3...e3*f2 #
 
+              empile:      710977
+            jouecoup:      252366
+        orig_rbechec:      281816
+        orig_rnechec:      191952
 Loesung beendet. 
 
 

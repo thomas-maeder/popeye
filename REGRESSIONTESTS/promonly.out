@@ -26,6 +26,10 @@
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=G Kc8-c7 = 
 
+              empile:        1011
+            jouecoup:         566
+        orig_rbechec:         240
+        orig_rnechec:         507
 Loesung beendet. 
 
 
@@ -59,6 +63,10 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=KN   6.KNa1-a5   7.KNa5-b7 = 
 
+              empile:        4609
+            jouecoup:        2162
+        orig_rbechec:        1885
+        orig_rnechec:        1203
 Loesung beendet. 
 
 
@@ -89,24 +97,28 @@ Loesung beendet.
         SchwarzerLaengstzueger
                UWnur D
 
-      1...a7-a5 
+      1...a7-a5
           2.Kc8-c7
-              2...a5-a4 
+              2...a5-a4
                   3.Kc7-c8
-                      3...a4-a3 
+                      3...a4-a3
                           4.Kc8-c7
-                              4...a3-a2 
+                              4...a3-a2
                                   5.Kc7-c8
-                                      5...a2-a1=D 
+                                      5...a2-a1=D
                                           6.b6-b7 +
-                                              6...Ka8-a7 
+                                              6...Ka8-a7
                                                   7.b7-b8=D +
-                                                      7...Ka7-a6 
+                                                      7...Ka7-a6
                                                           8.Db8-b6 +
-                                                              8...Ka6*b6 
+                                                              8...Ka6*b6
                                                                   9.Kc8-b8
                                                                       9...Da1-h8 #
 
+              empile:    17704772
+            jouecoup:     8820005
+        orig_rbechec:     4770254
+        orig_rnechec:     6760764
 Loesung beendet. 
 
 

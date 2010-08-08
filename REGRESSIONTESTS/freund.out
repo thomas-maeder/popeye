@@ -24,18 +24,22 @@
   s#3                         2 + 3
         SchwarzerLaengstzueger
 
-  1.Th6-h3 ! Zugzwang.
-      1...Na1-g4 
+   1.Th6-h3 ! Zugzwang.
+      1...Na1-g4
           2.Th3-e3 Zugzwang.
-              2...Ng4-a7 
+              2...Ng4-a7
                   3.Te3-c3 +
                       3...Na7*c3 #
-      1...Na1-d7 
+      1...Na1-d7
           2.Th3-b3 Zugzwang.
-              2...Nd7-g1 
+              2...Nd7-g1
                   3.Tb3-c3 +
                       3...Ng1*c3 #
 
+              empile:       30849
+            jouecoup:       16046
+        orig_rbechec:        4783
+        orig_rnechec:       13568
 Loesung beendet. 
 
 

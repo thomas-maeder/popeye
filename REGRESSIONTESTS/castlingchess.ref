@@ -28,6 +28,10 @@
   1.Kb1-a2   2.Ka2-c2/bPh2-b2   3.Kc2-b1 Kc4-b3 = 
   1.Kb1-c2   2.Kc2-e2/bPh2-d2   3.Ke2-d1 Kc4-d3 = 
 
+              empile:        6381
+            jouecoup:        2033
+        orig_rbechec:        2633
+        orig_rnechec:        1451
 solution finished. 
 
 
@@ -57,13 +61,17 @@ solution finished.
   r#2                         2 + 5
             CastlingChess
 
-  1.Rg1-g3 ! threat:
+   1.Rg1-g3 ! threat:
           2.Kh1-h3/bPh5-h2
               2...h2-h1=Q #
-      1...Sh6-g4 
+      1...Sh6-g4
           2.Kh1-f3/bRa8-g2
               2...Rg2-f2 #
 
+              empile:       19545
+            jouecoup:       10466
+        orig_rbechec:        9371
+        orig_rnechec:        3404
 solution finished. 
 
 
@@ -93,14 +101,18 @@ solution finished.
   r#2                         1 + 6
             CastlingChess
 
-  1.Kh2-h1 ! threat:
+   1.Kh2-h1 ! threat:
           2.Kh1-h3/bPh7-h2
               2...h2-h1=Q #
-      1...f4-f3 
+      1...f4-f3
           2.Kh1-f1/bBa1-g1
               2...a2-a1=Q #
               2...a2-a1=R #
 
+              empile:        2723
+            jouecoup:        1493
+        orig_rbechec:        1554
+        orig_rnechec:         694
 solution finished. 
 
 
@@ -132,6 +144,10 @@ solution finished.
 
   1.Ka8-b7   2.Kb7-d7/wPg7-c7   3.Kd7-c8   4.Kc8-b7   5.Kb7-b5/wPb2-b6   6.Kb5-a6   7.Ka6-b7   8.Kb7-a8 c7-c8=Q # 
 
+              empile:       21062
+            jouecoup:       20746
+        orig_rbechec:        6117
+        orig_rnechec:       23101
 solution finished. 
 
 

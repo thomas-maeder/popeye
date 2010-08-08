@@ -25,46 +25,50 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
   #2                          6 + 3
            Annanschach    
 
-  1.Tc4-c5 + !
-      1...Kb5-b6 
+   1.Tc4-c5 + !
+      1...Kb5-b6
           2.Tc3-f6 #
 
-  1.Sb4-a3 + !
-      1...Kb5-b6 
+   1.Sb4-a3 + !
+      1...Kb5-b6
           2.Tc4-a4 #
           2.Tc3-f6 #
           2.Lb3-a4 #
 
-  1.Sb4-c5 + !
-      1...Kb5-b6 
+   1.Sb4-c5 + !
+      1...Kb5-b6
           2.Tc3-f6 #
 
-  1.Sb4-a5 ! Zugzwang.
-      1...Kb5-b6 
+   1.Sb4-a5 ! Zugzwang.
+      1...Kb5-b6
           2.Lb3-a4 #
-      1...b7-b6 
+      1...b7-b6
           2.Tc3-b2 #
 
-  1.Tc3-b2 ! Zugzwang.
-      1...Kb5-b6 
+   1.Tc3-b2 ! Zugzwang.
+      1...Kb5-b6
           2.Sb4-c3 #
-      1...Kb5*c4 
+      1...Kb5*c4
           2.Lc2-d3 #
-      1...Kb5-a4 
+      1...Kb5-a4
           2.Sb4-c5 #
-      1...b7-b6 
+      1...b7-b6
           2.Sb4-a3 #
           2.Sb4-d2 #
           2.Sb4-d6 #
           2.Sb4-a5 #
 
-  1.Tc3-f6 ! Drohung:
+   1.Tc3-f6 ! Drohung:
           2.Sb4-c5 #
-      1...b7-b6 
+      1...b7-b6
           2.Tf6-f5 #
           2.Sb4-a3 #
           2.Sb4-d6 #
 
+              empile:        3311
+            jouecoup:        2502
+        orig_rbechec:        1939
+        orig_rnechec:        2531
 Loesung beendet. 
 
 
@@ -97,6 +101,10 @@ Loesung beendet.
 
   1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 # 
 
+              empile:     7230355
+            jouecoup:     6007469
+        orig_rbechec:      704015
+        orig_rnechec:     5708105
 Loesung beendet. 
 
 
@@ -126,11 +134,15 @@ Loesung beendet.
   s#2                         2 + 3
            Annanschach    
 
-  1.Tg4-g2 ! Zugzwang.
-      1...h3*g2 + 
+   1.Tg4-g2 ! Zugzwang.
+      1...h3*g2 +
           2.Kf1-g1 +
               2...Kh1-g3 #
 
+              empile:         962
+            jouecoup:         455
+        orig_rbechec:         457
+        orig_rnechec:         256
 Loesung beendet. 
 
 
@@ -160,14 +172,18 @@ Loesung beendet.
   s#2                         7 + 6
            Annanschach    
 
-  1.c4-c5 ! Zugzwang.
-      1...Sb6*c5 
+   1.c4-c5 ! Zugzwang.
+      1...Sb6*c5
           2.Kb4-a5 +
               2...Kd4*b5 #
-      1...d6*c5 + 
+      1...d6*c5 +
           2.Kb4-c4 +
               2...Kd4-c6 #
 
+              empile:       12190
+            jouecoup:        5269
+        orig_rbechec:        5273
+        orig_rnechec:        3519
 Loesung beendet. 
 
 
@@ -204,6 +220,10 @@ ddlkl
   1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-h5 Te3-a3 # 
   1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Te6-e3   3.Dd5-g5 Te3-a3 # 
 
+              empile:      136142
+            jouecoup:      100689
+        orig_rbechec:       14499
+        orig_rnechec:      100230
 Bearbeitung abgebrochen. 
 
 
@@ -233,10 +253,14 @@ Bearbeitung abgebrochen.
   #2                          3 + 3
            Annanschach    
 
-  1.La1-f6 ! Zugzwang.
-      1...Kh7-h8 
+   1.La1-f6 ! Zugzwang.
+      1...Kh7-h8
           2.Kf5-g5 #
 
+              empile:         583
+            jouecoup:         473
+        orig_rbechec:         451
+        orig_rnechec:         476
 Loesung beendet. 
 
 
@@ -270,10 +294,18 @@ a)
 
   1.Lg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Lh2-b8 La1-d4 # 
 
+              empile:      376638
+            jouecoup:      338707
+        orig_rbechec:       17391
+        orig_rnechec:      329824
 b) Farbwechsel
 
   1.Kb1-a2 Kh1-g2   2.La1-b1 Kg2-d5   3.Ka2-a1 Lg1-d4 # 
 
+              empile:      334981
+            jouecoup:      296491
+        orig_rbechec:       16483
+        orig_rnechec:      288511
 Loesung beendet. 
 
 
@@ -305,6 +337,10 @@ Loesung beendet.
 
   1.Kh8-g7 Lb8-a7   2.Kg7-a1 Ka8-e4   3.Lg8-a2 La7-d4 # 
 
+              empile:      252508
+            jouecoup:      213286
+        orig_rbechec:       14519
+        orig_rnechec:      207573
 Loesung beendet. 
 
 
@@ -337,6 +373,10 @@ Loesung beendet.
 
   1.Ka8-b7   2.Kb7-d5   3.Lb8-e5   4.Le5-d4   5.Ld4-e4   6.Kd5-e5   7.Ke5-f4   8.Le4*f3   9.Lf3-g3  10.Kf4-e4  11.Lg3-e5  12.Ke4-a8  13.Le5-b8 Lg4-f3 # 
 
+              empile:      870436
+            jouecoup:      841236
+        orig_rbechec:      455385
+        orig_rnechec:      841222
 Loesung beendet. 
 
 

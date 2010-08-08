@@ -28,10 +28,18 @@ a)
 
   1.Kb8-b7 Tb1-b2   2.Kb7-a8 Tb2-a2 # 
 
+              empile:       10697
+            jouecoup:        9231
+        orig_rbechec:         865
+        orig_rnechec:        8952
 b) wLb1 
 
   1.Kb8-a7 Lb1-c2   2.Ka7-a8 Lc2-e4 # 
 
+              empile:       10070
+            jouecoup:        7577
+        orig_rbechec:        1238
+        orig_rnechec:        7211
 Loesung beendet. 
 
 
@@ -66,6 +74,10 @@ Loesung beendet.
 
   1...g2-g4   2.Ke5-f4 g4-g5   3.Kf4-g3 g5-g6   4.Kg3-h4 g6-g7   5.Kh4-h5 g7-g8=S = 
 
+              empile:       64276
+            jouecoup:       29326
+        orig_rbechec:           0
+        orig_rnechec:       27868
 Loesung beendet. 
 
 
@@ -99,6 +111,10 @@ Loesung beendet.
   1.a7-a5 b6-b7 # 
   1.a7-a6 b6-b7 # 
 
+              empile:          13
+            jouecoup:          17
+        orig_rbechec:           5
+        orig_rnechec:          13
 Loesung beendet. 
 
 
@@ -135,11 +151,19 @@ a)
 
   1.a7-a5 b6-b7 # 
 
+              empile:          14
+            jouecoup:          16
+        orig_rbechec:           5
+        orig_rnechec:          14
 b) HaanerSchach
    SchwarzerKuerzestzueger
 
   1.a7-a6 b6-b7 # 
 
+              empile:          14
+            jouecoup:          16
+        orig_rbechec:           5
+        orig_rnechec:          14
 Loesung beendet. 
 
 

@@ -64,6 +64,10 @@
  33  (DGc8-d7 )
  34  (DGc8-h3 )
 
+              empile:     6304728
+            jouecoup:     5831646
+        orig_rbechec:      399004
+        orig_rnechec:     5777359
 Loesung beendet. 
 
 
@@ -97,10 +101,18 @@ a)
   1.Td2*f2 G2f1-b5   2.Tf2-f1 G2b5*f1 # 
   1.Td2-e2 f2-f3   2.Te2*e4 f3*e4 # 
 
+              empile:       23264
+            jouecoup:       16987
+        orig_rbechec:        3801
+        orig_rnechec:       16831
 b)  -sTd2
 
   1.Se6*f4 f2-f3   2.Sf4-e6 f3-f4 # 
 
+              empile:        8438
+            jouecoup:        6153
+        orig_rbechec:        1309
+        orig_rnechec:        6068
 Loesung beendet. 
 
 
@@ -138,6 +150,10 @@ Loesung beendet.
   1.Th5-h6   2.Kc5-d4   3.Th6-d6   4.Kd4-e5   5.La7-d4 Lb8*d6 # 
   1.Th5-h6   2.Th6-d6   3.Kc5-d4   4.Kd4-e5   5.La7-d4 Lb8*d6 # 
 
+              empile:      854056
+            jouecoup:      771905
+        orig_rbechec:       56291
+        orig_rnechec:      771857
 Loesung beendet. 
 
 
@@ -168,6 +184,10 @@ Loesung beendet.
 
   1.h7-h5   2.h5-h4   3.h4-h3   4.h3-h2   5.h2-h1=G2   6.G2h1-d1   7.Kf1-e2   8.Ke2-d3   9.G2d1-d5  10.Kd3-c4  11.Kc4-b5  12.Kb5-a6  13.Ka6-a7  14.Ka7-a8 G2a2-f7 = 
 
+              empile:     2016626
+            jouecoup:     1214312
+        orig_rbechec:      781131
+        orig_rnechec:     1173523
 Loesung beendet. 
 
 
@@ -198,23 +218,27 @@ Bournemouth PCCC--Tagung Turnierbl"atter, 1989
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 16
 
-  1.Sa3-c2 ! Drohung:
+   1.Sa3-c2 ! Drohung:
           2.Sc2-b4 #
-      1...Te3-c3 
+      1...Te3-c3
           2.ROf2*f6 #
-      1...Te3-e5 
+      1...Te3-e5
           2.Sg2*f4 #
-      1...ROa4-c3 
+      1...ROa4-c3
           2.Da2*b3 #
-      1...ROa4-b6 
+      1...ROa4-b6
           2.Da2*a5 #
-      1...EQh6-d8 
+      1...EQh6-d8
           2.EQd7-h7 #
-      1...Lc7-b6 
+      1...Lc7-b6
           2.c6-c7 #
-      1...Lc7-e5 
+      1...Lc7-e5
           2.Lf5-e6 #
 
+              empile:       41593
+            jouecoup:       29475
+        orig_rbechec:        5607
+        orig_rnechec:       29486
 Loesung beendet. 
 
 
@@ -250,6 +274,10 @@ Loesung beendet.
   1.a7-a5 g2-g4   2.a5-a4 g4-g5   3.a4-a3 g5-g6   4.a3*b2 g6-g7   5.b2-b1=OR g7-g8=OR # 
   5  (a7-a6 )
 
+              empile:    15699054
+            jouecoup:    13962965
+        orig_rbechec:     1576108
+        orig_rnechec:    12742242
 Loesung beendet. 
 
 
@@ -278,48 +306,52 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        11 + 14
 
-  1.Ga8-a4 ? Drohung:
+   1.Ga8-a4 ? Drohung:
           2.Ga4-a6 #
-      1...NHb3-f1 
+      1...NHb3-f1
           2.Le6*d7 #
-      1...NHd6-h4 
+      1...NHd6-h4
           2.Tc4*c5 #
     Aber
-      1...Ge7-c7  !
+      1...Ge7-c7 !
 
-  1.Ga8-c8 ! Drohung:
+   1.Ga8-c8 ! Drohung:
           2.g7-g8=NH #
-      1...e5-e4 
+      1...e5-e4
           2.Le6-d5 #
-      1...NHd6-h4 
+      1...NHd6-h4
           2.Tc4*c5 #
 
-  1.g7-g8=S ? Drohung:
+   1.g7-g8=S ? Drohung:
           2.Sg8*e7 #
     Aber
-      1...Ge7-c7  !
+      1...Ge7-c7 !
 
-  1.g7-g8=G ? Drohung:
+   1.g7-g8=G ? Drohung:
           2.Gg8-e8 #
-      1...NHb3-f1 
+      1...NHb3-f1
           2.Le6*d7 #
-      1...e5-e4 
+      1...e5-e4
           2.Le6-d5 #
     Aber
-      1...f3-f2  !
+      1...f3-f2 !
 
-  1.g7-g8=NH + ?
+   1.g7-g8=NH + ?
     Aber
-      1...Ge7-c7  !
+      1...Ge7-c7 !
 
-  1.Le6-d5 + ?
+   1.Le6-d5 + ?
     Aber
-      1...Gf5*d5  !
+      1...Gf5*d5 !
 
-  1.Tc4*c5 + ?
+   1.Tc4*c5 + ?
     Aber
-      1...Ge7*c5  !
+      1...Ge7*c5 !
 
+              empile:       16210
+            jouecoup:       12426
+        orig_rbechec:        4307
+        orig_rnechec:       12445
 Loesung beendet. 
 
 
@@ -350,6 +382,10 @@ Loesung beendet.
 
   1.Ke3-f3 Le7-g5   2.Kf3-g4 Ke5-f6   3.Kg4-h5 SPe2-h4 # 
 
+              empile:      222775
+            jouecoup:      189414
+        orig_rbechec:       18706
+        orig_rnechec:      180924
 Loesung beendet. 
 
 
@@ -382,34 +418,66 @@ a)
 
   1.Kd5-c5 Sc6-e7   2.Kc5-b6 KGf7-b7   3.Kb6-a7 Se7-c6 +   4.Ka7-a8 KGb7-d5 # 
 
+              empile:      254675
+            jouecoup:      191889
+        orig_rbechec:           0
+        orig_rnechec:      175818
 b) wKGf7-->c7
 
   1.Kd5-e4 KGc7-c4   2.Ke4-f3 Sc6-d4 +   3.Kf3-g2 KGc4-e4   4.Kg2-h1 Sd4-f3 # 
 
+              empile:      344484
+            jouecoup:      260966
+        orig_rbechec:           0
+        orig_rnechec:      239907
 +c) wSc6-->d7
 
   1.Kd5-e6 KGc7-e7   2.Ke6-f7 KGe7-g7   3.Kf7-g8 Sd7-f6 +   4.Kg8-h8 KGg7-e5 # 
 
+              empile:      381696
+            jouecoup:      293213
+        orig_rbechec:           0
+        orig_rnechec:      268579
 +d) wSd7-->d6
 
   1.Kd5-d4 KGc7-f4   2.Kd4-c3 Sd6-e4 +   3.Kc3-b2 KGf4-d4   4.Kb2-a1 Se4-c3 # 
 
+              empile:      386724
+            jouecoup:      294280
+        orig_rbechec:           0
+        orig_rnechec:      268681
 +e) h=4  wKGc7-->e6
 
   1.Kd5-e5 Sd6-f7 +   2.Ke5-f6 KGe6-g6   3.Kf6-g7 Sf7-g5   4.Kg7-h8 KGg6-g4 = 
 
+              empile:     1349335
+            jouecoup:      465977
+        orig_rbechec:           0
+        orig_rnechec:      441317
 +f) wKGe6-->a2
 
   1.Kd5-d4 Sd6-c4   2.Kd4-c3 Sc4-d2   3.Kc3-b2 KGa2-c2   4.Kb2-a1 KGc2-e2 = 
 
+              empile:      249853
+            jouecoup:       94379
+        orig_rbechec:           0
+        orig_rnechec:       86498
 +g) wSd6-->b3
 
   1.Kd5-e4 KGa2-d5   2.Ke4-f3 Sb3-d4 +   3.Kf3-g2 KGd5-d2   4.Kg2-h1 Sd4-e2 = 
 
+              empile:      762397
+            jouecoup:      272376
+        orig_rbechec:           0
+        orig_rnechec:      257285
 +h) wKGa2-->a5
 
   1.Kd5-c6 Sb3-c5   2.Kc6-b6 KGa5-c7   3.Kb6-a7 Sc5-d7   4.Ka7-a8 KGc7-e7 = 
 
+              empile:      360574
+            jouecoup:      128039
+        orig_rbechec:           0
+        orig_rnechec:      120501
 Loesung beendet. 
 
 
@@ -438,111 +506,115 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                        17 + 12
 
-  1.TLf8*f5 ? Drohung:
+   1.TLf8*f5 ? Drohung:
           2.VAe5-d4 #
           2.VAd5-c4 #
           2.Sb4-a6 #
-      1...VAd1-e2 
+      1...VAd1-e2
           2.VAe5-d4 #
-      1...VAb3-c4 
+      1...VAb3-c4
           2.VAe5-d4 #
-      1...VAc3-d4 
+      1...VAc3-d4
           2.VAd5-c4 #
           2.Sb4-a6 #
           2.CAa3-d2 #
     Aber
-      1...TLb8-h8 +  !
+      1...TLb8-h8 + !
 
-  1.VAe5-d4 ! Drohung:
+   1.VAe5-d4 ! Drohung:
           2.TLf8*f5 #
-      1...EKf5-e4 
+      1...EKf5-e4
           2.CAa7-d8 #
-      1...EKf5-g4 
+      1...EKf5-g4
           2.CAa3-d2 #
-      1...EKf5-e6 
+      1...EKf5-e6
           2.Se1-d3 #
-      1...EKf5-f4 
+      1...EKf5-f4
           2.Sb4-a6 #
-      1...EKf5-e5 
+      1...EKf5-e5
           2.Se1-d3 #
-      1...EKf5-f6 
+      1...EKf5-f6
           2.Sb4-d3 #
           2.Sb4-a6 #
           2.Se1-d3 #
-      1...EKf5-g5 
+      1...EKf5-g5
           2.Se1-d3 #
 
-  1.VAd5-c4 ? Drohung:
+   1.VAd5-c4 ? Drohung:
           2.TLf8*f5 #
-      1...EKf5-e4 
+      1...EKf5-e4
           2.Sb4-a6 #
-      1...EKf5-g4 
+      1...EKf5-g4
           2.Se1-d3 #
-      1...EKf5-e6 
+      1...EKf5-e6
           2.CAa7-d8 #
-      1...EKf5-f4 
+      1...EKf5-f4
           2.CAa3-d2 #
-      1...EKf5*e5 
+      1...EKf5*e5
           2.CAa7-d8 #
-      1...EKf5-f6 
+      1...EKf5-f6
           2.CAa7-d8 #
-      1...EKf5-g5 
+      1...EKf5-g5
           2.CAa7-d8 #
     Aber
-      1...VAd1-e2  !
+      1...VAd1-e2 !
 
-  1.Sb4-a6 + ?
+   1.Sb4-a6 + ?
     Aber
-      1...Kc5*d5  !
+      1...Kc5*d5 !
 
-  1.VAf3-e4 ? Drohung:
+   1.VAf3-e4 ? Drohung:
           2.Sb4-d3 #
           2.Sb4-a6 #
           2.Se1-d3 #
-      1...VAd1-g4 
+      1...VAd1-g4
           2.Sb4-a6 #
-      1...VAd1-e2 
+      1...VAd1-e2
           2.Sb4-d3 #
           2.Se1-d3 #
-      1...VAb3-c4 
+      1...VAb3-c4
           2.Sb4-d3 #
           2.Se1-d3 #
-      1...VAc3-d4 
+      1...VAc3-d4
           2.Sb4-a6 #
-      1...EKf5*e4 
+      1...EKf5*e4
           2.CAa7-d8 #
-      1...EKf5-g4 
-          2.CAa7-d8 #
-          2.Sb4-a6 #
-      1...EKf5-e6 
+      1...EKf5-g4
           2.CAa7-d8 #
           2.Sb4-a6 #
-      1...EKf5-f4 
-          2.CAa7-d8 #
-      1...EKf5*e5 
+      1...EKf5-e6
           2.CAa7-d8 #
           2.Sb4-a6 #
-      1...EKf5-f6 
+      1...EKf5-f4
+          2.CAa7-d8 #
+      1...EKf5*e5
           2.CAa7-d8 #
           2.Sb4-a6 #
-      1...EKf5-g5 
+      1...EKf5-f6
           2.CAa7-d8 #
           2.Sb4-a6 #
-      1...VAg6*e4 
+      1...EKf5-g5
+          2.CAa7-d8 #
+          2.Sb4-a6 #
+      1...VAg6*e4
           2.Se1-d3 #
     Aber
-      1...NLg8-d2 +  !
+      1...NLg8-d2 + !
 
-  1.CAa3-d2 + ?
+   1.CAa3-d2 + ?
     Aber
-      1...Kc5-d4  !
+      1...Kc5-d4 !
 
-  1.Se1-d3 + ?
-      1...Kc5-c4 
+   1.Se1-d3 + ?
+      1...Kc5-c4
           2.VAf3-e2 #
     Aber
-      1...VAg6*d3  !
+      1...VAg6*d3 !
 
+              empile:       35453
+            jouecoup:       24328
+        orig_rbechec:        8518
+        orig_rnechec:       24386
 Loesung beendet. 
 
 
@@ -571,40 +643,44 @@ Preis, Andernach-Grashoppers-Tourney 2000
 +---a---b---c---d---e---f---g---h---+
   s#2                        7 + 12
 
-  1.Th4-e4 + ?
+   1.Th4-e4 + ?
     Aber
-      1...AGa8-f3 +  !
+      1...AGa8-f3 + !
 
-  1.Tb4-b2 ? Drohung:
+   1.Tb4-b2 ? Drohung:
           2.Sa3-c4 +
               2...AGa4-d4 #
-      1...AGg1-d4 
+      1...AGg1-d4
           2.Dg2-g5 +
               2...AGg7-g4 #
-      1...Sa2-b4 
+      1...Sa2-b4
           2.Th4-e4 +
               2...AGa8-f3 #
-      1...Ta6-c6 
+      1...Ta6-c6
           2.Dg2-e4 +
               2...AGa4-f4 #
-      1...AGg7-d4 
+      1...AGg7-d4
           2.Dg2-g3 +
               2...AGg1-g4 #
     Aber
-      1...AGg7-d7  !
+      1...AGg7-d7 !
 
-  1.Sa3-c4 + ?
+   1.Sa3-c4 + ?
     Aber
-      1...AGa4*c4  !
+      1...AGa4*c4 !
 
-  1.Dg2-d2 + ?
+   1.Dg2-d2 + ?
     Aber
-      1...Ke3*d2  !
+      1...Ke3*d2 !
 
-  1.Dg2-f2 + ?
+   1.Dg2-f2 + ?
     Aber
-      1...Ke3*f2  !
+      1...Ke3*f2 !
 
+              empile:       45276
+            jouecoup:       27704
+        orig_rbechec:       27713
+        orig_rnechec:       14413
 Loesung beendet. 
 
 
@@ -638,10 +714,18 @@ a)
 
   1.AGe7-g7 AGg1-g8 +   2.Ke6-e5 AGg7-e7 # 
 
+              empile:       22807
+            jouecoup:       15935
+        orig_rbechec:        1443
+        orig_rnechec:       15831
 b) sBd4-->g6
 
   1.AGe7-c5 AGg1-b6 +   2.Ke6-f5 AGc5-e7 # 
 
+              empile:       21506
+            jouecoup:       15295
+        orig_rbechec:        1348
+        orig_rnechec:       15190
 Loesung beendet. 
 
 
@@ -671,14 +755,18 @@ Lob, Andernach-Grashoppers-Tourney 2000
 +---a---b---c---d---e---f---g---h---+
   s#2                        11 + 7
 
-  1.Ld4-c5 ! Zugzwang.
-      1...AGe1-a5 
+   1.Ld4-c5 ! Zugzwang.
+      1...AGe1-a5
           2.Lc5*b4
               2...AGa5-c3 #
               2...AGa5-d8 #
               2...AGa5-a7 #
               2...AGa5-g5 #
 
+              empile:       17954
+            jouecoup:       10881
+        orig_rbechec:       10886
+        orig_rnechec:        6656
 Loesung beendet. 
 
 
@@ -712,11 +800,19 @@ a)
 
   1.AGc1-c3 Lc2-e4   2.AGc3-e5 Ld4*e5 # 
 
+              empile:       59115
+            jouecoup:       48814
+        orig_rbechec:        7668
+        orig_rnechec:       48521
 b) sSc2 sSd4 
 
   1.AGc1-c3 Sc2-e3   2.AGc3-e5 Sd4-b5 # 
   1.AGc1-c3 Sc2*d4   2.AGc3-c5 Sd4-f5 # 
 
+              empile:       32850
+            jouecoup:       26545
+        orig_rbechec:        4223
+        orig_rnechec:       26354
 c) sTc2 sTd4 
 
   1.AGc1-c3 Tc2-a2   2.AGc3-e5 Ta2-a6 # 
@@ -725,6 +821,10 @@ c) sTc2 sTd4
   1.AGc1-c3 Tc2-f2   2.AGc3-c5 Tf2-f6 # 
   1.AGc1-c3 Tc2-e2   2.AGc3-c5 Te2-e6 # 
 
+              empile:       52703
+            jouecoup:       43892
+        orig_rbechec:        6787
+        orig_rnechec:       43640
 Loesung beendet. 
 
 
@@ -753,18 +853,22 @@ Lob, Andernach-Grashoppers-Tourney 2000
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 5
 
-  1.Lb7-c6 ? Zugzwang.
-      1...AGa2-e6 
+   1.Lb7-c6 ? Zugzwang.
+      1...AGa2-e6
           2.d5*e6 #
     Aber
-      1...AGh5-c5  !
+      1...AGh5-c5 !
 
-  1.Lb7-a8 ! Zugzwang.
-      1...AGa2-e6 
+   1.Lb7-a8 ! Zugzwang.
+      1...AGa2-e6
           2.d5*e6 #
-      1...AGh5-c5 
+      1...AGh5-c5
           2.d5-d6 #
 
+              empile:         374
+            jouecoup:         326
+        orig_rbechec:         284
+        orig_rnechec:         331
 Loesung beendet. 
 
 
@@ -794,52 +898,56 @@ Loesung beendet.
   r#2                       14 + 11
 Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
 
-  1.LLh8-d4 ! Drohung:
+   1.LLh8-d4 ! Drohung:
           2.MMd2-f6
               2...La7-b8 #
-      1...e5-e4 
+      1...e5-e4
           2.MLd3-f7
               2...La7-b8 #
-      1...pTb6-b8 
+      1...pTb6-b8
           2.LLf5-c2
               2...Sc5-b7 #
-      1...La7-b8 + 
+      1...La7-b8 +
           2.MMe8-c7
               2...Lb8*c7 #
 
-  1.LLf5-c2 ! Drohung:
+   1.LLf5-c2 ! Drohung:
           2.MLd3-f7
               2...La7-b8 #
-      1...e5-e4 
+      1...e5-e4
           2.MMd2-f6
               2...La7-b8 #
-      1...pTb6-b8 
+      1...pTb6-b8
           2.LLh8-d4
               2...Sc5-b7 #
-      1...La7-b8 + 
+      1...La7-b8 +
           2.MMe8-c7
               2...Lb8*c7 #
 
-  1.MLd3-f7 ! Drohung:
+   1.MLd3-f7 ! Drohung:
           2.LLh8-d4
               2...La7-b8 #
-      1...e5-e4 
+      1...e5-e4
           2.LLf5-c2
               2...La7-b8 #
-      1...pTb6-b8 
+      1...pTb6-b8
           2.MMd2-f6
               2...Te7-e6 #
 
-  1.MMd2-f6 ! Drohung:
+   1.MMd2-f6 ! Drohung:
           2.LLf5-c2
               2...La7-b8 #
-      1...e5-e4 
+      1...e5-e4
           2.LLh8-d4
               2...La7-b8 #
-      1...pTb6-b8 
+      1...pTb6-b8
           2.MLd3-f7
               2...Te7-e6 #
 
+              empile:       22284
+            jouecoup:       12689
+        orig_rbechec:       18790
+        orig_rnechec:       21262
 Loesung beendet. 
 
 
@@ -872,10 +980,18 @@ a)
 
   1.KAa8*d5 Ke1-d2   2.b7-b6 DEe2-c2 # 
 
+              empile:       53258
+            jouecoup:       38117
+        orig_rbechec:        3624
+        orig_rnechec:       37893
 b) Drehung 270
 
   1.KAh6*e6 Ka4-b3   2.g6-g5 DEb4-b2 # 
 
+              empile:       35994
+            jouecoup:       25749
+        orig_rbechec:        2323
+        orig_rnechec:       25561
 Loesung beendet. 
 
 
@@ -908,10 +1024,18 @@ a)
 
   1.CAg6*h3 DEf3-d1   2.g7-g6 Sh4-f3 # 
 
+              empile:       40346
+            jouecoup:       31639
+        orig_rbechec:        3776
+        orig_rnechec:       31453
 b) wDEf3-->g5
 
   1.Ze2*h4 DEg5*g7   2.e3-e2 Sh3-g5 # 
 
+              empile:       51845
+            jouecoup:       40306
+        orig_rbechec:        4779
+        orig_rnechec:       40076
 Loesung beendet. 
 
 

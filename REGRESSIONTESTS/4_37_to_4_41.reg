@@ -27,6 +27,10 @@
            BlackMaximummer
                Isardam
 
+              empile:         246
+            jouecoup:         240
+        orig_rbechec:          46
+        orig_rnechec:         116
 solution finished. 
 
 
@@ -57,10 +61,14 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
 
-  1.MAa8-c7 !
+   1.MAa8-c7 !
 
-  1.MAa8-b6 !
+   1.MAa8-b6 !
 
+              empile:           2
+            jouecoup:           2
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -94,6 +102,10 @@ reported P.Raican (orig. M.Caillaud??)
 
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3 [+wPa2]   3.b2-b4 Sg8-e7 dia 
 
+              empile:      137715
+            jouecoup:      137721
+        orig_rbechec:       13020
+        orig_rnechec:       15852
 solution finished. 
 
 
@@ -127,6 +139,10 @@ reported P.Raican (orig. M.Caillaud??)
 
   1.Sg1-h3 d7-d5   2.Sh3-f4 Qd8-d6   3.Sf4*d5 Qd6-d8 [+bPd7]   4.Sd5-b6 dia 
 
+              empile:     5605046
+            jouecoup:     5605953
+        orig_rbechec:      279207
+        orig_rnechec:      173325
 solution finished. 
 
 
@@ -160,6 +176,10 @@ solution finished.
 
   1...Bg7-a1 # 
 
+              empile:          25
+            jouecoup:           3
+        orig_rbechec:           0
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -192,29 +212,33 @@ moves in Maximummer+Imitator problems
              Imitator c5
            BlackMaximummer
 
-      1...e7-e5[Ic3] 
+      1...e7-e5[Ic3]
           2.d5*e6 ep.[Id4]
-              2...0-0-0[Ie4] 
+              2...0-0-0[Ie4]
                   3.e6-e7[Ie5]
-                      3...Rd8-d4[Ie1] 
+                      3...Rd8-d4[Ie1]
                           4.e7-e8=S[Ie2]
-                              4...Rd4-d8[Ie6] 
+                              4...Rd4-d8[Ie6]
                                   5.Se8-f6[If4]
                                       5...Rd8-d5[If1] #
 
-  1.Ka5-b4[Id4] !
-      1...Ra8-d8[Ig4] 
+   1.Ka5-b4[Id4] !
+      1...Ra8-d8[Ig4]
           2.d5-d6[Ig5]
-              2...Rd8-a8[Id5] 
+              2...Rd8-a8[Id5]
                   3.d6-d7[Id6]
-                      3...e7-e5[Id4] 
+                      3...e7-e5[Id4]
                           4.d7-d8=S[Id5]
-                              4...Ke8-d7[Ic4] 
+                              4...Ke8-d7[Ic4]
                                   5.Kb4-a5[Ib5]
-                                      5...Ra8-c8[Id5] 
+                                      5...Ra8-c8[Id5]
                                           6.Sd8-f7[If4]
                                               6...Rc8-c5[If1] #
 
+              empile:      135813
+            jouecoup:       54680
+        orig_rbechec:       23349
+        orig_rnechec:       42983
 solution finished. 
 
 

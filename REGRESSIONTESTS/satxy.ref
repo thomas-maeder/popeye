@@ -26,6 +26,10 @@
 
   1.Kf1-g1   2.Kg1-h2   3.Kh2-h3   4.Kh3-h4   5.Kh4-h5   6.Kh5-h6   7.Kh6-h7   8.Kh7-g8   9.Kg8-f8  10.Kf8-e8  11.Ke8-d8  12.Kd8-c8  13.Kc8-b8  14.Kb8-a7  15.Ka7-a6  16.Ka6-a5  17.Ka5-a4  18.Ka4-a3  19.Ka3*a2  20.Ka2-b1  21.Kb1-c1  22.Kc1-d1 # 
 
+              empile:       23530
+            jouecoup:       20028
+        orig_rbechec:       18362
+        orig_rnechec:        7437
 solution finished. 
 
 
@@ -55,24 +59,28 @@ solution finished.
   ==6                         2 + 2
                 SAT IV
 
-  1.h5-h6 ! zugzwang.
-      1...g6-g5 
+   1.h5-h6 ! zugzwang.
+      1...g6-g5
           2.h6-h7 zugzwang.
-              2...g5-g4 
+              2...g5-g4
                   3.h7-h8=R zugzwang.
-                      3...g4-g3 
+                      3...g4-g3
                           4.Kh1-g1 zugzwang.
-                              4...g3-g2 
+                              4...g3-g2
                                   5.Rh8-h1 zugzwang.
-                                      5...g2*h1=Q 
+                                      5...g2*h1=Q
                                           6.Kg1*h1 ==
-                                      5...g2*h1=S + 
+                                      5...g2*h1=S +
                                           6.Kg1*h1 ==
-                                      5...g2*h1=R 
+                                      5...g2*h1=R
                                           6.Kg1*h1 ==
-                                      5...g2*h1=B + 
+                                      5...g2*h1=B +
                                           6.Kg1*h1 ==
 
+              empile:      335829
+            jouecoup:      269140
+        orig_rbechec:      144673
+        orig_rnechec:      208569
 solution finished. 
 
 
@@ -106,20 +114,36 @@ zeroposition
 
 a) +wQg1 
 
-  1.Ke1-f2 # !
+   1.Ke1-f2 # !
 
+              empile:         466
+            jouecoup:         466
+        orig_rbechec:         162
+        orig_rnechec:         391
 b) +wRd1 
 
-  1.Ke1-d2 # !
+   1.Ke1-d2 # !
 
+              empile:         406
+            jouecoup:         401
+        orig_rbechec:         121
+        orig_rnechec:         351
 c) +wBf1 
 
-  1.Ke1-e2 # !
+   1.Ke1-e2 # !
 
+              empile:         327
+            jouecoup:         327
+        orig_rbechec:          93
+        orig_rnechec:         291
 d) +wSf8 
 
-  1.Sf8-h7 # !
+   1.Sf8-h7 # !
 
+              empile:         321
+            jouecoup:         314
+        orig_rbechec:          87
+        orig_rnechec:         281
 solution finished. 
 
 
@@ -148,6 +172,10 @@ solution finished.
                SAT III
 
 
+              empile:     2559788
+            jouecoup:     1832949
+        orig_rbechec:      618769
+        orig_rnechec:     1788791
 solution finished. 
 
 

@@ -26,27 +26,31 @@
 
       1...Dh7-b1 #
 
-  1.d2-d4 !
-      1...Dh7-b1 + 
+   1.d2-d4 !
+      1...Dh7-b1 +
           2.Kd1-d2
-              2...Db1-h7 
+              2...Db1-h7
                   3.d4-d5
-                      3...Dh7-b1 
+                      3...Dh7-b1
                           4.d5-d6
-                              4...Db1-h7 
+                              4...Db1-h7
                                   5.d6-d7
-                                      5...Dh7-b1 
+                                      5...Dh7-b1
                                           6.d7-d8=D
-                                              6...Db1-h7 
+                                              6...Db1-h7
                                                   7.Dd8-d3
-                                                      7...Dh7-a7 
+                                                      7...Dh7-a7
                                                           8.Kd2-d1
-                                                              8...Da7-h7 
+                                                              8...Da7-h7
                                                                   9.Dd3-e3 +
-                                                                      9...Kf2*e3 
+                                                                      9...Kf2*e3
                                                                          10.Kd1-e1
                                                                              10...Dh7-b1 #
 
+              empile:     1379357
+            jouecoup:      629159
+        orig_rbechec:      142609
+        orig_rnechec:      553496
 Loesung beendet. 
 
 
@@ -80,21 +84,25 @@ Loesung beendet.
 
       1...Lh6-c1 #
 
-  1.Ta2-h2 + !
-      1...Kh4-g5 
+   1.Ta2-h2 + !
+      1...Kh4-g5
           2.Th2-e2
-              2...Lh6-f8 + 
+              2...Lh6-f8 +
                   3.Te2-e7
-                      3...Lf8-h6 
+                      3...Lf8-h6
                           4.Ka3-b2
-                              4...Lh6-f8 
+                              4...Lh6-f8
                                   5.Kb2-c1
-                                      5...Lf8-h6 
+                                      5...Lf8-h6
                                           6.Te7-b7
-                                              6...Lh6-f8 
+                                              6...Lh6-f8
                                                   7.Tb7-b1
                                                       7...Lf8-a3 #
 
+              empile:     2657155
+            jouecoup:     1226698
+        orig_rbechec:      476269
+        orig_rnechec:      991838
 Loesung beendet. 
 
 
@@ -124,65 +132,69 @@ Loesung beendet.
   s#27                       1 + 11
         SchwarzerLaengstzueger
 
-      1...Dg4-c8 
+      1...Dg4-c8
           2.Kh2-h1
               2...Dc8-h3 #
 
-  1.Kh2-h1 !
-      1...Dg4-c8 
+   1.Kh2-h1 !
+      1...Dg4-c8
           2.Kh1-h2
-              2...Dc8-h3 + 
+              2...Dc8-h3 +
                   3.Kh2*h3
-                      3...Tg7-g1 
+                      3...Tg7-g1
                           4.Kh3-h2
-                              4...Tg1-g8 
+                              4...Tg1-g8
                                   5.Kh2-h1
-                                      5...Tg8-g1 + 
+                                      5...Tg8-g1 +
                                           6.Kh1*g1
-                                              6...Tc7-h7 
+                                              6...Tc7-h7
                                                   7.Kg1-g2
-                                                      7...Th7-a7 
+                                                      7...Th7-a7
                                                           8.Kg2-g3
-                                                              8...Ta7-h7 
+                                                              8...Ta7-h7
                                                                   9.Kg3-f4
-                                                                      9...Th7-a7 
+                                                                      9...Th7-a7
                                                                          10.Kf4-e5
-                                                                             10...Ta7-h7 
+                                                                             10...Ta7-h7
                                                                                  11.Ke5-d6
-                                                                                     11...Th7-a7 
+                                                                                     11...Th7-a7
                                                                                          12.Kd6-c5
-                                                                                             12...Ta7-h7 
+                                                                                             12...Ta7-h7
                                                                                                  13.Kc5-b6
-                                                                                                     13...Th7-a7 
+                                                                                                     13...Th7-a7
                                                                                                          14.Kb6*a5
-                                                                                                             14...Ta7-h7 
+                                                                                                             14...Ta7-h7
                                                                                                                  15.Ka5*a6
-                                                                                                                     15...Th7-a7 + 
+                                                                                                                     15...Th7-a7 +
                                                                                                                          16.Ka6-b6
-                                                                                                                             16...Ta7-h7 
+                                                                                                                             16...Ta7-h7
                                                                                                                                  17.Kb6*c6
-                                                                                                                                     17...Th7-a7 
+                                                                                                                                     17...Th7-a7
                                                                                                                                          18.Kc6-d5
-                                                                                                                                             18...Ta7-h7 
+                                                                                                                                             18...Ta7-h7
                                                                                                                                                  19.Kd5*e4
-                                                                                                                                                     19...Th7-a7 
+                                                                                                                                                     19...Th7-a7
                                                                                                                                                          20.Ke4*e3
-                                                                                                                                                             20...Ta7-h7 
+                                                                                                                                                             20...Ta7-h7
                                                                                                                                                                  21.Ke3-f2
-                                                                                                                                                                     21...Th7-a7 
+                                                                                                                                                                     21...Th7-a7
                                                                                                                                                                          22.Kf2-e1
-                                                                                                                                                                             22...Ta7-h7 
+                                                                                                                                                                             22...Ta7-h7
                                                                                                                                                                                  23.Ke1-d1
-                                                                                                                                                                                     23...Th7-a7 
+                                                                                                                                                                                     23...Th7-a7
                                                                                                                                                                                          24.Kd1*c1
-                                                                                                                                                                                             24...Ta7-h7 
+                                                                                                                                                                                             24...Ta7-h7
                                                                                                                                                                                                  25.Kc1-b1
-                                                                                                                                                                                                     25...Th7-a7 
+                                                                                                                                                                                                     25...Th7-a7
                                                                                                                                                                                                          26.Kb1-a2
-                                                                                                                                                                                                             26...Ta7-h7 
+                                                                                                                                                                                                             26...Ta7-h7
                                                                                                                                                                                                                  27.Ka2*a3
                                                                                                                                                                                                                      27...Th7-a7 #
 
+              empile:     5155193
+            jouecoup:     1749625
+        orig_rbechec:      707525
+        orig_rnechec:     1360632
 Loesung beendet. 
 
 
@@ -216,10 +228,18 @@ a)
 
   1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 # 
 
+              empile:     3289316
+            jouecoup:     1797585
+        orig_rbechec:      239646
+        orig_rnechec:     1645884
 b) sKe2-->f2
 
   1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 # 
 
+              empile:     2327030
+            jouecoup:     1251358
+        orig_rbechec:      177748
+        orig_rnechec:     1128479
 Loesung beendet. 
 
 
@@ -250,17 +270,21 @@ Loesung beendet.
              Gitterschach
         SchwarzerLaengstzueger
 
-  1.Ta1-d1 !
-      1...Da6-f1 
+   1.Ta1-d1 !
+      1...Da6-f1
           2.Kb2-c1
-              2...Df1-a6 
+              2...Df1-a6
                   3.Td1-d3
-                      3...Da6-h6 + 
+                      3...Da6-h6 +
                           4.Td3-d2
-                              4...Dh6-a6 
+                              4...Dh6-a6
                                   5.Td2-b2
                                       5...Da6-f1 #
 
+              empile:      399329
+            jouecoup:      174826
+        orig_rbechec:       43611
+        orig_rnechec:           0
 Loesung beendet. 
 
 
@@ -295,10 +319,18 @@ a)
 
   1...c7-c8=L   2.c2-c1=S Lc8-d7 # 
 
+              empile:        1314
+            jouecoup:         824
+        orig_rbechec:         420
+        orig_rnechec:         390
 b) sBb3-->b5
 
   1...c7-c8=D   2.c2-c1=T Dc8-c2 # 
 
+              empile:        1310
+            jouecoup:         826
+        orig_rbechec:         419
+        orig_rnechec:         392
 Loesung beendet. 
 
 
@@ -329,24 +361,28 @@ Loesung beendet.
                 Circe
         SchwarzerLaengstzueger
 
-  1.Tb1-f1 ! Zugzwang.
-      1...e2*f1=D [+wTh1] 
+   1.Tb1-f1 ! Zugzwang.
+      1...e2*f1=D [+wTh1]
           2.Tf8*f1 [+sDd8] Zugzwang.
-              2...Dd8-h8 
+              2...Dd8-h8
                   3.Tf1-f2 #
-      1...e2*f1=S [+wTh1] 
+      1...e2*f1=S [+wTh1]
           2.Tf8-f2 +
-              2...Sf1-d2 
+              2...Sf1-d2
                   3.Th1-c1 #
-      1...e2*f1=T [+wTh1] 
+      1...e2*f1=T [+wTh1]
           2.Ka2-a3 Zugzwang.
-              2...Tf1*f8 [+wTa1] 
+              2...Tf1*f8 [+wTa1]
                   3.Ta1-a2 #
-      1...e2*f1=L [+wTh1] 
+      1...e2*f1=L [+wTh1]
           2.e6-e7 Zugzwang.
-              2...Lf1-h3 
+              2...Lf1-h3
                   3.Tf8-f2 #
 
+              empile:       80969
+            jouecoup:       61157
+        orig_rbechec:       41690
+        orig_rnechec:       59423
 Loesung beendet. 
 
 
@@ -380,6 +416,10 @@ Preis, 7. PK-Kompositionsturnier 1991
 
   1.SBg2-g8=FE   2.BSh4-d8=FE   3.BSh5-e8=FE   4.SBc4-c8=FE   5.SBb5-b8=FE   6.BSh6-f8=FE   7.SBh3-h8=FE   8.SBa6-a8=FE   9.FEa3-b2 # 
 
+              empile:      135270
+            jouecoup:       72551
+        orig_rbechec:       31642
+        orig_rnechec:       30855
 Loesung beendet. 
 
 
@@ -410,25 +450,29 @@ Loesung beendet.
         SchwarzerLaengstzueger
          WeisserLaengstzueger
 
-  1.Sc6-b8 !
-      1...Lg8-e6 
+   1.Sc6-b8 !
+      1...Lg8-e6
           2.Sb8-a6 +
-              2...Kc7-b6 
+              2...Kc7-b6
                   3.Sa6-c7
-                      3...Le6-h3 
+                      3...Le6-h3
                           4.Sc7-a8 +
-                              4...Kb6-a7 
+                              4...Kb6-a7
                                   5.Sa8-b6
-                                      5...Lh3-c8 
+                                      5...Lh3-c8
                                           6.Sb6*c8 +
-                                              6...Ka7-b8 
+                                              6...Ka7-b8
                                                   7.Sc8-a7
-                                                      7...Ld8-b6 
+                                                      7...Ld8-b6
                                                           8.Sa7-c6 +
-                                                              8...Kb8-c7 
+                                                              8...Kb8-c7
                                                                   9.Sc6*d4
                                                                       9...Lb6*d4 #
 
+              empile:     2472560
+            jouecoup:      769876
+        orig_rbechec:      265197
+        orig_rnechec:      619971
 Loesung beendet. 
 
 
@@ -459,64 +503,68 @@ Loesung beendet.
             Laengstzueger
                 Duplex
 
-  1.Td4-d8 + !
-      1...Kb8-c7 
+   1.Td4-d8 + !
+      1...Kb8-c7
           2.Td8-b8 Zugzwang.
-              2...Th6-a6 
+              2...Th6-a6
                   3.Ke7-e8 Zugzwang.
-                      3...Ta6-h6 
+                      3...Ta6-h6
                           4.Tb8-b7 +
-                              4...Kc7-d6 
+                              4...Kc7-d6
                                   5.Ke8-d8 Zugzwang.
-                                      5...Th6-h1 
+                                      5...Th6-h1
                                           6.Tb7-b1
                                               6...Th1-h8 #
                                   5.Tb7-b1 Zugzwang.
-                                      5...Th6-h1 
+                                      5...Th6-h1
                                           6.Ke8-d8
                                               6...Th1-h8 #
           2.Ke7-e8 Zugzwang.
-              2...Th6-a6 
+              2...Th6-a6
                   3.Td8-b8 Zugzwang.
-                      3...Ta6-h6 
+                      3...Ta6-h6
                           4.Tb8-b7 +
-                              4...Kc7-d6 
+                              4...Kc7-d6
                                   5.Ke8-d8 Zugzwang.
-                                      5...Th6-h1 
+                                      5...Th6-h1
                                           6.Tb7-b1
                                               6...Th1-h8 #
                                   5.Tb7-b1 Zugzwang.
-                                      5...Th6-h1 
+                                      5...Th6-h1
                                           6.Ke8-d8
                                               6...Th1-h8 #
-      1...Kb8-a7 
+      1...Kb8-a7
           2.Ke7-d7 Zugzwang.
-              2...Th6-a6 
+              2...Th6-a6
                   3.Kd7-c8 Zugzwang.
-                      3...Ta6-h6 
+                      3...Ta6-h6
                           4.Td8-d7 +
-                              4...Ka7-b6 
+                              4...Ka7-b6
                                   5.Td7-d6 +
-                                      5...Th6*d6 
+                                      5...Th6*d6
                                           6.Kc8-b8 Zugzwang.
-                                              6...Td6-d1 
+                                              6...Td6-d1
                                                   7.Kb8-a8
                                                       7...Td1-d8 #
 
-  1.Th6-d6 ! Zugzwang.
-      1...Td4-h4 
+   1.Th6-d6 ! Zugzwang.
+      1...Td4-h4
           2.Td6-d3 Drohung:
                   3.Td3-e3 +
-                      3...Th4-e4 
+                      3...Th4-e4
                           4.Kb8-c8 Zugzwang.
-                              4...Te4-e6 
+                              4...Te4-e6
                                   5.Te3-f3 Zugzwang.
-                                      5...Te6-e1 
+                                      5...Te6-e1
                                           6.Tf3-f7 +
-                                              6...Ke7-d6 
+                                              6...Ke7-d6
                                                   7.Tf7-b7
                                                       7...Te1-e8 #
 
+              empile:    28136562
+            jouecoup:    13909297
+        orig_rbechec:     7553473
+        orig_rnechec:     8231972
 Loesung beendet. 
 
 
@@ -547,20 +595,24 @@ Loesung beendet.
             Laengstzueger
               HalbDuplex
 
-  1.Th6-d6 ! Zugzwang.
-      1...Td4-h4 
+   1.Th6-d6 ! Zugzwang.
+      1...Td4-h4
           2.Td6-d3 Drohung:
                   3.Td3-e3 +
-                      3...Th4-e4 
+                      3...Th4-e4
                           4.Kb8-c8 Zugzwang.
-                              4...Te4-e6 
+                              4...Te4-e6
                                   5.Te3-f3 Zugzwang.
-                                      5...Te6-e1 
+                                      5...Te6-e1
                                           6.Tf3-f7 +
-                                              6...Ke7-d6 
+                                              6...Ke7-d6
                                                   7.Tf7-b7
                                                       7...Te1-e8 #
 
+              empile:    13307431
+            jouecoup:     6385459
+        orig_rbechec:     5456547
+        orig_rnechec:     1780641
 Loesung beendet. 
 
 
@@ -592,6 +644,10 @@ F2676 The Problemist Vol 21 No 12 (Nov 2008)
 
   1...Ta1-h1 +   2.Kh8-h7 Th1-a1   3.a7-a6 Ta1-h1   4.a6-a5 Th1-a1   5.d2-d1=S Ta1*a5   6.Kh7-h8 Ta5-h5   7.g6-g5 Th5-h1 # 
 
+              empile:     7097636
+            jouecoup:     1050255
+        orig_rbechec:           0
+        orig_rnechec:     1013651
 Loesung beendet. 
 
 

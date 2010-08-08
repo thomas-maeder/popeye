@@ -27,10 +27,18 @@ a)
 
   1.Bf6-g7 QEa8-c5   2.Re2-e3 Kh5-g5 # 
 
+              empile:       60090
+            jouecoup:       52181
+        orig_rbechec:        3788
+        orig_rnechec:       51909
 b) bRe2-->e4
 
   1.e7-e6 QEa8-c6   2.Re4-e2 Kh5-g4 # 
 
+              empile:       48891
+            jouecoup:       43424
+        orig_rbechec:        2983
+        orig_rnechec:       43155
 solution finished. 
 
 

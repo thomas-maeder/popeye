@@ -29,6 +29,10 @@
 
   1.Kf1*f2 [+sBf1=sS] Tb8*b1 [+wBb8=wT]   2.Tb8*g8 [+sLb8] Lb8-a7 # 
 
+              empile:       20748
+            jouecoup:       12037
+        orig_rbechec:        6269
+        orig_rnechec:        8048
 Loesung beendet. 
 
 
@@ -63,6 +67,10 @@ Loesung beendet.
 
   1.WAg1-e2 KNb1-c3 +   2.Kd3-d4 Kb5-c5 # 
 
+              empile:       12665
+            jouecoup:        4381
+        orig_rbechec:        2850
+        orig_rnechec:        2048
 Loesung beendet. 
 
 
@@ -97,6 +105,10 @@ Loesung beendet.
 
   1.Ka6-a5 c4-c3   2.Nb1*c3 [+sBb1=sD] Db1-b5 # 
 
+              empile:        3908
+            jouecoup:        3572
+        orig_rbechec:        1866
+        orig_rnechec:        2333
 Loesung beendet. 
 
 
@@ -131,6 +143,10 @@ Loesung beendet.
 
   1.nBe7-e8=nT   2.nTe8-e1   3.nTe1-f1 + nBg2*f1=nL [+nTa8] # 
 
+              empile:      396222
+            jouecoup:      274089
+        orig_rbechec:      145963
+        orig_rnechec:      168450
 Loesung beendet. 
 
 
@@ -164,6 +180,10 @@ Loesung beendet.
 
   1.Kc8-d7 Ka8-b8   2.Kd7-c6 Kb8-c8   3.b6*a7 Kc8-d8   4.Kc6-b7 Kd8-d7   5.Kb7-a8 Kd7-c7 = 
 
+              empile:       16498
+            jouecoup:        8616
+        orig_rbechec:        6217
+        orig_rnechec:        3699
 Loesung beendet. 
 
 
@@ -199,6 +219,10 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-h8=S   7.Sh8-g6=D   8.Dg6-b1=S   9.Sb1-a3=D  10.Da3-f8=S  11.Sf8-d7=D # 
 
+              empile:        1686
+            jouecoup:        1164
+        orig_rbechec:         239
+        orig_rnechec:        1064
 Loesung beendet. 
 
 
@@ -232,6 +256,10 @@ II, Rex Multiplex 19, VII-IX/1986, S. 641
 
   1.b6*a7 kLa8-c6   2.Kc8-c7 + kLc6-b5   3.Kc7-b8 kLb5-a6 == 
 
+              empile:      329847
+            jouecoup:      128265
+        orig_rbechec:      125789
+        orig_rnechec:       57334
 Loesung beendet. 
 
 
@@ -264,6 +292,10 @@ F925 (Version), The Problemist, I/1987, S. 257
 
   1.Kc8-d7 Ka8-b8   2.Kd7-d6 Kb8-b7   3.Kd6-c5 a7*b6 # 
 
+              empile:        4368
+            jouecoup:        4385
+        orig_rbechec:        4072
+        orig_rnechec:         635
 Loesung beendet. 
 
 
@@ -298,14 +330,26 @@ a)
 
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b4 = 
 
+              empile:        2860
+            jouecoup:        2401
+        orig_rbechec:        2304
+        orig_rnechec:        1094
 b) wkCAc8 
 
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b3 = 
 
+              empile:        3800
+            jouecoup:        2626
+        orig_rbechec:        2516
+        orig_rnechec:        1514
 c) wkGIc8 
 
   1.a7*b6   2.b6-b5   3.b5-b4   4.b4-b3   5.b3-b2   6.b2-b1=D   7.Db1-b2 = 
 
+              empile:        3943
+            jouecoup:        2750
+        orig_rbechec:        2640
+        orig_rnechec:        1574
 Loesung beendet. 
 
 
@@ -337,6 +381,10 @@ Loesung beendet.
 
   1.a7*b6   2.Ka8-a7   3.Ka7-a6   4.Ka6-b5   5.Kb5-c4   6.Kc4-d3 z 
 
+              empile:         564
+            jouecoup:         211
+        orig_rbechec:         111
+        orig_rnechec:         205
 Loesung beendet. 
 
 
@@ -370,6 +418,10 @@ Loesung beendet.
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=T   6.Ta1-a7   7.Ta7-b7 = 
 
+              empile:        2108
+            jouecoup:        2095
+        orig_rbechec:        1935
+        orig_rnechec:         952
 Loesung beendet. 
 
 
@@ -402,22 +454,34 @@ Hilmar Ebert, Hans Gruber & Stefan Hoening
 
 a) 
 
-  1.kGa8-a6 = !
+   1.kGa8-a6 = !
 
+              empile:           3
+            jouecoup:           3
+        orig_rbechec:           5
+        orig_rnechec:           4
 b) exact-=2
 
-  1.kGa8-d8 !
-      1...kGc8-e8 
+   1.kGa8-d8 !
+      1...kGc8-e8
           2.kGd8-a5 =
 
+              empile:          10
+            jouecoup:           9
+        orig_rbechec:          12
+        orig_rnechec:           9
 c) exact-=3
 
-  1.kGa8-d8 !
-      1...kGc8-e8 
+   1.kGa8-d8 !
+      1...kGc8-e8
           2.kGd8-f8
-              2...kGe8-g8 
+              2...kGe8-g8
                   3.kGf8-h8 =
 
+              empile:          18
+            jouecoup:          20
+        orig_rbechec:          16
+        orig_rnechec:          16
 Loesung beendet. 
 
 
@@ -448,22 +512,26 @@ Loesung beendet.
            Koeniglich a8 c8
               HalbDuplex
 
-  1.a7*b6 !
-      1...kEQc8-a4 
+   1.a7*b6 !
+      1...kEQc8-a4
           2.b6-b5 +
-              2...kEQa4-c6 
+              2...kEQa4-c6
                   3.kEQa8-e4
-                      3...kEQc6-g2 
+                      3...kEQc6-g2
                           4.b5-b4
-                              4...kEQg2-c6 
+                              4...kEQg2-c6
                                   5.b4-b3
-                                      5...kEQc6-g2 
+                                      5...kEQc6-g2
                                           6.b3-b2
-                                              6...kEQg2-c6 
+                                              6...kEQg2-c6
                                                   7.b2-b1=D
-                                                      7...kEQc6-g2 
+                                                      7...kEQc6-g2
                                                           8.Db1-c2 #
 
+              empile:         857
+            jouecoup:        1016
+        orig_rbechec:         457
+        orig_rnechec:         629
 Loesung beendet. 
 
 
@@ -496,6 +564,10 @@ Loesung beendet.
 
   1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 
 
+              empile:        3881
+            jouecoup:        3887
+        orig_rbechec:         541
+        orig_rnechec:         537
 Loesung beendet. 
 
 
@@ -528,6 +600,10 @@ Loesung beendet.
 
   1.Se2-c1   2.Kd3-e2   3.Sc1-d3 
 
+              empile:        3881
+            jouecoup:        3887
+        orig_rbechec:         537
+        orig_rnechec:         541
 Loesung beendet. 
 
 

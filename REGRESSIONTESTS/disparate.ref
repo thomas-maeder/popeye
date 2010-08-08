@@ -26,25 +26,33 @@
 
 a) 
 
-  1.Kd7-e6 ! threat:
+   1.Kd7-e6 ! threat:
           2.Ke6-f5 threat:
                   3.Kf5-g4 #
 
+              empile:         500
+            jouecoup:         486
+        orig_rbechec:         400
+        orig_rnechec:         366
 b) =3
 
-  1.Kd7-c6 ! threat:
+   1.Kd7-c6 ! threat:
           2.Kc6-b6 threat:
                   3.Kb6*a6 =
                   3.Kb6-a5 =
-              2...a6-a5 
+              2...a6-a5
                   3.Kb6*a5 =
-      1...a6-a5 
+      1...a6-a5
           2.Kc6-b5 threat:
                   3.Kb5*a5 =
                   3.Kb5-a4 =
-              2...a5-a4 
+              2...a5-a4
                   3.Kb5*a4 =
 
+              empile:         841
+            jouecoup:         835
+        orig_rbechec:         758
+        orig_rnechec:         709
 solution finished. 
 
 
@@ -76,6 +84,10 @@ solution finished.
 
   1...Kc8-c7   2.a7*b6 Kc7*b6 = 
 
+              empile:         162
+            jouecoup:         161
+        orig_rbechec:          80
+        orig_rnechec:         148
 solution finished. 
 
 
@@ -108,6 +120,10 @@ solution finished.
   1.Re2-b2 e7*d8=R   2.Bh7-b1 Rd8*d6   3.h2-h1=R Rd6-d1 = 
   1.Bh7-b1 e7*f8=B   2.Re2-b2 Bf8*d6   3.h2-h1=B Bd6-e5 = 
 
+              empile:   164155180
+            jouecoup:    78776326
+        orig_rbechec:    40404464
+        orig_rnechec:    70399359
 solution finished. 
 
 
@@ -141,6 +157,10 @@ solution finished.
   1.nRg6-g8 nBa5-c7 +   2.nRg8-a8 g5*h4 +   3.nBc7-b8 nRa8*b8 # 
   1.nBa5-c3 nRg6-b6 +   2.nBc3-a1 g5*f4 +   3.nRb6-b2 nBa1*b2 # 
 
+              empile:    18572803
+            jouecoup:     7269846
+        orig_rbechec:     9383372
+        orig_rnechec:     4267549
 solution finished. 
 
 

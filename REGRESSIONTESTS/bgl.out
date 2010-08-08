@@ -27,6 +27,10 @@
 
   1.a3-a2 (4.5/3) Kg5-f6 (3.09/3)   2.a2-a1=S (3.09/2) Kf6-e7 (1.68/2) == 
 
+              empile:       11232
+            jouecoup:        3474
+        orig_rbechec:        1559
+        orig_rnechec:        3404
 Loesung beendet. 
 
 
@@ -86,6 +90,10 @@ Loesung beendet.
       1...Sg5-e6 (6/0.76)
           2.Th6-h5 (5/0.76) #
 
+              empile:        2540
+            jouecoup:        1870
+        orig_rbechec:         976
+        orig_rnechec:        1106
 Loesung beendet. 
 
 
@@ -117,6 +125,10 @@ Loesung beendet.
 
   1.nBb2-b1=nT (-/28)   2.nTb1-h1 (-/22)   3.nTh1-a1 (-/15)   4.nTa1-a8 (-/8)   5.nTa8-h8 (-/1) nTh8*h6 (-/1) # 
 
+              empile:     1275665
+            jouecoup:     1162076
+        orig_rbechec:       94087
+        orig_rnechec:     1162066
 Loesung beendet. 
 
 
@@ -148,6 +160,10 @@ Loesung beendet.
 
   1.a2-a1=N (26.42) Te7-c7 (24.42)   2.Na1-g4 (17.71) Tc7-c3 (13.71)   3.Ng4-a7 (7) Tc3-c8 (2) # 
 
+              empile:     4163273
+            jouecoup:     3789310
+        orig_rbechec:      279475
+        orig_rnechec:     3728448
 Loesung beendet. 
 
 
@@ -179,6 +195,10 @@ Loesung beendet.
 
   1.a2-a1=S (16.65)   2.Sa1-b3 (14.41)   3.Sb3-c5 (12.17)   4.g2-g1=L (11.17) Lh5-f3 (8.34) # 
 
+              empile:      116041
+            jouecoup:      110565
+        orig_rbechec:        3758
+        orig_rnechec:      102779
 Loesung beendet. 
 
 
@@ -230,6 +250,10 @@ Loesung beendet.
       1...nSg8-h6 (-/2.21)
           2.nSh6-f7 (-/2.21) #
 
+              empile:        4314
+            jouecoup:        3143
+        orig_rbechec:        2065
+        orig_rnechec:        2826
 Loesung beendet. 
 
 
@@ -262,6 +286,10 @@ Loesung beendet.
   1.Kd1-d2 (7/2.5) nBa7-a8=nS (6/2.5)   2.nSa8-b6 (6/0.26) nSb6-c4 (3.76/0.26) # 
   1.Kd1-c2 (7/2.09) nBa7-a8=nT (6/2.09)   2.nTa8-a6 (6/0.09) nTa6-c6 (4/0.09) # 
 
+              empile:        4215
+            jouecoup:        4652
+        orig_rbechec:          97
+        orig_rnechec:        4442
 Loesung beendet. 
 
 
@@ -294,6 +322,10 @@ Loesung beendet.
   1.Kd5-c6 (2/4.59)   2.Kc6-d7 (2/3.18)   3.Kd7-e8 (2/1.77)   4.Ke8-f7 (2/0.36) Kh7-g7 (1/0.36) # 
   1.Kd5-e4 (2/4.59)   2.Ke4-f3 (2/3.18)   3.Kf3-g4 (2/1.77)   4.Kg4-h5 (2/0.36) Kh7-h6 (1/0.36) # 
 
+              empile:        5294
+            jouecoup:        5307
+        orig_rbechec:         611
+        orig_rnechec:        5281
 Loesung beendet. 
 
 
@@ -325,6 +357,10 @@ Loesung beendet.
 
   1.Nd2-g8 (6.5/27.89) Kg4-f4 (5.5/27.89)   2.Ng8-a5 (5.5/21.18) Kf4-e4 (4.5/21.18)   3.Na5-g2 (4.5/14.47) Ke4-d4 (3.5/14.47)   4.Ng2-d8 (3.5/7.76) Kd4-c4 (2.5/7.76)   5.Nd8-a2 (2.5/1.05) Kc4-b4 (1.5/1.05) # 
 
+              empile:    14148928
+            jouecoup:    14148936
+        orig_rbechec:     1525175
+        orig_rnechec:    11146991
 Loesung beendet. 
 
 
@@ -356,6 +392,10 @@ Loesung beendet.
 
   1.Sf6-h7 (4/10.76) Ka1-b2 (2.59/10.76)   2.a2-a1=L (2.59/9.76) + Kb2-b3 (1.59/9.76)   3.La1-g7 (1.59/1.27) Kb3-b4 (0.59/1.27) == 
 
+              empile:      209574
+            jouecoup:      114166
+        orig_rbechec:       50871
+        orig_rnechec:      105039
 Loesung beendet. 
 
 
@@ -392,6 +432,10 @@ Loesung beendet.
                   3.Db1-b6 (1.01/3)
                       3...f3-f2 (1.01/2) #
 
+              empile:      140019
+            jouecoup:       78915
+        orig_rbechec:       77153
+        orig_rnechec:       41109
 Loesung beendet. 
 
 
@@ -451,6 +495,10 @@ Loesung beendet.
       1...Sg5-e6 (6/1.76)
           2.De8-c6 (3.17/1.76) #
 
+              empile:        8184
+            jouecoup:        5035
+        orig_rbechec:        3000
+        orig_rnechec:        4120
 Loesung beendet. 
 
 
@@ -486,11 +534,19 @@ a)
       1...Ka8*b7 (2/0.59)
           2.Kd7-c7 (1/0.59) #
 
+              empile:         621
+            jouecoup:         522
+        orig_rbechec:         312
+        orig_rnechec:         346
 b) BGL 8
 
    1.Kd7-c7 (7) ! Drohung:
           2.Tb5-a5 (6) #
 
+              empile:         729
+            jouecoup:         570
+        orig_rbechec:         483
+        orig_rnechec:         532
 Loesung beendet. 
 
 
@@ -525,6 +581,10 @@ Loesung beendet.
 
   1.b6*a7 (0.59/2.5) Ka8-b8 (0.59/1.5) # 
 
+              empile:          69
+            jouecoup:          73
+        orig_rbechec:          35
+        orig_rnechec:          28
 Loesung beendet. 
 
 

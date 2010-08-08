@@ -22,9 +22,13 @@ short play after key in reflex stipulations was missed
 +---a---b---c---d---e---f---g---h---+
   r#2                         3 + 1
 
-  1.a3-a4 !
+   1.a3-a4 !
       1...c2-c1=Q #
 
+              empile:         141
+            jouecoup:          85
+        orig_rbechec:          74
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -55,6 +59,10 @@ losing chess proof games produced error message
 
   1.a2-a3 dia 
 
+              empile:          20
+            jouecoup:          22
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -85,20 +93,24 @@ erroneous maxflight numbers weren't completely ignored
   ct4                         3 + 1
             AntiSuperCirce
 
-  1.Ka8-b8 !
+   1.Ka8-b8 !
 
-  1.Ka8-a7 !
+   1.Ka8-a7 !
 
-  1.Ka8-b7 !
+   1.Ka8-b7 !
 
-  1.h2-h4 !
+   1.h2-h4 !
 
-  1.h2-h3 !
+   1.h2-h3 !
 
-  1.g2-g4 !
+   1.g2-g4 !
 
-  1.g2-g3 !
+   1.g2-g3 !
 
+              empile:        9090
+            jouecoup:        6868
+        orig_rbechec:        2182
+        orig_rnechec:        4077
 solution finished. 
 
 
@@ -130,6 +142,10 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 
   1.e4*d3 ep. # 
 
+              empile:         222
+            jouecoup:         194
+        orig_rbechec:          96
+        orig_rnechec:         120
 solution finished. 
 
 
@@ -165,6 +181,10 @@ solution finished.
   1.Ka7-b8 Ka5-b5   2.c7-c6 + Kb5*c6=P [+wPc7] # 
   1.b7-b6 + Ka5-a6=P   2.Ka7-b8 a6-a7 # 
 
+              empile:         548
+            jouecoup:         531
+        orig_rbechec:         128
+        orig_rnechec:         410
 solution finished. 
 
 
@@ -196,6 +216,10 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
   1...b4-b5 + 
   1...b4-b5 +   2.Ka6-a7 b5-b6 + 
 
+              empile:          32
+            jouecoup:          36
+        orig_rbechec:           8
+        orig_rnechec:          28
 solution finished. 
 
 
@@ -227,6 +251,10 @@ solution finished.
 
   1.d7*e6 Ke5*e4 [+wPe5] z 
 
+              empile:          60
+            jouecoup:           9
+        orig_rbechec:           4
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -257,6 +285,10 @@ solution finished.
 
   1.Gh4*d4 Kg3-f3 [+bPc4] # 
 
+              empile:         137
+            jouecoup:          62
+        orig_rbechec:          72
+        orig_rnechec:          17
 solution finished. 
 
 
@@ -288,6 +320,10 @@ solution finished.
   1.Sa8-b6 Qg8-a2 # 
   1.Sa8-c7 Qg8-a2 # 
 
+              empile:          85
+            jouecoup:          58
+        orig_rbechec:          17
+        orig_rnechec:          54
 solving interrupted. 
 
 
@@ -322,6 +358,10 @@ solving interrupted.
   1.Sa8-c7 Qg8-a2 # 
   1.Ka1-b1 Qg8-b3 +   2.Kb1-a1 Qb3-a2 # 
 
+              empile:         281
+            jouecoup:         221
+        orig_rbechec:          41
+        orig_rnechec:         138
 solving interrupted. 
 
 
@@ -353,8 +393,12 @@ cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=i
          WhiteTransmutedKing
          BlackTransmutedKing
 
-  1.b6-b7 # !
+   1.b6-b7 # !
 
+              empile:           4
+            jouecoup:           4
+        orig_rbechec:           5
+        orig_rnechec:           6
 solution finished. 
 
 
@@ -383,6 +427,10 @@ solution finished.
 
   1.Bh2-g1   2.h3-h2 Ke2-f1 = 
 
+              empile:        1705
+            jouecoup:        1326
+        orig_rbechec:          13
+        orig_rnechec:        1167
 solution finished. 
 
 
@@ -413,6 +461,10 @@ intelligent mode bug: did not find mates ...
   1.Kb7-a8 Sd5-b6 # 
   1.Kb7-a8 Sd5-c7 # 
 
+              empile:         646
+            jouecoup:         539
+        orig_rbechec:           7
+        orig_rnechec:         571
 solution finished. 
 
 
@@ -446,6 +498,10 @@ option start in intelligent mode
   1.Kb4-c4   2.Qb2-b4   3.Rg3-b3   4.Bg7-c3   5.d5-d4   6.Rf5-b5   7.c6-c5   8.Bb7-d5 d2-d3 # 
 16 potential positions in 1+8
 
+              empile:       76973
+            jouecoup:       76367
+        orig_rbechec:        4593
+        orig_rnechec:        6522
 solution finished. 
 
 
@@ -477,6 +533,10 @@ bogus solutions.
   dia2.5                    16 + 16
 
 
+              empile:         156
+            jouecoup:         156
+        orig_rbechec:           3
+        orig_rnechec:           4
 solution finished. 
 
 
@@ -536,6 +596,10 @@ Initial (Black ->):
 
   1.Ra7*a8 [+bRa7] a=>b 
 
+              empile:          22
+            jouecoup:          24
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 

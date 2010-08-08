@@ -23,6 +23,10 @@
   #1                          2 + 1
 
 the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -52,6 +56,10 @@ solution finished.
 
    1.Se8-c7 # !
 
+              empile:           7
+            jouecoup:           7
+        orig_rbechec:           2
+        orig_rnechec:           9
 solution finished. 
 
 
@@ -89,6 +97,10 @@ solution finished.
       1...Se8-g7
           2.Sd5-c7 #
 
+              empile:          83
+            jouecoup:          80
+        orig_rbechec:          15
+        orig_rnechec:          85
 solution finished. 
 
 
@@ -128,6 +140,10 @@ solution finished.
       1...Se8-g7
           2.Sd5-c7 #
 
+              empile:          98
+            jouecoup:          92
+        orig_rbechec:          18
+        orig_rnechec:          97
 solution finished. 
 
 
@@ -160,6 +176,10 @@ solution finished.
    1.Ka6-b6 ! threat:
           2.Se8-c7 #
 
+              empile:          71
+            jouecoup:          54
+        orig_rbechec:          18
+        orig_rnechec:          59
 solution finished. 
 
 
@@ -192,6 +212,10 @@ solution finished.
       1...Bh8*g7 +
           2.Ra8*a4 ##!
 
+              empile:         544
+            jouecoup:         374
+        orig_rbechec:         283
+        orig_rnechec:         154
 solution finished. 
 
 
@@ -221,6 +245,10 @@ solution finished.
 
    1.Kc8-b7 ##! !
 
+              empile:         132
+            jouecoup:         126
+        orig_rbechec:          56
+        orig_rnechec:          89
 solution finished. 
 
 
@@ -252,6 +280,10 @@ solution finished.
 
    1.Rc3-b3 = !
 
+              empile:        1567
+            jouecoup:         734
+        orig_rbechec:         618
+        orig_rnechec:         993
 solution finished. 
 
 
@@ -285,6 +317,10 @@ solution finished.
       1...c7-c6
           2.Sa4-b6 #
 
+              empile:          75
+            jouecoup:          61
+        orig_rbechec:          21
+        orig_rnechec:          65
 solution finished. 
 
 
@@ -319,6 +355,10 @@ solution finished.
       1...Kb8-a8
           2.Rc5-c8 #
 
+              empile:         269
+            jouecoup:         132
+        orig_rbechec:          73
+        orig_rnechec:         137
 solution finished. 
 
 
@@ -351,6 +391,10 @@ the side to play can capture the king
       1...Kb8-a8
           2.Rc5-c8 #
 
+              empile:         111
+            jouecoup:          51
+        orig_rbechec:          37
+        orig_rnechec:          54
 solution finished. 
 
 
@@ -398,6 +442,10 @@ solution finished.
               2...Se8-g7
                   3.Se6-c7 #
 
+              empile:         541
+            jouecoup:         380
+        orig_rbechec:         141
+        orig_rnechec:         299
 solution finished. 
 
 
@@ -454,6 +502,10 @@ solution finished.
               2...Se8-g7
                   3.Se6-c7 #
 
+              empile:        3647
+            jouecoup:        2651
+        orig_rbechec:        1538
+        orig_rnechec:        1295
 solution finished. 
 
 
@@ -483,6 +535,10 @@ solution finished.
 
       1...b3-b2 #
 
+              empile:          38
+            jouecoup:          38
+        orig_rbechec:          40
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -513,6 +569,10 @@ solution finished.
    1.Rh3-h4 !
       1...b3-b2 #
 
+              empile:         112
+            jouecoup:          87
+        orig_rbechec:          88
+        orig_rnechec:          23
 solution finished. 
 
 
@@ -544,6 +604,10 @@ s#1 with incomplete set play (not given)
    1.Rc3-c4 !
       1...b3-b2 #
 
+              empile:          96
+            jouecoup:          77
+        orig_rbechec:          79
+        orig_rnechec:          25
 solution finished. 
 
 
@@ -576,6 +640,10 @@ solution finished.
    1.h3-h4 !
       1...b3-b2 #
 
+              empile:         156
+            jouecoup:         144
+        orig_rbechec:         148
+        orig_rnechec:          33
 solution finished. 
 
 
@@ -615,6 +683,10 @@ solution finished.
     but
       1...c5-c4 !
 
+              empile:         184
+            jouecoup:         169
+        orig_rbechec:         171
+        orig_rnechec:          50
 solution finished. 
 
 
@@ -645,6 +717,10 @@ solution finished.
    1.Qa5-c5 + !
       1...Kc8-b7 ##!
 
+              empile:         401
+            jouecoup:         269
+        orig_rbechec:         242
+        orig_rnechec:         113
 solution finished. 
 
 
@@ -675,6 +751,10 @@ solution finished.
    1.f2-f4 !
       1...e4*f3 ep.
 
+              empile:          18
+            jouecoup:          18
+        orig_rbechec:          10
+        orig_rnechec:          11
 solution finished. 
 
 
@@ -707,6 +787,10 @@ solution finished.
           2.Qd1-g4
               2...b3-b2 #
 
+              empile:         281
+            jouecoup:         191
+        orig_rbechec:         194
+        orig_rnechec:          68
 solution finished. 
 
 
@@ -739,6 +823,10 @@ solution finished.
           2.Qd1-g4
               2...b3-b2 #
 
+              empile:        3039
+            jouecoup:        1466
+        orig_rbechec:        1468
+        orig_rnechec:         770
 solution finished. 
 
 
@@ -769,6 +857,10 @@ solution finished.
    1.Rc3-c4 !
       1...b3-b2 #
 
+              empile:         767
+            jouecoup:         354
+        orig_rbechec:         355
+        orig_rnechec:         161
 solution finished. 
 
 
@@ -800,6 +892,10 @@ solution finished.
       1...a3*b2 #
       1...c3*b2 #
 
+              empile:        2845
+            jouecoup:        1203
+        orig_rbechec:        1500
+        orig_rnechec:         729
 solution finished. 
 
 
@@ -838,6 +934,10 @@ solution finished.
           2.Qd1-g4
               2...b3-b2 #
 
+              empile:        3355
+            jouecoup:        1657
+        orig_rbechec:        1664
+        orig_rnechec:         779
 solution finished. 
 
 
@@ -872,6 +972,10 @@ solution finished.
           2.Re4*c4
               2...b3-b2 #
 
+              empile:         710
+            jouecoup:         457
+        orig_rbechec:         463
+        orig_rnechec:         146
 solution finished. 
 
 
@@ -931,6 +1035,10 @@ solution finished.
           2.e2-e3
               2...a3*b2 #
 
+              empile:        3939
+            jouecoup:        2156
+        orig_rbechec:        2168
+        orig_rnechec:         936
 solution finished. 
 
 
@@ -960,6 +1068,10 @@ solution finished.
 
       1...Se1-c2 #
 
+              empile:          14
+            jouecoup:          14
+        orig_rbechec:          16
+        orig_rnechec:           3
 solution finished. 
 
 
@@ -990,6 +1102,10 @@ solution finished.
    1.Kb1-a1 !
       1...Se1-c2 #
 
+              empile:          68
+            jouecoup:          55
+        orig_rbechec:          52
+        orig_rnechec:          16
 solution finished. 
 
 
@@ -1022,6 +1138,10 @@ solution finished.
    1.h3-h4 !
       1...Se1-c2 #
 
+              empile:          52
+            jouecoup:          48
+        orig_rbechec:          49
+        orig_rnechec:          13
 solution finished. 
 
 
@@ -1051,6 +1171,10 @@ solution finished.
 
    1.Bg7-f8 #
 
+              empile:          19
+            jouecoup:          18
+        orig_rbechec:           5
+        orig_rnechec:          20
 solution finished. 
 
 
@@ -1083,6 +1207,10 @@ solution finished.
           2.Sc1-e2
               2...b3-b2 #
 
+              empile:         130
+            jouecoup:         107
+        orig_rbechec:          87
+        orig_rnechec:          46
 solution finished. 
 
 
@@ -1115,6 +1243,10 @@ solution finished.
           2.Bc2-b1
               2...b3-b2 #
 
+              empile:        1533
+            jouecoup:         993
+        orig_rbechec:         774
+        orig_rnechec:         479
 solution finished. 
 
 
@@ -1147,6 +1279,10 @@ exact r#2 that would have a solution in 1
           2.Ra8-a2
               2...c2-c1=Q #
 
+              empile:        1944
+            jouecoup:        1304
+        orig_rbechec:         985
+        orig_rnechec:         450
 solution finished. 
 
 
@@ -1176,6 +1312,10 @@ r#2, but White must deliver mate immediately
 
    1.Bg7-f8 #
 
+              empile:          19
+            jouecoup:          18
+        orig_rbechec:           5
+        orig_rnechec:          20
 solution finished. 
 
 
@@ -1210,6 +1350,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
+              empile:        4177
+            jouecoup:        2883
+        orig_rbechec:        2054
+        orig_rnechec:        1638
 solution finished. 
 
 
@@ -1244,6 +1388,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
+              empile:       63866
+            jouecoup:       38253
+        orig_rbechec:       30380
+        orig_rnechec:       10706
 solution finished. 
 
 
@@ -1273,6 +1421,10 @@ r#3, but White must deliver mate immediately
 
    1.Bg7-f8 #
 
+              empile:          19
+            jouecoup:          18
+        orig_rbechec:           5
+        orig_rnechec:          20
 solution finished. 
 
 
@@ -1300,6 +1452,10 @@ a r#2 solution does not solve an exact r#3
 +---a---b---c---d---e---f---g---h---+
   exact-r#3                   2 + 1
 
+              empile:        2121
+            jouecoup:         936
+        orig_rbechec:         794
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -1342,6 +1498,10 @@ would have to deliver mate (issue 2843251)
               2...d2*e1=Q #
               2...d2*e1=R #
 
+              empile:        1357
+            jouecoup:         919
+        orig_rbechec:         717
+        orig_rnechec:         291
 solution finished. 
 
 
@@ -1371,6 +1531,10 @@ solution finished.
 
       1...b3-b2 #
 
+              empile:          10
+            jouecoup:          10
+        orig_rbechec:          12
+        orig_rnechec:           3
 solution finished. 
 
 
@@ -1401,6 +1565,10 @@ solution finished.
    1.Bg7-h6 !
       1...b3-b2 #
 
+              empile:         152
+            jouecoup:          96
+        orig_rbechec:          86
+        orig_rnechec:          30
 solution finished. 
 
 
@@ -1431,6 +1599,10 @@ solution finished.
       1...Ka3-b2 ##!
 
 the side to play can capture the king
+              empile:         109
+            jouecoup:         106
+        orig_rbechec:          84
+        orig_rnechec:          29
 solution finished. 
 
 
@@ -1461,6 +1633,10 @@ semi-r#2 with short solution; White needn't deliver mate immediately
    1.Bg7-h6 !
       1...b3-b2 #
 
+              empile:         401
+            jouecoup:         276
+        orig_rbechec:         251
+        orig_rnechec:          58
 solution finished. 
 
 
@@ -1513,6 +1689,10 @@ solution finished.
               2...Ke8-f7
                   3.Rh8-f8 #
 
+              empile:       23539
+            jouecoup:       20294
+        orig_rbechec:       12094
+        orig_rnechec:       10593
 solution finished. 
 
 

@@ -25,39 +25,43 @@
   #2                         11 + 9
         BiWoozles RexExklusive
 
-  1.Le6*f5 + ?
+   1.Le6*f5 + ?
     Aber
-      1...Ke4*f5  !
+      1...Ke4*f5 !
 
-  1.Sf4-g2 ? Drohung:
+   1.Sf4-g2 ? Drohung:
           2.Sd3-f2 #
-      1...Sf5-e3 
+      1...Sf5-e3
           2.Dh7-f5 #
-      1...Sf5-h4 
+      1...Sf5-h4
           2.Dh7-f5 #
     Aber
-      1...Sf5-g3  !
+      1...Sf5-g3 !
 
-  1.Sf4*h5 ? Drohung:
+   1.Sf4*h5 ? Drohung:
           2.Sd3-f2 #
-      1...Sf5-e3 
+      1...Sf5-e3
           2.Sh5-f6 #
-      1...Sf5-g3 
+      1...Sf5-g3
           2.Dh7-f5 #
     Aber
-      1...La1*c3  !
+      1...La1*c3 !
 
-  1.Sf4*d5 ! Drohung:
+   1.Sf4*d5 ! Drohung:
           2.Sd3-f2 #
-      1...Sf5-e3 
+      1...Sf5-e3
           2.Dh7-f5 #
-      1...Sf5-g3 
+      1...Sf5-g3
           2.Sd5-f6 #
 
-  1.Sd3-f2 + ?
+   1.Sd3-f2 + ?
     Aber
-      1...Ke4*f4  !
+      1...Ke4*f4 !
 
+              empile:       33455
+            jouecoup:       20554
+        orig_rbechec:        5792
+        orig_rnechec:       20570
 Loesung beendet. 
 
 
@@ -91,6 +95,10 @@ Loesung beendet.
   1.Td2-g2 Kf3-f2   2.Lb8-g3 Sc4-d6 # 
   1.Lb8-h2 Kf3-g3   2.Td2-g2 Sc4-b2 # 
 
+              empile:     1996122
+            jouecoup:     1290185
+        orig_rbechec:      108087
+        orig_rnechec:     1288778
 Loesung beendet. 
 
 
@@ -123,33 +131,37 @@ Loesung beendet.
                 Circe
               Heffalumps
 
-  1.Lf1*e2 [+sLc8] ! Drohung:
+   1.Lf1*e2 [+sLc8] ! Drohung:
           2.Dd1-b1 +
               2...Dh7*b1 [+wDd1] #
-      1...Sb4-c2 
+      1...Sb4-c2
           2.Dd1*c2 [+sSg8] +
               2...Dh7*c2 [+wDd1] #
           2.Dd1-d3 +
               2...Dh7*d3 [+wDd1] #
-      1...Sb4-d3 
+      1...Sb4-d3
           2.Dd1*d3 [+sSg8] +
               2...Dh7*d3 [+wDd1] #
-      1...Th6-h3 
+      1...Th6-h3
           2.Tg2-g3 +
               2...Th3*g3 [+wTa1] #
-      1...Th6-h5 
+      1...Th6-h5
           2.Se6-g5 +
               2...Th5*g5 #
-      1...Dh7-h8 
+      1...Dh7-h8
           2.Dd1-d8 +
               2...Dh8*d8 [+wDd1] #
-      1...Lc8*b7 [+wSb1] 
+      1...Lc8*b7 [+wSb1]
           2.Sb1-d2 +
               2...Th6*e6 [+wSb1] #
-      1...Lc8*e6 [+wSb1] 
+      1...Lc8*e6 [+wSb1]
           2.Sb1-d2 +
               2...Dh7*b7 [+wSb1] #
 
+              empile:       67324
+            jouecoup:       48742
+        orig_rbechec:       48774
+        orig_rnechec:       24495
 Loesung beendet. 
 
 
@@ -183,6 +195,10 @@ Loesung beendet.
   1.Dh1-h6 La1-g7   2.Ke4-d4 Tg6-g4 # 
   1.Dh1-h5 Ta5-g5   2.Ke4-d5 Lf1-g2 # 
 
+              empile:      467834
+            jouecoup:      330587
+        orig_rbechec:       24656
+        orig_rnechec:      329903
 Loesung beendet. 
 
 
@@ -217,6 +233,10 @@ Loesung beendet.
   1.Ta8-d8 Kd6-e7 # 
   1.0-0-0 Kd6-c7 # 
 
+              empile:         165
+            jouecoup:         161
+        orig_rbechec:          31
+        orig_rnechec:         159
 Loesung beendet. 
 
 
@@ -248,26 +268,30 @@ Loesung beendet.
   #2                          7 + 8
                Woozles
 
-      1...Kd4-c5 
+      1...Kd4-c5
           2.Lb4-a3 #
-      1...c6-c5 
+      1...c6-c5
           2.De6-d5 #
-      1...Dg6-d3 
+      1...Dg6-d3
           2.Lb4-c5 #
-      1...Dg6-e4 
+      1...Dg6-e4
           2.Lb4-c5 #
 
-  1.Sd6-e4 ! Drohung:
+   1.Sd6-e4 ! Drohung:
           2.Lb4-c5 #
-      1...Sa4*c3 
+      1...Sa4*c3
           2.Lb4*c3 #
-      1...Sa4-c5 
+      1...Sa4-c5
           2.Lb4-a3 #
-      1...c6-c5 
+      1...c6-c5
           2.De6-d5 #
-      1...Le7-c5 
+      1...Le7-c5
           2.De6-d6 #
 
+              empile:       14441
+            jouecoup:        8738
+        orig_rbechec:        3828
+        orig_rnechec:        8754
 Loesung beendet. 
 
 
@@ -317,6 +341,10 @@ Loesung beendet.
 
   1.Dg7-f6 Kc3-b2   2.Df6-g7 Le5-c3   3.Dg7-g8 Lc3-g7 # 
 
+              empile:      163609
+            jouecoup:      137837
+        orig_rbechec:        9890
+        orig_rnechec:      135505
 Loesung beendet. 
 
 
@@ -352,6 +380,10 @@ Loesung beendet.
 
   1.a7-a6   2.a6-a5   3.a5-a4   4.a4-a3   5.a3-a2   6.a2-a1=T   7.Ta1-a2   8.Ta2-a3   9.Ta3-a4  10.Ta4-a5  11.Ta5-a6  12.Ta6-a7 Kc8-b8 # 
 
+              empile:        4237
+            jouecoup:        3314
+        orig_rbechec:        1174
+        orig_rnechec:        3077
 Loesung beendet. 
 
 
@@ -385,6 +417,10 @@ Loesung beendet.
 
   1.Sg2-e3 Ta8-f8   2.Lh1-f3 Ke6-d5 # 
 
+              empile:       66627
+            jouecoup:       51261
+        orig_rbechec:        6588
+        orig_rnechec:       50982
 Loesung beendet. 
 
 
@@ -418,6 +454,10 @@ Loesung beendet.
 
   1.Kh4-g4 De4-e1   2.Tf6-f5 De1-h4 # 
 
+              empile:       44973
+            jouecoup:       38056
+        orig_rbechec:        4507
+        orig_rnechec:       37591
 Loesung beendet. 
 
 
@@ -451,6 +491,10 @@ Loesung beendet.
 
   1.Dc7-e7 Tb4-f4   2.Ta8-d8 Tf4-f8 # 
 
+              empile:      191378
+            jouecoup:      167719
+        orig_rbechec:       12086
+        orig_rnechec:      169627
 Loesung beendet. 
 
 
@@ -484,6 +528,10 @@ Loesung beendet.
 
   1.0-0 Tg4-h4   2.De7-g7 Th4-h8 # 
 
+              empile:      237356
+            jouecoup:      217769
+        orig_rbechec:        9474
+        orig_rnechec:      219741
 Loesung beendet. 
 
 
@@ -516,6 +564,10 @@ Loesung beendet.
   1.De5-d5 Nc3-b5   2.Kg4-f3 Nb5-a7 # 
   1.De5-e6 Nc3-e7   2.Kg4-g3 Ne7-c6 # 
 
+              empile:      482079
+            jouecoup:      372893
+        orig_rbechec:       30184
+        orig_rnechec:      372153
 Loesung beendet. 
 
 
@@ -568,6 +620,10 @@ Loesung beendet.
  20  (Tf2-f3 )
  21  (Tf2*g2 )
 
+              empile:    11163433
+            jouecoup:     9804561
+        orig_rbechec:      499130
+        orig_rnechec:     9804181
 Loesung beendet. 
 
 

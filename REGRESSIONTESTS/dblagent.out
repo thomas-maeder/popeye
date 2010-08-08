@@ -38,6 +38,10 @@
       1...Db7-g7
           2.Ld4*g7 [+wDd1] #
 
+              empile:       11225
+            jouecoup:        6335
+        orig_rbechec:        1955
+        orig_rnechec:        6345
 Loesung beendet. 
 
 
@@ -70,6 +74,10 @@ Loesung beendet.
 
   1.Kb1-c2   2.Kc2-d3   3.Kd3*e3 [+wBe2]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 # 
 
+              empile:        9566
+            jouecoup:        9360
+        orig_rbechec:       14861
+        orig_rnechec:       17113
 Loesung beendet. 
 
 
@@ -108,6 +116,10 @@ Loesung beendet.
       1...La7-c5
           2.Tb5*c5 [+wLf8] #
 
+              empile:        4560
+            jouecoup:        2919
+        orig_rbechec:        1398
+        orig_rnechec:        2926
 Loesung beendet. 
 
 

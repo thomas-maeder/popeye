@@ -32,6 +32,10 @@ solution (which is a short solution in 1->ser-h#3)
  25  (Rh1-h3 )
  26  (Rh1-h2 )
 
+              empile:        3451
+            jouecoup:        2249
+        orig_rbechec:         519
+        orig_rnechec:        2004
 solving interrupted. 
 
 
@@ -61,6 +65,10 @@ solving interrupted.
 
   1.a2-a3 dia 
 
+              empile:          20
+            jouecoup:          21
+        orig_rbechec:           1
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -90,6 +98,10 @@ solution finished.
 
   1.a2-a3 dia 
 
+              empile:          20
+            jouecoup:          21
+        orig_rbechec:           1
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -119,6 +131,10 @@ solution finished.
 
   1.a2-a3 dia 
 
+              empile:          20
+            jouecoup:          21
+        orig_rbechec:           1
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -150,12 +166,24 @@ b) and c) have no solution because white is immobile in the diagram
 
 a) 
 
-  1.Kh6-h7 ## !
+   1.Kh6-h7 ## !
 
+              empile:          37
+            jouecoup:          35
+        orig_rbechec:          14
+        orig_rnechec:          27
 b) +bRa5 
 
+              empile:           4
+            jouecoup:           4
+        orig_rbechec:           4
+        orig_rnechec:           1
 +c) ##2
 
+              empile:           8
+            jouecoup:           8
+        orig_rbechec:           8
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -187,23 +215,47 @@ b), c) and f) have no solution because white is not mate in the diagram
 
 a) 
 
-  1.Kc8-b7 ##! !
+   1.Kc8-b7 ##! !
 
+              empile:         106
+            jouecoup:         100
+        orig_rbechec:          42
+        orig_rnechec:          75
 b) +wSb4 
 
+              empile:           8
+            jouecoup:           7
+        orig_rbechec:           8
+        orig_rnechec:           2
 +c) ##!2
 
+              empile:         104
+            jouecoup:          73
+        orig_rbechec:          44
+        orig_rnechec:          47
 +d)  -wSb4
 
-  1.Kc8-b7 ##! !
+   1.Kc8-b7 ##! !
 
+              empile:         106
+            jouecoup:         100
+        orig_rbechec:          42
+        orig_rnechec:          75
 +e) ser-##!1
 
   1.Kc8-b7 ##! 
 
+              empile:          68
+            jouecoup:          63
+        orig_rbechec:          23
+        orig_rnechec:          44
 +f) +wSb4 
 
 
+              empile:           8
+            jouecoup:           7
+        orig_rbechec:           8
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -235,9 +287,17 @@ a)
 
   1.Qa3-c5 + Kc8-b7 ##! 
 
+              empile:         224
+            jouecoup:         197
+        orig_rbechec:          75
+        orig_rnechec:         155
 b) +wSd4 
 
 
+              empile:          56
+            jouecoup:          47
+        orig_rbechec:          44
+        orig_rnechec:          28
 solution finished. 
 
 
@@ -266,18 +326,30 @@ solution finished.
 
 a) 
 
-  1.Qa3-c5 + !
+   1.Qa3-c5 + !
       1...Kc8-b7 ##!
 
+              empile:         418
+            jouecoup:         277
+        orig_rbechec:         248
+        orig_rnechec:         116
 b) ser-s##!1
 
   1.Qa3-c5 + Kc8-b7 ##! 
 
+              empile:         418
+            jouecoup:         279
+        orig_rbechec:         268
+        orig_rnechec:         115
 solution finished. 
 
 
 Option  StopOnShortSolutions  not supported with direct play.
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -285,20 +357,44 @@ try play not applicable
 
 a) 
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 b) #2
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 c) s#1
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 d) r#1
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 e) h#3
 try play not applicable
 
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 f) ser-h#5
 try play not applicable
 
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -329,6 +425,10 @@ option Try not applicable in postkey battle play
 
  zugzwang.
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -359,26 +459,58 @@ option Threat only applicable in sufficiently long battle play
 
 a) 
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 b) #4
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 c) s#3
 Option "Threat" not applicable or indicated maximum threat length too big
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 d) s#4
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 e) r#3
 Option "Threat" not applicable or indicated maximum threat length too big
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 f) r#4
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 g) h#7
 Option "Threat" not applicable or indicated maximum threat length too big
 
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 h) ser-h#8
 Option "Threat" not applicable or indicated maximum threat length too big
 
 
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -406,8 +538,12 @@ don't output reflexmates if variations are not asked for
 +---a---b---c---d---e---f---g---h---+
   r#1                         1 + 2
 
-  1.Kb1-a1 !
+   1.Kb1-a1 !
 
+              empile:          35
+            jouecoup:          22
+        orig_rbechec:          20
+        orig_rnechec:           9
 solution finished. 
 
 
@@ -442,6 +578,10 @@ solution finished.
   1.Sb1-c3   2.Sc3-b1 a7-a6 dia 
   1.Sb1-a3   2.Sa3-b1 a7-a6 dia 
 
+              empile:         224
+            jouecoup:         237
+        orig_rbechec:           8
+        orig_rnechec:          17
 solution finished. 
 
 
@@ -501,6 +641,10 @@ Initial (Black ->):
   1.Sg8-f6   2.Sf6-g8 a2-a3 a=>b 
   1.Sg8-h6   2.Sh6-g8 a2-a3 a=>b 
 
+              empile:         224
+            jouecoup:         237
+        orig_rbechec:          17
+        orig_rnechec:           8
 solution finished. 
 
 
@@ -532,6 +676,10 @@ solution finished.
 
   1.Sa2*c1   2.Sc1-a2 b3*a2 # 
 
+              empile:         124
+            jouecoup:          98
+        orig_rbechec:         110
+        orig_rnechec:          36
 solution finished. 
 
 

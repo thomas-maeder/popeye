@@ -24,6 +24,10 @@ latent pawns' side decides which one to promote -> f2*e1 would be self-check
           SingleBox    Type3
 
 
+              empile:         151
+            jouecoup:         150
+        orig_rbechec:          20
+        orig_rnechec:         148
 solution finished. 
 
 
@@ -52,6 +56,10 @@ latent pawns' side which one to promote -> f7*e8 would be self-check
   #1                         3 + 13
           SingleBox    Type3
 
+              empile:          21
+            jouecoup:          21
+        orig_rbechec:          29
+        orig_rnechec:          20
 solution finished. 
 
 
@@ -80,12 +88,16 @@ solution finished.
   +1                          3 + 6
           SingleBox    Type3
 
-  1.Sh4*f3 + !
+   1.Sh4*f3 + !
 
-  1.Se3*c2 + !
+   1.Se3*c2 + !
 
-  1.Se3*g2 + !
+   1.Se3*g2 + !
 
+              empile:          15
+            jouecoup:          15
+        orig_rbechec:          38
+        orig_rnechec:          19
 solution finished. 
 
 
@@ -116,6 +128,10 @@ solution finished.
 
   1.g5*f4 [a8=S]Rg6*g1 + 
 
+              empile:         286
+            jouecoup:         288
+        orig_rbechec:           3
+        orig_rnechec:         286
 solution finished. 
 
 
@@ -146,6 +162,10 @@ pawn's side selects which pawn to promote -> Ra1 can't capture
 
   1.a4-a3 Bc8-d7 # 
 
+              empile:          87
+            jouecoup:          80
+        orig_rbechec:          11
+        orig_rnechec:          80
 solution finished. 
 
 
@@ -174,10 +194,14 @@ solution finished.
   #1                          5 + 3
           SingleBox    Type3
 
-  1.[e8=R]Qd8-d4 # !
+   1.[e8=R]Qd8-d4 # !
 
-  1.[e8=S]Qd8-d5 # !
+   1.[e8=S]Qd8-d5 # !
 
+              empile:         265
+            jouecoup:         183
+        orig_rbechec:         129
+        orig_rnechec:         188
 solution finished. 
 
 
@@ -206,30 +230,34 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
   #2                         10 + 9
           SingleBox    Type3
 
-  1.d7-d8 ! zugzwang.
-      1...Qf2*g1 
+   1.d7-d8 ! zugzwang.
+      1...Qf2*g1
           2.[d8=B]Bd8-b6 #
-      1...Ke3-f4 
+      1...Ke3-f4
           2.Qb2-d2 #
-      1...c4-c3 
+      1...c4-c3
           2.Sf6-d5 #
-      1...e5-e4 
+      1...e5-e4
           2.Sf6-d5 #
-      1...f5-f4 
+      1...f5-f4
           2.Sf6*g4 #
-      1...Sd6-b5 
+      1...Sd6-b5
           2.Qb2-d2 #
-      1...Sd6-e4 
+      1...Sd6-e4
           2.Sf6-d5 #
-      1...Sd6-f7 
+      1...Sd6-f7
           2.Qb2-d2 #
-      1...Sd6-e8 
+      1...Sd6-e8
           2.Qb2-d2 #
-      1...Sd6-c8 
+      1...Sd6-c8
           2.Qb2-d2 #
-      1...Sd6-b7 
+      1...Sd6-b7
           2.Qb2-d2 #
 
+              empile:        9726
+            jouecoup:        7182
+        orig_rbechec:        3315
+        orig_rnechec:        7023
 solution finished. 
 
 
@@ -258,47 +286,51 @@ solution finished.
   #3                        11 + 11
           SingleBox    Type3
 
-  1.f7-f8 ! threat:
+   1.f7-f8 ! threat:
           2.Qh1*e4 +
-              2...d5*e4 
+              2...d5*e4
                   3.[f8=Q]Qf8-f5 #
-      1...g3-g2 
+      1...g3-g2
           2.Bh2*f4 +
-              2...Bh6*f4 
+              2...Bh6*f4
                   3.[f8=B]Bf8*g7 #
-      1...g3*h2 
+      1...g3*h2
           2.[f8=B]Bf8*g7 +
-              2...Bh6*g7 
+              2...Bh6*g7
                   3.Rg4-g5 #
-      1...f4-f3 
+      1...f4-f3
           2.Rg4*e4 +
-              2...d5*e4 
+              2...d5*e4
                   3.[f8=R]Rf8-f5 #
-      1...d7*e6 
+      1...d7*e6
           2.Sd4-f3 +
-              2...e4*f3 
+              2...e4*f3
                   3.[f8=S]Sf8-d7 #
 
-  1.Rg4-g5 + ?
+   1.Rg4-g5 + ?
     but
-      1...Bh6*g5 +  !
+      1...Bh6*g5 + !
 
-  1.Rg4*h4 ? threat:
+   1.Rg4*h4 ? threat:
           2.Rh4-h5 +
-              2...Bh6-g5 + 
+              2...Bh6-g5 +
                   3.Rh5*g5 #
-      1...f4-f3 
+      1...f4-f3
           2.Bh2*g3 +
-              2...Bh6-f4 
+              2...Bh6-f4
                   3.Rh4-h5 #
                   3.Bg3*f4 #
     but
-      1...Bh6-g5 +  !
+      1...Bh6-g5 + !
 
-  1.Qh1*e4 + ?
+   1.Qh1*e4 + ?
     but
-      1...d5*e4  !
+      1...d5*e4 !
 
+              empile:      331802
+            jouecoup:      235847
+        orig_rbechec:      135408
+        orig_rnechec:      217511
 solution finished. 
 
 

@@ -30,10 +30,18 @@ a)
 
   1.a3-a2=T b2-b4=D # 
 
+              empile:          87
+            jouecoup:          85
+        orig_rbechec:          86
+        orig_rnechec:          68
 b) h=2
 
   1.a3-a2=S b2-b4=L   2.Sa2-c3 Kc4*c3 = 
 
+              empile:         449
+            jouecoup:         305
+        orig_rbechec:         351
+        orig_rnechec:         280
 Loesung beendet. 
 
 
@@ -65,6 +73,10 @@ Loesung beendet.
 
   1.a7-a5=D b6-b7 +   2.Ka8-a7 b7-b8=T   3.Da5-c5 + Kc8-b7 ##! 
 
+              empile:        1206
+            jouecoup:        1146
+        orig_rbechec:         599
+        orig_rnechec:         870
 Loesung beendet. 
 
 
@@ -96,6 +108,10 @@ Loesung beendet.
 
   1...a7-a5   2.Kc8-c7 a5-a4=D   3.Kc7-c8 Da4-a7   4.b6-b7 + Da7*b7 # 
 
+              empile:        2130
+            jouecoup:        1545
+        orig_rbechec:        1559
+        orig_rnechec:         923
 Loesung beendet. 
 
 

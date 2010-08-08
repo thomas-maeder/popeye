@@ -22,8 +22,12 @@
   #1                          2 + 2
             Aprilschach L
 
-  1.c6*b7 [+sLa7] # !
+   1.c6*b7 [+sLa7] # !
 
+              empile:         186
+            jouecoup:         191
+        orig_rbechec:         124
+        orig_rnechec:         193
 Loesung beendet. 
 
 
@@ -51,6 +55,10 @@ Loesung beendet.
   #1                          2 + 2
             Aprilschach L
 
+              empile:           4
+            jouecoup:           3
+        orig_rbechec:           2
+        orig_rnechec:           4
 Loesung beendet. 
 
 
@@ -79,6 +87,10 @@ Loesung beendet.
   #1                          2 + 3
             Aprilschach L
 
+              empile:         409
+            jouecoup:         454
+        orig_rbechec:         371
+        orig_rnechec:         455
 Loesung beendet. 
 
 
@@ -106,8 +118,12 @@ Loesung beendet.
   #1                          3 + 2
             Aprilschach L
 
-  1.c7*b8=D [+sLa6] # !
+   1.c7*b8=D [+sLa6] # !
 
+              empile:         525
+            jouecoup:         522
+        orig_rbechec:         373
+        orig_rnechec:         524
 Loesung beendet. 
 
 
@@ -136,6 +152,10 @@ Aprilsteine sind schwierig zu decken!
   #1                          4 + 1
             Aprilschach L
 
+              empile:          32
+            jouecoup:          25
+        orig_rbechec:          16
+        orig_rnechec:          26
 Loesung beendet. 
 
 

@@ -29,6 +29,10 @@
   1.f2-f1=T   2.Tf1-f5   3.Tf5-d5=wT Td5-d1 = 
   1.f2-f1=L   2.Lf1-c4   3.Lc4-d5=wL Ld5-a2 = 
 
+              empile:       42804
+            jouecoup:       21985
+        orig_rbechec:        6954
+        orig_rnechec:       20266
 Loesung beendet. 
 
 
@@ -61,6 +65,10 @@ Loesung beendet.
 
   1.Sf7-h8=wS Sh8-f7   2.Kh5-h4 Sf7-h8=sS   3.Sh8-g6 Kh7-h6   4.Sg6-h8=wS Sh8-g6 # 
 
+              empile:       79841
+            jouecoup:       69080
+        orig_rbechec:       14921
+        orig_rnechec:       56064
 Loesung beendet. 
 
 
@@ -101,6 +109,10 @@ Loesung beendet.
               2...Sh8*f7=wS
                   3.Sf7-e5 #
 
+              empile:       40084
+            jouecoup:       16860
+        orig_rbechec:       11035
+        orig_rnechec:       11553
 Loesung beendet. 
 
 
@@ -146,6 +158,10 @@ Loesung beendet.
                                           6.Lc1-a3=sL
                                               6...Df8-f1 =
 
+              empile:      212141
+            jouecoup:      128295
+        orig_rbechec:       76822
+        orig_rnechec:           0
 Loesung beendet. 
 
 
@@ -178,6 +194,10 @@ Loesung beendet.
 
   1.Sc2-b4 Kb2-c3   2.Sb4-a2=wS Sa2-b4   3.Lb3-a2=wL La2-b3 +   4.Ka4-a3 Sb4-c2 # 
 
+              empile:      775459
+            jouecoup:      611966
+        orig_rbechec:      142933
+        orig_rnechec:      502260
 Loesung beendet. 
 
 
@@ -218,6 +238,10 @@ Lob, Albert H. Kniest Jubil"aumsturnier
                           4.g6-g7
                               4...Da1*g7 #
 
+              empile:     1121335
+            jouecoup:      527037
+        orig_rbechec:      284588
+        orig_rnechec:      397838
 Loesung beendet. 
 
 
@@ -743,6 +767,10 @@ Loesung beendet.
     Aber
       1...Sh2-g4=wS !
 
+              empile:      700648
+            jouecoup:      488251
+        orig_rbechec:      429822
+        orig_rnechec:       66743
 Loesung beendet. 
 
 
@@ -786,6 +814,10 @@ Loesung beendet.
                                           6.Lc1-a3=sL
                                               6...Df8-f1 =
 
+              empile:      212141
+            jouecoup:      128295
+        orig_rbechec:       76822
+        orig_rnechec:           0
 Loesung beendet. 
 
 
@@ -825,6 +857,10 @@ Loesung beendet.
               2...Sh8*f7=wS
                   3.Sf7-e5 #
 
+              empile:       40084
+            jouecoup:       16860
+        orig_rbechec:       11035
+        orig_rnechec:       11553
 Loesung beendet. 
 
 
@@ -956,6 +992,10 @@ Loesung beendet.
                       3...f2*e1=wL
                           4.Le1-c3 #
 
+              empile:      286403
+            jouecoup:      130986
+        orig_rbechec:       91057
+        orig_rnechec:       77786
 Loesung beendet. 
 
 
@@ -995,6 +1035,10 @@ Loesung beendet.
           2.Tg8-a8=sT
               2...Ta8-h8 #
 
+              empile:       73387
+            jouecoup:       41466
+        orig_rbechec:       35502
+        orig_rnechec:        8795
 Loesung beendet. 
 
 
@@ -1029,6 +1073,10 @@ Loesung beendet.
 
   1.b7-b8=sS g2-g1=wL   2.Lg1-b6 Sb8-c6 # 
 
+              empile:       15423
+            jouecoup:       15803
+        orig_rbechec:        6485
+        orig_rnechec:       11997
 Loesung beendet. 
 
 

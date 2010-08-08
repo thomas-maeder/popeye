@@ -24,14 +24,18 @@
   #4                          8 + 4
           MonochromesSchach
 
-  1.Td1-h1 ! Zugzwang.
-      1...h5*g4 
+   1.Td1-h1 ! Zugzwang.
+      1...h5*g4
           2.h2-h4 Zugzwang.
-              2...g4*h3 ep. 
+              2...g4*h3 ep.
                   3.Tg5-g1 Zugzwang.
-                      3...Lc1*b2 + 
+                      3...Lc1*b2 +
                           4.Tg1-g7 #
 
+              empile:      122322
+            jouecoup:       48901
+        orig_rbechec:       43906
+        orig_rnechec:       33968
 Loesung beendet. 
 
 
@@ -70,6 +74,10 @@ a)
   1.b7-b8=T   2.Tb8-e8 # 
   1.b7-b8=T   2.Tb8-c8 # 
 
+              empile:         145
+            jouecoup:         107
+        orig_rbechec:          26
+        orig_rnechec:          97
 b) wBb7-->d7
 
   1.d7-d8=D   2.Dd8-a8 # 
@@ -82,6 +90,10 @@ b) wBb7-->d7
   1.d7-d8=T   2.Td8-g8 # 
   1.d7-d8=T   2.Td8-e8 # 
 
+              empile:         150
+            jouecoup:         113
+        orig_rbechec:          27
+        orig_rnechec:         102
 c) wBb7-->f7
 
   1.f7-f8=D   2.Df8-a8 # 
@@ -94,6 +106,10 @@ c) wBb7-->f7
   1.f7-f8=T   2.Tf8-e8 # 
   1.f7-f8=T   2.Tf8-g8 # 
 
+              empile:         130
+            jouecoup:         103
+        orig_rbechec:          26
+        orig_rnechec:          92
 Loesung beendet. 
 
 

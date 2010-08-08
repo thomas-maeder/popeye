@@ -26,6 +26,10 @@
 
   1.Ka2*b3 [+wBb2] d7-d8=D   2.Kb3-c2 Dd8-d1 # 
 
+              empile:        2547
+            jouecoup:        2094
+        orig_rbechec:         371
+        orig_rnechec:        3802
 Loesung beendet. 
 
 
@@ -57,6 +61,10 @@ Loesung beendet.
 
   1.Kg4-f3   2.Kf3-e3   3.Ke3-d3   4.Kd3-c4   5.Kc4-c5   6.Kc5*c6 [+wBc2]   7.Kc6-c5   8.Kc5-c4   9.Kc4-c3  10.Kc3*b2 [+wTa1] Ke5-d4 = 
 
+              empile:       12670
+            jouecoup:        4894
+        orig_rbechec:        4656
+        orig_rnechec:        8497
 Loesung beendet. 
 
 
@@ -89,6 +97,10 @@ Loesung beendet.
   1.Sg3-f1 e7-e8=L +   2.Kd7*e8 [+wLf1] Lf1-h3 = 
   1.Sg3-h1 e7-e8=T   2.Kd7*e8 [+wTh1] Th1-d1 = 
 
+              empile:      138777
+            jouecoup:       55284
+        orig_rbechec:       38614
+        orig_rnechec:       87014
 Loesung beendet. 
 
 
@@ -120,6 +132,10 @@ Loesung beendet.
 
   1.a7-a5 Ke8-d7   2.Kb7-a7 Kd7-c6   3.Se6-c5 Kc6-b5 # 
 
+              empile:      243932
+            jouecoup:      240132
+        orig_rbechec:       29852
+        orig_rnechec:      567092
 Loesung beendet. 
 
 
@@ -149,40 +165,44 @@ Loesung beendet.
   #2                          6 + 6
             AssassinCirce
 
-      1...Sa2-c1 
+      1...Sa2-c1
           2.Te7-b7 #
-      1...Sa2-c3 
+      1...Sa2-c3
           2.Sb4-a6 #
-      1...Sa2*b4 [+wSg1] 
+      1...Sa2*b4 [+wSg1]
           2.Td2-b2 #
-      1...e5-e4 
+      1...e5-e4
           2.Lg5-f4 #
-      1...Lc8-h3 
+      1...Lc8-h3
           2.Te7-b7 #
           2.Sb4-a6 #
-      1...Lc8-g4 
+      1...Lc8-g4
           2.Te7-b7 #
           2.Sb4-a6 #
-      1...Lc8-f5 
+      1...Lc8-f5
           2.Te7-b7 #
           2.Sb4-a6 #
-      1...Lc8-e6 
+      1...Lc8-e6
           2.Te7-b7 #
           2.Sb4-a6 #
 
-  1.Lg5-e3 ! Drohung:
+   1.Lg5-e3 ! Drohung:
           2.Le3-a7 #
-      1...Sa2-c1 
+      1...Sa2-c1
           2.Te7-b7 #
-      1...Sa2-c3 
+      1...Sa2-c3
           2.Sb4-a6 #
-      1...Sa2*b4 [+wSg1] 
+      1...Sa2*b4 [+wSg1]
           2.Td2-b2 #
-      1...Lc8-b7 
+      1...Lc8-b7
           2.c6-c7 #
-      1...Lc8-d7 
+      1...Lc8-d7
           2.Sb4-a6 #
 
+              empile:       10779
+            jouecoup:        7658
+        orig_rbechec:        5563
+        orig_rnechec:       11160
 Loesung beendet. 
 
 

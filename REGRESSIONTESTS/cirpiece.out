@@ -26,64 +26,80 @@
 
 a) 
 
-  1.Da7-d7 ! Drohung:
+   1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
-      1...Sa3*b5 [+wTh1] 
+      1...Sa3*b5 [+wTh1]
           2.Th1-e1 #
-      1...Tb6*b5 [+wTh1] 
+      1...Tb6*b5 [+wTh1]
           2.Th1-e1 #
-      1...Tb6*c6 [+wSb1] 
+      1...Tb6*c6 [+wSb1]
           2.Sb1*d2 [+sSb8] #
-      1...Lc8*d7 [+wDd1] 
+      1...Lc8*d7 [+wDd1]
           2.Dd1-e1 #
-      1...Dh8*g8 [+wLf1] 
+      1...Dh8*g8 [+wLf1]
           2.Lf1*d3 #
 
+              empile:       12226
+            jouecoup:        9764
+        orig_rbechec:         824
+        orig_rnechec:        9773
 b) ChamaeleonCirce    S->L->T->D->S
 
-  1.Da7-d7 ! Drohung:
+   1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
-      1...Sa3*b5 [+wDd1] 
+      1...Sa3*b5 [+wDd1]
           2.Dd1-e1 #
-      1...Tb6*b5 [+wDd1] 
+      1...Tb6*b5 [+wDd1]
           2.Dd1-e1 #
-      1...Tb6*c6 [+wLf1] 
+      1...Tb6*c6 [+wLf1]
           2.Lf1*d3 #
-      1...Lc8*d7 [+wSb1] 
+      1...Lc8*d7 [+wSb1]
           2.Sb1*d2 [+sLf8] #
-      1...Dh8*g8 [+wTh1] 
+      1...Dh8*g8 [+wTh1]
           2.Th1-e1 #
 
+              empile:       12483
+            jouecoup:        9983
+        orig_rbechec:         857
+        orig_rnechec:        9992
 c) CirceClone
 
-  1.Da7-d7 ! Drohung:
+   1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
-      1...Sa3*b5 [+wSb1] 
+      1...Sa3*b5 [+wSb1]
           2.Sb1*d2 [+sSb8] #
-      1...Tb6*b5 [+wTh1] 
+      1...Tb6*b5 [+wTh1]
           2.Th1-e1 #
-      1...Tb6*c6 [+wTh1] 
+      1...Tb6*c6 [+wTh1]
           2.Th1-e1 #
-      1...Lc8*d7 [+wLf1] 
+      1...Lc8*d7 [+wLf1]
           2.Lf1*d3 [+sLc8] #
-      1...Dh8*g8 [+wDd1] 
+      1...Dh8*g8 [+wDd1]
           2.Dd1-e1 #
 
+              empile:       12095
+            jouecoup:        9622
+        orig_rbechec:         813
+        orig_rnechec:        9631
 d) ChamaeleonCirce    S->D->T->L->S
 
-  1.Da7-d7 ! Drohung:
+   1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
-      1...Sa3*b5 [+wLf1] 
+      1...Sa3*b5 [+wLf1]
           2.Lf1*d3 #
-      1...Tb6*b5 [+wLf1] 
+      1...Tb6*b5 [+wLf1]
           2.Lf1*d3 #
-      1...Tb6*c6 [+wDd1] 
+      1...Tb6*c6 [+wDd1]
           2.Dd1-e1 #
-      1...Lc8*d7 [+wTh1] 
+      1...Lc8*d7 [+wTh1]
           2.Th1-e1 #
-      1...Dh8*g8 [+wSb1] 
+      1...Dh8*g8 [+wSb1]
           2.Sb1*d2 [+sDd8] #
 
+              empile:       12878
+            jouecoup:       10333
+        orig_rbechec:         875
+        orig_rnechec:       10342
 Loesung beendet. 
 
 
@@ -117,10 +133,18 @@ a)
 
   1.c2-c1=S b7-b8=T   2.Sc1-a2 Tb8-b3 # 
 
+              empile:        3251
+            jouecoup:        2213
+        orig_rbechec:         516
+        orig_rnechec:        2147
 b) nBBc2   wKa5-->d1
 
   1.nBBc2-b1=nL b7-b8=D   2.nLb1-a2 Db8-b3 # 
 
+              empile:       17511
+            jouecoup:       14427
+        orig_rbechec:        1771
+        orig_rnechec:       14307
 Loesung beendet. 
 
 
@@ -154,10 +178,18 @@ a)
 
   1.Sb8-a6   2.Sa6-b4   3.Sb4-a2 Tb2-b3 # 
 
+              empile:        1929
+            jouecoup:         918
+        orig_rbechec:         287
+        orig_rnechec:         914
 b) sSb8-->c8
 
   1.Sc8-b6   2.Sb6-a4   3.Sa4*b2 [+wDd1] Dd1-a4 # 
 
+              empile:        2934
+            jouecoup:        1376
+        orig_rbechec:         413
+        orig_rnechec:        1372
 Loesung beendet. 
 
 
@@ -194,6 +226,10 @@ Loesung beendet.
   1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c5   4.Tc5-h5 Sg1-f3 # 
   1.f2-f1=T   2.Tf1*c1 [+wTa1]   3.Tc1-c4   4.Tc4-h4 Sg1-f3 # 
 
+              empile:       20174
+            jouecoup:       14305
+        orig_rbechec:        3154
+        orig_rnechec:       14280
 Loesung beendet. 
 
 
@@ -223,12 +259,16 @@ Loesung beendet.
   #2                          4 + 4
               CirceClone
 
-  1.Da8-f3 ! Zugzwang.
-      1...g4-g3 
+   1.Da8-f3 ! Zugzwang.
+      1...g4-g3
           2.Df3*h5 [+sDd8] #
-      1...g4*f3 [+wBf2] 
+      1...g4*f3 [+wBf2]
           2.g2-g3 #
 
+              empile:         713
+            jouecoup:         533
+        orig_rbechec:         192
+        orig_rnechec:         537
 Loesung beendet. 
 
 
@@ -263,6 +303,10 @@ Loesung beendet.
   1.d6-d5 Tb6-g6   2.f7*g6 [+wBg2] g2-g3 # 
   1.Sa8-c7 Tb6*a6 [+sTa8]   2.Ta8*a6 [+wTh1] Th1*h3 [+sTa8] # 
 
+              empile:        5039
+            jouecoup:        4484
+        orig_rbechec:         686
+        orig_rnechec:        4248
 Loesung beendet. 
 
 
@@ -297,6 +341,10 @@ Loesung beendet.
 
   1.Kc1-d2 Dd7*f5 [+wDd1]   2.Kd2-e1 Df5-f2 # 
 
+              empile:       39651
+            jouecoup:       20396
+        orig_rbechec:       10853
+        orig_rnechec:       15332
 Loesung beendet. 
 
 
@@ -330,10 +378,18 @@ a)
 
   1.Lh6*g5 [+wLc1] Lc1-b2   2.La2*e6 [+wLf1] Lf1-d3 # 
 
+              empile:       90712
+            jouecoup:       35526
+        orig_rbechec:       10210
+        orig_rnechec:       35114
 b) wSg5-->e4
 
   1.Te8*e6 [+wTh1] Th1*h6 [+sTh8]   2.Te6*e4 [+wTh1] Th1-h5 # 
 
+              empile:      133392
+            jouecoup:       52713
+        orig_rbechec:       15126
+        orig_rnechec:       52141
 Loesung beendet. 
 
 
@@ -363,11 +419,15 @@ Loesung beendet.
   s#2                         7 + 2
               CirceClone
 
-  1.Df2-a2 ! Zugzwang.
-      1...Kd8-e8 
+   1.Df2-a2 ! Zugzwang.
+      1...Kd8-e8
           2.Da2*f7 [+sDd8] +
               2...Ke8*f7 [+wDd1] #
 
+              empile:        3727
+            jouecoup:        1871
+        orig_rbechec:        1873
+        orig_rnechec:        1070
 Loesung beendet. 
 
 

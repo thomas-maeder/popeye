@@ -51,6 +51,10 @@ Sake, Portoroz 2002, 1° Mention d'Honneur
               2...Kd5*d4
                   3.Bb4-c3 #
 
+              empile:      210293
+            jouecoup:      133760
+        orig_rbechec:       61288
+        orig_rnechec:       84143
 solution finished. 
 
 
@@ -85,10 +89,18 @@ a)
 
   1.Qf1*b5 Be3*c5   2.Kd5*c5 Bf7*e6 = 
 
+              empile:     1072275
+            jouecoup:      421665
+        orig_rbechec:      184742
+        orig_rnechec:      390015
 b) wRe3 
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 = 
 
+              empile:     1107726
+            jouecoup:      491022
+        orig_rbechec:      195395
+        orig_rnechec:      458179
 solution finished. 
 
 
@@ -122,6 +134,10 @@ Mario PARRINELLO & Alessandro CUPPINI
   1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 # 
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 # 
 
+              empile:      687975
+            jouecoup:      269429
+        orig_rbechec:       84252
+        orig_rnechec:      268516
 solution finished. 
 
 
@@ -170,6 +186,10 @@ solution finished.
               2...Qa4*b4
                   3.Rb6-b5 #
 
+              empile:      128792
+            jouecoup:       87004
+        orig_rbechec:       36506
+        orig_rnechec:       60453
 solution finished. 
 
 
@@ -220,6 +240,10 @@ solution finished.
               2...Kd5*d4
                   3.Rc6-c4 #
 
+              empile:      245511
+            jouecoup:      152783
+        orig_rbechec:       70536
+        orig_rnechec:      104387
 solution finished. 
 
 

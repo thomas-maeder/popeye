@@ -36,6 +36,10 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
       1...kBd2*c1=kL [+wkDd1][skLc1->f8]
           2.kLd3*e2 [+skBe7][wkLe2->f1] #
 
+              empile:       17722
+            jouecoup:       10358
+        orig_rbechec:        3412
+        orig_rnechec:       10366
 Loesung beendet. 
 
 
@@ -84,6 +88,10 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
       1...kBc2*b1=kL [+wkLf1][skLb1->c8]
           2.kBb7*c8=kS [+skLc8][wkSc8->b1] #
 
+              empile:        6146
+            jouecoup:        5818
+        orig_rbechec:        3238
+        orig_rnechec:        5828
 Loesung beendet. 
 
 
@@ -116,6 +124,10 @@ Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
 
   1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[wkTh3->h1] # 
 
+              empile:       70274
+            jouecoup:       63025
+        orig_rbechec:          49
+        orig_rnechec:       37530
 Loesung beendet. 
 
 
@@ -174,6 +186,10 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
       1...kDh7*h5 [+wkTh1][skDh5->d8]
           2.kTh1*b1 [+skLc8][wkTb1->h1] #
 
+              empile:       15138
+            jouecoup:        9747
+        orig_rbechec:        6652
+        orig_rnechec:        9763
 Loesung beendet. 
 
 
@@ -311,6 +327,10 @@ Loesung beendet.
                       3...Kd2-c1
                           4.De2*c2 [+sTa8] #
 
+              empile:      604702
+            jouecoup:      409785
+        orig_rbechec:      296630
+        orig_rnechec:      152075
 Loesung beendet. 
 
 
@@ -342,6 +362,10 @@ Loesung beendet.
 
   1.nBe2-e1=nLI nBe7-e8=nLI   2.nBf2*e1=nLI nBf7*e8=nLI = 
 
+              empile:      605970
+            jouecoup:      371011
+        orig_rbechec:      152301
+        orig_rnechec:      335475
 Loesung beendet. 
 
 
@@ -374,6 +398,10 @@ Loesung beendet.
   1...nBd7-d8=nCA   2.nGIb4-c8 nBc7*d8=nGI [+nCAd1] # 
   1...nBc7-c8=nCA   2.Kc4*b4 [+nGIb8] nBd7*c8=nGI [+nCAc1] # 
 
+              empile:       57114
+            jouecoup:       39311
+        orig_rbechec:        5421
+        orig_rnechec:       39263
 Loesung beendet. 
 
 

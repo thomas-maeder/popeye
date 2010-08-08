@@ -25,6 +25,10 @@ h#1 with set play, but black king is in check
 the side to play can capture the king
   1.Kb8-a8 Sc4-b6 # 
 
+              empile:          21
+            jouecoup:          15
+        orig_rbechec:           5
+        orig_rnechec:          14
 solution finished. 
 
 
@@ -54,6 +58,10 @@ solution finished.
 
   1.g7-g5 h5*g6 ep. 
 
+              empile:           9
+            jouecoup:           7
+        orig_rbechec:           3
+        orig_rnechec:           4
 solution finished. 
 
 
@@ -83,6 +91,10 @@ solution finished.
 
   1...h3-h4   2.Bh6-g7 0-0-0 
 
+              empile:         384
+            jouecoup:         195
+        orig_rbechec:          52
+        orig_rnechec:         166
 solution finished. 
 
 
@@ -112,6 +124,10 @@ solution finished.
 
   1.Rg7-g4 Bh7-b1   2.Qh8-c3 + Ka3-a2 ##! 
 
+              empile:       11517
+            jouecoup:        8080
+        orig_rbechec:        5515
+        orig_rnechec:        6855
 solution finished. 
 
 
@@ -141,6 +157,10 @@ solution finished.
 
   1.Kg4-h3 Ke4-f3   2.g5-g4 + Kf3*g2 ## 
 
+              empile:       95340
+            jouecoup:       52685
+        orig_rbechec:       18320
+        orig_rnechec:       43833
 solution finished. 
 
 
@@ -170,6 +190,10 @@ solution finished.
 
   1.Qb5-e2 Ka3-b3   2.Qe2-b2 + c3*b2 # 
 
+              empile:       11143
+            jouecoup:        7794
+        orig_rbechec:        5604
+        orig_rnechec:        3128
 solution finished. 
 
 

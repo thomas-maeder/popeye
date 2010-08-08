@@ -24,114 +24,118 @@
   #2                         10 + 5
                  AMU
 
-  1.Tg7-g4 ? Zugzwang.
-      1...Dc4-c2 
+   1.Tg7-g4 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Tg7-g5 ? Drohung:
+   1.Tg7-g5 ? Drohung:
           2.e5-e6 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Tg7-g6 ? Zugzwang.
-      1...Dc4-c2 
+   1.Tg7-g6 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Tg7-f7 ? Zugzwang.
-      1...Dc4-c2 
+   1.Tg7-f7 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Tg7-g8 ? Zugzwang.
-      1...Dc4-c2 
+   1.Tg7-g8 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Tg7-h7 ? Zugzwang.
-      1...Dc4-c2 
+   1.Tg7-h7 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Ke7-e8 ? Zugzwang.
-      1...Dc4-c2 
+   1.Ke7-e8 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Ke7-d7 ? Zugzwang.
-      1...Dc4-c2 
+   1.Ke7-d7 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Ke7-f8 ? Zugzwang.
-      1...Dc4-c2 
+   1.Ke7-f8 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Ke7-f6 ? Zugzwang.
-      1...Dc4-c2 
+   1.Ke7-f6 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.Lb7-a8 ? Zugzwang.
-      1...Dc4-c2 
+   1.Lb7-a8 ? Zugzwang.
+      1...Dc4-c2
           2.Tc1*c2 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c1  !
+      1...Dc4*c1 !
 
-  1.e5-e6 ! Drohung:
+   1.e5-e6 ! Drohung:
           2.Sg3-e4 #
-      1...Dc4-c3 
+      1...Dc4-c3
           2.Tg7-g5 #
 
-  1.Tc1*c4 + ?
+   1.Tc1*c4 + ?
     Aber
-      1...b5*c4  !
+      1...b5*c4 !
 
-  1.Tc1-c3 ? Zugzwang.
-      1...Dc4*c3 
+   1.Tc1-c3 ? Zugzwang.
+      1...Dc4*c3
           2.Sg3-e4 #
     Aber
-      1...b4*c3  !
+      1...b4*c3 !
 
-  1.Tc1-c2 ? Zugzwang.
-      1...Dc4-c3 
+   1.Tc1-c2 ? Zugzwang.
+      1...Dc4-c3
           2.Sg3-e4 #
     Aber
-      1...Dc4*c2  !
+      1...Dc4*c2 !
 
+              empile:        6368
+            jouecoup:        5199
+        orig_rbechec:        4470
+        orig_rnechec:       26127
 Loesung beendet. 
 
 

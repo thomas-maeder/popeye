@@ -21,54 +21,58 @@
 +---a---b---c---d---e---f---g---h---+
   #3                         12 + 9
 
-      1...Rb1*b3 + 
+      1...Rb1*b3 +
           2.Sd4*b3 threat:
                   3.Sb3-d2 #
-              2...B/Rc1-c3 
+              2...B/Rc1-c3
                   3.Qe2-c2 #
-      1...B/Rc1*c4 
+      1...B/Rc1*c4
           2.Qe2-c2 +
-              2...B/Rc4-d3 
+              2...B/Rc4-d3
                   3.Sd4-e6 #
-      1...B/Rc1-c3 
+      1...B/Rc1-c3
           2.Qe2-c2 #
-      1...B/Rc1-c2 
+      1...B/Rc1-c2
           2.Qe2*c2 #
-      1...Bh6-f4 
+      1...Bh6-f4
           2.Rf6*f4 #
-      1...Bh6-f8 
+      1...Bh6-f8
           2.Rf6-f4 #
-      1...Bh6-g7 
+      1...Bh6-g7
           2.Rf6-f4 #
-      1...B/Sg8*c4 
+      1...B/Sg8*c4
           2.Rf6-e6 +
-              2...B/Sc4-e5 
+              2...B/Sc4-e5
                   3.Re6*e5 #
-      1...B/Sg8-d5 
+      1...B/Sg8-d5
           2.Rf6-e6 #
-      1...B/Sg8-e6 
+      1...B/Sg8-e6
           2.Rf6*e6 #
-      1...B/Sg8-h7 
+      1...B/Sg8-h7
           2.Rf6-e6 #
 
-  1.g3-g4 ! threat:
+   1.g3-g4 ! threat:
           2.S/Bb8-g3 +
-              2...Ke4-e5 
+              2...Ke4-e5
                   3.Sb6-d7 #
-      1...Rb1*b3 + 
+      1...Rb1*b3 +
           2.Sd4*b3 threat:
                   3.Sb3-d2 #
-              2...B/Rc1-c3 
+              2...B/Rc1-c3
                   3.Qe2-c2 #
-      1...B/Rc1*c4 
+      1...B/Rc1*c4
           2.Qe2-c2 +
-              2...B/Rc4-d3 
+              2...B/Rc4-d3
                   3.Sd4-e6 #
-      1...B/Sg8*c4 
+      1...B/Sg8*c4
           2.Rf6-e6 +
-              2...B/Sc4-e5 
+              2...B/Sc4-e5
                   3.Sd4-c2 #
 
+              empile:      312790
+            jouecoup:      170105
+        orig_rbechec:      117673
+        orig_rnechec:      166727
 solution finished. 
 
 
@@ -95,41 +99,45 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #3                         5 + 10
 
-  1.P/Sg4*f2 ! threat:
+   1.P/Sg4*f2 ! threat:
           2.P/Sf2-f4 +
-              2...Ke2-e3 
+              2...Ke2-e3
                   3.P/Sf4-f5 #
-      1...Bc1-f4 
+      1...Bc1-f4
           2.P/Sf2-f3 +
-              2...Ke2-e3 
+              2...Ke2-e3
                   3.P/Sf3-d2 #
-      1...Bd1-c2 
+      1...Bd1-c2
           2.P/Sf2*g3 +
-              2...Ke2-e3 
+              2...Ke2-e3
                   3.P/Sg3-g4 #
-      1...Re1-f1 
+      1...Re1-f1
           2.P/Sf2*d1 +
-              2...Ke2-e3 
+              2...Ke2-e3
                   3.Qg2-e2 #
-              2...Ke2-e1 
+              2...Ke2-e1
                   3.Qg2-e2 #
 
-  1.Sh3-g1 + ?
+   1.Sh3-g1 + ?
     but
-      1...Re1*g1  !
+      1...Re1*g1 !
 
-  1.Qg2-f3 + ?
-      1...Ke2-f1 
+   1.Qg2-f3 + ?
+      1...Ke2-f1
           2.P/Sg4-h2 +
-              2...g3*h2 
+              2...g3*h2
                   3.Qf3*f2 #
     but
-      1...Ke2*f3  !
+      1...Ke2*f3 !
 
-  1.Qg2*f2 + ?
+   1.Qg2*f2 + ?
     but
-      1...g3*f2  !
+      1...g3*f2 !
 
+              empile:      241654
+            jouecoup:      132212
+        orig_rbechec:       95669
+        orig_rnechec:      129280
 solution finished. 
 
 

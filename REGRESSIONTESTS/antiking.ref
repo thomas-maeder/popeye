@@ -29,6 +29,10 @@
       1...Ke4-d3
           2.Sc5-d7 #
 
+              empile:         511
+            jouecoup:         281
+        orig_rbechec:         206
+        orig_rnechec:         286
 solution finished. 
 
 
@@ -195,6 +199,10 @@ Kamikaze a8 b8 c8 d8 e8 h7 a5 g5 h5 c4 d4 f4 h4 a2 a1 f1
       1...kBe8-f7
           2.kBc4-b5 #
 
+              empile:       34683
+            jouecoup:       27599
+        orig_rbechec:        4423
+        orig_rnechec:       27661
 solution finished. 
 
 

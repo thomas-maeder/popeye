@@ -30,6 +30,10 @@
   1.Ra1-c1 Ra3-c3   2.Bg3-c7 + Rc3-c2 [wRc1, wBc7] # 
   1.Ra1-b1 Ra3-b3   2.Bg3-b8 Rb3-b2 [wRb1, wBb8] # 
 
+              empile:       17227
+            jouecoup:       11096
+        orig_rbechec:       22203
+        orig_rnechec:       38160
 solution finished. 
 
 
@@ -72,6 +76,10 @@ solution finished.
                                           6.Qd3-h3 +
                                               6...f2-f1=Q [bQh3] #
 
+              empile:    40040662
+            jouecoup:    16707541
+        orig_rbechec:    36527522
+        orig_rnechec:    33540434
 solution finished. 
 
 
@@ -112,6 +120,10 @@ solution finished.
       1...Qb1-c1 [wBf1, bPc2] +
           2.Qg6-g5 [wQc1, wPd5, wPh5] #
 
+              empile:        5682
+            jouecoup:        4228
+        orig_rbechec:       23605
+        orig_rnechec:       13594
 solution finished. 
 
 
@@ -228,6 +240,10 @@ solution finished.
     but
       1...Re8*e4 !
 
+              empile:       16840
+            jouecoup:       14441
+        orig_rbechec:      110369
+        orig_rnechec:       44689
 solution finished. 
 
 
@@ -329,6 +345,10 @@ solution finished.
     but
       1...Kc1*c2 !
 
+              empile:        9839
+            jouecoup:        6037
+        orig_rbechec:       16376
+        orig_rnechec:       30650
 solution finished. 
 
 
@@ -365,6 +385,10 @@ solution finished.
       1...f7-f6
           2.Qe4-e7 [wPf6] #
 
+              empile:        3721
+            jouecoup:        1307
+        orig_rbechec:        3731
+        orig_rnechec:        4831
 solution finished. 
 
 
@@ -430,6 +454,10 @@ solution finished.
     but
       1...f6*e5 !
 
+              empile:        9495
+            jouecoup:        6757
+        orig_rbechec:       33691
+        orig_rnechec:       29261
 solution finished. 
 
 

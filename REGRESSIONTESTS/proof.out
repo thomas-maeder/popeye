@@ -25,6 +25,10 @@
 
   1.Sb1-c3 d7-d6   2.Sc3-d5 Sb8-d7   3.Sd5*e7 Sd7-f6   4.Se7*g8 Sf6*g8 dia 
 
+              empile:       52143
+            jouecoup:       52151
+        orig_rbechec:         535
+        orig_rnechec:        2821
 Loesung beendet. 
 
 
@@ -56,6 +60,10 @@ Loesung beendet.
 
   1.Sg1-f3 e7-e5   2.Sf3*e5 Sg8-e7   3.Se5*d7 Se7-c6   4.Sd7*b8 Sc6*b8 dia 
 
+              empile:        4412
+            jouecoup:        4420
+        orig_rbechec:          37
+        orig_rnechec:         237
 Loesung beendet. 
 
 
@@ -87,6 +95,10 @@ Loesung beendet.
 
   1.Sg1-f3 h7-h6   2.e2-e4 e7-e5   3.Sf3-g5 h6-h5   4.Sg5-h3 h5-h4   5.Sh3-g1 h4-h3 dia 
 
+              empile:        2665
+            jouecoup:        1852
+        orig_rbechec:         135
+        orig_rnechec:         110
 Loesung beendet. 
 
 
@@ -137,6 +149,10 @@ Loesung beendet.
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
+              empile:      160019
+            jouecoup:      160031
+        orig_rbechec:        6201
+        orig_rnechec:       10502
 Loesung beendet. 
 
 
@@ -189,6 +205,10 @@ a)
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
+              empile:      261425
+            jouecoup:      261604
+        orig_rbechec:       23305
+        orig_rnechec:        9980
 b) dia7.5
 
  21  (h2-h4 )
@@ -213,6 +233,10 @@ b) dia7.5
  39  (Sb1-c3 )
  40  (Sb1-a3 )
 
+              empile:      827640
+            jouecoup:      827820
+        orig_rbechec:       71804
+        orig_rnechec:       27312
 Loesung beendet. 
 
 
@@ -263,6 +287,10 @@ Loesung beendet.
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
+              empile:      147253
+            jouecoup:      147271
+        orig_rbechec:        5665
+        orig_rnechec:       10748
 Loesung beendet. 
 
 
@@ -314,6 +342,10 @@ Loesung beendet.
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
+              empile:      180626
+            jouecoup:      180660
+        orig_rbechec:        7810
+        orig_rnechec:       14526
 Loesung beendet. 
 
 
@@ -364,6 +396,10 @@ Loesung beendet.
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
+              empile:       25266
+            jouecoup:       25286
+        orig_rbechec:        1342
+        orig_rnechec:        1032
 Loesung beendet. 
 
 
@@ -415,6 +451,10 @@ Loesung beendet.
  19  (Sb1-c3 )
  20  (Sb1-a3 )
 
+              empile:    12706233
+            jouecoup:    12706264
+        orig_rbechec:      496844
+        orig_rnechec:      491212
 Loesung beendet. 
 
 
@@ -445,6 +485,10 @@ Loesung beendet.
 
   1.e2-e3 d7-d6   2.Dd1-h5 Lc8-g4   3.e3-e4 Lg4-d1   4.Dh5*d1 dia 
 
+              empile:       33701
+            jouecoup:       33708
+        orig_rbechec:        2035
+        orig_rnechec:        2112
 Loesung beendet. 
 
 
@@ -475,6 +519,10 @@ Loesung beendet.
 
   1.c2-c3 e7-e6   2.Dd1-a4 Ke8-e7   3.b2-b3 d7-d6   4.Da4-e8 + Ke7*e8 dia 
 
+              empile:       59852
+            jouecoup:       59860
+        orig_rbechec:        3262
+        orig_rnechec:        3318
 Loesung beendet. 
 
 

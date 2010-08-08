@@ -25,46 +25,50 @@ cooked, even with suggestion +WPb6 in Chessics #8
   #2                          6 + 3
             AnnanChess    
 
-  1.Rc4-c5 + !
-      1...Kb5-b6 
+   1.Rc4-c5 + !
+      1...Kb5-b6
           2.Rc3-f6 #
 
-  1.Sb4-a3 + !
-      1...Kb5-b6 
+   1.Sb4-a3 + !
+      1...Kb5-b6
           2.Rc4-a4 #
           2.Rc3-f6 #
           2.Bb3-a4 #
 
-  1.Sb4-c5 + !
-      1...Kb5-b6 
+   1.Sb4-c5 + !
+      1...Kb5-b6
           2.Rc3-f6 #
 
-  1.Sb4-a5 ! zugzwang.
-      1...Kb5-b6 
+   1.Sb4-a5 ! zugzwang.
+      1...Kb5-b6
           2.Bb3-a4 #
-      1...b7-b6 
+      1...b7-b6
           2.Rc3-b2 #
 
-  1.Rc3-b2 ! zugzwang.
-      1...Kb5-b6 
+   1.Rc3-b2 ! zugzwang.
+      1...Kb5-b6
           2.Sb4-c3 #
-      1...Kb5*c4 
+      1...Kb5*c4
           2.Bc2-d3 #
-      1...Kb5-a4 
+      1...Kb5-a4
           2.Sb4-c5 #
-      1...b7-b6 
+      1...b7-b6
           2.Sb4-a3 #
           2.Sb4-d2 #
           2.Sb4-d6 #
           2.Sb4-a5 #
 
-  1.Rc3-f6 ! threat:
+   1.Rc3-f6 ! threat:
           2.Sb4-c5 #
-      1...b7-b6 
+      1...b7-b6
           2.Rf6-f5 #
           2.Sb4-a3 #
           2.Sb4-d6 #
 
+              empile:        3311
+            jouecoup:        2502
+        orig_rbechec:        1939
+        orig_rnechec:        2531
 solution finished. 
 
 
@@ -97,6 +101,10 @@ solution finished.
 
   1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 # 
 
+              empile:     7230355
+            jouecoup:     6007469
+        orig_rbechec:      704015
+        orig_rnechec:     5708105
 solution finished. 
 
 
@@ -126,11 +134,15 @@ solution finished.
   s#2                         2 + 3
             AnnanChess    
 
-  1.Rg4-g2 ! zugzwang.
-      1...h3*g2 + 
+   1.Rg4-g2 ! zugzwang.
+      1...h3*g2 +
           2.Kf1-g1 +
               2...Kh1-g3 #
 
+              empile:         962
+            jouecoup:         455
+        orig_rbechec:         457
+        orig_rnechec:         256
 solution finished. 
 
 
@@ -160,14 +172,18 @@ solution finished.
   s#2                         7 + 6
             AnnanChess    
 
-  1.c4-c5 ! zugzwang.
-      1...Sb6*c5 
+   1.c4-c5 ! zugzwang.
+      1...Sb6*c5
           2.Kb4-a5 +
               2...Kd4*b5 #
-      1...d6*c5 + 
+      1...d6*c5 +
           2.Kb4-c4 +
               2...Kd4-c6 #
 
+              empile:       12190
+            jouecoup:        5269
+        orig_rbechec:        5273
+        orig_rnechec:        3519
 solution finished. 
 
 
@@ -204,6 +220,10 @@ ddlkl
   1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-h5 Re3-a3 # 
   1.Kd3-d4 + Kb2-c2   2.Kd4-a1 Re6-e3   3.Qd5-g5 Re3-a3 # 
 
+              empile:      136142
+            jouecoup:      100689
+        orig_rbechec:       14499
+        orig_rnechec:      100230
 solving interrupted. 
 
 
@@ -233,10 +253,14 @@ solving interrupted.
   #2                          3 + 3
             AnnanChess    
 
-  1.Ba1-f6 ! zugzwang.
-      1...Kh7-h8 
+   1.Ba1-f6 ! zugzwang.
+      1...Kh7-h8
           2.Kf5-g5 #
 
+              empile:         583
+            jouecoup:         473
+        orig_rbechec:         451
+        orig_rnechec:         476
 solution finished. 
 
 
@@ -270,10 +294,18 @@ a)
 
   1.Bg1-h2 Kb1-a2   2.Kh1-a8 Ka2-d5   3.Bh2-b8 Ba1-d4 # 
 
+              empile:      376638
+            jouecoup:      338707
+        orig_rbechec:       17391
+        orig_rnechec:      329824
 b) PolishType
 
   1.Kb1-a2 Kh1-g2   2.Ba1-b1 Kg2-d5   3.Ka2-a1 Bg1-d4 # 
 
+              empile:      334981
+            jouecoup:      296491
+        orig_rbechec:       16483
+        orig_rnechec:      288511
 solution finished. 
 
 
@@ -305,6 +337,10 @@ solution finished.
 
   1.Kh8-g7 Bb8-a7   2.Kg7-a1 Ka8-e4   3.Bg8-a2 Ba7-d4 # 
 
+              empile:      252508
+            jouecoup:      213286
+        orig_rbechec:       14519
+        orig_rnechec:      207573
 solution finished. 
 
 
@@ -337,6 +373,10 @@ solution finished.
 
   1.Ka8-b7   2.Kb7-d5   3.Bb8-e5   4.Be5-d4   5.Bd4-e4   6.Kd5-e5   7.Ke5-f4   8.Be4*f3   9.Bf3-g3  10.Kf4-e4  11.Bg3-e5  12.Ke4-a8  13.Be5-b8 Bg4-f3 # 
 
+              empile:      870436
+            jouecoup:      841236
+        orig_rbechec:      455385
+        orig_rnechec:      841222
 solution finished. 
 
 

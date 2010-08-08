@@ -28,15 +28,27 @@ a)
 
   1.Lb3-c4 f7-f8=L +   2.Ka3-b3 e7-e8=D # 
 
+              empile:      272031
+            jouecoup:      151154
+        orig_rbechec:           0
+        orig_rnechec:      150722
 b) sLb3-->f2
 
   1.Lf2-d4 f7-f8=D   2.Ld4-b2 e7-e8=S # 
 
+              empile:      319454
+            jouecoup:      175548
+        orig_rbechec:           0
+        orig_rnechec:      175061
 c) sKa3-->f2
 
   1.Kf2-e2 f7-f8=T   2.Se4-f2 e7-e8=L # 
   1.Kf2-f1 f7-f8=S   2.Tf4-f2 e7-e8=T # 
 
+              empile:      226976
+            jouecoup:      143909
+        orig_rbechec:           0
+        orig_rnechec:      143487
 Loesung beendet. 
 
 
@@ -68,35 +80,43 @@ Loesung beendet.
 
 a) 
 
-  1.Da5-e1 ! Drohung:
+   1.Da5-e1 ! Drohung:
           2.Sc1-e2 #
           2.Sc1-d3 #
           2.Sc1-a2 #
-      1...La4*b3 [+wLf1] 
+      1...La4*b3 [+wLf1]
           2.Sc1*b3 [+sLc8] #
-      1...d4-d3 
+      1...d4-d3
           2.Sc1-a2 #
-      1...Tf4*f2 
+      1...Tf4*f2
           2.Sc1-d3 #
-      1...Sa6-b4 
+      1...Sa6-b4
           2.Sc1-e2 #
 
+              empile:        5448
+            jouecoup:        4255
+        orig_rbechec:         463
+        orig_rnechec:        4265
 b) MarsCirce
 
-  1.Ka3-b2 ! Drohung:
+   1.Ka3-b2 ! Drohung:
           2.Sc1-e2 #
           2.Sc1-d3 #
           2.Sc1-a2 #
-      1...La4*g4 
+      1...La4*g4
           2.Sc1-e2 #
-      1...d4*c6 
+      1...d4*c6
           2.Sc1-d3 #
-      1...d4-d3 
+      1...d4-d3
           2.Sc1-e2 #
           2.Sc1-a2 #
-      1...c5*b6 
+      1...c5*b6
           2.Sc1-a2 #
 
+              empile:       13308
+            jouecoup:        3852
+        orig_rbechec:        1343
+        orig_rnechec:        3863
 Loesung beendet. 
 
 
@@ -132,6 +152,10 @@ Loesung beendet.
   1.b2-b1=T e7-e8=T   2.Tb1*a6 Lg4*a6 = 
   1.b2-b1=L e7-e8=L   2.Lb1*g4 Dd5*g4 = 
 
+              empile:     1687564
+            jouecoup:      308540
+        orig_rbechec:      112692
+        orig_rnechec:      307754
 Loesung beendet. 
 
 
@@ -164,6 +188,10 @@ Loesung beendet.
   1.c2-c1=S b7-b8=S   2.Sc1-e2 Sb8*e2 # 
   1.c2-c1=L b7-b8=L   2.Lc1*b4 Lb8*b2 # 
 
+              empile:       76795
+            jouecoup:       30435
+        orig_rbechec:        2917
+        orig_rnechec:       30322
 Loesung beendet. 
 
 
@@ -196,6 +224,10 @@ Loesung beendet.
   1.c2-c1=S a7-a8=D +   2.Sc1-b3 Da8*b3 # 
   1.c2-c1=L b7-b8=T +   2.Lc1-a3 Tb8*a3 # 
 
+              empile:       50567
+            jouecoup:       21206
+        orig_rbechec:        2323
+        orig_rnechec:       21060
 Loesung beendet. 
 
 
@@ -228,10 +260,18 @@ a)
 
   1.Lb8*g3 b7-b8=D   2.Lg3-h2 Db8*h2 # 
 
+              empile:       33764
+            jouecoup:       18965
+        orig_rbechec:        6596
+        orig_rnechec:       18522
 b) MarsCirce
 
   1.Kh5-g4 Lg3-h4   2.Lb8-g3 b7-b8=D # 
 
+              empile:      246422
+            jouecoup:      111618
+        orig_rbechec:        2386
+        orig_rnechec:      111207
 Loesung beendet. 
 
 
@@ -264,6 +304,10 @@ Loesung beendet.
 
   1...a7-a8=T   2.c2-c1=S c7-c8=L +   3.Kg2-h1 b7-b8=D # 
 
+              empile:      475029
+            jouecoup:      238392
+        orig_rbechec:       17432
+        orig_rnechec:      235979
 Loesung beendet. 
 
 
@@ -297,6 +341,10 @@ Loesung beendet.
 
   1.Kh5-h6 Kg8-h8   2.Kh6-h7 Kh8-g8   3.Kh7-h8 Kg8-h7   4.Kh8-g8 Kh7-h6   5.Kg8-f8 Kh6-h5   6.Kf8-e8 Kh5-h4   7.Ke8-d8 Kh4-h3   8.Kd8-c8 Kh3-h2   9.Kc8-b8 Kh2-g1  10.Kb8-a7 Kg1-f1  11.Ka7-a6 Kf1-e1  12.Ka6-a5 Ke1-d1  13.Ka5-a4 Kd1-c1  14.Ka4-a3 Kc1-b1  15.Ka3-a2 Kb1-a1  16.Ka2-b1 Ka1-a2  17.Kb1-c1 Ka2-b1 = 
 
+              empile:       62750
+            jouecoup:       13229
+        orig_rbechec:        6345
+        orig_rnechec:        7880
 Loesung beendet. 
 
 
@@ -330,6 +378,10 @@ Loesung beendet.
 
   1.Kh1-h2   2.Kh2-h3   3.Kh3-h4   4.Kh4-h5   5.Kh5-h6   6.Kh6-h7   7.Kh7-g8   8.Kg8-f8   9.Kf8-e8  10.Ke8-d8  11.Kd8-c8  12.Kc8-b8  13.Kb8-a7  14.Ka7-a6  15.Ka6-a5  16.Ka5-a4  17.Ka4-a3  18.Ka3-a2  19.Ka2-b1  20.Kb1-c1 Ka1-b1 = 
 
+              empile:        3194
+            jouecoup:         728
+        orig_rbechec:         608
+        orig_rnechec:         707
 Loesung beendet. 
 
 
@@ -359,14 +411,14 @@ Loesung beendet.
   =3                          3 + 1
               MarsCirce
 
-  1.e7-e8=S !
-      1...Kc2-b2 
+   1.e7-e8=S !
+      1...Kc2-b2
           2.c7-c8=D
-              2...Kb2-a2 
+              2...Kb2-a2
                   3.f7-f8=L =
-      1...Kc2-c1 
+      1...Kc2-c1
           2.c7-c8=D +
-              2...Kc1-d1 
+              2...Kc1-d1
                   3.Dc8-a6 =
                   3.Dc8-b7 =
                   3.Dc8-h3 =
@@ -387,18 +439,22 @@ Loesung beendet.
                   3.f7-f8=D =
                   3.f7-f8=S =
                   3.f7-f8=L =
-              2...Kc1-b2 
+              2...Kc1-b2
                   3.f7-f8=T =
-      1...Kc2-d1 
+      1...Kc2-d1
           2.f7-f8=D =
           2.c7-c8=D =
-      1...Kc2-b1 
+      1...Kc2-b1
           2.c7-c8=D +
-              2...Kb1-b2 
+              2...Kb1-b2
                   3.f7-f8=T =
-              2...Kb1-a2 
+              2...Kb1-a2
                   3.f7-f8=L =
 
+              empile:       41639
+            jouecoup:        7747
+        orig_rbechec:           0
+        orig_rnechec:        7605
 Loesung beendet. 
 
 
@@ -435,6 +491,10 @@ Loesung beendet.
   1.b2-b1=T e7-e8=T   2.Tb1*a6 Lg4*a6 = 
   1.b2-b1=L e7-e8=L   2.Lb1*g4 Dd5*g4 = 
 
+              empile:     1687564
+            jouecoup:      308540
+        orig_rbechec:      112692
+        orig_rnechec:      307754
 Loesung beendet. 
 
 
@@ -467,6 +527,10 @@ S. 100, Lsg. zu Nr. 100, Das Vielvaeterproblem, 1989
 
   1.b6-b7   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D # 
 
+              empile:        8320
+            jouecoup:        3782
+        orig_rbechec:        3780
+        orig_rnechec:        1444
 Loesung beendet. 
 
 
@@ -499,6 +563,10 @@ Loesung beendet.
 
   1.b6-b7   2.b7-b8=T   3.Kc8-b7   4.Tb8*a7 [+sBb8] # 
 
+              empile:        6671
+            jouecoup:        2748
+        orig_rbechec:         855
+        orig_rnechec:        2705
 Loesung beendet. 
 
 
@@ -540,6 +608,10 @@ Loesung beendet.
   1.Kc8-b7   2.Kb7-a6   3.Ka6-b5   4.Kb5-c6   5.Kc6-c7   6.Kc7-b8 a7*b6 == 
   1.b6-b7   2.b7-b8=L   3.Lb8-c7   4.Lc7-d6   5.Ld6-b4   6.Lb4-a5 a7-a6 == 
 
+              empile:     1968734
+            jouecoup:      587831
+        orig_rbechec:      522867
+        orig_rnechec:      175939
 Loesung beendet. 
 
 
@@ -573,10 +645,18 @@ a)
 
   1.Kd7-c6   2.Kc6-b5   3.Kb5-a4   1.e7-e8=L   2.f7-f8=T # 
 
+              empile:      168398
+            jouecoup:       95019
+        orig_rbechec:       16218
+        orig_rnechec:       95001
 b) MarsSpiegelCirce
 
   1.Kd7-e6   2.Ke6-f5   3.Kf5-g4   1.f7-f8=T   2.e7-e8=L # 
 
+              empile:       54699
+            jouecoup:       28466
+        orig_rbechec:        5903
+        orig_rnechec:       27740
 Loesung beendet. 
 
 
@@ -609,6 +689,10 @@ Loesung beendet.
 
   1.nBg7-g8=nS   2.nBd7-d8=nT   3.nBa7-a8=nD   4.nBf7-f8=nL # 
 
+              empile:       20895
+            jouecoup:       10494
+        orig_rbechec:        1624
+        orig_rnechec:        9998
 Loesung beendet. 
 
 
@@ -644,6 +728,10 @@ Loesung beendet.
   1.c7-c5 g2-g4   2.c5-c4 g4-g5   3.c4-c3 g5-g6   4.c3-c2 g6-g7   5.c2-c1=L g7-g8=D # 
   4  (c7-c6 )
 
+              empile:      922495
+            jouecoup:      408393
+        orig_rbechec:       37023
+        orig_rnechec:      374622
 Loesung beendet. 
 
 
@@ -677,10 +765,18 @@ a)
 
   1...f7-f8=T   2.Ke6-f7 e7-e8=S   3.Kf7-g8 Se8-g7   4.Kg8-h8 Tf8-g8 # 
 
+              empile:     2110847
+            jouecoup:     1065729
+        orig_rbechec:       65392
+        orig_rnechec:     1015850
 b) sKe6-->d5
 
   1...f7-f8=L   2.Kd5-c4 Lf8-g7   3.Kc4-b3 Lg7-c3   4.Kb3-c2 e7-e8=D # 
 
+              empile:     2342852
+            jouecoup:     1175775
+        orig_rbechec:       72685
+        orig_rnechec:     1120874
 Loesung beendet. 
 
 
@@ -712,6 +808,10 @@ Loesung beendet.
 
   1.f2-f1=L g6-g7   2.d2-d1=S + g7-g8=D   3.Sd1-b2 d7-d8=T # 
 
+              empile:     3458840
+            jouecoup:     1962883
+        orig_rbechec:       73008
+        orig_rnechec:     1941996
 Loesung beendet. 
 
 
@@ -749,6 +849,10 @@ eigentlich:  ser-h=8/3
   4  (Ka8-b8 )
   5  (Ka8-b7 )
 
+              empile:      791364
+            jouecoup:      160373
+        orig_rbechec:       99902
+        orig_rnechec:      139786
 Loesung beendet. 
 
 

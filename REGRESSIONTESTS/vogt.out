@@ -27,37 +27,41 @@
   #2                          5 + 8
           VogtlaenderSchach
 
-  1.Sg6-e5 ? Drohung:
+   1.Sg6-e5 ? Drohung:
           2.Dc2-c8 #
-      1...f4-f3 
+      1...f4-f3
           2.Ga4-e8 #
     Aber
-      1...Ka8-b7  !
+      1...Ka8-b7 !
 
-  1.Sg6-e7 + ?
+   1.Sg6-e7 + ?
     Aber
-      1...Gh4-e4  !
+      1...Gh4-e4 !
 
-  1.Ga4-e8 + ?
+   1.Ga4-e8 + ?
     Aber
-      1...Gf8-f3  !
+      1...Gf8-f3 !
 
-  1.Ga4-g4 ? Drohung:
+   1.Ga4-g4 ? Drohung:
           2.Sg6-e7 #
-      1...f4-f3 
+      1...f4-f3
           2.Dc2-c8 #
     Aber
-      1...Ge1-e3  !
+      1...Ge1-e3 !
 
-  1.Dc2-f5 ! Drohung:
+   1.Dc2-f5 ! Drohung:
           2.Ga4-e8 #
-      1...f4-f3 
+      1...f4-f3
           2.Sg6-e7 #
 
-  1.Dc2-c8 + ?
+   1.Dc2-c8 + ?
     Aber
-      1...Gb8-g3 +  !
+      1...Gb8-g3 + !
 
+              empile:        7396
+            jouecoup:        5838
+        orig_rbechec:        5852
+        orig_rnechec:        2425
 Loesung beendet. 
 
 

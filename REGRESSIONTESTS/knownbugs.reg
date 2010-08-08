@@ -25,8 +25,12 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
              Magic a7 e6
           SingleBox    Type1
 
-  1.mRa7-d7 + !
+   1.mRa7-d7 + !
 
+              empile:          47
+            jouecoup:          47
+        orig_rbechec:          48
+        orig_rnechec:          49
 solution finished. 
 
 
@@ -58,22 +62,34 @@ a) should produce same solutions as b) (cf. issue 2790694)
 
 a) 
 
-  1.Sa3-c2 !
+   1.Sa3-c2 !
 
-  1.Sa3-c4 !
+   1.Sa3-c4 !
 
+              empile:          23
+            jouecoup:          23
+        orig_rbechec:           0
+        orig_rnechec:           0
 b) SingleBox    Type2
 
-  1.b7-b8=B [bBh1] !
+   1.b7-b8=B [bBh1] !
 
-  1.Sa3-c2 !
+   1.Sa3-c2 !
 
+              empile:          24
+            jouecoup:          28
+        orig_rbechec:           0
+        orig_rnechec:           0
 c) wBa8 
 
-  1.b7-b8 !
+   1.b7-b8 !
 
-  1.Sa3-c2 !
+   1.Sa3-c2 !
 
+              empile:          24
+            jouecoup:          28
+        orig_rbechec:           0
+        orig_rnechec:           0
 solving interrupted. 
 
 
@@ -103,8 +119,12 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
   #1                     2 + 1 + 1n
                Madrasi
 
-  1.Rb8-b1 # !
+   1.Rb8-b1 # !
 
+              empile:          83
+            jouecoup:          71
+        orig_rbechec:          37
+        orig_rnechec:          73
 solution finished. 
 
 
@@ -134,8 +154,12 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
   #1                     2 + 1 + 1n
              EiffelChess
 
-  1.Rb8-b1 # !
+   1.Rb8-b1 # !
 
+              empile:          48
+            jouecoup:          47
+        orig_rbechec:          29
+        orig_rnechec:          49
 solution finished. 
 
 

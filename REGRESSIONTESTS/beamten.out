@@ -28,6 +28,10 @@
 
   1.bSa8-c7 bTa6-b6   2.bKb8-a8 Kd5-c6   3.bSc7-d5 bTb6-a6   4.bSd5-b6 Kc6*b6 [+sbSb8] # 
 
+              empile:      119511
+            jouecoup:       52498
+        orig_rbechec:       65573
+        orig_rnechec:       83785
 Loesung beendet. 
 
 
@@ -60,6 +64,10 @@ Loesung beendet.
 
   1.bDa6-a1 bTf6-a6   2.bDa1-f6 + bTa6-a1 # 
 
+              empile:       17519
+            jouecoup:        5170
+        orig_rbechec:       16426
+        orig_rnechec:        7053
 Loesung beendet. 
 
 
@@ -91,6 +99,10 @@ Loesung beendet.
 
   1.bBa7-a6 b6-b7 +   2.Ka8-a7 b7-b8=T = 
 
+              empile:          81
+            jouecoup:          43
+        orig_rbechec:          66
+        orig_rnechec:          47
 Loesung beendet. 
 
 
@@ -124,6 +136,10 @@ Loesung beendet.
   1.Sd1-b2 Td3-f3   2.Sb3-d2 Tf3-d3   3.Sd2-b1 Td3-a3 # 
   1.Sb3-c1 Td3-c3   2.Sc1-a2 Tc3-d3   3.Sd1-b2 Td3-d1 # 
 
+              empile:       27180
+            jouecoup:        8487
+        orig_rbechec:       17512
+        orig_rnechec:       18596
 Loesung beendet. 
 
 
@@ -158,10 +174,18 @@ a)
 
   1.bBe2-e1=bT bBe7-e8=bL   2.bTe1-e5 bLe8*c6 # 
 
+              empile:       22099
+            jouecoup:       13791
+        orig_rbechec:       19321
+        orig_rnechec:       15216
 b) wbSa5-->c5
 
   1.bBe2-e1=bD bBe7-e8=bS   2.bDe1-e7 bSe8-c7 # 
 
+              empile:       23547
+            jouecoup:       13920
+        orig_rbechec:       25087
+        orig_rnechec:       15051
 Loesung beendet. 
 
 
@@ -206,6 +230,10 @@ Loesung beendet.
       1...Sc3-b5
           2.Sb2-d3 #
 
+              empile:        9949
+            jouecoup:        3340
+        orig_rbechec:        8271
+        orig_rnechec:        9418
 Loesung beendet. 
 
 
@@ -279,6 +307,10 @@ Loesung beendet.
  25  (Lg2-d5 )
  26  (Lg2-e4 )
  27  (Lg2-f3 )
+              empile:    38779385
+            jouecoup:    12626620
+        orig_rbechec:    33173683
+        orig_rnechec:    16970095
 Loesung beendet. 
 
 
@@ -317,6 +349,10 @@ Loesung beendet.
   3  (Sa3-c4 )
   4  (Sa3-b5 )
 
+              empile:     1090916
+            jouecoup:      229705
+        orig_rbechec:      578926
+        orig_rnechec:      720816
 Loesung beendet. 
 
 

@@ -24,18 +24,22 @@
   #2                          8 + 7
                 Lortap
 
-  1.Sd7-e5 ! zugzwang.
-      1...Sa1*c2 
+   1.Sd7-e5 ! zugzwang.
+      1...Sa1*c2
           2.Kb5-c5 #
-      1...Sa1-b3 
+      1...Sa1-b3
           2.Sd1-c3 #
-      1...Kd4*e5 
+      1...Kd4*e5
           2.Be3-d4 #
-      1...f6*e5 
+      1...f6*e5
           2.Kb5-c4 #
-      1...h6-h5 
+      1...h6-h5
           2.Se5-f3 #
 
+              empile:        2046
+            jouecoup:        1320
+        orig_rbechec:        1303
+        orig_rnechec:        2425
 solution finished. 
 
 
@@ -65,6 +69,10 @@ solution finished.
 
   1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 # 
 
+              empile:      457976
+            jouecoup:      425888
+        orig_rbechec:       79049
+        orig_rnechec:      444070
 solution finished. 
 
 
@@ -96,10 +104,18 @@ a)
 
   1...Kc8-c7   2.Be8-f7 Bf8-g7   3.Ke6-e7 Kc7*d7 # 
 
+              empile:       68860
+            jouecoup:       61461
+        orig_rbechec:        8310
+        orig_rnechec:       82602
 b) Patrouille
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 # 
 
+              empile:      135139
+            jouecoup:      102282
+        orig_rbechec:        9804
+        orig_rnechec:      152876
 solution finished. 
 
 
@@ -130,6 +146,10 @@ solution finished.
   1.Ka4-a5 Se3-d5   2.Sb4-c6 Rf4-a4 # 
   1.Rc5-c3 Rf4-f6   2.Rc3-b3 Rf6-a6 # 
 
+              empile:      130726
+            jouecoup:      111122
+        orig_rbechec:       10313
+        orig_rnechec:      131576
 solution finished. 
 
 
@@ -160,10 +180,18 @@ a)
 
   1.Bd4-c3 Rf8-f5   2.Re4-c4 Rf5-d5 # 
 
+              empile:       70285
+            jouecoup:       32542
+        orig_rbechec:        8453
+        orig_rnechec:       32182
 b) Lortap
 
   1.Bd4-c3 Bh7-f5   2.Re4-c4 Rf8-d8 # 
 
+              empile:      242673
+            jouecoup:      160058
+        orig_rbechec:       26344
+        orig_rnechec:      243349
 solution finished. 
 
 
@@ -194,14 +222,26 @@ a)
 
   1.Re6-f6 Sd6-f7   2.Kd5-e6 Bb5-c4 # 
 
+              empile:       33085
+            jouecoup:       13383
+        orig_rbechec:        4326
+        orig_rnechec:       13084
 b) Lortap
 
   1.Kd5-e5 Sd6-c4   2.Ke5-d6 Bb5*c6 # 
 
+              empile:       64577
+            jouecoup:       45078
+        orig_rbechec:        8079
+        orig_rnechec:       56253
 c) Patrouille
 
   1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 # 
 
+              empile:       73338
+            jouecoup:       55343
+        orig_rbechec:        6408
+        orig_rnechec:       72275
 solution finished. 
 
 
@@ -233,6 +273,10 @@ solution finished.
 
   1.Kd4-c4 Rd3-e3   2.Kc4-b3 Qg6-b1 # 
 
+              empile:      157738
+            jouecoup:       92524
+        orig_rbechec:       25292
+        orig_rnechec:      184356
 solution finished. 
 
 
@@ -261,19 +305,23 @@ solution finished.
            BlackMaximummer
                 Lortap
 
-  1.Ka6-a7 ! threat:
+   1.Ka6-a7 ! threat:
           2.Ka7-b8 zugzwang.
-              2...Rc1-c8 
+              2...Rc1-c8
                   3.Kb8-c7
                       3...Bf5-b1 #
-      1...Rc1-c8 
+      1...Rc1-c8
           2.Ka7-a8 zugzwang.
-              2...Rc8-c1 
+              2...Rc8-c1
                   3.Ka8-b8 zugzwang.
-                      3...Rc1-c8 
+                      3...Rc1-c8
                           4.Kb8-c7
                               4...Bf5-b1 #
 
+              empile:      290715
+            jouecoup:      116448
+        orig_rbechec:       33357
+        orig_rnechec:      140983
 solution finished. 
 
 
@@ -304,6 +352,10 @@ solution finished.
 
   1.Ba8-f3 Kd3-d2 # 
 
+              empile:         314
+            jouecoup:         284
+        orig_rbechec:          66
+        orig_rnechec:         338
 solution finished. 
 
 
@@ -332,18 +384,22 @@ solution finished.
               AntiCirce
                 Lortap
 
-  1.Qg4-e6 + ?
+   1.Qg4-e6 + ?
     but
-      1...Ke1-f1  !
+      1...Ke1-f1 !
 
-  1.Qg4-b4 + ?
+   1.Qg4-b4 + ?
     but
-      1...Ke1-f1  !
+      1...Ke1-f1 !
 
-  1.Kd3-d2 + !
-      1...Ke1-f1 
+   1.Kd3-d2 + !
+      1...Ke1-f1
           2.Qg4-g1 #
 
+              empile:        3751
+            jouecoup:        2926
+        orig_rbechec:        3698
+        orig_rnechec:        4312
 solution finished. 
 
 
@@ -373,6 +429,10 @@ solution finished.
 
   1.e2-e4 d7-d5   2.Bf1-a6 Bc8-d7   3.Sg1-e2 d5*e4 dia 
 
+              empile:         440
+            jouecoup:         438
+        orig_rbechec:          30
+        orig_rnechec:          24
 solution finished. 
 
 
@@ -404,6 +464,10 @@ solution finished.
   1.f2-f1=Q Kd3-e2 # 
   1.f2-f1=R Kd3-e2 # 
 
+              empile:          90
+            jouecoup:          92
+        orig_rbechec:          89
+        orig_rnechec:         148
 solution finished. 
 
 

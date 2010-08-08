@@ -27,6 +27,10 @@
   1.Da7-e3 Ge8-e2   2.De3*f4 Gf6*f4 [+wGf2] # 
   1.Da7-g7 Gg2-g8   2.Dg7*f6 Gf4*f6 [+wGf8] # 
 
+              empile:        9210
+            jouecoup:        7429
+        orig_rbechec:           0
+        orig_rnechec:        7376
 Loesung beendet. 
 
 
@@ -58,6 +62,10 @@ Loesung beendet.
 
   1.Kc5-c6 e2-e4   2.d7-d5 e4*d5 +   3.Kc6-b7 [+sBc6] d5*c6 +   4.Kb7-a8 [+sBb7] c6*b7 # 
 
+              empile:     2609652
+            jouecoup:     2151862
+        orig_rbechec:           0
+        orig_rnechec:     2071327
 Loesung beendet. 
 
 
@@ -92,6 +100,10 @@ Loesung beendet.
   1.Lh4*e7 b7-b8=D [+wBe8=wL] # 
   1.Lh4*e7 b7-b8=L [+wBe8=wL] # 
 
+              empile:         442
+            jouecoup:         347
+        orig_rbechec:          91
+        orig_rnechec:         337
 Loesung beendet. 
 
 
@@ -155,6 +167,10 @@ Loesung beendet.
       1...Dd7-d5
           2.Lb4-c3 #
 
+              empile:       17806
+            jouecoup:       12974
+        orig_rbechec:        4084
+        orig_rnechec:       12998
 Loesung beendet. 
 
 
@@ -200,6 +216,10 @@ Loesung beendet.
       1...Db8*c8
           2.Th8-h3 [+wLc3] #
 
+              empile:        3658
+            jouecoup:        2577
+        orig_rbechec:        1802
+        orig_rnechec:        2586
 Loesung beendet. 
 
 
@@ -238,6 +258,10 @@ Loesung beendet.
       1...Ta3*d3
           2.Sf4*h5 [+wDf4] #
 
+              empile:        7032
+            jouecoup:        4967
+        orig_rbechec:        2756
+        orig_rnechec:        4974
 Loesung beendet. 
 
 
@@ -320,6 +344,10 @@ Loesung beendet.
     Aber
       1...Sh5*g7 !
 
+              empile:       27834
+            jouecoup:       17970
+        orig_rbechec:        4038
+        orig_rnechec:       17998
 Loesung beendet. 
 
 
@@ -362,6 +390,10 @@ Loesung beendet.
       1...e7*d6
           2.Sg6-e7 [+wDb7] #
 
+              empile:       36484
+            jouecoup:       26412
+        orig_rbechec:        4873
+        orig_rnechec:       26421
 Loesung beendet. 
 
 
@@ -422,6 +454,10 @@ Loesung beendet.
     Aber
       1...Sh7-f8 !
 
+              empile:       22716
+            jouecoup:       15190
+        orig_rbechec:        4725
+        orig_rnechec:       15207
 Loesung beendet. 
 
 

@@ -27,6 +27,10 @@
   1...Ng3-c1   2.Nd2-b6 Nc1-a5   3.Nd3-c1=wN Nc1-b3 # 
   1...Ng3-h5   2.Nd2-c4 Nh5-b8   3.Nd3-h5=wN Nh5-d7 # 
 
+              empile:     1003648
+            jouecoup:      790603
+        orig_rbechec:      104544
+        orig_rnechec:      786512
 solution finished. 
 
 
@@ -60,10 +64,18 @@ a)
 
   1.Bd7-e8 Se5-d7=bS   2.Sf7-e5=wS Se5-c6 # 
 
+              empile:       42991
+            jouecoup:       23289
+        orig_rbechec:        6779
+        orig_rnechec:       22854
 b) bKd8-->h3
 
   1.g4-g3 Se5-g4=bS   2.Re2-e5=wR Re5-h5 # 
 
+              empile:       34367
+            jouecoup:       22638
+        orig_rbechec:        6010
+        orig_rnechec:       22171
 solution finished. 
 
 

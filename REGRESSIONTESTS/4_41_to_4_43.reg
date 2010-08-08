@@ -25,6 +25,10 @@
             AnnanChess    
 
 
+              empile:          14
+            jouecoup:          14
+        orig_rbechec:           3
+        orig_rnechec:          14
 solution finished. 
 
 
@@ -56,6 +60,10 @@ solution finished.
 
   1.Kd2-c3 Bd4-e3 # 
 
+              empile:         474
+            jouecoup:         195
+        orig_rbechec:          66
+        orig_rnechec:         193
 solution finished. 
 
 
@@ -86,6 +94,10 @@ solution finished.
                 KoeKo
              ParrainCirce
 
+              empile:          22
+            jouecoup:           4
+        orig_rbechec:           5
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -122,6 +134,10 @@ solution finished.
   1.Sb8*a6 Ka7*a6 [+wPa5] 
   1.Sb8*a6 Ka7-b6 [+wPb5] 
 
+              empile:           8
+            jouecoup:          15
+        orig_rbechec:          10
+        orig_rnechec:           0
 solution finished. 
 
 
@@ -150,34 +166,42 @@ solution finished.
   x1                     1 + 1 + 1n
               Patrouille
 
-  1.Ba3*b2 x !
+   1.Ba3*b2 x !
 
-  1.Ba3*b4 x !
+   1.Ba3*b4 x !
 
+              empile:           3
+            jouecoup:           2
+        orig_rbechec:           0
+        orig_rnechec:           2
 solution finished. 
 
 
 
-  1.Sg7-e8 ?
+   1.Sg7-e8 ?
     but
-      1...Bd1-f3  !
+      1...Bd1-f3 !
 
-  1.Qe3-b3 ?
+   1.Qe3-b3 ?
       1...Bd1*b3[bBb3->c8] #
     but
-      1...Bd1-f3  !
+      1...Bd1-f3 !
 
-  1.Qe3-c3 ?
+   1.Qe3-c3 ?
     but
-      1...Bd1-f3  !
+      1...Bd1-f3 !
 
-  1.Qe3-d3 ?
+   1.Qe3-d3 ?
     but
-      1...Bd1-f3  !
+      1...Bd1-f3 !
 
-  1.Qe3-f3 !
+   1.Qe3-f3 !
       1...Bd1*f3[bBf3->c8] #
 
+              empile:        1002
+            jouecoup:         855
+        orig_rbechec:         857
+        orig_rnechec:         377
 solution finished. 
 
 

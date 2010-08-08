@@ -45,6 +45,10 @@
 
    1.Se3*g2 [h1=L] + !
 
+              empile:           4
+            jouecoup:          14
+        orig_rbechec:          28
+        orig_rnechec:          26
 Loesung beendet. 
 
 
@@ -75,6 +79,10 @@ Loesung beendet.
 
   1.g5*f4 [a8=S] Tg6*g1 + 
 
+              empile:          14
+            jouecoup:          16
+        orig_rbechec:           3
+        orig_rnechec:          14
 Loesung beendet. 
 
 
@@ -107,6 +115,10 @@ Schlagende Seite entscheidet "uber Bauernumwandlung -> Ta1 darf schlagen
   1.Ta1*b1 [h8=T] Lc8-d7 # 
   1.a4-a3 Lc8-d7 # 
 
+              empile:          68
+            jouecoup:          70
+        orig_rbechec:          10
+        orig_rnechec:          64
 Loesung beendet. 
 
 
@@ -139,6 +151,10 @@ Nicht verwirrt werden mit mehr als einem latenten Bauern
       1...Sf1*e3 [e8=S]
           2.Se8*c7 #
 
+              empile:        7275
+            jouecoup:        5426
+        orig_rbechec:         615
+        orig_rnechec:        5062
 Loesung beendet. 
 
 
@@ -191,6 +207,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
       1...Sd6-b7
           2.Db2-d2 #
 
+              empile:        6828
+            jouecoup:        4708
+        orig_rbechec:        1311
+        orig_rnechec:        4701
 Loesung beendet. 
 
 
@@ -260,6 +280,10 @@ Loesung beendet.
     Aber
       1...d5*e4 !
 
+              empile:      218339
+            jouecoup:      146487
+        orig_rbechec:       47405
+        orig_rnechec:      114131
 Loesung beendet. 
 
 
@@ -296,6 +320,10 @@ Loesung beendet.
       1...e2*d1=T [e8=D]
           2.De8-e5 #
 
+              empile:        4862
+            jouecoup:        3401
+        orig_rbechec:         692
+        orig_rnechec:        2948
 Loesung beendet. 
 
 

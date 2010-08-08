@@ -24,19 +24,23 @@
   #2                        11 + 11
              EiffelSchach
 
-  1.Kh5-h4 ! Drohung:
+   1.Kh5-h4 ! Drohung:
           2.Sg7-h5 #
-      1...Lc4-d5 
+      1...Lc4-d5
           2.Tg3-d3 #
-      1...Lc4-b5 
+      1...Lc4-b5
           2.Tg3-b3 #
-      1...Ld4-e5 
+      1...Ld4-e5
           2.Tg3-e3 #
-      1...Ld4-c5 
+      1...Ld4-c5
           2.Tg3-c3 #
-      1...Dc8*f5 
+      1...Dc8*f5
           2.Da5*f5 #
 
+              empile:       33734
+            jouecoup:       21762
+        orig_rbechec:        3714
+        orig_rnechec:       21771
 Loesung beendet. 
 
 
@@ -66,19 +70,23 @@ Loesung beendet.
   #2                          8 + 6
              EiffelSchach
 
-  1.Th5-e5 ! Drohung:
+   1.Th5-e5 ! Drohung:
           2.Te5-e6 #
-      1...Le1-c3 
+      1...Le1-c3
           2.Tb5-b1 #
-      1...Df1*b5 + 
+      1...Df1*b5 +
           2.La4*b5 #
-      1...Df1-c4 
+      1...Df1-c4
           2.Tb5-b4 #
-      1...Df1-d3 
+      1...Df1-d3
           2.Tb5-b3 #
-      1...Df1-e2 
+      1...Df1-e2
           2.Tb5-b2 #
 
+              empile:        6916
+            jouecoup:        4252
+        orig_rbechec:        2478
+        orig_rnechec:        4261
 Loesung beendet. 
 
 
@@ -108,16 +116,20 @@ Loesung beendet.
   s#2                         8 + 4
              EiffelSchach
 
-  1.Dg8-g2 ! Drohung:
+   1.Dg8-g2 ! Drohung:
           2.Te2-e1 +
               2...Lh8*c3 #
-      1...Lh8-d4 
+      1...Lh8-d4
           2.Sc3-b5
               2...c6*b5 #
-      1...Lh8-f6 
+      1...Lh8-f6
           2.Sc3-d5
               2...c6*d5 #
 
+              empile:       13780
+            jouecoup:        7445
+        orig_rbechec:        7451
+        orig_rnechec:        2657
 Loesung beendet. 
 
 
@@ -150,6 +162,10 @@ Loesung beendet.
   1.Lg1*e3 f7-f8=T   2.Le3-h6 Dd3-e4 # 
   1.Db3*c3 f7-f8=L   2.Dc3-a5 Dd3-c4 # 
 
+              empile:      710373
+            jouecoup:      622965
+        orig_rbechec:       70784
+        orig_rnechec:      621771
 Loesung beendet. 
 
 
@@ -182,6 +198,10 @@ Loesung beendet.
   1.Dd6-d2 Te3-f3   2.Tc5-c4 + Ke4-d5 # 
   1.Dd6-d3 Te2-f2   2.Sb3-d2 + Ke4-d4 # 
 
+              empile:       60692
+            jouecoup:       55675
+        orig_rbechec:        6205
+        orig_rnechec:       55261
 Loesung beendet. 
 
 
@@ -211,17 +231,21 @@ Loesung beendet.
   s#2                        12 + 4
              EiffelSchach
 
-  1.Df6-a1 ! Zugzwang.
-      1...d3-d2 
+   1.Df6-a1 ! Zugzwang.
+      1...d3-d2
           2.Tg7-g4 +
               2...d2-d1=T #
-      1...d3*c2 
+      1...d3*c2
           2.Tg7-g5 +
               2...c2-c1=T #
-      1...d3*e2 
+      1...d3*e2
           2.Tg7-e7 +
               2...e2-e1=T #
 
+              empile:       41005
+            jouecoup:       38440
+        orig_rbechec:       38446
+        orig_rnechec:        5916
 Loesung beendet. 
 
 
@@ -251,22 +275,26 @@ Loesung beendet.
   s#4                        10 + 4
              EiffelSchach
 
-  1.Da7-f7 ! Zugzwang.
-      1...b5-b4 
+   1.Da7-f7 ! Zugzwang.
+      1...b5-b4
           2.Df7-f3 Zugzwang.
-              2...b4-b3 
+              2...b4-b3
                   3.Df3-h1 Zugzwang.
-                      3...b3-b2 
+                      3...b3-b2
                           4.b6-b7 +
                               4...b2-b1=D #
-      1...d5-d4 
+      1...d5-d4
           2.Df7-f5 Zugzwang.
-              2...d4-d3 
+              2...d4-d3
                   3.Df5-c5 Zugzwang.
-                      3...d3-d2 
+                      3...d3-d2
                           4.d6-d7 +
                               4...d2-d1=D #
 
+              empile:      923995
+            jouecoup:      518319
+        orig_rbechec:      514697
+        orig_rnechec:      321251
 Loesung beendet. 
 
 
@@ -300,10 +328,18 @@ a)
 
   1.c2-c1=L c7-c8=L   2.Lc1-b2 d7-d8=D # 
 
+              empile:      178010
+            jouecoup:      200196
+        orig_rbechec:       20160
+        orig_rnechec:      199457
 b) sLf4-->d6
 
   1.c2-c1=T c7-c8=S   2.Tc1-c3 d7-d8=T # 
 
+              empile:      215440
+            jouecoup:      247297
+        orig_rbechec:       24957
+        orig_rnechec:      246445
 Loesung beendet. 
 
 
@@ -337,6 +373,10 @@ Loesung beendet.
   1.Da8-g8 f5-f6   2.Th6*f6 [+wBf2] Kf4*f3 # 
   1.Da8-b8 e5-e6   2.Th6*e6 [+wBe2] Kf4*g3 # 
 
+              empile:      917781
+            jouecoup:      875501
+        orig_rbechec:       39717
+        orig_rnechec:      874351
 Loesung beendet. 
 
 

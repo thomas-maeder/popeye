@@ -21,8 +21,12 @@
 +---a---b---c---d---e---f---g---h---+
   =1                          2 + 2
 
-  1.CPb6-a6 = !
+   1.CPb6-a6 = !
 
+              empile:          29
+            jouecoup:          23
+        orig_rbechec:          16
+        orig_rnechec:          23
 solution finished. 
 
 
@@ -51,6 +55,10 @@ solution finished.
 
   1.CPb6-b7   2.CPb7-b8 # 
 
+              empile:          76
+            jouecoup:          76
+        orig_rbechec:          20
+        orig_rnechec:          73
 solution finished. 
 
 
@@ -77,10 +85,14 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   =2                          2 + 2
 
-  1.Kc8-c7 ! zugzwang.
-      1...CPa7-a6 
+   1.Kc8-c7 ! zugzwang.
+      1...CPa7-a6
           2.CPb6*a6 =
 
+              empile:         277
+            jouecoup:         196
+        orig_rbechec:         150
+        orig_rnechec:         186
 solution finished. 
 
 

@@ -23,6 +23,10 @@ no ser-##2 solution because of stalemate after 1.Kh2-h3
   ser-##2                     4 + 4
 
 
+              empile:          28
+            jouecoup:          19
+        orig_rbechec:          16
+        orig_rnechec:           9
 solution finished. 
 
 
@@ -52,6 +56,10 @@ solution finished.
 
   1.Rg7-g4   2.Qh8-c3 + Ka3-a2 ##! 
 
+              empile:        1724
+            jouecoup:        1317
+        orig_rbechec:         707
+        orig_rnechec:        1172
 solution finished. 
 
 
@@ -81,6 +89,10 @@ solution finished.
 
   1.Sb5-d4   2.Sd4*e2   3.0-0 
 
+              empile:        1105
+            jouecoup:         410
+        orig_rbechec:         491
+        orig_rnechec:         366
 solution finished. 
 
 
@@ -110,6 +122,10 @@ solution finished.
 
   1.Qb5-e2   2.Qe2-b2 + c3*b2 # 
 
+              empile:        1700
+            jouecoup:        1313
+        orig_rbechec:         714
+        orig_rnechec:         765
 solution finished. 
 
 

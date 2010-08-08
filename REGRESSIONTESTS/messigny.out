@@ -30,6 +30,10 @@
   1.Sb6-d7 a7-a8=S   2.Sd7-f6 + Sa8<->Sf6 # 
   1.Le6-g4 a7-a8=L   2.Lg4-f3 La8<->Lf3 # 
 
+              empile:      359012
+            jouecoup:      333194
+        orig_rbechec:       31173
+        orig_rnechec:      332404
 Loesung beendet. 
 
 
@@ -65,6 +69,10 @@ Loesung beendet.
   1.a2-a1=L g7-g8=L   2.La1*c3 Lg8<->Lc3 # 
   1.Sh5-f6 g7-g8=D   2.Df4-h6 + Kg6<->Ka5 # 
 
+              empile:     1086048
+            jouecoup:      979135
+        orig_rbechec:       27944
+        orig_rnechec:      977763
 Loesung beendet. 
 
 
@@ -98,6 +106,10 @@ Loesung beendet.
   1.d5-d4 Kd3-e4   2.h2-h1=L + Lg1<->Lh1   3.Lg1-e3 Ke4<->Ka8 # 
   1.e5-e4 + Kd3-d4   2.a2-a1=L + Lb1<->La1   3.Lb1-d3 Kd4<->Ka8 # 
 
+              empile:    40724657
+            jouecoup:    34423729
+        orig_rbechec:     1175690
+        orig_rnechec:    34180003
 Loesung beendet. 
 
 
@@ -131,6 +143,10 @@ Loesung beendet.
   1.Td7-d8 Te8*d8   2.Kg7<->Ke5 Kg7-f8   3.Ke5-f6 Kf8<->Kf6 # 
   1.Kg7-h7 Ke5-f6   2.Kh7<->Kf6 + Kh7-h8   3.Td7-h7 + Kh8<->Kf6 # 
 
+              empile:     4908460
+            jouecoup:     3448460
+        orig_rbechec:      393229
+        orig_rnechec:     3406412
 Loesung beendet. 
 
 
@@ -162,50 +178,54 @@ Loesung beendet.
   r#2                         7 + 8
      MessignySchach RexExklusive
 
-      1...Ke3*d3 
+      1...Ke3*d3
           2.Lg7-c3
               2...La7<->Lc3 #
-      1...La7-b8 
+      1...La7-b8
           2.Lg7-c3
               2...Lb8<->Lc3 #
-      1...Dd8<->Df8 
+      1...Dd8<->Df8
           2.Dd8-a5
               2...Df8*f2 #
           2.Tf2-f1
               2...e2*f1=T #
-      1...Dd8-a5 + 
+      1...Dd8-a5 +
           2.Df8<->Da5
               2...Df8*f2 #
-      1...Dd8-b6 
+      1...Dd8-b6
           2.Lg7-c3
               2...La7<->Lc3 #
-      1...Dd8-f6 
+      1...Dd8-f6
           2.Df8-b4
               2...Df6*f2 #
           2.Tf2-f1
               2...e2*f1=T #
-      1...Te8*f8 
+      1...Te8*f8
           2.Tf2-f1
               2...e2*f1=D #
               2...e2*f1=T #
               2...Tf8*f1 #
 
-  1.Df8-a3 ! Drohung:
+   1.Df8-a3 ! Drohung:
           2.Da3-c1 +
               2...Dd8<->Dc1 #
-      1...Dd8<->Da3 
+      1...Dd8<->Da3
           2.Dd8-a5
               2...Da3-c1 #
-      1...Dd8-a5 + 
+      1...Dd8-a5 +
           2.Da3<->Da5
               2...Da3-c1 #
-      1...Dd8-b6 
+      1...Dd8-b6
           2.Lg7-c3
               2...La7<->Lc3 #
-      1...Dd8-e7 
+      1...Dd8-e7
           2.Tf2-f1
               2...Te8<->Tf1 #
 
+              empile:      623678
+            jouecoup:      361363
+        orig_rbechec:      330968
+        orig_rnechec:       54710
 Loesung beendet. 
 
 
@@ -235,20 +255,24 @@ Loesung beendet.
   semi-r#2                    6 + 5
      MessignySchach RexExklusive
 
-  1.Bb2<->Bb6 ! Zugzwang.
-      1...b2-b1=D 
+   1.Bb2<->Bb6 ! Zugzwang.
+      1...b2-b1=D
           2.Db4-g4
               2...Db1<->Dg4 #
-      1...b2-b1=S 
+      1...b2-b1=S
           2.Sg3-f5
               2...Sb1<->Sf5 #
-      1...b2-b1=T 
+      1...b2-b1=T
           2.Th3-h2
               2...Tb1<->Th2 #
-      1...b2-b1=L 
+      1...b2-b1=L
           2.Lg5-f6
               2...Lb1<->Lf6 #
 
+              empile:       54305
+            jouecoup:       35223
+        orig_rbechec:       31636
+        orig_rnechec:        4966
 Loesung beendet. 
 
 
@@ -278,33 +302,37 @@ Loesung beendet.
   #2                         11 + 7
             MessignySchach
 
-  1.g7*f8=D + ?
+   1.g7*f8=D + ?
     Aber
-      1...Dh2<->Df8 +  !
+      1...Dh2<->Df8 + !
 
-  1.g7*f8=L + ?
-      1...Kh6<->Kc8 
+   1.g7*f8=L + ?
+      1...Kh6<->Kc8
           2.Bb6<->Bb7 #
           2.Ba6<->Bb7 #
           2.a6*b7 #
           2.Bg4<->Bb7 #
           2.Bf4<->Bb7 #
     Aber
-      1...Ld2<->Lf8  !
+      1...Ld2<->Lf8 !
 
-  1.a6*b7 ! Drohung:
+   1.a6*b7 ! Drohung:
           2.Kc8<->Kh6 #
-      1...Ld2*f4 
+      1...Ld2*f4
           2.g7*f8=L #
-      1...Dh2*f4 
+      1...Dh2*f4
           2.g7*h8=D #
-      1...Th3*h5 
+      1...Th3*h5
           2.g7*h8=T #
-      1...Lf8*g7 
+      1...Lf8*g7
           2.Lh5<->Lg7 #
-      1...Sh8-f7 
+      1...Sh8-f7
           2.g7-g8=S #
 
+              empile:       26489
+            jouecoup:       17186
+        orig_rbechec:        8324
+        orig_rnechec:       17194
 Loesung beendet. 
 
 
@@ -334,25 +362,29 @@ Loesung beendet.
   r#2                        9 + 11
             MessignySchach
 
-  1.Sf6-g8 ! Drohung:
+   1.Sf6-g8 ! Drohung:
           2.Kh6-h7
               2...Kc5<->Kh7 #
-      1...h2*g1=D 
+      1...h2*g1=D
           2.f7-f8=D +
               2...Dg1<->Df8 #
-      1...h2*g1=S 
+      1...h2*g1=S
           2.f7-f8=S
               2...Sg1<->Sg8 #
-      1...h2*g1=T 
+      1...h2*g1=T
           2.f7-f8=T
               2...Tg1<->Tg6 #
-      1...h2*g1=L 
+      1...h2*g1=L
           2.f7-f8=L +
               2...Lg1<->Lf8 #
-      1...Dd7*f7 
+      1...Dd7*f7
           2.Dh1*h2
               2...Df7*g6 #
 
+              empile:     1294382
+            jouecoup:      711176
+        orig_rbechec:      637960
+        orig_rnechec:      112957
 Loesung beendet. 
 
 
@@ -382,17 +414,21 @@ Loesung beendet.
   #2                          6 + 5
             MessignySchach
 
-  1.Lc8-d7 ! Drohung:
+   1.Lc8-d7 ! Drohung:
           2.De8-h8 #
-      1...g2-g1=D 
+      1...g2-g1=D
           2.De8<->Dg1 #
-      1...g2-g1=S 
+      1...g2-g1=S
           2.Kb5<->Kh1 #
-      1...g2-g1=T 
+      1...g2-g1=T
           2.Ta4<->Tg1 #
-      1...g2-g1=L 
+      1...g2-g1=L
           2.De8-a8 #
 
+              empile:       10387
+            jouecoup:        7108
+        orig_rbechec:        4189
+        orig_rnechec:        7116
 Loesung beendet. 
 
 
@@ -422,68 +458,72 @@ Loesung beendet.
   #2                         11 + 9
             MessignySchach
 
-      1...Dd1-f3 
+      1...Dd1-f3
           2.Lb2-d4 #
-      1...Dd1-e2 
+      1...Dd1-e2
           2.Lb2-d4 #
-      1...Dd1-c2 
+      1...Dd1-c2
           2.Lb2-d4 #
-      1...Dd1-b1 
+      1...Dd1-b1
           2.Lb2-d4 #
-      1...Dd1-c1 
+      1...Dd1-c1
           2.Lb2-d4 #
-      1...Dd1-d4 + 
+      1...Dd1-d4 +
           2.Lb2*d4 #
-      1...Dd1-f1 
+      1...Dd1-f1
           2.Lb2-d4 #
-      1...Dd1-e1 
+      1...Dd1-e1
           2.Lb2-d4 #
-      1...Bb3<->Bg6 
+      1...Bb3<->Bg6
           2.Tb6-b5 #
-      1...Bb3<->Ba5 
+      1...Bb3<->Ba5
           2.Tb6-b5 #
-      1...Bb3<->Bc4 
+      1...Bb3<->Bc4
           2.Tb6-b5 #
-      1...Bg4<->Bc4 
+      1...Bg4<->Bc4
           2.Tb6-b5 #
-      1...Bd5<->Bc4 
+      1...Bd5<->Bc4
           2.Tb6-b5 #
-      1...d5*c4 
+      1...d5*c4
           2.Tb6-b5 #
-      1...Bf5<->Bc4 
+      1...Bf5<->Bc4
           2.Tb6-b5 #
-      1...Bg5<->Bg6 
+      1...Bg5<->Bg6
           2.Lb2-a3 #
-      1...Bg5<->Ba5 
+      1...Bg5<->Ba5
           2.Lb2-a3 #
-      1...Bg5<->Bc4 
+      1...Bg5<->Bc4
           2.Tb6-b5 #
           2.Lb2-a3 #
-      1...Bb7<->Bc4 
+      1...Bb7<->Bc4
           2.Tb6-b5 #
 
-  1.Sc6-e5 ! Drohung:
+   1.Sc6-e5 ! Drohung:
           2.Kf6<->Kc5 #
-      1...Dd1<->Dd8 
+      1...Dd1<->Dd8
           2.Lb2-d4 #
           2.Lb2-a3 #
-      1...Dd1-d4 
+      1...Dd1-d4
           2.Dd8<->Dd4 #
           2.Dd8-c7 #
           2.Dd8-d6 #
           2.Dd8-c8 #
           2.Lb2-a3 #
-      1...d5-d4 
+      1...d5-d4
           2.Lb2-a3 #
-      1...d5*c4 
+      1...d5*c4
           2.Lb2-a3 #
-      1...Bg5<->Bg6 
+      1...Bg5<->Bg6
           2.Tb6-b5 #
-      1...Bg5<->Ba5 
+      1...Bg5<->Ba5
           2.Tb6-b5 #
-      1...Bg5<->Bc4 
+      1...Bg5<->Bc4
           2.Tb6-b5 #
 
+              empile:       63346
+            jouecoup:       42287
+        orig_rbechec:       16754
+        orig_rnechec:       42342
 Loesung beendet. 
 
 
@@ -514,19 +554,23 @@ Loesung beendet.
   #2                         8 + 13
             MessignySchach
 
-  1.Kg7-h8 ! Drohung:
+   1.Kg7-h8 ! Drohung:
           2.Df8-c8 #
-      1...Sb3-d2 
+      1...Sb3-d2
           2.Le1<->La3 #
-      1...Sb3-d4 
+      1...Sb3-d4
           2.Sb5<->Se4 #
-      1...Se4-d2 
+      1...Se4-d2
           2.Td1<->Tf5 #
-      1...Se4-d6 
+      1...Se4-d6
           2.La2<->La3 #
-      1...Kc5-c4 
+      1...Kc5-c4
           2.Kh8<->Kc4 #
 
+              empile:       28722
+            jouecoup:       17316
+        orig_rbechec:        7624
+        orig_rnechec:       17325
 Loesung beendet. 
 
 
@@ -558,22 +602,26 @@ Loesung beendet.
   semi-r#2                    5 + 7
      MessignySchach RexExklusive
 
-  1.Db4-b1 ! Drohung:
+   1.Db4-b1 ! Drohung:
           2.Db1-h1
               2...Da7<->Dh1 #
-      1...Da7<->Db1 
+      1...Da7<->Db1
           2.Da7*h7
               2...Db1-h1 #
-      1...Da7-a2 
+      1...Da7-a2
           2.Db1-e1
               2...Da2-h2 #
-      1...Da7-f7 
+      1...Da7-f7
           2.Tg5-h5
               2...Tf8<->Th5 #
-      1...Da7-c7 
+      1...Da7-c7
           2.Lc5-f2
               2...Lb8<->Lf2 #
 
+              empile:      427670
+            jouecoup:      227384
+        orig_rbechec:      214837
+        orig_rnechec:       24814
 Loesung beendet. 
 
 

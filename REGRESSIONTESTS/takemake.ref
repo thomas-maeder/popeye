@@ -29,6 +29,10 @@
   1.Sd4-f5 Se3*f5-h6   2.Rc5-d5 e4*d5-d8=Q # 
   1.Rc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 # 
 
+              empile:       70167
+            jouecoup:       59899
+        orig_rbechec:        8779
+        orig_rnechec:       59508
 solution finished. 
 
 
@@ -65,10 +69,18 @@ a)
 
   1.Sg3-e4 Rd4*e4-g5 +   2.Rf8-f5 Be6*f5-f4 # 
 
+              empile:     5260698
+            jouecoup:     2659526
+        orig_rbechec:      352298
+        orig_rnechec:     2657460
 b) bPd2-->g5
 
   1.Sg3-f5 + Be6*f5-g3 +   2.Rf8-f4 Rd4*f4-f5 # 
 
+              empile:     4231704
+            jouecoup:     2244360
+        orig_rbechec:      285201
+        orig_rnechec:     2242437
 solution finished. 
 
 
@@ -102,18 +114,34 @@ a)
 
   1...g2-g3   2.Kf2*f3-g4 h2-h3 # 
 
+              empile:        3068
+            jouecoup:        2606
+        orig_rbechec:         118
+        orig_rnechec:        2584
 b) wSf3 
 
   1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
 
+              empile:        3126
+            jouecoup:        2432
+        orig_rbechec:         187
+        orig_rnechec:        2410
 +c) wKg6-->g7
 
   1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
 
+              empile:        3414
+            jouecoup:        2575
+        orig_rbechec:         167
+        orig_rnechec:        2553
 +d) wBf3 
 
   1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
 
+              empile:        3190
+            jouecoup:        2666
+        orig_rbechec:          99
+        orig_rnechec:        2644
 solution finished. 
 
 
@@ -143,13 +171,17 @@ solution finished.
   sx3                         2 + 2
             Take&MakeChess
 
-  1.b6*a7-a6 !
-      1...Ka8-a7 
+   1.b6*a7-a6 !
+      1...Ka8-a7
           2.Kc8-c7
-              2...Ka7-a8 
+              2...Ka7-a8
                   3.a6-a7
                       3...Ka8*a7-a8 x
 
+              empile:         989
+            jouecoup:         565
+        orig_rbechec:         249
+        orig_rnechec:         324
 solution finished. 
 
 

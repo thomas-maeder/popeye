@@ -26,6 +26,10 @@
   1.e3-e2 g7-g8=D   2.e2-e1=D Dg8-g3   3.De1-e2 Dg3-g1 # 
   1.e3-e2 g7-g8=D   2.e2-e1=D Dg8-g3   3.De1*g3 = 
 
+              empile:       32483
+            jouecoup:       15767
+        orig_rbechec:       13138
+        orig_rnechec:        8368
 Loesung beendet. 
 
 
@@ -57,6 +61,10 @@ Loesung beendet.
   1.b3-b2 a7-a8=D   2.b2-b1=D Da8-a2   3.Db1-e1 Da2-g2 # 
   1.b3-b2 a7-a8=D   2.b2-b1=D Da8-a2   3.Db1*a2 = 
 
+              empile:       38328
+            jouecoup:       18954
+        orig_rbechec:       16028
+        orig_rnechec:       10299
 Loesung beendet. 
 
 
@@ -88,6 +96,10 @@ Loesung beendet.
   1.e2-e1=D e7-e8=D   2.De1-e3 De8*e3 = 
   1.e2-e1=D e7-e8=D   2.De1-h4 # 
 
+              empile:        5307
+            jouecoup:        2975
+        orig_rbechec:        1403
+        orig_rnechec:        2412
 Loesung beendet. 
 
 
@@ -119,6 +131,10 @@ Loesung beendet.
   1.d3-d2 e7-e8=T   2.d2-d1=D + Te8-e1   3.Dd1-e2 + Te1*e2 = 
   1.d3-d2 e7-e8=T   2.d2-d1=D + Te8-e1   3.Dd1-f3 # 
 
+              empile:        4226
+            jouecoup:        2575
+        orig_rbechec:        2290
+        orig_rnechec:         816
 Loesung beendet. 
 
 
@@ -150,6 +166,10 @@ Loesung beendet.
   1.d3-d2 h7-h8=T   2.d2-d1=D Th8-h4   3.Dd1-g4 + Th4*g4 = 
   1.d3-d2 h7-h8=T   2.d2-d1=D Th8-h4   3.Dd1-f3 # 
 
+              empile:        5664
+            jouecoup:        3001
+        orig_rbechec:        2537
+        orig_rnechec:        1218
 Loesung beendet. 
 
 
@@ -182,6 +202,10 @@ Loesung beendet.
   1.b7-b5 kBh2-h4   2.b5-b4 kBh4-h5   3.b4-b3 kBh5-h6   4.b3-b2 kBh6-h7   5.b2-b1=D + kBh7-h8=kS   6.Db1-g6 kSh8*g6 = 
   1.b7-b5 kBh2-h4   2.b5-b4 kBh4-h5   3.b4-b3 kBh5-h6   4.b3-b2 kBh6-h7   5.b2-b1=D + kBh7-h8=kS   6.Db1-h7 # 
 
+              empile:        2001
+            jouecoup:         633
+        orig_rbechec:         460
+        orig_rnechec:           0
 Loesung beendet. 
 
 
@@ -216,11 +240,19 @@ a)
   1.h5-h4   2.h4-h3   3.h3-h2   4.h2-h1=T   5.Th1-d1   6.Td1-d7   7.Td7-d8 Dh7-b7 # 
   1.h5-h4   2.h4-h3   3.h3-h2   4.h2-h1=T   5.Th1-d1   6.Td1-d7   7.Td7*h7 = 
 
+              empile:       12089
+            jouecoup:        7539
+        orig_rbechec:        5481
+        orig_rnechec:        4662
 b) sBh5-->d7  ser-reci-h(#)=7
 
   1.d7-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=D   6.Dd1-d6   7.Dd6-e7 Dh7*e7 = 
   1.d7-d5   2.d5-d4   3.d4-d3   4.d3-d2   5.d2-d1=D   6.Dd1-d6   7.Dd6-b8 # 
 
+              empile:        8009
+            jouecoup:        5015
+        orig_rbechec:        3518
+        orig_rnechec:        3696
 Loesung beendet. 
 
 

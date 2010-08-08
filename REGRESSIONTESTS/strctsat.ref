@@ -48,6 +48,10 @@
       1...Rh8*g8
           2.0-0 #
 
+              empile:      123141
+            jouecoup:       78910
+        orig_rbechec:       35671
+        orig_rnechec:       71196
 solution finished. 
 
 
@@ -120,6 +124,10 @@ solution finished.
     but
       1...Rg7-f7 !
 
+              empile:       54971
+            jouecoup:       30857
+        orig_rbechec:       35562
+        orig_rnechec:       28814
 solution finished. 
 
 

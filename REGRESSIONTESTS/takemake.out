@@ -29,6 +29,10 @@
   1.Sd4-f5 Se3*f5-h6   2.Tc5-d5 e4*d5-d8=D # 
   1.Tc5-d5 Se3*d5-d6   2.Sd4-f5 e4*f5-e7 # 
 
+              empile:       70167
+            jouecoup:       59899
+        orig_rbechec:        8779
+        orig_rnechec:       59508
 Loesung beendet. 
 
 
@@ -65,10 +69,18 @@ a)
 
   1.Sg3-e4 Td4*e4-g5 +   2.Tf8-f5 Le6*f5-f4 # 
 
+              empile:     5260698
+            jouecoup:     2659526
+        orig_rbechec:      352298
+        orig_rnechec:     2657460
 b) sBd2-->g5
 
   1.Sg3-f5 + Le6*f5-g3 +   2.Tf8-f4 Td4*f4-f5 # 
 
+              empile:     4231704
+            jouecoup:     2244360
+        orig_rbechec:      285201
+        orig_rnechec:     2242437
 Loesung beendet. 
 
 
@@ -102,18 +114,34 @@ a)
 
   1...g2-g3   2.Kf2*f3-g4 h2-h3 # 
 
+              empile:        3068
+            jouecoup:        2606
+        orig_rbechec:         118
+        orig_rnechec:        2584
 b) wSf3 
 
   1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
 
+              empile:        3126
+            jouecoup:        2432
+        orig_rbechec:         187
+        orig_rnechec:        2410
 +c) wKg6-->g7
 
   1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
 
+              empile:        3414
+            jouecoup:        2575
+        orig_rbechec:         167
+        orig_rnechec:        2553
 +d) wLf3 
 
   1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
 
+              empile:        3190
+            jouecoup:        2666
+        orig_rbechec:          99
+        orig_rnechec:        2644
 Loesung beendet. 
 
 
@@ -143,13 +171,17 @@ Loesung beendet.
   sx3                         2 + 2
            Take&MakeSchach
 
-  1.b6*a7-a6 !
-      1...Ka8-a7 
+   1.b6*a7-a6 !
+      1...Ka8-a7
           2.Kc8-c7
-              2...Ka7-a8 
+              2...Ka7-a8
                   3.a6-a7
                       3...Ka8*a7-a8 x
 
+              empile:         989
+            jouecoup:         565
+        orig_rbechec:         249
+        orig_rnechec:         324
 Loesung beendet. 
 
 
@@ -183,10 +215,18 @@ a)
 
   1...Sa3*c4-c3   2.Td5*e5-c4 Lc1*d2-d6 # 
 
+              empile:       68438
+            jouecoup:       38839
+        orig_rbechec:        3654
+        orig_rnechec:       38801
 b) sTd2-->e3
 
   1...Sa3*b5-d7   2.Td5*e5-c6 Tf7*f6-d4 # 
 
+              empile:      113819
+            jouecoup:       55433
+        orig_rbechec:        7003
+        orig_rnechec:       55390
 Loesung beendet. 
 
 
@@ -219,6 +259,10 @@ Loesung beendet.
   1.Te3-e4 Te1-e3   2.Lc4-f1 Sh2*f1-e2 # 
   1.Lc4-d5 La2-c4   2.Te3-f3 Sh2*f3-b3 # 
 
+              empile:     2058941
+            jouecoup:     1256357
+        orig_rbechec:      181747
+        orig_rnechec:     1254412
 Loesung beendet. 
 
 
@@ -251,6 +295,10 @@ Andernach 2006, 2. Platz (Nach-Andernach-Version)
   1.Le2-h5 Ld1-g4   2.Td6-d7 Sd4-f3 # 
   1.Td6-g6 Tc6-f6   2.Le2-f1 Sd4-e6 # 
 
+              empile:     1565249
+            jouecoup:     1009994
+        orig_rbechec:      111533
+        orig_rnechec:     1008316
 Loesung beendet. 
 
 
@@ -283,6 +331,10 @@ Loesung beendet.
   1.Db1-h1 Td4*c4-e5   2.La1*c3-c4 Ld5*h1-g1 # 
   1.Db1-d1 Ld5*c4-e3   2.Tb3*c3-c4 Td4*d1-h5 # 
 
+              empile:     1624945
+            jouecoup:      901076
+        orig_rbechec:       93888
+        orig_rnechec:      899734
 Loesung beendet. 
 
 
@@ -316,6 +368,10 @@ a)
 
   1.Th7-d7 Lb7-c8   2.La8-c6 Lc8*d7-b7   3.Ke6-d5 Kb6*c6-d7 # 
 
+              empile:    15562461
+            jouecoup:     9237876
+        orig_rbechec:      916109
+        orig_rnechec:     9152380
 b) wLb7-->b8
 
   1.Th7-a7 Lb8*a7-g7   2.La8-c6 Lg7*h8-a8   3.Ke6-d5 Kb6*c6-d7 # 
@@ -325,6 +381,10 @@ b) wLb7-->b8
   1.La8-c6 Lb8-d6   2.Th7-c7 Ld6*c7-b7   3.Ke6-d5 Kb6*c6-d7 # 
   1.La8-c6 Lb8-d6   2.Th7-e7 Ld6*e7-b7   3.Ke6-d5 Kb6*c6-d7 # 
 
+              empile:    19805628
+            jouecoup:    13905497
+        orig_rbechec:     1066688
+        orig_rnechec:    13747949
 Loesung beendet. 
 
 
@@ -358,10 +418,18 @@ a)
 
   1.Dd4-d5 Lf8*c5-c4   2.La3-e7 Lc4*f1-f8   3.Ke5-d6 Ke8*e7-f6 # 
 
+              empile:    60532690
+            jouecoup:    34160142
+        orig_rbechec:     5023154
+        orig_rnechec:    33980486
 b) wLf8-->g8
 
   1.d7-d6 Lg8-d5   2.Tf1-f7 Ld5*g2-g8   3.Ke5-d5 Ke8*f7-f5 # 
 
+              empile:    57805537
+            jouecoup:    36274764
+        orig_rbechec:     5094700
+        orig_rnechec:    35990193
 Loesung beendet. 
 
 
@@ -396,6 +464,10 @@ Loesung beendet.
   1.f2-f1=T   2.Tf1-h1   3.Th1-h5 e7-e8=L # 
   1.f2-f1=L   2.Lf1-d3   3.Ld3-e4 e7-e8=T # 
 
+              empile:       36877
+            jouecoup:       18793
+        orig_rbechec:        2044
+        orig_rnechec:       18777
 Loesung beendet. 
 
 
@@ -428,6 +500,10 @@ Loesung beendet.
   1.Tg4*f4-f5 Te5*f5-f4 +   2.Tg5-g4 Le6*g4-g5 # 
   1.Tg5-f5 Le6*f5-f6 +   2.Tg4-g5 Te5*g5-g4 # 
 
+              empile:      499393
+            jouecoup:      376956
+        orig_rbechec:       38971
+        orig_rnechec:      376243
 Loesung beendet. 
 
 
@@ -460,6 +536,10 @@ Loesung beendet.
   1.Ld3-g6 d2-d4   2.Tc7-c5 d4*c5-g5 # 
   1.Ld3-c4 d2-d3   2.Tc7-e7 d3*c4-g8=S # 
 
+              empile:       59067
+            jouecoup:       56773
+        orig_rbechec:        7131
+        orig_rnechec:       56222
 Loesung beendet. 
 
 
@@ -493,10 +573,18 @@ a)
 
   1.Tg4-g6 h5*g6-g8=T   2.Le4-g6 Tg8*g6-e4 # 
 
+              empile:     1047950
+            jouecoup:      666400
+        orig_rbechec:       45535
+        orig_rnechec:      665371
 b) sLd7-->e5
 
   1.Le4-g6 h5*g6-e8=L   2.Tg4-g6 Le8*g6-g4 # 
 
+              empile:     1705263
+            jouecoup:     1078473
+        orig_rbechec:       62197
+        orig_rnechec:     1077189
 Loesung beendet. 
 
 
@@ -532,10 +620,18 @@ a)
 
   1.Kh2-h3 Ta7*d7-g4 [+sLc8]   2.Kh3*g4-g6 [+wTh1] Th1-h8   3.Lc8-b7 Th8-h1   4.Lb7*h1-h5 [+wTh1] 0-0 
 
+              empile:       80034
+            jouecoup:       50926
+        orig_rbechec:       26793
+        orig_rnechec:       26128
 b) sKh2-->b2
 
   1.Kb2-b3 Ta7*d7-h3 [+sLc8] +   2.Lc8*h3-h4 [+wTh1] + Th1*h4-d8 [+sLf8]   3.Lf8-b4 + Td8-d2   4.Lb4*d2-a2 [+wTa1] 0-0-0 
 
+              empile:      123465
+            jouecoup:       74254
+        orig_rbechec:       40292
+        orig_rnechec:       36922
 Loesung beendet. 
 
 
@@ -569,10 +665,18 @@ a)
 
   1.Sb3-d4 Te5-e3   2.Kf2*e3-e5 Kc4*d4-c6 # 
 
+              empile:       75891
+            jouecoup:       57468
+        orig_rbechec:        2190
+        orig_rnechec:       57140
 b) wLb2-->a5
 
   1.Sb3-c5 La5-e1 +   2.Kf2*e1-a5 Kc4*c5-b7 # 
 
+              empile:       94153
+            jouecoup:       69641
+        orig_rbechec:        2651
+        orig_rnechec:       69239
 Loesung beendet. 
 
 
@@ -604,6 +708,10 @@ Loesung beendet.
 
   1.f5*e4-e5   2.Tg4-d4   3.Kh5-g4   4.Kg4-f5   5.Tg1-g4 e2-e4 # 
 
+              empile:     5697227
+            jouecoup:     4230221
+        orig_rbechec:      291966
+        orig_rnechec:     4230215
 Loesung beendet. 
 
 
@@ -643,6 +751,10 @@ Loesung beendet.
   4  (g3*f4-b8=L [+sLf8] )
   5  (La3-f8 )
 
+              empile:       85658
+            jouecoup:       45048
+        orig_rbechec:       25823
+        orig_rnechec:       20043
 Loesung beendet. 
 
 
@@ -673,64 +785,68 @@ Es fehlt ein weisser oder schwarzer Koenig
   #2                        14 + 14
            Take&MakeSchach
 
-  1.TLd4-b4 ! Drohung:
+   1.TLd4-b4 ! Drohung:
           2.TLc2-c6 #
-      1...Sa4-c3 
+      1...Sa4-c3
           2.LIb7*f3-e3 #
-      1...Sa4-c5 
+      1...Sa4-c5
           2.LIb7*f3-f5 #
-      1...Te7-d7 
+      1...Te7-d7
           2.LIb7*f3-f6 #
 
-  1.TLd4-g4 + ?
-      1...Tf3*d3-f5 
+   1.TLd4-g4 + ?
+      1...Tf3*d3-f5
           2.LLh3*f5-f6 #
-      1...Tf3-f5 
+      1...Tf3-f5
           2.LLd3*f5-e5 #
           2.LLd3*f5-f6 #
-      1...TLd8*d3-f5 
+      1...TLd8*d3-f5
           2.LIb7*f3-e3 #
     Aber
-      1...f7-f5  !
+      1...f7-f5 !
 
-  1.LLd3*b5-b4 ? Drohung:
+   1.LLd3*b5-b4 ? Drohung:
           2.TLc2-c6 #
-      1...Sa4-c3 
+      1...Sa4-c3
           2.LIb7*f3-f6 #
-      1...Sa4-c5 
+      1...Sa4-c5
           2.LIb7*f3-e3 #
-      1...Te7-d7 
+      1...Te7-d7
           2.LIb7*f3-f5 #
     Aber
-      1...Tf3-c3  !
+      1...Tf3-c3 !
 
-  1.b3-b4 ? Drohung:
+   1.b3-b4 ? Drohung:
           2.TLc2-c6 #
-      1...Sa4-c3 
+      1...Sa4-c3
           2.LIb7*f3-f6 #
-      1...Te7-d7 
+      1...Te7-d7
           2.LIb7*f3-f5 #
-      1...TLd8*d4-d1 
+      1...TLd8*d4-d1
           2.LIb7*f3-f5 #
-      1...TLd8*d4-d2 
+      1...TLd8*d4-d2
           2.LIb7*f3-f5 #
     Aber
-      1...Sa4-c5  !
+      1...Sa4-c5 !
 
-  1.TLc2-c6 + ?
+   1.TLc2-c6 + ?
     Aber
-      1...La3*d6-d7  !
+      1...La3*d6-d7 !
 
-  1.Se1*f3-f6 + ?
+   1.Se1*f3-f6 + ?
     Aber
-      1...Ke6*f6-g8  !
+      1...Ke6*f6-g8 !
 
-  1.Se1*f3-f4 + ?
-      1...LLc7*f4-d5 
+   1.Se1*f3-f4 + ?
+      1...LLc7*f4-d5
           2.LIb7*f7-f5 #
     Aber
-      1...LLc7*f4-g2  !
+      1...LLc7*f4-g2 !
 
+              empile:      186771
+            jouecoup:       95409
+        orig_rbechec:           0
+        orig_rnechec:       95323
 Loesung beendet. 
 
 
@@ -788,40 +904,40 @@ Loesung beendet.
  26  (Tc2-a2 )
  27  (Tc2-b2 )
  28  (Tc2-c8 )
-  1.Tc2-c8 ! Drohung:
+   1.Tc2-c8 ! Drohung:
           2.Ld1-b3 #
-      1...Sg8-e7 
+      1...Sg8-e7
           2.Tc8-c7 Drohung:
                   3.Ld1-b3 #
-              2...Lg5-f4 
+              2...Lg5-f4
                   3.Tc7-c3 Drohung:
                           4.Ld1-b3 #
-                      3...Lf4-e5 
+                      3...Lf4-e5
                           4.Te1*e5-d6 +
-                              4...Kd5*d6-d5 
+                              4...Kd5*d6-d5
                                   5.Ld1-b3 #
 
  29  (Tc2-c7 )
-  1.Tc2-c7 ? Drohung:
+   1.Tc2-c7 ? Drohung:
           2.Ld1-b3 #
-      1...Lg5-f4 
+      1...Lg5-f4
           2.Tc7-c3 Drohung:
                   3.Ld1-b3 #
-              2...Lf4-e5 
+              2...Lf4-e5
                   3.Te1*e5-d6 +
-                      3...Kd5*d6-d5 
+                      3...Kd5*d6-d5
                           4.Ld1-b3 #
     Aber
-      1...Lg5-d8  !
+      1...Lg5-d8 !
 
  30  (Tc2-c6 )
  31  (Tc2-c5 + )
  32  (Tc2-c4 )
  33  (Tc2-c3 )
-  1.Tc2-c3 ? Drohung:
+   1.Tc2-c3 ? Drohung:
           2.Ld1-b3 #
     Aber
-      1...Lg5-f6  !
+      1...Lg5-f6 !
 
  34  (Te1*e6-e5 + )
  35  (Te1-e5 + )
@@ -834,6 +950,10 @@ Loesung beendet.
  42  (Ld1-e2 )
  43  (Kc1-b1 )
  44  (Kc1-b2 )
+              empile:   134521795
+            jouecoup:    42437107
+        orig_rbechec:    34686216
+        orig_rnechec:    40896954
 Loesung beendet. 
 
 
@@ -863,17 +983,21 @@ Loesung beendet.
   #2                          8 + 4
            Take&MakeSchach
 
-  1.Dc8-b8 ! Drohung:
+   1.Dc8-b8 ! Drohung:
           2.Td5-e5 #
-      1...Sh3*g5-g6 
+      1...Sh3*g5-g6
           2.f7-f8=S #
-      1...Sh3-f4 
+      1...Sh3-f4
           2.f7-f8=T #
-      1...d7-d6 
+      1...d7-d6
           2.f7-f8=L #
-      1...Ke7-e6 
+      1...Ke7-e6
           2.f7-f8=D #
 
+              empile:       22119
+            jouecoup:        8815
+        orig_rbechec:        5122
+        orig_rnechec:        8823
 Loesung beendet. 
 
 
@@ -903,17 +1027,21 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
   #2                          8 + 4
            Take&MakeSchach
 
-  1.Sc7-b5 ! Drohung:
+   1.Sc7-b5 ! Drohung:
           2.Td5-e5 #
-      1...Sh4-f3 
+      1...Sh4-f3
           2.f7-f8=T #
-      1...Sh4-g6 
+      1...Sh4-g6
           2.f7-f8=S #
-      1...d7-d6 
+      1...d7-d6
           2.f7-f8=L #
-      1...Ke7-e6 
+      1...Ke7-e6
           2.f7-f8=D #
 
+              empile:       14873
+            jouecoup:        6352
+        orig_rbechec:        3416
+        orig_rnechec:        6360
 Loesung beendet. 
 
 
@@ -943,30 +1071,34 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
   #2                        10 + 11
            Take&MakeSchach
 
-  1.b7-b8=D ? Drohung:
+   1.b7-b8=D ? Drohung:
           2.Db8-g8 #
-      1...Lc1-f4 
+      1...Lc1-f4
           2.Se7*d5-d4 #
-      1...Th4-e4 
+      1...Th4-e4
           2.Sc3*e4-d4 #
-      1...Th4-f4 
+      1...Th4-f4
           2.Se7*g6-g5 #
     Aber
-      1...Lc1-g5  !
+      1...Lc1-g5 !
 
-  1.Da4*a8-b6 + ?
+   1.Da4*a8-b6 + ?
     Aber
-      1...d7-d6  !
+      1...d7-d6 !
 
-  1.f2-f4 ! Drohung:
+   1.f2-f4 ! Drohung:
           2.f4-f5 #
-      1...Lc1*f4-f5 
+      1...Lc1*f4-f5
           2.Se7*g6-g5 #
-      1...Th4*f4-f5 
+      1...Th4*f4-f5
           2.Se7*d5-d4 #
-      1...Ke6-d6 
+      1...Ke6-d6
           2.Da4*a8-b6 #
 
+              empile:       35836
+            jouecoup:       17467
+        orig_rbechec:        8634
+        orig_rnechec:       17459
 Loesung beendet. 
 
 
@@ -996,193 +1128,197 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
   #2                         9 + 10
            Take&MakeSchach
 
-  1.f7-f8=D ? Drohung:
+   1.f7-f8=D ? Drohung:
           2.Df8-g8 #
-      1...Lc1-f4 
+      1...Lc1-f4
           2.Se7*d5-d4 #
-      1...Th4-c4 
+      1...Th4-c4
           2.Ld3*c4-g4 #
-      1...Th4-e4 
+      1...Th4-e4
           2.Ld3*e4-g4 #
-      1...Th4-f4 
+      1...Th4-f4
           2.Se7*g6-g5 #
     Aber
-      1...Lc1-g5  !
+      1...Lc1-g5 !
 
-  1.f7-f8=S + ?
+   1.f7-f8=S + ?
     Aber
-      1...Ke6*e7-g8  !
+      1...Ke6*e7-g8 !
 
-  1.Se7*d5-d4 + ?
-      1...Th4*d4-b3 
+   1.Se7*d5-d4 + ?
+      1...Th4*d4-b3
           2.f7-f8=S #
-      1...Th4*d4-c2 
+      1...Th4*d4-c2
           2.f7-f8=S #
-      1...Th4*d4-f3 
+      1...Th4*d4-f3
           2.f7-f8=S #
-      1...Th4*d4-f5 
+      1...Th4*d4-f5
           2.f7-f8=S #
-      1...Th4*d4-c6 
+      1...Th4*d4-c6
           2.f7-f8=S #
           2.Dc3*c1-e3 #
     Aber
-      1...Th4*d4-b5  !
+      1...Th4*d4-b5 !
 
-  1.Se7*g6-g5 + ?
-      1...Lc1*g5-f3 
+   1.Se7*g6-g5 + ?
+      1...Lc1*g5-f3
           2.f7-f8=S #
-      1...Lc1*g5-h3 
+      1...Lc1*g5-h3
           2.f7-f8=S #
     Aber
-      1...Lc1*g5-e4  !
+      1...Lc1*g5-e4 !
 
-  1.Se7*c8-b7 ? Drohung:
+   1.Se7*c8-b7 ? Drohung:
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Lg3*h4-h3 #
           2.Lg3*h4-g4 #
-      1...Lc1-f4 
+      1...Lc1-f4
           2.f7-f8=S #
           2.Lg3*h4-h3 #
           2.Lg3*h4-g4 #
-      1...Lc1-e3 
+      1...Lc1-e3
           2.f7-f8=S #
           2.Sb7-d8 #
           2.Lg3*h4-h3 #
           2.Lg3*h4-g4 #
-      1...Tb2*b7-c5 
+      1...Tb2*b7-c5
           2.f7-f8=S #
-      1...Tb2*b7-d6 
+      1...Tb2*b7-d6
           2.f7-f8=S #
           2.Lg3*h4-h3 #
           2.Lg3*h4-g4 #
-      1...Tb2-b5 
+      1...Tb2-b5
           2.f7-f8=S #
           2.Sb7-d8 #
           2.Lg3*h4-h3 #
           2.Lg3*h4-g4 #
-      1...Tb2-b4 
+      1...Tb2-b4
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
-      1...Tb2-d2 
+      1...Tb2-d2
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
-      1...e2-e1=S 
+      1...e2-e1=S
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
-      1...Th4-h1 
+      1...Th4-h1
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Dc3*c1-e3 #
-      1...Th4-h2 
+      1...Th4-h2
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Lg3*h2-h3 #
           2.Dc3*c1-e3 #
-      1...Th4-h3 
+      1...Th4-h3
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
-      1...Th4-a4 
+      1...Th4-a4
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
-      1...Th4-b4 
+      1...Th4-b4
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Dc3*b4-g4 #
-      1...Th4-c4 
+      1...Th4-c4
           2.f7-f8=S #
           2.Sb7-d8 #
           2.Ld3*c4-g4 #
           2.Dc3*c4-g4 #
-      1...Th4-d4 
+      1...Th4-d4
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Dc3*d4-g4 #
-      1...Th4-e4 
+      1...Th4-e4
           2.Ld3*e4-g4 #
-      1...Th4-f4 
+      1...Th4-f4
           2.f7-f8=S #
           2.Lg3*f4-g4 #
-      1...Th4-g4 
+      1...Th4-g4
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
-      1...Th4-h6 
+      1...Th4-h6
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Dc3*c1-e3 #
-      1...Th4-h5 
+      1...Th4-h5
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
-      1...d5-d4 
+      1...d5-d4
           2.f7-f8=S #
           2.Sb7-d8 #
           2.Lg3*h4-h3 #
           2.Lg3*h4-g4 #
-      1...g6-g5 
+      1...g6-g5
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Lg3*h4-g4 #
-      1...d7-d6 
+      1...d7-d6
           2.f7-f8=S #
           2.Sb7-d8 #
           2.Lg3*h4-h3 #
           2.Lg3*h4-g4 #
           2.Dc3-c8 #
-      1...h7-h5 
+      1...h7-h5
           2.f7-f8=S #
           2.Sb7-c5 #
           2.Sb7-d8 #
           2.Lg3*h4-h3 #
     Aber
-      1...Tb2*b7-d8 +  !
+      1...Tb2*b7-d8 + !
 
-  1.Lg3*h4-h3 + ?
+   1.Lg3*h4-h3 + ?
     Aber
-      1...Ke6-d6  !
+      1...Ke6-d6 !
 
-  1.Lg3*h4-g4 + ?
+   1.Lg3*h4-g4 + ?
     Aber
-      1...Ke6-d6  !
+      1...Ke6-d6 !
 
-  1.Dc3*b2-b6 + ?
+   1.Dc3*b2-b6 + ?
     Aber
-      1...d7-d6  !
+      1...d7-d6 !
 
-  1.Dc3*c1-e3 + ?
-      1...Th4-e4 
+   1.Dc3*c1-e3 + ?
+      1...Th4-e4
           2.Se7*d5-d4 #
     Aber
-      1...Ke6*e7-c6  !
+      1...Ke6*e7-c6 !
 
-  1.Dc3*c8-a6 + ?
-      1...d7-d6 
+   1.Dc3*c8-a6 + ?
+      1...d7-d6
           2.Da6-c8 #
     Aber
-      1...Tb2-b6  !
+      1...Tb2-b6 !
 
-  1.f2-f4 ! Drohung:
+   1.f2-f4 ! Drohung:
           2.f4-f5 #
-      1...Lc1*f4-f5 
+      1...Lc1*f4-f5
           2.Se7*g6-g5 #
-      1...Th4*f4-f5 
+      1...Th4*f4-f5
           2.Se7*d5-d4 #
-      1...Ke6-d6 
+      1...Ke6-d6
           2.Dc3*b2-b6 #
 
+              empile:      154298
+            jouecoup:       84311
+        orig_rbechec:       24844
+        orig_rnechec:       84243
 Loesung beendet. 
 
 
@@ -1212,67 +1348,71 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
   #2                          9 + 8
            Take&MakeSchach
 
-  1.Ta8-c8 + ?
-      1...Kc7*c8-a8 
+   1.Ta8-c8 + ?
+      1...Kc7*c8-a8
           2.Dh7-g8 #
           2.Dh7-h8 #
           2.d7-d8=D #
           2.d7-d8=T #
-      1...Kc7*c8-b8 
+      1...Kc7*c8-b8
           2.d7-d8=D #
           2.d7-d8=T #
-      1...Kc7*c8-d8 
+      1...Kc7*c8-d8
           2.Lc5-b6 #
     Aber
-      1...Kc7*c8-c7  !
+      1...Kc7*c8-c7 !
 
-  1.Dh7-e7 ? Drohung:
+   1.Dh7-e7 ? Drohung:
           2.d7-d8=S #
     Aber
-      1...Th5*h6-h7  !
+      1...Th5*h6-h7 !
 
-  1.Dh7-f7 ? Drohung:
+   1.Dh7-f7 ? Drohung:
           2.d7-d8=S #
-      1...b7-b6 
+      1...b7-b6
           2.d7-d8=L #
     Aber
-      1...Th5*h6-h7  !
+      1...Th5*h6-h7 !
 
-  1.d7-d8=S + ?
+   1.d7-d8=S + ?
     Aber
-      1...Kc7*d8-e6  !
+      1...Kc7*d8-e6 !
 
-  1.d7-d8=T + ?
+   1.d7-d8=T + ?
     Aber
-      1...Kc7*d8-d3  !
+      1...Kc7*d8-d3 !
 
-  1.d7-d8=L + ?
+   1.d7-d8=L + ?
     Aber
-      1...Kc7*d8-a5  !
+      1...Kc7*d8-a5 !
 
-  1.f4-f5 ! Drohung:
+   1.f4-f5 ! Drohung:
           2.d7-d8=S #
-      1...g6*f5-f6 
+      1...g6*f5-f6
           2.d7-d8=T #
-      1...b7-b6 
+      1...b7-b6
           2.d7-d8=L #
 
-  1.Kc1-c2 ? Drohung:
+   1.Kc1-c2 ? Drohung:
           2.d7-d8=T #
-      1...b7-b6 
+      1...b7-b6
           2.d7-d8=D #
           2.d7-d8=L #
     Aber
-      1...Th5-h2 +  !
+      1...Th5-h2 + !
 
-  1.Kc1-d2 ? Drohung:
+   1.Kc1-d2 ? Drohung:
           2.d7-d8=T #
-      1...b7-b6 
+      1...b7-b6
           2.d7-d8=D #
           2.d7-d8=L #
     Aber
-      1...Th5-h2 +  !
+      1...Th5-h2 + !
 
+              empile:       24474
+            jouecoup:       11778
+        orig_rbechec:        5589
+        orig_rnechec:       11734
 Loesung beendet. 
 
 
@@ -1302,22 +1442,26 @@ Loesung beendet.
   #2                          9 + 7
            Take&MakeSchach
 
-  1.Dg3-b8 ! Zugzwang.
-      1...a6-a5 
+   1.Dg3-b8 ! Zugzwang.
+      1...a6-a5
           2.Sb7-c5 #
-      1...Kb6*b7-a5 
+      1...Kb6*b7-a5
           2.Db8-c7 #
-      1...Kb6*b7-c5 
+      1...Kb6*b7-c5
           2.d2-d4 #
-      1...c6-c5 
+      1...c6-c5
           2.Sb7-a5 #
 
-  1.Dg3-e5 ! Zugzwang.
-      1...a6-a5 
+   1.Dg3-e5 ! Zugzwang.
+      1...a6-a5
           2.Sb7*a5-a4 #
-      1...c6-c5 
+      1...c6-c5
           2.Sb7*c5-c4 #
 
+              empile:        5962
+            jouecoup:        3352
+        orig_rbechec:        2627
+        orig_rnechec:        3361
 Loesung beendet. 
 
 
@@ -1347,14 +1491,18 @@ Loesung beendet.
   s#2                         8 + 3
            Take&MakeSchach
 
-  1.e2*d3-d2 ! Zugzwang.
-      1...c3*d2-d4 
+   1.e2*d3-d2 ! Zugzwang.
+      1...c3*d2-d4
           2.Dc4-f1 +
               2...d4*e3-g2 #
-      1...c3*d2-d3 
+      1...c3*d2-d3
           2.Df4-f1 +
               2...d3*c2-g2 #
 
+              empile:       20785
+            jouecoup:       11999
+        orig_rbechec:       12003
+        orig_rnechec:        7159
 Loesung beendet. 
 
 
@@ -1385,12 +1533,16 @@ Loesung beendet.
                 Circe
            Take&MakeSchach
 
-  1.Da1*g7-f5 [+sSb8] + !
-      1...Ld5*g8-g4 
+   1.Da1*g7-f5 [+sSb8] + !
+      1...Ld5*g8-g4
           2.Le4-g2 +
               2...Kh3*g2-f1 #
               2...Dc6*g2-f1 #
 
+              empile:       33237
+            jouecoup:       14492
+        orig_rbechec:       14495
+        orig_rnechec:        6871
 Loesung beendet. 
 
 

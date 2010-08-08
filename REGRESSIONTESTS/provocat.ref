@@ -26,6 +26,10 @@
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=Q   6.Qa1-a7 b6*a7 = 
 
+              empile:        3246
+            jouecoup:        1517
+        orig_rbechec:        1054
+        orig_rnechec:        1554
 solution finished. 
 
 
@@ -58,6 +62,10 @@ solution finished.
   1.Qf3-g4 Bb8-a7   2.Kf4-f3 Ba7-d4   3.Be5-g3 Rf1-f2 # 
   1.Be5-d4 Rf1-g1   2.Kf4-e5 Rg1-g6   3.Qf3-f5 Bb8-d6 # 
 
+              empile:    50234968
+            jouecoup:    35957390
+        orig_rbechec:    14779447
+        orig_rnechec:    37824951
 solution finished. 
 
 

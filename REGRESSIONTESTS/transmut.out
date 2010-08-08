@@ -33,6 +33,10 @@ a)
       1...Le6*d5
           2.Sd6-f5 #
 
+              empile:       20437
+            jouecoup:       12727
+        orig_rbechec:        3308
+        orig_rnechec:       12733
 b) TransmutierendeKoenige
 
    1.Ka7-b6 ! Drohung:
@@ -42,6 +46,10 @@ b) TransmutierendeKoenige
       1...Le6*d5
           2.Sd6-b5 #
 
+              empile:       14549
+            jouecoup:        8009
+        orig_rbechec:        2884
+        orig_rnechec:        8015
 Loesung beendet. 
 
 
@@ -76,10 +84,18 @@ a)
 
   1.a2-a1=S + Kc2-e3   2.Kf5-e5 f2-f4 # 
 
+              empile:        9121
+            jouecoup:        9208
+        orig_rbechec:         730
+        orig_rnechec:        9088
 b) wKc2-->b2
 
   1.a2-a1=D + Kb2-e2   2.Kf5-e4 f2-f3 # 
 
+              empile:        9495
+            jouecoup:        9540
+        orig_rbechec:         835
+        orig_rnechec:        9405
 Loesung beendet. 
 
 
@@ -117,10 +133,18 @@ a) sKf8-->a4
 
   1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=wT [+wSb1] Sb1-c3 # 
 
+              empile:      128821
+            jouecoup:       72810
+        orig_rbechec:       14188
+        orig_rnechec:       72224
 b) wKa2-->f2
 
   1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=wD [+wLc1] Lc1-a3 # 
 
+              empile:      129785
+            jouecoup:       73081
+        orig_rbechec:        9875
+        orig_rnechec:       72100
 Loesung beendet. 
 
 
@@ -268,6 +292,10 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
                           4.b7-b8=H #
                           4.f6-f7 #
 
+              empile:      405069
+            jouecoup:      303975
+        orig_rbechec:      280821
+        orig_rnechec:      224193
 Loesung beendet. 
 
 
@@ -300,6 +328,10 @@ Loesung beendet.
   1.Dg1-h2 + Ke5-e4   2.Dh2-g3 f2-f3 # 
   1.Kg4-g5 f2-f3   2.Dg1-g4 f3-f4 # 
 
+              empile:       29624
+            jouecoup:       28974
+        orig_rbechec:        4412
+        orig_rnechec:       28736
 Loesung beendet. 
 
 
@@ -331,6 +363,10 @@ R045, Problem Paradise 22, 04-06/2002
 
   1.f2-f3 c7-c6   2.Ke1-f2 Dd8-b6 +   3.Kf2-g3 Db6-f2 +   4.Kg3-c7 e7-e5   5.d2-d4 Ke8-e7   6.Lc1-g5 + Ke7-b4   7.Dd1-d3 Sb8-a6 +   8.Kc7-e8 Sa6-c5   9.Dd3-a3 + Kb4-e1 dia 
 
+              empile:      569638
+            jouecoup:      569656
+        orig_rbechec:       33150
+        orig_rnechec:       23162
 Loesung beendet. 
 
 

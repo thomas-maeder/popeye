@@ -24,16 +24,20 @@
   +1                          2 + 1
              GenferSchach
 
-  1.Kc1-d1 + !
+   1.Kc1-d1 + !
 
-  1.Kc1-c2 + !
+   1.Kc1-c2 + !
 
-  1.Kc1-b1 + !
+   1.Kc1-b1 + !
 
-  1.Kc1-b2 + !
+   1.Kc1-b2 + !
 
-  1.Kc1-d2 + !
+   1.Kc1-d2 + !
 
+              empile:          16
+            jouecoup:          15
+        orig_rbechec:          20
+        orig_rnechec:          21
 Loesung beendet. 
 
 
@@ -63,8 +67,12 @@ Loesung beendet.
   #1                          1 + 1
       GenferSchach RexInklusive
 
-  1.Dc5-e7 # !
+   1.Dc5-e7 # !
 
+              empile:          70
+            jouecoup:          45
+        orig_rbechec:           0
+        orig_rnechec:          47
 Loesung beendet. 
 
 
@@ -94,8 +102,12 @@ Loesung beendet.
   =1                          4 + 1
       GenferSchach RexInklusive
 
-  1.Tb2-b1 = !
+   1.Tb2-b1 = !
 
+              empile:          87
+            jouecoup:          43
+        orig_rbechec:          42
+        orig_rnechec:          45
 Loesung beendet. 
 
 

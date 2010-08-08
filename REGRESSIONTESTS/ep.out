@@ -97,6 +97,10 @@
           2.c7*b8=D #
           2.c7*b8=L #
 
+              empile:       20878
+            jouecoup:       18714
+        orig_rbechec:        1424
+        orig_rnechec:       18759
 Loesung beendet. 
 
 
@@ -177,6 +181,10 @@ Loesung beendet.
                                                                   9.De7-f6 Drohung:
                                                                          10.Df6*f5 #
 
+              empile:    14519650
+            jouecoup:    11576148
+        orig_rbechec:     7193511
+        orig_rnechec:     4662767
 Loesung beendet. 
 
 
@@ -208,6 +216,10 @@ Loesung beendet.
    1.h5*g6 ep. ! Drohung:
           2.Th8*h7 #
 
+              empile:         144
+            jouecoup:          86
+        orig_rbechec:          40
+        orig_rnechec:          90
 Loesung beendet. 
 
 
@@ -238,6 +250,10 @@ Loesung beendet.
 
    1.h5*g6 ep. # !
 
+              empile:          85
+            jouecoup:          91
+        orig_rbechec:           2
+        orig_rnechec:          93
 Loesung beendet. 
 
 
@@ -269,6 +285,10 @@ Loesung beendet.
    1.c5*b6 ep. + !
       1...Tb4*b6 #
 
+              empile:         510
+            jouecoup:         395
+        orig_rbechec:         396
+        orig_rnechec:         294
 Loesung beendet. 
 
 
@@ -356,6 +376,10 @@ a)
     Aber
       1...c7-c6 !
 
+              empile:        2353
+            jouecoup:        2123
+        orig_rbechec:         300
+        orig_rnechec:        2150
 b) sBc7-->e7
 
    1.Kg5*g6 ? Drohung:
@@ -520,6 +544,10 @@ b) sBc7-->e7
     Aber
       1...e7*d6 !
 
+              empile:        2864
+            jouecoup:        2608
+        orig_rbechec:         417
+        orig_rnechec:        2672
 Loesung beendet. 
 
 
@@ -551,6 +579,10 @@ Loesung beendet.
 
   1.e4*d3 ep. Lf3*g4   2.f4-f3 Lg4-e6 # 
 
+              empile:       51931
+            jouecoup:       28686
+        orig_rbechec:        9570
+        orig_rnechec:       28041
 Loesung beendet. 
 
 
@@ -583,6 +615,10 @@ Loesung beendet.
 
   1...e5*f6 ep. [+sBf7]   2.Lb4-e7 f6*e7 [+sLf8]   3.Ta7-d7 e7*f8=D # 
 
+              empile:        2842
+            jouecoup:        1665
+        orig_rbechec:         391
+        orig_rnechec:        1590
 Loesung beendet. 
 
 
@@ -621,6 +657,10 @@ Loesung beendet.
   1.Sa7-c8 b4*c5   2.Ka4-a5 Ka2*a3   3.Ka5*a6 Ka3-b4 # 
   7  (Tb7-b6 )
 
+              empile:        8875
+            jouecoup:        6446
+        orig_rbechec:        1844
+        orig_rnechec:        5964
 Loesung beendet. 
 
 
@@ -688,6 +728,10 @@ N.Y. State Chess Association, 16.8.1894
  28  (d2-d3 )
  29  (c2-c4 )
  30  (c2-c3 )
+              empile:      209999
+            jouecoup:      147573
+        orig_rbechec:      124013
+        orig_rnechec:       42415
 Loesung beendet. 
 
 
@@ -780,6 +824,10 @@ Loesung beendet.
  46  (Td1-g1 )
  47  (Td1-f1 )
  48  (Td1-e1 )
+              empile:    25289350
+            jouecoup:    13260009
+        orig_rbechec:    12618679
+        orig_rnechec:     3994260
 Loesung beendet. 
 
 

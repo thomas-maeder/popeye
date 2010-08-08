@@ -27,10 +27,18 @@ a)
 
   1.Rg2-h2 Be6-d5[+bKh1] # 
 
+              empile:       62109
+            jouecoup:       16693
+        orig_rbechec:        2276
+        orig_rnechec:       44277
 b) #1
 
    1.Ra1-h1[+bKh3] # !
 
+              empile:        3157
+            jouecoup:         888
+        orig_rbechec:           0
+        orig_rnechec:        2364
 solution finished. 
 
 
@@ -63,10 +71,18 @@ a)
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
 
+              empile:       82373
+            jouecoup:       24158
+        orig_rbechec:        4139
+        orig_rnechec:       54825
 b) RepublicanChess    Type2
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] # 
 
+              empile:       82373
+            jouecoup:       24158
+        orig_rbechec:        4139
+        orig_rnechec:       54825
 solution finished. 
 
 
@@ -130,6 +146,10 @@ solution finished.
     but
       1...b7*a6 !
 
+              empile:       16090
+            jouecoup:        6427
+        orig_rbechec:        3104
+        orig_rnechec:       16383
 solution finished. 
 
 
@@ -175,6 +195,10 @@ solution finished.
       1...Sc3-b5
           2.Sc4-e3[+bKe6] #
 
+              empile:       47673
+            jouecoup:       13194
+        orig_rbechec:        8111
+        orig_rnechec:       34345
 solution finished. 
 
 
@@ -220,6 +244,10 @@ solution finished.
       1...Bb8-c7
           2.Rf8-a8[+bKb8] #
 
+              empile:       43035
+            jouecoup:       10653
+        orig_rbechec:        1780
+        orig_rnechec:       33849
 solution finished. 
 
 
@@ -254,6 +282,10 @@ solution finished.
   1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] # 
   1.Rb2-c2 Bc5-d4   2.Rc2-c8[+bKf8] + Bd4-b6[+wKd8] # 
 
+              empile:     4177596
+            jouecoup:     1136937
+        orig_rbechec:     3314428
+        orig_rnechec:     2540119
 solution finished. 
 
 
@@ -295,6 +327,10 @@ solution finished.
       1...Ba8-b7
           2.Sd8*b7[+bKa5] #
 
+              empile:       35622
+            jouecoup:        7911
+        orig_rbechec:        5762
+        orig_rnechec:       26465
 solution finished. 
 
 
@@ -495,6 +531,10 @@ solution finished.
     but
       1...cBd1-e2=cR !
 
+              empile:    12825096
+            jouecoup:     3847852
+        orig_rbechec:    24094951
+        orig_rnechec:     7282012
 solution finished. 
 
 

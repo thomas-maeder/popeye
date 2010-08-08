@@ -25,85 +25,89 @@
          Paralysierend b7 c3
              SpiegelCirce
 
-  1.pBb7-b8=pD ? Drohung:
+   1.pBb7-b8=pD ? Drohung:
           2.Kd1-c2 #
           2.Kd1-e2 #
-      1...Gb4-b6 
+      1...Gb4-b6
           2.Kd1*d2 [+sSg1] #
           2.Kd1-c2 #
-      1...Sd7-b6 
+      1...Sd7-b6
           2.Kd1-c2 #
-      1...Sd7-e5 
+      1...Sd7-e5
           2.Kd1-e2 #
     Aber
-      1...Sd7*b8 [+wpDd8]  !
+      1...Sd7*b8 [+wpDd8] !
 
-  1.pBb7-b8=pS ? Zugzwang.
-      1...Sd2-b1 
+   1.pBb7-b8=pS ? Zugzwang.
+      1...Sd2-b1
           2.Kd1-c2 #
-      1...Sd2-f1 
+      1...Sd2-f1
           2.Kd1-c2 #
-      1...Sd2-f3 
+      1...Sd2-f3
           2.Kd1-c2 #
-      1...Sd2-e4 
+      1...Sd2-e4
           2.Kd1-c2 #
-      1...Sd2-c4 
+      1...Sd2-c4
           2.Kd1-c2 #
           2.Kd1-e2 #
-      1...Sd2-b3 
+      1...Sd2-b3
           2.Kd1-c2 #
-      1...Gh2-c2 
+      1...Gh2-c2
           2.Kd1*c2 [+sGc8] #
-      1...Gb4-b6 
+      1...Gb4-b6
           2.Kd1*d2 [+sSg1] #
-      1...Gb5-e2 
+      1...Gb5-e2
           2.Kd1*e2 [+sGe8] #
-      1...Gb5-e8 
+      1...Gb5-e8
           2.Kd1-e2 #
-      1...Gb5-b3 
+      1...Gb5-b3
           2.Kd1-e2 #
     Aber
-      1...g6-g5  !
+      1...g6-g5 !
 
-  1.pBb7-b8=pT ? Drohung:
+   1.pBb7-b8=pT ? Drohung:
           2.Kd1-e2 #
-      1...Gb4-b6 
+      1...Gb4-b6
           2.Kd1*d2 [+sSg1] #
-      1...Sd7*b8 [+wpTh8] 
+      1...Sd7*b8 [+wpTh8]
           2.Kd1-c2 #
     Aber
-      1...Sd7-b6  !
+      1...Sd7-b6 !
 
-  1.pBb7-b8=pL ? Drohung:
+   1.pBb7-b8=pL ? Drohung:
           2.Kd1-c2 #
-      1...Gb5-e2 
+      1...Gb5-e2
           2.Kd1*e2 [+sGe8] #
-      1...Sd7*b8 [+wpLf8] 
+      1...Sd7*b8 [+wpLf8]
           2.Kd1*d2 [+sSg1] #
     Aber
-      1...Sd7-e5  !
+      1...Sd7-e5 !
 
-  1.pBb7-b8=pG ! Drohung:
+   1.pBb7-b8=pG ! Drohung:
           2.Kd1*d2 [+sSg1] #
-      1...Sd2-b1 
+      1...Sd2-b1
           2.Kd1-c2 #
-      1...Sd2-f1 
+      1...Sd2-f1
           2.Kd1-c2 #
-      1...Sd2-f3 
+      1...Sd2-f3
           2.Kd1-c2 #
-      1...Sd2-e4 
+      1...Sd2-e4
           2.Kd1-c2 #
-      1...Gb5-e2 
+      1...Gb5-e2
           2.Kd1*e2 [+sGe8] #
-      1...Gb5-e8 
+      1...Gb5-e8
           2.Kd1-e2 #
-      1...Gb5-b3 
+      1...Gb5-b3
           2.Kd1-e2 #
-      1...Sd7-b6 
+      1...Sd7-b6
           2.Kd1-e2 #
-      1...Sd7*b8 [+wpGb1] 
+      1...Sd7*b8 [+wpGb1]
           2.Kd1-e2 #
 
+              empile:       10963
+            jouecoup:        5381
+        orig_rbechec:        6556
+        orig_rnechec:        9861
 Loesung beendet. 
 
 
@@ -136,6 +140,10 @@ Loesung beendet.
   1.pTh4-h6 pBd7-d8=pS   2.Kd4-c5 + pSd8-e6 # 
   1.pTh4-h6 pBd7-d8=pL   2.Kd4-e5 + pLd8-f6 # 
 
+              empile:       16818
+            jouecoup:       18133
+        orig_rbechec:        6208
+        orig_rnechec:       19686
 Loesung beendet. 
 
 
@@ -165,21 +173,25 @@ Loesung beendet.
   #2                          7 + 7
      Paralysierend h8 e7 c6 c4 a3
 
-  1.pSc4-e3 ! Drohung:
+   1.pSc4-e3 ! Drohung:
           2.Tb4-d4 #
-      1...Kd6-e6 
+      1...Kd6-e6
           2.pBe7-e8=pT #
-      1...Kd6-d7 
+      1...Kd6-d7
           2.pBe7-e8=pL #
-      1...Kd6*c6 + 
+      1...Kd6*c6 +
           2.pBe7-e8=pD #
-      1...Kd6-c7 
+      1...Kd6-c7
           2.pBe7-e8=pS #
-      1...Kd6*e7 
+      1...Kd6*e7
           2.Tb4-b7 #
-      1...Kd6-c5 
+      1...Kd6-c5
           2.Tb4-c4 #
 
+              empile:        4769
+            jouecoup:        2200
+        orig_rbechec:        3126
+        orig_rnechec:        4846
 Loesung beendet. 
 
 
@@ -209,28 +221,32 @@ Loesung beendet.
   #2                         8 + 11
 Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
 
-  1.pTc6-c3 ? Drohung:
+   1.pTc6-c3 ? Drohung:
           2.Sh8-g6 #
     Aber
-      1...Tf4-f6  !
+      1...Tf4-f6 !
 
-  1.pTc6-c4 ? Drohung:
+   1.pTc6-c4 ? Drohung:
           2.f7*g8=S #
     Aber
-      1...Dh3-e6  !
+      1...Dh3-e6 !
 
-  1.pTc6-b6 ! Drohung:
+   1.pTc6-b6 ! Drohung:
           2.Lb8-d6 #
-      1...Dh3-e6 
+      1...Dh3-e6
           2.f7*g8=S #
-      1...Tf4-f6 
+      1...Tf4-f6
           2.Sh8-g6 #
 
-  1.pTc6-f6 ? Drohung:
+   1.pTc6-f6 ? Drohung:
           2.Sh8-g6 #
     Aber
-      1...Dh3*h1  !
+      1...Dh3*h1 !
 
+              empile:        7164
+            jouecoup:        3204
+        orig_rbechec:        4703
+        orig_rnechec:        6937
 Loesung beendet. 
 
 
@@ -263,30 +279,38 @@ Paralysierend d8 f8 c7 f7 a6 g6 c5 a2 f2 g2
 
 a) 
 
-  1.Df6-g5 ! Drohung:
+   1.Df6-g5 ! Drohung:
           2.Dg5-g4 #
-      1...Td5*c5 [+wpSg1] 
+      1...Td5*c5 [+wpSg1]
           2.Dg5*g2 [+spSg8] #
-      1...Td5*d8 [+wpLc1] 
+      1...Td5*d8 [+wpLc1]
           2.Dg5-g3 #
-      1...Lh6*g5 [+wDd1] 
+      1...Lh6*g5 [+wDd1]
           2.Dd1*d5 [+sTa8] #
-      1...Lh6*f8 [+wpTa1] 
+      1...Lh6*f8 [+wpTa1]
           2.Sb3-d4 #
 
+              empile:        5354
+            jouecoup:        2706
+        orig_rbechec:        3472
+        orig_rnechec:        5713
 b) PlatzwechselCirce
 
-  1.Df6-g5 ! Drohung:
+   1.Df6-g5 ! Drohung:
           2.Dg5-g4 #
-      1...Td5*c5 [+wpSd5] 
+      1...Td5*c5 [+wpSd5]
           2.Dg5-g3 #
-      1...Td5*d8 [+wpLd5] 
+      1...Td5*d8 [+wpLd5]
           2.Sb3-d4 #
-      1...Lh6*g5 [+wDh6] 
+      1...Lh6*g5 [+wDh6]
           2.Dh6*h3 [+sBh6] #
-      1...Lh6*f8 [+wpTh6] 
+      1...Lh6*f8 [+wpTh6]
           2.Dg5*g2 [+spSg5] #
 
+              empile:        5352
+            jouecoup:        2702
+        orig_rbechec:        3472
+        orig_rnechec:        5644
 Loesung beendet. 
 
 

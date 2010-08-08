@@ -27,6 +27,10 @@
   1.c2-c1=S + Ka6-b6   2.Sc1-b3 f7-f8=D = 
   1.c2-c1=L f7-f8=T +   2.Lc1-a3 Tf8-b8 = 
 
+              empile:       43200
+            jouecoup:       18506
+        orig_rbechec:        9656
+        orig_rnechec:       15224
 Loesung beendet. 
 
 
@@ -56,87 +60,91 @@ Loesung beendet.
   #2                          3 + 1
             PhantomSchach
 
-  1.Kc7-c8 ? Zugzwang.
+   1.Kc7-c8 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Kc7-b6 ? Drohung:
+   1.Kc7-b6 ? Drohung:
           2.Tc1-c8 #
     Aber
-      1...Ka8-b8  !
+      1...Ka8-b8 !
 
-  1.a5-a4 ? Zugzwang.
+   1.a5-a4 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.a5-a3 ? Zugzwang.
+   1.a5-a3 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.a5-a6 ? Zugzwang.
+   1.a5-a6 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-a3 ? Zugzwang.
+   1.Tc1-a3 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-a4 ! Drohung:
+   1.Tc1-a4 ! Drohung:
           2.a5-a3 #
 
-  1.Tc1-a2 ? Zugzwang.
+   1.Tc1-a2 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-a1 ? Zugzwang.
+   1.Tc1-a1 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-b1 ? Zugzwang.
+   1.Tc1-b1 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-c6 ? Drohung:
+   1.Tc1-c6 ? Drohung:
           2.Tc6-a6 #
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-c5 ? Zugzwang.
+   1.Tc1-c5 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-c4 ? Zugzwang.
+   1.Tc1-c4 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-c3 ? Zugzwang.
+   1.Tc1-c3 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-c2 ? Zugzwang.
+   1.Tc1-c2 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-h1 ? Zugzwang.
+   1.Tc1-h1 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-g1 ? Zugzwang.
+   1.Tc1-g1 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-f1 ? Zugzwang.
+   1.Tc1-f1 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-e1 ? Zugzwang.
+   1.Tc1-e1 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
-  1.Tc1-d1 ? Zugzwang.
+   1.Tc1-d1 ? Zugzwang.
     Aber
-      1...Ka8-a7  !
+      1...Ka8-a7 !
 
+              empile:        2646
+            jouecoup:        2151
+        orig_rbechec:        2133
+        orig_rnechec:        2159
 Loesung beendet. 
 
 
@@ -166,65 +174,69 @@ Loesung beendet.
   #3                          2 + 2
             PhantomSchach
 
-  1.Tg8-g1 + ?
-      1...Kh1-h2 
+   1.Tg8-g1 + ?
+      1...Kh1-h2
           2.Tg1-g7 Zugzwang.
-              2...Kh2-h3 
+              2...Kh2-h3
                   3.Tg7-g8 #
     Aber
-      1...Kh1*g1  !
+      1...Kh1*g1 !
 
-  1.Tg8-g2 ? Drohung:
+   1.Tg8-g2 ? Drohung:
           2.Tg2-f2 #
     Aber
-      1...Kh1*g2  !
+      1...Kh1*g2 !
 
-  1.Tg8-g3 + !
-      1...Kh1-h2 
+   1.Tg8-g3 + !
+      1...Kh1-h2
           2.Tg3-g7 Zugzwang.
-              2...Kh2-h3 
+              2...Kh2-h3
                   3.Tg7-g8 #
 
-  1.Tg8-g5 + ?
-      1...Kh1-h2 
+   1.Tg8-g5 + ?
+      1...Kh1-h2
           2.Tg5-g7 Zugzwang.
-              2...Kh2-h3 
+              2...Kh2-h3
                   3.Tg7-g8 #
     Aber
-      1...f6*g5  !
+      1...f6*g5 !
 
-  1.Tg8-g6 ? Zugzwang.
+   1.Tg8-g6 ? Zugzwang.
     Aber
-      1...f6*g6  !
+      1...f6*g6 !
 
-  1.Tg8-g7 + ?
+   1.Tg8-g7 + ?
     Aber
-      1...Kh1-h2  !
+      1...Kh1-h2 !
 
-  1.Tg8-a8 ? Zugzwang.
+   1.Tg8-a8 ? Zugzwang.
     Aber
-      1...Kh1-g2  !
+      1...Kh1-g2 !
 
-  1.Tg8-c8 ? Zugzwang.
+   1.Tg8-c8 ? Zugzwang.
     Aber
-      1...Kh1-g2  !
+      1...Kh1-g2 !
 
-  1.Tg8-e8 ? Zugzwang.
+   1.Tg8-e8 ? Zugzwang.
     Aber
-      1...Kh1-g2  !
+      1...Kh1-g2 !
 
-  1.Tg8-h8 + ?
+   1.Tg8-h8 + ?
     Aber
-      1...Kh1-g2  !
+      1...Kh1-g2 !
 
-  1.f5-f4 ? Zugzwang.
+   1.f5-f4 ? Zugzwang.
     Aber
-      1...f6-f5  !
+      1...f6-f5 !
 
-  1.f5-f3 ? Zugzwang.
+   1.f5-f3 ? Zugzwang.
     Aber
-      1...f6-f5  !
+      1...f6-f5 !
 
+              empile:       18850
+            jouecoup:        9802
+        orig_rbechec:           0
+        orig_rnechec:        9073
 Loesung beendet. 
 
 
@@ -257,6 +269,10 @@ Loesung beendet.
   1.Kf3-g2   2.Kg2-h1 g7-g8=T = 
   1.Kf3-e2   2.Ke2-d1 g7-g8=D = 
 
+              empile:         824
+            jouecoup:         352
+        orig_rbechec:           0
+        orig_rnechec:         346
 Loesung beendet. 
 
 
@@ -289,6 +305,10 @@ Loesung beendet.
 
   1.Kc6-d5 g7-g8=D +   2.Kd5-e4 Dg8-g5 = 
 
+              empile:       10791
+            jouecoup:        3634
+        orig_rbechec:           0
+        orig_rnechec:        3583
 Loesung beendet. 
 
 
@@ -320,18 +340,30 @@ Loesung beendet.
 
 a) 
 
-  1.g7-g8=S + !
+   1.g7-g8=S + !
 
-  1.g7-g8=T + !
+   1.g7-g8=T + !
 
+              empile:           3
+            jouecoup:           6
+        orig_rbechec:           0
+        orig_rnechec:           9
 b) =1
 
-  1.g7-g8=D = !
+   1.g7-g8=D = !
 
+              empile:          28
+            jouecoup:          20
+        orig_rbechec:           0
+        orig_rnechec:          22
 c) #1
 
-  1.g7-g8=T # !
+   1.g7-g8=T # !
 
+              empile:          18
+            jouecoup:          17
+        orig_rbechec:           0
+        orig_rnechec:          19
 Loesung beendet. 
 
 

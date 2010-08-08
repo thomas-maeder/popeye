@@ -24,54 +24,58 @@
   #2                         9 + 18
                 Volage
 
-  1.Dc8-c6 ! Zugzwang.
-      1...Sf1-h2=wS 
+   1.Dc8-c6 ! Zugzwang.
+      1...Sf1-h2=wS
           2.Sh2*g4 #
-      1...Sf1-e3=wS 
+      1...Sf1-e3=wS
           2.Se3*g4 #
-      1...Sf1-d2=wS 
+      1...Sf1-d2=wS
           2.Sd2*e4 #
-      1...Se4-c3=wS 
+      1...Se4-c3=wS
           2.Sc3-e4 #
-      1...Se4-d2=wS 
+      1...Se4-d2=wS
           2.Sd2-e4 #
-      1...Se4*g5=wS 
+      1...Se4*g5=wS
           2.Sg5-e4 #
-      1...Sg4-e3=wS 
+      1...Sg4-e3=wS
           2.Se3-g4 #
-      1...Sg4-h2=wS 
+      1...Sg4-h2=wS
           2.Sh2-g4 #
-      1...Sg4-h6=wS 
+      1...Sg4-h6=wS
           2.Sh6-g4 #
-      1...Sh5-f4=wS 
+      1...Sh5-f4=wS
           2.Sf4-h5 #
-      1...Tg6*g5=wT 
+      1...Tg6*g5=wT
           2.Tg5-g6 #
-      1...Sd7-b6=wS 
+      1...Sd7-b6=wS
           2.Sb6-d7 #
-      1...Sd7-f8=wS 
+      1...Sd7-f8=wS
           2.Sf8-d7 #
-      1...Sd7-b8=wS 
+      1...Sd7-b8=wS
           2.Sb8-d7 #
-      1...Tf7*e7=wT 
+      1...Tf7*e7=wT
           2.Te7-f7 #
-      1...Lg7-h6 
+      1...Lg7-h6
           2.Th7*f7 #
-      1...Lg7-f8 
+      1...Lg7-f8
           2.Th7*f7 #
-      1...Sa8-b6=wS 
+      1...Sa8-b6=wS
           2.Sb6*d7 #
-      1...Sa8-c7=wS 
+      1...Sa8-c7=wS
           2.Sc7*e8 #
-      1...Se8-c7=wS 
+      1...Se8-c7=wS
           2.Sc7-e8 #
-      1...Sg8*e7=wS 
+      1...Sg8*e7=wS
           2.Se7-g8 #
-      1...Sg8-h6=wS 
+      1...Sg8-h6=wS
           2.Sh6*g4 #
-      1...Dh8*h7=wD 
+      1...Dh8*h7=wD
           2.Dh7*g6 #
 
+              empile:       14972
+            jouecoup:       12984
+        orig_rbechec:        1589
+        orig_rnechec:       13009
 Loesung beendet. 
 
 
@@ -101,54 +105,58 @@ Loesung beendet.
   #2                          8 + 5
              Hypervolage
 
-  1.Kf8-g8 ? Zugzwang.
+   1.Kf8-g8 ? Zugzwang.
     Aber
-      1...Kd8-e8  !
+      1...Kd8-e8 !
 
-  1.Kf8-g7 ? Zugzwang.
+   1.Kf8-g7 ? Zugzwang.
     Aber
-      1...Kd8-e8  !
+      1...Kd8-e8 !
 
-  1.Se7*d5=sS + ?
+   1.Se7*d5=sS + ?
     Aber
-      1...Kd8-c8  !
+      1...Kd8-c8 !
 
-  1.Se7-c8=sS + ?
+   1.Se7-c8=sS + ?
     Aber
-      1...Sc8-e7=wS  !
+      1...Sc8-e7=wS !
 
-  1.a7-a8=sD ! Zugzwang.
-      1...Da8-a7=wD 
+   1.a7-a8=sD ! Zugzwang.
+      1...Da8-a7=wD
           2.Da7-b8 #
-      1...Da8-c8 
+      1...Da8-c8
           2.Se7*d5=sS #
 
-  1.a7-a8=sS ? Zugzwang.
+   1.a7-a8=sS ? Zugzwang.
     Aber
-      1...Sa8*b6=wS  !
+      1...Sa8*b6=wS !
 
-  1.a7-a8=sT ? Zugzwang.
-      1...Ta8-c8 
+   1.a7-a8=sT ? Zugzwang.
+      1...Ta8-c8
           2.Se7*d5=sS #
     Aber
-      1...Ta8-a7=wT  !
+      1...Ta8-a7=wT !
 
-  1.Lb6*c7 + ?
+   1.Lb6*c7 + ?
     Aber
-      1...Kd8*c7  !
+      1...Kd8*c7 !
 
-  1.Td4-d2 ? Zugzwang.
+   1.Td4-d2 ? Zugzwang.
     Aber
-      1...d5-d4=wB  !
+      1...d5-d4=wB !
 
-  1.Td4-b4 ? Zugzwang.
+   1.Td4-b4 ? Zugzwang.
     Aber
-      1...d5-d4=wB  !
+      1...d5-d4=wB !
 
-  1.Td4-f4 ? Zugzwang.
+   1.Td4-f4 ? Zugzwang.
     Aber
-      1...d5-d4=wB  !
+      1...d5-d4=wB !
 
+              empile:        3682
+            jouecoup:        2925
+        orig_rbechec:         931
+        orig_rnechec:        2933
 Loesung beendet. 
 
 
@@ -178,17 +186,21 @@ Loesung beendet.
   #2                        12 + 10
                 Volage
 
-  1.Lf3-e2 ! Drohung:
+   1.Lf3-e2 ! Drohung:
           2.f2-f4 #
-      1...Sf6*d5=wS + 
+      1...Sf6*d5=wS +
           2.Sd5-b6 #
-      1...Sf6*e4=wS + 
+      1...Sf6*e4=wS +
           2.Se4-d6 #
-      1...Sf6-h5=wS + 
+      1...Sf6-h5=wS +
           2.Dh4-f6 #
-      1...Sf6-e8=wS + 
+      1...Sf6-e8=wS +
           2.Le7-f6 #
 
+              empile:       10635
+            jouecoup:        8304
+        orig_rbechec:         755
+        orig_rnechec:        8312
 Loesung beendet. 
 
 
@@ -221,6 +233,10 @@ Loesung beendet.
   1.d2-d1=wD Dd1-d6   2.e2-e1=wD De1-b4 # 
   1.e2-e1=wD De1-e3   2.d2-d1=wD Dd1-b3 # 
 
+              empile:       28919
+            jouecoup:        9642
+        orig_rbechec:           0
+        orig_rnechec:        9556
 Loesung beendet. 
 
 
@@ -254,6 +270,10 @@ Loesung beendet.
   1.a2-a1=wS   2.b2*a1=D [+wSb8]   3.Da1-a2=wD Da2-g8 = 
   1.b2-b1=wL   2.a2*b1=T [+wLc8]   3.Tb1-b8=wT Lc8-e6 = 
 
+              empile:       82050
+            jouecoup:       28397
+        orig_rbechec:       12493
+        orig_rnechec:       26765
 Loesung beendet. 
 
 
@@ -284,26 +304,30 @@ Loesung beendet.
                 Circe
                 Volage
 
-  1.b6*a7 [+sSb8] ! Drohung:
+   1.b6*a7 [+sSb8] ! Drohung:
           2.c7*b8=D
               2...Ta8*a7=wT [+sBa2] #
               2...Ta8*b8=wT [+sDd1] #
-      1...Sb8-a6=wS 
+      1...Sb8-a6=wS
           2.b7-b8=sL
               2...Ta8*a7=wT [+sBa2] #
               2...Lb8*a7 [+sBa2] #
               2...Lb8*c7 [+sBc2] #
-      1...Sb8-c6=wS 
+      1...Sb8-c6=wS
           2.b7-b8=sL
               2...Ta8*a7=wT [+sBa2] #
               2...Lb8*a7 [+sBa2] #
               2...Lb8*c7 [+sBc2] #
-      1...Sb8-d7=wS 
+      1...Sb8-d7=wS
           2.b7-b8=sL
               2...Ta8*a7=wT [+sBa2] #
               2...Lb8*a7 [+sBa2] #
               2...Lb8*c7 [+sBc2] #
 
+              empile:        9880
+            jouecoup:        6091
+        orig_rbechec:        6106
+        orig_rnechec:        1945
 Loesung beendet. 
 
 
