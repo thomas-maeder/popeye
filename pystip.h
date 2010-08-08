@@ -191,8 +191,8 @@ typedef struct
             slice_index next;
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
-            slice_index defense_move;
-        } threat_writer;
+            slice_index attack_side;
+        } threat_solver;
 
         struct
         {

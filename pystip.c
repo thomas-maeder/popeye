@@ -1735,8 +1735,9 @@ static structure_traversers_visitors starter_detectors[] =
   { STHelpShortcut,                   &pipe_detect_starter          },
   { STSeriesShortcut,                 &pipe_detect_starter          },
   { STParryFork,                      &pipe_detect_starter          },
-  /* max_threat_length.to_attacker has different starter -> detect
-   * starter from next slice only */
+  /* .to_attacker has different starter -> detect starter from .next
+   * only */
+  { STThreatSolver,                   &pipe_detect_starter          },
   { STMaxThreatLength,                &pipe_detect_starter          }
 };
 
