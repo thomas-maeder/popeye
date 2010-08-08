@@ -163,7 +163,7 @@ static void degenerate_tree_inserter_attack_move(slice_index si,
 
 static structure_traversers_visitors degenerate_tree_guards_inserters[] =
 {
-  { STAttackEnd, &degenerate_tree_inserter_attack_move }
+  { STReadyForAttack, &degenerate_tree_inserter_attack_move }
 };
 
 enum

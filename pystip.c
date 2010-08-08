@@ -583,6 +583,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STSelfCheckGuardAttackerFilter,&selfcheck_guard_attacker_filter_make_root},
   { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
+  { STReadyForAttack,              &stip_traverse_structure_children         },
   { STAttackEnd,                   &stip_traverse_structure_children         },
   { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
