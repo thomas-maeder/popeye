@@ -9,6 +9,8 @@
 
 #if defined(DOMEASURE)
 
+#include "pyproc.h"
+
 #include <stdio.h>
 
 #define COUNTER_PREFIX COUNTER_
@@ -21,18 +23,22 @@
 
 /* Increment a counter defined elsewhere
  */
-#define INCREMENT_COUNTER(name) \
+#define INCREMENT_COUNTER(name)         \
   {                                     \
-    extern COUNTER_TYPE counter##name; \
+    extern COUNTER_TYPE counter##name;  \
     ++counter##name;                    \
   }
 
 /* Write the value of a counter defined elsewhere
  */
-#define WRITE_COUNTER(name) \
-  {                                             \
-    extern COUNTER_TYPE counter##name;         \
-    printf("%20s:%12lu\n",#name,counter##name); \
+#define WRITE_COUNTER(name)                       \
+  {                                               \
+    extern COUNTER_TYPE counter##name;            \
+    enum { bufsize = 50 };                        \
+    char buf[bufsize];                                          \
+    snprintf(buf,bufsize,"%20s:%12lu\n",#name,counter##name);   \
+    StdString(buf);                                             \
+    counter##name = 0;                                          \
   }
 
 #else
