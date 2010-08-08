@@ -65,13 +65,16 @@ slice_index alloc_defense_branch(stip_length_type length,
     slice_index const defense = alloc_defense_move_slice(length,min_length);
     slice_index const played = alloc_defense_move_played_slice(length-1,
                                                                min_length-1);
+    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
+                                                 length-1,min_length-1);
     slice_index const
         guard2 = alloc_selfcheck_guard_attacker_filter(length-1,min_length-1);
     pipe_link(result,guard1);
     pipe_link(guard1,end);
     pipe_link(end,defense);
     pipe_link(defense,played);
-    pipe_link(played,guard2);
+    pipe_link(played,dshoehorned);
+    pipe_link(dshoehorned,guard2);
   }
 
   TraceFunctionExit(__func__);
@@ -105,8 +108,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const aplayed = alloc_branch(STAttackMovePlayed,
                                              length-1,min_length-1);
-    slice_index const shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                                length-1,min_length-1);
+    slice_index const ashoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                                 length-1,min_length-1);
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length-1,min_length-1);
     slice_index const checked = alloc_branch(STAttackMoveLegalityChecked,
@@ -118,20 +121,23 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                          min_length-1);
     slice_index const dplayed = alloc_defense_move_played_slice(length-2,
                                                                 min_length-2);
+    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
+                                                 length-2,min_length-2);
     slice_index const
         guard2 = alloc_selfcheck_guard_attacker_filter(length,min_length);
     pipe_link(result,guard2);
     pipe_link(guard2,aend);
     pipe_link(aend,attack);
     pipe_link(attack,aplayed);
-    pipe_link(aplayed,shoehorned);
-    pipe_link(shoehorned,guard1);
+    pipe_link(aplayed,ashoehorned);
+    pipe_link(ashoehorned,guard1);
     pipe_link(guard1,checked);
     pipe_link(checked,ready);
     pipe_link(ready,dend);
     pipe_link(dend,defense);
     pipe_link(defense,dplayed);
-    pipe_link(dplayed,result);
+    pipe_link(dplayed,dshoehorned);
+    pipe_link(dshoehorned,result);
   }
 
   TraceFunctionExit(__func__);

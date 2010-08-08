@@ -71,6 +71,7 @@
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
+    ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
     ENUMERATOR(STHelpRoot),        /* root level of help play */        \
     ENUMERATOR(STHelpShortcut),    /* selects branch for solving short solutions */        \
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
@@ -228,6 +229,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STAttackMoveLegalityChecked */
   slice_structure_pipe,   /* STReadyForDefense */
   slice_structure_pipe,   /* STDefenseMovePlayed */
+  slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -576,7 +578,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
   { STAttackEnd,                   &stip_traverse_structure_children         },
-  { STDefenseMovePlayed,           &copy_into_root_end                       }
+  { STDefenseMoveShoeHorningDone,  &copy_into_root_end                       }
 };
 
 enum
@@ -1718,21 +1720,24 @@ void stip_make_exact(slice_index si)
 
 static structure_traversers_visitors starter_detectors[] =
 {
-  { STAttackMove,                       &attack_move_detect_starter   },
-  { STDefenseMove,                      &defense_move_detect_starter  },
-  { STHelpMove,                         &help_move_detect_starter     },
-  { STHelpMoveToGoal,                   &help_move_detect_starter     },
-  { STSeriesMove,                       &series_move_detect_starter   },
-  { STSeriesMoveToGoal,                 &series_move_detect_starter   },
-  { STReciprocal,                       &reci_detect_starter          },
-  { STQuodlibet,                        &quodlibet_detect_starter     },
-  { STMoveInverterRootSolvableFilter,   &move_inverter_detect_starter },
-  { STMoveInverterSolvableFilter,       &move_inverter_detect_starter },
-  { STMoveInverterSeriesFilter,         &move_inverter_detect_starter },
-  { STAttackRoot,                       &attack_move_detect_starter   },
-  { STHelpShortcut,                     &pipe_detect_starter          },
-  { STSeriesShortcut,                   &pipe_detect_starter          },
-  { STParryFork,                        &pipe_detect_starter          }
+  { STAttackMove,                     &attack_move_detect_starter   },
+  { STDefenseMove,                    &defense_move_detect_starter  },
+  { STHelpMove,                       &help_move_detect_starter     },
+  { STHelpMoveToGoal,                 &help_move_detect_starter     },
+  { STSeriesMove,                     &series_move_detect_starter   },
+  { STSeriesMoveToGoal,               &series_move_detect_starter   },
+  { STReciprocal,                     &reci_detect_starter          },
+  { STQuodlibet,                      &quodlibet_detect_starter     },
+  { STMoveInverterRootSolvableFilter, &move_inverter_detect_starter },
+  { STMoveInverterSolvableFilter,     &move_inverter_detect_starter },
+  { STMoveInverterSeriesFilter,       &move_inverter_detect_starter },
+  { STAttackRoot,                     &attack_move_detect_starter   },
+  { STHelpShortcut,                   &pipe_detect_starter          },
+  { STSeriesShortcut,                 &pipe_detect_starter          },
+  { STParryFork,                      &pipe_detect_starter          },
+  /* max_threat_length.to_attacker has different starter -> detect
+   * starter from next slice only */
+  { STMaxThreatLength,                &pipe_detect_starter          }
 };
 
 enum
@@ -1984,6 +1989,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
+  &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STHelpRoot */
   &stip_traverse_structure_help_shortcut,   /* STHelpShortcut */
   &stip_traverse_structure_pipe,            /* STHelpMove */
@@ -2168,6 +2174,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_pipe,                  /* STDefenseMovePlayed */
+    &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_help_root,             /* STHelpRoot */
     &stip_traverse_moves_help_shortcut,         /* STHelpShortcut */
     &stip_traverse_moves_branch_slice,          /* STHelpMove */

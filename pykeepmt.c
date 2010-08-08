@@ -653,24 +653,24 @@ static void keepmating_guards_inserter_series_move(slice_index si,
 
 static structure_traversers_visitors keepmating_guards_inserters[] =
 {
-  { STAttackMove,           &keepmating_guards_inserter_attack_move },
-  { STAttackMoveToGoal,     &keepmating_guards_inserter_attack_move },
-  { STDefenseMovePlayed,    &keepmating_guards_inserter_defender    },
-  { STHelpMove,             &keepmating_guards_inserter_help_move   },
-  { STHelpMoveToGoal,       &keepmating_guards_inserter_help_move   },
-  { STHelpFork,             &keepmating_guards_inserter_branch_fork },
-  { STSeriesMove,           &keepmating_guards_inserter_series_move },
-  { STSeriesMoveToGoal,     &keepmating_guards_inserter_series_move },
-  { STSeriesFork,           &keepmating_guards_inserter_branch_fork },
-  { STGoalReachedTester,    &keepmating_guards_inserter_leaf_forced },
-  { STReciprocal,           &keepmating_guards_inserter_reciprocal  },
-  { STQuodlibet,            &keepmating_guards_inserter_quodlibet   },
-  { STAttackRoot,           &keepmating_guards_inserter_attack_move },
-  { STDirectDefenderFilter, &keepmating_guards_inserter_battle_fork },
-  { STReflexAttackerFilter, &keepmating_guards_inserter_battle_fork },
-  { STReflexDefenderFilter, &keepmating_guards_inserter_battle_fork },
-  { STSelfDefense,          &keepmating_guards_inserter_battle_fork },
-  { STDefenseFork,          &keepmating_guards_inserter_battle_fork }
+  { STAttackMove,                 &keepmating_guards_inserter_attack_move },
+  { STAttackMoveToGoal,           &keepmating_guards_inserter_attack_move },
+  { STDefenseMoveShoeHorningDone, &keepmating_guards_inserter_defender    },
+  { STHelpMove,                   &keepmating_guards_inserter_help_move   },
+  { STHelpMoveToGoal,             &keepmating_guards_inserter_help_move   },
+  { STHelpFork,                   &keepmating_guards_inserter_branch_fork },
+  { STSeriesMove,                 &keepmating_guards_inserter_series_move },
+  { STSeriesMoveToGoal,           &keepmating_guards_inserter_series_move },
+  { STSeriesFork,                 &keepmating_guards_inserter_branch_fork },
+  { STGoalReachedTester,          &keepmating_guards_inserter_leaf_forced },
+  { STReciprocal,                 &keepmating_guards_inserter_reciprocal  },
+  { STQuodlibet,                  &keepmating_guards_inserter_quodlibet   },
+  { STAttackRoot,                 &keepmating_guards_inserter_attack_move },
+  { STDirectDefenderFilter,       &keepmating_guards_inserter_battle_fork },
+  { STReflexAttackerFilter,       &keepmating_guards_inserter_battle_fork },
+  { STReflexDefenderFilter,       &keepmating_guards_inserter_battle_fork },
+  { STSelfDefense,                &keepmating_guards_inserter_battle_fork },
+  { STDefenseFork,                &keepmating_guards_inserter_battle_fork }
 };
 
 enum

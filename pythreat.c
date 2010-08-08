@@ -251,7 +251,7 @@ static void maxthreatlength_guard_inserter(slice_index si,
   {
     boolean * const inserted = st->param;
     slice_index const
-        to_attacker = branch_find_slice(STSelfCheckGuardAttackerFilter,si);
+        to_attacker = branch_find_slice(STDefenseMoveShoeHorningDone,si);
     pipe_append(slices[si].prev,
                 alloc_maxthreatlength_guard(length,to_attacker));
     *inserted = true;
@@ -265,7 +265,7 @@ static void maxthreatlength_guard_inserter(slice_index si,
 
 static structure_traversers_visitors maxthreatlength_guards_inserters[] =
 {
-  { STDefenseMove, &maxthreatlength_guard_inserter }
+  { STReadyForDefense, &maxthreatlength_guard_inserter }
 };
 
 enum
