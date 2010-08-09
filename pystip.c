@@ -70,6 +70,7 @@
     ENUMERATOR(STAttackMovePlayed), /* proxy mark after attack moves have been fully played */ \
     ENUMERATOR(STAttackMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on attack moves */ \
     ENUMERATOR(STAttackMoveLegalityChecked), /* proxy mark after slices that have checked the legality of attack moves */ \
+    ENUMERATOR(STAttackMoveFiltered), /* proxy mark after slices that have filtered irrelevant attack moves */ \
     ENUMERATOR(STReadyForDefense),     /* proxy mark before we start playing defenses */ \
     ENUMERATOR(STDefenseMovePlayed),     /* proxy mark after defense moves have been fully played */ \
     ENUMERATOR(STDefenseMoveShoeHorningDone), /* proxy mark after slices shoehorning special tests on defense moves */ \
@@ -231,6 +232,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STAttackMovePlayed */
   slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
   slice_structure_pipe,   /* STAttackMoveLegalityChecked */
+  slice_structure_pipe,   /* STAttackMoveFiltered */
   slice_structure_pipe,   /* STReadyForDefense */
   slice_structure_pipe,   /* STDefenseMovePlayed */
   slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
@@ -1284,6 +1286,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackMovePlayed,                 &trash_for_postkey_play                                     },
   { STAttackMoveShoeHorningDone,        &trash_for_postkey_play                                     },
   { STAttackMoveLegalityChecked,        &move_to_postkey_play                                       },
+  { STAttackMoveFiltered,               &move_to_postkey_play                                       },
   { STReadyForDefense,                  &move_to_postkey_play                                       },
   { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                                     },
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                                     },
@@ -1718,6 +1721,7 @@ static structure_traversers_visitors exact_makers[] =
   { STAttackMovePlayed,                 &make_exact_battle_branch },
   { STAttackMoveShoeHorningDone,        &make_exact_battle_branch },
   { STAttackMoveLegalityChecked,        &make_exact_battle_branch },
+  { STAttackMoveFiltered,               &make_exact_battle_branch },
   { STReadyForDefense,                  &make_exact_battle_branch },
   { STDefenseMovePlayed,                &make_exact_battle_branch },
   { STDefenseMoveShoeHorningDone,       &make_exact_battle_branch },
@@ -2036,6 +2040,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackMovePlayed */
   &stip_traverse_structure_pipe,            /* STAttackMoveShoeHorningDone */
   &stip_traverse_structure_pipe,            /* STAttackMoveLegalityChecked */
+  &stip_traverse_structure_pipe,            /* STAttackMoveFiltered */
   &stip_traverse_structure_pipe,            /* STReadyForDefense */
   &stip_traverse_structure_pipe,            /* STDefenseMovePlayed */
   &stip_traverse_structure_pipe,            /* STDefenseMoveShoeHorningDone */
@@ -2224,6 +2229,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
+    &stip_traverse_moves_pipe,                  /* STAttackMoveFiltered */
     &stip_traverse_moves_pipe,                  /* STReadyForDefense */
     &stip_traverse_moves_pipe,                  /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */

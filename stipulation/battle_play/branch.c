@@ -124,6 +124,8 @@ slice_index alloc_battle_branch(stip_length_type length,
         guard1 = alloc_selfcheck_guard_defender_filter(length-1,min_length-1);
     slice_index const checked = alloc_branch(STAttackMoveLegalityChecked,
                                              length-1,min_length-1);
+    slice_index const afiltered = alloc_branch(STAttackMoveFiltered,
+                                               length-1,min_length-1);
     slice_index const dready = alloc_branch(STReadyForDefense,
                                            length-1,min_length-1);
     slice_index const dend = alloc_defense_end_slice(length-1,min_length-1);
@@ -149,7 +151,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(aplayed,ashoehorned);
     pipe_link(ashoehorned,guard1);
     pipe_link(guard1,checked);
-    pipe_link(checked,dready);
+    pipe_link(checked,afiltered);
+    pipe_link(afiltered,dready);
     pipe_link(dready,dend);
     pipe_link(dend,defense);
     pipe_link(defense,dplayed);

@@ -512,9 +512,9 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (min_length_nontrivial<=slack_length_battle+1)
-    pipe_append(si,alloc_max_nr_noncheck_guard());
+    pipe_append(slices[si].prev,alloc_max_nr_noncheck_guard());
   else
-    pipe_append(si,alloc_max_nr_nontrivial_guard());
+    pipe_append(slices[si].prev,alloc_max_nr_nontrivial_guard());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -548,8 +548,8 @@ static void append_nontrivial_counter(slice_index si,
 
 static structure_traversers_visitors max_nr_nontrivial_guards_inserters[] =
 {
-  { STDefenseMovePlayed,            &append_nontrivial_counter             },
-  { STSelfCheckGuardDefenderFilter, &nontrivial_guard_inserter_attack_move }
+  { STDefenseMovePlayed,  &append_nontrivial_counter             },
+  { STAttackMoveFiltered, &nontrivial_guard_inserter_attack_move }
 };
 
 enum
