@@ -168,10 +168,10 @@ a)
 
    1.Kh6-h7 ## !
 
-              empile:          37
-            jouecoup:          35
-        orig_rbechec:          14
-        orig_rnechec:          27
+              empile:          23
+            jouecoup:          21
+        orig_rbechec:           9
+        orig_rnechec:          16
 b) +bRa5 
 
               empile:           4
@@ -217,10 +217,10 @@ a)
 
    1.Kc8-b7 ##! !
 
-              empile:         106
-            jouecoup:         100
-        orig_rbechec:          42
-        orig_rnechec:          75
+              empile:          68
+            jouecoup:          62
+        orig_rbechec:          32
+        orig_rnechec:          45
 b) +wSb4 
 
               empile:           8
@@ -237,10 +237,10 @@ b) +wSb4
 
    1.Kc8-b7 ##! !
 
-              empile:         106
-            jouecoup:         100
-        orig_rbechec:          42
-        orig_rnechec:          75
+              empile:          68
+            jouecoup:          62
+        orig_rbechec:          32
+        orig_rnechec:          45
 +e) ser-##!1
 
   1.Kc8-b7 ##! 

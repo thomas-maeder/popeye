@@ -160,10 +160,10 @@ Loesung beendet.
     Aber
       1...Kd4*e3 !
 
-              empile:       28566
-            jouecoup:       19948
-        orig_rbechec:        5542
-        orig_rnechec:       19972
+              empile:       28086
+            jouecoup:       19349
+        orig_rbechec:        5525
+        orig_rnechec:       19356
 Loesung beendet. 
 
 
@@ -251,10 +251,10 @@ Loesung beendet.
       1...ncSf4-e6=ncL
           2.cSd6-f5=cL #
 
-              empile:       10161
-            jouecoup:        5946
-        orig_rbechec:        2733
-        orig_rnechec:        5955
+              empile:       10057
+            jouecoup:        5800
+        orig_rbechec:        2727
+        orig_rnechec:        5803
 Loesung beendet. 
 
 
@@ -304,10 +304,10 @@ Loesung beendet.
       1...ncTe8-h8=ncD
           2.De5-e6 #
 
-              empile:       21097
-            jouecoup:       13240
-        orig_rbechec:        4747
-        orig_rnechec:       13251
+              empile:       20883
+            jouecoup:       13026
+        orig_rbechec:        4738
+        orig_rnechec:       13028
 Loesung beendet. 
 
 
@@ -348,10 +348,10 @@ Loesung beendet.
       1...La7-b8
           2.cDc7*c5=cS #
 
-              empile:       12372
-            jouecoup:        7737
-        orig_rbechec:        3464
-        orig_rnechec:        7745
+              empile:       12251
+            jouecoup:        7616
+        orig_rbechec:        3459
+        orig_rnechec:        7619
 Loesung beendet. 
 
 
@@ -409,10 +409,10 @@ Loesung beendet.
       1...cSd3-b4=cL
           2.d2-d3 #
 
-              empile:        7055
-            jouecoup:        4779
-        orig_rbechec:        2748
-        orig_rnechec:        4794
+              empile:        6837
+            jouecoup:        4561
+        orig_rbechec:        2735
+        orig_rnechec:        4563
 Loesung beendet. 
 
 
@@ -452,10 +452,10 @@ Loesung beendet.
       1...ncLf8-e7=ncT
           2.Da4-e4 #
 
-              empile:        3587
-            jouecoup:        2238
-        orig_rbechec:        1139
-        orig_rnechec:        2244
+              empile:        3519
+            jouecoup:        2170
+        orig_rbechec:        1135
+        orig_rnechec:        2172
 Loesung beendet. 
 
 
@@ -514,10 +514,10 @@ Loesung beendet.
               2...Kf5-e6
                   3.Se4-g5 #
 
-              empile:      123723
-            jouecoup:       66224
-        orig_rbechec:       47322
-        orig_rnechec:       64641
+              empile:      123588
+            jouecoup:       66040
+        orig_rbechec:       47315
+        orig_rnechec:       64450
 Loesung beendet. 
 
 
@@ -611,10 +611,10 @@ Loesung beendet.
       1...cLd7*c8=cT [+wcDd1] +
           2.cDd1*f3=cS [+sBf7] #
 
-              empile:        6450
-            jouecoup:        3822
-        orig_rbechec:        1698
-        orig_rnechec:        3832
+              empile:        6262
+            jouecoup:        3634
+        orig_rbechec:        1691
+        orig_rnechec:        3637
 Loesung beendet. 
 
 

@@ -1085,16 +1085,13 @@ static void transform_to_quodlibet_self_defense(slice_index si,
                                                 stip_structure_traversal *st)
 {
   slice_index * const proxy_to_goal = st->param;
-  slice_index ready;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ready = alloc_branch(STReadyForDefense,
-                       slack_length_battle,slack_length_battle-1);
   *proxy_to_goal = stip_deep_copy(slices[si].u.branch_fork.towards_goal);
-  pipe_append(*proxy_to_goal,ready);
+  slice_make_direct_goal_branch(*proxy_to_goal);
 
   stip_traverse_structure_children(si,st);
 

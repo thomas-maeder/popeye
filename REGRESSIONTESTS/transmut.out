@@ -33,10 +33,10 @@ a)
       1...Le6*d5
           2.Sd6-f5 #
 
-              empile:       20437
-            jouecoup:       12727
-        orig_rbechec:        3308
-        orig_rnechec:       12733
+              empile:       20326
+            jouecoup:       12616
+        orig_rbechec:        3305
+        orig_rnechec:       12619
 b) TransmutierendeKoenige
 
    1.Ka7-b6 ! Drohung:
@@ -46,10 +46,10 @@ b) TransmutierendeKoenige
       1...Le6*d5
           2.Sd6-b5 #
 
-              empile:       14549
-            jouecoup:        8009
-        orig_rbechec:        2884
-        orig_rnechec:        8015
+              empile:       14440
+            jouecoup:        7900
+        orig_rbechec:        2881
+        orig_rnechec:        7903
 Loesung beendet. 
 
 
@@ -292,10 +292,10 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
                           4.b7-b8=H #
                           4.f6-f7 #
 
-              empile:      405069
-            jouecoup:      303975
-        orig_rbechec:      280821
-        orig_rnechec:      224193
+              empile:      405005
+            jouecoup:      303911
+        orig_rbechec:      280771
+        orig_rnechec:      224079
 Loesung beendet. 
 
 

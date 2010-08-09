@@ -25,10 +25,10 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
 
    1.Lb8-d6 = !
 
-              empile:         254
-            jouecoup:         159
-        orig_rbechec:          94
-        orig_rnechec:         161
+              empile:         243
+            jouecoup:         148
+        orig_rbechec:          93
+        orig_rnechec:         149
 Loesung beendet. 
 
 
@@ -94,10 +94,10 @@ Loesung beendet.
 
    1.a7-a8=D # !
 
-              empile:          24
-            jouecoup:          27
-        orig_rbechec:          21
-        orig_rnechec:          28
+              empile:          21
+            jouecoup:          24
+        orig_rbechec:          20
+        orig_rnechec:          24
 Loesung beendet. 
 
 
@@ -216,10 +216,10 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                       3...Kd4-c4
                           4.Df3-b3 #
 
-              empile:     1634807
-            jouecoup:     1040744
-        orig_rbechec:      882841
-        orig_rnechec:      571870
+              empile:     1634549
+            jouecoup:     1040486
+        orig_rbechec:      882826
+        orig_rnechec:      571597
 Loesung beendet. 
 
 
@@ -323,10 +323,10 @@ Beispiel 1
                                       5...Kg4-f4
                                           6.Dh3-f3 #
 
-              empile:     7552221
-            jouecoup:     6648040
-        orig_rbechec:     6036438
-        orig_rnechec:     1675106
+              empile:     7551915
+            jouecoup:     6647599
+        orig_rbechec:     6036412
+        orig_rnechec:     1674639
 Loesung beendet. 
 
 
@@ -382,10 +382,10 @@ Loesung beendet.
     Aber
       1...c6*d5 !
 
-              empile:      760147
-            jouecoup:      484047
-        orig_rbechec:      235595
-        orig_rnechec:      432184
+              empile:      759971
+            jouecoup:      483871
+        orig_rbechec:      235590
+        orig_rnechec:      432003
 Loesung beendet. 
 
 

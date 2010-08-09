@@ -39,10 +39,10 @@ a)
       1...Dh8*g8 [+wLf1]
           2.Lf1*d3 #
 
-              empile:       12226
-            jouecoup:        9764
-        orig_rbechec:         824
-        orig_rnechec:        9773
+              empile:       11998
+            jouecoup:        9536
+        orig_rbechec:         818
+        orig_rnechec:        9539
 b) ChamaeleonCirce    S->L->T->D->S
 
    1.Da7-d7 ! Drohung:
@@ -58,10 +58,10 @@ b) ChamaeleonCirce    S->L->T->D->S
       1...Dh8*g8 [+wTh1]
           2.Th1-e1 #
 
-              empile:       12483
-            jouecoup:        9983
-        orig_rbechec:         857
-        orig_rnechec:        9992
+              empile:       12256
+            jouecoup:        9756
+        orig_rbechec:         851
+        orig_rnechec:        9759
 c) CirceClone
 
    1.Da7-d7 ! Drohung:
@@ -77,10 +77,10 @@ c) CirceClone
       1...Dh8*g8 [+wDd1]
           2.Dd1-e1 #
 
-              empile:       12095
-            jouecoup:        9622
-        orig_rbechec:         813
-        orig_rnechec:        9631
+              empile:       11866
+            jouecoup:        9393
+        orig_rbechec:         807
+        orig_rnechec:        9396
 d) ChamaeleonCirce    S->D->T->L->S
 
    1.Da7-d7 ! Drohung:
@@ -96,10 +96,10 @@ d) ChamaeleonCirce    S->D->T->L->S
       1...Dh8*g8 [+wSb1]
           2.Sb1*d2 [+sDd8] #
 
-              empile:       12878
-            jouecoup:       10333
-        orig_rbechec:         875
-        orig_rnechec:       10342
+              empile:       12648
+            jouecoup:       10103
+        orig_rbechec:         869
+        orig_rnechec:       10106
 Loesung beendet. 
 
 
@@ -265,10 +265,10 @@ Loesung beendet.
       1...g4*f3 [+wBf2]
           2.g2-g3 #
 
-              empile:         713
-            jouecoup:         533
-        orig_rbechec:         192
-        orig_rnechec:         537
+              empile:         688
+            jouecoup:         508
+        orig_rbechec:         190
+        orig_rnechec:         510
 Loesung beendet. 
 
 

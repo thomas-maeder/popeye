@@ -43,20 +43,20 @@ a)
       1...Kf5-e5[wK<>bK]
           2.Sf2*d3 #
 
-              empile:        2269
-            jouecoup:        1644
-        orig_rbechec:        1167
-        orig_rnechec:        1817
+              empile:        2218
+            jouecoup:        1593
+        orig_rbechec:        1161
+        orig_rnechec:        1757
 b) WhiteOscillatingKings    TypeB
 
    1.Sf2-d1[wK<>bK] ! zugzwang.
       1...Kc5-d5
           2.Sd1-e3[wK<>bK] #
 
-              empile:        3228
-            jouecoup:        1799
-        orig_rbechec:        2276
-        orig_rnechec:        1620
+              empile:        3221
+            jouecoup:        1792
+        orig_rbechec:        2275
+        orig_rnechec:        1612
 c) WhiteOscillatingKings    TypeB
    BlackOscillatingKings
 
@@ -143,10 +143,10 @@ solution finished.
       1...g6-g5[wK<>bK]
           2.Qc1-c6 #
 
-              empile:        2051
-            jouecoup:        1323
-        orig_rbechec:        1008
-        orig_rnechec:        1330
+              empile:        2014
+            jouecoup:        1286
+        orig_rbechec:        1003
+        orig_rnechec:        1288
 solution finished. 
 
 

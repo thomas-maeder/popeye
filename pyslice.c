@@ -96,6 +96,7 @@ has_solution_type slice_solve(slice_index si)
 
     case STSelfCheckGuardDefenderFilter:
     case STContinuationSolver:
+    case STBattlePlaySolver:
     case STOutputPlaintextTreeCheckDetectorDefenderFilter:
     case STDefenseMove:
     case STReflexDefenderFilter:
@@ -282,6 +283,7 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STContinuationSolver:
+    case STBattlePlaySolver:
     case STDefenseMove:
     case STSelfCheckGuardDefenderFilter:
     case STEnPassantDefenderFilter:

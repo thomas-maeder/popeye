@@ -82,17 +82,20 @@ direct_defender_filter_defend_in_n(slice_index si,
 
     if (n-slack_length_battle<=length-min_length)
     {
-      if (defense_defend(to_goal))
+      result = defense_defend_in_n(to_goal,n,n_max_unsolvable);
+      if (result>n)
       {
         n_max_unsolvable = slack_length_battle;
         result = defense_defend_in_n(next,n,n_max_unsolvable);
       }
-      else
-        result = n;
     }
     else
     {
-      if (defense_can_defend(to_goal))
+      unsigned int const max_nr_refutations = 0;
+      result = defense_can_defend_in_n(to_goal,
+                                       n,n_max_unsolvable,
+                                       max_nr_refutations);
+      if (result>n)
       {
         n_max_unsolvable = slack_length_battle;
         result = defense_defend_in_n(next,n,n_max_unsolvable);
@@ -142,7 +145,12 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    if (defense_can_defend(slices[si].u.branch_fork.towards_goal))
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+
+    result = defense_can_defend_in_n(to_goal,
+                                     n,n_max_unsolvable,
+                                     max_nr_refutations);
+    if (result>n)
     {
       n_max_unsolvable = slack_length_battle;
       result = defense_can_defend_in_n(next,
@@ -154,9 +162,7 @@ direct_defender_filter_can_defend_in_n(slice_index si,
       slice_index const length = slices[si].u.branch_fork.length;
       slice_index const min_length = slices[si].u.branch_fork.min_length;
 
-      if (n-slack_length_battle<=length-min_length)
-        result = n;
-      else
+      if (n-slack_length_battle>length-min_length)
         /* we have reached the goal earlier than allowed */
         result = n+4;
     }
@@ -281,7 +287,7 @@ static void direct_guards_inserter_attack(slice_index si,
 
 static structure_traversers_visitors direct_guards_inserters[] =
 {
-  { STAttackMoveShoeHorningDone, &direct_guards_inserter_attack }
+  { STAttackMoveShoeHorningDone, &direct_guards_inserter_attack  }
 };
 
 enum
@@ -314,6 +320,63 @@ void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
   stip_traverse_structure(si,&st);
 
   TraceStipulation(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a the appropriate proxy slices before each STLeaf slice
+ * @param si identifies STLeaf slice
+ * @param st address of structure representing the traversal
+ */
+static void instrument_leaf(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* reverse order intended */
+  pipe_append(slices[si].prev,
+              alloc_branch(STReadyForDefense,
+                           slack_length_battle,slack_length_battle-1));
+  pipe_append(slices[si].prev,
+              alloc_branch(STAttackMoveFiltered,
+                           slack_length_battle,slack_length_battle-1));
+  pipe_append(slices[si].prev,
+              alloc_branch(STAttackMoveLegalityChecked,
+                           slack_length_battle,slack_length_battle-1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors direct_leaf_instrumenters[] =
+{
+  { STLeaf, &instrument_leaf }
+};
+
+enum
+{
+  nr_direct_leaf_instrumenters = (sizeof direct_leaf_instrumenters
+                                  / sizeof direct_leaf_instrumenters[0])
+};
+
+/* Instrument a branch leading to a goal to be a direct goal branch
+ * @param si identifies entry slice of branch
+ */
+void slice_make_direct_goal_branch(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    direct_leaf_instrumenters,
+                                    nr_direct_leaf_instrumenters);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

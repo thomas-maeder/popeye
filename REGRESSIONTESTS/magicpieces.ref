@@ -75,10 +75,10 @@
           2.mPb7-b8=mS #
           2.mPb7-b8=mB #
 
-              empile:       22785
-            jouecoup:       13727
-        orig_rbechec:        6220
-        orig_rnechec:       13764
+              empile:       22361
+            jouecoup:       13279
+        orig_rbechec:        6196
+        orig_rnechec:       13292
 solution finished. 
 
 
@@ -372,10 +372,10 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
     but
       1...Sf6*g8 !
 
-              empile:      112766
-            jouecoup:       70938
-        orig_rbechec:       19300
-        orig_rnechec:       71067
+              empile:      109513
+            jouecoup:       67685
+        orig_rbechec:       19188
+        orig_rnechec:       67702
 solution finished. 
 
 
@@ -437,10 +437,10 @@ a)
       1...mPg4*f3 [wPc4, bSg6]
           2.mPg7-g8=mR [wSg6] #
 
-              empile:       29608
-            jouecoup:       20512
-        orig_rbechec:        6601
-        orig_rnechec:       20531
+              empile:       29280
+            jouecoup:       20184
+        orig_rbechec:        6589
+        orig_rnechec:       20191
 b) wPe6 
 
    1.mQf4-e3 [wRc5, bPe6] ! threat:
@@ -470,10 +470,10 @@ b) wPe6
       1...mPg4*f3 [wPc4, bSg6]
           2.mPg7-g8=mQ [wPe6, wSg6] #
 
-              empile:       30212
-            jouecoup:       20853
-        orig_rbechec:        6560
-        orig_rnechec:       20872
+              empile:       29883
+            jouecoup:       20524
+        orig_rbechec:        6548
+        orig_rnechec:       20531
 +c) wSg6 
 
    1.mQf4-e3 [wRc5, bPe6] ! threat:
@@ -503,10 +503,10 @@ b) wPe6
       1...mPg4*f3 [wPc4, wSg6]
           2.mPg7-g8=mB [wPe6] #
 
-              empile:       30586
-            jouecoup:       21196
-        orig_rbechec:        6781
-        orig_rnechec:       21215
+              empile:       30253
+            jouecoup:       20863
+        orig_rbechec:        6769
+        orig_rnechec:       20870
 +d) bPe6 
 
    1.mQf4-e3 [wRc5, wPe6] ! threat:
@@ -536,10 +536,10 @@ b) wPe6
       1...mPg4*f3 [wPc4, wSg6]
           2.mPg7-g8=mS [bPe7] #
 
-              empile:       30032
-            jouecoup:       20858
-        orig_rbechec:        6833
-        orig_rnechec:       20877
+              empile:       29699
+            jouecoup:       20525
+        orig_rbechec:        6821
+        orig_rnechec:       20532
 solution finished. 
 
 
@@ -614,10 +614,10 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
     but
       1...Se6-c5=wS !
 
-              empile:       42031
-            jouecoup:       31259
-        orig_rbechec:        6416
-        orig_rnechec:       31281
+              empile:       41576
+            jouecoup:       30740
+        orig_rbechec:        6400
+        orig_rnechec:       30746
 solution finished. 
 
 
@@ -659,7 +659,7 @@ a)
 
               empile:           5
             jouecoup:           5
-        orig_rbechec:          10
+        orig_rbechec:           5
         orig_rnechec:           0
 b) wmKa5 
 
@@ -675,7 +675,7 @@ b) wmKa5
 
               empile:           5
             jouecoup:           5
-        orig_rbechec:          10
+        orig_rbechec:           5
         orig_rnechec:           0
 c) nmKa5 
 
@@ -691,7 +691,7 @@ c) nmKa5
 
               empile:           5
             jouecoup:           5
-        orig_rbechec:          10
+        orig_rbechec:           5
         orig_rnechec:           1
 solution finished. 
 

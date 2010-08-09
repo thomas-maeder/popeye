@@ -97,10 +97,10 @@
           2.c7*b8=D #
           2.c7*b8=L #
 
-              empile:       20878
-            jouecoup:       18714
-        orig_rbechec:        1424
-        orig_rnechec:       18759
+              empile:       19667
+            jouecoup:       17503
+        orig_rbechec:        1386
+        orig_rnechec:       17510
 Loesung beendet. 
 
 
@@ -181,10 +181,10 @@ Loesung beendet.
                                                                   9.De7-f6 Drohung:
                                                                          10.Df6*f5 #
 
-              empile:    10979464
-            jouecoup:     8018313
-        orig_rbechec:     4620125
-        orig_rnechec:     4607551
+              empile:    10979063
+            jouecoup:     8017912
+        orig_rbechec:     4620109
+        orig_rnechec:     4607134
 Loesung beendet. 
 
 
@@ -216,10 +216,10 @@ Loesung beendet.
    1.h5*g6 ep. ! Drohung:
           2.Th8*h7 #
 
-              empile:         144
-            jouecoup:          86
-        orig_rbechec:          40
-        orig_rnechec:          90
+              empile:         139
+            jouecoup:          81
+        orig_rbechec:          39
+        orig_rnechec:          84
 Loesung beendet. 
 
 
@@ -250,10 +250,10 @@ Loesung beendet.
 
    1.h5*g6 ep. # !
 
-              empile:          85
-            jouecoup:          91
-        orig_rbechec:           2
-        orig_rnechec:          93
+              empile:          43
+            jouecoup:          46
+        orig_rbechec:           1
+        orig_rnechec:          47
 Loesung beendet. 
 
 
@@ -376,10 +376,10 @@ a)
     Aber
       1...c7-c6 !
 
-              empile:        2353
-            jouecoup:        2123
-        orig_rbechec:         300
-        orig_rnechec:        2150
+              empile:        2138
+            jouecoup:        1908
+        orig_rbechec:         279
+        orig_rnechec:        1914
 b) sBc7-->e7
 
    1.Kg5*g6 ? Drohung:
@@ -544,10 +544,10 @@ b) sBc7-->e7
     Aber
       1...e7*d6 !
 
-              empile:        2864
-            jouecoup:        2608
-        orig_rbechec:         417
-        orig_rnechec:        2672
+              empile:        2359
+            jouecoup:        2103
+        orig_rbechec:         360
+        orig_rnechec:        2110
 Loesung beendet. 
 
 
@@ -728,10 +728,10 @@ N.Y. State Chess Association, 16.8.1894
  28  (d2-d3 )
  29  (c2-c4 )
  30  (c2-c3 )
-              empile:      209999
-            jouecoup:      147573
-        orig_rbechec:      124013
-        orig_rnechec:       42415
+              empile:      209960
+            jouecoup:      147534
+        orig_rbechec:      124011
+        orig_rnechec:       42374
 Loesung beendet. 
 
 

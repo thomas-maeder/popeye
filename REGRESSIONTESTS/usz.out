@@ -29,10 +29,10 @@ a)
 
    1.Ka4-b5 = !
 
-              empile:          45
-            jouecoup:          44
-        orig_rbechec:          49
-        orig_rnechec:          15
+              empile:          32
+            jouecoup:          31
+        orig_rbechec:          34
+        orig_rnechec:          11
 b) s=1
 
               empile:          27
@@ -288,9 +288,9 @@ test case for stalemate in Ultraschachzwang
 
    1.Ka1-b2 = !
 
-              empile:          27
-            jouecoup:          22
-        orig_rbechec:          25
+              empile:          21
+            jouecoup:          16
+        orig_rbechec:          18
         orig_rnechec:           0
 Loesung beendet. 
 

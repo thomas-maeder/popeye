@@ -29,8 +29,8 @@ Popeye does not find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R [bRh7])
 
               empile:          47
             jouecoup:          47
-        orig_rbechec:          48
-        orig_rnechec:          49
+        orig_rbechec:          47
+        orig_rnechec:          48
 solution finished. 
 
 
@@ -121,10 +121,10 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
 
    1.Rb8-b1 # !
 
-              empile:          83
-            jouecoup:          71
-        orig_rbechec:          37
-        orig_rnechec:          73
+              empile:          66
+            jouecoup:          54
+        orig_rbechec:          36
+        orig_rnechec:          55
 solution finished. 
 
 
@@ -156,10 +156,10 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nBa2! nor 1.-nBh7)
 
    1.Rb8-b1 # !
 
-              empile:          48
-            jouecoup:          47
-        orig_rbechec:          29
-        orig_rnechec:          49
+              empile:          38
+            jouecoup:          37
+        orig_rbechec:          28
+        orig_rnechec:          38
 solution finished. 
 
 

@@ -8,6 +8,7 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
+#include "stipulation/goal_reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
@@ -27,6 +28,7 @@
 #include "output/plaintext/tree/battle_play_solution_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/continuation_writer.h"
+#include "output/plaintext/tree/goal_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -153,8 +155,35 @@ stip_length_type defense_defend_in_n(slice_index si,
       break;
 
     case STGoalReachedTester:
+      result = goal_reached_tester_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeGoalWriter:
+      result = output_plaintext_tree_goal_writer_defend_in_n(si,
+                                                             n,
+                                                             n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
+      result = output_plaintext_tree_check_detector_defend_in_n(si,
+                                                                n,
+                                                                n_max_unsolvable);
+      break;
+
+    case STEndOfSolutionWriter:
+      result = end_of_solution_writer_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STEnPassantDefenderFilter:
+      result = enpassant_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STLeaf:
+      result = n;
+      break;
+
     case STQuodlibet:
-      assert(n==slack_length_battle);
+    case STOutputPlaintextLineLineWriter:
       switch (slice_solve(si))
       {
         case opponent_self_check:
@@ -174,20 +203,6 @@ stip_length_type defense_defend_in_n(slice_index si,
           result = n+4;
           break;
       }
-      break;
-
-    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
-      result = output_plaintext_tree_check_detector_defend_in_n(si,
-                                                                n,
-                                                                n_max_unsolvable);
-      break;
-
-    case STEndOfSolutionWriter:
-      result = end_of_solution_writer_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STEnPassantDefenderFilter:
-      result = enpassant_defender_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     default:
@@ -354,8 +369,35 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       break;
 
     case STGoalReachedTester:
+      result = goal_reached_tester_can_defend_in_n(si,
+                                                   n,n_max_unsolvable,
+                                                   max_nr_refutations);
+      break;
+
+    case STOutputPlaintextTreeGoalWriter:
+      result = output_plaintext_tree_goal_writer_can_defend_in_n(si,
+                                                                 n,n_max_unsolvable,
+                                                                 max_nr_refutations);
+      break;
+
+    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
+      result = output_plaintext_tree_check_detector_can_defend_in_n(si,
+                                                                    n,n_max_unsolvable,
+                                                                    max_nr_refutations);
+      break;
+
+    case STEnPassantDefenderFilter:
+      result = enpassant_defender_filter_can_defend_in_n(si,
+                                                         n,n_max_unsolvable,
+                                                         max_nr_refutations);
+      break;
+
+    case STLeaf:
+      result = n;
+      break;
+
     case STQuodlibet:
-      assert(n==slack_length_battle);
+    case STOutputPlaintextLineLineWriter:
       switch (slice_has_solution(si))
       {
         case opponent_self_check:
@@ -375,18 +417,6 @@ stip_length_type defense_can_defend_in_n(slice_index si,
           result = n+4;
           break;
       }
-      break;
-
-    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
-      result = output_plaintext_tree_check_detector_can_defend_in_n(si,
-                                                                    n,n_max_unsolvable,
-                                                                    max_nr_refutations);
-      break;
-
-    case STEnPassantDefenderFilter:
-      result = enpassant_defender_filter_can_defend_in_n(si,
-                                                         n,n_max_unsolvable,
-                                                         max_nr_refutations);
       break;
 
     default:

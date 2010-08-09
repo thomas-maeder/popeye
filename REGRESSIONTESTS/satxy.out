@@ -77,10 +77,10 @@ Loesung beendet.
                                       5...g2*h1=L +
                                           6.Kg1*h1 ==
 
-              empile:      335829
-            jouecoup:      269140
-        orig_rbechec:      144673
-        orig_rnechec:      208569
+              empile:      335637
+            jouecoup:      268996
+        orig_rbechec:      144581
+        orig_rnechec:      208477
 Loesung beendet. 
 
 
@@ -116,34 +116,34 @@ a) +wDg1
 
    1.Ke1-f2 # !
 
-              empile:         466
-            jouecoup:         466
-        orig_rbechec:         162
-        orig_rnechec:         391
+              empile:         379
+            jouecoup:         379
+        orig_rbechec:         153
+        orig_rnechec:         301
 b) +wTd1 
 
    1.Ke1-d2 # !
 
-              empile:         406
-            jouecoup:         401
-        orig_rbechec:         121
-        orig_rnechec:         351
+              empile:         319
+            jouecoup:         314
+        orig_rbechec:         112
+        orig_rnechec:         261
 c) +wLf1 
 
    1.Ke1-e2 # !
 
-              empile:         327
-            jouecoup:         327
-        orig_rbechec:          93
-        orig_rnechec:         291
+              empile:         240
+            jouecoup:         240
+        orig_rbechec:          84
+        orig_rnechec:         201
 d) +wSf8 
 
    1.Sf8-h7 # !
 
-              empile:         321
-            jouecoup:         314
-        orig_rbechec:          87
-        orig_rnechec:         281
+              empile:         236
+            jouecoup:         229
+        orig_rbechec:          80
+        orig_rnechec:         191
 Loesung beendet. 
 
 

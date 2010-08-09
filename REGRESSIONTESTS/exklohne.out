@@ -79,10 +79,10 @@ Loesung beendet.
           2.a7-a8=L Drohung:
                   3.La8*c6 #
 
-              empile:       47569
-            jouecoup:       39460
-        orig_rbechec:        3860
-        orig_rnechec:       39640
+              empile:       47432
+            jouecoup:       39323
+        orig_rbechec:        3855
+        orig_rnechec:       39498
 Loesung beendet. 
 
 
@@ -162,10 +162,10 @@ Loesung beendet.
       1...Tf6-g6
           2.Sf1-g3 #
 
-              empile:        8299
-            jouecoup:        5996
-        orig_rbechec:        3395
-        orig_rnechec:        5664
+              empile:        8226
+            jouecoup:        5917
+        orig_rbechec:        3384
+        orig_rnechec:        5582
 Loesung beendet. 
 
 
@@ -490,10 +490,10 @@ a)
                               4...h3-h2
                                   5.Kd8-d7 #
 
-              empile:        9507
-            jouecoup:        8375
-        orig_rbechec:        2617
-        orig_rnechec:        8710
+              empile:        9503
+            jouecoup:        8368
+        orig_rbechec:        2616
+        orig_rnechec:        8702
 b) wKa5-->c3
 
    1.Kc3-d2 !
@@ -506,10 +506,10 @@ b) wKa5-->c3
                               4...h3-h2 +
                                   5.Lb8*h2 #
 
-              empile:       14086
-            jouecoup:       12104
-        orig_rbechec:        3611
-        orig_rnechec:       12622
+              empile:       14083
+            jouecoup:       12101
+        orig_rbechec:        3610
+        orig_rnechec:       12618
 Loesung beendet. 
 
 
@@ -556,10 +556,10 @@ Loesung beendet.
           2.c7-c8=L Drohung:
                   3.Lc8-e6 #
 
-              empile:       19350
-            jouecoup:       15278
-        orig_rbechec:        5014
-        orig_rnechec:       15332
+              empile:       19303
+            jouecoup:       15231
+        orig_rbechec:        5009
+        orig_rnechec:       15280
 Loesung beendet. 
 
 
@@ -607,10 +607,10 @@ Loesung beendet.
           2.a7-a8=S Drohung:
                   3.Tf7-a7 #
 
-              empile:      212849
-            jouecoup:      120038
-        orig_rbechec:       67139
-        orig_rnechec:      112349
+              empile:      212779
+            jouecoup:      119968
+        orig_rbechec:       67132
+        orig_rnechec:      112274
 Loesung beendet. 
 
 
@@ -660,10 +660,10 @@ Loesung beendet.
                   3.Sc4*b2 Drohung:
                           4.Sh7*f6 #
 
-              empile:     1514467
-            jouecoup:     1082125
-        orig_rbechec:      319256
-        orig_rnechec:      972389
+              empile:     1514225
+            jouecoup:     1081880
+        orig_rbechec:      319141
+        orig_rnechec:      972180
 Loesung beendet. 
 
 
@@ -701,10 +701,10 @@ Loesung beendet.
       1...Ta6*a8
           2.0-0-0 #
 
-              empile:       26077
-            jouecoup:       18018
-        orig_rbechec:        6594
-        orig_rnechec:       15778
+              empile:       25862
+            jouecoup:       17797
+        orig_rbechec:        6418
+        orig_rnechec:       15656
 Loesung beendet. 
 
 
@@ -744,10 +744,10 @@ Loesung beendet.
       1...Ke6*d6
           2.c4-c5 #
 
-              empile:       35118
-            jouecoup:       27376
-        orig_rbechec:       10748
-        orig_rnechec:       22967
+              empile:       34699
+            jouecoup:       26908
+        orig_rbechec:       10363
+        orig_rnechec:       22727
 Loesung beendet. 
 
 
@@ -785,10 +785,10 @@ Loesung beendet.
       1...f3*g2
           2.c2*d3 #
 
-              empile:       20350
-            jouecoup:       16418
-        orig_rbechec:        7586
-        orig_rnechec:       12852
+              empile:       20049
+            jouecoup:       16079
+        orig_rbechec:        7278
+        orig_rnechec:       12739
 Loesung beendet. 
 
 
@@ -845,10 +845,10 @@ Loesung beendet.
     Aber
       1...Sg8-f6 !
 
-              empile:        9033
-            jouecoup:        6420
-        orig_rbechec:        3970
-        orig_rnechec:        7758
+              empile:        8984
+            jouecoup:        6371
+        orig_rbechec:        3964
+        orig_rnechec:        7703
 Loesung beendet. 
 
 
@@ -886,10 +886,10 @@ Loesung beendet.
       1...g4-g3
           2.Se4-c3 #
 
-              empile:       43890
-            jouecoup:       41589
-        orig_rbechec:       27640
-        orig_rnechec:       24327
+              empile:       43509
+            jouecoup:       41198
+        orig_rbechec:       27275
+        orig_rnechec:       24183
 Loesung beendet. 
 
 
@@ -931,10 +931,10 @@ Loesung beendet.
       1...d2-d1=L
           2.Tg5*g6 #
 
-              empile:       55190
-            jouecoup:       41097
-        orig_rbechec:       31354
-        orig_rnechec:       21747
+              empile:       54624
+            jouecoup:       40527
+        orig_rbechec:       30825
+        orig_rnechec:       21549
 Loesung beendet. 
 
 
@@ -1015,10 +1015,10 @@ Loesung beendet.
       1...Ld7-e6
           2.Tc6-c4 #
 
-              empile:      113614
-            jouecoup:       81276
-        orig_rbechec:       79926
-        orig_rnechec:       66639
+              empile:      112718
+            jouecoup:       80411
+        orig_rbechec:       79109
+        orig_rnechec:       66041
 Loesung beendet. 
 
 
@@ -1064,10 +1064,10 @@ Loesung beendet.
       1...Sa8-c7
           2.Dc8*c7 #
 
-              empile:      137080
-            jouecoup:      102384
-        orig_rbechec:      105237
-        orig_rnechec:       76096
+              empile:      136110
+            jouecoup:      101468
+        orig_rbechec:      104358
+        orig_rnechec:       75541
 Loesung beendet. 
 
 
@@ -2210,10 +2210,10 @@ Loesung beendet.
                               4...Ka7-a8
                                   5.Tb6-b7 =
 
-              empile:      391368
-            jouecoup:      133130
-        orig_rbechec:      251909
-        orig_rnechec:      159747
+              empile:      391352
+            jouecoup:      133118
+        orig_rbechec:      251895
+        orig_rnechec:      159739
 Loesung beendet. 
 
 
@@ -2290,10 +2290,10 @@ Loesung beendet.
                       3...Kg7-h6
                           4.Dc8-g8 =
 
-              empile:      180150
-            jouecoup:       61960
-        orig_rbechec:      121799
-        orig_rnechec:       78352
+              empile:      180130
+            jouecoup:       61940
+        orig_rbechec:      121777
+        orig_rnechec:       78340
 Loesung beendet. 
 
 
@@ -2495,10 +2495,10 @@ Loesung beendet.
     Aber
       1...Tb7-b1 + !
 
-              empile:       33433
-            jouecoup:       14605
-        orig_rbechec:       16500
-        orig_rnechec:       12406
+              empile:       33241
+            jouecoup:       14413
+        orig_rbechec:       16305
+        orig_rnechec:       12307
 Loesung beendet. 
 
 
@@ -2623,10 +2623,10 @@ Loesung beendet.
     Aber
       1...Dd1-g4 !
 
-              empile:       33974
-            jouecoup:       28536
-        orig_rbechec:       33182
-        orig_rnechec:       22093
+              empile:       32938
+            jouecoup:       27620
+        orig_rbechec:       32247
+        orig_rnechec:       21616
 Loesung beendet. 
 
 
@@ -2666,10 +2666,10 @@ a)
     Aber
       1...Gb3-f3 !
 
-              empile:        7649
-            jouecoup:        3072
-        orig_rbechec:        3909
-        orig_rnechec:        3047
+              empile:        7443
+            jouecoup:        3020
+        orig_rbechec:        3845
+        orig_rnechec:        3004
 b) sGb3-->d1
 
    1.Se6-d4 ? Drohung:
@@ -2680,10 +2680,10 @@ b) sGb3-->d1
    1.Sg4-e3 ! Drohung:
           2.Se6-g5 #
 
-              empile:        7196
-            jouecoup:        2847
-        orig_rbechec:        3680
-        orig_rnechec:        2827
+              empile:        6990
+            jouecoup:        2795
+        orig_rbechec:        3616
+        orig_rnechec:        2784
 c) sGb3-->g8
 
    1.Se6-d4 ! Drohung:
@@ -2694,10 +2694,10 @@ c) sGb3-->g8
     Aber
       1...Gg8-d5 !
 
-              empile:        8064
-            jouecoup:        3123
-        orig_rbechec:        3981
-        orig_rnechec:        3093
+              empile:        7858
+            jouecoup:        3071
+        orig_rbechec:        3917
+        orig_rnechec:        3050
 d) sGb3-->h5
 
    1.Se6-d4 ? Drohung:
@@ -2708,10 +2708,10 @@ d) sGb3-->h5
    1.Sg4-e3 ! Drohung:
           2.Se6-g5 #
 
-              empile:        7528
-            jouecoup:        2965
-        orig_rbechec:        3783
-        orig_rnechec:        2947
+              empile:        7322
+            jouecoup:        2913
+        orig_rbechec:        3719
+        orig_rnechec:        2904
 Loesung beendet. 
 
 
@@ -2862,10 +2862,10 @@ Loesung beendet.
     Aber
       1...Sb1-a3 !
 
-              empile:       14191
-            jouecoup:       11508
-        orig_rbechec:       12613
-        orig_rnechec:        7629
+              empile:       12313
+            jouecoup:        9788
+        orig_rbechec:       10857
+        orig_rnechec:        6733
 Loesung beendet. 
 
 
@@ -3013,10 +3013,10 @@ Loesung beendet.
     Aber
       1...Dh2-h7 !
 
-              empile:     1109096
-            jouecoup:      953446
-        orig_rbechec:      846452
-        orig_rnechec:      726133
+              empile:     1097646
+            jouecoup:      942751
+        orig_rbechec:      836685
+        orig_rnechec:      718393
 Loesung beendet. 
 
 
@@ -3086,7 +3086,7 @@ Loesung beendet.
 
               empile:        5757
             jouecoup:         994
-        orig_rbechec:        1245
+        orig_rbechec:        1237
         orig_rnechec:           0
 Loesung beendet. 
 
@@ -3624,7 +3624,7 @@ Loesung beendet.
 
               empile:       44398
             jouecoup:       12458
-        orig_rbechec:       13756
+        orig_rbechec:       13524
         orig_rnechec:       13200
 Loesung beendet. 
 

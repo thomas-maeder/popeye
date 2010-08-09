@@ -23,10 +23,10 @@
 
    1.CPb6-a6 = !
 
-              empile:          29
-            jouecoup:          23
-        orig_rbechec:          16
-        orig_rnechec:          23
+              empile:          27
+            jouecoup:          21
+        orig_rbechec:          15
+        orig_rnechec:          20
 solution finished. 
 
 
@@ -89,10 +89,10 @@ solution finished.
       1...CPa7-a6
           2.CPb6*a6 =
 
-              empile:         277
-            jouecoup:         196
-        orig_rbechec:         150
-        orig_rnechec:         186
+              empile:         274
+            jouecoup:         193
+        orig_rbechec:         149
+        orig_rnechec:         182
 solution finished. 
 
 

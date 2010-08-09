@@ -62,8 +62,9 @@ void direct_defender_filter_make_root(slice_index si,
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void direct_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                   stip_structure_traversal *st);
+void
+ direct_defender_filter_reduce_to_postkey_play(slice_index si,
+                                               stip_structure_traversal *st);
 
 /* Traversal of the moves beyond a series fork slice 
  * @param si identifies root of subtree
@@ -77,5 +78,10 @@ void stip_traverse_moves_direct_defender_filter(slice_index si,
  * @param proxy_to_goal identifies slice leading towards goal
  */
 void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal);
+
+/* Instrument a branch leading to a goal to be a direct goal branch
+ * @param si identifies entry slice of branch
+ */
+void slice_make_direct_goal_branch(slice_index si);
 
 #endif

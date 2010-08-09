@@ -293,7 +293,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/defense_play.c \
   stipulation/battle_play/defense_play.h pydirctg.h pyflight.h pykeepmt.h \
   pymovenb.h pynontrv.h pyreflxg.h pyselfcg.h pyselfgd.h pythreat.h \
-  stipulation/battle_play/branch.h stipulation/battle_play/postkeyplay.h \
+  stipulation/goal_reached_tester.h stipulation/battle_play/branch.h \
+  stipulation/battle_play/postkeyplay.h \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
   stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_fork.h \
@@ -307,7 +308,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   output/plaintext/tree/check_detector.h \
   output/plaintext/tree/battle_play_solution_writer.h \
   output/plaintext/tree/end_of_solution_writer.h \
-  output/plaintext/tree/continuation_writer.h trace.h
+  output/plaintext/tree/continuation_writer.h \
+  output/plaintext/tree/goal_writer.h trace.h
 
 stipulation/battle_play/defense_play.h:
 
@@ -328,6 +330,8 @@ pyselfcg.h:
 pyselfgd.h:
 
 pythreat.h:
+
+stipulation/goal_reached_tester.h:
 
 stipulation/battle_play/branch.h:
 
@@ -366,6 +370,8 @@ output/plaintext/tree/battle_play_solution_writer.h:
 output/plaintext/tree/end_of_solution_writer.h:
 
 output/plaintext/tree/continuation_writer.h:
+
+output/plaintext/tree/goal_writer.h:
 
 trace.h:
 stipulation/battle_play/continuation$(OBJ_SUFFIX):  \

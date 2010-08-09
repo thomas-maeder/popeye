@@ -69,10 +69,10 @@ Loesung beendet.
       1...Lf4-c1=S
           2.Se2*g3=L #
 
-              empile:        5747
-            jouecoup:        3187
-        orig_rbechec:        1483
-        orig_rnechec:        3194
+              empile:        5663
+            jouecoup:        3103
+        orig_rbechec:        1479
+        orig_rnechec:        3106
 Loesung beendet. 
 
 
@@ -182,10 +182,10 @@ Loesung beendet.
               2...Ka1*b1
                   3.Le1-b4=S #
 
-              empile:        8576
-            jouecoup:        7693
-        orig_rbechec:        5688
-        orig_rnechec:        6357
+              empile:        8570
+            jouecoup:        7687
+        orig_rbechec:        5687
+        orig_rnechec:        6350
 Loesung beendet. 
 
 
@@ -257,10 +257,10 @@ Loesung beendet.
       1...c4*d3 ep.=S +
           2.c2*d3=S #
 
-              empile:        1757
-            jouecoup:        1080
-        orig_rbechec:         823
-        orig_rnechec:        1086
+              empile:        1725
+            jouecoup:        1048
+        orig_rbechec:         820
+        orig_rnechec:        1051
 Loesung beendet. 
 
 

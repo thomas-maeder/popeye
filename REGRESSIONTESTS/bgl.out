@@ -90,10 +90,10 @@ Loesung beendet.
       1...Sg5-e6 (6/0.76)
           2.Th6-h5 (5/0.76) #
 
-              empile:        2540
-            jouecoup:        1870
-        orig_rbechec:         976
-        orig_rnechec:        1106
+              empile:        2292
+            jouecoup:        1616
+        orig_rbechec:         962
+        orig_rnechec:        1070
 Loesung beendet. 
 
 
@@ -250,10 +250,10 @@ Loesung beendet.
       1...nSg8-h6 (-/2.21)
           2.nSh6-f7 (-/2.21) #
 
-              empile:        4314
-            jouecoup:        3143
-        orig_rbechec:        2065
-        orig_rnechec:        2826
+              empile:        4144
+            jouecoup:        2973
+        orig_rbechec:        2055
+        orig_rnechec:        2733
 Loesung beendet. 
 
 
@@ -495,10 +495,10 @@ Loesung beendet.
       1...Sg5-e6 (6/1.76)
           2.De8-c6 (3.17/1.76) #
 
-              empile:        8184
-            jouecoup:        5035
-        orig_rbechec:        3000
-        orig_rnechec:        4120
+              empile:        7922
+            jouecoup:        4773
+        orig_rbechec:        2986
+        orig_rnechec:        4018
 Loesung beendet. 
 
 
@@ -534,19 +534,19 @@ a)
       1...Ka8*b7 (2/0.59)
           2.Kd7-c7 (1/0.59) #
 
-              empile:         621
-            jouecoup:         522
-        orig_rbechec:         312
-        orig_rnechec:         346
+              empile:         613
+            jouecoup:         514
+        orig_rbechec:         311
+        orig_rnechec:         345
 b) BGL 8
 
    1.Kd7-c7 (7) ! Drohung:
           2.Tb5-a5 (6) #
 
-              empile:         729
-            jouecoup:         570
-        orig_rbechec:         483
-        orig_rnechec:         532
+              empile:         726
+            jouecoup:         567
+        orig_rbechec:         482
+        orig_rnechec:         528
 Loesung beendet. 
 
 

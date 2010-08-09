@@ -458,8 +458,8 @@ a)
 
               empile:           3
             jouecoup:           3
-        orig_rbechec:           5
-        orig_rnechec:           4
+        orig_rbechec:           4
+        orig_rnechec:           3
 b) exact-=2
 
    1.kGa8-d8 !
@@ -468,8 +468,8 @@ b) exact-=2
 
               empile:          10
             jouecoup:           9
-        orig_rbechec:          12
-        orig_rnechec:           9
+        orig_rbechec:          11
+        orig_rnechec:           8
 c) exact-=3
 
    1.kGa8-d8 !
@@ -480,8 +480,8 @@ c) exact-=3
 
               empile:          18
             jouecoup:          20
-        orig_rbechec:          16
-        orig_rnechec:          16
+        orig_rbechec:          15
+        orig_rnechec:          15
 Loesung beendet. 
 
 
@@ -528,10 +528,10 @@ Loesung beendet.
                                                       7...kEQc6-g2
                                                           8.Db1-c2 #
 
-              empile:         857
-            jouecoup:        1016
-        orig_rbechec:         457
-        orig_rnechec:         629
+              empile:         856
+            jouecoup:        1015
+        orig_rbechec:         455
+        orig_rnechec:         628
 Loesung beendet. 
 
 

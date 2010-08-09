@@ -141,10 +141,10 @@ Loesung beendet.
     Aber
       1...Ka8-a7 !
 
-              empile:        2646
-            jouecoup:        2151
-        orig_rbechec:        2133
-        orig_rnechec:        2159
+              empile:        2637
+            jouecoup:        2142
+        orig_rbechec:        2130
+        orig_rnechec:        2147
 Loesung beendet. 
 
 
@@ -233,10 +233,10 @@ Loesung beendet.
     Aber
       1...f6-f5 !
 
-              empile:       18850
-            jouecoup:        9802
+              empile:       18828
+            jouecoup:        9784
         orig_rbechec:           0
-        orig_rnechec:        9073
+        orig_rnechec:        9051
 Loesung beendet. 
 
 
@@ -347,23 +347,23 @@ a)
               empile:           3
             jouecoup:           6
         orig_rbechec:           0
-        orig_rnechec:           9
+        orig_rnechec:           7
 b) =1
 
    1.g7-g8=D = !
 
-              empile:          28
-            jouecoup:          20
+              empile:          23
+            jouecoup:          15
         orig_rbechec:           0
-        orig_rnechec:          22
+        orig_rnechec:          16
 c) #1
 
    1.g7-g8=T # !
 
-              empile:          18
-            jouecoup:          17
+              empile:          13
+            jouecoup:          12
         orig_rbechec:           0
-        orig_rnechec:          19
+        orig_rnechec:          13
 Loesung beendet. 
 
 

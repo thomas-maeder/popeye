@@ -35,10 +35,10 @@ b) #1
 
    1.Ra1-h1[+bKh3] # !
 
-              empile:        3157
-            jouecoup:         888
+              empile:        3135
+            jouecoup:         866
         orig_rbechec:           0
-        orig_rnechec:        2364
+        orig_rnechec:        2341
 solution finished. 
 
 
@@ -146,10 +146,10 @@ solution finished.
     but
       1...b7*a6 !
 
-              empile:       16090
-            jouecoup:        6427
+              empile:       15928
+            jouecoup:        6265
         orig_rbechec:        3104
-        orig_rnechec:       16383
+        orig_rnechec:       16202
 solution finished. 
 
 
@@ -195,10 +195,10 @@ solution finished.
       1...Sc3-b5
           2.Sc4-e3[+bKe6] #
 
-              empile:       47673
-            jouecoup:       13194
+              empile:       47589
+            jouecoup:       13110
         orig_rbechec:        8111
-        orig_rnechec:       34345
+        orig_rnechec:       34255
 solution finished. 
 
 
@@ -244,10 +244,10 @@ solution finished.
       1...Bb8-c7
           2.Rf8-a8[+bKb8] #
 
-              empile:       43035
-            jouecoup:       10653
+              empile:       42940
+            jouecoup:       10558
         orig_rbechec:        1780
-        orig_rnechec:       33849
+        orig_rnechec:       33744
 solution finished. 
 
 
@@ -327,10 +327,10 @@ solution finished.
       1...Ba8-b7
           2.Sd8*b7[+bKa5] #
 
-              empile:       35622
-            jouecoup:        7911
-        orig_rbechec:        5762
-        orig_rnechec:       26465
+              empile:       35574
+            jouecoup:        7883
+        orig_rbechec:        4467
+        orig_rnechec:       26210
 solution finished. 
 
 
