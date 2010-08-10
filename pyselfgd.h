@@ -46,4 +46,9 @@ stip_length_type self_defense_solve_in_n(slice_index si,
  */
 void slice_insert_self_guards(slice_index si, slice_index proxy_to_goal);
 
+/* Instrument a branch leading to a goal to be a self goal branch
+ * @param si identifies entry slice of branch
+ */
+void slice_make_self_goal_branch(slice_index si);
+
 #endif

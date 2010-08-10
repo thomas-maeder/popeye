@@ -233,6 +233,7 @@ output/plaintext/tree/check_detector.h:
 trace.h:
 output/plaintext/tree/goal_writer$(OBJ_SUFFIX): output/plaintext/tree/goal_writer.c \
   output/plaintext/tree/goal_writer.h pyproc.h pypipe.h pyoutput.h \
+  stipulation/battle_play/attack_play.h \
   stipulation/battle_play/defense_play.h trace.h
 
 output/plaintext/tree/goal_writer.h:
@@ -242,6 +243,8 @@ pyproc.h:
 pypipe.h:
 
 pyoutput.h:
+
+stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_play.h:
 

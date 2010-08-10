@@ -1975,6 +1975,8 @@ static void insert_hash_element_attack_move(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_moves_branch_init_full_length(si,st);
+
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
   if (st->remaining<st->full_length

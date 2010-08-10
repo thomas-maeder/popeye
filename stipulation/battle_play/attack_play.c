@@ -35,6 +35,7 @@
 #include "output/plaintext/tree/variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
+#include "output/plaintext/tree/goal_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -143,17 +144,16 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                      n_max_unsolvable);
       break;
 
-    case STGoalReachedTester:
     case STQuodlibet:
-      assert(n==slack_length_battle);
+    case STOutputPlaintextLineLineWriter:
       switch (slice_has_solution(si))
       {
         case opponent_self_check:
-          result = n-2;
+          result = slack_length_battle-2;
           break;
 
         case has_solution:
-          result = n;
+          result = slack_length_battle;
           break;
 
         case has_no_solution:
@@ -229,6 +229,22 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = countermate_attacker_filter_has_solution_in_n(si,
                                                              n,n_min,
                                                              n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeGoalWriter:
+      result = output_plaintext_tree_goal_writer_has_solution_in_n(si,
+                                                                   n,n_min,
+                                                                   n_max_unsolvable);
+      break;
+
+    case STGoalReachedTester:
+      result = goal_reached_tester_has_solution_in_n(si,
+                                                     n,n_min,
+                                                     n_max_unsolvable);
+      break;
+
+    case STLeaf:
+      result = slack_length_battle;
       break;
 
     default:
@@ -325,17 +341,16 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = no_short_variations_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STGoalReachedTester:
     case STQuodlibet:
-      assert(n==slack_length_battle);
+    case STOutputPlaintextLineLineWriter:
       switch (slice_solve(si))
       {
         case opponent_self_check:
-          result = n-2;
+          result = slack_length_battle-2;
           break;
 
         case has_solution:
-          result = n;
+          result = slack_length_battle;
           break;
 
         case has_no_solution:
@@ -437,6 +452,20 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STCounterMateAttackerFilter:
       result = countermate_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeGoalWriter:
+      result = output_plaintext_tree_goal_writer_solve_in_n(si,
+                                                            n,
+                                                            n_max_unsolvable);
+      break;
+
+    case STGoalReachedTester:
+      result = goal_reached_tester_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STLeaf:
+      result = slack_length_battle;
       break;
 
     default:

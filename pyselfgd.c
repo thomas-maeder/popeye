@@ -1,5 +1,6 @@
 #include "pyselfgd.h"
 #include "pybrafrk.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
@@ -65,9 +66,7 @@ self_defense_direct_has_solution_in_n(slice_index si,
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-  slice_index const length = slices[si].u.branch_fork.length;
-  slice_index const min_length = slices[si].u.branch_fork.min_length;
-  stip_length_type result = n+2;
+  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -80,25 +79,18 @@ self_defense_direct_has_solution_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    switch (slice_has_solution(to_goal))
+    result = attack_has_solution_in_n(to_goal,n,n_min,n_max_unsolvable);
+    if (result>n)
     {
-      case opponent_self_check:
-        result = slack_length_battle-2;
-        break;
-
-      case has_no_solution:
-        n_max_unsolvable = slack_length_battle;
-        result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
-        break;
-
-      case has_solution:
-        if (n-slack_length_battle<=length-min_length)
-          result = slack_length_battle;
-        break;
-
-      default:
-        assert(0);
-        break;
+      n_max_unsolvable = slack_length_battle;
+      result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+    }
+    else if (result>=slack_length_battle)
+    {
+      slice_index const length = slices[si].u.branch_fork.length;
+      slice_index const min_length = slices[si].u.branch_fork.min_length;
+      if (n-slack_length_battle>length-min_length)
+        result = n+2;
     }
   }
   else
@@ -109,10 +101,6 @@ self_defense_direct_has_solution_in_n(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
-
-
-/* **************** Implementation of interface Slice ***************
- */
 
 /* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
  * @param si slice index
@@ -128,9 +116,8 @@ stip_length_type self_defense_solve_in_n(slice_index si,
                                          stip_length_type n,
                                          stip_length_type n_max_unsolvable)
 {
-  stip_length_type result = n+2;
+  stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  slice_index const towards_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -142,29 +129,25 @@ stip_length_type self_defense_solve_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    switch (slice_has_solution(towards_goal))
+    stip_length_type const n_min = slack_length_battle;
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+
+    result = attack_has_solution_in_n(to_goal,n,n_min,n_max_unsolvable);
+    if (result>n)
     {
-      case opponent_self_check:
-        result = slack_length_battle-2;
-        break;
-
-      case has_solution:
-        slice_solve(towards_goal);
-        result = slack_length_battle;
-        break;
-
-      case has_no_solution:
-        /* delegate to next even if (n==slack_length_battle) - we need
-         * to distinguish between self-check and other ways of not
-         * reaching the goal
-         */
-        n_max_unsolvable = slack_length_battle;
-        result = attack_solve_in_n(next,n,n_max_unsolvable);
-        break;
-
-      default:
-        assert(0);
-        break;
+      /* delegate to next even if (n==slack_length_battle) - we need
+       * to distinguish between self-check and other ways of not
+       * reaching the goal
+       */
+      n_max_unsolvable = slack_length_battle;
+      result = attack_solve_in_n(next,n,n_max_unsolvable);
+    }
+    else if (result>=slack_length_battle)
+    {
+      stip_length_type const solve_result = attack_solve_in_n(to_goal,
+                                                              n,
+                                                              n_max_unsolvable);
+      assert(result==solve_result);
     }
   }
   else
@@ -244,6 +227,62 @@ void slice_insert_self_guards(slice_index si, slice_index proxy_to_goal)
   stip_structure_traversal_override(&st,
                                     self_guards_inserters,
                                     nr_self_guards_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a the appropriate proxy slices before each STLeaf slice
+ * @param si identifies STLeaf slice
+ * @param st address of structure representing the traversal
+ */
+static void instrument_leaf(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_append(slices[si].prev,
+              alloc_branch(STDefenseMoveLegalityChecked,
+                           slack_length_battle,slack_length_battle-1));
+  pipe_append(slices[si].prev,
+              alloc_branch(STDefenseMoveFiltered,
+                           slack_length_battle,slack_length_battle-1));
+  pipe_append(slices[si].prev,
+              alloc_branch(STReadyForAttack,
+                           slack_length_battle,slack_length_battle-1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors direct_leaf_instrumenters[] =
+{
+  { STLeaf, &instrument_leaf }
+};
+
+enum
+{
+  nr_direct_leaf_instrumenters = (sizeof direct_leaf_instrumenters
+                                  / sizeof direct_leaf_instrumenters[0])
+};
+
+/* Instrument a branch leading to a goal to be a self goal branch
+ * @param si identifies entry slice of branch
+ */
+void slice_make_self_goal_branch(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    direct_leaf_instrumenters,
+                                    nr_direct_leaf_instrumenters);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

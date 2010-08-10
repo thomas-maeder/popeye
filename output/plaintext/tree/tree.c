@@ -82,34 +82,6 @@ static void instrument_self_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_binary(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (variation_writer_insertion_state==variation_writer_needed)
-  {
-    variation_writer_insertion_state = variation_writer_inserted;
-    stip_traverse_structure(slices[si].u.binary.op1,st);
-    stip_traverse_structure(slices[si].u.binary.op2,st);
-    variation_writer_insertion_state = variation_writer_needed;
-
-    /* TODO calculate length */
-    pipe_append(slices[si].prev,
-                alloc_variation_writer_slice(slack_length_battle,
-                                             slack_length_battle));
-  }
-  else
-  {
-    stip_traverse_structure(slices[si].u.binary.op1,st);
-    stip_traverse_structure(slices[si].u.binary.op2,st);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_goal_reached_tester(slice_index si,
                                            stip_structure_traversal *st)
 {
@@ -123,11 +95,6 @@ static void instrument_goal_reached_tester(slice_index si,
   *goal = slices[si].u.goal_reached_tester.goal;
   stip_traverse_structure_children(si,st);
   *goal = save_goal;
-
-  if (variation_writer_insertion_state==variation_writer_needed)
-    pipe_append(slices[si].prev,
-                alloc_variation_writer_slice(slack_length_battle,
-                                             slack_length_battle));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -430,8 +397,6 @@ static structure_traversers_visitors tree_slice_inserters[] =
 {
   { STGoalReachedTester,              &instrument_goal_reached_tester     },
   { STLeaf,                           &instrument_leaf                    },
-  { STReciprocal,                     &instrument_binary                  },
-  { STQuodlibet,                      &instrument_binary                  },
   { STMoveInverterRootSolvableFilter, &instrument_move_inverter           },
   { STMoveInverterSolvableFilter,     &instrument_move_inverter           },
   { STAttackRoot,                     &instrument_attack_root             },
