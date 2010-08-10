@@ -335,7 +335,6 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* reverse order intended */
   pipe_append(slices[si].prev,
               alloc_branch(STAttackMoveLegalityChecked,
                            slack_length_battle,slack_length_battle-1));
