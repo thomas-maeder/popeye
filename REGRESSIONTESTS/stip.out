@@ -1595,8 +1595,8 @@ Loesung beendet.
 
               empile:       17126
             jouecoup:       13623
-        orig_rbechec:       12164
-        orig_rnechec:        2658
+        orig_rbechec:       12157
+        orig_rnechec:        2651
 Loesung beendet. 
 
 
@@ -2906,10 +2906,10 @@ sofortiges forciertes Reflexmatt durch Weiss
 
    1.c7-c8=T #
 
-              empile:          22
-            jouecoup:          25
-        orig_rbechec:           6
-        orig_rnechec:          28
+              empile:          14
+            jouecoup:          17
+        orig_rbechec:           4
+        orig_rnechec:          18
 Loesung beendet. 
 
 

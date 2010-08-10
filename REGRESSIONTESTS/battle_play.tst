@@ -1171,10 +1171,10 @@ solution finished.
 
    1.Bg7-f8 #
 
-              empile:          19
-            jouecoup:          18
-        orig_rbechec:           5
-        orig_rnechec:          20
+              empile:          16
+            jouecoup:          15
+        orig_rbechec:           4
+        orig_rnechec:          16
 solution finished. 
 
 
@@ -1312,10 +1312,10 @@ r#2, but White must deliver mate immediately
 
    1.Bg7-f8 #
 
-              empile:          19
-            jouecoup:          18
-        orig_rbechec:           5
-        orig_rnechec:          20
+              empile:          16
+            jouecoup:          15
+        orig_rbechec:           4
+        orig_rnechec:          16
 solution finished. 
 
 
@@ -1421,10 +1421,10 @@ r#3, but White must deliver mate immediately
 
    1.Bg7-f8 #
 
-              empile:          19
-            jouecoup:          18
-        orig_rbechec:           5
-        orig_rnechec:          20
+              empile:          16
+            jouecoup:          15
+        orig_rbechec:           4
+        orig_rnechec:          16
 solution finished. 
 
 
@@ -1531,10 +1531,10 @@ solution finished.
 
       1...b3-b2 #
 
-              empile:          10
-            jouecoup:          10
-        orig_rbechec:          12
-        orig_rnechec:           3
+              empile:           7
+            jouecoup:           7
+        orig_rbechec:           8
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1565,10 +1565,10 @@ solution finished.
    1.Bg7-h6 !
       1...b3-b2 #
 
-              empile:         152
-            jouecoup:          96
-        orig_rbechec:          86
-        orig_rnechec:          30
+              empile:         142
+            jouecoup:          86
+        orig_rbechec:          75
+        orig_rnechec:          29
 solution finished. 
 
 
@@ -1599,10 +1599,10 @@ solution finished.
       1...Ka3-b2 ##!
 
 the side to play can capture the king
-              empile:         109
-            jouecoup:         106
-        orig_rbechec:          84
-        orig_rnechec:          29
+              empile:          63
+            jouecoup:          60
+        orig_rbechec:          49
+        orig_rnechec:          16
 solution finished. 
 
 
@@ -1633,10 +1633,10 @@ semi-r#2 with short solution; White needn't deliver mate immediately
    1.Bg7-h6 !
       1...b3-b2 #
 
-              empile:         401
-            jouecoup:         276
-        orig_rbechec:         251
-        orig_rnechec:          58
+              empile:         391
+            jouecoup:         266
+        orig_rbechec:         240
+        orig_rnechec:          57
 solution finished. 
 
 

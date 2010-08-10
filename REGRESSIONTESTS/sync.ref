@@ -134,8 +134,8 @@ a)
 
               empile:      104217
             jouecoup:       63241
-        orig_rbechec:       25442
-        orig_rnechec:       39498
+        orig_rbechec:       25439
+        orig_rnechec:       39495
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
@@ -154,8 +154,8 @@ b) BlackSynchronMover
 
               empile:        1648
             jouecoup:         970
-        orig_rbechec:         412
-        orig_rnechec:         576
+        orig_rbechec:         411
+        orig_rnechec:         575
 solution finished. 
 
 

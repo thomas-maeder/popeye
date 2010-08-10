@@ -337,13 +337,13 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 
   /* reverse order intended */
   pipe_append(slices[si].prev,
-              alloc_branch(STReadyForDefense,
+              alloc_branch(STAttackMoveLegalityChecked,
                            slack_length_battle,slack_length_battle-1));
   pipe_append(slices[si].prev,
               alloc_branch(STAttackMoveFiltered,
                            slack_length_battle,slack_length_battle-1));
   pipe_append(slices[si].prev,
-              alloc_branch(STAttackMoveLegalityChecked,
+              alloc_branch(STReadyForDefense,
                            slack_length_battle,slack_length_battle-1));
 
   TraceFunctionExit(__func__);

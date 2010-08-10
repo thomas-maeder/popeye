@@ -1108,10 +1108,11 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   slice_index const branch = slices[not].u.pipe.next;
   slice_index const played = slices[branch].u.pipe.next;
   slice_index const shoehorning = slices[played].u.pipe.next;
-  slice_index const readyfordefense = slices[shoehorning].u.pipe.next;
-  slice_index const tester = slices[readyfordefense].u.pipe.next;
+  slice_index const tester = slices[shoehorning].u.pipe.next;
+  slice_index const checked = slices[tester].u.pipe.next;
+  slice_index const filtered = slices[checked].u.pipe.next;
+  slice_index const readyfordefense = slices[filtered].u.pipe.next;
   Goal const goal = slices[tester].u.goal_reached_tester.goal;
-  slice_index ready;
   slice_index new_tester;
   slice_index new_leaf;
 
@@ -1122,20 +1123,20 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   assert(slices[proxy_to_goal].type==STProxy);
   assert(slices[played].type==STAttackMovePlayed);
   assert(slices[shoehorning].type==STAttackMoveShoeHorningDone);
-  assert(slices[readyfordefense].type==STReadyForDefense);
   assert(slices[tester].type==STGoalReachedTester);
-  assert(slices[slices[tester].u.pipe.next].type==STLeaf);
+  assert(slices[checked].type==STAttackMoveLegalityChecked);
+  assert(slices[filtered].type==STAttackMoveFiltered);
+  assert(slices[readyfordefense].type==STReadyForDefense);
+  assert(slices[slices[readyfordefense].u.pipe.next].type==STLeaf);
 
   new_leaf = alloc_leaf_slice();
   new_tester = alloc_goal_reached_tester_slice(goal);
   pipe_link(new_tester,new_leaf);
 
-  ready = alloc_branch(STReadyForDefense,
-                       slack_length_battle,slack_length_battle-1);
-  pipe_link(ready,new_tester);
-
   *new_proxy_to_goal = alloc_proxy_slice();
-  pipe_link(*new_proxy_to_goal,ready);
+  pipe_link(*new_proxy_to_goal,new_tester);
+
+  slice_make_direct_goal_branch(*new_proxy_to_goal);
 
   stip_traverse_structure_children(si,st);
 
