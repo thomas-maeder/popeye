@@ -2172,6 +2172,7 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_next)
                                               slack_length_battle+1);
     slice_index const series = alloc_series_branch(length+1,min_length,
                                                    defense_branch);
+    slice_make_self_goal_branch(proxy_next);
     slice_insert_self_guards(defense_branch,proxy_next);
     pipe_set_successor(proxy,series);
   }
@@ -2273,6 +2274,7 @@ static char *ParsePlay(char *tok,
           slice_index const
               defense_branch = alloc_defense_branch(slack_length_battle+1,
                                                     slack_length_battle+1);
+          slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);
           /* in ser-hs, the series is 1 half-move longer than in usual
            * series play! */
@@ -2610,6 +2612,7 @@ static char *ParsePlay(char *tok,
                                                     slack_length_battle+1);
           slice_index const branch = alloc_help_branch(length,min_length,
                                                        defense_branch);
+          slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);
           if ((length-slack_length_help)%2==0)
           {
