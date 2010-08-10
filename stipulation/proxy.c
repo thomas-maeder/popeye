@@ -58,6 +58,7 @@ static boolean is_proxy(slice_index si)
  */
 void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
 {
+  slice_index const prev = slices[*si].prev;
   boolean (* const is_resolved_proxy)[max_nr_slices] = st->param;
 
   TraceFunctionEntry(__func__);
@@ -73,6 +74,8 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
     (*is_resolved_proxy)[*si] = true;
     *si = slices[*si].u.pipe.next;
   }
+
+  slices[*si].prev = prev;  
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
