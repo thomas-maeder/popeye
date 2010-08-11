@@ -216,7 +216,7 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STAttackMoveShoeHorningDone,  &prepend_collector },
+  { STAttackMoveShoeHorningDone,  &append_collector },
   { STDefenseMoveShoeHorningDone, &append_collector }
 };
 
