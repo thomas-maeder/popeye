@@ -309,8 +309,8 @@ static enum
   end_of_solution_writer_inserted
 } end_of_solution_writer_insertion_state;
 
-static void instrument_attack_shoehorning_done(slice_index si,
-                                               stip_structure_traversal *st)
+static void instrument_attack_move_played(slice_index si,
+                                          stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -400,7 +400,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STMoveInverterRootSolvableFilter, &instrument_move_inverter           },
   { STMoveInverterSolvableFilter,     &instrument_move_inverter           },
   { STAttackRoot,                     &instrument_attack_root             },
-  { STAttackMoveShoeHorningDone,      &instrument_attack_shoehorning_done },
+  { STAttackMovePlayed,               &instrument_attack_move_played      },
   { STDefenseRoot,                    &instrument_defense_root            },
   { STPostKeyPlaySuppressor,          &stip_structure_visitor_noop        },
   { STContinuationSolver,             &instrument_continuation_solver     },

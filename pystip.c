@@ -596,6 +596,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
   { STReadyForAttack,              &stip_traverse_structure_children         },
   { STAttackEnd,                   &stip_traverse_structure_children         },
+  { STAttackMoveShoeHorningDone,   &stip_traverse_structure_children         },
   { STDefenseMoveShoeHorningDone,  &serve_as_root_hook                       }
 };
 
