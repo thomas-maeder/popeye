@@ -441,8 +441,8 @@ static void remember_attack_side(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
   state->attack_side_slice = si;
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
