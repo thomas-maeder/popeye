@@ -84,6 +84,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
     case STSelfDefense:
     case STReflexAttackerFilter:
     case STSelfCheckGuardAttackerFilter:
+    case STKillerMoveCollector:
     {
       stip_length_type const nbattle = n+slack_length_battle-slack_length_help;
       stip_length_type const parity = (nbattle-slack_length_battle)%2;

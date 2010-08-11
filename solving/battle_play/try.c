@@ -281,7 +281,6 @@ refutations_collector_has_solution_in_n(slice_index si,
       assert(get_top_table()==refutations);
       TraceValue("%u\n",get_top_table());
       append_to_top_table();
-      coupfort();
     }
   }
 

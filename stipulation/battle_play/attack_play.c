@@ -29,6 +29,7 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/goals/castling/attacker_filter.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
+#include "optimisations/killer_move/collector.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
 #include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
@@ -241,6 +242,12 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = goal_reached_tester_has_solution_in_n(si,
                                                      n,n_min,
                                                      n_max_unsolvable);
+      break;
+
+    case STKillerMoveCollector:
+      result = killer_move_collector_has_solution_in_n(si,
+                                                       n,n_min,
+                                                       n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -462,6 +469,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STGoalReachedTester:
       result = goal_reached_tester_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STKillerMoveCollector:
+      result = killer_move_collector_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:

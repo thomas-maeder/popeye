@@ -449,8 +449,8 @@ Loesung beendet.
           2.Tf8*f7 #
           2.Tf6*f7 #
     Aber
-      1...Ke7*f6 + !
       1...Ke7*f8 + !
+      1...Ke7*f6 + !
 
    1.a7-a8=D ? Drohung:
           2.Tf8-e8 #
@@ -516,8 +516,8 @@ Loesung beendet.
       1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Ke7*f6 + !
       1...Sc4*a3 !
+      1...Ke7*f6 + !
 
    1.Sb4-d3 + ?
       1...Sc4-d6
@@ -530,8 +530,8 @@ Loesung beendet.
       1...Sc4-d6
           2.La3*d6 #
     Aber
-      1...Ke7*f6 + !
       1...Sc4*a3 !
+      1...Ke7*f6 + !
 
    1.La3-b2 ? Drohung:
           2.Tf8-e8 #
@@ -556,10 +556,10 @@ Loesung beendet.
       1...Tf7*f6 !
       1...Ke7*f8 + !
 
-              empile:       22298
-            jouecoup:       19634
-        orig_rbechec:        3023
-        orig_rnechec:       19557
+              empile:       22284
+            jouecoup:       19650
+        orig_rbechec:        3027
+        orig_rnechec:       19549
 Loesung beendet. 
 
 

@@ -121,7 +121,8 @@
     ENUMERATOR(STRestartGuardHelpFilter),    /* write move numbers */ \
     ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
     ENUMERATOR(STAttackMoveToGoal),                                     \
-    ENUMERATOR(STKillerMoveFinalDefenseMove),                               \
+    ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
+    ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
     ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STEnPassantDefenderFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STEnPassantHelpFilter),  /* enforces precondition for goal ep */ \
@@ -283,6 +284,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STRestartGuardHelpFilter */
   slice_structure_pipe,   /* STRestartGuardSeriesFilter */
   slice_structure_branch, /* STAttackMoveToGoal */
+  slice_structure_branch, /* STKillerMoveCollector */
   slice_structure_branch, /* STKillerMoveFinalDefenseMove */
   slice_structure_branch, /* STEnPassantAttackerFilter */
   slice_structure_branch, /* STEnPassantDefenderFilter */
@@ -2089,6 +2091,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STRestartGuardHelpFilter */
   &stip_traverse_structure_pipe,            /* STRestartGuardSeriesFilter */
   &stip_traverse_structure_pipe,            /* STAttackMoveToGoal */
+  &stip_traverse_structure_pipe,            /* STKillerMoveCollector */
   &stip_traverse_structure_pipe,            /* STKillerMoveFinalDefenseMove */
   &stip_traverse_structure_pipe,            /* STEnPassantAttackerFilter */
   &stip_traverse_structure_pipe,            /* STEnPassantDefenderFilter */
@@ -2278,6 +2281,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STRestartGuardHelpFilter */
     &stip_traverse_moves_pipe,                  /* STRestartGuardSeriesFilter */
     &stip_traverse_moves_branch_slice,          /* STAttackMoveToGoal */
+    &stip_traverse_moves_pipe,                  /* STKillerMoveCollector */
     &stip_traverse_moves_branch_slice,          /* STKillerMoveFinalDefenseMove */
     &stip_traverse_moves_pipe,                  /* STEnPassantAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STEnPassantDefenderFilter */

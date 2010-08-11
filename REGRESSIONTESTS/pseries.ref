@@ -239,10 +239,10 @@ solution finished.
   1.Qe1-g3 + Ke5-e6   2.Qg3-c7   3.Ba6-c8 # 
   1.Qe1-g3 + Ke5-d4   2.Qg3-e1   3.Qe1-a1 # 
 
-              empile:       12835
-            jouecoup:        5613
-        orig_rbechec:        2342
-        orig_rnechec:        5581
+              empile:       12053
+            jouecoup:        5527
+        orig_rbechec:        2247
+        orig_rnechec:        5495
 solution finished. 
 
 
@@ -274,10 +274,10 @@ solution finished.
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 # 
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-a6   4.Bd5-e6   5.Rh7-h6   6.Be6-c8 # 
 
-              empile:     4724760
-            jouecoup:     1897494
-        orig_rbechec:      830161
-        orig_rnechec:     1826808
+              empile:     4369238
+            jouecoup:     1898614
+        orig_rbechec:      780045
+        orig_rnechec:     1829921
 solution finished. 
 
 
@@ -309,10 +309,10 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
   1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 # 
   1.Qe8-e5 + Be1-c3   2.Kd6-e7   3.Ke7-f6   4.Kf6-g5   5.Kg5*h4   6.Kh4-g3   7.Qe5-e1 + Bc3*e1 # 
 
-              empile:  2128606413
-            jouecoup:   849143739
-        orig_rbechec:  1071718699
-        orig_rnechec:   557674994
+              empile:  2044633105
+            jouecoup:   819121825
+        orig_rbechec:  1029246530
+        orig_rnechec:   536348108
 solution finished. 
 
 
@@ -389,10 +389,10 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
  11  (Kc2-d1 )
  12  (Kc2-b1 + )
 
-              empile:    16283229
-            jouecoup:     5154037
-        orig_rbechec:     5644013
-        orig_rnechec:     3550792
+              empile:    15033803
+            jouecoup:     4798802
+        orig_rbechec:     5259735
+        orig_rnechec:     3306630
 solution finished. 
 
 
@@ -442,10 +442,10 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
  18  (Bd5-e6 )
  19  (Bd5-c6 )
 
-              empile:   358292600
-            jouecoup:   141035999
-        orig_rbechec:   184186331
-        orig_rnechec:    91012742
+              empile:   333412482
+            jouecoup:   134011297
+        orig_rbechec:   172416619
+        orig_rnechec:    87177724
 solution finished. 
 
 

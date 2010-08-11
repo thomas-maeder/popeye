@@ -1,3 +1,19 @@
+optimisations/killer_move/collector$(OBJ_SUFFIX):  \
+ optimisations/killer_move/collector.c \
+  optimisations/killer_move/collector.h pydata.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
+
+optimisations/killer_move/collector.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:
 optimisations/killer_move/final_defense_move$(OBJ_SUFFIX):  \
  optimisations/killer_move/final_defense_move.c \
   optimisations/killer_move/final_defense_move.h pydata.h pypipe.h \

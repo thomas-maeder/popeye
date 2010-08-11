@@ -96,7 +96,8 @@
     ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
     /* slices implementing optimisations */                             \
     ENUMERATOR(STAttackMoveToGoal),                                     \
-    ENUMERATOR(STKillerMoveFinalDefenseMove),                               \
+    ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \
+    ENUMERATOR(STKillerMoveFinalDefenseMove), /* priorise killer move */ \
     ENUMERATOR(STEnPassantAttackerFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STEnPassantDefenderFilter),  /* enforces precondition for goal ep */ \
     ENUMERATOR(STEnPassantHelpFilter),  /* enforces precondition for goal ep */ \

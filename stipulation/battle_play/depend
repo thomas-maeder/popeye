@@ -148,6 +148,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
   options/no_short_variations/no_short_variations_attacker_filter.h \
   optimisations/goals/castling/attacker_filter.h \
   optimisations/goals/enpassant/attacker_filter.h \
+  optimisations/killer_move/collector.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
   output/plaintext/tree/check_detector.h \
   output/plaintext/tree/zugzwang_writer.h \
@@ -213,6 +214,8 @@ options/no_short_variations/no_short_variations_attacker_filter.h:
 optimisations/goals/castling/attacker_filter.h:
 
 optimisations/goals/enpassant/attacker_filter.h:
+
+optimisations/killer_move/collector.h:
 
 optimisations/stoponshortsolutions/root_solvable_filter.h:
 

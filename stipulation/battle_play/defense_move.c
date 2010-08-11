@@ -174,10 +174,7 @@ static stip_length_type try_defenses(slice_index si,
                                                 n-1,n_min-1,
                                                 n_max_unsolvable-1)+1;
       if (length_sol>n)
-      {
         ++nr_refutations;
-        coupfort();
-      }
 
       if (result<length_sol)
         result = length_sol;

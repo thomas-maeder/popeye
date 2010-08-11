@@ -135,6 +135,7 @@
 #include "stipulation/goals/prerequisite_guards.h"
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/goals/optimisation_guards.h"
+#include "optimisations/killer_move/collector.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/maxtime/maxtime.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
@@ -2647,6 +2648,8 @@ static void stip_optimise_final_moves(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_insert_killer_move_collectors(si);
 
   TraceStipulation(si);
 

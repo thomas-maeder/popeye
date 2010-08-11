@@ -156,7 +156,6 @@ static unsigned int try_last_defenses(slice_index next,
       {
         last_defense_stalemate = false;
         ++result;
-        coupfort();
       }
       else if (length_sol==slack_length_battle)
         last_defense_stalemate = false;
