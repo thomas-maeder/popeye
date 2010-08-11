@@ -75,7 +75,8 @@ void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
     *si = slices[*si].u.pipe.next;
   }
 
-  slices[*si].prev = prev;  
+  if (is_proxy(slices[*si].prev))
+    slices[*si].prev = prev;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
