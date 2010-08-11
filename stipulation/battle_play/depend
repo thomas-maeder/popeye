@@ -2,10 +2,10 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
   stipulation/battle_play/branch.h pypipe.h pyselfcg.h \
   stipulation/proxy.h stipulation/branch.h \
   stipulation/battle_play/attack_move.h \
-  stipulation/battle_play/attack_end.h \
+  stipulation/battle_play/defense_dealt_with.h \
   stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_move_played.h \
-  stipulation/battle_play/defense_end.h trace.h
+  stipulation/battle_play/attack_dealt_with.h trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -19,13 +19,13 @@ stipulation/branch.h:
 
 stipulation/battle_play/attack_move.h:
 
-stipulation/battle_play/attack_end.h:
+stipulation/battle_play/defense_dealt_with.h:
 
 stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_move_played.h:
 
-stipulation/battle_play/defense_end.h:
+stipulation/battle_play/attack_dealt_with.h:
 
 trace.h:
 stipulation/battle_play/fork$(OBJ_SUFFIX): stipulation/battle_play/fork.c \
@@ -139,7 +139,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/branch.h stipulation/battle_play/attack_root.h \
   stipulation/battle_play/attack_move.h \
   stipulation/battle_play/attack_move_to_goal.h \
-  stipulation/battle_play/attack_end.h \
+  stipulation/battle_play/defense_dealt_with.h \
   stipulation/battle_play/attack_fork.h stipulation/battle_play/threat.h \
   stipulation/battle_play/try.h stipulation/battle_play/postkeyplay.h \
   stipulation/series_play/play.h \
@@ -193,7 +193,7 @@ stipulation/battle_play/attack_move.h:
 
 stipulation/battle_play/attack_move_to_goal.h:
 
-stipulation/battle_play/attack_end.h:
+stipulation/battle_play/defense_dealt_with.h:
 
 stipulation/battle_play/attack_fork.h:
 
@@ -232,12 +232,12 @@ output/plaintext/tree/refuting_variation_writer.h:
 output/plaintext/tree/goal_writer.h:
 
 trace.h:
-stipulation/battle_play/attack_end$(OBJ_SUFFIX):  \
- stipulation/battle_play/attack_end.c \
-  stipulation/battle_play/attack_end.h pypipe.h stipulation/branch.h \
-  stipulation/battle_play/attack_play.h trace.h
+stipulation/battle_play/defense_dealt_with$(OBJ_SUFFIX):  \
+ stipulation/battle_play/defense_dealt_with.c \
+  stipulation/battle_play/defense_dealt_with.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
 
-stipulation/battle_play/attack_end.h:
+stipulation/battle_play/defense_dealt_with.h:
 
 pypipe.h:
 
@@ -265,12 +265,12 @@ stipulation/battle_play/attack_play.h:
 stipulation/help_play/move.h:
 
 trace.h:
-stipulation/battle_play/defense_end$(OBJ_SUFFIX):  \
- stipulation/battle_play/defense_end.c \
-  stipulation/battle_play/defense_end.h pypipe.h stipulation/branch.h \
-  stipulation/battle_play/defense_play.h trace.h
+stipulation/battle_play/attack_dealt_with$(OBJ_SUFFIX):  \
+ stipulation/battle_play/attack_dealt_with.c \
+  stipulation/battle_play/attack_dealt_with.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/defense_play.h trace.h
 
-stipulation/battle_play/defense_end.h:
+stipulation/battle_play/attack_dealt_with.h:
 
 pypipe.h:
 
@@ -304,8 +304,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
   stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_fork.h \
-  stipulation/battle_play/defense_end.h stipulation/help_play/root.h \
-  stipulation/help_play/play.h \
+  stipulation/battle_play/attack_dealt_with.h \
+  stipulation/help_play/root.h stipulation/help_play/play.h \
   optimisations/killer_move/final_defense_move.h \
   optimisations/killer_move/collector.h \
   optimisations/maxsolutions/root_defender_filter.h \
@@ -354,7 +354,7 @@ stipulation/battle_play/defense_move.h:
 
 stipulation/battle_play/defense_fork.h:
 
-stipulation/battle_play/defense_end.h:
+stipulation/battle_play/attack_dealt_with.h:
 
 stipulation/help_play/root.h:
 

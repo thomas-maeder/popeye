@@ -115,7 +115,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_attack_end(slice_index si,
+static void instrument_defense_dealt_with(slice_index si,
                                   stip_structure_traversal *st)
 {
   check_detector_defender_filter_insertion_state_type const
@@ -141,7 +141,7 @@ static void instrument_attack_end(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_defense_end(slice_index si,
+static void instrument_attack_dealt_with(slice_index si,
                                    stip_structure_traversal *st)
 {
   variation_writer_insertion_state_type const
@@ -412,8 +412,8 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STSeriesRoot,                     &stip_structure_visitor_noop        },
   { STReflexDefenderFilter,           &instrument_reflex_defender_filter, },
   { STSelfDefense,                    &instrument_self_defense            },
-  { STAttackEnd,                      &instrument_attack_end              },
-  { STDefenseEnd,                     &instrument_defense_end             }
+  { STDefenseDealtWith,                      &instrument_defense_dealt_with              },
+  { STAttackDealtWith,                     &instrument_attack_dealt_with             }
 };
 
 enum

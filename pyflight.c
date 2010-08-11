@@ -218,7 +218,7 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
 
 static structure_traversers_visitors maxflight_guards_inserters[] =
 {
-  { STDefenseEnd, &maxflight_guard_inserter }
+  { STAttackDealtWith, &maxflight_guard_inserter }
 };
 
 enum

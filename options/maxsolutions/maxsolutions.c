@@ -268,7 +268,7 @@ static structure_traversers_visitors maxsolutions_initialiser_inserters[] =
   { STAttackRoot,  &insert_root_solvable_filter },
   { STHelpRoot,    &insert_root_solvable_filter },
   { STSeriesRoot,  &insert_root_solvable_filter },
-  { STAttackEnd,   &insert_root_solvable_filter }
+  { STDefenseDealtWith,   &insert_root_solvable_filter }
 };
 
 enum

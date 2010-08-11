@@ -16,7 +16,7 @@
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_fork.h"
-#include "stipulation/battle_play/defense_end.h"
+#include "stipulation/battle_play/attack_dealt_with.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "optimisations/killer_move/final_defense_move.h"
@@ -101,8 +101,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = defense_fork_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseEnd:
-      result = defense_end_defend_in_n(si,n,n_max_unsolvable);
+    case STAttackDealtWith:
+      result = attack_dealt_with_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STDirectDefenderFilter:
@@ -293,8 +293,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = defense_fork_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseEnd:
-      result = defense_end_can_defend_in_n(si,n,n_max_unsolvable);
+    case STAttackDealtWith:
+      result = attack_dealt_with_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STDirectDefenderFilter:

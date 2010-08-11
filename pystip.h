@@ -28,9 +28,9 @@
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
-    ENUMERATOR(STAttackEnd),      /* battle play, half-moves used up */ \
+    ENUMERATOR(STDefenseDealtWith),      /* battle play, half-moves used up */ \
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
-    ENUMERATOR(STDefenseEnd),     /* battle play, half-moves used up */ \
+    ENUMERATOR(STAttackDealtWith),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STReadyForAttack),     /* proxy mark before we start playing attacks */ \
     ENUMERATOR(STAttackMovePlayed), /* proxy mark after attack moves have been fully played */ \

@@ -4,10 +4,10 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/attack_end.h"
+#include "stipulation/battle_play/defense_dealt_with.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
-#include "stipulation/battle_play/defense_end.h"
+#include "stipulation/battle_play/attack_dealt_with.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -32,7 +32,7 @@ slice_index alloc_attack_branch(stip_length_type length,
 
   result = alloc_selfcheck_guard_attacker_filter(length,min_length);
   ready = alloc_branch(STReadyForAttack,length,min_length);
-  end = alloc_attack_end_slice(length,min_length);
+  end = alloc_defense_dealt_with_slice(length,min_length);
   attack = alloc_attack_move_slice(length,min_length);
   pipe_link(result,end);
   pipe_link(end,attack);
@@ -63,7 +63,7 @@ slice_index alloc_defense_branch(stip_length_type length,
   {
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length,min_length);
-    slice_index const end = alloc_defense_end_slice(length,min_length);
+    slice_index const end = alloc_attack_dealt_with_slice(length,min_length);
     slice_index const defense = alloc_defense_move_slice(length,min_length);
     slice_index const played = alloc_defense_move_played_slice(length-1,
                                                                min_length-1);
@@ -120,7 +120,7 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,
                                             length,min_length);
-    slice_index const aend = alloc_attack_end_slice(length,min_length);
+    slice_index const aend = alloc_defense_dealt_with_slice(length,min_length);
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const aplayed = alloc_branch(STAttackMovePlayed,
                                              length-1,min_length-1);
@@ -134,7 +134,7 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                length-1,min_length-1);
     slice_index const dready = alloc_branch(STReadyForDefense,
                                            length-1,min_length-1);
-    slice_index const dend = alloc_defense_end_slice(length-1,min_length-1);
+    slice_index const dend = alloc_attack_dealt_with_slice(length-1,min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,
                                                          min_length-1);
     slice_index const dplayed = alloc_defense_move_played_slice(length-2,

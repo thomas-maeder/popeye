@@ -265,7 +265,7 @@ static void insert_goal_prerequisite_guards_goal(slice_index si,
  */
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
-  { STAttackEnd,         &insert_goal_prerequisite_guards_attack_move },
+  { STDefenseDealtWith,         &insert_goal_prerequisite_guards_attack_move },
   { STGoalReachedTester, &insert_goal_prerequisite_guards_goal        },
   { STAttackRoot,        &insert_goal_prerequisite_guards_attack_root },
   { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move   },

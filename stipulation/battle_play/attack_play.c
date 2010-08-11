@@ -18,7 +18,7 @@
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
-#include "stipulation/battle_play/attack_end.h"
+#include "stipulation/battle_play/defense_dealt_with.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
@@ -100,8 +100,8 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                      n_max_unsolvable);
       break;
 
-    case STAttackEnd:
-      result = attack_end_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+    case STDefenseDealtWith:
+      result = defense_dealt_with_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
     case STAttackFork:
@@ -383,8 +383,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_move_to_goal_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STAttackEnd:
-      result = attack_end_solve_in_n(si,n,n_max_unsolvable);
+    case STDefenseDealtWith:
+      result = defense_dealt_with_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackFork:

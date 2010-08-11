@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/defense_end.h"
+#include "stipulation/battle_play/attack_dealt_with.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -6,13 +6,13 @@
 
 #include <assert.h>
 
-/* Allocate a STDefenseEnd defender slice.
+/* Allocate a STAttackDealtWith defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_defense_end_slice(stip_length_type length,
-                                    stip_length_type min_length)
+slice_index alloc_attack_dealt_with_slice(stip_length_type length,
+                                          stip_length_type min_length)
 {
   slice_index result;
 
@@ -21,7 +21,7 @@ slice_index alloc_defense_end_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDefenseEnd,length,min_length);
+  result = alloc_branch(STAttackDealtWith,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -33,7 +33,8 @@ slice_index alloc_defense_end_slice(stip_length_type length,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_defense_end(slice_index si, stip_moves_traversal *st)
+void stip_traverse_moves_attack_dealt_with(slice_index si,
+                                           stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -60,9 +61,10 @@ void stip_traverse_moves_defense_end(slice_index si, stip_moves_traversal *st)
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type defense_end_defend_in_n(slice_index si,
-                                         stip_length_type n,
-                                         stip_length_type n_max_unsolvable)
+stip_length_type
+attack_dealt_with_defend_in_n(slice_index si,
+                              stip_length_type n,
+                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -99,9 +101,9 @@ stip_length_type defense_end_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-defense_end_can_defend_in_n(slice_index si,
-                            stip_length_type n,
-                            stip_length_type n_max_unsolvable)
+attack_dealt_with_can_defend_in_n(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.branch.next;

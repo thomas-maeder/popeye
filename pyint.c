@@ -3336,7 +3336,7 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STReflexHelpFilter,     &intelligent_mode_support_none               },
   { STReflexSeriesFilter,   &intelligent_mode_support_none               },
   { STSelfDefense,          &intelligent_mode_support_none               },
-  { STDefenseEnd,           &intelligent_mode_support_none               }
+  { STAttackDealtWith,           &intelligent_mode_support_none               }
 };
 
 enum
