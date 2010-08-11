@@ -109,9 +109,15 @@ slice_index alloc_battle_branch(stip_length_type length,
   assert(length>slack_length_battle);
   assert(min_length>slack_length_battle);
 
-  result = alloc_proxy_slice();
-
   {
+    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
+                                                 length,min_length);
+    slice_index const
+        guard2 = alloc_selfcheck_guard_attacker_filter(length,min_length);
+    slice_index const dchecked = alloc_branch(STDefenseMoveLegalityChecked,
+                                              length,min_length);
+    slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
+                                               length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,
                                             length,min_length);
     slice_index const aend = alloc_attack_end_slice(length,min_length);
@@ -133,15 +139,7 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                          min_length-1);
     slice_index const dplayed = alloc_defense_move_played_slice(length-2,
                                                                 min_length-2);
-    slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
-                                                 length-2,min_length-2);
-    slice_index const
-        guard2 = alloc_selfcheck_guard_attacker_filter(length,min_length);
-    slice_index const dchecked = alloc_branch(STDefenseMoveLegalityChecked,
-                                              length-2,min_length-2);
-    slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
-                                               length-2,min_length-2);
-    pipe_link(result,guard2);
+    pipe_link(dshoehorned,guard2);
     pipe_link(guard2,dchecked);
     pipe_link(dchecked,dfiltered);
     pipe_link(dfiltered,aready);
@@ -157,7 +155,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dend,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
-    pipe_link(dshoehorned,result);
+
+    result = dshoehorned;
   }
 
   TraceFunctionExit(__func__);

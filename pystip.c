@@ -544,22 +544,7 @@ void dealloc_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void copy_into_root_end(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *root = copy_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
-void copy_into_root(slice_index si, stip_structure_traversal *st)
+static void copy_into_root(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -570,9 +555,28 @@ void copy_into_root(slice_index si, stip_structure_traversal *st)
   {
     slice_index * const root = st->param;
     slice_index copy = copy_slice(si);
-    pipe_link(copy,*root);
+
+    if (slices[*root].prev==no_slice)
+      pipe_link(copy,*root);
+    else
+      pipe_set_successor(copy,*root);
+
     *root = copy;
   }
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *root = si;
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -584,14 +588,15 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STAttackMove,                  &attack_move_make_root                    },
   { STLeaf,                        &leaf_make_root                           },
   { STQuodlibet,                   &quodlibet_make_root                      },
+  { STSelfDefense,                 &stip_traverse_structure_pipe             },
   { STSelfCheckGuardAttackerFilter,&selfcheck_guard_attacker_filter_make_root},
   { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
-  { STReadyForAttack,              &stip_traverse_structure_children         },
-  { STAttackEnd,                   &stip_traverse_structure_children         },
   { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
-  { STDefenseMoveShoeHorningDone,  &copy_into_root_end                       }
+  { STReadyForAttack,              &stip_traverse_structure_children         },
+  { STAttackEnd,                   &stip_traverse_structure_children         },
+  { STDefenseMoveShoeHorningDone,  &serve_as_root_hook                       }
 };
 
 enum
@@ -1268,10 +1273,6 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
-
-  pipe_unlink(slices[si].prev);
-  pipe_link(si,*postkey_slice);
   *postkey_slice = si;
 
   TraceFunctionExit(__func__);
@@ -1281,13 +1282,14 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                      &defense_move_reduce_to_postkey_play                        },
-  { STAttackRoot,                       &trash_for_postkey_play                                     },
   { STReadyForAttack,                   &trash_for_postkey_play                                     },
+  { STAttackRoot,                       &trash_for_postkey_play                                     },
   { STAttackMovePlayed,                 &trash_for_postkey_play                                     },
   { STAttackMoveShoeHorningDone,        &trash_for_postkey_play                                     },
   { STAttackMoveLegalityChecked,        &move_to_postkey_play                                       },
   { STAttackMoveFiltered,               &move_to_postkey_play                                       },
   { STReadyForDefense,                  &move_to_postkey_play                                       },
+  { STDefenseEnd,                       &move_to_postkey_play                                       },
   { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                                     },
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                                     },
   { STDefenseMoveFiltered,              &trash_for_postkey_play                                     },
@@ -1295,8 +1297,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STDirectDefenderFilter,             &direct_defender_filter_reduce_to_postkey_play              },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
   { STReflexDefenderFilter,             &reflex_defender_filter_reduce_to_postkey_play              },
-  { STAttackEnd,                        &attack_end_reduce_to_postkey_play                          },
-  { STDefenseEnd,                       &move_to_postkey_play                                       }
+  { STAttackEnd,                        &attack_end_reduce_to_postkey_play                          }
 };
 
 enum

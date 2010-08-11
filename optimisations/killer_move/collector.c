@@ -198,10 +198,26 @@ static void prepend_collector(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void append_collector(slice_index si, stip_structure_traversal *st)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(si,alloc_killer_move_collector_slice(length,min_length));
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
   { STAttackMoveShoeHorningDone,  &prepend_collector },
-  { STDefenseMoveShoeHorningDone, &prepend_collector }
+  { STDefenseMoveShoeHorningDone, &append_collector }
 };
 
 enum
