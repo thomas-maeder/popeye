@@ -40,8 +40,8 @@ boolean stip_insert_maxthreatlength_guards(slice_index si);
  *                         know have no solution
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - more refutations found than acceptable
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
 maxthreatlength_guard_defend_in_n(slice_index si,
@@ -53,16 +53,14 @@ maxthreatlength_guard_defend_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
 maxthreatlength_guard_can_defend_in_n(slice_index si,
                                       stip_length_type n,
-                                      stip_length_type n_max_unsolvable,
-                                      unsigned int max_nr_refutations);
+                                      stip_length_type n_max_unsolvable);
 
 #endif

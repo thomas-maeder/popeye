@@ -37,17 +37,15 @@ static attack_type last_attack_success;
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
 battle_play_solution_writer_can_defend_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_max_unsolvable,
-                                            unsigned int max_nr_refutations)
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -56,12 +54,13 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   if (are_we_solving_refutations)
   {
-    /* refutations are never too short to be interesting */
+    /* refutations never lead to play that is too short to be
+     * interesting
+     */
     max_variation_length[nbply+1] = slack_length_battle+1;
 
     flush_pending_check(nbply);
@@ -70,17 +69,26 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);
     Message(But);
-    result = defense_can_defend_in_n(next,
-                                     n,n_max_unsolvable,
-                                     max_nr_refutations);
+    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
   }
   else
   {
-    result = defense_can_defend_in_n(next,
-                                     n,n_max_unsolvable,
-                                     max_nr_refutations);
-    last_attack_success = result<=n ? attack_key : attack_try;
-    max_variation_length[nbply+1] = result<n ? result : n;
+    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    if (result>n)
+    {
+      max_variation_length[nbply+1] = n;
+      last_attack_success = attack_try;
+    }
+    else
+    {
+      max_variation_length[nbply+1] = result;
+      if (refutations==table_nil)
+        last_attack_success = attack_key;
+      else if (table_length(refutations)==0)
+        last_attack_success = attack_key;
+      else
+        last_attack_success = attack_try;
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -99,7 +107,7 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - more refutations found than acceptable
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
 battle_play_solution_writer_defend_in_n(slice_index si,

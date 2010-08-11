@@ -844,7 +844,7 @@ Es fehlt ein weisser oder schwarzer Koenig
       1...LLc7*f4-g2 !
 
               empile:      185915
-            jouecoup:       94742
+            jouecoup:       94902
         orig_rbechec:           0
         orig_rnechec:       94638
 Loesung beendet. 
@@ -951,7 +951,7 @@ Loesung beendet.
  43  (Kc1-b1 )
  44  (Kc1-b2 )
               empile:   134521561
-            jouecoup:    42436889
+            jouecoup:    42436915
         orig_rbechec:    34686208
         orig_rnechec:    40896728
 Loesung beendet. 
@@ -1096,7 +1096,7 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
           2.Da4*a8-b6 #
 
               empile:       35592
-            jouecoup:       17261
+            jouecoup:       17284
         orig_rbechec:        8626
         orig_rnechec:       17245
 Loesung beendet. 
@@ -1316,7 +1316,7 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
           2.Dc3*b2-b6 #
 
               empile:      150011
-            jouecoup:       80077
+            jouecoup:       80291
         orig_rbechec:       24739
         orig_rnechec:       79904
 Loesung beendet. 
@@ -1410,7 +1410,7 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
       1...Th5-h2 + !
 
               empile:       23964
-            jouecoup:       11345
+            jouecoup:       11417
         orig_rbechec:        5570
         orig_rnechec:       11282
 Loesung beendet. 

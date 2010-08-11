@@ -71,7 +71,6 @@ static boolean have_we_solution_in_n(slice_index si,
 {
   boolean result = false;
   Side const attacker = slices[si].starter;
-  unsigned int const nr_refutations_allowed = 0;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -87,9 +86,7 @@ static boolean have_we_solution_in_n(slice_index si,
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_can_defend_in_n(next,
-                                   n-1,n_max_unsolvable-1,
-                                   nr_refutations_allowed)<=n-1)
+        && defense_can_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
     {
       result = true;
       repcoup();

@@ -146,9 +146,9 @@ solution finished.
     but
       1...b7*a6 !
 
-              empile:       15928
-            jouecoup:        6265
-        orig_rbechec:        3104
+              empile:       16901
+            jouecoup:        6518
+        orig_rbechec:        3892
         orig_rnechec:       16202
 solution finished. 
 
@@ -195,9 +195,9 @@ solution finished.
       1...Sc3-b5
           2.Sc4-e3[+bKe6] #
 
-              empile:       47589
-            jouecoup:       13110
-        orig_rbechec:        8111
+              empile:       48670
+            jouecoup:       13393
+        orig_rbechec:        8973
         orig_rnechec:       34255
 solution finished. 
 
@@ -531,9 +531,9 @@ solution finished.
     but
       1...cBd1-e2=cR !
 
-              empile:    12822777
-            jouecoup:     3845542
-        orig_rbechec:    24012393
+              empile:    12825118
+            jouecoup:     3846111
+        orig_rbechec:    24014845
         orig_rnechec:     7150444
 solution finished. 
 

@@ -683,8 +683,8 @@ solution finished.
     but
       1...c5-c4 !
 
-              empile:         184
-            jouecoup:         169
+              empile:         190
+            jouecoup:         177
         orig_rbechec:         171
         orig_rnechec:          50
 solution finished. 
@@ -1036,7 +1036,7 @@ solution finished.
               2...a3*b2 #
 
               empile:        3939
-            jouecoup:        2156
+            jouecoup:        2170
         orig_rbechec:        2168
         orig_rnechec:         936
 solution finished. 

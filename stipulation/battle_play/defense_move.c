@@ -81,7 +81,7 @@ void defense_move_detect_starter(slice_index si, stip_structure_traversal *st)
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - more refutations found than acceptable
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type defense_move_defend_in_n(slice_index si,
                                           stip_length_type n,
@@ -136,15 +136,12 @@ stip_length_type defense_move_defend_in_n(slice_index si,
 /* Try the defenses generated in the current ply
  * @param si identifies slice
  * @param n maximum number of half moves until end state has to be reached
- * @param max_nr_refutations maximum number of refutations to look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
  */
-static stip_length_type try_defenses(slice_index si,
-                                     stip_length_type n,
-                                     unsigned int max_nr_refutations)
+static stip_length_type try_defenses(slice_index si, stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   slice_index const length = slices[si].u.branch.length;
@@ -152,12 +149,10 @@ static stip_length_type try_defenses(slice_index si,
   stip_length_type n_min;
   stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type result = slack_length_battle-2;
-  unsigned int nr_refutations = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   if (n-slack_length_battle<length-min_length)
@@ -165,7 +160,7 @@ static stip_length_type try_defenses(slice_index si,
   else
     n_min = n-(length-min_length);
 
-  while (nr_refutations<=max_nr_refutations && encore())
+  while (result<=n && encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply))
     {
@@ -173,9 +168,6 @@ static stip_length_type try_defenses(slice_index si,
           length_sol = attack_has_solution_in_n(next,
                                                 n-1,n_min-1,
                                                 n_max_unsolvable-1)+1;
-      if (length_sol>n)
-        ++nr_refutations;
-
       if (result<length_sol)
         result = length_sol;
     }
@@ -194,17 +186,15 @@ static stip_length_type try_defenses(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
 defense_move_can_defend_in_n(slice_index si,
                              stip_length_type n,
-                             stip_length_type n_max_unsolvable,
-                             unsigned int max_nr_refutations)
+                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   Side const defender = slices[si].starter;
@@ -214,7 +204,6 @@ defense_move_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
   assert(n>slack_length_battle);
@@ -226,7 +215,7 @@ defense_move_can_defend_in_n(slice_index si,
 
   TraceValue("->%u\n",move_generation_mode);
   genmove(defender);
-  max_len_continuation = try_defenses(si,n,max_nr_refutations);
+  max_len_continuation = try_defenses(si,n);
   finply();
 
   if (max_len_continuation<slack_length_battle /* stalemate */

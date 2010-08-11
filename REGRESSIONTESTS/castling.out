@@ -265,7 +265,7 @@ Loesung beendet.
       1...Kc2-c3 !
 
               empile:       63135
-            jouecoup:       26821
+            jouecoup:       26824
         orig_rbechec:       17246
         orig_rnechec:       21821
 Loesung beendet. 
@@ -914,7 +914,7 @@ Loesung beendet.
       1...0-0 !
 
               empile:     1143206
-            jouecoup:      840501
+            jouecoup:      840531
         orig_rbechec:      670185
         orig_rnechec:      245587
 Loesung beendet. 
@@ -1130,7 +1130,7 @@ Loesung beendet.
  48  (Ta1-c1 )
  49  (Ta1-b1 )
               empile:     3059642
-            jouecoup:     2662743
+            jouecoup:     2662768
         orig_rbechec:     1983383
         orig_rnechec:     1031669
 Loesung beendet. 
@@ -1500,7 +1500,7 @@ Loesung beendet.
                   3.De5-h8 #
 
               empile:     1888022
-            jouecoup:     1468264
+            jouecoup:     1468303
         orig_rbechec:     1098363
         orig_rnechec:      496020
 Loesung beendet. 
@@ -1639,7 +1639,7 @@ Loesung beendet.
       1...f5*e4 !
 
               empile:      568351
-            jouecoup:      365845
+            jouecoup:      366055
         orig_rbechec:      132232
         orig_rnechec:      282271
 Loesung beendet. 
@@ -2222,7 +2222,7 @@ Loesung beendet.
       1...Kf8-g8 !
 
               empile:     1243807
-            jouecoup:      782550
+            jouecoup:      782559
         orig_rbechec:      661393
         orig_rnechec:      249977
 Loesung beendet. 
@@ -3576,7 +3576,7 @@ RochadenGegenseitigAusschliessend a1h8
       1...0-0 !
 
               empile:        2944
-            jouecoup:        1943
+            jouecoup:        1957
         orig_rbechec:         636
         orig_rnechec:        2202
 Loesung beendet. 
@@ -3617,7 +3617,7 @@ RochadenGegenseitigAusschliessend h1a8
           2.Tf1-f8 #
 
               empile:        1434
-            jouecoup:        1069
+            jouecoup:        1082
         orig_rbechec:         283
         orig_rnechec:        1192
 Loesung beendet. 
@@ -4252,7 +4252,7 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
       1...0-0 !
 
               empile:      737397
-            jouecoup:      384231
+            jouecoup:      384278
         orig_rbechec:      182942
         orig_rnechec:      334289
 Loesung beendet. 

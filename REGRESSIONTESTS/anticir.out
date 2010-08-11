@@ -167,7 +167,7 @@ Loesung beendet.
           2.Sc8-e7 #
 
               empile:        8505
-            jouecoup:        6042
+            jouecoup:        6070
         orig_rbechec:        4590
         orig_rnechec:        6047
 Loesung beendet. 
@@ -251,7 +251,7 @@ Loesung beendet.
       1...Sd1*b2[sSb2->b8] !
 
               empile:       15096
-            jouecoup:       11197
+            jouecoup:       11341
         orig_rbechec:        6459
         orig_rnechec:       11206
 Loesung beendet. 
@@ -538,7 +538,7 @@ Loesung beendet.
       1...d6*e5[sBe5->e7] !
 
               empile:       30387
-            jouecoup:       17442
+            jouecoup:       17587
         orig_rbechec:        6583
         orig_rnechec:       17453
 Loesung beendet. 
@@ -944,7 +944,7 @@ Loesung beendet.
       1...c6*b5[sBb5->b7] !
 
               empile:        5089
-            jouecoup:        3359
+            jouecoup:        3399
         orig_rbechec:        2351
         orig_rnechec:        3366
 Loesung beendet. 
@@ -1052,7 +1052,7 @@ Loesung beendet.
       1...Te2-e1 !
 
               empile:       33837
-            jouecoup:       18570
+            jouecoup:       18665
         orig_rbechec:        5908
         orig_rnechec:       18576
 Loesung beendet. 
@@ -1420,7 +1420,7 @@ Loesung beendet.
       1...Tc5-c7 !
 
               empile:        8480
-            jouecoup:        6248
+            jouecoup:        6315
         orig_rbechec:        5162
         orig_rnechec:        6252
 Loesung beendet. 
@@ -2573,7 +2573,7 @@ Loesung beendet.
       1...Sb1*c3[sSc3->b8] !
 
               empile:       26282
-            jouecoup:       19745
+            jouecoup:       20218
         orig_rbechec:        9452
         orig_rnechec:       19752
 Loesung beendet. 
@@ -2637,7 +2637,7 @@ Loesung beendet.
       1...Sd6*e8[sSe8->g8] !
 
               empile:       17846
-            jouecoup:       10845
+            jouecoup:       10968
         orig_rbechec:        1926
         orig_rnechec:       10851
 Loesung beendet. 
@@ -2725,7 +2725,7 @@ Loesung beendet.
       1...Kd6*e5[sKe5->e8] !
 
               empile:       19426
-            jouecoup:       12593
+            jouecoup:       12721
         orig_rbechec:        7147
         orig_rnechec:       12602
 Loesung beendet. 

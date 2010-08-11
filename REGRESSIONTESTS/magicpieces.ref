@@ -373,7 +373,7 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
       1...Sf6*g8 !
 
               empile:      109513
-            jouecoup:       67685
+            jouecoup:       68183
         orig_rbechec:       19188
         orig_rnechec:       67702
 solution finished. 
@@ -615,7 +615,7 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
       1...Se6-c5=wS !
 
               empile:       41576
-            jouecoup:       30740
+            jouecoup:       30862
         orig_rbechec:        6400
         orig_rnechec:       30746
 solution finished. 

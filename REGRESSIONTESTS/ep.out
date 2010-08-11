@@ -98,7 +98,7 @@
           2.c7*b8=L #
 
               empile:       19667
-            jouecoup:       17503
+            jouecoup:       17625
         orig_rbechec:        1386
         orig_rnechec:       17510
 Loesung beendet. 
@@ -377,7 +377,7 @@ a)
       1...c7-c6 !
 
               empile:        2138
-            jouecoup:        1908
+            jouecoup:        1947
         orig_rbechec:         279
         orig_rnechec:        1914
 b) sBc7-->e7
@@ -545,7 +545,7 @@ b) sBc7-->e7
       1...e7*d6 !
 
               empile:        2359
-            jouecoup:        2103
+            jouecoup:        2198
         orig_rbechec:         360
         orig_rnechec:        2110
 Loesung beendet. 

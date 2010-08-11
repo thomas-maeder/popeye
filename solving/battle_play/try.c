@@ -13,7 +13,7 @@
 
 /* Table where refutations are collected
  */
-static table refutations;
+table refutations;
 
 /* Maximum number of refutations to look for as indicated by the user
  */
@@ -105,7 +105,7 @@ static slice_index alloc_battle_play_solver(stip_length_type length,
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - acceptable number of refutations found
- *         n+4 refuted - more refutations found than acceptable
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
 battle_play_solver_defend_in_n(slice_index si,
@@ -114,7 +114,6 @@ battle_play_solver_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  unsigned int nr_refutations;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -124,43 +123,21 @@ battle_play_solver_defend_in_n(slice_index si,
 
   assert(refutations==table_nil);
   refutations = allocate_table();
-
-  result = defense_can_defend_in_n(next,
-                                   n,n_max_unsolvable,
-                                   user_set_max_nr_refutations);
-
-  nr_refutations = table_length(refutations);
-  if (result==n+4
-      && nr_refutations>0 
-      && nr_refutations<=user_set_max_nr_refutations)
-    result = n+2;
   
-  if (result<=n+2)
+  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  
+  if (result<=n)
   {
     if (result<n)
       n = result;
+    else if (table_length(refutations)>n)
+      result = n+2;
 
+    if (defense_defend_in_n(next,n,n_max_unsolvable)==n+2)
     {
-      stip_length_type const
-          defend_result = defense_defend_in_n(next,n,n_max_unsolvable);
-
-      if (defend_result==n+2)
-      {
-        are_we_solving_refutations = true;
-
-        {
-          /* reduce by 1 to stop the iteration immediately when all
-           * refutations have been written
-           */
-          stip_length_type const
-              write_result = defense_can_defend_in_n(next,
-                                                     n,n_max_unsolvable,
-                                                     nr_refutations-1);
-          assert(write_result==n+4);
-        }
-
-        are_we_solving_refutations = false;
-      }
+      are_we_solving_refutations = true;
+      defense_can_defend_in_n(next,n,n_max_unsolvable);
+      are_we_solving_refutations = false;
     }
   }
 
@@ -178,17 +155,15 @@ battle_play_solver_defend_in_n(slice_index si,
  * @param n maximum number of half moves until end state has to be reached
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
- * @param max_nr_refutations how many refutations should we look for
  * @return <=n solved  - return value is maximum number of moves
  *                       (incl. defense) needed
- *         n+2 refuted - <=max_nr_refutations refutations found
- *         n+4 refuted - >max_nr_refutations refutations found
+ *         n+2 refuted - <=acceptable number of refutations found
+ *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
 battle_play_solver_can_defend_in_n(slice_index si,
                                    stip_length_type n,
-                                   stip_length_type n_max_unsolvable,
-                                   unsigned int max_nr_refutations)
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -197,10 +172,9 @@ battle_play_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParam("%u",max_nr_refutations);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable,max_nr_refutations);
+  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -265,12 +239,9 @@ refutations_collector_has_solution_in_n(slice_index si,
   if (are_we_solving_refutations)
   {
     if (is_current_move_in_table(refutations))
-    {
       attack_solve_in_n(next,n,n_max_unsolvable);
-      result = n+2;
-    }
-    else
-      result = n;
+
+    result = n;
   }
   else
   {
@@ -281,6 +252,8 @@ refutations_collector_has_solution_in_n(slice_index si,
       assert(get_top_table()==refutations);
       TraceValue("%u\n",get_top_table());
       append_to_top_table();
+      if (table_length(get_top_table())<=user_set_max_nr_refutations)
+        result = n;
     }
   }
 

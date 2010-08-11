@@ -78,7 +78,7 @@
           2.Qf8*e8 #
 
               empile:       40409
-            jouecoup:       31376
+            jouecoup:       31414
         orig_rbechec:        7462
         orig_rnechec:       30535
 solution finished. 
@@ -254,7 +254,7 @@ solution finished.
       1...Kh1*h2 !
 
               empile:       35392
-            jouecoup:       21994
+            jouecoup:       22103
         orig_rbechec:        9975
         orig_rnechec:       20163
 solution finished. 
@@ -324,7 +324,7 @@ solution finished.
           2.Qb6-b7 #
 
               empile:       14483
-            jouecoup:       11851
+            jouecoup:       11854
         orig_rbechec:        4027
         orig_rnechec:       11139
 solution finished. 
@@ -498,7 +498,7 @@ solution finished.
       1...Kd3-d4 !
 
               empile:      105125
-            jouecoup:       87010
+            jouecoup:       87222
         orig_rbechec:       20061
         orig_rnechec:       85644
 solution finished. 

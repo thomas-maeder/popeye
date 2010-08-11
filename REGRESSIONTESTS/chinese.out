@@ -109,7 +109,7 @@
       1...NAf3-e5 !
 
               empile:       32923
-            jouecoup:       22627
+            jouecoup:       22903
         orig_rbechec:        4123
         orig_rnechec:       22637
 Loesung beendet. 
@@ -218,7 +218,7 @@ Loesung beendet.
       1...Te2-e3 !
 
               empile:       58620
-            jouecoup:       31232
+            jouecoup:       31520
         orig_rbechec:       13536
         orig_rnechec:       31245
 Loesung beendet. 
@@ -329,7 +329,7 @@ LEo f8, VAo c8, MAo e8, NAo b8, ZEbra a5, 1+1 Turm-Huepfer, 0+3 Laeufer-Huepfer
       1...d6-d5 !
 
               empile:       17308
-            jouecoup:       12034
+            jouecoup:       12126
         orig_rbechec:        7257
         orig_rnechec:       12045
 Loesung beendet. 
@@ -541,7 +541,7 @@ Loesung beendet.
       1...VAa7-b8 !
 
               empile:      138124
-            jouecoup:       76011
+            jouecoup:       76729
         orig_rbechec:       15916
         orig_rnechec:       78222
 Loesung beendet. 
@@ -686,7 +686,7 @@ Loesung beendet.
       1...Td5-c5 !
 
               empile:       45705
-            jouecoup:       30230
+            jouecoup:       30488
         orig_rbechec:        8173
         orig_rnechec:       30255
 Loesung beendet. 

@@ -71,7 +71,6 @@ void optimise_final_attack_move(slice_index si, Goal goal)
 static boolean find_imminent_solution(slice_index si)
 {
   boolean result = false;
-  unsigned int const nr_refutations_allowed = 0;
   stip_length_type const n = slack_length_battle+1;
   stip_length_type const n_max_unsolvable = slack_length_battle-1;
   slice_index const next = slices[si].u.pipe.next;
@@ -83,9 +82,7 @@ static boolean find_imminent_solution(slice_index si)
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_can_defend_in_n(next,
-                                   n-1,n_max_unsolvable,
-                                   nr_refutations_allowed)<=n-1)
+        && defense_can_defend_in_n(next,n-1,n_max_unsolvable)<=n-1)
     {
       result = true;
       repcoup();
