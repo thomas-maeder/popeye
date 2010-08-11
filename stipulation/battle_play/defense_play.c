@@ -20,6 +20,7 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "optimisations/killer_move/final_defense_move.h"
+#include "optimisations/killer_move/collector.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
@@ -176,6 +177,10 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STEnPassantDefenderFilter:
       result = enpassant_defender_filter_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STKillerMoveCollector:
+      result = killer_move_collector_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -390,6 +395,12 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = enpassant_defender_filter_can_defend_in_n(si,
                                                          n,n_max_unsolvable,
                                                          max_nr_refutations);
+      break;
+
+    case STKillerMoveCollector:
+      result = killer_move_collector_can_defend_in_n(si,
+                                                     n,n_max_unsolvable,
+                                                     max_nr_refutations);
       break;
 
     case STLeaf:

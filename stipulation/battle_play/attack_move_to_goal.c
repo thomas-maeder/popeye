@@ -88,7 +88,6 @@ static boolean find_imminent_solution(slice_index si)
                                    nr_refutations_allowed)<=n-1)
     {
       result = true;
-      coupfort();
       repcoup();
       break;
     }
@@ -193,10 +192,7 @@ static boolean foreach_move_solve_imminent(slice_index si)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && defense_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
-    {
       result = true;
-      coupfort();
-    }
 
     repcoup();
   }

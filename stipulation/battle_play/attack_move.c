@@ -89,10 +89,9 @@ static boolean have_we_solution_in_n(slice_index si,
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && defense_can_defend_in_n(next,
                                    n-1,n_max_unsolvable-1,
-                                   nr_refutations_allowed)<n)
+                                   nr_refutations_allowed)<=n-1)
     {
       result = true;
-      coupfort();
       repcoup();
       break;
     }
@@ -179,10 +178,7 @@ static boolean solve_in_n(slice_index si,
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && defense_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
-    {
       result = true;
-      coupfort();
-    }
 
     repcoup();
   }

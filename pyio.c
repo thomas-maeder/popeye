@@ -2363,14 +2363,24 @@ static char *ParsePlay(char *tok,
         Goal const goal = slices[next].u.goal_reached_tester.goal;
         slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
         slice_index const
+            shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                      slack_length_battle,
+                                      slack_length_battle-1);
+        slice_index const played = alloc_branch(STAttackMovePlayed,
+                                                slack_length_battle,
+                                                slack_length_battle-1);
+        slice_index const
             avoided = alloc_attack_move_slice(slack_length_battle+1,
                                               slack_length_battle);
         slice_index const not = alloc_not_slice(avoided);
         slice_index const proxy_avoided = alloc_proxy_slice();
 
-        pipe_link(avoided_tester,leaf);
-        pipe_link(avoided,avoided_tester);
         pipe_link(proxy_avoided,not);
+        pipe_link(avoided,played);
+        pipe_link(played,shoehorned);
+        pipe_link(shoehorned,avoided_tester);
+        pipe_link(avoided_tester,leaf);
+        slice_make_direct_goal_branch(avoided_tester);
 
         result = ParseSerH(tok,proxy,proxy_next);
         slice_insert_reflex_filters_semi(proxy,proxy_avoided);
@@ -2654,6 +2664,13 @@ static char *ParsePlay(char *tok,
           Goal const goal = slices[next].u.goal_reached_tester.goal;
           slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
           slice_index const
+              shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                        slack_length_battle,
+                                        slack_length_battle-1);
+          slice_index const played = alloc_branch(STAttackMovePlayed,
+                                                  slack_length_battle,
+                                                  slack_length_battle-1);
+          slice_index const
               avoided = alloc_attack_move_slice(slack_length_battle+1,
                                                 slack_length_battle+1);
           slice_index const not = alloc_not_slice(avoided);
@@ -2662,9 +2679,12 @@ static char *ParsePlay(char *tok,
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
 
-          pipe_link(avoided_tester,leaf);
-          pipe_link(avoided,avoided_tester);
           pipe_link(proxy_avoided,not);
+          pipe_link(avoided,played);
+          pipe_link(played,shoehorned);
+          pipe_link(shoehorned,avoided_tester);
+          pipe_link(avoided_tester,leaf);
+          slice_make_direct_goal_branch(avoided_tester);
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
           if ((length-slack_length_help)%2==0)
@@ -2734,7 +2754,7 @@ static char *ParsePlay(char *tok,
           pipe_link(aplayed,ashoehorned);
           pipe_link(ashoehorned,avoided_next);
           pipe_link(proxy_avoided,not_attack);
-          slice_make_direct_goal_branch(proxy_avoided);
+          slice_make_direct_goal_branch(avoided_next);
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
           pipe_set_successor(proxy,branch);
@@ -2822,7 +2842,7 @@ static char *ParsePlay(char *tok,
           pipe_link(aplayed,ashoehorned);
           pipe_link(ashoehorned,avoided_tester);
           pipe_link(proxy_avoided_attack,not_attack);
-          slice_make_direct_goal_branch(proxy_avoided_attack);
+          slice_make_direct_goal_branch(avoided_tester);
 
           pipe_link(avoided_defense,dplayed);
           pipe_link(dplayed,dshoehorned);

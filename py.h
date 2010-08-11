@@ -862,9 +862,6 @@ typedef unsigned int slice_index;
 #define advers(camp)    ((camp) ? White : Black)
 #define color(piesqu)   (e[(piesqu)]<=roin ? Black : White)
 
-#define coupfort()      {kpilcd[nbply]= move_generation_stack[nbcou].departure; kpilca[nbply]= move_generation_stack[nbcou].arrival;}
-
-
 #define COLORFLAGS      (BIT(Black)+BIT(White)+BIT(Neutral))
 #define SETCOLOR(a,b)   (a)=((a)&~COLORFLAGS)+((b)&COLORFLAGS)
 #define CHANGECOLOR(a)  (a)^=BIT(Black)+BIT(White)

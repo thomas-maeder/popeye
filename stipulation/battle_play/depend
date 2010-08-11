@@ -307,6 +307,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/defense_end.h stipulation/help_play/root.h \
   stipulation/help_play/play.h \
   optimisations/killer_move/final_defense_move.h \
+  optimisations/killer_move/collector.h \
   optimisations/maxsolutions/root_defender_filter.h \
   optimisations/maxtime/root_defender_filter.h \
   optimisations/maxtime/defender_filter.h \
@@ -360,6 +361,8 @@ stipulation/help_play/root.h:
 stipulation/help_play/play.h:
 
 optimisations/killer_move/final_defense_move.h:
+
+optimisations/killer_move/collector.h:
 
 optimisations/maxsolutions/root_defender_filter.h:
 
