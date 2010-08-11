@@ -511,10 +511,13 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (min_length_nontrivial<=slack_length_battle+1)
-    pipe_append(slices[si].prev,alloc_max_nr_noncheck_guard());
-  else
-    pipe_append(slices[si].prev,alloc_max_nr_nontrivial_guard());
+  if (slices[si].u.branch.length>slack_length_battle)
+  {
+    if (min_length_nontrivial<=slack_length_battle+1)
+      pipe_append(slices[si].prev,alloc_max_nr_noncheck_guard());
+    else
+      pipe_append(slices[si].prev,alloc_max_nr_nontrivial_guard());
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
