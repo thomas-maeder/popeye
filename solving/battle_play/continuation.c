@@ -8,6 +8,8 @@
 
 #include <assert.h>
 
+boolean attack_gives_check[maxply+1];
+
 /* Allocate a STContinuationSolver defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -60,9 +62,14 @@ continuation_solver_defend_in_n(slice_index si,
   result = defense_can_defend_in_n(next,n,n_max_unsolvable);
   if (result<=n)
   {
-    stip_length_type const
-        defend_result = defense_defend_in_n(next,result,n_max_unsolvable);
-    assert(defend_result==result);
+    attack_gives_check[nbply] = (slices[si].u.branch.length>slack_length_battle
+                                 && echecc(nbply,slices[si].starter));
+
+    {
+      stip_length_type const
+          defend_result = defense_defend_in_n(next,result,n_max_unsolvable);
+      assert(defend_result==result);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -128,7 +135,7 @@ static void continuation_solver_prepend(slice_index si,
 
 static structure_traversers_visitors continuation_handler_inserters[] =
 {
-  { STReadyForDefense, &continuation_solver_prepend },
+  { STAttackDealtWith, &continuation_solver_prepend },
   { STHelpRoot,        &stip_structure_visitor_noop },
   { STSeriesRoot,      &stip_structure_visitor_noop }
 };

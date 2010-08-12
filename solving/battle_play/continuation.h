@@ -6,6 +6,10 @@
 /* This module provides functionality dealing with continuations.
  */
 
+/* Does the attack just played give check?
+ * Exposed for read-only access only */
+extern boolean attack_gives_check[maxply+1];
+
 /* Allocate a STContinuationSolver defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)

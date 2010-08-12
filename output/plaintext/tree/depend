@@ -252,6 +252,7 @@ trace.h:
 output/plaintext/tree/check_detector$(OBJ_SUFFIX):  \
  output/plaintext/tree/check_detector.c \
   output/plaintext/tree/check_detector.h stipulation/branch.h \
+  stipulation/battle_play/continuation.h \
   stipulation/battle_play/attack_play.h \
   stipulation/battle_play/defense_play.h output/plaintext/tree/tree.h \
   trace.h
@@ -259,6 +260,8 @@ output/plaintext/tree/check_detector$(OBJ_SUFFIX):  \
 output/plaintext/tree/check_detector.h:
 
 stipulation/branch.h:
+
+stipulation/battle_play/continuation.h:
 
 stipulation/battle_play/attack_play.h:
 

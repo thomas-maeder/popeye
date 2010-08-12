@@ -846,7 +846,7 @@ static void reflex_guards_inserter_defense(slice_index si,
   {
     stip_length_type const idx = (length-slack_length_battle-1)%2;
     slice_index const proxy_to_avoided = param->to_be_avoided[idx];
-    pipe_append(slices[si].prev,
+    pipe_append(si,
                 alloc_reflex_defender_filter(length,min_length,
                                              proxy_to_avoided));
   }
@@ -878,8 +878,8 @@ static structure_traversers_visitors reflex_guards_inserters[] =
   { STHelpFork,          &reflex_guards_inserter_branch_fork },
   { STSeriesFork,        &reflex_guards_inserter_branch_fork },
   { STGoalReachedTester, &stip_structure_visitor_noop        },
-  { STDefenseDealtWith,         &reflex_guards_inserter_attack      },
-  { STAttackDealtWith,        &reflex_guards_inserter_defense     }
+  { STDefenseDealtWith,  &reflex_guards_inserter_attack      },
+  { STAttackDealtWith,   &reflex_guards_inserter_defense     }
 };
 
 enum
@@ -1001,7 +1001,7 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     stip_length_type const idx = (length-slack_length_battle-1)%2;
-    pipe_append(slices[si].prev,
+    pipe_append(si,
                 alloc_reflex_defender_filter(length,min_length,
                                              param->to_be_avoided[idx]));
   }
@@ -1018,7 +1018,7 @@ static structure_traversers_visitors reflex_guards_inserters_semi[] =
   { STSeriesMove,        &reflex_guards_inserter_series       },
   { STSeriesFork,        &reflex_guards_inserter_branch_fork  },
   { STGoalReachedTester, &stip_structure_visitor_noop         },
-  { STAttackDealtWith,        &reflex_guards_inserter_defense_semi }
+  { STAttackDealtWith,   &reflex_guards_inserter_defense_semi }
 };
 
 enum

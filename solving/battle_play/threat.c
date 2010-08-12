@@ -5,6 +5,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
@@ -192,7 +193,7 @@ static slice_index alloc_threat_solver_slice(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STThreatSolver,length,min_length);
-  slices[result].u.threat_solver.attack_side = defense_move;
+  slices[result].u.threat_solver.enforcer = defense_move;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -303,7 +304,8 @@ threat_collector_can_defend_in_n(slice_index si,
  */
 static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
-  slice_index const attack_side = slices[si].u.threat_solver.attack_side;
+  slice_index const enforcer = slices[si].u.threat_solver.enforcer;
+  slice_index const enforcer_next = slices[enforcer].u.pipe.next;
   stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type result;
 
@@ -316,7 +318,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
    * threat
    */
   nextply(nbply);
-  result = attack_solve_in_n(attack_side,n,n_max_unsolvable);
+  result = attack_solve_in_n(enforcer_next,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);
@@ -354,9 +356,12 @@ stip_length_type threat_solver_defend_in_n(slice_index si,
   TraceValue("%u\n",threats_ply);
   threats[threats_ply] = allocate_table();
 
-  threat_activities[threats_ply] = threat_solving;
-  threat_lengths[threats_ply] = solve_threats(si,n-1);
-  threat_activities[threats_ply] = threat_idle;
+  if (!attack_gives_check[nbply])
+  {
+    threat_activities[threats_ply] = threat_solving;
+    threat_lengths[threats_ply] = solve_threats(si,n-1);
+    threat_activities[threats_ply] = threat_idle;
+  }
 
   result = defense_defend_in_n(next,n,n_max_unsolvable);
 
@@ -417,39 +422,16 @@ typedef enum
   threat_handler_inserted_collector
 } threat_handler_insertion_state;
 
-typedef struct
-{
-    threat_handler_insertion_state insertion_state;
-    slice_index attack_side_slice;
-} traversal_state;
-
-/* Remember the slice where we start play when solving threats
- * @param si identifies slice around which to insert threat handlers
- * @param st address of structure defining traversal
- */
-static void remember_attack_side(slice_index si, stip_structure_traversal *st)
-{
-  traversal_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->attack_side_slice = si;
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+threat_handler_insertion_state insertion_state;
 
 /* Prepend a threat writer slice to a defense move slice
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
-static void prepend_threat_solver(slice_index si, stip_structure_traversal *st)
+static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 {
-  traversal_state * const state = st->param;
-  traversal_state const save_state = *state;
+  threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
@@ -458,16 +440,14 @@ static void prepend_threat_solver(slice_index si, stip_structure_traversal *st)
 
   if (length>slack_length_battle+1)
   {
-    state->insertion_state = threat_handler_inserted_solver;
+    *state = threat_handler_inserted_solver;
     stip_traverse_structure_children(si,st);
 
     {
-      slice_index const prev = slices[si].prev;
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      assert(state->attack_side_slice!=no_slice);
-      pipe_append(prev,
-                  alloc_threat_solver_slice(length,min_length,
-                                            state->attack_side_slice));
+      slice_index const enforcer = branch_find_slice(STThreatEnforcer,si);
+      assert(enforcer!=no_slice);
+      pipe_append(si,alloc_threat_solver_slice(length,min_length,enforcer));
     }
 
     *state = save_state;
@@ -486,8 +466,8 @@ static void prepend_threat_solver(slice_index si, stip_structure_traversal *st)
 static void append_threat_enforcer(slice_index si,
                                    stip_structure_traversal *st)
 {
-  traversal_state * const state = st->param;
-  traversal_state const save_state = *state;
+  threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
@@ -495,10 +475,10 @@ static void append_threat_enforcer(slice_index si,
   TraceFunctionParamListEnd();
 
   if (length>slack_length_battle
-      && state->insertion_state==threat_handler_inserted_solver)
+      && *state==threat_handler_inserted_solver)
   {
     pipe_append(si,alloc_threat_enforcer_slice());
-    state->insertion_state = threat_handler_inserted_enforcer;
+    *state = threat_handler_inserted_enforcer;
   }
 
   stip_traverse_structure_children(si,st);
@@ -516,8 +496,8 @@ static void append_threat_enforcer(slice_index si,
 static void append_threat_collector(slice_index si,
                                     stip_structure_traversal *st)
 {
-  traversal_state * const state = st->param;
-  traversal_state const save_state = *state;
+  threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
@@ -525,10 +505,10 @@ static void append_threat_collector(slice_index si,
   TraceFunctionParamListEnd();
 
   if (length>slack_length_battle
-      && state->insertion_state==threat_handler_inserted_enforcer)
+      && *state==threat_handler_inserted_enforcer)
   {
     pipe_append(si,alloc_threat_collector_slice());
-    state->insertion_state = threat_handler_inserted_collector;
+    *state = threat_handler_inserted_collector;
   }
 
   stip_traverse_structure_children(si,st);
@@ -546,14 +526,14 @@ static void append_threat_collector(slice_index si,
 static void threat_handler_reset_insertion_state(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  traversal_state * const state = st->param;
-  traversal_state const save_state = *state;
+  threat_handler_insertion_state * const state = st->param;
+  threat_handler_insertion_state const save_state = *state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->insertion_state = threat_handler_inserted_none;
+  *state = threat_handler_inserted_none;
   stip_traverse_structure_children(si,st);
   *state = save_state;
 
@@ -564,10 +544,9 @@ static void threat_handler_reset_insertion_state(slice_index si,
 static structure_traversers_visitors threat_handler_inserters[] =
 {
   { STAttackMovePlayed,           &append_threat_collector              },
-  { STAttackDealtWith,                 &prepend_threat_solver                },
+  { STReadyForDefense,            &append_threat_solver                 },
   { STDefenseMoveLegalityChecked, &append_threat_enforcer               },
   { STGoalReachedTester,          &stip_structure_visitor_noop          },
-  { STDefenseMoveShoeHorningDone, &remember_attack_side                 },
   { STHelpRoot,                   &stip_structure_visitor_noop          },
   { STSeriesRoot,                 &stip_structure_visitor_noop          },
   { STNot,                        &threat_handler_reset_insertion_state }
@@ -586,7 +565,7 @@ enum
 void stip_insert_threat_handlers(slice_index si)
 {
   stip_structure_traversal st;
-  traversal_state state = { threat_handler_inserted_none, no_slice };
+  threat_handler_insertion_state state = { threat_handler_inserted_none };
   unsigned int i;
 
   TraceFunctionEntry(__func__);

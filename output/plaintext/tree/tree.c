@@ -116,7 +116,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 }
 
 static void instrument_defense_dealt_with(slice_index si,
-                                  stip_structure_traversal *st)
+                                          stip_structure_traversal *st)
 {
   check_detector_defender_filter_insertion_state_type const
       save_detector_state = check_detector_defender_filter_insertion_state;
@@ -142,7 +142,7 @@ static void instrument_defense_dealt_with(slice_index si,
 }
 
 static void instrument_attack_dealt_with(slice_index si,
-                                   stip_structure_traversal *st)
+                                         stip_structure_traversal *st)
 {
   variation_writer_insertion_state_type const
       save_state = variation_writer_insertion_state;
@@ -154,41 +154,14 @@ static void instrument_attack_dealt_with(slice_index si,
   TraceFunctionParamListEnd();
 
   if (check_detector_defender_filter_insertion_state
-      ==check_detector_defender_filter_needed)
-    pipe_append(slices[si].prev,
+      ==check_detector_defender_filter_needed
+      && length>slack_length_battle)
+    pipe_append(si,
                 alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
 
   variation_writer_insertion_state = variation_writer_needed;
   stip_traverse_structure_children(si,st);
   variation_writer_insertion_state = save_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_reflex_defender_filter(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (check_detector_defender_filter_insertion_state
-      ==check_detector_defender_filter_needed)
-  {
-    pipe_append(slices[si].prev,
-                alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
-    check_detector_defender_filter_insertion_state
-        = check_detector_defender_filter_inserted;
-    stip_traverse_structure_children(si,st);
-    check_detector_defender_filter_insertion_state
-        = check_detector_defender_filter_needed;
-  }
-  else
-    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -410,10 +383,9 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STRefutationsCollector,           &instrument_refutations_collector   },
   { STHelpRoot,                       &instrument_help_root               },
   { STSeriesRoot,                     &stip_structure_visitor_noop        },
-  { STReflexDefenderFilter,           &instrument_reflex_defender_filter, },
   { STSelfDefense,                    &instrument_self_defense            },
-  { STDefenseDealtWith,                      &instrument_defense_dealt_with              },
-  { STAttackDealtWith,                     &instrument_attack_dealt_with             }
+  { STDefenseDealtWith,               &instrument_defense_dealt_with      },
+  { STAttackDealtWith,                &instrument_attack_dealt_with       }
 };
 
 enum
@@ -508,10 +480,7 @@ void output_plaintext_tree_write_move(void)
   sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,blank,move_depth/2);
   StdString(GlobalStr);
   if (move_depth%2==1)
-  {
-    sprintf(GlobalStr,"..");
-    StdString(GlobalStr);
-  }
+    StdString("..");
 
   output_plaintext_write_move(nbply);
 

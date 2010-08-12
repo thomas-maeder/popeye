@@ -166,9 +166,9 @@ static void append_postkeyplay_suppressor(slice_index si,
 
 static structure_traversers_visitors postkey_suppressor_inserters[] =
 {
-  { STContinuationSolver,         &append_postkeyplay_suppressor },
-  { STHelpRoot,                   &stip_structure_visitor_noop   },
-  { STSeriesRoot,                 &stip_structure_visitor_noop   }
+  { STAttackDealtWith, &append_postkeyplay_suppressor },
+  { STHelpRoot,        &stip_structure_visitor_noop   },
+  { STSeriesRoot,      &stip_structure_visitor_noop   }
 };
 
 enum

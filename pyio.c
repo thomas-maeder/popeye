@@ -2750,10 +2750,10 @@ static char *ParsePlay(char *tok,
                                                        slack_length_battle);
           slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const branch = alloc_battle_branch(length+1,min_length);
+          pipe_link(proxy_avoided,not_attack);
           pipe_link(avoided_attack,aplayed);
           pipe_link(aplayed,ashoehorned);
           pipe_link(ashoehorned,avoided_next);
-          pipe_link(proxy_avoided,not_attack);
           slice_make_direct_goal_branch(avoided_next);
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
@@ -2821,9 +2821,6 @@ static char *ParsePlay(char *tok,
           slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const proxy_avoided_attack = alloc_proxy_slice();
 
-          slice_index const dready = alloc_branch(STReadyForDefense,
-                                                  slack_length_battle,
-                                                  slack_length_battle-1);
           slice_index const dplayed = alloc_branch(STAttackMovePlayed,
                                                    slack_length_battle,
                                                    slack_length_battle-1);
@@ -2837,19 +2834,19 @@ static char *ParsePlay(char *tok,
           slice_index const proxy_avoided_defense = alloc_proxy_slice();
 
           slice_index const branch = alloc_battle_branch(length+1,min_length);
-          pipe_link(avoided_tester,leaf);
+          pipe_link(proxy_avoided_attack,not_attack);
           pipe_link(avoided_attack,aplayed);
           pipe_link(aplayed,ashoehorned);
           pipe_link(ashoehorned,avoided_tester);
-          pipe_link(proxy_avoided_attack,not_attack);
+          pipe_link(avoided_tester,leaf);
           slice_make_direct_goal_branch(avoided_tester);
 
+          pipe_link(proxy_avoided_defense,not_defense);
           pipe_link(avoided_defense,dplayed);
           pipe_link(dplayed,dshoehorned);
-          pipe_link(dshoehorned,dready);
-          pipe_link(dready,next);
+          pipe_link(dshoehorned,next);
+          slice_make_direct_goal_branch(next);
           dealloc_slice(proxy_next);
-          pipe_link(proxy_avoided_defense,not_defense);
           slice_insert_reflex_filters(branch,
                                       proxy_avoided_attack,
                                       proxy_avoided_defense);

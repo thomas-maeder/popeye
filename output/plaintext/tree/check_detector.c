@@ -1,5 +1,6 @@
 #include "output/plaintext/tree/check_detector.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/tree/tree.h"
@@ -252,7 +253,11 @@ output_plaintext_tree_check_detector_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  detect_pending_check(si);
+  pending_check[nbply] = (attack_gives_check[nbply]
+                          ? pending_check_detected
+                          : no_pending_check_detected);
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",pending_check[nbply]);
   result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

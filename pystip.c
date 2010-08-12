@@ -23,7 +23,7 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_fork.h"
-#include "stipulation/battle_play/attack_dealt_with.h"
+#include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/defense_dealt_with.h"
@@ -672,9 +672,9 @@ static structure_traversers_visitors post_root_shorteners[] =
   { STDirectDefenderFilter,         &battle_branch_post_root_shorten,     },
   { STReflexAttackerFilter,         &battle_branch_post_root_shorten,     },
   { STReflexDefenderFilter,         &battle_branch_post_root_shorten,     },
-  { STDefenseDealtWith,                    &battle_branch_post_root_shorten,     },
+  { STDefenseDealtWith,             &battle_branch_post_root_shorten,     },
   { STAttackFork,                   &battle_branch_post_root_shorten,     },
-  { STAttackDealtWith,                   &battle_branch_post_root_shorten,     },
+  { STAttackDealtWith,              &battle_branch_post_root_shorten,     },
   { STDefenseFork,                  &battle_branch_post_root_shorten,     }
 };
 
@@ -1119,7 +1119,7 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   slice_index const tester = slices[shoehorning].u.pipe.next;
   slice_index const checked = slices[tester].u.pipe.next;
   slice_index const filtered = slices[checked].u.pipe.next;
-  slice_index const readyfordefense = slices[filtered].u.pipe.next;
+  slice_index const dealt = slices[filtered].u.pipe.next;
   Goal const goal = slices[tester].u.goal_reached_tester.goal;
   slice_index new_tester;
   slice_index new_leaf;
@@ -1134,8 +1134,8 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   assert(slices[tester].type==STGoalReachedTester);
   assert(slices[checked].type==STAttackMoveLegalityChecked);
   assert(slices[filtered].type==STAttackMoveFiltered);
-  assert(slices[readyfordefense].type==STReadyForDefense);
-  assert(slices[slices[readyfordefense].u.pipe.next].type==STLeaf);
+  assert(slices[dealt].type==STAttackDealtWith);
+  assert(slices[slices[dealt].u.pipe.next].type==STLeaf);
 
   new_leaf = alloc_leaf_slice();
   new_tester = alloc_goal_reached_tester_slice(goal);
@@ -1289,8 +1289,8 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackMoveShoeHorningDone,        &trash_for_postkey_play                                     },
   { STAttackMoveLegalityChecked,        &move_to_postkey_play                                       },
   { STAttackMoveFiltered,               &move_to_postkey_play                                       },
+  { STAttackDealtWith,                  &move_to_postkey_play                                       },
   { STReadyForDefense,                  &move_to_postkey_play                                       },
-  { STAttackDealtWith,                       &move_to_postkey_play                                       },
   { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                                     },
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                                     },
   { STDefenseMoveFiltered,              &trash_for_postkey_play                                     },
@@ -1298,7 +1298,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STDirectDefenderFilter,             &direct_defender_filter_reduce_to_postkey_play              },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
   { STReflexDefenderFilter,             &reflex_defender_filter_reduce_to_postkey_play              },
-  { STDefenseDealtWith,                        &defense_dealt_with_reduce_to_postkey_play                          }
+  { STDefenseDealtWith,                 &defense_dealt_with_reduce_to_postkey_play                  }
 };
 
 enum
@@ -1717,8 +1717,8 @@ static structure_traversers_visitors exact_makers[] =
 {
   { STAttackMove,                       &make_exact_battle_branch },
   { STDefenseMove,                      &make_exact_battle_branch },
-  { STDefenseDealtWith,                        &make_exact_battle_branch },
-  { STAttackDealtWith,                       &make_exact_battle_branch },
+  { STDefenseDealtWith,                 &make_exact_battle_branch },
+  { STAttackDealtWith,                  &make_exact_battle_branch },
   { STReadyForAttack,                   &make_exact_battle_branch },
   { STAttackMovePlayed,                 &make_exact_battle_branch },
   { STAttackMoveShoeHorningDone,        &make_exact_battle_branch },
@@ -2224,9 +2224,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
-    &stip_traverse_moves_defense_dealt_with,            /* STDefenseDealtWith */
+    &stip_traverse_moves_defense_dealt_with,    /* STDefenseDealtWith */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
-    &stip_traverse_moves_attack_dealt_with,           /* STAttackDealtWith */
+    &stip_traverse_moves_ready_for_defense,     /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */

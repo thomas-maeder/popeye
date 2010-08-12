@@ -125,15 +125,23 @@ battle_play_solver_defend_in_n(slice_index si,
   refutations = allocate_table();
   
   result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-  
   if (result<=n)
   {
     if (result<n)
       n = result;
-    else if (table_length(refutations)>n)
+    else if (table_length(refutations)>0)
       result = n+2;
 
-    if (defense_defend_in_n(next,n,n_max_unsolvable)==n+2)
+    attack_gives_check[nbply] = (slices[si].u.branch.length>slack_length_battle
+                                 && echecc(nbply,slices[si].starter));
+
+    {
+      stip_length_type const
+          defend_result = defense_defend_in_n(next,n,n_max_unsolvable);
+      assert(result==defend_result);
+    }
+
+    if (result==n+2)
     {
       are_we_solving_refutations = true;
       defense_can_defend_in_n(next,n,n_max_unsolvable);
