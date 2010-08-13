@@ -68,7 +68,7 @@
               empile:       11071
             jouecoup:        7910
         orig_rbechec:        1487
-        orig_rnechec:        7926
+        orig_rnechec:        7925
 Loesung beendet. 
 
 
@@ -117,7 +117,7 @@ Loesung beendet.
               empile:       21502
             jouecoup:       12871
         orig_rbechec:        3503
-        orig_rnechec:       12874
+        orig_rnechec:       12873
 Loesung beendet. 
 
 
@@ -169,7 +169,7 @@ Loesung beendet.
               empile:        8505
             jouecoup:        6070
         orig_rbechec:        4590
-        orig_rnechec:        6047
+        orig_rnechec:        6044
 Loesung beendet. 
 
 
@@ -253,7 +253,7 @@ Loesung beendet.
               empile:       15096
             jouecoup:       11341
         orig_rbechec:        6459
-        orig_rnechec:       11206
+        orig_rnechec:       11197
 Loesung beendet. 
 
 
@@ -298,7 +298,7 @@ Loesung beendet.
               empile:        5756
             jouecoup:        3493
         orig_rbechec:        2452
-        orig_rnechec:        3496
+        orig_rnechec:        3495
 Loesung beendet. 
 
 
@@ -370,7 +370,7 @@ Loesung beendet.
               empile:       34688
             jouecoup:       26486
         orig_rbechec:        8191
-        orig_rnechec:       26492
+        orig_rnechec:       26491
 Loesung beendet. 
 
 
@@ -540,7 +540,7 @@ Loesung beendet.
               empile:       30387
             jouecoup:       17587
         orig_rbechec:        6583
-        orig_rnechec:       17453
+        orig_rnechec:       17444
 Loesung beendet. 
 
 
@@ -588,10 +588,10 @@ Loesung beendet.
           2.b7*a8=S[wSa8->b1]
               2...Lf5*b1[sLb1->c8] #
 
-              empile:       23367
-            jouecoup:       12165
-        orig_rbechec:       10794
-        orig_rnechec:        1918
+              empile:       23255
+            jouecoup:       12038
+        orig_rbechec:       10662
+        orig_rnechec:        1912
 Loesung beendet. 
 
 
@@ -700,7 +700,7 @@ Loesung beendet.
               empile:        5000
             jouecoup:        3107
         orig_rbechec:        1414
-        orig_rnechec:        3110
+        orig_rnechec:        3109
 Loesung beendet. 
 
 
@@ -745,7 +745,7 @@ Loesung beendet.
               empile:        8092
             jouecoup:        4639
         orig_rbechec:        1475
-        orig_rnechec:        4642
+        orig_rnechec:        4641
 Loesung beendet. 
 
 
@@ -789,7 +789,7 @@ Loesung beendet.
               empile:       37720
             jouecoup:       25655
         orig_rbechec:       25660
-        orig_rnechec:       17807
+        orig_rnechec:       17806
 Loesung beendet. 
 
 
@@ -839,7 +839,7 @@ Loesung beendet.
               empile:       24718
             jouecoup:       15921
         orig_rbechec:       15934
-        orig_rnechec:        5614
+        orig_rnechec:        5613
 Loesung beendet. 
 
 
@@ -886,7 +886,7 @@ Loesung beendet.
               empile:       16175
             jouecoup:        9829
         orig_rbechec:        4096
-        orig_rnechec:        9832
+        orig_rnechec:        9831
 Loesung beendet. 
 
 
@@ -946,7 +946,7 @@ Loesung beendet.
               empile:        5089
             jouecoup:        3399
         orig_rbechec:        2351
-        orig_rnechec:        3366
+        orig_rnechec:        3361
 Loesung beendet. 
 
 
@@ -989,7 +989,7 @@ Loesung beendet.
               empile:        9493
             jouecoup:        5418
         orig_rbechec:        2644
-        orig_rnechec:        5421
+        orig_rnechec:        5420
 Loesung beendet. 
 
 
@@ -1054,7 +1054,7 @@ Loesung beendet.
               empile:       33837
             jouecoup:       18665
         orig_rbechec:        5908
-        orig_rnechec:       18576
+        orig_rnechec:       18572
 Loesung beendet. 
 
 
@@ -1133,10 +1133,10 @@ Loesung beendet.
           2.Dh4*g4[wDg4->d1]
               2...e2*d1=S[sSd1->g8] #
 
-              empile:      120794
-            jouecoup:       65602
-        orig_rbechec:       60594
-        orig_rnechec:        8411
+              empile:      120389
+            jouecoup:       65232
+        orig_rbechec:       60208
+        orig_rnechec:        8394
 Loesung beendet. 
 
 
@@ -1181,7 +1181,7 @@ Loesung beendet.
               empile:        5964
             jouecoup:        3664
         orig_rbechec:        1394
-        orig_rnechec:        3667
+        orig_rnechec:        3666
 Loesung beendet. 
 
 
@@ -1283,7 +1283,7 @@ Loesung beendet.
               empile:       15575
             jouecoup:       10400
         orig_rbechec:        5147
-        orig_rnechec:       10403
+        orig_rnechec:       10402
 Loesung beendet. 
 
 
@@ -1422,7 +1422,7 @@ Loesung beendet.
               empile:        8480
             jouecoup:        6315
         orig_rbechec:        5162
-        orig_rnechec:        6252
+        orig_rnechec:        6250
 Loesung beendet. 
 
 
@@ -1498,10 +1498,10 @@ Loesung beendet.
           2.Se6-g7
               2...Ld4-e5 #
 
-              empile:      482908
-            jouecoup:      272230
-        orig_rbechec:      258165
-        orig_rnechec:       24776
+              empile:      482175
+            jouecoup:      271504
+        orig_rbechec:      257420
+        orig_rnechec:       24759
 Loesung beendet. 
 
 
@@ -1547,7 +1547,7 @@ Loesung beendet.
               empile:      570625
             jouecoup:      214436
         orig_rbechec:      213823
-        orig_rnechec:      129645
+        orig_rnechec:      129641
 Loesung beendet. 
 
 
@@ -1605,7 +1605,7 @@ Loesung beendet.
               empile:      164392
             jouecoup:      103578
         orig_rbechec:       58554
-        orig_rnechec:       76979
+        orig_rnechec:       76974
 Loesung beendet. 
 
 
@@ -1661,7 +1661,7 @@ Loesung beendet.
               empile:       19865
             jouecoup:       15258
         orig_rbechec:       13436
-        orig_rnechec:       12132
+        orig_rnechec:       12128
 Loesung beendet. 
 
 
@@ -1704,10 +1704,10 @@ Loesung beendet.
                   3.Tf1-g1
                       3...f2-f1=S #
 
-              empile:      241752
-            jouecoup:      147812
-        orig_rbechec:      121946
-        orig_rnechec:       39220
+              empile:      241717
+            jouecoup:      147770
+        orig_rbechec:      121902
+        orig_rnechec:       39215
 Loesung beendet. 
 
 
@@ -1783,7 +1783,7 @@ Loesung beendet.
               empile:       91739
             jouecoup:       66912
         orig_rbechec:       57086
-        orig_rnechec:       55368
+        orig_rnechec:       55358
 Loesung beendet. 
 
 
@@ -1953,10 +1953,10 @@ Loesung beendet.
                   3.De5-e1
                       3...Dd1-b3 #
 
-              empile:      433594
-            jouecoup:      205108
-        orig_rbechec:      187211
-        orig_rnechec:       50082
+              empile:      433464
+            jouecoup:      204983
+        orig_rbechec:      187081
+        orig_rnechec:       50071
 Loesung beendet. 
 
 
@@ -2575,7 +2575,7 @@ Loesung beendet.
               empile:       26282
             jouecoup:       20218
         orig_rbechec:        9452
-        orig_rnechec:       19752
+        orig_rnechec:       19748
 Loesung beendet. 
 
 
@@ -2639,7 +2639,7 @@ Loesung beendet.
               empile:       17846
             jouecoup:       10968
         orig_rbechec:        1926
-        orig_rnechec:       10851
+        orig_rnechec:       10847
 Loesung beendet. 
 
 
@@ -2727,7 +2727,7 @@ Loesung beendet.
               empile:       19426
             jouecoup:       12721
         orig_rbechec:        7147
-        orig_rnechec:       12602
+        orig_rnechec:       12594
 Loesung beendet. 
 
 
@@ -2864,7 +2864,7 @@ Loesung beendet.
               empile:       11300
             jouecoup:        6723
         orig_rbechec:        3461
-        orig_rnechec:        6726
+        orig_rnechec:        6725
 Loesung beendet. 
 
 
@@ -2908,7 +2908,7 @@ Loesung beendet.
               empile:       13638
             jouecoup:        7351
         orig_rbechec:        2194
-        orig_rnechec:        7354
+        orig_rnechec:        7353
 Loesung beendet. 
 
 

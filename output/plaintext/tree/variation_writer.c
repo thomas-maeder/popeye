@@ -4,8 +4,9 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/threat.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/check_writer.h"
 #include "trace.h"
 
 /* Used by STContinuationWriter and STBattlePlaySolutionWriter to
@@ -91,6 +92,7 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  ply const threats_ply = nbply+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -98,11 +100,10 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (encore())
+  if (threat_activities[threats_ply]==threat_solving)
+    result = attack_solve_in_n(next,n,n_max_unsolvable);
+  else
   {
-    flush_pending_check(nbply-1);
-    output_plaintext_tree_write_pending_move_decoration();
-
     if (max_variation_length[nbply]>slack_length_battle+2
         && slices[si].u.branch.length==slack_length_battle)
       /* variation is too short to be interesting - just determine the
@@ -112,16 +113,9 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
     else
     {
       output_plaintext_tree_write_move();
-      reset_pending_check();
       result = attack_solve_in_n(next,n,n_max_unsolvable);
     }
   }
-  else
-  {
-    /* no defense was played - we are solving threats */
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
-  }
-
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

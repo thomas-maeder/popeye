@@ -12,6 +12,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
+#include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/defense_move.h"
@@ -25,7 +26,7 @@
 #include "optimisations/maxtime/root_defender_filter.h"
 #include "optimisations/maxtime/defender_filter.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
-#include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/battle_play_solution_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/continuation_writer.h"
@@ -73,8 +74,8 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = continuation_solver_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STContinuationWriter:
-      result = continuation_writer_defend_in_n(si,n,n_max_unsolvable);
+    case STCheckDetector:
+      result = check_detector_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STThreatSolver:
@@ -159,14 +160,18 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = goal_reached_tester_defend_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STContinuationWriter:
+      result = continuation_writer_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STOutputPlaintextTreeGoalWriter:
       result = output_plaintext_tree_goal_writer_defend_in_n(si,
                                                              n,
                                                              n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
-      result = output_plaintext_tree_check_detector_defend_in_n(si,
+    case STOutputPlaintextTreeCheckWriterDefenderFilter:
+      result = output_plaintext_tree_check_writer_defend_in_n(si,
                                                                 n,
                                                                 n_max_unsolvable);
       break;
@@ -266,8 +271,8 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = continuation_solver_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STContinuationWriter:
-      result = continuation_writer_can_defend_in_n(si,n,n_max_unsolvable);
+    case STCheckDetector:
+      result = check_detector_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STThreatSolver:
@@ -337,13 +342,17 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = goal_reached_tester_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STContinuationWriter:
+      result = continuation_writer_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STOutputPlaintextTreeGoalWriter:
       result = output_plaintext_tree_goal_writer_can_defend_in_n(si,
                                                                  n,n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckDetectorDefenderFilter:
-      result = output_plaintext_tree_check_detector_can_defend_in_n(si,
+    case STOutputPlaintextTreeCheckWriterDefenderFilter:
+      result = output_plaintext_tree_check_writer_can_defend_in_n(si,
                                                                     n,n_max_unsolvable);
       break;
 

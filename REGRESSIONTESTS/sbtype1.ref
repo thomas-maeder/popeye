@@ -60,10 +60,10 @@ solution finished.
    1.Kb1-a1 !
       1...Bh1-e4 =
 
-              empile:        3437
-            jouecoup:        1718
-        orig_rbechec:        1496
-        orig_rnechec:         654
+              empile:        3426
+            jouecoup:        1707
+        orig_rbechec:        1484
+        orig_rnechec:         653
 solution finished. 
 
 
@@ -219,7 +219,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
               empile:     1634549
             jouecoup:     1040486
         orig_rbechec:      882826
-        orig_rnechec:      571597
+        orig_rnechec:      571582
 solution finished. 
 
 
@@ -326,7 +326,7 @@ Example 1
               empile:     7551915
             jouecoup:     6647599
         orig_rbechec:     6036412
-        orig_rnechec:     1674639
+        orig_rnechec:     1674619
 solution finished. 
 
 
@@ -385,7 +385,7 @@ solution finished.
               empile:      759971
             jouecoup:      483871
         orig_rbechec:      235590
-        orig_rnechec:      432003
+        orig_rnechec:      431996
 solution finished. 
 
 

@@ -5,7 +5,6 @@
 #include "pymsg.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/check_detector.h"
 #include "trace.h"
 
 /* Allocate a STEndOfSolutionWriter slice.
@@ -55,7 +54,6 @@ end_of_solution_writer_defend_in_n(slice_index si,
   result = defense_defend_in_n(next,n,n_max_unsolvable);
   if (result<=n+2)
   {
-    flush_pending_check(nbply);
     output_plaintext_tree_write_pending_move_decoration();
     Message(NewLine);
   }

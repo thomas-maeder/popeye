@@ -5,7 +5,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
-#include "stipulation/battle_play/continuation.h"
+#include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"

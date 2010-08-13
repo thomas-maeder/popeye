@@ -8,7 +8,7 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/threat.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/variation_writer.h"
 #include "trace.h"
 
@@ -59,9 +59,6 @@ continuation_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  flush_pending_check(nbply-1);
-  output_plaintext_tree_write_pending_move_decoration();
-
   if (threat_activities[nbply]==threat_solving
       && table_length(get_top_table())==0)
   {
@@ -70,7 +67,6 @@ continuation_writer_defend_in_n(slice_index si,
   }
 
   output_plaintext_tree_write_move();
-  reset_pending_check();
   result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

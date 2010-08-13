@@ -100,7 +100,7 @@ solution finished.
               empile:          51
             jouecoup:          48
         orig_rbechec:          11
-        orig_rnechec:          49
+        orig_rnechec:          48
 solution finished. 
 
 
@@ -143,7 +143,7 @@ solution finished.
               empile:          64
             jouecoup:          58
         orig_rbechec:          14
-        orig_rnechec:          59
+        orig_rnechec:          58
 solution finished. 
 
 
@@ -179,7 +179,7 @@ solution finished.
               empile:          63
             jouecoup:          46
         orig_rbechec:          16
-        orig_rnechec:          49
+        orig_rnechec:          48
 solution finished. 
 
 
@@ -445,7 +445,7 @@ solution finished.
               empile:         473
             jouecoup:         312
         orig_rbechec:         133
-        orig_rnechec:         223
+        orig_rnechec:         222
 solution finished. 
 
 
@@ -790,7 +790,7 @@ solution finished.
               empile:         281
             jouecoup:         191
         orig_rbechec:         194
-        orig_rnechec:          68
+        orig_rnechec:          67
 solution finished. 
 
 
@@ -860,7 +860,7 @@ solution finished.
               empile:         767
             jouecoup:         354
         orig_rbechec:         355
-        orig_rnechec:         161
+        orig_rnechec:         160
 solution finished. 
 
 
@@ -895,7 +895,7 @@ solution finished.
               empile:        2845
             jouecoup:        1203
         orig_rbechec:        1500
-        orig_rnechec:         729
+        orig_rnechec:         728
 solution finished. 
 
 
@@ -1068,10 +1068,10 @@ solution finished.
 
       1...Se1-c2 #
 
-              empile:          14
-            jouecoup:          14
-        orig_rbechec:          16
-        orig_rnechec:           3
+              empile:          11
+            jouecoup:          11
+        orig_rbechec:          12
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1102,10 +1102,10 @@ solution finished.
    1.Kb1-a1 !
       1...Se1-c2 #
 
-              empile:          68
-            jouecoup:          55
-        orig_rbechec:          52
-        orig_rnechec:          16
+              empile:          65
+            jouecoup:          52
+        orig_rbechec:          48
+        orig_rnechec:          15
 solution finished. 
 
 
@@ -1138,10 +1138,10 @@ solution finished.
    1.h3-h4 !
       1...Se1-c2 #
 
-              empile:          52
-            jouecoup:          48
-        orig_rbechec:          49
-        orig_rnechec:          13
+              empile:          44
+            jouecoup:          40
+        orig_rbechec:          39
+        orig_rnechec:          11
 solution finished. 
 
 
@@ -1207,10 +1207,10 @@ solution finished.
           2.Sc1-e2
               2...b3-b2 #
 
-              empile:         130
-            jouecoup:         107
-        orig_rbechec:          87
-        orig_rnechec:          46
+              empile:         121
+            jouecoup:          98
+        orig_rbechec:          77
+        orig_rnechec:          44
 solution finished. 
 
 
@@ -1243,10 +1243,10 @@ solution finished.
           2.Bc2-b1
               2...b3-b2 #
 
-              empile:        1533
-            jouecoup:         993
-        orig_rbechec:         774
-        orig_rnechec:         479
+              empile:        1524
+            jouecoup:         984
+        orig_rbechec:         764
+        orig_rnechec:         477
 solution finished. 
 
 
@@ -1279,10 +1279,10 @@ exact r#2 that would have a solution in 1
           2.Ra8-a2
               2...c2-c1=Q #
 
-              empile:        1944
-            jouecoup:        1304
-        orig_rbechec:         985
-        orig_rnechec:         450
+              empile:        1928
+            jouecoup:        1288
+        orig_rbechec:         968
+        orig_rnechec:         449
 solution finished. 
 
 
@@ -1350,10 +1350,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:        4177
-            jouecoup:        2883
-        orig_rbechec:        2054
-        orig_rnechec:        1638
+              empile:        4164
+            jouecoup:        2870
+        orig_rbechec:        2040
+        orig_rnechec:        1635
 solution finished. 
 
 
@@ -1388,10 +1388,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:       63866
-            jouecoup:       38253
-        orig_rbechec:       30380
-        orig_rnechec:       10706
+              empile:       63849
+            jouecoup:       38236
+        orig_rbechec:       30362
+        orig_rnechec:       10703
 solution finished. 
 
 
@@ -1498,10 +1498,10 @@ would have to deliver mate (issue 2843251)
               2...d2*e1=Q #
               2...d2*e1=R #
 
-              empile:        1357
-            jouecoup:         919
-        orig_rbechec:         717
-        orig_rnechec:         291
+              empile:        1333
+            jouecoup:         895
+        orig_rbechec:         687
+        orig_rnechec:         284
 solution finished. 
 
 
@@ -1692,7 +1692,7 @@ solution finished.
               empile:       23379
             jouecoup:       20134
         orig_rbechec:       12086
-        orig_rnechec:       10425
+        orig_rnechec:       10417
 solution finished. 
 
 

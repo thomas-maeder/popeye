@@ -25,9 +25,9 @@ short play after key in reflex stipulations was missed
    1.a3-a4 !
       1...c2-c1=Q #
 
-              empile:         141
-            jouecoup:          85
-        orig_rbechec:          74
+              empile:         137
+            jouecoup:          81
+        orig_rbechec:          69
         orig_rnechec:           0
 solution finished. 
 
@@ -110,7 +110,7 @@ erroneous maxflight numbers weren't completely ignored
               empile:        9090
             jouecoup:        6868
         orig_rbechec:        2182
-        orig_rnechec:        4077
+        orig_rnechec:        4084
 solution finished. 
 
 

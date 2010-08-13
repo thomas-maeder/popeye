@@ -128,6 +128,7 @@
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
+#include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/help_play/root.h"
@@ -2716,6 +2717,8 @@ static Token iterate_twins(Token prev_token)
         Message(PostKeyPlayNotApplicable);
 
       stip_insert_continuation_handlers(template_slice_hook);
+
+      stip_insert_check_detectors(template_slice_hook);
 
       if (OptFlag[solvariantes]) /* this includes OptFlag[postkeyplay] */
       {

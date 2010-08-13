@@ -318,7 +318,9 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   pytable.h stipulation/battle_play/defense_play.h \
   stipulation/battle_play/postkeyplay.h \
   stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/continuation.h stipulation/battle_play/threat.h \
+  stipulation/battle_play/continuation.h \
+  stipulation/battle_play/check_detector.h \
+  stipulation/battle_play/threat.h \
   stipulation/battle_play/attack_move_to_goal.h \
   stipulation/help_play/root.h stipulation/help_play/branch.h \
   stipulation/goals/prerequisite_guards.h \
@@ -449,6 +451,8 @@ stipulation/battle_play/postkeyplay.h:
 stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/continuation.h:
+
+stipulation/battle_play/check_detector.h:
 
 stipulation/battle_play/threat.h:
 
@@ -834,8 +838,7 @@ pyoutput$(OBJ_SUFFIX): pyoutput.c pyoutput.h py.h boolean.h pyposit.h pyboard.h 
   pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pystip.h pytable.h \
   pydata.h pyproc.h py4.h pymsg.h pyslice.h pypipe.h py1.h \
   output/plaintext/tree/tree.h pydata.h pystip.h \
-  output/plaintext/tree/check_detector.h boolean.h pyslice.h \
-  output/plaintext/tree/move_inversion_counter.h \
+  output/plaintext/tree/move_inversion_counter.h pyslice.h \
   output/plaintext/line/move_inversion_counter.h \
   output/plaintext/line/line.h trace.h
 
@@ -883,13 +886,9 @@ pydata.h:
 
 pystip.h:
 
-output/plaintext/tree/check_detector.h:
-
-boolean.h:
+output/plaintext/tree/move_inversion_counter.h:
 
 pyslice.h:
-
-output/plaintext/tree/move_inversion_counter.h:
 
 output/plaintext/line/move_inversion_counter.h:
 

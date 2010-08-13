@@ -31,7 +31,7 @@
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
-#include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
@@ -198,8 +198,8 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                            n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckDetectorAttackerFilter:
-      result = output_plaintext_tree_check_detector_has_solution_in_n(si,
+    case STOutputPlaintextTreeCheckWriterAttackerFilter:
+      result = output_plaintext_tree_check_writer_has_solution_in_n(si,
                                                                       n,n_min,
                                                                       n_max_unsolvable);
       break;
@@ -435,8 +435,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = max_nr_nontrivial_counter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckDetectorAttackerFilter:
-      result = output_plaintext_tree_check_detector_solve_in_n(si,
+    case STOutputPlaintextTreeCheckWriterAttackerFilter:
+      result = output_plaintext_tree_check_writer_solve_in_n(si,
                                                                n,
                                                                n_max_unsolvable);
       break;

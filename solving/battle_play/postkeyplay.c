@@ -86,12 +86,12 @@ postkeyplay_suppressor_can_defend_in_n(slice_index si,
   return result;
 }
 
-
 /* Remove the STContinuationSolver slice not used in postkey play
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void substitute_defense_root(slice_index si, stip_structure_traversal *st)
+static void substitute_defense_root(slice_index si,
+                                    stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -100,7 +100,26 @@ static void substitute_defense_root(slice_index si, stip_structure_traversal *st
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
   pipe_replace(si,alloc_defense_root_slice(length,min_length));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remove the STContinuationSolver slice not used in postkey play
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void trash_for_postkey_play(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_link(slices[si].prev,slices[si].u.pipe.next);
+  dealloc_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -108,10 +127,11 @@ static void substitute_defense_root(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors postkey_handler_inserters[] =
 {
-  { STAttackMovePlayed,           &stip_structure_visitor_noop },
-  { STContinuationSolver,         &substitute_defense_root     },
-  { STHelpRoot,                   &stip_structure_visitor_noop },
-  { STSeriesRoot,                 &stip_structure_visitor_noop }
+  { STAttackMovePlayed,   &stip_structure_visitor_noop },
+  { STContinuationSolver, &substitute_defense_root     },
+  { STCheckDetector,      &trash_for_postkey_play      },
+  { STHelpRoot,           &stip_structure_visitor_noop },
+  { STSeriesRoot,         &stip_structure_visitor_noop }
 };
 
 enum

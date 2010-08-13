@@ -4,7 +4,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/continuation.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -131,9 +130,6 @@ battle_play_solver_defend_in_n(slice_index si,
       n = result;
     else if (table_length(refutations)>0)
       result = n+2;
-
-    attack_gives_check[nbply] = (slices[si].u.branch.length>slack_length_battle
-                                 && echecc(nbply,slices[si].starter));
 
     {
       stip_length_type const

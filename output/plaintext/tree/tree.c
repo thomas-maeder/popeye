@@ -5,7 +5,7 @@
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
-#include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/continuation_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/battle_play_solution_writer.h"
@@ -54,14 +54,14 @@ static zugzwang_writer_insertion_state_type zugzwang_writer_insertion_state;
 
 typedef enum
 {
-  check_detector_defender_filter_unknown,
-  check_detector_defender_filter_needed,
-  check_detector_defender_filter_inserted
-} check_detector_defender_filter_insertion_state_type;
+  check_writer_defender_filter_unknown,
+  check_writer_defender_filter_needed,
+  check_writer_defender_filter_inserted
+} check_writer_defender_filter_insertion_state_type;
 
 static
-check_detector_defender_filter_insertion_state_type
-check_detector_defender_filter_insertion_state;
+check_writer_defender_filter_insertion_state_type
+check_writer_defender_filter_insertion_state;
 
 static void instrument_self_defense(slice_index si,
                                     stip_structure_traversal *st)
@@ -118,8 +118,8 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 static void instrument_defense_dealt_with(slice_index si,
                                           stip_structure_traversal *st)
 {
-  check_detector_defender_filter_insertion_state_type const
-      save_detector_state = check_detector_defender_filter_insertion_state;
+  check_writer_defender_filter_insertion_state_type const
+      save_writer_state = check_writer_defender_filter_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -127,15 +127,15 @@ static void instrument_defense_dealt_with(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  check_detector_defender_filter_insertion_state
-      = check_detector_defender_filter_needed;
+  check_writer_defender_filter_insertion_state
+      = check_writer_defender_filter_needed;
   stip_traverse_structure_children(si,st);
-  check_detector_defender_filter_insertion_state
-      = save_detector_state;
+  check_writer_defender_filter_insertion_state
+      = save_writer_state;
 
   if (variation_writer_insertion_state==variation_writer_inserted)
     pipe_append(slices[si].prev,
-                alloc_output_plaintext_tree_check_detector_attacker_filter_slice(length,min_length));
+                alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -153,11 +153,11 @@ static void instrument_attack_dealt_with(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (check_detector_defender_filter_insertion_state
-      ==check_detector_defender_filter_needed
+  if (check_writer_defender_filter_insertion_state
+      ==check_writer_defender_filter_needed
       && length>slack_length_battle)
     pipe_append(si,
-                alloc_output_plaintext_tree_check_detector_defender_filter_slice(length,min_length));
+                alloc_output_plaintext_tree_check_writer_defender_filter_slice(length,min_length));
 
   variation_writer_insertion_state = variation_writer_needed;
   stip_traverse_structure_children(si,st);
@@ -259,18 +259,18 @@ static void instrument_battle_play_solver(slice_index si,
 static void instrument_attack_root(slice_index si,
                                    stip_structure_traversal *st)
 {
-  check_detector_defender_filter_insertion_state_type const
-      save_detector_state = check_detector_defender_filter_insertion_state;
+  check_writer_defender_filter_insertion_state_type const
+      save_writer_state = check_writer_defender_filter_insertion_state;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  check_detector_defender_filter_insertion_state
-      = check_detector_defender_filter_needed;
+  check_writer_defender_filter_insertion_state
+      = check_writer_defender_filter_needed;
   stip_traverse_structure_children(si,st);
-  check_detector_defender_filter_insertion_state
-      = save_detector_state;
+  check_writer_defender_filter_insertion_state
+      = save_writer_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -42,7 +42,7 @@ a)
               empile:       11998
             jouecoup:        9536
         orig_rbechec:         818
-        orig_rnechec:        9539
+        orig_rnechec:        9538
 b) ChamaeleonCirce    S->L->T->D->S
 
    1.Da7-d7 ! Drohung:
@@ -61,7 +61,7 @@ b) ChamaeleonCirce    S->L->T->D->S
               empile:       12256
             jouecoup:        9756
         orig_rbechec:         851
-        orig_rnechec:        9759
+        orig_rnechec:        9758
 c) CirceClone
 
    1.Da7-d7 ! Drohung:
@@ -80,7 +80,7 @@ c) CirceClone
               empile:       11866
             jouecoup:        9393
         orig_rbechec:         807
-        orig_rnechec:        9396
+        orig_rnechec:        9395
 d) ChamaeleonCirce    S->D->T->L->S
 
    1.Da7-d7 ! Drohung:
@@ -99,7 +99,7 @@ d) ChamaeleonCirce    S->D->T->L->S
               empile:       12648
             jouecoup:       10103
         orig_rbechec:         869
-        orig_rnechec:       10106
+        orig_rnechec:       10105
 Loesung beendet. 
 
 

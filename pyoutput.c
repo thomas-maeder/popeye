@@ -5,7 +5,6 @@
 #include "pypipe.h"
 #include "py1.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/check_detector.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
 #include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/line.h"
@@ -36,9 +35,6 @@ void set_output_mode(output_mode mode)
   TraceFunctionParamListEnd();
 
   current_mode = mode;
-
-  if (current_mode==output_mode_tree)
-    reset_pending_check();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -176,11 +172,6 @@ void init_output(slice_index si)
   stip_traverse_structure(si,&st);
 
   TraceEnumerator(output_mode,current_mode,"\n");
-  
-  if (current_mode==output_mode_tree)
-    reset_pending_check();
-  else
-    current_mode = output_mode_line;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

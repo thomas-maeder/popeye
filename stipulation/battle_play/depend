@@ -150,7 +150,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
   optimisations/goals/enpassant/attacker_filter.h \
   optimisations/killer_move/collector.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
-  output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/check_writer.h \
   output/plaintext/tree/zugzwang_writer.h \
   output/plaintext/tree/variation_writer.h \
   output/plaintext/tree/refutation_writer.h \
@@ -219,7 +219,7 @@ optimisations/killer_move/collector.h:
 
 optimisations/stoponshortsolutions/root_solvable_filter.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/zugzwang_writer.h:
 
@@ -301,7 +301,8 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   pymovenb.h pynontrv.h pyreflxg.h pyselfcg.h pyselfgd.h pythreat.h \
   stipulation/goal_reached_tester.h stipulation/battle_play/branch.h \
   stipulation/battle_play/postkeyplay.h \
-  stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
+  stipulation/battle_play/continuation.h \
+  stipulation/battle_play/check_detector.h stipulation/battle_play/try.h \
   stipulation/battle_play/threat.h stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_fork.h \
   stipulation/battle_play/ready_for_defense.h \
@@ -312,7 +313,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   optimisations/maxtime/root_defender_filter.h \
   optimisations/maxtime/defender_filter.h \
   optimisations/goals/enpassant/defender_filter.h \
-  output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/check_writer.h \
   output/plaintext/tree/battle_play_solution_writer.h \
   output/plaintext/tree/end_of_solution_writer.h \
   output/plaintext/tree/continuation_writer.h \
@@ -346,6 +347,8 @@ stipulation/battle_play/postkeyplay.h:
 
 stipulation/battle_play/continuation.h:
 
+stipulation/battle_play/check_detector.h:
+
 stipulation/battle_play/try.h:
 
 stipulation/battle_play/threat.h:
@@ -372,7 +375,7 @@ optimisations/maxtime/defender_filter.h:
 
 optimisations/goals/enpassant/defender_filter.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/battle_play_solution_writer.h:
 
@@ -402,10 +405,30 @@ stipulation/battle_play/branch.h:
 stipulation/battle_play/defense_play.h:
 
 trace.h:
+stipulation/battle_play/check_detector$(OBJ_SUFFIX):  \
+ stipulation/battle_play/check_detector.c \
+  stipulation/battle_play/check_detector.h pydata.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/branch.h \
+  stipulation/battle_play/defense_play.h trace.h
+
+stipulation/battle_play/check_detector.h:
+
+pydata.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/battle_play/defense_play.h:
+
+trace.h:
 stipulation/battle_play/threat$(OBJ_SUFFIX): stipulation/battle_play/threat.c \
   stipulation/battle_play/threat.h pytable.h pydata.h pypipe.h \
   stipulation/branch.h stipulation/proxy.h \
-  stipulation/battle_play/branch.h stipulation/battle_play/continuation.h \
+  stipulation/battle_play/branch.h \
+  stipulation/battle_play/check_detector.h \
   stipulation/battle_play/defense_play.h \
   stipulation/battle_play/attack_play.h trace.h
 
@@ -423,7 +446,7 @@ stipulation/proxy.h:
 
 stipulation/battle_play/branch.h:
 
-stipulation/battle_play/continuation.h:
+stipulation/battle_play/check_detector.h:
 
 stipulation/battle_play/defense_play.h:
 
@@ -433,8 +456,7 @@ trace.h:
 stipulation/battle_play/try$(OBJ_SUFFIX): stipulation/battle_play/try.c \
   stipulation/battle_play/try.h pydata.h pypipe.h stipulation/branch.h \
   stipulation/battle_play/defense_play.h \
-  stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/continuation.h trace.h
+  stipulation/battle_play/attack_play.h trace.h
 
 stipulation/battle_play/try.h:
 
@@ -447,8 +469,6 @@ stipulation/branch.h:
 stipulation/battle_play/defense_play.h:
 
 stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/continuation.h:
 
 trace.h:
 stipulation/battle_play/postkeyplay$(OBJ_SUFFIX):  \

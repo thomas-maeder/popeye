@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/continuation.h"
+#include "stipulation/battle_play/check_detector.h"
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
@@ -8,13 +8,15 @@
 
 #include <assert.h>
 
-/* Allocate a STContinuationSolver defender slice.
+boolean attack_gives_check[maxply+1];
+
+/* Allocate a STCheckDetector defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_continuation_solver_slice(stip_length_type length,
-                                            stip_length_type min_length)
+slice_index alloc_check_detector_slice(stip_length_type length,
+                                       stip_length_type min_length)
 {
   slice_index result;
 
@@ -23,7 +25,7 @@ slice_index alloc_continuation_solver_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STContinuationSolver,length,min_length);
+  result = alloc_branch(STCheckDetector,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -43,13 +45,11 @@ slice_index alloc_continuation_solver_slice(stip_length_type length,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-continuation_solver_defend_in_n(slice_index si,
-                                stip_length_type n,
-                                stip_length_type n_max_unsolvable)
+stip_length_type check_detector_defend_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -57,13 +57,8 @@ continuation_solver_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-  if (result<=n)
-  {
-    stip_length_type const
-        defend_result = defense_defend_in_n(next,result,n_max_unsolvable);
-    assert(defend_result==result);
-  }
+  attack_gives_check[nbply] = echecc(nbply,slices[si].starter);
+  result = defense_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -82,12 +77,11 @@ continuation_solver_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-continuation_solver_can_defend_in_n(slice_index si,
-                                    stip_length_type n,
-                                    stip_length_type n_max_unsolvable)
+check_detector_can_defend_in_n(slice_index si,
+                               stip_length_type n,
+                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -95,7 +89,7 @@ continuation_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  result = defense_can_defend_in_n(slices[si].u.pipe.next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -107,8 +101,8 @@ continuation_solver_can_defend_in_n(slice_index si,
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void continuation_solver_prepend(slice_index si,
-                                        stip_structure_traversal *st)
+static void check_detector_prepend(slice_index si,
+                                   stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -119,8 +113,9 @@ static void continuation_solver_prepend(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  pipe_append(slices[si].prev,
-              alloc_continuation_solver_slice(length,min_length));
+  if (length>slack_length_battle)
+    pipe_append(slices[si].prev,
+                alloc_check_detector_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -128,7 +123,7 @@ static void continuation_solver_prepend(slice_index si,
 
 static structure_traversers_visitors continuation_handler_inserters[] =
 {
-  { STAttackDealtWith, &continuation_solver_prepend },
+  { STAttackDealtWith, &check_detector_prepend      },
   { STHelpRoot,        &stip_structure_visitor_noop },
   { STSeriesRoot,      &stip_structure_visitor_noop }
 };
@@ -144,7 +139,7 @@ enum
  * continuations
  * @param si identifies slice where to start
  */
-void stip_insert_continuation_handlers(slice_index si)
+void stip_insert_check_detectors(slice_index si)
 {
   stip_structure_traversal st;
 

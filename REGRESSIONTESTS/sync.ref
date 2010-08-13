@@ -39,7 +39,7 @@ a)
               empile:       42470
             jouecoup:       27725
         orig_rbechec:       13533
-        orig_rnechec:       25335
+        orig_rnechec:       25333
 b) Circe
    BlackSynchronMover  =4
 
@@ -54,7 +54,7 @@ b) Circe
               empile:       11405
             jouecoup:        7701
         orig_rbechec:        3993
-        orig_rnechec:        7044
+        orig_rnechec:        7043
 c) GlasgowChess
    BlackSynchronMover  =3
 
@@ -135,7 +135,7 @@ a)
               empile:      104217
             jouecoup:       63241
         orig_rbechec:       25439
-        orig_rnechec:       39495
+        orig_rnechec:       39487
 b) BlackSynchronMover
    WhiteSynchronMover  semi-r+6
 
@@ -155,7 +155,7 @@ b) BlackSynchronMover
               empile:        1648
             jouecoup:         970
         orig_rbechec:         411
-        orig_rnechec:         575
+        orig_rnechec:         570
 solution finished. 
 
 

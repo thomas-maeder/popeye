@@ -173,7 +173,7 @@ Loesung beendet.
               empile:        2378
             jouecoup:        1252
         orig_rbechec:         960
-        orig_rnechec:        1238
+        orig_rnechec:        1232
 Loesung beendet. 
 
 
@@ -319,12 +319,12 @@ Loesung beendet.
   #4                         7 + 11
              Imitator a8
 
-   1.Tf1*g1[Ib8] !
+   1.Tf1*g1[Ib8] + !
 
               empile:        7080
             jouecoup:        2456
         orig_rbechec:        1819
-        orig_rnechec:        1965
+        orig_rnechec:        1966
 Loesung beendet. 
 
 
@@ -460,7 +460,7 @@ Loesung beendet.
               empile:       17962
             jouecoup:        9205
         orig_rbechec:        8558
-        orig_rnechec:        2736
+        orig_rnechec:        2731
 Loesung beendet. 
 
 
@@ -583,10 +583,10 @@ Loesung beendet.
           2.Ta2-a4[Ib7]
               2...b3-b2[Ib6] #
 
-              empile:      942331
-            jouecoup:      410461
-        orig_rbechec:      354108
-        orig_rnechec:       62955
+              empile:      942095
+            jouecoup:      410277
+        orig_rbechec:      353914
+        orig_rnechec:       62935
 Loesung beendet. 
 
 
@@ -653,7 +653,7 @@ Loesung beendet.
               empile:      525118
             jouecoup:      102021
         orig_rbechec:       46647
-        orig_rnechec:       76934
+        orig_rnechec:       76929
 Loesung beendet. 
 
 

@@ -65,6 +65,7 @@
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
     /* auxiliary slices */                                              \
+    ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardAttackerFilter),  /* stop when a side exposes its king */ \
@@ -143,8 +144,8 @@
     ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckDetectorAttackerFilter), /* plain text output, tree mode: detect checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckDetectorDefenderFilter), /* plain text output, tree mode: detect checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckWriterAttackerFilter), /* plain text output, tree mode: detect checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckWriterDefenderFilter), /* plain text output, tree mode: detect checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \

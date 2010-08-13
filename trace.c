@@ -263,6 +263,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAttackMoveFiltered:
       case STReadyForDefense:
       case STContinuationSolver:
+      case STCheckDetector:
       case STBattlePlaySolver:
       case STAttackDealtWith:
       case STDefenseMove:
@@ -294,8 +295,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalReachableGuardSeriesFilter:
       case STStopOnShortSolutionsHelpFilter:
       case STStopOnShortSolutionsSeriesFilter:
-      case STOutputPlaintextTreeCheckDetectorAttackerFilter:
-      case STOutputPlaintextTreeCheckDetectorDefenderFilter:
+      case STOutputPlaintextTreeCheckWriterAttackerFilter:
+      case STOutputPlaintextTreeCheckWriterDefenderFilter:
       case STContinuationWriter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)

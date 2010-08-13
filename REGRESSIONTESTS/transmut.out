@@ -36,7 +36,7 @@ a)
               empile:       20326
             jouecoup:       12616
         orig_rbechec:        3305
-        orig_rnechec:       12619
+        orig_rnechec:       12618
 b) TransmutierendeKoenige
 
    1.Ka7-b6 ! Drohung:
@@ -49,7 +49,7 @@ b) TransmutierendeKoenige
               empile:       14440
             jouecoup:        7900
         orig_rbechec:        2881
-        orig_rnechec:        7903
+        orig_rnechec:        7902
 Loesung beendet. 
 
 
@@ -295,7 +295,7 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
               empile:      405005
             jouecoup:      303911
         orig_rbechec:      280771
-        orig_rnechec:      224079
+        orig_rnechec:      224065
 Loesung beendet. 
 
 

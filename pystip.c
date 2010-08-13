@@ -94,6 +94,7 @@
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
+    ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
     ENUMERATOR(STSelfCheckGuardAttackerFilter),  /* stop when a side exposes its king */ \
@@ -167,8 +168,8 @@
     ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckDetectorAttackerFilter), /* plain text output, tree mode: detect checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckDetectorDefenderFilter), /* plain text output, tree mode: detect checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckWriterAttackerFilter), /* plain text output, tree mode: detect checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckWriterDefenderFilter), /* plain text output, tree mode: detect checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
@@ -256,6 +257,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
   slice_structure_binary, /* STQuodlibet */
+  slice_structure_pipe,   /* STCheckDetector */
   slice_structure_pipe,   /* STNot */
   slice_structure_pipe,   /* STSelfCheckGuardRootSolvableFilter */
   slice_structure_pipe,   /* STSelfCheckGuardSolvableFilter */
@@ -330,8 +332,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STVariationWriter */
   slice_structure_branch, /* STRefutingVariationWriter */
   slice_structure_branch, /* STRefutationWriter */
-  slice_structure_branch, /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  slice_structure_branch, /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  slice_structure_branch, /* STOutputPlaintextTreeCheckWriterAttackerFilter */
+  slice_structure_branch, /* STOutputPlaintextTreeCheckWriterDefenderFilter */
   slice_structure_pipe,   /* STOutputPlaintextLineLineWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeGoalWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeMoveInversionCounter */
@@ -595,7 +597,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
   { STReadyForAttack,              &stip_traverse_structure_children         },
-  { STDefenseDealtWith,                   &stip_traverse_structure_children         },
+  { STDefenseDealtWith,            &stip_traverse_structure_children         },
   { STAttackMoveShoeHorningDone,   &stip_traverse_structure_children         },
   { STDefenseMoveShoeHorningDone,  &serve_as_root_hook                       }
 };
@@ -2065,6 +2067,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
   &stip_traverse_structure_binary,          /* STQuodlibet */
+  &stip_traverse_structure_pipe,            /* STCheckDetector */
   &stip_traverse_structure_pipe,            /* STNot */
   &stip_traverse_structure_pipe,            /* STSelfCheckGuardRootSolvableFilter */
   &stip_traverse_structure_pipe,            /* STSelfCheckGuardSolvableFilter */
@@ -2139,8 +2142,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STVariationWriter */
   &stip_traverse_structure_pipe,            /* STRefutingVariationWriter */
   &stip_traverse_structure_pipe,            /* STRefutationWriter */
-  &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-  &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+  &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeCheckWriterAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeCheckWriterDefenderFilter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeMoveInversionCounter */
@@ -2255,6 +2258,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */
     &stip_traverse_moves_binary,                /* STQuodlibet */
+    &stip_traverse_moves_pipe,                  /* STCheckDetector */
     &stip_traverse_moves_pipe,                  /* STNot */
     &stip_traverse_moves_pipe,                  /* STSelfCheckGuardRootSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STSelfCheckGuardSolvableFilter */
@@ -2329,8 +2333,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STVariationWriter */
     &stip_traverse_moves_pipe,                  /* STRefutingVariationWriter */
     &stip_traverse_moves_pipe,                  /* STRefutationWriter */
-    &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeCheckDetectorAttackerFilter */
-    &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeCheckDetectorDefenderFilter */
+    &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeCheckWriterAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeCheckWriterDefenderFilter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineLineWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeGoalWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeMoveInversionCounter */

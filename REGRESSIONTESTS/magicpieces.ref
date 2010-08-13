@@ -78,7 +78,7 @@
               empile:       22361
             jouecoup:       13279
         orig_rbechec:        6196
-        orig_rnechec:       13292
+        orig_rnechec:       13289
 solution finished. 
 
 
@@ -375,7 +375,7 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
               empile:      109513
             jouecoup:       68183
         orig_rbechec:       19188
-        orig_rnechec:       67702
+        orig_rnechec:       67687
 solution finished. 
 
 
@@ -440,7 +440,7 @@ a)
               empile:       29280
             jouecoup:       20184
         orig_rbechec:        6589
-        orig_rnechec:       20191
+        orig_rnechec:       20188
 b) wPe6 
 
    1.mQf4-e3 [wRc5, bPe6] ! threat:
@@ -473,7 +473,7 @@ b) wPe6
               empile:       29883
             jouecoup:       20524
         orig_rbechec:        6548
-        orig_rnechec:       20531
+        orig_rnechec:       20528
 +c) wSg6 
 
    1.mQf4-e3 [wRc5, bPe6] ! threat:
@@ -506,7 +506,7 @@ b) wPe6
               empile:       30253
             jouecoup:       20863
         orig_rbechec:        6769
-        orig_rnechec:       20870
+        orig_rnechec:       20867
 +d) bPe6 
 
    1.mQf4-e3 [wRc5, wPe6] ! threat:
@@ -539,7 +539,7 @@ b) wPe6
               empile:       29699
             jouecoup:       20525
         orig_rbechec:        6821
-        orig_rnechec:       20532
+        orig_rnechec:       20529
 solution finished. 
 
 
@@ -617,7 +617,7 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
               empile:       41576
             jouecoup:       30862
         orig_rbechec:        6400
-        orig_rnechec:       30746
+        orig_rnechec:       30742
 solution finished. 
 
 

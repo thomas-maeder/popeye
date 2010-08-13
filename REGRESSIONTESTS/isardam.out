@@ -267,7 +267,7 @@ Loesung beendet.
               empile:        1650
             jouecoup:        1215
         orig_rbechec:         360
-        orig_rnechec:         706
+        orig_rnechec:         705
 Loesung beendet. 
 
 
@@ -355,10 +355,10 @@ Loesung beendet.
       1...Lc8-g4 +
           2.Ke4-f5 #
 
-              empile:       16410
-            jouecoup:       12038
+              empile:       16409
+            jouecoup:       12037
         orig_rbechec:        1148
-        orig_rnechec:        5355
+        orig_rnechec:        5354
 Loesung beendet. 
 
 
@@ -447,10 +447,10 @@ Loesung beendet.
           2.Lh7-d3
               2...Td8*d3 #
 
-              empile:      173961
-            jouecoup:      129993
+              empile:      173959
+            jouecoup:      129991
         orig_rbechec:       29927
-        orig_rnechec:       11711
+        orig_rnechec:       11710
 Loesung beendet. 
 
 
@@ -500,7 +500,7 @@ Loesung beendet.
               empile:       57652
             jouecoup:       36926
         orig_rbechec:        5778
-        orig_rnechec:       19221
+        orig_rnechec:       19220
 Loesung beendet. 
 
 
@@ -542,7 +542,7 @@ Loesung beendet.
               empile:       40975
             jouecoup:       27348
         orig_rbechec:        3767
-        orig_rnechec:       11675
+        orig_rnechec:       11674
 Loesung beendet. 
 
 
@@ -582,10 +582,10 @@ The Problemist ix/1997 (early version)
       1...Lh8-f6
           2.Se8*f6 #
 
-              empile:       75732
-            jouecoup:       47982
+              empile:       75730
+            jouecoup:       47980
         orig_rbechec:        7287
-        orig_rnechec:       19544
+        orig_rnechec:       19543
 Loesung beendet. 
 
 
@@ -641,10 +641,10 @@ The Problemist i/1998 (Position Reflected)
       1...Td8-c8
           2.Db7*c8 #
 
-              empile:       12868
-            jouecoup:       12731
+              empile:       12867
+            jouecoup:       12727
         orig_rbechec:        1943
-        orig_rnechec:        4403
+        orig_rnechec:        4402
 Loesung beendet. 
 
 
@@ -682,10 +682,10 @@ Loesung beendet.
       1...Tb5-d5 +
           2.b7-b8=T #
 
-              empile:       17258
-            jouecoup:       14190
+              empile:       17255
+            jouecoup:       14187
         orig_rbechec:        1449
-        orig_rnechec:        4291
+        orig_rnechec:        4290
 Loesung beendet. 
 
 

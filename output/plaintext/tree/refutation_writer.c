@@ -5,7 +5,7 @@
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/try.h"
 #include "output/plaintext/tree/tree.h"
-#include "output/plaintext/tree/check_detector.h"
+#include "output/plaintext/tree/check_writer.h"
 #include "trace.h"
 
 /* Allocate a STRefutationWriter slice.
@@ -90,7 +90,6 @@ stip_length_type refutation_writer_solve_in_n(slice_index si,
   if (are_we_solving_refutations)
   {
     output_plaintext_tree_remember_move_decoration(attack_key);
-    flush_pending_check(nbply);
     output_plaintext_tree_write_pending_move_decoration();
   }
 

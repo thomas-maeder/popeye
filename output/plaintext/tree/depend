@@ -2,7 +2,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
   output/plaintext/tree/tree.h pydata.h pymsg.h pypipe.h \
   output/plaintext/plaintext.h output/plaintext/end_of_phase_writer.h \
   output/plaintext/tree/end_of_solution_writer.h \
-  output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/check_writer.h \
   output/plaintext/tree/continuation_writer.h \
   output/plaintext/tree/zugzwang_writer.h \
   output/plaintext/tree/battle_play_solution_writer.h \
@@ -26,7 +26,7 @@ output/plaintext/end_of_phase_writer.h:
 
 output/plaintext/tree/end_of_solution_writer.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/continuation_writer.h:
 
@@ -51,8 +51,7 @@ output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/end_of_solution_writer.c \
   output/plaintext/tree/end_of_solution_writer.h pyoutput.h pypipe.h \
   pydata.h pymsg.h stipulation/battle_play/defense_play.h \
-  output/plaintext/tree/tree.h output/plaintext/tree/check_detector.h \
-  trace.h
+  output/plaintext/tree/tree.h trace.h
 
 output/plaintext/tree/end_of_solution_writer.h:
 
@@ -68,15 +67,13 @@ stipulation/battle_play/defense_play.h:
 
 output/plaintext/tree/tree.h:
 
-output/plaintext/tree/check_detector.h:
-
 trace.h:
 output/plaintext/tree/battle_play_solution_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/battle_play_solution_writer.c \
   output/plaintext/tree/battle_play_solution_writer.h pyoutput.h pydata.h \
   pymsg.h pypipe.h stipulation/battle_play/defense_play.h \
   stipulation/battle_play/try.h output/plaintext/tree/tree.h \
-  output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/check_writer.h \
   output/plaintext/tree/variation_writer.h trace.h
 
 output/plaintext/tree/battle_play_solution_writer.h:
@@ -95,7 +92,7 @@ stipulation/battle_play/try.h:
 
 output/plaintext/tree/tree.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/variation_writer.h:
 
@@ -105,7 +102,7 @@ output/plaintext/tree/continuation_writer$(OBJ_SUFFIX):  \
   output/plaintext/tree/continuation_writer.h pyoutput.h pydata.h \
   pypipe.h pytable.h pymsg.h stipulation/branch.h \
   stipulation/battle_play/defense_play.h stipulation/battle_play/threat.h \
-  output/plaintext/tree/tree.h output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/tree.h output/plaintext/tree/check_writer.h \
   output/plaintext/tree/variation_writer.h trace.h
 
 output/plaintext/tree/continuation_writer.h:
@@ -128,7 +125,7 @@ stipulation/battle_play/threat.h:
 
 output/plaintext/tree/tree.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 output/plaintext/tree/variation_writer.h:
 
@@ -137,8 +134,8 @@ output/plaintext/tree/variation_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/variation_writer.c \
   output/plaintext/tree/variation_writer.h pyoutput.h pydata.h pypipe.h \
   stipulation/branch.h stipulation/battle_play/attack_play.h \
-  output/plaintext/tree/tree.h output/plaintext/tree/check_detector.h \
-  trace.h
+  stipulation/battle_play/threat.h output/plaintext/tree/tree.h \
+  output/plaintext/tree/check_writer.h trace.h
 
 output/plaintext/tree/variation_writer.h:
 
@@ -152,9 +149,11 @@ stipulation/branch.h:
 
 stipulation/battle_play/attack_play.h:
 
+stipulation/battle_play/threat.h:
+
 output/plaintext/tree/tree.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 trace.h:
 output/plaintext/tree/refuting_variation_writer$(OBJ_SUFFIX):  \
@@ -185,7 +184,7 @@ output/plaintext/tree/refutation_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/refutation_writer.c \
   output/plaintext/tree/refutation_writer.h pyoutput.h pydata.h pypipe.h \
   stipulation/battle_play/attack_play.h stipulation/battle_play/try.h \
-  output/plaintext/tree/tree.h output/plaintext/tree/check_detector.h \
+  output/plaintext/tree/tree.h output/plaintext/tree/check_writer.h \
   trace.h
 
 output/plaintext/tree/refutation_writer.h:
@@ -202,7 +201,7 @@ stipulation/battle_play/try.h:
 
 output/plaintext/tree/tree.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 trace.h:
 output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX):  \
@@ -210,7 +209,7 @@ output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX):  \
   output/plaintext/tree/zugzwang_writer.h pyoutput.h pymsg.h pydata.h \
   pypipe.h stipulation/battle_play/attack_play.h \
   stipulation/battle_play/threat.h output/plaintext/tree/tree.h \
-  output/plaintext/tree/check_detector.h trace.h
+  output/plaintext/tree/check_writer.h trace.h
 
 output/plaintext/tree/zugzwang_writer.h:
 
@@ -228,7 +227,7 @@ stipulation/battle_play/threat.h:
 
 output/plaintext/tree/tree.h:
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 trace.h:
 output/plaintext/tree/goal_writer$(OBJ_SUFFIX): output/plaintext/tree/goal_writer.c \
@@ -249,23 +248,25 @@ stipulation/battle_play/attack_play.h:
 stipulation/battle_play/defense_play.h:
 
 trace.h:
-output/plaintext/tree/check_detector$(OBJ_SUFFIX):  \
- output/plaintext/tree/check_detector.c \
-  output/plaintext/tree/check_detector.h stipulation/branch.h \
-  stipulation/battle_play/continuation.h \
+output/plaintext/tree/check_writer$(OBJ_SUFFIX):  \
+ output/plaintext/tree/check_writer.c \
+  output/plaintext/tree/check_writer.h stipulation/branch.h \
+  stipulation/battle_play/check_detector.h \
   stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_play.h output/plaintext/tree/tree.h \
-  trace.h
+  stipulation/battle_play/defense_play.h stipulation/battle_play/threat.h \
+  output/plaintext/tree/tree.h trace.h
 
-output/plaintext/tree/check_detector.h:
+output/plaintext/tree/check_writer.h:
 
 stipulation/branch.h:
 
-stipulation/battle_play/continuation.h:
+stipulation/battle_play/check_detector.h:
 
 stipulation/battle_play/attack_play.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/threat.h:
 
 output/plaintext/tree/tree.h:
 

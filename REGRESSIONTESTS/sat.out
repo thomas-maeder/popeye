@@ -199,10 +199,10 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                          56.Sb5-d4 +
                                                                                                                                                                                                                                                                                                                                                                                                                                                              56...c5*d4 #
 
-              empile:    22415871
-            jouecoup:    18822509
+              empile:    22415789
+            jouecoup:    18822427
         orig_rbechec:    16083418
-        orig_rnechec:     5333623
+        orig_rnechec:     5333459
 Loesung beendet. 
 
 
@@ -332,10 +332,10 @@ Loesung beendet.
               2...g7-g6
                   3.Tg2*g6 [+sBg7] #
 
-              empile:      115797
-            jouecoup:       78680
+              empile:      115787
+            jouecoup:       78674
         orig_rbechec:       42143
-        orig_rnechec:       51677
+        orig_rnechec:       51665
 Loesung beendet. 
 
 
@@ -484,10 +484,10 @@ a)
                   3.Tf4*f2
                       3...g3*f2 #
 
-              empile:       22463
-            jouecoup:       14821
+              empile:       22461
+            jouecoup:       14820
         orig_rbechec:       13158
-        orig_rnechec:        3263
+        orig_rnechec:        3261
 b) wSh4 
 
    1.Sh4-f5 ! Zugzwang.
@@ -500,10 +500,10 @@ b) wSh4
                       3...g2*f1=T #
                       3...g2*f1=L #
 
-              empile:        4104
-            jouecoup:        2589
+              empile:        4102
+            jouecoup:        2588
         orig_rbechec:        2381
-        orig_rnechec:         415
+        orig_rnechec:         413
 Loesung beendet. 
 
 
@@ -662,10 +662,10 @@ Loesung beendet.
     Aber
       1...Kd1-e1 !
 
-              empile:       62836
-            jouecoup:       45071
+              empile:       62830
+            jouecoup:       45065
         orig_rbechec:       32731
-        orig_rnechec:       17043
+        orig_rnechec:       17035
 Loesung beendet. 
 
 
