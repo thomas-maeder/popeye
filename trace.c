@@ -311,7 +311,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STThreatSolver:
         Trace_branch(si);
-        Trace_link("enforcer:",slices[si].u.threat_solver.enforcer,"");
+        Trace_link("enforcer:",slices[si].u.threat_solver.threat_start,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;

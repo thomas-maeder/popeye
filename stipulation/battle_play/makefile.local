@@ -4,7 +4,7 @@
 CFILES = branch.c fork.c \
 	attack_root.c attack_move.c attack_move_to_goal.c \
 	attack_fork.c attack_play.c defense_dealt_with.c \
-	defense_move.c ready_for_defense.c defense_fork.c defense_play.c \
+	defense_move.c attack_dealt_with.c defense_fork.c defense_play.c \
 	continuation.c check_detector.c threat.c try.c postkeyplay.c \
 	defense_root.c \
 	defense_move_played.c
@@ -12,7 +12,7 @@ CFILES = branch.c fork.c \
 INCLUDES = branch.h fork.h \
 	attack_root.h attack_move.h attack_move_to_goal.h \
 	attack_fork.h attack_play.h defense_dealt_with.h \
-	defense_move.h ready_for_defense.h defense_fork.h defense_play.h \
+	defense_move.h attack_dealt_with.h defense_fork.h defense_play.h \
 	continuation.h check_detector.h threat.h try.h postkeyplay.h \
 	defense_root.h \
 	defense_move_played.h

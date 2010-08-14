@@ -23,7 +23,7 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_fork.h"
-#include "stipulation/battle_play/ready_for_defense.h"
+#include "stipulation/battle_play/attack_dealt_with.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/defense_dealt_with.h"
@@ -597,7 +597,6 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
   { STReadyForAttack,              &stip_traverse_structure_children         },
-  { STDefenseDealtWith,            &stip_traverse_structure_children         },
   { STAttackMoveShoeHorningDone,   &stip_traverse_structure_children         },
   { STDefenseMoveShoeHorningDone,  &serve_as_root_hook                       }
 };
@@ -668,15 +667,26 @@ void battle_branch_post_root_shorten(slice_index si,
 static structure_traversers_visitors post_root_shorteners[] =
 {
   { STAttackMove,                   &battle_branch_post_root_shorten,     },
-  { STDefenseMove,                  &battle_branch_post_root_shorten_end, },
+  { STDefenseMove,                  &battle_branch_post_root_shorten,     },
   { STSelfCheckGuardAttackerFilter, &battle_branch_post_root_shorten,     },
   { STSelfCheckGuardDefenderFilter, &battle_branch_post_root_shorten,     },
+  { STSelfDefense,                  &battle_branch_post_root_shorten,     },
   { STDirectDefenderFilter,         &battle_branch_post_root_shorten,     },
   { STReflexAttackerFilter,         &battle_branch_post_root_shorten,     },
   { STReflexDefenderFilter,         &battle_branch_post_root_shorten,     },
+  { STDefenseMoveShoeHorningDone,   &battle_branch_post_root_shorten_end, },
+  { STDefenseMoveLegalityChecked,   &battle_branch_post_root_shorten,     },
+  { STDefenseMoveFiltered,          &battle_branch_post_root_shorten,     },
   { STDefenseDealtWith,             &battle_branch_post_root_shorten,     },
+  { STReadyForAttack,               &battle_branch_post_root_shorten,     },
   { STAttackFork,                   &battle_branch_post_root_shorten,     },
+  { STAttackMovePlayed,             &battle_branch_post_root_shorten,     },
+  { STAttackMoveShoeHorningDone,    &battle_branch_post_root_shorten,     },
+  { STAttackMoveLegalityChecked,    &battle_branch_post_root_shorten,     },
+  { STAttackMoveFiltered,           &battle_branch_post_root_shorten,     },
   { STAttackDealtWith,              &battle_branch_post_root_shorten,     },
+  { STReadyForDefense,              &battle_branch_post_root_shorten,     },
+  { STDefenseMovePlayed,            &battle_branch_post_root_shorten,     },
   { STDefenseFork,                  &battle_branch_post_root_shorten,     }
 };
 
@@ -2229,7 +2239,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
     &stip_traverse_moves_defense_dealt_with,    /* STDefenseDealtWith */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
-    &stip_traverse_moves_ready_for_defense,     /* STAttackDealtWith */
+    &stip_traverse_moves_attack_dealt_with,     /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */

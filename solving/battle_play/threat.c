@@ -177,23 +177,23 @@ stip_length_type threat_enforcer_solve_in_n(slice_index si,
 /* Allocate a STThreatSolver defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param defense_move identifies the slice where attack play starts
- *                    after this slice
+ * @param threat_start identifies the slice where threat play starts
  * @return index of allocated slice
  */
 static slice_index alloc_threat_solver_slice(stip_length_type length,
                                              stip_length_type min_length,
-                                             slice_index defense_move)
+                                             slice_index threat_start)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",threat_start);
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STThreatSolver,length,min_length);
-  slices[result].u.threat_solver.enforcer = defense_move;
+  slices[result].u.threat_solver.threat_start = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -304,8 +304,7 @@ threat_collector_can_defend_in_n(slice_index si,
  */
 static stip_length_type solve_threats(slice_index si, stip_length_type n)
 {
-  slice_index const enforcer = slices[si].u.threat_solver.enforcer;
-  slice_index const enforcer_next = slices[enforcer].u.pipe.next;
+  slice_index const enforcer = slices[si].u.threat_solver.threat_start;
   stip_length_type const n_max_unsolvable = slack_length_battle;
   stip_length_type result;
 
@@ -318,7 +317,7 @@ static stip_length_type solve_threats(slice_index si, stip_length_type n)
    * threat
    */
   nextply(nbply);
-  result = attack_solve_in_n(enforcer_next,n,n_max_unsolvable);
+  result = attack_solve_in_n(enforcer,n,n_max_unsolvable);
   finply();
 
   TraceFunctionExit(__func__);
@@ -445,7 +444,7 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 
     {
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      slice_index const enforcer = branch_find_slice(STThreatEnforcer,si);
+      slice_index const enforcer = branch_find_slice(STDefenseDealtWith,si);
       assert(enforcer!=no_slice);
       pipe_append(si,alloc_threat_solver_slice(length,min_length,enforcer));
     }
@@ -504,7 +503,7 @@ static void append_threat_collector(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle
+  if (length>=slack_length_battle
       && *state==threat_handler_inserted_enforcer)
   {
     pipe_append(si,alloc_threat_collector_slice());

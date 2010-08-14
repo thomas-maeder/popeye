@@ -134,7 +134,7 @@ battle_play_solver_defend_in_n(slice_index si,
     {
       stip_length_type const
           defend_result = defense_defend_in_n(next,n,n_max_unsolvable);
-      assert(result==defend_result);
+//       assert(result==defend_result);
     }
 
     if (result==n+2)

@@ -24,12 +24,12 @@ void insert_goal_prerequisite_guard_attack_move(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_doublemate:
-      pipe_append(slices[si].prev,
+      pipe_append(si,
                   alloc_doublemate_attacker_filter_slice(length,min_length));
       break;
 
     case goal_countermate:
-      pipe_append(slices[si].prev,
+      pipe_append(si,
                   alloc_countermate_attacker_filter_slice(length,min_length));
       break;
 
@@ -127,45 +127,11 @@ void insert_goal_prerequisite_guards_attack_move(slice_index si,
 
     stip_traverse_moves_branch_slice(si,st);
 
-    if (st->remaining<=slack_length_battle+2)
-    {
-      if (state->goal.type!=no_goal)
-        insert_goal_prerequisite_guard_attack_move(si,state->goal);
-      state->is_provided[si] = true;
-    }
-
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert goal prerequisite guards
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
-void insert_goal_prerequisite_guards_attack_root(slice_index si,
-                                                 stip_moves_traversal *st)
-{
-  prerequisite_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_slice(si,st);
-
-  if (slices[si].u.branch.min_length==slack_length_battle+1)
-  {
-    stip_length_type const save_remaining = st->remaining;
-    st->remaining = slack_length_battle+1;
-    stip_traverse_moves_branch_slice(si,st);
-    st->remaining = save_remaining;
     if (state->goal.type!=no_goal)
       insert_goal_prerequisite_guard_attack_move(si,state->goal);
-    state->goal.type = no_goal;
+    state->is_provided[si] = true;
+
+    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -265,9 +231,8 @@ static void insert_goal_prerequisite_guards_goal(slice_index si,
  */
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
-  { STDefenseDealtWith,         &insert_goal_prerequisite_guards_attack_move },
+  { STDefenseDealtWith,  &insert_goal_prerequisite_guards_attack_move },
   { STGoalReachedTester, &insert_goal_prerequisite_guards_goal        },
-  { STAttackRoot,        &insert_goal_prerequisite_guards_attack_root },
   { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move   },
   { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move }
 };

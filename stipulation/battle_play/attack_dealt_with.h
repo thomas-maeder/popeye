@@ -1,5 +1,5 @@
-#if !defined(STIPULATION_BATTLE_PLAY_READY_FOR_DEFENSE_H)
-#define STIPULATION_BATTLE_PLAY_READY_FOR_DEFENSE_H
+#if !defined(STIPULATION_BATTLE_PLAY_ATTACK_DEALT_WITH_H)
+#define STIPULATION_BATTLE_PLAY_ATTACK_DEALT_WITH_H
 
 #include "stipulation/battle_play/defense_play.h"
 
@@ -12,14 +12,14 @@
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_ready_for_defense_slice(stip_length_type length,
+slice_index alloc_attack_dealt_with_slice(stip_length_type length,
                                           stip_length_type min_length);
 
 /* Traversal of the moves beyond a series fork slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_ready_for_defense(slice_index si,
+void stip_traverse_moves_attack_dealt_with(slice_index si,
                                            stip_moves_traversal *st);
 
 /* Try to defend after an attacking move
@@ -35,7 +35,7 @@ void stip_traverse_moves_ready_for_defense(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-ready_for_defense_defend_in_n(slice_index si,
+attack_dealt_with_defend_in_n(slice_index si,
                               stip_length_type n,
                               stip_length_type n_max_unsolvable);
 
@@ -50,7 +50,7 @@ ready_for_defense_defend_in_n(slice_index si,
  n+4 refuted - >acceptable number of refutations found
 */
 stip_length_type
-ready_for_defense_can_defend_in_n(slice_index si,
+attack_dealt_with_can_defend_in_n(slice_index si,
                                   stip_length_type n,
                                   stip_length_type n_max_unsolvable);
 

@@ -2,7 +2,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/ready_for_defense.h"
+#include "stipulation/battle_play/attack_dealt_with.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
 #include "optimisations/goals/enpassant/help_filter.h"
@@ -156,7 +156,7 @@ void insert_goal_optimisation_guards_attack_move(slice_index si,
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_pipe(si,st);
 
     if (st->remaining<=slack_length_battle+2)
     {
@@ -178,7 +178,7 @@ void insert_goal_optimisation_guards_attack_move(slice_index si,
  */
 static
 void
-insert_goal_optimisation_guards_ready_for_defense(slice_index si,
+insert_goal_optimisation_guards_attack_dealt_with(slice_index si,
                                                   stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
@@ -191,46 +191,13 @@ insert_goal_optimisation_guards_ready_for_defense(slice_index si,
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_ready_for_defense(si,st);
+    stip_traverse_moves_children(si,st);
 
-    if (st->remaining<=slack_length_battle+2)
-    {
-      if (state->goal.type!=no_goal)
-        insert_goal_optimisation_defender_filter(si,state->goal);
-      state->is_optimised[si] = true;
-    }
+    if (state->goal.type!=no_goal)
+      insert_goal_optimisation_defender_filter(si,state->goal);
+    state->is_optimised[si] = true;
 
     state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
-void insert_goal_optimisation_guards_attack_root(slice_index si,
-                                                 stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_slice(si,st);
-
-  if (slices[si].u.branch.min_length==slack_length_battle+1)
-  {
-    stip_length_type const save_remaining = st->remaining;
-    st->remaining = slack_length_battle+1;
-    stip_traverse_moves_branch_slice(si,st);
-    st->remaining = save_remaining;
-    insert_goal_optimisation_attacker_filter(si,state->goal);
-    state->goal.type = no_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -328,8 +295,7 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
   { STDefenseDealtWith,  &insert_goal_optimisation_guards_attack_move       },
   { STGoalReachedTester, &insert_goal_optimisation_guards_goal              },
-  { STAttackRoot,        &insert_goal_optimisation_guards_attack_root       },
-  { STAttackDealtWith,   &insert_goal_optimisation_guards_ready_for_defense },
+  { STAttackDealtWith,   &insert_goal_optimisation_guards_attack_dealt_with },
   { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move         },
   { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move       }
 };

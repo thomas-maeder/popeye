@@ -118,6 +118,8 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 static void instrument_defense_dealt_with(slice_index si,
                                           stip_structure_traversal *st)
 {
+  zugzwang_writer_insertion_state_type const
+      save_zzw_state = zugzwang_writer_insertion_state;
   check_writer_defender_filter_insertion_state_type const
       save_writer_state = check_writer_defender_filter_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
@@ -129,13 +131,19 @@ static void instrument_defense_dealt_with(slice_index si,
 
   check_writer_defender_filter_insertion_state
       = check_writer_defender_filter_needed;
+  zugzwang_writer_insertion_state = zugzwang_writer_inserted;
   stip_traverse_structure_children(si,st);
+  zugzwang_writer_insertion_state = save_zzw_state;
   check_writer_defender_filter_insertion_state
       = save_writer_state;
 
-  if (variation_writer_insertion_state==variation_writer_inserted)
+  if (variation_writer_insertion_state==variation_writer_inserted
+      && length>slack_length_battle)
     pipe_append(slices[si].prev,
                 alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length));
+
+  if (zugzwang_writer_insertion_state==zugzwang_writer_needed)
+    pipe_append(si,alloc_zugzwang_writer_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -190,8 +198,6 @@ static void instrument_defense_move_filtered(slice_index si,
 {
   variation_writer_insertion_state_type const
       save_var_state = variation_writer_insertion_state;
-  zugzwang_writer_insertion_state_type const
-      save_zzw_state = zugzwang_writer_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -200,9 +206,7 @@ static void instrument_defense_move_filtered(slice_index si,
   TraceFunctionParamListEnd();
 
   variation_writer_insertion_state = variation_writer_inserted;
-  zugzwang_writer_insertion_state = zugzwang_writer_inserted;
   stip_traverse_structure_children(si,st);
-  zugzwang_writer_insertion_state = save_zzw_state;
   variation_writer_insertion_state = save_var_state;
 
   if (variation_writer_insertion_state==variation_writer_needed)
@@ -211,9 +215,6 @@ static void instrument_defense_move_filtered(slice_index si,
       pipe_append(si,alloc_refuting_variation_writer_slice(length,min_length));
     pipe_append(si,alloc_variation_writer_slice(length,min_length));
   }
-
-  if (zugzwang_writer_insertion_state==zugzwang_writer_needed)
-    pipe_append(si,alloc_zugzwang_writer_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -368,24 +369,24 @@ static void instrument_help_root(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors tree_slice_inserters[] =
 {
-  { STGoalReachedTester,              &instrument_goal_reached_tester     },
-  { STLeaf,                           &instrument_leaf                    },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter           },
-  { STMoveInverterSolvableFilter,     &instrument_move_inverter           },
-  { STAttackRoot,                     &instrument_attack_root             },
-  { STAttackMovePlayed,               &instrument_attack_move_played      },
-  { STDefenseRoot,                    &instrument_defense_root            },
-  { STPostKeyPlaySuppressor,          &stip_structure_visitor_noop        },
-  { STContinuationSolver,             &instrument_continuation_solver     },
-  { STBattlePlaySolver,               &instrument_battle_play_solver      },
-  { STThreatEnforcer,                 &instrument_threat_enforcer         },
-  { STDefenseMoveFiltered,            &instrument_defense_move_filtered   },
-  { STRefutationsCollector,           &instrument_refutations_collector   },
-  { STHelpRoot,                       &instrument_help_root               },
-  { STSeriesRoot,                     &stip_structure_visitor_noop        },
-  { STSelfDefense,                    &instrument_self_defense            },
-  { STDefenseDealtWith,               &instrument_defense_dealt_with      },
-  { STAttackDealtWith,                &instrument_attack_dealt_with       }
+  { STGoalReachedTester,              &instrument_goal_reached_tester   },
+  { STLeaf,                           &instrument_leaf                  },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter         },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter         },
+  { STAttackRoot,                     &instrument_attack_root           },
+  { STAttackMovePlayed,               &instrument_attack_move_played    },
+  { STDefenseRoot,                    &instrument_defense_root          },
+  { STPostKeyPlaySuppressor,          &stip_structure_visitor_noop      },
+  { STContinuationSolver,             &instrument_continuation_solver   },
+  { STBattlePlaySolver,               &instrument_battle_play_solver    },
+  { STThreatEnforcer,                 &instrument_threat_enforcer       },
+  { STDefenseMoveFiltered,            &instrument_defense_move_filtered },
+  { STRefutationsCollector,           &instrument_refutations_collector },
+  { STHelpRoot,                       &instrument_help_root             },
+  { STSeriesRoot,                     &stip_structure_visitor_noop      },
+  { STSelfDefense,                    &instrument_self_defense          },
+  { STDefenseDealtWith,               &instrument_defense_dealt_with    },
+  { STAttackDealtWith,                &instrument_attack_dealt_with     }
 };
 
 enum

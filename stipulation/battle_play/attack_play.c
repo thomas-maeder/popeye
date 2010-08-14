@@ -100,7 +100,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                      n_max_unsolvable);
       break;
 
-    case STDefenseDealtWith:
+    case STReadyForAttack:
       result = defense_dealt_with_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
@@ -383,7 +383,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = attack_move_to_goal_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STDefenseDealtWith:
+    case STReadyForAttack:
       result = defense_dealt_with_solve_in_n(si,n,n_max_unsolvable);
       break;
 

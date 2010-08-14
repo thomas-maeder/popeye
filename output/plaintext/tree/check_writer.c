@@ -3,7 +3,6 @@
 #include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
-#include "stipulation/battle_play/threat.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
@@ -86,7 +85,6 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
-  ply const threats_ply = nbply+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -94,8 +92,7 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (threat_activities[threats_ply]!=threat_solving
-      && echecc(nbply,slices[si].starter))
+  if (echecc(nbply,slices[si].starter))
     StdString(" +");
   result = attack_solve_in_n(next,n,n_max_unsolvable);
 

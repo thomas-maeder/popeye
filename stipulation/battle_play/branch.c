@@ -7,7 +7,7 @@
 #include "stipulation/battle_play/defense_dealt_with.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
-#include "stipulation/battle_play/ready_for_defense.h"
+#include "stipulation/battle_play/attack_dealt_with.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -22,7 +22,6 @@ slice_index alloc_attack_branch(stip_length_type length,
 {
   slice_index result;
   slice_index ready;
-  slice_index end;
   slice_index attack;
 
   TraceFunctionEntry(__func__);
@@ -32,10 +31,9 @@ slice_index alloc_attack_branch(stip_length_type length,
 
   result = alloc_selfcheck_guard_attacker_filter(length,min_length);
   ready = alloc_branch(STReadyForAttack,length,min_length);
-  end = alloc_defense_dealt_with_slice(length,min_length);
   attack = alloc_attack_move_slice(length,min_length);
-  pipe_link(result,end);
-  pipe_link(end,attack);
+  pipe_link(result,ready);
+  pipe_link(ready,attack);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -63,7 +61,7 @@ slice_index alloc_defense_branch(stip_length_type length,
   {
     slice_index const
         guard1 = alloc_selfcheck_guard_defender_filter(length,min_length);
-    slice_index const ready = alloc_ready_for_defense_slice(length,min_length);
+    slice_index const dealt = alloc_attack_dealt_with_slice(length,min_length);
     slice_index const defense = alloc_defense_move_slice(length,min_length);
     slice_index const played = alloc_defense_move_played_slice(length-1,
                                                                min_length-1);
@@ -76,8 +74,8 @@ slice_index alloc_defense_branch(stip_length_type length,
     slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
                                                length-1,min_length-1);
     pipe_link(result,guard1);
-    pipe_link(guard1,ready);
-    pipe_link(ready,defense);
+    pipe_link(guard1,dealt);
+    pipe_link(dealt,defense);
     pipe_link(defense,played);
     pipe_link(played,dshoehorned);
     pipe_link(dshoehorned,guard2);
@@ -118,9 +116,10 @@ slice_index alloc_battle_branch(stip_length_type length,
                                               length,min_length);
     slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
                                                length,min_length);
+    slice_index const adealt = alloc_branch(STDefenseDealtWith,
+                                            length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,
                                             length,min_length);
-    slice_index const aend = alloc_defense_dealt_with_slice(length,min_length);
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const aplayed = alloc_branch(STAttackMovePlayed,
                                              length-1,min_length-1);
@@ -143,9 +142,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dshoehorned,guard2);
     pipe_link(guard2,dchecked);
     pipe_link(dchecked,dfiltered);
-    pipe_link(dfiltered,aready);
-    pipe_link(aready,aend);
-    pipe_link(aend,attack);
+    pipe_link(dfiltered,adealt);
+    pipe_link(adealt,aready);
+    pipe_link(aready,attack);
     pipe_link(attack,aplayed);
     pipe_link(aplayed,ashoehorned);
     pipe_link(ashoehorned,guard1);
