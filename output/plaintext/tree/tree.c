@@ -376,7 +376,6 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STAttackRoot,                     &instrument_attack_root           },
   { STAttackMovePlayed,               &instrument_attack_move_played    },
   { STDefenseRoot,                    &instrument_defense_root          },
-  { STPostKeyPlaySuppressor,          &stip_structure_visitor_noop      },
   { STContinuationSolver,             &instrument_continuation_solver   },
   { STBattlePlaySolver,               &instrument_battle_play_solver    },
   { STThreatEnforcer,                 &instrument_threat_enforcer       },

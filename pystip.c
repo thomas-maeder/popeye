@@ -2239,14 +2239,14 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
     &stip_traverse_moves_defense_dealt_with,    /* STDefenseDealtWith */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
-    &stip_traverse_moves_attack_dealt_with,     /* STAttackDealtWith */
+    &stip_traverse_moves_pipe,                  /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
     &stip_traverse_moves_pipe,                  /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STAttackMoveFiltered */
-    &stip_traverse_moves_pipe,                  /* STReadyForDefense */
+    &stip_traverse_moves_attack_dealt_with,     /* STReadyForDefense */
     &stip_traverse_moves_pipe,                  /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */
