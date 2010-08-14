@@ -2,7 +2,7 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/attack_dealt_with.h"
+#include "stipulation/battle_play/ready_for_defense.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
 #include "optimisations/goals/enpassant/help_filter.h"
@@ -178,7 +178,7 @@ void insert_goal_optimisation_guards_attack_move(slice_index si,
  */
 static
 void
-insert_goal_optimisation_guards_attack_dealt_with(slice_index si,
+insert_goal_optimisation_guards_ready_for_defense(slice_index si,
                                                   stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
@@ -295,7 +295,7 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
   { STDefenseDealtWith,  &insert_goal_optimisation_guards_attack_move       },
   { STGoalReachedTester, &insert_goal_optimisation_guards_goal              },
-  { STAttackDealtWith,   &insert_goal_optimisation_guards_attack_dealt_with },
+  { STAttackDealtWith,   &insert_goal_optimisation_guards_ready_for_defense },
   { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move         },
   { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move       }
 };

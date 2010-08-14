@@ -149,7 +149,7 @@ static void instrument_defense_dealt_with(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_attack_dealt_with(slice_index si,
+static void instrument_ready_for_defense(slice_index si,
                                          stip_structure_traversal *st)
 {
   variation_writer_insertion_state_type const
@@ -385,7 +385,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STSeriesRoot,                     &stip_structure_visitor_noop      },
   { STSelfDefense,                    &instrument_self_defense          },
   { STDefenseDealtWith,               &instrument_defense_dealt_with    },
-  { STAttackDealtWith,                &instrument_attack_dealt_with     }
+  { STAttackDealtWith,                &instrument_ready_for_defense     }
 };
 
 enum

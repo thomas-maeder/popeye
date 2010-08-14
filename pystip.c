@@ -23,7 +23,7 @@
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/defense_fork.h"
-#include "stipulation/battle_play/attack_dealt_with.h"
+#include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/defense_dealt_with.h"
@@ -2246,7 +2246,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STAttackMoveFiltered */
-    &stip_traverse_moves_attack_dealt_with,     /* STReadyForDefense */
+    &stip_traverse_moves_ready_for_defense,     /* STReadyForDefense */
     &stip_traverse_moves_pipe,                  /* STDefenseMovePlayed */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STDefenseMoveLegalityChecked */

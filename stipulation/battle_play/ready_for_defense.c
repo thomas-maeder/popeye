@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/attack_dealt_with.h"
+#include "stipulation/battle_play/ready_for_defense.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -6,12 +6,12 @@
 
 #include <assert.h>
 
-/* Allocate a STAttackDealtWith defender slice.
+/* Allocate a STReadyForDefense defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_attack_dealt_with_slice(stip_length_type length,
+slice_index alloc_ready_for_defense_slice(stip_length_type length,
                                           stip_length_type min_length)
 {
   slice_index result;
@@ -21,7 +21,7 @@ slice_index alloc_attack_dealt_with_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STAttackDealtWith,length,min_length);
+  result = alloc_branch(STReadyForDefense,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -33,7 +33,7 @@ slice_index alloc_attack_dealt_with_slice(stip_length_type length,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_attack_dealt_with(slice_index si,
+void stip_traverse_moves_ready_for_defense(slice_index si,
                                            stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -62,7 +62,7 @@ void stip_traverse_moves_attack_dealt_with(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-attack_dealt_with_defend_in_n(slice_index si,
+ready_for_defense_defend_in_n(slice_index si,
                               stip_length_type n,
                               stip_length_type n_max_unsolvable)
 {
@@ -101,7 +101,7 @@ attack_dealt_with_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-attack_dealt_with_can_defend_in_n(slice_index si,
+ready_for_defense_can_defend_in_n(slice_index si,
                                   stip_length_type n,
                                   stip_length_type n_max_unsolvable)
 {
