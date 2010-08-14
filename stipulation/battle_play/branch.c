@@ -4,7 +4,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/defense_dealt_with.h"
+#include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
 #include "stipulation/battle_play/ready_for_defense.h"
@@ -30,7 +30,7 @@ slice_index alloc_attack_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_selfcheck_guard_attacker_filter(length,min_length);
-  ready = alloc_branch(STReadyForAttack,length,min_length);
+  ready = alloc_ready_for_attack_slice(length,min_length);
   attack = alloc_attack_move_slice(length,min_length);
   pipe_link(result,ready);
   pipe_link(ready,attack);
@@ -119,8 +119,7 @@ slice_index alloc_battle_branch(stip_length_type length,
                                                length,min_length);
     slice_index const adealt = alloc_branch(STDefenseDealtWith,
                                             length,min_length);
-    slice_index const aready = alloc_branch(STReadyForAttack,
-                                            length,min_length);
+    slice_index const aready = alloc_ready_for_attack_slice(length,min_length);
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const aplayed = alloc_branch(STAttackMovePlayed,
                                              length-1,min_length-1);

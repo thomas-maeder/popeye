@@ -115,7 +115,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_defense_dealt_with(slice_index si,
+static void instrument_ready_for_attack(slice_index si,
                                           stip_structure_traversal *st)
 {
   zugzwang_writer_insertion_state_type const
@@ -384,7 +384,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STHelpRoot,                       &instrument_help_root             },
   { STSeriesRoot,                     &stip_structure_visitor_noop      },
   { STSelfDefense,                    &instrument_self_defense          },
-  { STDefenseDealtWith,               &instrument_defense_dealt_with    },
+  { STDefenseDealtWith,               &instrument_ready_for_attack    },
   { STAttackDealtWith,                &instrument_ready_for_defense     }
 };
 

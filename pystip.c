@@ -26,7 +26,7 @@
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
-#include "stipulation/battle_play/defense_dealt_with.h"
+#include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/continuation.h"
@@ -1310,7 +1310,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STDirectDefenderFilter,             &direct_defender_filter_reduce_to_postkey_play              },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
   { STReflexDefenderFilter,             &reflex_defender_filter_reduce_to_postkey_play              },
-  { STDefenseDealtWith,                 &defense_dealt_with_reduce_to_postkey_play                  }
+  { STDefenseDealtWith,                 &ready_for_attack_reduce_to_postkey_play                  }
 };
 
 enum
@@ -2237,7 +2237,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
-    &stip_traverse_moves_defense_dealt_with,    /* STDefenseDealtWith */
+    &stip_traverse_moves_ready_for_attack,    /* STDefenseDealtWith */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_pipe,                  /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */

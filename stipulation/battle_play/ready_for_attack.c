@@ -1,4 +1,4 @@
-#include "stipulation/battle_play/defense_dealt_with.h"
+#include "stipulation/battle_play/ready_for_attack.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
@@ -6,13 +6,13 @@
 
 #include <assert.h>
 
-/* Allocate a STDefenseDealtWith slice.
+/* Allocate a STReadyForAttack slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_defense_dealt_with_slice(stip_length_type length,
-                                           stip_length_type min_length)
+slice_index alloc_ready_for_attack_slice(stip_length_type length,
+                                         stip_length_type min_length)
 {
   slice_index result;
 
@@ -21,7 +21,7 @@ slice_index alloc_defense_dealt_with_slice(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDefenseDealtWith,length,min_length);
+  result = alloc_branch(STReadyForAttack,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -33,8 +33,8 @@ slice_index alloc_defense_dealt_with_slice(stip_length_type length,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-void stip_traverse_moves_defense_dealt_with(slice_index si,
-                                            stip_moves_traversal *st)
+void stip_traverse_moves_ready_for_attack(slice_index si,
+                                          stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -54,8 +54,8 @@ void stip_traverse_moves_defense_dealt_with(slice_index si,
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void defense_dealt_with_reduce_to_postkey_play(slice_index si,
-                                               stip_structure_traversal *st)
+void ready_for_attack_reduce_to_postkey_play(slice_index si,
+                                             stip_structure_traversal *st)
 {
   slice_index const *postkey_slice = st->param;
 
@@ -85,10 +85,10 @@ void defense_dealt_with_reduce_to_postkey_play(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-defense_dealt_with_has_solution_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_min,
-                                     stip_length_type n_max_unsolvable)
+ready_for_attack_has_solution_in_n(slice_index si,
+                                   stip_length_type n,
+                                   stip_length_type n_min,
+                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -138,9 +138,9 @@ defense_dealt_with_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-defense_dealt_with_solve_in_n(slice_index si,
-                              stip_length_type n,
-                              stip_length_type n_max_unsolvable)
+ready_for_attack_solve_in_n(slice_index si,
+                            stip_length_type n,
+                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
 
@@ -179,8 +179,8 @@ defense_dealt_with_solve_in_n(slice_index si,
  * @param si identifies slice being traversed
  * @param st status of traversal
  */
-void defense_dealt_with_detect_starter(slice_index si,
-                                       stip_structure_traversal *st)
+void ready_for_attack_detect_starter(slice_index si,
+                                     stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
