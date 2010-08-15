@@ -94,6 +94,7 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
 
   if (echecc(nbply,slices[si].starter))
     StdString(" +");
+  output_plaintext_tree_write_pending_move_decoration();
   result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

@@ -272,6 +272,8 @@ reflex_attacker_filter_solve_in_n(slice_index si,
       break;
 
     case has_no_solution:
+      if (n<=slack_length_battle+1)
+        slice_solve(avoided);
       result = n+2;
       break;
 

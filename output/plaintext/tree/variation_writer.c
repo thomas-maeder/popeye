@@ -98,8 +98,7 @@ stip_length_type variation_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (max_variation_length[nbply]>slack_length_battle+2
-      && slices[si].u.branch.length==slack_length_battle)
+  if (max_variation_length[nbply]>slices[si].u.branch.length+2)
     /* variation is too short to be interesting - just determine the
      * result
      */

@@ -1035,10 +1035,10 @@ solution finished.
           2.e2-e3
               2...a3*b2 #
 
-              empile:        3939
-            jouecoup:        2170
-        orig_rbechec:        2168
-        orig_rnechec:         936
+              empile:        3900
+            jouecoup:        2163
+        orig_rbechec:        2161
+        orig_rnechec:         929
 solution finished. 
 
 

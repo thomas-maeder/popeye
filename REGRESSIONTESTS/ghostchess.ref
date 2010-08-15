@@ -977,6 +977,7 @@ solution finished.
    1.Qa4*d4 + ?
     but
       1...Ke3*d4 !
+          2.Sd2-f3 #
 
    1.Kd1*c2 ! threat:
           2.Kc2-d1[+buRc2]
@@ -994,10 +995,10 @@ solution finished.
           2.Kc2-b1[+buRc2]
               2...Qg4-d1 #
 
-              empile:      328211
-            jouecoup:      187842
-        orig_rbechec:      168889
-        orig_rnechec:       37374
+              empile:      325313
+            jouecoup:      186378
+        orig_rbechec:      167375
+        orig_rnechec:       37313
 solution finished. 
 
 

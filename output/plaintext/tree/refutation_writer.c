@@ -85,13 +85,16 @@ stip_length_type refutation_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
-
   if (are_we_solving_refutations)
   {
+    stip_length_type const n_next = (n>slack_length_battle
+                                     ? slack_length_battle+1
+                                     : slack_length_battle);
     output_plaintext_tree_remember_move_decoration(attack_key);
-    output_plaintext_tree_write_pending_move_decoration();
+    result = attack_solve_in_n(next,n_next,n_max_unsolvable);
   }
+  else
+    result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
