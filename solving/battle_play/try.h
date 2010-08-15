@@ -42,10 +42,9 @@ void set_max_nr_refutations(unsigned int mnr);
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-battle_play_solver_defend_in_n(slice_index si,
-                               stip_length_type n,
-                               stip_length_type n_max_unsolvable);
+stip_length_type try_solver_defend_in_n(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -57,10 +56,9 @@ battle_play_solver_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-battle_play_solver_can_defend_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable);
+stip_length_type try_solver_can_defend_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable);
 
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.

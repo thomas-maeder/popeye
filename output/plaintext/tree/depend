@@ -5,7 +5,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
   output/plaintext/tree/check_writer.h \
   output/plaintext/tree/continuation_writer.h \
   output/plaintext/tree/zugzwang_writer.h \
-  output/plaintext/tree/battle_play_solution_writer.h \
+  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
   output/plaintext/tree/variation_writer.h \
   output/plaintext/tree/refuting_variation_writer.h \
   output/plaintext/tree/refutation_writer.h \
@@ -32,7 +32,9 @@ output/plaintext/tree/continuation_writer.h:
 
 output/plaintext/tree/zugzwang_writer.h:
 
-output/plaintext/tree/battle_play_solution_writer.h:
+output/plaintext/tree/key_writer.h:
+
+output/plaintext/tree/try_writer.h:
 
 output/plaintext/tree/variation_writer.h:
 
@@ -68,15 +70,13 @@ stipulation/battle_play/defense_play.h:
 output/plaintext/tree/tree.h:
 
 trace.h:
-output/plaintext/tree/battle_play_solution_writer$(OBJ_SUFFIX):  \
- output/plaintext/tree/battle_play_solution_writer.c \
-  output/plaintext/tree/battle_play_solution_writer.h pyoutput.h pydata.h \
-  pymsg.h pypipe.h stipulation/battle_play/defense_play.h \
-  stipulation/battle_play/try.h output/plaintext/tree/tree.h \
-  output/plaintext/tree/check_writer.h \
+output/plaintext/tree/key_writer$(OBJ_SUFFIX): output/plaintext/tree/key_writer.c \
+  output/plaintext/tree/key_writer.h pyoutput.h pydata.h pymsg.h pypipe.h \
+  stipulation/battle_play/defense_play.h stipulation/battle_play/try.h \
+  output/plaintext/tree/tree.h output/plaintext/tree/check_writer.h \
   output/plaintext/tree/variation_writer.h trace.h
 
-output/plaintext/tree/battle_play_solution_writer.h:
+output/plaintext/tree/key_writer.h:
 
 pyoutput.h:
 
@@ -93,6 +93,31 @@ stipulation/battle_play/try.h:
 output/plaintext/tree/tree.h:
 
 output/plaintext/tree/check_writer.h:
+
+output/plaintext/tree/variation_writer.h:
+
+trace.h:
+output/plaintext/tree/try_writer$(OBJ_SUFFIX): output/plaintext/tree/try_writer.c \
+  output/plaintext/tree/try_writer.h pyoutput.h pydata.h pymsg.h pypipe.h \
+  stipulation/battle_play/defense_play.h stipulation/battle_play/try.h \
+  output/plaintext/tree/tree.h output/plaintext/tree/variation_writer.h \
+  trace.h
+
+output/plaintext/tree/try_writer.h:
+
+pyoutput.h:
+
+pydata.h:
+
+pymsg.h:
+
+pypipe.h:
+
+stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/try.h:
+
+output/plaintext/tree/tree.h:
 
 output/plaintext/tree/variation_writer.h:
 

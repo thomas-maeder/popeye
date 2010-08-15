@@ -71,12 +71,12 @@ void set_max_nr_refutations(unsigned int mnr)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STBattlePlaySolver defender slice.
+/* Allocate a STTrySolver defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-static slice_index alloc_battle_play_solver(stip_length_type length,
+static slice_index alloc_try_solver(stip_length_type length,
                                             stip_length_type min_length)
 {
   slice_index result;
@@ -86,7 +86,7 @@ static slice_index alloc_battle_play_solver(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STBattlePlaySolver,length,min_length);
+  result = alloc_branch(STTrySolver,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -106,10 +106,9 @@ static slice_index alloc_battle_play_solver(stip_length_type length,
  *         n+2 refuted - acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-battle_play_solver_defend_in_n(slice_index si,
-                               stip_length_type n,
-                               stip_length_type n_max_unsolvable)
+stip_length_type try_solver_defend_in_n(slice_index si,
+                                        stip_length_type n,
+                                        stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
@@ -119,31 +118,17 @@ battle_play_solver_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-
-  assert(refutations==table_nil);
-  refutations = allocate_table();
   
-  result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-  if (result<=n)
+  if (table_length(refutations)>0)
   {
-    if (result<n)
-      n = result;
-    else if (table_length(refutations)>0)
-      result = n+2;
+    result = defense_defend_in_n(next,n,n_max_unsolvable);
 
-    {
-      stip_length_type const
-          defend_result = defense_defend_in_n(next,n,n_max_unsolvable);
-//       assert(result==defend_result);
-    }
-
-    if (result==n+2)
-    {
-      are_we_solving_refutations = true;
-      defense_can_defend_in_n(next,n,n_max_unsolvable);
-      are_we_solving_refutations = false;
-    }
+    are_we_solving_refutations = true;
+    defense_can_defend_in_n(next,n,n_max_unsolvable);
+    are_we_solving_refutations = false;
   }
+  else
+    result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   free_table();
   refutations = table_nil;
@@ -164,13 +149,13 @@ battle_play_solver_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-battle_play_solver_can_defend_in_n(slice_index si,
-                                   stip_length_type n,
-                                   stip_length_type n_max_unsolvable)
+stip_length_type try_solver_can_defend_in_n(slice_index si,
+                                            stip_length_type n,
+                                            stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -178,7 +163,21 @@ battle_play_solver_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  assert(refutations==table_nil);
+  refutations = allocate_table();
+
   result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+
+  if (result<=length)
+  {
+    if (table_length(refutations)>0)
+      result = length+2;
+  }
+  else
+  {
+    free_table();
+    refutations = table_nil;
+  }
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -323,23 +322,20 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
 {
   traversal_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->state==try_handler_inserted_solver
-      && length>=slack_length_battle
-      && user_set_max_nr_refutations>0)
+  if (state->state==try_handler_inserted_solver)
   {
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_refutations_collector_slice(length,min_length));
     state->state = try_handler_inserted_collector;
     stip_traverse_structure_children(si,st);
     state->state = try_handler_inserted_solver;
+
+    pipe_append(si,alloc_refutations_collector_slice(length,min_length));
   }
-  else
-    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -349,8 +345,7 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
  * @param si identifies slice to be replaced
  * @param st address of structure defining traversal
  */
-static void substitute_battle_play_solver(slice_index si,
-                                          stip_structure_traversal *st)
+static void append_try_solver(slice_index si, stip_structure_traversal *st)
 {
   traversal_state * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
@@ -360,16 +355,19 @@ static void substitute_battle_play_solver(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->state==try_handler_inserted_none)
+  if (length>slack_length_battle)
   {
     state->state = try_handler_inserted_solver;
     stip_traverse_structure_children(si,st);
-    pipe_replace(si,alloc_battle_play_solver(length,min_length));
-    state->inserted = state->inserted || length>slack_length_battle;
     state->state = try_handler_inserted_none;
+
+    pipe_append(si,alloc_try_solver(length,min_length));
+    state->inserted = true;
   }
   else
     stip_traverse_structure_children(si,st);
+
+  pipe_replace(si,alloc_branch(STSolutionSolver,length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -377,12 +375,12 @@ static void substitute_battle_play_solver(slice_index si,
 
 static structure_traversers_visitors try_handler_inserters[] =
 {
-  { STDefenseRoot,            &stip_structure_visitor_noop   },
-  { STDefenseMovePlayed,      &append_collector              },
-  { STNot,                    &stip_structure_visitor_noop   },
-  { STContinuationSolver,     &substitute_battle_play_solver },
-  { STHelpRoot,               &stip_structure_visitor_noop   },
-  { STSeriesRoot,             &stip_structure_visitor_noop   }
+  { STDefenseRoot,        &stip_structure_visitor_noop },
+  { STSolutionSolver,     &append_try_solver           },
+  { STDefenseMovePlayed,  &append_collector            },
+  { STHelpRoot,           &stip_structure_visitor_noop },
+  { STSeriesRoot,         &stip_structure_visitor_noop },
+  { STNot,                &stip_structure_visitor_noop }
 };
 
 enum

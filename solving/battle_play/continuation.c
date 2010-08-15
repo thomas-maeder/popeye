@@ -8,6 +8,29 @@
 
 #include <assert.h>
 
+/* Allocate a STSolutionSolver defender slice.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @return index of allocated slice
+ */
+static slice_index alloc_solution_solver_slice(stip_length_type length,
+                                               stip_length_type min_length)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  result = alloc_branch(STSolutionSolver,length,min_length);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a STContinuationSolver defender slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -58,10 +81,11 @@ continuation_solver_defend_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-  if (result<=n)
+  if (result<n+4)
   {
+    stip_length_type const n_next = n<result ? n : result;
     stip_length_type const
-        defend_result = defense_defend_in_n(next,result,n_max_unsolvable);
+        defend_result = defense_defend_in_n(next,n_next,n_max_unsolvable);
     assert(defend_result==result);
   }
 
@@ -103,13 +127,41 @@ continuation_solver_can_defend_in_n(slice_index si,
   return result;
 }
 
+typedef enum
+{
+  insertion_root,
+  insertion_nested
+} insertion_state_type;
+
 /* Append a continuation solver if none has been inserted before
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void continuation_solver_prepend(slice_index si,
+static void traverse_nested(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type * const state = st->param;
+  insertion_state_type save_state = *state;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *state = insertion_nested;
+  stip_traverse_structure_children(si,st);
+  *state = save_state;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Append a continuation solver if none has been inserted before
+ * @param si identifies slice around which to insert try handlers
+ * @param st address of structure defining traversal
+ */
+static void solver_prepend(slice_index si,
                                         stip_structure_traversal *st)
 {
+  insertion_state_type const * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -117,10 +169,18 @@ static void continuation_solver_prepend(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(slices[si].prev,
-              alloc_continuation_solver_slice(length,min_length));
+  if (*state==insertion_root)
+  {
+    traverse_nested(si,st);
+    pipe_append(slices[si].prev,
+                alloc_solution_solver_slice(length,min_length));
+  }
+  else
+  {
+    stip_traverse_structure_children(si,st);
+    pipe_append(slices[si].prev,
+                alloc_continuation_solver_slice(length,min_length));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -128,7 +188,8 @@ static void continuation_solver_prepend(slice_index si,
 
 static structure_traversers_visitors continuation_handler_inserters[] =
 {
-  { STAttackDealtWith, &continuation_solver_prepend },
+  { STNot,             &traverse_nested             },
+  { STAttackDealtWith, &solver_prepend              },
   { STHelpRoot,        &stip_structure_visitor_noop },
   { STSeriesRoot,      &stip_structure_visitor_noop }
 };
@@ -147,6 +208,7 @@ enum
 void stip_insert_continuation_handlers(slice_index si)
 {
   stip_structure_traversal st;
+  insertion_state_type state = insertion_root;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -154,7 +216,7 @@ void stip_insert_continuation_handlers(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     continuation_handler_inserters,
                                     nr_continuation_handler_inserters);

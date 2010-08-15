@@ -1,14 +1,14 @@
-#if !defined(OUTPUT_PLAINTEXT_TREE_BATTLE_PLAY_SOLUTION_WRITER_H)
-#define OUTPUT_PLAINTEXT_TREE_BATTLE_PLAY_SOLUTION_WRITER_H
+#if !defined(OUTPUT_PLAINTEXT_TREE_TRY_WRITER_H)
+#define OUTPUT_PLAINTEXT_TREE_TRY_WRITER_H
 
 #include "boolean.h"
 #include "pystip.h"
 #include "pyslice.h"
 
-/* Allocate a STBattlePlaySolutionWriter defender slice.
+/* Allocate a STTryWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_battle_play_solution_writer(void);
+slice_index alloc_try_writer(void);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
@@ -20,8 +20,7 @@ slice_index alloc_battle_play_solution_writer(void);
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-battle_play_solution_writer_can_defend_in_n(slice_index si,
+stip_length_type try_writer_can_defend_in_n(slice_index si,
                                             stip_length_type n,
                                             stip_length_type n_max_unsolvable);
 
@@ -37,8 +36,7 @@ battle_play_solution_writer_can_defend_in_n(slice_index si,
  *         n+2 refuted - <=acceptable number of refutations found
  *         n+4 refuted - >acceptable number of refutations found
  */
-stip_length_type
-battle_play_solution_writer_defend_in_n(slice_index si,
+stip_length_type try_writer_defend_in_n(slice_index si,
                                         stip_length_type n,
                                         stip_length_type n_max_unsolvable);
 

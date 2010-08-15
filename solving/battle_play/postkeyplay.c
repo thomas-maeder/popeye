@@ -127,11 +127,11 @@ static void trash_for_postkey_play(slice_index si,
 
 static structure_traversers_visitors postkey_handler_inserters[] =
 {
-  { STAttackMovePlayed,   &stip_structure_visitor_noop },
-  { STContinuationSolver, &substitute_defense_root     },
-  { STCheckDetector,      &trash_for_postkey_play      },
-  { STHelpRoot,           &stip_structure_visitor_noop },
-  { STSeriesRoot,         &stip_structure_visitor_noop }
+  { STAttackMovePlayed, &stip_structure_visitor_noop },
+  { STSolutionSolver,   &substitute_defense_root     },
+  { STCheckDetector,    &trash_for_postkey_play      },
+  { STHelpRoot,         &stip_structure_visitor_noop },
+  { STSeriesRoot,       &stip_structure_visitor_noop }
 };
 
 enum

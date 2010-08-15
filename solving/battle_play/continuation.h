@@ -3,7 +3,8 @@
 
 #include "stipulation/battle_play/defense_play.h"
 
-/* This module provides functionality dealing with continuations.
+/* This module provides functionality dealing with solutions and
+ * continuations.
  */
 
 /* Allocate a STContinuationSolver defender slice.

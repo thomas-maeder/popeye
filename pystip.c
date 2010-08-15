@@ -104,8 +104,9 @@
     ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
-    ENUMERATOR(STBattlePlaySolver), /* find battle play solutions */           \
+    ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
+    ENUMERATOR(STSolutionSolver), /* solves battle play solutions */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
@@ -163,7 +164,8 @@
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
-    ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */ \
+    ENUMERATOR(STKeyWriter), /* write battle play solutions */ \
+    ENUMERATOR(STTryWriter), /* write "but" */                          \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
@@ -268,8 +270,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMoveInverterRootSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
-  slice_structure_branch, /* STBattlePlaySolver */
+  slice_structure_branch, /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
+  slice_structure_branch, /* STSolutionSolver */
   slice_structure_branch, /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
   slice_structure_branch, /* STThreatEnforcer */
@@ -308,7 +311,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STKeepMatingGuardSeriesFilter */
   slice_structure_pipe,   /* STMaxFlightsquares */
   slice_structure_pipe,   /* STDegenerateTree */
-  slice_structure_branch, /* STMaxNrNonTrivial */
+  slice_structure_fork,   /* STMaxNrNonTrivial */
   slice_structure_branch, /* STMaxNrNonChecks */
   slice_structure_branch, /* STMaxNrNonTrivialCounter */
   slice_structure_fork,   /* STMaxThreatLength */
@@ -327,7 +330,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STEndOfPhaseWriter */
   slice_structure_branch, /* STEndOfSolutionWriter */
   slice_structure_branch, /* STContinuationWriter */
-  slice_structure_branch, /* STBattlePlaySolutionWriter */
+  slice_structure_branch, /* STKeyWriter */
+  slice_structure_branch, /* STTryWriter */
   slice_structure_branch, /* STZugzwangWriter */
   slice_structure_branch, /* STVariationWriter */
   slice_structure_branch, /* STRefutingVariationWriter */
@@ -2088,8 +2092,9 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSeriesFilter */
-  &stip_traverse_structure_pipe,            /* STBattlePlaySolver */
+  &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
+  &stip_traverse_structure_pipe,            /* STSolutionSolver */
   &stip_traverse_structure_pipe,            /* STContinuationSolver */
   &stip_traverse_structure_series_fork,     /* STThreatSolver */
   &stip_traverse_structure_pipe,            /* STThreatEnforcer */
@@ -2147,7 +2152,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STEndOfPhaseWriter */
   &stip_traverse_structure_pipe,            /* STEndOfSolutionWriter */
   &stip_traverse_structure_pipe,            /* STContinuationWriter */
-  &stip_traverse_structure_pipe,            /* STBattlePlaySolutionWriter */
+  &stip_traverse_structure_pipe,            /* STKeyWriter */
+  &stip_traverse_structure_pipe,            /* STTryWriter */
   &stip_traverse_structure_pipe,            /* STZugzwangWriter */
   &stip_traverse_structure_pipe,            /* STVariationWriter */
   &stip_traverse_structure_pipe,            /* STRefutingVariationWriter */
@@ -2279,8 +2285,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMoveInverterRootSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSeriesFilter */
-    &stip_traverse_moves_pipe,                  /* STBattlePlaySolver */
+    &stip_traverse_moves_pipe,                  /* STTrySolver */
     &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */
+    &stip_traverse_moves_pipe,                  /* STSolutionSolver */
     &stip_traverse_moves_pipe,                  /* STContinuationSolver */
     &stip_traverse_moves_pipe,                  /* STThreatSolver */
     &stip_traverse_moves_pipe,                  /* STThreatEnforcer */
@@ -2338,7 +2345,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STEndOfPhaseWriter */
     &stip_traverse_moves_pipe,                  /* STEndOfSolutionWriter */
     &stip_traverse_moves_pipe,                  /* STContinuationWriter */
-    &stip_traverse_moves_pipe,                  /* STBattlePlaySolutionWriter */
+    &stip_traverse_moves_pipe,                  /* STKeyWriter */
+    &stip_traverse_moves_pipe,                  /* STTryWriter */
     &stip_traverse_moves_pipe,                  /* STZugzwangWriter */
     &stip_traverse_moves_pipe,                  /* STVariationWriter */
     &stip_traverse_moves_pipe,                  /* STRefutingVariationWriter */

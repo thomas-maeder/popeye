@@ -76,8 +76,9 @@
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
     /* solver slices */                                                 \
-    ENUMERATOR(STBattlePlaySolver), /* find battle play solutions */           \
+    ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
+    ENUMERATOR(STSolutionSolver), /* solves battle play solutions */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
@@ -136,10 +137,11 @@
     ENUMERATOR(STStopOnShortSolutionsHelpFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsSeriesFilter), /* deals with option stoponshortsolutions */  \
     /* output slices */                                                 \
-    ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
+    ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
-    ENUMERATOR(STBattlePlaySolutionWriter), /* write battle play solutions */ \
+    ENUMERATOR(STKeyWriter), /* write battle play keys */               \
+    ENUMERATOR(STTryWriter), /* write "but" */                          \
     ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \

@@ -114,7 +114,7 @@ static unsigned int count_nontrivial_defenses(slice_index si,
                                               stip_length_type n)
 {
   unsigned int result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.branch_fork.towards_goal;
   stip_length_type const parity = ((n-slack_length_battle-1)%2);
   stip_length_type const n_next = min_length_nontrivial+parity;
   stip_length_type const n_max_unsolvable = slack_length_battle-2+parity;
@@ -173,16 +173,26 @@ static unsigned int count_noncheck_defenses(slice_index si, stip_length_type n)
  */
 
 /* Allocate a STMaxNrNonTrivial slice
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param dealt identifies slice where to start looking for non-trivial
+ * variations
  * @return identifier of allocated slice
  */
-static slice_index alloc_max_nr_nontrivial_guard(void)
+static slice_index alloc_max_nr_nontrivial_guard(stip_length_type length,
+                                                 stip_length_type min_length,
+                                                 slice_index dealt)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",dealt);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMaxNrNonTrivial);
+  result = alloc_branch(STMaxNrNonTrivial,length,min_length);
+  slices[result].u.branch_fork.towards_goal = dealt;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -510,7 +520,24 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
     if (min_length_nontrivial<=slack_length_battle+1)
       pipe_append(slices[si].prev,alloc_max_nr_noncheck_guard());
     else
-      pipe_append(slices[si].prev,alloc_max_nr_nontrivial_guard());
+    {
+      stip_length_type const length = slices[si].u.branch.length;
+      stip_length_type const min_length = slices[si].u.branch.min_length;
+
+      /* We want to look for non-trivial variations starting at the
+       * STAttackDealtWith slice within the loop (where we don't
+       * bother with collecting refutations etc.). The first
+       * branch_find_slice() call may find the STAttackDealtWith slice
+       * at root level, so let's do one more branch_find_slice() which
+       * may or may not find the same slice. */
+      slice_index const dealt_root = branch_find_slice(STAttackDealtWith,si);
+      slice_index const dealt_loop = branch_find_slice(STAttackDealtWith,
+                                                       dealt_root);
+      assert(dealt_root!=no_slice);
+      assert(dealt_loop!=no_slice);
+      pipe_append(slices[si].prev,
+                  alloc_max_nr_nontrivial_guard(length,min_length,dealt_loop));
+    }
   }
 
   TraceFunctionExit(__func__);

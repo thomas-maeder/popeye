@@ -5,7 +5,7 @@
 #include "pystip.h"
 #include "pyslice.h"
 
-/* Used by STContinuationWriter and STBattlePlaySolutionWriter to
+/* Used by STContinuationWriter and STKeyWriter to
  * inform STVariationWriter about the maximum length of variations
  * after the attack just played. STVariationWriter uses this
  * information to suppress the output of variations that are deemed

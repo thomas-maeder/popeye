@@ -8,7 +8,8 @@
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/continuation_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
-#include "output/plaintext/tree/battle_play_solution_writer.h"
+#include "output/plaintext/tree/key_writer.h"
+#include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/variation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
@@ -230,8 +231,8 @@ static void instrument_continuation_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_battle_play_solver(slice_index si,
-                                          stip_structure_traversal *st)
+static void instrument_solution_solver(slice_index si,
+                                       stip_structure_traversal *st)
 {
   postkey_play_state_type const save_postkey_play_state = postkey_play_state;
 
@@ -243,7 +244,21 @@ static void instrument_battle_play_solver(slice_index si,
   stip_traverse_structure_children(si,st);
   postkey_play_state = save_postkey_play_state;
 
-  pipe_append(si,alloc_battle_play_solution_writer());
+  pipe_append(si,alloc_key_writer());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_append(si,alloc_try_writer());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -363,7 +378,8 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STAttackMovePlayed,               &instrument_attack_move_played    },
   { STDefenseRoot,                    &instrument_defense_root          },
   { STContinuationSolver,             &instrument_continuation_solver   },
-  { STBattlePlaySolver,               &instrument_battle_play_solver    },
+  { STSolutionSolver,                 &instrument_solution_solver       },
+  { STTrySolver,                      &instrument_try_solver            },
   { STThreatSolver,                   &instrument_threat_solver         },
   { STDefenseMoveFiltered,            &instrument_defense_move_filtered },
   { STRefutationsCollector,           &instrument_refutations_collector },
