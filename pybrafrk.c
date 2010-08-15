@@ -52,7 +52,10 @@ void branch_fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
   pipe_resolve_proxies(si,st);
 
   if (slices[si].u.branch_fork.towards_goal!=no_slice)
+  {
+    stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
     proxy_slice_resolve(&slices[si].u.branch_fork.towards_goal,st);
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -90,9 +93,10 @@ void branch_fork_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure(towards_goal,st);
+
   if (slices[si].starter==no_side)
   {
-    stip_traverse_structure(towards_goal,st);
     if (slices[towards_goal].starter==no_side)
     {
       stip_traverse_structure_pipe(si,st);

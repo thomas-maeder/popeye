@@ -2091,7 +2091,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STBattlePlaySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_pipe,            /* STContinuationSolver */
-  &stip_traverse_structure_pipe,            /* STThreatSolver */
+  &stip_traverse_structure_series_fork,     /* STThreatSolver */
   &stip_traverse_structure_pipe,            /* STThreatEnforcer */
   &stip_traverse_structure_pipe,            /* STThreatCollector */
   &stip_traverse_structure_pipe,            /* STRefutationsCollector */
