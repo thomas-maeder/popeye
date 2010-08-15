@@ -9,7 +9,7 @@
  * in STReadyForAttack stipulation slices.
  */
 
-/* Allocate a STDefenseDealtWith slice.
+/* Allocate a STReadyForAttack slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
