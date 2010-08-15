@@ -2,7 +2,6 @@
 #include "pystip.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/ready_for_defense.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
 #include "optimisations/goals/enpassant/help_filter.h"
@@ -25,12 +24,12 @@ static void insert_goal_optimisation_attacker_filter(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_ep:
-      pipe_append(slices[si].prev,
+      pipe_append(si,
                   alloc_enpassant_attacker_filter_slice(length,min_length));
       break;
 
     case goal_castling:
-      pipe_append(slices[si].prev,
+      pipe_append(si,
                   alloc_castling_attacker_filter_slice(length,min_length));
       break;
 
@@ -143,8 +142,9 @@ typedef struct
  * @param st address of structure representing traversal
  */
 static
-void insert_goal_optimisation_guards_attack_move(slice_index si,
-                                                 stip_moves_traversal *st)
+void
+insert_goal_optimisation_guards_defense_dealt_with(slice_index si,
+                                                   stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
 
@@ -178,7 +178,7 @@ void insert_goal_optimisation_guards_attack_move(slice_index si,
  */
 static
 void
-insert_goal_optimisation_guards_ready_for_defense(slice_index si,
+insert_goal_optimisation_guards_attack_dealt_with(slice_index si,
                                                   stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
@@ -293,11 +293,11 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
 
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
-  { STDefenseDealtWith,  &insert_goal_optimisation_guards_attack_move       },
-  { STGoalReachedTester, &insert_goal_optimisation_guards_goal              },
-  { STAttackDealtWith,   &insert_goal_optimisation_guards_ready_for_defense },
-  { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move         },
-  { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move       }
+  { STAttackDealtWith,   &insert_goal_optimisation_guards_attack_dealt_with  },
+  { STDefenseDealtWith,  &insert_goal_optimisation_guards_defense_dealt_with },
+  { STGoalReachedTester, &insert_goal_optimisation_guards_goal               },
+  { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move          },
+  { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move        }
 };
 
 enum

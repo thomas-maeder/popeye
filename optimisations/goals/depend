@@ -1,8 +1,7 @@
 optimisations/goals/optimisation_guards$(OBJ_SUFFIX):  \
  optimisations/goals/optimisation_guards.c \
   optimisations/goals/optimisation_guards.h pystip.h pypipe.h \
-  stipulation/branch.h stipulation/battle_play/ready_for_defense.h \
-  optimisations/goals/enpassant/attacker_filter.h \
+  stipulation/branch.h optimisations/goals/enpassant/attacker_filter.h \
   optimisations/goals/enpassant/defender_filter.h \
   optimisations/goals/enpassant/help_filter.h \
   optimisations/goals/castling/attacker_filter.h \
@@ -16,8 +15,6 @@ pystip.h:
 pypipe.h:
 
 stipulation/branch.h:
-
-stipulation/battle_play/ready_for_defense.h:
 
 optimisations/goals/enpassant/attacker_filter.h:
 

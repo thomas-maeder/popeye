@@ -11,7 +11,7 @@
 
 #include "trace.h"
 
-void insert_goal_prerequisite_guard_attack_move(slice_index si, Goal goal)
+void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -112,8 +112,9 @@ typedef struct
  * @param st address of structure representing traversal
  */
 static
-void insert_goal_prerequisite_guards_attack_move(slice_index si,
-                                                 stip_moves_traversal *st)
+void
+insert_goal_prerequisite_guards_defense_dealt_with(slice_index si,
+                                                   stip_moves_traversal *st)
 {
   prerequisite_guards_insertion_state * const state = st->param;
 
@@ -128,7 +129,7 @@ void insert_goal_prerequisite_guards_attack_move(slice_index si,
     stip_traverse_moves_branch_slice(si,st);
 
     if (state->goal.type!=no_goal)
-      insert_goal_prerequisite_guard_attack_move(si,state->goal);
+      insert_goal_prerequisite_guard_attacker_filter(si,state->goal);
     state->is_provided[si] = true;
 
     state->goal = save_goal;
@@ -231,10 +232,10 @@ static void insert_goal_prerequisite_guards_goal(slice_index si,
  */
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
-  { STDefenseDealtWith,  &insert_goal_prerequisite_guards_attack_move },
-  { STGoalReachedTester, &insert_goal_prerequisite_guards_goal        },
-  { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move   },
-  { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move }
+  { STDefenseDealtWith,  &insert_goal_prerequisite_guards_defense_dealt_with },
+  { STGoalReachedTester, &insert_goal_prerequisite_guards_goal               },
+  { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move          },
+  { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move        }
 };
 
 enum
