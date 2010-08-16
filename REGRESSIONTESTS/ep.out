@@ -97,10 +97,10 @@
           2.c7*b8=D #
           2.c7*b8=L #
 
-              empile:       19667
-            jouecoup:       17625
-        orig_rbechec:        1386
-        orig_rnechec:       17505
+              empile:       19548
+            jouecoup:       17527
+        orig_rbechec:        1366
+        orig_rnechec:       17407
 Loesung beendet. 
 
 
@@ -376,10 +376,10 @@ a)
     Aber
       1...c7-c6 !
 
-              empile:        2138
-            jouecoup:        1947
-        orig_rbechec:         279
-        orig_rnechec:        1910
+              empile:        2123
+            jouecoup:        1938
+        orig_rbechec:         273
+        orig_rnechec:        1901
 b) sBc7-->e7
 
    1.Kg5*g6 ? Drohung:
@@ -544,10 +544,10 @@ b) sBc7-->e7
     Aber
       1...e7*d6 !
 
-              empile:        2359
-            jouecoup:        2198
-        orig_rbechec:         360
-        orig_rnechec:        2106
+              empile:        2344
+            jouecoup:        2189
+        orig_rbechec:         354
+        orig_rnechec:        2097
 Loesung beendet. 
 
 

@@ -264,10 +264,10 @@ Loesung beendet.
     Aber
       1...Kc2-c3 !
 
-              empile:       61498
-            jouecoup:       26266
-        orig_rbechec:       16996
-        orig_rnechec:       21423
+              empile:       61340
+            jouecoup:       26320
+        orig_rbechec:       17090
+        orig_rnechec:       21297
 Loesung beendet. 
 
 
@@ -913,10 +913,10 @@ Loesung beendet.
     Aber
       1...0-0 !
 
-              empile:     1102105
-            jouecoup:      801155
-        orig_rbechec:      633004
-        orig_rnechec:      243074
+              empile:     1102079
+            jouecoup:      801156
+        orig_rbechec:      633010
+        orig_rnechec:      243049
 Loesung beendet. 
 
 
@@ -1129,10 +1129,10 @@ Loesung beendet.
 
  48  (Ta1-c1 )
  49  (Ta1-b1 )
-              empile:     3025576
-            jouecoup:     2629088
-        orig_rbechec:     1952133
-        orig_rnechec:     1028483
+              empile:     3025508
+            jouecoup:     2629052
+        orig_rbechec:     1952098
+        orig_rnechec:     1028447
 Loesung beendet. 
 
 
@@ -1499,10 +1499,10 @@ Loesung beendet.
               2...Ke8-f8
                   3.De5-h8 #
 
-              empile:     1785295
-            jouecoup:     1375022
-        orig_rbechec:     1009929
-        orig_rnechec:      489456
+              empile:     1785256
+            jouecoup:     1375039
+        orig_rbechec:     1009953
+        orig_rnechec:      489411
 Loesung beendet. 
 
 
@@ -1638,10 +1638,10 @@ Loesung beendet.
     Aber
       1...f5*e4 !
 
-              empile:      552855
-            jouecoup:      361704
-        orig_rbechec:      131342
-        orig_rnechec:      278241
+              empile:      552665
+            jouecoup:      361545
+        orig_rbechec:      131257
+        orig_rnechec:      278082
 Loesung beendet. 
 
 
@@ -2221,10 +2221,10 @@ Loesung beendet.
     Aber
       1...Kf8-g8 !
 
-              empile:     1228370
-            jouecoup:      769248
-        orig_rbechec:      649294
-        orig_rnechec:      248393
+              empile:     1228340
+            jouecoup:      769235
+        orig_rbechec:      649284
+        orig_rnechec:      248380
 Loesung beendet. 
 
 
@@ -3534,9 +3534,9 @@ Loesung beendet.
     Aber
       1...0-0-0 !
 
-              empile:       78776
-            jouecoup:       20271
-        orig_rbechec:        8538
+              empile:       78752
+            jouecoup:       20247
+        orig_rbechec:        8514
         orig_rnechec:       15593
 Loesung beendet. 
 
@@ -3575,10 +3575,10 @@ RochadenGegenseitigAusschliessend a1h8
     Aber
       1...0-0 !
 
-              empile:        2944
-            jouecoup:        1957
-        orig_rbechec:         636
-        orig_rnechec:        2200
+              empile:        2924
+            jouecoup:        1947
+        orig_rbechec:         626
+        orig_rnechec:        2190
 Loesung beendet. 
 
 
@@ -3616,10 +3616,10 @@ RochadenGegenseitigAusschliessend h1a8
    1.0-0 ! Drohung:
           2.Tf1-f8 #
 
-              empile:        1434
-            jouecoup:        1082
-        orig_rbechec:         283
-        orig_rnechec:        1190
+              empile:        1426
+            jouecoup:        1078
+        orig_rbechec:         279
+        orig_rnechec:        1186
 Loesung beendet. 
 
 
@@ -4251,10 +4251,10 @@ RochadenGegenseitigAusschliessend a1a8 a1h8 h1a8 h1h8
     Aber
       1...0-0 !
 
-              empile:      726460
-            jouecoup:      381707
-        orig_rbechec:      181073
-        orig_rnechec:      330773
+              empile:      726310
+            jouecoup:      381610
+        orig_rbechec:      181005
+        orig_rnechec:      330669
 Loesung beendet. 
 
 

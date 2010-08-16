@@ -77,10 +77,10 @@
       1...Gc6-e8
           2.Qf8*e8 #
 
-              empile:       40409
-            jouecoup:       31414
-        orig_rbechec:        7462
-        orig_rnechec:       30529
+              empile:       39532
+            jouecoup:       30654
+        orig_rbechec:        7220
+        orig_rnechec:       29785
 solution finished. 
 
 
@@ -253,10 +253,10 @@ solution finished.
     but
       1...Kh1*h2 !
 
-              empile:       35392
-            jouecoup:       22103
-        orig_rbechec:        9975
-        orig_rnechec:       20153
+              empile:       35012
+            jouecoup:       21826
+        orig_rbechec:        9741
+        orig_rnechec:       19924
 solution finished. 
 
 
@@ -323,10 +323,10 @@ solution finished.
       1...Qf6*d8
           2.Qb6-b7 #
 
-              empile:       14483
-            jouecoup:       11854
-        orig_rbechec:        4027
-        orig_rnechec:       11135
+              empile:       14428
+            jouecoup:       11805
+        orig_rbechec:        3975
+        orig_rnechec:       11098
 solution finished. 
 
 
@@ -497,10 +497,10 @@ solution finished.
     but
       1...Kd3-d4 !
 
-              empile:      105125
-            jouecoup:       87222
-        orig_rbechec:       20061
-        orig_rnechec:       85631
+              empile:      103510
+            jouecoup:       85800
+        orig_rbechec:       19443
+        orig_rnechec:       84241
 solution finished. 
 
 

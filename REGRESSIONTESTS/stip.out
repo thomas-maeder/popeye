@@ -250,9 +250,9 @@ Loesung beendet.
                           4.Le7-d8
                               4...0-0
 
-              empile:     8910218
-            jouecoup:     5406214
-        orig_rbechec:      406894
+              empile:     8910238
+            jouecoup:     5406234
+        orig_rbechec:      406895
         orig_rnechec:      629992
 Loesung beendet. 
 
@@ -644,9 +644,9 @@ Loesung beendet.
     Aber
       1...Sb1*c3 !
 
-              empile:       10415
-            jouecoup:         862
-        orig_rbechec:         609
+              empile:        9953
+            jouecoup:         853
+        orig_rbechec:         572
         orig_rnechec:         535
 Loesung beendet. 
 
@@ -2871,9 +2871,9 @@ Loesung beendet.
     Aber
       1...Kc3*d2 !
 
-              empile:        7063
-            jouecoup:        2859
-        orig_rbechec:        2831
+              empile:        7005
+            jouecoup:        2801
+        orig_rbechec:        2773
         orig_rnechec:        1532
 Loesung beendet. 
 

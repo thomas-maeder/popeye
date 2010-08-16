@@ -1035,9 +1035,9 @@ solution finished.
           2.e2-e3
               2...a3*b2 #
 
-              empile:        3900
-            jouecoup:        2163
-        orig_rbechec:        2161
+              empile:        3891
+            jouecoup:        2154
+        orig_rbechec:        2152
         orig_rnechec:         929
 solution finished. 
 
@@ -1350,10 +1350,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:        4164
-            jouecoup:        2870
-        orig_rbechec:        2040
-        orig_rnechec:        1635
+              empile:        4177
+            jouecoup:        2883
+        orig_rbechec:        2042
+        orig_rnechec:        1648
 solution finished. 
 
 
@@ -1388,10 +1388,10 @@ solution finished.
                   3.Bc2-b1
                       3...b3-b2 #
 
-              empile:       63849
-            jouecoup:       38236
-        orig_rbechec:       30362
-        orig_rnechec:       10703
+              empile:       63866
+            jouecoup:       38253
+        orig_rbechec:       30364
+        orig_rnechec:       10720
 solution finished. 
 
 

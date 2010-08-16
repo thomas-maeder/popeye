@@ -272,7 +272,7 @@ reflex_attacker_filter_solve_in_n(slice_index si,
       break;
 
     case has_no_solution:
-      if (n<=slack_length_battle+1)
+      if (n==slack_length_battle)
         slice_solve(avoided);
       result = n+2;
       break;
@@ -819,7 +819,7 @@ static void reflex_guards_inserter_attack(slice_index si,
   {
     stip_length_type const idx = (length-slack_length_battle-1)%2;
     slice_index const proxy_to_avoided = param->to_be_avoided[idx];
-    pipe_append(si,
+    pipe_append(slices[si].prev,
                 alloc_reflex_attacker_filter(length,min_length,
                                              proxy_to_avoided));
   }
