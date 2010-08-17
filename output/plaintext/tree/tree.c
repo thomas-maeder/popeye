@@ -116,6 +116,8 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 static void instrument_ready_for_attack(slice_index si,
                                           stip_structure_traversal *st)
 {
+  Goal * const goal = st->param;
+
   check_writer_defender_filter_insertion_state_type const
       save_writer_state = check_writer_defender_filter_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
@@ -132,7 +134,7 @@ static void instrument_ready_for_attack(slice_index si,
       = save_writer_state;
 
   if (variation_writer_insertion_state==variation_writer_inserted
-      && length>slack_length_battle)
+      && goal->type==no_goal)
     pipe_append(slices[si].prev,
                 alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length));
 

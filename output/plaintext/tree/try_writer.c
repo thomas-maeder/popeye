@@ -57,7 +57,6 @@ stip_length_type try_writer_can_defend_in_n(slice_index si,
      * interesting */
     max_variation_length[nbply+1] = slack_length_battle+1;
 
-    output_plaintext_tree_write_pending_move_decoration();
     Message(NewLine);
     sprintf(GlobalStr,"%*c",4,blank);
     StdString(GlobalStr);

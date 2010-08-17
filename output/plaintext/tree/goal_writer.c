@@ -111,7 +111,10 @@ output_plaintext_tree_goal_writer_defend_in_n(slice_index si,
   result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   if (result<=n)
+  {
     StdString(goal_end_marker[goal.type]);
+    output_plaintext_tree_write_pending_move_decoration();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -179,7 +182,10 @@ output_plaintext_tree_goal_writer_solve_in_n(slice_index si,
   result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   if (result<=n)
+  {
     StdString(goal_end_marker[goal.type]);
+    output_plaintext_tree_write_pending_move_decoration();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

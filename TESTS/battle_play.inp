@@ -138,10 +138,10 @@ option vari set
 next
 
 title s#1 with tries
-pieces white ka1 rc4 pf4
-       black ka3 pa2b3c5
-stipulation s#1
-option vari try
+pieces white ka1 rc4 bd3 pe4
+       black ka3 pb3
+stip s#1
+option try vari
 
 next
 

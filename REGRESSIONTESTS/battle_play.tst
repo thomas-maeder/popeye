@@ -658,35 +658,50 @@ solution finished.
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
-5   .   .  -P   .   .   .   .   .   5
+5   .   .   .   .   .   .   .   .   5
 |                                   |
-4   .   .   R   .   .   P   .   .   4
+4   .   .   R   .   P   .   .   .   4
 |                                   |
-3  -K  -P   .   .   .   .   .   .   3
+3  -K  -P   .   B   .   .   .   .   3
 |                                   |
-2  -P   .   .   .   .   .   .   .   2
+2   .   .   .   .   .   .   .   .   2
 |                                   |
 1   K   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  s#1                         3 + 4
+  s#1                         4 + 2
 
-   1.f4-f5 !
-      1...b3-b2 #
+   1.e4-e5 ?
+    but
+      1...b3-b2 + !
 
    1.Rc4-a4 + ?
     but
       1...Ka3*a4 !
 
-   1.Rc4-e4 ?
-      1...b3-b2 #
+   1.Rc4-d4 ?
     but
-      1...c5-c4 !
+      1...b3-b2 + !
 
-              empile:         190
-            jouecoup:         177
-        orig_rbechec:         169
-        orig_rnechec:          50
+   1.Bd3-b1 !
+      1...b3-b2 #
+
+   1.Bd3-f1 ?
+    but
+      1...b3-b2 + !
+
+   1.Bd3-e2 ?
+    but
+      1...b3-b2 + !
+
+   1.Ka1-b1 ?
+    but
+      1...b3-b2 !
+
+              empile:         239
+            jouecoup:         202
+        orig_rbechec:         179
+        orig_rnechec:         115
 solution finished. 
 
 

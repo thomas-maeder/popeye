@@ -52,8 +52,7 @@ trace.h:
 output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/end_of_solution_writer.c \
   output/plaintext/tree/end_of_solution_writer.h pyoutput.h pypipe.h \
-  pydata.h pymsg.h stipulation/battle_play/defense_play.h \
-  output/plaintext/tree/tree.h trace.h
+  pydata.h pymsg.h stipulation/battle_play/defense_play.h trace.h
 
 output/plaintext/tree/end_of_solution_writer.h:
 
@@ -66,8 +65,6 @@ pydata.h:
 pymsg.h:
 
 stipulation/battle_play/defense_play.h:
-
-output/plaintext/tree/tree.h:
 
 trace.h:
 output/plaintext/tree/key_writer$(OBJ_SUFFIX): output/plaintext/tree/key_writer.c \
@@ -229,19 +226,19 @@ output/plaintext/tree/check_writer.h:
 trace.h:
 output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/zugzwang_writer.c \
-  output/plaintext/tree/zugzwang_writer.h pymsg.h pypipe.h \
-  stipulation/battle_play/attack_play.h output/plaintext/tree/tree.h \
+  output/plaintext/tree/zugzwang_writer.h pydata.h pymsg.h pypipe.h \
+  stipulation/battle_play/attack_play.h \
   output/plaintext/tree/check_writer.h trace.h
 
 output/plaintext/tree/zugzwang_writer.h:
+
+pydata.h:
 
 pymsg.h:
 
 pypipe.h:
 
 stipulation/battle_play/attack_play.h:
-
-output/plaintext/tree/tree.h:
 
 output/plaintext/tree/check_writer.h:
 

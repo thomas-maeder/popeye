@@ -1,8 +1,8 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
+#include "pydata.h"
 #include "pymsg.h"
 #include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
-#include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "trace.h"
 
@@ -59,7 +59,6 @@ stip_length_type zugzwang_writer_solve_in_n(slice_index si,
    * self play variation */
   if (n>slack_length_battle && result==n+2)
   {
-    output_plaintext_tree_write_pending_move_decoration();
     StdChar(blank);
     Message(Zugzwang);
   }
