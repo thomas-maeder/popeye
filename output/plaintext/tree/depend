@@ -229,24 +229,17 @@ output/plaintext/tree/check_writer.h:
 trace.h:
 output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX):  \
  output/plaintext/tree/zugzwang_writer.c \
-  output/plaintext/tree/zugzwang_writer.h pyoutput.h pymsg.h pydata.h \
-  pypipe.h stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/threat.h output/plaintext/tree/tree.h \
+  output/plaintext/tree/zugzwang_writer.h pymsg.h pypipe.h \
+  stipulation/battle_play/attack_play.h output/plaintext/tree/tree.h \
   output/plaintext/tree/check_writer.h trace.h
 
 output/plaintext/tree/zugzwang_writer.h:
 
-pyoutput.h:
-
 pymsg.h:
-
-pydata.h:
 
 pypipe.h:
 
 stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/threat.h:
 
 output/plaintext/tree/tree.h:
 
