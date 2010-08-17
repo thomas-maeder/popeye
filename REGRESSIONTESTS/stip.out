@@ -973,10 +973,10 @@ b) exact-#2
       1...Sb7*d8 [+wTa1]
           2.Ta1-d1 #
 
-              empile:         146
-            jouecoup:          90
-        orig_rbechec:          31
-        orig_rnechec:          92
+              empile:         140
+            jouecoup:          84
+        orig_rbechec:          27
+        orig_rnechec:          72
 c) exact-#3
 
    1.d7-d8=L !
@@ -985,10 +985,10 @@ c) exact-#3
               2...g5*f4 [+wLc1]
                   3.Lc1*f4 [+sBf7] #
 
-              empile:        3768
-            jouecoup:        1791
-        orig_rbechec:        1055
-        orig_rnechec:        1234
+              empile:        3762
+            jouecoup:        1785
+        orig_rbechec:        1051
+        orig_rnechec:        1214
 d) exact-#4
 
    1.d7-d8=S !
@@ -1011,10 +1011,10 @@ d) exact-#4
                       3...Sb7-d8
                           4.Sd2-e4 #
 
-              empile:       41410
-            jouecoup:       24670
-        orig_rbechec:       18198
-        orig_rnechec:        9782
+              empile:       41404
+            jouecoup:       24664
+        orig_rbechec:       18194
+        orig_rnechec:        9762
 Loesung beendet. 
 
 
@@ -1058,10 +1058,10 @@ b) exact-#2
       1...Ke5-f5
           2.La8-e4 #
 
-              empile:        1154
-            jouecoup:         464
-        orig_rbechec:         220
-        orig_rnechec:         466
+              empile:        1130
+            jouecoup:         457
+        orig_rbechec:         215
+        orig_rnechec:         423
 c) exact-#3
 
    1.Tg6-c6 !
@@ -1070,10 +1070,10 @@ c) exact-#3
               2...Kd5-e5
                   3.Tc6-e6 #
 
-              empile:       22258
-            jouecoup:        7829
-        orig_rbechec:        5185
-        orig_rnechec:        5880
+              empile:       22234
+            jouecoup:        7822
+        orig_rbechec:        5180
+        orig_rnechec:        5837
 d) exact-#4
 
    1.Sd4-e2 !
@@ -1084,10 +1084,10 @@ d) exact-#4
                       3...Ke5-f5
                           4.La8-e4 #
 
-              empile:      439934
-            jouecoup:      190901
-        orig_rbechec:      140079
-        orig_rnechec:      100635
+              empile:      439910
+            jouecoup:      190894
+        orig_rbechec:      140074
+        orig_rnechec:      100592
 Loesung beendet. 
 
 
@@ -1130,10 +1130,10 @@ b) exact-#2
       1...Kd6-c7
           2.Td8-d7 #
 
-              empile:         744
-            jouecoup:         324
-        orig_rbechec:         164
-        orig_rnechec:         326
+              empile:         730
+            jouecoup:         319
+        orig_rbechec:         162
+        orig_rnechec:         304
 c) exact-#3
 
    1.d7-d8=L !
@@ -1144,10 +1144,10 @@ c) exact-#3
               2...c5-c4
                   3.Ld8-c7 #
 
-              empile:        6491
-            jouecoup:        3458
-        orig_rbechec:        2155
-        orig_rnechec:        2383
+              empile:        6477
+            jouecoup:        3453
+        orig_rbechec:        2153
+        orig_rnechec:        2361
 d) exact-#4
 
    1.d7-d8=S !
@@ -1164,10 +1164,10 @@ d) exact-#4
                       3...c5-c4
                           4.d5-d6 #
 
-              empile:       77686
-            jouecoup:       42226
-        orig_rbechec:       28873
-        orig_rnechec:       23495
+              empile:       77672
+            jouecoup:       42221
+        orig_rbechec:       28871
+        orig_rnechec:       23473
 Loesung beendet. 
 
 
@@ -2170,10 +2170,10 @@ Loesung beendet.
       1...Ka1-a2
           2.Td4-a4 #
 
-              empile:         341
-            jouecoup:         274
-        orig_rbechec:          88
-        orig_rnechec:         286
+              empile:         338
+            jouecoup:         273
+        orig_rbechec:          85
+        orig_rnechec:         263
 Loesung beendet. 
 
 

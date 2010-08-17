@@ -600,7 +600,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
   { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
-  { STReadyForAttack,              &stip_traverse_structure_children         },
+  { STDefenseDealtWith,            &stip_traverse_structure_children         },
   { STAttackMoveShoeHorningDone,   &stip_traverse_structure_children         },
   { STDefenseMoveShoeHorningDone,  &serve_as_root_hook                       }
 };
@@ -2243,11 +2243,11 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
-    &stip_traverse_moves_ready_for_attack,    /* STDefenseDealtWith */
+    &stip_traverse_moves_pipe,                  /* STDefenseDealtWith */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_pipe,                  /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */
-    &stip_traverse_moves_pipe,                  /* STReadyForAttack */
+    &stip_traverse_moves_ready_for_attack,      /* STReadyForAttack */
     &stip_traverse_moves_pipe,                  /* STAttackMovePlayed */
     &stip_traverse_moves_pipe,                  /* STAttackMoveShoeHorningDone */
     &stip_traverse_moves_pipe,                  /* STAttackMoveLegalityChecked */

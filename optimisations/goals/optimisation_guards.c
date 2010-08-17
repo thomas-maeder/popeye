@@ -24,12 +24,12 @@ static void insert_goal_optimisation_attacker_filter(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_ep:
-      pipe_append(si,
+      pipe_append(slices[si].prev,
                   alloc_enpassant_attacker_filter_slice(length,min_length));
       break;
 
     case goal_castling:
-      pipe_append(si,
+      pipe_append(slices[si].prev,
                   alloc_castling_attacker_filter_slice(length,min_length));
       break;
 
@@ -54,7 +54,8 @@ static void insert_goal_optimisation_defender_filter(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_ep:
-      pipe_append(si,alloc_enpassant_defender_filter_slice(length,min_length));
+      pipe_append(slices[si].prev,
+                  alloc_enpassant_defender_filter_slice(length,min_length));
       break;
 
     case goal_castling:
@@ -143,8 +144,8 @@ typedef struct
  */
 static
 void
-insert_goal_optimisation_guards_defense_dealt_with(slice_index si,
-                                                   stip_moves_traversal *st)
+insert_goal_optimisation_guards_ready_for_attack(slice_index si,
+                                                 stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
 
@@ -178,7 +179,7 @@ insert_goal_optimisation_guards_defense_dealt_with(slice_index si,
  */
 static
 void
-insert_goal_optimisation_guards_attack_dealt_with(slice_index si,
+insert_goal_optimisation_guards_ready_for_defense(slice_index si,
                                                   stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
@@ -293,11 +294,11 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
 
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
-  { STAttackDealtWith,   &insert_goal_optimisation_guards_attack_dealt_with  },
-  { STDefenseDealtWith,  &insert_goal_optimisation_guards_defense_dealt_with },
-  { STGoalReachedTester, &insert_goal_optimisation_guards_goal               },
-  { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move          },
-  { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move        }
+  { STReadyForDefense,   &insert_goal_optimisation_guards_ready_for_defense },
+  { STReadyForAttack,    &insert_goal_optimisation_guards_ready_for_attack  },
+  { STGoalReachedTester, &insert_goal_optimisation_guards_goal              },
+  { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move         },
+  { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move       }
 };
 
 enum

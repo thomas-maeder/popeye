@@ -466,10 +466,10 @@ b) exact-=2
       1...kGc8-e8
           2.kGd8-a5 =
 
-              empile:          10
-            jouecoup:           9
-        orig_rbechec:          11
-        orig_rnechec:           8
+              empile:           9
+            jouecoup:           8
+        orig_rbechec:           8
+        orig_rnechec:           7
 c) exact-=3
 
    1.kGa8-d8 !
@@ -478,10 +478,10 @@ c) exact-=3
               2...kGe8-g8
                   3.kGf8-h8 =
 
-              empile:          18
-            jouecoup:          20
-        orig_rbechec:          15
-        orig_rnechec:          15
+              empile:          17
+            jouecoup:          19
+        orig_rbechec:          12
+        orig_rnechec:          14
 Loesung beendet. 
 
 

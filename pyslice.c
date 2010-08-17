@@ -73,7 +73,7 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STAttackRoot:
-    case STDefenseDealtWith:
+    case STReadyForAttack:
     case STAttackFork:
     case STAttackHashed:
     case STSelfDefense:

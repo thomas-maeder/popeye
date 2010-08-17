@@ -153,7 +153,7 @@ static void degenerate_tree_inserter_attack_move(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slices[si].u.branch.length>=slack_length_battle+2)
-    pipe_append(slices[si].prev,alloc_degenerate_tree_guard_slice());
+    pipe_append(si,alloc_degenerate_tree_guard_slice());
   else
     stip_traverse_structure_children(si,st);
 
@@ -163,7 +163,7 @@ static void degenerate_tree_inserter_attack_move(slice_index si,
 
 static structure_traversers_visitors degenerate_tree_guards_inserters[] =
 {
-  { STReadyForAttack, &degenerate_tree_inserter_attack_move }
+  { STDefenseDealtWith, &degenerate_tree_inserter_attack_move }
 };
 
 enum

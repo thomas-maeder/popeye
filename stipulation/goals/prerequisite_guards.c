@@ -24,12 +24,12 @@ void insert_goal_prerequisite_guard_attacker_filter(slice_index si, Goal goal)
   switch (goal.type)
   {
     case goal_doublemate:
-      pipe_append(si,
+      pipe_append(slices[si].prev,
                   alloc_doublemate_attacker_filter_slice(length,min_length));
       break;
 
     case goal_countermate:
-      pipe_append(si,
+      pipe_append(slices[si].prev,
                   alloc_countermate_attacker_filter_slice(length,min_length));
       break;
 
@@ -113,8 +113,8 @@ typedef struct
  */
 static
 void
-insert_goal_prerequisite_guards_defense_dealt_with(slice_index si,
-                                                   stip_moves_traversal *st)
+insert_goal_prerequisite_guards_ready_for_attack(slice_index si,
+                                                 stip_moves_traversal *st)
 {
   prerequisite_guards_insertion_state * const state = st->param;
 
@@ -232,10 +232,10 @@ static void insert_goal_prerequisite_guards_goal(slice_index si,
  */
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
-  { STDefenseDealtWith,  &insert_goal_prerequisite_guards_defense_dealt_with },
-  { STGoalReachedTester, &insert_goal_prerequisite_guards_goal               },
-  { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move          },
-  { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move        }
+  { STReadyForAttack,    &insert_goal_prerequisite_guards_ready_for_attack },
+  { STGoalReachedTester, &insert_goal_prerequisite_guards_goal             },
+  { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move        },
+  { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move      }
 };
 
 enum
