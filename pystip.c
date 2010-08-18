@@ -1105,6 +1105,57 @@ slice_index stip_deep_copy(slice_index si)
   return result;
 }
 
+/* Remove a pipe slice being travrsed
+ * @param si identifies slice being traversed
+ * @param st points to structure holding the state of the traversal
+ */
+static void remove_pipe(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_remove(si);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const defense_proxy_removers[] =
+{
+  { STDefenseDealtWith,           &remove_pipe },
+  { STDefenseMoveFiltered,        &remove_pipe },
+  { STDefenseMoveLegalityChecked, &remove_pipe }
+};
+
+enum
+{
+  nr_defense_proxy_removers = (sizeof defense_proxy_removers
+                               / sizeof defense_proxy_removers[0])
+};
+
+/* Remove the defensive proxy slices from a branch
+ * @param si identifies slice where to start
+ */
+static void remove_defense_proxies(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    defense_proxy_removers,
+                                    nr_defense_proxy_removers);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void transform_to_quodlibet_self_defense(slice_index si,
                                                 stip_structure_traversal *st)
 {
@@ -1115,6 +1166,7 @@ static void transform_to_quodlibet_self_defense(slice_index si,
   TraceFunctionParamListEnd();
 
   *proxy_to_goal = stip_deep_copy(slices[si].u.branch_fork.towards_goal);
+  remove_defense_proxies(*proxy_to_goal);
   slice_make_direct_goal_branch(*proxy_to_goal);
 
   stip_traverse_structure_children(si,st);
