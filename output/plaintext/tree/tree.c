@@ -27,22 +27,10 @@ typedef enum
 {
   postkey_play_unknown,
   postkey_play_exclusively,
-  postkey_play_included,
+  postkey_play_included
 } postkey_play_state_type;
 
 static postkey_play_state_type postkey_play_state;
-
-/* The following enumeration type represents the state of variation
- * writer insertion
- */
-typedef enum
-{
-  variation_writer_none,
-  variation_writer_needed,
-  variation_writer_inserted
-} variation_writer_insertion_state_type;
-
-static variation_writer_insertion_state_type variation_writer_insertion_state;
 
 typedef enum
 {
@@ -64,8 +52,6 @@ static enum
 static void instrument_self_defense(slice_index si,
                                     stip_structure_traversal *st)
 {
-  variation_writer_insertion_state_type const
-      save_state = variation_writer_insertion_state;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
@@ -73,7 +59,6 @@ static void instrument_self_defense(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  variation_writer_insertion_state = save_state;
   stip_traverse_structure(to_goal,st);
 
   TraceFunctionExit(__func__);
@@ -133,7 +118,7 @@ static void instrument_ready_for_attack(slice_index si,
   check_writer_defender_filter_insertion_state
       = save_writer_state;
 
-  if (variation_writer_insertion_state==variation_writer_inserted
+  if (postkey_play_state!=postkey_play_unknown
       && goal->type==no_goal)
     pipe_append(slices[si].prev,
                 alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length));
@@ -165,8 +150,6 @@ static void instrument_threat_solver(slice_index si,
 static void instrument_ready_for_defense(slice_index si,
                                          stip_structure_traversal *st)
 {
-  variation_writer_insertion_state_type const
-      save_state = variation_writer_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -180,9 +163,7 @@ static void instrument_ready_for_defense(slice_index si,
     pipe_append(si,
                 alloc_output_plaintext_tree_check_writer_defender_filter_slice(length,min_length));
 
-  variation_writer_insertion_state = variation_writer_needed;
   stip_traverse_structure_children(si,st);
-  variation_writer_insertion_state = save_state;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -191,8 +172,6 @@ static void instrument_ready_for_defense(slice_index si,
 static void instrument_defense_move_filtered(slice_index si,
                                              stip_structure_traversal *st)
 {
-  variation_writer_insertion_state_type const
-      save_var_state = variation_writer_insertion_state;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -200,11 +179,9 @@ static void instrument_defense_move_filtered(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  variation_writer_insertion_state = variation_writer_inserted;
   stip_traverse_structure_children(si,st);
-  variation_writer_insertion_state = save_var_state;
 
-  if (variation_writer_insertion_state==variation_writer_needed)
+  if (postkey_play_state!=postkey_play_unknown)
   {
     if (postkey_play_state==postkey_play_exclusively)
       pipe_append(si,alloc_refuting_variation_writer_slice(length,min_length));
