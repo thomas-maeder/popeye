@@ -1389,9 +1389,9 @@ Loesung beendet.
 
   1.Ke8-d7   2.Kd7-e6   3.Ke6-d5   4.Kd5-e4   5.Ge5-e3   6.Ke4-d3   7.Kd3-e2   8.Ke2-d1 Gh6-d2 # 
 
-              empile:       24123
-            jouecoup:       16608
-        orig_rbechec:       22349
+              empile:       24117
+            jouecoup:       16605
+        orig_rbechec:       22345
         orig_rnechec:           0
 Loesung beendet. 
 
@@ -1426,10 +1426,10 @@ Loesung beendet.
   1.b6-b7   2.b7-b8=D   3.Db8-e5   4.Lc2-d1 + Da4*d1 # 
   1.b6-b7   2.b7-b8=L   3.Lb8-f4   4.Lc2-d1 + Da4*d1 # 
 
-              empile:      619607
-            jouecoup:      157057
-        orig_rbechec:      224942
-        orig_rnechec:       82842
+              empile:      619504
+            jouecoup:      156948
+        orig_rbechec:      224829
+        orig_rnechec:       82838
 Loesung beendet. 
 
 
@@ -1461,10 +1461,10 @@ Loesung beendet.
 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a5   5.Ka5-a6   6.b6-b7 + Ka8-b8 == 
 
-              empile:      171923
-            jouecoup:       65877
-        orig_rbechec:       84911
-        orig_rnechec:       45825
+              empile:      171921
+            jouecoup:       65875
+        orig_rbechec:       84909
+        orig_rnechec:       45823
 Loesung beendet. 
 
 
@@ -1911,7 +1911,7 @@ Loesung beendet.
               empile:       12230
             jouecoup:        9211
         orig_rbechec:        9155
-        orig_rnechec:        6285
+        orig_rnechec:        6284
 Loesung beendet. 
 
 
@@ -2871,10 +2871,10 @@ Loesung beendet.
     Aber
       1...Kc3*d2 !
 
-              empile:        7005
-            jouecoup:        2801
-        orig_rbechec:        2773
-        orig_rnechec:        1532
+              empile:        6955
+            jouecoup:        2751
+        orig_rbechec:        2721
+        orig_rnechec:        1530
 Loesung beendet. 
 
 
@@ -2946,20 +2946,20 @@ a)
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6] Dd6-g3 +   6.Se4*g3 [+sDe4] # 
 
-              empile:    10659676
-            jouecoup:     4741474
-        orig_rbechec:     4185143
-        orig_rnechec:     4648461
+              empile:    10659609
+            jouecoup:     4741407
+        orig_rbechec:     4185106
+        orig_rnechec:     4648427
 b) ser-s#6
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6]   6.Se4-g3 + Dd6*g3 [+wSd6] # 
 
   1.De4*e5 [+wBe4]   2.De5-e8   3.De8*e4 [+wBe8=wS]   4.De4*e8 [+wSe4]   5.De8-e5   6.De5-g3 + Se4*g3 [+sDe4] # 
 
-              empile:     9954296
-            jouecoup:     3331330
-        orig_rbechec:     3440209
-        orig_rnechec:     2875738
+              empile:     9954228
+            jouecoup:     3331262
+        orig_rbechec:     3440171
+        orig_rnechec:     2875704
 Loesung beendet. 
 
 

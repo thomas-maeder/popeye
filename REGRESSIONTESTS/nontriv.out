@@ -150,10 +150,10 @@
  48  (Tc1-c2 )
  49  (Tc1*e1 )
  50  (Tc1-d1 )
-              empile:    68553384
-            jouecoup:    20868091
-        orig_rbechec:     7005966
-        orig_rnechec:    15367830
+              empile:    68553296
+            jouecoup:    20868003
+        orig_rbechec:     7005876
+        orig_rnechec:    15367828
 Loesung beendet. 
 
 
@@ -281,10 +281,10 @@ Loesung beendet.
  45  (Ng1-f3 )
  46  (Ng1*c3 )
  47  (Ng1-e2 )
-              empile:   287613094
-            jouecoup:    99834806
-        orig_rbechec:    39368039
-        orig_rnechec:    69693722
+              empile:   287613052
+            jouecoup:    99834764
+        orig_rbechec:    39367996
+        orig_rnechec:    69693721
 Loesung beendet. 
 
 
@@ -404,10 +404,10 @@ Loesung beendet.
  42  (Tc1-f1 )
  43  (Tc1-e1 )
  44  (Tc1-d1 )
-              empile:     3289992
-            jouecoup:      975572
-        orig_rbechec:      350548
-        orig_rnechec:      673329
+              empile:     3289960
+            jouecoup:      975540
+        orig_rbechec:      350515
+        orig_rnechec:      673328
 Loesung beendet. 
 
 
@@ -512,10 +512,10 @@ Loesung beendet.
  30  (EQf4-f6 + )
  31  (EQf4-b8 )
  32  (EQf4-h6 )
-              empile:    33626747
-            jouecoup:    10109662
-        orig_rbechec:     2759791
-        orig_rnechec:     7919088
+              empile:    33626715
+            jouecoup:    10109630
+        orig_rbechec:     2759758
+        orig_rnechec:     7919087
 Loesung beendet. 
 
 
@@ -638,10 +638,10 @@ Loesung beendet.
  45  (Lc1-d2 )
  46  (Lc1-a3 )
  47  (Lc1-b2 )
-              empile:    33493125
-            jouecoup:     9174016
-        orig_rbechec:     3156598
-        orig_rnechec:     6549292
+              empile:    33493077
+            jouecoup:     9173968
+        orig_rbechec:     3156549
+        orig_rnechec:     6549291
 Loesung beendet. 
 
 
@@ -757,10 +757,10 @@ Loesung beendet.
 
  43  (La2-c4 + )
  44  (La2-b3 )
-              empile:     8210099
-            jouecoup:     2648568
-        orig_rbechec:      874446
-        orig_rnechec:     1936504
+              empile:     8210066
+            jouecoup:     2648535
+        orig_rbechec:      874412
+        orig_rnechec:     1936503
 Loesung beendet. 
 
 

@@ -145,10 +145,10 @@ c) s#2
           2.La4-c2
               2...e5-e4 #
 
-              empile:        4617
-            jouecoup:        3483
-        orig_rbechec:        3485
-        orig_rnechec:        1278
+              empile:        4589
+            jouecoup:        3455
+        orig_rbechec:        3456
+        orig_rnechec:        1277
 d) h=2
 
   1.e6-e5 e7-e8=T   2.e5-e4 + Te8*e4 = 
@@ -652,10 +652,10 @@ b) s#2
           2.Sc5*e4 +
               2...Sg3*e4 #
 
-              empile:       14458
-            jouecoup:        6847
-        orig_rbechec:        6855
-        orig_rnechec:        3643
+              empile:       14297
+            jouecoup:        6662
+        orig_rbechec:        6666
+        orig_rnechec:        3639
 Loesung beendet. 
 
 

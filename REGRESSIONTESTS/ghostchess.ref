@@ -281,18 +281,18 @@ a)
 
   1.Bh4-f6   2.Qa6*c6   3.Qc6*c2[+buPc6]   4.Bf6*e5   5.Be5-f4[+buSe5]   6.Qc2*d3[+buPc2] + uSe5*d3 # 
 
-              empile:    30880813
-            jouecoup:    11194687
-        orig_rbechec:    14877502
-        orig_rnechec:     6559045
+              empile:    30880787
+            jouecoup:    11194664
+        orig_rbechec:    14877478
+        orig_rnechec:     6559044
 b)  -bPg7
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 # 
 
-              empile:    33365926
-            jouecoup:    11186180
-        orig_rbechec:    14752598
-        orig_rnechec:     6709264
+              empile:    33365902
+            jouecoup:    11186159
+        orig_rbechec:    14752576
+        orig_rnechec:     6709263
 solution finished. 
 
 

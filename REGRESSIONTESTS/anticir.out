@@ -786,10 +786,10 @@ Loesung beendet.
           2.Kg1-f2 +
               2...Te8-e1 #
 
-              empile:       37720
-            jouecoup:       25655
-        orig_rbechec:       25660
-        orig_rnechec:       17806
+              empile:       37568
+            jouecoup:       25492
+        orig_rbechec:       25494
+        orig_rnechec:       17803
 Loesung beendet. 
 
 
@@ -836,10 +836,10 @@ Loesung beendet.
           2.Sf8-g6 +
               2...De3-g1 #
 
-              empile:       24718
-            jouecoup:       15921
-        orig_rbechec:       15934
-        orig_rnechec:        5613
+              empile:       24351
+            jouecoup:       15570
+        orig_rbechec:       15574
+        orig_rnechec:        5604
 Loesung beendet. 
 
 
@@ -1223,10 +1223,10 @@ Loesung beendet.
           2.Tc1-e1 +
               2...Dd8*e7[sDe7->d8] #
 
-              empile:       13625
-            jouecoup:        5417
-        orig_rbechec:        5423
-        orig_rnechec:        3575
+              empile:       13500
+            jouecoup:        5300
+        orig_rbechec:        5303
+        orig_rnechec:        3572
 Loesung beendet. 
 
 
@@ -1544,10 +1544,10 @@ Loesung beendet.
                   3.Lb4*f8[wLf8->c1]
                       3...Td7-d1 #
 
-              empile:      570625
-            jouecoup:      214436
-        orig_rbechec:      213823
-        orig_rnechec:      129641
+              empile:      570539
+            jouecoup:      214351
+        orig_rbechec:      213736
+        orig_rnechec:      129639
 Loesung beendet. 
 
 

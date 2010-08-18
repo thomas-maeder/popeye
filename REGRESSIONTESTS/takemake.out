@@ -181,7 +181,7 @@ Loesung beendet.
               empile:         989
             jouecoup:         565
         orig_rbechec:         249
-        orig_rnechec:         324
+        orig_rnechec:         322
 Loesung beendet. 
 
 
@@ -1499,10 +1499,10 @@ Loesung beendet.
           2.Df4-f1 +
               2...d3*c2-g2 #
 
-              empile:       20785
-            jouecoup:       11999
-        orig_rbechec:       12003
-        orig_rnechec:        7159
+              empile:       20662
+            jouecoup:       11890
+        orig_rbechec:       11892
+        orig_rnechec:        7157
 Loesung beendet. 
 
 
@@ -1539,10 +1539,10 @@ Loesung beendet.
               2...Kh3*g2-f1 #
               2...Dc6*g2-f1 #
 
-              empile:       33237
-            jouecoup:       14492
-        orig_rbechec:       14495
-        orig_rnechec:        6870
+              empile:       33129
+            jouecoup:       14393
+        orig_rbechec:       14394
+        orig_rnechec:        6868
 Loesung beendet. 
 
 
