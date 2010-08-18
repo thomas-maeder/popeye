@@ -41,13 +41,20 @@ void pipe_unlink(slice_index pipe);
  */
 void pipe_replace(slice_index replaced, slice_index substitute);
 
-/* Append a slice to another. Links the two slices and establishes the
- * same connection from the appended slice to the previous successor
- * that existed between the previously connected slices.
+/* Append a pipe slice to another. Links the two slices and
+ * establishes the same connection from the appended slice to the
+ * previous successor that existed between the previously connected
+ * slices.
  * @param pos identifies where to append
  * @param appended identifies appended slice
  */
 void pipe_append(slice_index pos, slice_index appended);
+
+/* Removes a pipe slice. Links the predecessor to the succesor (if any).
+ * Deallocates the removed pipe slice.
+ * @param si identifies the pipe slice to be removed
+ */
+void pipe_remove(slice_index si);
 
 /* Detect starter field with the starting side if possible.
  * @param pipe identifies slice being traversed

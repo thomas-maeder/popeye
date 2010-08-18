@@ -31,7 +31,7 @@ slice_index alloc_pipe(SliceType type)
  * @param si identifies slice
  * @return true iff si identifies a slice that has a .next member
  */
-static boolean has_successor(slice_index si)
+static boolean has_successor_slot(slice_index si)
 {
   return (slices[si].type!=STLeaf
           && slices[si].type!=STQuodlibet
@@ -50,7 +50,7 @@ void pipe_set_successor(slice_index pipe, slice_index succ)
   TraceFunctionParam("%u",succ);
   TraceFunctionParamListEnd();
 
-  assert(has_successor(pipe));
+  assert(has_successor_slot(pipe));
   slices[pipe].u.pipe.next = succ;
 
   TraceFunctionExit(__func__);
@@ -143,6 +143,23 @@ void pipe_append(slice_index pos, slice_index appended)
     slice_set_predecessor(next,appended);
   pipe_set_successor(appended,next);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Removes a pipe slice. Links the predecessor to the succesor (if any).
+ * Deallocates the removed pipe slice.
+ * @param si identifies the pipe slice to be removed
+ */
+void pipe_remove(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_link(slices[si].prev,slices[si].u.pipe.next);
+  dealloc_slice(si);
+  
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
