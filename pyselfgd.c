@@ -81,10 +81,10 @@ self_defense_direct_has_solution_in_n(slice_index si,
   {
     result = attack_has_solution_in_n(to_goal,n,n_min,n_max_unsolvable);
     if (result>n)
-    {
-      n_max_unsolvable = slack_length_battle;
+      /* delegate to next even if (n==slack_length_battle) - we need
+       * to distinguish between self-check and other ways of not
+       * reaching the goal */
       result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
-    }
     else if (result>=slack_length_battle)
     {
       slice_index const length = slices[si].u.branch_fork.length;
