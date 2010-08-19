@@ -2505,6 +2505,7 @@ static void solve_twin(slice_index si,
 typedef struct
 {
     Goal goal;
+    unsigned int nr_goals_found;
     boolean is_optimised[max_nr_slices];
 } final_move_optimisation_state;
 
@@ -2524,50 +2525,22 @@ static void optimise_final_moves_attack_move(slice_index si,
   if (!state->is_optimised[si])
   {
     Goal const save_goal = state->goal;
+    unsigned int const save_nr_goals_found = state->nr_goals_found;
 
     stip_traverse_moves_branch_slice(si,st);
 
     if (st->remaining<=slack_length_battle+2)
     {
-      if (state->goal.type!=no_goal)
+      if (state->nr_goals_found==1)
+      {
+        assert(state->goal.type!=no_goal);
         optimise_final_attack_move(si,state->goal);
-      state->is_optimised[si] = true;
-    }
-
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_defense_move(slice_index si,
-                                              stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!state->is_optimised[si])
-  {
-    Goal const save_goal = state->goal;
-
-    stip_traverse_moves_branch_slice(si,st);
-
-    if (st->remaining<=slack_length_battle+2)
-    {
-      if (state->goal.type!=no_goal)
-        killer_move_optimise_final_defense_move(si,state->goal);
+      }
 
       state->is_optimised[si] = true;
     }
 
+    state->nr_goals_found = save_nr_goals_found;
     state->goal = save_goal;
   }
 
@@ -2596,9 +2569,49 @@ static void optimise_final_moves_attack_root(slice_index si,
     st->remaining = slack_length_battle+1;
     stip_traverse_moves_branch_slice(si,st);
     st->remaining = save_remaining;
-    slices[si].u.branch.imminent_goal = state->goal;
-    TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
+    if (state->nr_goals_found==1)
+    {
+      assert(state->goal.type!=no_goal);
+      slices[si].u.branch.imminent_goal = state->goal;
+      TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
+    }
     state->goal.type = no_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void optimise_final_moves_defense_move(slice_index si,
+                                              stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+    unsigned int const save_nr_goals_found = state->nr_goals_found;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining<=slack_length_battle+2)
+    {
+      if (state->goal.type!=no_goal)
+        killer_move_optimise_final_defense_move(si,state->goal);
+
+      state->is_optimised[si] = true;
+    }
+
+    state->nr_goals_found = save_nr_goals_found;
+    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -2617,8 +2630,11 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal = slices[si].u.goal_reached_tester.goal;
-  TraceValue("->%u\n",state->goal.type);
+  if (state->goal.type!=slices[si].u.goal_reached_tester.goal.type)
+  {
+    state->goal = slices[si].u.goal_reached_tester.goal;
+    ++state->nr_goals_found;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2644,7 +2660,9 @@ enum
 static void stip_optimise_final_moves(slice_index si)
 {
   stip_moves_traversal st;
-  final_move_optimisation_state state = { { no_goal, initsquare }, { false } };
+  final_move_optimisation_state state = { { no_goal, initsquare },
+                                          0,
+                                          { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
