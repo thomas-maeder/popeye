@@ -65,6 +65,7 @@ direct_defender_filter_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -76,31 +77,9 @@ direct_defender_filter_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    slice_index const length = slices[si].u.branch_fork.length;
-    slice_index const min_length = slices[si].u.branch_fork.min_length;
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-
-    if (n-slack_length_battle<=length-min_length)
-    {
-      result = defense_defend_in_n(to_goal,n,n_max_unsolvable);
-      if (result>n)
-      {
-        n_max_unsolvable = slack_length_battle;
-        result = defense_defend_in_n(next,n,n_max_unsolvable);
-      }
-    }
-    else
-    {
-      result = defense_can_defend_in_n(to_goal,n,n_max_unsolvable);
-      if (result>n)
-      {
-        n_max_unsolvable = slack_length_battle;
-        result = defense_defend_in_n(next,n,n_max_unsolvable);
-      }
-      else
-        /* we have reached the goal earlier than allowed */
-        result = n+4;
-    }
+    result = defense_defend_in_n(to_goal,n,n_max_unsolvable);
+    if (result>n)
+      result = defense_defend_in_n(next,n,n_max_unsolvable);
   }
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
@@ -128,6 +107,7 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -139,19 +119,13 @@ direct_defender_filter_can_defend_in_n(slice_index si,
 
   if (n_max_unsolvable<slack_length_battle)
   {
-    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-
     result = defense_can_defend_in_n(to_goal,n,n_max_unsolvable);
     if (result>n)
-    {
-      n_max_unsolvable = slack_length_battle;
       result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-    }
     else
     {
       slice_index const length = slices[si].u.branch_fork.length;
       slice_index const min_length = slices[si].u.branch_fork.min_length;
-
       if (n-slack_length_battle>length-min_length)
         /* we have reached the goal earlier than allowed */
         result = n+4;
