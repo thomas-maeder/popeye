@@ -162,21 +162,11 @@ static void self_guards_inserter_defense_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const next_prev = slices[next].prev;
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    if (next_prev==si)
-    {
-      slice_index const * const proxy_to_goal = st->param;
-      pipe_append(si,alloc_self_defense(length,min_length,*proxy_to_goal));
-    }
-    else
-    {
-      pipe_set_successor(si,next_prev);
-      slices[next_prev].u.branch.length = length;
-      slices[next_prev].u.branch.min_length = min_length;
-    }
+
+    slice_index const * const proxy_to_goal = st->param;
+    pipe_append(si,alloc_self_defense(length,min_length,*proxy_to_goal));
   }
 
   TraceFunctionExit(__func__);
