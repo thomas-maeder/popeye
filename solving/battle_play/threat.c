@@ -421,8 +421,6 @@ typedef enum
   threat_handler_inserted_collector
 } threat_handler_insertion_state;
 
-threat_handler_insertion_state insertion_state;
-
 /* Prepend a threat writer slice to a defense move slice
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
@@ -542,13 +540,13 @@ static void threat_handler_reset_insertion_state(slice_index si,
 
 static structure_traversers_visitors threat_handler_inserters[] =
 {
-  { STAttackMovePlayed,           &append_threat_collector              },
-  { STReadyForDefense,            &append_threat_solver                 },
-  { STDefenseMoveLegalityChecked, &append_threat_enforcer               },
-  { STGoalReachedTester,          &stip_structure_visitor_noop          },
-  { STHelpRoot,                   &stip_structure_visitor_noop          },
-  { STSeriesRoot,                 &stip_structure_visitor_noop          },
-  { STNot,                        &threat_handler_reset_insertion_state }
+  { STAttackMovePlayed,           &append_threat_collector               },
+  { STReadyForDefense,            &append_threat_solver                  },
+  { STDefenseMoveLegalityChecked, &append_threat_enforcer                },
+  { STGoalReachedTester,          &stip_structure_visitor_noop           },
+  { STHelpRoot,                   &stip_structure_visitor_noop           },
+  { STSeriesRoot,                 &stip_structure_visitor_noop           },
+  { STNot,                        &threat_handler_reset_insertion_state  }
 };
 
 enum
