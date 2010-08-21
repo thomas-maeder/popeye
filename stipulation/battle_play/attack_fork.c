@@ -73,9 +73,6 @@ attack_fork_has_solution_in_n(slice_index si,
                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const successor = (n_min==slack_length_battle+1
-                                 ? slices[si].u.branch_fork.towards_goal
-                                 : slices[si].u.branch_fork.next);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -86,7 +83,21 @@ attack_fork_has_solution_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  result = attack_has_solution_in_n(successor,n,n_min,n_max_unsolvable);
+  if (n_min==slack_length_battle+1)
+  {
+    result = attack_has_solution_in_n(slices[si].u.branch_fork.towards_goal,
+                                      slack_length_battle+1,
+                                      slack_length_battle+1,
+                                      slack_length_battle);
+    if (result>slack_length_battle+1)
+      result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
+                                        n,slack_length_battle+2,
+                                        slack_length_battle+1);
+  }
+  else
+    result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
+                                      n,n_min,
+                                      n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,9 +120,6 @@ stip_length_type attack_fork_solve_in_n(slice_index si,
                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const successor = (n_max_unsolvable==slack_length_battle
-                                 ? slices[si].u.branch_fork.towards_goal
-                                 : slices[si].u.branch_fork.next);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -121,7 +129,17 @@ stip_length_type attack_fork_solve_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  result = attack_solve_in_n(successor,n,n_max_unsolvable);
+  if (n_max_unsolvable==slack_length_battle)
+  {
+    result = attack_solve_in_n(slices[si].u.branch_fork.towards_goal,
+                               slack_length_battle+1,slack_length_battle);
+    if (result>slack_length_battle+1)
+      result = attack_solve_in_n(slices[si].u.branch_fork.next,
+                                 n,slack_length_battle+1);
+  }
+  else
+    result = attack_solve_in_n(slices[si].u.branch_fork.next,
+                               n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

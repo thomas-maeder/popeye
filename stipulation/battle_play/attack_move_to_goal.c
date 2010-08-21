@@ -153,14 +153,12 @@ attack_move_to_goal_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  assert(n==slack_length_battle+1);
+
   if (have_we_solution_for_imminent_goal(si))
     result = slack_length_battle+1;
   else
-  {
-    n_max_unsolvable = slack_length_battle+1;
-    n_min = slack_length_battle+2;
-    result = attack_move_has_solution_in_n(si,n,n_min,n_max_unsolvable);
-  }
+    result = n+2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -251,13 +249,12 @@ attack_move_to_goal_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  assert(n==slack_length_battle+1);
+
   if (solve_imminent_goal(si))
     result = slack_length_battle+1;
   else
-  {
-    n_max_unsolvable = slack_length_battle+1;
-    result = attack_move_solve_in_n(si,n,n_max_unsolvable);
-  }
+    result = slack_length_battle+3;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
