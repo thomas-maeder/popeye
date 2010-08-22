@@ -250,10 +250,10 @@ Loesung beendet.
                           4.Le7-d8
                               4...0-0
 
-              empile:     8910238
-            jouecoup:     5406234
-        orig_rbechec:      406895
-        orig_rnechec:      629992
+              empile:     3687236
+            jouecoup:      770631
+        orig_rbechec:      405010
+        orig_rnechec:      529839
 Loesung beendet. 
 
 
@@ -644,9 +644,9 @@ Loesung beendet.
     Aber
       1...Sb1*c3 !
 
-              empile:        9953
-            jouecoup:         853
-        orig_rbechec:         572
+              empile:       10007
+            jouecoup:         854
+        orig_rbechec:         541
         orig_rnechec:         535
 Loesung beendet. 
 
@@ -963,10 +963,10 @@ a)
 
    1.d7-d8=D # !
 
-              empile:          23
-            jouecoup:          26
-        orig_rbechec:          18
-        orig_rnechec:          27
+              empile:          13
+            jouecoup:          16
+        orig_rbechec:           2
+        orig_rnechec:          17
 b) exact-#2
 
    1.d7-d8=T + !
@@ -975,7 +975,7 @@ b) exact-#2
 
               empile:         140
             jouecoup:          84
-        orig_rbechec:          27
+        orig_rbechec:          22
         orig_rnechec:          72
 c) exact-#3
 
@@ -987,7 +987,7 @@ c) exact-#3
 
               empile:        3762
             jouecoup:        1785
-        orig_rbechec:        1051
+        orig_rbechec:         798
         orig_rnechec:        1214
 d) exact-#4
 
@@ -1013,7 +1013,7 @@ d) exact-#4
 
               empile:       41404
             jouecoup:       24664
-        orig_rbechec:       18194
+        orig_rbechec:       16511
         orig_rnechec:        9762
 Loesung beendet. 
 
@@ -1048,10 +1048,10 @@ a)
 
    1.Tg6-e6 # !
 
-              empile:          68
-            jouecoup:          51
-        orig_rbechec:          41
-        orig_rnechec:          52
+              empile:          36
+            jouecoup:          19
+        orig_rbechec:           4
+        orig_rnechec:          20
 b) exact-#2
 
    1.Sd4-f3 + !
@@ -1060,7 +1060,7 @@ b) exact-#2
 
               empile:        1130
             jouecoup:         457
-        orig_rbechec:         215
+        orig_rbechec:         127
         orig_rnechec:         423
 c) exact-#3
 
@@ -1072,7 +1072,7 @@ c) exact-#3
 
               empile:       22234
             jouecoup:        7822
-        orig_rbechec:        5180
+        orig_rbechec:        3588
         orig_rnechec:        5837
 d) exact-#4
 
@@ -1086,7 +1086,7 @@ d) exact-#4
 
               empile:      439910
             jouecoup:      190894
-        orig_rbechec:      140074
+        orig_rbechec:      115192
         orig_rnechec:      100592
 Loesung beendet. 
 
@@ -1120,10 +1120,10 @@ a)
 
    1.d7-d8=D # !
 
-              empile:          36
-            jouecoup:          30
-        orig_rbechec:          19
-        orig_rnechec:          31
+              empile:          24
+            jouecoup:          18
+        orig_rbechec:           3
+        orig_rnechec:          19
 b) exact-#2
 
    1.d7-d8=T + !
@@ -1132,7 +1132,7 @@ b) exact-#2
 
               empile:         730
             jouecoup:         319
-        orig_rbechec:         162
+        orig_rbechec:          88
         orig_rnechec:         304
 c) exact-#3
 
@@ -1146,7 +1146,7 @@ c) exact-#3
 
               empile:        6477
             jouecoup:        3453
-        orig_rbechec:        2153
+        orig_rbechec:        1554
         orig_rnechec:        2361
 d) exact-#4
 
@@ -1166,7 +1166,7 @@ d) exact-#4
 
               empile:       77672
             jouecoup:       42221
-        orig_rbechec:       28871
+        orig_rbechec:       23298
         orig_rnechec:       23473
 Loesung beendet. 
 
@@ -1249,9 +1249,9 @@ Loesung beendet.
                               4...b4-b3
                                   5.Sg5-h3 z
 
-              empile:     5857174
+              empile:     5857202
             jouecoup:     2837587
-        orig_rbechec:     2530695
+        orig_rbechec:     2530425
         orig_rnechec:      292407
 Loesung beendet. 
 
@@ -1538,9 +1538,9 @@ Loesung beendet.
           2.d7*c8=S Drohung:
                   3.Sc8-d6 z
 
-              empile:       10443
+              empile:       10457
             jouecoup:        3751
-        orig_rbechec:        2559
+        orig_rbechec:        2558
         orig_rnechec:        1199
 Loesung beendet. 
 
@@ -1593,10 +1593,10 @@ Loesung beendet.
           2.Kc6-c5
               2...h2*g1=RO +
 
-              empile:       17126
-            jouecoup:       13623
-        orig_rbechec:       12157
-        orig_rnechec:        2650
+              empile:       11189
+            jouecoup:       13670
+        orig_rbechec:       12159
+        orig_rnechec:        2697
 Loesung beendet. 
 
 
@@ -2172,7 +2172,7 @@ Loesung beendet.
 
               empile:         338
             jouecoup:         273
-        orig_rbechec:          85
+        orig_rbechec:          70
         orig_rnechec:         263
 Loesung beendet. 
 
@@ -2727,10 +2727,10 @@ Hilfsreflexmatt - nicht 1.Kc2 wegen 2.Dxa5#
 
   1.Kd1-c1 e3*d2 +   2.Kc1-b1 d2-d1=D # 
 
-              empile:       13745
-            jouecoup:        8241
-        orig_rbechec:        6927
-        orig_rnechec:        3049
+              empile:       17219
+            jouecoup:       11652
+        orig_rbechec:        6989
+        orig_rnechec:        6460
 Loesung beendet. 
 
 
@@ -2906,10 +2906,10 @@ sofortiges forciertes Reflexmatt durch Weiss
 
    1.c7-c8=T #
 
-              empile:          14
-            jouecoup:          17
-        orig_rbechec:           4
-        orig_rnechec:          18
+              empile:           9
+            jouecoup:          12
+        orig_rbechec:           2
+        orig_rnechec:          13
 Loesung beendet. 
 
 

@@ -13,12 +13,14 @@
 #include "pydegent.h"
 #include "pythreat.h"
 #include "pynontrv.h"
+#include "pyquodli.h"
 #include "stipulation/goal_reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/try.h"
@@ -100,6 +102,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = ready_for_attack_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
 
+    case STRootAttackFork:
     case STAttackFork:
       result = attack_fork_has_solution_in_n(si,n,n_min,n_max_unsolvable);
       break;
@@ -142,6 +145,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       break;
 
     case STQuodlibet:
+      result = quodlibet_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
+
     case STOutputPlaintextLineLineWriter:
       switch (slice_has_solution(si))
       {
@@ -345,6 +352,9 @@ stip_length_type attack_solve_in_n(slice_index si,
       break;
 
     case STQuodlibet:
+      result = quodlibet_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STOutputPlaintextLineLineWriter:
       switch (slice_solve(si))
       {
@@ -381,6 +391,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STReadyForAttack:
       result = ready_for_attack_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STRootAttackFork:
+      result = root_attack_fork_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackFork:

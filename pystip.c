@@ -27,6 +27,7 @@
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
+#include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_fork.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/continuation.h"
@@ -63,6 +64,7 @@
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
     ENUMERATOR(STDefenseDealtWith),      /* battle play, half-moves used up */ \
+    ENUMERATOR(STRootAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STAttackFork),      /* battle play, continue with subsequent branch */ \
     ENUMERATOR(STAttackDealtWith),     /* battle play, half-moves used up */ \
     ENUMERATOR(STDefenseFork),     /* battle play, continue with subsequent branch */ \
@@ -229,6 +231,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STReflexDefenderFilter */
   slice_structure_fork,   /* STSelfDefense */
   slice_structure_branch, /* STDefenseDealtWith */
+  slice_structure_fork,   /* STRootAttackFork */
   slice_structure_fork,   /* STAttackFork */
   slice_structure_branch, /* STAttackDealtWith */
   slice_structure_fork,   /* STDefenseFork */
@@ -591,6 +594,7 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors const root_slice_makers[] =
 {
   { STProxy,                       &proxy_make_root                          },
+  { STAttackFork,                  &attack_fork_make_root                    },
   { STAttackMove,                  &attack_move_make_root                    },
   { STLeaf,                        &leaf_make_root                           },
   { STQuodlibet,                   &quodlibet_make_root                      },
@@ -1352,6 +1356,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
 {
   { STDefenseMove,                      &defense_move_reduce_to_postkey_play                        },
   { STReadyForAttack,                   &trash_for_postkey_play                                     },
+  { STRootAttackFork,                   &root_attack_fork_reduce_to_postkey_play                    },
   { STAttackRoot,                       &trash_for_postkey_play                                     },
   { STAttackMovePlayed,                 &trash_for_postkey_play                                     },
   { STAttackMoveShoeHorningDone,        &trash_for_postkey_play                                     },
@@ -1841,7 +1846,9 @@ void stip_make_exact(slice_index si)
 
 static structure_traversers_visitors starter_detectors[] =
 {
+  { STAttackRoot,                     &attack_move_detect_starter   },
   { STAttackMove,                     &attack_move_detect_starter   },
+  { STAttackMoveToGoal,               &attack_move_detect_starter   },
   { STDefenseMove,                    &defense_move_detect_starter  },
   { STHelpMove,                       &help_move_detect_starter     },
   { STHelpMoveToGoal,                 &help_move_detect_starter     },
@@ -1852,7 +1859,6 @@ static structure_traversers_visitors starter_detectors[] =
   { STMoveInverterRootSolvableFilter, &move_inverter_detect_starter },
   { STMoveInverterSolvableFilter,     &move_inverter_detect_starter },
   { STMoveInverterSeriesFilter,       &move_inverter_detect_starter },
-  { STAttackRoot,                     &attack_move_detect_starter   },
   { STHelpShortcut,                   &pipe_detect_starter          },
   { STSeriesShortcut,                 &pipe_detect_starter          },
   { STParryFork,                      &pipe_detect_starter          },
@@ -2103,6 +2109,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
   &stip_traverse_structure_battle_fork,     /* STSelfDefense */
   &stip_traverse_structure_pipe,            /* STDefenseDealtWith */
+  &stip_traverse_structure_battle_fork,     /* STRootAttackFork */
   &stip_traverse_structure_battle_fork,     /* STAttackFork */
   &stip_traverse_structure_pipe,            /* STAttackDealtWith */
   &stip_traverse_structure_battle_fork,     /* STDefenseFork */
@@ -2296,6 +2303,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */
     &stip_traverse_moves_pipe,                  /* STDefenseDealtWith */
+    &stip_traverse_moves_root_attack_fork,      /* STRootAttackFork */
     &stip_traverse_moves_attack_fork,           /* STAttackFork */
     &stip_traverse_moves_pipe,                  /* STAttackDealtWith */
     &stip_traverse_moves_defense_fork,          /* STDefenseFork */

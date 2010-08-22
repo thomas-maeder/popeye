@@ -55,8 +55,8 @@
 
               empile:       13090
             jouecoup:        7995
-        orig_rbechec:        5878
-        orig_rnechec:        3438
+        orig_rbechec:        5099
+        orig_rnechec:        3427
 Loesung beendet. 
 
 
@@ -142,7 +142,7 @@ Loesung beendet.
               empile:      113444
             jouecoup:       30634
         orig_rbechec:       24940
-        orig_rnechec:        5759
+        orig_rnechec:        5754
 Loesung beendet. 
 
 
@@ -186,7 +186,7 @@ Loesung beendet.
               empile:       17040
             jouecoup:        5590
         orig_rbechec:        2956
-        orig_rnechec:        2578
+        orig_rnechec:        2573
 Loesung beendet. 
 
 
@@ -227,10 +227,10 @@ Loesung beendet.
                               4...Kb1-c1
                                   5.Ta8-a1 #
 
-              empile:     1497070
-            jouecoup:      698697
-        orig_rbechec:      575440
-        orig_rnechec:      196309
+              empile:     1497008
+            jouecoup:      698631
+        orig_rbechec:      539300
+        orig_rnechec:      196284
 Loesung beendet. 
 
 
@@ -296,10 +296,10 @@ Loesung beendet.
                               4...Kg8-f8
                                   5.Th1-h8 #
 
-              empile:     1288097
-            jouecoup:      586315
-        orig_rbechec:      485087
-        orig_rnechec:      143981
+              empile:     1288075
+            jouecoup:      586291
+        orig_rbechec:      463280
+        orig_rnechec:      143962
 Loesung beendet. 
 
 
@@ -441,9 +441,9 @@ Loesung beendet.
       1...Ld7-g4
           2.Lb1-f5 #
 
-              empile:         450
-            jouecoup:         157
-        orig_rbechec:          98
+              empile:         464
+            jouecoup:         164
+        orig_rbechec:          22
         orig_rnechec:         159
 Loesung beendet. 
 
@@ -636,8 +636,8 @@ Loesung beendet.
                                       5...Ge6-e2
                                           6.Se3-d1 =
 
-              empile:       45962
-            jouecoup:       19625
+              empile:       45966
+            jouecoup:       19629
         orig_rbechec:           0
         orig_rnechec:       17523
 Loesung beendet. 

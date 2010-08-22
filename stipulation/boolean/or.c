@@ -4,6 +4,7 @@
 #include "pyproc.h"
 #include "pyoutput.h"
 #include "pyintslv.h"
+#include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -119,6 +120,45 @@ has_solution_type quodlibet_has_solution(slice_index si)
   return result;
 }
 
+/* Determine whether there is a solution in n half moves, by trying
+ * n_min, n_min+2 ... n half-moves.
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimal number of half moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type
+quodlibet_has_solution_in_n(slice_index si,
+                            stip_length_type n,
+                            stip_length_type n_min,
+                            stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_min);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  result = attack_has_solution_in_n(op1,n,n_min,n_max_unsolvable);
+  if (result>n)
+    result = attack_has_solution_in_n(op2,n,n_min,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -145,6 +185,42 @@ has_solution_type quodlibet_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves until goal
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found and written, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
+stip_length_type quodlibet_solve_in_n(slice_index si,
+                                      stip_length_type n,
+                                      stip_length_type n_max_unsolvable)
+{
+  stip_length_type result;
+  stip_length_type result1;
+  stip_length_type result2;
+  slice_index const op1 = slices[si].u.binary.op1;
+  slice_index const op2 = slices[si].u.binary.op2;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",n_max_unsolvable);
+  TraceFunctionParamListEnd();
+
+  result1 = attack_solve_in_n(op1,n,n_max_unsolvable);
+  result2 = attack_solve_in_n(op2,n,n_max_unsolvable);
+  result = result1<result2 ? result1 : result2;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

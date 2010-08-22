@@ -143,9 +143,8 @@ typedef struct
  * @param st address of structure representing traversal
  */
 static
-void
-insert_goal_optimisation_guards_ready_for_attack(slice_index si,
-                                                 stip_moves_traversal *st)
+void insert_goal_optimisation_guards_attack_to_goal(slice_index si,
+                                                    stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
 
@@ -155,18 +154,13 @@ insert_goal_optimisation_guards_ready_for_attack(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
+    Goal const goal = slices[si].u.branch.imminent_goal;
 
     stip_traverse_moves_pipe(si,st);
 
-    if (st->remaining<=slack_length_battle+2)
-    {
-      if (state->goal.type!=no_goal)
-        insert_goal_optimisation_attacker_filter(si,state->goal);
-      state->is_optimised[si] = true;
-    }
-
-    state->goal = save_goal;
+    if (goal.type!=no_goal)
+      insert_goal_optimisation_attacker_filter(si,goal);
+    state->is_optimised[si] = true;
   }
 
   TraceFunctionExit(__func__);
@@ -220,18 +214,15 @@ static void insert_goal_optimisation_guards_help_move(slice_index si,
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
-
     stip_traverse_moves_branch_slice(si,st);
 
     if (st->remaining==slack_length_help+1)
     {
-      if (state->goal.type!=no_goal)
-        insert_goal_optimisation_help_filter(si,state->goal);
+      Goal const goal = slices[si].u.branch.imminent_goal;
+      if (goal.type!=no_goal)
+        insert_goal_optimisation_help_filter(si,goal);
       state->is_optimised[si] = true;
     }
-
-    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -254,18 +245,15 @@ static
 
   if (!state->is_optimised[si])
   {
-    Goal const save_goal = state->goal;
-
     stip_traverse_moves_branch_slice(si,st);
 
     if (st->remaining==slack_length_series+1)
     {
-      if (state->goal.type!=no_goal)
-        insert_goal_optimisation_series_filter(si,state->goal);
+      Goal const goal = slices[si].u.branch.imminent_goal;
+      if (goal.type!=no_goal)
+        insert_goal_optimisation_series_filter(si,goal);
       state->is_optimised[si] = true;
     }
-
-    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -295,7 +283,7 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
   { STReadyForDefense,   &insert_goal_optimisation_guards_ready_for_defense },
-  { STReadyForAttack,    &insert_goal_optimisation_guards_ready_for_attack  },
+  { STAttackMoveToGoal,  &insert_goal_optimisation_guards_attack_to_goal    },
   { STGoalReachedTester, &insert_goal_optimisation_guards_goal              },
   { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move         },
   { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move       }

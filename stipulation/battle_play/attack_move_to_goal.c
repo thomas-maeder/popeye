@@ -16,7 +16,7 @@
  * @param goal goal to be reached
  * @return index of allocated slice
  */
-static slice_index alloc_attack_move_to_goal_slice(Goal goal)
+slice_index alloc_attack_move_to_goal_slice(Goal goal)
 {
   slice_index result;
 

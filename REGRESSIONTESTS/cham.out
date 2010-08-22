@@ -160,9 +160,9 @@ Loesung beendet.
     Aber
       1...Kd4*e3 !
 
-              empile:       27661
-            jouecoup:       19132
-        orig_rbechec:        5365
+              empile:       27700
+            jouecoup:       19171
+        orig_rbechec:        1420
         orig_rnechec:       19003
 Loesung beendet. 
 
@@ -251,9 +251,9 @@ Loesung beendet.
       1...ncSf4-e6=ncL
           2.cSd6-f5=cL #
 
-              empile:       10057
-            jouecoup:        5800
-        orig_rbechec:        2727
+              empile:       10089
+            jouecoup:        5839
+        orig_rbechec:         496
         orig_rnechec:        5802
 Loesung beendet. 
 
@@ -304,9 +304,9 @@ Loesung beendet.
       1...ncTe8-h8=ncD
           2.De5-e6 #
 
-              empile:       20883
-            jouecoup:       13026
-        orig_rbechec:        4738
+              empile:       20926
+            jouecoup:       13083
+        orig_rbechec:        1130
         orig_rnechec:       13028
 Loesung beendet. 
 
@@ -348,9 +348,9 @@ Loesung beendet.
       1...La7-b8
           2.cDc7*c5=cS #
 
-              empile:       12251
-            jouecoup:        7616
-        orig_rbechec:        3459
+              empile:       12302
+            jouecoup:        7667
+        orig_rbechec:         607
         orig_rnechec:        7618
 Loesung beendet. 
 
@@ -409,9 +409,9 @@ Loesung beendet.
       1...cSd3-b4=cL
           2.d2-d3 #
 
-              empile:        6837
-            jouecoup:        4561
-        orig_rbechec:        2735
+              empile:        6877
+            jouecoup:        4601
+        orig_rbechec:         423
         orig_rnechec:        4563
 Loesung beendet. 
 
@@ -452,9 +452,9 @@ Loesung beendet.
       1...ncLf8-e7=ncT
           2.Da4-e4 #
 
-              empile:        3519
-            jouecoup:        2170
-        orig_rbechec:        1135
+              empile:        3547
+            jouecoup:        2198
+        orig_rbechec:         230
         orig_rnechec:        2172
 Loesung beendet. 
 
@@ -514,9 +514,9 @@ Loesung beendet.
               2...Kf5-e6
                   3.Se4-g5 #
 
-              empile:      123588
-            jouecoup:       66040
-        orig_rbechec:       47315
+              empile:      123625
+            jouecoup:       66077
+        orig_rbechec:        7176
         orig_rnechec:       64442
 Loesung beendet. 
 
@@ -611,9 +611,9 @@ Loesung beendet.
       1...cLd7*c8=cT [+wcDd1] +
           2.cDd1*f3=cS [+sBf7] #
 
-              empile:        6262
-            jouecoup:        3634
-        orig_rbechec:        1691
+              empile:        6286
+            jouecoup:        3665
+        orig_rbechec:         309
         orig_rnechec:        3636
 Loesung beendet. 
 

@@ -64,10 +64,10 @@ Loesung beendet.
       1...nKg8-f8
           2.nKf8*e8 #
 
-              empile:        2332
-            jouecoup:         996
-        orig_rbechec:         658
-        orig_rnechec:         998
+              empile:        2336
+            jouecoup:        1003
+        orig_rbechec:         356
+        orig_rnechec:         964
 Loesung beendet. 
 
 
@@ -309,9 +309,9 @@ Loesung beendet.
                       3...nLh3-c8
                           4.nBb7*c8=nD #
 
-              empile:      331633
-            jouecoup:      220191
-        orig_rbechec:      128911
+              empile:      331644
+            jouecoup:      220214
+        orig_rbechec:       32843
         orig_rnechec:      210757
 Loesung beendet. 
 
@@ -350,9 +350,9 @@ Loesung beendet.
                       3...nDh2-b8
                           4.nBBa7*a8=nL #
 
-              empile:     2135312
-            jouecoup:     1243572
-        orig_rbechec:      719182
+              empile:     2135327
+            jouecoup:     1243608
+        orig_rbechec:      164043
         orig_rnechec:     1209161
 Loesung beendet. 
 
@@ -391,9 +391,9 @@ Loesung beendet.
                       3...nDh2-b8
                           4.nBd7-d8=nS #
 
-              empile:      584481
-            jouecoup:      355544
-        orig_rbechec:      212928
+              empile:      584493
+            jouecoup:      355568
+        orig_rbechec:       47945
         orig_rnechec:      344108
 Loesung beendet. 
 

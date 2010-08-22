@@ -93,10 +93,10 @@ a)
       1...Sa6-b4
           2.Sc1-e2 #
 
-              empile:        5243
-            jouecoup:        4050
-        orig_rbechec:         456
-        orig_rnechec:        4052
+              empile:        5244
+            jouecoup:        4051
+        orig_rbechec:         296
+        orig_rnechec:        4025
 b) MarsCirce
 
    1.Ka3-b2 ! Drohung:
@@ -113,9 +113,9 @@ b) MarsCirce
       1...c5*b6
           2.Sc1-a2 #
 
-              empile:       12709
-            jouecoup:        3655
-        orig_rbechec:        1335
+              empile:       12765
+            jouecoup:        3678
+        orig_rbechec:         130
         orig_rnechec:        3657
 Loesung beendet. 
 
@@ -451,8 +451,8 @@ Loesung beendet.
               2...Kb1-a2
                   3.f7-f8=L =
 
-              empile:       41503
-            jouecoup:        7613
+              empile:       41510
+            jouecoup:        7625
         orig_rbechec:           0
         orig_rnechec:        7445
 Loesung beendet. 

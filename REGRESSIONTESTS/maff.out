@@ -60,10 +60,10 @@ The Problemist 1998 and Sachova skladba 1997
       1...Sg5-e6
           2.La1-e5 #
 
-              empile:        9901
-            jouecoup:        8217
-        orig_rbechec:         966
-        orig_rnechec:        8229
+              empile:        9906
+            jouecoup:        8222
+        orig_rbechec:         563
+        orig_rnechec:        8198
 Loesung beendet. 
 
 
@@ -120,10 +120,10 @@ Loesung beendet.
       1...Sd8-e6
           2.Te7-d7 #
 
-              empile:       13475
-            jouecoup:       11066
-        orig_rbechec:        1123
-        orig_rnechec:       11069
+              empile:       13482
+            jouecoup:       11073
+        orig_rbechec:         701
+        orig_rnechec:       11032
 Loesung beendet. 
 
 
@@ -266,10 +266,10 @@ Loesung beendet.
       1...Ke4-d3
           2.Dd6*d4 #
 
-              empile:       44501
-            jouecoup:       40841
-        orig_rbechec:        4930
-        orig_rnechec:       40654
+              empile:       44513
+            jouecoup:       40853
+        orig_rbechec:        2774
+        orig_rnechec:       40608
 Loesung beendet. 
 
 
@@ -305,9 +305,9 @@ Loesung beendet.
       1...a7-a6
           2.BBc7-b8=T #
 
-              empile:         141
-            jouecoup:         144
-        orig_rbechec:         111
+              empile:         147
+            jouecoup:         150
+        orig_rbechec:          35
         orig_rnechec:         146
 Loesung beendet. 
 
@@ -556,10 +556,10 @@ Loesung beendet.
       1...Tf7*f6 !
       1...Ke7*f8 + !
 
-              empile:       21675
-            jouecoup:       19188
-        orig_rbechec:        2819
-        orig_rnechec:       18980
+              empile:       21684
+            jouecoup:       19197
+        orig_rbechec:        1657
+        orig_rnechec:       18950
 Loesung beendet. 
 
 

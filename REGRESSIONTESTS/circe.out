@@ -36,9 +36,9 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
       1...kBd2*c1=kL [+wkDd1][skLc1->f8]
           2.kLd3*e2 [+skBe7][wkLe2->f1] #
 
-              empile:       17593
-            jouecoup:       10202
-        orig_rbechec:        3407
+              empile:       17642
+            jouecoup:       10251
+        orig_rbechec:         506
         orig_rnechec:       10204
 Loesung beendet. 
 
@@ -88,9 +88,9 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
       1...kBc2*b1=kL [+wkLf1][skLb1->c8]
           2.kBb7*c8=kS [+skLc8][wkSc8->b1] #
 
-              empile:        6040
-            jouecoup:        5682
-        orig_rbechec:        3230
+              empile:        6067
+            jouecoup:        5721
+        orig_rbechec:         351
         orig_rnechec:        5684
 Loesung beendet. 
 
@@ -186,9 +186,9 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
       1...kDh7*h5 [+wkTh1][skDh5->d8]
           2.kTh1*b1 [+skLc8][wkTb1->h1] #
 
-              empile:       14777
-            jouecoup:        9457
-        orig_rbechec:        6488
+              empile:       14823
+            jouecoup:        9506
+        orig_rbechec:         356
         orig_rnechec:        9413
 Loesung beendet. 
 
@@ -327,10 +327,10 @@ Loesung beendet.
                       3...Kd2-c1
                           4.De2*c2 [+sTa8] #
 
-              empile:      603850
-            jouecoup:      408915
-        orig_rbechec:      296600
-        orig_rnechec:      151145
+              empile:      603833
+            jouecoup:      408894
+        orig_rbechec:      277346
+        orig_rnechec:      151121
 Loesung beendet. 
 
 

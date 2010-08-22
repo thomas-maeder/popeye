@@ -233,12 +233,13 @@ static void insert_maxsolutions_solvable_filter(slice_index si,
 
 static structure_traversers_visitors maxsolutions_filter_inserters[] =
 {
-  { STHelpMove,          &insert_maxsolutions_help_filter          },
-  { STHelpMoveToGoal,    &insert_maxsolutions_help_filter          },
-  { STSeriesMove,        &insert_maxsolutions_series_filter        },
-  { STSeriesMoveToGoal,  &insert_maxsolutions_series_filter        },
-  { STLeaf,              &insert_maxsolutions_solvable_filter      },
-  { STAttackRoot,        &insert_maxsolutions_root_defender_filter }
+  { STHelpMove,         &insert_maxsolutions_help_filter          },
+  { STHelpMoveToGoal,   &insert_maxsolutions_help_filter          },
+  { STSeriesMove,       &insert_maxsolutions_series_filter        },
+  { STSeriesMoveToGoal, &insert_maxsolutions_series_filter        },
+  { STLeaf,             &insert_maxsolutions_solvable_filter      },
+  { STAttackRoot,       &insert_maxsolutions_root_defender_filter },
+  { STAttackMoveToGoal, &insert_maxsolutions_root_defender_filter }
 };
 
 enum

@@ -332,9 +332,9 @@ Loesung beendet.
               2...g7-g6
                   3.Tg2*g6 [+sBg7] #
 
-              empile:      115787
-            jouecoup:       78674
-        orig_rbechec:       42143
+              empile:       97648
+            jouecoup:       60535
+        orig_rbechec:       11027
         orig_rnechec:       51665
 Loesung beendet. 
 
@@ -405,9 +405,9 @@ Loesung beendet.
       1...Sd2-b3
           2.Te2*c2 #
 
-              empile:       16238
-            jouecoup:        9673
-        orig_rbechec:        3983
+              empile:       12426
+            jouecoup:        7164
+        orig_rbechec:         329
         orig_rnechec:        6920
 Loesung beendet. 
 
@@ -442,9 +442,9 @@ Loesung beendet.
       1...a3-a2
           2.Lb1-h7 #
 
-              empile:         409
-            jouecoup:         310
-        orig_rbechec:         101
+              empile:         355
+            jouecoup:         286
+        orig_rbechec:          46
         orig_rnechec:         252
 Loesung beendet. 
 

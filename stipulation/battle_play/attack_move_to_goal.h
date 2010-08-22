@@ -9,6 +9,12 @@
  * in STAttackMoveToGoal stipulation slices.
  */
 
+/* Allocate a STAttackMoveToGoal slice.
+ * @param goal goal to be reached
+ * @return index of allocated slice
+ */
+slice_index alloc_attack_move_to_goal_slice(Goal goal);
+
 /* Optimise a STAttackMove slice
  * @param si identifies slice to be optimised
  * @param goal goal that slice si attempts to reach

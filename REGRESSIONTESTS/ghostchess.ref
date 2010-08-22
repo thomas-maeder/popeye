@@ -710,29 +710,29 @@ solution finished.
           2.Sd2-b3
               2...Qc4-f1 #
           2.Qc2-b1[+buRc2]
-              2...uRc2-c1 #
               2...Qc4-e2 #
+              2...uRc2-c1 #
           2.Qc2-h7[+buRc2]
-              2...uRc2-c1 #
               2...Qc4-e2 #
+              2...uRc2-c1 #
           2.Qc2-g6[+buRc2]
-              2...uRc2-c1 #
               2...Qc4-e2 #
+              2...uRc2-c1 #
           2.Qc2-f5[+buRc2]
-              2...uRc2-c1 #
               2...Qc4-e2 #
+              2...uRc2-c1 #
           2.Qc2-a4[+buRc2]
-              2...uRc2-c1 #
               2...Qc4-e2 #
+              2...uRc2-c1 #
           2.Qc2-c1[+buRc2]
+              2...Qc4-e2 #
               2...uRc2*c1 #
-              2...Qc4-e2 #
           2.Qc2-a2[+buRc2]
-              2...uRc2-c1 #
               2...Qc4-e2 #
+              2...uRc2-c1 #
           2.Qc2-b2[+buRc2]
-              2...uRc2-c1 #
               2...Qc4-e2 #
+              2...uRc2-c1 #
           2.Qc2*c4[+buRc2]
               2...uRc2-c1 #
           2.Kd1-e1
@@ -995,10 +995,10 @@ solution finished.
           2.Kc2-b1[+buRc2]
               2...Qg4-d1 #
 
-              empile:      325273
-            jouecoup:      186338
-        orig_rbechec:      167335
-        orig_rnechec:       37313
+              empile:      152547
+            jouecoup:       91949
+        orig_rbechec:       80871
+        orig_rnechec:       24660
 solution finished. 
 
 
@@ -1116,8 +1116,8 @@ solution finished.
 
               empile:       34361
             jouecoup:       23255
-        orig_rbechec:       17528
-        orig_rnechec:       10043
+        orig_rbechec:       14987
+        orig_rnechec:       10031
 solution finished. 
 
 

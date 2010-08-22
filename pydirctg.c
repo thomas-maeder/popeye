@@ -7,6 +7,8 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/battle_play/attack_move_to_goal.h"
+#include "stipulation/battle_play/attack_fork.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -218,15 +220,41 @@ void stip_traverse_moves_direct_defender_filter(slice_index si,
 /* **************** Stipulation instrumentation ***************
  */
 
-/* Insert a STDirectDefenderFilter slice after each STAttackMove slice
- * @param si identifies slice before which to insert a *
- *           STDirectDefenderFilter slice
- * @param st address of structure representing the traversal
- */
+static void insert_move_to_goal(slice_index si, stip_structure_traversal *st)
+{
+  Goal const goal = slices[si].u.goal_reached_tester.goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_append(slices[si].prev,alloc_attack_move_to_goal_slice(goal));
+  pipe_append(slices[si].prev,alloc_branch(STAttackMovePlayed,
+                                           slack_length_battle,
+                                           slack_length_battle-1));
+  pipe_append(slices[si].prev,alloc_branch(STAttackMoveShoeHorningDone,
+                                           slack_length_battle,
+                                           slack_length_battle-1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors move_to_goal_inserters[] =
+{
+  { STGoalReachedTester, &insert_move_to_goal }
+};
+
+enum
+{
+  nr_move_to_goal_inserters = (sizeof move_to_goal_inserters
+                               / sizeof move_to_goal_inserters[0])
+};
+
 static void direct_guards_inserter_attack(slice_index si,
                                           stip_structure_traversal *st)
 {
-  slice_index * const to_goal = st->param;
+  slice_index const * const to_goal = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -235,12 +263,20 @@ static void direct_guards_inserter_attack(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override(&st,
+                                      move_to_goal_inserters,
+                                      nr_move_to_goal_inserters);
+    stip_traverse_structure(*to_goal,&st);
+  }
+
+  {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index const
-        filter = alloc_direct_defender_filter_slice(length,min_length,
-                                                    *to_goal); 
-    pipe_append(si,filter);
+    slice_index const fork = alloc_attack_fork_slice(length,min_length,
+                                                     *to_goal);
+    pipe_append(si,fork);
   }
 
   TraceFunctionExit(__func__);
@@ -249,7 +285,7 @@ static void direct_guards_inserter_attack(slice_index si,
 
 static structure_traversers_visitors direct_guards_inserters[] =
 {
-  { STAttackMoveShoeHorningDone, &direct_guards_inserter_attack  }
+  { STReadyForAttack, &direct_guards_inserter_attack }
 };
 
 enum

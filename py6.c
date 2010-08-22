@@ -2505,82 +2505,8 @@ static void solve_twin(slice_index si,
 typedef struct
 {
     Goal goal;
-    unsigned int nr_goals_found;
     boolean is_optimised[max_nr_slices];
 } final_move_optimisation_state;
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_attack_move(slice_index si,
-                                             stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!state->is_optimised[si])
-  {
-    Goal const save_goal = state->goal;
-    unsigned int const save_nr_goals_found = state->nr_goals_found;
-
-    stip_traverse_moves_branch_slice(si,st);
-
-    if (st->remaining<=slack_length_battle+2)
-    {
-      if (state->nr_goals_found==1)
-      {
-        assert(state->goal.type!=no_goal);
-        optimise_final_attack_move(si,state->goal);
-      }
-
-      state->is_optimised[si] = true;
-    }
-
-    state->nr_goals_found = save_nr_goals_found;
-    state->goal = save_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_attack_root(slice_index si,
-                                             stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_slice(si,st);
-
-  if (slices[si].u.branch.min_length==slack_length_battle+1)
-  {
-    stip_length_type const save_remaining = st->remaining;
-    st->remaining = slack_length_battle+1;
-    stip_traverse_moves_branch_slice(si,st);
-    st->remaining = save_remaining;
-    if (state->nr_goals_found==1)
-    {
-      assert(state->goal.type!=no_goal);
-      slices[si].u.branch.imminent_goal = state->goal;
-      TraceValue("->%u\n",slices[si].u.branch.imminent_goal.type);
-    }
-    state->goal.type = no_goal;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Remember the goal imminent after a defense or attack move
  * @param si identifies root of subtree
@@ -2598,7 +2524,6 @@ static void optimise_final_moves_defense_move(slice_index si,
   if (!state->is_optimised[si])
   {
     Goal const save_goal = state->goal;
-    unsigned int const save_nr_goals_found = state->nr_goals_found;
 
     stip_traverse_moves_branch_slice(si,st);
 
@@ -2610,7 +2535,6 @@ static void optimise_final_moves_defense_move(slice_index si,
       state->is_optimised[si] = true;
     }
 
-    state->nr_goals_found = save_nr_goals_found;
     state->goal = save_goal;
   }
 
@@ -2631,10 +2555,7 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   if (state->goal.type!=slices[si].u.goal_reached_tester.goal.type)
-  {
     state->goal = slices[si].u.goal_reached_tester.goal;
-    ++state->nr_goals_found;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2642,10 +2563,8 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STAttackMove,        &optimise_final_moves_attack_move },
   { STDefenseMove,       &optimise_final_moves_defense_move },
-  { STGoalReachedTester, &optimise_final_moves_goal },
-  { STAttackRoot,        &optimise_final_moves_attack_root }
+  { STGoalReachedTester, &optimise_final_moves_goal         }
 };
 
 enum
@@ -2661,7 +2580,6 @@ static void stip_optimise_final_moves(slice_index si)
 {
   stip_moves_traversal st;
   final_move_optimisation_state state = { { no_goal, initsquare },
-                                          0,
                                           { false } };
 
   TraceFunctionEntry(__func__);

@@ -94,9 +94,9 @@ Loesung beendet.
           2.Dg7*g6 Drohung:
                   3.Dg6-b1 #
 
-              empile:       61033
-            jouecoup:       24190
-        orig_rbechec:       16121
+              empile:       61086
+            jouecoup:       24247
+        orig_rbechec:        7024
         orig_rnechec:       17487
 Loesung beendet. 
 
@@ -172,9 +172,9 @@ a)
                       3...Lg4-e6
                           4.Sc7-e8 #
 
-              empile:      288102
-            jouecoup:      167997
-        orig_rbechec:      112667
+              empile:      288125
+            jouecoup:      168023
+        orig_rbechec:       22138
         orig_rnechec:      160837
 b)  -sBh6
 
@@ -186,9 +186,9 @@ b)  -sBh6
                       3...Lf7-e6
                           4.Sf4-h5 #
 
-              empile:      331989
-            jouecoup:      192800
-        orig_rbechec:      126751
+              empile:      332012
+            jouecoup:      192826
+        orig_rbechec:       24070
         orig_rnechec:      185437
 Loesung beendet. 
 
@@ -328,9 +328,9 @@ Loesung beendet.
                               4...Sd8-b7
                                   5.Th7-h8 #
 
-              empile:    26002538
-            jouecoup:     9786528
-        orig_rbechec:     7320125
+              empile:    26002567
+            jouecoup:     9786558
+        orig_rbechec:     1899821
         orig_rnechec:     8134372
 Loesung beendet. 
 

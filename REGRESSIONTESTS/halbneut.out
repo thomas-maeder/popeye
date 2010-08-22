@@ -62,9 +62,9 @@
       1...hLf2-e3=nhL +
           2.nhLe3-d4=whL #
 
-              empile:        1344
-            jouecoup:        1118
-        orig_rbechec:         607
+              empile:        1351
+            jouecoup:        1125
+        orig_rbechec:         105
         orig_rnechec:        1120
 Loesung beendet. 
 
@@ -104,9 +104,9 @@ Loesung beendet.
       1...hBh2-h1=nhL
           2.nhLh1-g2=whL #
 
-              empile:        2545
-            jouecoup:        1488
-        orig_rbechec:        1184
+              empile:        2573
+            jouecoup:        1516
+        orig_rbechec:         316
         orig_rnechec:        1491
 Loesung beendet. 
 
@@ -254,9 +254,9 @@ Loesung beendet.
       1...hTc5-d5=nhT
           2.nhTd5-d4=whT #
 
-              empile:        5812
-            jouecoup:        3369
-        orig_rbechec:        2171
+              empile:        5843
+            jouecoup:        3400
+        orig_rbechec:         436
         orig_rnechec:        3371
 Loesung beendet. 
 
@@ -300,9 +300,9 @@ Loesung beendet.
       1...Sh8*g6 +
           2.Dg7*g6 #
 
-              empile:       12091
-            jouecoup:        6790
-        orig_rbechec:        3145
+              empile:       12138
+            jouecoup:        6837
+        orig_rbechec:         429
         orig_rnechec:        6792
 Loesung beendet. 
 
@@ -491,9 +491,9 @@ Loesung beendet.
     Aber
       1...Kd5*d6 !
 
-              empile:       97629
-            jouecoup:       66803
-        orig_rbechec:       58735
+              empile:       97666
+            jouecoup:       66843
+        orig_rbechec:        6938
         orig_rnechec:       64892
 Loesung beendet. 
 
@@ -622,9 +622,9 @@ Loesung beendet.
     Aber
       1...hTb1-c1=nhT !
 
-              empile:       12691
-            jouecoup:        9709
-        orig_rbechec:        6094
+              empile:       12725
+            jouecoup:        9743
+        orig_rbechec:         929
         orig_rnechec:        9663
 Loesung beendet. 
 
@@ -798,9 +798,9 @@ Loesung beendet.
     Aber
       1...Kd5*c4 !
 
-              empile:        8392
-            jouecoup:        4975
-        orig_rbechec:        3359
+              empile:        8424
+            jouecoup:        5007
+        orig_rbechec:         820
         orig_rnechec:        4916
 Loesung beendet. 
 

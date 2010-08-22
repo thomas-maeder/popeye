@@ -47,7 +47,7 @@
 
               empile:           4
             jouecoup:          14
-        orig_rbechec:          17
+        orig_rbechec:          14
         orig_rnechec:          15
 solution finished. 
 
@@ -151,10 +151,10 @@ don't get confused with >1 latent pawn
       1...Sf1*e3 [e8=S]
           2.Se8*c7 #
 
-              empile:        7243
-            jouecoup:        5390
-        orig_rbechec:         614
-        orig_rnechec:        5027
+              empile:        7248
+            jouecoup:        5395
+        orig_rbechec:         362
+        orig_rnechec:        4985
 solution finished. 
 
 
@@ -207,10 +207,10 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
       1...Sd6-b7
           2.Qb2-d2 #
 
-              empile:        6569
-            jouecoup:        4449
-        orig_rbechec:        1300
-        orig_rnechec:        4431
+              empile:        6584
+            jouecoup:        4464
+        orig_rbechec:         701
+        orig_rnechec:        4398
 solution finished. 
 
 
@@ -280,10 +280,10 @@ solution finished.
     but
       1...d5*e4 !
 
-              empile:      213575
-            jouecoup:      142912
-        orig_rbechec:       46761
-        orig_rnechec:      110948
+              empile:      213579
+            jouecoup:      142916
+        orig_rbechec:       34631
+        orig_rnechec:      110911
 solution finished. 
 
 
@@ -320,10 +320,10 @@ solution finished.
       1...e2*d1=R [e8=Q]
           2.Qe8-e5 #
 
-              empile:        4805
-            jouecoup:        3340
-        orig_rbechec:         690
-        orig_rnechec:        2887
+              empile:        4811
+            jouecoup:        3346
+        orig_rbechec:         376
+        orig_rnechec:        2841
 solution finished. 
 
 

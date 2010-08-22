@@ -33,9 +33,9 @@ a)
       1...Le6*d5
           2.Sd6-f5 #
 
-              empile:       20326
-            jouecoup:       12616
-        orig_rbechec:        3305
+              empile:       20371
+            jouecoup:       12661
+        orig_rbechec:         504
         orig_rnechec:       12618
 b) TransmutierendeKoenige
 
@@ -46,9 +46,9 @@ b) TransmutierendeKoenige
       1...Le6*d5
           2.Sd6-b5 #
 
-              empile:       14440
-            jouecoup:        7900
-        orig_rbechec:        2881
+              empile:       14485
+            jouecoup:        7945
+        orig_rbechec:         444
         orig_rnechec:        7902
 Loesung beendet. 
 
@@ -292,9 +292,9 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
                           4.b7-b8=H #
                           4.f6-f7 #
 
-              empile:      405005
-            jouecoup:      303911
-        orig_rbechec:      280771
+              empile:      405017
+            jouecoup:      303931
+        orig_rbechec:       98798
         orig_rnechec:      224065
 Loesung beendet. 
 

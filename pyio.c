@@ -90,6 +90,7 @@
 #include "stipulation/leaf.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_move.h"
+#include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
@@ -2250,7 +2251,8 @@ static char *ParsePlay(char *tok,
         pipe_link(guard,slices[proxy_next].u.pipe.next);
         pipe_link(proxy_next,mi);
         pipe_set_successor(proxy,branch);
-        slices[slices[proxy_next].u.pipe.next].starter = White;
+
+        stip_impose_starter(proxy_next,White);
 
         set_output_mode(output_mode_line);
       }
@@ -2293,7 +2295,7 @@ static char *ParsePlay(char *tok,
                                                    help_proxy));
           }
 
-          slices[next].starter = White;
+          stip_impose_starter(proxy_next,White);
         }
 
         set_output_mode(output_mode_line);
@@ -2316,11 +2318,11 @@ static char *ParsePlay(char *tok,
           switch (slices[next].u.goal_reached_tester.goal.type)
           {
             case goal_proof:
-              slices[slices[proxy].u.pipe.next].starter = White;
+              stip_impose_starter(proxy_next,Black);
               break;
 
             default:
-              slices[next].starter = Black;
+              stip_impose_starter(proxy_next,White);
               break;
           }
 
@@ -2341,7 +2343,7 @@ static char *ParsePlay(char *tok,
       {
         result = ParseSerS(tok,proxy,proxy_next);
         if (result!=0)
-          slices[next].starter = White;
+          stip_impose_starter(proxy_next,White);
 
         OptFlag[solvariantes] = true;
 
@@ -2384,7 +2386,8 @@ static char *ParsePlay(char *tok,
 
         result = ParseSerH(tok,proxy,proxy_next);
         slice_insert_reflex_filters_semi(proxy,proxy_avoided);
-        slices[next].starter = White;
+
+        stip_impose_starter(proxy_next,White);
 
         set_output_mode(output_mode_line);
       }
@@ -2411,7 +2414,7 @@ static char *ParsePlay(char *tok,
             pipe_link(proxy,branch);
           else
             pipe_set_successor(proxy,branch);
-          slices[next].starter = Black;
+          stip_impose_starter(proxy_next,White);
 
           set_output_mode(output_mode_line);
         }
@@ -2540,7 +2543,7 @@ static char *ParsePlay(char *tok,
             pipe_set_successor(proxy,help);
         }
 
-        slices[slices[proxy].u.pipe.next].starter = Black;
+        stip_impose_starter(proxy,Black);
 
         set_output_mode(output_mode_line);
       }
@@ -2562,12 +2565,12 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           Side const next_starter = ((length-slack_length_help)%2==0
-                                     ? Black
-                                     : White);
+                                     ? White
+                                     : Black);
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
           pipe_set_successor(proxy,branch);
-          slices[next].starter = next_starter;
+          stip_impose_starter(proxy_next,next_starter);
 
           set_output_mode(output_mode_line);
         }
@@ -2590,12 +2593,12 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           Side const next_starter = ((length-slack_length_help)%2==0
-                                     ? White
-                                     : Black);
+                                     ? Black
+                                     : White);
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
           pipe_set_successor(proxy,branch);
-          slices[next].starter = next_starter;
+          stip_impose_starter(proxy_next,next_starter);
 
           set_output_mode(output_mode_line);
         }
@@ -2638,7 +2641,7 @@ static char *ParsePlay(char *tok,
           else
             pipe_set_successor(proxy,branch);
 
-          slices[next].starter = White;
+          stip_impose_starter(proxy_next,White);
 
           set_output_mode(output_mode_line);
         }
@@ -2700,7 +2703,7 @@ static char *ParsePlay(char *tok,
           else
             pipe_set_successor(proxy,branch);
 
-          slices[next].starter = White;
+          stip_impose_starter(proxy_next,White);
 
           set_output_mode(output_mode_line);
         }
@@ -2718,7 +2721,7 @@ static char *ParsePlay(char *tok,
       if (next!=no_slice)
       {
         result = ParseH(tok,proxy,proxy_next);
-        slices[next].starter = Black;
+        stip_impose_starter(proxy_next,White);
 
         set_output_mode(output_mode_line);
       }
@@ -2739,6 +2742,7 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
+          Goal const goal = slices[avoided_next].u.goal_reached_tester.goal;
           slice_index const aplayed = alloc_branch(STAttackMovePlayed,
                                                    slack_length_battle,
                                                    slack_length_battle-1);
@@ -2746,8 +2750,7 @@ static char *ParsePlay(char *tok,
                                                        slack_length_battle,
                                                        slack_length_battle-1);
           slice_index const
-              avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
-                                                       slack_length_battle);
+              avoided_attack = alloc_attack_move_to_goal_slice(goal);
           slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const branch = alloc_battle_branch(length+1,min_length);
           pipe_link(proxy_avoided,not_attack);
@@ -2758,7 +2761,7 @@ static char *ParsePlay(char *tok,
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
           pipe_set_successor(proxy,branch);
-          slices[avoided_next].starter = White;
+          stip_impose_starter(proxy_avoided,Black);
 
           set_output_mode(output_mode_tree);
         }
@@ -2784,7 +2787,7 @@ static char *ParsePlay(char *tok,
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(branch,proxy_next);
           pipe_set_successor(proxy,branch);
-          slices[next].starter = White;
+          stip_impose_starter(proxy_next,White);
 
           set_output_mode(output_mode_tree);
         }
@@ -2816,8 +2819,7 @@ static char *ParsePlay(char *tok,
                                                        slack_length_battle,
                                                        slack_length_battle-1);
           slice_index const
-              avoided_attack = alloc_attack_move_slice(slack_length_battle+1,
-                                                       slack_length_battle);
+              avoided_attack = alloc_attack_move_to_goal_slice(goal);
           slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const proxy_avoided_attack = alloc_proxy_slice();
 
@@ -2828,8 +2830,7 @@ static char *ParsePlay(char *tok,
                                                        slack_length_battle,
                                                        slack_length_battle-1);
           slice_index const
-              avoided_defense = alloc_attack_move_slice(slack_length_battle+1,
-                                                        slack_length_battle);
+              avoided_defense = alloc_attack_move_to_goal_slice(goal);
           slice_index const not_defense = alloc_not_slice(avoided_defense);
           slice_index const proxy_avoided_defense = alloc_proxy_slice();
 
@@ -2851,7 +2852,7 @@ static char *ParsePlay(char *tok,
                                       proxy_avoided_attack,
                                       proxy_avoided_defense);
           pipe_set_successor(proxy,branch);
-          slices[next].starter = White;
+          stip_impose_starter(proxy_next,Black);
 
           set_output_mode(output_mode_tree);
         }
@@ -2877,7 +2878,7 @@ static char *ParsePlay(char *tok,
           slice_make_direct_goal_branch(proxy_next);
           slice_insert_direct_guards(branch,proxy_next);
           pipe_set_successor(proxy,branch);
-          slices[next].starter = Black;
+          stip_impose_starter(proxy_next,White);
 
           set_output_mode(output_mode_tree);
         }

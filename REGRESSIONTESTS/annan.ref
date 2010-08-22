@@ -65,9 +65,9 @@ cooked, even with suggestion +WPb6 in Chessics #8
           2.Sb4-a3 #
           2.Sb4-d6 #
 
-              empile:        3220
-            jouecoup:        2411
-        orig_rbechec:        1921
+              empile:        3253
+            jouecoup:        2444
+        orig_rbechec:         290
         orig_rnechec:        2418
 solution finished. 
 
@@ -257,9 +257,9 @@ solving interrupted.
       1...Kh7-h8
           2.Kf5-g5 #
 
-              empile:         580
-            jouecoup:         470
-        orig_rbechec:         450
+              empile:         600
+            jouecoup:         490
+        orig_rbechec:          90
         orig_rnechec:         472
 solution finished. 
 

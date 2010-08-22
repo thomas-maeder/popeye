@@ -39,10 +39,10 @@
       1...c3-c2
           2.Tf6-f3 #
 
-              empile:       55487
-            jouecoup:       29027
-        orig_rbechec:       18830
-        orig_rnechec:       20104
+              empile:       35617
+            jouecoup:       19515
+        orig_rbechec:        9745
+        orig_rnechec:       12579
 Loesung beendet. 
 
 
@@ -122,10 +122,10 @@ Loesung beendet.
       1...Tg6-b6
           2.Sa3-c2 #
 
-              empile:      112738
-            jouecoup:       91090
-        orig_rbechec:       64437
-        orig_rnechec:       40036
+              empile:      103283
+            jouecoup:       88123
+        orig_rbechec:       61791
+        orig_rnechec:       32446
 Loesung beendet. 
 
 
@@ -168,10 +168,10 @@ Loesung beendet.
                       3...nTe3-f3
                           4.Lh1*f3 #
 
-              empile:      145034
-            jouecoup:       63938
-        orig_rbechec:       30925
-        orig_rnechec:       64655
+              empile:      134953
+            jouecoup:       59380
+        orig_rbechec:       19200
+        orig_rnechec:       58343
 Loesung beendet. 
 
 
@@ -224,10 +224,10 @@ nebenloesig - eigentlich #6
                       3...Se6*g7 [+wROe6]
                           4.ROe6*c5 [+sBe6] #
 
-              empile:      200549
-            jouecoup:      171617
-        orig_rbechec:      110497
-        orig_rnechec:      113673
+              empile:      143279
+            jouecoup:      124412
+        orig_rbechec:       54589
+        orig_rnechec:       74533
 Loesung beendet. 
 
 

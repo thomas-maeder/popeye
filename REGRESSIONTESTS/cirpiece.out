@@ -39,10 +39,10 @@ a)
       1...Dh8*g8 [+wLf1]
           2.Lf1*d3 #
 
-              empile:       11998
-            jouecoup:        9536
-        orig_rbechec:         818
-        orig_rnechec:        9538
+              empile:       12002
+            jouecoup:        9540
+        orig_rbechec:         492
+        orig_rnechec:        9494
 b) ChamaeleonCirce    S->L->T->D->S
 
    1.Da7-d7 ! Drohung:
@@ -58,10 +58,10 @@ b) ChamaeleonCirce    S->L->T->D->S
       1...Dh8*g8 [+wTh1]
           2.Th1-e1 #
 
-              empile:       12256
-            jouecoup:        9756
-        orig_rbechec:         851
-        orig_rnechec:        9758
+              empile:       12260
+            jouecoup:        9760
+        orig_rbechec:         508
+        orig_rnechec:        9714
 c) CirceClone
 
    1.Da7-d7 ! Drohung:
@@ -77,10 +77,10 @@ c) CirceClone
       1...Dh8*g8 [+wDd1]
           2.Dd1-e1 #
 
-              empile:       11866
-            jouecoup:        9393
-        orig_rbechec:         807
-        orig_rnechec:        9395
+              empile:       11870
+            jouecoup:        9397
+        orig_rbechec:         484
+        orig_rnechec:        9351
 d) ChamaeleonCirce    S->D->T->L->S
 
    1.Da7-d7 ! Drohung:
@@ -96,10 +96,10 @@ d) ChamaeleonCirce    S->D->T->L->S
       1...Dh8*g8 [+wSb1]
           2.Sb1*d2 [+sDd8] #
 
-              empile:       12648
-            jouecoup:       10103
-        orig_rbechec:         869
-        orig_rnechec:       10105
+              empile:       12652
+            jouecoup:       10107
+        orig_rbechec:         520
+        orig_rnechec:       10061
 Loesung beendet. 
 
 
@@ -265,10 +265,10 @@ Loesung beendet.
       1...g4*f3 [+wBf2]
           2.g2-g3 #
 
-              empile:         688
-            jouecoup:         508
-        orig_rbechec:         190
-        orig_rnechec:         510
+              empile:         689
+            jouecoup:         509
+        orig_rbechec:         110
+        orig_rnechec:         489
 Loesung beendet. 
 
 

@@ -58,13 +58,12 @@ castling_attacker_filter_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n_max_unsolvable<=slack_length_battle
-      && (starter==White
-          ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
-          : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle))
-    n_max_unsolvable = slack_length_battle+1;
-
-  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+  if (starter==White
+      ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
+      : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle)
+    result = n+2;
+  else
+    result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -97,13 +96,12 @@ castling_attacker_filter_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (n_max_unsolvable<=slack_length_battle
-      && (starter==White
-          ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
-          : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle))
-    n_max_unsolvable = slack_length_battle+1;
-
-  result = attack_solve_in_n(next,n,n_max_unsolvable);
+  if (starter==White
+      ? TSTFLAGMASK(castling_flag[nbply],wh_castlings)<=ke1_cancastle
+      : TSTFLAGMASK(castling_flag[nbply],bl_castlings)<=ke8_cancastle)
+    result = n+2;
+  else
+    result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

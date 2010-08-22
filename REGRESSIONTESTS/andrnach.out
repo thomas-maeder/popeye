@@ -485,10 +485,10 @@ Loesung beendet.
               2...Le4*f5=wL
                   3.Tb4-e4 #
 
-              empile:      116870
-            jouecoup:       81716
-        orig_rbechec:       44068
-        orig_rnechec:       41194
+              empile:      116871
+            jouecoup:       81717
+        orig_rbechec:       42134
+        orig_rnechec:       41155
 Loesung beendet. 
 
 
@@ -530,9 +530,9 @@ Loesung beendet.
       1...Gb7-g7
           2.Sd6-b7 #
 
-              empile:       10504
-            jouecoup:        7172
-        orig_rbechec:        3124
+              empile:       10542
+            jouecoup:        7218
+        orig_rbechec:         382
         orig_rnechec:        7174
 Loesung beendet. 
 
@@ -579,10 +579,10 @@ Loesung beendet.
       1...Lg1*e3=wL
           2.Le3-d4 #
 
-              empile:       10311
-            jouecoup:        8049
-        orig_rbechec:         667
-        orig_rnechec:        8054
+              empile:       10314
+            jouecoup:        8052
+        orig_rbechec:         412
+        orig_rnechec:        8026
 Loesung beendet. 
 
 
@@ -724,10 +724,10 @@ a)
       1...d6-d5
           2.De6-d6 #
 
-              empile:        1220
-            jouecoup:         634
-        orig_rbechec:         323
-        orig_rnechec:         636
+              empile:        1226
+            jouecoup:         640
+        orig_rbechec:         156
+        orig_rnechec:         610
 b) r#2
 
    1.Lc7-d8 ! Drohung:
@@ -737,10 +737,10 @@ b) r#2
           2.De6*d5=sD
               2...Dd5-h1 #
 
-              empile:       27008
-            jouecoup:       16003
-        orig_rbechec:       12600
-        orig_rnechec:        3765
+              empile:        9116
+            jouecoup:        4390
+        orig_rbechec:        2341
+        orig_rnechec:        2411
 Loesung beendet. 
 
 
@@ -779,10 +779,10 @@ Loesung beendet.
       1...Lg4*e2=wL
           2.Le2-g4 #
 
-              empile:        6422
-            jouecoup:        4791
-        orig_rbechec:         442
-        orig_rnechec:        4793
+              empile:        6424
+            jouecoup:        4793
+        orig_rbechec:         284
+        orig_rnechec:        4764
 Loesung beendet. 
 
 
@@ -825,10 +825,10 @@ Loesung beendet.
               2...Kd5-d6
                   3.Te8-e6 #
 
-              empile:       69316
-            jouecoup:       33207
-        orig_rbechec:       22490
-        orig_rnechec:       19271
+              empile:       69321
+            jouecoup:       33212
+        orig_rbechec:       18138
+        orig_rnechec:       19237
 Loesung beendet. 
 
 

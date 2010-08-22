@@ -33,6 +33,36 @@ slice_index alloc_attack_fork_slice(stip_length_type length,
   return result;
 }
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+  stip_length_type const length = slices[si].u.branch_fork.length;
+  stip_length_type const min_length = slices[si].u.branch_fork.min_length;
+  slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+  slice_index attack_root;
+  slice_index root_to_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure(to_goal,st);
+  root_to_goal = *root;
+
+  stip_traverse_structure_pipe(si,st);
+
+  attack_root = alloc_root_attack_fork_slice(length,min_length,root_to_goal);
+  pipe_link(attack_root,*root);
+  *root = attack_root;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traversal of the moves beyond a series fork slice 
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -83,7 +113,7 @@ attack_fork_has_solution_in_n(slice_index si,
 
   assert(n>slack_length_battle);
 
-  if (n_min==slack_length_battle+1)
+  if (n_max_unsolvable==slack_length_battle)
   {
     result = attack_has_solution_in_n(slices[si].u.branch_fork.towards_goal,
                                       slack_length_battle+1,

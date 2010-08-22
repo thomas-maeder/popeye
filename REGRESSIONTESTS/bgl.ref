@@ -90,9 +90,9 @@ solution finished.
       1...Sg5-e6 (6/0.76)
           2.Rh6-h5 (5/0.76) #
 
-              empile:        2292
-            jouecoup:        1616
-        orig_rbechec:         962
+              empile:        2317
+            jouecoup:        1641
+        orig_rbechec:          82
         orig_rnechec:        1070
 solution finished. 
 
@@ -250,9 +250,9 @@ solution finished.
       1...nSg8-h6 (-/2.21)
           2.nSh6-f7 (-/2.21) #
 
-              empile:        4144
-            jouecoup:        2973
-        orig_rbechec:        2055
+              empile:        4178
+            jouecoup:        3010
+        orig_rbechec:         226
         orig_rnechec:        2733
 solution finished. 
 
@@ -495,9 +495,9 @@ solution finished.
       1...Sg5-e6 (6/1.76)
           2.Qe8-c6 (3.17/1.76) #
 
-              empile:        7922
-            jouecoup:        4773
-        orig_rbechec:        2986
+              empile:        7968
+            jouecoup:        4819
+        orig_rbechec:         453
         orig_rnechec:        4018
 solution finished. 
 
@@ -534,18 +534,18 @@ a)
       1...Ka8*b7 (2/0.59)
           2.Kd7-c7 (1/0.59) #
 
-              empile:         613
-            jouecoup:         514
-        orig_rbechec:         311
+              empile:         635
+            jouecoup:         536
+        orig_rbechec:          46
         orig_rnechec:         345
 b) BGL 8
 
    1.Kd7-c7 (7) ! threat:
           2.Rb5-a5 (6) #
 
-              empile:         726
-            jouecoup:         567
-        orig_rbechec:         482
+              empile:         748
+            jouecoup:         589
+        orig_rbechec:          69
         orig_rnechec:         527
 solution finished. 
 

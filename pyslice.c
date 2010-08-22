@@ -75,6 +75,8 @@ has_solution_type slice_solve(slice_index si)
     case STAttackRoot:
     case STReadyForAttack:
     case STAttackFork:
+    case STAttackMove:
+    case STAttackMoveToGoal:
     case STAttackHashed:
     case STSelfDefense:
     case STSelfCheckGuardAttackerFilter:
@@ -266,6 +268,8 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAttackRoot:
     case STAttackFork:
+    case STAttackMove:
+    case STAttackMoveToGoal:
     case STDefenseDealtWith:
     case STSelfDefense:
     case STKeepMatingGuardAttackerFilter:

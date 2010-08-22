@@ -139,10 +139,10 @@ a)
       1...Sf2-e4
           2.Dg6*e4 #
 
-              empile:        9529
-            jouecoup:        6443
-        orig_rbechec:        1325
-        orig_rnechec:        6445
+              empile:        9538
+            jouecoup:        6452
+        orig_rbechec:         752
+        orig_rnechec:        6400
 b) FileCirce
 
    1.Sb5*a3 [+sBa7] ! Drohung:
@@ -165,10 +165,10 @@ b) FileCirce
       1...Se2-f4
           2.Dg6-e4 #
 
-              empile:       11782
-            jouecoup:        8484
-        orig_rbechec:        1572
-        orig_rnechec:        8487
+              empile:       11791
+            jouecoup:        8493
+        orig_rbechec:         901
+        orig_rnechec:        8442
 Loesung beendet. 
 
 
@@ -324,10 +324,10 @@ Loesung beendet.
       1...Sc8-e7
           2.Kb5-b6 #
 
-              empile:        2660
-            jouecoup:        1334
-        orig_rbechec:        2641
-        orig_rnechec:        2985
+              empile:        2670
+            jouecoup:        1348
+        orig_rbechec:        2094
+        orig_rnechec:        2794
 Loesung beendet. 
 
 
@@ -782,9 +782,9 @@ Loesung beendet.
       1...Lc5-d6
           2.LEg8-c8 #
 
-              empile:       77640
-            jouecoup:       45554
-        orig_rbechec:       14163
+              empile:       77724
+            jouecoup:       45642
+        orig_rbechec:        2280
         orig_rnechec:       45556
 Loesung beendet. 
 
@@ -830,10 +830,10 @@ Loesung beendet.
               2...Tf7*f2 [+wDc7]
                   3.Dc7-h7 #
 
-              empile:       62661
-            jouecoup:       44798
-        orig_rbechec:       24325
-        orig_rnechec:       24170
+              empile:       62664
+            jouecoup:       44801
+        orig_rbechec:       22721
+        orig_rnechec:       24143
 Loesung beendet. 
 
 
@@ -878,10 +878,10 @@ Loesung beendet.
       1...Tc7-e7
           2.Dc6-c4 #
 
-              empile:       14260
-            jouecoup:       11869
-        orig_rbechec:         903
-        orig_rnechec:       11871
+              empile:       14269
+            jouecoup:       11878
+        orig_rbechec:         555
+        orig_rnechec:       11842
 Loesung beendet. 
 
 
@@ -924,10 +924,10 @@ Loesung beendet.
       1...Tb6-b5
           2.Se5-c6 #
 
-              empile:        5420
-            jouecoup:        3625
-        orig_rbechec:         769
-        orig_rnechec:        3627
+              empile:        5425
+            jouecoup:        3630
+        orig_rbechec:         448
+        orig_rnechec:        3577
 Loesung beendet. 
 
 

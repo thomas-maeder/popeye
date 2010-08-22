@@ -115,6 +115,22 @@ stipulation/battle_play/attack_fork.h:
 stipulation/battle_play/defense_play.h:
 
 trace.h:
+stipulation/battle_play/root_attack_fork$(OBJ_SUFFIX):  \
+ stipulation/battle_play/root_attack_fork.c \
+  stipulation/battle_play/root_attack_fork.h pybrafrk.h pypipe.h \
+  stipulation/branch.h stipulation/battle_play/attack_play.h trace.h
+
+stipulation/battle_play/root_attack_fork.h:
+
+pybrafrk.h:
+
+pypipe.h:
+
+stipulation/branch.h:
+
+stipulation/battle_play/attack_play.h:
+
+trace.h:
 stipulation/battle_play/attack_fork$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_fork.c \
   stipulation/battle_play/attack_fork.h pybrafrk.h pypipe.h \
@@ -135,11 +151,13 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
  stipulation/battle_play/attack_play.c \
   stipulation/battle_play/attack_play.h pybrafrk.h pyhash.h pyreflxg.h \
   pykeepmt.h pyselfcg.h pydirctg.h pyselfgd.h pymovenb.h pyflight.h \
-  pydegent.h pythreat.h pynontrv.h stipulation/goal_reached_tester.h \
-  stipulation/battle_play/branch.h stipulation/battle_play/attack_root.h \
+  pydegent.h pythreat.h pynontrv.h pyquodli.h \
+  stipulation/goal_reached_tester.h stipulation/battle_play/branch.h \
+  stipulation/battle_play/attack_root.h \
   stipulation/battle_play/attack_move.h \
   stipulation/battle_play/attack_move_to_goal.h \
   stipulation/battle_play/ready_for_attack.h \
+  stipulation/battle_play/root_attack_fork.h \
   stipulation/battle_play/attack_fork.h stipulation/battle_play/threat.h \
   stipulation/battle_play/try.h stipulation/battle_play/postkeyplay.h \
   stipulation/series_play/play.h \
@@ -183,6 +201,8 @@ pythreat.h:
 
 pynontrv.h:
 
+pyquodli.h:
+
 stipulation/goal_reached_tester.h:
 
 stipulation/battle_play/branch.h:
@@ -194,6 +214,8 @@ stipulation/battle_play/attack_move.h:
 stipulation/battle_play/attack_move_to_goal.h:
 
 stipulation/battle_play/ready_for_attack.h:
+
+stipulation/battle_play/root_attack_fork.h:
 
 stipulation/battle_play/attack_fork.h:
 

@@ -103,7 +103,6 @@ void insert_goal_prerequisite_guard_series_move(slice_index si, Goal goal)
 
 typedef struct
 {
-    Goal goal;
     boolean is_provided[max_nr_slices];
 } prerequisite_guards_insertion_state;
 
@@ -112,8 +111,7 @@ typedef struct
  * @param st address of structure representing traversal
  */
 static
-void
-insert_goal_prerequisite_guards_ready_for_attack(slice_index si,
+void insert_goal_prerequisite_guards_attack_move(slice_index si,
                                                  stip_moves_traversal *st)
 {
   prerequisite_guards_insertion_state * const state = st->param;
@@ -124,15 +122,13 @@ insert_goal_prerequisite_guards_ready_for_attack(slice_index si,
 
   if (!state->is_provided[si])
   {
-    Goal const save_goal = state->goal;
+    Goal const goal = slices[si].u.branch.imminent_goal;
 
     stip_traverse_moves_branch_slice(si,st);
 
-    if (state->goal.type!=no_goal)
-      insert_goal_prerequisite_guard_attacker_filter(si,state->goal);
+    if (goal.type!=no_goal)
+      insert_goal_prerequisite_guard_attacker_filter(si,goal);
     state->is_provided[si] = true;
-
-    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -155,18 +151,15 @@ void insert_goal_prerequisite_guards_help_move(slice_index si,
 
   if (!state->is_provided[si])
   {
-    Goal const save_goal = state->goal;
-
     stip_traverse_moves_branch_slice(si,st);
 
     if (st->remaining==slack_length_help+1)
     {
-      if (state->goal.type!=no_goal)
-        insert_goal_prerequisite_guard_help_move(si,state->goal);
+      Goal const goal = slices[si].u.branch.imminent_goal;
+      if (goal.type!=no_goal)
+        insert_goal_prerequisite_guard_help_move(si,goal);
       state->is_provided[si] = true;
     }
-
-    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -189,39 +182,16 @@ void insert_goal_prerequisite_guards_series_move(slice_index si,
 
   if (!state->is_provided[si])
   {
-    Goal const save_goal = state->goal;
-
     stip_traverse_moves_branch_slice(si,st);
 
     if (st->remaining==slack_length_series+1)
     {
-      if (state->goal.type!=no_goal)
-        insert_goal_prerequisite_guard_series_move(si,state->goal);
+      Goal const goal = slices[si].u.branch.imminent_goal;
+      if (goal.type!=no_goal)
+        insert_goal_prerequisite_guard_series_move(si,goal);
       state->is_provided[si] = true;
     }
-
-    state->goal = save_goal;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert goal prerequisite guards
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void insert_goal_prerequisite_guards_goal(slice_index si,
-                                                 stip_moves_traversal *st)
-{
-  prerequisite_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->goal = slices[si].u.goal_reached_tester.goal;
-  TraceValue("->%u\n",state->goal.type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -232,10 +202,9 @@ static void insert_goal_prerequisite_guards_goal(slice_index si,
  */
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
-  { STReadyForAttack,    &insert_goal_prerequisite_guards_ready_for_attack },
-  { STGoalReachedTester, &insert_goal_prerequisite_guards_goal             },
-  { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move        },
-  { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move      }
+  { STAttackMoveToGoal, &insert_goal_prerequisite_guards_attack_move },
+  { STHelpMoveToGoal,   &insert_goal_prerequisite_guards_help_move   },
+  { STSeriesMoveToGoal, &insert_goal_prerequisite_guards_series_move }
 };
 
 enum
@@ -254,8 +223,7 @@ enum
 void stip_insert_goal_prerequisite_guards(slice_index si)
 {
   stip_moves_traversal st;
-  prerequisite_guards_insertion_state state = { { no_goal, initsquare },
-                                                { false } };
+  prerequisite_guards_insertion_state state = { { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

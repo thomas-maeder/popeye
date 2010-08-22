@@ -227,6 +227,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     {
       case STDirectDefenderFilter:
       case STSelfDefense:
+      case STRootAttackFork:
       case STAttackFork:
       case STDefenseFork:
       case STHelpFork:

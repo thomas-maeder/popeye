@@ -75,9 +75,9 @@
           2.mPb7-b8=mS #
           2.mPb7-b8=mB #
 
-              empile:       22361
-            jouecoup:       13279
-        orig_rbechec:        6196
+              empile:       22413
+            jouecoup:       13334
+        orig_rbechec:        1171
         orig_rnechec:       13289
 solution finished. 
 
@@ -372,9 +372,9 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
     but
       1...Sf6*g8 !
 
-              empile:      107593
-            jouecoup:       66263
-        orig_rbechec:       18173
+              empile:      107651
+            jouecoup:       66327
+        orig_rbechec:        2386
         orig_rnechec:       65767
 solution finished. 
 
@@ -437,9 +437,9 @@ a)
       1...mPg4*f3 [wPc4, bSg6]
           2.mPg7-g8=mR [wSg6] #
 
-              empile:       29280
-            jouecoup:       20184
-        orig_rbechec:        6589
+              empile:       29335
+            jouecoup:       20245
+        orig_rbechec:         754
         orig_rnechec:       20188
 b) wPe6 
 
@@ -470,9 +470,9 @@ b) wPe6
       1...mPg4*f3 [wPc4, bSg6]
           2.mPg7-g8=mQ [wPe6, wSg6] #
 
-              empile:       29883
-            jouecoup:       20524
-        orig_rbechec:        6548
+              empile:       29937
+            jouecoup:       20584
+        orig_rbechec:         771
         orig_rnechec:       20528
 +c) wSg6 
 
@@ -503,9 +503,9 @@ b) wPe6
       1...mPg4*f3 [wPc4, wSg6]
           2.mPg7-g8=mB [wPe6] #
 
-              empile:       30253
-            jouecoup:       20863
-        orig_rbechec:        6769
+              empile:       30309
+            jouecoup:       20925
+        orig_rbechec:         765
         orig_rnechec:       20867
 +d) bPe6 
 
@@ -536,9 +536,9 @@ b) wPe6
       1...mPg4*f3 [wPc4, wSg6]
           2.mPg7-g8=mS [bPe7] #
 
-              empile:       29699
-            jouecoup:       20525
-        orig_rbechec:        6821
+              empile:       29756
+            jouecoup:       20588
+        orig_rbechec:         749
         orig_rnechec:       20529
 solution finished. 
 
@@ -614,9 +614,9 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
     but
       1...Se6-c5=wS !
 
-              empile:       41202
-            jouecoup:       30457
-        orig_rbechec:        6241
+              empile:       41243
+            jouecoup:       30502
+        orig_rbechec:        1390
         orig_rnechec:       30337
 solution finished. 
 

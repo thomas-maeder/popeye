@@ -120,10 +120,10 @@ solution finished.
       1...Qb1-c1 [wBf1, bPc2] +
           2.Qg6-g5 [wQc1, wPd5, wPh5] #
 
-              empile:        5620
-            jouecoup:        4139
-        orig_rbechec:       23222
-        orig_rnechec:       13499
+              empile:        5627
+            jouecoup:        4149
+        orig_rbechec:       22778
+        orig_rnechec:       13642
 solution finished. 
 
 
@@ -240,10 +240,10 @@ solution finished.
     but
       1...Re8*e4 !
 
-              empile:       15817
-            jouecoup:       13737
-        orig_rbechec:      105420
-        orig_rnechec:       42627
+              empile:       15821
+            jouecoup:       13741
+        orig_rbechec:      104923
+        orig_rnechec:       42723
 solution finished. 
 
 
@@ -345,10 +345,10 @@ solution finished.
     but
       1...Kc1*c2 !
 
-              empile:        9055
-            jouecoup:        5642
-        orig_rbechec:       15363
-        orig_rnechec:       28279
+              empile:        9069
+            jouecoup:        5656
+        orig_rbechec:       14258
+        orig_rnechec:       28470
 solution finished. 
 
 
@@ -385,10 +385,10 @@ solution finished.
       1...f7-f6
           2.Qe4-e7 [wPf6] #
 
-              empile:        3685
-            jouecoup:        1271
-        orig_rbechec:        3572
-        orig_rnechec:        4791
+              empile:        3695
+            jouecoup:        1281
+        orig_rbechec:        3238
+        orig_rnechec:        4863
 solution finished. 
 
 
@@ -454,10 +454,10 @@ solution finished.
     but
       1...f6*e5 !
 
-              empile:        9141
-            jouecoup:        6518
-        orig_rbechec:       31336
-        orig_rnechec:       28560
+              empile:        9148
+            jouecoup:        6525
+        orig_rbechec:       30765
+        orig_rnechec:       28766
 solution finished. 
 
 

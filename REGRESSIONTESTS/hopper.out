@@ -235,9 +235,9 @@ Bournemouth PCCC--Tagung Turnierbl"atter, 1989
       1...Lc7-e5
           2.Lf5-e6 #
 
-              empile:       41199
-            jouecoup:       29033
-        orig_rbechec:        5599
+              empile:       41254
+            jouecoup:       29088
+        orig_rbechec:        1141
         orig_rnechec:       29035
 Loesung beendet. 
 
@@ -348,9 +348,9 @@ Loesung beendet.
     Aber
       1...Ge7*c5 !
 
-              empile:       15561
-            jouecoup:       11771
-        orig_rbechec:        4048
+              empile:       15595
+            jouecoup:       11810
+        orig_rbechec:         733
         orig_rnechec:       11643
 Loesung beendet. 
 
@@ -611,9 +611,9 @@ Loesung beendet.
     Aber
       1...VAg6*d3 !
 
-              empile:       33493
-            jouecoup:       22674
-        orig_rbechec:        8139
+              empile:       33538
+            jouecoup:       22719
+        orig_rbechec:        1276
         orig_rnechec:       22527
 Loesung beendet. 
 
@@ -865,9 +865,9 @@ Lob, Andernach-Grashoppers-Tourney 2000
       1...AGh5-c5
           2.d5-d6 #
 
-              empile:         351
-            jouecoup:         307
-        orig_rbechec:         266
+              empile:         361
+            jouecoup:         317
+        orig_rbechec:          69
         orig_rnechec:         305
 Loesung beendet. 
 
@@ -944,10 +944,10 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
           2.MLd3-f7
               2...Te7-e6 #
 
-              empile:       21942
-            jouecoup:       12532
-        orig_rbechec:       18231
-        orig_rnechec:       21073
+              empile:       18351
+            jouecoup:       12534
+        orig_rbechec:       18233
+        orig_rnechec:       15091
 Loesung beendet. 
 
 
