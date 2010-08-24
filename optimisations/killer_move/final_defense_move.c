@@ -147,7 +147,6 @@ static boolean try_last_defenses(slice_index next)
       stip_length_type const
           length_sol = attack_has_solution_in_n(next_next,
                                                 slack_length_battle,
-                                                slack_length_battle,
                                                 slack_length_battle-1);
       if (length_sol>slack_length_battle)
       {

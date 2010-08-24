@@ -76,13 +76,13 @@ void selfcheckguard_defender_filter_reduce_to_postkey_play(slice_index si,
  */
 has_solution_type selfcheck_guard_solve(slice_index si);
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @return true if >=1 solution was found
  */
 boolean selfcheck_guard_attacker_filter_root_solve_in_n(slice_index si);
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we
@@ -154,11 +154,9 @@ void
 selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
                                                    stip_structure_traversal *st);
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -169,7 +167,6 @@ selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
 stip_length_type
 selfcheck_guard_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min,
                                          stip_length_type n_max_unsolvable);
 
 /* Solve in a number of half-moves

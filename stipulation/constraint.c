@@ -156,11 +156,9 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -171,7 +169,6 @@ void stip_traverse_moves_reflex_attack_filter(slice_index si,
 stip_length_type
 reflex_attacker_filter_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min,
                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -181,7 +178,6 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -196,7 +192,7 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
       break;
 
     case has_solution:
-      result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+      result = attack_has_solution_in_n(next,n,n_max_unsolvable);
       break;
 
     default:
@@ -236,7 +232,7 @@ has_solution_type reflex_root_filter_solve(slice_index si)
   return result;
 }
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we

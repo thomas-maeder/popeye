@@ -13,11 +13,9 @@
  */
 slice_index alloc_no_short_variations_slice(void);
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximal number of moves
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -28,10 +26,9 @@ slice_index alloc_no_short_variations_slice(void);
 stip_length_type
 no_short_variations_has_solution_in_n(slice_index si,
                                       stip_length_type n,
-                                      stip_length_type n_min,
                                       stip_length_type n_max_unsolvable);
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we

@@ -72,11 +72,9 @@ void ready_for_attack_reduce_to_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -87,7 +85,6 @@ void ready_for_attack_reduce_to_postkey_play(slice_index si,
 stip_length_type
 ready_for_attack_has_solution_in_n(slice_index si,
                                    stip_length_type n,
-                                   stip_length_type n_min,
                                    stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -95,7 +92,6 @@ ready_for_attack_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -115,10 +111,7 @@ ready_for_attack_has_solution_in_n(slice_index si,
     if (n_max_unsolvable+length-min_length<n-1)
       n_max_unsolvable = n-(length-min_length)-1;
 
-    if (n_min<=n_max_unsolvable)
-      n_min = n_max_unsolvable+1;
-
-    result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
   }
 
   TraceFunctionExit(__func__);
@@ -127,7 +120,7 @@ ready_for_attack_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we

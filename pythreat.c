@@ -105,10 +105,9 @@ static boolean is_threat_too_long(slice_index si, stip_length_type n)
     {
       slice_index const
           to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
-      stip_length_type const n_min = slack_length_battle;
       stip_length_type const
           nr_moves_needed = attack_has_solution_in_n(to_attacker,
-                                                     n_max-1,n_min,
+                                                     n_max-1,
                                                      n_max_unsolvable-1);
       result = nr_moves_needed>n_max;
     }

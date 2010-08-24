@@ -2,6 +2,7 @@
 #include "pybrafrk.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -84,11 +85,9 @@ void stip_traverse_moves_attack_fork(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -99,7 +98,6 @@ void stip_traverse_moves_attack_fork(slice_index si, stip_moves_traversal *st)
 stip_length_type
 attack_fork_has_solution_in_n(slice_index si,
                               stip_length_type n,
-                              stip_length_type n_min,
                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -107,7 +105,6 @@ attack_fork_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -117,16 +114,15 @@ attack_fork_has_solution_in_n(slice_index si,
   {
     result = attack_has_solution_in_n(slices[si].u.branch_fork.towards_goal,
                                       slack_length_battle+1,
-                                      slack_length_battle+1,
                                       slack_length_battle);
     if (result>slack_length_battle+1)
       result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
-                                        n,slack_length_battle+2,
+                                        n,
                                         slack_length_battle+1);
   }
   else
     result = attack_has_solution_in_n(slices[si].u.branch_fork.next,
-                                      n,n_min,
+                                      n,
                                       n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -135,7 +131,7 @@ attack_fork_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we

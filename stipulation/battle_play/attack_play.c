@@ -44,11 +44,9 @@
 
 #include <assert.h>
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -58,7 +56,6 @@
  */
 stip_length_type attack_has_solution_in_n(slice_index si,
                                           stip_length_type n,
-                                          stip_length_type n_min,
                                           stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
@@ -66,7 +63,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -74,58 +70,50 @@ stip_length_type attack_has_solution_in_n(slice_index si,
   switch (slices[si].type)
   {
     case STThreatEnforcer:
-      result = threat_enforcer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = threat_enforcer_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STRefutationsCollector:
-      result = refutations_collector_has_solution_in_n(si,
-                                                       n,n_min,
-                                                       n_max_unsolvable);
+      result = refutations_collector_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STVariationWriter:
-      result = variation_writer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = variation_writer_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STRefutingVariationWriter:
       result = refuting_variation_writer_has_solution_in_n(si,
-                                                           n,n_min,
+                                                           n,
                                                            n_max_unsolvable);
       break;
 
     case STNoShortVariations:
-      result = no_short_variations_has_solution_in_n(si,
-                                                     n,n_min,
-                                                     n_max_unsolvable);
+      result = no_short_variations_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReadyForAttack:
-      result = ready_for_attack_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = ready_for_attack_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STRootAttackFork:
     case STAttackFork:
-      result = attack_fork_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = attack_fork_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackFindShortest:
-      result = attack_find_shortest_has_solution_in_n(si,
-                                                      n,n_min,
-                                                      n_max_unsolvable);
+      result = attack_find_shortest_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackMove:
-      result = attack_move_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = attack_move_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackMoveToGoal:
-      result = attack_move_to_goal_has_solution_in_n(si,
-                                                     n,n_min,
-                                                     n_max_unsolvable);
+      result = attack_move_to_goal_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackHashed:
-      result = attack_hashed_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = attack_hashed_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STSeriesMove:
@@ -146,13 +134,11 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     }
 
     case STSelfDefense:
-      result = self_defense_direct_has_solution_in_n(si,
-                                                     n,n_min,
-                                                     n_max_unsolvable);
+      result = self_defense_direct_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STQuodlibet:
-      result = quodlibet_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = quodlibet_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
 
@@ -179,85 +165,71 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       break;
 
     case STReflexAttackerFilter:
-      result = reflex_attacker_filter_has_solution_in_n(si,
-                                                        n,n_min,
-                                                        n_max_unsolvable);
+      result = reflex_attacker_filter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuardAttackerFilter:
-      result = selfcheck_guard_direct_has_solution_in_n(si,
-                                                        n,n_min,
-                                                        n_max_unsolvable);
+      result = selfcheck_guard_direct_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKeepMatingGuardAttackerFilter:
       result = keepmating_guard_direct_has_solution_in_n(si,
-                                                         n,n_min,
-                                                         n_max_unsolvable);
+                                                         n,n_max_unsolvable);
       break;
 
     case STDegenerateTree:
-      result = degenerate_tree_direct_has_solution_in_n(si,
-                                                        n,n_min,
-                                                        n_max_unsolvable);
+      result = degenerate_tree_direct_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STMaxNrNonTrivialCounter:
       result = max_nr_nontrivial_counter_has_solution_in_n(si,
-                                                           n,n_min,
-                                                           n_max_unsolvable);
+                                                           n,n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeCheckWriterAttackerFilter:
       result = output_plaintext_tree_check_writer_has_solution_in_n(si,
-                                                                      n,n_min,
+                                                                      n,
                                                                       n_max_unsolvable);
       break;
 
     case STRefutationWriter:
-      result = refutation_writer_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      result = refutation_writer_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STDoubleMateAttackerFilter:
       result = doublemate_attacker_filter_has_solution_in_n(si,
-                                                            n,n_min,
+                                                            n,
                                                             n_max_unsolvable);
       break;
 
     case STEnPassantAttackerFilter:
       result = enpassant_attacker_filter_has_solution_in_n(si,
-                                                           n,n_min,
-                                                           n_max_unsolvable);
+                                                           n,n_max_unsolvable);
       break;
 
     case STCastlingAttackerFilter:
       result = castling_attacker_filter_has_solution_in_n(si,
-                                                          n,n_min,
-                                                          n_max_unsolvable);
+                                                          n,n_max_unsolvable);
       break;
 
     case STCounterMateAttackerFilter:
       result = countermate_attacker_filter_has_solution_in_n(si,
-                                                             n,n_min,
+                                                             n,
                                                              n_max_unsolvable);
       break;
 
     case STOutputPlaintextTreeGoalWriter:
       result = output_plaintext_tree_goal_writer_has_solution_in_n(si,
-                                                                   n,n_min,
+                                                                   n,
                                                                    n_max_unsolvable);
       break;
 
     case STGoalReachedTester:
-      result = goal_reached_tester_has_solution_in_n(si,
-                                                     n,n_min,
-                                                     n_max_unsolvable);
+      result = goal_reached_tester_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
-      result = killer_move_collector_has_solution_in_n(si,
-                                                       n,n_min,
-                                                       n_max_unsolvable);
+      result = killer_move_collector_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STLeaf:
@@ -289,13 +261,10 @@ has_solution_type attack_has_solution(slice_index si)
 
   {
     stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const n_min = slices[si].u.branch.min_length;
     stip_length_type const n_max_unsolvable = slack_length_battle-1;
     stip_length_type const
-        sol_length = attack_has_solution_in_n(si,
-                                              length,n_min,
-                                              n_max_unsolvable);
-    if (sol_length<n_min)
+        sol_length = attack_has_solution_in_n(si,length,n_max_unsolvable);
+    if (sol_length<slack_length_battle)
       result = opponent_self_check;
     else if (sol_length<=length)
       result = has_solution;
@@ -309,7 +278,7 @@ has_solution_type attack_has_solution(slice_index si)
   return result;
 }
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n_min minimum number of half-moves of interesting variations
  * @param n_max_unsolvable maximum number of half-moves that we

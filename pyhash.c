@@ -2241,7 +2241,7 @@ static void addtohash_dir_succ(slice_index si, stip_length_type n)
 #endif /*HASHRATE*/
 }
 
-/* Solve a slice, by trying n_min, n_min+2 ... n half-moves.
+/* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
  * @param n_max_unsolvable maximum number of half-moves that we
@@ -2274,7 +2274,6 @@ stip_length_type attack_hashed_solve_in_n(slice_index si,
 static
 stip_length_type delegate_has_solution_in_n(slice_index si,
                                             stip_length_type n,
-                                            stip_length_type n_min,
                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -2283,11 +2282,10 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  result = attack_has_solution_in_n(next,n,n_min,n_max_unsolvable);
+  result = attack_has_solution_in_n(next,n,n_max_unsolvable);
   if (result<=n)
     addtohash_dir_succ(si,result);
   else
@@ -2299,11 +2297,9 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -2314,7 +2310,6 @@ stip_length_type delegate_has_solution_in_n(slice_index si,
 stip_length_type
 attack_hashed_has_solution_in_n(slice_index si,
                                 stip_length_type n,
-                                stip_length_type n_min,
                                 stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
@@ -2324,7 +2319,6 @@ attack_hashed_has_solution_in_n(slice_index si,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
@@ -2335,7 +2329,7 @@ attack_hashed_has_solution_in_n(slice_index si,
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
-    result = delegate_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+    result = delegate_has_solution_in_n(si,n,n_max_unsolvable);
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
@@ -2360,12 +2354,8 @@ attack_hashed_has_solution_in_n(slice_index si,
       else
       {
         if (n_max_unsolvable<n_nosucc)
-        {
           n_max_unsolvable = n_nosucc;
-          if (n_min<=n_nosucc)
-            n_min = n_nosucc+1;
-        }
-        result = delegate_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+        result = delegate_has_solution_in_n(si,n,n_max_unsolvable);
       }
     }
   }

@@ -57,7 +57,18 @@ static slice_index alloc_degenerate_tree_guard_slice(void)
   return result;
 }
 
-
+/* Delegate finding a solution to the next slice, gradually increasing
+ * the number of allowed half-moves
+ * @param si slice index of slice being solved
+ * @param n maximum number of half moves until end state has to be reached
+ * @param n_min minimum number of half-moves to try
+ * @param n_max_unsolvable maximum number of half-moves that we
+ *                         know have no solution
+ * @return length of solution found, i.e.:
+ *            slack_length_battle-2 defense has turned out to be illegal
+ *            <=n length of shortest solution found
+ *            n+2 no solution found
+ */
 static stip_length_type
 delegate_has_solution_in_n(slice_index si,
                            stip_length_type n,
@@ -75,7 +86,7 @@ delegate_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   for (result = n_min+(n-n_min)%2; result<=n; result += 2)
-    if (attack_has_solution_in_n(next,result,n_min,n_max_unsolvable)<=result)
+    if (attack_has_solution_in_n(next,result,n_max_unsolvable)<=result)
       break;
     else
       n_max_unsolvable = result;
@@ -86,11 +97,9 @@ delegate_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -101,16 +110,15 @@ delegate_has_solution_in_n(slice_index si,
 stip_length_type
 degenerate_tree_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min,
                                          stip_length_type n_max_unsolvable)
 {
   stip_length_type result = n+2;
   stip_length_type const parity = n%2;
+  stip_length_type n_min = n_max_unsolvable+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_min);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 

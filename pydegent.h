@@ -27,11 +27,9 @@ void init_degenerate_tree(stip_length_type max_length_short);
  */
 void stip_insert_degenerate_tree_guards(slice_index si);
 
-/* Determine whether there is a solution in n half moves, by trying
- * n_min, n_min+2 ... n half-moves.
+/* Determine whether there is a solution in n half moves.
  * @param si slice index of slice being solved
  * @param n maximum number of half moves until end state has to be reached
- * @param n_min minimal number of half moves to try
  * @param n_max_unsolvable maximum number of half-moves that we
  *                         know have no solution
  * @return length of solution found, i.e.:
@@ -42,7 +40,6 @@ void stip_insert_degenerate_tree_guards(slice_index si);
 stip_length_type
 degenerate_tree_direct_has_solution_in_n(slice_index si,
                                          stip_length_type n,
-                                         stip_length_type n_min,
                                          stip_length_type n_max_unsolvable);
 
 #endif
