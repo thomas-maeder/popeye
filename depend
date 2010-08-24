@@ -486,7 +486,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   pynontrv.h pythreat.h pyreflxg.h pydirctg.h pyselfgd.h pyselfcg.h \
   stipulation/goal_reached_tester.h pypipe.h pyint.h pyoutput.h pytable.h \
   stipulation/proxy.h pypipe.h stipulation/branch.h stipulation/leaf.h \
-  stipulation/battle_play/branch.h stipulation/battle_play/attack_move.h \
+  stipulation/battle_play/branch.h \
+  stipulation/battle_play/attack_find_shortest.h \
+  stipulation/battle_play/attack_move.h \
   stipulation/battle_play/attack_move_to_goal.h \
   stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_play.h \
@@ -591,6 +593,8 @@ stipulation/branch.h:
 stipulation/leaf.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/battle_play/attack_find_shortest.h:
 
 stipulation/battle_play/attack_move.h:
 

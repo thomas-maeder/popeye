@@ -21,6 +21,7 @@
     /* battle play structural slices */                                 \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
+    ENUMERATOR(STAttackFindShortest),                                   \
     ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STDirectDefenderFilter),   /* direct play, just played attack */ \

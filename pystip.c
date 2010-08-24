@@ -56,6 +56,7 @@
   ENUMERATOR(STProxy),                                                  \
     ENUMERATOR(STAttackRoot),      /* root attack level of battle play */ \
     ENUMERATOR(STAttackMove),                                           \
+    ENUMERATOR(STAttackFindShortest),                                   \
     ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STDefenseMove),                                          \
     ENUMERATOR(STDirectDefenderFilter),   /* direct play, just played attack */ \
@@ -223,6 +224,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STProxy */
   slice_structure_branch, /* STAttackRoot */
   slice_structure_branch, /* STAttackMove */
+  slice_structure_branch, /* STAttackFindShortest */
   slice_structure_branch, /* STDefenseRoot */
   slice_structure_branch, /* STDefenseMove */
   slice_structure_fork,   /* STDirectDefenderFilter */
@@ -596,6 +598,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STProxy,                       &proxy_make_root                          },
   { STAttackFork,                  &attack_fork_make_root                    },
   { STAttackMove,                  &attack_move_make_root                    },
+  { STAttackFindShortest,          &stip_traverse_structure_children         },
   { STLeaf,                        &leaf_make_root                           },
   { STQuodlibet,                   &quodlibet_make_root                      },
   { STSelfDefense,                 &stip_traverse_structure_pipe             },
@@ -675,6 +678,7 @@ void battle_branch_post_root_shorten(slice_index si,
 static structure_traversers_visitors post_root_shorteners[] =
 {
   { STAttackMove,                   &battle_branch_post_root_shorten,     },
+  { STAttackFindShortest,           &battle_branch_post_root_shorten,     },
   { STDefenseMove,                  &battle_branch_post_root_shorten,     },
   { STSelfCheckGuardAttackerFilter, &battle_branch_post_root_shorten,     },
   { STSelfCheckGuardDefenderFilter, &battle_branch_post_root_shorten,     },
@@ -1789,6 +1793,7 @@ static void make_exact_series_branch(slice_index branch,
 static structure_traversers_visitors exact_makers[] =
 {
   { STAttackMove,                       &make_exact_battle_branch },
+  { STAttackFindShortest,               &make_exact_battle_branch },
   { STDefenseMove,                      &make_exact_battle_branch },
   { STDefenseDealtWith,                 &make_exact_battle_branch },
   { STAttackDealtWith,                  &make_exact_battle_branch },
@@ -2101,6 +2106,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STProxy */
   &stip_traverse_structure_pipe,            /* STAttackRoot */
   &stip_traverse_structure_pipe,            /* STAttackMove */
+  &stip_traverse_structure_pipe,            /* STAttackFindShortest */
   &stip_traverse_structure_pipe,            /* STDefenseRoot */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
   &stip_traverse_structure_battle_fork,     /* STDirectDefenderFilter */
@@ -2295,6 +2301,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STProxy */
     &stip_traverse_moves_branch_slice,          /* STAttackRoot */
     &stip_traverse_moves_branch_slice,          /* STAttackMove */
+    &stip_traverse_moves_pipe,                  /* STAttackFindShortest */
     &stip_traverse_moves_pipe,                  /* STDefenseRoot */
     &stip_traverse_moves_branch_slice,          /* STDefenseMove */
     &stip_traverse_moves_direct_defender_filter,/* STDirectDefenderFilter */

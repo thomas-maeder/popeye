@@ -89,6 +89,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/leaf.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/defense_move.h"
@@ -2374,10 +2375,14 @@ static char *ParsePlay(char *tok,
         slice_index const
             avoided = alloc_attack_move_slice(slack_length_battle+1,
                                               slack_length_battle);
-        slice_index const not = alloc_not_slice(avoided);
+        slice_index const
+            shortest = alloc_attack_find_shortest_slice(slack_length_battle+1,
+                                                        slack_length_battle);
+        slice_index const not = alloc_not_slice(shortest);
         slice_index const proxy_avoided = alloc_proxy_slice();
 
         pipe_link(proxy_avoided,not);
+        pipe_link(shortest,avoided);
         pipe_link(avoided,played);
         pipe_link(played,shoehorned);
         pipe_link(shoehorned,avoided_tester);
@@ -2676,13 +2681,17 @@ static char *ParsePlay(char *tok,
           slice_index const
               avoided = alloc_attack_move_slice(slack_length_battle+1,
                                                 slack_length_battle+1);
-          slice_index const not = alloc_not_slice(avoided);
+          slice_index const
+              shortest = alloc_attack_find_shortest_slice(slack_length_battle+1,
+                                                          slack_length_battle+1);
+          slice_index const not = alloc_not_slice(shortest);
           slice_index const proxy_avoided = alloc_proxy_slice();
 
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
 
           pipe_link(proxy_avoided,not);
+          pipe_link(shortest,avoided);
           pipe_link(avoided,played);
           pipe_link(played,shoehorned);
           pipe_link(shoehorned,avoided_tester);

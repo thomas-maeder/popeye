@@ -3,6 +3,7 @@
 #include "pyselfcg.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_move.h"
@@ -22,6 +23,7 @@ slice_index alloc_attack_branch(stip_length_type length,
 {
   slice_index result;
   slice_index ready;
+  slice_index shortest;
   slice_index attack;
 
   TraceFunctionEntry(__func__);
@@ -31,9 +33,11 @@ slice_index alloc_attack_branch(stip_length_type length,
 
   result = alloc_selfcheck_guard_attacker_filter(length,min_length);
   ready = alloc_ready_for_attack_slice(length,min_length);
+  shortest = alloc_attack_find_shortest_slice(length,min_length);
   attack = alloc_attack_move_slice(length,min_length);
   pipe_link(result,ready);
-  pipe_link(ready,attack);
+  pipe_link(ready,shortest);
+  pipe_link(shortest,attack);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -120,6 +124,9 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const adealt = alloc_branch(STDefenseDealtWith,
                                             length,min_length);
     slice_index const aready = alloc_ready_for_attack_slice(length,min_length);
+    slice_index const shortest = alloc_attack_find_shortest_slice(length,
+                                                                  min_length);
+
     slice_index const attack = alloc_attack_move_slice(length,min_length);
     slice_index const aplayed = alloc_branch(STAttackMovePlayed,
                                              length-1,min_length-1);
@@ -144,7 +151,8 @@ slice_index alloc_battle_branch(stip_length_type length,
     pipe_link(dchecked,dfiltered);
     pipe_link(dfiltered,adealt);
     pipe_link(adealt,aready);
-    pipe_link(aready,attack);
+    pipe_link(aready,shortest);
+    pipe_link(shortest,attack);
     pipe_link(attack,aplayed);
     pipe_link(aplayed,ashoehorned);
     pipe_link(ashoehorned,guard1);

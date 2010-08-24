@@ -17,6 +17,7 @@
 #include "stipulation/goal_reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_root.h"
+#include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/attack_move.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/ready_for_attack.h"
@@ -105,6 +106,12 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     case STRootAttackFork:
     case STAttackFork:
       result = attack_fork_has_solution_in_n(si,n,n_min,n_max_unsolvable);
+      break;
+
+    case STAttackFindShortest:
+      result = attack_find_shortest_has_solution_in_n(si,
+                                                      n,n_min,
+                                                      n_max_unsolvable);
       break;
 
     case STAttackMove:
@@ -379,6 +386,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STAttackRoot:
       result = attack_root_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STAttackFindShortest:
+      result = attack_find_shortest_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAttackMove:

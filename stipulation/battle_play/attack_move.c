@@ -58,52 +58,6 @@ void attack_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether this slice has a solution in n half moves
- * @param si slice identifier
- * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return true iff the attacking side wins
- */
-static boolean have_we_solution_in_n(slice_index si,
-                                     stip_length_type n,
-                                     stip_length_type n_max_unsolvable)
-{
-  boolean result = false;
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_optimized_by_killer_move;
-  TraceValue("->%u\n",move_generation_mode);
-  genmove(attacker);
-
-  while (encore())
-  {
-    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_can_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
-    {
-      result = true;
-      repcoup();
-      break;
-    }
-    else
-      repcoup();
-  }
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether there is a solution in n half moves, by trying
  * n_min, n_min+2 ... n half-moves.
  * @param si slice index
@@ -122,7 +76,9 @@ attack_move_has_solution_in_n(slice_index si,
                               stip_length_type n_min,
                               stip_length_type n_max_unsolvable)
 {
-  stip_length_type result;
+  stip_length_type result = n+2;
+  Side const attacker = slices[si].starter;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -131,53 +87,21 @@ attack_move_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_battle);
-
-  for (result = n_min+(n-n_min)%2; result<=n; result += 2)
-    if (have_we_solution_in_n(si,result,n_max_unsolvable))
-      break;
-    else
-      n_max_unsolvable = result;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Find long solutions (i.e. solutions where the play goes on in the
- * current branch)
- * @param si slice index
- * @param n maximum number of half moves until goal
- * @param n_max_unsolvable maximum number of half-moves that we
- *                         know have no solution
- * @return true iff >=1 solution in n half-moves was found
- */
-static boolean solve_in_n(slice_index si,
-                          stip_length_type n,
-                          stip_length_type n_max_unsolvable)
-{
-  boolean result = false;
-  Side const attacker = slices[si].starter;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",n_max_unsolvable);
-  TraceFunctionParamListEnd();
-
-  move_generation_mode = move_generation_not_optimized;
+  move_generation_mode = move_generation_optimized_by_killer_move;
   TraceValue("->%u\n",move_generation_mode);
   genmove(attacker);
 
   while (encore())
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && defense_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
-      result = true;
-
-    repcoup();
+        && defense_can_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
+    {
+      result = n;
+      repcoup();
+      break;
+    }
+    else
+      repcoup();
   }
 
   finply();
@@ -202,8 +126,9 @@ stip_length_type attack_move_solve_in_n(slice_index si,
                                         stip_length_type n,
                                         stip_length_type n_max_unsolvable)
 {
-  stip_length_type result;
-  stip_length_type const n_min = n_max_unsolvable+1;
+  stip_length_type result = n+2;
+  Side const attacker = slices[si].starter;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -211,13 +136,20 @@ stip_length_type attack_move_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length_battle);
+  move_generation_mode = move_generation_not_optimized;
+  TraceValue("->%u\n",move_generation_mode);
+  genmove(attacker);
 
-  for (result = n_min+(n-n_min)%2; result<=n; result += 2)
-    if (solve_in_n(si,result,n_max_unsolvable))
-      break;
-    else
-      n_max_unsolvable = result;
+  while (encore())
+  {
+    if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
+        && defense_defend_in_n(next,n-1,n_max_unsolvable-1)<=n-1)
+      result = n;
+
+    repcoup();
+  }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -255,6 +255,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAttackRoot:
       case STDefenseRoot:
       case STDefenseDealtWith:
+      case STAttackFindShortest:
       case STAttackMove:
       case STAttackMoveToGoal:
       case STReadyForAttack:
