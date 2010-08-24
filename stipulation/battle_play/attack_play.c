@@ -389,6 +389,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       break;
 
     case STAttackFindShortest:
+    case STDegenerateTree:
       result = attack_find_shortest_solve_in_n(si,n,n_max_unsolvable);
       break;
 
@@ -442,10 +443,6 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STSelfCheckGuardAttackerFilter:
       result = selfcheck_guard_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STDegenerateTree:
-      result = degenerate_tree_direct_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKeepMatingGuardAttackerFilter:
