@@ -843,8 +843,8 @@ Es fehlt ein weisser oder schwarzer Koenig
     Aber
       1...LLc7*f4-g2 !
 
-              empile:      184275
-            jouecoup:       93945
+              empile:      184376
+            jouecoup:       94022
         orig_rbechec:           0
         orig_rnechec:       93674
 Loesung beendet. 
@@ -950,9 +950,9 @@ Loesung beendet.
  42  (Ld1-e2 )
  43  (Kc1-b1 )
  44  (Kc1-b2 )
-              empile:   134509219
-            jouecoup:    42435730
-        orig_rbechec:    34685813
+              empile:   134509268
+            jouecoup:    42435774
+        orig_rbechec:     4979495
         orig_rnechec:    40895820
 Loesung beendet. 
 
@@ -994,9 +994,9 @@ Loesung beendet.
       1...Ke7-e6
           2.f7-f8=D #
 
-              empile:       22006
-            jouecoup:        8721
-        orig_rbechec:        5117
+              empile:       22061
+            jouecoup:        8774
+        orig_rbechec:        1001
         orig_rnechec:        8723
 Loesung beendet. 
 
@@ -1038,9 +1038,9 @@ Andernach 2006, 3. Platz (Nach-Andernach-Version)
       1...Ke7-e6
           2.f7-f8=D #
 
-              empile:       14778
-            jouecoup:        6271
-        orig_rbechec:        3411
+              empile:       14817
+            jouecoup:        6310
+        orig_rbechec:         685
         orig_rnechec:        6273
 Loesung beendet. 
 
@@ -1095,9 +1095,9 @@ Uri Avner, Hans Peter Rehm, Kjell Widlert
       1...Ke6-d6
           2.Da4*a8-b6 #
 
-              empile:       35121
-            jouecoup:       17026
-        orig_rbechec:        8495
+              empile:       35182
+            jouecoup:       17080
+        orig_rbechec:        1286
         orig_rnechec:       16984
 Loesung beendet. 
 
@@ -1315,9 +1315,9 @@ Andernach 2006, 4. Platz (Nach-Andernach-Version)
       1...Ke6-d6
           2.Dc3*b2-b6 #
 
-              empile:      147413
-            jouecoup:       78785
-        orig_rbechec:       23913
+              empile:      147503
+            jouecoup:       78867
+        orig_rbechec:        4295
         orig_rnechec:       78387
 Loesung beendet. 
 
@@ -1409,9 +1409,9 @@ Volker Guelke, Stephen Rothwell, Peter Schmidt
     Aber
       1...Th5-h2 + !
 
-              empile:       23052
-            jouecoup:       10928
-        orig_rbechec:        5211
+              empile:       23088
+            jouecoup:       10964
+        orig_rbechec:         909
         orig_rnechec:       10784
 Loesung beendet. 
 
@@ -1458,9 +1458,9 @@ Loesung beendet.
       1...c6-c5
           2.Sb7*c5-c4 #
 
-              empile:        5912
-            jouecoup:        3305
-        orig_rbechec:        2621
+              empile:        5954
+            jouecoup:        3343
+        orig_rbechec:         291
         orig_rnechec:        3308
 Loesung beendet. 
 

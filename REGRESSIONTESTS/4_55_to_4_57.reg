@@ -170,7 +170,7 @@ a)
 
               empile:          23
             jouecoup:          21
-        orig_rbechec:           9
+        orig_rbechec:           8
         orig_rnechec:          16
 b) +bRa5 
 
@@ -219,7 +219,7 @@ a)
 
               empile:          68
             jouecoup:          62
-        orig_rbechec:          32
+        orig_rbechec:          23
         orig_rnechec:          45
 b) +wSb4 
 
@@ -231,15 +231,15 @@ b) +wSb4
 
               empile:         104
             jouecoup:          73
-        orig_rbechec:          44
+        orig_rbechec:          34
         orig_rnechec:          47
 +d)  -wSb4
 
    1.Kc8-b7 ##! !
 
-              empile:          68
-            jouecoup:          62
-        orig_rbechec:          32
+              empile:          78
+            jouecoup:          72
+        orig_rbechec:          33
         orig_rnechec:          45
 +e) ser-##!1
 
@@ -540,10 +540,10 @@ don't output reflexmates if variations are not asked for
 
    1.Kb1-a1 !
 
-              empile:          35
-            jouecoup:          22
-        orig_rbechec:          20
-        orig_rnechec:          10
+              empile:          10
+            jouecoup:           9
+        orig_rbechec:           9
+        orig_rnechec:           3
 solution finished. 
 
 

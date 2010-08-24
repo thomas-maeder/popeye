@@ -58,7 +58,7 @@ Seite der latenten Bauern entscheidet welchen umzuwandeln -> f7*e8 w"are Selbsts
 
               empile:          21
             jouecoup:          21
-        orig_rbechec:          29
+        orig_rbechec:           8
         orig_rnechec:          20
 Loesung beendet. 
 
@@ -96,7 +96,7 @@ Loesung beendet.
 
               empile:          15
             jouecoup:          15
-        orig_rbechec:          30
+        orig_rbechec:           9
         orig_rnechec:          16
 Loesung beendet. 
 
@@ -200,7 +200,7 @@ Loesung beendet.
 
               empile:         251
             jouecoup:         169
-        orig_rbechec:         127
+        orig_rbechec:          24
         orig_rnechec:         172
 Loesung beendet. 
 
@@ -254,9 +254,9 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
       1...Sd6-b7
           2.Db2-d2 #
 
-              empile:        9467
-            jouecoup:        6923
-        orig_rbechec:        3304
+              empile:        9515
+            jouecoup:        6975
+        orig_rbechec:         766
         orig_rnechec:        6753
 Loesung beendet. 
 
@@ -327,9 +327,9 @@ Loesung beendet.
     Aber
       1...d5*e4 !
 
-              empile:      330622
-            jouecoup:      235283
-        orig_rbechec:      135157
+              empile:      330663
+            jouecoup:      235328
+        orig_rbechec:       16429
         orig_rnechec:      217122
 Loesung beendet. 
 

@@ -26,7 +26,7 @@
 
               empile:         177
             jouecoup:         182
-        orig_rbechec:         123
+        orig_rbechec:          62
         orig_rnechec:         183
 Loesung beendet. 
 
@@ -57,7 +57,7 @@ Loesung beendet.
 
               empile:           4
             jouecoup:           3
-        orig_rbechec:           2
+        orig_rbechec:           1
         orig_rnechec:           4
 Loesung beendet. 
 
@@ -89,7 +89,7 @@ Loesung beendet.
 
               empile:         409
             jouecoup:         454
-        orig_rbechec:         371
+        orig_rbechec:         123
         orig_rnechec:         455
 Loesung beendet. 
 
@@ -122,7 +122,7 @@ Loesung beendet.
 
               empile:         514
             jouecoup:         511
-        orig_rbechec:         372
+        orig_rbechec:         124
         orig_rnechec:         512
 Loesung beendet. 
 
@@ -154,7 +154,7 @@ Aprilsteine sind schwierig zu decken!
 
               empile:          32
             jouecoup:          25
-        orig_rbechec:          16
+        orig_rbechec:           8
         orig_rnechec:          26
 Loesung beendet. 
 

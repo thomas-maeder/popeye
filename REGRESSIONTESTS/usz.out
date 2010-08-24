@@ -31,7 +31,7 @@ a)
 
               empile:          32
             jouecoup:          31
-        orig_rbechec:          34
+        orig_rbechec:          31
         orig_rnechec:          11
 b) s=1
 
@@ -290,7 +290,7 @@ test case for stalemate in Ultraschachzwang
 
               empile:          21
             jouecoup:          16
-        orig_rbechec:          18
+        orig_rbechec:          16
         orig_rnechec:           0
 Loesung beendet. 
 

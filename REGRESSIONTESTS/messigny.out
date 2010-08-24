@@ -222,10 +222,10 @@ Loesung beendet.
           2.Tf2-f1
               2...Te8<->Tf1 #
 
-              empile:      622929
-            jouecoup:      360620
+              empile:      435601
+            jouecoup:      362060
         orig_rbechec:      330209
-        orig_rnechec:       54693
+        orig_rnechec:       56133
 Loesung beendet. 
 
 
@@ -269,10 +269,10 @@ Loesung beendet.
           2.Lg5-f6
               2...Lb1<->Lf6 #
 
-              empile:       54134
-            jouecoup:       35056
+              empile:       40248
+            jouecoup:       34369
         orig_rbechec:       31465
-        orig_rnechec:        4961
+        orig_rnechec:        4274
 Loesung beendet. 
 
 
@@ -329,9 +329,9 @@ Loesung beendet.
       1...Sh8-f7
           2.g7-g8=S #
 
-              empile:       25908
-            jouecoup:       16732
-        orig_rbechec:        8202
+              empile:       25958
+            jouecoup:       16791
+        orig_rbechec:        1151
         orig_rnechec:       16650
 Loesung beendet. 
 
@@ -381,10 +381,10 @@ Loesung beendet.
           2.Dh1*h2
               2...Df7*g6 #
 
-              empile:     1294068
-            jouecoup:      710873
+              empile:      811770
+            jouecoup:      702796
         orig_rbechec:      637651
-        orig_rnechec:      112950
+        orig_rnechec:      104873
 Loesung beendet. 
 
 
@@ -425,9 +425,9 @@ Loesung beendet.
       1...g2-g1=L
           2.De8-a8 #
 
-              empile:       10307
-            jouecoup:        7013
-        orig_rbechec:        4184
+              empile:       10354
+            jouecoup:        7060
+        orig_rbechec:         472
         orig_rnechec:        7015
 Loesung beendet. 
 
@@ -520,9 +520,9 @@ Loesung beendet.
       1...Bg5<->Bc4
           2.Tb6-b5 #
 
-              empile:       61735
-            jouecoup:       40678
-        orig_rbechec:       16721
+              empile:       61798
+            jouecoup:       40741
+        orig_rbechec:        1968
         orig_rnechec:       40699
 Loesung beendet. 
 
@@ -567,9 +567,9 @@ Loesung beendet.
       1...Kc5-c4
           2.Kh8<->Kc4 #
 
-              empile:       28493
-            jouecoup:       17097
-        orig_rbechec:        7618
+              empile:       28553
+            jouecoup:       17157
+        orig_rbechec:        1454
         orig_rnechec:       17099
 Loesung beendet. 
 
@@ -618,10 +618,10 @@ Loesung beendet.
           2.Lc5-f2
               2...Lb8<->Lf2 #
 
-              empile:      427461
-            jouecoup:      227178
+              empile:      285523
+            jouecoup:      228109
         orig_rbechec:      214626
-        orig_rnechec:       24808
+        orig_rnechec:       25739
 Loesung beendet. 
 
 

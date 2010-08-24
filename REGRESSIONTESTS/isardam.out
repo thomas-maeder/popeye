@@ -77,9 +77,9 @@ Loesung beendet.
       1...Ke4-d3
           2.Da7-d7 #
 
-              empile:       18461
-            jouecoup:       10472
-        orig_rbechec:        1899
+              empile:       18488
+            jouecoup:       10499
+        orig_rbechec:         407
         orig_rnechec:        4704
 Loesung beendet. 
 
@@ -131,9 +131,9 @@ Ausschreibungsoriginal, Kingston 1997
       1...e6-e5
           2.Kc6-d5 #
 
-              empile:        3071
-            jouecoup:        2536
-        orig_rbechec:         538
+              empile:        2933
+            jouecoup:        2398
+        orig_rbechec:         111
         orig_rnechec:        1073
 Loesung beendet. 
 
@@ -264,9 +264,9 @@ Loesung beendet.
       1...e2-e1=T
           2.h7-h8=D #
 
-              empile:        1650
-            jouecoup:        1215
-        orig_rbechec:         360
+              empile:        1634
+            jouecoup:        1202
+        orig_rbechec:          82
         orig_rnechec:         705
 Loesung beendet. 
 
@@ -315,9 +315,9 @@ Loesung beendet.
       1...g2*h1=L
           2.Kh5-g6 #
 
-              empile:        2824
-            jouecoup:        2141
-        orig_rbechec:        1112
+              empile:        2781
+            jouecoup:        2101
+        orig_rbechec:         156
         orig_rnechec:        1459
 Loesung beendet. 
 
@@ -355,9 +355,9 @@ Loesung beendet.
       1...Lc8-g4 +
           2.Ke4-f5 #
 
-              empile:       16409
-            jouecoup:       12037
-        orig_rbechec:        1148
+              empile:       16137
+            jouecoup:       11765
+        orig_rbechec:         323
         orig_rnechec:        5354
 Loesung beendet. 
 
@@ -394,9 +394,9 @@ Loesung beendet.
       1...Kb1-a2
           2.Db3-a3 #
 
-              empile:        5624
-            jouecoup:        4672
-        orig_rbechec:        1595
+              empile:        4738
+            jouecoup:        3786
+        orig_rbechec:         190
         orig_rnechec:        1872
 Loesung beendet. 
 
@@ -447,10 +447,10 @@ Loesung beendet.
           2.Lh7-d3
               2...Td8*d3 #
 
-              empile:      173959
-            jouecoup:      129991
+              empile:      150944
+            jouecoup:      115722
         orig_rbechec:       29927
-        orig_rnechec:       11710
+        orig_rnechec:        8522
 Loesung beendet. 
 
 
@@ -497,9 +497,9 @@ Loesung beendet.
       1...Te8*e5
           2.Sd7-f6 #
 
-              empile:       57652
-            jouecoup:       36926
-        orig_rbechec:        5778
+              empile:       57236
+            jouecoup:       36510
+        orig_rbechec:        1284
         orig_rnechec:       19220
 Loesung beendet. 
 
@@ -539,9 +539,9 @@ Loesung beendet.
       1...Ke5*f6
           2.Dg4-g5 #
 
-              empile:       40975
-            jouecoup:       27348
-        orig_rbechec:        3767
+              empile:       38729
+            jouecoup:       25102
+        orig_rbechec:         705
         orig_rnechec:       11674
 Loesung beendet. 
 
@@ -582,9 +582,9 @@ The Problemist ix/1997 (early version)
       1...Lh8-f6
           2.Se8*f6 #
 
-              empile:       75730
-            jouecoup:       47980
-        orig_rbechec:        7287
+              empile:       74896
+            jouecoup:       47146
+        orig_rbechec:        1041
         orig_rnechec:       19543
 Loesung beendet. 
 
@@ -641,9 +641,9 @@ The Problemist i/1998 (Position Reflected)
       1...Td8-c8
           2.Db7*c8 #
 
-              empile:       12867
-            jouecoup:       12727
-        orig_rbechec:        1943
+              empile:       12800
+            jouecoup:       12660
+        orig_rbechec:         201
         orig_rnechec:        4402
 Loesung beendet. 
 
@@ -682,9 +682,9 @@ Loesung beendet.
       1...Tb5-d5 +
           2.b7-b8=T #
 
-              empile:       17255
-            jouecoup:       14187
-        orig_rbechec:        1449
+              empile:       16972
+            jouecoup:       13910
+        orig_rbechec:         156
         orig_rnechec:        4290
 Loesung beendet. 
 

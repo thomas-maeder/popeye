@@ -30,9 +30,9 @@ a)
       1...Ka8-a7
           2.Qd8-a5 #
 
-              empile:        1151
-            jouecoup:         955
-        orig_rbechec:         946
+              empile:        1158
+            jouecoup:        1041
+        orig_rbechec:         284
         orig_rnechec:         957
 b) =2
 
@@ -42,10 +42,10 @@ b) =2
       1...Ka8-a7
           2.Qe8-c6 =
 
-              empile:        3498
-            jouecoup:        1830
-        orig_rbechec:        1502
-        orig_rnechec:        1681
+              empile:        3508
+            jouecoup:        1919
+        orig_rbechec:         839
+        orig_rnechec:        1684
 solution finished. 
 
 
@@ -923,7 +923,7 @@ a)
 
               empile:         195
             jouecoup:         138
-        orig_rbechec:         132
+        orig_rbechec:          67
         orig_rnechec:         134
 b) AntiSuperCirce  Cheylan
 
@@ -931,7 +931,7 @@ b) AntiSuperCirce  Cheylan
 
               empile:         192
             jouecoup:         134
-        orig_rbechec:         131
+        orig_rbechec:          66
         orig_rnechec:         130
 solution finished. 
 

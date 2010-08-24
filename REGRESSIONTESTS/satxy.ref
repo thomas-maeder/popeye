@@ -77,9 +77,9 @@ solution finished.
                                       5...g2*h1=B +
                                           6.Kg1*h1 ==
 
-              empile:      335637
-            jouecoup:      268996
-        orig_rbechec:      144581
+              empile:      289432
+            jouecoup:      224887
+        orig_rbechec:       75719
         orig_rnechec:      208477
 solution finished. 
 
@@ -116,33 +116,33 @@ a) +wQg1
 
    1.Ke1-f2 # !
 
-              empile:         379
-            jouecoup:         379
-        orig_rbechec:         153
+              empile:         276
+            jouecoup:         276
+        orig_rbechec:          10
         orig_rnechec:         301
 b) +wRd1 
 
    1.Ke1-d2 # !
 
-              empile:         319
-            jouecoup:         314
-        orig_rbechec:         112
+              empile:         250
+            jouecoup:         245
+        orig_rbechec:          17
         orig_rnechec:         261
 c) +wBf1 
 
    1.Ke1-e2 # !
 
-              empile:         240
-            jouecoup:         240
-        orig_rbechec:          84
+              empile:         186
+            jouecoup:         186
+        orig_rbechec:          10
         orig_rnechec:         201
 d) +wSf8 
 
    1.Sf8-h7 # !
 
-              empile:         236
-            jouecoup:         229
-        orig_rbechec:          80
+              empile:         187
+            jouecoup:         180
+        orig_rbechec:          15
         orig_rnechec:         191
 solution finished. 
 

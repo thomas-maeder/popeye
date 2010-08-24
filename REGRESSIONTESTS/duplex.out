@@ -459,7 +459,7 @@ a)
               empile:           3
             jouecoup:           3
         orig_rbechec:           4
-        orig_rnechec:           3
+        orig_rnechec:           2
 b) exact-=2
 
    1.kGa8-d8 !
@@ -469,7 +469,7 @@ b) exact-=2
               empile:           9
             jouecoup:           8
         orig_rbechec:           8
-        orig_rnechec:           7
+        orig_rnechec:           6
 c) exact-=3
 
    1.kGa8-d8 !
@@ -528,10 +528,10 @@ Loesung beendet.
                                                       7...kEQc6-g2
                                                           8.Db1-c2 #
 
-              empile:         856
-            jouecoup:        1015
+              empile:         862
+            jouecoup:        1021
         orig_rbechec:         455
-        orig_rnechec:         628
+        orig_rnechec:         534
 Loesung beendet. 
 
 
