@@ -2067,7 +2067,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
         result = whitetoplay_means_shorten;
       break;
 
-    case STSelfCheckGuardDefenderFilter:
+    case STAttackDealtWith:
     case STContinuationSolver:
     case STDefenseMove:
       result = whitetoplay_means_shorten;

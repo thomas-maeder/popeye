@@ -1391,7 +1391,7 @@ Loesung beendet.
 
               empile:       24117
             jouecoup:       16605
-        orig_rbechec:       22345
+        orig_rbechec:       16596
         orig_rnechec:           0
 Loesung beendet. 
 
@@ -1428,7 +1428,7 @@ Loesung beendet.
 
               empile:      619504
             jouecoup:      156948
-        orig_rbechec:      224829
+        orig_rbechec:      156928
         orig_rnechec:       82838
 Loesung beendet. 
 
@@ -1463,7 +1463,7 @@ Loesung beendet.
 
               empile:      171921
             jouecoup:       65875
-        orig_rbechec:       84909
+        orig_rbechec:       65849
         orig_rnechec:       45823
 Loesung beendet. 
 
@@ -1910,7 +1910,7 @@ Loesung beendet.
 
               empile:       12230
             jouecoup:        9211
-        orig_rbechec:        9155
+        orig_rbechec:        7970
         orig_rnechec:        6284
 Loesung beendet. 
 
@@ -2948,8 +2948,8 @@ a)
 
               empile:    10659609
             jouecoup:     4741407
-        orig_rbechec:     4185106
-        orig_rnechec:     4648427
+        orig_rbechec:     3744667
+        orig_rnechec:     3962090
 b) ser-s#6
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4 [+sDd6]   6.Se4-g3 + Dd6*g3 [+wSd6] # 
@@ -2958,8 +2958,8 @@ b) ser-s#6
 
               empile:     9954228
             jouecoup:     3331262
-        orig_rbechec:     3440171
-        orig_rnechec:     2875704
+        orig_rbechec:     2832821
+        orig_rnechec:     2540066
 Loesung beendet. 
 
 
