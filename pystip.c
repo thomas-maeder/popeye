@@ -8,7 +8,6 @@
 #include "pynot.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
-#include "pydirctg.h"
 #include "pymovein.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
@@ -59,7 +58,6 @@
     ENUMERATOR(STAttackFindShortest),                                   \
     ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STDefenseMove),                                          \
-    ENUMERATOR(STDirectDefenderFilter),   /* direct play, just played attack */ \
     ENUMERATOR(STReflexRootFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
@@ -227,7 +225,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackFindShortest */
   slice_structure_branch, /* STDefenseRoot */
   slice_structure_branch, /* STDefenseMove */
-  slice_structure_fork,   /* STDirectDefenderFilter */
   slice_structure_fork,   /* STReflexRootFilter */
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
@@ -603,7 +600,6 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STQuodlibet,                   &quodlibet_make_root                      },
   { STSelfDefense,                 &stip_traverse_structure_pipe             },
   { STSelfCheckGuardAttackerFilter,&selfcheck_guard_attacker_filter_make_root},
-  { STDirectDefenderFilter,        &direct_defender_filter_make_root         },
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
   { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
@@ -683,7 +679,6 @@ static structure_traversers_visitors post_root_shorteners[] =
   { STSelfCheckGuardAttackerFilter, &battle_branch_post_root_shorten,     },
   { STSelfCheckGuardDefenderFilter, &battle_branch_post_root_shorten,     },
   { STSelfDefense,                  &battle_branch_post_root_shorten,     },
-  { STDirectDefenderFilter,         &battle_branch_post_root_shorten,     },
   { STReflexAttackerFilter,         &battle_branch_post_root_shorten,     },
   { STReflexDefenderFilter,         &battle_branch_post_root_shorten,     },
   { STDefenseMoveShoeHorningDone,   &battle_branch_post_root_shorten_end, },
@@ -753,7 +748,6 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STSelfCheckGuardDefenderFilter, &battle_branch_make_root          },
   { STSelfCheckGuardHelpFilter,     &selfcheck_guard_help_make_root   },
   { STSelfCheckGuardSeriesFilter,   &selfcheck_guard_series_make_root },
-  { STDirectDefenderFilter,         &battle_branch_make_root          },
   { STReflexHelpFilter,             &reflex_help_filter_make_root     },
   { STReflexSeriesFilter,           &reflex_series_filter_make_root   },
   { STReflexAttackerFilter,         &battle_branch_make_root          },
@@ -1193,9 +1187,6 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   slice_index const played = slices[branch].u.pipe.next;
   slice_index const shoehorning = slices[played].u.pipe.next;
   slice_index const tester = slices[shoehorning].u.pipe.next;
-  slice_index const checked = slices[tester].u.pipe.next;
-  slice_index const filtered = slices[checked].u.pipe.next;
-  slice_index const dealt = slices[filtered].u.pipe.next;
   Goal const goal = slices[tester].u.goal_reached_tester.goal;
   slice_index new_tester;
   slice_index new_leaf;
@@ -1208,10 +1199,6 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   assert(slices[played].type==STAttackMovePlayed);
   assert(slices[shoehorning].type==STAttackMoveShoeHorningDone);
   assert(slices[tester].type==STGoalReachedTester);
-  assert(slices[checked].type==STAttackMoveLegalityChecked);
-  assert(slices[filtered].type==STAttackMoveFiltered);
-  assert(slices[dealt].type==STAttackDealtWith);
-  assert(slices[slices[dealt].u.pipe.next].type==STLeaf);
 
   new_leaf = alloc_leaf_slice();
   new_tester = alloc_goal_reached_tester_slice(goal);
@@ -1228,8 +1215,8 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void append_direct_defender_filter(slice_index si,
-                                          stip_structure_traversal *st)
+static void insert_direct_guards(slice_index si,
+                                 stip_structure_traversal *st)
 {
   slice_index const * const proxy_to_goal = st->param;
 
@@ -1238,13 +1225,7 @@ static void append_direct_defender_filter(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_direct_defender_filter_slice(length,min_length,
-                                                      *proxy_to_goal));
-  }
+  slice_insert_direct_guards(si,*proxy_to_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1266,12 +1247,12 @@ static void transform_to_quodlibet_branch_fork(slice_index si,
 
 static structure_traversers_visitors to_quodlibet_transformers[] =
 {
-  { STAttackMoveShoeHorningDone, &append_direct_defender_filter       },
-  { STHelpFork,                  &transform_to_quodlibet_branch_fork  },
-  { STSeriesFork,                &transform_to_quodlibet_branch_fork  },
-  { STNot,                       &stip_structure_visitor_noop         },
-  { STReflexDefenderFilter,      &transform_to_quodlibet_semi_reflex  },
-  { STSelfDefense,               &transform_to_quodlibet_self_defense }
+  { STReadyForAttack,       &insert_direct_guards                },
+  { STHelpFork,             &transform_to_quodlibet_branch_fork  },
+  { STSeriesFork,           &transform_to_quodlibet_branch_fork  },
+  { STNot,                  &stip_structure_visitor_noop         },
+  { STReflexDefenderFilter, &transform_to_quodlibet_semi_reflex  },
+  { STSelfDefense,          &transform_to_quodlibet_self_defense }
 };
 
 enum
@@ -1320,15 +1301,11 @@ boolean transform_to_quodlibet(slice_index si)
 static void trash_for_postkey_play(slice_index si,
                                    stip_structure_traversal *st)
 {
-  slice_index const * const postkey_slice = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-
-  assert(*postkey_slice!=no_slice);
 
   pipe_unlink(slices[si].prev);
   dealloc_slice(si);
@@ -1372,7 +1349,6 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                                     },
   { STDefenseMoveFiltered,              &trash_for_postkey_play                                     },
   { STSelfCheckGuardDefenderFilter,     &selfcheckguard_defender_filter_reduce_to_postkey_play      },
-  { STDirectDefenderFilter,             &direct_defender_filter_reduce_to_postkey_play              },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
   { STReflexDefenderFilter,             &reflex_defender_filter_reduce_to_postkey_play              },
   { STDefenseDealtWith,                 &ready_for_attack_reduce_to_postkey_play                  }
@@ -1807,7 +1783,6 @@ static structure_traversers_visitors exact_makers[] =
   { STDefenseMoveShoeHorningDone,       &make_exact_battle_branch },
   { STDefenseMoveLegalityChecked,       &make_exact_battle_branch },
   { STDefenseMoveFiltered,              &make_exact_battle_branch },
-  { STDirectDefenderFilter,             &make_exact_battle_branch },
   { STReflexHelpFilter,                 &make_exact_help_branch   },
   { STReflexSeriesFilter,               &make_exact_series_branch },
   { STReflexAttackerFilter,             &make_exact_battle_branch },
@@ -2109,7 +2084,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackFindShortest */
   &stip_traverse_structure_pipe,            /* STDefenseRoot */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
-  &stip_traverse_structure_battle_fork,     /* STDirectDefenderFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexRootFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexAttackerFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
@@ -2304,7 +2278,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAttackFindShortest */
     &stip_traverse_moves_pipe,                  /* STDefenseRoot */
     &stip_traverse_moves_branch_slice,          /* STDefenseMove */
-    &stip_traverse_moves_direct_defender_filter,/* STDirectDefenderFilter */
     &stip_traverse_moves_reflex_root_filter,    /* STReflexRootFilter */
     &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */

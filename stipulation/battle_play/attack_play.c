@@ -4,7 +4,6 @@
 #include "pyreflxg.h"
 #include "pykeepmt.h"
 #include "pyselfcg.h"
-#include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyreflxg.h"
 #include "pymovenb.h"

@@ -39,10 +39,10 @@
       1...g3-g2
           2.Lf1*e2 #
 
-              empile:        9474
-            jouecoup:        3936
-        orig_rbechec:        4217
-        orig_rnechec:        3204
+              empile:        9914
+            jouecoup:        4435
+        orig_rbechec:        3836
+        orig_rnechec:        2771
 Loesung beendet. 
 
 
@@ -91,10 +91,10 @@ Loesung beendet.
               2...Dd7*c7 =
               2...Kb8-c8 =
 
-              empile:        6480
-            jouecoup:        3148
-        orig_rbechec:        3197
-        orig_rnechec:        2867
+              empile:        6299
+            jouecoup:        3498
+        orig_rbechec:        2755
+        orig_rnechec:        2585
 Loesung beendet. 
 
 
@@ -138,10 +138,10 @@ Loesung beendet.
       1...e6-e5
           2.Dh6-d2 #
 
-              empile:        8136
-            jouecoup:        4566
-        orig_rbechec:        4120
-        orig_rnechec:        3089
+              empile:        8261
+            jouecoup:        4901
+        orig_rbechec:        3963
+        orig_rnechec:        2644
 Loesung beendet. 
 
 
@@ -248,10 +248,10 @@ Loesung beendet.
       1...e2-e1=L
           2.Lf7-h5 #
 
-              empile:       47191
-            jouecoup:       30888
-        orig_rbechec:       27818
-        orig_rnechec:        9591
+              empile:       44299
+            jouecoup:       29387
+        orig_rbechec:       26250
+        orig_rnechec:        7417
 Loesung beendet. 
 
 
@@ -288,10 +288,10 @@ Loesung beendet.
           2.Le6-g4
               2...Sg6-f4 #
 
-              empile:        6399
-            jouecoup:        2885
-        orig_rbechec:        1452
-        orig_rnechec:        2447
+              empile:        6078
+            jouecoup:        2809
+        orig_rbechec:        1389
+        orig_rnechec:        1639
 Loesung beendet. 
 
 

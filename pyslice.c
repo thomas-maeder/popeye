@@ -18,7 +18,6 @@
 #include "pymovein.h"
 #include "pyhash.h"
 #include "pyreflxg.h"
-#include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyselfcg.h"
 #include "pykeepmt.h"

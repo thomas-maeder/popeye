@@ -644,7 +644,6 @@ static structure_traversers_visitors keepmating_guards_inserters[] =
   { STGoalReachedTester,   &keepmating_guards_inserter_leaf_forced },
   { STReciprocal,          &keepmating_guards_inserter_reciprocal  },
   { STQuodlibet,           &keepmating_guards_inserter_quodlibet   },
-  { STDirectDefenderFilter,&keepmating_guards_inserter_battle_fork },
   { STReflexAttackerFilter,&keepmating_guards_inserter_battle_fork },
   { STReflexDefenderFilter,&keepmating_guards_inserter_battle_fork },
   { STSelfDefense,         &keepmating_guards_inserter_battle_fork },

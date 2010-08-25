@@ -138,7 +138,6 @@ static structure_traversers_visitors output_mode_detectors[] =
   { STQuodlibet,                      &output_mode_binary           },
   { STAttackRoot,                     &output_mode_treemode         },
   { STDefenseRoot,                    &output_mode_treemode         },
-  { STDirectDefenderFilter,           &output_mode_treemode         },
   { STReflexRootFilter,               &stip_traverse_structure_pipe },
   { STReflexHelpFilter,               &stip_traverse_structure_pipe },
   { STReflexSeriesFilter,             &stip_traverse_structure_pipe },

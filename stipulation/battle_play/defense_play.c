@@ -1,5 +1,4 @@
 #include "stipulation/battle_play/defense_play.h"
-#include "pydirctg.h"
 #include "pyflight.h"
 #include "pykeepmt.h"
 #include "pymovenb.h"
@@ -102,10 +101,6 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STReadyForDefense:
       result = ready_for_defense_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STDirectDefenderFilter:
-      result = direct_defender_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STSelfCheckGuardDefenderFilter:
@@ -302,10 +297,6 @@ stip_length_type defense_can_defend_in_n(slice_index si,
 
     case STReadyForDefense:
       result = ready_for_defense_can_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STDirectDefenderFilter:
-      result = direct_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STReflexDefenderFilter:
