@@ -172,9 +172,8 @@ void insert_goal_optimisation_guards_attack_to_goal(slice_index si,
  * @param st address of structure representing traversal
  */
 static
-void
-insert_goal_optimisation_guards_ready_for_defense(slice_index si,
-                                                  stip_moves_traversal *st)
+void insert_goal_optimisation_guards_killer_defense(slice_index si,
+                                                    stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
 
@@ -186,14 +185,75 @@ insert_goal_optimisation_guards_ready_for_defense(slice_index si,
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_children(si,st);
-
-    if (state->goal.type!=no_goal)
-      insert_goal_optimisation_defender_filter(si,state->goal);
-    state->is_optimised[si] = true;
+    TraceValue("%u\n",st->remaining);
+    if (st->remaining==slack_length_battle+1)
+    {
+      stip_traverse_moves_children(slices[si].u.pipe.next,st);
+      if (state->goal.type!=no_goal)
+        insert_goal_optimisation_defender_filter(si,state->goal);
+      state->is_optimised[si] = true;
+    }
+    else
+      stip_traverse_moves_children(slices[si].u.pipe.next,st);
 
     state->goal = save_goal;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with goal optimisation guards.
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void insert_goal_optimisation_guards_defense(slice_index si,
+                                                    stip_moves_traversal *st)
+{
+  optimisation_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    TraceValue("%u\n",st->remaining);
+    if (st->remaining==slack_length_battle+1)
+    {
+      stip_traverse_moves_children(si,st);
+      if (state->goal.type!=no_goal)
+        insert_goal_optimisation_defender_filter(si,state->goal);
+      state->is_optimised[si] = true;
+    }
+    else
+      stip_traverse_moves_children(si,st);
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with goal optimisation guards.
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void insert_goal_optimisation_guards_defense_fork(slice_index si,
+                                                  stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining==slack_length_battle+1)
+    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
+  else
+    stip_traverse_moves(slices[si].u.branch_fork.next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -282,7 +342,9 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
 
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
-  { STReadyForDefense,   &insert_goal_optimisation_guards_ready_for_defense },
+  { STDefenseFork,       &insert_goal_optimisation_guards_defense_fork      },
+  { STKillerMoveFinalDefenseMove, &insert_goal_optimisation_guards_killer_defense  },
+  { STDefenseMove,                &insert_goal_optimisation_guards_defense  },
   { STAttackMoveToGoal,  &insert_goal_optimisation_guards_attack_to_goal    },
   { STGoalReachedTester, &insert_goal_optimisation_guards_goal              },
   { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move         },

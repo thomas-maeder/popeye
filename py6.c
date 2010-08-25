@@ -2731,9 +2731,9 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards(root_slice);
 
-      stip_insert_goal_optimisation_guards(root_slice);
-
       stip_optimise_final_moves(root_slice);
+
+      stip_insert_goal_optimisation_guards(root_slice);
 
       resolve_proxies(&root_slice);
 
