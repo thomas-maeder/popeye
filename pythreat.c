@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/check_detector.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -54,26 +55,6 @@ stip_length_type get_max_threat_length(void)
   return max_len_threat;
 }
 
-/* Determine the maximum number of half moves of the threat
- * @param n number of half moves remaining in the regular stipulation
- * @return maximum number of half moves of the threat
- */
-static stip_length_type get_n_max(stip_length_type n)
-{
-  stip_length_type const result = 2*(max_len_threat-1)+slack_length_battle+2;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  assert(max_len_threat>0);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* **************** Private helpers ***************
  */
 
@@ -83,38 +64,22 @@ static stip_length_type get_n_max(stip_length_type n)
  * @param n maximum number of half moves until goal
  * @return true iff threat is too long
  */
-static boolean is_threat_too_long(slice_index si, stip_length_type n)
+static boolean is_threat_too_long(slice_index si,
+                                  stip_length_type n,
+                                  stip_length_type n_max)
 {
   boolean result;
-  stip_length_type const parity = (n-slack_length_battle)%2;
-  stip_length_type n_max_unsolvable;
+  stip_length_type const n_max_unsolvable = slack_length_battle;
+  slice_index const
+      to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  n_max_unsolvable = slack_length_battle-parity;
-
-  if (max_len_threat==0)
-    result = !echecc(nbply,slices[si].starter);
-  else
-  {
-    stip_length_type const n_max = get_n_max(n);
-    if (n>=n_max)
-    {
-      slice_index const
-          to_attacker = slices[si].u.maxthreatlength_guard.to_attacker;
-      stip_length_type const
-          nr_moves_needed = attack_has_solution_in_n(to_attacker,
-                                                     n_max-1,
-                                                     n_max_unsolvable-1);
-      result = nr_moves_needed>n_max;
-    }
-    else
-      /* remainder of play is too short for max_len_threat to apply */
-      result = false;
-  }
+  result = (n_max
+            <attack_has_solution_in_n(to_attacker,n_max-1,n_max_unsolvable-1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -151,9 +116,6 @@ static slice_index alloc_maxthreatlength_guard(stip_length_type length,
 }
 
 
-/* **************** Implementation of interface DirectDefender **********
- */
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
@@ -180,10 +142,26 @@ maxthreatlength_guard_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (is_threat_too_long(si,n))
+  /* we already know whether the attack move has delivered check, so
+     let's deal with that first */
+  if (attack_gives_check[nbply])
+    result = defense_defend_in_n(next,n,n_max_unsolvable);
+  else if (max_len_threat==0)
     result = n+4;
   else
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+  {
+    stip_length_type const n_max = 2*(max_len_threat-1)+slack_length_battle+2;
+    if (n>=n_max)
+    {
+      if (is_threat_too_long(si,n,n_max))
+        result = n+4;
+      else
+        result = defense_defend_in_n(next,n,n_max_unsolvable);
+    }
+    else
+      /* remainder of play is too short for max_len_threat to apply */
+      result = defense_defend_in_n(next,n,n_max_unsolvable);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -215,10 +193,31 @@ maxthreatlength_guard_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (is_threat_too_long(si,n))
-    result = n+4;
+  /* determine whether the attack move has delivered check is
+     expensive, so let's try to avoid it */
+  if (max_len_threat==0)
+  {
+    if (echecc(nbply,slices[si].starter))
+      result = defense_defend_in_n(next,n,n_max_unsolvable);
+    else
+      result = n+4;
+  }
   else
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  {
+    stip_length_type const n_max = 2*(max_len_threat-1)+slack_length_battle+2;
+    if (n>=n_max)
+    {
+      if (echecc(nbply,slices[si].starter))
+        result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+      else if (is_threat_too_long(si,n,n_max))
+        result = n+4;
+      else
+        result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+    }
+    else
+      /* remainder of play is too short for max_len_threat to apply */
+      result = defense_can_defend_in_n(next,n,n_max_unsolvable);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -243,11 +242,12 @@ static void maxthreatlength_guard_inserter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (max_len_threat==0 || length>=get_n_max(length))
+  if (max_len_threat==0
+      || length>=2*(max_len_threat-1)+slack_length_battle+2)
   {
     boolean * const inserted = st->param;
     slice_index const
-        to_attacker = branch_find_slice(STSelfCheckGuardAttackerFilter,si);
+        to_attacker = branch_find_slice(STDefenseMoveLegalityChecked,si);
     pipe_append(slices[si].prev,
                 alloc_maxthreatlength_guard(length,to_attacker));
     *inserted = true;

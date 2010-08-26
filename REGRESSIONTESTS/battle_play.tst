@@ -100,7 +100,7 @@ solution finished.
               empile:          51
             jouecoup:          48
         orig_rbechec:          10
-        orig_rnechec:          48
+        orig_rnechec:          49
 solution finished. 
 
 
@@ -143,7 +143,7 @@ solution finished.
               empile:          64
             jouecoup:          58
         orig_rbechec:          12
-        orig_rnechec:          58
+        orig_rnechec:          59
 solution finished. 
 
 
@@ -445,7 +445,7 @@ solution finished.
               empile:         473
             jouecoup:         312
         orig_rbechec:         124
-        orig_rnechec:         222
+        orig_rnechec:         223
 solution finished. 
 
 
@@ -538,7 +538,7 @@ solution finished.
               empile:          21
             jouecoup:          21
         orig_rbechec:          22
-        orig_rnechec:           4
+        orig_rnechec:           5
 solution finished. 
 
 
@@ -805,7 +805,7 @@ solution finished.
               empile:         255
             jouecoup:         165
         orig_rbechec:         167
-        orig_rnechec:          66
+        orig_rnechec:          67
 solution finished. 
 
 
@@ -1086,7 +1086,7 @@ solution finished.
               empile:           4
             jouecoup:           4
         orig_rbechec:           5
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1225,7 +1225,7 @@ solution finished.
               empile:          70
             jouecoup:          54
         orig_rbechec:          43
-        orig_rnechec:          18
+        orig_rnechec:          19
 solution finished. 
 
 
@@ -1368,7 +1368,7 @@ solution finished.
               empile:        1712
             jouecoup:        1180
         orig_rbechec:         682
-        orig_rnechec:         619
+        orig_rnechec:         620
 solution finished. 
 
 
@@ -1549,7 +1549,7 @@ solution finished.
               empile:           4
             jouecoup:           4
         orig_rbechec:           5
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -1707,7 +1707,7 @@ solution finished.
               empile:       23086
             jouecoup:       20141
         orig_rbechec:       11314
-        orig_rnechec:       10242
+        orig_rnechec:       10235
 solution finished. 
 
 
