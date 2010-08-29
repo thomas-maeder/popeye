@@ -49,6 +49,7 @@
     ENUMERATOR(STHelpMove),      /* M-N moves of help play */           \
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
+    ENUMERATOR(STReadyForHelpMove),                                     \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     /* series play structural slices */                                 \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \

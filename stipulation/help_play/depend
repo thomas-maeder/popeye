@@ -1,7 +1,8 @@
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
   stipulation/help_play/branch.h pypipe.h pyselfcg.h stipulation/proxy.h \
-  stipulation/help_play/fork.h stipulation/help_play/move.h \
-  stipulation/help_play/move_to_goal.h trace.h
+  stipulation/branch.h stipulation/help_play/fork.h \
+  stipulation/help_play/move.h stipulation/help_play/move_to_goal.h \
+  trace.h
 
 stipulation/help_play/branch.h:
 
@@ -10,6 +11,8 @@ pypipe.h:
 pyselfcg.h:
 
 stipulation/proxy.h:
+
+stipulation/branch.h:
 
 stipulation/help_play/fork.h:
 

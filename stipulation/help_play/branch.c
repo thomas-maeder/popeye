@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "pyselfcg.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/help_play/move.h"
 #include "stipulation/help_play/move_to_goal.h"
@@ -42,12 +43,14 @@ static slice_index shorten_guard(slice_index si)
   {
     stip_length_type const length = slices[si].u.branch.length;
     slice_index const proxy = slices[si].u.pipe.next;
-    slice_index const move = slices[proxy].u.pipe.next;
+    slice_index const ready = slices[proxy].u.pipe.next;
+    slice_index const move = slices[ready].u.pipe.next;
     slice_index const guard = slices[move].u.pipe.next;
     slice_index const fork = slices[guard].u.pipe.next;
 
     assert(slices[si].type==STSelfCheckGuardHelpFilter);
     assert(slices[proxy].type==STProxy);
+    assert(slices[ready].type==STReadyForHelpMove);
     assert(slices[move].type==STHelpMove);
     assert(slices[guard].type==STSelfCheckGuardHelpFilter);
     assert(slices[fork].type==STHelpFork);
@@ -90,12 +93,14 @@ static slice_index shorten_fork(slice_index si)
 
   {
     slice_index const proxy1 = slices[si].u.pipe.next;
-    slice_index const move1 = slices[proxy1].u.pipe.next;
+    slice_index const ready1 = slices[proxy1].u.pipe.next;
+    slice_index const move1 = slices[ready1].u.pipe.next;
     slice_index const proxy2 = slices[move1].u.pipe.next;
     slice_index const guard = slices[proxy2].u.pipe.next;
 
     assert(slices[si].type==STHelpFork);
     assert(slices[proxy1].type==STProxy);
+    assert(slices[ready1].type==STReadyForHelpMove);
     assert(slices[move1].type==STHelpMove);
     assert(slices[proxy2].type==STProxy);
     assert(slices[guard].type==STSelfCheckGuardHelpFilter);
@@ -134,11 +139,15 @@ static slice_index alloc_help_branch_even(stip_length_type length,
     slice_index const
         guard1 = alloc_selfcheck_guard_help_filter(length,min_length);
     slice_index const proxy1 = alloc_proxy_slice();
+    slice_index const ready1 = alloc_branch(STReadyForHelpMove,
+                                            length,min_length);
     slice_index const move1 = alloc_help_move_slice(length,min_length);
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const
         guard2 = alloc_selfcheck_guard_help_filter(length+1,min_length+1);
     slice_index const proxy3 = alloc_proxy_slice();
+    slice_index const ready2 = alloc_branch(STReadyForHelpMove,
+                                            length+1,min_length+1);
     slice_index const move2 = alloc_help_move_slice(length+1,min_length+1);
 
     help_branch_shorten_slice(guard2);
@@ -148,11 +157,13 @@ static slice_index alloc_help_branch_even(stip_length_type length,
     result = alloc_help_fork_slice(length,min_length,proxy_to_goal);
 
     pipe_link(result,proxy1);
-    pipe_link(proxy1,move1);
+    pipe_link(proxy1,ready1);
+    pipe_link(ready1,move1);
     pipe_link(move1,proxy2);
     pipe_link(proxy2,guard2);
     pipe_link(guard2,proxy3);
-    pipe_link(proxy3,move2);
+    pipe_link(proxy3,ready2);
+    pipe_link(ready2,move2);
     pipe_link(move2,guard1);
     pipe_link(guard1,result);
   }
@@ -217,8 +228,13 @@ slice_index alloc_help_branch(stip_length_type length,
   if (slices[to_next].type==STGoalReachedTester)
   {
     /* last move is represented by a STHelpMoveToGoal slice */
+    slice_index const ready = alloc_branch(STReadyForHelpMove,
+                                           slack_length_help+1,
+                                           slack_length_help+1);
     Goal const goal = slices[to_next].u.goal_reached_tester.goal;
-    pipe_append(proxy_to_next,alloc_help_move_to_goal_slice(goal));
+    slice_index const move_to_goal = alloc_help_move_to_goal_slice(goal);
+    pipe_append(proxy_to_next,ready);
+    pipe_append(ready,move_to_goal);
     --length;
     --min_length;
 

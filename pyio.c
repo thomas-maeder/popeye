@@ -1982,7 +1982,11 @@ static void alloc_reci_end(slice_index proxy_nonreci,
                                                   slack_length_help+1,
                                                   proxy_to_reci);
   pipe_set_successor(proxy_nonreci,help_nonreci);
-  pipe_set_successor(proxy_reci,help_reci);
+
+  if (slices[help_reci].prev==no_slice)
+    pipe_link(proxy_reci,help_reci);
+  else
+    pipe_set_successor(proxy_reci,help_reci);
 }
 
 static char *ParseReciGoal(char *tok,
@@ -2105,6 +2109,8 @@ static char *ParseH(char *tok, slice_index proxy, slice_index proxy_next)
       pipe_link(inverter,inverter_proxy);
       pipe_set_successor(inverter_proxy,branch);
     }
+    else if (slices[branch].prev==no_slice)
+      pipe_link(proxy,branch);
     else
       pipe_set_successor(proxy,branch);
   }
@@ -2523,6 +2529,8 @@ static char *ParsePlay(char *tok,
             pipe_link(guard,guard_proxy);
             pipe_set_successor(guard_proxy,help);
           }
+          else if (slices[help].prev==no_slice)
+            pipe_link(proxy,help);
           else
             pipe_set_successor(proxy,help);
         }
@@ -2553,7 +2561,10 @@ static char *ParsePlay(char *tok,
                                      : Black);
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
-          pipe_set_successor(proxy,branch);
+          if (slices[branch].prev==no_slice)
+            pipe_link(proxy,branch);
+          else
+            pipe_set_successor(proxy,branch);
           stip_impose_starter(proxy_next,next_starter);
 
           set_output_mode(output_mode_line);
@@ -2581,7 +2592,10 @@ static char *ParsePlay(char *tok,
                                      : White);
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
-          pipe_set_successor(proxy,branch);
+          if (slices[branch].prev==no_slice)
+            pipe_link(proxy,branch);
+          else
+            pipe_set_successor(proxy,branch);
           stip_impose_starter(proxy_next,next_starter);
 
           set_output_mode(output_mode_line);

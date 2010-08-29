@@ -2074,6 +2074,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
       break;
 
     case STHelpShortcut:
+    case STReadyForHelpMove:
     case STHelpMove:
     case STHelpMoveToGoal:
     case STSelfCheckGuardHelpFilter:
@@ -2136,7 +2137,10 @@ static boolean apply_whitetoplay(slice_index proxy)
         slice_index const hook = help_branch_shorten(next);
         pipe_link(proxy,inverter);
         pipe_link(inverter,proxy2);
-        pipe_set_successor(proxy2,hook);
+        if (slices[hook].prev==no_slice)
+          pipe_link(proxy2,hook);
+        else
+          pipe_set_successor(proxy2,hook);
       }
       else
       {
@@ -2164,7 +2168,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       break;
     }
 
-    case STHelpMoveToGoal:
+    case STReadyForHelpMove:
       stip_detect_starter(proxy);
       stip_impose_starter(proxy,advers(slices[proxy].starter));
       result = true;

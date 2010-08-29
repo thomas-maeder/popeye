@@ -230,7 +230,7 @@ void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prev = slices[si].prev;
-    assert(slices[prev].type==STProxy);
+    assert(slices[prev].type==STReadyForHelpMove);
     *result = alloc_proxy_slice();
     pipe_set_successor(*result,prev);
   }
