@@ -2647,10 +2647,13 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
+          /* make the copy before alloc_help_branch inserts help
+             play */
+          slice_index const proxy_avoided = stip_deep_copy(proxy_next);
+
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
 
-          slice_index const proxy_avoided = stip_deep_copy(proxy_next);
           slice_make_direct_goal_branch(proxy_avoided);
           pipe_append(proxy_avoided,alloc_not_slice());
 
