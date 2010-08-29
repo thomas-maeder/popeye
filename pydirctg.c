@@ -8,37 +8,6 @@
 #include <assert.h>
 
 
-static void insert_move_to_goal(slice_index si, stip_structure_traversal *st)
-{
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(slices[si].prev,alloc_attack_move_to_goal_slice(goal));
-  pipe_append(slices[si].prev,alloc_branch(STAttackMovePlayed,
-                                           slack_length_battle,
-                                           slack_length_battle-1));
-  pipe_append(slices[si].prev,alloc_branch(STAttackMoveShoeHorningDone,
-                                           slack_length_battle,
-                                           slack_length_battle-1));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors move_to_goal_inserters[] =
-{
-  { STGoalReachedTester, &insert_move_to_goal }
-};
-
-enum
-{
-  nr_move_to_goal_inserters = (sizeof move_to_goal_inserters
-                               / sizeof move_to_goal_inserters[0])
-};
-
 static void direct_guards_inserter_attack(slice_index si,
                                           stip_structure_traversal *st)
 {
@@ -49,15 +18,6 @@ static void direct_guards_inserter_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_structure_traversal st;
-    stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override(&st,
-                                      move_to_goal_inserters,
-                                      nr_move_to_goal_inserters);
-    stip_traverse_structure(*to_goal,&st);
-  }
 
   {
     stip_length_type const length = slices[si].u.branch.length;
@@ -115,21 +75,43 @@ void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
  * @param si identifies STLeaf slice
  * @param st address of structure representing the traversal
  */
-static void instrument_leaf(slice_index si, stip_structure_traversal *st)
+static void instrument_tester(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
-              alloc_branch(STAttackMoveLegalityChecked,
-                           slack_length_battle,slack_length_battle-1));
-  pipe_append(slices[si].prev,
-              alloc_branch(STAttackMoveFiltered,
-                           slack_length_battle,slack_length_battle-1));
-  pipe_append(slices[si].prev,
-              alloc_branch(STAttackDealtWith,
-                           slack_length_battle,slack_length_battle-1));
+  {
+    slice_index const prev = slices[si].prev;
+    slice_index const next = slices[si].u.pipe.next;
+    Goal const goal = slices[si].u.goal_reached_tester.goal;
+
+    slice_index const move = alloc_attack_move_to_goal_slice(goal);
+    slice_index const played = alloc_branch(STAttackMovePlayed,
+                                            slack_length_battle,
+                                            slack_length_battle-1);
+    slice_index const shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
+                                                slack_length_battle,
+                                                slack_length_battle-1);
+    slice_index const checked = alloc_branch(STAttackMoveLegalityChecked,
+                                             slack_length_battle,
+                                             slack_length_battle-1);
+    slice_index const filtered = alloc_branch(STAttackMoveFiltered,
+                                              slack_length_battle,
+                                              slack_length_battle-1);
+    slice_index const dealt = alloc_branch(STAttackDealtWith,
+                                           slack_length_battle,
+                                           slack_length_battle-1);
+
+    pipe_link(prev,move);
+    pipe_link(move,played);
+    pipe_link(played,shoehorned);
+    pipe_link(shoehorned,si);
+    pipe_link(si,checked);
+    pipe_link(checked,filtered);
+    pipe_link(filtered,dealt);
+    pipe_link(dealt,next);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -137,7 +119,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors direct_leaf_instrumenters[] =
 {
-  { STLeaf, &instrument_leaf }
+  { STGoalReachedTester, &instrument_tester }
 };
 
 enum

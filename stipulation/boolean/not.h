@@ -10,10 +10,9 @@
  */
 
 /* Allocate a not slice.
- * @param op 1st operand
  * @return index of allocated slice
  */
-slice_index alloc_not_slice(slice_index op);
+slice_index alloc_not_slice(void);
 
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice

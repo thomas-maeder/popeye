@@ -9,21 +9,16 @@
 #include <assert.h>
 
 /* Allocate a not slice.
- * @param op operand
  * @return index of allocated slice
  */
-slice_index alloc_not_slice(slice_index op)
+slice_index alloc_not_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",op);
   TraceFunctionParamListEnd();
 
-  assert(op!=no_slice);
-
   result = alloc_pipe(STNot);
-  pipe_link(result,op);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -44,7 +39,12 @@ void not_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  *root = alloc_not_slice(*root);
+
+  {
+    slice_index const not = alloc_not_slice();
+    pipe_link(not,*root);
+    *root = not;
+  }
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

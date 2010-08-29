@@ -2359,40 +2359,19 @@ static char *ParsePlay(char *tok,
     tok = ParseGoal(tok+5,proxy_next); /* skip over "ser-r" */
     if (tok!=0)
     {
-      slice_index const next = slices[proxy_next].u.pipe.next;
-      if (next!=no_slice)
+      /* make the copy before ParseSerH inserts help play */
+      slice_index const proxy_avoided = stip_deep_copy(proxy_next);
+
+      assert(slices[proxy_next].u.pipe.next!=no_slice);
+
+      result = ParseSerH(tok,proxy,proxy_next);
+      if (result!=0)
       {
-        slice_index const leaf = alloc_leaf_slice();
-        Goal const goal = slices[next].u.goal_reached_tester.goal;
-        slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
-        slice_index const
-            shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                      slack_length_battle,
-                                      slack_length_battle-1);
-        slice_index const played = alloc_branch(STAttackMovePlayed,
-                                                slack_length_battle,
-                                                slack_length_battle-1);
-        slice_index const
-            avoided = alloc_attack_move_slice(slack_length_battle+1,
-                                              slack_length_battle);
-        slice_index const
-            shortest = alloc_attack_find_shortest_slice(slack_length_battle+1,
-                                                        slack_length_battle);
-        slice_index const not = alloc_not_slice(shortest);
-        slice_index const proxy_avoided = alloc_proxy_slice();
+        slice_make_direct_goal_branch(proxy_avoided);
+        pipe_append(proxy_avoided,alloc_not_slice());
 
-        pipe_link(proxy_avoided,not);
-        pipe_link(shortest,avoided);
-        pipe_link(avoided,played);
-        pipe_link(played,shoehorned);
-        pipe_link(shoehorned,avoided_tester);
-        pipe_link(avoided_tester,leaf);
-        slice_make_direct_goal_branch(avoided_tester);
-
-        result = ParseSerH(tok,proxy,proxy_next);
         slice_insert_reflex_filters_semi(proxy,proxy_avoided);
-
-        stip_impose_starter(proxy_next,White);
+        stip_impose_starter(proxy_avoided,White);
 
         set_output_mode(output_mode_line);
       }
@@ -2660,45 +2639,23 @@ static char *ParsePlay(char *tok,
     tok = ParseGoal(tok+2,proxy_next); /* skip over "hr" */
     if (tok!=0)
     {
-      slice_index const next = slices[proxy_next].u.pipe.next;
-      if (next!=no_slice)
+      assert(slices[proxy_next].u.pipe.next!=no_slice);
+
       {
         stip_length_type length;
         stip_length_type min_length;
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
-          slice_index const leaf = alloc_leaf_slice();
-          Goal const goal = slices[next].u.goal_reached_tester.goal;
-          slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
-          slice_index const
-              shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                        slack_length_battle,
-                                        slack_length_battle-1);
-          slice_index const played = alloc_branch(STAttackMovePlayed,
-                                                  slack_length_battle,
-                                                  slack_length_battle-1);
-          slice_index const
-              avoided = alloc_attack_move_slice(slack_length_battle+1,
-                                                slack_length_battle+1);
-          slice_index const
-              shortest = alloc_attack_find_shortest_slice(slack_length_battle+1,
-                                                          slack_length_battle+1);
-          slice_index const not = alloc_not_slice(shortest);
-          slice_index const proxy_avoided = alloc_proxy_slice();
-
           slice_index const branch = alloc_help_branch(length+1,min_length+1,
                                                        proxy_next);
 
-          pipe_link(proxy_avoided,not);
-          pipe_link(shortest,avoided);
-          pipe_link(avoided,played);
-          pipe_link(played,shoehorned);
-          pipe_link(shoehorned,avoided_tester);
-          pipe_link(avoided_tester,leaf);
-          slice_make_direct_goal_branch(avoided_tester);
+          slice_index const proxy_avoided = stip_deep_copy(proxy_next);
+          slice_make_direct_goal_branch(proxy_avoided);
+          pipe_append(proxy_avoided,alloc_not_slice());
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
+
           if ((length-slack_length_help)%2==0)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
@@ -2739,38 +2696,26 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("semi-r",tok,6)==0)
   {
-    slice_index const proxy_avoided = alloc_proxy_slice();
-    tok = ParseGoal(tok+6,proxy_avoided); /* skip over "semi-r" */
+    slice_index const proxy_avoided_defense = alloc_proxy_slice();
+    tok = ParseGoal(tok+6,proxy_avoided_defense); /* skip over "semi-r" */
     if (tok!=0)
     {
-      slice_index const avoided_next = slices[proxy_avoided].u.pipe.next;
-      if (avoided_next!=no_slice)
+      assert(slices[proxy_avoided_defense].u.pipe.next!=no_slice);
+
       {
         stip_length_type length;
         stip_length_type min_length;
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
-          Goal const goal = slices[avoided_next].u.goal_reached_tester.goal;
-          slice_index const aplayed = alloc_branch(STAttackMovePlayed,
-                                                   slack_length_battle,
-                                                   slack_length_battle-1);
-          slice_index const ashoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                                       slack_length_battle,
-                                                       slack_length_battle-1);
-          slice_index const
-              avoided_attack = alloc_attack_move_to_goal_slice(goal);
-          slice_index const not_attack = alloc_not_slice(avoided_attack);
           slice_index const branch = alloc_battle_branch(length+1,min_length);
-          pipe_link(proxy_avoided,not_attack);
-          pipe_link(avoided_attack,aplayed);
-          pipe_link(aplayed,ashoehorned);
-          pipe_link(ashoehorned,avoided_next);
-          slice_make_direct_goal_branch(avoided_next);
 
-          slice_insert_reflex_filters_semi(branch,proxy_avoided);
+          slice_make_direct_goal_branch(proxy_avoided_defense);
+          pipe_append(proxy_avoided_defense,alloc_not_slice());
+
+          slice_insert_reflex_filters_semi(branch,proxy_avoided_defense);
           pipe_set_successor(proxy,branch);
-          stip_impose_starter(proxy_avoided,Black);
+          stip_impose_starter(proxy_avoided_defense,Black);
 
           set_output_mode(output_mode_tree);
         }
@@ -2806,62 +2751,33 @@ static char *ParsePlay(char *tok,
 
   else if (*tok=='r')
   {
-    slice_index const proxy_next = alloc_proxy_slice();
-    tok = ParseGoal(tok+1,proxy_next);/* skip over 'r' */
+    slice_index const proxy_avoided_defense = alloc_proxy_slice();
+    tok = ParseGoal(tok+1,proxy_avoided_defense);/* skip over 'r' */
     if (tok!=0)
     {
-      slice_index const next = slices[proxy_next].u.pipe.next;
-      if (next!=no_slice)
+      assert(slices[proxy_avoided_defense].u.pipe.next!=no_slice);
+
       {
         stip_length_type length;
         stip_length_type min_length;
         result = ParseLength(tok,STAttackMove,&length,&min_length);
         if (result!=0)
         {
-          slice_index const leaf = alloc_leaf_slice();
-          Goal const goal = slices[next].u.goal_reached_tester.goal;
-          slice_index const avoided_tester = alloc_goal_reached_tester_slice(goal);
-          slice_index const aplayed = alloc_branch(STAttackMovePlayed,
-                                                   slack_length_battle,
-                                                   slack_length_battle-1);
-          slice_index const ashoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                                       slack_length_battle,
-                                                       slack_length_battle-1);
-          slice_index const
-              avoided_attack = alloc_attack_move_to_goal_slice(goal);
-          slice_index const not_attack = alloc_not_slice(avoided_attack);
-          slice_index const proxy_avoided_attack = alloc_proxy_slice();
-
-          slice_index const dplayed = alloc_branch(STAttackMovePlayed,
-                                                   slack_length_battle,
-                                                   slack_length_battle-1);
-          slice_index const dshoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                                       slack_length_battle,
-                                                       slack_length_battle-1);
-          slice_index const
-              avoided_defense = alloc_attack_move_to_goal_slice(goal);
-          slice_index const not_defense = alloc_not_slice(avoided_defense);
-          slice_index const proxy_avoided_defense = alloc_proxy_slice();
-
           slice_index const branch = alloc_battle_branch(length+1,min_length);
-          pipe_link(proxy_avoided_attack,not_attack);
-          pipe_link(avoided_attack,aplayed);
-          pipe_link(aplayed,ashoehorned);
-          pipe_link(ashoehorned,avoided_tester);
-          pipe_link(avoided_tester,leaf);
-          slice_make_direct_goal_branch(avoided_tester);
 
-          pipe_link(proxy_avoided_defense,not_defense);
-          pipe_link(avoided_defense,dplayed);
-          pipe_link(dplayed,dshoehorned);
-          pipe_link(dshoehorned,next);
-          slice_make_direct_goal_branch(next);
-          dealloc_slice(proxy_next);
+          slice_index const
+              proxy_avoided_attack = stip_deep_copy(proxy_avoided_defense);
+          slice_make_direct_goal_branch(proxy_avoided_attack);
+          pipe_append(proxy_avoided_attack,alloc_not_slice());
+
+          slice_make_direct_goal_branch(proxy_avoided_defense);
+          pipe_append(proxy_avoided_defense,alloc_not_slice());
+
           slice_insert_reflex_filters(branch,
                                       proxy_avoided_attack,
                                       proxy_avoided_defense);
           pipe_set_successor(proxy,branch);
-          stip_impose_starter(proxy_next,Black);
+          stip_impose_starter(proxy_avoided_defense,Black);
 
           set_output_mode(output_mode_tree);
         }
@@ -3292,15 +3208,8 @@ static char *ParseStructuredStip_not(char *tok,
   TraceFunctionParamListEnd();
   
   tok = ParseStructuredStip_operand(tok+1,proxy,startLikeBranch);
-
-  {
-    slice_index const operand = slices[proxy].u.pipe.next;
-    if (tok!=0 && operand!=no_slice)
-    {
-      slice_index const not = alloc_not_slice(operand);
-      pipe_set_successor(proxy,not);
-    }
-  }
+  if (tok!=0)
+    pipe_append(proxy,alloc_not_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
