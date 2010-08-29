@@ -57,6 +57,7 @@ slice_index alloc_selfcheck_guard_solvable_filter(void)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
+static
 slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
                                                   stip_length_type min_length)
 {
@@ -80,6 +81,7 @@ slice_index alloc_selfcheck_guard_attacker_filter(stip_length_type length,
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
+static
 slice_index alloc_selfcheck_guard_defender_filter(stip_length_type length,
                                                   stip_length_type min_length)
 {
@@ -184,56 +186,8 @@ selfcheck_guard_direct_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void selfcheck_guard_attacker_filter_make_root(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index * const root = st->param;
-    slice_index const root_new = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(root_new,*root);
-    *root = root_new;
-  }
- 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-
 /* **************** Implementation of interface DirectDefender **********
  */
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void
-selfcheckguard_defender_filter_reduce_to_postkey_play(slice_index si,
-                                                      stip_structure_traversal *st)
-{
-  slice_index *postkey_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *postkey_slice = alloc_selfcheck_guard_root_solvable_filter();
-  pipe_link(*postkey_slice,slices[si].u.pipe.next);
-  dealloc_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -304,37 +258,6 @@ selfcheck_guard_can_defend_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void
-selfcheck_guard_defender_filter_make_setplay_slice(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const length_h = (length-slack_length_battle
-                                     +slack_length_help);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  if (*result!=no_slice)
-  {
-    slice_index const guard = alloc_selfcheck_guard_help_filter(length_h,
-                                                                length_h);
-    pipe_link(guard,*result);
-    *result = guard;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 
@@ -429,30 +352,6 @@ void selfcheck_guard_help_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void selfcheck_guard_help_make_root(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index * const root = st->param;
-    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(guard,*root);
-    *root = guard;
-  }
-    
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* **************** Implementation of interface Series ***************
  */
 
@@ -518,30 +417,6 @@ stip_length_type selfcheck_guard_series_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void selfcheck_guard_series_make_root(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  {
-    slice_index * const root = st->param;
-    slice_index const guard = alloc_selfcheck_guard_root_solvable_filter();
-    pipe_link(guard,*root);
-    *root = guard;
-  }
-    
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 
@@ -651,4 +526,126 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
   TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
   return result;
+}
+
+static void nest(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const nested = st->param;
+  boolean save_nested = *nested;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *nested = true;
+  stip_traverse_structure_children(si,st);
+  *nested = save_nested;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_root_selfcheck_guard(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nest(si,st);
+  pipe_append(slices[si].prev,alloc_selfcheck_guard_root_solvable_filter());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static
+void insert_selfcheck_guard_defender_filter(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  boolean const * const nested = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nest(si,st);
+
+  if (*nested)
+    pipe_append(slices[si].prev,
+                alloc_selfcheck_guard_defender_filter(length,min_length));
+  else
+    pipe_append(slices[si].prev,
+                alloc_selfcheck_guard_root_solvable_filter());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static
+void insert_selfcheck_guard_attacker_filter(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  boolean const * const nested = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nest(si,st);
+
+  if (*nested)
+    pipe_append(slices[si].prev,
+                alloc_selfcheck_guard_attacker_filter(length,min_length));
+  else
+    pipe_append(slices[si].prev,
+                alloc_selfcheck_guard_root_solvable_filter());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors selfcheck_guards_inserters[] =
+{
+  { STAttackMoveLegalityChecked,  &insert_selfcheck_guard_defender_filter },
+  { STDefenseMoveLegalityChecked, &insert_selfcheck_guard_attacker_filter },
+  { STHelpRoot,                   &insert_root_selfcheck_guard            },
+  { STSeriesRoot,                 &insert_root_selfcheck_guard            },
+  { STGoalReachedTester,          &stip_structure_visitor_noop            }
+};
+
+enum
+{
+  nr_selfcheck_guards_inserters = (sizeof selfcheck_guards_inserters
+                                   / sizeof selfcheck_guards_inserters[0])
+};
+
+/* Instrument a branch with slices dealing with selfcheck detection
+ * @param si root of branch to be instrumented
+ */
+void stip_insert_selfcheck_guards(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean nested = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,&nested);
+  stip_structure_traversal_override(&st,
+                                    selfcheck_guards_inserters,
+                                    nr_selfcheck_guards_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceStipulation(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

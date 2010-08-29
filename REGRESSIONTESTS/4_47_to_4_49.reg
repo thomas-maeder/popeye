@@ -144,7 +144,7 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 
               empile:         222
             jouecoup:         194
-        orig_rbechec:          96
+        orig_rbechec:          98
         orig_rnechec:         120
 solution finished. 
 
@@ -219,7 +219,7 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
               empile:          32
             jouecoup:          36
         orig_rbechec:           8
-        orig_rnechec:          28
+        orig_rnechec:          29
 solution finished. 
 
 
@@ -429,7 +429,7 @@ solution finished.
 
               empile:        1705
             jouecoup:        1326
-        orig_rbechec:          13
+        orig_rbechec:          14
         orig_rnechec:        1167
 solution finished. 
 
@@ -500,7 +500,7 @@ option start in intelligent mode
 
               empile:       76973
             jouecoup:       76367
-        orig_rbechec:        4593
+        orig_rbechec:        4594
         orig_rnechec:        6522
 solution finished. 
 
@@ -536,7 +536,7 @@ bogus solutions.
               empile:         156
             jouecoup:         156
         orig_rbechec:           3
-        orig_rnechec:           4
+        orig_rnechec:           5
 solution finished. 
 
 

@@ -35,7 +35,7 @@ solution (which is a short solution in 1->ser-h#3)
               empile:        3451
             jouecoup:        2249
         orig_rbechec:         519
-        orig_rnechec:        2004
+        orig_rnechec:        2005
 solving interrupted. 
 
 
@@ -68,7 +68,7 @@ solving interrupted.
               empile:          20
             jouecoup:          21
         orig_rbechec:           1
-        orig_rnechec:           0
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -101,7 +101,7 @@ solution finished.
               empile:          20
             jouecoup:          21
         orig_rbechec:           1
-        orig_rnechec:           0
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -134,7 +134,7 @@ solution finished.
               empile:          20
             jouecoup:          21
         orig_rbechec:           1
-        orig_rnechec:           0
+        orig_rnechec:           1
 solution finished. 
 
 
@@ -248,14 +248,14 @@ b) +wSb4
               empile:          68
             jouecoup:          63
         orig_rbechec:          23
-        orig_rnechec:          44
+        orig_rnechec:          45
 +f) +wSb4 
 
 
               empile:           8
             jouecoup:           7
         orig_rbechec:           8
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -340,7 +340,7 @@ b) ser-s##!1
               empile:         380
             jouecoup:         241
         orig_rbechec:         217
-        orig_rnechec:         105
+        orig_rnechec:         106
 solution finished. 
 
 
@@ -580,8 +580,8 @@ solution finished.
 
               empile:         224
             jouecoup:         237
-        orig_rbechec:           8
-        orig_rnechec:          17
+        orig_rbechec:           9
+        orig_rnechec:          18
 solution finished. 
 
 
@@ -643,8 +643,8 @@ Initial (Black ->):
 
               empile:         224
             jouecoup:         237
-        orig_rbechec:          17
-        orig_rnechec:           8
+        orig_rbechec:          18
+        orig_rnechec:           9
 solution finished. 
 
 
@@ -678,8 +678,8 @@ solution finished.
 
               empile:         112
             jouecoup:          86
-        orig_rbechec:          83
-        orig_rnechec:          34
+        orig_rbechec:          84
+        orig_rnechec:          35
 solution finished. 
 
 

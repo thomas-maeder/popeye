@@ -2067,7 +2067,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
         result = whitetoplay_means_shorten;
       break;
 
-    case STAttackDealtWith:
+    case STReadyForDefense:
     case STContinuationSolver:
     case STDefenseMove:
       result = whitetoplay_means_shorten;
@@ -2651,6 +2651,8 @@ static Token iterate_twins(Token prev_token)
       
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
+
+      stip_insert_selfcheck_guards(template_slice_hook);
 
       stip_insert_continuation_handlers(template_slice_hook);
 

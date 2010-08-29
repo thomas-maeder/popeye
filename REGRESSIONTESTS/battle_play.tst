@@ -1155,7 +1155,7 @@ solution finished.
 
               empile:          19
             jouecoup:          19
-        orig_rbechec:          20
+        orig_rbechec:          19
         orig_rnechec:           5
 solution finished. 
 
@@ -1616,7 +1616,7 @@ solution finished.
 the side to play can capture the king
               empile:          74
             jouecoup:          71
-        orig_rbechec:          50
+        orig_rbechec:          49
         orig_rnechec:          28
 solution finished. 
 

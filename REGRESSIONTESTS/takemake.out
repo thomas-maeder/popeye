@@ -117,7 +117,7 @@ a)
               empile:        3068
             jouecoup:        2606
         orig_rbechec:         118
-        orig_rnechec:        2584
+        orig_rnechec:        2585
 b) wSf3 
 
   1...h2-h3   2.Kf2*f3-h4 g2-g3 # 
@@ -125,7 +125,7 @@ b) wSf3
               empile:        3126
             jouecoup:        2432
         orig_rbechec:         187
-        orig_rnechec:        2410
+        orig_rnechec:        2411
 +c) wKg6-->g7
 
   1...g2-g4   2.Kf2*f3-g5 h2-h4 # 
@@ -133,7 +133,7 @@ b) wSf3
               empile:        3414
             jouecoup:        2575
         orig_rbechec:         167
-        orig_rnechec:        2553
+        orig_rnechec:        2554
 +d) wLf3 
 
   1...h2-h4   2.Kf2*f3-h5 g2-g4 # 
@@ -141,7 +141,7 @@ b) wSf3
               empile:        3190
             jouecoup:        2666
         orig_rbechec:          99
-        orig_rnechec:        2644
+        orig_rnechec:        2645
 Loesung beendet. 
 
 
@@ -218,7 +218,7 @@ a)
               empile:       68438
             jouecoup:       38839
         orig_rbechec:        3654
-        orig_rnechec:       38801
+        orig_rnechec:       38802
 b) sTd2-->e3
 
   1...Sa3*b5-d7   2.Td5*e5-c6 Tf7*f6-d4 # 
@@ -226,7 +226,7 @@ b) sTd2-->e3
               empile:      113819
             jouecoup:       55433
         orig_rbechec:        7003
-        orig_rnechec:       55390
+        orig_rnechec:       55391
 Loesung beendet. 
 
 
@@ -466,7 +466,7 @@ Loesung beendet.
 
               empile:       36877
             jouecoup:       18793
-        orig_rbechec:        2044
+        orig_rbechec:        2045
         orig_rnechec:       18777
 Loesung beendet. 
 
@@ -710,7 +710,7 @@ Loesung beendet.
 
               empile:     5697227
             jouecoup:     4230221
-        orig_rbechec:      291966
+        orig_rbechec:      291967
         orig_rnechec:     4230215
 Loesung beendet. 
 
@@ -754,7 +754,7 @@ Loesung beendet.
               empile:       85658
             jouecoup:       45048
         orig_rbechec:       25823
-        orig_rnechec:       20043
+        orig_rnechec:       20044
 Loesung beendet. 
 
 

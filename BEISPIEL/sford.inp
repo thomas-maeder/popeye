@@ -3,7 +3,7 @@ anfang
 prot sford.out
 
 bemerkung Direktes Blatt mit Ziel matt (d.h. forderung #1)
-sforderung weiss d#
+sforderung weiss 1ad #
 option enpassant g6
 steine weiss kf7 bh5
        schwarz kh7 dd4 te8h8 lc8h6 se4g8 bd7e3e6f3f6g2g5h4
@@ -11,7 +11,7 @@ steine weiss kf7 bh5
 weiter
 
 bemerkung Selbstblatt mit Ziel matt (d.h. forderung s#1 option nachschluessel)
-sforderung weiss - s#
+sforderung weiss - 1da #
 option varianten
 steine
 weiss ka3 da8 la7 sf8h8 ba2b2b6d7e2f2g2h2
@@ -20,7 +20,7 @@ schwarz kc7 dc1 tb4d8 ld6d1 sc6 ba6c4d5e7f7g6h7
 weiter
 
 bemerkung direktes Blatt mit Ziel Zielfeld a7 (d.h. forderung za71)
-sforderung weiss dza7
+sforderung weiss 1ad za7
 steine weiss ba6
 option ohnewk ohnesk
 
@@ -31,7 +31,7 @@ bemerkung    direktes Blatt mit Ziel matt
 bemerkung (d.h. forderung #2)
 steine  weiss   Kc2 Dc8 Td5h7 La1g8 Bf7g5
         schwarz Ke7 Sh3 Ba5d7
-sforderung weiss 2dd#
+sforderung weiss 3ad #
 option vari
 bedingung take
 
@@ -40,7 +40,7 @@ weiter
 bemerkung Hilfszweig von 1 Halbzug mit Fortsetzung:
 bemerkung  direktes Blatt mit Ziel matt
 bemerkung (d.h. forderung h#1)
-sforderung schwarz 1hd#
+sforderung schwarz 2h #
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 option intelligent
@@ -50,7 +50,7 @@ weiter
 bemerkung Serienzweig von 1 Halbzug mit Fortsetzung:
 bemerkung  direktes Blatt mit Ziel matt
 bemerkung (d.h. forderung h#1)
-sforderung schwarz 1serd#
+sforderung schwarz 1ser 1h #
 steine  weiss   le4 sd5 kh1
         schwarz kb7 ba7 tb8
 
@@ -61,13 +61,13 @@ quelle          Konstruktionswettbewerb i&f 1985/86, 1. Platz
 bemerkung       Negationsoperator mit Fortsetzung:
 bemerkung        direktes Blatt mit Ziel matt
 bemerkung       (d.h. Weiss zieht und setzt *nicht* matt)
-sforderung      weiss !d#
+sforderung      weiss ! 1da #
 steine          weiss   ke8 df8 tf3g5 lf7h4 sc6f4 be3e4f2g3g4
                 schwarz kf6 td6 la4
 
 weiter
 
-sford schwarz d# & 1hd#
+sford schwarz 2h [& 1d #] #
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd4h4
 schw ke8 ta8h8 lb7e3 sf1g3 be4e6f7h2h7
@@ -85,7 +85,7 @@ bemerkung         direktes Blatt mit Ziel matt
 bemerkung       d.h. eigentlich ser-#4
 bemerkung       Die Anzuginversion ist erforderlich, weil am Ende einer Serie
 bemerkung       der Anzug wechselt.
-sforderung      weiss 3ser - d#
+sforderung      weiss 4ser - #
 bedingung       madrasi
 
 steine          weiss   bb7c7f7g7 kg4
@@ -99,7 +99,7 @@ auszeichnung	1. Preis, O. Kaila JT 1967
 bemerkung       ODER-Verknuepfung statt Vierlinge
 bemerkung       da der Anzug zwischen den Teilen variiert, brauchen wir
 bemerkung       zweimal eine Anzuginversion (-)
-sforderung      weiss 2dd# | -3hd# | 3ds# | -3hd=
+sforderung      weiss 3ad # | - 4h # | 4ad # | - 4h =
 
 steine  weiss   kd3 tf6 la4 sc4 bc6e2e7g5
         schwarz kd5 sh8 bc5c7d4d6e3e6f7g6
@@ -173,26 +173,7 @@ bemerkung        UND
 bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
 bemerkung          direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
-sford schwarz 2h ( 1hd# & d# )
-stei
-weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
-schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
-zwilling tausche f2 h4
-
-weiter
-
-auto Norbert Geissler
-quel 3588, Problemkiste 96, 12/1994
-
-bemerkung       Hilfszweig von 2 Halbzuegen mit Fortsetzung:
-bemerkung         direktes Blatt zum Matt
-bemerkung        UND
-bemerkung         Hilfszweig von 1 Halbzug mit Fortsetzung
-bemerkung          direktes Blatt zum Matt
-bemerkung       die ganze Forderung ist somit aequivalent zu reci-h#2
-bemerkung       (allerdings werden die beiden Operanden von & in der weniger
-bemerkung        effizienten Reihenfolge ausgewertet)
-sford schwarz 2h ( d# & 1hd# )
+sford schwarz 4h [& 1d #] #
 stei
 weis kg2 tg1h5 lh1e5 sa4h3 bd2h4
 schw ke8 ta8h8 lb7e3 sg3 be4e6f2f7h2h7
@@ -205,7 +186,7 @@ bemerkung       Serienzweig von 2 Halbzuegen mit Fortsetzung
 bemerkung        Serienzweig von 3 Halbzuegen mit Fortsetzung
 bemerkung         direktes Blatt zum Matt
 bemerkung       die ganze Forderung ist somit aequivalent zu 2->ser-h#3
-sforderung      weiss 2ser 3ser d#
+sforderung      weiss 2ser 3ser 1d #
 bedingung       biwoozles
 steine  weiss   ke7 tf2
         schwarz kc8 dh1 bd7g2
@@ -218,7 +199,7 @@ quelle          1. WCCT 1972-75, Abt. F2, 6. Platz
 bemerkung       eigentlich: sKg4 s#2 b) g4->e3
 steine          weiss kc8 dc2 tf2h8 ld6d7 sb7e6 ba6c5d4
                 schwarz kf3 ta8 lb8 sc7 ba7c3d5
-sforderung      schwarz 1h 3ds#
+sforderung      schwarz 5 da #
 option          vari
 
 weiter
@@ -226,7 +207,7 @@ weiter
 autor           Horst B"acker
 quelle          3137, Problemkiste-85, 12/1992
 
-sforderung weiss d#
+sforderung weiss 1 ad #
 
 bedingung       circe
 
@@ -234,14 +215,14 @@ steine  weiss   sb8 bd7a4c4g4f2 kf6
         schwarz sb7 bc7c6c5a5g5f3 kd6
 option  varianten
 
-zwilling sforderung      weiss 2,2d d#
-zwilling sforderung      weiss 4,4d d#
-zwilling sforderung      weiss 6,6d d#
+zwilling sforderung      weiss 2,2 ad #
+zwilling sforderung      weiss 4,4 ad #
+zwilling sforderung      weiss 6,6 ad #
 
 weiter
 
 titel wegen exact nicht 1.Kf1/Kh3#
-sforderung schwarz -2,2h d#
+sforderung schwarz - 3,3h #
 steine
 weiss kg2 lh1
 schwarz ka8 la7b8 bh6
@@ -250,7 +231,7 @@ weiter
 
 titel eigentlich ser-h009, aber die Loesung in 9 darf nicht erscheinen
 titel zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
-sford schwarz 10,10ser d00
+sford schwarz 10,10ser 1ad 00
 stei
 weis ke1 ta1 sc1d4 bd2
 schw kb4 lh1
@@ -262,7 +243,7 @@ autor		Rolf Wiehagen & Torsten Lin"s
 quelle		feenschach 138 p. 394, Lob
 bemerkung	h#8 1.0;1.1;...; 7x8-Brett
 bemerkung       gleiches Problem mit viel komplexerer Eingabe in intell.inp
-sforderung      schwarz 1h - 13h d#
+sforderung      schwarz 1h - 14h #
 steine  weiss   kb2 lc7
         schwarz kb4 tc3 le5 bd7
 bedi    	loch    h1h2h3h4h5h6h7h8
@@ -273,7 +254,7 @@ weiter
 autor		Reinhardt Fiebig
 quelle		feenschach 138 p. 394
 bemerkung	h#8 1.0;1.1;...
-sforderung      schwarz 1h - 13h d#
+sforderung      schwarz 1h - 14h #
 steine  weiss   kh1 ld7
         schwarz kh6 df3 tg2 bb6e7
 option 		intell

@@ -599,9 +599,7 @@ static structure_traversers_visitors const root_slice_makers[] =
   { STLeaf,                        &leaf_make_root                           },
   { STQuodlibet,                   &quodlibet_make_root                      },
   { STSelfDefense,                 &stip_traverse_structure_pipe             },
-  { STSelfCheckGuardAttackerFilter,&selfcheck_guard_attacker_filter_make_root},
   { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
-  { STDefenseMoveLegalityChecked,  &stip_traverse_structure_children         },
   { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
   { STDefenseDealtWith,            &stip_traverse_structure_children         },
   { STAttackMoveShoeHorningDone,   &stip_traverse_structure_children         },
@@ -731,7 +729,7 @@ void battle_branch_make_root(slice_index si, stip_structure_traversal *st)
 static structure_traversers_visitors root_slice_inserters[] =
 {
   { STProxy,                        &proxy_make_root                  },
-  { STAttackMove,                   &battle_branch_make_root          },
+  { STDefenseMoveLegalityChecked,   &battle_branch_make_root          },
   { STDefenseMove,                  &battle_branch_make_root          },
   { STHelpMove,                     &help_move_make_root              },
   { STHelpMoveToGoal,               &help_move_to_goal_make_root      },
@@ -744,10 +742,6 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STQuodlibet,                    &quodlibet_make_root              },
   { STNot,                          &not_make_root                    },
   { STMoveInverterSolvableFilter,   &move_inverter_make_root          },
-  { STSelfCheckGuardAttackerFilter, &battle_branch_make_root          },
-  { STSelfCheckGuardDefenderFilter, &battle_branch_make_root          },
-  { STSelfCheckGuardHelpFilter,     &selfcheck_guard_help_make_root   },
-  { STSelfCheckGuardSeriesFilter,   &selfcheck_guard_series_make_root },
   { STReflexHelpFilter,             &reflex_help_filter_make_root     },
   { STReflexSeriesFilter,           &reflex_series_filter_make_root   },
   { STReflexAttackerFilter,         &battle_branch_make_root          },
@@ -1348,7 +1342,6 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                                     },
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                                     },
   { STDefenseMoveFiltered,              &trash_for_postkey_play                                     },
-  { STSelfCheckGuardDefenderFilter,     &selfcheckguard_defender_filter_reduce_to_postkey_play      },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play                  },
   { STReflexDefenderFilter,             &reflex_defender_filter_reduce_to_postkey_play              },
   { STDefenseDealtWith,                 &ready_for_attack_reduce_to_postkey_play                  }
@@ -1438,7 +1431,6 @@ static structure_traversers_visitors setplay_makers[] =
   { STSeriesFork,                   &series_fork_make_setplay_slice                     },
   { STHelpShortcut,                 &stip_traverse_structure_pipe                       },
   { STSeriesShortcut,               &stip_traverse_structure_pipe                       },
-  { STSelfCheckGuardDefenderFilter, &selfcheck_guard_defender_filter_make_setplay_slice },
   { STSelfCheckGuardHelpFilter,     &selfcheck_guard_help_make_setplay_slice            },
   { STReflexDefenderFilter,         &reflex_guard_defender_filter_make_setplay_slice    }
 };

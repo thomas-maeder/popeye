@@ -266,7 +266,7 @@ a)
               empile:        3938
             jouecoup:        3783
         orig_rbechec:           0
-        orig_rnechec:        3057
+        orig_rnechec:        3058
 b) skB2f3-->d1
 
   1...Sa1-c2   2.kB2d1-d2 Sc2-e3   3.kB2d2-d4 Se3-g4   4.kB2d4-a4 Sg4-e5   5.kB2a4-b4 Se5-c6 # 
@@ -274,7 +274,7 @@ b) skB2f3-->d1
               empile:        3338
             jouecoup:        3261
         orig_rbechec:           0
-        orig_rnechec:        2490
+        orig_rnechec:        2491
 c) skB2f3-->f2
 
   1...Sa1-b3   2.kB2f2-c2 Sb3-c1   3.kB2c2-c3 Sc1-b3   4.kB2c3-d3 Sb3-d4   5.kB2d3-d2 Sd4-f3 # 
@@ -282,7 +282,7 @@ c) skB2f3-->f2
               empile:        5025
             jouecoup:        4785
         orig_rbechec:           0
-        orig_rnechec:        3821
+        orig_rnechec:        3822
 Loesung beendet. 
 
 
@@ -317,7 +317,7 @@ Loesung beendet.
               empile:    10212198
             jouecoup:     8101073
         orig_rbechec:      768727
-        orig_rnechec:     7905816
+        orig_rnechec:     7905817
 Loesung beendet. 
 
 

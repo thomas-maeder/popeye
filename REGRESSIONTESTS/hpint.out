@@ -72,8 +72,8 @@ Loesung beendet.
 
               empile:      104967
             jouecoup:       79207
-        orig_rbechec:         106
-        orig_rnechec:       81068
+        orig_rbechec:         107
+        orig_rnechec:       81069
 Loesung beendet. 
 
 
@@ -112,7 +112,7 @@ Loesung beendet.
 
               empile:     2905067
             jouecoup:     1985210
-        orig_rbechec:       13502
+        orig_rbechec:       13503
         orig_rnechec:     1900271
 Loesung beendet. 
 
@@ -196,7 +196,7 @@ a)
               empile:       22808
             jouecoup:       22102
         orig_rbechec:        3092
-        orig_rnechec:       14309
+        orig_rnechec:       14310
 b) wKa6-->g2
 
 0 moegliche Stellungen in 1+0
@@ -208,7 +208,7 @@ b) wKa6-->g2
               empile:       13549
             jouecoup:       11847
         orig_rbechec:         777
-        orig_rnechec:       12327
+        orig_rnechec:       12328
 Loesung beendet. 
 
 
@@ -248,7 +248,7 @@ Loesung beendet.
 
               empile:      746209
             jouecoup:      487900
-        orig_rbechec:        1820
+        orig_rbechec:        1821
         orig_rnechec:      474991
 Loesung beendet. 
 
@@ -286,7 +286,7 @@ Loesung beendet.
 
               empile:       36831
             jouecoup:       28831
-        orig_rbechec:         213
+        orig_rbechec:         214
         orig_rnechec:       19399
 Loesung beendet. 
 
@@ -365,7 +365,7 @@ Es fehlt ein weisser oder schwarzer Koenig
               empile:       28513
             jouecoup:       30448
         orig_rbechec:          43
-        orig_rnechec:       20145
+        orig_rnechec:       20146
 Loesung beendet. 
 
 
@@ -439,7 +439,7 @@ Loesung beendet.
               empile:     7607823
             jouecoup:     6792094
         orig_rbechec:       33780
-        orig_rnechec:     4909215
+        orig_rnechec:     4909216
 Loesung beendet. 
 
 
@@ -550,7 +550,7 @@ Loesung beendet.
               empile:     8276259
             jouecoup:     6978437
         orig_rbechec:       41548
-        orig_rnechec:     5950702
+        orig_rnechec:     5950703
 Loesung beendet. 
 
 
@@ -631,7 +631,7 @@ a)
 
               empile:      662803
             jouecoup:      664414
-        orig_rbechec:      225717
+        orig_rbechec:      225718
         orig_rnechec:      285163
 b) ser-h=9
 
@@ -648,7 +648,7 @@ b) ser-h=9
 
               empile:      754315
             jouecoup:      708134
-        orig_rbechec:      185781
+        orig_rbechec:      185782
         orig_rnechec:      386619
 Loesung beendet. 
 
@@ -698,7 +698,7 @@ a)
 
               empile:      977895
             jouecoup:      966124
-        orig_rbechec:      303277
+        orig_rbechec:      303278
         orig_rnechec:      469875
 b) ser-h=14
 
@@ -720,7 +720,7 @@ b) ser-h=14
 
               empile:     1337679
             jouecoup:     1178731
-        orig_rbechec:      235449
+        orig_rbechec:      235450
         orig_rnechec:      799652
 Loesung beendet. 
 
@@ -765,7 +765,7 @@ a)
 
               empile:       86881
             jouecoup:       78031
-        orig_rbechec:        6872
+        orig_rbechec:        6873
         orig_rnechec:       64913
 b) ser-h=9
 
@@ -782,7 +782,7 @@ b) ser-h=9
 
               empile:      330261
             jouecoup:      275682
-        orig_rbechec:       15054
+        orig_rbechec:       15055
         orig_rnechec:      233639
 Loesung beendet. 
 
@@ -824,7 +824,7 @@ a)
 
               empile:       50458
             jouecoup:       43952
-        orig_rbechec:        4471
+        orig_rbechec:        4472
         orig_rnechec:       32728
 b) sBa2-->b3
 
@@ -838,7 +838,7 @@ b) sBa2-->b3
 
               empile:       34040
             jouecoup:       29271
-        orig_rbechec:        1008
+        orig_rbechec:        1009
         orig_rnechec:       24923
 Loesung beendet. 
 
@@ -882,7 +882,7 @@ a)
               empile:     1674030
             jouecoup:     1735491
         orig_rbechec:      221311
-        orig_rnechec:      994708
+        orig_rnechec:      994709
 b) ser-=6
 
 0 moegliche Stellungen in 1+0
@@ -896,7 +896,7 @@ b) ser-=6
               empile:     2380806
             jouecoup:     2029722
         orig_rbechec:      221776
-        orig_rnechec:     1176105
+        orig_rnechec:     1176106
 Loesung beendet. 
 
 
@@ -938,7 +938,7 @@ a)
               empile:       74787
             jouecoup:       90230
         orig_rbechec:       11033
-        orig_rnechec:       50087
+        orig_rnechec:       50088
 b) ser-=4
 
 0 moegliche Stellungen in 1+0
@@ -950,7 +950,7 @@ b) ser-=4
               empile:       62366
             jouecoup:       70078
         orig_rbechec:        4644
-        orig_rnechec:       42160
+        orig_rnechec:       42161
 Loesung beendet. 
 
 
@@ -989,7 +989,7 @@ a)
               empile:       46172
             jouecoup:       39589
         orig_rbechec:         143
-        orig_rnechec:       44003
+        orig_rnechec:       44004
 b) ser-=2
 
 0 moegliche Stellungen in 1+0
@@ -999,7 +999,7 @@ b) ser-=2
               empile:      101143
             jouecoup:       89371
         orig_rbechec:         334
-        orig_rnechec:       82476
+        orig_rnechec:       82477
 Loesung beendet. 
 
 
@@ -1045,7 +1045,7 @@ Loesung beendet.
 
               empile:     4896707
             jouecoup:     3622871
-        orig_rbechec:      194342
+        orig_rbechec:      194343
         orig_rnechec:     2606143
 Loesung beendet. 
 
@@ -1508,7 +1508,7 @@ a)
 
               empile:       60253
             jouecoup:       42517
-        orig_rbechec:         261
+        orig_rbechec:         262
         orig_rnechec:       39559
 b) sBc7-->d6
 
@@ -1522,7 +1522,7 @@ b) sBc7-->d6
 
               empile:       61364
             jouecoup:       42813
-        orig_rbechec:         175
+        orig_rbechec:         176
         orig_rnechec:       40317
 Loesung beendet. 
 
@@ -1658,7 +1658,7 @@ Loesung beendet.
 
               empile:       20384
             jouecoup:       15049
-        orig_rbechec:          52
+        orig_rbechec:          53
         orig_rnechec:       12869
 Loesung beendet. 
 
@@ -1699,7 +1699,7 @@ Loesung beendet.
 
               empile:      355488
             jouecoup:      259489
-        orig_rbechec:        1763
+        orig_rbechec:        1764
         orig_rnechec:      238601
 Loesung beendet. 
 
@@ -2201,7 +2201,7 @@ Loesung beendet.
 
               empile:     4090758
             jouecoup:     4138667
-        orig_rbechec:      373685
+        orig_rbechec:      373686
         orig_rnechec:      947225
 Loesung beendet. 
 
@@ -2355,8 +2355,8 @@ Loesung beendet.
 
               empile:   113950102
             jouecoup:    82759497
-        orig_rbechec:      367847
-        orig_rnechec:    83799206
+        orig_rbechec:      367848
+        orig_rnechec:    83799207
 Loesung beendet. 
 
 
@@ -2566,7 +2566,7 @@ Loesung beendet.
               empile:      179214
             jouecoup:      152855
         orig_rbechec:         227
-        orig_rnechec:      161026
+        orig_rnechec:      161027
 Loesung beendet. 
 
 
@@ -2802,7 +2802,7 @@ Loesung beendet.
 
               empile:    97799062
             jouecoup:    77880921
-        orig_rbechec:     2979422
+        orig_rbechec:     2979423
         orig_rnechec:    70504922
 Loesung beendet. 
 
@@ -3624,7 +3624,7 @@ Loesung beendet.
 
               empile:       78773
             jouecoup:       63137
-        orig_rbechec:        1729
+        orig_rbechec:        1730
         orig_rnechec:       55590
 Loesung beendet. 
 
@@ -3850,7 +3850,7 @@ a)
 
               empile:       50475
             jouecoup:       45545
-        orig_rbechec:         776
+        orig_rbechec:         777
         orig_rnechec:       40896
 b) wKe5-->b3
 
@@ -3864,7 +3864,7 @@ b) wKe5-->b3
 
               empile:       52429
             jouecoup:       47525
-        orig_rbechec:         995
+        orig_rbechec:         996
         orig_rnechec:       40433
 Loesung beendet. 
 
@@ -3942,7 +3942,7 @@ Loesung beendet.
 
               empile:       25754
             jouecoup:       21929
-        orig_rbechec:         111
+        orig_rbechec:         112
         orig_rnechec:       16041
 Loesung beendet. 
 
@@ -4100,7 +4100,7 @@ Loesung beendet.
               empile:     1919354
             jouecoup:     1951896
         orig_rbechec:      100520
-        orig_rnechec:     1310891
+        orig_rnechec:     1310892
 Loesung beendet. 
 
 
@@ -4139,7 +4139,7 @@ Loesung beendet.
 
               empile:       18606
             jouecoup:       14450
-        orig_rbechec:          52
+        orig_rbechec:          53
         orig_rnechec:       11915
 Loesung beendet. 
 
@@ -4179,7 +4179,7 @@ Loesung beendet.
 
               empile:       70216
             jouecoup:       50793
-        orig_rbechec:         227
+        orig_rbechec:         228
         orig_rnechec:       36583
 Loesung beendet. 
 
@@ -4220,7 +4220,7 @@ Loesung beendet.
               empile:       81053
             jouecoup:       71864
         orig_rbechec:         942
-        orig_rnechec:       54026
+        orig_rnechec:       54027
 Loesung beendet. 
 
 
@@ -4296,7 +4296,7 @@ Loesung beendet.
 
               empile:       59878
             jouecoup:       53866
-        orig_rbechec:         121
+        orig_rbechec:         122
         orig_rnechec:       45527
 Loesung beendet. 
 
@@ -4428,7 +4428,7 @@ Loesung beendet.
 
               empile:      313874
             jouecoup:      299583
-        orig_rbechec:      113912
+        orig_rbechec:      113913
         orig_rnechec:      226794
 Loesung beendet. 
 
@@ -4478,7 +4478,7 @@ Loesung beendet.
               empile:      221466
             jouecoup:      220625
         orig_rbechec:      146672
-        orig_rnechec:      136149
+        orig_rnechec:      136150
 Loesung beendet. 
 
 
@@ -4521,7 +4521,7 @@ a)
               empile:        9263
             jouecoup:        9481
         orig_rbechec:        1150
-        orig_rnechec:        3659
+        orig_rnechec:        3660
 b) sKa8-->b8
 
 0 moegliche Stellungen in 1+0
@@ -4536,7 +4536,7 @@ b) sKa8-->b8
               empile:        4518
             jouecoup:        4363
         orig_rbechec:          93
-        orig_rnechec:        3719
+        orig_rnechec:        3720
 Loesung beendet. 
 
 
@@ -4784,7 +4784,7 @@ Fassung: Theodor Steudel, Problemkiste 128, 4/2000
 
               empile:    13971431
             jouecoup:    10806205
-        orig_rbechec:      115885
+        orig_rbechec:      115886
         orig_rnechec:    10650113
 Loesung beendet. 
 
@@ -4906,7 +4906,7 @@ Loesung beendet.
 
               empile:     1769367
             jouecoup:     1457154
-        orig_rbechec:      278508
+        orig_rbechec:      278509
         orig_rnechec:     1073466
 Loesung beendet. 
 
@@ -5035,7 +5035,7 @@ a)
 
               empile:        5995
             jouecoup:        5422
-        orig_rbechec:          24
+        orig_rbechec:          25
         orig_rnechec:        4948
 b) sSa2 
 
@@ -5044,7 +5044,7 @@ b) sSa2
 
               empile:        5458
             jouecoup:        4798
-        orig_rbechec:          10
+        orig_rbechec:          11
         orig_rnechec:        4741
 c) sLa2 
 
@@ -5053,7 +5053,7 @@ c) sLa2
 
               empile:        5887
             jouecoup:        5156
-        orig_rbechec:          14
+        orig_rbechec:          15
         orig_rnechec:        4939
 d) sTa2 
 
@@ -5062,7 +5062,7 @@ d) sTa2
 
               empile:        5772
             jouecoup:        5150
-        orig_rbechec:          24
+        orig_rbechec:          25
         orig_rnechec:        4676
 e) sDa2 
 
@@ -5071,7 +5071,7 @@ e) sDa2
 
               empile:        6249
             jouecoup:        5375
-        orig_rbechec:          14
+        orig_rbechec:          15
         orig_rnechec:        5158
 Loesung beendet. 
 

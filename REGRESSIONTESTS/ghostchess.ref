@@ -115,7 +115,7 @@ Jubil\'e Feenschach-50, feenschach 1999, 3\`eme Recommand\'e
 
               empile:       13497
             jouecoup:        6295
-        orig_rbechec:        1636
+        orig_rbechec:        1637
         orig_rnechec:        6285
 solution finished. 
 
@@ -284,7 +284,7 @@ a)
               empile:    30880787
             jouecoup:    11194664
         orig_rbechec:    11194657
-        orig_rnechec:     6559044
+        orig_rnechec:     6559045
 b)  -bPg7
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 # 
@@ -292,7 +292,7 @@ b)  -bPg7
               empile:    33365902
             jouecoup:    11186159
         orig_rbechec:    11186152
-        orig_rnechec:     6709263
+        orig_rnechec:     6709264
 solution finished. 
 
 
@@ -484,7 +484,7 @@ solution finished.
 
               empile:         971
             jouecoup:         476
-        orig_rbechec:         121
+        orig_rbechec:         122
         orig_rnechec:         466
 solution finished. 
 
@@ -1073,7 +1073,7 @@ solution finished.
               empile:      400542
             jouecoup:      215367
         orig_rbechec:       59134
-        orig_rnechec:      212501
+        orig_rnechec:      212502
 solution finished. 
 
 
@@ -1201,7 +1201,7 @@ a)
 
               empile:        3028
             jouecoup:        2559
-        orig_rbechec:        1270
+        orig_rbechec:        1271
         orig_rnechec:        2546
 b) wKc2-->d8
 
@@ -1209,7 +1209,7 @@ b) wKc2-->d8
 
               empile:        3800
             jouecoup:        3134
-        orig_rbechec:        1448
+        orig_rbechec:        1449
         orig_rnechec:        3121
 solution finished. 
 

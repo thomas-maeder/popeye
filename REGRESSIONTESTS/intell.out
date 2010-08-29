@@ -459,7 +459,7 @@ Loesung beendet.
               empile:    10269292
             jouecoup:     9957886
         orig_rbechec:      375226
-        orig_rnechec:     1125203
+        orig_rnechec:     1125204
 Loesung beendet. 
 
 
@@ -1311,7 +1311,7 @@ a)
               empile:      853900
             jouecoup:      739395
         orig_rbechec:       21357
-        orig_rnechec:      562787
+        orig_rnechec:      562788
 b) Verschiebung a1 ==> e1
 
   1...Lh5-e8   2.Kh2*g3 Kf8-f7   3.Kg3-h4 g4-g5 +   4.Kh4-h5 Kf7-f6 # 
@@ -1319,7 +1319,7 @@ b) Verschiebung a1 ==> e1
               empile:      406659
             jouecoup:      331518
         orig_rbechec:        3493
-        orig_rnechec:      341418
+        orig_rnechec:      341419
 Loesung beendet. 
 
 
@@ -1471,7 +1471,7 @@ Loesung beendet.
               empile:     7878729
             jouecoup:     7580011
         orig_rbechec:      608291
-        orig_rnechec:     2231119
+        orig_rnechec:     2231120
 Loesung beendet. 
 
 
@@ -1511,7 +1511,7 @@ Loesung beendet.
               empile:     1229854
             jouecoup:      795613
         orig_rbechec:      181472
-        orig_rnechec:      466452
+        orig_rnechec:      466453
 Loesung beendet. 
 
 
@@ -2342,8 +2342,8 @@ Loesung beendet.
 
               empile:      662409
             jouecoup:      549099
-        orig_rbechec:        7068
-        orig_rnechec:      472213
+        orig_rbechec:        7069
+        orig_rnechec:      472214
 Loesung beendet. 
 
 
@@ -2519,8 +2519,8 @@ Loesung beendet.
 
               empile:      375338
             jouecoup:      324648
-        orig_rbechec:        2969
-        orig_rnechec:      303847
+        orig_rbechec:        2970
+        orig_rnechec:      303848
 Loesung beendet. 
 
 
@@ -2628,8 +2628,8 @@ Loesung beendet.
 
               empile:      401093
             jouecoup:      319996
-        orig_rbechec:        1392
-        orig_rnechec:      330792
+        orig_rbechec:        1393
+        orig_rnechec:      330793
 Loesung beendet. 
 
 
@@ -3501,8 +3501,8 @@ Loesung beendet.
 
               empile:      223073
             jouecoup:      194103
-        orig_rbechec:        1038
-        orig_rnechec:      200000
+        orig_rbechec:        1039
+        orig_rnechec:      200001
 Loesung beendet. 
 
 
@@ -3701,7 +3701,7 @@ Loesung beendet.
 
               empile:        5017
             jouecoup:        4464
-        orig_rbechec:          34
+        orig_rbechec:          35
         orig_rnechec:        4288
 Loesung beendet. 
 
@@ -3736,7 +3736,7 @@ Loesung beendet.
 
               empile:       95122
             jouecoup:       48467
-        orig_rbechec:         386
+        orig_rbechec:         387
         orig_rnechec:       37325
 Loesung beendet. 
 
@@ -3774,8 +3774,8 @@ Loesung beendet.
 
               empile:     3306236
             jouecoup:     3212492
-        orig_rbechec:      407492
-        orig_rnechec:      809082
+        orig_rbechec:      407493
+        orig_rnechec:      809083
 Loesung beendet. 
 
 
@@ -3808,7 +3808,7 @@ Loesung beendet.
 
               empile:       10964
             jouecoup:        4545
-        orig_rbechec:          32
+        orig_rbechec:          33
         orig_rnechec:        4306
 Loesung beendet. 
 
@@ -4189,8 +4189,8 @@ Loesung beendet.
 
               empile:        1065
             jouecoup:         997
-        orig_rbechec:          32
-        orig_rnechec:         800
+        orig_rbechec:          33
+        orig_rnechec:         801
 Loesung beendet. 
 
 
@@ -4250,8 +4250,8 @@ Loesung beendet.
 
               empile:        7944
             jouecoup:        8006
-        orig_rbechec:         980
-        orig_rnechec:        2789
+        orig_rbechec:         981
+        orig_rnechec:        2790
 Bearbeitung abgebrochen. 
 
 
@@ -4403,7 +4403,7 @@ dies ist ein Testfall fuer intelligent und loch
 
               empile:   463965977
             jouecoup:   294967893
-        orig_rbechec:     4561267
+        orig_rbechec:     4561268
         orig_rnechec:   265892499
 Loesung beendet. 
 

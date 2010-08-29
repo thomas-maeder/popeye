@@ -2,6 +2,13 @@ begin
 
 prot series_play.tst
 
+title White at the move, but Black in check
+pieces white kh1 pb7
+       black ka8
+stip ser-s#3
+
+next
+
 title no ser-##2 solution because of stalemate after 1.Kh2-h3
 pieces white kh2 pg3g5h4
        black kh5 ra2a3g6

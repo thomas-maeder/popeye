@@ -77,7 +77,7 @@ a)
               empile:         145
             jouecoup:         107
         orig_rbechec:          26
-        orig_rnechec:          97
+        orig_rnechec:          98
 b) wBb7-->d7
 
   1.d7-d8=D   2.Dd8-a8 # 
@@ -93,7 +93,7 @@ b) wBb7-->d7
               empile:         150
             jouecoup:         113
         orig_rbechec:          27
-        orig_rnechec:         102
+        orig_rnechec:         103
 c) wBb7-->f7
 
   1.f7-f8=D   2.Df8-a8 # 
@@ -109,7 +109,7 @@ c) wBb7-->f7
               empile:         130
             jouecoup:         103
         orig_rbechec:          26
-        orig_rnechec:          92
+        orig_rnechec:          93
 Loesung beendet. 
 
 

@@ -1,4 +1,36 @@
 
+White at the move, but Black in check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       2 + 1
+
+the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           1
+solution finished. 
+
+
+
 h#1 with set play, but black king is in check
 
 +---a---b---c---d---e---f---g---h---+
@@ -94,7 +126,7 @@ solution finished.
               empile:         384
             jouecoup:         195
         orig_rbechec:          52
-        orig_rnechec:         166
+        orig_rnechec:         167
 solution finished. 
 
 

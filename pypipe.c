@@ -232,12 +232,15 @@ has_solution_type pipe_has_solution(slice_index pipe)
 void stip_traverse_structure_pipe(slice_index pipe,
                                   stip_structure_traversal *st)
 {
+  slice_index const next = slices[pipe].u.pipe.next;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[pipe].u.pipe.next,st);
+  if (next!=no_slice)
+    stip_traverse_structure(next,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

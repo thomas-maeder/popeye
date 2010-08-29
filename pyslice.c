@@ -101,6 +101,7 @@ has_solution_type slice_solve(slice_index si)
     case STContinuationSolver:
     case STTrySolver:
     case STOutputPlaintextTreeCheckWriterDefenderFilter:
+    case STReadyForDefense:
     case STDefenseMove:
     case STReflexDefenderFilter:
     case STThreatSolver:
@@ -290,6 +291,7 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STContinuationSolver:
     case STTrySolver:
+    case STReadyForDefense:
     case STDefenseMove:
     case STSelfCheckGuardDefenderFilter:
     case STEnPassantDefenderFilter:

@@ -1,4 +1,36 @@
 
+White at the move, but Black in check
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-s#3                     2 + 1
+
+the side to play can capture the king
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           1
+solution finished. 
+
+
+
 no ser-##2 solution because of stalemate after 1.Kh2-h3
 
 +---a---b---c---d---e---f---g---h---+
@@ -26,7 +58,7 @@ no ser-##2 solution because of stalemate after 1.Kh2-h3
               empile:          28
             jouecoup:          19
         orig_rbechec:          16
-        orig_rnechec:           9
+        orig_rnechec:          10
 solution finished. 
 
 
@@ -58,7 +90,7 @@ solution finished.
 
               empile:        1724
             jouecoup:        1317
-        orig_rbechec:         707
+        orig_rbechec:         708
         orig_rnechec:        1172
 solution finished. 
 
@@ -92,7 +124,7 @@ solution finished.
               empile:        1105
             jouecoup:         410
         orig_rbechec:         491
-        orig_rnechec:         366
+        orig_rnechec:         367
 solution finished. 
 
 
@@ -125,7 +157,7 @@ solution finished.
               empile:        1700
             jouecoup:        1313
         orig_rbechec:         714
-        orig_rnechec:         765
+        orig_rnechec:         766
 solution finished. 
 
 
