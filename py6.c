@@ -2129,8 +2129,7 @@ static boolean apply_whitetoplay(slice_index proxy)
   TraceEnumerator(SliceType,slices[next].type,"\n");
   switch (slices[next].type)
   {
-    case STHelpFork:       /* help play in N.0 */
-    case STHelpMovePlayed: /* help play in N.5, or helfself in N.0 */
+    case STReadyForHelpMove:
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_shorten)

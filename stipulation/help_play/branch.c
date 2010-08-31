@@ -40,25 +40,19 @@ static slice_index shorten_odd_to_even(slice_index si)
 
   {
     stip_length_type const length = slices[si].u.branch.length;
-    slice_index const checked1 = slices[si].u.pipe.next;
-    slice_index const dealt1 = slices[checked1].u.pipe.next;
-    slice_index const ready1 = slices[dealt1].u.pipe.next;
-    slice_index const move = slices[ready1].u.pipe.next;
+    slice_index const move = slices[si].u.pipe.next;
     slice_index const played = slices[move].u.pipe.next;
-    slice_index const checked2 = slices[played].u.pipe.next;
-    slice_index const dealt2 = slices[checked2].u.pipe.next;
-    slice_index const ready2 = slices[dealt2].u.pipe.next;
-    slice_index const fork = slices[ready2].u.pipe.next;
+    slice_index const checked = slices[played].u.pipe.next;
+    slice_index const dealt = slices[checked].u.pipe.next;
+    slice_index const ready = slices[dealt].u.pipe.next;
+    slice_index const fork = slices[ready].u.pipe.next;
 
-    assert(slices[si].type==STHelpMovePlayed);
-    assert(slices[checked1].type==STHelpMoveLegalityChecked);
-    assert(slices[dealt1].type==STHelpMoveDealtWith);
-    assert(slices[ready1].type==STReadyForHelpMove);
+    assert(slices[si].type==STReadyForHelpMove);
     assert(slices[move].type==STHelpMove);
     assert(slices[played].type==STHelpMovePlayed);
-    assert(slices[checked2].type==STHelpMoveLegalityChecked);
-    assert(slices[dealt2].type==STHelpMoveDealtWith);
-    assert(slices[ready2].type==STReadyForHelpMove);
+    assert(slices[checked].type==STHelpMoveLegalityChecked);
+    assert(slices[dealt].type==STHelpMoveDealtWith);
+    assert(slices[ready].type==STReadyForHelpMove);
     assert(slices[fork].type==STHelpFork);
     
     if (length==slack_length_help+1)
@@ -74,7 +68,8 @@ static slice_index shorten_odd_to_even(slice_index si)
       help_branch_shorten_slice(si);
       help_branch_shorten_slice(move);
       help_branch_shorten_slice(played);
-      help_branch_shorten_slice(checked2);
+      help_branch_shorten_slice(checked);
+      help_branch_shorten_slice(dealt);
     }
   }
 
@@ -98,17 +93,29 @@ static slice_index shorten_even_to_odd(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const move = slices[si].u.pipe.next;
+    slice_index const fork = slices[si].u.pipe.next;
+    slice_index const move = slices[fork].u.pipe.next;
     slice_index const played = slices[move].u.pipe.next;
+    slice_index const checked = slices[played].u.pipe.next;
+    slice_index const dealt = slices[checked].u.pipe.next;
+    slice_index const ready = slices[dealt].u.pipe.next;
 
-    assert(slices[si].type==STHelpFork);
+    assert(slices[si].type==STReadyForHelpMove);
+    assert(slices[fork].type==STHelpFork);
     assert(slices[move].type==STHelpMove);
     assert(slices[played].type==STHelpMovePlayed);
+    assert(slices[checked].type==STHelpMoveLegalityChecked);
+    assert(slices[dealt].type==STHelpMoveDealtWith);
+    assert(slices[ready].type==STReadyForHelpMove);
     
-    result = played;
+    result = ready;
 
     help_branch_shorten_slice(si);
+    help_branch_shorten_slice(fork);
     help_branch_shorten_slice(move);
+    help_branch_shorten_slice(played);
+    help_branch_shorten_slice(checked);
+    help_branch_shorten_slice(dealt);
   }
 
   TraceFunctionExit(__func__);
@@ -136,6 +143,8 @@ static slice_index alloc_help_branch_even(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
+    slice_index const ready1 = alloc_branch(STReadyForHelpMove,
+                                            length,min_length);
     slice_index const fork = alloc_help_fork_slice(length,min_length,
                                                    proxy_to_goal);
     slice_index const move1 = alloc_help_move_slice(length,min_length);
@@ -154,9 +163,8 @@ static slice_index alloc_help_branch_even(stip_length_type length,
                                               length-2,min_length-2);
     slice_index const dealt1 = alloc_branch(STHelpMoveDealtWith,
                                             length-2,min_length-2);
-    slice_index const ready1 = alloc_branch(STReadyForHelpMove,
-                                            length-2,min_length-2);
 
+    pipe_link(ready1,fork);
     pipe_link(fork,move1);
     pipe_link(move1,played1);
     pipe_link(played1,checked2);
@@ -167,9 +175,8 @@ static slice_index alloc_help_branch_even(stip_length_type length,
     pipe_link(played2,checked1);
     pipe_link(checked1,dealt1);
     pipe_link(dealt1,ready1);
-    pipe_link(ready1,fork);
 
-    result = fork;
+    result = ready1;
   }
 
   TraceFunctionExit(__func__);
