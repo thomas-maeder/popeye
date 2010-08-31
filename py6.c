@@ -2077,7 +2077,10 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STReadyForHelpMove:
     case STHelpMove:
     case STHelpMoveToGoal:
+    case STHelpMovePlayed:
     case STSelfCheckGuardHelpFilter:
+    case STHelpMoveLegalityChecked:
+    case STHelpMoveDealtWith:
     case STMoveInverterSolvableFilter:
     case STProxy:
     {
@@ -2126,8 +2129,8 @@ static boolean apply_whitetoplay(slice_index proxy)
   TraceEnumerator(SliceType,slices[next].type,"\n");
   switch (slices[next].type)
   {
-    case STHelpFork:                 /* help play in N.0 */
-    case STSelfCheckGuardHelpFilter: /* help play in N.5, or helfself in N.0 */
+    case STHelpFork:       /* help play in N.0 */
+    case STHelpMovePlayed: /* help play in N.5, or helfself in N.0 */
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_shorten)
@@ -2168,7 +2171,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       break;
     }
 
-    case STReadyForHelpMove:
+    case STHelpMoveToGoal:
       stip_detect_starter(proxy);
       stip_impose_starter(proxy,advers(slices[proxy].starter));
       result = true;

@@ -84,6 +84,9 @@
     ENUMERATOR(STHelpMoveToGoal),  /* last help move reaching goal */   \
     ENUMERATOR(STHelpFork),        /* decides when play in branch is over */ \
     ENUMERATOR(STReadyForHelpMove),                                     \
+    ENUMERATOR(STHelpMovePlayed),                                       \
+    ENUMERATOR(STHelpMoveLegalityChecked),                              \
+    ENUMERATOR(STHelpMoveDealtWith),                                    \
     ENUMERATOR(STReflexHelpFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STSeriesRoot),      /* root level of series play */      \
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
@@ -252,6 +255,9 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STHelpMoveToGoal */
   slice_structure_fork,   /* STHelpFork */
   slice_structure_branch, /* STReadyForHelpMove */
+  slice_structure_branch, /* STHelpMovePlayed */
+  slice_structure_branch, /* STHelpMoveLegalityChecked */
+  slice_structure_branch, /* STHelpMoveDealtWith */
   slice_structure_fork,   /* STReflexHelpFilter */
   slice_structure_branch, /* STSeriesRoot */
   slice_structure_fork,   /* STSeriesShortcut */
@@ -2104,6 +2110,9 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STHelpMoveToGoal */
   &stip_traverse_structure_help_fork,       /* STHelpFork */
   &stip_traverse_structure_pipe,            /* STReadyForHelpMove */
+  &stip_traverse_structure_pipe,            /* STHelpMovePlayed */
+  &stip_traverse_structure_pipe,            /* STHelpMoveLegalityChecked */
+  &stip_traverse_structure_pipe,            /* STHelpMoveDealtWith */
   &stip_traverse_structure_reflex_filter,   /* STReflexHelpFilter */
   &stip_traverse_structure_pipe,            /* STSeriesRoot */
   &stip_traverse_structure_series_shortcut, /* STSeriesShortcut */
@@ -2299,6 +2308,9 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STHelpMoveToGoal */
     &stip_traverse_moves_help_fork,             /* STHelpFork */
     &stip_traverse_moves_pipe,                  /* STReadyForHelpMove */
+    &stip_traverse_moves_pipe,                  /* STHelpMovePlayed */
+    &stip_traverse_moves_pipe,                  /* STHelpMoveLegalityChecked */
+    &stip_traverse_moves_pipe,                  /* STHelpMoveDealtWith */
     &stip_traverse_moves_help_fork,             /* STReflexHelpFilter */
     &stip_traverse_moves_series_root,           /* STSeriesRoot */
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */

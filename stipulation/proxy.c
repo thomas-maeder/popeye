@@ -42,6 +42,9 @@ static boolean is_proxy(slice_index si)
     case STDefenseMoveLegalityChecked:
     case STDefenseMoveFiltered:
     case STReadyForHelpMove:
+    case STHelpMovePlayed:
+    case STHelpMoveLegalityChecked:
+    case STHelpMoveDealtWith:
       result = true;
       break;
 
