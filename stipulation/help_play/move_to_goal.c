@@ -45,7 +45,6 @@ void help_move_to_goal_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *root = alloc_help_root_slice(slack_length_help+1,slack_length_help+1);
-  assert(slices[prev].type==STProxy);
   pipe_link(*root,prev);
   
   TraceFunctionExit(__func__);

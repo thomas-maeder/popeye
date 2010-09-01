@@ -220,8 +220,13 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(slices[si].type==STGoalReachedTester);
+
   {
     Goal const goal = slices[si].u.goal_reached_tester.goal;
+    slice_index const ready = alloc_branch(STReadyForHelpMove,
+                                            slack_length_help+1,
+                                            slack_length_help+1);
     slice_index const move_to_goal = alloc_help_move_to_goal_slice(goal);
     slice_index const played = alloc_branch(STHelpMovePlayed,
                                             slack_length_help,
@@ -232,9 +237,10 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
     slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
                                            slack_length_help,
                                            slack_length_help);
-    assert(slices[si].type==STGoalReachedTester);
-    pipe_append(slices[si].prev,move_to_goal);
+    pipe_append(slices[si].prev,ready);
+    pipe_append(ready,move_to_goal);
     pipe_append(move_to_goal,played);
+
     pipe_append(si,checked);
     pipe_append(checked,dealt);
   }
