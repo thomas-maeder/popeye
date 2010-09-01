@@ -18,19 +18,57 @@ void help_branch_shorten_slice(slice_index si)
   TraceFunctionParamListEnd();
 
   slices[si].u.branch.length -= 2;
-  if (slices[si].u.branch.min_length-slack_length_help>=2)
-    slices[si].u.branch.min_length -= 2;
+  slices[si].u.branch.min_length -= 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Shorten a help branch from an odd to an even number of half-moves
+/* Shorten a sequence of slices
+ * @param begin start of sequence (member of the sequence)
+ * @param end end of sequence (first non-member of the sequence)
+ */
+static void shorten_slices(slice_index begin, slice_index end)
+{
+  while (begin!=end)
+  {
+    help_branch_shorten_slice(begin);
+    begin = slices[begin].u.pipe.next;
+  }
+}
+
+/* Shorten a non-degenerate help branch
  * @param si identifies entry slice
  * @return entry slice of shortened branch
  *         no_slice if shortening isn't applicable
  */
-static slice_index shorten_odd_to_even(slice_index si)
+static slice_index shorten_non_degenerate(slice_index si)
+{
+  slice_index result;
+  
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = branch_find_slice(STReadyForHelpMove,si);
+
+  assert(result!=no_slice);
+  assert(result!=si);
+    
+  shorten_slices(slices[si].u.pipe.next,result);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Shorten a non-degenerate help branch
+ * @param si identifies entry slice
+ * @return entry slice of shortened branch
+ *         no_slice if shortening isn't applicable
+ */
+static slice_index shorten_degenerate(slice_index si)
 {
   slice_index result;
   
@@ -39,38 +77,11 @@ static slice_index shorten_odd_to_even(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    slice_index const move = slices[si].u.pipe.next;
-    slice_index const played = slices[move].u.pipe.next;
-    slice_index const checked = slices[played].u.pipe.next;
-    slice_index const dealt = slices[checked].u.pipe.next;
-    slice_index const ready = slices[dealt].u.pipe.next;
-    slice_index const fork = slices[ready].u.pipe.next;
-
-    assert(slices[si].type==STReadyForHelpMove);
-    assert(slices[move].type==STHelpMove);
-    assert(slices[played].type==STHelpMovePlayed);
-    assert(slices[checked].type==STHelpMoveLegalityChecked);
-    assert(slices[dealt].type==STHelpMoveDealtWith);
-    assert(slices[ready].type==STReadyForHelpMove);
-    assert(slices[fork].type==STHelpFork);
-    
-    if (length==slack_length_help+1)
-    {
-      result = slices[fork].u.branch_fork.towards_goal;
-      slices[fork].u.branch_fork.towards_goal = no_slice;
-      dealloc_slices(si);
-    }
-    else
-    {
-      result = fork;
-
-      help_branch_shorten_slice(si);
-      help_branch_shorten_slice(move);
-      help_branch_shorten_slice(played);
-      help_branch_shorten_slice(checked);
-      help_branch_shorten_slice(dealt);
-    }
+    slice_index const fork = branch_find_slice(STHelpFork,si);
+    assert(fork!=no_slice);
+    result = slices[fork].u.branch_fork.towards_goal;
+    slices[fork].u.branch_fork.towards_goal = no_slice;
+    dealloc_slices(si);
   }
 
   TraceFunctionExit(__func__);
@@ -79,12 +90,12 @@ static slice_index shorten_odd_to_even(slice_index si)
   return result;
 }
 
-/* Shorten a help branch from an even to an odd number of half-moves
- * @param si identifies entry slice
+/* Shorten a help branch by 1 half move
+ * @param identifies entry slice of branch to be shortened
  * @return entry slice of shortened branch
  *         no_slice if shortening isn't applicable
  */
-static slice_index shorten_even_to_odd(slice_index si)
+slice_index help_branch_shorten(slice_index si)
 {
   slice_index result;
   
@@ -92,31 +103,10 @@ static slice_index shorten_even_to_odd(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const fork = slices[si].u.pipe.next;
-    slice_index const move = slices[fork].u.pipe.next;
-    slice_index const played = slices[move].u.pipe.next;
-    slice_index const checked = slices[played].u.pipe.next;
-    slice_index const dealt = slices[checked].u.pipe.next;
-    slice_index const ready = slices[dealt].u.pipe.next;
-
-    assert(slices[si].type==STReadyForHelpMove);
-    assert(slices[fork].type==STHelpFork);
-    assert(slices[move].type==STHelpMove);
-    assert(slices[played].type==STHelpMovePlayed);
-    assert(slices[checked].type==STHelpMoveLegalityChecked);
-    assert(slices[dealt].type==STHelpMoveDealtWith);
-    assert(slices[ready].type==STReadyForHelpMove);
-    
-    result = ready;
-
-    help_branch_shorten_slice(si);
-    help_branch_shorten_slice(fork);
-    help_branch_shorten_slice(move);
-    help_branch_shorten_slice(played);
-    help_branch_shorten_slice(checked);
-    help_branch_shorten_slice(dealt);
-  }
+  if (slices[si].u.branch.length==slack_length_help+1)
+    result = shorten_degenerate(si);
+  else
+    result = shorten_non_degenerate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -210,32 +200,8 @@ slice_index alloc_help_branch(stip_length_type length,
     /* this indirect approach avoids some code duplication */
     slice_index const branch = alloc_help_branch_even(length+1,min_length+1,
                                                       proxy_to_next);
-    result = shorten_even_to_odd(branch);
+    result = shorten_non_degenerate(branch);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Shorten a help branch by 1 half move
- * @param identifies entry slice of branch to be shortened
- * @return entry slice of shortened branch
- *         no_slice if shortening isn't applicable
- */
-slice_index help_branch_shorten(slice_index si)
-{
-  slice_index result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if ((slices[si].u.branch.length-slack_length_help)%2==0)
-    result = shorten_even_to_odd(si);
-  else
-    result = shorten_odd_to_even(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
