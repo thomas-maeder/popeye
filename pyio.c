@@ -1815,18 +1815,18 @@ static char *ParseLength(char *tok,
       case STHelpMove:
         /* we count half moves in help play */
         *length *= 2;
-        *length += slack_length_help-1;
+        *length += slack_length_help;
 
         if (strncmp(tok,".5",2)==0)
         {
           ++*length;
           tok += 2;
-          *min_length = slack_length_help;
+          *min_length = slack_length_help+1;
         }
         else
-          *min_length = slack_length_help+1;
+          *min_length = slack_length_help+2;
 
-        if (*length==slack_length_help-1)
+        if (*length==slack_length_help)
         {
           IoErrorMsg(WrongInt,0);
           tok = 0;
@@ -2099,9 +2099,8 @@ static char *ParseH(char *tok, slice_index proxy, slice_index proxy_next)
   result = ParseLength(tok,STHelpMove,&length,&min_length);
   if (result!=0)
   {
-    slice_index const branch = alloc_help_branch(length+1,min_length+1,
-                                                 proxy_next);
-    if ((length-slack_length_help)%2==0)
+    slice_index const branch = alloc_help_branch(length,min_length,proxy_next);
+    if ((length-slack_length_help)%2==1)
     {
       slice_index const inverter = alloc_move_inverter_solvable_filter();
       slice_index const inverter_proxy = alloc_proxy_slice();
@@ -2502,11 +2501,10 @@ static char *ParsePlay(char *tok,
       stip_length_type length;
       stip_length_type min_length;
       result = ParseLength(tok2,STHelpMove,&length,&min_length);
-      --length;
+      length -= 2;
       if ((length-slack_length_help)%2==0)
-        --min_length;
-      else
-        ++min_length;
+        min_length -= 2;
+
       if (result!=0)
       {
         if (length==slack_length_help && min_length==slack_length_help)
@@ -2556,10 +2554,10 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
-          Side const next_starter = ((length-slack_length_help)%2==0
+          Side const next_starter = ((length-slack_length_help)%2==1
                                      ? White
                                      : Black);
-          slice_index const branch = alloc_help_branch(length+1,min_length+1,
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_next);
           if (slices[branch].prev==no_slice)
             pipe_link(proxy,branch);
@@ -2587,10 +2585,10 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
-          Side const next_starter = ((length-slack_length_help)%2==0
+          Side const next_starter = ((length-slack_length_help)%2==1
                                      ? Black
                                      : White);
-          slice_index const branch = alloc_help_branch(length+1,min_length+1,
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_next);
           if (slices[branch].prev==no_slice)
             pipe_link(proxy,branch);
@@ -2621,11 +2619,11 @@ static char *ParsePlay(char *tok,
           slice_index const
               defense_branch = alloc_defense_branch(slack_length_battle+1,
                                                     slack_length_battle+1);
-          slice_index const branch = alloc_help_branch(length,min_length,
+          slice_index const branch = alloc_help_branch(length-1,min_length-1,
                                                        defense_branch);
           slice_make_self_goal_branch(proxy_next);
           slice_insert_self_guards(defense_branch,proxy_next);
-          if ((length-slack_length_help)%2==0)
+          if ((length-slack_length_help)%2==1)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
             slice_index const guard = alloc_selfcheck_guard_solvable_filter();
@@ -2665,7 +2663,7 @@ static char *ParsePlay(char *tok,
              play */
           slice_index const proxy_avoided = stip_deep_copy(proxy_next);
 
-          slice_index const branch = alloc_help_branch(length+1,min_length+1,
+          slice_index const branch = alloc_help_branch(length,min_length,
                                                        proxy_next);
 
           slice_make_direct_goal_branch(proxy_avoided);
@@ -2673,7 +2671,7 @@ static char *ParsePlay(char *tok,
 
           slice_insert_reflex_filters_semi(branch,proxy_avoided);
 
-          if ((length-slack_length_help)%2==0)
+          if ((length-slack_length_help)%2==1)
           {
             slice_index const inverter = alloc_move_inverter_solvable_filter();
             slice_index const guard = alloc_selfcheck_guard_solvable_filter();
