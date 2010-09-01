@@ -11,12 +11,10 @@
 /* Allocate a help branch.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies slice leading towards goal
  * @return index of entry slice into allocated series branch
  */
 slice_index alloc_help_branch(stip_length_type length,
-                              stip_length_type min_length,
-                              slice_index proxy_to_goal);
+                              stip_length_type min_length);
 
 /* Shorten a help slice by 2 half moves
  * @param si identifies slice to be shortened
@@ -34,5 +32,11 @@ slice_index help_branch_shorten(slice_index si);
  * @param si identifies entry slice of branch
  */
 void stip_make_help_goal_branch(slice_index si);
+
+/* Insert a fork to the next branch
+ * @param si identifies the entry slice of a help branch
+ * @param next identifies the entry slice of the next branch
+ */
+void help_branch_set_next_slice(slice_index si, slice_index next);
 
 #endif
