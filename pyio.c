@@ -2108,8 +2108,6 @@ static char *ParseH(char *tok, slice_index proxy, slice_index proxy_next)
       pipe_link(inverter,inverter_proxy);
       pipe_set_successor(inverter_proxy,branch);
     }
-    else if (slices[branch].prev==no_slice)
-      pipe_link(proxy,branch);
     else
       pipe_set_successor(proxy,branch);
   }
@@ -2527,8 +2525,6 @@ static char *ParsePlay(char *tok,
             pipe_link(guard,guard_proxy);
             pipe_set_successor(guard_proxy,help);
           }
-          else if (slices[help].prev==no_slice)
-            pipe_link(proxy,help);
           else
             pipe_set_successor(proxy,help);
         }
@@ -2554,16 +2550,13 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
-          Side const next_starter = ((length-slack_length_help)%2==1
-                                     ? White
-                                     : Black);
           slice_index const branch = alloc_help_branch_to_goal(length,min_length,
                                                        proxy_next);
           if (slices[branch].prev==no_slice)
             pipe_link(proxy,branch);
           else
             pipe_set_successor(proxy,branch);
-          stip_impose_starter(proxy_next,next_starter);
+          stip_impose_starter(proxy,White);
 
           set_output_mode(output_mode_line);
         }
@@ -2585,16 +2578,13 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
-          Side const next_starter = ((length-slack_length_help)%2==1
-                                     ? Black
-                                     : White);
           slice_index const branch = alloc_help_branch_to_goal(length,min_length,
                                                        proxy_next);
           if (slices[branch].prev==no_slice)
             pipe_link(proxy,branch);
           else
             pipe_set_successor(proxy,branch);
-          stip_impose_starter(proxy_next,next_starter);
+          stip_impose_starter(proxy,Black);
 
           set_output_mode(output_mode_line);
         }
