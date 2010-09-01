@@ -220,9 +220,9 @@ static slice_index alloc_adjusted_help_branch(stip_length_type length,
  * @param proxy_to_next identifies slice leading towards goal
  * @return index of entry slice into allocated series branch
  */
-slice_index alloc_help_branch(stip_length_type length,
-                              stip_length_type min_length,
-                              slice_index proxy_to_next)
+slice_index alloc_help_branch_to_goal(stip_length_type length,
+                                      stip_length_type min_length,
+                                      slice_index proxy_to_next)
 {
   slice_index result;
   slice_index const to_next = slices[proxy_to_next].u.pipe.next;
@@ -236,7 +236,7 @@ slice_index alloc_help_branch(stip_length_type length,
   assert(length>slack_length_help);
   assert(slices[proxy_to_next].type==STProxy);
 
-  if (slices[to_next].type==STGoalReachedTester)
+  assert(slices[to_next].type==STGoalReachedTester);
   {
     /* last move is represented by a STHelpMoveToGoal slice */
     Goal const goal = slices[to_next].u.goal_reached_tester.goal;
@@ -262,8 +262,30 @@ slice_index alloc_help_branch(stip_length_type length,
     else
       result = alloc_adjusted_help_branch(length,min_length,proxy_to_next);
   }
-  else
-    result = alloc_adjusted_help_branch(length,min_length,proxy_to_next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+slice_index alloc_help_branch_not_to_goal(stip_length_type length,
+                                          stip_length_type min_length,
+                                          slice_index proxy_to_next)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",proxy_to_next);
+  TraceFunctionParamListEnd();
+
+  assert(length>slack_length_help);
+  assert(slices[proxy_to_next].type==STProxy);
+
+  assert(slices[slices[proxy_to_next].u.pipe.next].type!=STGoalReachedTester);
+  result = alloc_adjusted_help_branch(length,min_length,proxy_to_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
