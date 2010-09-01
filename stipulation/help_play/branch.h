@@ -14,12 +14,9 @@
  * @param proxy_to_goal identifies slice leading towards goal
  * @return index of entry slice into allocated series branch
  */
-slice_index alloc_help_branch_to_goal(stip_length_type length,
-                                      stip_length_type min_length,
-                                      slice_index proxy_to_goal);
-slice_index alloc_help_branch_not_to_goal(stip_length_type length,
-                                          stip_length_type min_length,
-                                          slice_index proxy_to_goal);
+slice_index alloc_help_branch(stip_length_type length,
+                              stip_length_type min_length,
+                              slice_index proxy_to_goal);
 
 /* Shorten a help slice by 2 half moves
  * @param si identifies slice to be shortened
@@ -32,5 +29,10 @@ void help_branch_shorten_slice(slice_index si);
  *         no_slice if shortening isn't applicable
  */
 slice_index help_branch_shorten(slice_index si);
+
+/* Instrument a branch leading to a goal to be a help goal branch
+ * @param si identifies entry slice of branch
+ */
+void stip_make_help_goal_branch(slice_index si);
 
 #endif

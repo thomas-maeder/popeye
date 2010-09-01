@@ -185,10 +185,15 @@ static slice_index alloc_help_branch_even(stip_length_type length,
   return result;
 }
 
-
-static slice_index alloc_adjusted_help_branch(stip_length_type length,
-                                              stip_length_type min_length,
-                                              slice_index proxy_to_next)
+/* Allocate a help branch.
+ * @param length maximum number of half-moves of slice (+ slack)
+ * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param proxy_to_next identifies slice leading towards goal
+ * @return index of entry slice into allocated series branch
+ */
+slice_index alloc_help_branch(stip_length_type length,
+                              stip_length_type min_length,
+                              slice_index proxy_to_next)
 {
   slice_index result;
 
@@ -207,85 +212,6 @@ static slice_index alloc_adjusted_help_branch(stip_length_type length,
                                                       proxy_to_next);
     result = shorten_even_to_odd(branch);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a help branch.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_next identifies slice leading towards goal
- * @return index of entry slice into allocated series branch
- */
-slice_index alloc_help_branch_to_goal(stip_length_type length,
-                                      stip_length_type min_length,
-                                      slice_index proxy_to_next)
-{
-  slice_index result;
-  slice_index const to_next = slices[proxy_to_next].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_next);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_help);
-  assert(slices[proxy_to_next].type==STProxy);
-
-  assert(slices[to_next].type==STGoalReachedTester);
-  {
-    /* last move is represented by a STHelpMoveToGoal slice */
-    Goal const goal = slices[to_next].u.goal_reached_tester.goal;
-    slice_index const move_to_goal = alloc_help_move_to_goal_slice(goal);
-    slice_index const played = alloc_branch(STHelpMovePlayed,
-                                            slack_length_help,
-                                            slack_length_help);
-    slice_index const checked = alloc_branch(STHelpMoveLegalityChecked,
-                                             slack_length_help,
-                                             slack_length_help);
-    slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
-                                           slack_length_help,
-                                           slack_length_help);
-    pipe_append(proxy_to_next,move_to_goal);
-    pipe_append(move_to_goal,played);
-    pipe_append(to_next,checked);
-    pipe_append(checked,dealt);
-    --length;
-    --min_length;
-
-    if (length==slack_length_help)
-      result = proxy_to_next;
-    else
-      result = alloc_adjusted_help_branch(length,min_length,proxy_to_next);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-slice_index alloc_help_branch_not_to_goal(stip_length_type length,
-                                          stip_length_type min_length,
-                                          slice_index proxy_to_next)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",proxy_to_next);
-  TraceFunctionParamListEnd();
-
-  assert(length>slack_length_help);
-  assert(slices[proxy_to_next].type==STProxy);
-
-  assert(slices[slices[proxy_to_next].u.pipe.next].type!=STGoalReachedTester);
-  result = alloc_adjusted_help_branch(length,min_length,proxy_to_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -315,4 +241,70 @@ slice_index help_branch_shorten(slice_index si)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Insert a the appropriate proxy slices before each
+ * STGoalReachedTester slice
+ * @param si identifies STGoalReachedTester slice
+ * @param st address of structure representing the traversal
+ */
+static void instrument_tester(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    Goal const goal = slices[si].u.goal_reached_tester.goal;
+    slice_index const move_to_goal = alloc_help_move_to_goal_slice(goal);
+    slice_index const played = alloc_branch(STHelpMovePlayed,
+                                            slack_length_help,
+                                            slack_length_help);
+    slice_index const checked = alloc_branch(STHelpMoveLegalityChecked,
+                                             slack_length_help,
+                                             slack_length_help);
+    slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
+                                           slack_length_help,
+                                           slack_length_help);
+    assert(slices[si].type==STGoalReachedTester);
+    pipe_append(slices[si].prev,move_to_goal);
+    pipe_append(move_to_goal,played);
+    pipe_append(si,checked);
+    pipe_append(checked,dealt);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors help_goal_instrumenters[] =
+{
+  { STGoalReachedTester, &instrument_tester }
+};
+
+enum
+{
+  nr_help_goal_instrumenters = (sizeof help_goal_instrumenters
+                                / sizeof help_goal_instrumenters[0])
+};
+
+/* Instrument a branch leading to a goal to be a help goal branch
+ * @param si identifies entry slice of branch
+ */
+void stip_make_help_goal_branch(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    help_goal_instrumenters,
+                                    nr_help_goal_instrumenters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
