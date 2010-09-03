@@ -2416,11 +2416,11 @@ static char *ParsePlay(char *tok,
                                                        slack_length_help+1);
         slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                     next);
-        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
-                                                    inverter);
+        slice_index const played = branch_find_slice(STSeriesMovePlayed,
+                                                     inverter);
         convert_to_parry_series_branch(next,proxy);
         pipe_link(proxy,help);
-        pipe_link(help,guard);
+        pipe_link(help,played);
 
         set_output_mode(output_mode_line);
       }
@@ -2440,12 +2440,12 @@ static char *ParsePlay(char *tok,
         slice_index const help = alloc_help_move_slice(slack_length_help+1,
                                                        slack_length_help+1);
         slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                    next);
-        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
-                                                    inverter);
+                                                       next);
+        slice_index const played = branch_find_slice(STSeriesMovePlayed,
+                                                     inverter);
         convert_to_parry_series_branch(next,proxy);
         pipe_link(proxy,help);
-        pipe_link(help,guard);
+        pipe_link(help,played);
 
         set_output_mode(output_mode_line);
       }
@@ -2469,13 +2469,13 @@ static char *ParsePlay(char *tok,
         slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
                                                          slack_length_battle+2);
         slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                    next);
-        slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
-                                                    inverter);
+                                                       next);
+        slice_index const played = branch_find_slice(STSeriesMovePlayed,
+                                                     inverter);
         convert_to_parry_series_branch(next,proxy);
         pipe_link(proxy,solver);
         pipe_link(solver,def);
-        pipe_link(def,guard);
+        pipe_link(def,played);
 
         set_output_mode(output_mode_line);
       }

@@ -111,18 +111,18 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
   {
     slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
                                                    si);
-    slice_index const guard = branch_find_slice(STSelfCheckGuardSeriesFilter,
+    slice_index const dealt = branch_find_slice(STSeriesMoveDealtWith,
                                                 inverter);
-    stip_length_type const length = slices[guard].u.branch.length;
-    stip_length_type const min_length = slices[guard].u.branch.min_length;
+    stip_length_type const length = slices[dealt].u.branch.length;
+    stip_length_type const min_length = slices[dealt].u.branch.min_length;
     slice_index const parry_fork = alloc_parry_fork(length,min_length,
                                                     parrying);
 
     assert(inverter!=no_slice);
-    assert(guard!=no_slice);
+    assert(dealt!=no_slice);
 
     pipe_append(slices[inverter].prev,parry_fork);
-    pipe_link(inverter,slices[guard].u.pipe.next);
+    pipe_link(inverter,dealt);
   }
 
   TraceFunctionExit(__func__);

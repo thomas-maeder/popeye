@@ -92,6 +92,10 @@
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
+    ENUMERATOR(STReadyForSeriesMove),                                   \
+    ENUMERATOR(STSeriesMovePlayed),                                     \
+    ENUMERATOR(STSeriesMoveLegalityChecked),                            \
+    ENUMERATOR(STSeriesMoveDealtWith),                                  \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
@@ -263,6 +267,10 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSeriesShortcut */
   slice_structure_branch, /* STSeriesMove */
   slice_structure_branch, /* STSeriesMoveToGoal */
+  slice_structure_branch, /* STReadyForSeriesMove */
+  slice_structure_branch, /* STSeriesMovePlayed */
+  slice_structure_branch, /* STSeriesMoveLegalityChecked */
+  slice_structure_branch, /* STSeriesMoveDealtWith */
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STReflexSeriesFilter */
@@ -840,12 +848,6 @@ stip_length_type set_min_length(slice_index si, stip_length_type min_length)
 
     case STAttackMove:
       result = slices[si].u.branch.min_length;
-      break;
-
-    case STSelfCheckGuardRootSolvableFilter:
-    case STSelfCheckGuardHelpFilter:
-    case STSelfCheckGuardSeriesFilter:
-      set_min_length(slices[si].u.pipe.next,min_length);
       break;
 
     default:
@@ -1769,34 +1771,30 @@ static void make_exact_series_branch(slice_index branch,
 
 static structure_traversers_visitors exact_makers[] =
 {
-  { STAttackMove,                       &make_exact_battle_branch },
-  { STAttackFindShortest,               &make_exact_battle_branch },
-  { STDefenseMove,                      &make_exact_battle_branch },
-  { STDefenseDealtWith,                 &make_exact_battle_branch },
-  { STAttackDealtWith,                  &make_exact_battle_branch },
-  { STReadyForAttack,                   &make_exact_battle_branch },
-  { STAttackMovePlayed,                 &make_exact_battle_branch },
-  { STAttackMoveShoeHorningDone,        &make_exact_battle_branch },
-  { STAttackMoveLegalityChecked,        &make_exact_battle_branch },
-  { STAttackMoveFiltered,               &make_exact_battle_branch },
-  { STReadyForDefense,                  &make_exact_battle_branch },
-  { STDefenseMovePlayed,                &make_exact_battle_branch },
-  { STDefenseMoveShoeHorningDone,       &make_exact_battle_branch },
-  { STDefenseMoveLegalityChecked,       &make_exact_battle_branch },
-  { STDefenseMoveFiltered,              &make_exact_battle_branch },
-  { STReflexHelpFilter,                 &make_exact_help_branch   },
-  { STReflexSeriesFilter,               &make_exact_series_branch },
-  { STReflexAttackerFilter,             &make_exact_battle_branch },
-  { STReflexDefenderFilter,             &make_exact_battle_branch },
-  { STSelfDefense,                      &make_exact_battle_branch },
-  { STHelpMove,                         &make_exact_help_branch   },
-  { STHelpFork,                         &make_exact_help_branch   },
-  { STSeriesMove,                       &make_exact_series_branch },
-  { STSeriesFork,                       &make_exact_series_branch },
-  { STSelfCheckGuardAttackerFilter,     &make_exact_battle_branch },
-  { STSelfCheckGuardDefenderFilter,     &make_exact_battle_branch },
-  { STSelfCheckGuardHelpFilter,         &make_exact_help_branch   },
-  { STSelfCheckGuardSeriesFilter,       &make_exact_series_branch }
+  { STAttackMove,                 &make_exact_battle_branch },
+  { STAttackFindShortest,         &make_exact_battle_branch },
+  { STDefenseMove,                &make_exact_battle_branch },
+  { STDefenseDealtWith,           &make_exact_battle_branch },
+  { STAttackDealtWith,            &make_exact_battle_branch },
+  { STReadyForAttack,             &make_exact_battle_branch },
+  { STAttackMovePlayed,           &make_exact_battle_branch },
+  { STAttackMoveShoeHorningDone,  &make_exact_battle_branch },
+  { STAttackMoveLegalityChecked,  &make_exact_battle_branch },
+  { STAttackMoveFiltered,         &make_exact_battle_branch },
+  { STReadyForDefense,            &make_exact_battle_branch },
+  { STDefenseMovePlayed,          &make_exact_battle_branch },
+  { STDefenseMoveShoeHorningDone, &make_exact_battle_branch },
+  { STDefenseMoveLegalityChecked, &make_exact_battle_branch },
+  { STDefenseMoveFiltered,        &make_exact_battle_branch },
+  { STReflexHelpFilter,           &make_exact_help_branch   },
+  { STReflexSeriesFilter,         &make_exact_series_branch },
+  { STReflexAttackerFilter,       &make_exact_battle_branch },
+  { STReflexDefenderFilter,       &make_exact_battle_branch },
+  { STSelfDefense,                &make_exact_battle_branch },
+  { STHelpMove,                   &make_exact_help_branch   },
+  { STHelpFork,                   &make_exact_help_branch   },
+  { STSeriesMove,                 &make_exact_series_branch },
+  { STSeriesFork,                 &make_exact_series_branch }
 };
 
 enum
@@ -2118,6 +2116,10 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_series_shortcut, /* STSeriesShortcut */
   &stip_traverse_structure_pipe,            /* STSeriesMove */
   &stip_traverse_structure_pipe,            /* STSeriesMoveToGoal */
+  &stip_traverse_structure_pipe,            /* STReadyForSeriesMove */
+  &stip_traverse_structure_pipe,            /* STSeriesMovePlayed */
+  &stip_traverse_structure_pipe,            /* STSeriesMoveLegalityChecked */
+  &stip_traverse_structure_pipe,            /* STSeriesMoveDealtWith */
   &stip_traverse_structure_series_fork,     /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
@@ -2316,6 +2318,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_series_shortcut,       /* STSeriesShortcut */
     &stip_traverse_moves_branch_slice,          /* STSeriesMove */
     &stip_traverse_moves_branch_slice,          /* STSeriesMoveToGoal */
+    &stip_traverse_moves_pipe,                  /* STReadyForSeriesMove */
+    &stip_traverse_moves_pipe,                  /* STSeriesMovePlayed */
+    &stip_traverse_moves_pipe,                  /* STSeriesMoveLegalityChecked */
+    &stip_traverse_moves_pipe,                  /* STSeriesMoveDealtWith */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_pipe,                  /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */

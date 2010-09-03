@@ -103,7 +103,7 @@ static void instrument_series_fork(slice_index si,
          || slices[next].type==STSeriesHashed)
     next = slices[next].u.pipe.next;
 
-  if (slices[next].type==STSeriesMove
+  if (slices[next].type==STReadyForSeriesMove
       || slices[next].type==STSeriesFork)
   {
     slice_index const marker

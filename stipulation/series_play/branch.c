@@ -1,6 +1,5 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
-#include "pyselfcg.h"
 #include "pymovein.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
@@ -52,24 +51,44 @@ static slice_index alloc_series_to_goal(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
-    slice_index const
-        guard1 = alloc_selfcheck_guard_series_filter(length,min_length);
+    slice_index const played1 = alloc_branch(STSeriesMovePlayed,
+                                             length,min_length);
+    slice_index const checked1 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length,min_length);
+    slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
+                                            length,min_length);
+    slice_index const ready = alloc_branch(STReadyForSeriesMove,
+                                           length,min_length);
     slice_index const fork = alloc_series_fork_slice(length,min_length,
                                                      proxy_to_goal);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const
-        guard2 = alloc_selfcheck_guard_series_filter(length,min_length);
+    slice_index const played2 = alloc_branch(STSeriesMovePlayed,
+                                             length,min_length);
+    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length,min_length);
+    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
+                                            length,min_length);
     slice_index const inverter = alloc_move_inverter_series_filter();
 
-    shorten_series_pipe(guard1);
-    shorten_series_pipe(guard2);
+    shorten_series_pipe(played1);
+    shorten_series_pipe(checked1);
+    shorten_series_pipe(dealt1);
+    shorten_series_pipe(played2);
+    shorten_series_pipe(checked2);
+    shorten_series_pipe(dealt2);
+    shorten_series_pipe(inverter);
 
     pipe_link(result,fork);
-    pipe_link(fork,move);
-    pipe_link(move,guard2);
-    pipe_link(guard2,inverter);
-    pipe_link(inverter,guard1);
-    pipe_link(guard1,result);
+    pipe_link(fork,ready);
+    pipe_link(ready,move);
+    pipe_link(move,played2);
+    pipe_link(played2,checked2);
+    pipe_link(checked2,dealt2);
+    pipe_link(dealt2,inverter);
+    pipe_link(inverter,played1);
+    pipe_link(played1,checked1);
+    pipe_link(checked1,dealt1);
+    pipe_link(dealt1,result);
   }
 
   TraceFunctionExit(__func__);
@@ -99,25 +118,44 @@ static slice_index alloc_series_to_nested(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
-    slice_index const
-        guard1 = alloc_selfcheck_guard_series_filter(length,min_length);
+    slice_index const played1 = alloc_branch(STSeriesMovePlayed,
+                                             length,min_length);
+    slice_index const checked1 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length,min_length);
+    slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
+                                            length,min_length);
+    slice_index const ready = alloc_branch(STReadyForSeriesMove,
+                                           length,min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const
-        guard2 = alloc_selfcheck_guard_series_filter(length,min_length);
+    slice_index const played = alloc_branch(STSeriesMovePlayed,
+                                            length,min_length);
+    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length,min_length);
+    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
+                                            length,min_length);
     slice_index const fork = alloc_series_fork_slice(length,min_length,
                                                      proxy_to_next);
     slice_index const inverter = alloc_move_inverter_series_filter();
 
-    shorten_series_pipe(guard1);
-    shorten_series_pipe(guard2);
+    shorten_series_pipe(played1);
+    shorten_series_pipe(checked1);
+    shorten_series_pipe(dealt1);
+    shorten_series_pipe(played);
+    shorten_series_pipe(checked2);
+    shorten_series_pipe(dealt2);
     shorten_series_pipe(fork);
 
-    pipe_link(result,move);
-    pipe_link(move,guard2);
-    pipe_link(guard2,fork);
+    pipe_link(result,ready);
+    pipe_link(ready,move);
+    pipe_link(move,played);
+    pipe_link(played,checked2);
+    pipe_link(checked2,dealt2);
+    pipe_link(dealt2,fork);
     pipe_link(fork,inverter);
-    pipe_link(inverter,guard1);
-    pipe_link(guard1,result);
+    pipe_link(inverter,played1);
+    pipe_link(played1,checked1);
+    pipe_link(checked1,dealt1);
+    pipe_link(dealt1,result);
   }
 
   TraceFunctionExit(__func__);

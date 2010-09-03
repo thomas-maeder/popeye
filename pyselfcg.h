@@ -15,14 +15,6 @@
  */
 void stip_insert_selfcheck_guards(slice_index si);
 
-/* Allocate a STSelfCheckGuardSeriesFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return allocated slice
- */
-slice_index alloc_selfcheck_guard_series_filter(stip_length_type length,
-                                                stip_length_type min_length);
-
 /* Allocate a STSelfCheckGuardRootSolvableFilter slice
  * @return allocated slice
  */

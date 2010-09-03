@@ -59,6 +59,10 @@
     ENUMERATOR(STSeriesShortcut),  /* selects branch for solving short solutions */ \
     ENUMERATOR(STSeriesMove),    /* M-N moves of series play */         \
     ENUMERATOR(STSeriesMoveToGoal),   /* last series move reaching goal */ \
+    ENUMERATOR(STReadyForSeriesMove),                                   \
+    ENUMERATOR(STSeriesMovePlayed),                                     \
+    ENUMERATOR(STSeriesMoveLegalityChecked),                            \
+    ENUMERATOR(STSeriesMoveDealtWith),                                  \
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
