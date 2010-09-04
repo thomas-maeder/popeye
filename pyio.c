@@ -2392,7 +2392,10 @@ static char *ParsePlay(char *tok,
         {
           stip_make_series_goal_branch(proxy_next);
           if (length==slack_length_series)
-            pipe_link(proxy,proxy_next);
+          {
+            pipe_link(proxy,slices[proxy_next].u.pipe.next);
+            dealloc_slice(proxy_next);
+          }
           else
           {
             slice_index const branch = alloc_series_branch(length,
@@ -2537,7 +2540,10 @@ static char *ParsePlay(char *tok,
         {
           stip_make_help_goal_branch(proxy_next);
           if (length==slack_length_help+1)
-            pipe_link(proxy,proxy_next);
+          {
+            pipe_link(proxy,slices[proxy_next].u.pipe.next);
+            dealloc_slice(proxy_next);
+          }
           else
           {
             slice_index const branch = alloc_help_branch(length-1,
@@ -2569,7 +2575,10 @@ static char *ParsePlay(char *tok,
         {
           stip_make_help_goal_branch(proxy_next);
           if (length==slack_length_help+1)
-            pipe_link(proxy,proxy_next);
+          {
+            pipe_link(proxy,slices[proxy_next].u.pipe.next);
+            dealloc_slice(proxy_next);
+          }
           else
           {
             slice_index const branch = alloc_help_branch(length-1,
