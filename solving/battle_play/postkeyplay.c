@@ -107,24 +107,6 @@ static void substitute_defense_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Remove the STContinuationSolver slice not used in postkey play
- * @param si identifies slice around which to insert try handlers
- * @param st address of structure defining traversal
- */
-static void trash_for_postkey_play(slice_index si,
-                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_link(slices[si].prev,slices[si].u.pipe.next);
-  dealloc_slice(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors postkey_handler_inserters[] =
 {
   { STAttackMovePlayed, &stip_structure_visitor_noop },
