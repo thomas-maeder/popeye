@@ -1,6 +1,6 @@
 #include "output/plaintext/line/line.h"
 #include "pypipe.h"
-#include "pybrafrk.h"
+#include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/move_inversion_counter.h"
