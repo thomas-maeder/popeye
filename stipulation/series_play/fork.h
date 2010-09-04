@@ -10,12 +10,12 @@
 /* Allocate a STSeriesFork slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies slice leading towards goal
+ * @param to_goal identifies slice leading towards goal
  * @return index of allocated slice
  */
 slice_index alloc_series_fork_slice(stip_length_type length,
                                     stip_length_type min_length,
-                                    slice_index proxy_to_goal);
+                                    slice_index to_goal);
 
 /* Produce slices representing set play
  * @param si slice index

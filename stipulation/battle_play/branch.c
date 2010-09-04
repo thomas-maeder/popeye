@@ -56,8 +56,6 @@ slice_index alloc_defense_branch(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_proxy_slice();
-
   {
     slice_index const dready = alloc_ready_for_defense_slice(length,
                                                              min_length);
@@ -72,13 +70,14 @@ slice_index alloc_defense_branch(stip_length_type length,
                                                length-1,min_length-1);
     slice_index const ddealt = alloc_branch(STDefenseDealtWith,
                                             length-1,min_length-1);
-    pipe_link(result,dready);
     pipe_link(dready,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
     pipe_link(dshoehorned,dchecked);
     pipe_link(dchecked,dfiltered);
     pipe_link(dfiltered,ddealt);
+
+    result = dready;
   }
 
   TraceFunctionExit(__func__);
