@@ -23,8 +23,7 @@ void shorten_series_pipe(slice_index pipe)
   TraceFunctionParamListEnd();
 
   --slices[pipe].u.branch.length;
-  if (slices[pipe].u.branch.min_length>slack_length_series)
-    --slices[pipe].u.branch.min_length;
+  --slices[pipe].u.branch.min_length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -51,44 +50,36 @@ static slice_index alloc_series_to_goal(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
-    slice_index const played1 = alloc_branch(STSeriesMovePlayed,
-                                             length,min_length);
-    slice_index const checked1 = alloc_branch(STSeriesMoveLegalityChecked,
-                                              length,min_length);
-    slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
-                                            length,min_length);
-    slice_index const ready = alloc_branch(STReadyForSeriesMove,
-                                           length,min_length);
     slice_index const fork = alloc_series_fork_slice(length,min_length,
                                                      proxy_to_goal);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const played2 = alloc_branch(STSeriesMovePlayed,
-                                             length,min_length);
-    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
-                                              length,min_length);
-    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
-                                            length,min_length);
+    slice_index const played1 = alloc_branch(STSeriesMovePlayed,
+                                             length-1,min_length-1);
+    slice_index const checked1 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length-1,min_length-1);
+    slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
+                                            length-1,min_length-1);
     slice_index const inverter = alloc_move_inverter_series_filter();
+    slice_index const played2 = alloc_branch(STSeriesMovePlayed,
+                                             length-1,min_length-1);
+    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length-1,min_length-1);
+    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
+                                            length-1,min_length-1);
+    slice_index const ready = alloc_branch(STReadyForSeriesMove,
+                                           length-1,min_length-1);
 
-    shorten_series_pipe(played1);
-    shorten_series_pipe(checked1);
-    shorten_series_pipe(dealt1);
-    shorten_series_pipe(played2);
-    shorten_series_pipe(checked2);
-    shorten_series_pipe(dealt2);
-    shorten_series_pipe(inverter);
-
-    pipe_link(result,fork);
     pipe_link(fork,ready);
     pipe_link(ready,move);
-    pipe_link(move,played2);
-    pipe_link(played2,checked2);
-    pipe_link(checked2,dealt2);
-    pipe_link(dealt2,inverter);
-    pipe_link(inverter,played1);
+    pipe_link(move,played1);
     pipe_link(played1,checked1);
     pipe_link(checked1,dealt1);
-    pipe_link(dealt1,result);
+    pipe_link(dealt1,inverter);
+    pipe_link(inverter,played2);
+    pipe_link(played2,checked2);
+    pipe_link(checked2,dealt2);
+    pipe_link(dealt2,result);
+    pipe_link(result,fork);
   }
 
   TraceFunctionExit(__func__);
@@ -118,50 +109,80 @@ static slice_index alloc_series_to_nested(stip_length_type length,
   result = alloc_proxy_slice();
 
   {
-    slice_index const played1 = alloc_branch(STSeriesMovePlayed,
-                                             length,min_length);
-    slice_index const checked1 = alloc_branch(STSeriesMoveLegalityChecked,
-                                              length,min_length);
-    slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
-                                            length,min_length);
     slice_index const ready = alloc_branch(STReadyForSeriesMove,
                                            length,min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
-    slice_index const played = alloc_branch(STSeriesMovePlayed,
-                                            length,min_length);
-    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
-                                              length,min_length);
-    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
-                                            length,min_length);
-    slice_index const fork = alloc_series_fork_slice(length,min_length,
+    slice_index const played1 = alloc_branch(STSeriesMovePlayed,
+                                             length-1,min_length-1);
+    slice_index const checked1 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length-1,min_length-1);
+    slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
+                                            length-1,min_length-1);
+    slice_index const fork = alloc_series_fork_slice(length-1,min_length-1,
                                                      proxy_to_next);
     slice_index const inverter = alloc_move_inverter_series_filter();
+    slice_index const played2 = alloc_branch(STSeriesMovePlayed,
+                                             length-1,min_length-1);
+    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length-1,min_length-1);
+    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
+                                            length-1,min_length-1);
 
-    shorten_series_pipe(played1);
-    shorten_series_pipe(checked1);
-    shorten_series_pipe(dealt1);
-    shorten_series_pipe(played);
-    shorten_series_pipe(checked2);
-    shorten_series_pipe(dealt2);
-    shorten_series_pipe(fork);
-
-    pipe_link(result,ready);
     pipe_link(ready,move);
-    pipe_link(move,played);
-    pipe_link(played,checked2);
-    pipe_link(checked2,dealt2);
-    pipe_link(dealt2,fork);
-    pipe_link(fork,inverter);
-    pipe_link(inverter,played1);
+    pipe_link(move,played1);
     pipe_link(played1,checked1);
     pipe_link(checked1,dealt1);
-    pipe_link(dealt1,result);
+    pipe_link(dealt1,fork);
+    pipe_link(fork,inverter);
+    pipe_link(inverter,played2);
+    pipe_link(played2,checked2);
+    pipe_link(checked2,dealt2);
+    pipe_link(dealt2,result);
+    pipe_link(result,ready);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Insert a the appropriate proxy slices before each
+ * STGoalReachedTester slice
+ * @param si identifies STGoalReachedTester slice
+ * @param st address of structure representing the traversal
+ */
+static void instrument_tester(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    Goal const goal = slices[si].u.goal_reached_tester.goal;
+    slice_index const ready = alloc_branch(STReadyForSeriesMove,
+                                           slack_length_series+1,
+                                           slack_length_series+1);
+    slice_index const move_to_goal = alloc_series_move_to_goal_slice(goal);
+    slice_index const played = alloc_branch(STSeriesMovePlayed,
+                                            slack_length_series,
+                                            slack_length_series);
+    slice_index const checked = alloc_branch(STSeriesMoveLegalityChecked,
+                                             slack_length_series,
+                                             slack_length_series);
+    slice_index const dealt = alloc_branch(STSeriesMoveDealtWith,
+                                           slack_length_series,
+                                           slack_length_series);
+    pipe_append(slices[si].prev,ready);
+    pipe_append(ready,move_to_goal);
+    pipe_append(move_to_goal,played);
+
+    pipe_append(si,checked);
+    pipe_append(checked,dealt);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a series branch where the next slice's starter is the
@@ -191,18 +212,14 @@ slice_index alloc_series_branch(stip_length_type length,
 
   if (slices[to_next].type==STGoalReachedTester)
   {
-    /* last move is represented by a STSeriesMoveToGoal slice */
-    Goal const goal = slices[to_next].u.goal_reached_tester.goal;
-    pipe_append(proxy_to_next,alloc_series_move_to_goal_slice(goal));
-    --length;
-    --min_length;
+    instrument_tester(to_next);
 
-    if (length==slack_length_series)
+    if (length==slack_length_series+1)
       /* that move is the only move */
       result = proxy_to_next;
     else
       /* allocate a branch for the other moves */
-      result = alloc_series_to_goal(length,min_length,proxy_to_next);
+      result = alloc_series_to_goal(length-1,min_length-1,proxy_to_next);
   }
   else
     result = alloc_series_to_nested(length,min_length,proxy_to_next);

@@ -1,5 +1,6 @@
 #include "output/plaintext/line/line.h"
 #include "pypipe.h"
+#include "pybrafrk.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/move_inversion_counter.h"
@@ -92,23 +93,18 @@ static void instrument_series_fork(slice_index si,
                                    stip_structure_traversal *st)
 {
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-  slice_index next = slices[to_goal].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[to_goal].type==STProxy);
-  while (slices[next].type==STProxy
-         || slices[next].type==STSeriesHashed)
-    next = slices[next].u.pipe.next;
-
-  if (slices[next].type==STReadyForSeriesMove
-      || slices[next].type==STSeriesFork)
+  /* if we start another "real" series branch, si is part of an intro
+   * series; restart move counting after forking */
+  if (branch_find_slice(STSeriesFork,to_goal)!=no_slice)
   {
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();
-    pipe_set_successor(marker,to_goal);
+    pipe_link(marker,to_goal);
     slices[si].u.branch_fork.towards_goal = marker;
   }
 

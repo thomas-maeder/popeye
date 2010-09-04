@@ -2408,14 +2408,13 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const next_next = slices[next].u.pipe.next;
-      if (slices[next_next].type!=STSeriesMoveToGoal)
+      slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
+                                                     next);
+      if (inverter!=no_slice)
       {
         slice_index const proxy = alloc_proxy_slice();
         slice_index const help = alloc_help_move_slice(slack_length_help+1,
                                                        slack_length_help+1);
-        slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                    next);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,
                                                      inverter);
         convert_to_parry_series_branch(next,proxy);
@@ -2433,7 +2432,7 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      assert(slices[slices[next].u.pipe.next].type!=STSeriesMoveToGoal);
+      assert(branch_find_slice(STSeriesFork,proxy)!=no_slice);
 
       {
         slice_index const proxy = alloc_proxy_slice();
@@ -2459,8 +2458,9 @@ static char *ParsePlay(char *tok,
     if (result!=0)
     {
       slice_index const next = slices[proxy].u.pipe.next;
-      slice_index const next_next = slices[next].u.pipe.next;
-      if (slices[next_next].type!=STSeriesMoveToGoal)
+      slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
+                                                     next);
+      if (inverter!=no_slice)
       {
         slice_index const proxy = alloc_proxy_slice();
         slice_index const
@@ -2468,8 +2468,6 @@ static char *ParsePlay(char *tok,
                                                      slack_length_battle+2);
         slice_index const def = alloc_defense_move_slice(slack_length_battle+2,
                                                          slack_length_battle+2);
-        slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                       next);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,
                                                      inverter);
         convert_to_parry_series_branch(next,proxy);

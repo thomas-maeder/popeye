@@ -1,5 +1,5 @@
 output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
-  output/plaintext/line/line.h pypipe.h \
+  output/plaintext/line/line.h pypipe.h pybrafrk.h \
   output/plaintext/end_of_phase_writer.h \
   output/plaintext/line/line_writer.h \
   output/plaintext/line/move_inversion_counter.h \
@@ -8,6 +8,8 @@ output/plaintext/line/line$(OBJ_SUFFIX): output/plaintext/line/line.c \
 output/plaintext/line/line.h:
 
 pypipe.h:
+
+pybrafrk.h:
 
 output/plaintext/end_of_phase_writer.h:
 
