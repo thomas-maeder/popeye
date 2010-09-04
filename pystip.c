@@ -751,8 +751,8 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STHelpMove,                     &help_move_make_root              },
   { STHelpMoveToGoal,               &help_move_to_goal_make_root      },
   { STHelpFork,                     &help_fork_make_root              },
+  { STReadyForSeriesMove,           &ready_for_series_move_make_root  },
   { STSeriesMove,                   &series_move_make_root            },
-  { STSeriesMoveToGoal,             &series_move_to_goal_make_root    },
   { STSeriesFork,                   &series_fork_make_root            },
   { STLeaf,                         &leaf_make_root                   },
   { STReciprocal,                   &reci_make_root                   },
@@ -1793,8 +1793,16 @@ static structure_traversers_visitors exact_makers[] =
   { STSelfDefense,                &make_exact_battle_branch },
   { STHelpMove,                   &make_exact_help_branch   },
   { STHelpFork,                   &make_exact_help_branch   },
+  { STReadyForHelpMove,           &make_exact_help_branch   },
+  { STHelpMovePlayed,             &make_exact_help_branch   },
+  { STHelpMoveLegalityChecked,    &make_exact_help_branch   },
+  { STHelpMoveDealtWith,          &make_exact_help_branch   },
   { STSeriesMove,                 &make_exact_series_branch },
-  { STSeriesFork,                 &make_exact_series_branch }
+  { STSeriesFork,                 &make_exact_series_branch },
+  { STReadyForSeriesMove,         &make_exact_series_branch },
+  { STSeriesMovePlayed,           &make_exact_series_branch },
+  { STSeriesMoveLegalityChecked,  &make_exact_series_branch },
+  { STSeriesMoveDealtWith,        &make_exact_series_branch }
 };
 
 enum

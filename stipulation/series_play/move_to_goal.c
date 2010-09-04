@@ -3,13 +3,9 @@
 #include "pyproc.h"
 #include "pypipe.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "stipulation/series_play/play.h"
 #include "trace.h"
 #include "stipulation/branch.h"
-#include "stipulation/help_play/move.h"
-#include "stipulation/series_play/branch.h"
-#include "stipulation/series_play/root.h"
-#include "stipulation/series_play/shortcut.h"
+#include "stipulation/series_play/play.h"
 
 #include <assert.h>
 
@@ -33,26 +29,6 @@ slice_index alloc_series_move_to_goal_slice(Goal goal)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void series_move_to_goal_make_root(slice_index si,
-                                     stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *root = alloc_series_root_slice(slack_length_series+1,slack_length_series+1,
-                                  slices[si].prev,no_slice);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Detect starter field with the starting side if possible.

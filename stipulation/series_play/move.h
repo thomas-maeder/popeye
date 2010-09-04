@@ -27,6 +27,13 @@ void series_move_make_setplay_slice(slice_index si,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
+void ready_for_series_move_make_root(slice_index si,
+                                     stip_structure_traversal *st);
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
 void series_move_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Detect starter field with the starting side if possible.

@@ -8,6 +8,7 @@
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/branch.h"
 #include "stipulation/series_play/root.h"
+#include "stipulation/series_play/shortcut.h"
 
 #include <assert.h>
 
@@ -61,6 +62,46 @@ void series_move_make_setplay_slice(slice_index si,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
+void ready_for_series_move_make_root(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  slice_index new_root;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  assert(*root!=no_slice);
+
+  new_root = alloc_series_root_slice(length,min_length);
+
+  if (slices[*root].type==STLeaf)
+  {
+    /* ser-X1 - directly insert the root slice before ourselves */
+    dealloc_slice(*root);
+    pipe_link(new_root,si);
+  }
+  else
+  {
+    pipe_link(new_root,*root);
+    pipe_append(new_root,alloc_series_shortcut(length,min_length,si));
+  }
+
+  *root = new_root;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
 void series_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
@@ -69,20 +110,9 @@ void series_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    slice_index shortcut = slices[si].prev;
-
-    slice_index const root_branch = copy_slice(si);
-
-    while (slices[shortcut].type!=STReadyForSeriesMove)
-      shortcut = slices[shortcut].prev;
-
-    *root = alloc_series_root_slice(length,min_length,root_branch,shortcut);
-
-    shorten_series_pipe(si);
-  }
+  assert(*root==no_slice);
+  *root = copy_slice(si);
+  shorten_series_pipe(si);
   
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

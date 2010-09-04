@@ -29,32 +29,23 @@ stipulation/series_play/shortcut.h:
 
 trace.h:
 stipulation/series_play/root$(OBJ_SUFFIX): stipulation/series_play/root.c \
-  stipulation/series_play/root.h pydata.h pyproc.h stipulation/branch.h \
-  stipulation/series_play/play.h pypipe.h trace.h \
-  stipulation/series_play/branch.h stipulation/series_play/shortcut.h
+  stipulation/series_play/root.h pypipe.h trace.h stipulation/branch.h \
+  stipulation/series_play/play.h
 
 stipulation/series_play/root.h:
-
-pydata.h:
-
-pyproc.h:
-
-stipulation/branch.h:
-
-stipulation/series_play/play.h:
 
 pypipe.h:
 
 trace.h:
 
-stipulation/series_play/branch.h:
+stipulation/branch.h:
 
-stipulation/series_play/shortcut.h:
+stipulation/series_play/play.h:
 stipulation/series_play/move$(OBJ_SUFFIX): stipulation/series_play/move.c \
   stipulation/series_play/move.h pydata.h pyproc.h pypipe.h trace.h \
   stipulation/branch.h stipulation/help_play/move.h \
   stipulation/series_play/play.h stipulation/series_play/branch.h \
-  stipulation/series_play/root.h
+  stipulation/series_play/root.h stipulation/series_play/shortcut.h
 
 stipulation/series_play/move.h:
 
@@ -75,13 +66,13 @@ stipulation/series_play/play.h:
 stipulation/series_play/branch.h:
 
 stipulation/series_play/root.h:
+
+stipulation/series_play/shortcut.h:
 stipulation/series_play/move_to_goal$(OBJ_SUFFIX):  \
  stipulation/series_play/move_to_goal.c \
   stipulation/series_play/move_to_goal.h pydata.h pyproc.h pypipe.h \
   optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
-  stipulation/series_play/play.h trace.h stipulation/branch.h \
-  stipulation/help_play/move.h stipulation/series_play/branch.h \
-  stipulation/series_play/root.h stipulation/series_play/shortcut.h
+  trace.h stipulation/branch.h stipulation/series_play/play.h
 
 stipulation/series_play/move_to_goal.h:
 
@@ -93,19 +84,11 @@ pypipe.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
-stipulation/series_play/play.h:
-
 trace.h:
 
 stipulation/branch.h:
 
-stipulation/help_play/move.h:
-
-stipulation/series_play/branch.h:
-
-stipulation/series_play/root.h:
-
-stipulation/series_play/shortcut.h:
+stipulation/series_play/play.h:
 stipulation/series_play/fork$(OBJ_SUFFIX): stipulation/series_play/fork.c \
   stipulation/series_play/fork.h pybrafrk.h stipulation/branch.h \
   stipulation/series_play/branch.h stipulation/series_play/play.h \

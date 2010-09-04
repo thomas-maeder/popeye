@@ -11,14 +11,11 @@
 
 /* Allocate a STSeriesRoot slice.
  * @param length maximum number of half-moves of slice (+ slack)
- * @param next identifies following branch silice
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
 slice_index alloc_series_root_slice(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index next,
-                                    slice_index short_sols);
+                                    stip_length_type min_length);
 
 /* Traversal of the moves beyond a series root slice 
  * @param si identifies root of subtree
