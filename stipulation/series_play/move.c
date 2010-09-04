@@ -76,7 +76,7 @@ void series_move_make_root(slice_index si, stip_structure_traversal *st)
 
     slice_index const root_branch = copy_slice(si);
 
-    while (slices[shortcut].type!=STProxy)
+    while (slices[shortcut].type!=STReadyForSeriesMove)
       shortcut = slices[shortcut].prev;
 
     *root = alloc_series_root_slice(length,min_length,root_branch,shortcut);

@@ -2132,9 +2132,10 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
   result = ParseLength(tok,STSeriesMove,&length,&min_length);
   if (result!=0)
   {
+    slice_index const branch = alloc_series_branch(length+1,min_length);
     stip_make_help_goal_branch(proxy_next);
-    pipe_set_successor(proxy,
-                       alloc_series_branch(length+1,min_length,proxy_next));
+    series_branch_set_next_slice(branch,proxy_next);
+    pipe_set_successor(proxy,branch);
   }
 
   TraceFunctionExit(__func__);
@@ -2164,13 +2165,13 @@ static char *ParseSerS(char *tok, slice_index proxy, slice_index proxy_next)
   result = ParseLength(tok,STSeriesMove,&length,&min_length);
   if (result!=0)
   {
+    slice_index const series = alloc_series_branch(length+1,min_length);
     slice_index const
         defense_branch = alloc_defense_branch(slack_length_battle+1,
                                               slack_length_battle+1);
-    slice_index const series = alloc_series_branch(length+1,min_length,
-                                                   defense_branch);
     slice_make_self_goal_branch(proxy_next);
     slice_insert_self_guards(defense_branch,proxy_next);
+    series_branch_set_next_slice(series,defense_branch);
     pipe_set_successor(proxy,series);
   }
 
@@ -2209,8 +2210,8 @@ static char *ParsePlay(char *tok,
         stip_length_type const min_length = 1+slack_length_series;
         slice_index const branch = alloc_series_branch(intro_len
                                                        +slack_length_series,
-                                                       min_length,
-                                                       proxy_next);
+                                                       min_length);
+        series_branch_set_next_slice(branch,proxy_next);
         pipe_set_successor(proxy,branch);
       }
     }
@@ -2241,11 +2242,11 @@ static char *ParsePlay(char *tok,
       {
         slice_index const mi = alloc_move_inverter_solvable_filter();
         slice_index const guard = alloc_selfcheck_guard_solvable_filter();
-        slice_index const branch = alloc_series_branch(length,min_length,
-                                                       proxy_next);
+        slice_index const branch = alloc_series_branch(length,min_length);
         pipe_link(mi,guard);
         pipe_link(guard,slices[proxy_next].u.pipe.next);
         pipe_link(proxy_next,mi);
+        series_branch_set_next_slice(branch,proxy_next);
         pipe_set_successor(proxy,branch);
 
         stip_impose_starter(proxy_next,White);
@@ -2281,6 +2282,8 @@ static char *ParsePlay(char *tok,
             pipe_link(proxy,defense_branch);
           else
           {
+            slice_index const series = alloc_series_branch(length,min_length);
+
             stip_length_type const help_length = slack_length_help+1;
             slice_index const help_proxy = alloc_proxy_slice();
             slice_index const help = alloc_help_branch(help_length,
@@ -2288,9 +2291,8 @@ static char *ParsePlay(char *tok,
             help_branch_set_next_slice(help,defense_branch);
             pipe_set_successor(help_proxy,help);
 
-            pipe_set_successor(proxy,
-                               alloc_series_branch(length,min_length,
-                                                   help_proxy));
+            series_branch_set_next_slice(series,help_proxy);
+            pipe_set_successor(proxy,series);
           }
 
           stip_impose_starter(proxy_next,White);
@@ -2388,14 +2390,18 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STSeriesMove,&length,&min_length);
         if (result!=0)
         {
-          slice_index const branch = alloc_series_branch(length+1,min_length,
-                                                         proxy_next);
-          if (slices[branch].prev==no_slice)
-            pipe_link(proxy,branch);
+          stip_make_series_goal_branch(proxy_next);
+          if (length==slack_length_series)
+            pipe_link(proxy,proxy_next);
           else
+          {
+            slice_index const branch = alloc_series_branch(length,
+                                                           min_length-1);
+            series_branch_set_goal_slice(branch,proxy_next);
             pipe_set_successor(proxy,branch);
-          stip_impose_starter(proxy_next,White);
+          }
 
+          stip_impose_starter(proxy_next,White);
           set_output_mode(output_mode_line);
         }
       }
@@ -3100,9 +3106,11 @@ static char *ParseStructuredStip_branch_ser(char *tok,
       min_length += slack_length_series;
       max_length += slack_length_series;
 
-      pipe_set_successor(proxy,
-                         alloc_series_branch(max_length,min_length,
-                                             proxy_to_operand));
+      {
+        slice_index const series = alloc_series_branch(max_length,min_length);
+        pipe_set_successor(proxy,series);
+        series_branch_set_next_slice(series,proxy_to_operand);
+      }
     }
   }
   

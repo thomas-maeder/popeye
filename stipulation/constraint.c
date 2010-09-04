@@ -1010,13 +1010,13 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STHelpMove,          &reflex_guards_inserter_help         },
-  { STHelpMoveToGoal,    &reflex_guards_inserter_help         },
-  { STHelpFork,          &reflex_guards_inserter_branch_fork  },
-  { STSeriesMove,        &reflex_guards_inserter_series       },
-  { STSeriesFork,        &reflex_guards_inserter_branch_fork  },
-  { STGoalReachedTester, &stip_structure_visitor_noop         },
-  { STReadyForDefense,   &reflex_guards_inserter_defense_semi }
+  { STHelpMove,           &reflex_guards_inserter_help         },
+  { STHelpMoveToGoal,     &reflex_guards_inserter_help         },
+  { STHelpFork,           &reflex_guards_inserter_branch_fork  },
+  { STReadyForSeriesMove, &reflex_guards_inserter_series       },
+  { STSeriesFork,         &reflex_guards_inserter_branch_fork  },
+  { STGoalReachedTester,  &stip_structure_visitor_noop         },
+  { STReadyForDefense,    &reflex_guards_inserter_defense_semi }
 };
 
 enum
