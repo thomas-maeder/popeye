@@ -886,33 +886,6 @@ enum
                                 / sizeof reflex_guards_inserters[0])
 };
 
-/* In alternate play, insert a STReflexHelpFilter slice before a slice
- * where the reflex stipulation might force the side at the move to
- * reach the goal
- */
-static void reflex_guards_inserter_help(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  init_param * const param = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const idx = (length+1-slack_length_help)%2;
-  slice_index const proxy_to_avoided = param->to_be_avoided[idx];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (proxy_to_avoided!=no_slice)
-    pipe_append(slices[si].prev,
-                alloc_reflex_help_filter(length,min_length,proxy_to_avoided));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a branch with STReflex* slices for a (non-semi)
  * reflex stipulation 
  * @param si root of branch to be instrumented
@@ -949,6 +922,34 @@ void slice_insert_reflex_filters(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* In alternate play, insert a STReflexHelpFilter slice before a slice
+ * where the reflex stipulation might force the side at the move to
+ * reach the goal
+ */
+static void reflex_guards_inserter_help(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  init_param * const param = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const idx = (length+1-slack_length_help)%2;
+  slice_index const proxy_to_avoided = param->to_be_avoided[idx];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  /* in general, only one side is bound to deliver reflexmate */
+  if (proxy_to_avoided!=no_slice)
+    pipe_append(slices[si].prev,
+                alloc_reflex_help_filter(length,min_length,proxy_to_avoided));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* In series play, insert a STReflexSeriesFilter slice before a slice where
  * the reflex stipulation might force the side at the move to reach
  * the goal
@@ -960,7 +961,6 @@ static void reflex_guards_inserter_series(slice_index si,
   slice_index const proxy_to_avoided = param->to_be_avoided[0];
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  slice_index const prev = slices[si].prev;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -968,12 +968,8 @@ static void reflex_guards_inserter_series(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  {
-    slice_index const filter = alloc_reflex_series_filter(length,min_length,
-                                                          proxy_to_avoided);
-    pipe_append(prev,filter);
-    pipe_append(filter,alloc_proxy_slice());
-  }
+  pipe_append(slices[si].prev,
+              alloc_reflex_series_filter(length,min_length,proxy_to_avoided));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1010,8 +1006,7 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STHelpMove,           &reflex_guards_inserter_help         },
-  { STHelpMoveToGoal,     &reflex_guards_inserter_help         },
+  { STReadyForHelpMove,   &reflex_guards_inserter_help         },
   { STHelpFork,           &reflex_guards_inserter_branch_fork  },
   { STReadyForSeriesMove, &reflex_guards_inserter_series       },
   { STSeriesFork,         &reflex_guards_inserter_branch_fork  },

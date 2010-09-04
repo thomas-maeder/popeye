@@ -222,10 +222,10 @@ solution finished.
 
   1.Qb5-e2 Ka3-b3   2.Qe2-b2 + c3*b2 # 
 
-              empile:        9790
-            jouecoup:        6461
-        orig_rbechec:        5534
-        orig_rnechec:        1795
+              empile:        9748
+            jouecoup:        6442
+        orig_rbechec:        5527
+        orig_rnechec:        1776
 solution finished. 
 
 

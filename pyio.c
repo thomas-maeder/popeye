@@ -2652,10 +2652,10 @@ static char *ParsePlay(char *tok,
 
             attach_help_branch(length,proxy,branch);
           }
-
-          stip_impose_starter(proxy_next,White);
-          set_output_mode(output_mode_line);
         }
+
+        stip_impose_starter(proxy_next,Black);
+        set_output_mode(output_mode_line);
       }
     }
   }
