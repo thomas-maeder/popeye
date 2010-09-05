@@ -124,7 +124,8 @@ void reflex_attacker_filter_make_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  guard = alloc_reflex_root_filter(stip_make_root_slices(avoided));
+  stip_traverse_structure(avoided,st);
+  guard = alloc_reflex_root_filter(*root);
 
   stip_traverse_structure_pipe(si,st);
   pipe_link(guard,*root);

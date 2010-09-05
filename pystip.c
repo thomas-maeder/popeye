@@ -512,10 +512,7 @@ slice_index copy_slice(slice_index original)
   TraceFunctionParam("%u",original);
   TraceFunctionParamListEnd();
 
-  if (slices[original].type==STProxy)
-    result = alloc_proxy_slice();
-  else
-    result = alloc_slice(slices[original].type);
+  result = alloc_slice(slices[original].type);
 
   slices[result] = slices[original];
   slice_set_predecessor(result,no_slice);
@@ -747,7 +744,6 @@ static structure_traversers_visitors root_slice_inserters[] =
 {
   { STProxy,                        &proxy_make_root                  },
   { STDefenseMoveLegalityChecked,   &battle_branch_make_root          },
-  { STDefenseMove,                  &battle_branch_make_root          },
   { STHelpMove,                     &help_move_make_root              },
   { STHelpMoveToGoal,               &help_move_to_goal_make_root      },
   { STHelpFork,                     &help_fork_make_root              },
@@ -757,13 +753,9 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STLeaf,                         &leaf_make_root                   },
   { STReciprocal,                   &reci_make_root                   },
   { STQuodlibet,                    &quodlibet_make_root              },
-  { STNot,                          &not_make_root                    },
   { STMoveInverterSolvableFilter,   &move_inverter_make_root          },
   { STReflexHelpFilter,             &reflex_help_filter_make_root     },
-  { STReflexSeriesFilter,           &reflex_series_filter_make_root   },
-  { STReflexAttackerFilter,         &battle_branch_make_root          },
-  { STReflexDefenderFilter,         &battle_branch_make_root          },
-  { STSelfDefense,                  &battle_branch_make_root          }
+  { STReflexSeriesFilter,           &reflex_series_filter_make_root   }
 };
 
 enum
@@ -799,13 +791,6 @@ void stip_insert_root_slices(slice_index si)
     TraceStipulation(next);
     TraceStipulation(result);
     dealloc_slices(next);
-  }
-
-  if (slices[result].type==STProxy)
-  {
-    slice_index const next = slices[result].u.pipe.next;
-    dealloc_slice(result);
-    result = next;
   }
   
   pipe_link(si,result);
@@ -1185,34 +1170,24 @@ static void transform_to_quodlibet_self_defense(slice_index si,
 static void transform_to_quodlibet_semi_reflex(slice_index si,
                                                stip_structure_traversal *st)
 {
-  slice_index * const new_proxy_to_goal = st->param;
-  slice_index const proxy_to_goal = slices[si].u.branch_fork.towards_goal;
-  slice_index const not = slices[proxy_to_goal].u.pipe.next;
-  slice_index const branch = slices[not].u.pipe.next;
-  slice_index const played = slices[branch].u.pipe.next;
-  slice_index const shoehorning = slices[played].u.pipe.next;
-  slice_index const tester = slices[shoehorning].u.pipe.next;
-  Goal const goal = slices[tester].u.goal_reached_tester.goal;
-  slice_index new_tester;
-  slice_index new_leaf;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy_to_goal].type==STProxy);
-  assert(slices[played].type==STAttackMovePlayed);
-  assert(slices[shoehorning].type==STAttackMoveShoeHorningDone);
-  assert(slices[tester].type==STGoalReachedTester);
+  {
+    slice_index * const new_proxy_to_goal = st->param;
+    slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
+    slice_index const tester = branch_find_slice(STGoalReachedTester,to_goal);
+    Goal const goal = slices[tester].u.goal_reached_tester.goal;
+    slice_index const new_leaf = alloc_leaf_slice();
+    slice_index const new_tester = alloc_goal_reached_tester_slice(goal);
 
-  new_leaf = alloc_leaf_slice();
-  new_tester = alloc_goal_reached_tester_slice(goal);
-  pipe_link(new_tester,new_leaf);
+    pipe_link(new_tester,new_leaf);
+    *new_proxy_to_goal = alloc_proxy_slice();
+    pipe_link(*new_proxy_to_goal,new_tester);
 
-  *new_proxy_to_goal = alloc_proxy_slice();
-  pipe_link(*new_proxy_to_goal,new_tester);
-
-  slice_make_direct_goal_branch(*new_proxy_to_goal);
+    slice_make_direct_goal_branch(*new_proxy_to_goal);
+  }
 
   stip_traverse_structure_children(si,st);
 
@@ -1377,12 +1352,8 @@ static void install_postkey_slice(slice_index si, slice_index postkey_slice)
   TraceFunctionParam("%u",postkey_slice);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STProxy);
   inverter = alloc_move_inverter_root_solvable_filter();
   pipe_link(inverter,postkey_slice);
-
-  TraceStipulation(si);
-  TraceStipulation(inverter);
   pipe_link(si,inverter);
 
   TraceFunctionExit(__func__);
@@ -1416,13 +1387,7 @@ boolean stip_apply_postkeyplay(slice_index si)
     result = false;
   else
   {
-    if (slices[postkey_slice].type==STProxy)
-    {
-      install_postkey_slice(si,slices[postkey_slice].u.pipe.next);
-      dealloc_slice(postkey_slice);
-    }
-    else
-      install_postkey_slice(si,postkey_slice);
+    install_postkey_slice(si,postkey_slice);
     result = true;
   }
 

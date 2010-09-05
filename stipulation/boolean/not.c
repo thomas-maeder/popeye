@@ -26,30 +26,6 @@ slice_index alloc_not_slice(void)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void not_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const not = alloc_not_slice();
-    pipe_link(not,*root);
-    *root = not;
-  }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
