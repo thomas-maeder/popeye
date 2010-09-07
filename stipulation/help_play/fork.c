@@ -29,8 +29,6 @@ slice_index alloc_help_fork_slice(stip_length_type length,
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  if (min_length+1<slack_length_help)
-    min_length += 2;
   result = alloc_branch_fork(STHelpFork,length,min_length,to_goal);
   
   TraceFunctionExit(__func__);
@@ -145,7 +143,7 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  if (n==slack_length_help)
+  if (n<slack_length_help+2)
     switch (slice_solve(slices[si].u.branch_fork.towards_goal))
     {
       case has_solution:
@@ -197,7 +195,7 @@ stip_length_type help_fork_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_help);
 
-  if (n==slack_length_help)
+  if (n<slack_length_help+2)
     switch (slice_has_solution(to_goal))
     {
       case has_solution:
