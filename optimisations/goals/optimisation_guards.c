@@ -11,6 +11,8 @@
 
 #include "trace.h"
 
+#include <assert.h>
+
 static void insert_goal_optimisation_attacker_filter(slice_index si, Goal goal)
 {
   stip_length_type const length = slices[si].u.branch.length;
@@ -259,6 +261,32 @@ void insert_goal_optimisation_guards_defense_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Insert goal prerequisite guards
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void insert_goal_optimisation_guards_help_fork(slice_index si,
+                                               stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (st->remaining<slack_length_help+2)
+  {
+    stip_length_type const save_remaining = st->remaining;
+    st->remaining = 0;
+    stip_traverse_moves(slices[si].u.branch_fork.towards_goal,st);
+    st->remaining = save_remaining;
+  }
+  else
+    stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument the stipulation structure with goal optimisation guards.
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
@@ -274,15 +302,55 @@ static void insert_goal_optimisation_guards_help_move(slice_index si,
 
   if (!state->is_optimised[si])
   {
+    Goal const save_goal = state->goal;
+
     stip_traverse_moves_branch_slice(si,st);
 
-    if (st->remaining==slack_length_help+1)
+    if (st->remaining<slack_length_help+2)
+    {
+      if (state->goal.type!=no_goal)
+        insert_goal_optimisation_help_filter(si,state->goal);
+      state->is_optimised[si] = true;
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with goal optimisation guards.
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void
+insert_goal_optimisation_guards_help_move_to_goal(slice_index si,
+                                                  stip_moves_traversal *st)
+{
+  optimisation_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    assert(st->remaining==slack_length_help+1);
+
     {
       Goal const goal = slices[si].u.branch.imminent_goal;
       if (goal.type!=no_goal)
         insert_goal_optimisation_help_filter(si,goal);
       state->is_optimised[si] = true;
     }
+
+    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -305,6 +373,8 @@ static
 
   if (!state->is_optimised[si])
   {
+    Goal const save_goal = state->goal;
+
     stip_traverse_moves_branch_slice(si,st);
 
     if (st->remaining==slack_length_series+1)
@@ -314,6 +384,8 @@ static
         insert_goal_optimisation_series_filter(si,goal);
       state->is_optimised[si] = true;
     }
+
+    state->goal = save_goal;
   }
 
   TraceFunctionExit(__func__);
@@ -344,10 +416,12 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
   { STDefenseFork,       &insert_goal_optimisation_guards_defense_fork      },
   { STKillerMoveFinalDefenseMove, &insert_goal_optimisation_guards_killer_defense  },
-  { STDefenseMove,                &insert_goal_optimisation_guards_defense  },
+  { STDefenseMove,       &insert_goal_optimisation_guards_defense           },
   { STAttackMoveToGoal,  &insert_goal_optimisation_guards_attack_to_goal    },
   { STGoalReachedTester, &insert_goal_optimisation_guards_goal              },
-  { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move         },
+  { STHelpFork,          &insert_goal_optimisation_guards_help_fork         },
+  { STHelpMove,          &insert_goal_optimisation_guards_help_move         },
+  { STHelpMoveToGoal,    &insert_goal_optimisation_guards_help_move_to_goal },
   { STSeriesMoveToGoal,  &insert_goal_optimisation_guards_series_move       }
 };
 

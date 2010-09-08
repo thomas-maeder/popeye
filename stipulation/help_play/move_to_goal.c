@@ -31,26 +31,6 @@ slice_index alloc_help_move_to_goal_slice(Goal goal)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_move_to_goal_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-  slice_index const prev = slices[si].prev;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *root = alloc_help_root_slice(slack_length_help+1,slack_length_help+1);
-  pipe_link(*root,prev);
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Try solving with all generated moves
  * @param si slice index
  * @param n exact number of moves to reach the end state

@@ -3,7 +3,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/help_play/fork.h"
 #include "stipulation/help_play/move.h"
-#include "stipulation/help_play/move_to_goal.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -37,59 +36,6 @@ static void shorten_slices(slice_index begin, slice_index end)
   }
 }
 
-/* Shorten a non-degenerate help branch
- * @param si identifies entry slice
- * @return entry slice of shortened branch
- *         no_slice if shortening isn't applicable
- */
-static slice_index shorten_non_degenerate(slice_index si)
-{
-  slice_index result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = branch_find_slice(STReadyForHelpMove,si);
-
-  assert(result!=no_slice);
-  assert(result!=si);
-    
-  shorten_slices(si,result);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Shorten a non-degenerate help branch
- * @param si identifies entry slice
- * @return entry slice of shortened branch
- *         no_slice if shortening isn't applicable
- */
-static slice_index shorten_degenerate(slice_index si)
-{
-  slice_index result;
-  
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const fork = branch_find_slice(STHelpFork,si);
-    assert(fork!=no_slice);
-    result = slices[fork].u.branch_fork.towards_goal;
-    slices[fork].u.branch_fork.towards_goal = no_slice;
-    dealloc_slices(si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Shorten a help branch by 1 half move
  * @param identifies entry slice of branch to be shortened
  * @return entry slice of shortened branch
@@ -103,10 +49,12 @@ slice_index help_branch_shorten(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length==slack_length_help+1)
-    result = shorten_degenerate(si);
-  else
-    result = shorten_non_degenerate(si);
+  result = branch_find_slice(STReadyForHelpMove,si);
+
+  assert(result!=no_slice);
+  assert(result!=si);
+    
+  shorten_slices(si,result);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -228,7 +176,7 @@ slice_index alloc_help_branch(stip_length_type length,
   {
     /* this indirect approach avoids some code duplication */
     slice_index const branch = alloc_help_branch_even(length+1,min_length+1);
-    result = shorten_non_degenerate(branch);
+    result = help_branch_shorten(branch);
   }
 
   TraceFunctionExit(__func__);
@@ -251,11 +199,11 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   assert(slices[si].type==STGoalReachedTester);
 
   {
-    Goal const goal = slices[si].u.goal_reached_tester.goal;
     slice_index const ready = alloc_branch(STReadyForHelpMove,
                                             slack_length_help+1,
                                             slack_length_help+1);
-    slice_index const move_to_goal = alloc_help_move_to_goal_slice(goal);
+    slice_index const move = alloc_help_move_slice(slack_length_help+1,
+                                                   slack_length_help+1);
     slice_index const played = alloc_branch(STHelpMovePlayed,
                                             slack_length_help,
                                             slack_length_help);
@@ -266,8 +214,8 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
                                            slack_length_help,
                                            slack_length_help);
     pipe_append(slices[si].prev,ready);
-    pipe_append(ready,move_to_goal);
-    pipe_append(move_to_goal,played);
+    pipe_append(ready,move);
+    pipe_append(move,played);
 
     pipe_append(si,checked);
     pipe_append(checked,dealt);

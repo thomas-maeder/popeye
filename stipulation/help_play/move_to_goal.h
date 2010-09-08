@@ -13,12 +13,6 @@
  */
 slice_index alloc_help_move_to_goal_slice(Goal goal);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void help_move_to_goal_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
  * @param n exact number of half moves until end state has to be reached

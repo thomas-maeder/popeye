@@ -2133,8 +2133,11 @@ static char *ParseSerH(char *tok, slice_index proxy, slice_index proxy_next)
   if (result!=0)
   {
     slice_index const branch = alloc_series_branch(length+1,min_length);
+    slice_index const help = alloc_help_branch(slack_length_help,
+                                               slack_length_help);
+    help_branch_set_next_slice(help,proxy_next);
     stip_make_help_goal_branch(proxy_next);
-    series_branch_set_next_slice(branch,proxy_next);
+    series_branch_set_next_slice(branch,help);
     pipe_set_successor(proxy,branch);
   }
 
@@ -2505,20 +2508,10 @@ static char *ParsePlay(char *tok,
 
       if (result!=0)
       {
-        if (length==slack_length_help && min_length==slack_length_help)
-        {
-          pipe_link(proxy,slices[proxy_next].u.pipe.next);
-          dealloc_slice(proxy_next);
-        }
-        else
-        {
-          slice_index const branch = alloc_help_branch(length,min_length);
-          help_branch_set_next_slice(branch,proxy_next);
-          attach_help_branch(length,proxy,branch);
-        }
-
+        slice_index const branch = alloc_help_branch(length,min_length);
+        help_branch_set_next_slice(branch,proxy_next);
+        attach_help_branch(length,proxy,branch);
         stip_impose_starter(proxy,Black);
-
         set_output_mode(output_mode_line);
       }
     }
@@ -2538,20 +2531,10 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const branch = alloc_help_branch(length-1,min_length-1);
           stip_make_help_goal_branch(proxy_next);
-          if (length==slack_length_help+1)
-          {
-            pipe_link(proxy,slices[proxy_next].u.pipe.next);
-            dealloc_slice(proxy_next);
-          }
-          else
-          {
-            slice_index const branch = alloc_help_branch(length-1,
-                                                         min_length-1);
-            help_branch_set_next_slice(branch,proxy_next);
-            pipe_set_successor(proxy,branch);
-          }
-
+          help_branch_set_next_slice(branch,proxy_next);
+          pipe_set_successor(proxy,branch);
           stip_impose_starter(proxy,White);
           set_output_mode(output_mode_line);
         }
@@ -2573,20 +2556,10 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const branch = alloc_help_branch(length-1,min_length-1);
           stip_make_help_goal_branch(proxy_next);
-          if (length==slack_length_help+1)
-          {
-            pipe_link(proxy,slices[proxy_next].u.pipe.next);
-            dealloc_slice(proxy_next);
-          }
-          else
-          {
-            slice_index const branch = alloc_help_branch(length-1,
-                                                         min_length-1);
-            help_branch_set_next_slice(branch,proxy_next);
-            pipe_set_successor(proxy,branch);
-          }
-
+          help_branch_set_next_slice(branch,proxy_next);
+          pipe_set_successor(proxy,branch);
           stip_impose_starter(proxy,Black);
           set_output_mode(output_mode_line);
         }
@@ -2683,21 +2656,11 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STHelpMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const branch = alloc_help_branch(length-1,min_length-1);
+
           stip_make_help_goal_branch(proxy_next);
-
-          if (length==slack_length_help+1)
-          {
-            pipe_link(proxy,slices[proxy_next].u.pipe.next);
-            dealloc_slice(proxy_next);
-          }
-          else
-          {
-            slice_index const branch = alloc_help_branch(length-1,
-                                                         min_length-1);
-            help_branch_set_next_slice(branch,proxy_next);
-            attach_help_branch(length,proxy,branch);
-          }
-
+          help_branch_set_next_slice(branch,proxy_next);
+          attach_help_branch(length,proxy,branch);
           stip_impose_starter(proxy_next,White);
           set_output_mode(output_mode_line);
         }

@@ -133,6 +133,7 @@
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/goals/optimisation_guards.h"
@@ -2552,6 +2553,66 @@ static void optimise_final_moves_defense_move(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
+static void optimise_final_moves_help_move(slice_index si,
+                                           stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+
+    stip_traverse_moves_branch_slice(si,st);
+
+    if (st->remaining==slack_length_help+1)
+    {
+      TraceValue("%u\n",state->goal.type);
+      if (state->goal.type!=no_goal
+          && slices[si].u.branch.length==slack_length_help+1)
+      {
+        slice_index const to_goal = alloc_help_move_to_goal_slice(state->goal);
+        pipe_replace(si,to_goal);
+      }
+    }
+
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void swallow_goal(slice_index si, stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!state->is_optimised[si])
+  {
+    Goal const save_goal = state->goal;
+    stip_traverse_moves_branch_slice(si,st);
+    state->goal = save_goal;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
 static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
@@ -2570,6 +2631,8 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
 static moves_traversers_visitors const final_move_optimisers[] =
 {
   { STDefenseMove,       &optimise_final_moves_defense_move },
+  { STHelpMove,          &optimise_final_moves_help_move    },
+  { STHelpMoveToGoal,    &swallow_goal                      },
   { STGoalReachedTester, &optimise_final_moves_goal         }
 };
 
@@ -2686,9 +2749,6 @@ static Token iterate_twins(Token prev_token)
       if (!init_intelligent_mode(template_slice_hook))
         Message(IntelligentRestricted);
 
-      if (is_hashtable_allocated())
-        stip_insert_hash_slices(template_slice_hook);
-
       if (OptFlag[solflights])
         stip_insert_maxflight_guards(template_slice_hook);
 
@@ -2712,9 +2772,6 @@ static Token iterate_twins(Token prev_token)
           && !stip_insert_stoponshortsolutions_filters(template_slice_hook))
         Message(NoStopOnShortSolutions);
 
-      if (OptFlag[noshort])
-        stip_insert_no_short_variations_filters(template_slice_hook);
-
       stip_detect_starter(slices[template_slice_hook].u.pipe.next);
       stip_impose_starter(slices[template_slice_hook].u.pipe.next,
                           slices[slices[template_slice_hook].u.pipe.next].starter);
@@ -2725,7 +2782,10 @@ static Token iterate_twins(Token prev_token)
     else if (initialise_verify_twin(slices[template_slice_hook].u.pipe.next))
     {
       slice_index root_slice = stip_deep_copy(template_slice_hook);
-      stip_impose_starter(root_slice,slices[slices[template_slice_hook].u.pipe.next].starter);
+
+      slice_index const template = slices[template_slice_hook].u.pipe.next;
+      Side const starter = slices[template].starter;
+      stip_impose_starter(root_slice,starter);
 
       /* Only now - the behavior of some output slices depends on the
        * starter of the root slice. Initialising them here allows them
@@ -2733,13 +2793,19 @@ static Token iterate_twins(Token prev_token)
        */
       stip_insert_output_slices(root_slice);
 
-      stip_insert_goal_prerequisite_guards(root_slice);
-
       /* only now that we can find out which side's pieces to keep */
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards(root_slice);
 
       stip_optimise_final_moves(root_slice);
+
+      if (is_hashtable_allocated())
+        stip_insert_hash_slices(root_slice);
+
+      if (OptFlag[noshort])
+        stip_insert_no_short_variations_filters(root_slice);
+
+      stip_insert_goal_prerequisite_guards(root_slice);
 
       stip_insert_goal_optimisation_guards(root_slice);
 

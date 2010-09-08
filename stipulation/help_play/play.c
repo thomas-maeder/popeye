@@ -209,23 +209,22 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
 has_solution_type help_solve(slice_index si)
 {
   has_solution_type result = has_no_solution;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  stip_length_type len = slices[si].u.branch.min_length;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type n;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(full_length>slack_length_help);
+  assert(length>=slack_length_help);
 
-  while (len<=full_length)
-    if (help_solve_in_n(si,len)==len)
+  for (n = min_length+(length-min_length)%2; n<=length; n +=2)
+    if (help_solve_in_n(si,n)==n)
     {
       result = has_solution;
       break;
     }
-    else
-      len += 2;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
