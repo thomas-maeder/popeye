@@ -38,6 +38,47 @@ slice_index alloc_help_move_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
+void ready_for_help_move_make_root(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static stip_length_type find_max_length_in_branch(slice_index si)
+{
+  stip_length_type result = slices[si].u.branch.length;
+  slice_index iterator;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  for (iterator = slices[si].u.pipe.next;
+       iterator!=no_slice
+           && iterator!=si
+           && slice_has_structure(iterator,slice_structure_pipe);
+       iterator = slices[iterator].u.pipe.next)
+    if (slice_has_structure(iterator,slice_structure_branch)
+        && slices[iterator].u.branch.length>result)
+      result = slices[iterator].u.branch.length;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
 void help_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
@@ -50,16 +91,22 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (min_length<slack_length_help)
+    min_length += 2;
+
   *root = alloc_help_root_slice(length,min_length);
 
   if (slices[next].prev==si)
   {
-    /* si is part of a loop - spin off a root branch */
     slice_index const shortcut = alloc_help_shortcut(length,min_length,prev);
     slice_index const root_branch = alloc_help_move_slice(length,min_length);
+
     pipe_link(*root,shortcut);
     pipe_link(shortcut,root_branch);
     pipe_set_successor(root_branch,next);
+
+    if (length==find_max_length_in_branch(si))
+      help_branch_shorten_slice(si);
   }
   else
   {
@@ -67,7 +114,7 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
     pipe_unlink(prev);
     pipe_link(*root,si);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

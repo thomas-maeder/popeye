@@ -35,8 +35,11 @@ void stip_make_help_goal_branch(slice_index si);
 
 /* Insert a fork to the next branch
  * @param si identifies the entry slice of a help branch
+ * @param n indicates at what n slice next should kick in
  * @param next identifies the entry slice of the next branch
  */
-void help_branch_set_next_slice(slice_index si, slice_index next);
+void help_branch_set_next_slice(slice_index si,
+                                stip_length_type n,
+                                slice_index next);
 
 #endif

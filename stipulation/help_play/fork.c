@@ -51,7 +51,7 @@ void help_fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length==slack_length_help)
+  if (length<slack_length_help+2)
   {
     *root = alloc_help_root_slice(length,min_length);
     pipe_set_successor(*root,si);
@@ -113,10 +113,10 @@ void stip_traverse_moves_help_fork(slice_index si, stip_moves_traversal *st)
 
   stip_traverse_moves_branch_init_full_length(si,st);
 
-  if (st->remaining<=slack_length_help+1)
+  if (st->remaining<=slack_length_help+2)
     stip_traverse_moves_branch(slices[si].u.branch_fork.towards_goal,st);
 
-  if (st->remaining>slack_length_help)
+  if (st->remaining>slack_length_help+1)
     stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -143,7 +143,7 @@ stip_length_type help_fork_solve_in_n(slice_index si, stip_length_type n)
 
   assert(n>=slack_length_help);
 
-  if (n<slack_length_help+2)
+  if (n<slack_length_help+3)
     switch (slice_solve(slices[si].u.branch_fork.towards_goal))
     {
       case has_solution:
@@ -195,7 +195,7 @@ stip_length_type help_fork_has_solution_in_n(slice_index si,
 
   assert(n>=slack_length_help);
 
-  if (n<slack_length_help+2)
+  if (n<slack_length_help+3)
     switch (slice_has_solution(to_goal))
     {
       case has_solution:

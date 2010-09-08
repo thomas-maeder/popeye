@@ -591,7 +591,7 @@ static boolean find_slice_with_nonstandard_min_length(void)
         break;
 
       case STHelpHashed:
-        result = min_length==length && length>slack_length_help+1;
+        result = min_length==length && length>slack_length_help+2;
         break;
 
       case STSeriesHashed:

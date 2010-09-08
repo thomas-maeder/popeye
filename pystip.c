@@ -744,6 +744,7 @@ static structure_traversers_visitors root_slice_inserters[] =
 {
   { STProxy,                        &proxy_make_root                  },
   { STDefenseMoveLegalityChecked,   &battle_branch_make_root          },
+  { STReadyForHelpMove,             &ready_for_help_move_make_root    },
   { STHelpMove,                     &help_move_make_root              },
   { STHelpFork,                     &help_fork_make_root              },
   { STReadyForSeriesMove,           &ready_for_series_move_make_root  },
