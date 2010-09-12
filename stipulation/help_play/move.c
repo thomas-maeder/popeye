@@ -4,6 +4,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/shortcut.h"
@@ -46,7 +47,7 @@ void ready_for_help_move_make_root(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -214,7 +215,7 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result = n+2;
-  
+
   while (encore())
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && help_has_solution_in_n(next,n-1)==n-1)
