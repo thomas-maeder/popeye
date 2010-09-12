@@ -395,7 +395,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STParryFork:
         Trace_branch(si);
-        Trace_link("parrying:",slices[si].u.parry_fork.non_parrying,"");
+        Trace_link("non_parrying:",slices[si].u.parry_fork.non_parrying,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         TraceStipulationRecursive(slices[si].u.parry_fork.non_parrying,done_slices);
