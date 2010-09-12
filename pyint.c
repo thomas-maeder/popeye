@@ -572,7 +572,7 @@ static void StaleStoreMate(
 
   /* checks against the wKing should be coped with earlier !!! */
   if (echecc(nbply,White))
-    AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed, n); 
+    AvoidWhKingInCheck(blmoves, whmoves, blpcallowed, whpcallowed, n);
 
   CapturesLeft[1]= unused;
 
@@ -2621,11 +2621,28 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Calculate the number of moves of each side
+ * @param si index of non-root slice
+ * @param st address of structure defining traversal
+ */
+static void moves_left_parry_fork(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves(slices[si].u.parry_fork.non_parrying,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static moves_traversers_visitors const moves_left_initialisers[] =
 {
-  { STGoalReachedTester,              &moves_left_goal },
-  { STGoalReachableGuardHelpFilter,   &moves_left_move },
-  { STGoalReachableGuardSeriesFilter, &moves_left_move }
+  { STGoalReachedTester,              &moves_left_goal       },
+  { STGoalReachableGuardHelpFilter,   &moves_left_move       },
+  { STGoalReachableGuardSeriesFilter, &moves_left_move       },
+  { STParryFork,                      &moves_left_parry_fork }
 };
 
 enum
@@ -2970,7 +2987,7 @@ void intelligent_guards_inserter_parry_fork(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const inverter = slices[si].u.pipe.next;
+    slice_index const inverter = slices[si].u.parry_fork.non_parrying;
     stip_length_type const length = slack_length_series+1;
     stip_length_type const min_length = slack_length_series+1;
     pipe_append(inverter,
@@ -3118,7 +3135,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
   current_start_slice = si;
 
   init_moves_left(si,n,full_length);
-     
+
   MatesMax = 0;
 
   solutions_found = false;
@@ -3174,7 +3191,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
   current_start_slice = si;
 
   init_moves_left(si,n,full_length);
-     
+
   MatesMax = 0;
 
   solutions_found = false;
@@ -3300,7 +3317,7 @@ void intelligent_mode_support_detector_quodlibet(slice_index si,
 
     *support = support1<support2 ? support1 : support2;
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -3315,7 +3332,7 @@ static void intelligent_mode_support_none(slice_index si,
   TraceFunctionParamListEnd();
 
   *support = intelligent_not_supported;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -3381,7 +3398,7 @@ static support_for_intelligent_mode stip_supports_intelligent(slice_index si)
 boolean init_intelligent_mode(slice_index si)
 {
   boolean result;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();

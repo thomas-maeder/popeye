@@ -18,15 +18,15 @@
  **
  ** 2007/07/38 SE   Bugfix: Forsyth
  **
- ** 2006/07/30 SE   New condition: Schwarzschacher  
+ ** 2006/07/30 SE   New condition: Schwarzschacher
  **
- ** 2007/01/28 SE   New condition: Annan Chess 
+ ** 2007/01/28 SE   New condition: Annan Chess
  **
  ** 2007/03/01 SE   Changed Twin Char to support larger no. of twins - old implementation
  **                 produced odd characters after a while; new just calls all twins after
  **                 z z1, z2, z3... etc. limited by sizeof int, I suppose
  **
- ** 2007/04/28 SE   Bugfix: parsing SAT followed by another condition 
+ ** 2007/04/28 SE   Bugfix: parsing SAT followed by another condition
  **
  ** 2007/06/01 SE   Bug fixes: Forsyth entry (fairy piece on a8)
  **
@@ -36,15 +36,15 @@
  **
  ** 2007/12/26 SE   New piece type: Protean man (invent A.H.Kniest?)
  **
- ** 2008/01/02 NG   New condition: Geneva Chess 
+ ** 2008/01/02 NG   New condition: Geneva Chess
  **
- ** 2008/01/11 SE   New variant: Special Grids 
+ ** 2008/01/11 SE   New variant: Special Grids
  **
- ** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
+ ** 2008/01/13 SE   New conditions: White/Black Vaulting Kings
  **
- ** 2008/01/24 SE   New variant: Gridlines  
+ ** 2008/01/24 SE   New variant: Gridlines
  **
- ** 2008/02/19 SE   New condition: AntiKoeko  
+ ** 2008/02/19 SE   New condition: AntiKoeko
  **
  ** 2009/06/14 SE   New optiion: LastCapture
  **
@@ -96,9 +96,9 @@
 #include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/series_play/branch.h"
+#include "stipulation/series_play/move.h"
 #include "stipulation/series_play/parry_fork.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/help_play/move.h"
 #include "conditions/republican.h"
 #include "optimisations/maxsolutions/maxsolutions.h"
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
@@ -387,23 +387,23 @@ static void WriteConditions(int alignment)
       piece koekop = roib;
       char LocalBuf[4];
       nocontactfunc = cond==koeko ? &koekofunc : &antikoekofunc;
-      if (*nocontactfunc == noknightcontact) 
+      if (*nocontactfunc == noknightcontact)
         koekop= cb;
-      if (*nocontactfunc == nowazircontact) 
+      if (*nocontactfunc == nowazircontact)
         koekop= vizirb;
-      if (*nocontactfunc == noferscontact) 
+      if (*nocontactfunc == noferscontact)
         koekop= fersb;
-      if (*nocontactfunc == nodabbabacontact) 
+      if (*nocontactfunc == nodabbabacontact)
         koekop= dabb;
-      if (*nocontactfunc == noalfilcontact) 
+      if (*nocontactfunc == noalfilcontact)
         koekop= alfilb;
-      if (*nocontactfunc == nocamelcontact) 
+      if (*nocontactfunc == nocamelcontact)
         koekop= chb;
-      if (*nocontactfunc == nozebracontact) 
+      if (*nocontactfunc == nozebracontact)
         koekop= zb;
-      if (*nocontactfunc == nogiraffecontact) 
+      if (*nocontactfunc == nogiraffecontact)
         koekop= gib;
-      if (*nocontactfunc == noantelopecontact) 
+      if (*nocontactfunc == noantelopecontact)
         koekop= antilb;
 
       if (koekop == roib)
@@ -434,7 +434,7 @@ static void WriteConditions(int alignment)
 
   if ( cond == whvault_king || cond == vault_king)
   {
-      if (whitetransmpieces[0] != EquiHopper || whitetransmpieces[1] != vide) 
+      if (whitetransmpieces[0] != EquiHopper || whitetransmpieces[1] != vide)
         WritePieces(whitetransmpieces, CondLine);
       if (calc_whtrans_king)
       {
@@ -447,7 +447,7 @@ static void WriteConditions(int alignment)
 
   if ( cond == blvault_king )
   {
-      if (blacktransmpieces[0] != EquiHopper || blacktransmpieces[1] != vide) 
+      if (blacktransmpieces[0] != EquiHopper || blacktransmpieces[1] != vide)
         WritePieces(blacktransmpieces, CondLine);
       if (calc_bltrans_king)
       {
@@ -457,7 +457,7 @@ static void WriteConditions(int alignment)
         strcat(CondLine, LocalBuf);
       }
   }
-       
+
     if (cond == promotiononly) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
       char LocalBuf[4];
@@ -1240,7 +1240,7 @@ static Token StringToToken(char *tok)
 
 static long int ReadBGLNumber(char* inptr, char** endptr)
 {
-  /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more 
+  /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more
      in - and all other cases return infinity (no limit) */
   char buf[12];
   int res= BGL_infinity;
@@ -1265,11 +1265,11 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
   if (!dp)
     return 100*(long int)atoi(buf);
   while ((size_t)(dpp-buf) < len) {
-    *dpp=*(dpp+1); 
+    *dpp=*(dpp+1);
     dpp++;
   }
   for (dpp=buf; *dpp; dpp++)
-    if (*dpp == '.') 
+    if (*dpp == '.')
       return res;  /* 2 d.p. characters */
   switch (dp) /* N.B> d.p. is part of count */
   {
@@ -1479,7 +1479,7 @@ static char *ParseSquareList(char *tok,
       if (echo != 1) {
         spec[Square] = Spec;
         e[Square] = TSTFLAG(Spec,White) ? Name : -Name;
-      } 
+      }
       else {
         pprise[1] = TSTFLAG(Spec,White) ? Name : -Name;
         pprispec[1] = Spec;
@@ -1650,7 +1650,7 @@ static char *ParseForsyth(boolean output)
                       pc,
                       islower((int)InputLine[(tok++)-TokenLine]),
                       &NeutralFlag);
-        if (NeutralFlag) 
+        if (NeutralFlag)
           SETFLAG(PieSpExFlags,Neutral);
       }
       else
@@ -1670,7 +1670,7 @@ static char *ParseForsyth(boolean output)
                       pc,
                       islower((int)InputLine[(tok+1-TokenLine)]),
                       &NeutralFlag);
-        if (NeutralFlag) 
+        if (NeutralFlag)
           SETFLAG(PieSpExFlags,Neutral);
       }
       tok += 3;
@@ -1865,7 +1865,7 @@ static char *ParseLength(char *tok,
         break;
     }
   }
- 
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -1936,7 +1936,7 @@ static char *ParseGoal(char *tok, slice_index proxy)
         if (gic->goal==goal_atob)
         {
           int i;
-          
+
           ProofSaveStartPosition();
 
           /* InitBoard() does much more than the following: */
@@ -2424,14 +2424,14 @@ static char *ParsePlay(char *tok,
                                                      next);
       if (inverter!=no_slice)
       {
-        slice_index const proxy = alloc_proxy_slice();
-        slice_index const help = alloc_help_move_slice(slack_length_help+1,
-                                                       slack_length_help+1);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,
                                                      inverter);
-        convert_to_parry_series_branch(next,proxy);
-        pipe_link(proxy,help);
-        pipe_link(help,played);
+        stip_length_type const length = slices[played].u.branch.length;
+        stip_length_type const min_length = slices[played].u.branch.min_length;
+        slice_index const parrying = alloc_series_move_slice(length+1,
+                                                             min_length+1);
+        convert_to_parry_series_branch(next,parrying);
+        pipe_link(parrying,played);
 
         set_output_mode(output_mode_line);
       }
@@ -2447,16 +2447,16 @@ static char *ParsePlay(char *tok,
       assert(branch_find_slice(STSeriesFork,proxy)!=no_slice);
 
       {
-        slice_index const proxy = alloc_proxy_slice();
-        slice_index const help = alloc_help_move_slice(slack_length_help+1,
-                                                       slack_length_help+1);
-        slice_index const inverter = branch_find_slice(STMoveInverterSeriesFilter,
-                                                       next);
+        slice_index const
+            inverter = branch_find_slice(STMoveInverterSeriesFilter,next);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,
                                                      inverter);
-        convert_to_parry_series_branch(next,proxy);
-        pipe_link(proxy,help);
-        pipe_link(help,played);
+        stip_length_type const length = slices[played].u.branch.length;
+        stip_length_type const min_length = slices[played].u.branch.min_length;
+        slice_index const parrying = alloc_series_move_slice(length+1,
+                                                             min_length+1);
+        convert_to_parry_series_branch(next,parrying);
+        pipe_link(parrying,played);
 
         set_output_mode(output_mode_line);
       }
@@ -2474,7 +2474,6 @@ static char *ParsePlay(char *tok,
                                                      next);
       if (inverter!=no_slice)
       {
-        slice_index const proxy = alloc_proxy_slice();
         slice_index const
             solver = alloc_continuation_solver_slice(slack_length_battle+2,
                                                      slack_length_battle+2);
@@ -2482,8 +2481,7 @@ static char *ParsePlay(char *tok,
                                                          slack_length_battle+2);
         slice_index const played = branch_find_slice(STSeriesMovePlayed,
                                                      inverter);
-        convert_to_parry_series_branch(next,proxy);
-        pipe_link(proxy,solver);
+        convert_to_parry_series_branch(next,solver);
         pipe_link(solver,def);
         pipe_link(def,played);
 
@@ -2614,7 +2612,7 @@ static char *ParsePlay(char *tok,
         if (result!=0)
         {
           slice_index const branch = alloc_help_branch(length,min_length);
-            
+
           /* make the copy before stip_make_help_goal_branch inserts
              help play */
           slice_index const proxy_avoided = stip_deep_copy(proxy_next);
@@ -2799,7 +2797,7 @@ static char *ParseStip(slice_index root_slice_hook)
         && ActStip[0]=='\0')
       strcpy(ActStip, AlphaStip);
   }
-  
+
   tok = ReadNextTokStr();
 
   TraceFunctionExit(__func__);
@@ -2859,7 +2857,7 @@ static char *ParseStructuredStip_operand(char *tok,
 /* Parse a direct branch
  * @param tok input token
  * @param min_length minimal number of half moves
- * @param max_length maximal number of half moves 
+ * @param max_length maximal number of half moves
  * @param result index of branch; no_slice if branch couldn't be
  *               parsed
  * @return remainder of input token; 0 if parsing failed
@@ -2912,7 +2910,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
   }
   else
     tok = 0;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -2922,7 +2920,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
 /* Parse a direct branch
  * @param tok input token
  * @param min_length minimal number of half moves
- * @param max_length maximal number of half moves 
+ * @param max_length maximal number of half moves
  * @param result index of branch; no_slice if branch couldn't be
  *               parsed
  * @return remainder of input token; 0 if parsing failed
@@ -2975,7 +2973,7 @@ static char *ParseStructuredStip_branch_a(char *tok,
   }
   else
     tok = 0;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -2985,7 +2983,7 @@ static char *ParseStructuredStip_branch_a(char *tok,
 /* Parse a help branch
  * @param tok input token
  * @param min_length minimal number of half moves
- * @param max_length maximal number of half moves 
+ * @param max_length maximal number of half moves
  * @param result index of branch; no_slice if branch couldn't be
  *               parsed
  * @return remainder of input token; 0 if parsing failed
@@ -3031,7 +3029,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
       }
     }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -3041,7 +3039,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
 /* Parse a series branch
  * @param tok input token
  * @param min_length minimal number of half moves
- * @param max_length maximal number of half moves 
+ * @param max_length maximal number of half moves
  * @param result index of branch; no_slice if branch couldn't be
  *               parsed
  * @return remainder of input token; 0 if parsing failed
@@ -3078,7 +3076,7 @@ static char *ParseStructuredStip_branch_ser(char *tok,
       }
     }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -3088,7 +3086,7 @@ static char *ParseStructuredStip_branch_ser(char *tok,
 /* Parse the length indication of a branch
  * @param tok input token
  * @param min_length minimal number of half moves
- * @param max_length maximal number of half moves 
+ * @param max_length maximal number of half moves
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_length(char *tok,
@@ -3097,11 +3095,11 @@ static char *ParseStructuredStip_branch_length(char *tok,
 {
   char *end;
   unsigned long length_long = strtoul(tok,&end,10);
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
-  
+
   if (end==tok || length_long==0 || length_long>UINT_MAX)
     tok = 0;
   else
@@ -3163,7 +3161,7 @@ static char *ParseStructuredStip_branch(char *tok,
     else if (tok[0]=='h')
       tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,proxy);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -3187,7 +3185,7 @@ static char *ParseStructuredStip_not(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
-  
+
   tok = ParseStructuredStip_operand(tok+1,proxy,startLikeBranch);
   if (tok!=0)
     pipe_append(proxy,alloc_not_slice());
@@ -3215,7 +3213,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",startLikeBranch);
   TraceFunctionParamListEnd();
-  
+
   tok = ParseStructuredStip_operand(tok+1,proxy,!startLikeBranch);
 
   {
@@ -3262,7 +3260,7 @@ static char *ParseStructuredStip_operator(char *tok, SliceType *result)
   }
   else
     *result = no_slice_type;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -3333,7 +3331,7 @@ static char *ParseStructuredStip_expression(char *tok,
       }
     }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -3468,12 +3466,12 @@ static char *ParseStructuredStip(slice_index root_slice_hook)
 typedef enum
 {
   ReadImitators = nrSquareFlags,
-  ReadHoles,             
-  ReadEpSquares,         
-  ReadFrischAuf,         
-  ReadBlRoyalSq,         
-  ReadWhRoyalSq,         
-  ReadNoCastlingSquares, 
+  ReadHoles,
+  ReadEpSquares,
+  ReadFrischAuf,
+  ReadBlRoyalSq,
+  ReadWhRoyalSq,
+  ReadNoCastlingSquares,
   ReadGrid
 } SquareListContext;
 
@@ -3578,7 +3576,7 @@ static char *ReadSquares(SquareListContext context)
         case ReadGrid:
           ClearGridNum(sq);
           sq_spec[sq] += currentgridnum << Grid;
-          break;  
+          break;
 
         default:
           SETFLAG(sq_spec[sq],context);
@@ -3757,7 +3755,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     else if (type==ShiftRank && group==gpGrid)
     {
       square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++) 
+      for (bnp= boardnum; *bnp; bnp++)
       {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 8)/2)+4*((*bnp/24-7)/2)) << Grid;
@@ -3767,7 +3765,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     else if (type==ShiftFile && group==gpGrid)
     {
       square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++) 
+      for (bnp= boardnum; *bnp; bnp++)
       {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-8)/2)) << Grid;
@@ -3777,7 +3775,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
     else if (type==ShiftRankFile && group==gpGrid)
     {
       square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++) 
+      for (bnp= boardnum; *bnp; bnp++)
       {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-7)/2)) << Grid;
@@ -3813,21 +3811,21 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
           return tok;
         }
       }
-      for (bnp= boardnum; *bnp; bnp++) 
+      for (bnp= boardnum; *bnp; bnp++)
       {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (files[*bnp%24-8]+filenum*ranks[*bnp/24-8]) << Grid;
-      }        
+      }
       gridvar = grid_orthogonal_lines;
     }
     else if (type==Irregular && group==gpGrid)
     {
       square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++) 
+      for (bnp= boardnum; *bnp; bnp++)
       ClearGridNum(*bnp);
       gridvar = grid_irregular;
       currentgridnum=1;
-      do 
+      do
       {
         tok=ReadSquares(ReadGrid);
       }
@@ -3943,9 +3941,9 @@ static char *ParseVaultingPieces(Flags fl)
       switch (GetUniqIndex(VariantTypeCount,VariantTypeTab,tok))
       {
         case Transmuting:
-          if (TSTFLAG(fl, White)) 
+          if (TSTFLAG(fl, White))
             calc_whtrans_king= true;
-          if (TSTFLAG(fl, Black)) 
+          if (TSTFLAG(fl, Black))
             calc_bltrans_king= true;
           break;
 
@@ -4695,8 +4693,8 @@ static char *ParseCond(void) {
       case BGL:
         BGL_global= false;
         tok = ReadNextTokStr();
-        BGL_white= ReadBGLNumber(tok,&ptr); 
-        if (tok == ptr)  
+        BGL_white= ReadBGLNumber(tok,&ptr);
+        if (tok == ptr)
         {
           BGL_white= BGL_black= BGL_infinity;
           return tok;
@@ -4730,7 +4728,7 @@ static char *ParseCond(void) {
         blacknormaltranspieces = false;
         tok = ParseVaultingPieces(BIT(White) | BIT(Black));
         break;
-      case gridchess: 
+      case gridchess:
         tok = ParseVariant(NULL, gpGrid);
         break;
       default:
@@ -5467,7 +5465,7 @@ static char *ParseTwinningSubstitute(void) {
     IoErrorMsg(WrongPieceName,0);
     return tok;
   }
-  
+
   tok = ReadNextTokStr();
   switch (strlen(tok))
   {
@@ -5540,7 +5538,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
         strcat(ActTwinning, "{\\newline}");
       return tok;
     }
-    
+
     twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
     switch (twinning)
     {
@@ -6034,7 +6032,7 @@ void WritePosition() {
   StdString(BorderL);
   StdString(BlankL);
 
-  /* Just for visualizing imitators on the board. */                 
+  /* Just for visualizing imitators on the board. */
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
@@ -6192,7 +6190,7 @@ void WritePosition() {
 } /* WritePosition */
 
 
-void WriteGrid(void) 
+void WriteGrid(void)
 {
   square square, square_a;
   int row, file;
@@ -6516,7 +6514,7 @@ void LaTeXBeginDiagram(void)
     strcat(ActTwinning, "{\\newline}");
   }
 
-  /* Just for visualizing imitators on the board. */                 
+  /* Just for visualizing imitators on the board. */
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
@@ -6647,10 +6645,10 @@ void LaTeXBeginDiagram(void)
             fprintf(LaTeXFile, " h0%u8", i);
           }
         if (entry)
-          fprintf(LaTeXFile, "}%%\n");    
+          fprintf(LaTeXFile, "}%%\n");
         break;
       }
-      
+
       /* of course, only the following block is necessary */
       case grid_irregular:
         for (bnp = boardnum; *bnp; bnp++)
@@ -6676,7 +6674,7 @@ void LaTeXBeginDiagram(void)
           }
         }
         if (entry)
-          fprintf(LaTeXFile, "}%%\n");    
+          fprintf(LaTeXFile, "}%%\n");
         break;
     }
   }
@@ -6688,7 +6686,7 @@ void LaTeXBeginDiagram(void)
     char    MagicSqList[256] = "";
     boolean first_magic_piece= true;
     square  i;
- 
+
     fprintf(LaTeXFile, " \\fieldframe{");
     for (i= square_a1; i <= square_h8; i++)
       if (TSTFLAG(sq_spec[i], MagicSq))
@@ -6746,7 +6744,7 @@ void LaTeXBeginDiagram(void)
           firstline= false;
         }
     }
- 
+
     if (holess) {
       if (!firstline)
         fprintf(LaTeXFile, "{\\newline}\n    ");

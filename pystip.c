@@ -406,7 +406,7 @@ boolean slice_has_structure(slice_index si, slice_structural_type type)
       assert(0);
       break;
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -469,13 +469,13 @@ slice_index alloc_slice(SliceType type)
   for (result = 0; result!=max_nr_slices; ++result)
     if (is_slice_index_free[result])
       break;
-  
+
   assert(result<max_nr_slices);
 
   is_slice_index_free[result] = false;
 
-  slices[result].type = type; 
-  slices[result].starter = no_side; 
+  slices[result].type = type;
+  slices[result].starter = no_side;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -585,7 +585,7 @@ static void copy_into_root(slice_index si, stip_structure_traversal *st)
 
     *root = copy;
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -599,7 +599,7 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *root = si;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -716,7 +716,7 @@ enum
 };
 
 /* Create the root slices sequence for a battle play branch; shorten
- * the non-root slices by the moves represented by the root slices 
+ * the non-root slices by the moves represented by the root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
@@ -792,7 +792,7 @@ void stip_insert_root_slices(slice_index si)
     TraceStipulation(result);
     dealloc_slices(next);
   }
-  
+
   pipe_link(si,result);
 
   TraceFunctionExit(__func__);
@@ -1108,7 +1108,7 @@ static void remove_pipe(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
   pipe_remove(si);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -2293,7 +2293,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STSeriesMoveLegalityChecked */
     &stip_traverse_moves_pipe,                  /* STSeriesMoveDealtWith */
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
-    &stip_traverse_moves_pipe,                  /* STParryFork */
+    &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */
     &stip_traverse_moves_noop,                  /* STLeaf */
@@ -2401,7 +2401,7 @@ void stip_moves_traversal_init(stip_moves_traversal *st,
                                void *param)
 {
   unsigned int i;
-  
+
   st->map = moves_children_traversers;
 
   for (i = 0; i<nr_visitors; ++i)

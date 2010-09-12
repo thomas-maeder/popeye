@@ -11,9 +11,9 @@
 
 /* Convert a series branch to a parry series branch
  * @param si identifies first slice of the series branch
- * @param parrying identifies slice responsible for parrying
+ * @param non_parrying identifies slice t
  */
-void convert_to_parry_series_branch(slice_index si, slice_index parrying);
+void convert_to_parry_series_branch(slice_index si, slice_index non_parrying);
 
 /* Determine and write the solution(s) in a help stipulation
  * @param si slice index of slice being solved
@@ -44,5 +44,11 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
  */
 void stip_traverse_structure_parry_fork(slice_index branch,
                                         stip_structure_traversal *st);
+
+/* Traversal of the moves of some pipe slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_parry_fork(slice_index si, stip_moves_traversal *st);
 
 #endif

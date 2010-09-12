@@ -30,7 +30,7 @@ void TraceSetMaxLevel(trace_level tl)
 void TraceFunctionEntry(char const *name)
 {
   ++level;
-    
+
   if (level<=max_level)
   {
     fprintf(stdout,"> #%lu %s ",level,name);
@@ -51,7 +51,7 @@ void TraceFunctionExit(char const *name)
   if (strcmp(name,entryNames[level])!=0)
     fprintf(stderr,"Level:%lu Expected: %s. Got: %s\n",
             level,entryNames[level],name);
-    
+
   assert(strcmp(name,entryNames[level])==0);
 
   if (level<=max_level)
@@ -394,11 +394,11 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STParryFork:
-        Trace_pipe(si);
-        Trace_link("parrying:",slices[si].u.parry_fork.parrying,"");
+        Trace_branch(si);
+        Trace_link("parrying:",slices[si].u.parry_fork.non_parrying,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
-        TraceStipulationRecursive(slices[si].u.parry_fork.parrying,done_slices);
+        TraceStipulationRecursive(slices[si].u.parry_fork.non_parrying,done_slices);
         break;
 
       case STMaxThreatLength:

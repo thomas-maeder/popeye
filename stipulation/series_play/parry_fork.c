@@ -29,9 +29,9 @@ stip_length_type parry_fork_solve_in_n(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_solve_in_n(slices[si].u.parry_fork.parrying,n+1)-1;
+    result = series_solve_in_n(slices[si].u.parry_fork.next,n+1)-1;
   else
-    result = series_solve_in_n(slices[si].u.parry_fork.next,n);
+    result = series_solve_in_n(slices[si].u.parry_fork.non_parrying,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -60,9 +60,9 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,side_at_move))
-    result = series_has_solution_in_n(slices[si].u.parry_fork.parrying,n+1)-1;
+    result = series_has_solution_in_n(slices[si].u.parry_fork.next,n+1)-1;
   else
-    result = series_has_solution_in_n(slices[si].u.parry_fork.next,n);
+    result = series_has_solution_in_n(slices[si].u.parry_fork.non_parrying,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,18 +76,18 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
  */
 static slice_index alloc_parry_fork(stip_length_type length,
                                     stip_length_type min_length,
-                                    slice_index parrying)
+                                    slice_index non_parrying)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
-  TraceFunctionParam("%u",parrying);
+  TraceFunctionParam("%u",non_parrying);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STParryFork,length,min_length); 
-  slices[result].u.parry_fork.parrying = parrying;
+  result = alloc_branch(STParryFork,length,min_length);
+  slices[result].u.parry_fork.non_parrying = non_parrying;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -97,7 +97,7 @@ static slice_index alloc_parry_fork(stip_length_type length,
 
 /* Convert a series branch to a parry series branch
  * @param si identifies first slice of the series branch
- * @param parrying identifies slice responsible for parrying
+ * @param non_parrying identifies slice responsible for parrying
  */
 void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 {
@@ -116,12 +116,15 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
     stip_length_type const length = slices[dealt].u.branch.length;
     stip_length_type const min_length = slices[dealt].u.branch.min_length;
     slice_index const parry_fork = alloc_parry_fork(length,min_length,
-                                                    parrying);
+                                                    inverter);
 
     assert(inverter!=no_slice);
     assert(dealt!=no_slice);
 
-    pipe_append(slices[inverter].prev,parry_fork);
+    pipe_link(slices[inverter].prev,parry_fork);
+    pipe_link(parry_fork,parrying);
+
+    slice_set_predecessor(inverter,no_slice);
     pipe_link(inverter,dealt);
   }
 
@@ -136,7 +139,25 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
 void stip_traverse_structure_parry_fork(slice_index branch,
                                         stip_structure_traversal *st)
 {
-  slice_index const parrying = slices[branch].u.parry_fork.parrying;
+  slice_index const non_parrying = slices[branch].u.parry_fork.non_parrying;
   stip_traverse_structure_pipe(branch,st);
-  stip_traverse_structure(parrying,st);
+  stip_traverse_structure(non_parrying,st);
+}
+
+/* Traversal of the moves of some pipe slice
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+void stip_traverse_moves_parry_fork(slice_index si, stip_moves_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  ++st->remaining;
+  TraceValue("%u\n",st->remaining);
+  stip_traverse_moves_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

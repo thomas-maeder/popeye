@@ -232,7 +232,7 @@ typedef struct
             slice_index next;
             stip_length_type length;     /* half moves */
             stip_length_type min_length; /* half moves */
-            slice_index parrying;
+            slice_index non_parrying;
         } parry_fork;
 
         struct /* for type==STKeepMatingGuard */
