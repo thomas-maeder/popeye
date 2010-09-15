@@ -30,6 +30,25 @@ slice_index alloc_attack_find_shortest_slice(stip_length_type length,
   return result;
 }
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void attack_find_shortest_make_root(slice_index si,
+                                    stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* do not copy STAttackFindShortest to root - we solve differently at the root
+   * level! */
+  stip_traverse_structure_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -102,7 +121,7 @@ attack_find_shortest_solve_in_n(slice_index si,
     else
       n_max_unsolvable = result;
 
- 
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

@@ -93,6 +93,7 @@ has_solution_type slice_solve(slice_index si)
     case STEnPassantAttackerFilter:
     case STCastlingAttackerFilter:
     case STCounterMateAttackerFilter:
+    case STKeepMatingGuardAttackerFilter:
       result = attack_solve(si);
       break;
 

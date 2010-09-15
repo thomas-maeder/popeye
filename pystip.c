@@ -27,6 +27,7 @@
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/attack_move.h"
+#include "stipulation/battle_play/attack_find_shortest.h"
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/root_attack_fork.h"
 #include "stipulation/battle_play/attack_fork.h"
@@ -604,17 +605,14 @@ static void serve_as_root_hook(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors const root_slice_makers[] =
 {
-  { STProxy,                       &proxy_make_root                          },
-  { STAttackFork,                  &attack_fork_make_root                    },
-  { STAttackMove,                  &attack_move_make_root                    },
-  { STAttackFindShortest,          &stip_traverse_structure_children         },
-  { STLeaf,                        &leaf_make_root                           },
-  { STQuodlibet,                   &quodlibet_make_root                      },
-  { STSelfDefense,                 &stip_traverse_structure_pipe             },
-  { STReflexAttackerFilter,        &reflex_attacker_filter_make_root         },
-  { STDefenseMoveFiltered,         &stip_traverse_structure_children         },
-  { STDefenseDealtWith,            &stip_traverse_structure_children         },
-  { STDefenseMoveShoeHorningDone,  &serve_as_root_hook                       }
+  { STProxy,                      &proxy_make_root                  },
+  { STAttackFork,                 &attack_fork_make_root            },
+  { STAttackMove,                 &attack_move_make_root            },
+  { STAttackFindShortest,         &attack_find_shortest_make_root   },
+  { STLeaf,                       &leaf_make_root                   },
+  { STQuodlibet,                  &quodlibet_make_root              },
+  { STReflexAttackerFilter,       &reflex_attacker_filter_make_root },
+  { STDefenseMoveShoeHorningDone, &serve_as_root_hook               }
 };
 
 enum
@@ -656,6 +654,7 @@ void battle_branch_post_root_shorten_end(slice_index si,
                                          stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   battle_branch_shorten_slice(si);
@@ -671,6 +670,7 @@ void battle_branch_post_root_shorten(slice_index si,
                                      stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
@@ -723,6 +723,7 @@ void battle_branch_make_root(slice_index si, stip_structure_traversal *st)
   stip_structure_traversal st_nested;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   *root = stip_make_root_slices(si);
@@ -773,6 +774,7 @@ void stip_insert_root_slices(slice_index si)
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);

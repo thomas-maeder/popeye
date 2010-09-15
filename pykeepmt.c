@@ -415,19 +415,23 @@ stip_length_type keepmating_guard_series_has_solution_in_n(slice_index si,
 /* Data structure for remembering the side(s) that needs to keep >= 1
  * piece that could deliver mate
  */
-typedef boolean keepmating_type[nr_sides];
+typedef struct
+{
+  boolean for_side[nr_sides];
+  unsigned int nr_moves_passed;
+} keepmatingguard_insertion_state_type;
 
 static void keepmating_guards_inserter_leaf_forced(slice_index si,
                                                    stip_structure_traversal *st)
 {
-  keepmating_type * const km = st->param;
+  keepmatingguard_insertion_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  (*km)[advers(slices[si].starter)] = true;
-  
+  state->for_side[advers(slices[si].starter)] = true;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -435,25 +439,27 @@ static void keepmating_guards_inserter_leaf_forced(slice_index si,
 static void keepmating_guards_inserter_quodlibet(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  keepmating_type * const km = st->param;
-  keepmating_type km1 = { false, false };
-  keepmating_type km2 = { false, false };
+  keepmatingguard_insertion_state_type * const state = st->param;
+  keepmatingguard_insertion_state_type state1 = { { false, false },
+                                                  state->nr_moves_passed };
+  keepmatingguard_insertion_state_type state2 = { { false, false },
+                                                  state->nr_moves_passed };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  st->param = &km1;
+  st->param = &state1;
   stip_traverse_structure(slices[si].u.binary.op1,st);
 
-  st->param = &km2;
+  st->param = &state2;
   stip_traverse_structure(slices[si].u.binary.op2,st);
 
-  (*km)[White] = km1[White] && km2[White];
-  (*km)[Black] = km1[Black] && km2[Black];
+  state->for_side[White] = state1.for_side[White] && state2.for_side[White];
+  state->for_side[Black] = state1.for_side[Black] && state2.for_side[Black];
 
-  st->param = km;
-  
+  st->param = state;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -461,25 +467,27 @@ static void keepmating_guards_inserter_quodlibet(slice_index si,
 static void keepmating_guards_inserter_reciprocal(slice_index si,
                                                   stip_structure_traversal *st)
 {
-  keepmating_type * const km = st->param;
-  keepmating_type km1 = { false, false };
-  keepmating_type km2 = { false, false };
+  keepmatingguard_insertion_state_type * const state = st->param;
+  keepmatingguard_insertion_state_type state1 = { { false, false },
+                                                  state->nr_moves_passed };
+  keepmatingguard_insertion_state_type state2 = { { false, false },
+                                                  state->nr_moves_passed };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  st->param = &km1;
+  st->param = &state1;
   stip_traverse_structure(slices[si].u.binary.op1,st);
 
-  st->param = &km2;
+  st->param = &state2;
   stip_traverse_structure(slices[si].u.binary.op2,st);
 
-  (*km)[White] = km1[White] || km2[White];
-  (*km)[Black] = km1[Black] || km2[Black];
+  state->for_side[White] = state1.for_side[White] || state2.for_side[White];
+  state->for_side[Black] = state1.for_side[Black] || state2.for_side[Black];
 
-  st->param = km;
-  
+  st->param = state;
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -498,7 +506,7 @@ void keepmating_guards_inserter_branch_fork(slice_index si,
    */
   stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
   stip_traverse_structure_pipe(si,st);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -506,7 +514,7 @@ void keepmating_guards_inserter_branch_fork(slice_index si,
 static void keepmating_guards_inserter_defender(slice_index si,
                                                 stip_structure_traversal *st)
 {
-  keepmating_type const * const km = st->param;
+  keepmatingguard_insertion_state_type const * const state = st->param;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
@@ -515,16 +523,19 @@ static void keepmating_guards_inserter_defender(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if ((*km)[White])
-    guard = alloc_keepmating_guard_attacker_filter(White);
-
-  if ((*km)[Black])
-    guard = alloc_keepmating_guard_attacker_filter(Black);
-  
-  if (guard!=no_slice)
+  if (state->nr_moves_passed>0)
   {
-    slices[guard].starter = slices[si].starter;
-    pipe_append(slices[si].prev,guard);
+    if (state->for_side[White])
+      guard = alloc_keepmating_guard_attacker_filter(White);
+
+    if (state->for_side[Black])
+      guard = alloc_keepmating_guard_attacker_filter(Black);
+
+    if (guard!=no_slice)
+    {
+      slices[guard].starter = slices[si].starter;
+      pipe_append(slices[si].prev,guard);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -550,7 +561,7 @@ void keepmating_guards_inserter_battle_fork(slice_index si,
 static void keepmating_guards_inserter_attacker(slice_index si,
                                                 stip_structure_traversal *st)
 {
-  keepmating_type const * const km = st->param;
+  keepmatingguard_insertion_state_type const * const state = st->param;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
@@ -559,46 +570,62 @@ static void keepmating_guards_inserter_attacker(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if ((*km)[White])
-    guard = alloc_keepmating_guard_defender_filter(White);
-
-  if ((*km)[Black])
-    guard = alloc_keepmating_guard_defender_filter(Black);
-
-  if (guard!=no_slice)
+  if (state->nr_moves_passed>0)
   {
-    slices[guard].starter = advers(slices[si].starter);
-    pipe_append(slices[si].prev,guard);
+    if (state->for_side[White])
+      guard = alloc_keepmating_guard_defender_filter(White);
+
+    if (state->for_side[Black])
+      guard = alloc_keepmating_guard_defender_filter(Black);
+
+    if (guard!=no_slice)
+    {
+      slices[guard].starter = advers(slices[si].starter);
+      pipe_append(slices[si].prev,guard);
+    }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static void keepmating_guards_remember_move(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  keepmatingguard_insertion_state_type * const state = st->param;
+
+  ++state->nr_moves_passed;
+  stip_traverse_structure_children(si,st);
+  --state->nr_moves_passed;
 }
 
 static void keepmating_guards_inserter_help_move(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  keepmating_type const * const km = st->param;
+  keepmatingguard_insertion_state_type const * const state = st->param;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  keepmating_guards_remember_move(si,st);
 
-  if ((*km)[White])
-    guard = alloc_keepmating_guard_help_filter(White);
-
-  if ((*km)[Black])
-    guard = alloc_keepmating_guard_help_filter(Black);
-
-  if (guard!=no_slice)
+  if (state->nr_moves_passed>0)
   {
-    slices[guard].starter = advers(slices[si].starter);
-    pipe_append(si,guard);
+    if (state->for_side[White])
+      guard = alloc_keepmating_guard_help_filter(White);
+
+    if (state->for_side[Black])
+      guard = alloc_keepmating_guard_help_filter(Black);
+
+    if (guard!=no_slice)
+    {
+      slices[guard].starter = advers(slices[si].starter);
+      pipe_append(si,guard);
+    }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -606,33 +633,38 @@ static void keepmating_guards_inserter_help_move(slice_index si,
 static void keepmating_guards_inserter_series_move(slice_index si,
                                                    stip_structure_traversal *st)
 {
-  keepmating_type const * const km = st->param;
+  keepmatingguard_insertion_state_type const * const state = st->param;
   slice_index guard = no_slice;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  keepmating_guards_remember_move(si,st);
 
-  if ((*km)[White])
-    guard = alloc_keepmating_guard_series_filter(White);
-
-  if ((*km)[Black])
-    guard = alloc_keepmating_guard_series_filter(Black);
-
-  if (guard!=no_slice)
+  if (state->nr_moves_passed>0)
   {
-    slices[guard].starter = advers(slices[si].starter);
-    pipe_append(si,guard);
+    if (state->for_side[White])
+      guard = alloc_keepmating_guard_series_filter(White);
+
+    if (state->for_side[Black])
+      guard = alloc_keepmating_guard_series_filter(Black);
+
+    if (guard!=no_slice)
+    {
+      slices[guard].starter = advers(slices[si].starter);
+      pipe_append(si,guard);
+    }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static structure_traversers_visitors keepmating_guards_inserters[] =
 {
+  { STAttackMove,          &keepmating_guards_remember_move        },
+  { STDefenseMove,         &keepmating_guards_remember_move        },
   { STAttackMoveFiltered,  &keepmating_guards_inserter_attacker    },
   { STDefenseMoveFiltered, &keepmating_guards_inserter_defender    },
   { STHelpMove,            &keepmating_guards_inserter_help_move   },
@@ -661,7 +693,7 @@ enum
  */
 void stip_insert_keepmating_guards(slice_index si)
 {
-  keepmating_type km = { false, false };
+  keepmatingguard_insertion_state_type state = { { false, false }, 0 };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -670,7 +702,7 @@ void stip_insert_keepmating_guards(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,km);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     keepmating_guards_inserters,
                                     nr_keepmating_guards_inserters);

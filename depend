@@ -1090,6 +1090,7 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   stipulation/battle_play/ready_for_defense.h \
   stipulation/battle_play/attack_root.h \
   stipulation/battle_play/attack_move.h \
+  stipulation/battle_play/attack_find_shortest.h \
   stipulation/battle_play/ready_for_attack.h \
   stipulation/battle_play/root_attack_fork.h \
   stipulation/battle_play/attack_fork.h stipulation/battle_play/try.h \
@@ -1200,6 +1201,8 @@ stipulation/battle_play/ready_for_defense.h:
 stipulation/battle_play/attack_root.h:
 
 stipulation/battle_play/attack_move.h:
+
+stipulation/battle_play/attack_find_shortest.h:
 
 stipulation/battle_play/ready_for_attack.h:
 
