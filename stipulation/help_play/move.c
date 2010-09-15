@@ -35,23 +35,6 @@ slice_index alloc_help_move_slice(stip_length_type length,
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void ready_for_help_move_make_root(slice_index si,
-                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static stip_length_type find_max_length_in_branch(slice_index si)
 {
   stip_length_type result = slices[si].u.branch.length;
@@ -264,28 +247,6 @@ stip_length_type help_move_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prev = slices[si].prev;
-    *result = alloc_proxy_slice();
-    pipe_set_successor(*result,prev);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Spin off set play
  * @param si slice index
  * @param st state of traversal
@@ -299,6 +260,45 @@ void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *setplay_slice = stip_make_setplay(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void ready_for_help_move_make_root(slice_index si,
+                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* if we didn't provide this overrider, the STReadyForHelpMove slice would be
+   * copied into the root */
+  stip_traverse_structure_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void ready_for_help_move_make_setplay_slice(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = alloc_proxy_slice();
+  pipe_set_successor(*result,si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -1396,8 +1396,7 @@ boolean stip_apply_postkeyplay(slice_index si)
 static structure_traversers_visitors setplay_makers[] =
 {
   { STDefenseMovePlayed,            &defense_move_played_make_setplay_slice             },
-  { STHelpMove,                     &help_move_make_setplay_slice                       },
-  { STHelpFork,                     &help_fork_make_setplay_slice                       },
+  { STReadyForHelpMove,             &ready_for_help_move_make_setplay_slice             },
   { STSeriesMove,                   &series_move_make_setplay_slice                     },
   { STSeriesFork,                   &series_fork_make_setplay_slice                     },
   { STHelpShortcut,                 &stip_traverse_structure_pipe                       },

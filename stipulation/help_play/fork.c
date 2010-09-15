@@ -30,7 +30,7 @@ slice_index alloc_help_fork_slice(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_branch_fork(STHelpFork,length,min_length,to_goal);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -66,25 +66,6 @@ void help_fork_make_root(slice_index si, stip_structure_traversal *st)
       slices[shortcut].u.shortcut.short_sols = si;
     }
   }
-  
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_fork_make_setplay_slice(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *result = alloc_proxy_slice();
-  pipe_set_successor(*result,si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -101,7 +82,7 @@ void stip_traverse_structure_help_fork(slice_index branch,
   stip_traverse_structure(slices[branch].u.branch_fork.towards_goal,st);
 }
 
-/* Traversal of the moves beyond a help fork slice 
+/* Traversal of the moves beyond a help fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

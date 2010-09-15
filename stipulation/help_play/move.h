@@ -19,13 +19,6 @@ slice_index alloc_help_move_slice(stip_length_type length,
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
  */
-void ready_for_help_move_make_root(slice_index si,
-                                   stip_structure_traversal *st);
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
 void help_move_make_root(slice_index si, stip_structure_traversal *st);
 
 /* Detect starter field with the starting side if possible.
@@ -33,12 +26,6 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st);
  * @param st status of traversal
  */
 void help_move_detect_starter(slice_index si, stip_structure_traversal *st);
-
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 /* Spin off set play
  * @param si slice index
@@ -68,5 +55,18 @@ stip_length_type help_move_solve_in_n(slice_index si, stip_length_type n);
  */
 stip_length_type help_move_has_solution_in_n(slice_index si,
                                              stip_length_type n);
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void ready_for_help_move_make_root(slice_index si,
+                                   stip_structure_traversal *st);
+
+/* Produce slices representing set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void ready_for_help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st);
 
 #endif

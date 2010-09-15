@@ -23,13 +23,6 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  */
 void help_fork_make_root(slice_index si, stip_structure_traversal *st);
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void help_fork_make_setplay_slice(slice_index si,
-                                  stip_structure_traversal *st);
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
@@ -37,7 +30,7 @@ void help_fork_make_setplay_slice(slice_index si,
 void stip_traverse_structure_help_fork(slice_index branch,
                                        stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a help fork slice 
+/* Traversal of the moves beyond a help fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
