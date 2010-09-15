@@ -41,3 +41,11 @@ stipulation/leaf$(OBJ_SUFFIX): stipulation/leaf.c stipulation/leaf.h trace.h
 stipulation/leaf.h:
 
 trace.h:
+stipulation/setplay_fork$(OBJ_SUFFIX): stipulation/setplay_fork.c \
+  stipulation/setplay_fork.h pybrafrk.h trace.h
+
+stipulation/setplay_fork.h:
+
+pybrafrk.h:
+
+trace.h:

@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "trace.h"
 #include "stipulation/leaf.h"
+#include "stipulation/setplay_fork.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -47,7 +48,6 @@
 
 #include "pyenum.h"
 
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -65,6 +65,10 @@ has_solution_type slice_solve(slice_index si)
   {
     case STLeaf:
       result = leaf_solve(si);
+      break;
+
+    case STSetplayFork:
+      result = setplay_fork_solve(si);
       break;
 
     case STGoalReachedTester:
@@ -249,6 +253,10 @@ has_solution_type slice_has_solution(slice_index si)
   {
     case STLeaf:
       result = leaf_has_solution(si);
+      break;
+
+    case STSetplayFork:
+      result = setplay_fork_has_solution(si);
       break;
 
     case STGoalReachedTester:

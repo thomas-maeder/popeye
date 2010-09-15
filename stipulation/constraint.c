@@ -130,12 +130,12 @@ void reflex_attacker_filter_make_root(slice_index si,
   stip_traverse_structure_pipe(si,st);
   pipe_link(guard,*root);
   *root = guard;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Traversal of the moves beyond a reflex attacker filter slice 
+/* Traversal of the moves beyond a reflex attacker filter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -504,7 +504,7 @@ void reflex_defender_filter_apply_setplay(slice_index si,
     pipe_link(filter,*setplay_slice);
     *setplay_slice = filter;
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -555,11 +555,14 @@ void reflex_help_filter_make_root(slice_index si,
   *root = guard;
 
   if (slices[si].u.pipe.next==no_slice)
-    /* we are obsolete and are going to be deallocated */
-    slices[si].u.reflex_guard.avoided = no_slice;
+  {
+    if (slices[si].prev!=no_slice)
+      pipe_unlink(slices[si].prev);
+    dealloc_slice(si);
+  }
   else
     help_branch_shorten_slice(si);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -590,7 +593,7 @@ stip_length_type reflex_help_filter_solve_in_n(slice_index si,
   /* TODO exact - but what does it mean??? */
   if (slice_has_solution(avoided)==has_solution)
     result = help_solve_in_n(next,n);
-  else 
+  else
     result = n+2;
 
   TraceFunctionExit(__func__);
@@ -690,12 +693,12 @@ void reflex_series_filter_make_root(slice_index si,
     *root = guard;
     shorten_series_pipe(si);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Traversal of the moves beyond a reflex attacker filter slice 
+/* Traversal of the moves beyond a reflex attacker filter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -888,7 +891,7 @@ enum
 };
 
 /* Instrument a branch with STReflex* slices for a (non-semi)
- * reflex stipulation 
+ * reflex stipulation
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided_attack identifies branch that the
  *                                attacker attempts to avoid
@@ -1022,7 +1025,7 @@ enum
 };
 
 /* Instrument a branch with STReflex* slices for a semi-reflex
- * stipulation 
+ * stipulation
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies branch that needs to be guarded from
  */

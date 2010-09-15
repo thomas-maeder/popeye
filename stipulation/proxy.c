@@ -162,7 +162,14 @@ void proxy_make_root(slice_index si, stip_structure_traversal *st)
 
   if (slices[slices[si].u.pipe.next].prev!=si)
     slices[si].u.pipe.next = no_slice;
-  
+
+  if (slices[si].u.pipe.next==no_slice)
+  {
+    if (slices[si].prev!=no_slice)
+      pipe_unlink(slices[si].prev);
+    dealloc_slice(si);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

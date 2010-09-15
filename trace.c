@@ -225,6 +225,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
     fprintf(stdout,"%c ",Side_names[slices[si].starter][0]);
     switch (slices[si].type)
     {
+      case STSetplayFork:
       case STSelfDefense:
       case STRootAttackFork:
       case STAttackFork:

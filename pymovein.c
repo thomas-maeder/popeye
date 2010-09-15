@@ -107,7 +107,14 @@ void move_inverter_make_root(slice_index si, stip_structure_traversal *st)
     pipe_link(root_inverter,*root);
     *root = root_inverter;
   }
-  
+
+  if (slices[si].u.pipe.next==no_slice)
+  {
+    if (slices[si].prev!=no_slice)
+      pipe_unlink(slices[si].prev);
+    dealloc_slice(si);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -147,7 +154,7 @@ has_solution_type move_inverter_solve(slice_index si)
   result = slice_solve(slices[si].u.pipe.next);
 
 #ifdef _SE_DECORATE_SOLUTION_
-  se_end_set_play();   
+  se_end_set_play();
 #endif
 
   TraceFunctionExit(__func__);
@@ -265,7 +272,7 @@ void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
 Side move_inverter_get_starter(slice_index si)
 {
   Side result;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();

@@ -18,6 +18,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/leaf.h"
 #include "stipulation/branch.h"
+#include "stipulation/setplay_fork.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/fork.h"
 #include "stipulation/battle_play/defense_move.h"
@@ -99,6 +100,7 @@
     ENUMERATOR(STSeriesFork),      /* decides when play in branch is over */ \
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
+    ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -274,6 +276,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSeriesFork */
   slice_structure_fork,   /* STParryFork */
   slice_structure_fork,   /* STReflexSeriesFilter */
+  slice_structure_fork,   /* STSetplayFork */
   slice_structure_pipe,   /* STGoalReachedTester */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -752,6 +755,7 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STSeriesFork,                   &series_fork_make_root            },
   { STLeaf,                         &leaf_make_root                   },
   { STReciprocal,                   &reci_make_root                   },
+  { STSetplayFork,                  &setplay_fork_make_root           },
   { STQuodlibet,                    &quodlibet_make_root              },
   { STMoveInverterSolvableFilter,   &move_inverter_make_root          },
   { STReflexHelpFilter,             &reflex_help_filter_make_root     },
@@ -785,13 +789,6 @@ void stip_insert_root_slices(slice_index si)
                                     root_slice_inserters,
                                     nr_root_slice_inserters);
   stip_traverse_structure(next,&st);
-
-  if (slices[next].prev==si)
-  {
-    TraceStipulation(next);
-    TraceStipulation(result);
-    dealloc_slices(next);
-  }
 
   pipe_link(si,result);
 
@@ -1411,8 +1408,7 @@ static structure_traversers_visitors setplay_makers[] =
 
 enum
 {
-  nr_setplay_makers = (sizeof setplay_makers
-                          / sizeof setplay_makers[0])
+  nr_setplay_makers = (sizeof setplay_makers / sizeof setplay_makers[0])
 };
 
 /* Produce slices representing set play.
@@ -1468,8 +1464,9 @@ enum
 static void insert_set_play(slice_index si, slice_index setplay_slice)
 {
   slice_index mi;
-  slice_index op1;
-  slice_index op2;
+  slice_index set;
+  slice_index regular;
+  slice_index set_fork;
   slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
@@ -1484,17 +1481,20 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   else
     pipe_set_successor(mi,setplay_slice);
 
-  op1 = alloc_proxy_slice();
-  pipe_link(op1,mi);
+  set = alloc_proxy_slice();
+  pipe_link(set,mi);
 
-  op2 = alloc_proxy_slice();
+  regular = alloc_proxy_slice();
   if (slices[next].prev==si)
-    pipe_link(op2,next);
+    pipe_link(regular,next);
   else
-    pipe_set_successor(op2,next);
+    pipe_set_successor(regular,next);
+
+  set_fork = alloc_setplay_fork_slice(set);
 
   pipe_unlink(si);
-  pipe_link(si,alloc_quodlibet_slice(op1,op2));
+  pipe_link(si,set_fork);
+  pipe_link(set_fork,regular);
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -2093,6 +2093,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_series_fork,     /* STSeriesFork */
   &stip_traverse_structure_parry_fork,      /* STParryFork */
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
+  &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_pipe,            /* STGoalReachedTester */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2295,6 +2296,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_series_fork,           /* STSeriesFork */
     &stip_traverse_moves_parry_fork,            /* STParryFork */
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
+    &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */

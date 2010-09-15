@@ -15,9 +15,9 @@
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
  **
- ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+ ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)
  **
- ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
  **
  **************************** End of List ******************************/
 
@@ -437,7 +437,7 @@ static void init_slice_properties_binary(slice_index fork,
   slice_initializer_state * const sis = st->param;
 
   unsigned int const save_valueOffset = sis->valueOffset;
-      
+
   slice_index const op1 = slices[fork].u.binary.op1;
   slice_index const op2 = slices[fork].u.binary.op2;
 
@@ -505,7 +505,7 @@ static void init_slice_properties_hashed_help(slice_index si,
 
   {
     slice_index const sibling = branch_find_slice(STHelpHashed,si);
-    
+
     stip_length_type const length = slices[si].u.branch.length;
     unsigned int const width = bit_width((length-slack_length_help+1)/2);
 
@@ -528,7 +528,7 @@ static void init_slice_properties_hashed_help(slice_index si,
   stip_traverse_structure_children(si,st);
 
   hash_slices[nr_hash_slices++] = si;
-    
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -865,7 +865,7 @@ static hash_value_type get_value_series(hashElement_union_t const *hue,
 }
 
 /* Determine the contribution of an attacking move to the value of a
- * hash table element node. 
+ * hash table element node.
  * @param he address of hash table element to determine value of
  * @param si slice index of slice
  * @return value of contribution of slice si to *he's value
@@ -891,7 +891,7 @@ static hash_value_type own_value_of_data_attack(hashElement_union_t const *hue,
   succ_neg = length-succ;
 
   result = succ_neg>nosucc ? succ_neg : nosucc;
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -1368,7 +1368,7 @@ static unsigned int TellSmallEncodePosLeng(void)
   }
 
   len += nr_ghosts*bytes_per_piece;
-  
+
   return TellCommonEncodePosLeng(len, nbr_p);
 } /* TellSmallEncodePosLeng */
 
@@ -1596,7 +1596,7 @@ static void SmallEncode(void)
 }
 
 /* Initialise the bits representing all slices in a hash table
- * element's data field with null values 
+ * element's data field with null values
  * @param he address of hash table element
  */
 static void init_elements(hashElement_union_t *hue)
@@ -1678,7 +1678,7 @@ static unsigned long hashtable_kilos;
 
 /* Allocate memory for the hash table. If the requested amount of
  * memory isn't available, reduce the amount until allocation
- * succeeds. 
+ * succeeds.
  * @param nr_kilos number of kilo-bytes to allocate
  * @return number of kilo-bytes actually allocated
  */
@@ -1881,7 +1881,7 @@ static slice_index alloc_attack_hashed_slice(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STAttackHashed,length,min_length);
-                        
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -1905,7 +1905,7 @@ static slice_index alloc_help_hashed_slice(stip_length_type length,
   TraceFunctionParamListEnd();
 
   result = alloc_branch(STHelpHashed,length,min_length);
-                        
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -2008,7 +2008,7 @@ static boolean is_goal_move_oriented(Goal goal)
             || goal.type==goal_capture
             || goal.type==goal_steingewinn
             || goal.type==goal_castling);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -2122,6 +2122,8 @@ static void insert_hash_element_series_move_to_goal(slice_index si,
 
 static moves_traversers_visitors const hash_element_inserters[] =
 {
+  /* no need to hash the introductory move of the set play */
+  { STSetplayFork,                &stip_traverse_moves_pipe                },
   { STDefenseMoveLegalityChecked, &insert_hash_element_attack_move         },
   { STHelpMove,                   &insert_hash_element_help_move           },
   { STHelpMoveToGoal,             &insert_hash_element_help_move_to_goal   },
@@ -2189,7 +2191,7 @@ static void addtohash_dir_nosucc(slice_index si, stip_length_type n)
     if (get_value_attack_nosucc(hue,si)<val)
       set_value_attack_nosucc(hue,si,val);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 
@@ -2231,7 +2233,7 @@ static void addtohash_dir_succ(slice_index si, stip_length_type n)
     if (get_value_attack_succ(hue,si)>val)
       set_value_attack_succ(hue,si,val);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 
@@ -2409,7 +2411,7 @@ static boolean inhash_help(slice_index si, stip_length_type n)
     else
       result = false;
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -2447,7 +2449,7 @@ static void addtohash_help(slice_index si, stip_length_type n)
     if (get_value_help(hue,si)<val)
       set_value_help(hue,si,val);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 
@@ -2613,7 +2615,7 @@ static void addtohash_series(slice_index si, stip_length_type n)
     if (get_value_series(hue,si)<val)
       set_value_series(hue,si,val);
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 

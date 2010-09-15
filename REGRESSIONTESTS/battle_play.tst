@@ -604,10 +604,10 @@ s#1 with incomplete set play (not given)
    1.Rc3-c4 !
       1...b3-b2 #
 
-              empile:          78
-            jouecoup:          59
-        orig_rbechec:          60
-        orig_rnechec:          20
+              empile:          82
+            jouecoup:          63
+        orig_rbechec:          64
+        orig_rnechec:          24
 solution finished. 
 
 
@@ -640,10 +640,10 @@ solution finished.
    1.h3-h4 !
       1...b3-b2 #
 
-              empile:         124
-            jouecoup:         112
-        orig_rbechec:         114
-        orig_rnechec:          28
+              empile:         127
+            jouecoup:         115
+        orig_rbechec:         117
+        orig_rnechec:          31
 solution finished. 
 
 

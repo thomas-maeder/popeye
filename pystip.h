@@ -67,6 +67,7 @@
     ENUMERATOR(STParryFork),       /* parry move in series */           \
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     /* other structural slices */                                       \
+    ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     /* unary and binary operators */                                    \
@@ -618,7 +619,7 @@ void stip_moves_traversal_init(stip_moves_traversal *st,
  */
 void stip_traverse_moves(slice_index root, stip_moves_traversal *st);
 
-/* Traversal of the moves beyond a series shortcut slice 
+/* Traversal of the moves beyond some root slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
