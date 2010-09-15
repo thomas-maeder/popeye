@@ -579,13 +579,8 @@ static void copy_into_root(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index * const root = st->param;
-    slice_index copy = copy_slice(si);
-
-    if (slices[*root].prev==no_slice)
-      pipe_link(copy,*root);
-    else
-      pipe_set_successor(copy,*root);
-
+    slice_index const copy = copy_slice(si);
+    link_to_branch(copy,*root);
     *root = copy;
   }
 
@@ -1475,10 +1470,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
 
   mi = alloc_move_inverter_solvable_filter();
 
-  if (slices[setplay_slice].prev==no_slice)
-    pipe_link(mi,setplay_slice);
-  else
-    pipe_set_successor(mi,setplay_slice);
+  link_to_branch(mi,setplay_slice);
 
   set = alloc_proxy_slice();
   pipe_link(set,mi);

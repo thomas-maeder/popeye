@@ -13,7 +13,7 @@
  */
 void shorten_series_pipe(slice_index pipe);
 
-/* Allocate a series branch. 
+/* Allocate a series branch.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of entry slice into allocated series branch

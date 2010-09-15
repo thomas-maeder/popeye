@@ -2,7 +2,7 @@
  **
  ** Date       Who  What
  **
- ** 2006/05/09 SE   Bug fix: Halfneutral + AntiCirce 
+ ** 2006/05/09 SE   Bug fix: Halfneutral + AntiCirce
  **
  ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
  **
@@ -16,13 +16,13 @@
  **
  ** 2007/01/28 NG   New stipulation: help-reflexmate (hr)
  **
- ** 2006/07/30 SE   New condition: Schwarzschacher  
+ ** 2006/07/30 SE   New condition: Schwarzschacher
  **
- ** 2006/07/30 SE   Extended movenum option to also print time when solving h#/sh# at next ply  
+ ** 2006/07/30 SE   Extended movenum option to also print time when solving h#/sh# at next ply
  **
- ** 2007/01/28 SE   New condition: Annan Chess 
+ ** 2007/01/28 SE   New condition: Annan Chess
  **
- ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows 
+ ** 2007/05/01 SE   Extended Chopper types to eagles, mooses and sparrows
  **
  ** 2007/05/04 SE   Bugfix: SAT + BlackMustCapture
  **
@@ -48,20 +48,20 @@
  **                 are not 'non-passant'. Too hard to do but possibly
  **                 implement as an independent condition later).
  **
- ** 2008/01/02 NG   New condition: Geneva Chess 
+ ** 2008/01/02 NG   New condition: Geneva Chess
  **
- ** 2008/02/20 SE   Bugfix: Annan 
+ ** 2008/02/20 SE   Bugfix: Annan
  **
- ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+ ** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)
  **
- ** 2008/02/19 SE   New condition: AntiKoeko  
+ ** 2008/02/19 SE   New condition: AntiKoeko
  **
- ** 2008/02/25 SE   New piece type: Magic 
+ ** 2008/02/25 SE   New piece type: Magic
  **                 Adjusted Masand code
  **
- ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+ ** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)
  **
- ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
  **
  ** 2009/04/25 SE   New condition: Provacateurs
  **                 New piece type: Patrol pieces
@@ -144,7 +144,7 @@
 #include "optimisations/stoponshortsolutions/stoponshortsolutions.h"
 #ifdef _SE_
 #include "se.h"
-#endif 
+#endif
 
 boolean is_rider(piece p)
 {
@@ -226,7 +226,7 @@ boolean is_simplehopper(piece p)
     case sparrb:
     case rooksparrb:
     case bishopsparrb:
-        
+
       return true;
     default:  return false;
   }
@@ -484,7 +484,7 @@ static void initialise_piece_flags(void)
       }
 
       /* known limitation: will print rK rather than just K as usual */
-      if (abs(e[*bnp])==King && (CondFlag[protean] || flag_magic)) 
+      if (abs(e[*bnp])==King && (CondFlag[protean] || flag_magic))
         SETFLAG(spec[*bnp],Royal);
     }
   }
@@ -496,7 +496,7 @@ static void find_restricted_side_attack_root(slice_index si,
                                              stip_structure_traversal *st)
 {
   is_restricted_type * const is_restricted = st->param;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -511,7 +511,7 @@ static void find_restricted_side_defense_root(slice_index si,
                                               stip_structure_traversal *st)
 {
   is_restricted_type * const is_restricted = st->param;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -531,7 +531,7 @@ static void find_restricted_side_help_root(slice_index si,
   Side const restricted_side = ((length-slack_length_help)%2==1
                                 ? advers(starter)
                                 : starter);
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -918,7 +918,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[bichro] || CondFlag[monochro])
     add_ortho_mating_moves_generation_obstacle();
-  
+
   eval_2 = eval_white = eval_ortho;
   rbechec = &orig_rbechec;
   rnechec = &orig_rnechec;
@@ -1213,7 +1213,7 @@ static boolean verify_position(slice_index si)
     gen_bl_piece = &singleboxtype3_gen_bl_piece;
   }
 
-  if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]) 
+  if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs])
       && (OptFlag[sansrb] || OptFlag[sansrn]))
   {
     VerifieMsg(MissingKing);
@@ -1411,7 +1411,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[losingchess]
       || CondFlag[disparate]
       || CondFlag[ghostchess]
-      || CondFlag[hauntedchess] 
+      || CondFlag[hauntedchess]
       || TSTFLAG(PieSpExFlags,Uncapturable);
 
   flag_libre_on_generate = flag_madrasi || CondFlag[disparate];
@@ -1622,7 +1622,7 @@ static boolean verify_position(slice_index si)
     };
     size_t const nrIncompatibleGoalTypes
         = sizeof incompatibleGoalTypes / sizeof incompatibleGoalTypes[0];
-    
+
     if (stip_ends_in_one_of(si,incompatibleGoalTypes,nrIncompatibleGoalTypes))
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
@@ -1731,7 +1731,7 @@ static boolean verify_position(slice_index si)
   }
 
   jouetestgenre1 = CondFlag[blackultraschachzwang]
-      || CondFlag[whiteultraschachzwang];      
+      || CondFlag[whiteultraschachzwang];
 
 
   nonoptgenre = nonoptgenre
@@ -1800,7 +1800,7 @@ static boolean verify_position(slice_index si)
     satXY = WhiteSATFlights > 1 || BlackSATFlights > 1;
   }
 
-  if (CondFlag[BGL]) 
+  if (CondFlag[BGL])
   {
     BGL_white_store[1] = BGL_white;
     BGL_black_store[1] = BGL_black;
@@ -1818,7 +1818,7 @@ static boolean verify_position(slice_index si)
       || exist[ubib] /* sorting by nr of opponents moves doesn't work - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
-    move_generation_mode_opti_per_side[White] = 
+    move_generation_mode_opti_per_side[White] =
         move_generation_optimized_by_killer_move;
 
   if (flagblackmummer /* counting opponents moves not useful */
@@ -1826,7 +1826,7 @@ static boolean verify_position(slice_index si)
       || exist[ubib] /* sorting by nr of opponents moves doesn't work  - why?? */
       || exist[hunter0b] /* ditto */
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
-    move_generation_mode_opti_per_side[Black] = 
+    move_generation_mode_opti_per_side[Black] =
         move_generation_optimized_by_killer_move;
 
   if (CondFlag[takemake])
@@ -1849,7 +1849,7 @@ static boolean verify_position(slice_index si)
     castling_supported = false;
     jouegenre = true;
   }
-    
+
   if (flagblackmummer)
     disable_killer_move_final_defense_move_optimisation(Black);
   if (flagwhitemummer)
@@ -2039,7 +2039,7 @@ static void solveHalfADuplex(slice_index si)
   closehash();
 
 #ifdef _SE_DECORATE_SOLUTION_
-  se_end_half_duplex();  
+  se_end_half_duplex();
 #endif
 }
 
@@ -2140,10 +2140,7 @@ static boolean apply_whitetoplay(slice_index proxy)
         slice_index const hook = help_branch_shorten(next);
         pipe_link(proxy,inverter);
         pipe_link(inverter,proxy2);
-        if (slices[hook].prev==no_slice)
-          pipe_link(proxy2,hook);
-        else
-          pipe_set_successor(proxy2,hook);
+        link_to_branch(proxy2,hook);
       }
       else
       {
@@ -2432,7 +2429,7 @@ static boolean initialise_verify_twin(slice_index si)
       result = true;
     }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -2717,7 +2714,7 @@ static Token iterate_twins(Token prev_token)
         Message(SetPlayNotApplicable);
 
       stip_insert_root_slices(template_slice_hook);
-      
+
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
 

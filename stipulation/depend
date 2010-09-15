@@ -9,13 +9,15 @@ pypipe.h:
 
 trace.h:
 stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h pypipe.h \
-  pybrafrk.h stipulation/operators/binary.h trace.h
+  pybrafrk.h stipulation/branch.h stipulation/operators/binary.h trace.h
 
 stipulation/proxy.h:
 
 pypipe.h:
 
 pybrafrk.h:
+
+stipulation/branch.h:
 
 stipulation/operators/binary.h:
 

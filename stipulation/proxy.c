@@ -1,6 +1,7 @@
 #include "stipulation/proxy.h"
 #include "pypipe.h"
 #include "pybrafrk.h"
+#include "stipulation/branch.h"
 #include "stipulation/operators/binary.h"
 #include "trace.h"
 
@@ -151,12 +152,7 @@ void proxy_make_root(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const proxy = alloc_proxy_slice();
-
-    if (slices[*root].prev==no_slice)
-      pipe_link(proxy,*root);
-    else
-      pipe_set_successor(proxy,*root);
-
+    link_to_branch(proxy,*root);
     *root = proxy;
   }
 

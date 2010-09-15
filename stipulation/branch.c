@@ -61,7 +61,7 @@ slice_index branch_find_slice(SliceType type, slice_index si)
     else
       slices_visited[result] = true;
   } while (true);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -95,7 +95,7 @@ void stip_traverse_moves_branch_slice(slice_index si, stip_moves_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_branch_init_full_length(si,st);
-  
+
   --st->remaining;
   TraceValue("->%u\n",st->remaining);
   stip_traverse_moves_pipe(si,st);
@@ -127,6 +127,27 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st)
   st->remaining = save_remaining;
   TraceFunctionParam("->%u\n",st->remaining);
   --st->level;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Link a pipe slice to the entry slice of a branch
+ * @param pipe identifies the pipe slice
+ * @param entry identifies the entry slice of the branch
+ */
+void link_to_branch(slice_index pipe, slice_index entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",pipe);
+  TraceFunctionParam("%u",entry);
+  TraceFunctionParamListEnd();
+
+  if (slices[entry].prev==no_slice)
+    pipe_link(pipe,entry);
+  else
+    pipe_set_successor(pipe,entry);
+
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

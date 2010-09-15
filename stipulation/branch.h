@@ -46,4 +46,10 @@ void stip_traverse_moves_branch_slice(slice_index si, stip_moves_traversal *st);
  */
 void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st);
 
+/* Link a pipe slice to the entry slice of a branch
+ * @param pipe identifies the pipe slice
+ * @param entry identifies the entry slice of the branch
+ */
+void link_to_branch(slice_index pipe, slice_index entry);
+
 #endif
