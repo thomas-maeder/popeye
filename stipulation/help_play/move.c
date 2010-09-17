@@ -265,25 +265,6 @@ void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void ready_for_help_move_make_root(slice_index si,
-                                   stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* if we didn't provide this overrider, the STReadyForHelpMove slice would be
-   * copied into the root */
-  stip_traverse_structure_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Produce slices representing set play
  * @param si slice index
  * @param st state of traversal

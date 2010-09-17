@@ -614,6 +614,7 @@ void insert_selfcheck_guard_attacker_filter(slice_index si,
 static void insert_selfcheck_guard_help_filter(slice_index si,
                                                stip_structure_traversal *st)
 {
+  boolean const * const nested = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -623,8 +624,9 @@ static void insert_selfcheck_guard_help_filter(slice_index si,
 
   nest(si,st);
 
-  pipe_append(slices[si].prev,
-              alloc_selfcheck_guard_help_filter(length,min_length));
+  if (*nested)
+    pipe_append(slices[si].prev,
+                alloc_selfcheck_guard_help_filter(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

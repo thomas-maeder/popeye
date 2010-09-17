@@ -44,16 +44,16 @@ static void shorten_slices(slice_index begin, slice_index end)
 slice_index help_branch_shorten(slice_index si)
 {
   slice_index result;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = branch_find_slice(STReadyForHelpMove,si);
+  result = branch_find_slice(STHelpMoveLegalityChecked,si);
 
   assert(result!=no_slice);
   assert(result!=si);
-    
+
   shorten_slices(si,result);
 
   TraceFunctionExit(__func__);
@@ -78,6 +78,10 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
+    slice_index const checked1 = alloc_branch(STHelpMoveLegalityChecked,
+                                              length,min_length);
+    slice_index const dealt1 = alloc_branch(STHelpMoveDealtWith,
+                                            length,min_length);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const move1 = alloc_help_move_slice(length,min_length);
@@ -93,10 +97,6 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
     slice_index const played2 = alloc_branch(STHelpMovePlayed,
                                              length-2,min_length-2);
-    slice_index const checked1 = alloc_branch(STHelpMoveLegalityChecked,
-                                              length-2,min_length-2);
-    slice_index const dealt1 = alloc_branch(STHelpMoveDealtWith,
-                                            length-2,min_length-2);
 
     pipe_link(ready1,move1);
     pipe_link(move1,played1);
@@ -110,7 +110,7 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
     pipe_link(checked1,dealt1);
     pipe_link(dealt1,ready1);
 
-    result = ready1;
+    result = checked1;
   }
 
   TraceFunctionExit(__func__);
@@ -133,19 +133,19 @@ static slice_index find_fork_pos(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STReadyForHelpMove);
+  assert(slices[si].type==STHelpMoveLegalityChecked);
 
-  if ((slices[si].u.branch.length-slack_length_help)%2
+  result = branch_find_slice(STReadyForHelpMove,si);
+  assert(result!=no_slice);
+
+  if ((slices[result].u.branch.length-slack_length_help)%2
       !=(n-slack_length_help)%2)
   {
-    result = branch_find_slice(STReadyForHelpMove,si);
+    result = branch_find_slice(STReadyForHelpMove,result);
     assert(result!=no_slice);
-    assert(result!=si);
     assert((slices[result].u.branch.length-slack_length_help)%2
            ==(n-slack_length_help)%2);
   }
-  else
-    result = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

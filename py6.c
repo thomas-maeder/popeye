@@ -2130,7 +2130,7 @@ static boolean apply_whitetoplay(slice_index proxy)
   TraceEnumerator(SliceType,slices[next].type,"\n");
   switch (slices[next].type)
   {
-    case STReadyForHelpMove:
+    case STHelpMoveLegalityChecked:
     {
       meaning_of_whitetoplay const meaning = detect_meaning_of_whitetoplay(next);
       if (meaning==whitetoplay_means_shorten)
