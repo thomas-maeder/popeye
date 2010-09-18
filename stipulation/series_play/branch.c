@@ -116,6 +116,10 @@ slice_index alloc_series_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
+    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
+                                              length,min_length);
+    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
+                                            length,min_length);
     slice_index const ready = alloc_branch(STReadyForSeriesMove,
                                            length,min_length);
     slice_index const move = alloc_series_move_slice(length,min_length);
@@ -128,11 +132,9 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const inverter = alloc_move_inverter_series_filter();
     slice_index const played2 = alloc_branch(STSeriesMovePlayed,
                                              length-1,min_length-1);
-    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
-                                              length-1,min_length-1);
-    slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
-                                            length-1,min_length-1);
 
+    pipe_link(checked2,dealt2);
+    pipe_link(dealt2,ready);
     pipe_link(ready,move);
     pipe_link(move,played1);
     pipe_link(played1,checked1);
@@ -140,10 +142,8 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(dealt1,inverter);
     pipe_link(inverter,played2);
     pipe_link(played2,checked2);
-    pipe_link(checked2,dealt2);
-    pipe_link(dealt2,ready);
 
-    result = ready;
+    result = checked2;
   }
 
   TraceFunctionExit(__func__);
@@ -167,8 +167,13 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
   TraceFunctionParam("%u",to_goal);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STReadyForSeriesMove);
-  pipe_append(si,alloc_series_fork_slice(length,min_length,to_goal));
+  assert(slices[si].type==STSeriesMoveLegalityChecked);
+
+  {
+    slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
+    assert(ready!=no_slice);
+    pipe_append(ready,alloc_series_fork_slice(length,min_length,to_goal));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -185,15 +190,17 @@ void series_branch_set_next_slice(slice_index si, slice_index next)
   TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].type==STReadyForSeriesMove);
+  assert(slices[si].type==STSeriesMoveLegalityChecked);
 
   {
-    slice_index const dealt = branch_find_slice(STSeriesMoveDealtWith,si);
-    stip_length_type const length = slices[dealt].u.branch.length;
-    stip_length_type const min_length = slices[dealt].u.branch.min_length;
+    slice_index const dealt1 = branch_find_slice(STSeriesMoveDealtWith,si);
+    slice_index const dealt2 = branch_find_slice(STSeriesMoveDealtWith,dealt1);
+    stip_length_type const length = slices[dealt2].u.branch.length;
+    stip_length_type const min_length = slices[dealt2].u.branch.min_length;
 
-    assert(dealt!=no_slice);
-    pipe_append(dealt,alloc_series_fork_slice(length,min_length,next));
+    assert(dealt1!=no_slice);
+    assert(dealt2!=no_slice);
+    pipe_append(dealt2,alloc_series_fork_slice(length,min_length,next));
   }
 
   TraceFunctionExit(__func__);

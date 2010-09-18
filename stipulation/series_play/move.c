@@ -74,22 +74,18 @@ void ready_for_series_move_make_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  assert(*root!=no_slice);
-
   new_root = alloc_series_root_slice(length,min_length);
 
-  if (slices[*root].type==STLeaf)
-  {
-    /* ser-X1 - directly insert the root slice before ourselves */
-    dealloc_slice(*root);
-    pipe_link(new_root,si);
-  }
+  if (length==slack_length_series)
+    pipe_set_successor(new_root,slices[si].u.pipe.next);
   else
   {
-    pipe_link(new_root,*root);
-    pipe_append(new_root,alloc_series_shortcut(length,min_length,si));
+    slice_index const shortcut = alloc_series_shortcut(length,min_length,si);
+    pipe_link(new_root,shortcut);
+    stip_traverse_structure_children(si,st);
+    assert(*root!=no_slice);
+    pipe_link(shortcut,*root);
+    shorten_series_pipe(si);
   }
 
   *root = new_root;
@@ -113,7 +109,7 @@ void series_move_make_root(slice_index si, stip_structure_traversal *st)
   assert(*root==no_slice);
   *root = copy_slice(si);
   shorten_series_pipe(si);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -233,7 +229,7 @@ static stip_length_type find_solution(slice_index si, stip_length_type n)
 {
   slice_index const next = slices[si].u.pipe.next;
   stip_length_type result = n+1;
-  
+
   while (encore())
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
         && series_has_solution_in_n(next,n-1)==n-1)

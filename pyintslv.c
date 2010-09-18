@@ -33,6 +33,7 @@ boolean intelligent_solvable_root_solve_in_n(slice_index si,
       result = help_solve_in_n(si,n)<=n;
       break;
 
+    case STSeriesFork:
     case STSeriesShortcut:
     case STSeriesHashed:
       result = series_solve_in_n(si,n)<=n;

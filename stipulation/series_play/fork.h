@@ -24,12 +24,6 @@ slice_index alloc_series_fork_slice(stip_length_type length,
 void series_fork_make_setplay_slice(slice_index si,
                                     stip_structure_traversal *st);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void series_fork_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal
@@ -37,8 +31,7 @@ void series_fork_make_root(slice_index si, stip_structure_traversal *st);
 void stip_traverse_structure_series_fork(slice_index branch,
                                          stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a series fork slice 
- * fork slice 
+/* Traversal of the moves beyond a series fork slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

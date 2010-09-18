@@ -2393,20 +2393,10 @@ static char *ParsePlay(char *tok,
         result = ParseLength(tok,STSeriesMove,&length,&min_length);
         if (result!=0)
         {
+          slice_index const branch = alloc_series_branch(length,min_length-1);
           stip_make_series_goal_branch(proxy_next);
-          if (length==slack_length_series)
-          {
-            pipe_link(proxy,slices[proxy_next].u.pipe.next);
-            dealloc_slice(proxy_next);
-          }
-          else
-          {
-            slice_index const branch = alloc_series_branch(length,
-                                                           min_length-1);
-            series_branch_set_goal_slice(branch,proxy_next);
-            pipe_set_successor(proxy,branch);
-          }
-
+          series_branch_set_goal_slice(branch,proxy_next);
+          pipe_set_successor(proxy,branch);
           stip_impose_starter(proxy_next,White);
           set_output_mode(output_mode_line);
         }

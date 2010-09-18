@@ -635,8 +635,7 @@ static void insert_selfcheck_guard_help_filter(slice_index si,
 static void insert_selfcheck_guard_series_filter(slice_index si,
                                                  stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  boolean const * const nested = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -644,8 +643,15 @@ static void insert_selfcheck_guard_series_filter(slice_index si,
 
   nest(si,st);
 
-  pipe_append(slices[si].prev,
-              alloc_selfcheck_guard_series_filter(length,min_length));
+  if (*nested)
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+    pipe_append(slices[si].prev,
+                alloc_selfcheck_guard_series_filter(length,min_length));
+  }
+  else
+    pipe_append(slices[si].prev,alloc_selfcheck_guard_root_solvable_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -655,7 +661,6 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
   { STAttackMoveLegalityChecked,  &insert_selfcheck_guard_defender_filter },
   { STDefenseMoveLegalityChecked, &insert_selfcheck_guard_attacker_filter },
-  { STSeriesRoot,                 &insert_root_selfcheck_guard            },
   { STGoalReachedTester,          &stip_structure_visitor_noop            },
   { STHelpRoot,                   &insert_root_selfcheck_guard            },
   { STHelpMoveLegalityChecked,    &insert_selfcheck_guard_help_filter     },
