@@ -547,20 +547,6 @@ static void nest(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_root_selfcheck_guard(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  nest(si,st);
-  pipe_append(slices[si].prev,alloc_selfcheck_guard_root_solvable_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static
 void insert_selfcheck_guard_defender_filter(slice_index si,
                                             stip_structure_traversal *st)
@@ -627,6 +613,8 @@ static void insert_selfcheck_guard_help_filter(slice_index si,
   if (*nested)
     pipe_append(slices[si].prev,
                 alloc_selfcheck_guard_help_filter(length,min_length));
+  else
+    pipe_append(slices[si].prev,alloc_selfcheck_guard_root_solvable_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -636,6 +624,8 @@ static void insert_selfcheck_guard_series_filter(slice_index si,
                                                  stip_structure_traversal *st)
 {
   boolean const * const nested = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -644,12 +634,8 @@ static void insert_selfcheck_guard_series_filter(slice_index si,
   nest(si,st);
 
   if (*nested)
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
     pipe_append(slices[si].prev,
                 alloc_selfcheck_guard_series_filter(length,min_length));
-  }
   else
     pipe_append(slices[si].prev,alloc_selfcheck_guard_root_solvable_filter());
 
@@ -661,10 +647,9 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
   { STAttackMoveLegalityChecked,  &insert_selfcheck_guard_defender_filter },
   { STDefenseMoveLegalityChecked, &insert_selfcheck_guard_attacker_filter },
-  { STGoalReachedTester,          &stip_structure_visitor_noop            },
-  { STHelpRoot,                   &insert_root_selfcheck_guard            },
   { STHelpMoveLegalityChecked,    &insert_selfcheck_guard_help_filter     },
-  { STSeriesMoveLegalityChecked,  &insert_selfcheck_guard_series_filter   }
+  { STSeriesMoveLegalityChecked,  &insert_selfcheck_guard_series_filter   },
+  { STGoalReachedTester,          &stip_structure_visitor_noop            }
 };
 
 enum

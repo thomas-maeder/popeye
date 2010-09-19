@@ -246,16 +246,16 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STAttackFork */
   slice_structure_branch, /* STAttackDealtWith */
   slice_structure_fork,   /* STDefenseFork */
-  slice_structure_pipe,   /* STReadyForAttack */
-  slice_structure_pipe,   /* STAttackMovePlayed */
-  slice_structure_pipe,   /* STAttackMoveShoeHorningDone */
-  slice_structure_pipe,   /* STAttackMoveLegalityChecked */
-  slice_structure_pipe,   /* STAttackMoveFiltered */
-  slice_structure_pipe,   /* STReadyForDefense */
-  slice_structure_pipe,   /* STDefenseMovePlayed */
-  slice_structure_pipe,   /* STDefenseMoveShoeHorningDone */
-  slice_structure_pipe,   /* STDefenseMoveLegalityChecked */
-  slice_structure_pipe,   /* STDefenseMoveFiltered */
+  slice_structure_branch, /* STReadyForAttack */
+  slice_structure_branch, /* STAttackMovePlayed */
+  slice_structure_branch, /* STAttackMoveShoeHorningDone */
+  slice_structure_branch, /* STAttackMoveLegalityChecked */
+  slice_structure_branch, /* STAttackMoveFiltered */
+  slice_structure_branch, /* STReadyForDefense */
+  slice_structure_branch, /* STDefenseMovePlayed */
+  slice_structure_branch, /* STDefenseMoveShoeHorningDone */
+  slice_structure_branch, /* STDefenseMoveLegalityChecked */
+  slice_structure_branch, /* STDefenseMoveFiltered */
   slice_structure_branch, /* STHelpRoot */
   slice_structure_fork,   /* STHelpShortcut */
   slice_structure_branch, /* STHelpMove */
@@ -381,6 +381,11 @@ boolean slice_has_structure(slice_index si, slice_structural_type type)
   TraceFunctionParam("%u",si);
   TraceEnumerator(slice_structural_type,type,"");
   TraceFunctionParamListEnd();
+
+  TraceEnumerator(SliceType,slices[si].type,"");
+  TraceEnumerator(slice_structural_type,
+                  highest_structural_type[slices[si].type],
+                  "\n");
 
   switch (highest_structural_type[slices[si].type])
   {
@@ -583,6 +588,13 @@ static void copy_into_root(slice_index si, stip_structure_traversal *st)
     slice_index const copy = copy_slice(si);
     link_to_branch(copy,*root);
     *root = copy;
+
+    if (slices[si].u.pipe.next==no_slice)
+    {
+      if (slices[si].prev!=no_slice)
+        pipe_unlink(slices[si].prev);
+      dealloc_slice(si);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -744,6 +756,7 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STDefenseMoveLegalityChecked,   &battle_branch_make_root          },
   { STHelpMoveLegalityChecked,      &copy_into_root                   },
   { STHelpMoveDealtWith,            &copy_into_root                   },
+  { STReadyForHelpMove,             &copy_into_root                   },
   { STHelpMove,                     &help_move_make_root              },
   { STHelpFork,                     &help_fork_make_root              },
   { STSeriesMoveLegalityChecked,    &copy_into_root                   },
@@ -1395,7 +1408,7 @@ boolean stip_apply_postkeyplay(slice_index si)
 static structure_traversers_visitors setplay_makers[] =
 {
   { STDefenseMovePlayed,            &defense_move_played_make_setplay_slice             },
-  { STReadyForHelpMove,             &ready_for_help_move_make_setplay_slice             },
+  { STHelpMoveLegalityChecked,      &ready_for_help_move_make_setplay_slice             },
   { STSeriesMove,                   &series_move_make_setplay_slice                     },
   { STSeriesFork,                   &series_fork_make_setplay_slice                     },
   { STHelpShortcut,                 &stip_traverse_structure_pipe                       },

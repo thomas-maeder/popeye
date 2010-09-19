@@ -39,19 +39,25 @@ static stip_length_type find_max_length_in_branch(slice_index si)
 {
   stip_length_type result = slices[si].u.branch.length;
   slice_index iterator;
+  boolean visited[max_nr_slices] = { false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  visited[si] = true;
+
   for (iterator = slices[si].u.pipe.next;
        iterator!=no_slice
-           && iterator!=si
-           && slice_has_structure(iterator,slice_structure_pipe);
+       && !visited[iterator]
+       && slice_has_structure(iterator,slice_structure_pipe);
        iterator = slices[iterator].u.pipe.next)
+  {
+    visited[iterator] = true;
     if (slice_has_structure(iterator,slice_structure_branch)
         && slices[iterator].u.branch.length>result)
       result = slices[iterator].u.branch.length;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

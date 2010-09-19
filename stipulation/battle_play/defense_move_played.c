@@ -49,8 +49,20 @@ void defense_move_played_make_setplay_slice(slice_index si,
   {
     stip_length_type const length_h = (length+1-slack_length_battle
                                        +slack_length_help);
-    *result = alloc_help_move_slice(length_h,length_h-1);
-    pipe_set_successor(*result,slices[si].u.branch.next);
+    slice_index const checked = alloc_branch(STHelpMoveLegalityChecked,
+                                             length_h,length_h-1);
+    slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
+                                           length_h,length_h-1);
+    slice_index const ready = alloc_branch(STReadyForHelpMove,
+                                           length_h,length_h-1);
+    slice_index const move = alloc_help_move_slice(length_h,length_h-1);
+
+    *result = checked;
+
+    pipe_link(checked,dealt);
+    pipe_link(dealt,ready);
+    pipe_link(ready,move);
+    pipe_set_successor(move,slices[si].u.branch.next);
   }
 
   TraceFunctionExit(__func__);
