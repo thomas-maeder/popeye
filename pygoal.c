@@ -106,6 +106,16 @@ goal_checker_result_type goal_checker_capture(Side just_moved)
     return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
 }
 
+static boolean is_totally_paralysed(Side side)
+{
+  boolean result;
+  move_generation_mode = move_generation_not_optimized;
+  genmove(side);
+  result = !encore();
+  finply();
+  return result;
+}
+
 goal_checker_result_type goal_checker_mate(Side just_moved)
 {
   if (CondFlag[amu] && !att_1[nbply])
@@ -120,15 +130,7 @@ goal_checker_result_type goal_checker_mate(Side just_moved)
       else if (immobile(ad))
       {
         if (TSTFLAG(PieSpExFlags,Paralyse))
-        {
-          goal_checker_result_type result;
-          move_generation_mode = move_generation_not_optimized;
-          TraceValue("->%u\n",move_generation_mode);
-          genmove(ad);
-          result = encore() ? goal_reached : goal_not_reached;
-          finply();
-          return result;
-        }
+          return is_totally_paralysed(ad) ? goal_not_reached : goal_reached;
         else
           return goal_reached;
       }
@@ -148,7 +150,7 @@ goal_checker_result_type goal_checker_mate_ultraschachzwang(Side just_moved)
                     : whiteultraschachzwang);
   boolean const saveflag = CondFlag[cond];
   boolean result;
-  
+
   CondFlag[cond] = false;
   result = goal_checker_mate(just_moved);
   CondFlag[cond] = saveflag;
@@ -159,15 +161,7 @@ goal_checker_result_type goal_checker_mate_ultraschachzwang(Side just_moved)
 static boolean para_stalemate(Side camp)
 {
   if (echecc(nbply,camp))
-  {
-    boolean result;
-    move_generation_mode = move_generation_not_optimized;
-    TraceValue("->%u\n",move_generation_mode);
-    genmove(camp);
-    result = !encore();
-    finply();
-    return result;
-  }
+    return is_totally_paralysed(camp);
   else
     return immobile(camp);
 }
@@ -259,30 +253,21 @@ goal_checker_result_type goal_checker_doublemate(Side just_moved)
 
   if (echecc(nbply,ad) && echecc(nbply,just_moved))
   {
-    boolean flag;
     if (TSTFLAG(PieSpExFlags,Paralyse))
     {
-      move_generation_mode = move_generation_not_optimized;
-      TraceValue("->%u\n",move_generation_mode);
-      genmove(ad);
-      flag = encore();
-      finply();
-      if (!flag)
-        return goal_not_reached;
-
-      genmove(just_moved);
-      flag = encore();
-      finply();
-      if (!flag)
+      if (is_totally_paralysed(ad) || is_totally_paralysed(just_moved))
         return goal_not_reached;
     }
 
-    testdblmate = flag_nk;
-    /* modified to allow isardam + ##  */
-    /* may still have problem with isardam + nK + ##  !*/
-    flag = immobile(ad) && immobile(just_moved);
-    testdblmate = false;
-    return flag ? goal_reached : goal_not_reached;
+    {
+      boolean flag;
+      testdblmate = flag_nk;
+      /* modified to allow isardam + ##  */
+      /* may still have problem with isardam + nK + ##  !*/
+      flag = immobile(ad) && immobile(just_moved);
+      testdblmate = false;
+      return flag ? goal_reached : goal_not_reached;
+    }
   }
   else
     return goal_not_reached;
@@ -311,7 +296,7 @@ goal_checker_result_type goal_checker_proof(Side just_moved)
   else
     return goal_not_reached;
 }
-  
+
 char const *goal_end_marker[nr_goals] =
 {
   " #"
