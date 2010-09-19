@@ -760,6 +760,7 @@ static structure_traversers_visitors root_slice_inserters[] =
   { STHelpMove,                     &help_move_make_root              },
   { STHelpFork,                     &help_fork_make_root              },
   { STSeriesMoveLegalityChecked,    &copy_into_root                   },
+  { STHelpMovePlayed,               &help_move_played_make_root       },
   { STSeriesMoveDealtWith,          &copy_into_root                   },
   { STReadyForSeriesMove,           &ready_for_series_move_make_root  },
   { STSeriesMove,                   &series_move_make_root            },

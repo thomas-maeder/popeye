@@ -56,13 +56,16 @@ void defense_move_played_make_setplay_slice(slice_index si,
     slice_index const ready = alloc_branch(STReadyForHelpMove,
                                            length_h,length_h-1);
     slice_index const move = alloc_help_move_slice(length_h,length_h-1);
+    slice_index const played = alloc_branch(STHelpMovePlayed,
+                                            length_h-1,length_h-2);
 
     *result = checked;
 
     pipe_link(checked,dealt);
     pipe_link(dealt,ready);
     pipe_link(ready,move);
-    pipe_set_successor(move,slices[si].u.branch.next);
+    pipe_link(move,played);
+    pipe_set_successor(played,slices[si].u.branch.next);
   }
 
   TraceFunctionExit(__func__);

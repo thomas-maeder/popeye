@@ -72,8 +72,7 @@ static stip_length_type find_max_length_in_branch(slice_index si)
 void help_move_make_root(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const root = st->param;
-  slice_index const prev = slices[si].prev;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index new_root;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
 
@@ -81,29 +80,35 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
   if (min_length<slack_length_help)
     min_length += 2;
 
-  *root = alloc_help_root_slice(length,min_length);
+  new_root = alloc_help_root_slice(length,min_length);
 
-  if (slices[next].prev==si)
+  if (slices[si].u.pipe.next==no_slice)
   {
-    slice_index const shortcut = alloc_help_shortcut(length,min_length,prev);
+    /* si is not part of a loop - reuse it in the root branch */
+    pipe_unlink(slices[si].prev);
+    pipe_link(si,*root);
+    pipe_link(new_root,si);
+  }
+  else
+  {
+    slice_index const shortcut = alloc_help_shortcut(length,min_length,
+                                                     slices[si].prev);
     slice_index const root_branch = alloc_help_move_slice(length,min_length);
 
-    pipe_link(*root,shortcut);
+    pipe_link(new_root,shortcut);
     pipe_link(shortcut,root_branch);
-    pipe_set_successor(root_branch,next);
+    pipe_set_successor(root_branch,slices[si].u.pipe.next);
 
     if (length==find_max_length_in_branch(si))
       help_branch_shorten_slice(si);
   }
-  else
-  {
-    /* si is not part of a loop - reuse it in the root branch */
-    pipe_unlink(prev);
-    pipe_link(*root,si);
-  }
+
+  *root = new_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -286,6 +291,29 @@ void ready_for_help_move_make_setplay_slice(slice_index si,
 
   *result = alloc_proxy_slice();
   pipe_set_successor(*result,si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void help_move_played_make_root(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const root = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[slices[si].u.pipe.next].prev!=si)
+  {
+    /* si is not part of a loop - reuse it in the root branch */
+    pipe_unlink(slices[si].prev);
+    *root = si;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
