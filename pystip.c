@@ -1475,7 +1475,6 @@ enum
  */
 static void insert_set_play(slice_index si, slice_index setplay_slice)
 {
-  slice_index mi;
   slice_index set;
   slice_index regular;
   slice_index set_fork;
@@ -1486,22 +1485,19 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
   TraceFunctionParam("%u",setplay_slice);
   TraceFunctionParamListEnd();
 
-  mi = alloc_move_inverter_solvable_filter();
+  set = alloc_move_inverter_solvable_filter();
+  link_to_branch(set,setplay_slice);
 
-  link_to_branch(mi,setplay_slice);
-
-  set = alloc_proxy_slice();
-  pipe_link(set,mi);
-
-  regular = alloc_proxy_slice();
   if (slices[next].prev==si)
-    pipe_link(regular,next);
+    regular = next;
   else
+  {
+    regular = alloc_proxy_slice();
     pipe_set_successor(regular,next);
+  }
 
   set_fork = alloc_setplay_fork_slice(set);
 
-  pipe_unlink(si);
   pipe_link(si,set_fork);
   pipe_link(set_fork,regular);
 
