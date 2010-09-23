@@ -135,35 +135,3 @@ void resolve_proxies(slice_index *si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void proxy_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const proxy = alloc_proxy_slice();
-    link_to_branch(proxy,*root);
-    *root = proxy;
-  }
-
-  if (slices[si].u.pipe.next==no_slice
-      || slices[slices[si].u.pipe.next].prev!=si)
-  {
-    if (slices[si].prev!=no_slice)
-      pipe_unlink(slices[si].prev);
-    dealloc_slice(si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}

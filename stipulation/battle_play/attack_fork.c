@@ -40,7 +40,7 @@ slice_index alloc_attack_fork_slice(stip_length_type length,
  */
 void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
   stip_length_type const length = slices[si].u.branch_fork.length;
   stip_length_type const min_length = slices[si].u.branch_fork.min_length;
   slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
@@ -52,19 +52,19 @@ void attack_fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure(to_goal,st);
-  root_to_goal = *root;
+  root_to_goal = state->result;
 
   stip_traverse_structure_pipe(si,st);
 
   attack_root = alloc_root_attack_fork_slice(length,min_length,root_to_goal);
-  pipe_link(attack_root,*root);
-  *root = attack_root;
+  pipe_link(attack_root,state->result);
+  state->result = attack_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Traversal of the moves beyond a series fork slice 
+/* Traversal of the moves beyond an attack fork
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

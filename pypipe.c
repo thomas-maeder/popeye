@@ -1,5 +1,6 @@
 #include "pypipe.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -24,6 +25,40 @@ slice_index alloc_pipe(SliceType type)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void pipe_make_root(slice_index si, stip_structure_traversal *st)
+{
+  root_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index const copy = copy_slice(si);
+    link_to_branch(copy,state->result);
+    state->result = copy;
+  }
+
+  TraceValue("%u",slices[si].u.pipe.next);
+  TraceValue("%u\n",slices[slices[si].u.pipe.next].prev);
+  if (slices[si].u.pipe.next==no_slice
+      || slices[slices[si].u.pipe.next].prev!=si)
+  {
+    if (slices[si].prev!=no_slice)
+      pipe_unlink(slices[si].prev);
+    dealloc_slice(si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 #if !defined(NDEBUG)
@@ -159,7 +194,7 @@ void pipe_remove(slice_index si)
 
   pipe_link(slices[si].prev,slices[si].u.pipe.next);
   dealloc_slice(si);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -197,10 +232,10 @@ void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  
+
   if (slices[si].u.pipe.next!=no_slice)
     proxy_slice_resolve(&slices[si].u.pipe.next,st);
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

@@ -6,6 +6,12 @@
 
 #include "pystip.h"
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void binary_make_root(slice_index si, stip_structure_traversal *st);
+
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies
  * @param st points at the structure holding the state of the traversal

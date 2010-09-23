@@ -29,12 +29,6 @@ slice_index alloc_move_inverter_series_filter(void);
  */
 void move_inverter_apply_setplay(slice_index si, stip_structure_traversal *st);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void move_inverter_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

@@ -2,6 +2,35 @@
 #include "stipulation/proxy.h"
 #include "trace.h"
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void binary_make_root(slice_index si, stip_structure_traversal *st)
+{
+  root_insertion_state_type * const state = st->param;
+  slice_index copy;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  copy = copy_slice(si);
+
+  stip_traverse_structure(slices[si].u.binary.op1,st);
+  slices[copy].u.binary.op1 = state->result;
+
+  state->result = no_slice;
+
+  stip_traverse_structure(slices[si].u.binary.op2,st);
+  slices[copy].u.binary.op2 = state->result;
+
+  state->result = copy;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Substitute links to proxy slices by the proxy's target
  * @param si slice where to resolve proxies
  * @param st points at the structure holding the state of the traversal

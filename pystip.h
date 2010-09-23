@@ -378,7 +378,14 @@ slice_index stip_deep_copy(slice_index si);
  */
 void assert_no_leaked_slices(void);
 
-slice_index stip_make_root_slices(slice_index si);
+/* structure holding the state of the traversal started by
+ * stip_insert_root_slices()
+ */
+typedef struct
+{
+    slice_index result;           /* (temporary) result of root production */
+    boolean dealing_with_setplay; /* are we in a setplay */
+} root_insertion_state_type;
 
 /* Wrap the slices representing the initial moves of the solution with
  * slices of appropriately equipped slice types

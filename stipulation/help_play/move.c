@@ -71,7 +71,7 @@ static stip_length_type find_max_length_in_branch(slice_index si)
  */
 void help_move_make_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
   slice_index new_root;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type min_length = slices[si].u.branch.min_length;
@@ -91,7 +91,7 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
   {
     /* si is not part of a loop - reuse it in the root branch */
     pipe_unlink(slices[si].prev);
-    pipe_link(si,*root);
+    pipe_link(si,state->result);
     pipe_link(new_root,si);
   }
   else
@@ -103,12 +103,9 @@ void help_move_make_root(slice_index si, stip_structure_traversal *st)
     pipe_link(new_root,shortcut);
     pipe_link(shortcut,root_branch);
     pipe_set_successor(root_branch,slices[si].u.pipe.next);
-
-    if (length==find_max_length_in_branch(si))
-      help_branch_shorten_slice(si);
   }
 
-  *root = new_root;
+  state->result = new_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -302,7 +299,7 @@ void ready_for_help_move_make_setplay_slice(slice_index si,
  */
 void help_move_played_make_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -312,8 +309,52 @@ void help_move_played_make_root(slice_index si, stip_structure_traversal *st)
   {
     /* si is not part of a loop - reuse it in the root branch */
     pipe_unlink(slices[si].prev);
-    *root = si;
+    state->result = si;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void help_move_legality_checked_make_root(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  root_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_pipe(si,st);
+
+  {
+    slice_index const copy = copy_slice(si);
+    link_to_branch(copy,state->result);
+    state->result = copy;
+  }
+
+  TraceValue("%u",slices[si].u.pipe.next);
+  TraceValue("%u\n",slices[slices[si].u.pipe.next].prev);
+  if (slices[si].u.pipe.next==no_slice
+      || slices[slices[si].u.pipe.next].prev!=si)
+  {
+    if (slices[si].prev!=no_slice)
+      pipe_unlink(slices[si].prev);
+    dealloc_slice(si);
+  }
+  else if (!state->dealing_with_setplay)
+    while (true)
+    {
+      help_branch_shorten_slice(si);
+      if (slices[si].type==STHelpMove)
+        break;
+      else
+        si = slices[si].u.pipe.next;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

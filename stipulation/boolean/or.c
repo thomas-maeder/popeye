@@ -39,35 +39,6 @@ slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2)
   return result;
 }
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void quodlibet_make_root(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const root = st->param;
-  slice_index copy;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  copy = copy_slice(si);
-
-  stip_traverse_structure(slices[si].u.binary.op1,st);
-  slices[copy].u.binary.op1 = *root;
-
-  *root = no_slice;
-  
-  stip_traverse_structure(slices[si].u.binary.op2,st);
-  slices[copy].u.binary.op2 = *root;
-  
-  *root = copy;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Determine whether a quodlibet slice jas a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
@@ -94,7 +65,7 @@ has_solution_type quodlibet_has_solution(slice_index si)
     case has_no_solution:
       result = slice_has_solution(op2);
       break;
-      
+
     case has_solution:
       switch (slice_has_solution(op2))
       {

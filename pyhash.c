@@ -1988,7 +1988,7 @@ static void insert_hash_element_attack_move(slice_index si,
   }
 
   *level = nested_branch;
-  stip_traverse_moves_branch_slice(si,st);
+  stip_traverse_moves_move_slice(si,st);
   *level = save_level;
 
   TraceFunctionExit(__func__);
@@ -2028,14 +2028,14 @@ static void insert_hash_element_help_move(slice_index si,
 
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
-  if (st->remaining<st->full_length)
+  if (st->remaining<st->full_length || st->level>0)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
     insert_help_hashed_slice(si,length,min_length);
   }
 
-  stip_traverse_moves_branch_slice(si,st);
+  stip_traverse_moves_move_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2062,7 +2062,7 @@ static void insert_hash_element_help_move_to_goal(slice_index si,
     stip_length_type const min_length = slack_length_help+1;
     insert_help_hashed_slice(si,length,min_length);
   }
-  stip_traverse_moves_branch_slice(si,st);
+  stip_traverse_moves_move_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2088,7 +2088,7 @@ static void insert_hash_element_series_move(slice_index si,
     insert_series_hashed_slice(si,length,min_length);
   }
 
-  stip_traverse_moves_branch_slice(si,st);
+  stip_traverse_moves_move_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2114,7 +2114,7 @@ static void insert_hash_element_series_move_to_goal(slice_index si,
     insert_series_hashed_slice(si,length,min_length);
   }
 
-  stip_traverse_moves_branch_slice(si,st);
+  stip_traverse_moves_move_slice(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

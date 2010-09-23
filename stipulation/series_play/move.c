@@ -35,29 +35,6 @@ slice_index alloc_series_move_slice(stip_length_type length,
   return result;
 }
 
-/* Produce slices representing set play
- * @param si slice index
- * @param st state of traversal
- */
-void series_move_make_setplay_slice(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  slice_index * const result = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const length_h = (length-slack_length_series
-                                     +slack_length_help);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *result = alloc_help_move_slice(length_h,length_h);
-  pipe_set_successor(*result,slices[si].u.branch.next);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Recursively make a sequence of root slices
  * @param si identifies (non-root) slice
  * @param st address of structure representing traversal
@@ -65,7 +42,7 @@ void series_move_make_setplay_slice(slice_index si,
 void ready_for_series_move_make_root(slice_index si,
                                      stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index new_root;
@@ -83,12 +60,11 @@ void ready_for_series_move_make_root(slice_index si,
     slice_index const shortcut = alloc_series_shortcut(length,min_length,si);
     pipe_link(new_root,shortcut);
     stip_traverse_structure_children(si,st);
-    assert(*root!=no_slice);
-    pipe_link(shortcut,*root);
-    shorten_series_pipe(si);
+    assert(state->result!=no_slice);
+    pipe_link(shortcut,state->result);
   }
 
-  *root = new_root;
+  state->result = new_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -100,15 +76,14 @@ void ready_for_series_move_make_root(slice_index si,
  */
 void series_move_make_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(*root==no_slice);
-  *root = copy_slice(si);
-  shorten_series_pipe(si);
+  assert(state->result==no_slice);
+  state->result = copy_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -134,24 +109,6 @@ void series_move_detect_starter(slice_index si, stip_structure_traversal *st)
   }
 
   TraceValue("%u\n",slices[si].starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void series_move_apply_setplay(slice_index si, stip_structure_traversal *st)
-{
-  slice_index * const setplay_slice = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *setplay_slice = stip_make_setplay(slices[si].u.pipe.next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -274,4 +231,30 @@ stip_length_type series_move_has_solution_in_n(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void series_move_legality_checked_make_root(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_make_root(si,st);
+
+  while (true)
+  {
+    shorten_series_pipe(si);
+    if (slices[si].type==STSeriesMove)
+      break;
+    else
+      si = slices[si].u.pipe.next;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

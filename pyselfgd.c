@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
+#include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/play.h"
 #include "pypipe.h"
@@ -217,8 +218,8 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   pipe_append(slices[si].prev,
-              alloc_branch(STDefenseMoveLegalityChecked,
-                           slack_length_battle,slack_length_battle-1));
+              alloc_defense_move_legality_checked_slice(slack_length_battle,
+                                                        slack_length_battle-1));
   pipe_append(slices[si].prev,
               alloc_branch(STDefenseMoveFiltered,
                            slack_length_battle,slack_length_battle-1));

@@ -51,6 +51,29 @@ void series_fork_make_setplay_slice(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void series_fork_apply_setplay(slice_index si,
+                               stip_structure_traversal *st)
+{
+  slice_index * const setplay_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* build a 0 move series branch that leads to the successive branch */
+  *setplay_slice = alloc_series_branch(slack_length_series,
+                                       slack_length_series);
+  series_branch_set_goal_slice(*setplay_slice,
+                               slices[si].u.branch_fork.towards_goal);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Traverse a subtree
  * @param branch root slice of subtree
  * @param st address of structure defining traversal

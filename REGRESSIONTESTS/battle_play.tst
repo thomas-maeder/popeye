@@ -387,6 +387,7 @@ solution finished.
   #2                          2 + 2
 
 the side to play can capture the king
+
    1.Rc6*c5 ! zugzwang.
       1...Kb8-a8
           2.Rc5-c8 #

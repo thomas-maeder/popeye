@@ -127,7 +127,7 @@ void insert_goal_prerequisite_guards_attack_move(slice_index si,
   {
     Goal const goal = slices[si].u.branch.imminent_goal;
 
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     if (goal.type!=no_goal)
       insert_goal_prerequisite_guard_attacker_filter(si,goal);
@@ -157,7 +157,7 @@ insert_goal_prerequisite_guards_help_move_to_goal(slice_index si,
 
   if (!state->is_provided[si])
   {
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     assert(st->remaining==slack_length_help+1);
 
@@ -191,7 +191,7 @@ void insert_goal_prerequisite_guards_help_move(slice_index si,
 
   if (!state->is_provided[si])
   {
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     if (st->remaining<slack_length_help+2)
     {
@@ -249,8 +249,9 @@ void insert_goal_prerequisite_guards_series_move(slice_index si,
 
   if (!state->is_provided[si])
   {
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
+    TraceValue("%u\n",st->remaining);
     if (st->remaining==slack_length_series+1)
     {
       Goal const goal = slices[si].u.branch.imminent_goal;
@@ -281,7 +282,7 @@ void insert_goal_prerequisite_guards_goal_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_branch_slice(si,st);
-  state->imminent = slices[si].u.goal_reached_tester.goal; 
+  state->imminent = slices[si].u.goal_reached_tester.goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

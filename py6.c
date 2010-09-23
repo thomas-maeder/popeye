@@ -2529,7 +2529,7 @@ static void optimise_final_moves_defense_move(slice_index si,
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     if (st->remaining<=slack_length_battle+2)
     {
@@ -2563,7 +2563,7 @@ static void optimise_final_moves_help_move(slice_index si,
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     if (st->remaining==slack_length_help+1)
     {
@@ -2598,7 +2598,7 @@ static void swallow_goal(slice_index si, stip_moves_traversal *st)
   if (!state->is_optimised[si])
   {
     Goal const save_goal = state->goal;
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
     state->goal = save_goal;
   }
 

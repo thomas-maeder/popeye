@@ -15,6 +15,12 @@
  */
 slice_index alloc_pipe(SliceType type);
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void pipe_make_root(slice_index si, stip_structure_traversal *st);
+
 /* Make a slice the successor of a pipe
  * @param pipe identifies the pipe
  * @param succ slice to be made the successor of pipe

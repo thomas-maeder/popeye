@@ -43,7 +43,7 @@ slice_index alloc_help_fork_slice(stip_length_type length,
  */
 void help_fork_make_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
   stip_length_type min_length = slices[si].u.branch.min_length;
   stip_length_type const length = slices[si].u.branch.length;
 
@@ -53,15 +53,16 @@ void help_fork_make_root(slice_index si, stip_structure_traversal *st)
 
   if (length<slack_length_help+2)
   {
-    *root = alloc_help_root_slice(length,min_length);
-    pipe_set_successor(*root,si);
+    state->result = alloc_help_root_slice(length,min_length);
+    pipe_set_successor(state->result,si);
   }
   else
   {
     stip_traverse_structure_pipe(si,st);
 
     {
-      slice_index const shortcut = branch_find_slice(STHelpShortcut,*root);
+      slice_index const shortcut = branch_find_slice(STHelpShortcut,
+                                                     state->result);
       assert(shortcut!=no_slice);
       slices[shortcut].u.shortcut.short_sols = si;
     }

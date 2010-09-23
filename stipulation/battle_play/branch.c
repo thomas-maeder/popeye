@@ -7,6 +7,7 @@
 #include "stipulation/battle_play/ready_for_attack.h"
 #include "stipulation/battle_play/defense_move.h"
 #include "stipulation/battle_play/defense_move_played.h"
+#include "stipulation/battle_play/defense_move_legality_checked.h"
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "trace.h"
 
@@ -64,8 +65,9 @@ slice_index alloc_defense_branch(stip_length_type length,
                                                                 min_length-1);
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length-1,min_length-1);
-    slice_index const dchecked = alloc_branch(STDefenseMoveLegalityChecked,
-                                              length-1,min_length-1);
+    slice_index const
+      dchecked = alloc_defense_move_legality_checked_slice(length-1,
+                                                           min_length-1);
     slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
                                                length-1,min_length-1);
     slice_index const ddealt = alloc_branch(STDefenseDealtWith,
@@ -107,8 +109,9 @@ slice_index alloc_battle_branch(stip_length_type length,
   {
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length,min_length);
-    slice_index const dchecked = alloc_branch(STDefenseMoveLegalityChecked,
-                                              length,min_length);
+    slice_index const
+      dchecked = alloc_defense_move_legality_checked_slice(length,
+                                                           min_length);
     slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
                                                length,min_length);
     slice_index const ddealt = alloc_branch(STDefenseDealtWith,

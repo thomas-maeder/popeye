@@ -39,7 +39,7 @@ slice_index alloc_attack_move_slice(stip_length_type length,
  */
 void attack_move_make_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
   slice_index attack_root;
@@ -51,8 +51,8 @@ void attack_move_make_root(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_pipe(si,st);
 
   attack_root = alloc_attack_root_slice(length,min_length);
-  pipe_link(attack_root,*root);
-  *root = attack_root;
+  pipe_link(attack_root,state->result);
+  state->result = attack_root;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

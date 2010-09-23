@@ -30,21 +30,23 @@ slice_index alloc_setplay_fork_slice(slice_index set)
  */
 void setplay_fork_make_root(slice_index si, stip_structure_traversal *st)
 {
-  slice_index * const root = st->param;
+  root_insertion_state_type * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_pipe(si,st);
-  pipe_link(si,*root);
+  pipe_link(si,state->result);
 
-  *root = no_slice;
+  state->result = no_slice;
 
+  state->dealing_with_setplay = true;
   stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-  slices[si].u.branch_fork.towards_goal = *root;
+  state->dealing_with_setplay = false;
+  slices[si].u.branch_fork.towards_goal = state->result;
 
-  *root = si;
+  state->result = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

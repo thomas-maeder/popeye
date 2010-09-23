@@ -68,4 +68,11 @@ void ready_for_help_move_make_setplay_slice(slice_index si, stip_structure_trave
  */
 void help_move_played_make_root(slice_index si, stip_structure_traversal *st);
 
+/* Recursively make a sequence of root slices
+ * @param si identifies (non-root) slice
+ * @param st address of structure representing traversal
+ */
+void help_move_legality_checked_make_root(slice_index si,
+                                          stip_structure_traversal *st);
+
 #endif

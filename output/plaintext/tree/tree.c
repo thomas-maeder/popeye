@@ -66,7 +66,7 @@ static void instrument_goal_reached_tester(slice_index si,
 static void instrument_leaf(slice_index si, stip_structure_traversal *st)
 {
   instrumentation_state const * const state = st->param;
-  
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -271,18 +271,6 @@ static void instrument_move_inverter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_help_root(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(slices[si].prev,alloc_end_of_phase_writer_slice());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void activate_output(slice_index si, stip_structure_traversal *st)
 {
   instrumentation_state * const state = st->param;
@@ -319,8 +307,27 @@ static void suppress_output(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void instrument_setplay_fork(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index end_of_phase = alloc_end_of_phase_writer_slice();
+    pipe_link(end_of_phase,slices[si].u.branch_fork.towards_goal);
+    slices[si].u.branch_fork.towards_goal = end_of_phase;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors tree_slice_inserters[] =
 {
+  { STSetplayFork,                    &instrument_setplay_fork          },
   { STGoalReachedTester,              &instrument_goal_reached_tester   },
   { STLeaf,                           &instrument_leaf                  },
   { STMoveInverterRootSolvableFilter, &instrument_move_inverter         },
@@ -332,7 +339,6 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STThreatSolver,                   &instrument_threat_solver         },
   { STDefenseMoveFiltered,            &instrument_defense_move_filtered },
   { STRefutationsCollector,           &instrument_refutations_collector },
-  { STHelpRoot,                       &instrument_help_root             },
   { STSeriesRoot,                     &stip_structure_visitor_noop      },
   { STDefenseDealtWith,               &instrument_ready_for_attack      },
   { STAttackDealtWith,                &instrument_ready_for_defense     },

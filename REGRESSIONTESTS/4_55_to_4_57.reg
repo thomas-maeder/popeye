@@ -661,25 +661,25 @@ solution finished.
 |                                   |
 5   .  -P   .   .   .   .   .   .   5
 |                                   |
-4  -B   P   .   .   .   .   .   .   4
+4  -B   P  -P   .   .   .   .   .   4
 |                                   |
 3  -K  -P   P   .   .   .   .   .   3
 |                                   |
 2   S  -P   .   .   .   .   .   .   2
 |                                   |
-1   .   K  -B   .   .   .   .   .   1
+1  -B   K   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ser-s#2                     4 + 6
+  ser-s#2                     4 + 7
 
   1...b3*a2 # 
 
-  1.Sa2*c1   2.Sc1-a2 b3*a2 # 
+  1.Sa2-c1   2.Sc1-a2 b3*a2 # 
 
-              empile:         105
-            jouecoup:          79
-        orig_rbechec:          77
-        orig_rnechec:          28
+              empile:          62
+            jouecoup:          62
+        orig_rbechec:          59
+        orig_rnechec:          24
 solution finished. 
 
 

@@ -16,12 +16,6 @@
  */
 slice_index alloc_quodlibet_slice(slice_index proxy1, slice_index proxy2);
 
-/* Recursively make a sequence of root slices
- * @param si identifies (non-root) slice
- * @param st address of structure representing traversal
- */
-void quodlibet_make_root(slice_index si, stip_structure_traversal *st);
-
 /* Determine whether a quodlibet slice jas a solution
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not

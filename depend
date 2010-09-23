@@ -1086,6 +1086,7 @@ pystip$(OBJ_SUFFIX): pystip.c pystip.h pygoal.h boolean.h py.h pyposit.h pyboard
   stipulation/battle_play/defense_move.h \
   stipulation/battle_play/defense_play.h \
   stipulation/battle_play/defense_move_played.h \
+  stipulation/battle_play/defense_move_legality_checked.h \
   stipulation/battle_play/defense_fork.h \
   stipulation/battle_play/ready_for_defense.h \
   stipulation/battle_play/attack_root.h \
@@ -1193,6 +1194,8 @@ stipulation/battle_play/defense_move.h:
 stipulation/battle_play/defense_play.h:
 
 stipulation/battle_play/defense_move_played.h:
+
+stipulation/battle_play/defense_move_legality_checked.h:
 
 stipulation/battle_play/defense_fork.h:
 
@@ -1381,7 +1384,8 @@ output/plaintext/line/move_inversion_counter.h:
 output/plaintext/line/line_writer.h:
 pypipe$(OBJ_SUFFIX): pypipe.c pypipe.h pystip.h pygoal.h boolean.h py.h pyposit.h \
   pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h \
-  stipulation/proxy.h pypipe.h trace.h
+  stipulation/proxy.h pypipe.h stipulation/branch.h pystip.h pyslice.h \
+  trace.h
 
 pypipe.h:
 
@@ -1410,6 +1414,12 @@ pyslice.h:
 stipulation/proxy.h:
 
 pypipe.h:
+
+stipulation/branch.h:
+
+pystip.h:
+
+pyslice.h:
 
 trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play.h \
@@ -1442,7 +1452,9 @@ pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play
   pyslice.h stipulation/battle_play/defense_play.h pybrafrk.h pyslice.h \
   py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
   pylang.h pystip.h pygoal.h stipulation/branch.h pystip.h \
-  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+  stipulation/battle_play/branch.h \
+  stipulation/battle_play/defense_move_legality_checked.h \
+  stipulation/battle_play/defense_play.h stipulation/help_play/branch.h \
   stipulation/help_play/play.h boolean.h pypipe.h pydata.h pyproc.h py4.h \
   stipulation/proxy.h pypipe.h trace.h
 
@@ -1483,6 +1495,10 @@ stipulation/branch.h:
 pystip.h:
 
 stipulation/battle_play/branch.h:
+
+stipulation/battle_play/defense_move_legality_checked.h:
+
+stipulation/battle_play/defense_play.h:
 
 stipulation/help_play/branch.h:
 

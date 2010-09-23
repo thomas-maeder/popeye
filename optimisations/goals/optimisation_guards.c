@@ -304,7 +304,7 @@ static void insert_goal_optimisation_guards_help_move(slice_index si,
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     if (st->remaining<slack_length_help+2)
     {
@@ -339,7 +339,7 @@ insert_goal_optimisation_guards_help_move_to_goal(slice_index si,
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     assert(st->remaining==slack_length_help+1);
 
@@ -375,7 +375,7 @@ static
   {
     Goal const save_goal = state->goal;
 
-    stip_traverse_moves_branch_slice(si,st);
+    stip_traverse_moves_move_slice(si,st);
 
     if (st->remaining==slack_length_series+1)
     {
