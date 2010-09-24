@@ -1256,11 +1256,12 @@ boolean stip_apply_postkeyplay(slice_index si)
 
 static structure_traversers_visitors setplay_makers[] =
 {
-  { STDefenseMovePlayed,            &defense_move_played_make_setplay_slice             },
-  { STHelpMoveLegalityChecked,      &ready_for_help_move_make_setplay_slice             },
-  { STHelpShortcut,                 &stip_traverse_structure_pipe                       },
-  { STSelfCheckGuardHelpFilter,     &selfcheck_guard_help_make_setplay_slice            },
-  { STReflexDefenderFilter,         &reflex_guard_defender_filter_make_setplay_slice    }
+  { STDefenseMovePlayed,        &defense_move_played_make_setplay_slice          },
+  { STHelpMoveLegalityChecked,  &ready_for_help_move_make_setplay_slice          },
+  { STHelpShortcut,             &stip_traverse_structure_pipe                    },
+  { STSeriesFork,               &series_fork_make_setplay                        },
+  { STSelfCheckGuardHelpFilter, &selfcheck_guard_help_make_setplay_slice         },
+  { STReflexDefenderFilter,     &reflex_guard_defender_filter_make_setplay_slice }
 };
 
 enum
@@ -1301,7 +1302,8 @@ static structure_traversers_visitors setplay_appliers[] =
   { STDefenseMove,                &stip_structure_visitor_noop          },
   { STHelpMove,                   &help_move_apply_setplay              },
   { STHelpFork,                   &stip_traverse_structure_pipe         },
-  { STSeriesFork,                 &series_fork_apply_setplay            },
+  { STSeriesMove,                 &series_move_apply_setplay            },
+  { STSeriesFork,                 &stip_structure_visitor_noop          },
   { STMoveInverterSolvableFilter, &move_inverter_apply_setplay          },
   { STHelpShortcut,               &stip_traverse_structure_pipe         },
   { STSeriesShortcut,             &stip_traverse_structure_pipe         },

@@ -161,3 +161,36 @@ solution finished.
 solution finished. 
 
 
+SetPlay not applicable - ignored
+both sides need a kingboth sides need a king
+   set play not applicable in ser-#
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#5                      0 + 0
+
+
+              empile:           0
+            jouecoup:           0
+        orig_rbechec:           0
+        orig_rnechec:           0
+solution finished. 
+
+

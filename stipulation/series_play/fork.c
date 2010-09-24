@@ -38,25 +38,8 @@ slice_index alloc_series_fork_slice(stip_length_type length,
  * @param si slice index
  * @param st state of traversal
  */
-void series_fork_make_setplay_slice(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure(slices[si].u.branch_fork.towards_goal,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Spin off set play
- * @param si slice index
- * @param st state of traversal
- */
-void series_fork_apply_setplay(slice_index si,
-                               stip_structure_traversal *st)
+void series_fork_make_setplay(slice_index si,
+                              stip_structure_traversal *st)
 {
   slice_index * const setplay_slice = st->param;
 

@@ -35,4 +35,10 @@ pieces white ka1 qb5 bb1 pb6
        black ka3 pc3b7
 stip exact-ser-r#2
 
+next
+
+title set play not applicable in ser-#
+stip ser-#5
+option set
+
 end

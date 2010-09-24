@@ -89,6 +89,24 @@ void series_move_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Spin off set play
+ * @param si slice index
+ * @param st state of traversal
+ */
+void series_move_apply_setplay(slice_index si, stip_structure_traversal *st)
+{
+  slice_index * const setplay_slice = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *setplay_slice = stip_make_setplay(slices[si].u.pipe.next);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal
