@@ -421,8 +421,8 @@ typedef struct
   unsigned int nr_moves_passed;
 } keepmatingguard_insertion_state_type;
 
-static void keepmating_guards_inserter_leaf_forced(slice_index si,
-                                                   stip_structure_traversal *st)
+static void keepmating_guards_inserter_goal(slice_index si,
+                                            stip_structure_traversal *st)
 {
   keepmatingguard_insertion_state_type * const state = st->param;
 
@@ -527,8 +527,7 @@ static void keepmating_guards_inserter_defender(slice_index si,
   {
     if (state->for_side[White])
       guard = alloc_keepmating_guard_attacker_filter(White);
-
-    if (state->for_side[Black])
+    else if (state->for_side[Black])
       guard = alloc_keepmating_guard_attacker_filter(Black);
 
     if (guard!=no_slice)
@@ -574,13 +573,12 @@ static void keepmating_guards_inserter_attacker(slice_index si,
   {
     if (state->for_side[White])
       guard = alloc_keepmating_guard_defender_filter(White);
-
-    if (state->for_side[Black])
+    else if (state->for_side[Black])
       guard = alloc_keepmating_guard_defender_filter(Black);
 
     if (guard!=no_slice)
     {
-      slices[guard].starter = advers(slices[si].starter);
+      slices[guard].starter = slices[si].starter;
       pipe_append(slices[si].prev,guard);
     }
   }
@@ -615,8 +613,7 @@ static void keepmating_guards_inserter_help_move(slice_index si,
   {
     if (state->for_side[White])
       guard = alloc_keepmating_guard_help_filter(White);
-
-    if (state->for_side[Black])
+    else if (state->for_side[Black])
       guard = alloc_keepmating_guard_help_filter(Black);
 
     if (guard!=no_slice)
@@ -646,8 +643,7 @@ static void keepmating_guards_inserter_series_move(slice_index si,
   {
     if (state->for_side[White])
       guard = alloc_keepmating_guard_series_filter(White);
-
-    if (state->for_side[Black])
+    else if (state->for_side[Black])
       guard = alloc_keepmating_guard_series_filter(Black);
 
     if (guard!=no_slice)
@@ -663,23 +659,23 @@ static void keepmating_guards_inserter_series_move(slice_index si,
 
 static structure_traversers_visitors keepmating_guards_inserters[] =
 {
-  { STAttackMove,          &keepmating_guards_remember_move        },
-  { STDefenseMove,         &keepmating_guards_remember_move        },
-  { STAttackMoveFiltered,  &keepmating_guards_inserter_attacker    },
-  { STDefenseMoveFiltered, &keepmating_guards_inserter_defender    },
-  { STHelpMove,            &keepmating_guards_inserter_help_move   },
-  { STHelpMoveToGoal,      &keepmating_guards_inserter_help_move   },
-  { STHelpFork,            &keepmating_guards_inserter_branch_fork },
-  { STSeriesMove,          &keepmating_guards_inserter_series_move },
-  { STSeriesMoveToGoal,    &keepmating_guards_inserter_series_move },
-  { STSeriesFork,          &keepmating_guards_inserter_branch_fork },
-  { STGoalReachedTester,   &keepmating_guards_inserter_leaf_forced },
-  { STReciprocal,          &keepmating_guards_inserter_reciprocal  },
-  { STQuodlibet,           &keepmating_guards_inserter_quodlibet   },
-  { STReflexAttackerFilter,&keepmating_guards_inserter_battle_fork },
-  { STReflexDefenderFilter,&keepmating_guards_inserter_battle_fork },
-  { STSelfDefense,         &keepmating_guards_inserter_battle_fork },
-  { STDefenseFork,         &keepmating_guards_inserter_battle_fork }
+  { STAttackMove,           &keepmating_guards_remember_move        },
+  { STDefenseMove,          &keepmating_guards_remember_move        },
+  { STAttackMoveFiltered,   &keepmating_guards_inserter_attacker    },
+  { STDefenseMoveFiltered,  &keepmating_guards_inserter_defender    },
+  { STHelpMove,             &keepmating_guards_inserter_help_move   },
+  { STHelpMoveToGoal,       &keepmating_guards_inserter_help_move   },
+  { STHelpFork,             &keepmating_guards_inserter_branch_fork },
+  { STSeriesMove,           &keepmating_guards_inserter_series_move },
+  { STSeriesMoveToGoal,     &keepmating_guards_inserter_series_move },
+  { STSeriesFork,           &keepmating_guards_inserter_branch_fork },
+  { STGoalReachedTester,    &keepmating_guards_inserter_goal        },
+  { STReciprocal,           &keepmating_guards_inserter_reciprocal  },
+  { STQuodlibet,            &keepmating_guards_inserter_quodlibet   },
+  { STReflexAttackerFilter, &keepmating_guards_inserter_battle_fork },
+  { STReflexDefenderFilter, &keepmating_guards_inserter_battle_fork },
+  { STSelfDefense,          &keepmating_guards_inserter_battle_fork },
+  { STDefenseFork,          &keepmating_guards_inserter_battle_fork }
 };
 
 enum
@@ -693,7 +689,7 @@ enum
  */
 void stip_insert_keepmating_guards(slice_index si)
 {
-  keepmatingguard_insertion_state_type state = { { false, false }, 0 };
+  keepmatingguard_insertion_state_type state = { { false, false }, 0};
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
