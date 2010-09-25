@@ -78,7 +78,7 @@ enum
                                 / sizeof series_goal_instrumenters[0])
 };
 
-/* Instrument a branch leading to a goal to be a help goal branch
+/* Instrument a branch leading to a goal to be a series goal branch
  * @param si identifies entry slice of branch
  */
 void stip_make_series_goal_branch(slice_index si)
