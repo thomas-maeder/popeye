@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = goal_filter.c
+INCLUDES = goal_filter.h
+
+include makefile.rules $(CURRPWD)depend

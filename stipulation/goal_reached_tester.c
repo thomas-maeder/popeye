@@ -28,11 +28,7 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
   switch (goal.type)
   {
     case goal_mate:
-      if (CondFlag[blackultraschachzwang]
-          || CondFlag[whiteultraschachzwang])
-        result = goal_checker_mate_ultraschachzwang(just_moved);
-      else
-        result = goal_checker_mate(just_moved);
+      result = goal_checker_mate(just_moved);
       break;
 
     case goal_stale:
@@ -136,7 +132,7 @@ slice_index alloc_goal_reached_tester_slice(Goal goal)
 }
 
 /* Determine whether a slice.has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */

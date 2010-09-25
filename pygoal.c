@@ -137,22 +137,6 @@ goal_checker_result_type goal_checker_mate(Side just_moved)
     return goal_not_reached;
 }
 
-/* ultraschachzwang is supspended in mates */
-goal_checker_result_type goal_checker_mate_ultraschachzwang(Side just_moved)
-{
-  int const cond = (just_moved==White
-                    ? blackultraschachzwang
-                    : whiteultraschachzwang);
-  boolean const saveflag = CondFlag[cond];
-  boolean result;
-
-  CondFlag[cond] = false;
-  result = goal_checker_mate(just_moved);
-  CondFlag[cond] = saveflag;
-
-  return result;
-}
-
 static boolean para_stalemate(Side camp)
 {
   if (echecc(nbply,camp))

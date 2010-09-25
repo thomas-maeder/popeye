@@ -29,6 +29,7 @@
 #include "stipulation/goals/doublemate/attacker_filter.h"
 #include "stipulation/goals/countermate/attacker_filter.h"
 #include "conditions/amu/mate_filter.h"
+#include "conditions/ultraschachzwang/goal_filter.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/goals/castling/attacker_filter.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
@@ -238,6 +239,12 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STAmuMateFilter:
       result = amu_mate_filter_has_solution_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STUltraschachzwangGoalFilter:
+      result = ultraschachzwang_goal_filter_has_solution_in_n(si,
+                                                              n,
+                                                              n_max_unsolvable);
       break;
 
     default:
@@ -472,6 +479,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STAmuMateFilter:
       result = amu_mate_filter_solve_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STUltraschachzwangGoalFilter:
+      result = ultraschachzwang_goal_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     default:

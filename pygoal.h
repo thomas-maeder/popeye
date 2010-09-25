@@ -69,7 +69,6 @@ goal_checker_result_type goal_checker_circuitB(Side just_moved);
 goal_checker_result_type goal_checker_exchange(Side just_moved);
 goal_checker_result_type goal_checker_exchangeB(Side just_moved);
 goal_checker_result_type goal_checker_capture(Side just_moved);
-goal_checker_result_type goal_checker_mate_ultraschachzwang(Side just_moved);
 goal_checker_result_type goal_checker_stale(Side just_moved);
 goal_checker_result_type goal_checker_dblstale(Side just_moved);
 goal_checker_result_type goal_checker_autostale(Side just_moved);

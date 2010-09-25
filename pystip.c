@@ -192,6 +192,7 @@
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
+    ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -368,7 +369,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOutputPlaintextTreeMoveInversionCounter */
   slice_structure_pipe,   /* STOutputPlaintextLineMoveInversionCounter */
   slice_structure_pipe,   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-  slice_structure_pipe    /* STAmuMateFilter */
+  slice_structure_pipe,   /* STAmuMateFilter */
+  slice_structure_pipe    /* STUltraschachzwangGoalFilter */
 };
 
 /* Determine whether a slice is of some structural type
@@ -2035,7 +2037,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeMoveInversionCounter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineMoveInversionCounter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-  &stip_traverse_structure_pipe             /* STAmuMateFilter */
+  &stip_traverse_structure_pipe,            /* STAmuMateFilter */
+  &stip_traverse_structure_pipe             /* STUltraschachzwangGoalFilter */
 };
 
 /* Initialise a structure traversal structure with default visitors
@@ -2239,7 +2242,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeMoveInversionCounter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineMoveInversionCounter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-    &stip_traverse_moves_pipe                   /* STAmuMateFilter */
+    &stip_traverse_moves_pipe,                  /* STAmuMateFilter */
+    &stip_traverse_moves_pipe                   /* STUltraschachzwangGoalFilter */
   }
 };
 

@@ -24,6 +24,7 @@
 #include "pykeepmt.h"
 #include "pypipe.h"
 #include "conditions/amu/mate_filter.h"
+#include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/solvable_filter.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
@@ -230,6 +231,10 @@ has_solution_type slice_solve(slice_index si)
       result = amu_mate_filter_solve(si);
       break;
 
+    case STUltraschachzwangGoalFilter:
+      result = ultraschachzwang_goal_filter_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -381,6 +386,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAmuMateFilter:
       result = amu_mate_filter_has_solution(si);
+      break;
+
+    case STUltraschachzwangGoalFilter:
+      result = ultraschachzwang_goal_filter_has_solution(si);
       break;
 
     default:
