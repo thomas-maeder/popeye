@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = mate_filter.c
+INCLUDES = mate_filter.h
+
+include makefile.rules $(CURRPWD)depend

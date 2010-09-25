@@ -1,0 +1,16 @@
+conditions/amu/mate_filter$(OBJ_SUFFIX): conditions/amu/mate_filter.c \
+  conditions/amu/mate_filter.h pypipe.h pydata.h \
+  stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_play.h trace.h
+
+conditions/amu/mate_filter.h:
+
+pypipe.h:
+
+pydata.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_play.h:
+
+trace.h:

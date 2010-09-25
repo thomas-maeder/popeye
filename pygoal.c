@@ -118,28 +118,23 @@ static boolean is_totally_paralysed(Side side)
 
 goal_checker_result_type goal_checker_mate(Side just_moved)
 {
-  if (CondFlag[amu] && !att_1[nbply])
-    return goal_not_reached;
-  else
+  Side const ad = advers(just_moved);
+  if (echecc(nbply,ad))
   {
-    Side const ad = advers(just_moved);
-    if (echecc(nbply,ad))
+    if (echecc(nbply,just_moved))
+      return goal_not_reached_selfcheck;
+    else if (immobile(ad))
     {
-      if (echecc(nbply,just_moved))
-        return goal_not_reached_selfcheck;
-      else if (immobile(ad))
-      {
-        if (TSTFLAG(PieSpExFlags,Paralyse))
-          return is_totally_paralysed(ad) ? goal_not_reached : goal_reached;
-        else
-          return goal_reached;
-      }
+      if (TSTFLAG(PieSpExFlags,Paralyse))
+        return is_totally_paralysed(ad) ? goal_not_reached : goal_reached;
       else
-        return goal_not_reached;
+        return goal_reached;
     }
     else
       return goal_not_reached;
   }
+  else
+    return goal_not_reached;
 }
 
 /* ultraschachzwang is supspended in mates */

@@ -135,6 +135,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
+#include "conditions/amu/mate_filter.h"
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/goals/optimisation_guards.h"
 #include "optimisations/killer_move/collector.h"
@@ -2801,6 +2802,9 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[noshort])
         stip_insert_no_short_variations_filters(root_slice);
+
+      if (CondFlag[amu])
+        stip_insert_amu_mate_filters(root_slice);
 
       stip_insert_goal_prerequisite_guards(root_slice);
 
