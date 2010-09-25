@@ -135,6 +135,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
+#include "pieces/attributes/paralysing/mate_filter.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
@@ -2814,6 +2815,9 @@ static Token iterate_twins(Token prev_token)
 
       if (anycirce)
         stip_insert_circe_steingewinn_filters(root_slice);
+
+      if (TSTFLAG(PieSpExFlags,Paralyse))
+        stip_insert_paralysing_goal_filters(root_slice);
 
       stip_insert_goal_prerequisite_guards(root_slice);
 

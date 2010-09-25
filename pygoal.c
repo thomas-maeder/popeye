@@ -124,12 +124,7 @@ goal_checker_result_type goal_checker_mate(Side just_moved)
     if (echecc(nbply,just_moved))
       return goal_not_reached_selfcheck;
     else if (immobile(ad))
-    {
-      if (TSTFLAG(PieSpExFlags,Paralyse))
-        return is_totally_paralysed(ad) ? goal_not_reached : goal_reached;
-      else
-        return goal_reached;
-    }
+      return goal_reached;
     else
       return goal_not_reached;
   }
@@ -227,21 +222,13 @@ goal_checker_result_type goal_checker_doublemate(Side just_moved)
 
   if (echecc(nbply,ad) && echecc(nbply,just_moved))
   {
-    if (TSTFLAG(PieSpExFlags,Paralyse))
-    {
-      if (is_totally_paralysed(ad) || is_totally_paralysed(just_moved))
-        return goal_not_reached;
-    }
-
-    {
-      boolean flag;
-      testdblmate = flag_nk;
-      /* modified to allow isardam + ##  */
-      /* may still have problem with isardam + nK + ##  !*/
-      flag = immobile(ad) && immobile(just_moved);
-      testdblmate = false;
-      return flag ? goal_reached : goal_not_reached;
-    }
+    boolean flag;
+    testdblmate = flag_nk;
+    /* modified to allow isardam + ##  */
+    /* may still have problem with isardam + nK + ##  !*/
+    flag = immobile(ad) && immobile(just_moved);
+    testdblmate = false;
+    return flag ? goal_reached : goal_not_reached;
   }
   else
     return goal_not_reached;

@@ -1,0 +1,17 @@
+pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX):  \
+ pieces/attributes/paralysing/mate_filter.c \
+  pieces/attributes/paralysing/mate_filter.h pypipe.h pydata.h \
+  stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_play.h trace.h
+
+pieces/attributes/paralysing/mate_filter.h:
+
+pypipe.h:
+
+pydata.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_play.h:
+
+trace.h:

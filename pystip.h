@@ -146,6 +146,10 @@
     ENUMERATOR(STStopOnShortSolutionsRootSolvableFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsHelpFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsSeriesFilter), /* deals with option stoponshortsolutions */  \
+    ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
+    ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
+    ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
+    ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     /* output slices */                                                 \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
@@ -163,9 +167,6 @@
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
-    ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
-    ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
-    ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -191,6 +192,12 @@ typedef struct
             slice_index next;
             Goal goal;
         } goal_reached_tester;
+
+        struct /* for goal filter types * */
+        {
+            slice_index next;
+            Side goaled;
+        } goal_filter;
 
         struct /* for type==STLineWriter* */
         {

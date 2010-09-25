@@ -28,6 +28,7 @@
 #include "stipulation/series_play/play.h"
 #include "stipulation/goals/doublemate/attacker_filter.h"
 #include "stipulation/goals/countermate/attacker_filter.h"
+#include "pieces/attributes/paralysing/mate_filter.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
@@ -236,6 +237,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
 
     case STLeaf:
       result = slack_length_battle;
+      break;
+
+    case STPiecesParalysingMateFilter:
+      result = paralysing_mate_filter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAmuMateFilter:
@@ -481,6 +486,10 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STLeaf:
       result = slack_length_battle;
+      break;
+
+    case STPiecesParalysingMateFilter:
+      result = paralysing_mate_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAmuMateFilter:

@@ -383,6 +383,9 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMaxFlightsquares:
       case STDegenerateTree:
       case STNoShortVariations:
+      case STAmuMateFilter:
+      case STUltraschachzwangGoalFilter:
+      case STCirceSteingewinnFilter:
       case STEndOfPhaseWriter:
       case STEndOfSolutionWriter:
       case STRefutationWriter:
@@ -390,6 +393,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STOutputPlaintextLineMoveInversionCounter:
       case STOutputPlaintextLineEndOfIntroSeriesMarker:
         Trace_pipe(si);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
+      case STPiecesParalysingMateFilter:
+        Trace_pipe(si);
+        TraceEnumerator(Side,slices[si].u.goal_filter.goaled,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;

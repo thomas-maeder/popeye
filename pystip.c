@@ -175,6 +175,10 @@
     ENUMERATOR(STStopOnShortSolutionsRootSolvableFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsHelpFilter), /* deals with option stoponshortsolutions */  \
     ENUMERATOR(STStopOnShortSolutionsSeriesFilter), /* deals with option stoponshortsolutions */  \
+    ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
+    ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
+    ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
+    ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
@@ -191,9 +195,6 @@
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
-    ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
-    ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
-    ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -354,6 +355,10 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STStopOnShortSolutionsRootSolvableFilter */
   slice_structure_branch, /* STStopOnShortSolutionsHelpFilter */
   slice_structure_branch, /* STStopOnShortSolutionsSeriesFilter */
+  slice_structure_pipe,   /* STAmuMateFilter */
+  slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
+  slice_structure_pipe,   /* STCirceSteingewinnFilter */
+  slice_structure_pipe,   /* STPiecesParalysingMateFilter */
   slice_structure_branch, /* STEndOfPhaseWriter */
   slice_structure_branch, /* STEndOfSolutionWriter */
   slice_structure_branch, /* STContinuationWriter */
@@ -369,10 +374,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOutputPlaintextTreeGoalWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeMoveInversionCounter */
   slice_structure_pipe,   /* STOutputPlaintextLineMoveInversionCounter */
-  slice_structure_pipe,   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-  slice_structure_pipe,   /* STAmuMateFilter */
-  slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
-  slice_structure_pipe    /* STCirceSteingewinnFilter */
+  slice_structure_pipe    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Determine whether a slice is of some structural type
@@ -2023,6 +2025,10 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsRootSolvableFilter */
   &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsHelpFilter */
   &stip_traverse_structure_pipe,            /* STStopOnShortSolutionsSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STAmuMateFilter */
+  &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
+  &stip_traverse_structure_pipe,            /* STCirceSteingewinnFilter */
+  &stip_traverse_structure_pipe,            /* STPiecesParalysingMateFilter */
   &stip_traverse_structure_pipe,            /* STEndOfPhaseWriter */
   &stip_traverse_structure_pipe,            /* STEndOfSolutionWriter */
   &stip_traverse_structure_pipe,            /* STContinuationWriter */
@@ -2038,10 +2044,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeMoveInversionCounter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineMoveInversionCounter */
-  &stip_traverse_structure_pipe,            /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-  &stip_traverse_structure_pipe,            /* STAmuMateFilter */
-  &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
-  &stip_traverse_structure_pipe             /* STCirceSteingewinnFilter */
+  &stip_traverse_structure_pipe            /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Initialise a structure traversal structure with default visitors
@@ -2229,6 +2232,10 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsRootSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsHelpFilter */
     &stip_traverse_moves_pipe,                  /* STStopOnShortSolutionsSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STAmuMateFilter */
+    &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
+    &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */
+    &stip_traverse_moves_pipe,                  /* STPiecesParalysingMateFilter */
     &stip_traverse_moves_pipe,                  /* STEndOfPhaseWriter */
     &stip_traverse_moves_pipe,                  /* STEndOfSolutionWriter */
     &stip_traverse_moves_pipe,                  /* STContinuationWriter */
@@ -2244,10 +2251,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeGoalWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeMoveInversionCounter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineMoveInversionCounter */
-    &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-    &stip_traverse_moves_pipe,                  /* STAmuMateFilter */
-    &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
-    &stip_traverse_moves_pipe                   /* STCirceSteingewinnFilter */
+    &stip_traverse_moves_pipe                   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
   }
 };
 
