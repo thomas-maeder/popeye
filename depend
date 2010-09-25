@@ -325,6 +325,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   stipulation/help_play/root.h stipulation/help_play/branch.h \
   stipulation/help_play/move_to_goal.h \
   stipulation/goals/prerequisite_guards.h conditions/amu/mate_filter.h \
+  conditions/circe/steingewinn_filter.h \
   conditions/ultraschachzwang/goal_filter.h \
   options/no_short_variations/no_short_variations.h \
   optimisations/goals/optimisation_guards.h \
@@ -469,6 +470,8 @@ stipulation/help_play/move_to_goal.h:
 stipulation/goals/prerequisite_guards.h:
 
 conditions/amu/mate_filter.h:
+
+conditions/circe/steingewinn_filter.h:
 
 conditions/ultraschachzwang/goal_filter.h:
 
@@ -1271,7 +1274,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   stipulation/series_play/root.h stipulation/goal_reached_tester.h \
   pybrafrk.h pyquodli.h pyrecipr.h pynot.h pymovein.h pyhash.h \
   DHT/dhtbcmem.h pyreflxg.h pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
-  conditions/amu/mate_filter.h conditions/ultraschachzwang/goal_filter.h \
+  conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
+  conditions/ultraschachzwang/goal_filter.h \
   optimisations/maxsolutions/root_solvable_filter.h \
   optimisations/maxsolutions/solvable_filter.h \
   optimisations/stoponshortsolutions/root_solvable_filter.h \
@@ -1370,6 +1374,8 @@ pykeepmt.h:
 pypipe.h:
 
 conditions/amu/mate_filter.h:
+
+conditions/circe/steingewinn_filter.h:
 
 conditions/ultraschachzwang/goal_filter.h:
 

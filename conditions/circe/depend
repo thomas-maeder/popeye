@@ -1,0 +1,17 @@
+conditions/circe/steingewinn_filter$(OBJ_SUFFIX):  \
+ conditions/circe/steingewinn_filter.c \
+  conditions/circe/steingewinn_filter.h pypipe.h pydata.h \
+  stipulation/battle_play/attack_play.h \
+  stipulation/battle_play/defense_play.h trace.h
+
+conditions/circe/steingewinn_filter.h:
+
+pypipe.h:
+
+pydata.h:
+
+stipulation/battle_play/attack_play.h:
+
+stipulation/battle_play/defense_play.h:
+
+trace.h:

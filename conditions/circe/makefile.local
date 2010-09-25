@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = steingewinn_filter.c
+INCLUDES = steingewinn_filter.h
+
+include makefile.rules $(CURRPWD)depend

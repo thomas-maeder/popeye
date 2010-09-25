@@ -20,6 +20,7 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "conditions/amu/mate_filter.h"
+#include "conditions/circe/steingewinn_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -201,6 +202,10 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STUltraschachzwangGoalFilter:
       result = ultraschachzwang_goal_filter_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STCirceSteingewinnFilter:
+      result = circe_steingewinn_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STQuodlibet:
@@ -387,6 +392,10 @@ stip_length_type defense_can_defend_in_n(slice_index si,
     case STUltraschachzwangGoalFilter:
       result = ultraschachzwang_goal_filter_can_defend_in_n(si,
                                                             n,n_max_unsolvable);
+      break;
+
+    case STCirceSteingewinnFilter:
+      result = circe_steingewinn_filter_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STQuodlibet:
