@@ -10,7 +10,7 @@
 /* This module provides slice type STPiecesParalysingMateFilter
  */
 
-/* Allocate a STAmuMateFilter slice.
+/* Allocate a STPiecesParalysingMateFilter slice.
  * @return index of allocated slice
  */
 static slice_index alloc_paralysing_goal_filter_slice(Side side)
