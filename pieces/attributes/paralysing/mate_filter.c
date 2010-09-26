@@ -13,7 +13,7 @@
 /* Allocate a STPiecesParalysingMateFilter slice.
  * @return index of allocated slice
  */
-static slice_index alloc_paralysing_goal_filter_slice(Side side)
+static slice_index alloc_paralysing_mate_filter_slice(Side side)
 {
   slice_index result;
 
@@ -244,11 +244,11 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   if (slices[si].u.goal_reached_tester.goal.type==goal_mate
       || slices[si].u.goal_reached_tester.goal.type==goal_doublemate
       || slices[si].u.goal_reached_tester.goal.type==goal_countermate)
-    pipe_append(si,alloc_paralysing_goal_filter_slice(starter));
+    pipe_append(si,alloc_paralysing_mate_filter_slice(starter));
 
   if (slices[si].u.goal_reached_tester.goal.type==goal_doublemate
       || slices[si].u.goal_reached_tester.goal.type==goal_countermate)
-    pipe_append(si,alloc_paralysing_goal_filter_slice(advers(starter)));
+    pipe_append(si,alloc_paralysing_mate_filter_slice(advers(starter)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
