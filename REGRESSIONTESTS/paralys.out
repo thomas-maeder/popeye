@@ -314,3 +314,37 @@ b) PlatzwechselCirce
 Loesung beendet. 
 
 
+
+Demonstrationsbeispiel für die spezielle Patt-Regel
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -B   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   T   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  =1                          2 + 2
+           Paralysierend a7
+
+   1.pKa7-b7 = !
+
+              empile:          52
+            jouecoup:          29
+        orig_rbechec:          37
+        orig_rnechec:         115
+Loesung beendet. 
+
+

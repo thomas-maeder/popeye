@@ -1888,8 +1888,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
         slice_index const leaf = alloc_leaf_slice();
         Goal const goal = { goal_target, SquareNum(tok[1],tok[2]) };
         slice_index const tester = alloc_goal_reached_tester_slice(goal);
-        pipe_link(tester,leaf);
+        slice_index const tested = alloc_pipe(STGoalReachedTested);
         pipe_link(proxy,tester);
+        pipe_link(tester,tested);
+        pipe_link(tested,leaf);
 
         if (goal.target==initsquare)
         {
@@ -1905,19 +1907,23 @@ static char *ParseGoal(char *tok, slice_index proxy)
         slice_index const leaf_mate = alloc_leaf_slice();
         Goal const mate_goal = { goal_mate, initsquare };
         slice_index const tester_mate = alloc_goal_reached_tester_slice(mate_goal);
+        slice_index const tested_mate = alloc_pipe(STGoalReachedTested);
         slice_index const proxy_mate = alloc_proxy_slice();
 
         slice_index const leaf_stale = alloc_leaf_slice();
         Goal const stale_goal = { goal_stale, initsquare };
         slice_index const tester_stale = alloc_goal_reached_tester_slice(stale_goal);
+        slice_index const tested_stale = alloc_pipe(STGoalReachedTested);
         slice_index const proxy_stale = alloc_proxy_slice();
         slice_index const quod = alloc_quodlibet_slice(proxy_mate,proxy_stale);
 
         pipe_link(proxy_mate,tester_mate);
-        pipe_link(tester_mate,leaf_mate);
+        pipe_link(tester_mate,tested_mate);
+        pipe_link(tested_mate,leaf_mate);
 
         pipe_link(proxy_stale,tester_stale);
-        pipe_link(tester_stale,leaf_stale);
+        pipe_link(tester_stale,tested_stale);
+        pipe_link(tested_stale,leaf_stale);
 
         pipe_link(proxy,quod);
 
@@ -1929,9 +1935,11 @@ static char *ParseGoal(char *tok, slice_index proxy)
         slice_index const leaf = alloc_leaf_slice();
         Goal const goal = { gic->goal, initsquare };
         slice_index const tester = alloc_goal_reached_tester_slice(goal);
+        slice_index const tested = alloc_pipe(STGoalReachedTested);
 
-        pipe_link(tester,leaf);
         pipe_link(proxy,tester);
+        pipe_link(tester,tested);
+        pipe_link(tested,leaf);
 
         if (gic->goal==goal_atob)
         {
@@ -2045,8 +2053,10 @@ static char *ParseReciGoal(char *tok,
       slice_index const nonreci = slices[proxy_to_nonreci].u.pipe.next;
       Goal const goal = slices[nonreci].u.goal_reached_tester.goal;
       slice_index const reci_tester = alloc_goal_reached_tester_slice(goal);
+      slice_index const reci_tested = alloc_pipe(STGoalReachedTested);
       slice_index const proxy_to_reci = alloc_proxy_slice();
-      pipe_link(reci_tester,leaf);
+      pipe_link(reci_tester,reci_tested);
+      pipe_link(reci_tested,leaf);
       pipe_link(proxy_to_reci,reci_tester);
       alloc_reci_end(proxy_nonreci,proxy_reci,
                      proxy_to_nonreci,proxy_to_reci);

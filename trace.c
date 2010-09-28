@@ -357,6 +357,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverterSolvableFilter:
       case STMoveInverterSeriesFilter:
       case STNot:
+      case STGoalReachedTested:
       case STPostKeyPlaySuppressor:
       case STKeyWriter:
       case STTryWriter:
@@ -398,11 +399,15 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STPiecesParalysingMateFilter:
+      case STPiecesParalysingStalemateFilter:
+      {
+        Side const goaled = slices[si].u.goal_filter.goaled;
         Trace_pipe(si);
-        TraceEnumerator(Side,slices[si].u.goal_filter.goaled,"");
+        TraceEnumerator(Side,goaled,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
+      }
 
       case STParryFork:
         Trace_branch(si);

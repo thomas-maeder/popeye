@@ -135,7 +135,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
-#include "pieces/attributes/paralysing/mate_filter.h"
+#include "pieces/attributes/paralysing/paralysing.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"

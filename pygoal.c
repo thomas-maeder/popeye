@@ -132,14 +132,6 @@ goal_checker_result_type goal_checker_mate(Side just_moved)
     return goal_not_reached;
 }
 
-static boolean para_stalemate(Side camp)
-{
-  if (echecc(nbply,camp))
-    return is_totally_paralysed(camp);
-  else
-    return immobile(camp);
-}
-
 goal_checker_result_type goal_checker_stale(Side just_moved)
 {
   Side const ad = advers(just_moved);
@@ -151,10 +143,12 @@ goal_checker_result_type goal_checker_stale(Side just_moved)
 
   if (echecc(nbply,just_moved))
     result = goal_not_reached_selfcheck;
-  else if (TSTFLAG(PieSpExFlags, Paralyse))
-    result = para_stalemate(ad) ? goal_reached : goal_not_reached;
+  else if (echecc(nbply,ad))
+    result = goal_not_reached;
+  else if (immobile(ad))
+    result = goal_reached;
   else
-    result = !echecc(nbply,ad) && immobile(ad) ? goal_reached : goal_not_reached;
+    result = goal_not_reached;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%d",result);
@@ -165,30 +159,49 @@ goal_checker_result_type goal_checker_stale(Side just_moved)
 goal_checker_result_type goal_checker_dblstale(Side just_moved)
 {
   Side const ad = advers(just_moved);
-  if (TSTFLAG(PieSpExFlags, Paralyse))
-    return (para_stalemate(ad) && para_stalemate(just_moved)
-            ? goal_reached
-            : goal_not_reached);
+  goal_checker_result_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",just_moved);
+  TraceFunctionParamListEnd();
+
+  if (echecc(nbply,just_moved))
+    result = goal_not_reached_selfcheck;
   else if (echecc(nbply,ad))
-    return goal_not_reached;
-  else if (echecc(nbply,just_moved))
-    return goal_not_reached_selfcheck;
+    result = goal_not_reached;
+  else if (immobile(ad) && immobile(just_moved))
+    result = goal_reached;
   else
-    return (immobile(ad) && immobile(just_moved)
-            ? goal_reached
-            : goal_not_reached);
+    result = goal_not_reached;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 goal_checker_result_type goal_checker_autostale(Side just_moved)
 {
+  Side const ad = advers(just_moved);
+  goal_checker_result_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%d",just_moved);
+  TraceFunctionParamListEnd();
+
   if (echecc(nbply,advers(just_moved)))
-    return goal_not_reached;
-  else if (TSTFLAG(PieSpExFlags, Paralyse))
-    return para_stalemate(just_moved) ? goal_reached : goal_not_reached;
+    result = goal_not_reached;
   else if (echecc(nbply,just_moved))
-    return goal_not_reached_selfcheck;
+    result = goal_not_reached_selfcheck;
+  else if (immobile(just_moved))
+    result = goal_reached;
   else
-    return immobile(just_moved) ? goal_reached : goal_not_reached;
+    result = goal_not_reached;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 goal_checker_result_type goal_checker_check(Side just_moved)

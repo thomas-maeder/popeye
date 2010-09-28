@@ -104,6 +104,7 @@
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
+    ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
@@ -179,6 +180,7 @@
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
+    ENUMERATOR(STPiecesParalysingStalemateFilter), /* stalemate by special rule? */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
@@ -284,6 +286,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STReflexSeriesFilter */
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_pipe,   /* STGoalReachedTester */
+  slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
   slice_structure_binary, /* STQuodlibet */
@@ -359,6 +362,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
   slice_structure_pipe,   /* STCirceSteingewinnFilter */
   slice_structure_pipe,   /* STPiecesParalysingMateFilter */
+  slice_structure_pipe,   /* STPiecesParalysingStalemateFilter */
   slice_structure_branch, /* STEndOfPhaseWriter */
   slice_structure_branch, /* STEndOfSolutionWriter */
   slice_structure_branch, /* STContinuationWriter */
@@ -1046,8 +1050,10 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
     Goal const goal = slices[tester].u.goal_reached_tester.goal;
     slice_index const new_leaf = alloc_leaf_slice();
     slice_index const new_tester = alloc_goal_reached_tester_slice(goal);
+    slice_index const new_tested = alloc_pipe(STGoalReachedTested);
 
-    pipe_link(new_tester,new_leaf);
+    pipe_link(new_tester,new_tested);
+    pipe_link(new_tested,new_leaf);
     *new_proxy_to_goal = alloc_proxy_slice();
     pipe_link(*new_proxy_to_goal,new_tester);
 
@@ -1954,6 +1960,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_pipe,            /* STGoalReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
   &stip_traverse_structure_binary,          /* STQuodlibet */
@@ -2029,6 +2036,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
   &stip_traverse_structure_pipe,            /* STCirceSteingewinnFilter */
   &stip_traverse_structure_pipe,            /* STPiecesParalysingMateFilter */
+  &stip_traverse_structure_pipe,            /* STPiecesParalysingStalemateFilter */
   &stip_traverse_structure_pipe,            /* STEndOfPhaseWriter */
   &stip_traverse_structure_pipe,            /* STEndOfSolutionWriter */
   &stip_traverse_structure_pipe,            /* STContinuationWriter */
@@ -2161,6 +2169,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
     &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalReachedTested */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */
     &stip_traverse_moves_binary,                /* STQuodlibet */
@@ -2236,6 +2245,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
     &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */
     &stip_traverse_moves_pipe,                  /* STPiecesParalysingMateFilter */
+    &stip_traverse_moves_pipe,                  /* STPiecesParalysingStalemateFilter */
     &stip_traverse_moves_pipe,                  /* STEndOfPhaseWriter */
     &stip_traverse_moves_pipe,                  /* STEndOfSolutionWriter */
     &stip_traverse_moves_pipe,                  /* STContinuationWriter */

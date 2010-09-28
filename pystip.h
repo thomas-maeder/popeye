@@ -68,7 +68,8 @@
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
-    ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
+    ENUMERATOR(STGoalReachedTester), /* tests whether a goal has been reached */ \
+    ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     /* unary and binary operators */                                    \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -150,6 +151,7 @@
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
+    ENUMERATOR(STPiecesParalysingStalemateFilter), /* stalemate by special rule? */ \
     /* output slices */                                                 \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \

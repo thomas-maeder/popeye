@@ -20,6 +20,7 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
+#include "pieces/attributes/paralysing/stalemate_special.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
@@ -201,6 +202,10 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = paralysing_mate_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
+    case STPiecesParalysingStalemateFilter:
+      result = paralysing_stalemate_special_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
     case STAmuMateFilter:
       result = amu_mate_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
@@ -226,7 +231,7 @@ stip_length_type defense_defend_in_n(slice_index si,
           break;
 
         case has_no_solution:
-          result = n+2;
+          result = n+4;
           break;
 
         default:
@@ -392,6 +397,10 @@ stip_length_type defense_can_defend_in_n(slice_index si,
 
     case STPiecesParalysingMateFilter:
       result = paralysing_mate_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STPiecesParalysingStalemateFilter:
+      result = paralysing_stalemate_special_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STAmuMateFilter:
