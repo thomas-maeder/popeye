@@ -45,9 +45,6 @@ static boolean is_mover_removed_from_target(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceSquare(sq_rebirth_capturing[nbply]);
-  TraceSquare(slices[si].u.goal_reached_tester.goal.target);
-  TraceValue("%u\n",TSTFLAG(spec[sq_arrival],Kamikaze));
   if (e[slices[si].u.goal_reached_tester.goal.target]==vide)
     result = true;
   else if (!TSTFLAG(spec[sq_arrival],Kamikaze))
