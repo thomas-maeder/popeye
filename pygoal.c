@@ -19,8 +19,7 @@ boolean testdblmate = false;
 
 goal_checker_result_type goal_checker_target(Side just_moved, square target)
 {
-  if (move_generation_stack[nbcou].arrival==target
-      && sq_rebirth_capturing[nbply]==initsquare)
+  if (move_generation_stack[nbcou].arrival==target)
     return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
   else
     return goal_not_reached;

@@ -1,0 +1,15 @@
+begin
+
+prot kamikaze.tst
+
+title a target square is considered to be reached if the last move goes to
+title the target square and is there at the end of the move
+pieces white kamikaze bd3
+       black sh7
+stip   zh71
+option nowk nobk
+
+twin condition circe
+twin condition circe move h7 f1 stip zf11
+
+end

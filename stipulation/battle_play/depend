@@ -368,6 +368,7 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   stipulation/help_play/root.h stipulation/help_play/play.h \
   pieces/attributes/paralysing/mate_filter.h \
   pieces/attributes/paralysing/stalemate_special.h \
+  pieces/attributes/kamikaze/target_square_filter.h \
   conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
   conditions/anticirce/target_square_filter.h \
   conditions/ultraschachzwang/goal_filter.h \
@@ -428,6 +429,8 @@ stipulation/help_play/play.h:
 pieces/attributes/paralysing/mate_filter.h:
 
 pieces/attributes/paralysing/stalemate_special.h:
+
+pieces/attributes/kamikaze/target_square_filter.h:
 
 conditions/amu/mate_filter.h:
 

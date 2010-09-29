@@ -21,6 +21,7 @@
 #include "stipulation/help_play/play.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
+#include "pieces/attributes/kamikaze/target_square_filter.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/anticirce/target_square_filter.h"
@@ -205,6 +206,11 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STPiecesKamikazeTargetSquareFilter:
+      result = kamikaze_target_square_filter_defend_in_n(si,
+                                                         n,n_max_unsolvable);
       break;
 
     case STAmuMateFilter:
@@ -408,6 +414,11 @@ stip_length_type defense_can_defend_in_n(slice_index si,
     case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_can_defend_in_n(si,n,n_max_unsolvable);
       break;
+
+    case STPiecesKamikazeTargetSquareFilter:
+      result = kamikaze_target_square_filter_can_defend_in_n(si,
+                                                             n,
+                                                             n_max_unsolvable);
 
     case STAmuMateFilter:
       result = amu_mate_filter_can_defend_in_n(si,n,n_max_unsolvable);

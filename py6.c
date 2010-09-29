@@ -136,6 +136,7 @@
 #include "stipulation/help_play/move_to_goal.h"
 #include "stipulation/goals/prerequisite_guards.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pieces/attributes/kamikaze/kamikaze.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/anticirce/anticirce.h"
@@ -2822,6 +2823,9 @@ static Token iterate_twins(Token prev_token)
 
       if (TSTFLAG(PieSpExFlags,Paralyse))
         stip_insert_paralysing_goal_filters(root_slice);
+
+      if (TSTFLAG(PieSpExFlags,Kamikaze))
+        stip_insert_kamikaze_goal_filters(root_slice);
 
       stip_insert_goal_prerequisite_guards(root_slice);
 

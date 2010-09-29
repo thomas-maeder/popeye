@@ -387,6 +387,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAmuMateFilter:
       case STUltraschachzwangGoalFilter:
       case STCirceSteingewinnFilter:
+      case STPiecesKamikazeTargetSquareFilter:
       case STEndOfPhaseWriter:
       case STEndOfSolutionWriter:
       case STRefutationWriter:

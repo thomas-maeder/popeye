@@ -153,6 +153,7 @@
     ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
+    ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     /* output slices */                                                 \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
