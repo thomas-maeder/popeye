@@ -172,7 +172,6 @@ goal_checker_result_type goal_checker_dblstale(Side just_moved)
 
 goal_checker_result_type goal_checker_autostale(Side just_moved)
 {
-  Side const ad = advers(just_moved);
   goal_checker_result_type result;
 
   TraceFunctionEntry(__func__);
