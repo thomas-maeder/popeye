@@ -2984,3 +2984,35 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+Zielfeld gilt bei Repuls nicht als erreicht
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .  -B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   L   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zh71                        1 + 1
+              AntiCirce
+
+              empile:           7
+            jouecoup:           1
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+

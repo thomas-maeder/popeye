@@ -27,6 +27,7 @@
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
+#include "conditions/anticirce/target_square_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/solvable_filter.h"
@@ -250,6 +251,10 @@ has_solution_type slice_solve(slice_index si)
       result = circe_steingewinn_filter_solve(si);
       break;
 
+    case STAnticirceTargetSquareFilter:
+      result = anticirce_target_square_filter_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -417,6 +422,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STCirceSteingewinnFilter:
       result = circe_steingewinn_filter_has_solution(si);
+      break;
+
+    case STAnticirceTargetSquareFilter:
+      result = anticirce_target_square_filter_has_solution(si);
       break;
 
     default:

@@ -138,6 +138,7 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "options/no_short_variations/no_short_variations.h"
 #include "optimisations/goals/optimisation_guards.h"
@@ -2815,6 +2816,9 @@ static Token iterate_twins(Token prev_token)
 
       if (anycirce)
         stip_insert_circe_steingewinn_filters(root_slice);
+
+      if (anyanticirce)
+        stip_insert_anticirce_goal_filters(root_slice);
 
       if (TSTFLAG(PieSpExFlags,Paralyse))
         stip_insert_paralysing_goal_filters(root_slice);

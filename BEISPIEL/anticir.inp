@@ -658,14 +658,23 @@ steine  weiss   tf8g7 kg8 sf1b1
 
 weiteres
 
-autor		J. Saukkola
-autor		J. Tuovinen
-quelle		Thema Danicum 1995
-ausz		Preis
-forderung	h#4
-bedingung	anticirce
-steine	weiss	ke1 th1
-	schwarz	ke4 dc8 lg2 bd3e3f3g3h3
-option		weiss
+autor           J. Saukkola
+autor           J. Tuovinen
+quelle          Thema Danicum 1995
+ausz            Preis
+forderung       h#4
+bedingung       anticirce
+steine          weiss ke1 th1
+                schwarz ke4 dc8 lg2 bd3e3f3g3h3
+option          weissbeginnt
+
+weiter
+
+titel Zielfeld gilt bei Repuls nicht als erreicht
+steine          weiss lb1
+                schwarz bh7
+forderung       zh71
+bedingung       anticirce
+option          ohnewk ohnesk
 
 endeproblem

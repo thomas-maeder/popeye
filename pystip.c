@@ -179,6 +179,7 @@
     ENUMERATOR(STAmuMateFilter), /* detect whether AMU prevents a mate */ \
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
+    ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
@@ -361,6 +362,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STAmuMateFilter */
   slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
   slice_structure_pipe,   /* STCirceSteingewinnFilter */
+  slice_structure_pipe,   /* STAnticirceTargetSquareFilter */
   slice_structure_pipe,   /* STPiecesParalysingMateFilter */
   slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_branch, /* STEndOfPhaseWriter */
@@ -2035,6 +2037,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAmuMateFilter */
   &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
   &stip_traverse_structure_pipe,            /* STCirceSteingewinnFilter */
+  &stip_traverse_structure_pipe,            /* STAnticirceTargetSquareFilter */
   &stip_traverse_structure_pipe,            /* STPiecesParalysingMateFilter */
   &stip_traverse_structure_pipe,            /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,            /* STEndOfPhaseWriter */
@@ -2244,6 +2247,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STAmuMateFilter */
     &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
     &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */
+    &stip_traverse_moves_pipe,                  /* STAnticirceTargetSquareFilter */
     &stip_traverse_moves_pipe,                  /* STPiecesParalysingMateFilter */
     &stip_traverse_moves_pipe,                  /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,                  /* STEndOfPhaseWriter */

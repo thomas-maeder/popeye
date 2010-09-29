@@ -23,6 +23,7 @@
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
+#include "conditions/anticirce/target_square_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
@@ -216,6 +217,11 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STCirceSteingewinnFilter:
       result = circe_steingewinn_filter_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STAnticirceTargetSquareFilter:
+      result = anticirce_target_square_filter_defend_in_n(si,
+                                                          n,n_max_unsolvable);
       break;
 
     case STQuodlibet:
@@ -414,6 +420,12 @@ stip_length_type defense_can_defend_in_n(slice_index si,
 
     case STCirceSteingewinnFilter:
       result = circe_steingewinn_filter_can_defend_in_n(si,n,n_max_unsolvable);
+      break;
+
+    case STAnticirceTargetSquareFilter:
+      result = anticirce_target_square_filter_can_defend_in_n(si,
+                                                              n,
+                                                              n_max_unsolvable);
       break;
 
     case STQuodlibet:

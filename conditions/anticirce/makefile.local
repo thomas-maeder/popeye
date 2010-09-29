@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+CFILES = anticirce.c target_square_filter.c
+INCLUDES = anticirce.h target_square_filter.h
+
+include makefile.rules $(CURRPWD)depend
