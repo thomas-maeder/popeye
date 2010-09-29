@@ -25,6 +25,7 @@
 #include "pypipe.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
+#include "pieces/attributes/kamikaze/target_square_filter.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/anticirce/target_square_filter.h"
@@ -239,6 +240,10 @@ has_solution_type slice_solve(slice_index si)
       result = paralysing_stalemate_special_solve(si);
       break;
 
+    case STPiecesKamikazeTargetSquareFilter:
+      result = kamikaze_target_square_filter_solve(si);
+      break;
+
     case STAmuMateFilter:
       result = amu_mate_filter_solve(si);
       break;
@@ -410,6 +415,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_has_solution(si);
+      break;
+
+    case STPiecesKamikazeTargetSquareFilter:
+      result = kamikaze_target_square_filter_has_solution(si);
       break;
 
     case STAmuMateFilter:

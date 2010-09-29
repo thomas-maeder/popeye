@@ -186,11 +186,6 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX):  \
   stipulation/series_play/play.h \
   stipulation/goals/doublemate/attacker_filter.h \
   stipulation/goals/countermate/attacker_filter.h \
-  pieces/attributes/paralysing/mate_filter.h \
-  pieces/attributes/paralysing/stalemate_special.h \
-  conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
-  conditions/anticirce/target_square_filter.h \
-  conditions/ultraschachzwang/goal_filter.h \
   options/no_short_variations/no_short_variations_attacker_filter.h \
   optimisations/goals/castling/attacker_filter.h \
   optimisations/goals/enpassant/attacker_filter.h \
@@ -258,18 +253,6 @@ stipulation/series_play/play.h:
 stipulation/goals/doublemate/attacker_filter.h:
 
 stipulation/goals/countermate/attacker_filter.h:
-
-pieces/attributes/paralysing/mate_filter.h:
-
-pieces/attributes/paralysing/stalemate_special.h:
-
-conditions/amu/mate_filter.h:
-
-conditions/circe/steingewinn_filter.h:
-
-conditions/anticirce/target_square_filter.h:
-
-conditions/ultraschachzwang/goal_filter.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -366,12 +349,6 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX):  \
   stipulation/battle_play/defense_fork.h \
   stipulation/battle_play/ready_for_defense.h \
   stipulation/help_play/root.h stipulation/help_play/play.h \
-  pieces/attributes/paralysing/mate_filter.h \
-  pieces/attributes/paralysing/stalemate_special.h \
-  pieces/attributes/kamikaze/target_square_filter.h \
-  conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
-  conditions/anticirce/target_square_filter.h \
-  conditions/ultraschachzwang/goal_filter.h \
   optimisations/killer_move/final_defense_move.h \
   optimisations/killer_move/collector.h \
   optimisations/maxsolutions/root_defender_filter.h \
@@ -425,20 +402,6 @@ stipulation/battle_play/ready_for_defense.h:
 stipulation/help_play/root.h:
 
 stipulation/help_play/play.h:
-
-pieces/attributes/paralysing/mate_filter.h:
-
-pieces/attributes/paralysing/stalemate_special.h:
-
-pieces/attributes/kamikaze/target_square_filter.h:
-
-conditions/amu/mate_filter.h:
-
-conditions/circe/steingewinn_filter.h:
-
-conditions/anticirce/target_square_filter.h:
-
-conditions/ultraschachzwang/goal_filter.h:
 
 optimisations/killer_move/final_defense_move.h:
 

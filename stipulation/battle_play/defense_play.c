@@ -19,13 +19,6 @@
 #include "stipulation/battle_play/ready_for_defense.h"
 #include "stipulation/help_play/root.h"
 #include "stipulation/help_play/play.h"
-#include "pieces/attributes/paralysing/mate_filter.h"
-#include "pieces/attributes/paralysing/stalemate_special.h"
-#include "pieces/attributes/kamikaze/target_square_filter.h"
-#include "conditions/amu/mate_filter.h"
-#include "conditions/circe/steingewinn_filter.h"
-#include "conditions/anticirce/target_square_filter.h"
-#include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/killer_move/final_defense_move.h"
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/maxsolutions/root_defender_filter.h"
@@ -200,38 +193,7 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = n;
       break;
 
-    case STPiecesParalysingMateFilter:
-      result = paralysing_mate_filter_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STPiecesParalysingStalemateSpecial:
-      result = paralysing_stalemate_special_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STPiecesKamikazeTargetSquareFilter:
-      result = kamikaze_target_square_filter_defend_in_n(si,
-                                                         n,n_max_unsolvable);
-      break;
-
-    case STAmuMateFilter:
-      result = amu_mate_filter_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STUltraschachzwangGoalFilter:
-      result = ultraschachzwang_goal_filter_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STCirceSteingewinnFilter:
-      result = circe_steingewinn_filter_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STAnticirceTargetSquareFilter:
-      result = anticirce_target_square_filter_defend_in_n(si,
-                                                          n,n_max_unsolvable);
-      break;
-
-    case STQuodlibet:
-    case STOutputPlaintextLineLineWriter:
+    default:
       switch (slice_solve(si))
       {
         case opponent_self_check:
@@ -251,11 +213,6 @@ stip_length_type defense_defend_in_n(slice_index si,
           result = n+4;
           break;
       }
-      break;
-
-    default:
-      assert(0);
-      result = n+4;
       break;
   }
 
@@ -407,40 +364,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = n;
       break;
 
-    case STPiecesParalysingMateFilter:
-      result = paralysing_mate_filter_can_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STPiecesParalysingStalemateSpecial:
-      result = paralysing_stalemate_special_can_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STPiecesKamikazeTargetSquareFilter:
-      result = kamikaze_target_square_filter_can_defend_in_n(si,
-                                                             n,
-                                                             n_max_unsolvable);
-
-    case STAmuMateFilter:
-      result = amu_mate_filter_can_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STUltraschachzwangGoalFilter:
-      result = ultraschachzwang_goal_filter_can_defend_in_n(si,
-                                                            n,n_max_unsolvable);
-      break;
-
-    case STCirceSteingewinnFilter:
-      result = circe_steingewinn_filter_can_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STAnticirceTargetSquareFilter:
-      result = anticirce_target_square_filter_can_defend_in_n(si,
-                                                              n,
-                                                              n_max_unsolvable);
-      break;
-
-    case STQuodlibet:
-    case STOutputPlaintextLineLineWriter:
+    default:
       switch (slice_has_solution(si))
       {
         case opponent_self_check:
@@ -460,10 +384,6 @@ stip_length_type defense_can_defend_in_n(slice_index si,
           result = n+4;
           break;
       }
-      break;
-
-    default:
-      assert(0);
       break;
   }
 

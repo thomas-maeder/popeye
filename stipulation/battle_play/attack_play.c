@@ -28,12 +28,6 @@
 #include "stipulation/series_play/play.h"
 #include "stipulation/goals/doublemate/attacker_filter.h"
 #include "stipulation/goals/countermate/attacker_filter.h"
-#include "pieces/attributes/paralysing/mate_filter.h"
-#include "pieces/attributes/paralysing/stalemate_special.h"
-#include "conditions/amu/mate_filter.h"
-#include "conditions/circe/steingewinn_filter.h"
-#include "conditions/anticirce/target_square_filter.h"
-#include "conditions/ultraschachzwang/goal_filter.h"
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "optimisations/goals/castling/attacker_filter.h"
 #include "optimisations/goals/enpassant/attacker_filter.h"
@@ -146,29 +140,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = quodlibet_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-
-    case STOutputPlaintextLineLineWriter:
-      switch (slice_has_solution(si))
-      {
-        case opponent_self_check:
-          result = slack_length_battle-2;
-          break;
-
-        case has_solution:
-          result = slack_length_battle;
-          break;
-
-        case has_no_solution:
-          result = n+2;
-          break;
-
-        default:
-          assert(0);
-          result = n+2;
-          break;
-      }
-      break;
-
     case STReflexAttackerFilter:
       result = reflex_attacker_filter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
@@ -241,38 +212,26 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = slack_length_battle;
       break;
 
-    case STPiecesParalysingMateFilter:
-      result = paralysing_mate_filter_has_solution_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STPiecesParalysingStalemateSpecial:
-      result = paralysing_stalemate_special_has_solution_in_n(si,
-                                                             n,n_max_unsolvable);
-      break;
-
-    case STAmuMateFilter:
-      result = amu_mate_filter_has_solution_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STUltraschachzwangGoalFilter:
-      result = ultraschachzwang_goal_filter_has_solution_in_n(si,
-                                                              n,
-                                                              n_max_unsolvable);
-      break;
-
-    case STCirceSteingewinnFilter:
-      result = circe_steingewinn_filter_has_solution_in_n(si,
-                                                          n,n_max_unsolvable);
-      break;
-
-    case STAnticirceTargetSquareFilter:
-      result = anticirce_target_square_filter_has_solution_in_n(si,
-                                                                n,
-                                                                n_max_unsolvable);
-      break;
-
     default:
-      assert(0);
+      switch (slice_has_solution(si))
+      {
+        case opponent_self_check:
+          result = slack_length_battle-2;
+          break;
+
+        case has_solution:
+          result = slack_length_battle;
+          break;
+
+        case has_no_solution:
+          result = n+2;
+          break;
+
+        default:
+          assert(0);
+          result = n+2;
+          break;
+      }
       break;
   }
 
@@ -364,28 +323,6 @@ stip_length_type attack_solve_in_n(slice_index si,
 
     case STQuodlibet:
       result = quodlibet_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STOutputPlaintextLineLineWriter:
-      switch (slice_solve(si))
-      {
-        case opponent_self_check:
-          result = slack_length_battle-2;
-          break;
-
-        case has_solution:
-          result = slack_length_battle;
-          break;
-
-        case has_no_solution:
-          result = n+2;
-          break;
-
-        default:
-          assert(0);
-          result = n+2;
-          break;
-      }
       break;
 
     case STAttackRoot:
@@ -501,33 +438,26 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = slack_length_battle;
       break;
 
-    case STPiecesParalysingMateFilter:
-      result = paralysing_mate_filter_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STPiecesParalysingStalemateSpecial:
-      result = paralysing_stalemate_special_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STAmuMateFilter:
-      result = amu_mate_filter_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STUltraschachzwangGoalFilter:
-      result = ultraschachzwang_goal_filter_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STCirceSteingewinnFilter:
-      result = circe_steingewinn_filter_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STAnticirceTargetSquareFilter:
-      result = anticirce_target_square_filter_solve_in_n(si,n,n_max_unsolvable);
-      break;
-
     default:
-      assert(0);
-      result = n+2;
+      switch (slice_solve(si))
+      {
+        case opponent_self_check:
+          result = slack_length_battle-2;
+          break;
+
+        case has_solution:
+          result = slack_length_battle;
+          break;
+
+        case has_no_solution:
+          result = n+2;
+          break;
+
+        default:
+          assert(0);
+          result = n+2;
+          break;
+      }
       break;
   }
 
