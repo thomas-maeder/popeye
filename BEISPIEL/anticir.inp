@@ -670,11 +670,14 @@ option          weissbeginnt
 
 weiter
 
-titel Zielfeld gilt bei Repuls nicht als erreicht
-steine          weiss lb1
-                schwarz bh7
+titel Zielfeld gilt bei Repuls nicht als erreicht, ausser der Repuls ist auf
+titel dem Zielfeld
+steine          weiss ld3
+                schwarz sh7
 forderung       zh71
 bedingung       anticirce
 option          ohnewk ohnesk
+
+zwilling versetze h7 f1 forderung zf11
 
 endeproblem

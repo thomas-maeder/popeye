@@ -10,9 +10,10 @@
  */
 
 /* Allocate a STAnticirceTargetSquareFilter slice.
+ * @param target target square to be reached
  * @return index of allocated slice
  */
-slice_index alloc_anticirce_target_square_filter_slice(void);
+slice_index alloc_anticirce_target_square_filter_slice(square target);
 
 /* Determine whether a slice has just been solved with the move
  * by the non-starter

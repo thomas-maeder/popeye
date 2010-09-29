@@ -2985,13 +2985,14 @@ Loesung beendet.
 
 
 
-Zielfeld gilt bei Repuls nicht als erreicht
+Zielfeld gilt bei Repuls nicht als erreicht, ausser der Repuls ist auf
+             dem Zielfeld
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
-7   .   .   .   .   .   .   .  -B   7
+7   .   .   .   .   .   .   .  -S   7
 |                                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
@@ -2999,17 +3000,27 @@ Zielfeld gilt bei Repuls nicht als erreicht
 |                                   |
 4   .   .   .   .   .   .   .   .   4
 |                                   |
-3   .   .   .   .   .   .   .   .   3
+3   .   .   .   L   .   .   .   .   3
 |                                   |
 2   .   .   .   .   .   .   .   .   2
 |                                   |
-1   .   L   .   .   .   .   .   .   1
+1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zh71                        1 + 1
               AntiCirce
 
-              empile:           7
+a) 
+
+              empile:          11
+            jouecoup:           1
+        orig_rbechec:           0
+        orig_rnechec:           0
+b) sSh7-->f1  zf11
+
+   1.Ld3*f1[wLf1->f1] z !
+
+              empile:          11
             jouecoup:           1
         orig_rbechec:           0
         orig_rnechec:           0

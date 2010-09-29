@@ -11,9 +11,10 @@
  */
 
 /* Allocate a STAnticirceTargetSquareFilter slice.
+ * @param target target square to be reached
  * @return index of allocated slice
  */
-slice_index alloc_anticirce_target_square_filter_slice(void)
+slice_index alloc_anticirce_target_square_filter_slice(square target)
 {
   slice_index result;
 
@@ -21,6 +22,37 @@ slice_index alloc_anticirce_target_square_filter_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STAnticirceTargetSquareFilter);
+  slices[result].u.goal_reached_tester.goal.type = goal_target;
+  slices[result].u.goal_reached_tester.goal.target = target;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Is the piece that has just moved removed from the target square because it is
+ * a Kamikaze piece?
+ * @param si identifies filter slice
+ * @return true iff the piece is removed
+ */
+static boolean is_mover_removed_from_target(slice_index si)
+{
+  square const sq_arrival = move_generation_stack[nbcou].arrival;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (e[slices[si].u.goal_reached_tester.goal.target]==vide)
+    result = true;
+  else if (sq_rebirth_capturing[nbply]
+           ==slices[si].u.goal_reached_tester.goal.target)
+    result = false;
+  else
+    result = true;
+
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -42,10 +74,10 @@ has_solution_type anticirce_target_square_filter_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth_capturing[nbply]==initsquare)
-    result = slice_has_solution(next);
-  else
+  if (is_mover_removed_from_target(si))
     result = has_no_solution;
+  else
+    result = slice_has_solution(next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -66,10 +98,10 @@ has_solution_type anticirce_target_square_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth_capturing[nbply]==initsquare)
-    result = slice_solve(next);
-  else
+  if (is_mover_removed_from_target(si))
     result = has_no_solution;
+  else
+    result = slice_solve(next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -103,10 +135,10 @@ anticirce_target_square_filter_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth_capturing[nbply]==initsquare)
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
-  else
+  if (is_mover_removed_from_target(si))
     result = n+4;
+  else
+    result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -138,10 +170,10 @@ anticirce_target_square_filter_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth_capturing[nbply]==initsquare)
-    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
-  else
+  if (is_mover_removed_from_target(si))
     result = n+4;
+  else
+    result = defense_can_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -173,10 +205,10 @@ anticirce_target_square_filter_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth_capturing[nbply]==initsquare)
-    result = attack_solve_in_n(next,n,n_max_unsolvable);
-  else
+  if (is_mover_removed_from_target(si))
     result = n+2;
+  else
+    result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -208,10 +240,10 @@ anticirce_target_square_filter_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth_capturing[nbply]==initsquare)
-    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
-  else
+  if (is_mover_removed_from_target(si))
     result = n+2;
+  else
+    result = attack_has_solution_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -17,8 +17,11 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   switch (slices[si].u.goal_reached_tester.goal.type)
   {
     case goal_target:
-      pipe_append(si,alloc_anticirce_target_square_filter_slice());
+    {
+      square const target = slices[si].u.goal_reached_tester.goal.target;
+      pipe_append(si,alloc_anticirce_target_square_filter_slice(target));
       break;
+    }
 
     default:
       break;
