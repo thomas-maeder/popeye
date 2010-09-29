@@ -90,9 +90,4 @@ paralysing_mate_filter_has_solution_in_n(slice_index si,
                                          stip_length_type n,
                                          stip_length_type n_max_unsolvable);
 
-/* Instrument a stipulation with AMU mate filter slices
- * @param si root of branch to be instrumented
- */
-void stip_insert_paralysing_goal_filters(slice_index si);
-
 #endif
