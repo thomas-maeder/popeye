@@ -106,16 +106,6 @@ goal_checker_result_type goal_checker_capture(Side just_moved)
     return goal_not_reached;
 }
 
-static boolean is_totally_paralysed(Side side)
-{
-  boolean result;
-  move_generation_mode = move_generation_not_optimized;
-  genmove(side);
-  result = !encore();
-  finply();
-  return result;
-}
-
 goal_checker_result_type goal_checker_mate(Side just_moved)
 {
   Side const ad = advers(just_moved);
