@@ -22,9 +22,7 @@ pieces/attributes/paralysing/stalemate_special.h:
 trace.h:
 pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX):  \
  pieces/attributes/paralysing/mate_filter.c \
-  pieces/attributes/paralysing/mate_filter.h pypipe.h pydata.h \
-  stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_play.h trace.h
+  pieces/attributes/paralysing/mate_filter.h pypipe.h pydata.h trace.h
 
 pieces/attributes/paralysing/mate_filter.h:
 
@@ -32,25 +30,16 @@ pypipe.h:
 
 pydata.h:
 
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
-
 trace.h:
 pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX):  \
  pieces/attributes/paralysing/stalemate_special.c \
   pieces/attributes/paralysing/stalemate_special.h pypipe.h pydata.h \
-  stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_play.h trace.h
+  trace.h
 
 pieces/attributes/paralysing/stalemate_special.h:
 
 pypipe.h:
 
 pydata.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
 
 trace.h:

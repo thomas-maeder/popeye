@@ -11,18 +11,12 @@ conditions/anticirce/target_square_filter.h:
 trace.h:
 conditions/anticirce/target_square_filter$(OBJ_SUFFIX):  \
  conditions/anticirce/target_square_filter.c \
-  conditions/anticirce/target_square_filter.h pypipe.h pydata.h \
-  stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_play.h trace.h
+  conditions/anticirce/target_square_filter.h pypipe.h pydata.h trace.h
 
 conditions/anticirce/target_square_filter.h:
 
 pypipe.h:
 
 pydata.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
 
 trace.h:

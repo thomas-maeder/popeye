@@ -1284,7 +1284,6 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   DHT/dhtbcmem.h pyreflxg.h pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
   pieces/attributes/paralysing/mate_filter.h \
   pieces/attributes/paralysing/stalemate_special.h \
-  pieces/attributes/kamikaze/target_square_filter.h \
   conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
   conditions/anticirce/target_square_filter.h \
   conditions/ultraschachzwang/goal_filter.h \
@@ -1388,8 +1387,6 @@ pypipe.h:
 pieces/attributes/paralysing/mate_filter.h:
 
 pieces/attributes/paralysing/stalemate_special.h:
-
-pieces/attributes/kamikaze/target_square_filter.h:
 
 conditions/amu/mate_filter.h:
 

@@ -1,29 +1,12 @@
 pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX):  \
  pieces/attributes/kamikaze/kamikaze.c \
   pieces/attributes/kamikaze/kamikaze.h pypipe.h \
-  pieces/attributes/kamikaze/target_square_filter.h trace.h
+  conditions/anticirce/target_square_filter.h trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
 pypipe.h:
 
-pieces/attributes/kamikaze/target_square_filter.h:
-
-trace.h:
-pieces/attributes/kamikaze/target_square_filter$(OBJ_SUFFIX):  \
- pieces/attributes/kamikaze/target_square_filter.c \
-  pieces/attributes/kamikaze/target_square_filter.h pypipe.h pydata.h \
-  stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_play.h trace.h
-
-pieces/attributes/kamikaze/target_square_filter.h:
-
-pypipe.h:
-
-pydata.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
+conditions/anticirce/target_square_filter.h:
 
 trace.h:

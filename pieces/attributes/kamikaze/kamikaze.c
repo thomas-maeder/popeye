@@ -1,6 +1,6 @@
 #include "pieces/attributes/kamikaze/kamikaze.h"
 #include "pypipe.h"
-#include "pieces/attributes/kamikaze/target_square_filter.h"
+#include "conditions/anticirce/target_square_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -19,7 +19,8 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   switch (goal.type)
   {
     case goal_target:
-      pipe_append(si,alloc_kamikaze_target_square_filter_slice(goal.target));
+      /* reusing the filter created for Anticirce */
+      pipe_append(si,alloc_anticirce_target_square_filter_slice(goal.target));
       break;
 
     default:

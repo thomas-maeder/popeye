@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = kamikaze.c target_square_filter.c
-INCLUDES = kamikaze.h target_square_filter.h
+CFILES = kamikaze.c
+INCLUDES = kamikaze.h
 
 include makefile.rules $(CURRPWD)depend

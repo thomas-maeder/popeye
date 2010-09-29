@@ -1,8 +1,6 @@
 #include "conditions/amu/mate_filter.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>

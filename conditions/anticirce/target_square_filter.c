@@ -1,8 +1,6 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "pypipe.h"
 #include "pydata.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -38,7 +36,6 @@ slice_index alloc_anticirce_target_square_filter_slice(square target)
  */
 static boolean is_mover_removed_from_target(slice_index si)
 {
-  square const sq_arrival = move_generation_stack[nbcou].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
