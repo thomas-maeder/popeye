@@ -1904,7 +1904,7 @@ void current(ply ply_id, coup *mov)
   mov->sqren =           sqrenais[ply_id];
   mov->cir_prom =        cir_prom[ply_id];
 
-  mov->renkam = crenkam[ply_id];
+  mov->renkam = sq_rebirth_capturing[ply_id];
   mov->promi =  Iprom[ply_id];
   mov->numi =     inum[ply_id] - (mov->promi ? 1 : 0);
   /* Promoted imitator will be output 'normally'

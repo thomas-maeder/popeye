@@ -369,7 +369,7 @@ void InitAlways(void) {
     kpilca[i] = initsquare;
     sqrenais[i] = initsquare;
     trait[i] = White;
-    crenkam[i] = initsquare;
+    sq_rebirth_capturing[i] = initsquare;
     pwcprom[i] = false;
     senti[i] = false;
     Iprom[i] = false;

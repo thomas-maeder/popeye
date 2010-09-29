@@ -2907,7 +2907,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
       }
       e[sq_arrival]= vide;
       spec[sq_arrival]= 0;
-      crenkam[ply_id]= sq_rebirth;
+      sq_rebirth_capturing[ply_id]= sq_rebirth;
       if ((is_forwardpawn(pi_departing)
            && PromSq(trait_ply,sq_rebirth))
           || (is_reversepawn(pi_departing)                 
@@ -3084,7 +3084,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
               && !( CondFlag[contactgrid]
                     && nogridcontact(sq_rebirth)))
           {
-            crenkam[ply_id]= sq_rebirth;
+            sq_rebirth_capturing[ply_id]= sq_rebirth;
             e[sq_rebirth]= pi_arriving;
             spec[sq_rebirth]= spec_pi_moving;
             if (rex_circe) {
@@ -3836,9 +3836,9 @@ void repcoup(void)
         spec[sq_rebirth]= pdispspec[nbply];
     }
 
-    if ((sq_rebirth= crenkam[nbply]) != initsquare) {
+    if ((sq_rebirth= sq_rebirth_capturing[nbply]) != initsquare) {
       /* Kamikaze and AntiCirce */
-      crenkam[nbply]= initsquare;
+      sq_rebirth_capturing[nbply]= initsquare;
       if (sq_rebirth != sq_arrival) {
         nbpiece[e[sq_rebirth]]--;
         e[sq_rebirth]= vide;

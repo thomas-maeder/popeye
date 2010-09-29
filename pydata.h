@@ -3,11 +3,11 @@
 **
 ** Date       Who  What
 **
-** 2006/07/30 SE   New condition: Schwarzschacher  
+** 2006/07/30 SE   New condition: Schwarzschacher
 **
-** 2007/01/28 SE   New condition: NormalPawn  
+** 2007/01/28 SE   New condition: NormalPawn
 **
-** 2007/01/28 SE   New condition: Annan Chess 
+** 2007/01/28 SE   New condition: Annan Chess
 **
 ** 2007/04/30 NG   sentinelles variants: naming changed for consistency ...
 **
@@ -32,27 +32,27 @@
 **                 are not 'non-passant'. Too hard to do but possibly
 **                 implement as an independent condition later).
 **
-** 2008/01/02 NG   New condition: Geneva Chess 
+** 2008/01/02 NG   New condition: Geneva Chess
 **
-** 2008/01/11 SE   New variant: Special Grids 
+** 2008/01/11 SE   New variant: Special Grids
 **
-** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
+** 2008/01/13 SE   New conditions: White/Black Vaulting Kings
 **
-** 2008/01/24 SE   New variant: Gridlines  
+** 2008/01/24 SE   New variant: Gridlines
 **
-** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)
 **
-** 2008/02/19 SE   New condition: AntiKoeko  
+** 2008/02/19 SE   New condition: AntiKoeko
 **
-** 2008/02/19 SE   New piece: RoseLocust  
+** 2008/02/19 SE   New piece: RoseLocust
 **
-** 2008/02/25 SE   New piece type: Magic  
+** 2008/02/25 SE   New piece type: Magic
 **
-** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)
 **
-** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
 **
-** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+** 2009/02/24 SE   New pieces: 2,0-Spiralknight
 **                             4,0-Spiralknight
 **                             1,1-Spiralknight
 **                             3,3-Spiralknight
@@ -154,12 +154,12 @@ EXTERN struct
 {
     int bottom;
     int top;
-} magicstate[maxply + 1];   
+} magicstate[maxply + 1];
 EXTERN int nbmagic;
 EXTERN boolean flag_magic;
 
 /* used by masand and magic */
-EXTERN square fromspecificsquare;  
+EXTERN square fromspecificsquare;
 
 #if defined(WE_ARE_EXTERN)
 EXTERN change_rec * colour_change_stack_limit;
@@ -167,7 +167,7 @@ EXTERN change_rec * push_colour_change_stack_limit;
 #endif
 
 /* used by masand and magic for output only*/
-EXTERN change_rec colour_change_stack[colour_change_stack_size]; 
+EXTERN change_rec colour_change_stack[colour_change_stack_size];
 EXTERN change_rec *colour_change_sp[maxply + 1];
 EXTERN change_rec push_colour_change_stack[push_colour_change_stack_size];
 EXTERN boolean flag_outputmultiplecolourchanges;
@@ -196,7 +196,7 @@ enum
   wh_castlings = ke1_cancastle|ra1_cancastle|rh1_cancastle,
   blk_castling = ke8_cancastle|rh8_cancastle,
   blq_castling = ke8_cancastle|ra8_cancastle,
-  bl_castlings = ke8_cancastle|ra8_cancastle|rh8_cancastle  
+  bl_castlings = ke8_cancastle|ra8_cancastle|rh8_cancastle
 };
 
 EXTERN  castling_flag_type castling_flag[maxply + 1];
@@ -217,7 +217,7 @@ EXTERN  empile_optimization_table_elmt       empile_optimization_table[100];
 EXTERN  int             empile_optimization_table_count;
 EXTERN  move_generation_mode_type  move_generation_mode;
 EXTERN  move_generation_mode_type move_generation_mode_opti_per_side[2];
-		
+
 EXTERN  numvec          ortho_opt_queen[2*(square_h8-square_a1)+1],
 			ortho_opt_rook[2*(square_h8-square_a1)+1],
 			ortho_opt_bishop[2*(square_h8-square_a1)+1],
@@ -244,17 +244,17 @@ EXTERN  boolean			rex_mad,rex_circe,rex_immun,rex_phan, rex_geneva,
                         rex_mess_ex, rex_wooz_ex;
 EXTERN  boolean         pwcprom[maxply + 1];
 
-EXTERN  pilecase        sqrenais,
-			crenkam,        /* rebirth square for taking kamikaze pieces */
-			super;          /* supercirce */
-EXTERN  Flags           jouespec[maxply + 1];
-EXTERN  numecoup        repere[maxply + 1];
-EXTERN  ply             parent_ply[maxply + 1];
+EXTERN  pilecase sqrenais;
+EXTERN  pilecase sq_rebirth_capturing; /* rebirth square for moving piece (Anticirce, Kamikaze+Circe) */
+EXTERN  pilecase super;   /* rebirth square for supercirce */
+EXTERN  Flags    jouespec[maxply + 1];
+EXTERN  numecoup repere[maxply + 1];
+EXTERN  ply      parent_ply[maxply + 1];
 
 
 
-EXTERN  boolean         exist[derbla + 1];
-EXTERN  boolean         promonly[derbla + 1];
+EXTERN  boolean  exist[derbla + 1];
+EXTERN  boolean  promonly[derbla + 1];
 
 EXTERN  evalfunction_t *eval_white;
 EXTERN  evalfunction_t *eval_2;
@@ -286,7 +286,7 @@ EXTERN  enum
 
 EXTERN  pileside     trait;
 EXTERN  boolean         flagfee,
-			flagriders, flagleapers, flagsimplehoppers, 
+			flagriders, flagleapers, flagsimplehoppers,
                         flagsimpledecomposedleapers, flagsymmetricfairy,
 			flagveryfairy,
 			flagleofamilyonly,
@@ -409,7 +409,7 @@ EXTERN ply      	      tempply;
 EXTERN boolean          jouetestgenre1, jouetestgenre_save;
 EXTERN boolean          rex_protean_ex;
 EXTERN int              gridvar, currentgridnum;
-EXTERN boolean          calc_whtrans_king, calc_bltrans_king, 
+EXTERN boolean          calc_whtrans_king, calc_bltrans_king,
                         calc_whrefl_king, calc_blrefl_king;
 EXTERN int         gridlines[112][4];
 EXTERN int              numgridlines;
@@ -828,9 +828,9 @@ EXTERN boolean          flag_libre_on_generate;
     /*124*/ {'b','1'},  /* bouncer */
     /*125*/ {'b','2'},  /* tour-bouncer */
     /*126*/ {'b','3'},  /* fou-bouncer */
-    /*127*/ {'c','p'},  /* chinese pawn */	
-    /*128*/ {'r','k'},  /* radial knight */	
-    /*129*/ {'p','p'},  /* protean pawn */	
+    /*127*/ {'c','p'},  /* chinese pawn */
+    /*128*/ {'r','k'},  /* radial knight */
+    /*129*/ {'p','p'},  /* protean pawn */
     /*130*/ {'l','s'},  /* Rose Locust */
     /*131*/ {'z','e'},  /* zebu */
     /*132*/ {'b','n'},  /* Bouncy Nightrider */
@@ -1896,28 +1896,28 @@ enum {
 /*        all move_down_codes are mapped this way to move_up_codes !    */
 
 	int move_vec_code[square_h8 - square_a1 + 1]= {
-	/* left/right   */         0,   1,   1,   1,   1,   1,   1,   1,     
+	/* left/right   */         0,   1,   1,   1,   1,   1,   1,   1,
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-	/* 1 left  up   */             17,  18,  19,  20,  21,  22,  23,     
-	/* 1 right up   */        24,  25,  26,  27,  28,  29,  30,  31,     
+	/* 1 left  up   */             17,  18,  19,  20,  21,  22,  23,
+	/* 1 right up   */        24,  25,  26,  27,  28,  29,  30,  31,
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-	/* 2 left  up   */             41,  21,  43,  22,  45,  23,  47,     
-	/* 2 right up   */        24,  49,  25,  51,  26,  53,  27,  55,     
+	/* 2 left  up   */             41,  21,  43,  22,  45,  23,  47,
+	/* 2 right up   */        24,  49,  25,  51,  26,  53,  27,  55,
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-	/* 3 left  up   */             65,  22,  67,  68,  23,  70,  71,     
-	/* 3 right up   */        24,  73,  74,  25,  76,  77,  26,  79,     
+	/* 3 left  up   */             65,  22,  67,  68,  23,  70,  71,
+	/* 3 right up   */        24,  73,  74,  25,  76,  77,  26,  79,
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-	/* 4 left  up   */             89,  45,  91,  23,  93,  47,  95,     
-	/* 4 right up   */        24,  97,  49,  99,  25, 101,  51, 103,     
+	/* 4 left  up   */             89,  45,  91,  23,  93,  47,  95,
+	/* 4 right up   */        24,  97,  49,  99,  25, 101,  51, 103,
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-	/* 5 left  up   */            113, 114,  23, 116, 117, 118, 119,     
-	/* 5 right up   */        24, 121, 122, 123, 124,  25, 126, 127,     
+	/* 5 left  up   */            113, 114,  23, 116, 117, 118, 119,
+	/* 5 right up   */        24, 121, 122, 123, 124,  25, 126, 127,
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-	/* 6 left  up   */            137,  23, 139,  70,  47,  71, 143,     
-	/* 6 right up   */        24, 145,  73,  49,  74, 149,  25, 151,     
+	/* 6 left  up   */            137,  23, 139,  70,  47,  71, 143,
+	/* 6 right up   */        24, 145,  73,  49,  74, 149,  25, 151,
 	/* dummies      */        -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-	/* 7 left  up   */             23, 162, 163, 164, 165, 166, 167,     
-	/* 7 right up   */        24, 169, 170, 171, 172, 173, 174,  25     
+	/* 7 left  up   */             23, 162, 163, 164, 165, 166, 167,
+	/* 7 right up   */        24, 169, 170, 171, 172, 173, 174,  25
 			       };
 #endif
 
@@ -2077,16 +2077,16 @@ enum {
     };
 #endif
 
-/* magic pieces - 
+/* magic pieces -
 for most types a magic piece of that type can only
 attack another unit from one direction in any given position. Therefore
 all that is needed is to see if it checks, and use the relative diff to
 calculate the vector. These types have NULL entries in the table below.
 
-More complicated types can attack from more than one direction and need 
+More complicated types can attack from more than one direction and need
 special functions listed below to calculate each potential direction.
 
-Unsupported types are listed below with the entry 
+Unsupported types are listed below with the entry
 unsupported_uncalled_attackfunction
 */
 #if defined(WE_ARE_EXTERN)
@@ -2131,9 +2131,9 @@ unsupported_uncalled_attackfunction
 /* 34 */        0,
 /* 35 */        0,
 /* 36 */        0,
-/* 37 */        GetSpiralSpringerAttackVectors,  
+/* 37 */        GetSpiralSpringerAttackVectors,
 /* 38 */        unsupported_uncalled_attackfunction, /* ubiubi */
-/* 39 */        0,	
+/* 39 */        0,
 /* 40 */        GetMooseAttackVectors,
 /* 41 */        GetEagleAttackVectors,
 /* 42 */        GetSparrowAttackVectors,
@@ -2141,14 +2141,14 @@ unsupported_uncalled_attackfunction
 /* 44 */        unsupported_uncalled_attackfunction, /* ref B */
 /* 45 */        unsupported_uncalled_attackfunction, /* cardinal */
 /* 46 */        0,
-/* 47 */        0,	
+/* 47 */        0,
 /* 48 */        0,
 /* 49 */        0,
 /* 50 */        0,
 /* 51 */        0,
 /* 52 */        0,
 /* 53 */        0,
-/* 54 */        GetDiagonalSpiralSpringerAttackVectors,   
+/* 54 */        GetDiagonalSpiralSpringerAttackVectors,
 /* 55 */        unsupported_uncalled_attackfunction, /* bouncy knight */
 /* 56 */        0,
 /* 57 */        unsupported_uncalled_attackfunction, /* cat */
@@ -2156,7 +2156,7 @@ unsupported_uncalled_attackfunction
 /* 59 */        0,
 /* 60 */        0,
 /* 61 */        0,
-/* 62 */        0,               
+/* 62 */        0,
 /* 63 */        0,
 /* 64 */        0,
 /* 65 */        unsupported_uncalled_attackfunction,  /* orphan */
@@ -2168,7 +2168,7 @@ unsupported_uncalled_attackfunction
 /* 71 */        0,
 /* 72 */        0,
 /* 73 */        0,
-/* 74 */        0,              
+/* 74 */        0,
 /* 75 */        GetBoyscoutAttackVectors, /* boyscout */
 /* 76 */        GetGirlscoutAttackVectors, /* girlscout */
 /* 77 */        0, /* skylla - depends on vacant sq?? */
@@ -2192,8 +2192,8 @@ unsupported_uncalled_attackfunction
 /* 95 */        0,
 /* 96 */        0,
 /* 97 */        0,
-/* 98 */        0,              
-/* 99 */        0,               
+/* 98 */        0,
+/* 99 */        0,
 /*100 */        0,
 /*101 */        0,
 /*102 */        0,
@@ -2209,7 +2209,7 @@ unsupported_uncalled_attackfunction
 /*112 */        0,
 /*113 */        0,
 /*114 */        0,
-/*115 */        0,  
+/*115 */        0,
 /*116 */        0,
 /*117 */        unsupported_uncalled_attackfunction,    /*friend*/
 /*118 */        0,  /* dolphin - do g, g2 count as different vectors? */
@@ -2217,10 +2217,10 @@ unsupported_uncalled_attackfunction
 /*120 */        0,
 /*121 */	0,
 /*122 */	0,
-/*123 */	0,   
-/*124 */	0,      
-/*125 */	0,  
-/*126 */	0, 
+/*123 */	0,
+/*124 */	0,
+/*125 */	0,
+/*126 */	0,
 /*127 */	0,
 /*128 */  unsupported_uncalled_attackfunction, /*radial k*/
 /*129 */  0,
