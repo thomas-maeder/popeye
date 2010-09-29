@@ -1,11 +1,8 @@
 #include "pieces/attributes/paralysing/paralysing.h"
-#include "pydata.h"
 #include "pypipe.h"
 #include "pyquodli.h"
 #include "pybrafrk.h"
 #include "stipulation/proxy.h"
-#include "stipulation/battle_play/attack_play.h"
-#include "stipulation/battle_play/defense_play.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "trace.h"
@@ -101,7 +98,7 @@ enum
                               / sizeof goal_filter_inserters[0])
 };
 
-/* Instrument a stipulation with AMU mate filter slices
+/* Instrument a stipulation with goal filter slices
  * @param si root of branch to be instrumented
  */
 void stip_insert_paralysing_goal_filters(slice_index si)
