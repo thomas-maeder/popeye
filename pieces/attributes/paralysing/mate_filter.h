@@ -10,6 +10,7 @@
  */
 
 /* Allocate a STPiecesParalysingMateFilter slice.
+ * @param side side to be mated
  * @return index of allocated slice
  */
 slice_index alloc_paralysing_mate_filter_slice(Side side);
