@@ -55,14 +55,18 @@ has_solution_type paralysing_stalemate_special_has_solution(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const starter = slices[si].starter;
+  Side const goaled = slices[si].u.goal_filter.goaled;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  /* only flag selfcheck if the side that has just moved is not the one to be
+   * stalemated (i.e. if the stipulation is not auto-stalemate) */
+  if (starter==goaled && echecc(nbply,advers(starter)))
     result = opponent_self_check;
-  else if (has_move(slices[si].u.goal_filter.goaled))
+  else if (has_move(goaled))
     result = has_no_solution;
   else
     result = slice_has_solution(next);
@@ -81,14 +85,18 @@ has_solution_type paralysing_stalemate_special_solve(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const starter = slices[si].starter;
+  Side const goaled = slices[si].u.goal_filter.goaled;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  /* only flag selfcheck if the side that has just moved is not the one to be
+   * stalemated (i.e. if the stipulation is not auto-stalemate) */
+  if (starter==goaled && echecc(nbply,advers(starter)))
     result = opponent_self_check;
-  else if (has_move(slices[si].u.goal_filter.goaled))
+  else if (has_move(goaled))
     result = has_no_solution;
   else
     result = slice_solve(next);
@@ -118,6 +126,8 @@ paralysing_stalemate_special_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const starter = slices[si].starter;
+  Side const goaled = slices[si].u.goal_filter.goaled;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -125,9 +135,11 @@ paralysing_stalemate_special_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  /* only flag selfcheck if the side that has just moved is not the one to be
+   * stalemated (i.e. if the stipulation is not auto-stalemate) */
+  if (starter==goaled && echecc(nbply,advers(starter)))
     result = n+4;
-  else if (has_move(slices[si].u.goal_filter.goaled))
+  else if (has_move(goaled))
     result = n+4;
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
@@ -155,6 +167,8 @@ paralysing_stalemate_special_can_defend_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const starter = slices[si].starter;
+  Side const goaled = slices[si].u.goal_filter.goaled;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -162,9 +176,11 @@ paralysing_stalemate_special_can_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  /* only flag selfcheck if the side that has just moved is not the one to be
+   * stalemated (i.e. if the stipulation is not auto-stalemate) */
+  if (starter==goaled && echecc(nbply,advers(starter)))
     result = n+4;
-  else if (has_move(slices[si].u.goal_filter.goaled))
+  else if (has_move(goaled))
     result = n+4;
   else
     result = defense_can_defend_in_n(next,n,n_max_unsolvable);
@@ -192,6 +208,8 @@ paralysing_stalemate_special_solve_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const starter = slices[si].starter;
+  Side const goaled = slices[si].u.goal_filter.goaled;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -199,9 +217,11 @@ paralysing_stalemate_special_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  /* only flag selfcheck if the side that has just moved is not the one to be
+   * stalemated (i.e. if the stipulation is not auto-stalemate) */
+  if (starter==goaled && echecc(nbply,advers(starter)))
     result = n+2;
-  else if (has_move(slices[si].u.goal_filter.goaled))
+  else if (has_move(goaled))
     result = n+2;
   else
     result = attack_solve_in_n(next,n,n_max_unsolvable);
@@ -229,6 +249,8 @@ paralysing_stalemate_special_has_solution_in_n(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const starter = slices[si].starter;
+  Side const goaled = slices[si].u.goal_filter.goaled;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -236,9 +258,11 @@ paralysing_stalemate_special_has_solution_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,advers(slices[si].starter)))
+  /* only flag selfcheck if the side that has just moved is not the one to be
+   * stalemated (i.e. if the stipulation is not auto-stalemate) */
+  if (starter==goaled && echecc(nbply,advers(starter)))
     result = n+2;
-  else if (has_move(slices[si].u.goal_filter.goaled))
+  else if (has_move(goaled))
     result = n+2;
   else
     result = attack_has_solution_in_n(next,n,n_max_unsolvable);

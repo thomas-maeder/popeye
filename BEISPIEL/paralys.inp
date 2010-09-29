@@ -65,4 +65,12 @@ steine weiss ta1
        schwarz ka8 bc6
 forderung =1
 
+weiter
+
+titel Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
+steine weiss kc2 bd2
+       schwarz bc4e4
+       paralysierend schwarz th3
+forderung !=1
+
 endeproblem
