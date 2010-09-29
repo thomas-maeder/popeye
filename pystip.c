@@ -180,7 +180,7 @@
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
-    ENUMERATOR(STPiecesParalysingStalemateFilter), /* stalemate by special rule? */ \
+    ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */  \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \
@@ -362,7 +362,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
   slice_structure_pipe,   /* STCirceSteingewinnFilter */
   slice_structure_pipe,   /* STPiecesParalysingMateFilter */
-  slice_structure_pipe,   /* STPiecesParalysingStalemateFilter */
+  slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_branch, /* STEndOfPhaseWriter */
   slice_structure_branch, /* STEndOfSolutionWriter */
   slice_structure_branch, /* STContinuationWriter */
@@ -2036,7 +2036,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
   &stip_traverse_structure_pipe,            /* STCirceSteingewinnFilter */
   &stip_traverse_structure_pipe,            /* STPiecesParalysingMateFilter */
-  &stip_traverse_structure_pipe,            /* STPiecesParalysingStalemateFilter */
+  &stip_traverse_structure_pipe,            /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,            /* STEndOfPhaseWriter */
   &stip_traverse_structure_pipe,            /* STEndOfSolutionWriter */
   &stip_traverse_structure_pipe,            /* STContinuationWriter */
@@ -2245,7 +2245,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
     &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */
     &stip_traverse_moves_pipe,                  /* STPiecesParalysingMateFilter */
-    &stip_traverse_moves_pipe,                  /* STPiecesParalysingStalemateFilter */
+    &stip_traverse_moves_pipe,                  /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,                  /* STEndOfPhaseWriter */
     &stip_traverse_moves_pipe,                  /* STEndOfSolutionWriter */
     &stip_traverse_moves_pipe,                  /* STContinuationWriter */

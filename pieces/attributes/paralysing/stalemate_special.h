@@ -3,12 +3,12 @@
 
 #include "pyslice.h"
 
-/* This module provides slice type STPiecesParalysingStalemateFilter - as a
+/* This module provides slice type STPiecesParalysingStalemateSpecial - as a
  * consequence of the special mating rule, a side is stalemate if it is in check
  * but totally paralysed
  */
 
-/* Allocate a STPiecesParalysingStalemateFilter slice.
+/* Allocate a STPiecesParalysingStalemateSpecial slice.
  * @return index of allocated slice
  */
 slice_index alloc_paralysing_stalemate_special_slice(Side side);

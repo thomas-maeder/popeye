@@ -7,10 +7,10 @@
 
 #include <assert.h>
 
-/* This module provides slice type STPiecesParalysingStalemateFilter
+/* This module provides slice type STPiecesParalysingStalemateSpecial
  */
 
-/* Allocate a STPiecesParalysingStalemateFilter slice.
+/* Allocate a STPiecesParalysingStalemateSpecial slice.
  * @return index of allocated slice
  */
 slice_index alloc_paralysing_stalemate_special_slice(Side side)
@@ -22,7 +22,7 @@ slice_index alloc_paralysing_stalemate_special_slice(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STPiecesParalysingStalemateFilter);
+  result = alloc_pipe(STPiecesParalysingStalemateSpecial);
   slices[result].u.goal_filter.goaled = side;
 
   TraceFunctionExit(__func__);

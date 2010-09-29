@@ -202,7 +202,7 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = paralysing_mate_filter_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STPiecesParalysingStalemateFilter:
+    case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_defend_in_n(si,n,n_max_unsolvable);
       break;
 
@@ -399,7 +399,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = paralysing_mate_filter_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STPiecesParalysingStalemateFilter:
+    case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 

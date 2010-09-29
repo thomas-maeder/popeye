@@ -151,7 +151,7 @@
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
-    ENUMERATOR(STPiecesParalysingStalemateFilter), /* stalemate by special rule? */ \
+    ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     /* output slices */                                                 \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \

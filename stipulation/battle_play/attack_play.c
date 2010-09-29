@@ -244,7 +244,7 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = paralysing_mate_filter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STPiecesParalysingStalemateFilter:
+    case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_has_solution_in_n(si,
                                                              n,n_max_unsolvable);
       break;
@@ -498,7 +498,7 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = paralysing_mate_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STPiecesParalysingStalemateFilter:
+    case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_solve_in_n(si,n,n_max_unsolvable);
       break;
 

@@ -234,7 +234,7 @@ has_solution_type slice_solve(slice_index si)
       result = paralysing_mate_filter_solve(si);
       break;
 
-    case STPiecesParalysingStalemateFilter:
+    case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_solve(si);
       break;
 
@@ -403,7 +403,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = paralysing_mate_filter_has_solution(si);
       break;
 
-    case STPiecesParalysingStalemateFilter:
+    case STPiecesParalysingStalemateSpecial:
       result = paralysing_stalemate_special_has_solution(si);
       break;
 

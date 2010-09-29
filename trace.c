@@ -399,7 +399,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STPiecesParalysingMateFilter:
-      case STPiecesParalysingStalemateFilter:
+      case STPiecesParalysingStalemateSpecial:
       {
         Side const goaled = slices[si].u.goal_filter.goaled;
         Trace_pipe(si);
