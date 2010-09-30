@@ -14,7 +14,6 @@
 slice_index alloc_paralysing_stalemate_special_slice(Side side)
 {
   slice_index result;
-  slice_index tested;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
