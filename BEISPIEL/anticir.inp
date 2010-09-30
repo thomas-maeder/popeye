@@ -680,4 +680,16 @@ option          ohnewk ohnesk
 
 zwilling versetze h7 f1 forderung zf11
 
+weiter
+
+titel Repuls gilt als Rundlauf auf das Ursprungsfeld, Repuls vom Ursprungsfeld
+titel auf ein anderes nicht
+steine          weiss kd2
+                schwarz bd3e3
+forderung       ct2
+bedingung       anticirce
+option vari ohnesk
+
+zwilling versetze d2 e1
+
 endeproblem

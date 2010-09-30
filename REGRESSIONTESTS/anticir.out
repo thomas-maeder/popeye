@@ -3027,3 +3027,53 @@ b) sSh7-->f1  zf11
 Loesung beendet. 
 
 
+
+Repuls gilt als Rundlauf auf das Ursprungsfeld, Repuls vom Ursprungsfeld
+        auf ein anderes nicht
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -B  -B   .   .   .   3
+|                                   |
+2   .   .   .   K   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ct2                         1 + 2
+              AntiCirce
+
+a) 
+
+   1.Kd2*d3[wKd3->e1] ! Zugzwang.
+      1...e3-e2
+          2.Ke1-d2
+
+              empile:          70
+            jouecoup:          65
+        orig_rbechec:          12
+        orig_rnechec:           0
+b) wKd2-->e1
+
+   1.Ke1-d1 ! Drohung:
+          2.Kd1-e1
+      1...d3-d2
+          2.Kd1*d2[wKd2->e1]
+
+              empile:          51
+            jouecoup:          37
+        orig_rbechec:          15
+        orig_rnechec:           0
+Loesung beendet. 
+
+

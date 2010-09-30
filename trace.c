@@ -389,6 +389,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STCirceSteingewinnFilter:
       case STPiecesKamikazeTargetSquareFilter:
       case STAnticirceTargetSquareFilter:
+      case STAnticirceCircuitSpecial:
       case STEndOfPhaseWriter:
       case STEndOfSolutionWriter:
       case STRefutationWriter:

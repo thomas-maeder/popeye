@@ -180,6 +180,7 @@
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
+    ENUMERATOR(STAnticirceCircuitSpecial), /* special circuit by rebirth */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
@@ -364,6 +365,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
   slice_structure_pipe,   /* STCirceSteingewinnFilter */
   slice_structure_pipe,   /* STAnticirceTargetSquareFilter */
+  slice_structure_pipe,   /* STAnticirceCircuitSpecial */
   slice_structure_pipe,   /* STPiecesParalysingMateFilter */
   slice_structure_pipe,   /* STPiecesParalysingStalemateSpecial */
   slice_structure_pipe,   /* STPiecesKamikazeTargetSquareFilter */
@@ -2040,6 +2042,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
   &stip_traverse_structure_pipe,            /* STCirceSteingewinnFilter */
   &stip_traverse_structure_pipe,            /* STAnticirceTargetSquareFilter */
+  &stip_traverse_structure_pipe,            /* STAnticirceCircuitSpecial */
   &stip_traverse_structure_pipe,            /* STPiecesParalysingMateFilter */
   &stip_traverse_structure_pipe,            /* STPiecesParalysingStalemateSpecial */
   &stip_traverse_structure_pipe,            /* STPiecesKamikazeTargetSquareFilter */
@@ -2251,6 +2254,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
     &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */
     &stip_traverse_moves_pipe,                  /* STAnticirceTargetSquareFilter */
+    &stip_traverse_moves_pipe,                  /* STAnticirceCircuitSpecial */
     &stip_traverse_moves_pipe,                  /* STPiecesParalysingMateFilter */
     &stip_traverse_moves_pipe,                  /* STPiecesParalysingStalemateSpecial */
     &stip_traverse_moves_pipe,                  /* STPiecesKamikazeTargetSquareFilter */

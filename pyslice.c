@@ -28,6 +28,7 @@
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/anticirce/target_square_filter.h"
+#include "conditions/anticirce/circuit_special.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/solvable_filter.h"
@@ -255,6 +256,10 @@ has_solution_type slice_solve(slice_index si)
       result = anticirce_target_square_filter_solve(si);
       break;
 
+    case STAnticirceCircuitSpecial:
+      result = anticirce_circuit_special_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -428,6 +433,9 @@ has_solution_type slice_has_solution(slice_index si)
       result = anticirce_target_square_filter_has_solution(si);
       break;
 
+    case STAnticirceCircuitSpecial:
+      result = anticirce_circuit_special_has_solution(si);
+      break;
     default:
       assert(0);
       break;

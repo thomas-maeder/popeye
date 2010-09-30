@@ -27,11 +27,9 @@ goal_checker_result_type goal_checker_target(Side just_moved, square target)
 
 goal_checker_result_type goal_checker_circuit(Side just_moved)
 {
-  square const cazz = move_generation_stack[nbcou].arrival;
-  square const renkam = sq_rebirth_capturing[nbply];
+  square const sq_arrival = move_generation_stack[nbcou].arrival;
 
-  if ((renkam==initsquare && DiaRen(spec[cazz])==cazz)
-      || (renkam!=initsquare && DiaRen(spec[renkam])==renkam))
+  if (DiaRen(spec[sq_arrival])==sq_arrival)
     return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
   else
     return goal_not_reached;
