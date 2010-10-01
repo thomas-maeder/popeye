@@ -3077,3 +3077,83 @@ b) wKd2-->e1
 Loesung beendet. 
 
 
+
+Platzwechsel dank Repuls des schlagenden Steins
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  -T   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   K   .   T   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-<>3                     2 + 1
+              AntiCirce
+
+  1.Kc1-c2   2.Te1-c1   3.Kc2*d3[wKd3->e1] 
+
+              empile:        2219
+            jouecoup:        2220
+        orig_rbechec:         281
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+
+Platzwechsel mit Repuls des schlagenden Steins auf sein Ursprungsfeld
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   K   .   .   T   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  <>4                         2 + 1
+              AntiCirce
+
+   1.Kb1-c2 !
+      1...e4-e3
+          2.Te1-b1
+              2...e3-e2
+                  3.Kc2-d2
+                      3...e2-e1=D +
+                          4.Kd2*e1[wKe1->e1]
+                      3...e2-e1=S
+                          4.Kd2*e1[wKe1->e1]
+                      3...e2-e1=T
+                          4.Kd2*e1[wKe1->e1]
+                      3...e2-e1=L +
+                          4.Kd2*e1[wKe1->e1]
+
+              empile:       14815
+            jouecoup:       14714
+        orig_rbechec:        4722
+        orig_rnechec:           0
+Loesung beendet. 
+
+

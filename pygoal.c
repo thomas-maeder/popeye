@@ -43,14 +43,14 @@ goal_checker_result_type goal_checker_circuitB(Side just_moved)
 
 goal_checker_result_type goal_checker_exchange(Side just_moved)
 {
-  square const sq_rebirth_kamikaze = sq_rebirth_capturing[nbply];
-  if (sq_rebirth_kamikaze==initsquare)
+  square const sq_rebirth = sq_rebirth_capturing[nbply];
+  if (sq_rebirth==initsquare)
   {
     square const sq_arrival = move_generation_stack[nbcou].arrival;
-    square const sq_rebirth = DiaRen(spec[sq_arrival]);
-    if (DiaRen(spec[sq_rebirth])==sq_arrival
-        && (just_moved==White ? e[sq_rebirth]>=roib : e[sq_rebirth]<=roin)
-        && sq_rebirth!=sq_arrival)
+    square const sq_diagram = DiaRen(spec[sq_arrival]);
+    if (DiaRen(spec[sq_diagram])==sq_arrival
+        && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
+        && sq_diagram!=sq_arrival)
       return (echecc(nbply,just_moved)
               ? goal_not_reached_selfcheck
               : goal_reached);
@@ -58,17 +58,7 @@ goal_checker_result_type goal_checker_exchange(Side just_moved)
       return goal_not_reached;
   }
   else
-  {
-    square const sq_rebirth = DiaRen(spec[sq_rebirth_kamikaze]);
-    if (DiaRen(spec[sq_rebirth])==sq_rebirth_kamikaze
-        && (just_moved==White ? e[sq_rebirth]>=roib : e[sq_rebirth]<=roin)
-        && sq_rebirth!=sq_rebirth_kamikaze)
-      return (echecc(nbply,just_moved)
-              ? goal_not_reached_selfcheck
-              : goal_reached);
-    else
-      return goal_not_reached;
-  }
+    return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_exchangeB(Side just_moved)

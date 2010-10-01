@@ -692,4 +692,23 @@ option vari ohnesk
 
 zwilling versetze d2 e1
 
+weiter
+
+titel Platzwechsel dank Repuls des schlagenden Steins
+steine weiss kc1 te1
+       schwarz td3
+bedingung anticirce
+forderung ser-<>3
+option ohnesk
+
+weiter
+
+titel Platzwechsel mit Repuls des schlagenden Steins auf sein Ursprungsfeld
+steine weiss kb1 te1
+       schwarz be4
+bedingung anticirce calvet
+forderung <>4
+option ohnesk vari ohnedroh
+
+
 endeproblem

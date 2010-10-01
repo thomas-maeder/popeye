@@ -2,7 +2,8 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
   conditions/anticirce/anticirce.h pypipe.h pyquodli.h \
   stipulation/branch.h stipulation/proxy.h \
   conditions/anticirce/target_square_filter.h \
-  conditions/anticirce/circuit_special.h trace.h
+  conditions/anticirce/circuit_special.h \
+  conditions/anticirce/exchange_special.h trace.h
 
 conditions/anticirce/anticirce.h:
 
@@ -17,6 +18,8 @@ stipulation/proxy.h:
 conditions/anticirce/target_square_filter.h:
 
 conditions/anticirce/circuit_special.h:
+
+conditions/anticirce/exchange_special.h:
 
 trace.h:
 conditions/anticirce/target_square_filter$(OBJ_SUFFIX):  \
@@ -35,6 +38,17 @@ conditions/anticirce/circuit_special$(OBJ_SUFFIX):  \
   conditions/anticirce/circuit_special.h pypipe.h pydata.h trace.h
 
 conditions/anticirce/circuit_special.h:
+
+pypipe.h:
+
+pydata.h:
+
+trace.h:
+conditions/anticirce/exchange_special$(OBJ_SUFFIX):  \
+ conditions/anticirce/exchange_special.c \
+  conditions/anticirce/exchange_special.h pypipe.h pydata.h trace.h
+
+conditions/anticirce/exchange_special.h:
 
 pypipe.h:
 
