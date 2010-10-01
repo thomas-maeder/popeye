@@ -405,3 +405,72 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   L   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  sctr1                       2 + 1
+                Circe
+
+   1.Lc1-h6 !
+      1...g7*h6 [+wLc1]
+
+              empile:           9
+            jouecoup:           9
+        orig_rbechec:           0
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   .   .   .   .   .   B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   K   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ctr2                        3 + 1
+             CirceParrain
+
+   1.h5-h6 ! Zugzwang.
+      1...g7*h6
+          2.Kh2-h1 [+wBh5]
+
+              empile:          33
+            jouecoup:          31
+        orig_rbechec:           9
+        orig_rnechec:           0
+Loesung beendet. 
+
+

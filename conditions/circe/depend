@@ -1,8 +1,39 @@
+conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
+  conditions/circe/circe.h pypipe.h pyquodli.h stipulation/branch.h \
+  stipulation/proxy.h conditions/circe/circuit_b_special.h \
+  conditions/circe/steingewinn_filter.h trace.h
+
+conditions/circe/circe.h:
+
+pypipe.h:
+
+pyquodli.h:
+
+stipulation/branch.h:
+
+stipulation/proxy.h:
+
+conditions/circe/circuit_b_special.h:
+
+conditions/circe/steingewinn_filter.h:
+
+trace.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX):  \
  conditions/circe/steingewinn_filter.c \
   conditions/circe/steingewinn_filter.h pypipe.h pydata.h trace.h
 
 conditions/circe/steingewinn_filter.h:
+
+pypipe.h:
+
+pydata.h:
+
+trace.h:
+conditions/circe/circuit_b_special$(OBJ_SUFFIX):  \
+ conditions/circe/circuit_b_special.c \
+  conditions/circe/circuit_b_special.h pypipe.h pydata.h trace.h
+
+conditions/circe/circuit_b_special.h:
 
 pypipe.h:
 

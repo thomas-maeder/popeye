@@ -327,7 +327,7 @@ py6$(OBJ_SUFFIX): py6.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h 
   stipulation/goals/prerequisite_guards.h \
   pieces/attributes/paralysing/paralysing.h \
   pieces/attributes/kamikaze/kamikaze.h conditions/amu/mate_filter.h \
-  conditions/circe/steingewinn_filter.h conditions/anticirce/anticirce.h \
+  conditions/circe/circe.h conditions/anticirce/anticirce.h \
   conditions/ultraschachzwang/goal_filter.h \
   options/no_short_variations/no_short_variations.h \
   optimisations/goals/optimisation_guards.h \
@@ -477,7 +477,7 @@ pieces/attributes/kamikaze/kamikaze.h:
 
 conditions/amu/mate_filter.h:
 
-conditions/circe/steingewinn_filter.h:
+conditions/circe/circe.h:
 
 conditions/anticirce/anticirce.h:
 
@@ -1285,6 +1285,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pieces/attributes/paralysing/mate_filter.h \
   pieces/attributes/paralysing/stalemate_special.h \
   conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
+  conditions/circe/circuit_b_special.h \
   conditions/anticirce/target_square_filter.h \
   conditions/anticirce/circuit_special.h \
   conditions/ultraschachzwang/goal_filter.h \
@@ -1393,6 +1394,8 @@ conditions/amu/mate_filter.h:
 
 conditions/circe/steingewinn_filter.h:
 
+conditions/circe/circuit_b_special.h:
+
 conditions/anticirce/target_square_filter.h:
 
 conditions/anticirce/circuit_special.h:
@@ -1461,7 +1464,8 @@ trace.h:
 pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play.h \
   pyslice.h stipulation/proxy.h pypipe.h stipulation/branch.h pystip.h \
   stipulation/battle_play/attack_move_to_goal.h boolean.h \
-  stipulation/battle_play/attack_fork.h trace.h
+  stipulation/battle_play/attack_fork.h trace.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h
 
 pydirctg.h:
 
@@ -1484,6 +1488,22 @@ boolean.h:
 stipulation/battle_play/attack_fork.h:
 
 trace.h:
+
+py.h:
+
+boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+pybitmsk.h:
+
+pypiece.h:
+
+pyenum.h:
+
+pylang.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play.h \
   pyslice.h stipulation/battle_play/defense_play.h pybrafrk.h pyslice.h \
   py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
@@ -2216,16 +2236,12 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pygoal.h pydata.h \
-  pyhash.h DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h \
-  pystip.h pyoutput.h pytable.h output/plaintext/plaintext.h py.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h pygoal.h pydata.h pyhash.h \
+  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
+  pyoutput.h pytable.h output/plaintext/plaintext.h py.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2242,6 +2258,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 pygoal.h:
 

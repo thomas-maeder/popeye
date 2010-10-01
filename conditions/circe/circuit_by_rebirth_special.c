@@ -1,24 +1,24 @@
-#include "conditions/circe/steingewinn_filter.h"
+#include "conditions/circe/circuit_b_special.h"
 #include "pypipe.h"
 #include "pydata.h"
 #include "trace.h"
 
 #include <assert.h>
 
-/* This module provides slice type STCirceSteingewinnFilter
+/* This module provides slice type STCirceCircuitSpecial
  */
 
-/* Allocate a STCirceSteingewinnFilter slice.
+/* Allocate a STCirceCircuitSpecial slice.
  * @return index of allocated slice
  */
-slice_index alloc_circe_steingewinn_filter_slice(void)
+slice_index alloc_circe_circuit_special_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STCirceSteingewinnFilter);
+  result = alloc_pipe(STCirceCircuitSpecial);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -31,17 +31,22 @@ slice_index alloc_circe_steingewinn_filter_slice(void)
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type circe_steingewinn_filter_has_solution(slice_index si)
+has_solution_type circe_circuit_special_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  square const sq_rebirth = sqrenais[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sqrenais[nbply]==initsquare)
-    result = slice_has_solution(next);
+  if (sq_rebirth!=initsquare && DiaRen(spec[sq_rebirth])==sq_rebirth)
+  {
+    if (echecc(nbply,advers(slices[si].starter)))
+      result = opponent_self_check;
+    else
+      result = slice_has_solution(slices[si].u.pipe.next);
+  }
   else
     result = has_no_solution;
 
@@ -55,17 +60,22 @@ has_solution_type circe_steingewinn_filter_has_solution(slice_index si)
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type circe_steingewinn_filter_solve(slice_index si)
+has_solution_type circe_circuit_special_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  square const sq_rebirth = sqrenais[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sqrenais[nbply]==initsquare)
-    result = slice_solve(next);
+  if (sq_rebirth!=initsquare && DiaRen(spec[sq_rebirth])==sq_rebirth)
+  {
+    if (echecc(nbply,advers(slices[si].starter)))
+      result = opponent_self_check;
+    else
+      result = slice_solve(slices[si].u.pipe.next);
+  }
   else
     result = has_no_solution;
 

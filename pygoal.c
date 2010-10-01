@@ -37,12 +37,8 @@ goal_checker_result_type goal_checker_circuit(Side just_moved)
 
 goal_checker_result_type goal_checker_circuitB(Side just_moved)
 {
-  square const sqren = sqrenais[nbply];
-
-  if (sqren!=initsquare && DiaRen(spec[sqren])==sqren)
-    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
-  else
-    return goal_not_reached;
+  /* goal is only reachable in some fairy conditions */
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_exchange(Side just_moved)
