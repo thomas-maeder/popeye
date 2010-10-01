@@ -12,4 +12,13 @@ option nowk nobk
 twin condition circe
 twin condition circe move h7 f1 stip zf11
 
+next
+
+pieces white kamikaze rb1
+       white rh1
+       black pb5
+condition circe
+stipulation <>3
+option nowk nobk vari nothreat
+
 end
