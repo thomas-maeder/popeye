@@ -3,10 +3,8 @@
 
 #include "pyslice.h"
 
-/* This module provides slice type STAnticirceCircuitSpecial - tests
- * additional conditions on some goals imposed by the presence of paralysing
- * pieces:
- * - the mated side must have >=1 move that only fails because of self-check
+/* This module provides slice type STAnticirceCircuitSpecial - detects circuits
+ * that end on the rebirth of the piece fulfilling the circuit
  */
 
 /* Allocate a STAnticirceCircuitSpecial slice.
