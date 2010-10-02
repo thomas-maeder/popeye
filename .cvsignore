@@ -4,3 +4,6 @@ py
 depend
 pygmarr.c
 gengmarr
+.cproject
+.project
+makefile

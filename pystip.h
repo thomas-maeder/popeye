@@ -154,6 +154,7 @@
     ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
     ENUMERATOR(STAnticirceCircuitSpecial), /* special circuit by rebirth */ \
     ENUMERATOR(STAnticirceExchangeSpecial), /* special exchange by rebirth */ \
+    ENUMERATOR(STAnticirceExchangeFilter), /* only apply special test after capture in Anticirce */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \

@@ -1289,6 +1289,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   conditions/anticirce/target_square_filter.h \
   conditions/anticirce/circuit_special.h \
   conditions/anticirce/exchange_special.h \
+  conditions/anticirce/exchange_filter.h \
   conditions/ultraschachzwang/goal_filter.h \
   optimisations/maxsolutions/root_solvable_filter.h \
   optimisations/maxsolutions/solvable_filter.h \
@@ -1402,6 +1403,8 @@ conditions/anticirce/target_square_filter.h:
 conditions/anticirce/circuit_special.h:
 
 conditions/anticirce/exchange_special.h:
+
+conditions/anticirce/exchange_filter.h:
 
 conditions/ultraschachzwang/goal_filter.h:
 

@@ -31,6 +31,7 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/circuit_special.h"
 #include "conditions/anticirce/exchange_special.h"
+#include "conditions/anticirce/exchange_filter.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "optimisations/maxsolutions/root_solvable_filter.h"
 #include "optimisations/maxsolutions/solvable_filter.h"
@@ -270,6 +271,10 @@ has_solution_type slice_solve(slice_index si)
       result = anticirce_exchange_special_solve(si);
       break;
 
+    case STAnticirceExchangeFilter:
+      result = anticirce_exchange_filter_solve(si);
+      break;
+
     default:
       assert(0);
       result = has_no_solution;
@@ -453,6 +458,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STAnticirceExchangeSpecial:
       result = anticirce_exchange_special_has_solution(si);
+      break;
+
+    case STAnticirceExchangeFilter:
+      result = anticirce_exchange_filter_has_solution(si);
       break;
 
     default:
