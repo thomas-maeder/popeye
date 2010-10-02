@@ -4,8 +4,7 @@
 #include "pyslice.h"
 
 /* This module provides slice type STAnticirceTargetSquareFilter - tests
- * additional conditions on some goals imposed by the presence of paralysing
- * pieces:
+ * additional conditions on some goals imposed by Anticirce:
  * - the mated side must have >=1 move that only fails because of self-check
  */
 
