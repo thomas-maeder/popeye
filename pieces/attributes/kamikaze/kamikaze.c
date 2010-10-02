@@ -5,6 +5,7 @@
 #include "stipulation/proxy.h"
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/exchange_special.h"
+#include "conditions/anticirce/exchange_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -33,14 +34,19 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
       slice_index const proxy_special = alloc_proxy_slice();
       /* reusing the special exchange detection created for Anticirce */
       slice_index const special = alloc_anticirce_exchange_special_slice();
-      slice_index const proxy_regular = alloc_proxy_slice();
+
+      slice_index const proxy_filter = alloc_proxy_slice();
+      /* reusing the special exchange filter created for Anticirce */
+      slice_index const filter = alloc_anticirce_exchange_filter_slice();
 
       assert(tested!=no_slice);
       pipe_link(slices[si].prev,
-                alloc_quodlibet_slice(proxy_regular,proxy_special));
+                alloc_quodlibet_slice(proxy_filter,proxy_special));
       pipe_link(proxy_special,special);
       pipe_link(special,tested);
-      pipe_link(proxy_regular,si);
+
+      pipe_link(proxy_filter,filter);
+      pipe_link(filter,si);
       break;
     }
 

@@ -21,4 +21,14 @@ condition circe
 stipulation <>3
 option nowk nobk vari nothreat
 
+next
+
+title exchange of pieces ending on the capture and rebirth on the square
+title originally occupied by the other exchanger
+pieces white kamikaze sd1 white kf7 rg1 pc3
+       black kamikaze pg4
+stipulation <>4
+condition circe
+option nobk vari nothreat
+
 end
