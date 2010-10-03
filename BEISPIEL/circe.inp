@@ -114,4 +114,13 @@ forderung ctr2
 bedingung circeparrain
 option ohnesk vari
 
+weiter
+
+titel Rundlauf durch Repuls
+steine weiss kf1 le2 bd4
+       schwarz bd6
+forderung s<>r2
+bedingung circe
+option ohnesk vari
+
 endeproblem

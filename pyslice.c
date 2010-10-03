@@ -28,6 +28,7 @@
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/circe/circuit_b_special.h"
+#include "conditions/circe/exchange_b_special.h"
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/circuit_special.h"
 #include "conditions/anticirce/exchange_special.h"
@@ -259,6 +260,10 @@ has_solution_type slice_solve(slice_index si)
       result = circe_circuit_special_solve(si);
       break;
 
+    case STCirceExchangeSpecial:
+      result = circe_exchange_special_solve(si);
+      break;
+
     case STAnticirceTargetSquareFilter:
       result = anticirce_target_square_filter_solve(si);
       break;
@@ -446,6 +451,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STCirceCircuitSpecial:
       result = circe_circuit_special_has_solution(si);
+      break;
+
+    case STCirceExchangeSpecial:
+      result = circe_exchange_special_has_solution(si);
       break;
 
     case STAnticirceTargetSquareFilter:

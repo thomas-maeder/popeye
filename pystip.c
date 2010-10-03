@@ -180,6 +180,7 @@
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(STCirceCircuitSpecial), /* has reborn capturee made a circuit? */ \
+    ENUMERATOR(STCirceExchangeSpecial), /* has reborn capturee made an exchange? */ \
     ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
     ENUMERATOR(STAnticirceCircuitSpecial), /* special circuit by rebirth */ \
     ENUMERATOR(STAnticirceExchangeSpecial), /* special exchange by rebirth */ \
@@ -368,6 +369,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STUltraschachzwangGoalFilter */
   slice_structure_pipe,   /* STCirceSteingewinnFilter */
   slice_structure_pipe,   /* STCirceCircuitSpecial */
+  slice_structure_pipe,   /* STCirceExchangeSpecial */
   slice_structure_pipe,   /* STAnticirceTargetSquareFilter */
   slice_structure_pipe,   /* STAnticirceCircuitSpecial */
   slice_structure_pipe,   /* STAnticirceExchangeSpecial */
@@ -2048,6 +2050,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STUltraschachzwangGoalFilter */
   &stip_traverse_structure_pipe,            /* STCirceSteingewinnFilter */
   &stip_traverse_structure_pipe,            /* STCirceCircuitSpecial */
+  &stip_traverse_structure_pipe,            /* STCirceExchangeSpecial */
   &stip_traverse_structure_pipe,            /* STAnticirceTargetSquareFilter */
   &stip_traverse_structure_pipe,            /* STAnticirceCircuitSpecial */
   &stip_traverse_structure_pipe,            /* STAnticirceExchangeSpecial */
@@ -2263,6 +2266,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STUltraschachzwangGoalFilter */
     &stip_traverse_moves_pipe,                  /* STCirceSteingewinnFilter */
     &stip_traverse_moves_pipe,                  /* STCirceCircuitSpecial */
+    &stip_traverse_moves_pipe,                  /* STCirceExchangeSpecial */
     &stip_traverse_moves_pipe,                  /* STAnticirceTargetSquareFilter */
     &stip_traverse_moves_pipe,                  /* STAnticirceCircuitSpecial */
     &stip_traverse_moves_pipe,                  /* STAnticirceExchangeSpecial */

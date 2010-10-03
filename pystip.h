@@ -151,6 +151,7 @@
     ENUMERATOR(STUltraschachzwangGoalFilter), /* suspend Ultraschachzwang when testing for mate */ \
     ENUMERATOR(STCirceSteingewinnFilter), /* is 'won' piece reborn? */ \
     ENUMERATOR(STCirceCircuitSpecial), /* has reborn capturee made a circuit? */ \
+    ENUMERATOR(STCirceExchangeSpecial), /* has reborn capturee made an exchange? */ \
     ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
     ENUMERATOR(STAnticirceCircuitSpecial), /* special circuit by rebirth */ \
     ENUMERATOR(STAnticirceExchangeSpecial), /* special exchange by rebirth */ \

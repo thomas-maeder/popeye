@@ -57,22 +57,8 @@ goal_checker_result_type goal_checker_exchange(Side just_moved)
 
 goal_checker_result_type goal_checker_exchangeB(Side just_moved)
 {
-  square const sqren = sqrenais[nbply];
-
-  if (sqren==initsquare)
-    return goal_not_reached;
-  else
-  {
-    square const sq = DiaRen(spec[sqren]);
-    if (DiaRen(spec[sq])==sqren
-        && (just_moved==Black ? e[sq]>=roib : e[sq]<=roin)
-        && sq!=sqren)
-      return (echecc(nbply,just_moved)
-              ? goal_not_reached_selfcheck
-              : goal_reached);
-    else
-      return goal_not_reached;
-  }
+  /* goal is only reachable in some fairy conditions */
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_capture(Side just_moved)

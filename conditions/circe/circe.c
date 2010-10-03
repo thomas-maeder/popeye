@@ -40,6 +40,22 @@ static void prepend_goal_filters(slice_index si, stip_structure_traversal *st)
       break;
     }
 
+    case goal_exchangeB:
+    {
+      slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+      slice_index const proxy_special = alloc_proxy_slice();
+      slice_index const special = alloc_circe_exchange_special_slice();
+      slice_index const proxy_regular = alloc_proxy_slice();
+
+      assert(tested!=no_slice);
+      pipe_link(slices[si].prev,
+                alloc_quodlibet_slice(proxy_regular,proxy_special));
+      pipe_link(proxy_special,special);
+      pipe_link(special,tested);
+      pipe_link(proxy_regular,si);
+      break;
+    }
+
     default:
       break;
   }

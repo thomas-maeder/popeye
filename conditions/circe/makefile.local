@@ -1,6 +1,8 @@
 # -*- Makefile -*-
 #
-CFILES = circe.c steingewinn_filter.c circuit_b_special.c
-INCLUDES = circe.h steingewinn_filter.h circuit_b_special.h
+CFILES =   circe.c \
+           steingewinn_filter.c circuit_b_special.c exchange_b_special.c
+INCLUDES = circe.h \
+           steingewinn_filter.h circuit_b_special.h exchange_b_special.h
 
 include makefile.rules $(CURRPWD)depend

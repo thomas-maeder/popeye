@@ -474,3 +474,40 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+        Rundlauf durch Repuls
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -B   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   L   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s<>r2                       3 + 1
+                Circe
+
+   1.Le2-c4 ! Zugzwang.
+      1...d6-d5
+          2.Kf1-e2
+              2...d5*c4 [+wLf1]
+
+              empile:         252
+            jouecoup:         251
+        orig_rbechec:         203
+        orig_rnechec:           0
+Loesung beendet. 
+
+

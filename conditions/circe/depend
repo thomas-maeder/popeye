@@ -40,3 +40,14 @@ pypipe.h:
 pydata.h:
 
 trace.h:
+conditions/circe/exchange_b_special$(OBJ_SUFFIX):  \
+ conditions/circe/exchange_b_special.c \
+  conditions/circe/exchange_b_special.h pypipe.h pydata.h trace.h
+
+conditions/circe/exchange_b_special.h:
+
+pypipe.h:
+
+pydata.h:
+
+trace.h:
