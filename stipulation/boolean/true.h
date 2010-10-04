@@ -6,13 +6,13 @@
 /* This module provides functionality dealing with leaf slices
  */
 
-/* Allocate a STGoalReachedTester slice.
+/* Allocate a STLeaf slice.
  * @return index of allocated slice
  */
 slice_index alloc_leaf_slice(void);
 
 /* Determine whether a slice has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
