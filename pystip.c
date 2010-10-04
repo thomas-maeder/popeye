@@ -104,6 +104,7 @@
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
+    ENUMERATOR(STGoalTargetReachedTester), /* tests whether a target goal has been reached */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -293,6 +294,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STReflexSeriesFilter */
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_pipe,   /* STGoalReachedTester */
+  slice_structure_pipe,   /* STGoalTargetReachedTester */
   slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -796,12 +798,6 @@ stip_length_type get_max_nr_moves(slice_index si)
   return result;
 }
 
-static boolean are_goals_equal(Goal goal1, Goal goal2)
-{
-  return (goal1.type==goal2.type
-          && (goal1.type!=goal_target || goal1.target==goal2.target));
-}
-
 enum
 {
   no_unique_goal = nr_goals+1
@@ -818,8 +814,30 @@ static void find_unique_goal_goal_tester(slice_index si,
 
   if (found->type==no_goal)
     *found = slices[si].u.goal_reached_tester.goal;
+  else if (found->type!=slices[si].u.goal_reached_tester.goal.type)
+    found->type = no_unique_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void find_unique_goal_goal_target_tester(slice_index si,
+                                                stip_structure_traversal *st)
+{
+  Goal * const found = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (found->type==no_goal)
+  {
+    found->type = goal_target;
+    found->target = slices[si].u.goal_reached_tester.goal.target;
+  }
   else if (found->type!=no_unique_goal
-           && !are_goals_equal(*found,slices[si].u.goal_reached_tester.goal))
+           && (found->type!=goal_target
+               || found->target!=slices[si].u.goal_reached_tester.goal.target))
     found->type = no_unique_goal;
 
   TraceFunctionExit(__func__);
@@ -828,7 +846,8 @@ static void find_unique_goal_goal_tester(slice_index si,
 
 static structure_traversers_visitors unique_goal_finders[] =
 {
-  { STGoalReachedTester, &find_unique_goal_goal_tester }
+  { STGoalReachedTester,       &find_unique_goal_goal_tester        },
+  { STGoalTargetReachedTester, &find_unique_goal_goal_target_tester }
 };
 
 enum
@@ -1050,6 +1069,41 @@ static void transform_to_quodlibet_self_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Determine whether a slice type is a goal reached tester slice
+ * @param type slice type
+ * @return true iff type is a goal reached tester slice type
+ */
+static boolean is_goal_tester(SliceType type)
+{
+  switch (type)
+  {
+    case STGoalReachedTester:
+    case STGoalTargetReachedTester:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+/* Find a goal reached tester slice in a branch
+ * @param si identifies entry slice to branch
+ * @return identifier of goal reached tester slice; no_slice if no such slice
+ *         is found in the branch
+ */
+static slice_index find_goal_tester(slice_index si)
+{
+  do
+  {
+    if (is_goal_tester(slices[si].type))
+      return si;
+    else
+      si = slices[si].u.pipe.next;
+  } while (slices[si].type!=STLeaf);
+
+  return no_slice;
+}
+
 static void transform_to_quodlibet_semi_reflex(slice_index si,
                                                stip_structure_traversal *st)
 {
@@ -1060,12 +1114,12 @@ static void transform_to_quodlibet_semi_reflex(slice_index si,
   {
     slice_index * const new_proxy_to_goal = st->param;
     slice_index const to_goal = slices[si].u.branch_fork.towards_goal;
-    slice_index const tester = branch_find_slice(STGoalReachedTester,to_goal);
-    Goal const goal = slices[tester].u.goal_reached_tester.goal;
+    slice_index const tester = find_goal_tester(to_goal);
     slice_index const new_leaf = alloc_leaf_slice();
-    slice_index const new_tester = alloc_goal_reached_tester_slice(goal);
+    slice_index const new_tester = copy_slice(tester);
     slice_index const new_tested = alloc_pipe(STGoalReachedTested);
 
+    slices[new_tester].starter = no_side;
     pipe_link(new_tester,new_tested);
     pipe_link(new_tested,new_leaf);
     *new_proxy_to_goal = alloc_proxy_slice();
@@ -1472,6 +1526,14 @@ enum
  * @param nrgoal_types number of elements of goals
  * @return true iff all leaves have as goal one of the elements of goals.
  */
+/* only invoked with
+// goal_type const diastipGoalTypes[] =
+//{
+//  goal_circuit,
+//  goal_exchange,
+//  goal_circuitB,
+//  goal_exchangeB
+//};*/
 boolean stip_ends_only_in(slice_index si,
                           goal_type const goals[], size_t nrGoals)
 {
@@ -1974,6 +2036,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_reflex_filter,   /* STReflexSeriesFilter */
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_pipe,            /* STGoalReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalTargetReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2190,6 +2253,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_reflex_series_filter,  /* STReflexSeriesFilter */
     &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalTargetReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTested */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */

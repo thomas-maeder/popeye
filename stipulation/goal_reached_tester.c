@@ -40,8 +40,7 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
       break;
 
     case goal_target:
-      assert(goal.target!=initsquare);
-      result = goal_checker_target(just_moved,goal.target);
+      assert(0);
       break;
 
     case goal_check:

@@ -16,7 +16,7 @@
  */
 static table threats[maxply+1];
 
-/* Lengths of threats of the various move levels 
+/* Lengths of threats of the various move levels
  */
 static stip_length_type threat_lengths[maxply+1];
 
@@ -540,6 +540,7 @@ static structure_traversers_visitors threat_handler_inserters[] =
   { STReadyForDefense,            &append_threat_solver                  },
   { STDefenseMoveLegalityChecked, &append_threat_enforcer                },
   { STGoalReachedTester,          &stip_structure_visitor_noop           },
+  { STGoalTargetReachedTester,    &stip_structure_visitor_noop           },
   { STHelpRoot,                   &stip_structure_visitor_noop           },
   { STSeriesRoot,                 &stip_structure_visitor_noop           },
   { STNot,                        &threat_handler_reset_insertion_state  }

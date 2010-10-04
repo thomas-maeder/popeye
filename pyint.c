@@ -2640,6 +2640,7 @@ static void moves_left_parry_fork(slice_index si, stip_moves_traversal *st)
 static moves_traversers_visitors const moves_left_initialisers[] =
 {
   { STGoalReachedTester,              &moves_left_goal       },
+  { STGoalTargetReachedTester,        &moves_left_goal       },
   { STGoalReachableGuardHelpFilter,   &moves_left_move       },
   { STGoalReachableGuardSeriesFilter, &moves_left_move       },
   { STParryFork,                      &moves_left_parry_fork }
@@ -3059,14 +3060,14 @@ static void intelligent_guards_inserter_goal(slice_index si,
 
 static structure_traversers_visitors intelligent_guards_inserters[] =
 {
-  { STHelpMove,          &intelligent_guards_inserter_branch_help         },
-  { STHelpMoveToGoal,    &intelligent_guards_inserter_branch_help         },
-  { STSeriesMove,        &intelligent_guards_inserter_series_move         },
-  { STSeriesMoveToGoal,  &intelligent_guards_inserter_series_move_to_goal },
-  { STGoalReachedTester, &intelligent_guards_inserter_goal                },
-  { STHelpRoot,          &intelligent_guards_inserter_help_root           },
-  { STSeriesRoot,        &intelligent_guards_inserter_series_root         },
-  { STParryFork,         &intelligent_guards_inserter_parry_fork          }
+  { STHelpMove,                &intelligent_guards_inserter_branch_help           },
+  { STHelpMoveToGoal,          &intelligent_guards_inserter_branch_help           },
+  { STSeriesMove,              &intelligent_guards_inserter_series_move           },
+  { STSeriesMoveToGoal,        &intelligent_guards_inserter_series_move_to_goal   },
+  { STGoalReachedTester,       &intelligent_guards_inserter_goal                  },
+  { STHelpRoot,                &intelligent_guards_inserter_help_root             },
+  { STSeriesRoot,              &intelligent_guards_inserter_series_root           },
+  { STParryFork,               &intelligent_guards_inserter_parry_fork            }
 };
 
 enum

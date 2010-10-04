@@ -20,7 +20,6 @@ slice_index alloc_anticirce_target_square_filter_slice(square target)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STAnticirceTargetSquareFilter);
-  slices[result].u.goal_reached_tester.goal.type = goal_target;
   slices[result].u.goal_reached_tester.goal.target = target;
 
   TraceFunctionExit(__func__);

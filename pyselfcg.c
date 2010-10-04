@@ -649,7 +649,8 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
   { STDefenseMoveLegalityChecked, &insert_selfcheck_guard_attacker_filter },
   { STHelpMoveLegalityChecked,    &insert_selfcheck_guard_help_filter     },
   { STSeriesMoveLegalityChecked,  &insert_selfcheck_guard_series_filter   },
-  { STGoalReachedTester,          &stip_structure_visitor_noop            }
+  { STGoalReachedTester,          &stip_structure_visitor_noop            },
+  { STGoalTargetReachedTester,    &stip_structure_visitor_noop            }
 };
 
 enum

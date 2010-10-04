@@ -207,6 +207,7 @@ static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
   { STSeriesMove,                  &insert_stoponshortsolutions_series_move },
   { STSeriesMoveToGoal,            &insert_stoponshortsolutions_series_move },
   { STGoalReachedTester,           &stip_structure_visitor_noop             },
+  { STGoalTargetReachedTester,     &stip_structure_visitor_noop             },
   { STStopOnShortSolutionsRootSolvableFilter, &stip_structure_visitor_noop  },
   { STStopOnShortSolutionsHelpFilter,         &stip_structure_visitor_noop  },
   { STStopOnShortSolutionsSeriesFilter,       &stip_structure_visitor_noop  }

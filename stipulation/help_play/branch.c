@@ -211,7 +211,7 @@ slice_index alloc_help_branch(stip_length_type length,
 }
 
 /* Insert a the appropriate proxy slices before each
- * STGoalReachedTester slice
+ * STGoal*ReachedTester slice
  * @param si identifies STGoalReachedTester slice
  * @param st address of structure representing the traversal
  */
@@ -220,8 +220,6 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  assert(slices[si].type==STGoalReachedTester);
 
   {
     slice_index const ready = alloc_branch(STReadyForHelpMove,
@@ -252,7 +250,8 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors help_goal_instrumenters[] =
 {
-  { STGoalReachedTester, &instrument_tester }
+  { STGoalReachedTester,       &instrument_tester },
+  { STGoalTargetReachedTester, &instrument_tester }
 };
 
 enum

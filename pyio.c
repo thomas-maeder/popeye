@@ -82,6 +82,7 @@
 #include "pyselfgd.h"
 #include "pyselfcg.h"
 #include "stipulation/goal_reached_tester.h"
+#include "stipulation/goals/target/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -1886,20 +1887,22 @@ static char *ParseGoal(char *tok, slice_index proxy)
       if (gic->goal==goal_target)
       {
         slice_index const leaf = alloc_leaf_slice();
-        Goal const goal = { goal_target, SquareNum(tok[1],tok[2]) };
-        slice_index const tester = alloc_goal_reached_tester_slice(goal);
-        slice_index const tested = alloc_pipe(STGoalReachedTested);
-        pipe_link(proxy,tester);
-        pipe_link(tester,tested);
-        pipe_link(tested,leaf);
+        square const target = SquareNum(tok[1],tok[2]);
 
-        if (goal.target==initsquare)
+        if (target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
           tok = 0;
         }
         else
+        {
+          slice_index const tester = alloc_goal_target_reached_tester_slice(target);
+          slice_index const tested = alloc_pipe(STGoalReachedTested);
+          pipe_link(proxy,tester);
+          pipe_link(tester,tested);
+          pipe_link(tested,leaf);
           tok += 3;
+        }
         break;
       }
       else if (gic->goal==goal_mate_or_stale)

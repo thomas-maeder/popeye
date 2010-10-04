@@ -3,6 +3,8 @@
 #include "pyproof.h"
 #include "trace.h"
 
+#include <assert.h>
+
 #define ENUMERATION_TYPENAME goal_checker_result_type
 #define ENUMERATORS                             \
   ENUMERATOR(goal_not_reached),                 \
@@ -18,10 +20,8 @@ boolean testdblmate = false;
 
 goal_checker_result_type goal_checker_target(Side just_moved, square target)
 {
-  if (move_generation_stack[nbcou].arrival==target)
-    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
-  else
-    return goal_not_reached;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_circuit(Side just_moved)

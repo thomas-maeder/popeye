@@ -23,11 +23,8 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   switch (slices[si].u.goal_reached_tester.goal.type)
   {
     case goal_target:
-    {
-      square const target = slices[si].u.goal_reached_tester.goal.target;
-      pipe_append(si,alloc_anticirce_target_square_filter_slice(target));
+      assert(0);
       break;
-    }
 
     case goal_circuit:
     {
@@ -73,9 +70,28 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void instrument_goal_target_filter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    square const target = slices[si].u.goal_reached_tester.goal.target;
+    slice_index const filter = alloc_anticirce_target_square_filter_slice(target);
+    pipe_append(slices[si].prev,filter);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalReachedTester, &append_goal_filters }
+  { STGoalReachedTester,       &append_goal_filters           },
+  { STGoalTargetReachedTester, &instrument_goal_target_filter }
 };
 
 enum
