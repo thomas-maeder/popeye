@@ -658,20 +658,6 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  {
-    goal_type const diastipGoalTypes[] =
-    {
-      goal_circuit,
-      goal_exchange,
-      goal_circuitB,
-      goal_exchangeB
-    };
-
-    size_t const nrDiastipGoalTypes = (sizeof diastipGoalTypes
-                                       / sizeof diastipGoalTypes[0]);
-    flagdiastip = stip_ends_only_in(si,diastipGoalTypes,nrDiastipGoalTypes);
-  }
-
   if (TSTFLAG(PieSpExFlags, HalfNeutral))
     SETFLAG(PieSpExFlags, Neutral);
 
@@ -1303,13 +1289,25 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (flagdiastip
-      && (CondFlag[frischauf]
-          || CondFlag[sentinelles]
-          || CondFlag[imitators]))
   {
-    VerifieMsg(DiaStipandsomeCond);
-    return false;
+    goal_type const diastipGoalTypes[] =
+    {
+      goal_circuit,
+      goal_exchange,
+      goal_circuitB,
+      goal_exchangeB
+    };
+
+    size_t const nrDiastipGoalTypes = (sizeof diastipGoalTypes
+                                       / sizeof diastipGoalTypes[0]);
+    if (stip_ends_only_in(si,diastipGoalTypes,nrDiastipGoalTypes)
+        && (CondFlag[frischauf]
+            || CondFlag[sentinelles]
+            || CondFlag[imitators]))
+    {
+      VerifieMsg(DiaStipandsomeCond);
+      return false;
+    }
   }
 
   if (CondFlag[ghostchess] || CondFlag[hauntedchess])
