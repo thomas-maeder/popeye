@@ -84,8 +84,10 @@ static void editcoup(ply ply_id, coup *mov)
       SETFLAG(mov->speci, Chameleon);
     }
 
-    if ((mov->pjzz != mov->pjazz)
-        || ((mov->speci != mov->new_spec) && (mov->new_spec != 0)))
+    if (mov->pjzz!=mov->pjazz
+        || (mov->new_spec!=0
+            && DiaRen(mov->speci)==DiaRen(mov->new_spec) /* same piece, but */
+            && mov->speci!=mov->new_spec))               /* different flags */
     {
       if (mov->pjazz == vide) {
         if (mov->promi) {
@@ -195,7 +197,7 @@ static void editcoup(ply ply_id, coup *mov)
     {
       if (mov->push_bottom != NULL) {
 
-        if (mov->push_top - mov->push_bottom > 0) 
+        if (mov->push_top - mov->push_bottom > 0)
         {
           change_rec const * rec;
           StdString(" [");
@@ -206,13 +208,13 @@ static void editcoup(ply ply_id, coup *mov)
             WriteSquare(rec->square);
             if (mov->push_top - rec > 1)
               StdString(", ");
-          } 
+          }
           StdChar(']');
         }
 
       } else {
 
-        if (colour_change_sp[ply_id] > colour_change_sp[parent_ply[ply_id]]) 
+        if (colour_change_sp[ply_id] > colour_change_sp[parent_ply[ply_id]])
         {
           change_rec const * rec;
           StdString(" [");
@@ -225,7 +227,7 @@ static void editcoup(ply ply_id, coup *mov)
             WriteSquare(rec->square);
             if (colour_change_sp[ply_id]-rec > 1)
               StdString(", ");
-          } 
+          }
           StdChar(']');
         }
 
@@ -267,7 +269,7 @@ static void editcoup(ply ply_id, coup *mov)
     WriteSquare(mov->cdzz);
     StdString("]");
   }
-  
+
   if (CondFlag[BGL])
   {
     char s[30], buf1[12], buf2[12];

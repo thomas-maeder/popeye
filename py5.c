@@ -533,7 +533,7 @@ square rennormal(ply ply_id,
     if (is_pawn(p_captured))
       Result= col + (nr_of_slack_rows_below_board+1)*onerow;
     else {
-      if (!flagdiastip && TSTFLAG(p_captured_spec, FrischAuf)) {
+      if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf)) {
         Result= (col
                  + (onerow
                     *(CondFlag[glasgow]
@@ -571,7 +571,7 @@ square rennormal(ply ply_id,
     if (is_pawn(p_captured))
       Result= col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else {
-      if (!flagdiastip && TSTFLAG(p_captured_spec, FrischAuf)) {
+      if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf)) {
         Result= (col
                  + (onerow
                     *(CondFlag[glasgow]
@@ -3316,40 +3316,38 @@ boolean jouecoup(ply ply_id, joue_type jt)
           || sq_arrival==square_d4 || sq_arrival==square_e4
           || sq_arrival==square_d5 || sq_arrival==square_e5)
       {
-        Flags temp=spec[square_d4];
-        piece ptemp=e[square_d4];
+        piece const piece_temp = e[square_d4];
+        Flags const spec_temp = spec[square_d4];
+
         e[square_d4]= e[square_e4];
         spec[square_d4]= spec[square_e4];
+
         e[square_e4]= e[square_e5];
         spec[square_e4]= spec[square_e5];
+
         e[square_e5]= e[square_d5];
         spec[square_e5]= spec[square_d5];
-        e[square_d5]= ptemp;
-        spec[square_d5]= temp;
-        if (rb==square_d4) {
+
+        e[square_d5]= piece_temp;
+        spec[square_d5]= spec_temp;
+
+        if (rb==square_d4)
           rb= square_d5;
-        }
-        else if (rb==square_d5) {
+        else if (rb==square_d5)
           rb= square_e5;
-        }
-        else if (rb==square_e5) {
+        else if (rb==square_e5)
           rb= square_e4;
-        }
-        else if (rb==square_e4) {
+        else if (rb==square_e4)
           rb= square_d4;
-        }
-        if (rn==square_d4) {
+
+        if (rn==square_d4)
           rn= square_d5;
-        }
-        else if (rn==square_d5) {
+        else if (rn==square_d5)
           rn= square_e5;
-        }
-        else if (rn==square_e5) {
+        else if (rn==square_e5)
           rn= square_e4;
-        }
-        else if (rn==square_e4) {
+        else if (rn==square_e4)
           rn= square_d4;
-        }
       }
     }
 

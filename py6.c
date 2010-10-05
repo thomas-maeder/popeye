@@ -478,8 +478,7 @@ static void initialise_piece_flags(void)
       if (CondFlag[volage] && rb!=*bnp && rn!=*bnp)
         SETFLAG(spec[*bnp], Volage);
 
-      if ((PieSpExFlags >> DiaCirce) || flagdiastip || flag_magic)
-        SetDiaRen(spec[*bnp], *bnp);
+      SetDiaRen(spec[*bnp], *bnp);
 
       if (TSTFLAG(spec[*bnp],ColourChange)
           && !is_simplehopper(abs(e[*bnp])))
@@ -1894,11 +1893,11 @@ boolean moves_equal(coup const *move1, coup const *move2)
 void current(ply ply_id, coup *mov)
 {
   numecoup const coup_id = ply_id==nbply ? nbcou : repere[ply_id+1];
-  square sq = move_generation_stack[coup_id].arrival;
+  square const sq_arrival = move_generation_stack[coup_id].arrival;
 
   mov->tr =          trait[ply_id];
   mov->cdzz =           move_generation_stack[coup_id].departure;
-  mov->cazz =            sq;
+  mov->cazz =            sq_arrival;
   mov->cpzz =            move_generation_stack[coup_id].capture;
   mov->pjzz =            pjoue[ply_id];
   mov->norm_prom =       norm_prom[ply_id];
@@ -1923,7 +1922,7 @@ void current(ply ply_id, coup *mov)
   mov->pjazz =     jouearr[ply_id];
   if (CondFlag[republican])
     republican_current(ply_id,mov);
-  mov->new_spec =  mov->renkam == initsquare ? spec[sq] : spec[mov->renkam];
+  mov->new_spec =  mov->renkam == initsquare ? spec[sq_arrival] : spec[mov->renkam];
   mov->hurdle =    chop[coup_id];
   mov->sb3where =  sb3[coup_id].where;
   mov->sb3what = sb3[coup_id].what;
