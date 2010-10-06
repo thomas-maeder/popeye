@@ -81,6 +81,25 @@ static void instrument_goal_mate_reached_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static
+void instrument_goal_stalemate_reached_tester(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  instrumentation_state * const state = st->param;
+  Goal const save_reached_goal = state->reached_goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->reached_goal.type = goal_stale;
+  stip_traverse_structure_children(si,st);
+  state->reached_goal = save_reached_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void instrument_goal_target_reached_tester(slice_index si,
                                                   stip_structure_traversal *st)
 {
@@ -367,6 +386,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STSetplayFork,                    &instrument_setplay_fork                 },
   { STGoalReachedTester,              &instrument_goal_reached_tester          },
   { STGoalMateReachedTester,          &instrument_goal_mate_reached_tester     },
+  { STGoalStalemateReachedTester,     &instrument_goal_stalemate_reached_tester},
   { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester   },
   { STLeaf,                           &instrument_leaf                         },
   { STMoveInverterRootSolvableFilter, &instrument_move_inverter                },

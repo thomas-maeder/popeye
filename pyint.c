@@ -2699,10 +2699,27 @@ static void goal_to_be_reached_goal_mate(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void goal_to_be_reached_goal_stalemate(slice_index si,
+                                              stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(goal_to_be_reached==no_goal);
+  goal_to_be_reached = goal_stale;
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const goal_to_be_reached_initialisers[] =
 {
-  { STGoalReachedTester,     &goal_to_be_reached_goal      },
-  { STGoalMateReachedTester, &goal_to_be_reached_goal_mate }
+  { STGoalReachedTester,          &goal_to_be_reached_goal           },
+  { STGoalMateReachedTester,      &goal_to_be_reached_goal_mate      },
+  { STGoalStalemateReachedTester, &goal_to_be_reached_goal_stalemate }
 };
 
 enum
@@ -2720,8 +2737,6 @@ static void init_goal_to_be_reached(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParam("%u",full_length);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
@@ -3109,11 +3124,9 @@ static void intelligent_guards_inserter_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void intelligent_guards_inserter_goal_mate(slice_index si,
-                                                  stip_structure_traversal *st)
+static void intelligent_guards_duplicate_avoider_inserter(slice_index si,
+                                                          stip_structure_traversal *st)
 {
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -3127,15 +3140,16 @@ static void intelligent_guards_inserter_goal_mate(slice_index si,
 
 static structure_traversers_visitors intelligent_guards_inserters[] =
 {
-  { STHelpMove,                &intelligent_guards_inserter_branch_help           },
-  { STHelpMoveToGoal,          &intelligent_guards_inserter_branch_help           },
-  { STSeriesMove,              &intelligent_guards_inserter_series_move           },
-  { STSeriesMoveToGoal,        &intelligent_guards_inserter_series_move_to_goal   },
-  { STGoalReachedTester,       &intelligent_guards_inserter_goal                  },
-  { STGoalMateReachedTester,   &intelligent_guards_inserter_goal_mate             },
-  { STHelpRoot,                &intelligent_guards_inserter_help_root             },
-  { STSeriesRoot,              &intelligent_guards_inserter_series_root           },
-  { STParryFork,               &intelligent_guards_inserter_parry_fork            }
+  { STHelpMove,                   &intelligent_guards_inserter_branch_help         },
+  { STHelpMoveToGoal,             &intelligent_guards_inserter_branch_help         },
+  { STSeriesMove,                 &intelligent_guards_inserter_series_move         },
+  { STSeriesMoveToGoal,           &intelligent_guards_inserter_series_move_to_goal },
+  { STGoalReachedTester,          &intelligent_guards_inserter_goal                },
+  { STGoalMateReachedTester,      &intelligent_guards_duplicate_avoider_inserter   },
+  { STGoalStalemateReachedTester, &intelligent_guards_duplicate_avoider_inserter   },
+  { STHelpRoot,                   &intelligent_guards_inserter_help_root           },
+  { STSeriesRoot,                 &intelligent_guards_inserter_series_root         },
+  { STParryFork,                  &intelligent_guards_inserter_parry_fork          }
 };
 
 enum
@@ -3349,7 +3363,7 @@ void intelligent_mode_support_detector_goal(slice_index si,
 
       case goal_mate:
       case goal_stale:
-        *support = intelligent_not_active_by_default;
+        assert(0);
         break;
 
       default:
@@ -3362,8 +3376,9 @@ void intelligent_mode_support_detector_goal(slice_index si,
 }
 
 static
-void intelligent_mode_support_detector_goal_mate(slice_index si,
-                                                 stip_structure_traversal *st)
+void
+intelligent_mode_support_detector_goal_not_active_by_default(slice_index si,
+                                                             stip_structure_traversal *st)
 {
   support_for_intelligent_mode * const support = st->param;
 
@@ -3427,22 +3442,23 @@ static void intelligent_mode_support_none(slice_index si,
 
 static structure_traversers_visitors intelligent_mode_support_detectors[] =
 {
-  { STHelpFork,              &intelligent_mode_support_detector_fork      },
-  { STSeriesFork,            &intelligent_mode_support_detector_fork      },
-  { STGoalReachedTester,     &intelligent_mode_support_detector_goal      },
-  { STGoalMateReachedTester, &intelligent_mode_support_detector_goal_mate },
-  { STReciprocal,            &intelligent_mode_support_none               },
-  { STQuodlibet,             &intelligent_mode_support_detector_quodlibet },
-  { STNot,                   &intelligent_mode_support_none               },
-  { STAttackRoot,            &intelligent_mode_support_none               },
-  { STDefenseRoot,           &intelligent_mode_support_none               },
-  { STThreatEnforcer,        &intelligent_mode_support_none               },
-  { STRefutationsCollector,  &intelligent_mode_support_none               },
-  { STReflexRootFilter,      &intelligent_mode_support_none               },
-  { STReflexHelpFilter,      &intelligent_mode_support_none               },
-  { STReflexSeriesFilter,    &intelligent_mode_support_none               },
-  { STSelfDefense,           &intelligent_mode_support_none               },
-  { STAttackDealtWith,       &intelligent_mode_support_none               }
+  { STHelpFork,                   &intelligent_mode_support_detector_fork                       },
+  { STSeriesFork,                 &intelligent_mode_support_detector_fork                       },
+  { STGoalReachedTester,          &intelligent_mode_support_detector_goal                       },
+  { STGoalMateReachedTester,      &intelligent_mode_support_detector_goal_not_active_by_default },
+  { STGoalStalemateReachedTester, &intelligent_mode_support_detector_goal_not_active_by_default },
+  { STReciprocal,                 &intelligent_mode_support_none                                },
+  { STQuodlibet,                  &intelligent_mode_support_detector_quodlibet                  },
+  { STNot,                        &intelligent_mode_support_none                                },
+  { STAttackRoot,                 &intelligent_mode_support_none                                },
+  { STDefenseRoot,                &intelligent_mode_support_none                                },
+  { STThreatEnforcer,             &intelligent_mode_support_none                                },
+  { STRefutationsCollector,       &intelligent_mode_support_none                                },
+  { STReflexRootFilter,           &intelligent_mode_support_none                                },
+  { STReflexHelpFilter,           &intelligent_mode_support_none                                },
+  { STReflexSeriesFilter,         &intelligent_mode_support_none                                },
+  { STSelfDefense,                &intelligent_mode_support_none                                },
+  { STAttackDealtWith,            &intelligent_mode_support_none                                }
 };
 
 enum

@@ -887,13 +887,14 @@ static void reflex_guards_inserter_branch_fork(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters[] =
 {
-  { STHelpFork,                &reflex_guards_inserter_branch_fork },
-  { STSeriesFork,              &reflex_guards_inserter_branch_fork },
-  { STGoalReachedTester,       &stip_structure_visitor_noop        },
-  { STGoalMateReachedTester,   &stip_structure_visitor_noop        },
-  { STGoalTargetReachedTester, &stip_structure_visitor_noop        },
-  { STReadyForAttack,          &reflex_guards_inserter_attack      },
-  { STReadyForDefense,         &reflex_guards_inserter_defense     }
+  { STHelpFork,                   &reflex_guards_inserter_branch_fork },
+  { STSeriesFork,                 &reflex_guards_inserter_branch_fork },
+  { STGoalReachedTester,          &stip_structure_visitor_noop        },
+  { STGoalMateReachedTester,      &stip_structure_visitor_noop        },
+  { STGoalStalemateReachedTester, &stip_structure_visitor_noop        },
+  { STGoalTargetReachedTester,    &stip_structure_visitor_noop        },
+  { STReadyForAttack,             &reflex_guards_inserter_attack      },
+  { STReadyForDefense,            &reflex_guards_inserter_defense     }
 };
 
 enum
@@ -1022,14 +1023,15 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STReadyForHelpMove,        &reflex_guards_inserter_help         },
-  { STHelpFork,                &reflex_guards_inserter_branch_fork  },
-  { STReadyForSeriesMove,      &reflex_guards_inserter_series       },
-  { STSeriesFork,              &reflex_guards_inserter_branch_fork  },
-  { STGoalReachedTester,       &stip_structure_visitor_noop         },
-  { STGoalMateReachedTester,   &stip_structure_visitor_noop         },
-  { STGoalTargetReachedTester, &stip_structure_visitor_noop         },
-  { STReadyForDefense,         &reflex_guards_inserter_defense_semi }
+  { STReadyForHelpMove,           &reflex_guards_inserter_help         },
+  { STHelpFork,                   &reflex_guards_inserter_branch_fork  },
+  { STReadyForSeriesMove,         &reflex_guards_inserter_series       },
+  { STSeriesFork,                 &reflex_guards_inserter_branch_fork  },
+  { STGoalReachedTester,          &stip_structure_visitor_noop         },
+  { STGoalMateReachedTester,      &stip_structure_visitor_noop         },
+  { STGoalStalemateReachedTester, &stip_structure_visitor_noop         },
+  { STGoalTargetReachedTester,    &stip_structure_visitor_noop         },
+  { STReadyForDefense,            &reflex_guards_inserter_defense_semi }
 };
 
 enum

@@ -83,6 +83,7 @@
 #include "pyselfcg.h"
 #include "stipulation/goal_reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
+#include "stipulation/goals/stalemate/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
@@ -1874,7 +1875,7 @@ static char *ParseLength(char *tok,
   return tok;
 }
 
-static char *ParseGoal(char *tok, slice_index proxy)
+static goalInputConfig_t const *detectGoalType(char *tok)
 {
   goalInputConfig_t const *gic;
 
@@ -1884,11 +1885,49 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
   for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
     if (strstr(tok,gic->inputText)==tok)
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",(gic-goalInputConfig)<nr_goals);
+  TraceFunctionResultEnd();
+  return gic;
+}
+
+static void attachGoalBranch(slice_index proxy, slice_index tester)
+{
+  slice_index const leaf = alloc_leaf_slice();
+  slice_index const tested = alloc_pipe(STGoalReachedTested);
+
+  pipe_link(proxy,tester);
+  pipe_link(tester,tested);
+  pipe_link(tested,leaf);
+}
+
+static char *ParseGoal(char *tok, slice_index proxy)
+{
+  goalInputConfig_t const *gic;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  gic = detectGoalType(tok);
+  if (gic-goalInputConfig==nr_goals)
+  {
+    IoErrorMsg(UnrecStip, 0);
+    tok = 0;
+  }
+  else
+  {
+    tok += strlen(gic->inputText);
+    TraceValue("%s",gic->inputText);
+    TraceValue("%s\n",tok);
+
+    switch (gic->goal)
     {
-      if (gic->goal==goal_target)
+      case goal_target:
       {
-        slice_index const leaf = alloc_leaf_slice();
-        square const target = SquareNum(tok[1],tok[2]);
+        square const target = SquareNum(tok[0],tok[1]);
 
         if (target==initsquare)
         {
@@ -1897,16 +1936,15 @@ static char *ParseGoal(char *tok, slice_index proxy)
         }
         else
         {
-          slice_index const tester = alloc_goal_target_reached_tester_slice(target);
-          slice_index const tested = alloc_pipe(STGoalReachedTested);
-          pipe_link(proxy,tester);
-          pipe_link(tester,tested);
-          pipe_link(tested,leaf);
-          tok += 3;
+          slice_index const
+            tester = alloc_goal_target_reached_tester_slice(target);
+          attachGoalBranch(proxy,tester);
+          tok += 2; /* skip over target square indication */
         }
         break;
       }
-      else if (gic->goal==goal_mate_or_stale)
+
+      case goal_mate_or_stale:
       {
         slice_index const leaf_mate = alloc_leaf_slice();
         slice_index const tester_mate = alloc_goal_mate_reached_tester_slice();
@@ -1914,10 +1952,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
         slice_index const proxy_mate = alloc_proxy_slice();
 
         slice_index const leaf_stale = alloc_leaf_slice();
-        Goal const stale_goal = { goal_stale, initsquare };
-        slice_index const tester_stale = alloc_goal_reached_tester_slice(stale_goal);
+        slice_index const tester_stale = alloc_goal_stalemate_reached_tester_slice();
         slice_index const tested_stale = alloc_pipe(STGoalReachedTested);
         slice_index const proxy_stale = alloc_proxy_slice();
+
         slice_index const quod = alloc_quodlibet_slice(proxy_mate,proxy_stale);
 
         pipe_link(proxy_mate,tester_mate);
@@ -1929,41 +1967,27 @@ static char *ParseGoal(char *tok, slice_index proxy)
         pipe_link(tested_stale,leaf_stale);
 
         pipe_link(proxy,quod);
-
-        tok += 2;
         break;
       }
-      else if (gic->goal==goal_mate)
-      {
-        slice_index const leaf = alloc_leaf_slice();
-        slice_index const tester = alloc_goal_mate_reached_tester_slice();
-        slice_index const tested = alloc_pipe(STGoalReachedTested);
 
-        pipe_link(proxy,tester);
-        pipe_link(tester,tested);
-        pipe_link(tested,leaf);
-
-        ++tok;
+      case goal_mate:
+        attachGoalBranch(proxy,alloc_goal_mate_reached_tester_slice());
         break;
-      }
-      else
+
+      case goal_stale:
+        attachGoalBranch(proxy,alloc_goal_stalemate_reached_tester_slice());
+        break;
+
+      case goal_atob:
       {
-        slice_index const leaf = alloc_leaf_slice();
-        Goal const goal = { gic->goal, initsquare };
-        slice_index const tester = alloc_goal_reached_tester_slice(goal);
-        slice_index const tested = alloc_pipe(STGoalReachedTested);
+        Goal const goal = { goal_atob, initsquare };
+        attachGoalBranch(proxy,alloc_goal_reached_tester_slice(goal));
 
-        pipe_link(proxy,tester);
-        pipe_link(tester,tested);
-        pipe_link(tested,leaf);
+        ProofSaveStartPosition();
 
-        if (gic->goal==goal_atob)
         {
-          int i;
-
-          ProofSaveStartPosition();
-
           /* InitBoard() does much more than the following: */
+          int i;
           for (i = 0; i<nr_squares_on_board; i++)
           {
             spec[i] = EmptySpec;
@@ -1971,21 +1995,18 @@ static char *ParseGoal(char *tok, slice_index proxy)
           }
           for (i = 0; i<maxinum; i++)
             isquare[i] = initsquare;
-
-          tok += 4;
         }
-        else if (gic->goal==goal_proof)
-          tok += 3;
-        else
-          tok += strlen(gic->inputText);
+
+        break;
+      }
+
+      default:
+      {
+        Goal const goal = { gic->goal, initsquare };
+        attachGoalBranch(proxy,alloc_goal_reached_tester_slice(goal));
         break;
       }
     }
-
-  if (gic==goalInputConfig+nr_goals)
-  {
-    IoErrorMsg(UnrecStip, 0);
-    tok = 0;
   }
 
   TraceFunctionExit(__func__);

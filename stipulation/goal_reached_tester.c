@@ -33,7 +33,7 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
       break;
 
     case goal_stale:
-      result = goal_checker_stale(just_moved);
+      assert(0);
       break;
 
     case goal_dblstale:

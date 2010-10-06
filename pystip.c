@@ -105,6 +105,7 @@
     ENUMERATOR(STSetplayFork),                                          \
     ENUMERATOR(STGoalReachedTester),  /* tests whether a goal has been reached */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
+    ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
     ENUMERATOR(STGoalTargetReachedTester), /* tests whether a target goal has been reached */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
@@ -296,6 +297,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STSetplayFork */
   slice_structure_pipe,   /* STGoalReachedTester */
   slice_structure_pipe,   /* STGoalMateReachedTester */
+  slice_structure_pipe,   /* STGoalStalemateReachedTester */
   slice_structure_pipe,   /* STGoalTargetReachedTester */
   slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
@@ -841,6 +843,24 @@ static void find_unique_goal_goal_mate_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void find_unique_goal_goal_stalemate_tester(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  Goal * const found = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (found->type==no_goal)
+    found->type = goal_stale;
+  else if (found->type!=no_unique_goal && found->type!=goal_stale)
+    found->type = no_unique_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void find_unique_goal_goal_target_tester(slice_index si,
                                                 stip_structure_traversal *st)
 {
@@ -866,9 +886,10 @@ static void find_unique_goal_goal_target_tester(slice_index si,
 
 static structure_traversers_visitors unique_goal_finders[] =
 {
-  { STGoalReachedTester,       &find_unique_goal_goal_tester        },
-  { STGoalMateReachedTester,   &find_unique_goal_goal_mate_tester   },
-  { STGoalTargetReachedTester, &find_unique_goal_goal_target_tester }
+  { STGoalReachedTester,          &find_unique_goal_goal_tester             },
+  { STGoalMateReachedTester,      &find_unique_goal_goal_mate_tester        },
+  { STGoalStalemateReachedTester, &find_unique_goal_goal_stalemate_tester   },
+  { STGoalTargetReachedTester,    &find_unique_goal_goal_target_tester      }
 };
 
 enum
@@ -1100,6 +1121,7 @@ static boolean is_goal_tester(SliceType type)
   {
     case STGoalReachedTester:
     case STGoalMateReachedTester:
+    case STGoalStalemateReachedTester:
     case STGoalTargetReachedTester:
       return true;
 
@@ -1509,20 +1531,6 @@ static void ends_in_goal(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void ends_in_goal_target(slice_index si, stip_structure_traversal *st)
-{
-  goal_search * const search = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  search->result = search->result || search->goal_type==goal_target;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void ends_in_goal_mate(slice_index si, stip_structure_traversal *st)
 {
   goal_search * const search = st->param;
@@ -1537,11 +1545,40 @@ static void ends_in_goal_mate(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void ends_in_goal_stalemate(slice_index si, stip_structure_traversal *st)
+{
+  goal_search * const search = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  search->result = search->result || search->goal_type==goal_stale;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void ends_in_goal_target(slice_index si, stip_structure_traversal *st)
+{
+  goal_search * const search = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  search->result = search->result || search->goal_type==goal_target;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors slice_ends_in_checkers[] =
 {
-  { STGoalReachedTester,       &ends_in_goal        },
-  { STGoalMateReachedTester,   &ends_in_goal_mate   },
-  { STGoalTargetReachedTester, &ends_in_goal_target }
+  { STGoalReachedTester,          &ends_in_goal           },
+  { STGoalMateReachedTester,      &ends_in_goal_mate      },
+  { STGoalStalemateReachedTester, &ends_in_goal_stalemate },
+  { STGoalTargetReachedTester,    &ends_in_goal_target    }
 };
 
 enum
@@ -1562,7 +1599,6 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",nrGoals);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&search);
@@ -1572,7 +1608,7 @@ boolean stip_ends_in(slice_index si, goal_type goal)
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",set.result);
+  TraceFunctionResult("%u",search.result);
   TraceFunctionResultEnd();
   return search.result;
 }
@@ -1998,6 +2034,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_setplay_fork,    /* STSetplayFork */
   &stip_traverse_structure_pipe,            /* STGoalReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalMateReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalStalemateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalTargetReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
@@ -2216,6 +2253,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_setplay_fork,          /* STSetplayFork */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalMateReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalStalemateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalTargetReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTested */
     &stip_traverse_moves_noop,                  /* STLeaf */

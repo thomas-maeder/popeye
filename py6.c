@@ -2025,6 +2025,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   switch (slices[si].type)
   {
     case STGoalMateReachedTester:
+    case STGoalStalemateReachedTester:
     case STGoalTargetReachedTester:
       result = whitetoplay_means_shorten;
       break;
@@ -2604,7 +2605,25 @@ static void optimise_final_moves_goal_mate(slice_index si,
   TraceFunctionParamListEnd();
 
   state->goal.type = goal_mate;
-  state->goal.target = slices[si].u.goal_reached_tester.goal.target;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the goal imminent after a defense or attack move
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static void optimise_final_moves_goal_stalemate(slice_index si,
+                                                stip_moves_traversal *st)
+{
+  final_move_optimisation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state->goal.type = goal_stale;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2632,12 +2651,13 @@ static void optimise_final_moves_goal_target(slice_index si,
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STDefenseMove,             &optimise_final_moves_defense_move },
-  { STHelpMove,                &optimise_final_moves_help_move    },
-  { STHelpMoveToGoal,          &swallow_goal                      },
-  { STGoalReachedTester,       &optimise_final_moves_goal         },
-  { STGoalMateReachedTester,   &optimise_final_moves_goal_mate    },
-  { STGoalTargetReachedTester, &optimise_final_moves_goal_target  }
+  { STDefenseMove,                &optimise_final_moves_defense_move   },
+  { STHelpMove,                   &optimise_final_moves_help_move      },
+  { STHelpMoveToGoal,             &swallow_goal                        },
+  { STGoalReachedTester,          &optimise_final_moves_goal           },
+  { STGoalMateReachedTester,      &optimise_final_moves_goal_mate      },
+  { STGoalStalemateReachedTester, &optimise_final_moves_goal_stalemate },
+  { STGoalTargetReachedTester,    &optimise_final_moves_goal_target    }
 };
 
 enum
