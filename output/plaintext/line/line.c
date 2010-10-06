@@ -52,8 +52,9 @@ static void instrument_goal_reached_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_goal_mate_reached_tester(slice_index si,
-                                                stip_structure_traversal *st)
+static
+void instrument_goal_non_target_reached_tester(slice_index si,
+                                               stip_structure_traversal *st)
 {
   line_slices_insertion_state * const state = st->param;
   Goal const save_goal = state->goal;
@@ -62,25 +63,7 @@ static void instrument_goal_mate_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_mate;
-  stip_traverse_structure_children(si,st);
-  state->goal = save_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_goal_stalemate_reached_tester(slice_index si,
-                                                     stip_structure_traversal *st)
-{
-  line_slices_insertion_state * const state = st->param;
-  Goal const save_goal = state->goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->goal.type = goal_stale;
+  state->goal.type = goal_mate+(slices[si].type-STGoalMateReachedTester);
   stip_traverse_structure_children(si,st);
   state->goal = save_goal;
 
@@ -171,16 +154,16 @@ static void instrument_series_fork(slice_index si,
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,                     &instrument_series_fork                   },
-  { STGoalReachedTester,              &instrument_goal_reached_tester           },
-  { STGoalMateReachedTester,          &instrument_goal_mate_reached_tester      },
-  { STGoalStalemateReachedTester,     &instrument_goal_stalemate_reached_tester },
-  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester    },
-  { STLeaf,                           &instrument_leaf                          },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter                 },
-  { STMoveInverterSolvableFilter,     &instrument_move_inverter                 },
-  { STHelpRoot,                       &instrument_root                          },
-  { STSeriesRoot,                     &instrument_root                          }
+  { STSeriesFork,                     &instrument_series_fork                    },
+  { STGoalReachedTester,              &instrument_goal_reached_tester            },
+  { STGoalMateReachedTester,          &instrument_goal_non_target_reached_tester },
+  { STGoalStalemateReachedTester,     &instrument_goal_non_target_reached_tester },
+  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester     },
+  { STLeaf,                           &instrument_leaf                           },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter                  },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter                  },
+  { STHelpRoot,                       &instrument_root                           },
+  { STSeriesRoot,                     &instrument_root                           }
 };
 
 enum

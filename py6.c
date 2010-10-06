@@ -2595,8 +2595,8 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void optimise_final_moves_goal_mate(slice_index si,
-                                             stip_moves_traversal *st)
+static void optimise_final_moves_goal_non_target(slice_index si,
+                                                 stip_moves_traversal *st)
 {
   final_move_optimisation_state * const state = st->param;
 
@@ -2604,26 +2604,7 @@ static void optimise_final_moves_goal_mate(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_mate;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void optimise_final_moves_goal_stalemate(slice_index si,
-                                                stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->goal.type = goal_stale;
+  state->goal.type = goal_mate+(slices[si].type-STGoalMateReachedTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2651,13 +2632,13 @@ static void optimise_final_moves_goal_target(slice_index si,
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STDefenseMove,                &optimise_final_moves_defense_move   },
-  { STHelpMove,                   &optimise_final_moves_help_move      },
-  { STHelpMoveToGoal,             &swallow_goal                        },
-  { STGoalReachedTester,          &optimise_final_moves_goal           },
-  { STGoalMateReachedTester,      &optimise_final_moves_goal_mate      },
-  { STGoalStalemateReachedTester, &optimise_final_moves_goal_stalemate },
-  { STGoalTargetReachedTester,    &optimise_final_moves_goal_target    }
+  { STDefenseMove,                &optimise_final_moves_defense_move    },
+  { STHelpMove,                   &optimise_final_moves_help_move       },
+  { STHelpMoveToGoal,             &swallow_goal                         },
+  { STGoalReachedTester,          &optimise_final_moves_goal            },
+  { STGoalMateReachedTester,      &optimise_final_moves_goal_non_target },
+  { STGoalStalemateReachedTester, &optimise_final_moves_goal_non_target },
+  { STGoalTargetReachedTester,    &optimise_final_moves_goal_target     }
 };
 
 enum

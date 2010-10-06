@@ -416,8 +416,9 @@ static void insert_goal_optimisation_guards_goal(slice_index si,
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void insert_goal_optimisation_guards_goal_stalemate(slice_index si,
-                                                           stip_moves_traversal *st)
+static
+void insert_goal_optimisation_guards_goal_non_target(slice_index si,
+                                                     stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
 
@@ -425,27 +426,7 @@ static void insert_goal_optimisation_guards_goal_stalemate(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_stale;
-  TraceValue("->%u\n",state->goal.type);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void insert_goal_optimisation_guards_goal_mate(slice_index si,
-                                                      stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->goal.type = goal_mate;
+  state->goal.type = goal_mate+(slices[si].type-STGoalMateReachedTester);
   TraceValue("->%u\n",state->goal.type);
 
   TraceFunctionExit(__func__);
@@ -480,8 +461,8 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
   { STDefenseMove,                &insert_goal_optimisation_guards_defense           },
   { STAttackMoveToGoal,           &insert_goal_optimisation_guards_attack_to_goal    },
   { STGoalReachedTester,          &insert_goal_optimisation_guards_goal              },
-  { STGoalMateReachedTester,      &insert_goal_optimisation_guards_goal_mate         },
-  { STGoalStalemateReachedTester, &insert_goal_optimisation_guards_goal_stalemate    },
+  { STGoalMateReachedTester,      &insert_goal_optimisation_guards_goal_non_target   },
+  { STGoalStalemateReachedTester, &insert_goal_optimisation_guards_goal_non_target   },
   { STGoalTargetReachedTester,    &insert_goal_optimisation_guards_goal_target       },
   { STHelpFork,                   &insert_goal_optimisation_guards_help_fork         },
   { STHelpMove,                   &insert_goal_optimisation_guards_help_move         },
