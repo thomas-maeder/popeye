@@ -82,9 +82,7 @@ static void prepend_mate_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  if (slices[si].u.goal_reached_tester.goal.type==goal_mate)
-    pipe_append(slices[si].prev,alloc_amu_mate_filter_slice());
+  pipe_append(slices[si].prev,alloc_amu_mate_filter_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -92,7 +90,7 @@ static void prepend_mate_filter(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors amu_filter_inserters[] =
 {
-  { STGoalReachedTester, &prepend_mate_filter }
+  { STGoalMateReachedTester, &prepend_mate_filter }
 };
 
 enum

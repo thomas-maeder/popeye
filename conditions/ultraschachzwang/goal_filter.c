@@ -83,7 +83,7 @@ has_solution_type ultraschachzwang_goal_filter_solve(slice_index si)
   return result;
 }
 
-static void prepend_goal_filter(slice_index si, stip_structure_traversal *st)
+static void prepend_mate_filter(slice_index si, stip_structure_traversal *st)
 {
   Side const starter = slices[si].starter;
   Cond const cond = (starter==White
@@ -96,7 +96,7 @@ static void prepend_goal_filter(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.goal_reached_tester.goal.type==goal_mate && CondFlag[cond])
+  if (CondFlag[cond])
     pipe_append(slices[si].prev,alloc_ultraschachzwang_goal_filter_slice());
 
   TraceFunctionExit(__func__);
@@ -105,7 +105,7 @@ static void prepend_goal_filter(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors ultraschachzwang_filter_inserters[] =
 {
-  { STGoalReachedTester, &prepend_goal_filter }
+  { STGoalMateReachedTester, &prepend_mate_filter }
 };
 
 enum

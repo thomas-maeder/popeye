@@ -670,6 +670,7 @@ static structure_traversers_visitors keepmating_guards_inserters[] =
   { STSeriesMoveToGoal,        &keepmating_guards_inserter_series_move },
   { STSeriesFork,              &keepmating_guards_inserter_branch_fork },
   { STGoalReachedTester,       &keepmating_guards_inserter_goal        },
+  { STGoalMateReachedTester,   &keepmating_guards_inserter_goal        },
   { STGoalTargetReachedTester, &keepmating_guards_inserter_goal        },
   { STReciprocal,              &keepmating_guards_inserter_reciprocal  },
   { STQuodlibet,               &keepmating_guards_inserter_quodlibet   },

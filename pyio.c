@@ -82,6 +82,7 @@
 #include "pyselfgd.h"
 #include "pyselfcg.h"
 #include "stipulation/goal_reached_tester.h"
+#include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
@@ -1908,8 +1909,7 @@ static char *ParseGoal(char *tok, slice_index proxy)
       else if (gic->goal==goal_mate_or_stale)
       {
         slice_index const leaf_mate = alloc_leaf_slice();
-        Goal const mate_goal = { goal_mate, initsquare };
-        slice_index const tester_mate = alloc_goal_reached_tester_slice(mate_goal);
+        slice_index const tester_mate = alloc_goal_mate_reached_tester_slice();
         slice_index const tested_mate = alloc_pipe(STGoalReachedTested);
         slice_index const proxy_mate = alloc_proxy_slice();
 
@@ -1931,6 +1931,19 @@ static char *ParseGoal(char *tok, slice_index proxy)
         pipe_link(proxy,quod);
 
         tok += 2;
+        break;
+      }
+      else if (gic->goal==goal_mate)
+      {
+        slice_index const leaf = alloc_leaf_slice();
+        slice_index const tester = alloc_goal_mate_reached_tester_slice();
+        slice_index const tested = alloc_pipe(STGoalReachedTested);
+
+        pipe_link(proxy,tester);
+        pipe_link(tester,tested);
+        pipe_link(tested,leaf);
+
+        ++tok;
         break;
       }
       else
@@ -2053,9 +2066,8 @@ static char *ParseReciGoal(char *tok,
     if (result!=NULL)
     {
       slice_index const leaf = alloc_leaf_slice();
-      slice_index const nonreci = slices[proxy_to_nonreci].u.pipe.next;
-      Goal const goal = slices[nonreci].u.goal_reached_tester.goal;
-      slice_index const reci_tester = alloc_goal_reached_tester_slice(goal);
+      slice_index const nonreci_tester = slices[proxy_to_nonreci].u.pipe.next;
+      slice_index const reci_tester = copy_slice(nonreci_tester);
       slice_index const reci_tested = alloc_pipe(STGoalReachedTested);
       slice_index const proxy_to_reci = alloc_proxy_slice();
       pipe_link(reci_tester,reci_tested);
@@ -2063,7 +2075,7 @@ static char *ParseReciGoal(char *tok,
       pipe_link(proxy_to_reci,reci_tester);
       alloc_reci_end(proxy_nonreci,proxy_reci,
                      proxy_to_nonreci,proxy_to_reci);
-      slices[nonreci].starter = Black;
+      slices[nonreci_tester].starter = Black;
     }
   }
 

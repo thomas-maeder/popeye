@@ -28,6 +28,7 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
   switch (goal.type)
   {
     case goal_mate:
+      /* still needed for exclusive chess and republican chess */
       result = goal_checker_mate(just_moved);
       break;
 

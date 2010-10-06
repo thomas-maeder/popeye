@@ -23,7 +23,7 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   switch (slices[si].u.goal_reached_tester.goal.type)
   {
     case goal_mate:
-      pipe_append(si,alloc_paralysing_mate_filter_slice(starter));
+      assert(0);
       break;
 
     case goal_doublemate:
@@ -87,9 +87,23 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void append_goal_mate_filter(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(si,alloc_paralysing_mate_filter_slice(slices[si].starter));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalReachedTester, &append_goal_filters }
+  { STGoalReachedTester,     &append_goal_filters     },
+  { STGoalMateReachedTester, &append_goal_mate_filter }
 };
 
 enum

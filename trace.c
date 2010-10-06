@@ -455,6 +455,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         break;
 
       case STGoalReachedTester:
+      case STGoalMateReachedTester:
       case STGoalTargetReachedTester:
       case STOutputPlaintextLineLineWriter:
       case STOutputPlaintextTreeGoalWriter:

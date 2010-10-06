@@ -650,6 +650,7 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
   { STHelpMoveLegalityChecked,    &insert_selfcheck_guard_help_filter     },
   { STSeriesMoveLegalityChecked,  &insert_selfcheck_guard_series_filter   },
   { STGoalReachedTester,          &stip_structure_visitor_noop            },
+  { STGoalMateReachedTester,      &stip_structure_visitor_noop            },
   { STGoalTargetReachedTester,    &stip_structure_visitor_noop            }
 };
 
