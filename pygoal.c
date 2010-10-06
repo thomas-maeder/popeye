@@ -87,26 +87,8 @@ goal_checker_result_type goal_checker_mate(Side just_moved)
 
 goal_checker_result_type goal_checker_stale(Side just_moved)
 {
-  Side const ad = advers(just_moved);
-  goal_checker_result_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",just_moved);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,just_moved))
-    result = goal_not_reached_selfcheck;
-  else if (echecc(nbply,ad))
-    result = goal_not_reached;
-  else if (immobile(ad))
-    result = goal_reached;
-  else
-    result = goal_not_reached;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
-  TraceFunctionResultEnd();
-  return result;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_dblstale(Side just_moved)
