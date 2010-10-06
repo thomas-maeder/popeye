@@ -45,14 +45,14 @@ has_solution_type goal_mate_reached_tester_has_solution(slice_index si)
   if (echecc(nbply,slices[si].starter))
   {
     if (echecc(nbply,advers(slices[si].starter)))
-      return opponent_self_check;
+      result = opponent_self_check;
     else if (immobile(slices[si].starter))
-      return slice_has_solution(next);
+      result = slice_has_solution(next);
     else
-      return has_no_solution;
+      result = has_no_solution;
   }
   else
-    return has_no_solution;
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -76,14 +76,14 @@ has_solution_type goal_mate_reached_tester_solve(slice_index si)
   if (echecc(nbply,slices[si].starter))
   {
     if (echecc(nbply,advers(slices[si].starter)))
-      return opponent_self_check;
+      result = opponent_self_check;
     else if (immobile(slices[si].starter))
       result = slice_solve(next);
     else
-      return has_no_solution;
+      result = has_no_solution;
   }
   else
-    return has_no_solution;
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
