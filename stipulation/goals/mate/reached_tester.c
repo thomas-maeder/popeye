@@ -6,7 +6,7 @@
 #include <assert.h>
 
 /* This module provides functionality dealing with slices that detect
- * whether a goal has just been reached
+ * whether a mate goal has just been reached
  */
 
 /* Allocate a STGoalMateReachedTester slice.
