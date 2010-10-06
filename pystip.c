@@ -1468,70 +1468,59 @@ boolean stip_apply_setplay(slice_index si)
 
 typedef struct
 {
-    goal_type const * const goals;
-    size_t const nrGoals;
-    boolean * const doGoalsMatch;
-} goal_set;
+    goal_type const goal_type;
+    boolean result;
+} goal_search;
 
-/* Does a leaf have one of a set of goals?
- * @param goals set of goals
- * @param nrgoal_types number of elements of goals
- * @param si leaf slice identifier
- * @return true iff the leaf has as goal one of the elements of goals.
- */
-static boolean leaf_ends_in_one_of(goal_type const goals[],
-                                   size_t nrgoal_types,
-                                   slice_index si)
+static void ends_in_goal(slice_index si, stip_structure_traversal *st)
 {
-  goal_type const goal = slices[si].u.goal_reached_tester.goal.type;
-
-  size_t i;
-  for (i = 0; i<nrgoal_types; ++i)
-    if (goal==goals[i])
-      return true;
-
-  return false;
-}
-
-static void ends_in_one_of(slice_index si, stip_structure_traversal *st)
-{
-  goal_set const * const goals = st->param;
+  goal_search * const search = st->param;
+  goal_type const goal_type = slices[si].u.goal_reached_tester.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *goals->doGoalsMatch = (*goals->doGoalsMatch
-                          || leaf_ends_in_one_of(goals->goals,goals->nrGoals,
-                                                 si));
+  search->result = search->result || goal_type==search->goal_type;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors slice_ends_in_one_of_checkers[] =
+static void ends_in_goal_target(slice_index si, stip_structure_traversal *st)
 {
-  { STGoalReachedTester, &ends_in_one_of }
+  goal_search * const search = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  search->result = search->result || search->goal_type==goal_target;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors slice_ends_in_checkers[] =
+{
+  { STGoalReachedTester,       &ends_in_goal        },
+  { STGoalTargetReachedTester, &ends_in_goal_target }
 };
 
 enum
 {
-  nr_slice_ends_in_one_of_checkers
-  = (sizeof slice_ends_in_one_of_checkers
-     / sizeof slice_ends_in_one_of_checkers[0])
+  nr_slice_ends_in_checkers
+  = (sizeof slice_ends_in_checkers / sizeof slice_ends_in_checkers[0])
 };
 
-/* Does >= 1 leaf of the current stipulation have one of a set of goals?
+/* Does the current stipulation end in a specific goal?
  * @param si identifies slice where to start
- * @param goals set of goals
- * @param nrGoals number of elements of goals
- * @return true iff >=1 leaf has as goal one of the elements of goals.
+ * @param goal identifies the goal
+ * @return true iff one of the goals of the stipulation is goal
  */
-boolean stip_ends_in_one_of(slice_index si,
-                            goal_type const goals[], size_t nrGoals)
+boolean stip_ends_in(slice_index si, goal_type goal)
 {
-  boolean result = false;
-  goal_set set = { goals, nrGoals, &result };
+  goal_search search = { goal, false };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -1539,16 +1528,16 @@ boolean stip_ends_in_one_of(slice_index si,
   TraceFunctionParam("%u",nrGoals);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&set);
+  stip_structure_traversal_init(&st,&search);
   stip_structure_traversal_override(&st,
-                                    slice_ends_in_one_of_checkers,
-                                    nr_slice_ends_in_one_of_checkers);
+                                    slice_ends_in_checkers,
+                                    nr_slice_ends_in_checkers);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%u",set.result);
   TraceFunctionResultEnd();
-  return result;
+  return search.result;
 }
 
 /* Make a branch exact

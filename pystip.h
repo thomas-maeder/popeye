@@ -457,14 +457,12 @@ slice_index stip_make_setplay(slice_index si);
  */
 boolean stip_apply_setplay(slice_index si);
 
-/* Does >= 1 leaf of the current stipulation have one of a set of goals?
+/* Does the current stipulation end in a specific goal?
  * @param si identifies slice where to start
- * @param goals set of goals
- * @param nrgoal_types number of elements of goals
- * @return true iff >=1 leaf has as goal one of the elements of goals.
+ * @param goal identifies the goal
+ * @return true iff one of the goals of the stipulation is goal
  */
-boolean stip_ends_in_one_of(slice_index si,
-                            goal_type const goals[], size_t nrGoals);
+boolean stip_ends_in(slice_index si, goal_type goal);
 
 /* Determine whether the current stipulation has a unique goal, and
  * return it.

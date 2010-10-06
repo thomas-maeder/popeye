@@ -1712,11 +1712,6 @@ boolean is_hashtable_allocated(void)
   return pyhash!=0;
 }
 
-static goal_type const proof_goals[] = { goal_proof, goal_atob };
-
-static unsigned int const nr_proof_goals = (sizeof proof_goals
-                                            / sizeof proof_goals[0]);
-
 /* Initialise the hashing machinery for the current stipulation
  * @param si identifies the root slice of the stipulation
  */
@@ -1770,7 +1765,7 @@ void inithash(slice_index si)
 
     bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
-    if (stip_ends_in_one_of(si,proof_goals,nr_proof_goals))
+    if (stip_ends_in(si,goal_proof) || stip_ends_in(si,goal_atob))
     {
       encode = ProofEncode;
       if (hashtable_kilos>0 && MaxPositions==0)

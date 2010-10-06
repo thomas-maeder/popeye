@@ -594,11 +594,6 @@ static Side findRestrictedSide(slice_index si)
     return no_side;
 }
 
-static goal_type const proof_goals[] = { goal_proof, goal_atob };
-
-static unsigned int const nr_proof_goals = (sizeof proof_goals
-                                            / sizeof proof_goals[0]);
-
 /* Verify the user input and our interpretation of it
  * @param si identifies the root slice of the representation of the
  *           stipulation
@@ -653,16 +648,10 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (CondFlag[parrain])
+  if (CondFlag[parrain] && stip_ends_in(si,goal_steingewinn))
   {
-    goal_type const pieceWinGoalTypes[] = { goal_steingewinn };
-    size_t const nrPieceWinGoalTypes = (sizeof pieceWinGoalTypes
-                                        / sizeof pieceWinGoalTypes[0]);
-    if (stip_ends_in_one_of(si,pieceWinGoalTypes,nrPieceWinGoalTypes))
-    {
-      VerifieMsg(PercentAndParrain);
-      return false;
-    }
+    VerifieMsg(PercentAndParrain);
+    return false;
   }
 
   if (TSTFLAG(PieSpExFlags, HalfNeutral))
@@ -1603,16 +1592,9 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[losingchess])
   {
-    goal_type const incompatibleGoalTypes[] =
-    {
-      goal_mate,
-      goal_check,
-      goal_mate_or_stale
-    };
-    size_t const nrIncompatibleGoalTypes
-        = sizeof incompatibleGoalTypes / sizeof incompatibleGoalTypes[0];
-
-    if (stip_ends_in_one_of(si,incompatibleGoalTypes,nrIncompatibleGoalTypes))
+    if (stip_ends_in(si,goal_mate)
+        || stip_ends_in(si,goal_check)
+        || stip_ends_in(si,goal_mate_or_stale))
     {
       VerifieMsg(LosingChessNotInCheckOrMateStipulations);
       return false;
@@ -1666,14 +1648,10 @@ static boolean verify_position(slice_index si)
       SETFLAGMASK(castling_flag[0],ra8_cancastle);
   }
 
+  if (stip_ends_in(si,goal_castling) && !castling_supported)
   {
-    goal_type const castlingGoalTypes = goal_castling;
-    if (stip_ends_in_one_of(si,&castlingGoalTypes,1)
-        && !castling_supported)
-    {
-      VerifieMsg(StipNotSupported);
-      return false;
-    }
+    VerifieMsg(StipNotSupported);
+    return false;
   }
 
   castling_flag[0] &= no_castling;
@@ -1705,19 +1683,15 @@ static boolean verify_position(slice_index si)
     PatienceB = false;
   }
 
-  {
-    goal_type const doublemate_goals[] = { goal_doublemate };
-
-    jouetestgenre = jouetestgenre
-        || flag_testlegality
-        || flagAssassin
-        || stip_ends_in_one_of(si,doublemate_goals,1)
-        || CondFlag[patience]
-        || CondFlag[blackultraschachzwang]
-        || CondFlag[whiteultraschachzwang]
-        || CondFlag[BGL];
-    jouetestgenre_save = jouetestgenre;
-  }
+  jouetestgenre = jouetestgenre
+      || flag_testlegality
+      || flagAssassin
+      || stip_ends_in(si,goal_doublemate)
+      || CondFlag[patience]
+      || CondFlag[blackultraschachzwang]
+      || CondFlag[whiteultraschachzwang]
+      || CondFlag[BGL];
+  jouetestgenre_save = jouetestgenre;
 
   jouetestgenre1 = CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang];
@@ -2370,18 +2344,15 @@ static boolean initialise_verify_twin(slice_index si)
 
   initPieces();
 
-  if (stip_ends_in_one_of(si,proof_goals,nr_proof_goals))
+  if (stip_ends_in(si,goal_proof) || stip_ends_in(si,goal_atob))
   {
     countPieces();
     if (locateRoyal())
     {
       ProofSaveTargetPosition();
 
-      {
-        goal_type const proof_goal = goal_proof;
-        if (stip_ends_in_one_of(si,&proof_goal,1))
-          ProofInitialiseStartPosition();
-      }
+      if (stip_ends_in(si,goal_proof))
+        ProofInitialiseStartPosition();
 
       ProofRestoreStartPosition();
 
