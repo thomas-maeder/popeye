@@ -542,10 +542,10 @@ a)
 
   1.Tg5-e5 Ke8-f8   2.Se3-f5 e4*f5 [+sSe3] +   3.Ke6-f6 d4*e5 [+sTg5] # 
 
-              empile:      176213
-            jouecoup:      114022
+              empile:      176187
+            jouecoup:      113996
         orig_rbechec:       18732
-        orig_rnechec:      107278
+        orig_rnechec:      107252
 b) sTg5-->e5
 
   1.Te5-c5 Ke8-d8   2.Se3-d5 e4*d5 [+sSe3] +   3.Ke6-d6 d4*c5 [+sTe5] # 

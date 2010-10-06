@@ -4341,7 +4341,6 @@ static char *ParseCond(void) {
         anycirce= true;
         break;
       case circediagramm:
-        SetDiaRen(PieSpExFlags, square_h8);
         circerenai= rendiagramm;
         anycirce= true;
         break;
@@ -4389,7 +4388,6 @@ static char *ParseCond(void) {
         anyanticirce= true;
         break;
       case antidiagramm:
-        SetDiaRen(PieSpExFlags, square_h8);
         antirenai= rendiagramm;
         anyanticirce= true;
         break;
@@ -4431,7 +4429,6 @@ static char *ParseCond(void) {
         anyimmun= true;
         break;
       case immundiagramm:
-        SetDiaRen(PieSpExFlags, square_h8);
         immunrenai= rendiagramm;
         anyimmun= true;
         break;

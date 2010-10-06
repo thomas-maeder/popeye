@@ -8,9 +8,9 @@
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
  **
- ** 2006/07/30 SE   New condition: Schwarzschacher  
+ ** 2006/07/30 SE   New condition: Schwarzschacher
  **
- ** 2007/01/28 SE   New condition: Annan Chess 
+ ** 2007/01/28 SE   New condition: Annan Chess
  **
  ** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
  **
@@ -20,17 +20,17 @@
  **
  ** 2007/12/26 SE   New condition: Protean Chess
  **
- ** 2008/01/11 SE   New variant: Special Grids 
+ ** 2008/01/11 SE   New variant: Special Grids
  **
- ** 2008/01/24 SE   New variant: Gridlines  
+ ** 2008/01/24 SE   New variant: Gridlines
  **
- ** 2008/02/24 SE   Bugfix: Koeko + Parrain  
+ ** 2008/02/24 SE   Bugfix: Koeko + Parrain
  **
- ** 2008/02/19 SE   New condition: AntiKoeko  
+ ** 2008/02/19 SE   New condition: AntiKoeko
  **
- ** 2008/02/25 SE   New piece type: Magic  
+ ** 2008/02/25 SE   New piece type: Magic
  **
- ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
  **
  ** 2009/04/25 SE   New condition: Provacateurs
  **                 New piece type: Patrol pieces
@@ -41,7 +41,7 @@
 #    define SEGM1
 #    include "pymac.h"
 #endif
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -168,8 +168,6 @@ void InitCond(void) {
   sentinelb= pb;
   sentineln= pn;
 
-  ClrDiaRen(PieSpExFlags);
-
   gridvar = grid_normal;
   numgridlines = 0;
   for (bnp= boardnum; *bnp; bnp++) {
@@ -224,7 +222,7 @@ void InitCond(void) {
   BGL_global= false;
 
   calc_whtrans_king = false;
-  calc_whtrans_king = false; 
+  calc_whtrans_king = false;
 
   calc_whrefl_king = false;
   calc_blrefl_king = false;
@@ -383,7 +381,7 @@ void InitAlways(void) {
   dont_generate_castling = false;
   flag_libre_on_generate= false;
   flag_nk= false;
-  
+
   takemake_departuresquare= initsquare;
   takemake_capturesquare= initsquare;
 
@@ -393,7 +391,7 @@ void InitAlways(void) {
 void initneutre(Side c)
 {
   /* I don't know why, but the solution below is not slower */
-  /* than the double loop solution of genblanc(). NG */ 
+  /* than the double loop solution of genblanc(). NG */
 
   if (neutcoul != c)
   {
@@ -428,7 +426,7 @@ boolean leapcheck(square     sq_king,
         && imcheck(sq_departure,sq_king))
       return true;
   }
-  
+
   return false;
 }
 
@@ -495,7 +493,7 @@ boolean riderhoppercheck(square  sq_king,
           if (e[sq_hurdle]!=vide)
             break;
         }
-      
+
         if (jumped)
           continue;
       }
@@ -618,7 +616,7 @@ static boolean noleapcontact(square sq_arrival, numvec kanf, numvec kend)
       break;
     }
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
@@ -632,7 +630,7 @@ boolean nokingcontact(square ia)
 
 boolean nowazircontact(square ia)
 {
-  return noleapcontact(ia, vec_rook_start, vec_rook_end); 
+  return noleapcontact(ia, vec_rook_start, vec_rook_end);
 }
 
 boolean noferscontact(square ia)
@@ -1349,7 +1347,7 @@ void GetMargueriteAttackVectors(square from, square to) {
     else
       attackVec = -move_vec_code[to - from];
     if (attackVec)
-      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), attackVec)      
+      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), attackVec)
   }
 }
 
@@ -1415,10 +1413,10 @@ void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
   numvec  k;
 
   for (k= vec_knight_start; k <= 14; k++) {
-    GetZigZagAttackVectors(from, to, vec[k], vec[23 - k]); 
+    GetZigZagAttackVectors(from, to, vec[k], vec[23 - k]);
   }
   for (k= 15; k <= vec_knight_end; k++) {
-    GetZigZagAttackVectors(from, to, vec[k], vec[27 - k]); 
+    GetZigZagAttackVectors(from, to, vec[k], vec[27 - k]);
   }
 }
 
@@ -1429,12 +1427,12 @@ void unsupported_uncalled_attackfunction(square from, square to) {}
 void PushMagicViews(void)
 {
   square const *bnp;
-  
+
   /*new stack */
   nbmagic = magicstate[parent_ply[nbply]].top;
   magicstate[nbply].bottom = nbmagic;
-    
-  for (bnp= boardnum; *bnp; bnp++) 
+
+  for (bnp= boardnum; *bnp; bnp++)
     if (TSTFLAG(spec[*bnp], Magic))
     {
       /* for each magic piece */
@@ -1443,13 +1441,13 @@ void PushMagicViews(void)
       square const royal_save = *royal;
       square const *bnp1;
       fromspecificsquare= *bnp;
-      for (bnp1 = boardnum; *bnp1; bnp1++) 
+      for (bnp1 = boardnum; *bnp1; bnp1++)
       {
-        if (abs(e[*bnp1])>obs 
+        if (abs(e[*bnp1])>obs
             && !TSTFLAG(spec[*bnp1],Magic)
             && !TSTFLAG(spec[*bnp1],Royal))
         {
-          /* for each non-magic piece 
+          /* for each non-magic piece
              (n.b. check *bnp != *bnp1 redundant above) */
           *royal = *bnp1;
 
@@ -1478,7 +1476,7 @@ void PushMagicViews(void)
         }
       }
 
-      *royal= royal_save;  
+      *royal= royal_save;
     }
 
   magicstate[nbply].top = nbmagic;
@@ -1493,11 +1491,11 @@ void ChangeMagic(int ply, boolean push)
   TraceFunctionParam("%u",push);
   TraceFunctionParamListEnd();
 
-  for (bnp= boardnum; *bnp; bnp++) 
+  for (bnp= boardnum; *bnp; bnp++)
   {
     int i;
     for (i = magicstate[ply].bottom; i<magicstate[ply].top; i++)
-      if (magicviews[i].piecesquare==*bnp)  
+      if (magicviews[i].piecesquare==*bnp)
         break;    /* a magic piece observes a non-magic */
 
     if (i<magicstate[ply].top)
@@ -1529,7 +1527,7 @@ void ChangeMagic(int ply, boolean push)
             }
 
           if (newvec)
-            ++nr_changes; 
+            ++nr_changes;
         }
 
       /* only changes if attackee suffers odd-no. new attacks */
@@ -1545,7 +1543,7 @@ void ChangeMagic(int ply, boolean push)
                             e[*bnp]);
       }
     }
-  }               
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1566,7 +1564,7 @@ void WriteMagicViews(int ply)
     StdChar(' ');
     sprintf(buf, "%i", magicviews[i].vecnum);
     StdString(buf);
-    StdChar('\n');           
+    StdChar('\n');
   }
 }
 #endif
@@ -1576,11 +1574,11 @@ void ChangeColour(square sq)
   change(sq);
   CHANGECOLOR(spec[sq]);
   if (e[sq] == tb && sq == square_a1)
-    SETFLAGMASK(castling_flag[nbply],ra1_cancastle);  
+    SETFLAGMASK(castling_flag[nbply],ra1_cancastle);
   if (e[sq] == tb && sq == square_h1)
-    SETFLAGMASK(castling_flag[nbply],rh1_cancastle);  
+    SETFLAGMASK(castling_flag[nbply],rh1_cancastle);
   if (e[sq] == tn && sq == square_a8)
-    SETFLAGMASK(castling_flag[nbply],ra8_cancastle);  
+    SETFLAGMASK(castling_flag[nbply],ra8_cancastle);
   if (e[sq] == tn && sq == square_h8)
-    SETFLAGMASK(castling_flag[nbply],rh8_cancastle); 
+    SETFLAGMASK(castling_flag[nbply],rh8_cancastle);
 }
