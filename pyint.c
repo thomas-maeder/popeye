@@ -2586,25 +2586,6 @@ static void IntelligentProof(stip_length_type n, stip_length_type full_length)
  * @param si index of non-root slice
  * @param st address of structure defining traversal
  */
-static void moves_left_goal(slice_index si, stip_moves_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
-
-  stip_traverse_moves_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Calculate the number of moves of each side
- * @param si index of non-root slice
- * @param st address of structure defining traversal
- */
 static void moves_left_move(slice_index si, stip_moves_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -2640,8 +2621,6 @@ static void moves_left_parry_fork(slice_index si, stip_moves_traversal *st)
 
 static moves_traversers_visitors const moves_left_initialisers[] =
 {
-  { STGoalReachedTester,              &moves_left_goal       },
-  { STGoalTargetReachedTester,        &moves_left_goal       },
   { STGoalReachableGuardHelpFilter,   &moves_left_move       },
   { STGoalReachableGuardSeriesFilter, &moves_left_move       },
   { STParryFork,                      &moves_left_parry_fork }
@@ -2671,8 +2650,6 @@ static void init_moves_left(slice_index si,
 
   TraceStipulation(si);
 
-  goal_to_be_reached = no_goal;
-
   MovesLeft[Black] = 0;
   MovesLeft[White] = 0;
 
@@ -2682,9 +2659,65 @@ static void init_moves_left(slice_index si,
   st.remaining = n; /* TODO */
   stip_traverse_moves(si,&st);
 
-  TraceValue("%u",goal_to_be_reached);
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+static void goal_to_be_reached_goal(slice_index si,
+                                    stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(goal_to_be_reached==no_goal);
+  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors const goal_to_be_reached_initialisers[] =
+{
+  { STGoalReachedTester, &goal_to_be_reached_goal }
+};
+
+enum
+{
+  nr_goal_to_be_reached_initialisers
+  = (sizeof goal_to_be_reached_initialisers
+     / sizeof goal_to_be_reached_initialisers[0])
+};
+
+/* Initialise the variable holding the goal to be reached
+ */
+static void init_goal_to_be_reached(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParam("%u",full_length);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  goal_to_be_reached = no_goal;
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override(&st,
+                                    goal_to_be_reached_initialisers,
+                                    nr_goal_to_be_reached_initialisers);
+  stip_traverse_structure(si,&st);
+
+  TraceValue("%u",goal_to_be_reached);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3137,6 +3170,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
   current_start_slice = si;
 
   init_moves_left(si,n,full_length);
+  init_goal_to_be_reached(si);
 
   MatesMax = 0;
 
@@ -3193,6 +3227,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
   current_start_slice = si;
 
   init_moves_left(si,n,full_length);
+  init_goal_to_be_reached(si);
 
   MatesMax = 0;
 
