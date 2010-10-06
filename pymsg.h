@@ -1,9 +1,9 @@
 /******************** MODIFICATIONS to pymsg.h **************************
 **
 ** Date       Who  What
-** 
+**
 ** 1991       ElB  Original
-** 
+**
 ** 1991/09/18 TLi  neu belegt: 3,4,5
 **                 nicht mehr benoetigt: 45,21,46,81,51
 ** 1991/09/22 TLi  frei: 20,26
@@ -15,9 +15,9 @@
 ** 2000/05/26 NG   not needed any more: 2 (PawnFirstRank)
 ** 2000/05/27 NG   new used: 2 (NoMemory)
 ** 2001/01/18 NG   new used: 11 (ColourChangeRestricted)
-** 2008/02/25 SE   New piece type: Magic  
+** 2008/02/25 SE   New piece type: Magic
 **
-**************************** End of List ******************************/ 
+**************************** End of List ******************************/
 #if !defined(PYMSG_H)
 #define PYMSG_H
 
@@ -134,31 +134,30 @@ typedef enum
   NonsenseCombination    = 93,
   VogtlanderandIsardam   = 94,
   AssassinandOthers      = 95,
-  DiaStipandsomeCond     = 96,
-  RepublicanandnotMate	 = 97,
-  IncrementHashRateLevel = 98,
-  DecrementHashRateLevel = 99,
-  IntelligentRestricted = 100,
-  NothingToRemove       = 101,
-  NoMaxTime             = 102,
-  NoStopOnShortSolutions= 103,
-  SingleBoxAndFairyPieces= 104,
-  UndefLatexPiece       = 105,
-  HunterTypeLimitReached= 106,
-  IncompatibleRoyalSettings = 107,
-  LosingChessNotInCheckOrMateStipulations = 108,
-  TakeMakeAndFairy      = 109,
-  MagicAndFairyPieces   = 110,
-  TooManyMagic          = 111,
-  NoRepublicanWithConditionsDependingOnCheck = 112,
-  CantDecideWhoIsAtTheMove = 113,
-  ThreatOptionAndExactStipulationIncompatible = 114,
-  GhostHauntedChessAndCirceKamikazeHaanIncompatible = 115,
-  WhiteToPlayNotApplicable = 116,
-  SetPlayNotApplicable = 117,
-  PostKeyPlayNotApplicable = 118,
-  QuodlibetNotApplicable = 119,
-  CantDecideOnSideWhichConditionAppliesTo = 120,
+  RepublicanandnotMate	 = 96,
+  IncrementHashRateLevel = 97,
+  DecrementHashRateLevel = 98,
+  IntelligentRestricted =  99,
+  NothingToRemove       = 100,
+  NoMaxTime             = 101,
+  NoStopOnShortSolutions= 102,
+  SingleBoxAndFairyPieces= 103,
+  UndefLatexPiece       = 104,
+  HunterTypeLimitReached= 105,
+  IncompatibleRoyalSettings = 106,
+  LosingChessNotInCheckOrMateStipulations = 107,
+  TakeMakeAndFairy      = 108,
+  MagicAndFairyPieces   = 109,
+  TooManyMagic          = 110,
+  NoRepublicanWithConditionsDependingOnCheck = 111,
+  CantDecideWhoIsAtTheMove = 112,
+  ThreatOptionAndExactStipulationIncompatible = 113,
+  GhostHauntedChessAndCirceKamikazeHaanIncompatible = 114,
+  WhiteToPlayNotApplicable = 115,
+  SetPlayNotApplicable = 116,
+  PostKeyPlayNotApplicable = 117,
+  QuodlibetNotApplicable = 118,
+  CantDecideOnSideWhichConditionAppliesTo = 119,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

@@ -3471,7 +3471,6 @@ typedef enum
   ReadImitators = nrSquareFlags,
   ReadHoles,
   ReadEpSquares,
-  ReadFrischAuf,
   ReadBlRoyalSq,
   ReadWhRoyalSq,
   ReadNoCastlingSquares,
@@ -3487,7 +3486,7 @@ static char *ReadSquares(SquareListContext context)
   size_t const l = strlen(tok);
   if (l%2==1)
   {
-    if (context!=ReadFrischAuf && context!=ReadGrid)
+    if (context!=ReadGrid)
       IoErrorMsg(WrongSquareList, 0);
     currentgridnum = 0;
     return tok;
@@ -3503,7 +3502,7 @@ static char *ReadSquares(SquareListContext context)
         currentgridnum = 0;
         return lastTok;
       }
-      if (context!=ReadFrischAuf || nr_squares_read!=0)
+      if (nr_squares_read!=0)
       {
         IoErrorMsg(WrongSquareList,0);
         return tok;
@@ -3513,13 +3512,6 @@ static char *ReadSquares(SquareListContext context)
     {
       switch (context)
       {
-        case ReadFrischAuf:
-          if (e[sq]==vide || e[sq]==obs || is_pawn(e[sq]))
-            Message(NoFrischAufPromPiece);
-          else
-            SETFLAG(spec[sq], FrischAuf);
-          break;
-
         case ReadImitators:
           isquare[nr_squares_read] = sq;
           break;
@@ -3598,15 +3590,36 @@ static char *ReadSquares(SquareListContext context)
       inum[n] = nr_squares_read;
   }
 
-  /* This is an ugly hack, but due to the new feature ReadFrischAuf,
-     we need the returning of the token tok, and this leads to
-     mistakes with other conditions that require reading a SquareList.
-  */
-  if (context==ReadFrischAuf)
+  return tok;
+} /* ReadSquares */
+
+static char *ReadFrischAufSquares(void)
+{
+  char *tok = ReadNextTokStr();
+
+  size_t const l = strlen(tok);
+  if (l%2==0)
+    while (*tok)
+    {
+      square const sq = SquareNum(*tok,tok[1]);
+      if (sq==initsquare)
+        break;
+      else
+      {
+        if (e[sq]==vide || e[sq]==obs || is_pawn(e[sq]))
+          Message(NoFrischAufPromPiece);
+        else
+          SETFLAG(spec[sq],FrischAuf);
+
+        tok += 2;
+      }
+    }
+
+  if (*tok==0)
     tok = ReadNextTokStr();
 
   return tok;
-} /* ReadSquares */
+}
 
 static char *ParseRex(boolean *rex, Cond what)
 {
@@ -4502,7 +4515,7 @@ static char *ParseCond(void) {
     switch (indexx)
     {
       case frischauf:
-        tok = ReadSquares(ReadFrischAuf);
+        tok = ReadFrischAufSquares();
         break;
       case messigny:
         tok = ParseRex(&rex_mess_ex, rexexcl);

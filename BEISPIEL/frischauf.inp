@@ -1,0 +1,21 @@
+anfang
+
+prot frischauf.out
+
+steine weiss kf1 le2 bd4
+       schwarz bd6
+forderung s<>r2
+bedingung frisch
+option ohnesk vari
+
+weiter
+
+titel Frischauf-Circe mit Angabe von Retro-Information
+autor Hans Heinrich Schmitz
+quelle feenshcach VI-IX 1990
+steine weiss kh2 la8g1 sf2
+       schwarz ke3 lb7 sd4h1 be2h3h4
+bedingung frischauf a8
+forderung h#2
+
+ende

@@ -467,9 +467,13 @@ static boolean locateRoyal(void)
   return true;
 }
 
+/* initialize elmt at index NullPieceId with initsquare */
+square DiaRenSquares[MaxPieceId+1] = { initsquare };
+
 static void initialise_piece_flags(void)
 {
   square const *bnp;
+  PieceIdType id = MinPieceId;
   for (bnp = boardnum; *bnp; bnp++)
   {
     piece const p = e[*bnp];
@@ -478,6 +482,9 @@ static void initialise_piece_flags(void)
       if (CondFlag[volage] && rb!=*bnp && rn!=*bnp)
         SETFLAG(spec[*bnp], Volage);
 
+      assert(id<=MaxPieceId);
+      SetPieceId(spec[*bnp], id);
+      ++id;
       SetDiaRen(spec[*bnp], *bnp);
 
       if (TSTFLAG(spec[*bnp],ColourChange)
@@ -1287,27 +1294,6 @@ static boolean verify_position(slice_index si)
   {
     VerifieMsg(SomePiecesAndMaxiHeffa);
     return false;
-  }
-
-  {
-    goal_type const diastipGoalTypes[] =
-    {
-      goal_circuit,
-      goal_exchange,
-      goal_circuitB,
-      goal_exchangeB
-    };
-
-    size_t const nrDiastipGoalTypes = (sizeof diastipGoalTypes
-                                       / sizeof diastipGoalTypes[0]);
-    if (stip_ends_only_in(si,diastipGoalTypes,nrDiastipGoalTypes)
-        && (CondFlag[frischauf]
-            || CondFlag[sentinelles]
-            || CondFlag[imitators]))
-    {
-      VerifieMsg(DiaStipandsomeCond);
-      return false;
-    }
   }
 
   if (CondFlag[ghostchess] || CondFlag[hauntedchess])

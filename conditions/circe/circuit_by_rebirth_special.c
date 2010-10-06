@@ -40,7 +40,7 @@ has_solution_type circe_circuit_special_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth!=initsquare && DiaRen(spec[sq_rebirth])==sq_rebirth)
+  if (sq_rebirth!=initsquare && GetDiaRen(spec[sq_rebirth])==sq_rebirth)
   {
     if (echecc(nbply,advers(slices[si].starter)))
       result = opponent_self_check;
@@ -69,7 +69,7 @@ has_solution_type circe_circuit_special_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth!=initsquare && DiaRen(spec[sq_rebirth])==sq_rebirth)
+  if (sq_rebirth!=initsquare && GetDiaRen(spec[sq_rebirth])==sq_rebirth)
   {
     if (echecc(nbply,advers(slices[si].starter)))
       result = opponent_self_check;

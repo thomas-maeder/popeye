@@ -170,12 +170,19 @@ void InitCond(void) {
 
   gridvar = grid_normal;
   numgridlines = 0;
+
+  {
+    PieceIdType id;
+    for (id = MinPieceId; id<=MaxPieceId; ++id)
+      DiaRenSquares[id] = initsquare;
+  }
+
   for (bnp= boardnum; *bnp; bnp++) {
     int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
     int const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
+    ClearPieceId(spec[*bnp]);
     CLEARFL(sq_spec[*bnp]);
-    ClrDiaRen(spec[*bnp]);
     sq_num[*bnp]= (int)(bnp-boardnum);
 
     /* initialise sq_spec and set grid number */
@@ -1207,11 +1214,11 @@ void GetRoseAttackVectors(square from, square to)
     if (detect_rosecheck_on_line(to,e[from],
                                  k,0,+1,
                                  eval_fromspecificsquare))
-      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] )
+      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] )
     if (detect_rosecheck_on_line(to,e[from],
                                  k,vec_knight_end-vec_knight_start+1,-1,
                                  eval_fromspecificsquare))
-      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k])
+      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k])
   }
 }
 
@@ -1222,11 +1229,11 @@ void GetRoseLionAttackVectors(square from, square to)
     if (detect_roselioncheck_on_line(to,e[from],
                                      k,0,+1,
                                      eval_fromspecificsquare))
-      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] )
+      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] )
     if (detect_roselioncheck_on_line(to,e[from],
                                         k,vec_knight_end-vec_knight_start+1,-1,
                                         eval_fromspecificsquare))
-      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k])
+      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k])
   }
 }
 
@@ -1243,11 +1250,11 @@ void GetRoseHopperAttackVectors(square from, square to) {
       if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
                                          k,1,+1,
                                          eval_fromspecificsquare))
-        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] );
+        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
       if (detect_rosehoppercheck_on_line(to,sq_hurdle,e[from],
                                          k,vec_knight_end-vec_knight_start,-1,
                                          eval_fromspecificsquare))
-        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k]);
+        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
     }
   }
 }
@@ -1266,11 +1273,11 @@ void GetRoseLocustAttackVectors(square from, square to) {
       if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
                                          k,1,+1,
                                          eval_fromspecificsquare))
-        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 200+vec[k] );
+        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 200+vec[k] );
       if (detect_roselocustcheck_on_line(to,sq_arrival,e[from],
                                          k,vec_knight_end-vec_knight_start,-1,
                                          eval_fromspecificsquare))
-        PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), 300+vec[k]);
+        PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), 300+vec[k]);
     }
   }
 }
@@ -1289,12 +1296,12 @@ static void GetRMHopAttackVectors(square from, square to, numvec kend, numvec ka
       finligne(sq_hurdle,mixhopdata[angle][k1],hopper,sq_departure);
       if (hopper==e[from]) {
         if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[k] )
+          PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[k] )
       }
       finligne(sq_hurdle,mixhopdata[angle][k1-1],hopper,sq_departure);
       if (hopper==e[from]) {
         if (eval_fromspecificsquare(sq_departure,to,to))
-          PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[k] )
+          PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[k] )
       }
     }
   }
@@ -1347,7 +1354,7 @@ void GetMargueriteAttackVectors(square from, square to) {
     else
       attackVec = -move_vec_code[to - from];
     if (attackVec)
-      PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), attackVec)
+      PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), attackVec)
   }
 }
 
@@ -1369,7 +1376,7 @@ static void GetZigZagAttackVectors(square from, square to,
 
   if (e[sq_departure]==e[from]
       && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[500+k] );
+    PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[500+k] );
 
   sq_departure = to+k;
   while (e[sq_departure]==vide) {
@@ -1382,7 +1389,7 @@ static void GetZigZagAttackVectors(square from, square to,
 
   if (e[sq_departure]==e[from]
       && eval_fromspecificsquare(sq_departure,sq_arrival,sq_capture))
-    PushMagic(to, DiaRen(spec[to]), DiaRen(spec[from]), vec[400+k] );
+    PushMagic(to, GetPieceId(spec[to]), GetPieceId(spec[from]), vec[400+k] );
 }
 
 void GetBoyscoutAttackVectors(square from, square to) {
@@ -1465,8 +1472,8 @@ void PushMagicViews(void)
                 attackVec = -move_vec_code[*royal-*bnp];
               if (attackVec!=0)
                 PushMagic(*royal,
-                          DiaRen(spec[*royal]),
-                          DiaRen(spec[fromspecificsquare]),
+                          GetPieceId(spec[*royal]),
+                          GetPieceId(spec[fromspecificsquare]),
                           attackVec);
             }
           }

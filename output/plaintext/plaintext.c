@@ -86,8 +86,8 @@ static void editcoup(ply ply_id, coup *mov)
 
     if (mov->pjzz!=mov->pjazz
         || (mov->new_spec!=0
-            && DiaRen(mov->speci)==DiaRen(mov->new_spec) /* same piece, but */
-            && mov->speci!=mov->new_spec))               /* different flags */
+            && GetPieceId(mov->speci)==GetPieceId(mov->new_spec)/* same piece */
+            && mov->speci!=mov->new_spec))                 /* different flags */
     {
       if (mov->pjazz == vide) {
         if (mov->promi) {

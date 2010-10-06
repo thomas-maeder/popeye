@@ -39,11 +39,12 @@
 #include "pyoutput.h"
 #endif
 
-#define SetIndex(s, f)                                  \
-  (s = (Flags)(s&((1<<DiaCirce)-1)) + (f<<DiaCirce))
+typedef int index_type;
 
-#define GetIndex(s)                             \
-  ((int)((s >> DiaCirce)))
+static index_type indices[MaxPieceId];
+
+#define SetIndex(s,i) indices[GetPieceId(s)] = (i)
+#define GetIndex(s)   indices[GetPieceId(s)]
 
 typedef struct {
     square  sq;

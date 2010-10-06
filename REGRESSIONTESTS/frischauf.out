@@ -1,0 +1,72 @@
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -B   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   B   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   L   .   .   .   2
+|                                   |
+1   .   .   .   .   .   K   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s<>r2                       3 + 1
+            FrischAufCirce
+
+   1.Le2-c4 ! Zugzwang.
+      1...d6-d5
+          2.Kf1-e2
+              2...d5*c4 [+wLf1]
+
+              empile:         252
+            jouecoup:         251
+        orig_rbechec:         203
+        orig_rnechec:           0
+Loesung beendet. 
+
+
+
+        Hans Heinrich Schmitz
+        feenshcach VI-IX 1990
+Frischauf-Circe mit Angabe von Retro-Information
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   L   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -L   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -S   .   .   .  -B   4
+|                                   |
+3   .   .   .   .  -K   .   .  -B   3
+|                                   |
+2   .   .   .   .  -B   S   .   K   2
+|                                   |
+1   .   .   .   .   .   .   L  -S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 7
+            FrischAufCirce
+
+  1.Lb7-g2 La8-f3   2.Lg2*f3 [+wLf8] Lf8-h6 # 
+
+              empile:       54914
+            jouecoup:       24474
+        orig_rbechec:        7096
+        orig_rnechec:       24186
+Loesung beendet. 
+
+

@@ -3,15 +3,15 @@
 **
 ** Date       Who  What
 **
-** 2006/05/07 SE   bug fix: StipExch + Duplex 
-** 
+** 2006/05/07 SE   bug fix: StipExch + Duplex
+**
 ** 2006/05/09 SE   New conditions: SAT, StrictSAT, SAT X Y (invented L.Salai sr.)
 **
-** 2006/07/30 SE   New condition: Schwarzschacher  
+** 2006/07/30 SE   New condition: Schwarzschacher
 **
-** 2007/01/28 SE   New condition: NormalPawn 
+** 2007/01/28 SE   New condition: NormalPawn
 **
-** 2007/01/28 SE   New condition: Annan Chess 
+** 2007/01/28 SE   New condition: Annan Chess
 **
 ** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
 **
@@ -32,27 +32,27 @@
 **                 are not 'non-passant'. Too hard to do but possibly
 **                 implement as an independent condition later).
 **
-** 2008/01/02 NG   New condition: Geneva Chess 
+** 2008/01/02 NG   New condition: Geneva Chess
 **
-** 2008/01/11 SE   New variant: Special Grids 
+** 2008/01/11 SE   New variant: Special Grids
 **
-** 2008/01/13 SE   New conditions: White/Black Vaulting Kings 
+** 2008/01/13 SE   New conditions: White/Black Vaulting Kings
 **
-** 2008/01/24 SE   New variant: Gridlines  
+** 2008/01/24 SE   New variant: Gridlines
 **
-** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)  
+** 2008/02/10 SE   New condition: Cheameleon Pursuit (invented? : L.Grolman)
 **
-** 2008/02/19 SE   New condition: AntiKoeko  
+** 2008/02/19 SE   New condition: AntiKoeko
 **
-** 2008/02/19 SE   New piece: RoseLocust  
+** 2008/02/19 SE   New piece: RoseLocust
 **
-** 2008/02/25 SE   New piece type: Magic  
+** 2008/02/25 SE   New piece type: Magic
 **
-** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)  
+** 2008/03/13 SE   New condition: Castling Chess (invented: N.A.Bakke?)
 **
-** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
 **
-** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+** 2009/02/24 SE   New pieces: 2,0-Spiralknight
 **                             4,0-Spiralknight
 **                             1,1-Spiralknight
 **                             3,3-Spiralknight
@@ -178,7 +178,7 @@ enum
   maxply = 2702
 #elif defined(_OS2)
   maxply = 302
-#else   
+#else
 #if defined(SIXTEEN) /* DOS 16 Bit, ... */
 #if defined(MSG_IN_MEM)
   maxply = 26
@@ -506,7 +506,7 @@ typedef enum
 {
   maxi,             /* 0 */
   ultraschachzwang,	/* 1 */
-  
+
   ExtraCondCount    /* 2 */
 } ExtraCond;
 
@@ -598,7 +598,7 @@ typedef enum
   mutuallyexclusivecastling, /* 33 */
   degeneratetree,  /* 34 */
 
-  OptCount         /* 35 */       
+  OptCount         /* 35 */
 } Opt;
 
 /* Names for conditions */
@@ -822,6 +822,8 @@ typedef enum
 
 typedef Side pileside[maxply+1];
 
+#define PieSpMask ((1<<PieSpCount)-1)
+
 
 enum
 {
@@ -849,14 +851,27 @@ typedef boolean (*nocontactfunc_t)(square);
 
 typedef unsigned int slice_index;
 
-#define DiaCirce        PieSpCount
-#define DiaRen(s)       (boardnum[((s) >> DiaCirce)])
-#define DiaRenMask      ((1<<DiaCirce)-1)
-#define SetDiaRen(s, f) ((s)=((unsigned int)((((f)-square_a1)/onerow)*8+((f)-square_a1)%onerow)<<DiaCirce) + ((s)&DiaRenMask))
-#define FrischAuf       PieSpCount
+enum
+{
+  NullPieceId = 0,
+  MinPieceId = 1,
+  MaxPieceId = 100
+};
 
-/* needed for Twinning Reset. */
-#define ClrDiaRen(s)    ((s)-=((unsigned int)((s)>>DiaCirce)<<DiaCirce))
+typedef unsigned int        PieceIdType;
+
+#define PieceIdOffset       PieSpCount
+#define SetPieceId(spec,id) ((spec) = ((id)<<PieceIdOffset) | ((spec)&PieSpMask))
+#define GetPieceId(spec)    ((spec) >> PieceIdOffset)
+#define ClearPieceId(spec)  SetPieceId(spec,NullPieceId)
+
+extern square DiaRenSquares[MaxPieceId+1];
+
+#define GetDiaRen(spec)     DiaRenSquares[GetPieceId(spec)]
+#define SetDiaRen(spec,ren) (DiaRenSquares[GetPieceId(spec)] = (ren))
+#define ClrDiaRen(spec)     SetDiaRen(spec,initsquare)
+
+#define FrischAuf       PieSpCount
 
 #define encore()        (nbcou > repere[nbply])
 #define advers(camp)    ((camp) ? White : Black)
@@ -871,7 +886,7 @@ typedef unsigned int slice_index;
 
 #define hopimcheck(sq, j, over, diff) (!checkhopim || hopimok((sq), (j), (over), (diff), (diff)))
 #define hopimmcheck(sq, j, over, diff, diff1) (!checkhopim || hopimok((sq), (j), (over), (diff), (diff1)))
-#define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))   
+#define maooaimcheck(sq, j, pass) (!CondFlag[imitators] || maooaimok((sq), (j), (pass)))
 
 #define setneutre(i)            do {if (neutcoul != color(i)) change(i);} while(0)
 #define change(i)               do {register piece pp; nbpiece[pp= e[(i)]]--; nbpiece[e[(i)]= -pp]++;} while (0)

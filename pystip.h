@@ -457,15 +457,6 @@ slice_index stip_make_setplay(slice_index si);
  */
 boolean stip_apply_setplay(slice_index si);
 
-/* Do all leaves of the current stipulation have one of a set of goals?
- * @param si identifies slice where to start
- * @param goals set of goals
- * @param nrgoal_types number of elements of goals
- * @return true iff all leaves have as goal one of the elements of goals.
- */
-boolean stip_ends_only_in(slice_index si,
-                          goal_type const goals[], size_t nrGoals);
-
 /* Does >= 1 leaf of the current stipulation have one of a set of goals?
  * @param si identifies slice where to start
  * @param goals set of goals
