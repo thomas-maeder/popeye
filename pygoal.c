@@ -140,10 +140,8 @@ goal_checker_result_type goal_checker_autostale(Side just_moved)
 
 goal_checker_result_type goal_checker_check(Side just_moved)
 {
-  if (echecc(nbply,advers(just_moved)))
-    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
-  else
-    return goal_not_reached;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_steingewinn(Side just_moved)

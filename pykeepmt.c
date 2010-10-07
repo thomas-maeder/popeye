@@ -673,6 +673,7 @@ static structure_traversers_visitors keepmating_guards_inserters[] =
   { STGoalMateReachedTester,      &keepmating_guards_inserter_goal        },
   { STGoalStalemateReachedTester, &keepmating_guards_inserter_goal        },
   { STGoalTargetReachedTester,    &keepmating_guards_inserter_goal        },
+  { STGoalCheckReachedTester,     &keepmating_guards_inserter_goal        },
   { STReciprocal,                 &keepmating_guards_inserter_reciprocal  },
   { STQuodlibet,                  &keepmating_guards_inserter_quodlibet   },
   { STReflexAttackerFilter,       &keepmating_guards_inserter_battle_fork },

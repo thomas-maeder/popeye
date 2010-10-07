@@ -101,6 +101,10 @@ has_solution_type slice_solve(slice_index si)
       result = goal_target_reached_tester_solve(si);
       break;
 
+    case STGoalCheckReachedTester:
+      result = goal_check_reached_tester_solve(si);
+      break;
+
     case STAttackRoot:
     case STReadyForAttack:
     case STAttackFork:
@@ -344,6 +348,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalTargetReachedTester:
       result = goal_target_reached_tester_has_solution(si);
+      break;
+
+    case STGoalCheckReachedTester:
+      result = goal_check_reached_tester_has_solution(si);
       break;
 
     case STQuodlibet:
