@@ -55,7 +55,7 @@ has_solution_type goal_target_reached_tester_has_solution(slice_index si)
       result = slice_has_solution(next);
   }
   else
-    return has_no_solution;
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -86,7 +86,7 @@ has_solution_type goal_target_reached_tester_solve(slice_index si)
       result = slice_solve(next);
   }
   else
-    return has_no_solution;
+    result = has_no_solution;
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
