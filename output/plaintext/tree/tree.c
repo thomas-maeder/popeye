@@ -372,6 +372,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STGoalDoubleStalemateReachedTester, &instrument_goal_non_target_reached_tester },
   { STGoalTargetReachedTester,          &instrument_goal_target_reached_tester     },
   { STGoalCheckReachedTester,           &instrument_goal_non_target_reached_tester },
+  { STGoalCaptureReachedTester,         &instrument_goal_non_target_reached_tester },
   { STLeaf,                             &instrument_leaf                           },
   { STMoveInverterRootSolvableFilter,   &instrument_move_inverter                  },
   { STMoveInverterSolvableFilter,       &instrument_move_inverter                  },

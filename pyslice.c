@@ -16,6 +16,8 @@
 #include "stipulation/goals/stalemate/reached_tester.h"
 #include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
+#include "stipulation/goals/check/reached_tester.h"
+#include "stipulation/goals/capture/reached_tester.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -108,6 +110,10 @@ has_solution_type slice_solve(slice_index si)
 
     case STGoalCheckReachedTester:
       result = goal_check_reached_tester_solve(si);
+      break;
+
+    case STGoalCaptureReachedTester:
+      result = goal_capture_reached_tester_solve(si);
       break;
 
     case STAttackRoot:
@@ -361,6 +367,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalCheckReachedTester:
       result = goal_check_reached_tester_has_solution(si);
+      break;
+
+    case STGoalCaptureReachedTester:
+      result = goal_capture_reached_tester_has_solution(si);
       break;
 
     case STQuodlibet:

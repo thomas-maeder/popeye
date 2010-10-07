@@ -895,6 +895,7 @@ static structure_traversers_visitors reflex_guards_inserters[] =
   { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop        },
   { STGoalTargetReachedTester,          &stip_structure_visitor_noop        },
   { STGoalCheckReachedTester,           &stip_structure_visitor_noop        },
+  { STGoalCaptureReachedTester,         &stip_structure_visitor_noop        },
   { STReadyForAttack,                   &reflex_guards_inserter_attack      },
   { STReadyForDefense,                  &reflex_guards_inserter_defense     }
 };
@@ -1035,6 +1036,7 @@ static structure_traversers_visitors reflex_guards_inserters_semi[] =
   { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop         },
   { STGoalTargetReachedTester,          &stip_structure_visitor_noop         },
   { STGoalCheckReachedTester,           &stip_structure_visitor_noop         },
+  { STGoalCaptureReachedTester,         &stip_structure_visitor_noop         },
   { STReadyForDefense,                  &reflex_guards_inserter_defense_semi }
 };
 

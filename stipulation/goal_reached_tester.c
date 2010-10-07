@@ -35,15 +35,12 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
     case goal_stale:
     case goal_target:
     case goal_check:
+    case goal_capture:
       assert(0);
       break;
 
     case goal_dblstale:
       result = goal_checker_dblstale(just_moved);
-      break;
-
-    case goal_capture:
-      result = goal_checker_capture(just_moved);
       break;
 
     case goal_steingewinn:

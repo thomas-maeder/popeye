@@ -63,10 +63,8 @@ goal_checker_result_type goal_checker_exchangeB(Side just_moved)
 
 goal_checker_result_type goal_checker_capture(Side just_moved)
 {
-  if (pprise[nbply]!=vide)
-    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
-  else
-    return goal_not_reached;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_mate(Side just_moved)
