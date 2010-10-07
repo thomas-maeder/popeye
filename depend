@@ -506,7 +506,8 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   stipulation/goal_reached_tester.h \
   stipulation/goals/mate/reached_tester.h \
   stipulation/goals/stalemate/reached_tester.h \
-  stipulation/goals/target/reached_tester.h pypipe.h pyint.h pyoutput.h \
+  stipulation/goals/target/reached_tester.h \
+  stipulation/goals/check/reached_tester.h pypipe.h pyint.h pyoutput.h \
   pytable.h stipulation/proxy.h pypipe.h stipulation/branch.h \
   stipulation/leaf.h stipulation/battle_play/branch.h \
   stipulation/battle_play/attack_find_shortest.h \
@@ -603,6 +604,8 @@ stipulation/goals/mate/reached_tester.h:
 stipulation/goals/stalemate/reached_tester.h:
 
 stipulation/goals/target/reached_tester.h:
+
+stipulation/goals/check/reached_tester.h:
 
 pypipe.h:
 
@@ -1291,6 +1294,7 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   stipulation/series_play/root.h stipulation/goal_reached_tester.h \
   stipulation/goals/mate/reached_tester.h \
   stipulation/goals/stalemate/reached_tester.h \
+  stipulation/goals/doublestalemate/reached_tester.h \
   stipulation/goals/target/reached_tester.h pybrafrk.h pyquodli.h \
   pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
   pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
@@ -1380,6 +1384,8 @@ stipulation/goal_reached_tester.h:
 stipulation/goals/mate/reached_tester.h:
 
 stipulation/goals/stalemate/reached_tester.h:
+
+stipulation/goals/doublestalemate/reached_tester.h:
 
 stipulation/goals/target/reached_tester.h:
 

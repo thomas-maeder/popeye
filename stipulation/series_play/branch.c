@@ -69,11 +69,12 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors series_goal_instrumenters[] =
 {
-  { STGoalReachedTester,          &instrument_tester },
-  { STGoalMateReachedTester,      &instrument_tester },
-  { STGoalStalemateReachedTester, &instrument_tester },
-  { STGoalTargetReachedTester,    &instrument_tester },
-  { STGoalCheckReachedTester,     &instrument_tester }
+  { STGoalReachedTester,                &instrument_tester },
+  { STGoalMateReachedTester,            &instrument_tester },
+  { STGoalStalemateReachedTester,       &instrument_tester },
+  { STGoalDoubleStalemateReachedTester, &instrument_tester },
+  { STGoalTargetReachedTester,          &instrument_tester },
+  { STGoalCheckReachedTester,           &instrument_tester }
 };
 
 enum

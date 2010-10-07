@@ -2026,6 +2026,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
   {
     case STGoalMateReachedTester:
     case STGoalStalemateReachedTester:
+    case STGoalDoubleStalemateReachedTester:
     case STGoalTargetReachedTester:
     case STGoalCheckReachedTester:
       result = whitetoplay_means_shorten;
@@ -2633,14 +2634,15 @@ static void optimise_final_moves_goal_target(slice_index si,
 
 static moves_traversers_visitors const final_move_optimisers[] =
 {
-  { STDefenseMove,                &optimise_final_moves_defense_move    },
-  { STHelpMove,                   &optimise_final_moves_help_move       },
-  { STHelpMoveToGoal,             &swallow_goal                         },
-  { STGoalReachedTester,          &optimise_final_moves_goal            },
-  { STGoalMateReachedTester,      &optimise_final_moves_goal_non_target },
-  { STGoalStalemateReachedTester, &optimise_final_moves_goal_non_target },
-  { STGoalTargetReachedTester,    &optimise_final_moves_goal_target     },
-  { STGoalCheckReachedTester,     &optimise_final_moves_goal_non_target }
+  { STDefenseMove,                      &optimise_final_moves_defense_move    },
+  { STHelpMove,                         &optimise_final_moves_help_move       },
+  { STHelpMoveToGoal,                   &swallow_goal                         },
+  { STGoalReachedTester,                &optimise_final_moves_goal            },
+  { STGoalMateReachedTester,            &optimise_final_moves_goal_non_target },
+  { STGoalStalemateReachedTester,       &optimise_final_moves_goal_non_target },
+  { STGoalDoubleStalemateReachedTester, &optimise_final_moves_goal_non_target },
+  { STGoalTargetReachedTester,          &optimise_final_moves_goal_target     },
+  { STGoalCheckReachedTester,           &optimise_final_moves_goal_non_target }
 };
 
 enum

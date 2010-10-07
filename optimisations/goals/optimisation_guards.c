@@ -456,19 +456,20 @@ static void insert_goal_optimisation_guards_goal_target(slice_index si,
 
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
-  { STDefenseFork,                &insert_goal_optimisation_guards_defense_fork      },
-  { STKillerMoveFinalDefenseMove, &insert_goal_optimisation_guards_killer_defense    },
-  { STDefenseMove,                &insert_goal_optimisation_guards_defense           },
-  { STAttackMoveToGoal,           &insert_goal_optimisation_guards_attack_to_goal    },
-  { STGoalReachedTester,          &insert_goal_optimisation_guards_goal              },
-  { STGoalMateReachedTester,      &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalStalemateReachedTester, &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalTargetReachedTester,    &insert_goal_optimisation_guards_goal_target       },
-  { STGoalCheckReachedTester,     &insert_goal_optimisation_guards_goal_non_target   },
-  { STHelpFork,                   &insert_goal_optimisation_guards_help_fork         },
-  { STHelpMove,                   &insert_goal_optimisation_guards_help_move         },
-  { STHelpMoveToGoal,             &insert_goal_optimisation_guards_help_move_to_goal },
-  { STSeriesMoveToGoal,           &insert_goal_optimisation_guards_series_move       }
+  { STDefenseFork,                      &insert_goal_optimisation_guards_defense_fork      },
+  { STKillerMoveFinalDefenseMove,       &insert_goal_optimisation_guards_killer_defense    },
+  { STDefenseMove,                      &insert_goal_optimisation_guards_defense           },
+  { STAttackMoveToGoal,                 &insert_goal_optimisation_guards_attack_to_goal    },
+  { STGoalReachedTester,                &insert_goal_optimisation_guards_goal              },
+  { STGoalMateReachedTester,            &insert_goal_optimisation_guards_goal_non_target   },
+  { STGoalStalemateReachedTester,       &insert_goal_optimisation_guards_goal_non_target   },
+  { STGoalDoubleStalemateReachedTester, &insert_goal_optimisation_guards_goal_non_target   },
+  { STGoalTargetReachedTester,          &insert_goal_optimisation_guards_goal_target       },
+  { STGoalCheckReachedTester,           &insert_goal_optimisation_guards_goal_non_target   },
+  { STHelpFork,                         &insert_goal_optimisation_guards_help_fork         },
+  { STHelpMove,                         &insert_goal_optimisation_guards_help_move         },
+  { STHelpMoveToGoal,                   &insert_goal_optimisation_guards_help_move_to_goal },
+  { STSeriesMoveToGoal,                 &insert_goal_optimisation_guards_series_move       }
 };
 
 enum

@@ -645,15 +645,16 @@ static void insert_selfcheck_guard_series_filter(slice_index si,
 
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
-  { STAttackMoveLegalityChecked,  &insert_selfcheck_guard_defender_filter },
-  { STDefenseMoveLegalityChecked, &insert_selfcheck_guard_attacker_filter },
-  { STHelpMoveLegalityChecked,    &insert_selfcheck_guard_help_filter     },
-  { STSeriesMoveLegalityChecked,  &insert_selfcheck_guard_series_filter   },
-  { STGoalReachedTester,          &stip_structure_visitor_noop            },
-  { STGoalMateReachedTester,      &stip_structure_visitor_noop            },
-  { STGoalStalemateReachedTester, &stip_structure_visitor_noop            },
-  { STGoalTargetReachedTester,    &stip_structure_visitor_noop            },
-  { STGoalCheckReachedTester,     &stip_structure_visitor_noop            }
+  { STAttackMoveLegalityChecked,        &insert_selfcheck_guard_defender_filter },
+  { STDefenseMoveLegalityChecked,       &insert_selfcheck_guard_attacker_filter },
+  { STHelpMoveLegalityChecked,          &insert_selfcheck_guard_help_filter     },
+  { STSeriesMoveLegalityChecked,        &insert_selfcheck_guard_series_filter   },
+  { STGoalReachedTester,                &stip_structure_visitor_noop            },
+  { STGoalMateReachedTester,            &stip_structure_visitor_noop            },
+  { STGoalStalemateReachedTester,       &stip_structure_visitor_noop            },
+  { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop            },
+  { STGoalTargetReachedTester,          &stip_structure_visitor_noop            },
+  { STGoalCheckReachedTester,           &stip_structure_visitor_noop            }
 };
 
 enum

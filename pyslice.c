@@ -14,6 +14,7 @@
 #include "stipulation/goal_reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/stalemate/reached_tester.h"
+#include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
@@ -95,6 +96,10 @@ has_solution_type slice_solve(slice_index si)
 
     case STGoalStalemateReachedTester:
       result = goal_stalemate_reached_tester_solve(si);
+      break;
+
+    case STGoalDoubleStalemateReachedTester:
+      result = goal_doublestalemate_reached_tester_solve(si);
       break;
 
     case STGoalTargetReachedTester:
@@ -344,6 +349,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalStalemateReachedTester:
       result = goal_stalemate_reached_tester_has_solution(si);
+      break;
+
+    case STGoalDoubleStalemateReachedTester:
+      result = goal_doublestalemate_reached_tester_has_solution(si);
       break;
 
     case STGoalTargetReachedTester:

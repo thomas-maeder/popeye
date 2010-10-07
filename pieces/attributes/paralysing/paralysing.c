@@ -24,6 +24,7 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   {
     case goal_mate:
     case goal_stale:
+    case goal_dblstale:
       assert(0);
       break;
 
@@ -32,23 +33,6 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
       pipe_append(si,alloc_paralysing_mate_filter_slice(starter));
       pipe_append(si,alloc_paralysing_mate_filter_slice(advers(starter)));
       break;
-
-    case goal_dblstale:
-    {
-      slice_index const tested = branch_find_slice(STGoalReachedTested,si);
-      slice_index const proxy_filter = alloc_proxy_slice();
-      slice_index const filter1 = alloc_paralysing_stalemate_special_slice(advers(starter));
-      slice_index const filter2 = alloc_paralysing_stalemate_special_slice(starter);
-      slice_index const proxy = alloc_proxy_slice();
-
-      assert(tested!=no_slice);
-      pipe_link(slices[si].prev,alloc_quodlibet_slice(proxy,proxy_filter));
-      pipe_link(proxy_filter,filter1);
-      pipe_link(filter1,filter2);
-      pipe_link(filter2,tested);
-      pipe_link(proxy,si);
-      break;
-    }
 
     case goal_autostale:
     {
@@ -113,11 +97,41 @@ static void append_goal_stalemate_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void append_goal_doublestalemate_filter(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    Side const starter = slices[si].starter;
+    slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+    slice_index const proxy_filter = alloc_proxy_slice();
+    slice_index const filter1 = alloc_paralysing_stalemate_special_slice(advers(starter));
+    slice_index const filter2 = alloc_paralysing_stalemate_special_slice(starter);
+    slice_index const proxy = alloc_proxy_slice();
+
+    assert(tested!=no_slice);
+    pipe_link(slices[si].prev,alloc_quodlibet_slice(proxy,proxy_filter));
+    pipe_link(proxy_filter,filter1);
+    pipe_link(filter1,filter2);
+    pipe_link(filter2,tested);
+    pipe_link(proxy,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalReachedTester,          &append_goal_filters          },
-  { STGoalMateReachedTester,      &append_goal_mate_filter      },
-  { STGoalStalemateReachedTester, &append_goal_stalemate_filter }
+  { STGoalReachedTester,                &append_goal_filters                },
+  { STGoalMateReachedTester,            &append_goal_mate_filter            },
+  { STGoalStalemateReachedTester,       &append_goal_stalemate_filter       },
+  { STGoalDoubleStalemateReachedTester, &append_goal_doublestalemate_filter }
 };
 
 enum

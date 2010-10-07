@@ -877,11 +877,12 @@ static void find_unique_goal_goal_target_tester(slice_index si,
 
 static structure_traversers_visitors unique_goal_finders[] =
 {
-  { STGoalReachedTester,          &find_unique_goal_goal_tester            },
-  { STGoalMateReachedTester,      &find_unique_goal_goal_non_target_tester },
-  { STGoalStalemateReachedTester, &find_unique_goal_goal_non_target_tester },
-  { STGoalTargetReachedTester,    &find_unique_goal_goal_target_tester     },
-  { STGoalCheckReachedTester,     &find_unique_goal_goal_non_target_tester }
+  { STGoalReachedTester,                &find_unique_goal_goal_tester            },
+  { STGoalMateReachedTester,            &find_unique_goal_goal_non_target_tester },
+  { STGoalStalemateReachedTester,       &find_unique_goal_goal_non_target_tester },
+  { STGoalDoubleStalemateReachedTester, &find_unique_goal_goal_non_target_tester },
+  { STGoalTargetReachedTester,          &find_unique_goal_goal_target_tester     },
+  { STGoalCheckReachedTester,           &find_unique_goal_goal_non_target_tester }
 };
 
 enum
@@ -1114,6 +1115,7 @@ static boolean is_goal_tester(SliceType type)
     case STGoalReachedTester:
     case STGoalMateReachedTester:
     case STGoalStalemateReachedTester:
+    case STGoalDoubleStalemateReachedTester:
     case STGoalTargetReachedTester:
     case STGoalCheckReachedTester:
       return true;
@@ -1556,11 +1558,12 @@ static void ends_in_goal_target(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors slice_ends_in_checkers[] =
 {
-  { STGoalReachedTester,          &ends_in_goal            },
-  { STGoalMateReachedTester,      &ends_in_goal_non_target },
-  { STGoalStalemateReachedTester, &ends_in_goal_non_target },
-  { STGoalTargetReachedTester,    &ends_in_goal_target     },
-  { STGoalCheckReachedTester,     &ends_in_goal_non_target }
+  { STGoalReachedTester,                &ends_in_goal            },
+  { STGoalMateReachedTester,            &ends_in_goal_non_target },
+  { STGoalStalemateReachedTester,       &ends_in_goal_non_target },
+  { STGoalDoubleStalemateReachedTester, &ends_in_goal_non_target },
+  { STGoalTargetReachedTester,          &ends_in_goal_target     },
+  { STGoalCheckReachedTester,           &ends_in_goal_non_target }
 };
 
 enum
