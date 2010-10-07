@@ -9,7 +9,6 @@
 
 #include <assert.h>
 
-
 static void prepend_goal_filters(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -21,7 +20,7 @@ static void prepend_goal_filters(slice_index si, stip_structure_traversal *st)
   switch (slices[si].u.goal_reached_tester.goal.type)
   {
     case goal_steingewinn:
-      pipe_append(slices[si].prev,alloc_circe_steingewinn_filter_slice());
+      assert(0);
       break;
 
     case goal_circuitB:
@@ -64,9 +63,24 @@ static void prepend_goal_filters(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void prepend_steingewinn_filter(slice_index si,
+                                       stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_circe_steingewinn_filter_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalReachedTester, &prepend_goal_filters }
+  { STGoalReachedTester,            &prepend_goal_filters       },
+  { STGoalSteingewinnReachedTester, &prepend_steingewinn_filter }
 };
 
 enum

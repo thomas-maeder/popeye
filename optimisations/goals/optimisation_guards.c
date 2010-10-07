@@ -467,6 +467,7 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
   { STGoalTargetReachedTester,          &insert_goal_optimisation_guards_goal_target       },
   { STGoalCheckReachedTester,           &insert_goal_optimisation_guards_goal_non_target   },
   { STGoalCaptureReachedTester,         &insert_goal_optimisation_guards_goal_non_target   },
+  { STGoalSteingewinnReachedTester,     &insert_goal_optimisation_guards_goal_non_target   },
   { STHelpFork,                         &insert_goal_optimisation_guards_help_fork         },
   { STHelpMove,                         &insert_goal_optimisation_guards_help_move         },
   { STHelpMoveToGoal,                   &insert_goal_optimisation_guards_help_move_to_goal },

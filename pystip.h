@@ -75,6 +75,7 @@
     ENUMERATOR(STGoalTargetReachedTester), /* tests whether a target goal has been reached */ \
     ENUMERATOR(STGoalCheckReachedTester), /* tests whether a check goal has been reached */ \
     ENUMERATOR(STGoalCaptureReachedTester), /* tests whether a capture goal has been reached */ \
+    ENUMERATOR(STGoalSteingewinnReachedTester), /* tests whether a steingewinn goal has been reached */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     /* unary and binary operators */                                    \
