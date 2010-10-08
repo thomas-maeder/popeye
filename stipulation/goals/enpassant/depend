@@ -1,0 +1,11 @@
+stipulation/goals/enpassant/reached_tester$(OBJ_SUFFIX):  \
+ stipulation/goals/enpassant/reached_tester.c \
+  stipulation/goals/enpassant/reached_tester.h pypipe.h pydata.h trace.h
+
+stipulation/goals/enpassant/reached_tester.h:
+
+pypipe.h:
+
+pydata.h:
+
+trace.h:

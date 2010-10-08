@@ -656,7 +656,8 @@ static structure_traversers_visitors selfcheck_guards_inserters[] =
   { STGoalTargetReachedTester,          &stip_structure_visitor_noop            },
   { STGoalCheckReachedTester,           &stip_structure_visitor_noop            },
   { STGoalCaptureReachedTester,         &stip_structure_visitor_noop            },
-  { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop            }
+  { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop            },
+  { STGoalEnpassantReachedTester,       &stip_structure_visitor_noop            }
 };
 
 enum

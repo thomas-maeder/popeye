@@ -150,11 +150,8 @@ goal_checker_result_type goal_checker_steingewinn(Side just_moved)
 
 goal_checker_result_type goal_checker_ep(Side just_moved)
 {
-  if (move_generation_stack[nbcou].arrival!=move_generation_stack[nbcou].capture
-      && is_pawn(pjoue[nbply]))
-    return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
-  else
-    return goal_not_reached;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_doublemate(Side just_moved)
