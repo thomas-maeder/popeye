@@ -272,27 +272,6 @@ void insert_goal_prerequisite_guards_series_move(slice_index si,
  * @param st address of structure representing traversal
  */
 static
-void insert_goal_prerequisite_guards_goal_tester(slice_index si,
-                                                 stip_moves_traversal *st)
-{
-  prerequisite_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_moves_branch_slice(si,st);
-  state->imminent = slices[si].u.goal_reached_tester.goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert goal prerequisite guards
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static
 void
 insert_goal_prerequisite_guards_goal_doublemate_tester(slice_index si,
                                                        stip_moves_traversal *st)
@@ -342,7 +321,6 @@ static moves_traversers_visitors const prerequisite_guard_inserters[] =
   { STHelpMove,                     &insert_goal_prerequisite_guards_help_move               },
   { STHelpMoveToGoal,               &insert_goal_prerequisite_guards_help_move_to_goal       },
   { STSeriesMoveToGoal,             &insert_goal_prerequisite_guards_series_move             },
-  { STGoalReachedTester,            &insert_goal_prerequisite_guards_goal_tester             },
   { STGoalDoubleMateReachedTester,  &insert_goal_prerequisite_guards_goal_doublemate_tester  },
   { STGoalCounterMateReachedTester, &insert_goal_prerequisite_guards_goal_countermate_tester }
 };

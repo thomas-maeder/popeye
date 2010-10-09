@@ -93,6 +93,7 @@
 #include "stipulation/goals/countermate/reached_tester.h"
 #include "stipulation/goals/castling/reached_tester.h"
 #include "stipulation/goals/autostalemate/reached_tester.h"
+#include "stipulation/goals/circuit/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -2016,6 +2017,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_autostale:
         attachGoalBranch(proxy,alloc_goal_autostalemate_reached_tester_slice());
+        break;
+
+      case goal_circuit:
+        attachGoalBranch(proxy,alloc_goal_circuit_reached_tester_slice());
         break;
 
       case goal_atob:

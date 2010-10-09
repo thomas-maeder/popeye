@@ -142,6 +142,10 @@ has_solution_type slice_solve(slice_index si)
       result = goal_autostalemate_reached_tester_solve(si);
       break;
 
+    case STGoalCircuitReachedTester:
+      result = goal_circuit_reached_tester_solve(si);
+      break;
+
     case STAttackRoot:
     case STReadyForAttack:
     case STAttackFork:
@@ -418,6 +422,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalAutoStalemateReachedTester:
       result = goal_autostalemate_reached_tester_has_solution(si);
+      break;
+
+    case STGoalCircuitReachedTester:
+      result = goal_circuit_reached_tester_has_solution(si);
       break;
 
     case STQuodlibet:

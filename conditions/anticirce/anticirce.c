@@ -23,24 +23,9 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   switch (slices[si].u.goal_reached_tester.goal.type)
   {
     case goal_target:
+    case goal_circuit:
       assert(0);
       break;
-
-    case goal_circuit:
-    {
-      slice_index const tested = branch_find_slice(STGoalReachedTested,si);
-      slice_index const proxy_special = alloc_proxy_slice();
-      slice_index const special = alloc_anticirce_circuit_special_slice();
-      slice_index const proxy_regular = alloc_proxy_slice();
-
-      assert(tested!=no_slice);
-      pipe_link(slices[si].prev,
-                alloc_quodlibet_slice(proxy_regular,proxy_special));
-      pipe_link(proxy_special,special);
-      pipe_link(special,tested);
-      pipe_link(proxy_regular,si);
-      break;
-    }
 
     case goal_exchange:
     {
@@ -70,7 +55,8 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_goal_target_filter(slice_index si, stip_structure_traversal *st)
+static void instrument_goal_target_filter(slice_index si,
+                                          stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -88,10 +74,38 @@ static void instrument_goal_target_filter(slice_index si, stip_structure_travers
   TraceFunctionResultEnd();
 }
 
+static void instrument_goal_circuit_filter(slice_index si,
+                                           stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+    slice_index const proxy_special = alloc_proxy_slice();
+    slice_index const special = alloc_anticirce_circuit_special_slice();
+    slice_index const proxy_regular = alloc_proxy_slice();
+
+    assert(tested!=no_slice);
+    pipe_link(slices[si].prev,
+              alloc_quodlibet_slice(proxy_regular,proxy_special));
+    pipe_link(proxy_special,special);
+    pipe_link(special,tested);
+    pipe_link(proxy_regular,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalReachedTester,       &append_goal_filters           },
-  { STGoalTargetReachedTester, &instrument_goal_target_filter }
+  { STGoalReachedTester,        &append_goal_filters            },
+  { STGoalTargetReachedTester,  &instrument_goal_target_filter  },
+  { STGoalCircuitReachedTester, &instrument_goal_circuit_filter }
 };
 
 enum

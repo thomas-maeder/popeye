@@ -907,19 +907,8 @@ static void find_unique_goal_goal_target_tester(slice_index si,
 
 static structure_traversers_visitors unique_goal_finders[] =
 {
-  { STGoalReachedTester,                &find_unique_goal_goal_tester            },
-  { STGoalMateReachedTester,            &find_unique_goal_goal_non_target_tester },
-  { STGoalStalemateReachedTester,       &find_unique_goal_goal_non_target_tester },
-  { STGoalDoubleStalemateReachedTester, &find_unique_goal_goal_non_target_tester },
-  { STGoalTargetReachedTester,          &find_unique_goal_goal_target_tester     },
-  { STGoalCheckReachedTester,           &find_unique_goal_goal_non_target_tester },
-  { STGoalCaptureReachedTester,         &find_unique_goal_goal_non_target_tester },
-  { STGoalSteingewinnReachedTester,     &find_unique_goal_goal_non_target_tester },
-  { STGoalEnpassantReachedTester,       &find_unique_goal_goal_non_target_tester },
-  { STGoalDoubleMateReachedTester,      &find_unique_goal_goal_non_target_tester },
-  { STGoalCounterMateReachedTester,     &find_unique_goal_goal_non_target_tester },
-  { STGoalCastlingReachedTester,        &find_unique_goal_goal_non_target_tester },
-  { STGoalAutoStalemateReachedTester,   &find_unique_goal_goal_non_target_tester }
+  { STGoalReachedTester,       &find_unique_goal_goal_tester        },
+  { STGoalTargetReachedTester, &find_unique_goal_goal_target_tester }
 };
 
 enum
@@ -937,6 +926,7 @@ enum
 Goal find_unique_goal(slice_index si)
 {
   stip_structure_traversal st;
+  SliceType type;
   Goal result = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
@@ -944,6 +934,14 @@ Goal find_unique_goal(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &find_unique_goal_goal_non_target_tester);
+
   stip_structure_traversal_override(&st,
                                     unique_goal_finders,
                                     nr_unique_goal_finders);
@@ -1141,34 +1139,6 @@ static void transform_to_quodlibet_self_defense(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a slice type is a goal reached tester slice
- * @param type slice type
- * @return true iff type is a goal reached tester slice type
- */
-static boolean is_goal_tester(SliceType type)
-{
-  switch (type)
-  {
-    case STGoalReachedTester:
-    case STGoalMateReachedTester:
-    case STGoalStalemateReachedTester:
-    case STGoalDoubleStalemateReachedTester:
-    case STGoalTargetReachedTester:
-    case STGoalCheckReachedTester:
-    case STGoalCaptureReachedTester:
-    case STGoalSteingewinnReachedTester:
-    case STGoalEnpassantReachedTester:
-    case STGoalDoubleMateReachedTester:
-    case STGoalCounterMateReachedTester:
-    case STGoalCastlingReachedTester:
-    case STGoalAutoStalemateReachedTester:
-      return true;
-
-    default:
-      return false;
-  }
-}
-
 /* Find a goal reached tester slice in a branch
  * @param si identifies entry slice to branch
  * @return identifier of goal reached tester slice; no_slice if no such slice
@@ -1178,7 +1148,9 @@ static slice_index find_goal_tester(slice_index si)
 {
   do
   {
-    if (is_goal_tester(slices[si].type))
+    if (slices[si].type>=first_goal_tester_slice_type
+        && slices[si].type<=last_goal_tester_slice_type
+        || slices[si].type==STGoalReachedTester)
       return si;
     else
       si = slices[si].u.pipe.next;
