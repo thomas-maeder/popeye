@@ -207,18 +207,6 @@ static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
   { STSeriesMove,                       &insert_stoponshortsolutions_series_move },
   { STSeriesMoveToGoal,                 &insert_stoponshortsolutions_series_move },
   { STGoalReachedTester,                &stip_structure_visitor_noop             },
-  { STGoalMateReachedTester,            &stip_structure_visitor_noop             },
-  { STGoalStalemateReachedTester,       &stip_structure_visitor_noop             },
-  { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop             },
-  { STGoalTargetReachedTester,          &stip_structure_visitor_noop             },
-  { STGoalCheckReachedTester,           &stip_structure_visitor_noop             },
-  { STGoalCaptureReachedTester,         &stip_structure_visitor_noop             },
-  { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop             },
-  { STGoalEnpassantReachedTester,       &stip_structure_visitor_noop             },
-  { STGoalDoubleMateReachedTester,      &stip_structure_visitor_noop             },
-  { STGoalCounterMateReachedTester,     &stip_structure_visitor_noop             },
-  { STGoalCastlingReachedTester,        &stip_structure_visitor_noop             },
-  { STGoalAutoStalemateReachedTester,   &stip_structure_visitor_noop             },
   { STStopOnShortSolutionsRootSolvableFilter, &stip_structure_visitor_noop  },
   { STStopOnShortSolutionsHelpFilter,         &stip_structure_visitor_noop  },
   { STStopOnShortSolutionsSeriesFilter,       &stip_structure_visitor_noop  }
@@ -238,14 +226,24 @@ enum
 static void insert_filters(slice_index si)
 {
   stip_structure_traversal st;
+  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &stip_structure_visitor_noop);
+
   stip_structure_traversal_override(&st,
                                     stoponshortsolutions_filter_inserters,
                                     nr_stoponshortsolutions_filter_inserters);
+
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

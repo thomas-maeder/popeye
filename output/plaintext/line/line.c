@@ -63,7 +63,7 @@ void instrument_goal_non_target_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_mate+(slices[si].type-STGoalMateReachedTester);
+  state->goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
   stip_traverse_structure_children(si,st);
   state->goal = save_goal;
 
@@ -154,25 +154,14 @@ static void instrument_series_fork(slice_index si,
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,                       &instrument_series_fork                    },
-  { STGoalReachedTester,                &instrument_goal_reached_tester            },
-  { STGoalMateReachedTester,            &instrument_goal_non_target_reached_tester },
-  { STGoalStalemateReachedTester,       &instrument_goal_non_target_reached_tester },
-  { STGoalDoubleStalemateReachedTester, &instrument_goal_non_target_reached_tester },
-  { STGoalTargetReachedTester,          &instrument_goal_target_reached_tester     },
-  { STGoalCheckReachedTester,           &instrument_goal_non_target_reached_tester },
-  { STGoalCaptureReachedTester,         &instrument_goal_non_target_reached_tester },
-  { STGoalSteingewinnReachedTester,     &instrument_goal_non_target_reached_tester },
-  { STGoalEnpassantReachedTester,       &instrument_goal_non_target_reached_tester },
-  { STGoalDoubleMateReachedTester,      &instrument_goal_non_target_reached_tester },
-  { STGoalCounterMateReachedTester,     &instrument_goal_non_target_reached_tester },
-  { STGoalCastlingReachedTester,        &instrument_goal_non_target_reached_tester },
-  { STGoalAutoStalemateReachedTester,   &instrument_goal_non_target_reached_tester },
-  { STLeaf,                             &instrument_leaf                           },
-  { STMoveInverterRootSolvableFilter,   &instrument_move_inverter                  },
-  { STMoveInverterSolvableFilter,       &instrument_move_inverter                  },
-  { STHelpRoot,                         &instrument_root                           },
-  { STSeriesRoot,                       &instrument_root                           }
+  { STSeriesFork,                     &instrument_series_fork                    },
+  { STGoalReachedTester,              &instrument_goal_reached_tester            },
+  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester     },
+  { STLeaf,                           &instrument_leaf                           },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter                  },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter                  },
+  { STHelpRoot,                       &instrument_root                           },
+  { STSeriesRoot,                     &instrument_root                           }
 };
 
 enum
@@ -188,6 +177,7 @@ enum
 void stip_insert_output_plaintext_line_slices(slice_index si)
 {
   stip_structure_traversal st;
+  SliceType type;
   line_slices_insertion_state state = { no_slice, { no_goal, initsquare } };
 
   TraceFunctionEntry(__func__);
@@ -196,6 +186,14 @@ void stip_insert_output_plaintext_line_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &instrument_goal_non_target_reached_tester);
+
   stip_structure_traversal_override(&st,
                                     line_slice_inserters,
                                     nr_line_slice_inserters);

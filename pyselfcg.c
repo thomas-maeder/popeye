@@ -645,23 +645,11 @@ static void insert_selfcheck_guard_series_filter(slice_index si,
 
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
-  { STAttackMoveLegalityChecked,        &insert_selfcheck_guard_defender_filter },
-  { STDefenseMoveLegalityChecked,       &insert_selfcheck_guard_attacker_filter },
-  { STHelpMoveLegalityChecked,          &insert_selfcheck_guard_help_filter     },
-  { STSeriesMoveLegalityChecked,        &insert_selfcheck_guard_series_filter   },
-  { STGoalReachedTester,                &stip_structure_visitor_noop            },
-  { STGoalMateReachedTester,            &stip_structure_visitor_noop            },
-  { STGoalStalemateReachedTester,       &stip_structure_visitor_noop            },
-  { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop            },
-  { STGoalTargetReachedTester,          &stip_structure_visitor_noop            },
-  { STGoalCheckReachedTester,           &stip_structure_visitor_noop            },
-  { STGoalCaptureReachedTester,         &stip_structure_visitor_noop            },
-  { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop            },
-  { STGoalEnpassantReachedTester,       &stip_structure_visitor_noop            },
-  { STGoalDoubleMateReachedTester,      &stip_structure_visitor_noop            },
-  { STGoalCounterMateReachedTester,     &stip_structure_visitor_noop            },
-  { STGoalCastlingReachedTester,        &stip_structure_visitor_noop            },
-  { STGoalAutoStalemateReachedTester,   &stip_structure_visitor_noop            }
+  { STAttackMoveLegalityChecked,  &insert_selfcheck_guard_defender_filter },
+  { STDefenseMoveLegalityChecked, &insert_selfcheck_guard_attacker_filter },
+  { STHelpMoveLegalityChecked,    &insert_selfcheck_guard_help_filter     },
+  { STSeriesMoveLegalityChecked,  &insert_selfcheck_guard_series_filter   },
+  { STGoalReachedTester,          &stip_structure_visitor_noop            }
 };
 
 enum
@@ -676,6 +664,7 @@ enum
 void stip_insert_selfcheck_guards(slice_index si)
 {
   stip_structure_traversal st;
+  SliceType type;
   boolean nested = false;
 
   TraceFunctionEntry(__func__);
@@ -685,6 +674,14 @@ void stip_insert_selfcheck_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&nested);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &stip_structure_visitor_noop);
+
   stip_structure_traversal_override(&st,
                                     selfcheck_guards_inserters,
                                     nr_selfcheck_guards_inserters);

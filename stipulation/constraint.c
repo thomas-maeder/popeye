@@ -887,23 +887,11 @@ static void reflex_guards_inserter_branch_fork(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters[] =
 {
-  { STHelpFork,                         &reflex_guards_inserter_branch_fork },
-  { STSeriesFork,                       &reflex_guards_inserter_branch_fork },
-  { STGoalReachedTester,                &stip_structure_visitor_noop        },
-  { STGoalMateReachedTester,            &stip_structure_visitor_noop        },
-  { STGoalStalemateReachedTester,       &stip_structure_visitor_noop        },
-  { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop        },
-  { STGoalTargetReachedTester,          &stip_structure_visitor_noop        },
-  { STGoalCheckReachedTester,           &stip_structure_visitor_noop        },
-  { STGoalCaptureReachedTester,         &stip_structure_visitor_noop        },
-  { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop        },
-  { STGoalEnpassantReachedTester,       &stip_structure_visitor_noop        },
-  { STGoalDoubleMateReachedTester,      &stip_structure_visitor_noop        },
-  { STGoalCounterMateReachedTester,     &stip_structure_visitor_noop        },
-  { STGoalCastlingReachedTester,        &stip_structure_visitor_noop        },
-  { STGoalAutoStalemateReachedTester,   &stip_structure_visitor_noop        },
-  { STReadyForAttack,                   &reflex_guards_inserter_attack      },
-  { STReadyForDefense,                  &reflex_guards_inserter_defense     }
+  { STHelpFork,          &reflex_guards_inserter_branch_fork },
+  { STSeriesFork,        &reflex_guards_inserter_branch_fork },
+  { STGoalReachedTester, &stip_structure_visitor_noop        },
+  { STReadyForAttack,    &reflex_guards_inserter_attack      },
+  { STReadyForDefense,   &reflex_guards_inserter_defense     }
 };
 
 enum
@@ -925,6 +913,7 @@ void slice_insert_reflex_filters(slice_index si,
                                  slice_index proxy_to_avoided_defense)
 {
   stip_structure_traversal st;
+  SliceType type;
   init_param param = { { proxy_to_avoided_defense, proxy_to_avoided_attack } };
 
   TraceFunctionEntry(__func__);
@@ -939,6 +928,14 @@ void slice_insert_reflex_filters(slice_index si,
   assert(slices[proxy_to_avoided_defense].type==STProxy);
 
   stip_structure_traversal_init(&st,&param);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &stip_structure_visitor_noop);
+
   stip_structure_traversal_override(&st,
                                     reflex_guards_inserters,
                                     nr_reflex_guards_inserters);
@@ -1032,24 +1029,12 @@ static void reflex_guards_inserter_defense_semi(slice_index si,
 
 static structure_traversers_visitors reflex_guards_inserters_semi[] =
 {
-  { STReadyForHelpMove,                 &reflex_guards_inserter_help         },
-  { STHelpFork,                         &reflex_guards_inserter_branch_fork  },
-  { STReadyForSeriesMove,               &reflex_guards_inserter_series       },
-  { STSeriesFork,                       &reflex_guards_inserter_branch_fork  },
-  { STGoalReachedTester,                &stip_structure_visitor_noop         },
-  { STGoalMateReachedTester,            &stip_structure_visitor_noop         },
-  { STGoalStalemateReachedTester,       &stip_structure_visitor_noop         },
-  { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop         },
-  { STGoalTargetReachedTester,          &stip_structure_visitor_noop         },
-  { STGoalCheckReachedTester,           &stip_structure_visitor_noop         },
-  { STGoalCaptureReachedTester,         &stip_structure_visitor_noop         },
-  { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop         },
-  { STGoalEnpassantReachedTester,       &stip_structure_visitor_noop         },
-  { STGoalDoubleMateReachedTester,      &stip_structure_visitor_noop         },
-  { STGoalCounterMateReachedTester,     &stip_structure_visitor_noop         },
-  { STGoalCastlingReachedTester,        &stip_structure_visitor_noop         },
-  { STGoalAutoStalemateReachedTester,   &stip_structure_visitor_noop         },
-  { STReadyForDefense,                  &reflex_guards_inserter_defense_semi }
+  { STReadyForHelpMove,   &reflex_guards_inserter_help         },
+  { STHelpFork,           &reflex_guards_inserter_branch_fork  },
+  { STReadyForSeriesMove, &reflex_guards_inserter_series       },
+  { STSeriesFork,         &reflex_guards_inserter_branch_fork  },
+  { STGoalReachedTester,  &stip_structure_visitor_noop         },
+  { STReadyForDefense,    &reflex_guards_inserter_defense_semi }
 };
 
 enum
@@ -1067,6 +1052,7 @@ void slice_insert_reflex_filters_semi(slice_index si,
                                       slice_index proxy_to_avoided)
 {
   stip_structure_traversal st;
+  SliceType type;
   init_param param;
 
   TraceFunctionEntry(__func__);
@@ -1082,6 +1068,14 @@ void slice_insert_reflex_filters_semi(slice_index si,
   param.to_be_avoided[1] = no_slice;
 
   stip_structure_traversal_init(&st,&param);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &stip_structure_visitor_noop);
+
   stip_structure_traversal_override(&st,
                                     reflex_guards_inserters_semi,
                                     nr_reflex_guards_inserters_semi);

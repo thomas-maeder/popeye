@@ -426,7 +426,7 @@ void insert_goal_optimisation_guards_goal_non_target(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_mate+(slices[si].type-STGoalMateReachedTester);
+  state->goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
   TraceValue("->%u\n",state->goal.type);
 
   TraceFunctionExit(__func__);
@@ -461,18 +461,7 @@ static moves_traversers_visitors const optimisation_guard_inserters[] =
   { STDefenseMove,                      &insert_goal_optimisation_guards_defense           },
   { STAttackMoveToGoal,                 &insert_goal_optimisation_guards_attack_to_goal    },
   { STGoalReachedTester,                &insert_goal_optimisation_guards_goal              },
-  { STGoalMateReachedTester,            &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalStalemateReachedTester,       &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalDoubleStalemateReachedTester, &insert_goal_optimisation_guards_goal_non_target   },
   { STGoalTargetReachedTester,          &insert_goal_optimisation_guards_goal_target       },
-  { STGoalCheckReachedTester,           &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalCaptureReachedTester,         &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalSteingewinnReachedTester,     &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalEnpassantReachedTester,       &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalDoubleMateReachedTester,      &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalCounterMateReachedTester,     &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalCastlingReachedTester,        &insert_goal_optimisation_guards_goal_non_target   },
-  { STGoalAutoStalemateReachedTester,   &insert_goal_optimisation_guards_goal_non_target   },
   { STHelpFork,                         &insert_goal_optimisation_guards_help_fork         },
   { STHelpMove,                         &insert_goal_optimisation_guards_help_move         },
   { STHelpMoveToGoal,                   &insert_goal_optimisation_guards_help_move_to_goal },
@@ -495,6 +484,7 @@ enum
 void stip_insert_goal_optimisation_guards(slice_index si)
 {
   stip_moves_traversal st;
+  SliceType type;
   optimisation_guards_insertion_state state = { { no_goal, initsquare },
                                                 { false } };
 
@@ -504,10 +494,18 @@ void stip_insert_goal_optimisation_guards(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,
-                            optimisation_guard_inserters,
-                            nr_optimisation_guard_inserters,
-                            &state);
+  stip_moves_traversal_init(&st,&state);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_moves_traversal_override_single(&st,
+                                         type,
+                                         &insert_goal_optimisation_guards_goal_non_target);
+
+  stip_moves_traversal_override(&st,
+                                optimisation_guard_inserters,
+                                nr_optimisation_guard_inserters);
   stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);

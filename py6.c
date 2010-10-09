@@ -2035,8 +2035,19 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STGoalDoubleMateReachedTester:
     case STGoalCounterMateReachedTester:
     case STGoalCastlingReachedTester:
+    case STGoalAutoStalemateReachedTester:
+    case STGoalCircuitReachedTester:
+    case STGoalExchangeReachedTester:
+    case STGoalCircuitBReachedTester:
+    case STGoalExchangeBReachedTester:
+    case STGoalAnyReachedTester:
+    case STGoalProofgameReachedTester:
+    case STGoalMateOrStalemateReachedTester:
       result = whitetoplay_means_shorten;
       break;
+
+    case STGoalAToBReachedTester:
+      result = whitetoplay_means_change_colors;
 
     case STGoalReachedTester:
       if (slices[si].u.goal_reached_tester.goal.type==goal_atob)
@@ -2612,7 +2623,7 @@ static void optimise_final_moves_goal_non_target(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_mate+(slices[si].type-STGoalMateReachedTester);
+  state->goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2644,18 +2655,7 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STHelpMove,                         &optimise_final_moves_help_move       },
   { STHelpMoveToGoal,                   &swallow_goal                         },
   { STGoalReachedTester,                &optimise_final_moves_goal            },
-  { STGoalMateReachedTester,            &optimise_final_moves_goal_non_target },
-  { STGoalStalemateReachedTester,       &optimise_final_moves_goal_non_target },
-  { STGoalDoubleStalemateReachedTester, &optimise_final_moves_goal_non_target },
-  { STGoalTargetReachedTester,          &optimise_final_moves_goal_target     },
-  { STGoalCheckReachedTester,           &optimise_final_moves_goal_non_target },
-  { STGoalCaptureReachedTester,         &optimise_final_moves_goal_non_target },
-  { STGoalSteingewinnReachedTester,     &optimise_final_moves_goal_non_target },
-  { STGoalEnpassantReachedTester,       &optimise_final_moves_goal_non_target },
-  { STGoalDoubleMateReachedTester,      &optimise_final_moves_goal_non_target },
-  { STGoalCounterMateReachedTester,     &optimise_final_moves_goal_non_target },
-  { STGoalCastlingReachedTester,        &optimise_final_moves_goal_non_target },
-  { STGoalAutoStalemateReachedTester,   &optimise_final_moves_goal_non_target }
+  { STGoalTargetReachedTester,          &optimise_final_moves_goal_target     }
 };
 
 enum
@@ -2670,6 +2670,7 @@ enum
 static void stip_optimise_final_moves(slice_index si)
 {
   stip_moves_traversal st;
+  SliceType type;
   final_move_optimisation_state state = { { no_goal, initsquare },
                                           { false } };
 
@@ -2681,9 +2682,17 @@ static void stip_optimise_final_moves(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,
-                            final_move_optimisers,nr_final_move_optimisers,
-                            &state);
+  stip_moves_traversal_init(&st,&state);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_moves_traversal_override_single(&st,
+                                         type,
+                                         &optimise_final_moves_goal_non_target);
+
+  stip_moves_traversal_override(&st,
+                                final_move_optimisers,nr_final_move_optimisers);
   stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);

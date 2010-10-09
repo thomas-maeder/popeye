@@ -250,19 +250,7 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors help_goal_instrumenters[] =
 {
-  { STGoalReachedTester,                &instrument_tester },
-  { STGoalMateReachedTester,            &instrument_tester },
-  { STGoalStalemateReachedTester,       &instrument_tester },
-  { STGoalDoubleStalemateReachedTester, &instrument_tester },
-  { STGoalTargetReachedTester,          &instrument_tester },
-  { STGoalCheckReachedTester,           &instrument_tester },
-  { STGoalCaptureReachedTester,         &instrument_tester },
-  { STGoalSteingewinnReachedTester,     &instrument_tester },
-  { STGoalEnpassantReachedTester,       &instrument_tester },
-  { STGoalDoubleMateReachedTester,      &instrument_tester },
-  { STGoalCounterMateReachedTester,     &instrument_tester },
-  { STGoalCastlingReachedTester,        &instrument_tester },
-  { STGoalAutoStalemateReachedTester,   &instrument_tester }
+  { STGoalReachedTester, &instrument_tester }
 };
 
 enum
@@ -277,15 +265,23 @@ enum
 void stip_make_help_goal_branch(slice_index si)
 {
   stip_structure_traversal st;
+  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,type,&instrument_tester);
+
   stip_structure_traversal_override(&st,
                                     help_goal_instrumenters,
                                     nr_help_goal_instrumenters);
+
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

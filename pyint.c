@@ -2653,9 +2653,10 @@ static void init_moves_left(slice_index si,
   MovesLeft[Black] = 0;
   MovesLeft[White] = 0;
 
-  stip_moves_traversal_init(&st,
-                           moves_left_initialisers,nr_moves_left_initialisers,
-                           &n);
+  stip_moves_traversal_init(&st,&n);
+  stip_moves_traversal_override(&st,
+                                moves_left_initialisers,
+                                nr_moves_left_initialisers);
   st.remaining = n; /* TODO */
   stip_traverse_moves(si,&st);
 
@@ -2665,7 +2666,6 @@ static void init_moves_left(slice_index si,
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
 
 static void goal_to_be_reached_goal(slice_index si,
                                     stip_structure_traversal *st)
@@ -2691,7 +2691,7 @@ static void goal_to_be_reached_goal_non_target(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = goal_mate+(slices[si].type-STGoalMateReachedTester);
+  goal_to_be_reached = goal_mate+(slices[si].type-first_goal_tester_slice_type);
 
   stip_traverse_structure_children(si,st);
 
@@ -3431,16 +3431,6 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STGoalReachedTester,                &intelligent_mode_support_detector_goal                       },
   { STGoalMateReachedTester,            &intelligent_mode_support_detector_goal_not_active_by_default },
   { STGoalStalemateReachedTester,       &intelligent_mode_support_detector_goal_not_active_by_default },
-  { STGoalDoubleStalemateReachedTester, &intelligent_mode_support_none                                },
-  { STGoalTargetReachedTester,          &intelligent_mode_support_none                                },
-  { STGoalCheckReachedTester,           &intelligent_mode_support_none                                },
-  { STGoalCaptureReachedTester,         &intelligent_mode_support_none                                },
-  { STGoalSteingewinnReachedTester,     &intelligent_mode_support_none                                },
-  { STGoalEnpassantReachedTester,       &intelligent_mode_support_none                                },
-  { STGoalDoubleMateReachedTester,      &intelligent_mode_support_none                                },
-  { STGoalCounterMateReachedTester,     &intelligent_mode_support_none                                },
-  { STGoalCastlingReachedTester,        &intelligent_mode_support_none                                },
-  { STGoalAutoStalemateReachedTester,   &intelligent_mode_support_none                                },
   { STReciprocal,                       &intelligent_mode_support_none                                },
   { STQuodlibet,                        &intelligent_mode_support_detector_quodlibet                  },
   { STNot,                              &intelligent_mode_support_none                                },
@@ -3470,15 +3460,25 @@ static support_for_intelligent_mode stip_supports_intelligent(slice_index si)
 {
   support_for_intelligent_mode result = intelligent_not_active_by_default;
   stip_structure_traversal st;
+  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &intelligent_mode_support_none);
+
   stip_structure_traversal_override(&st,
                                     intelligent_mode_support_detectors,
                                     nr_intelligent_mode_support_detectors);
+
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

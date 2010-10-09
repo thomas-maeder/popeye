@@ -116,6 +116,14 @@
     ENUMERATOR(STGoalCounterMateReachedTester), /* tests whether a counter-mate goal has been reached */ \
     ENUMERATOR(STGoalCastlingReachedTester), /* tests whether a castling goal has been reached */ \
     ENUMERATOR(STGoalAutoStalemateReachedTester), /* tests whether an auto-stalemate goal has been reached */ \
+    ENUMERATOR(STGoalCircuitReachedTester), /* tests whether a circuit goal has been reached */ \
+    ENUMERATOR(STGoalExchangeReachedTester), /* tests whether an exchange goal has been reached */ \
+    ENUMERATOR(STGoalCircuitBReachedTester), /* tests whether a "circuit B" goal has been reached */ \
+    ENUMERATOR(STGoalExchangeBReachedTester), /* tests whether an "exchange B" goal has been reached */ \
+    ENUMERATOR(STGoalAnyReachedTester), /* tests whether an any goal has been reached */ \
+    ENUMERATOR(STGoalProofgameReachedTester), /* tests whether a proof game goal has been reached */ \
+    ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
+    ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -317,6 +325,14 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalCounterMateReachedTester */
   slice_structure_pipe,   /* STGoalCastlingReachedTester */
   slice_structure_pipe,   /* STGoalAutoStalemateReachedTester */
+  slice_structure_pipe,   /* STGoalCircuitReachedTester */
+  slice_structure_pipe,   /* STGoalExchangeReachedTester */
+  slice_structure_pipe,   /* STGoalCircuitBReachedTester */
+  slice_structure_pipe,   /* STGoalExchangeBReachedTester */
+  slice_structure_pipe,   /* STGoalAnyReachedTester */
+  slice_structure_pipe,   /* STGoalProofgameReachedTester */
+  slice_structure_pipe,   /* STGoalAToBReachedTester */
+  slice_structure_pipe,   /* STGoalMateOrStalemateReachedTester */
   slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -808,10 +824,10 @@ stip_length_type get_max_nr_moves(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_moves_traversal_init(&st,
-                            get_max_nr_moves_functions,
-                            nr_get_max_nr_moves_functions,
-                            &result);
+  stip_moves_traversal_init(&st,&result);
+  stip_moves_traversal_override(&st,
+                                get_max_nr_moves_functions,
+                                nr_get_max_nr_moves_functions);
   stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
@@ -1558,7 +1574,7 @@ static void ends_in_goal_non_target(slice_index si,
                                     stip_structure_traversal *st)
 {
   goal_search * const search = st->param;
-  goal_type const goal = goal_mate+(slices[si].type-STGoalMateReachedTester);
+  goal_type const goal = goal_mate+(slices[si].type-first_goal_tester_slice_type);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1586,19 +1602,8 @@ static void ends_in_goal_target(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors slice_ends_in_checkers[] =
 {
-  { STGoalReachedTester,                &ends_in_goal            },
-  { STGoalMateReachedTester,            &ends_in_goal_non_target },
-  { STGoalStalemateReachedTester,       &ends_in_goal_non_target },
-  { STGoalDoubleStalemateReachedTester, &ends_in_goal_non_target },
-  { STGoalTargetReachedTester,          &ends_in_goal_target     },
-  { STGoalCheckReachedTester,           &ends_in_goal_non_target },
-  { STGoalCaptureReachedTester,         &ends_in_goal_non_target },
-  { STGoalSteingewinnReachedTester,     &ends_in_goal_non_target },
-  { STGoalEnpassantReachedTester,       &ends_in_goal_non_target },
-  { STGoalDoubleMateReachedTester,      &ends_in_goal_non_target },
-  { STGoalCounterMateReachedTester,     &ends_in_goal_non_target },
-  { STGoalCastlingReachedTester,        &ends_in_goal_non_target },
-  { STGoalAutoStalemateReachedTester,   &ends_in_goal_non_target }
+  { STGoalReachedTester,       &ends_in_goal        },
+  { STGoalTargetReachedTester, &ends_in_goal_target }
 };
 
 enum
@@ -1616,12 +1621,21 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 {
   goal_search search = { goal, false };
   stip_structure_traversal st;
+  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&search);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &ends_in_goal_non_target);
+
   stip_structure_traversal_override(&st,
                                     slice_ends_in_checkers,
                                     nr_slice_ends_in_checkers);
@@ -2065,6 +2079,14 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalCounterMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalCastlingReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalAutoStalemateReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalCircuitReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalExchangeReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalCircuitBReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalExchangeBReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalAnyReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalProofgameReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalAToBReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalMateOrStalemateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2183,7 +2205,7 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
   st->param = param;
 }
 
-/* Initialise a structure traversal structure with default visitors
+/* Override the behavior of a structure traversal at slices of a structural type
  * @param st to be initialised
  * @param type type for which to override the visitor
  * @param visitor overrider
@@ -2196,6 +2218,18 @@ void stip_structure_traversal_override_by_type(stip_structure_traversal *st,
   for (i = 0; i!=nr_slice_types; ++i)
     if (highest_structural_type[i]==type)
       st->map.visitors[i] = visitor;
+}
+
+/* Initialise a structure traversal structure with default visitors
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_structure_traversal_override_single(stip_structure_traversal *st,
+                                              SliceType type,
+                                              stip_structure_visitor visitor)
+{
+  st->map.visitors[type] = visitor;
 }
 
 /* Override some of the visitors of a traversal
@@ -2293,6 +2327,14 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STGoalCounterMateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalCastlingReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalAutoStalemateReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalCircuitReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalExchangeReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalCircuitBReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalExchangeBReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalAnyReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalProofgameReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalAToBReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalMateOrStalemateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTested */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */
@@ -2396,30 +2438,52 @@ static moves_visitor_map_type const moves_children_traversers =
   }
 };
 
-/* Initialise a move traversal structure
+/* Initialise a move traversal structure with default visitors
+ * @param st to be initialised
+ * @param param parameter to be passed t operations
+ */
+void stip_moves_traversal_init(stip_moves_traversal *st, void *param)
+{
+  unsigned int i;
+
+  st->map = moves_children_traversers;
+
+  for (i = 0; i!=nr_slice_types; ++i)
+    st->map.visitors[i] = moves_children_traversers.visitors[i];
+
+  st->level = 0;
+  st->remaining = 0;
+  st->param = param;
+}
+
+/* Override the behavior of a moves traversal at some slice types
  * @param st to be initialised
  * @param moves_traversers_visitors array of alternative visitors; for
  *                                  slices with types not mentioned in
  *                                  moves_traversers_visitors, the default
  *                                  visitor will be used
  * @param nr_visitors length of moves_traversers_visitors
- * @param param parameter to be passed t operations
  */
-void stip_moves_traversal_init(stip_moves_traversal *st,
-                               moves_traversers_visitors const visitors[],
-                               unsigned int nr_visitors,
-                               void *param)
+void stip_moves_traversal_override(stip_moves_traversal *st,
+                                   moves_traversers_visitors const visitors[],
+                                   unsigned int nr_visitors)
 {
   unsigned int i;
 
-  st->map = moves_children_traversers;
-
   for (i = 0; i<nr_visitors; ++i)
     st->map.visitors[visitors[i].type] = visitors[i].visitor;
+}
 
-  st->level = 0;
-  st->remaining = 0;
-  st->param = param;
+/* Override the behavior of a moves traversal at slices of a structural type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_moves_traversal_override_single(stip_moves_traversal *st,
+                                          SliceType type,
+                                          stip_moves_visitor visitor)
+{
+  st->map.visitors[type] = visitor;
 }
 
 /* (Approximately) depth-first traversl of the stipulation

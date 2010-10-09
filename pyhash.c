@@ -2146,9 +2146,10 @@ void stip_insert_hash_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,
-                           hash_element_inserters,nr_hash_element_inserters,
-                           &level);
+  stip_moves_traversal_init(&st,&level);
+  stip_moves_traversal_override(&st,
+                                hash_element_inserters,
+                                nr_hash_element_inserters);
   stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);

@@ -536,25 +536,13 @@ static void threat_handler_reset_insertion_state(slice_index si,
 
 static structure_traversers_visitors threat_handler_inserters[] =
 {
-  { STAttackMovePlayed,                 &append_threat_collector              },
-  { STReadyForDefense,                  &append_threat_solver                 },
-  { STDefenseMoveLegalityChecked,       &append_threat_enforcer               },
-  { STGoalReachedTester,                &stip_structure_visitor_noop          },
-  { STGoalMateReachedTester,            &stip_structure_visitor_noop          },
-  { STGoalStalemateReachedTester,       &stip_structure_visitor_noop          },
-  { STGoalDoubleStalemateReachedTester, &stip_structure_visitor_noop          },
-  { STGoalTargetReachedTester,          &stip_structure_visitor_noop          },
-  { STGoalCheckReachedTester,           &stip_structure_visitor_noop          },
-  { STGoalCaptureReachedTester,         &stip_structure_visitor_noop          },
-  { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop          },
-  { STGoalEnpassantReachedTester,       &stip_structure_visitor_noop          },
-  { STGoalDoubleMateReachedTester,      &stip_structure_visitor_noop          },
-  { STGoalCounterMateReachedTester,     &stip_structure_visitor_noop          },
-  { STGoalCastlingReachedTester,        &stip_structure_visitor_noop          },
-  { STGoalAutoStalemateReachedTester,   &stip_structure_visitor_noop          },
-  { STHelpRoot,                         &stip_structure_visitor_noop          },
-  { STSeriesRoot,                       &stip_structure_visitor_noop          },
-  { STNot,                              &threat_handler_reset_insertion_state }
+  { STAttackMovePlayed,           &append_threat_collector              },
+  { STReadyForDefense,            &append_threat_solver                 },
+  { STDefenseMoveLegalityChecked, &append_threat_enforcer               },
+  { STGoalReachedTester,          &stip_structure_visitor_noop          },
+  { STHelpRoot,                   &stip_structure_visitor_noop          },
+  { STSeriesRoot,                 &stip_structure_visitor_noop          },
+  { STNot,                        &threat_handler_reset_insertion_state }
 };
 
 enum
@@ -570,6 +558,7 @@ enum
 void stip_insert_threat_handlers(slice_index si)
 {
   stip_structure_traversal st;
+  SliceType type;
   threat_handler_insertion_state state = { threat_handler_inserted_none };
   unsigned int i;
 
@@ -580,6 +569,14 @@ void stip_insert_threat_handlers(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &stip_structure_visitor_noop);
+
   stip_structure_traversal_override(&st,
                                     threat_handler_inserters,
                                     nr_threat_handler_inserters);

@@ -74,7 +74,7 @@ void instrument_goal_non_target_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->reached_goal.type = goal_mate+(slices[si].type-STGoalMateReachedTester);
+  state->reached_goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
   stip_traverse_structure_children(si,st);
   state->reached_goal = save_reached_goal;
 
@@ -365,35 +365,24 @@ static void instrument_setplay_fork(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitors tree_slice_inserters[] =
 {
-  { STSetplayFork,                      &instrument_setplay_fork                   },
-  { STGoalReachedTester,                &instrument_goal_reached_tester            },
-  { STGoalMateReachedTester,            &instrument_goal_non_target_reached_tester },
-  { STGoalStalemateReachedTester,       &instrument_goal_non_target_reached_tester },
-  { STGoalDoubleStalemateReachedTester, &instrument_goal_non_target_reached_tester },
-  { STGoalTargetReachedTester,          &instrument_goal_target_reached_tester     },
-  { STGoalCheckReachedTester,           &instrument_goal_non_target_reached_tester },
-  { STGoalCaptureReachedTester,         &instrument_goal_non_target_reached_tester },
-  { STGoalSteingewinnReachedTester,     &instrument_goal_non_target_reached_tester },
-  { STGoalEnpassantReachedTester,       &instrument_goal_non_target_reached_tester },
-  { STGoalDoubleMateReachedTester,      &instrument_goal_non_target_reached_tester },
-  { STGoalCounterMateReachedTester,     &instrument_goal_non_target_reached_tester },
-  { STGoalCastlingReachedTester,        &instrument_goal_non_target_reached_tester },
-  { STGoalAutoStalemateReachedTester,   &instrument_goal_non_target_reached_tester },
-  { STLeaf,                             &instrument_leaf                           },
-  { STMoveInverterRootSolvableFilter,   &instrument_move_inverter                  },
-  { STMoveInverterSolvableFilter,       &instrument_move_inverter                  },
-  { STAttackMovePlayed,                 &instrument_attack_move_played             },
-  { STDefenseRoot,                      &instrument_defense_root                   },
-  { STContinuationSolver,               &instrument_continuation_solver            },
-  { STTrySolver,                        &instrument_try_solver                     },
-  { STThreatSolver,                     &instrument_threat_solver                  },
-  { STDefenseMoveFiltered,              &instrument_defense_move_filtered          },
-  { STRefutationsCollector,             &instrument_refutations_collector          },
-  { STSeriesRoot,                       &stip_structure_visitor_noop               },
-  { STDefenseDealtWith,                 &instrument_ready_for_attack               },
-  { STAttackDealtWith,                  &instrument_ready_for_defense              },
-  { STSolutionSolver,                   &activate_output                           },
-  { STPostKeyPlaySuppressor,            &suppress_output                           }
+  { STSetplayFork,                    &instrument_setplay_fork                   },
+  { STGoalReachedTester,              &instrument_goal_reached_tester            },
+  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester     },
+  { STLeaf,                           &instrument_leaf                           },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter                  },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter                  },
+  { STAttackMovePlayed,               &instrument_attack_move_played             },
+  { STDefenseRoot,                    &instrument_defense_root                   },
+  { STContinuationSolver,             &instrument_continuation_solver            },
+  { STTrySolver,                      &instrument_try_solver                     },
+  { STThreatSolver,                   &instrument_threat_solver                  },
+  { STDefenseMoveFiltered,            &instrument_defense_move_filtered          },
+  { STRefutationsCollector,           &instrument_refutations_collector          },
+  { STSeriesRoot,                     &stip_structure_visitor_noop               },
+  { STDefenseDealtWith,               &instrument_ready_for_attack               },
+  { STAttackDealtWith,                &instrument_ready_for_defense              },
+  { STSolutionSolver,                 &activate_output                           },
+  { STPostKeyPlaySuppressor,          &suppress_output                           }
 };
 
 enum
@@ -409,6 +398,7 @@ enum
 void stip_insert_output_plaintext_tree_slices(slice_index si)
 {
   stip_structure_traversal st;
+  SliceType type;
   instrumentation_state state =
       { { no_goal, initsquare },
         output_suppressed,
@@ -422,6 +412,14 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &instrument_goal_non_target_reached_tester);
+
   stip_structure_traversal_override(&st,
                                     tree_slice_inserters,
                                     nr_tree_slice_inserters);

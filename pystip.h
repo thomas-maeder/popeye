@@ -81,6 +81,14 @@
     ENUMERATOR(STGoalCounterMateReachedTester), /* tests whether a counter-mate goal has been reached */ \
     ENUMERATOR(STGoalCastlingReachedTester), /* tests whether a castling goal has been reached */ \
     ENUMERATOR(STGoalAutoStalemateReachedTester), /* tests whether an auto-stalemate goal has been reached */ \
+    ENUMERATOR(STGoalCircuitReachedTester), /* tests whether a circuit goal has been reached */ \
+    ENUMERATOR(STGoalExchangeReachedTester), /* tests whether an exchange goal has been reached */ \
+    ENUMERATOR(STGoalCircuitBReachedTester), /* tests whether a "circuit B" goal has been reached */ \
+    ENUMERATOR(STGoalExchangeBReachedTester), /* tests whether an "exchange B" goal has been reached */ \
+    ENUMERATOR(STGoalAnyReachedTester), /* tests whether an any goal has been reached */ \
+    ENUMERATOR(STGoalProofgameReachedTester), /* tests whether a proof game goal has been reached */ \
+    ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
+    ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     /* unary and binary operators */                                    \
@@ -189,7 +197,9 @@
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
     ENUMERATOR(nr_slice_types),                                         \
-    ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
+    ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types),                \
+    ASSIGNED_ENUMERATOR(first_goal_tester_slice_type = STGoalMateReachedTester), \
+    ASSIGNED_ENUMERATOR(last_goal_tester_slice_type = STGoalReachedTested-1)
 
 #define ENUMERATION_DECLARE
 
@@ -540,7 +550,7 @@ typedef struct stip_structure_traversal
  */
 void stip_structure_traversal_init(stip_structure_traversal *st, void *param);
 
-/* Initialise a structure traversal structure with default visitors
+/* Override the behavior of a structure traversal at slices of a structural type
  * @param st to be initialised
  * @param type type for which to override the visitor
  * @param visitor overrider
@@ -548,6 +558,15 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param);
 void stip_structure_traversal_override_by_type(stip_structure_traversal *st,
                                                slice_structural_type type,
                                                stip_structure_visitor visitor);
+
+/* Initialise a structure traversal structure with default visitors
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_structure_traversal_override_single(stip_structure_traversal *st,
+                                              SliceType type,
+                                              stip_structure_visitor visitor);
 
 /* define an alternative visitor for a particular slice type */
 typedef struct
@@ -626,19 +645,32 @@ typedef struct
     stip_moves_visitor visitor;
 } moves_traversers_visitors;
 
-/* Initialise a move traversal structure
+/* Initialise a move traversal structure with default visitors
+ * @param st to be initialised
+ * @param param parameter to be passed t operations
+ */
+void stip_moves_traversal_init(stip_moves_traversal *st, void *param);
+
+/* Override the behavior of a moves traversal at some slice types
  * @param st to be initialised
  * @param moves_traversers_visitors array of alternative visitors; for
  *                                  slices with types not mentioned in
  *                                  moves_traversers_visitors, the default
  *                                  visitor will be used
  * @param nr_visitors length of moves_traversers_visitors
- * @param param parameter to be passed t operations
  */
-void stip_moves_traversal_init(stip_moves_traversal *st,
-                               moves_traversers_visitors const visitors[],
-                               unsigned int nr_visitors,
-                               void *param);
+void stip_moves_traversal_override(stip_moves_traversal *st,
+                                   moves_traversers_visitors const visitors[],
+                                   unsigned int nr_visitors);
+
+/* Override the behavior of a moves traversal at slices of a structural type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_moves_traversal_override_single(stip_moves_traversal *st,
+                                          SliceType type,
+                                          stip_moves_visitor visitor);
 
 /* Traversal of moves of the stipulation
  * @param root identifies start of the stipulation (sub)tree

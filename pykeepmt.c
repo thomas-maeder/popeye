@@ -670,18 +670,6 @@ static structure_traversers_visitors keepmating_guards_inserters[] =
   { STSeriesMoveToGoal,                 &keepmating_guards_inserter_series_move },
   { STSeriesFork,                       &keepmating_guards_inserter_branch_fork },
   { STGoalReachedTester,                &keepmating_guards_inserter_goal        },
-  { STGoalMateReachedTester,            &keepmating_guards_inserter_goal        },
-  { STGoalStalemateReachedTester,       &keepmating_guards_inserter_goal        },
-  { STGoalDoubleStalemateReachedTester, &keepmating_guards_inserter_goal        },
-  { STGoalTargetReachedTester,          &keepmating_guards_inserter_goal        },
-  { STGoalCheckReachedTester,           &keepmating_guards_inserter_goal        },
-  { STGoalCaptureReachedTester,         &keepmating_guards_inserter_goal        },
-  { STGoalSteingewinnReachedTester,     &keepmating_guards_inserter_goal        },
-  { STGoalEnpassantReachedTester,       &keepmating_guards_inserter_goal        },
-  { STGoalDoubleMateReachedTester,      &keepmating_guards_inserter_goal        },
-  { STGoalCounterMateReachedTester,     &keepmating_guards_inserter_goal        },
-  { STGoalCastlingReachedTester,        &keepmating_guards_inserter_goal        },
-  { STGoalAutoStalemateReachedTester,   &keepmating_guards_inserter_goal        },
   { STReciprocal,                       &keepmating_guards_inserter_reciprocal  },
   { STQuodlibet,                        &keepmating_guards_inserter_quodlibet   },
   { STReflexAttackerFilter,             &keepmating_guards_inserter_battle_fork },
@@ -703,6 +691,7 @@ void stip_insert_keepmating_guards(slice_index si)
 {
   keepmatingguard_insertion_state_type state = { { false, false }, 0};
   stip_structure_traversal st;
+  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -711,6 +700,14 @@ void stip_insert_keepmating_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
+
+  for (type = first_goal_tester_slice_type;
+       type<=last_goal_tester_slice_type;
+       ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &keepmating_guards_inserter_goal);
+
   stip_structure_traversal_override(&st,
                                     keepmating_guards_inserters,
                                     nr_keepmating_guards_inserters);

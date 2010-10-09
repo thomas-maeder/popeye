@@ -372,10 +372,10 @@ void stip_insert_goal_prerequisite_guards(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,
-                            prerequisite_guard_inserters,
-                            nr_prerequisite_guard_inserters,
-                            &state);
+  stip_moves_traversal_init(&st,&state);
+  stip_moves_traversal_override(&st,
+                                prerequisite_guard_inserters,
+                                nr_prerequisite_guard_inserters);
   stip_traverse_moves(si,&st);
 
   TraceFunctionExit(__func__);
