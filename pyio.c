@@ -90,6 +90,7 @@
 #include "stipulation/goals/steingewinn/reached_tester.h"
 #include "stipulation/goals/enpassant/reached_tester.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
+#include "stipulation/goals/countermate/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -2001,6 +2002,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_doublemate:
         attachGoalBranch(proxy,alloc_goal_doublemate_reached_tester_slice());
+        break;
+
+      case goal_countermate:
+        attachGoalBranch(proxy,alloc_goal_countermate_reached_tester_slice());
         break;
 
       case goal_atob:

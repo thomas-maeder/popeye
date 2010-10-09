@@ -113,6 +113,7 @@
     ENUMERATOR(STGoalSteingewinnReachedTester), /* tests whether a steingewinn goal has been reached */ \
     ENUMERATOR(STGoalEnpassantReachedTester), /* tests whether an en passant goal has been reached */ \
     ENUMERATOR(STGoalDoubleMateReachedTester), /* tests whether a double mate goal has been reached */ \
+    ENUMERATOR(STGoalCounterMateReachedTester), /* tests whether a counter-mate goal has been reached */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -311,6 +312,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalSteingewinnReachedTester */
   slice_structure_pipe,   /* STGoalEnpassantReachedTester */
   slice_structure_pipe,   /* STGoalDoubleMateReachedTester */
+  slice_structure_pipe,   /* STGoalCounterMateReachedTester */
   slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -894,7 +896,8 @@ static structure_traversers_visitors unique_goal_finders[] =
   { STGoalCaptureReachedTester,         &find_unique_goal_goal_non_target_tester },
   { STGoalSteingewinnReachedTester,     &find_unique_goal_goal_non_target_tester },
   { STGoalEnpassantReachedTester,       &find_unique_goal_goal_non_target_tester },
-  { STGoalDoubleMateReachedTester,      &find_unique_goal_goal_non_target_tester }
+  { STGoalDoubleMateReachedTester,      &find_unique_goal_goal_non_target_tester },
+  { STGoalCounterMateReachedTester,     &find_unique_goal_goal_non_target_tester }
 };
 
 enum
@@ -1134,6 +1137,7 @@ static boolean is_goal_tester(SliceType type)
     case STGoalSteingewinnReachedTester:
     case STGoalEnpassantReachedTester:
     case STGoalDoubleMateReachedTester:
+    case STGoalCounterMateReachedTester:
       return true;
 
     default:
@@ -1583,7 +1587,8 @@ static structure_traversers_visitors slice_ends_in_checkers[] =
   { STGoalCaptureReachedTester,         &ends_in_goal_non_target },
   { STGoalSteingewinnReachedTester,     &ends_in_goal_non_target },
   { STGoalEnpassantReachedTester,       &ends_in_goal_non_target },
-  { STGoalDoubleMateReachedTester,      &ends_in_goal_non_target }
+  { STGoalDoubleMateReachedTester,      &ends_in_goal_non_target },
+  { STGoalCounterMateReachedTester,     &ends_in_goal_non_target }
 };
 
 enum
@@ -2047,6 +2052,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalSteingewinnReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalEnpassantReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalDoubleMateReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalCounterMateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2272,6 +2278,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STGoalSteingewinnReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalEnpassantReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalDoubleMateReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalCounterMateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTested */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */

@@ -156,20 +156,8 @@ goal_checker_result_type goal_checker_ep(Side just_moved)
 
 goal_checker_result_type goal_checker_doublemate(Side just_moved)
 {
-  Side const ad = advers(just_moved);
-
-  if (echecc(nbply,ad) && echecc(nbply,just_moved))
-  {
-    boolean flag;
-    testdblmate = flag_nk;
-    /* modified to allow isardam + ##  */
-    /* may still have problem with isardam + nK + ##  !*/
-    flag = immobile(ad) && immobile(just_moved);
-    testdblmate = false;
-    return flag ? goal_reached : goal_not_reached;
-  }
-  else
-    return goal_not_reached;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_castling(Side just_moved)
