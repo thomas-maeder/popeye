@@ -57,7 +57,7 @@ has_solution_type anticirce_exchange_special_has_solution(slice_index si)
         result = slice_has_solution(next);
     }
     else
-      return goal_not_reached;
+      result = goal_not_reached;
   }
 
   TraceFunctionExit(__func__);
@@ -96,7 +96,7 @@ has_solution_type anticirce_exchange_special_solve(slice_index si)
         result = slice_solve(next);
     }
     else
-      return goal_not_reached;
+      result = goal_not_reached;
   }
 
   TraceFunctionExit(__func__);
