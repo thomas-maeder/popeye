@@ -148,6 +148,7 @@ static structure_traversers_visitors direct_leaf_instrumenters[] =
   { STGoalDoubleMateReachedTester,      &instrument_tester },
   { STGoalCounterMateReachedTester,     &instrument_tester },
   { STGoalCastlingReachedTester,        &instrument_tester },
+  { STGoalAutoStalemateReachedTester,   &instrument_tester },
   { STGoalReachedTested,                &instrument_tested }
 };
 

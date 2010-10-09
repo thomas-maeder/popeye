@@ -115,25 +115,8 @@ goal_checker_result_type goal_checker_dblstale(Side just_moved)
 
 goal_checker_result_type goal_checker_autostale(Side just_moved)
 {
-  goal_checker_result_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%d",just_moved);
-  TraceFunctionParamListEnd();
-
-  if (echecc(nbply,advers(just_moved)))
-    result = goal_not_reached;
-  else if (echecc(nbply,just_moved))
-    result = goal_not_reached_selfcheck;
-  else if (immobile(just_moved))
-    result = goal_reached;
-  else
-    result = goal_not_reached;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
-  TraceFunctionResultEnd();
-  return result;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_check(Side just_moved)

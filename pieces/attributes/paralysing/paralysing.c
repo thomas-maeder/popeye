@@ -9,50 +9,6 @@
 
 #include <assert.h>
 
-
-static void append_goal_filters(slice_index si, stip_structure_traversal *st)
-{
-  Side const starter = slices[si].starter;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  switch (slices[si].u.goal_reached_tester.goal.type)
-  {
-    case goal_mate:
-    case goal_stale:
-    case goal_dblstale:
-    case goal_doublemate:
-    case goal_countermate:
-      assert(0);
-      break;
-
-    case goal_autostale:
-    {
-      slice_index const tested = branch_find_slice(STGoalReachedTested,si);
-      slice_index const proxy_filter = alloc_proxy_slice();
-      slice_index const filter = alloc_paralysing_stalemate_special_slice(advers(starter));
-      slice_index const proxy = alloc_proxy_slice();
-
-      assert(tested!=no_slice);
-      pipe_link(slices[si].prev,alloc_quodlibet_slice(proxy,proxy_filter));
-      pipe_link(proxy_filter,filter);
-      pipe_link(filter,tested);
-      pipe_link(proxy,si);
-      break;
-    }
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void append_goal_mate_filter(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -140,14 +96,41 @@ static void append_goal_doublemate_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void append_goal_autostalemate_filter(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    Side const starter = slices[si].starter;
+    slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+    slice_index const proxy_filter = alloc_proxy_slice();
+    slice_index const filter = alloc_paralysing_stalemate_special_slice(advers(starter));
+    slice_index const proxy = alloc_proxy_slice();
+
+    assert(tested!=no_slice);
+    pipe_link(slices[si].prev,alloc_quodlibet_slice(proxy,proxy_filter));
+    pipe_link(proxy_filter,filter);
+    pipe_link(filter,tested);
+    pipe_link(proxy,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalReachedTester,                &append_goal_filters                },
   { STGoalMateReachedTester,            &append_goal_mate_filter            },
   { STGoalStalemateReachedTester,       &append_goal_stalemate_filter       },
   { STGoalDoubleStalemateReachedTester, &append_goal_doublestalemate_filter },
   { STGoalDoubleMateReachedTester,      &append_goal_doublemate_filter      },
-  { STGoalCounterMateReachedTester,     &append_goal_doublemate_filter      }
+  { STGoalCounterMateReachedTester,     &append_goal_doublemate_filter      },
+  { STGoalAutoStalemateReachedTester,   &append_goal_autostalemate_filter   }
 };
 
 enum

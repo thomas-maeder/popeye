@@ -167,6 +167,7 @@ static structure_traversers_visitors line_slice_inserters[] =
   { STGoalDoubleMateReachedTester,      &instrument_goal_non_target_reached_tester },
   { STGoalCounterMateReachedTester,     &instrument_goal_non_target_reached_tester },
   { STGoalCastlingReachedTester,        &instrument_goal_non_target_reached_tester },
+  { STGoalAutoStalemateReachedTester,   &instrument_goal_non_target_reached_tester },
   { STLeaf,                             &instrument_leaf                           },
   { STMoveInverterRootSolvableFilter,   &instrument_move_inverter                  },
   { STMoveInverterSolvableFilter,       &instrument_move_inverter                  },

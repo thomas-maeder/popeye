@@ -2654,7 +2654,8 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STGoalEnpassantReachedTester,       &optimise_final_moves_goal_non_target },
   { STGoalDoubleMateReachedTester,      &optimise_final_moves_goal_non_target },
   { STGoalCounterMateReachedTester,     &optimise_final_moves_goal_non_target },
-  { STGoalCastlingReachedTester,        &optimise_final_moves_goal_non_target }
+  { STGoalCastlingReachedTester,        &optimise_final_moves_goal_non_target },
+  { STGoalAutoStalemateReachedTester,   &optimise_final_moves_goal_non_target }
 };
 
 enum

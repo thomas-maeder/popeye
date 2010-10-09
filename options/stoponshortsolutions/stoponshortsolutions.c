@@ -218,6 +218,7 @@ static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
   { STGoalDoubleMateReachedTester,      &stip_structure_visitor_noop             },
   { STGoalCounterMateReachedTester,     &stip_structure_visitor_noop             },
   { STGoalCastlingReachedTester,        &stip_structure_visitor_noop             },
+  { STGoalAutoStalemateReachedTester,   &stip_structure_visitor_noop             },
   { STStopOnShortSolutionsRootSolvableFilter, &stip_structure_visitor_noop  },
   { STStopOnShortSolutionsHelpFilter,         &stip_structure_visitor_noop  },
   { STStopOnShortSolutionsSeriesFilter,       &stip_structure_visitor_noop  }
