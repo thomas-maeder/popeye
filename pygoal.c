@@ -30,7 +30,7 @@ goal_checker_result_type goal_checker_circuit(Side just_moved)
   return goal_not_reached;
 }
 
-goal_checker_result_type goal_checker_circuitB(Side just_moved)
+goal_checker_result_type goal_checker_circuit_by_rebirth(Side just_moved)
 {
   /* goal is only reachable in some fairy conditions */
   return goal_not_reached;
@@ -38,17 +38,8 @@ goal_checker_result_type goal_checker_circuitB(Side just_moved)
 
 goal_checker_result_type goal_checker_exchange(Side just_moved)
 {
-  square const sq_arrival = move_generation_stack[nbcou].arrival;
-  square const sq_diagram = GetDiaRen(spec[sq_arrival]);
-
-  if (GetDiaRen(spec[sq_diagram])==sq_arrival
-      && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
-      && sq_diagram!=sq_arrival)
-    return (echecc(nbply,just_moved)
-            ? goal_not_reached_selfcheck
-            : goal_reached);
-  else
-    return goal_not_reached;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_exchangeB(Side just_moved)

@@ -506,6 +506,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   stipulation/goal_reached_tester.h \
   stipulation/goals/mate/reached_tester.h \
   stipulation/goals/stalemate/reached_tester.h \
+  stipulation/goals/doublestalemate/reached_tester.h \
   stipulation/goals/target/reached_tester.h \
   stipulation/goals/check/reached_tester.h \
   stipulation/goals/capture/reached_tester.h \
@@ -515,8 +516,10 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   stipulation/goals/countermate/reached_tester.h \
   stipulation/goals/castling/reached_tester.h \
   stipulation/goals/autostalemate/reached_tester.h \
-  stipulation/goals/circuit/reached_tester.h pypipe.h pyint.h pyoutput.h \
-  pytable.h stipulation/proxy.h pypipe.h stipulation/branch.h \
+  stipulation/goals/circuit/reached_tester.h \
+  stipulation/goals/exchange/reached_tester.h \
+  stipulation/goals/circuit_by_rebirth/reached_tester.h pypipe.h pyint.h \
+  pyoutput.h pytable.h stipulation/proxy.h pypipe.h stipulation/branch.h \
   stipulation/leaf.h stipulation/battle_play/branch.h \
   stipulation/battle_play/attack_find_shortest.h \
   stipulation/battle_play/attack_move.h \
@@ -611,6 +614,8 @@ stipulation/goals/mate/reached_tester.h:
 
 stipulation/goals/stalemate/reached_tester.h:
 
+stipulation/goals/doublestalemate/reached_tester.h:
+
 stipulation/goals/target/reached_tester.h:
 
 stipulation/goals/check/reached_tester.h:
@@ -630,6 +635,10 @@ stipulation/goals/castling/reached_tester.h:
 stipulation/goals/autostalemate/reached_tester.h:
 
 stipulation/goals/circuit/reached_tester.h:
+
+stipulation/goals/exchange/reached_tester.h:
+
+stipulation/goals/circuit_by_rebirth/reached_tester.h:
 
 pypipe.h:
 
@@ -1326,9 +1335,12 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   stipulation/goals/enpassant/reached_tester.h \
   stipulation/goals/doublemate/reached_tester.h \
   stipulation/goals/castling/reached_tester.h \
-  stipulation/goals/autostalemate/reached_tester.h pybrafrk.h pyquodli.h \
-  pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
-  pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
+  stipulation/goals/autostalemate/reached_tester.h \
+  stipulation/goals/circuit/reached_tester.h \
+  stipulation/goals/exchange/reached_tester.h \
+  stipulation/goals/circuit_by_rebirth/reached_tester.h pybrafrk.h \
+  pyquodli.h pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h \
+  pyreflxg.h pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
   pieces/attributes/paralysing/mate_filter.h \
   pieces/attributes/paralysing/stalemate_special.h \
   conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
@@ -1433,6 +1445,12 @@ stipulation/goals/doublemate/reached_tester.h:
 stipulation/goals/castling/reached_tester.h:
 
 stipulation/goals/autostalemate/reached_tester.h:
+
+stipulation/goals/circuit/reached_tester.h:
+
+stipulation/goals/exchange/reached_tester.h:
+
+stipulation/goals/circuit_by_rebirth/reached_tester.h:
 
 pybrafrk.h:
 

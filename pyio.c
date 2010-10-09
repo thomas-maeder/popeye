@@ -96,6 +96,7 @@
 #include "stipulation/goals/autostalemate/reached_tester.h"
 #include "stipulation/goals/circuit/reached_tester.h"
 #include "stipulation/goals/exchange/reached_tester.h"
+#include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -1768,26 +1769,26 @@ typedef struct
  * appear *after* them! */
 static goalInputConfig_t const goalInputConfig[nr_goals] =
 {
-  {   "##!",  goal_countermate   }
-  , { "##",   goal_doublemate    }
-  , { "#=",   goal_mate_or_stale }
-  , { "#",    goal_mate          }
-  , { "==",   goal_dblstale      }
-  , { "!=",   goal_autostale     }
-  , { "=",    goal_stale         }
-  , { "z",    goal_target        }
-  , { "+",    goal_check         }
-  , { "x",    goal_capture       }
-  , { "%",    goal_steingewinn   }
-  , { "ep",   goal_ep            }
-  , { "ctr",  goal_circuitB      }
-  , { "ct",   goal_circuit       }
-  , { "<>r",  goal_exchangeB     }
-  , { "<>",   goal_exchange      }
-  , { "00",   goal_castling      }
-  , { "~",    goal_any           }
-  , { "dia",  goal_proof         }
-  , { "a=>b", goal_atob          }
+  {   "##!",  goal_countermate        }
+  , { "##",   goal_doublemate         }
+  , { "#=",   goal_mate_or_stale      }
+  , { "#",    goal_mate               }
+  , { "==",   goal_dblstale           }
+  , { "!=",   goal_autostale          }
+  , { "=",    goal_stale              }
+  , { "z",    goal_target             }
+  , { "+",    goal_check              }
+  , { "x",    goal_capture            }
+  , { "%",    goal_steingewinn        }
+  , { "ep",   goal_ep                 }
+  , { "ctr",  goal_circuit_by_rebirth }
+  , { "ct",   goal_circuit            }
+  , { "<>r",  goal_exchangeB          }
+  , { "<>",   goal_exchange           }
+  , { "00",   goal_castling           }
+  , { "~",    goal_any                }
+  , { "dia",  goal_proof              }
+  , { "a=>b", goal_atob               }
 };
 
 static char *ParseLength(char *tok,
@@ -2031,6 +2032,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_exchange:
         attachGoalBranch(proxy,alloc_goal_exchange_reached_tester_slice());
+        break;
+
+      case goal_circuit_by_rebirth:
+        attachGoalBranch(proxy,alloc_goal_circuit_by_rebirth_reached_tester_slice());
         break;
 
       case goal_atob:

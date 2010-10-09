@@ -83,7 +83,7 @@
     ENUMERATOR(STGoalAutoStalemateReachedTester), /* tests whether an auto-stalemate goal has been reached */ \
     ENUMERATOR(STGoalCircuitReachedTester), /* tests whether a circuit goal has been reached */ \
     ENUMERATOR(STGoalExchangeReachedTester), /* tests whether an exchange goal has been reached */ \
-    ENUMERATOR(STGoalCircuitBReachedTester), /* tests whether a "circuit B" goal has been reached */ \
+    ENUMERATOR(STGoalCircuitByRebirthReachedTester), /* tests whether a circuit by rebirth goal has been reached */ \
     ENUMERATOR(STGoalExchangeBReachedTester), /* tests whether an "exchange B" goal has been reached */ \
     ENUMERATOR(STGoalAnyReachedTester), /* tests whether an any goal has been reached */ \
     ENUMERATOR(STGoalProofgameReachedTester), /* tests whether a proof game goal has been reached */ \

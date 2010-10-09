@@ -45,11 +45,8 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
     case goal_circuit:
     case goal_dblstale:
     case goal_exchange:
+    case goal_circuit_by_rebirth:
       assert(0);
-      break;
-
-    case goal_circuitB:
-      result = goal_checker_circuitB(just_moved);
       break;
 
     case goal_exchangeB:

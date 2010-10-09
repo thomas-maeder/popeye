@@ -23,6 +23,9 @@
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/goals/castling/reached_tester.h"
 #include "stipulation/goals/autostalemate/reached_tester.h"
+#include "stipulation/goals/circuit/reached_tester.h"
+#include "stipulation/goals/exchange/reached_tester.h"
+#include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -148,6 +151,10 @@ has_solution_type slice_solve(slice_index si)
 
     case STGoalExchangeReachedTester:
       result = goal_exchange_reached_tester_solve(si);
+      break;
+
+    case STGoalCircuitByRebirthReachedTester:
+      result = goal_circuit_by_rebirth_reached_tester_solve(si);
       break;
 
     case STAttackRoot:
@@ -434,6 +441,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalExchangeReachedTester:
       result = goal_exchange_reached_tester_has_solution(si);
+      break;
+
+    case STGoalCircuitByRebirthReachedTester:
+      result = goal_circuit_by_rebirth_reached_tester_has_solution(si);
       break;
 
     case STQuodlibet:

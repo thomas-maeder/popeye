@@ -25,7 +25,7 @@ typedef enum
   goal_autostale,
   goal_circuit,
   goal_exchange,
-  goal_circuitB,
+  goal_circuit_by_rebirth,
   goal_exchangeB,
   goal_any,
   goal_proof,
@@ -65,7 +65,7 @@ extern boolean testdblmate;
  */
 goal_checker_result_type goal_checker_mate(Side just_moved);
 goal_checker_result_type goal_checker_circuit(Side just_moved);
-goal_checker_result_type goal_checker_circuitB(Side just_moved);
+goal_checker_result_type goal_checker_circuit_by_rebirth(Side just_moved);
 goal_checker_result_type goal_checker_exchange(Side just_moved);
 goal_checker_result_type goal_checker_exchangeB(Side just_moved);
 goal_checker_result_type goal_checker_capture(Side just_moved);
