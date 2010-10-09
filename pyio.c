@@ -84,6 +84,7 @@
 #include "stipulation/goal_reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/stalemate/reached_tester.h"
+#include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
@@ -94,6 +95,7 @@
 #include "stipulation/goals/castling/reached_tester.h"
 #include "stipulation/goals/autostalemate/reached_tester.h"
 #include "stipulation/goals/circuit/reached_tester.h"
+#include "stipulation/goals/exchange/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -1987,6 +1989,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
         attachGoalBranch(proxy,alloc_goal_stalemate_reached_tester_slice());
         break;
 
+      case goal_dblstale:
+        attachGoalBranch(proxy,alloc_goal_doublestalemate_reached_tester_slice());
+        break;
+
       case goal_check:
         attachGoalBranch(proxy,alloc_goal_check_reached_tester_slice());
         break;
@@ -2021,6 +2027,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_circuit:
         attachGoalBranch(proxy,alloc_goal_circuit_reached_tester_slice());
+        break;
+
+      case goal_exchange:
+        attachGoalBranch(proxy,alloc_goal_exchange_reached_tester_slice());
         break;
 
       case goal_atob:
