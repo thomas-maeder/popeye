@@ -36,3 +36,12 @@ trace.h:
 stipulation/branch.h:
 
 stipulation/series_play/play.h:
+stipulation/goals/countermate/reached_tester$(OBJ_SUFFIX):  \
+ stipulation/goals/countermate/reached_tester.c \
+  stipulation/goals/countermate/reached_tester.h pypipe.h trace.h
+
+stipulation/goals/countermate/reached_tester.h:
+
+pypipe.h:
+
+trace.h:

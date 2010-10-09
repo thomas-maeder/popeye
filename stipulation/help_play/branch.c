@@ -260,7 +260,8 @@ static structure_traversers_visitors help_goal_instrumenters[] =
   { STGoalSteingewinnReachedTester,     &instrument_tester },
   { STGoalEnpassantReachedTester,       &instrument_tester },
   { STGoalDoubleMateReachedTester,      &instrument_tester },
-  { STGoalCounterMateReachedTester,     &instrument_tester }
+  { STGoalCounterMateReachedTester,     &instrument_tester },
+  { STGoalCastlingReachedTester,        &instrument_tester }
 };
 
 enum

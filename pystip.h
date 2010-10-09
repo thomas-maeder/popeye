@@ -79,6 +79,7 @@
     ENUMERATOR(STGoalEnpassantReachedTester), /* tests whether an en passant goal has been reached */ \
     ENUMERATOR(STGoalDoubleMateReachedTester), /* tests whether a double mate goal has been reached */ \
     ENUMERATOR(STGoalCounterMateReachedTester), /* tests whether a counter-mate goal has been reached */ \
+    ENUMERATOR(STGoalCastlingReachedTester), /* tests whether a castling goal has been reached */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     /* unary and binary operators */                                    \

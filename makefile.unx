@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.126 2010/10/08 18:02:29 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.127 2010/10/09 08:35:53 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -208,7 +208,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals/target stipulation/goals/check \
     stipulation/goals/doublemate stipulation/goals/countermate \
     stipulation/goals/capture stipulation/goals/steingewinn \
-    stipulation/goals/enpassant \
+    stipulation/goals/enpassant stipulation/goals/castling \
 		pieces/attributes/paralysing pieces/attributes/kamikaze \
 		optimisations/orthodox_mating_moves optimisations/intelligent \
 		optimisations/maxtime optimisations/maxsolutions \
@@ -231,7 +231,7 @@ NESTEDLIBDIRS = . DHT \
     stipulation/goals/target stipulation/goals/check \
     stipulation/goals/doublemate stipulation/goals/countermate \
     stipulation/goals/capture stipulation/goals/steingewinn \
-    stipulation/goals/enpassant \
+    stipulation/goals/enpassant stipulation/goals/castling \
 		pieces/attributes/paralysing pieces/attributes/kamikaze \
 		optimisations/orthodox_mating_moves optimisations/intelligent \
 		optimisations/maxtime optimisations/maxsolutions \

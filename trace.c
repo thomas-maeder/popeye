@@ -465,6 +465,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalEnpassantReachedTester:
       case STGoalDoubleMateReachedTester:
       case STGoalCounterMateReachedTester:
+      case STGoalCastlingReachedTester:
       case STOutputPlaintextLineLineWriter:
       case STOutputPlaintextTreeGoalWriter:
         Trace_pipe(si);

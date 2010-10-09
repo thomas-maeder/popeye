@@ -3439,6 +3439,7 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STGoalEnpassantReachedTester,       &intelligent_mode_support_none                                },
   { STGoalDoubleMateReachedTester,      &intelligent_mode_support_none                                },
   { STGoalCounterMateReachedTester,     &intelligent_mode_support_none                                },
+  { STGoalCastlingReachedTester,        &intelligent_mode_support_none                                },
   { STReciprocal,                       &intelligent_mode_support_none                                },
   { STQuodlibet,                        &intelligent_mode_support_detector_quodlibet                  },
   { STNot,                              &intelligent_mode_support_none                                },

@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+CFILES = reached_tester.c
+
+INCLUDES = reached_tester.h
+
+include makefile.rules $(CURRPWD)depend

@@ -40,15 +40,12 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
     case goal_ep:
     case goal_doublemate:
     case goal_countermate:
+    case goal_castling:
       assert(0);
       break;
 
     case goal_dblstale:
       result = goal_checker_dblstale(just_moved);
-      break;
-
-    case goal_castling:
-      result = goal_checker_castling(just_moved);
       break;
 
     case goal_autostale:
