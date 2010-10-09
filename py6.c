@@ -2032,6 +2032,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STGoalCaptureReachedTester:
     case STGoalSteingewinnReachedTester:
     case STGoalEnpassantReachedTester:
+    case STGoalDoubleMateReachedTester:
       result = whitetoplay_means_shorten;
       break;
 
@@ -2648,7 +2649,8 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STGoalCheckReachedTester,           &optimise_final_moves_goal_non_target },
   { STGoalCaptureReachedTester,         &optimise_final_moves_goal_non_target },
   { STGoalSteingewinnReachedTester,     &optimise_final_moves_goal_non_target },
-  { STGoalEnpassantReachedTester,       &optimise_final_moves_goal_non_target }
+  { STGoalEnpassantReachedTester,       &optimise_final_moves_goal_non_target },
+  { STGoalDoubleMateReachedTester,      &optimise_final_moves_goal_non_target }
 };
 
 enum

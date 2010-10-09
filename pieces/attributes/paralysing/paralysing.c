@@ -25,10 +25,10 @@ static void append_goal_filters(slice_index si, stip_structure_traversal *st)
     case goal_mate:
     case goal_stale:
     case goal_dblstale:
+    case goal_doublemate:
       assert(0);
       break;
 
-    case goal_doublemate:
     case goal_countermate:
       pipe_append(si,alloc_paralysing_mate_filter_slice(starter));
       pipe_append(si,alloc_paralysing_mate_filter_slice(advers(starter)));
@@ -126,12 +126,31 @@ static void append_goal_doublestalemate_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void append_goal_doublemate_filter(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  Side const starter = slices[si].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_append(si,alloc_paralysing_mate_filter_slice(starter));
+  pipe_append(si,alloc_paralysing_mate_filter_slice(advers(starter)));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
   { STGoalReachedTester,                &append_goal_filters                },
   { STGoalMateReachedTester,            &append_goal_mate_filter            },
   { STGoalStalemateReachedTester,       &append_goal_stalemate_filter       },
-  { STGoalDoubleStalemateReachedTester, &append_goal_doublestalemate_filter }
+  { STGoalDoubleStalemateReachedTester, &append_goal_doublestalemate_filter },
+  { STGoalDoubleMateReachedTester,      &append_goal_doublemate_filter      }
 };
 
 enum

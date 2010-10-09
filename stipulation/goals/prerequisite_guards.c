@@ -288,17 +288,40 @@ void insert_goal_prerequisite_guards_goal_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Insert goal prerequisite guards
+ * @param si identifies root of subtree
+ * @param st address of structure representing traversal
+ */
+static
+void
+insert_goal_prerequisite_guards_goal_doublemate_tester(slice_index si,
+                                                       stip_moves_traversal *st)
+{
+  prerequisite_guards_insertion_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_moves_branch_slice(si,st);
+  state->imminent.type = goal_doublemate;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* No provision for defense moves so far.
  * The goals currently supported can't be forced.
  */
 static moves_traversers_visitors const prerequisite_guard_inserters[] =
 {
-  { STAttackMoveToGoal,  &insert_goal_prerequisite_guards_attack_move       },
-  { STHelpFork,          &insert_goal_prerequisite_guards_help_fork         },
-  { STHelpMove,          &insert_goal_prerequisite_guards_help_move         },
-  { STHelpMoveToGoal,    &insert_goal_prerequisite_guards_help_move_to_goal },
-  { STSeriesMoveToGoal,  &insert_goal_prerequisite_guards_series_move       },
-  { STGoalReachedTester, &insert_goal_prerequisite_guards_goal_tester       }
+  { STAttackMoveToGoal,            &insert_goal_prerequisite_guards_attack_move            },
+  { STHelpFork,                    &insert_goal_prerequisite_guards_help_fork              },
+  { STHelpMove,                    &insert_goal_prerequisite_guards_help_move              },
+  { STHelpMoveToGoal,              &insert_goal_prerequisite_guards_help_move_to_goal      },
+  { STSeriesMoveToGoal,            &insert_goal_prerequisite_guards_series_move            },
+  { STGoalReachedTester,           &insert_goal_prerequisite_guards_goal_tester            },
+  { STGoalDoubleMateReachedTester, &insert_goal_prerequisite_guards_goal_doublemate_tester }
 };
 
 enum

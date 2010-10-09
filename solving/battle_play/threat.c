@@ -548,6 +548,7 @@ static structure_traversers_visitors threat_handler_inserters[] =
   { STGoalCaptureReachedTester,         &stip_structure_visitor_noop          },
   { STGoalSteingewinnReachedTester,     &stip_structure_visitor_noop          },
   { STGoalEnpassantReachedTester,       &stip_structure_visitor_noop          },
+  { STGoalDoubleMateReachedTester,      &stip_structure_visitor_noop          },
   { STHelpRoot,                         &stip_structure_visitor_noop          },
   { STSeriesRoot,                       &stip_structure_visitor_noop          },
   { STNot,                              &threat_handler_reset_insertion_state }

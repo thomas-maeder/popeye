@@ -38,6 +38,7 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
     case goal_capture:
     case goal_steingewinn:
     case goal_ep:
+    case goal_doublemate:
       assert(0);
       break;
 
@@ -45,7 +46,6 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
       result = goal_checker_dblstale(just_moved);
       break;
 
-    case goal_doublemate:
     case goal_countermate:
       result = goal_checker_doublemate(just_moved);
       break;
