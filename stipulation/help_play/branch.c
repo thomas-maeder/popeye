@@ -212,7 +212,7 @@ slice_index alloc_help_branch(stip_length_type length,
 
 /* Insert a the appropriate proxy slices before each
  * STGoal*ReachedTester slice
- * @param si identifies STGoalReachedTester slice
+ * @param si identifies slice
  * @param st address of structure representing the traversal
  */
 static void instrument_tester(slice_index si, stip_structure_traversal *st)
@@ -248,17 +248,6 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors help_goal_instrumenters[] =
-{
-  { STGoalReachedTester, &instrument_tester }
-};
-
-enum
-{
-  nr_help_goal_instrumenters = (sizeof help_goal_instrumenters
-                                / sizeof help_goal_instrumenters[0])
-};
-
 /* Instrument a branch leading to a goal to be a help goal branch
  * @param si identifies entry slice of branch
  */
@@ -277,10 +266,6 @@ void stip_make_help_goal_branch(slice_index si)
        type<=last_goal_tester_slice_type;
        ++type)
     stip_structure_traversal_override_single(&st,type,&instrument_tester);
-
-  stip_structure_traversal_override(&st,
-                                    help_goal_instrumenters,
-                                    nr_help_goal_instrumenters);
 
   stip_traverse_structure(si,&st);
 

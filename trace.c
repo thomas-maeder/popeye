@@ -454,7 +454,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
         break;
 
-      case STGoalReachedTester:
       case STGoalMateReachedTester:
       case STGoalStalemateReachedTester:
       case STGoalDoubleStalemateReachedTester:

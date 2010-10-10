@@ -2046,12 +2046,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
 
     case STGoalAToBReachedTester:
       result = whitetoplay_means_change_colors;
-
-    case STGoalReachedTester:
-      if (slices[si].u.goal_reached_tester.goal.type==goal_atob)
-        result = whitetoplay_means_change_colors;
-      else
-        result = whitetoplay_means_shorten;
       break;
 
     case STReadyForDefense:
@@ -2593,25 +2587,6 @@ static void swallow_goal(slice_index si, stip_moves_traversal *st)
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
-{
-  final_move_optimisation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->goal.type!=slices[si].u.goal_reached_tester.goal.type)
-    state->goal = slices[si].u.goal_reached_tester.goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember the goal imminent after a defense or attack move
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
 static void optimise_final_moves_goal_non_target(slice_index si,
                                                  stip_moves_traversal *st)
 {
@@ -2652,7 +2627,6 @@ static moves_traversers_visitors const final_move_optimisers[] =
   { STDefenseMove,                      &optimise_final_moves_defense_move    },
   { STHelpMove,                         &optimise_final_moves_help_move       },
   { STHelpMoveToGoal,                   &swallow_goal                         },
-  { STGoalReachedTester,                &optimise_final_moves_goal            },
   { STGoalTargetReachedTester,          &optimise_final_moves_goal_target     }
 };
 

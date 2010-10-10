@@ -134,18 +134,6 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors direct_leaf_instrumenters[] =
-{
-  { STGoalReachedTester, &instrument_tester },
-  { STGoalReachedTested, &instrument_tested }
-};
-
-enum
-{
-  nr_direct_leaf_instrumenters = (sizeof direct_leaf_instrumenters
-                                  / sizeof direct_leaf_instrumenters[0])
-};
-
 /* Instrument a branch leading to a goal to be a direct goal branch
  * @param si identifies entry slice of branch
  */
@@ -165,9 +153,10 @@ void slice_make_direct_goal_branch(slice_index si)
        ++type)
     stip_structure_traversal_override_single(&st,type,&instrument_tester);
 
-  stip_structure_traversal_override(&st,
-                                    direct_leaf_instrumenters,
-                                    nr_direct_leaf_instrumenters);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTested,
+                                           &instrument_tested);
+
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -2667,22 +2667,6 @@ static void init_moves_left(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void goal_to_be_reached_goal(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(goal_to_be_reached==no_goal);
-  goal_to_be_reached = slices[si].u.goal_reached_tester.goal.type;
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void goal_to_be_reached_goal_non_target(slice_index si,
                                          stip_structure_traversal *st)
 {
@@ -2701,7 +2685,6 @@ static void goal_to_be_reached_goal_non_target(slice_index si,
 
 static structure_traversers_visitors const goal_to_be_reached_initialisers[] =
 {
-  { STGoalReachedTester,          &goal_to_be_reached_goal            },
   { STGoalMateReachedTester,      &goal_to_be_reached_goal_non_target },
   { STGoalStalemateReachedTester, &goal_to_be_reached_goal_non_target },
   { STGoalProofgameReachedTester, &goal_to_be_reached_goal_non_target },
@@ -3091,25 +3074,6 @@ void intelligent_guards_inserter_series_root(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void intelligent_guards_inserter_goal(slice_index si,
-                                             stip_structure_traversal *st)
-{
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  /* we don't produce duplicate solutions when testing proof games */
-  if (goal.type!=goal_atob && goal.type!=goal_proofgame)
-    pipe_append(si,alloc_intelligent_duplicate_avoider_slice());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void intelligent_guards_duplicate_avoider_inserter(slice_index si,
                                                           stip_structure_traversal *st)
 {
@@ -3130,7 +3094,6 @@ static structure_traversers_visitors intelligent_guards_inserters[] =
   { STHelpMoveToGoal,             &intelligent_guards_inserter_branch_help         },
   { STSeriesMove,                 &intelligent_guards_inserter_series_move         },
   { STSeriesMoveToGoal,           &intelligent_guards_inserter_series_move_to_goal },
-  { STGoalReachedTester,          &intelligent_guards_inserter_goal                },
   { STGoalMateReachedTester,      &intelligent_guards_duplicate_avoider_inserter   },
   { STGoalStalemateReachedTester, &intelligent_guards_duplicate_avoider_inserter   },
   { STHelpRoot,                   &intelligent_guards_inserter_help_root           },
@@ -3330,38 +3293,6 @@ static void intelligent_mode_support_detector_fork(slice_index si,
 }
 
 static
-void intelligent_mode_support_detector_goal(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  support_for_intelligent_mode * const support = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*support!=intelligent_not_supported)
-    switch (slices[si].u.goal_reached_tester.goal.type)
-    {
-      case goal_atob:
-        *support = intelligent_active_by_default;
-        break;
-
-      case goal_proofgame:
-      case goal_mate:
-      case goal_stale:
-        assert(0);
-        break;
-
-      default:
-        *support = intelligent_not_supported;
-        break;
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static
 void
 intelligent_mode_support_detector_goal_not_active_by_default(slice_index si,
                                                              stip_structure_traversal *st)
@@ -3447,7 +3378,6 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
 {
   { STHelpFork,                         &intelligent_mode_support_detector_fork                       },
   { STSeriesFork,                       &intelligent_mode_support_detector_fork                       },
-  { STGoalReachedTester,                &intelligent_mode_support_detector_goal                       },
   { STGoalMateReachedTester,            &intelligent_mode_support_detector_goal_not_active_by_default },
   { STGoalStalemateReachedTester,       &intelligent_mode_support_detector_goal_not_active_by_default },
   { STGoalProofgameReachedTester,       &intelligent_mode_support_detector_goal_active_by_default     },
