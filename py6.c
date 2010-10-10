@@ -2039,7 +2039,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STGoalCircuitReachedTester:
     case STGoalExchangeReachedTester:
     case STGoalCircuitByRebirthReachedTester:
-    case STGoalExchangeBReachedTester:
+    case STGoalExchangeByRebirthReachedTester:
     case STGoalAnyReachedTester:
     case STGoalProofgameReachedTester:
     case STGoalMateOrStalemateReachedTester:

@@ -118,8 +118,8 @@
     ENUMERATOR(STGoalAutoStalemateReachedTester), /* tests whether an auto-stalemate goal has been reached */ \
     ENUMERATOR(STGoalCircuitReachedTester), /* tests whether a circuit goal has been reached */ \
     ENUMERATOR(STGoalExchangeReachedTester), /* tests whether an exchange goal has been reached */ \
-    ENUMERATOR(STGoalCircuitByRebirthReachedTester), /* tests whether a "circuit B" goal has been reached */ \
-    ENUMERATOR(STGoalExchangeBReachedTester), /* tests whether an "exchange B" goal has been reached */ \
+    ENUMERATOR(STGoalCircuitByRebirthReachedTester), /* tests whether a "circuit by rebirth" goal has been reached */ \
+    ENUMERATOR(STGoalExchangeByRebirthReachedTester), /* tests whether an "exchange by rebirth" goal has been reached */ \
     ENUMERATOR(STGoalAnyReachedTester), /* tests whether an any goal has been reached */ \
     ENUMERATOR(STGoalProofgameReachedTester), /* tests whether a proof game goal has been reached */ \
     ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
@@ -328,7 +328,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalCircuitReachedTester */
   slice_structure_pipe,   /* STGoalExchangeReachedTester */
   slice_structure_pipe,   /* STGoalCircuitByRebirthReachedTester */
-  slice_structure_pipe,   /* STGoalExchangeBReachedTester */
+  slice_structure_pipe,   /* STGoalExchangeByRebirthReachedTester */
   slice_structure_pipe,   /* STGoalAnyReachedTester */
   slice_structure_pipe,   /* STGoalProofgameReachedTester */
   slice_structure_pipe,   /* STGoalAToBReachedTester */
@@ -2054,7 +2054,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalCircuitReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalExchangeReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalCircuitByRebirthReachedTester */
-  &stip_traverse_structure_pipe,            /* STGoalExchangeBReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalExchangeByRebirthReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalAnyReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalProofgameReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalAToBReachedTester */
@@ -2302,7 +2302,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STGoalCircuitReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalExchangeReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalCircuitByRebirthReachedTester */
-    &stip_traverse_moves_pipe,                  /* STGoalExchangeBReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalExchangeByRebirthReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalAnyReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalProofgameReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalAToBReachedTester */

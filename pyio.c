@@ -97,6 +97,7 @@
 #include "stipulation/goals/circuit/reached_tester.h"
 #include "stipulation/goals/exchange/reached_tester.h"
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
+#include "stipulation/goals/exchange_by_rebirth/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -2036,6 +2037,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_circuit_by_rebirth:
         attachGoalBranch(proxy,alloc_goal_circuit_by_rebirth_reached_tester_slice());
+        break;
+
+      case goal_exchange_by_rebirth:
+        attachGoalBranch(proxy,alloc_goal_exchange_by_rebirth_reached_tester_slice());
         break;
 
       case goal_atob:

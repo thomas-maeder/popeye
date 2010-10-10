@@ -9,45 +9,6 @@
 
 #include <assert.h>
 
-static void prepend_goal_filters(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  switch (slices[si].u.goal_reached_tester.goal.type)
-  {
-    case goal_steingewinn:
-    case goal_circuit_by_rebirth:
-      assert(0);
-      break;
-
-    case goal_exchange_by_rebirth:
-    {
-      slice_index const tested = branch_find_slice(STGoalReachedTested,si);
-      slice_index const proxy_special = alloc_proxy_slice();
-      slice_index const special = alloc_circe_exchange_special_slice();
-      slice_index const proxy_regular = alloc_proxy_slice();
-
-      assert(tested!=no_slice);
-      pipe_link(slices[si].prev,
-                alloc_quodlibet_slice(proxy_regular,proxy_special));
-      pipe_link(proxy_special,special);
-      pipe_link(special,tested);
-      pipe_link(proxy_regular,si);
-      break;
-    }
-
-    default:
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void prepend_steingewinn_filter(slice_index si,
                                        stip_structure_traversal *st)
 {
@@ -89,11 +50,38 @@ static void prepend_circuit_by_rebirth_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void prepend_exchange_by_rebirth_filter(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const tested = branch_find_slice(STGoalReachedTested,si);
+    slice_index const proxy_special = alloc_proxy_slice();
+    slice_index const special = alloc_circe_exchange_special_slice();
+    slice_index const proxy_regular = alloc_proxy_slice();
+
+    assert(tested!=no_slice);
+    pipe_link(slices[si].prev,
+              alloc_quodlibet_slice(proxy_regular,proxy_special));
+    pipe_link(proxy_special,special);
+    pipe_link(special,tested);
+    pipe_link(proxy_regular,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors goal_filter_inserters[] =
 {
-  { STGoalReachedTester,                 &prepend_goal_filters              },
-  { STGoalSteingewinnReachedTester,      &prepend_steingewinn_filter        },
-  { STGoalCircuitByRebirthReachedTester, &prepend_circuit_by_rebirth_filter }
+  { STGoalSteingewinnReachedTester,       &prepend_steingewinn_filter         },
+  { STGoalCircuitByRebirthReachedTester,  &prepend_circuit_by_rebirth_filter  },
+  { STGoalExchangeByRebirthReachedTester, &prepend_exchange_by_rebirth_filter }
 };
 
 enum
