@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.132 2010/10/10 11:53:24 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.133 2010/10/10 12:21:28 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -205,7 +205,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 		stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
-    stipulation/goals/autostalemate \
+    stipulation/goals/autostalemate stipulation/goals/any \
     stipulation/goals/circuit stipulation/goals/circuit_by_rebirth \
     stipulation/goals/exchange stipulation/goals/exchange_by_rebirth \
     stipulation/goals/target stipulation/goals/check \
@@ -231,7 +231,7 @@ NESTEDLIBDIRS = . DHT \
 		stipulation/goals \
     stipulation/goals/mate \
     stipulation/goals/stalemate stipulation/goals/doublestalemate \
-    stipulation/goals/autostalemate \
+    stipulation/goals/autostalemate stipulation/goals/any \
     stipulation/goals/circuit stipulation/goals/circuit_by_rebirth \
     stipulation/goals/exchange stipulation/goals/exchange_by_rebirth \
     stipulation/goals/target stipulation/goals/check \

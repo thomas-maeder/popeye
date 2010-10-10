@@ -162,6 +162,10 @@ has_solution_type slice_solve(slice_index si)
       result = goal_exchange_by_rebirth_reached_tester_solve(si);
       break;
 
+    case STGoalAnyReachedTester:
+      result = goal_any_reached_tester_solve(si);
+      break;
+
     case STAttackRoot:
     case STReadyForAttack:
     case STAttackFork:
@@ -454,6 +458,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalExchangeByRebirthReachedTester:
       result = goal_exchange_by_rebirth_reached_tester_has_solution(si);
+      break;
+
+    case STGoalAnyReachedTester:
+      result = goal_any_reached_tester_has_solution(si);
       break;
 
     case STQuodlibet:

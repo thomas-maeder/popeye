@@ -32,7 +32,7 @@ goal_checker_result_type goal_checker_circuit(Side just_moved)
 
 goal_checker_result_type goal_checker_circuit_by_rebirth(Side just_moved)
 {
-  /* goal is only reachable in some fairy conditions */
+  assert(0);
   return goal_not_reached;
 }
 
@@ -143,7 +143,8 @@ goal_checker_result_type goal_checker_castling(Side just_moved)
 
 goal_checker_result_type goal_checker_any(Side just_moved)
 {
-  return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
+  assert(0);
+  return goal_not_reached;
 }
 
 goal_checker_result_type goal_checker_proof(Side just_moved)
