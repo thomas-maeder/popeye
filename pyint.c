@@ -2704,7 +2704,8 @@ static structure_traversers_visitors const goal_to_be_reached_initialisers[] =
   { STGoalReachedTester,          &goal_to_be_reached_goal            },
   { STGoalMateReachedTester,      &goal_to_be_reached_goal_non_target },
   { STGoalStalemateReachedTester, &goal_to_be_reached_goal_non_target },
-  { STGoalProofgameReachedTester, &goal_to_be_reached_goal_non_target }
+  { STGoalProofgameReachedTester, &goal_to_be_reached_goal_non_target },
+  { STGoalAToBReachedTester,      &goal_to_be_reached_goal_non_target }
 };
 
 enum
@@ -3450,6 +3451,7 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STGoalMateReachedTester,            &intelligent_mode_support_detector_goal_not_active_by_default },
   { STGoalStalemateReachedTester,       &intelligent_mode_support_detector_goal_not_active_by_default },
   { STGoalProofgameReachedTester,       &intelligent_mode_support_detector_goal_active_by_default     },
+  { STGoalAToBReachedTester,            &intelligent_mode_support_detector_goal_active_by_default     },
   { STReciprocal,                       &intelligent_mode_support_none                                },
   { STQuodlibet,                        &intelligent_mode_support_detector_quodlibet                  },
   { STNot,                              &intelligent_mode_support_none                                },

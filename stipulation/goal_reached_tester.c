@@ -49,11 +49,8 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
     case goal_exchange_by_rebirth:
     case goal_any:
     case goal_proofgame:
-      assert(0);
-      break;
-
     case goal_atob:
-      result = goal_checker_proofgame(just_moved);
+      assert(0);
       break;
 
     case goal_mate_or_stale:

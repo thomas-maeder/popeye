@@ -100,6 +100,7 @@
 #include "stipulation/goals/exchange_by_rebirth/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/proofgame/reached_tester.h"
+#include "stipulation/goals/atob/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -2055,8 +2056,7 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_atob:
       {
-        Goal const goal = { goal_atob, initsquare };
-        attachGoalBranch(proxy,alloc_goal_reached_tester_slice(goal));
+        attachGoalBranch(proxy,alloc_goal_atob_reached_tester_slice());
 
         ProofSaveStartPosition();
 

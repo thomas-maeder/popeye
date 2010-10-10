@@ -169,6 +169,7 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STGoalProofgameReachedTester:
+    case STGoalAToBReachedTester:
       result = goal_proofgame_reached_tester_solve(si);
       break;
 
@@ -471,6 +472,7 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STGoalProofgameReachedTester:
+    case STGoalAToBReachedTester:
       result = goal_proofgame_reached_tester_has_solution(si);
       break;
 
