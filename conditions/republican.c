@@ -1,11 +1,12 @@
 #include "republican.h"
 #include "pydata.h"
 #include "pylang.h"
+#include "stipulation/goals/goals.h"
 #include "pyoutput.h"
 #include "pymsg.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "stipulation/goal_reached_tester.h"
 
+#include <assert.h>
 #include <string.h>
 
 /* TODO make static */
@@ -23,6 +24,8 @@ static Goal republican_goal = { no_goal, initsquare };
  */
 static void find_mate_square(Side camp)
 {
+  assert(republican_goal.type==goal_mate);
+
   if (camp == White)
   {
     rn = ++super[nbply];
@@ -32,7 +35,7 @@ static void find_mate_square(Side camp)
       if (e[rn]==vide)
       {
         e[rn]= roin;
-        if (is_goal_reached(camp,republican_goal)==goal_reached)
+        if (goal_checker_mate(camp)==goal_reached)
           return;
         e[rn]= vide;
       }
@@ -52,7 +55,7 @@ static void find_mate_square(Side camp)
       if (e[rb]==vide)
       {
         e[rb]= roib;
-        if (is_goal_reached(camp,republican_goal)==goal_reached)
+        if (goal_checker_mate(camp)==goal_reached)
           return;
         e[rb]= vide;
       }
@@ -105,9 +108,9 @@ boolean republican_verifie_position(slice_index si)
       is_republican_suspended = false;
       jouegenre = true;
       jouetestgenre = true;
-      move_generation_mode_opti_per_side[White] = 
+      move_generation_mode_opti_per_side[White] =
           move_generation_optimized_by_killer_move;
-      move_generation_mode_opti_per_side[Black] = 
+      move_generation_mode_opti_per_side[Black] =
           move_generation_optimized_by_killer_move;
       supergenre = true;
       return true;

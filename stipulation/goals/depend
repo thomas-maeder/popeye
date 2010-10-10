@@ -1,3 +1,13 @@
+stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
+  stipulation/goals/goals.h pydata.h trace.h pyenum.h
+
+stipulation/goals/goals.h:
+
+pydata.h:
+
+trace.h:
+
+pyenum.h:
 stipulation/goals/prerequisite_guards$(OBJ_SUFFIX):  \
  stipulation/goals/prerequisite_guards.c \
   stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \

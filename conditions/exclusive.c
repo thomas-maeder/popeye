@@ -3,9 +3,11 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pymsg.h"
 #include "pydata.h"
-#include "stipulation/goal_reached_tester.h"
+#include "stipulation/goals/goals.h"
 #include "pyoutput.h"
 #include "trace.h"
+
+#include <assert.h>
 
 static Goal exclusive_goal;
 
@@ -59,11 +61,13 @@ boolean exclusive_pos_legal(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  assert(exclusive_goal.type==goal_mate);
+
   if (nbply>maxply-1)
     FtlMsg(ChecklessUndecidable);
 
   result = (is_reaching_goal_allowed[nbply]
-            || is_goal_reached(trait[nbply],exclusive_goal)!=goal_reached);
+            || goal_checker_mate(trait[nbply])!=goal_reached);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -83,6 +87,8 @@ void exclusive_init_genmove(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
+  assert(exclusive_goal.type==goal_mate);
+
   CondFlag[exclusive] = false;
   move_generation_mode = move_generation_not_optimized;
   TraceValue("->%u\n",move_generation_mode);
@@ -98,7 +104,7 @@ void exclusive_init_genmove(Side side)
   while (encore() && nr_moves_reaching_goal<2)
   {
     if (jouecoup(nbply,first_play) && TraceCurrentMove(nbply)
-        && is_goal_reached(side,exclusive_goal)==goal_reached)
+        && goal_checker_mate(side)==goal_reached)
       ++nr_moves_reaching_goal;
     repcoup();
   }

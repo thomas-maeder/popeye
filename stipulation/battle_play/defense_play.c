@@ -7,7 +7,6 @@
 #include "pyselfcg.h"
 #include "pyselfgd.h"
 #include "pythreat.h"
-#include "stipulation/goal_reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/postkeyplay.h"
 #include "stipulation/battle_play/continuation.h"
@@ -147,10 +146,6 @@ stip_length_type defense_defend_in_n(slice_index si,
 
     case STMaxTimeRootDefenderFilter:
       result = maxtime_root_defender_filter_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STGoalReachedTester:
-      result = goal_reached_tester_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STContinuationWriter:
@@ -323,10 +318,6 @@ stip_length_type defense_can_defend_in_n(slice_index si,
 
     case STMaxTimeDefenderFilter:
       result = maxtime_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
-      break;
-
-    case STGoalReachedTester:
-      result = goal_reached_tester_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKeyWriter:

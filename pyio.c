@@ -81,7 +81,6 @@
 #include "pydirctg.h"
 #include "pyselfgd.h"
 #include "pyselfcg.h"
-#include "stipulation/goal_reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/stalemate/reached_tester.h"
 #include "stipulation/goals/doublestalemate/reached_tester.h"
@@ -2076,11 +2075,8 @@ static char *ParseGoal(char *tok, slice_index proxy)
       }
 
       default:
-      {
-        Goal const goal = { gic->goal, initsquare };
-        attachGoalBranch(proxy,alloc_goal_reached_tester_slice(goal));
+        assert(0);
         break;
-      }
     }
   }
 

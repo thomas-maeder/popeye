@@ -10,7 +10,7 @@ INCLUDES =      pyenum.h \
 		pyintslv.h pyint.h pyhash.h \
 		pytable.h \
 		pyoutput.h \
-		pygoal.h pystip.h pyslice.h \
+		pystip.h pyslice.h \
 		pypipe.h \
 		pydirctg.h pyselfgd.h pyreflxg.h \
 		pybrafrk.h pykeepmt.h pyselfcg.h pyflight.h \
@@ -25,7 +25,7 @@ CFILES =	pydata.c pyboard.c pyposit.c \
 		pytable.c \
 		pyoutput.c \
 		pyintslv.c pyint.c \
-		pygoal.c pystip.c pyslice.c \
+		pystip.c pyslice.c \
 		pypipe.c \
 		pydirctg.c pyselfgd.c pyreflxg.c \
 		pybrafrk.c pykeepmt.c pyselfcg.c pyflight.c \

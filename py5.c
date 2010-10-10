@@ -68,6 +68,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pyslice.h"
+#include "stipulation/goals/doublemate/reached_tester.h"
 #include "conditions/exclusive.h"
 #include "conditions/republican.h"
 #include "trace.h"

@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-#include "pygoal.h"
+#include "stipulation/goals/goals.h"
 #include "py.h"
 #include "boolean.h"
 

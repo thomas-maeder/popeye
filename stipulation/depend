@@ -22,22 +22,6 @@ stipulation/branch.h:
 stipulation/operators/binary.h:
 
 trace.h:
-stipulation/goal_reached_tester$(OBJ_SUFFIX): stipulation/goal_reached_tester.c \
-  stipulation/goal_reached_tester.h pypipe.h pydata.h \
-  stipulation/battle_play/attack_play.h \
-  stipulation/battle_play/defense_play.h trace.h
-
-stipulation/goal_reached_tester.h:
-
-pypipe.h:
-
-pydata.h:
-
-stipulation/battle_play/attack_play.h:
-
-stipulation/battle_play/defense_play.h:
-
-trace.h:
 stipulation/leaf$(OBJ_SUFFIX): stipulation/leaf.c stipulation/leaf.h trace.h
 
 stipulation/leaf.h:

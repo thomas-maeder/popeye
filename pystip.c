@@ -1,7 +1,6 @@
 #include "pystip.h"
 #include "pydata.h"
 #include "pyquodli.h"
-#include "stipulation/goal_reached_tester.h"
 #include "pyrecipr.h"
 #include "pyquodli.h"
 #include "pybrafrk.h"

@@ -9,6 +9,8 @@
  * whether a double mate goal has just been reached
  */
 
+boolean testdblmate = false;
+
 /* Allocate a STGoalDoubleMateReachedTester slice.
  * @return index of allocated slice
  */

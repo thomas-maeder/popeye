@@ -2,7 +2,7 @@
 #define OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATION_H
 
 #include "boolean.h"
-#include "pygoal.h"
+#include "stipulation/goals/goals.h"
 #include "py.h"
 
 extern Goal empile_for_goal;

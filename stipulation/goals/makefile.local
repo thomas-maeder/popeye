@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-CFILES = prerequisite_guards.c
-INCLUDES = prerequisite_guards.h
+CFILES = goals.c prerequisite_guards.c
+INCLUDES = goals.h prerequisite_guards.h
 
 include makefile.rules $(CURRPWD)depend

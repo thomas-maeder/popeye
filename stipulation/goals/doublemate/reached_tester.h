@@ -7,6 +7,9 @@
  * whether a double mate goal has just been reached
  */
 
+/* TODO get rid of this */
+extern boolean testdblmate;
+
 /* Allocate a STGoalDoubleMateReachedTester slice.
  * @return index of allocated slice
  */

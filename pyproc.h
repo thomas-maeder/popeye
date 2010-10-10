@@ -4,7 +4,7 @@
 **
 ** Date       Who  What
 **
-** 2007/01/28 SE   New condition: Annan Chess 
+** 2007/01/28 SE   New condition: Annan Chess
 **
 ** 2007/05/04 SE   Bugfix: SAT + BlackMustCapture
 **
@@ -16,21 +16,21 @@
 **
 ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
 **
-** 2008/01/11 SE   New variant: Special Grids 
+** 2008/01/11 SE   New variant: Special Grids
 **
-** 2008/01/24 SE   New variant: Gridlines  
+** 2008/01/24 SE   New variant: Gridlines
 **
-** 2008/02/20 SE   Bugfix: Annan 
+** 2008/02/20 SE   Bugfix: Annan
 **
-** 2008/02/19 SE   New condition: AntiKoeko  
+** 2008/02/19 SE   New condition: AntiKoeko
 **
-** 2008/02/19 SE   New piece: RoseLocust  
+** 2008/02/19 SE   New piece: RoseLocust
 **
-** 2008/02/25 SE   New piece type: Magic  
+** 2008/02/25 SE   New piece type: Magic
 **
-** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
 **
-** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+** 2009/02/24 SE   New pieces: 2,0-Spiralknight
 **                             4,0-Spiralknight
 **                             1,1-Spiralknight
 **                             3,3-Spiralknight
@@ -44,7 +44,7 @@
 #define PYPROC_H
 
 #include "py4.h"
-#include "pygoal.h"
+#include "stipulation/goals/goals.h"
 #include "boolean.h"
 #include <stdio.h>
 
@@ -57,7 +57,7 @@ void    StorePosition(void);
 void    WriteSquare(square a);
 void    WritePiece(piece p);
 boolean WriteSpec(Flags pspec, boolean printcolours);
-void    WriteGrid(void); 
+void    WriteGrid(void);
 
 typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
 typedef boolean (checkfunction_t)(square, piece, evalfunction_t *);
@@ -410,7 +410,7 @@ char *ReadPieces(int cond);
 
 
 boolean eval_isardam(square departure, square arrival, square capture);
-boolean pos_legal(void);                              
+boolean pos_legal(void);
 square rendiametral(ply ply_id, piece p, Flags pspec, square j, square i, square ia, Side camp);
 
 void    gequi(square i, Side camp);
@@ -499,7 +499,7 @@ square fin_circle_line(square sq_departure,
                        numvec k1, numvec *k2, numvec delta_k);
 
 boolean eval_fromspecificsquare(square departure, square arrival, square capture);
-void PushMagicViews(void);                       
+void PushMagicViews(void);
 void ChangeMagic(int ply, boolean push);
 
 boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture);

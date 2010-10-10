@@ -45,9 +45,6 @@ typedef struct
 /* how to decorate a move that reached a goal */
 extern char const *goal_end_marker[nr_goals];
 
-/* TODO get rid of this */
-extern boolean testdblmate;
-
 #define ENUMERATION_TYPENAME goal_checker_result_type
 #define ENUMERATORS                             \
   ENUMERATOR(goal_not_reached),                 \
@@ -64,22 +61,5 @@ extern boolean testdblmate;
  * @return true iff side has reached goal
  */
 goal_checker_result_type goal_checker_mate(Side just_moved);
-goal_checker_result_type goal_checker_circuit(Side just_moved);
-goal_checker_result_type goal_checker_circuit_by_rebirth(Side just_moved);
-goal_checker_result_type goal_checker_exchange(Side just_moved);
-goal_checker_result_type goal_checker_exchange_by_rebirth(Side just_moved);
-goal_checker_result_type goal_checker_capture(Side just_moved);
-goal_checker_result_type goal_checker_stale(Side just_moved);
-goal_checker_result_type goal_checker_dblstale(Side just_moved);
-goal_checker_result_type goal_checker_autostale(Side just_moved);
-goal_checker_result_type goal_checker_check(Side just_moved);
-goal_checker_result_type goal_checker_steingewinn(Side just_moved);
-goal_checker_result_type goal_checker_ep(Side just_moved);
-goal_checker_result_type goal_checker_doublemate(Side just_moved);
-goal_checker_result_type goal_checker_castling(Side just_moved);
-goal_checker_result_type goal_checker_any(Side just_moved);
-goal_checker_result_type goal_checker_proofgame(Side just_moved);
-
-goal_checker_result_type goal_checker_target(Side just_moved, square target);
 
 #endif

@@ -2,7 +2,7 @@
 #define PYOUTPUT_H
 
 #include "py.h"
-#include "pygoal.h"
+#include "stipulation/goals/goals.h"
 #include "pystip.h"
 #include "pytable.h"
 
