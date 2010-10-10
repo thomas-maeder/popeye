@@ -2703,7 +2703,8 @@ static structure_traversers_visitors const goal_to_be_reached_initialisers[] =
 {
   { STGoalReachedTester,          &goal_to_be_reached_goal            },
   { STGoalMateReachedTester,      &goal_to_be_reached_goal_non_target },
-  { STGoalStalemateReachedTester, &goal_to_be_reached_goal_non_target }
+  { STGoalStalemateReachedTester, &goal_to_be_reached_goal_non_target },
+  { STGoalProofgameReachedTester, &goal_to_be_reached_goal_non_target }
 };
 
 enum
@@ -3101,7 +3102,7 @@ static void intelligent_guards_inserter_goal(slice_index si,
   stip_traverse_structure_children(si,st);
 
   /* we don't produce duplicate solutions when testing proof games */
-  if (goal.type!=goal_atob && goal.type!=goal_proof)
+  if (goal.type!=goal_atob && goal.type!=goal_proofgame)
     pipe_append(si,alloc_intelligent_duplicate_avoider_slice());
 
   TraceFunctionExit(__func__);
@@ -3209,7 +3210,7 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
   solutions_found = false;
 
   if (goal_to_be_reached==goal_atob
-      || goal_to_be_reached==goal_proof)
+      || goal_to_be_reached==goal_proofgame)
     IntelligentProof(n,full_length);
   else
   {
@@ -3266,7 +3267,7 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
   solutions_found = false;
 
   if (goal_to_be_reached==goal_atob
-      || goal_to_be_reached==goal_proof)
+      || goal_to_be_reached==goal_proofgame)
     IntelligentProof(n,full_length);
   else
   {
@@ -3292,7 +3293,7 @@ boolean isGoalReachable(void)
   TraceFunctionParamListEnd();
 
   if (goal_to_be_reached==goal_atob
-      || goal_to_be_reached==goal_proof)
+      || goal_to_be_reached==goal_proofgame)
     result = !(*alternateImpossible)();
   else
     result = isGoalReachableRegularGoals();
@@ -3340,11 +3341,11 @@ void intelligent_mode_support_detector_goal(slice_index si,
   if (*support!=intelligent_not_supported)
     switch (slices[si].u.goal_reached_tester.goal.type)
     {
-      case goal_proof:
       case goal_atob:
         *support = intelligent_active_by_default;
         break;
 
+      case goal_proofgame:
       case goal_mate:
       case goal_stale:
         assert(0);
@@ -3372,6 +3373,23 @@ intelligent_mode_support_detector_goal_not_active_by_default(slice_index si,
 
   if (*support!=intelligent_not_supported)
     *support = intelligent_not_active_by_default;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static
+void
+intelligent_mode_support_detector_goal_active_by_default(slice_index si,
+                                                         stip_structure_traversal *st)
+{
+  support_for_intelligent_mode * const support = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *support = intelligent_active_by_default;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3431,6 +3449,7 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STGoalReachedTester,                &intelligent_mode_support_detector_goal                       },
   { STGoalMateReachedTester,            &intelligent_mode_support_detector_goal_not_active_by_default },
   { STGoalStalemateReachedTester,       &intelligent_mode_support_detector_goal_not_active_by_default },
+  { STGoalProofgameReachedTester,       &intelligent_mode_support_detector_goal_active_by_default     },
   { STReciprocal,                       &intelligent_mode_support_none                                },
   { STQuodlibet,                        &intelligent_mode_support_detector_quodlibet                  },
   { STNot,                              &intelligent_mode_support_none                                },

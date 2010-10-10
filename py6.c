@@ -2369,14 +2369,14 @@ static boolean initialise_verify_twin(slice_index si)
 
   initPieces();
 
-  if (stip_ends_in(si,goal_proof) || stip_ends_in(si,goal_atob))
+  if (stip_ends_in(si,goal_proofgame) || stip_ends_in(si,goal_atob))
   {
     countPieces();
     if (locateRoyal())
     {
       ProofSaveTargetPosition();
 
-      if (stip_ends_in(si,goal_proof))
+      if (stip_ends_in(si,goal_proofgame))
         ProofInitialiseStartPosition();
 
       ProofRestoreStartPosition();

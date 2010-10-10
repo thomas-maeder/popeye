@@ -28,8 +28,8 @@ typedef enum
   goal_circuit_by_rebirth,
   goal_exchange_by_rebirth,
   goal_any,
-  goal_proof,
-  goal_atob, /* TODO remove? is there a difference to goal_proof? */
+  goal_proofgame,
+  goal_atob, /* TODO remove? is there a difference to goal_proofgame? */
   goal_mate_or_stale, /* not really a goal */
 
   nr_goals,
@@ -78,7 +78,7 @@ goal_checker_result_type goal_checker_ep(Side just_moved);
 goal_checker_result_type goal_checker_doublemate(Side just_moved);
 goal_checker_result_type goal_checker_castling(Side just_moved);
 goal_checker_result_type goal_checker_any(Side just_moved);
-goal_checker_result_type goal_checker_proof(Side just_moved);
+goal_checker_result_type goal_checker_proofgame(Side just_moved);
 
 goal_checker_result_type goal_checker_target(Side just_moved, square target);
 

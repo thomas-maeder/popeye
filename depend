@@ -520,8 +520,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
   stipulation/goals/exchange/reached_tester.h \
   stipulation/goals/circuit_by_rebirth/reached_tester.h \
   stipulation/goals/exchange_by_rebirth/reached_tester.h \
-  stipulation/goals/any/reached_tester.h pypipe.h pyint.h pyoutput.h \
-  pytable.h stipulation/proxy.h pypipe.h stipulation/branch.h \
+  stipulation/goals/any/reached_tester.h \
+  stipulation/goals/proofgame/reached_tester.h pypipe.h pyint.h \
+  pyoutput.h pytable.h stipulation/proxy.h pypipe.h stipulation/branch.h \
   stipulation/leaf.h stipulation/battle_play/branch.h \
   stipulation/battle_play/attack_find_shortest.h \
   stipulation/battle_play/attack_move.h \
@@ -645,6 +646,8 @@ stipulation/goals/circuit_by_rebirth/reached_tester.h:
 stipulation/goals/exchange_by_rebirth/reached_tester.h:
 
 stipulation/goals/any/reached_tester.h:
+
+stipulation/goals/proofgame/reached_tester.h:
 
 pypipe.h:
 
@@ -1345,9 +1348,11 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   stipulation/goals/circuit/reached_tester.h \
   stipulation/goals/exchange/reached_tester.h \
   stipulation/goals/circuit_by_rebirth/reached_tester.h \
-  stipulation/goals/exchange_by_rebirth/reached_tester.h pybrafrk.h \
-  pyquodli.h pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h \
-  pyreflxg.h pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
+  stipulation/goals/exchange_by_rebirth/reached_tester.h \
+  stipulation/goals/any/reached_tester.h \
+  stipulation/goals/proofgame/reached_tester.h pybrafrk.h pyquodli.h \
+  pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
+  pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
   pieces/attributes/paralysing/mate_filter.h \
   pieces/attributes/paralysing/stalemate_special.h \
   conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
@@ -1460,6 +1465,10 @@ stipulation/goals/exchange/reached_tester.h:
 stipulation/goals/circuit_by_rebirth/reached_tester.h:
 
 stipulation/goals/exchange_by_rebirth/reached_tester.h:
+
+stipulation/goals/any/reached_tester.h:
+
+stipulation/goals/proofgame/reached_tester.h:
 
 pybrafrk.h:
 

@@ -1765,7 +1765,7 @@ void inithash(slice_index si)
 
     bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
-    if (stip_ends_in(si,goal_proof) || stip_ends_in(si,goal_atob))
+    if (stip_ends_in(si,goal_proofgame) || stip_ends_in(si,goal_atob))
     {
       encode = ProofEncode;
       if (hashtable_kilos>0 && MaxPositions==0)

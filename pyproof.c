@@ -1723,7 +1723,7 @@ static boolean ProofImpossible(void)
     TraceText("blocked piece was captured\n");
     return true;
   }
-  
+
   /* has a white pawn on the second rank moved or has it
      been captured?
   */
@@ -1950,7 +1950,7 @@ static boolean ProofSeriesImpossible(void)
     if (BlPieToBeCapt>white_moves_left)
       return true;
   }
-  
+
   /* has a white pawn on the second rank moved ? */
   for (sq = square_a2; sq<=square_h2; sq += dir_right)
     if (target.board[sq]==pb && e[sq]!=pb)
@@ -1977,7 +1977,7 @@ static boolean ProofSeriesImpossible(void)
     ProofWhPieces.Nbr=
     CurrentWhPawns.Nbr=
     CurrentWhPieces.Nbr= 0;
-  
+
   for (bnp= boardnum; *bnp; bnp++) {
     piece const p1= target.board[*bnp];
     piece const p2= e[*bnp];
@@ -2065,7 +2065,7 @@ void ProofInitialise(slice_index si)
     saveTargetPiecesAndSquares();
 
     goal_to_be_reached = unique_goal.type;
-    assert(goal_to_be_reached==goal_proof || goal_to_be_reached==goal_atob);
+    assert(goal_to_be_reached==goal_proofgame || goal_to_be_reached==goal_atob);
 
     ProofFairy = (change_moving_piece
                   || CondFlag[black_oscillatingKs]

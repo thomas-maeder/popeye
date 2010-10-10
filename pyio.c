@@ -99,6 +99,7 @@
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
 #include "stipulation/goals/exchange_by_rebirth/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
+#include "stipulation/goals/proofgame/reached_tester.h"
 #include "pypipe.h"
 #include "pyint.h"
 #include "pyoutput.h"
@@ -1789,7 +1790,7 @@ static goalInputConfig_t const goalInputConfig[nr_goals] =
   , { "<>",   goal_exchange            }
   , { "00",   goal_castling            }
   , { "~",    goal_any                 }
-  , { "dia",  goal_proof               }
+  , { "dia",  goal_proofgame           }
   , { "a=>b", goal_atob                }
 };
 
@@ -2046,6 +2047,10 @@ static char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_any:
         attachGoalBranch(proxy,alloc_goal_any_reached_tester_slice());
+        break;
+
+      case goal_proofgame:
+        attachGoalBranch(proxy,alloc_goal_proofgame_reached_tester_slice());
         break;
 
       case goal_atob:
@@ -2435,7 +2440,7 @@ static char *ParsePlay(char *tok,
         {
           switch (slices[next].u.goal_reached_tester.goal.type)
           {
-            case goal_proof:
+            case goal_proofgame:
               stip_impose_starter(proxy_next,Black);
               break;
 

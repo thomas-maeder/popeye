@@ -147,7 +147,7 @@ goal_checker_result_type goal_checker_any(Side just_moved)
   return goal_not_reached;
 }
 
-goal_checker_result_type goal_checker_proof(Side just_moved)
+goal_checker_result_type goal_checker_proofgame(Side just_moved)
 {
   if (ProofIdentical())
     return echecc(nbply,just_moved) ? goal_not_reached_selfcheck : goal_reached;
