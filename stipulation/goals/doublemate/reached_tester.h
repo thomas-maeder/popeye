@@ -8,7 +8,7 @@
  */
 
 /* TODO get rid of this */
-extern boolean testdblmate;
+extern boolean are_we_testing_immobility_with_opposite_king_en_prise;
 
 /* Allocate a STGoalDoubleMateReachedTester slice.
  * @return index of allocated slice

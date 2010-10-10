@@ -10,9 +10,9 @@
  **
  ** 2006/06/30 SE   New condition: BGL (invented P.Petkov)
  **
- ** 2006/07/30 SE   New condition: Schwarzschacher  
+ ** 2006/07/30 SE   New condition: Schwarzschacher
  **
- ** 2007/01/28 SE   New condition: NormalPawn 
+ ** 2007/01/28 SE   New condition: NormalPawn
  **
  ** 2007/06/01 SE   New piece: Radial knight (invented: C.J.Feather)
  **
@@ -24,20 +24,20 @@
  **
  ** 2007/12/26 SE   New piece: Reverse Pawn (for below but independent)
  **
- ** 2008/01/02 NG   New condition: Geneva Chess 
+ ** 2008/01/02 NG   New condition: Geneva Chess
  **
- ** 2008/01/24 SE   New variant: Gridlines  
+ ** 2008/01/24 SE   New variant: Gridlines
  **
- ** 2008/02/19 SE   New condition: AntiKoeko  
+ ** 2008/02/19 SE   New condition: AntiKoeko
  **
- ** 2008/02/19 SE   New piece: RoseLocust  
+ ** 2008/02/19 SE   New piece: RoseLocust
  **
  ** 2008/02/25 SE   New piece type: Magic
  **                 Adjusted Masand code
  **
- ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)  
+ ** 2009/01/03 SE   New condition: Disparate Chess (invented: R.Bedoni)
  **
- ** 2009/02/24 SE   New pieces: 2,0-Spiralknight 
+ ** 2009/02/24 SE   New pieces: 2,0-Spiralknight
  **                             4,0-Spiralknight
  **                             1,1-Spiralknight
  **                             3,3-Spiralknight
@@ -194,7 +194,7 @@ boolean castlingimok(square i, square j) {
   return ret;
 }
 
-           
+
 
 boolean hopimok(square i, square j, square k, numvec diff, numvec diff1)
 {
@@ -279,7 +279,7 @@ boolean rmhopech(square sq_king,
    *
    *    kend==vec_queen_end, kanf==vec_queen_start: all types (moose,
    *                                                eagle, sparrow)
-   *    kend==vec_bishop_end, kanf==vec_bishop_start: 
+   *    kend==vec_bishop_end, kanf==vec_bishop_start:
    *        types arriving diagonally (rookmoose, rooksparrow, bishopeagle)
    *    kend==vec_rook_end, kanf==vec_rook_start: diagonal types
    *        types arriving orthogonally (bishopmoose, bishopsparrow, rookeagle)
@@ -555,7 +555,7 @@ boolean rrefcech(square sq_king,
             && evaluate(sq_departure,sq_king,sq_king))
           return true;
       }
-  
+
   return false;
 }
 
@@ -572,11 +572,11 @@ static boolean rrefnech(square sq_king,
     settraversed(i1);
 
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    sq_departure= i1; 
+    sq_departure= i1;
 
     while (e[sq_departure+=vec[k]]==vide)
     {
-      if (!NoEdge(sq_departure) && 
+      if (!NoEdge(sq_departure) &&
           !traversed(sq_departure)) {
         if (rrefnech(sq_king,sq_departure,p,evaluate))
           return true;
@@ -843,7 +843,7 @@ boolean doublegrascheck(square  sq_king,
       }
     }
   }
-  
+
   return false;
 }
 
@@ -1066,13 +1066,13 @@ boolean roselocustcheck(square  sq_king,
 
   return false;
 }
- 
+
 boolean maocheck(square sq_king,
                  piece  p,
                  evalfunction_t *evaluate)
 {
   square sq_departure;
-    
+
   if (e[sq_king+dir_up+dir_right]==vide) {
     sq_departure= sq_king+dir_up+2*dir_right;
     if (e[sq_departure]==p) {
@@ -1089,7 +1089,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_up+dir_right);
     }
   }
-  
+
   if (e[sq_king+dir_down+dir_left]==vide) {
     sq_departure= sq_king+dir_down+2*dir_left;
     if (e[sq_departure]==p) {
@@ -1106,7 +1106,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_down+dir_left);
     }
   }
-  
+
   if (e[sq_king+dir_up+dir_left]==vide) {
     sq_departure= sq_king+dir_up+2*dir_left;
     if (e[sq_departure]==p) {
@@ -1123,7 +1123,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_up+dir_left);
     }
   }
-  
+
   if (e[sq_king+dir_down+dir_right]==vide) {
     sq_departure= sq_king+2*dir_down+dir_right;
     if (e[sq_departure]==p) {
@@ -1140,7 +1140,7 @@ boolean maocheck(square sq_king,
                             sq_king+dir_down+dir_right);
     }
   }
-  
+
   return false;
 }
 
@@ -1149,7 +1149,7 @@ boolean moacheck(square sq_king,
                  evalfunction_t *evaluate)
 {
   square sq_departure;
-    
+
   if (e[sq_king+dir_up]==vide) {
     sq_departure= sq_king+2*dir_up+dir_left;
     if (e[sq_departure]==p) {
@@ -1251,7 +1251,7 @@ boolean pbcheck(square  sq_king,
         || p==orphann)
     {
       square sq_departure= sq_king+dir_up;
-            
+
       if (e[sq_departure]==p
           && evaluate(sq_departure,sq_king,sq_king))
         return true;
@@ -1278,11 +1278,11 @@ boolean pbcheck(square  sq_king,
         || p==orphanb)
     {
       square sq_departure= sq_king+dir_down;
-            
+
       if (e[sq_departure]==p
           && evaluate(sq_departure,sq_king,sq_king))
         return true;
-      
+
       if (ep[nbply]!=initsquare
           && RN_[nbply]!=rn
           && (rn==ep[nbply]+dir_down+dir_right
@@ -1307,7 +1307,7 @@ boolean bspawncheck(square  sq_king,
   piece   p1;
 
   square sq_departure;
-    
+
   if (p==bspawnn
       || (calc_blrefl_king && p==roin))
   {
@@ -1325,7 +1325,7 @@ boolean bspawncheck(square  sq_king,
         return true;
     }
   }
-  
+
   return false;
 }
 
@@ -1336,7 +1336,7 @@ boolean spawncheck(square   sq_king,
   piece   p1;
 
   square sq_departure;
-    
+
   if (p==spawnn
       || (calc_blrefl_king && p==roin))
   {
@@ -1429,7 +1429,7 @@ boolean dragoncheck(square  sq_king,
 
   if (leapcheck(sq_king,vec_knight_start,vec_knight_end,p,evaluate))
     return true;
-    
+
   if (p==dragonn
       || (calc_blrefl_king && p==roin))
   {
@@ -1482,7 +1482,7 @@ boolean kangoucheck(square  sq_king,
   square sq_hurdle;
 
   square sq_departure;
-    
+
   for (k= vec_queen_end; k>=vec_queen_start; k--) {
     sq_hurdle= sq_king+vec[k];
     if (abs(e[sq_hurdle])>=roib) {
@@ -1508,7 +1508,7 @@ boolean rabbitcheck(square  sq_king,
   square sq_hurdle;
 
   square sq_departure;
-    
+
   for (k= vec_queen_end; k>=vec_queen_start; k--) {
     finligne(sq_king,vec[k],p1,sq_hurdle);
     if (abs(p1)>=roib) {
@@ -1534,7 +1534,7 @@ boolean bobcheck(square sq_king,
   square sq_hurdle;
 
   square sq_departure;
-    
+
   for (k= vec_queen_end; k>=vec_queen_start; k--) {
     finligne(sq_king,vec[k],p1,sq_hurdle);
     if (abs(p1)>=roib) {
@@ -1792,7 +1792,7 @@ boolean equicheck(square    sq_king,
   square  sq_hurdle;
 
   square sq_departure;
-    
+
   for (k= vec_queen_end; k>=vec_queen_start; k--) {     /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
     finligne(sq_king,vec[k],p1,sq_hurdle);
     if (p1!=obs) {
@@ -1832,7 +1832,7 @@ boolean equiengcheck(square sq_king,
   square  sq_hurdle;
 
   square sq_departure;
-    
+
   for (k= vec_queen_end; k>=vec_queen_start; k--) {     /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
     finligne(sq_king,vec[k],p1,sq_hurdle);
     if (p1!=obs) {
@@ -1852,7 +1852,7 @@ boolean equiengcheck(square sq_king,
         && evaluate(sq_departure,sq_king,sq_king))
       return true;
   }
-  
+
   return false;
 }
 
@@ -1864,7 +1864,7 @@ boolean catcheck(square sq_king,
   square  middle_square;
 
   square sq_departure;
-    
+
   if (leapcheck(sq_king,vec_knight_start,vec_knight_end,p,evaluate)) {
     return true;
   }
@@ -2107,8 +2107,8 @@ boolean libre(square sq, boolean generating)
 
     if (CondFlag[disparate]
         && nbply>2
-        && trait[nbply] != trait[parent_ply[nbply]] 
-        && abs(p)==abs(pjoue[parent_ply[nbply]]) 
+        && trait[nbply] != trait[parent_ply[nbply]]
+        && abs(p)==abs(pjoue[parent_ply[nbply]])
        )
       result = false;
 
@@ -2220,12 +2220,12 @@ boolean libre(square sq, boolean generating)
 
 boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   piece p= 0;       /* avoid compiler warning */
-  boolean Result, 
-          enemyobserveok=true, 
-          friendobserveok=true, 
-          testenemyobs=false, 
+  boolean Result,
+          enemyobserveok=true,
+          friendobserveok=true,
+          testenemyobs=false,
           testfriendobs=false,
-          testenemyanti, 
+          testenemyanti,
           testfriendanti;
   evalfunction_t *evaluate;
 
@@ -2278,11 +2278,11 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
   if (obspieces) {
     testenemyobs= ENEMYOBS(sq_departure);
     if (testenemyobs)
-      testenemyanti = ENEMYANTI(sq_departure); 
+      testenemyanti = ENEMYANTI(sq_departure);
 
     testfriendobs= FRIENDOBS(sq_departure);
     if (testfriendobs)
-      testfriendanti = FRIENDANTI(sq_departure); 
+      testfriendanti = FRIENDANTI(sq_departure);
   }
   if (!testenemyobs && !testfriendobs) {
     testenemyobs= obsenemygenre;
@@ -2291,7 +2291,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     testfriendanti= obsfriendantigenre;
   }
 
-  if (testenemyobs) { 
+  if (testenemyobs) {
     if (color(sq_departure)!=White)
     {
       sq_arrival= rn;
@@ -2308,7 +2308,7 @@ boolean soutenu(square sq_departure, square sq_arrival, square sq_capture) {
     }
   }
 
-  if (testfriendobs) { 
+  if (testfriendobs) {
     if (color(sq_departure)==White)
     {
       sq_arrival= rn;
@@ -2365,7 +2365,7 @@ boolean edgehcheck(square   sq_king,
   numvec  k;
 
   square sq_departure;
-    
+
   for (k= vec_queen_end; k>=vec_queen_start; k--) {
     finligne(sq_king,vec[k],p1,sq_departure);
     if (p1==p
@@ -2386,7 +2386,7 @@ static boolean maooaridercheck(square  sq_king,
   square  middle_square;
 
   square sq_departure= sq_king+sec;
-    
+
   middle_square = sq_king+fir;
   while (e[middle_square]==vide && e[sq_departure]==vide) {
     middle_square+= sec;
@@ -2469,7 +2469,7 @@ static boolean maooariderlioncheck(square  sq_king,
   square middle_square= sq_king+fir;
 
   square sq_departure= sq_king+sec;
-    
+
   while (e[middle_square]==vide && e[sq_departure]==vide) {
     middle_square+= sec;
     sq_departure+= sec;
@@ -2625,7 +2625,7 @@ boolean eval_isardam(square sq_departure, square sq_arrival, square sq_capture) 
      move from sq_departure, sq_arrival and sq_capture.
      TLi
   */
-  if (flag_nk) {        /* will this do for neutral Ks? */
+  if ((TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral)) {        /* will this do for neutral Ks? */
     camp= neutcoul;
   }
   else if (sq_capture == rn) {
@@ -2674,7 +2674,7 @@ boolean orixcheck(square sq_king,
   square  sq_hurdle;
 
   square sq_departure;
-    
+
   for (k= vec_queen_end; k>=vec_queen_start; k--) {     /* 0,2; 0,4; 0,6; 2,2; 4,4; 6,6; */
     finligne(sq_king,vec[k],p1,sq_hurdle);
     if (p1!=obs) {
@@ -2848,7 +2848,7 @@ boolean querquisitecheck(square sq_king,
   piece p1;
 
   square sq_departure;
-    
+
   for (k= vec_rook_start; k<=vec_rook_end; k++) {
     finligne(sq_king,vec[k],p1,sq_departure);
     file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
@@ -2860,7 +2860,7 @@ boolean querquisitecheck(square sq_king,
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
   }
-  
+
   for (k= vec_bishop_start; k<=vec_bishop_end; k++) {
     finligne(sq_king,vec[k],p1,sq_departure);
     file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
@@ -2872,7 +2872,7 @@ boolean querquisitecheck(square sq_king,
         && ridimcheck(sq_departure,sq_king,vec[k]))
       return true;
   }
-  
+
   for (k= vec_knight_start; k<=vec_knight_end; k++) {
     sq_departure= sq_king+vec[k];
     file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
@@ -2883,7 +2883,7 @@ boolean querquisitecheck(square sq_king,
         && imcheck(sq_departure,sq_king))
       return true;
   }
-  
+
   for (k= vec_queen_start; k<=vec_queen_end; k++) {
     sq_departure= sq_king+vec[k];
     file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
@@ -2908,7 +2908,7 @@ static boolean bouncerfamilycheck(square sq_king,
   square  sq_hurdle;
 
   square sq_departure;
-    
+
   for (k= kend; k>=kbeg; k--) {
     finligne(sq_king,vec[k],p1,sq_departure);
     finligne(sq_departure,vec[k],p2,sq_hurdle);  /* p2 can be obs - bounces off edges */
@@ -2947,7 +2947,7 @@ boolean pchincheck(square sq_king,
                    evalfunction_t *evaluate)
 {
   square sq_departure;
-    
+
   boolean const is_black= p<=roin;
 
   sq_departure= sq_king + (is_black ? dir_up :dir_down);
@@ -2996,7 +2996,7 @@ boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
      move from sq_departure, sq_arrival and sq_capture.
      TLi
   */
-  if (flag_nk)        /* will this do for neutral Ks? */
+  if ((TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral))        /* will this do for neutral Ks? */
     camp = neutcoul;
   else if (sq_capture==rn)
     camp = White;
@@ -3005,12 +3005,12 @@ boolean eval_disp(square sq_departure, square sq_arrival, square sq_capture)
   else
     camp = e[sq_departure]<0 ? Black : White;
 
-  save_trait = trait[nbply]; 
+  save_trait = trait[nbply];
   trait[nbply] = camp;
 
-  result = libre(sq_departure,false); 
-  
-  trait[nbply] = save_trait; 
+  result = libre(sq_departure,false);
+
+  trait[nbply] = save_trait;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

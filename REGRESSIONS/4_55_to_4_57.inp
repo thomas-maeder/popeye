@@ -144,4 +144,20 @@ pieces white kb1 sa2 pb4c3
 stip ser-s#2
 option set
 
+next
+
+title since 4.43, h##! with neutral king weren't solved correctly
+pieces white qa3 pb2c4
+       black qa6 sa1 pa4b7c5
+       neutral ka5
+stipulation h##!0.5
+
+next
+
+title only example of double mate with neutral king
+pieces white qa3 pb2c4
+       black ra7 sa1 pa4c5c6
+       neutral ka5
+stipulation h##0.5
+
 end

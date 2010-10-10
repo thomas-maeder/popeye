@@ -1665,7 +1665,7 @@ static boolean jouecoup_legality_test(unsigned int oldnbpiece[derbla],
                   &&
                   ((!flag_testlegality) || pos_legal())
                   && (!flagAssassin || (sq_rebirth != rb && sq_rebirth != rn))
-                  && (!testdblmate || (rb!=initsquare && rn!=initsquare))
+                  && (!are_we_testing_immobility_with_opposite_king_en_prise || (rb!=initsquare && rn!=initsquare))
                   && (!CondFlag[patience] || PatienceB || patience_legal())
                   /* don't call patience_legal if TypeB as obs > vide ! */
                   && (trait[nbply] == White ? BGL_white >= 0 : BGL_black >= 0)

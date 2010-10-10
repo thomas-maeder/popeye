@@ -889,9 +889,6 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (TSTFLAG(PieSpExFlags, Neutral))
-    flag_nk = rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-
   if (CondFlag[bicolores])
   {
     if (TSTFLAG(PieSpExFlags, Neutral))
@@ -1687,6 +1684,7 @@ static boolean verify_position(slice_index si)
       || flag_testlegality
       || flagAssassin
       || stip_ends_in(si,goal_doublemate)
+      || stip_ends_in(si,goal_countermate)
       || CondFlag[patience]
       || CondFlag[blackultraschachzwang]
       || CondFlag[whiteultraschachzwang]

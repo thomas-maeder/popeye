@@ -371,7 +371,7 @@ EXTERN  boolean         InitChamCirce;
 
 EXTERN unsigned int     mars_circe_rebirth_state;
 EXTERN boolean          IsardamB,PatienceB,SentPionAdverse,SentPionNeutral,
-                        flagAssassin,flag_nk,jouetestgenre;
+                        flagAssassin,jouetestgenre;
 EXTERN unsigned int     max_pn, max_pb, max_pt;
 EXTERN boolean          flagmaxi, flagultraschachzwang, flagparasent;
 EXTERN boolean          isapril[derbla + 1];

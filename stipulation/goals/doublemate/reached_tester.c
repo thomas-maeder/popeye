@@ -9,7 +9,7 @@
  * whether a double mate goal has just been reached
  */
 
-boolean testdblmate = false;
+boolean are_we_testing_immobility_with_opposite_king_en_prise = false;
 
 /* Allocate a STGoalDoubleMateReachedTester slice.
  * @return index of allocated slice
@@ -49,11 +49,13 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
   if (echecc(nbply,starter) && echecc(nbply,just_moved))
   {
     boolean both_immobile;
-    testdblmate = flag_nk;
+
+    are_we_testing_immobility_with_opposite_king_en_prise =
+      (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
     /* modified to allow isardam + ##  */
     /* may still have problem with isardam + nK + ##  !*/
     both_immobile = immobile(starter) && immobile(just_moved);
-    testdblmate = false;
+    are_we_testing_immobility_with_opposite_king_en_prise = false;
     if (both_immobile)
       result = slice_has_solution(next);
     else
@@ -86,11 +88,13 @@ has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
   if (echecc(nbply,starter) && echecc(nbply,just_moved))
   {
     boolean both_immobile;
-    testdblmate = flag_nk;
+
+    are_we_testing_immobility_with_opposite_king_en_prise =
+      (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
     /* modified to allow isardam + ##  */
     /* may still have problem with isardam + nK + ##  !*/
     both_immobile = immobile(starter) && immobile(just_moved);
-    testdblmate = false;
+    are_we_testing_immobility_with_opposite_king_en_prise = false;
     if (both_immobile)
       result = slice_solve(next);
     else

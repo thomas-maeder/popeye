@@ -683,3 +683,69 @@ solution finished.
 solution finished. 
 
 
+
+since 4.43, h##! with neutral king weren't solved correctly
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6  -Q   .   .   .   .   .   .   .   6
+|                                   |
+5  =K   .  -P   .   .   .   .   .   5
+|                                   |
+4  -P   .   P   .   .   .   .   .   4
+|                                   |
+3   Q   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1  -S   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h##!0.5                3 + 5 + 1n
+
+  1...nKa5*a4 ##! 
+
+              empile:         120
+            jouecoup:          98
+        orig_rbechec:          45
+        orig_rnechec:          61
+solution finished. 
+
+
+
+only example of double mate with neutral king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -R   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5  =K   .  -P   .   .   .   .   .   5
+|                                   |
+4  -P   .   P   .   .   .   .   .   4
+|                                   |
+3   Q   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1  -S   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h##0.5                 3 + 5 + 1n
+
+  1...nKa5*a4 ## 
+
+              empile:          68
+            jouecoup:          58
+        orig_rbechec:          27
+        orig_rnechec:          35
+solution finished. 
+
+
