@@ -1344,8 +1344,8 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   pieces/attributes/paralysing/mate_filter.h \
   pieces/attributes/paralysing/stalemate_special.h \
   conditions/amu/mate_filter.h conditions/circe/steingewinn_filter.h \
-  conditions/circe/circuit_b_special.h \
-  conditions/circe/exchange_b_special.h \
+  conditions/circe/circuit_by_rebirth_special.h \
+  conditions/circe/exchange_by_rebirth_special.h \
   conditions/anticirce/target_square_filter.h \
   conditions/anticirce/circuit_special.h \
   conditions/anticirce/exchange_special.h \
@@ -1484,9 +1484,9 @@ conditions/amu/mate_filter.h:
 
 conditions/circe/steingewinn_filter.h:
 
-conditions/circe/circuit_b_special.h:
+conditions/circe/circuit_by_rebirth_special.h:
 
-conditions/circe/exchange_b_special.h:
+conditions/circe/exchange_by_rebirth_special.h:
 
 conditions/anticirce/target_square_filter.h:
 

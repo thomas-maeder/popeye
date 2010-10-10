@@ -3,7 +3,7 @@
 #include "pyquodli.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "conditions/circe/circuit_b_special.h"
+#include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "trace.h"
 

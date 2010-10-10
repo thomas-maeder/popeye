@@ -1,6 +1,6 @@
 conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
   conditions/circe/circe.h pypipe.h pyquodli.h stipulation/branch.h \
-  stipulation/proxy.h conditions/circe/circuit_b_special.h \
+  stipulation/proxy.h conditions/circe/circuit_by_rebirth_special.h \
   conditions/circe/steingewinn_filter.h trace.h
 
 conditions/circe/circe.h:
@@ -13,7 +13,7 @@ stipulation/branch.h:
 
 stipulation/proxy.h:
 
-conditions/circe/circuit_b_special.h:
+conditions/circe/circuit_by_rebirth_special.h:
 
 conditions/circe/steingewinn_filter.h:
 
@@ -29,22 +29,23 @@ pypipe.h:
 pydata.h:
 
 trace.h:
-conditions/circe/circuit_b_special$(OBJ_SUFFIX):  \
- conditions/circe/circuit_b_special.c \
-  conditions/circe/circuit_b_special.h pypipe.h pydata.h trace.h
+conditions/circe/circuit_by_rebirth_special$(OBJ_SUFFIX):  \
+ conditions/circe/circuit_by_rebirth_special.c \
+  conditions/circe/circuit_by_rebirth_special.h pypipe.h pydata.h trace.h
 
-conditions/circe/circuit_b_special.h:
+conditions/circe/circuit_by_rebirth_special.h:
 
 pypipe.h:
 
 pydata.h:
 
 trace.h:
-conditions/circe/exchange_b_special$(OBJ_SUFFIX):  \
- conditions/circe/exchange_b_special.c \
-  conditions/circe/exchange_b_special.h pypipe.h pydata.h trace.h
+conditions/circe/exchange_by_rebirth_special$(OBJ_SUFFIX):  \
+ conditions/circe/exchange_by_rebirth_special.c \
+  conditions/circe/exchange_by_rebirth_special.h pypipe.h pydata.h \
+  trace.h
 
-conditions/circe/exchange_b_special.h:
+conditions/circe/exchange_by_rebirth_special.h:
 
 pypipe.h:
 
