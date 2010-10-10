@@ -49,8 +49,8 @@ goal_checker_result_type is_goal_reached(Side just_moved, Goal goal)
       assert(0);
       break;
 
-    case goal_exchangeB:
-      result = goal_checker_exchangeB(just_moved);
+    case goal_exchange_by_rebirth:
+      result = goal_checker_exchange_by_rebirth(just_moved);
       break;
 
     case goal_any:

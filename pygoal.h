@@ -26,7 +26,7 @@ typedef enum
   goal_circuit,
   goal_exchange,
   goal_circuit_by_rebirth,
-  goal_exchangeB,
+  goal_exchange_by_rebirth,
   goal_any,
   goal_proof,
   goal_atob, /* TODO remove? is there a difference to goal_proof? */
@@ -67,7 +67,7 @@ goal_checker_result_type goal_checker_mate(Side just_moved);
 goal_checker_result_type goal_checker_circuit(Side just_moved);
 goal_checker_result_type goal_checker_circuit_by_rebirth(Side just_moved);
 goal_checker_result_type goal_checker_exchange(Side just_moved);
-goal_checker_result_type goal_checker_exchangeB(Side just_moved);
+goal_checker_result_type goal_checker_exchange_by_rebirth(Side just_moved);
 goal_checker_result_type goal_checker_capture(Side just_moved);
 goal_checker_result_type goal_checker_stale(Side just_moved);
 goal_checker_result_type goal_checker_dblstale(Side just_moved);

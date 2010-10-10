@@ -42,7 +42,7 @@ goal_checker_result_type goal_checker_exchange(Side just_moved)
   return goal_not_reached;
 }
 
-goal_checker_result_type goal_checker_exchangeB(Side just_moved)
+goal_checker_result_type goal_checker_exchange_by_rebirth(Side just_moved)
 {
   /* goal is only reachable in some fairy conditions */
   return goal_not_reached;

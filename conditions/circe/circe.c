@@ -24,7 +24,7 @@ static void prepend_goal_filters(slice_index si, stip_structure_traversal *st)
       assert(0);
       break;
 
-    case goal_exchangeB:
+    case goal_exchange_by_rebirth:
     {
       slice_index const tested = branch_find_slice(STGoalReachedTested,si);
       slice_index const proxy_special = alloc_proxy_slice();
