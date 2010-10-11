@@ -51,8 +51,6 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
 
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-    /* modified to allow isardam + ##  */
-    /* may still have problem with isardam + nK + ##  !*/
     both_immobile = immobile(starter) && immobile(just_moved);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
     if (both_immobile)
@@ -90,8 +88,6 @@ has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
 
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-    /* modified to allow isardam + ##  */
-    /* may still have problem with isardam + nK + ##  !*/
     both_immobile = immobile(starter) && immobile(just_moved);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
     if (both_immobile)

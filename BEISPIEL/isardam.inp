@@ -201,4 +201,12 @@ steine  weiss   kd8 lc1d7 sd1d3 bb7d2h7
 
 option          varianten
 
+weiter
+
+titel einziges Beispiel mit ##!
+steine weiss kf6 bh7
+       schwarz kh6 de6 sg7
+forderung h##!0.5
+bedingung isardam
+
 endeproblem

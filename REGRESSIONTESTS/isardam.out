@@ -689,3 +689,37 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+      einziges Beispiel mit ##!
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .  -S   B   7
+|                                   |
+6   .   .   .   .  -D   K   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h##!0.5                     2 + 3
+               Isardam
+
+  1...h7-h8=T ##! 
+
+              empile:         333
+            jouecoup:         299
+        orig_rbechec:          35
+        orig_rnechec:         124
+Loesung beendet. 
+
+
