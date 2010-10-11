@@ -32,7 +32,7 @@ slice_index alloc_output_plaintext_tree_move_inversion_counter_slice(void)
 }
 
 /* Determine whether a slice.has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
@@ -40,7 +40,7 @@ has_solution_type
 output_plaintext_tree_move_inversion_counter_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -62,7 +62,7 @@ has_solution_type
 output_plaintext_tree_move_inversion_counter_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

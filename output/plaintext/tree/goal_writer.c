@@ -27,7 +27,7 @@ slice_index alloc_goal_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputPlaintextTreeGoalWriter);
-  slices[result].u.goal_reached_tester.goal = goal;
+  slices[result].u.goal_writer.goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,14 +36,14 @@ slice_index alloc_goal_writer_slice(Goal goal)
 }
 
 /* Determine whether a slice.has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
 has_solution_type goal_writer_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.goal_writer.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -64,8 +64,8 @@ has_solution_type goal_writer_has_solution(slice_index si)
 has_solution_type goal_writer_solve(slice_index si)
 {
   has_solution_type result;
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  Goal const goal = slices[si].u.goal_writer.goal;
+  slice_index const next = slices[si].u.goal_writer.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -100,8 +100,8 @@ output_plaintext_tree_goal_writer_defend_in_n(slice_index si,
                                               stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  Goal const goal = slices[si].u.goal_writer.goal;
+  slice_index const next = slices[si].u.goal_writer.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -139,7 +139,7 @@ output_plaintext_tree_goal_writer_can_defend_in_n(slice_index si,
                                                   stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.goal_writer.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -171,8 +171,8 @@ output_plaintext_tree_goal_writer_solve_in_n(slice_index si,
                                              stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  Goal const goal = slices[si].u.goal_reached_tester.goal;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  Goal const goal = slices[si].u.goal_writer.goal;
+  slice_index const next = slices[si].u.goal_writer.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -210,7 +210,7 @@ output_plaintext_tree_goal_writer_has_solution_in_n(slice_index si,
                                                     stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.goal_writer.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

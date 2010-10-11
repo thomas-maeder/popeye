@@ -21,7 +21,6 @@ alloc_goal_circuit_by_rebirth_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalCircuitByRebirthReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_circuit_by_rebirth;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

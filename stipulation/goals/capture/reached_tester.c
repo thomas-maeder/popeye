@@ -20,7 +20,6 @@ slice_index alloc_goal_capture_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalCaptureReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_capture;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +45,7 @@ has_solution_type goal_capture_reached_tester_has_solution(slice_index si)
     if (echecc(nbply,advers(slices[si].starter)))
       result = opponent_self_check;
     else
-      result = slice_has_solution(slices[si].u.goal_reached_tester.next);
+      result = slice_has_solution(slices[si].u.pipe.next);
   }
   else
     result = has_no_solution;
@@ -74,7 +73,7 @@ has_solution_type goal_capture_reached_tester_solve(slice_index si)
     if (echecc(nbply,advers(slices[si].starter)))
       result = opponent_self_check;
     else
-      result = slice_solve(slices[si].u.goal_reached_tester.next);
+      result = slice_solve(slices[si].u.pipe.next);
   }
   else
     result = has_no_solution;

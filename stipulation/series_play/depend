@@ -1,7 +1,7 @@
 stipulation/series_play/branch$(OBJ_SUFFIX): stipulation/series_play/branch.c \
   stipulation/series_play/branch.h pyslice.h pymovein.h \
-  stipulation/series_play/play.h pypipe.h stipulation/branch.h \
-  stipulation/proxy.h stipulation/series_play/fork.h \
+  stipulation/goals/goals.h stipulation/series_play/play.h pypipe.h \
+  stipulation/branch.h stipulation/proxy.h stipulation/series_play/fork.h \
   stipulation/series_play/move.h stipulation/series_play/move_to_goal.h \
   stipulation/series_play/shortcut.h trace.h
 
@@ -10,6 +10,8 @@ stipulation/series_play/branch.h:
 pyslice.h:
 
 pymovein.h:
+
+stipulation/goals/goals.h:
 
 stipulation/series_play/play.h:
 

@@ -1,6 +1,7 @@
 #include "stipulation/series_play/branch.h"
 #include "pyslice.h"
 #include "pymovein.h"
+#include "stipulation/goals/goals.h"
 #include "stipulation/series_play/play.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
@@ -41,7 +42,7 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    Goal const goal = slices[si].u.goal_reached_tester.goal;
+    Goal const goal = extractGoalFromTester(si);
     slice_index const ready = alloc_branch(STReadyForSeriesMove,
                                            slack_length_series+1,
                                            slack_length_series+1);

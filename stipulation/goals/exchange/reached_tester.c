@@ -20,7 +20,6 @@ slice_index alloc_goal_exchange_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalExchangeReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_exchange;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,7 +35,7 @@ slice_index alloc_goal_exchange_reached_tester_slice(void)
 has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
   square const sq_arrival = move_generation_stack[nbcou].arrival;
   square const sq_diagram = GetDiaRen(spec[sq_arrival]);
   Side const just_moved = advers(slices[si].starter);
@@ -70,7 +69,7 @@ has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
 has_solution_type goal_exchange_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
   square const sq_arrival = move_generation_stack[nbcou].arrival;
   square const sq_diagram = GetDiaRen(spec[sq_arrival]);
   Side const just_moved = advers(slices[si].starter);

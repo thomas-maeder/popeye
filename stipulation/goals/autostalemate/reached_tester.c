@@ -20,7 +20,6 @@ slice_index alloc_goal_autostalemate_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalAutoStalemateReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_autostale;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,7 +35,7 @@ slice_index alloc_goal_autostalemate_reached_tester_slice(void)
 has_solution_type goal_autostalemate_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
   Side const starter = slices[si].starter;
   Side const just_moved = advers(starter);
 
@@ -66,7 +65,7 @@ has_solution_type goal_autostalemate_reached_tester_has_solution(slice_index si)
 has_solution_type goal_autostalemate_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
   Side const starter = slices[si].starter;
   Side const just_moved = advers(starter);
 

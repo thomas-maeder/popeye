@@ -20,7 +20,7 @@ slice_index alloc_anticirce_target_square_filter_slice(square target)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STAnticirceTargetSquareFilter);
-  slices[result].u.goal_reached_tester.goal.target = target;
+  slices[result].u.goal_target_reached_tester.target = target;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,15 +36,15 @@ slice_index alloc_anticirce_target_square_filter_slice(square target)
 static boolean is_mover_removed_from_target(slice_index si)
 {
   boolean result;
+  square const target = slices[si].u.goal_target_reached_tester.target;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (e[slices[si].u.goal_reached_tester.goal.target]==vide)
+  if (e[target]==vide)
     result = true;
-  else if (sq_rebirth_capturing[nbply]
-           ==slices[si].u.goal_reached_tester.goal.target)
+  else if (sq_rebirth_capturing[nbply]==target)
     result = false;
   else
     result = true;
@@ -64,7 +64,6 @@ static boolean is_mover_removed_from_target(slice_index si)
 has_solution_type anticirce_target_square_filter_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,7 +72,7 @@ has_solution_type anticirce_target_square_filter_has_solution(slice_index si)
   if (is_mover_removed_from_target(si))
     result = has_no_solution;
   else
-    result = slice_has_solution(next);
+    result = slice_has_solution(slices[si].u.goal_target_reached_tester.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -88,7 +87,6 @@ has_solution_type anticirce_target_square_filter_has_solution(slice_index si)
 has_solution_type anticirce_target_square_filter_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -97,7 +95,7 @@ has_solution_type anticirce_target_square_filter_solve(slice_index si)
   if (is_mover_removed_from_target(si))
     result = has_no_solution;
   else
-    result = slice_solve(next);
+    result = slice_solve(slices[si].u.goal_target_reached_tester.next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

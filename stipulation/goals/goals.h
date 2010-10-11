@@ -62,4 +62,10 @@ extern char const *goal_end_marker[nr_goals];
  */
 goal_checker_result_type goal_checker_mate(Side just_moved);
 
+/* Extract the goal from a STGoal*ReachedTester slice
+ * @param si identifies STGoal*ReachedTester slice
+ * @return goal that si tests for
+ */
+Goal extractGoalFromTester(slice_index si);
+
 #endif

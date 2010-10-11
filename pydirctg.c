@@ -1,5 +1,6 @@
 #include "pydirctg.h"
 #include "stipulation/proxy.h"
+#include "stipulation/goals/goals.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
 #include "stipulation/battle_play/attack_fork.h"
@@ -71,8 +72,8 @@ void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
   TraceFunctionResultEnd();
 }
 
-/* Insert a the appropriate proxy slices before each STLeaf slice
- * @param si identifies STLeaf slice
+/* Insert a the appropriate proxy slices before each STGoal*ReachedTester slice
+ * @param si identifies STGoal*ReachedTester slice
  * @param st address of structure representing the traversal
  */
 static void instrument_tester(slice_index si, stip_structure_traversal *st)
@@ -84,7 +85,7 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    Goal const goal = slices[si].u.goal_reached_tester.goal;
+    Goal const goal = extractGoalFromTester(si);
     slice_index const move = alloc_attack_move_to_goal_slice(goal);
     slice_index const played = alloc_branch(STAttackMovePlayed,
                                             slack_length_battle,

@@ -64,7 +64,7 @@ static void instrument_goal_target_reached_tester(slice_index si,
   TraceFunctionParamListEnd();
 
   state->goal.type = goal_target;
-  state->goal.target = slices[si].u.goal_reached_tester.goal.target;
+  state->goal.target = slices[si].u.goal_target_reached_tester.target;
   stip_traverse_structure_children(si,st);
   state->goal = save_goal;
 

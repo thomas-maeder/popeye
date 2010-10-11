@@ -20,7 +20,6 @@ slice_index alloc_goal_circuit_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalCircuitReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_circuit;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

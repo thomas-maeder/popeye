@@ -2434,16 +2434,10 @@ static char *ParsePlay(char *tok,
         result = ParseSerH(tok,proxy,proxy_next);
         if (result!=0)
         {
-          switch (slices[next].u.goal_reached_tester.goal.type)
-          {
-            case goal_proofgame:
-              stip_impose_starter(proxy_next,Black);
-              break;
-
-            default:
-              stip_impose_starter(proxy_next,White);
-              break;
-          }
+          if (slices[next].type==STGoalProofgameReachedTester)
+            stip_impose_starter(proxy_next,Black);
+          else
+            stip_impose_starter(proxy_next,White);
 
           set_output_mode(output_mode_line);
         }

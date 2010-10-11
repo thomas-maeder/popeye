@@ -217,24 +217,17 @@ typedef struct
             slice_index next;
         } pipe;
 
-        struct /* for type==STGoalReachedTester * */
+        struct /* for type==STGoalTargetReachedTester */
         {
             slice_index next;
-            Goal goal;
-        } goal_reached_tester;
+            square target;
+        } goal_target_reached_tester;
 
         struct /* for goal filter types * */
         {
             slice_index next;
             Side goaled;
         } goal_filter;
-
-        struct /* for type==STLineWriter* */
-        {
-            slice_index next;
-            Goal goal;
-            slice_index root_slice;
-        } line_writer;
 
         struct
         {
@@ -303,6 +296,19 @@ typedef struct
             slice_index op1; /* operand 1 */
             slice_index op2; /* operand 2 */
         } binary;
+
+        struct /* for slices writing a goal */
+        {
+            slice_index next;
+            Goal goal;
+        } goal_writer;
+
+        struct /* for type==STLineWriter* */
+        {
+            slice_index next;
+            Goal goal;
+            slice_index root_slice;
+        } line_writer;
     } u;
 } Slice;
 

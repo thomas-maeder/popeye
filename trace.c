@@ -395,6 +395,24 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STEndOfPhaseWriter:
       case STEndOfSolutionWriter:
       case STRefutationWriter:
+      case STGoalMateReachedTester:
+      case STGoalStalemateReachedTester:
+      case STGoalDoubleStalemateReachedTester:
+      case STGoalTargetReachedTester:
+      case STGoalCheckReachedTester:
+      case STGoalCaptureReachedTester:
+      case STGoalSteingewinnReachedTester:
+      case STGoalEnpassantReachedTester:
+      case STGoalDoubleMateReachedTester:
+      case STGoalCounterMateReachedTester:
+      case STGoalCastlingReachedTester:
+      case STGoalAutoStalemateReachedTester:
+      case STGoalCircuitReachedTester:
+      case STGoalExchangeReachedTester:
+      case STGoalExchangeByRebirthReachedTester:
+      case STGoalCircuitByRebirthReachedTester:
+      case STGoalAnyReachedTester:
+      case STGoalProofgameReachedTester:
       case STOutputPlaintextTreeMoveInversionCounter:
       case STOutputPlaintextLineMoveInversionCounter:
       case STOutputPlaintextLineEndOfIntroSeriesMarker:
@@ -454,28 +472,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
         break;
 
-      case STGoalMateReachedTester:
-      case STGoalStalemateReachedTester:
-      case STGoalDoubleStalemateReachedTester:
-      case STGoalTargetReachedTester:
-      case STGoalCheckReachedTester:
-      case STGoalCaptureReachedTester:
-      case STGoalSteingewinnReachedTester:
-      case STGoalEnpassantReachedTester:
-      case STGoalDoubleMateReachedTester:
-      case STGoalCounterMateReachedTester:
-      case STGoalCastlingReachedTester:
-      case STGoalAutoStalemateReachedTester:
-      case STGoalCircuitReachedTester:
-      case STGoalExchangeReachedTester:
-      case STGoalExchangeByRebirthReachedTester:
-      case STGoalCircuitByRebirthReachedTester:
-      case STGoalAnyReachedTester:
-      case STGoalProofgameReachedTester:
       case STOutputPlaintextLineLineWriter:
       case STOutputPlaintextTreeGoalWriter:
         Trace_pipe(si);
-        fprintf(stdout,"goal:%u\n",slices[si].u.goal_reached_tester.goal.type);
+        fprintf(stdout,"goal:%u\n",slices[si].u.goal_writer.goal.type);
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 

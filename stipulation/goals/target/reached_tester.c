@@ -22,8 +22,7 @@ slice_index alloc_goal_target_reached_tester_slice(square target)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalTargetReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_target;
-  slices[result].u.goal_reached_tester.goal.target = target;
+  slices[result].u.goal_target_reached_tester.target = target;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -40,8 +39,8 @@ has_solution_type goal_target_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
   Side const just_moved = advers(slices[si].starter);
-  square const target = slices[si].u.goal_reached_tester.goal.target;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  square const target = slices[si].u.goal_target_reached_tester.target;
+  slice_index const next = slices[si].u.goal_target_reached_tester.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -71,8 +70,8 @@ has_solution_type goal_target_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
   Side const just_moved = advers(slices[si].starter);
-  square const target = slices[si].u.goal_reached_tester.goal.target;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  square const target = slices[si].u.goal_target_reached_tester.target;
+  slice_index const next = slices[si].u.goal_target_reached_tester.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

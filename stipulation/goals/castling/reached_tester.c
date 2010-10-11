@@ -20,7 +20,6 @@ slice_index alloc_goal_castling_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalCastlingReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_castling;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,7 +35,7 @@ slice_index alloc_goal_castling_reached_tester_slice(void)
 has_solution_type goal_castling_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
   unsigned char const diff = castling_flag[nbply-1]-castling_flag[nbply];
 
   TraceFunctionEntry(__func__);
@@ -67,7 +66,7 @@ has_solution_type goal_castling_reached_tester_has_solution(slice_index si)
 has_solution_type goal_castling_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.goal_reached_tester.next;
+  slice_index const next = slices[si].u.pipe.next;
   unsigned char const diff = castling_flag[nbply-1]-castling_flag[nbply];
 
   TraceFunctionEntry(__func__);

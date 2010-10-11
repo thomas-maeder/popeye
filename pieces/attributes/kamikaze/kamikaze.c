@@ -21,7 +21,7 @@ static void instrument_goal_target_filter(slice_index si,
 
   {
     /* reusing the filter created for Anticirce */
-    square const target = slices[si].u.goal_reached_tester.goal.target;
+    square const target = slices[si].u.goal_target_reached_tester.target;
     pipe_append(si,alloc_anticirce_target_square_filter_slice(target));
   }
 

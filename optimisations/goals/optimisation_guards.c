@@ -427,7 +427,7 @@ static void insert_goal_optimisation_guards_goal_target(slice_index si,
   TraceFunctionParamListEnd();
 
   state->goal.type = goal_target;
-  state->goal.target = slices[si].u.goal_reached_tester.goal.target;
+  state->goal.target = slices[si].u.goal_target_reached_tester.target;
   TraceValue("->%u\n",state->goal.type);
 
   TraceFunctionExit(__func__);

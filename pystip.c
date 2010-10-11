@@ -865,6 +865,7 @@ static void find_unique_goal_goal_target_tester(slice_index si,
                                                 stip_structure_traversal *st)
 {
   Goal * const found = st->param;
+  square const target = slices[si].u.goal_target_reached_tester.target;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -873,11 +874,10 @@ static void find_unique_goal_goal_target_tester(slice_index si,
   if (found->type==no_goal)
   {
     found->type = goal_target;
-    found->target = slices[si].u.goal_reached_tester.goal.target;
+    found->target = target;
   }
   else if (found->type!=no_unique_goal
-           && (found->type!=goal_target
-               || found->target!=slices[si].u.goal_reached_tester.goal.target))
+           && (found->type!=goal_target || found->target!=target))
     found->type = no_unique_goal;
 
   TraceFunctionExit(__func__);

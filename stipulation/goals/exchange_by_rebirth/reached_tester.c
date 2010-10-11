@@ -21,7 +21,6 @@ alloc_goal_exchange_by_rebirth_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalExchangeByRebirthReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_exchange_by_rebirth;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

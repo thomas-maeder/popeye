@@ -17,7 +17,6 @@ slice_index alloc_goal_countermate_reached_tester_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalCounterMateReachedTester);
-  slices[result].u.goal_reached_tester.goal.type = goal_countermate;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

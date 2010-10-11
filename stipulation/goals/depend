@@ -1,7 +1,9 @@
 stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
-  stipulation/goals/goals.h pydata.h trace.h pyenum.h
+  stipulation/goals/goals.h pystip.h pydata.h trace.h pyenum.h
 
 stipulation/goals/goals.h:
+
+pystip.h:
 
 pydata.h:
 
