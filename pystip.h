@@ -88,6 +88,7 @@
     ENUMERATOR(STGoalProofgameReachedTester), /* tests whether a proof game goal has been reached */ \
     ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
+    ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     /* unary and binary operators */                                    \
@@ -204,6 +205,12 @@
 
 #include "pyenum.h"
 
+typedef enum
+{
+  goal_applies_to_starter,
+  goal_applies_to_adversary
+} goal_applies_to_starter_or_adversary;
+
 typedef struct
 {
     SliceType type;
@@ -226,7 +233,7 @@ typedef struct
         struct /* for goal filter types * */
         {
             slice_index next;
-            Side goaled;
+            goal_applies_to_starter_or_adversary applies_to_who;
         } goal_filter;
 
         struct

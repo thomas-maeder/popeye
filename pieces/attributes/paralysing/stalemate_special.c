@@ -9,18 +9,20 @@
  */
 
 /* Allocate a STPiecesParalysingStalemateSpecial slice.
+ * @param starter_or_adversary is the starter stalemated or its adversary?
  * @return index of allocated slice
  */
-slice_index alloc_paralysing_stalemate_special_slice(Side side)
+slice_index
+alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary starter_or_adversary)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceValue("%u",starter_or_adversary);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STPiecesParalysingStalemateSpecial);
-  slices[result].u.goal_filter.goaled = side;
+  slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -52,8 +54,12 @@ has_solution_type paralysing_stalemate_special_has_solution(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
+  goal_applies_to_starter_or_adversary const
+    applies_to_who = slices[si].u.goal_filter.applies_to_who;
   Side const starter = slices[si].starter;
-  Side const goaled = slices[si].u.goal_filter.goaled;
+  Side const stalemated = (applies_to_who==goal_applies_to_starter
+                           ? starter
+                           : advers(starter));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -61,9 +67,9 @@ has_solution_type paralysing_stalemate_special_has_solution(slice_index si)
 
   /* only flag selfcheck if the side that has just moved is not the one to be
    * stalemated (i.e. if the stipulation is not auto-stalemate) */
-  if (starter==goaled && echecc(nbply,advers(starter)))
+  if (applies_to_who==goal_applies_to_starter && echecc(nbply,advers(starter)))
     result = opponent_self_check;
-  else if (has_move(goaled))
+  else if (has_move(stalemated))
     result = has_no_solution;
   else
     result = slice_has_solution(next);
@@ -82,8 +88,12 @@ has_solution_type paralysing_stalemate_special_solve(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
+  goal_applies_to_starter_or_adversary const
+    applies_to_who = slices[si].u.goal_filter.applies_to_who;
   Side const starter = slices[si].starter;
-  Side const goaled = slices[si].u.goal_filter.goaled;
+  Side const stalemated = (applies_to_who==goal_applies_to_starter
+                           ? starter
+                           : advers(starter));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -91,9 +101,9 @@ has_solution_type paralysing_stalemate_special_solve(slice_index si)
 
   /* only flag selfcheck if the side that has just moved is not the one to be
    * stalemated (i.e. if the stipulation is not auto-stalemate) */
-  if (starter==goaled && echecc(nbply,advers(starter)))
+  if (applies_to_who==goal_applies_to_starter && echecc(nbply,advers(starter)))
     result = opponent_self_check;
-  else if (has_move(goaled))
+  else if (has_move(stalemated))
     result = has_no_solution;
   else
     result = slice_solve(next);

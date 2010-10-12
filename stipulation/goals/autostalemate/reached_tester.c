@@ -47,10 +47,8 @@ has_solution_type goal_autostalemate_reached_tester_has_solution(slice_index si)
     result = has_no_solution;
   else if (echecc(nbply,just_moved))
     result = opponent_self_check;
-  else if (immobile(just_moved))
-    result = slice_has_solution(next);
   else
-    result = has_no_solution;
+    result = slice_has_solution(next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -77,10 +75,8 @@ has_solution_type goal_autostalemate_reached_tester_solve(slice_index si)
     result = has_no_solution;
   else if (echecc(nbply,just_moved))
     result = opponent_self_check;
-  else if (immobile(just_moved))
-    result = slice_solve(next);
   else
-    result = has_no_solution;
+    result = slice_solve(next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");

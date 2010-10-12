@@ -9,9 +9,11 @@
  */
 
 /* Allocate a STPiecesParalysingStalemateSpecial slice.
+ * @param starter_or_adversary is the starter stalemated or its adversary?
  * @return index of allocated slice
  */
-slice_index alloc_paralysing_stalemate_special_slice(Side side);
+slice_index
+alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary starter_or_adversary);
 
 /* Determine whether a slice has just been solved with the move
  * by the non-starter

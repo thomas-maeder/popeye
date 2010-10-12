@@ -46,8 +46,8 @@
 #include "stipulation/series_play/shortcut.h"
 #include "stipulation/series_play/fork.h"
 #include "stipulation/series_play/parry_fork.h"
-#include "optimisations/goals/enpassant/defender_filter.h"
 #include "stipulation/proxy.h"
+#include "optimisations/goals/enpassant/defender_filter.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -122,6 +122,7 @@
     ENUMERATOR(STGoalProofgameReachedTester), /* tests whether a proof game goal has been reached */ \
     ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
+    ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -330,6 +331,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalProofgameReachedTester */
   slice_structure_pipe,   /* STGoalAToBReachedTester */
   slice_structure_pipe,   /* STGoalMateOrStalemateReachedTester */
+  slice_structure_pipe,   /* STGoalImmobileReachedTester */
   slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -1819,22 +1821,24 @@ void stip_impose_starter(slice_index si, Side starter)
 {
   stip_structure_traversal st;
   unsigned int i;
+  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,starter,"");
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=max_nr_slices; ++i)
-    st.traversed[i] = slice_not_traversed;
+  stip_structure_traversal_init(&st,&starter);
 
-  for (i = 0; i!=nr_slice_types; ++i)
-    st.map.visitors[i] = &default_impose_starter;
+  for (type = 0; type!=nr_slice_types; ++type)
+    stip_structure_traversal_override_single(&st,
+                                             type,
+                                             &default_impose_starter);
 
   for (i = 0; i!=nr_starter_inverters; ++i)
-    st.map.visitors[starter_inverters[i]] = &impose_inverted_starter;
-
-  st.param = &starter;
+    stip_structure_traversal_override_single(&st,
+                                             starter_inverters[i],
+                                             &impose_inverted_starter);
 
   stip_traverse_structure(si,&st);
 
@@ -1998,6 +2002,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalProofgameReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalAToBReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalMateOrStalemateReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalImmobileReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2245,6 +2250,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STGoalProofgameReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalAToBReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalMateOrStalemateReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalImmobileReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTested */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */

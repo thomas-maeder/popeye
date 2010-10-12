@@ -2831,6 +2831,8 @@ static Token iterate_twins(Token prev_token)
 
       stip_insert_goal_optimisation_guards(root_slice);
 
+      stip_flesh_out_goal_testers(root_slice);
+
       resolve_proxies(&root_slice);
 
       /* if root_slice had type STProxy, its value has just changed,

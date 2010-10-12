@@ -16,7 +16,8 @@ static void append_goal_mate_filter(slice_index si, stip_structure_traversal *st
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_paralysing_mate_filter_slice(slices[si].starter));
+
+  pipe_append(si,alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -32,10 +33,9 @@ static void append_goal_stalemate_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    Side const starter = slices[si].starter;
     slice_index const tested = branch_find_slice(STGoalReachedTested,si);
     slice_index const proxy_filter = alloc_proxy_slice();
-    slice_index const filter = alloc_paralysing_stalemate_special_slice(starter);
+    slice_index const filter = alloc_paralysing_stalemate_special_slice(goal_applies_to_starter);
     slice_index const proxy = alloc_proxy_slice();
 
     assert(tested!=no_slice);
@@ -59,11 +59,10 @@ static void append_goal_doublestalemate_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    Side const starter = slices[si].starter;
     slice_index const tested = branch_find_slice(STGoalReachedTested,si);
     slice_index const proxy_filter = alloc_proxy_slice();
-    slice_index const filter1 = alloc_paralysing_stalemate_special_slice(advers(starter));
-    slice_index const filter2 = alloc_paralysing_stalemate_special_slice(starter);
+    slice_index const filter1 = alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary);
+    slice_index const filter2 = alloc_paralysing_stalemate_special_slice(goal_applies_to_starter);
     slice_index const proxy = alloc_proxy_slice();
 
     assert(tested!=no_slice);
@@ -81,16 +80,14 @@ static void append_goal_doublestalemate_filter(slice_index si,
 static void append_goal_doublemate_filter(slice_index si,
                                           stip_structure_traversal *st)
 {
-  Side const starter = slices[si].starter;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
 
-  pipe_append(si,alloc_paralysing_mate_filter_slice(starter));
-  pipe_append(si,alloc_paralysing_mate_filter_slice(advers(starter)));
+  pipe_append(si,alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
+  pipe_append(si,alloc_paralysing_mate_filter_slice(goal_applies_to_adversary));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -106,10 +103,9 @@ static void append_goal_autostalemate_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    Side const starter = slices[si].starter;
     slice_index const tested = branch_find_slice(STGoalReachedTested,si);
     slice_index const proxy_filter = alloc_proxy_slice();
-    slice_index const filter = alloc_paralysing_stalemate_special_slice(advers(starter));
+    slice_index const filter = alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary);
     slice_index const proxy = alloc_proxy_slice();
 
     assert(tested!=no_slice);
@@ -117,7 +113,7 @@ static void append_goal_autostalemate_filter(slice_index si,
     pipe_link(proxy_filter,filter);
     pipe_link(filter,tested);
     pipe_link(proxy,si);
-  }
+	}
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

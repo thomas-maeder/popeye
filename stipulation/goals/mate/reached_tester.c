@@ -45,10 +45,8 @@ has_solution_type goal_mate_reached_tester_has_solution(slice_index si)
   {
     if (echecc(nbply,advers(slices[si].starter)))
       result = opponent_self_check;
-    else if (immobile(slices[si].starter))
-      result = slice_has_solution(next);
     else
-      result = has_no_solution;
+      result = slice_has_solution(next);
   }
   else
     result = has_no_solution;
@@ -76,10 +74,8 @@ has_solution_type goal_mate_reached_tester_solve(slice_index si)
   {
     if (echecc(nbply,advers(slices[si].starter)))
       result = opponent_self_check;
-    else if (immobile(slices[si].starter))
-      result = slice_solve(next);
     else
-      result = has_no_solution;
+      result = slice_solve(next);
   }
   else
     result = has_no_solution;

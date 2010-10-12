@@ -9,19 +9,20 @@
  */
 
 /* Allocate a STPiecesParalysingMateFilter slice.
- * @param side side to be mated
+ * @param starter_or_adversary is the starter mated or its adversary?
  * @return index of allocated slice
  */
-slice_index alloc_paralysing_mate_filter_slice(Side side)
+slice_index
+alloc_paralysing_mate_filter_slice(goal_applies_to_starter_or_adversary starter_or_adversary)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceValue("%u",goal_applies_to_starter_or_adversary);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STPiecesParalysingMateFilter);
-  slices[result].u.goal_filter.goaled = side;
+  slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -48,12 +49,16 @@ has_solution_type paralysing_mate_filter_has_solution(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const mated = (slices[si].u.goal_filter.applies_to_who
+                      ==goal_applies_to_starter
+                      ? slices[si].starter
+                      : advers(slices[si].starter));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (has_move(slices[si].u.goal_filter.goaled))
+  if (has_move(mated))
     result = slice_has_solution(next);
   else
     result = has_no_solution;
@@ -72,12 +77,16 @@ has_solution_type paralysing_mate_filter_solve(slice_index si)
 {
   has_solution_type result;
   slice_index const next = slices[si].u.pipe.next;
+  Side const mated = (slices[si].u.goal_filter.applies_to_who
+                      ==goal_applies_to_starter
+                      ? slices[si].starter
+                      : advers(slices[si].starter));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (has_move(slices[si].u.goal_filter.goaled))
+  if (has_move(mated))
     result = slice_solve(next);
   else
     result = has_no_solution;

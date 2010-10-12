@@ -47,16 +47,10 @@ has_solution_type goal_doublemate_reached_tester_has_solution(slice_index si)
 
   if (echecc(nbply,starter) && echecc(nbply,just_moved))
   {
-    boolean both_immobile;
-
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-    both_immobile = immobile(starter) && immobile(just_moved);
+    result = slice_has_solution(next);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
-    if (both_immobile)
-      result = slice_has_solution(next);
-    else
-      result = has_no_solution;
   }
   else
     result = has_no_solution;
@@ -84,16 +78,10 @@ has_solution_type goal_doublemate_reached_tester_solve(slice_index si)
 
   if (echecc(nbply,starter) && echecc(nbply,just_moved))
   {
-    boolean both_immobile;
-
     are_we_testing_immobility_with_opposite_king_en_prise =
       (TSTFLAG(PieSpExFlags,Neutral)) && rb!=initsquare && TSTFLAG(spec[rb],Neutral);
-    both_immobile = immobile(starter) && immobile(just_moved);
+    result = slice_solve(next);
     are_we_testing_immobility_with_opposite_king_en_prise = false;
-    if (both_immobile)
-      result = slice_solve(next);
-    else
-      result = has_no_solution;
   }
   else
     result = has_no_solution;

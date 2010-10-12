@@ -68,4 +68,9 @@ goal_checker_result_type goal_checker_mate(Side just_moved);
  */
 Goal extractGoalFromTester(slice_index si);
 
+/* Allow goal tester slices to surround themselves with auxiliary slices
+ * @param si identifies entry slice to stipulation
+ */
+void stip_flesh_out_goal_testers(slice_index si);
+
 #endif

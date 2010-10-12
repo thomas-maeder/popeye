@@ -45,10 +45,8 @@ has_solution_type goal_doublestalemate_reached_tester_has_solution(slice_index s
     result = opponent_self_check;
   else if (echecc(nbply,slices[si].starter))
     result = has_no_solution;
-  else if (immobile(slices[si].starter) && immobile(advers(slices[si].starter)))
-    result = slice_has_solution(next);
   else
-    result = has_no_solution;
+    result = slice_has_solution(next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -73,10 +71,8 @@ has_solution_type goal_doublestalemate_reached_tester_solve(slice_index si)
     result = opponent_self_check;
   else if (echecc(nbply,slices[si].starter))
     result = has_no_solution;
-  else if (immobile(slices[si].starter) && immobile(advers(slices[si].starter)))
-    result = slice_solve(next);
   else
-    result = has_no_solution;
+    result = slice_solve(next);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
