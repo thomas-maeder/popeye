@@ -4,6 +4,7 @@
 #include "pydata.h"
 #include "pyselfcg.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "trace.h"
 
@@ -94,6 +95,7 @@ static void flesh_out_mate_reached_tester(slice_index si,
   stip_traverse_structure_children(si,st);
   pipe_append(si,alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter));
   pipe_append(si,alloc_selfcheck_guard_solvable_filter());
+  pipe_append(si,alloc_goal_check_reached_tester_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

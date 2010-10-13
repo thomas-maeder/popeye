@@ -55,6 +55,7 @@ static boolean is_proxy(slice_index si)
     case STGoalAutoStalemateReachedTester:
     case STGoalDoubleStalemateReachedTester:
     case STGoalStalemateReachedTester:
+    case STGoalMateReachedTester:
       result = true;
       break;
 

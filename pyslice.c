@@ -11,7 +11,6 @@
 #include "stipulation/help_play/root.h"
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/root.h"
-#include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
@@ -94,10 +93,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STSetplayFork:
       result = setplay_fork_solve(si);
-      break;
-
-    case STGoalMateReachedTester:
-      result = goal_mate_reached_tester_solve(si);
       break;
 
     case STGoalTargetReachedTester:
@@ -385,10 +380,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STSetplayFork:
       result = setplay_fork_has_solution(si);
-      break;
-
-    case STGoalMateReachedTester:
-      result = goal_mate_reached_tester_has_solution(si);
       break;
 
     case STGoalTargetReachedTester:
