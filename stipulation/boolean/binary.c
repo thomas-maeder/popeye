@@ -92,12 +92,16 @@ void stip_traverse_moves_binary_operand(slice_index op,
  */
 void stip_traverse_moves_binary(slice_index si, stip_moves_traversal *st)
 {
+  stip_length_type const save_remaining = st->remaining;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_binary_operand(slices[si].u.binary.op1,st);
   stip_traverse_moves_binary_operand(slices[si].u.binary.op2,st);
+
+  st->remaining = save_remaining;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
