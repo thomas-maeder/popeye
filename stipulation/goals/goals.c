@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "pydata.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/notcheck/reached_tester.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -96,6 +97,21 @@ static void flesh_out_mate_reached_tester(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void flesh_out_stalemate_reached_tester(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(si,alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter));
+  pipe_append(si,alloc_goal_notcheck_reached_tester_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void flesh_out_auto_stalemate_tester(slice_index si,
                                             stip_structure_traversal *st)
 {
@@ -105,6 +121,23 @@ static void flesh_out_auto_stalemate_tester(slice_index si,
 
   stip_traverse_structure_children(si,st);
   pipe_append(si,alloc_goal_immobile_reached_tester_slice(goal_applies_to_adversary));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void flesh_out_double_stalemate_reached_tester(slice_index si,
+                                                      stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  pipe_append(si,alloc_goal_immobile_reached_tester_slice(goal_applies_to_adversary));
+  pipe_append(si,alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter));
+  pipe_append(si,alloc_goal_notcheck_reached_tester_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -128,12 +161,12 @@ static void flesh_out_double_mate_reached_tester(slice_index si,
 
 static structure_traversers_visitors flesh_outers[] =
 {
-  { STGoalMateReachedTester,            &flesh_out_mate_reached_tester        },
-  { STGoalStalemateReachedTester,       &flesh_out_mate_reached_tester        },
-  { STGoalAutoStalemateReachedTester,   &flesh_out_auto_stalemate_tester      },
-  { STGoalDoubleMateReachedTester,      &flesh_out_double_mate_reached_tester },
-  { STGoalCounterMateReachedTester,     &flesh_out_double_mate_reached_tester },
-  { STGoalDoubleStalemateReachedTester, &flesh_out_double_mate_reached_tester }
+  { STGoalMateReachedTester,            &flesh_out_mate_reached_tester             },
+  { STGoalStalemateReachedTester,       &flesh_out_stalemate_reached_tester        },
+  { STGoalAutoStalemateReachedTester,   &flesh_out_auto_stalemate_tester           },
+  { STGoalDoubleMateReachedTester,      &flesh_out_double_mate_reached_tester      },
+  { STGoalCounterMateReachedTester,     &flesh_out_double_mate_reached_tester      },
+  { STGoalDoubleStalemateReachedTester, &flesh_out_double_stalemate_reached_tester }
 };
 
 enum

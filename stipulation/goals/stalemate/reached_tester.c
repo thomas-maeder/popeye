@@ -43,8 +43,6 @@ has_solution_type goal_stalemate_reached_tester_has_solution(slice_index si)
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = opponent_self_check;
-  else if (echecc(nbply,slices[si].starter))
-    result = has_no_solution;
   else
     result = slice_has_solution(next);
 
@@ -69,8 +67,6 @@ has_solution_type goal_stalemate_reached_tester_solve(slice_index si)
 
   if (echecc(nbply,advers(slices[si].starter)))
     result = opponent_self_check;
-  else if (echecc(nbply,slices[si].starter))
-    result = has_no_solution;
   else
     result = slice_solve(next);
 

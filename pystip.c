@@ -123,6 +123,7 @@
     ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
+    ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
     ENUMERATOR(STGoalReachedTested), /* proxy slice marking the end of goal testing */ \
     ENUMERATOR(STLeaf),            /* leaf slice */                     \
     ENUMERATOR(STReciprocal),      /* logical AND */                    \
@@ -332,6 +333,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STGoalAToBReachedTester */
   slice_structure_pipe,   /* STGoalMateOrStalemateReachedTester */
   slice_structure_pipe,   /* STGoalImmobileReachedTester */
+  slice_structure_pipe,   /* STGoalNotCheckReachedTester */
   slice_structure_pipe,   /* STGoalReachedTested */
   slice_structure_leaf,   /* STLeaf */
   slice_structure_binary, /* STReciprocal */
@@ -2003,6 +2005,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STGoalAToBReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalMateOrStalemateReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalImmobileReachedTester */
+  &stip_traverse_structure_pipe,            /* STGoalNotCheckReachedTester */
   &stip_traverse_structure_pipe,            /* STGoalReachedTested */
   &stip_structure_visitor_noop,             /* STLeaf */
   &stip_traverse_structure_binary,          /* STReciprocal */
@@ -2251,6 +2254,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STGoalAToBReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalMateOrStalemateReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalImmobileReachedTester */
+    &stip_traverse_moves_pipe,                  /* STGoalNotCheckReachedTester */
     &stip_traverse_moves_pipe,                  /* STGoalReachedTested */
     &stip_traverse_moves_noop,                  /* STLeaf */
     &stip_traverse_moves_binary,                /* STReciprocal */
