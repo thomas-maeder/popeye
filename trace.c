@@ -413,6 +413,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalCircuitByRebirthReachedTester:
       case STGoalAnyReachedTester:
       case STGoalProofgameReachedTester:
+      case STGoalNotCheckReachedTester:
       case STOutputPlaintextTreeMoveInversionCounter:
       case STOutputPlaintextLineMoveInversionCounter:
       case STOutputPlaintextLineEndOfIntroSeriesMarker:
@@ -425,11 +426,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STPiecesParalysingStalemateSpecial:
       case STGoalImmobileReachedTester:
       {
-        Side const goaled = slices[si].u.goal_filter.goaled;
         Trace_pipe(si);
-        TraceEnumerator(Side,goaled,"");
+        TraceValue("%u",slices[si].u.goal_filter.applies_to_who);
         fprintf(stdout,"\n");
-        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        TraceStipulationRecursive(slices[si].u.goal_filter.next,done_slices);
         break;
       }
 

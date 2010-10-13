@@ -1,11 +1,9 @@
 stipulation/goals/stalemate/reached_tester$(OBJ_SUFFIX):  \
  stipulation/goals/stalemate/reached_tester.c \
-  stipulation/goals/stalemate/reached_tester.h pypipe.h pydata.h trace.h
+  stipulation/goals/stalemate/reached_tester.h pypipe.h trace.h
 
 stipulation/goals/stalemate/reached_tester.h:
 
 pypipe.h:
-
-pydata.h:
 
 trace.h:

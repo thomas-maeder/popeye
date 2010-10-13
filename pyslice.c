@@ -12,8 +12,6 @@
 #include "stipulation/series_play/play.h"
 #include "stipulation/series_play/root.h"
 #include "stipulation/goals/mate/reached_tester.h"
-#include "stipulation/goals/stalemate/reached_tester.h"
-#include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
@@ -21,14 +19,13 @@
 #include "stipulation/goals/enpassant/reached_tester.h"
 #include "stipulation/goals/doublemate/reached_tester.h"
 #include "stipulation/goals/castling/reached_tester.h"
-#include "stipulation/goals/autostalemate/reached_tester.h"
 #include "stipulation/goals/circuit/reached_tester.h"
 #include "stipulation/goals/exchange/reached_tester.h"
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
 #include "stipulation/goals/exchange_by_rebirth/reached_tester.h"
-#include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/notcheck/reached_tester.h"
 #include "pybrafrk.h"
 #include "pyquodli.h"
 #include "pyrecipr.h"
@@ -103,14 +100,6 @@ has_solution_type slice_solve(slice_index si)
       result = goal_mate_reached_tester_solve(si);
       break;
 
-    case STGoalStalemateReachedTester:
-      result = goal_stalemate_reached_tester_solve(si);
-      break;
-
-    case STGoalDoubleStalemateReachedTester:
-      result = goal_doublestalemate_reached_tester_solve(si);
-      break;
-
     case STGoalTargetReachedTester:
       result = goal_target_reached_tester_solve(si);
       break;
@@ -140,10 +129,6 @@ has_solution_type slice_solve(slice_index si)
       result = goal_castling_reached_tester_solve(si);
       break;
 
-    case STGoalAutoStalemateReachedTester:
-      result = goal_autostalemate_reached_tester_solve(si);
-      break;
-
     case STGoalCircuitReachedTester:
       result = goal_circuit_reached_tester_solve(si);
       break;
@@ -158,10 +143,6 @@ has_solution_type slice_solve(slice_index si)
 
     case STGoalExchangeByRebirthReachedTester:
       result = goal_exchange_by_rebirth_reached_tester_solve(si);
-      break;
-
-    case STGoalAnyReachedTester:
-      result = goal_any_reached_tester_solve(si);
       break;
 
     case STGoalProofgameReachedTester:
@@ -410,14 +391,6 @@ has_solution_type slice_has_solution(slice_index si)
       result = goal_mate_reached_tester_has_solution(si);
       break;
 
-    case STGoalStalemateReachedTester:
-      result = goal_stalemate_reached_tester_has_solution(si);
-      break;
-
-    case STGoalDoubleStalemateReachedTester:
-      result = goal_doublestalemate_reached_tester_has_solution(si);
-      break;
-
     case STGoalTargetReachedTester:
       result = goal_target_reached_tester_has_solution(si);
       break;
@@ -447,10 +420,6 @@ has_solution_type slice_has_solution(slice_index si)
       result = goal_castling_reached_tester_has_solution(si);
       break;
 
-    case STGoalAutoStalemateReachedTester:
-      result = goal_autostalemate_reached_tester_has_solution(si);
-      break;
-
     case STGoalCircuitReachedTester:
       result = goal_circuit_reached_tester_has_solution(si);
       break;
@@ -465,10 +434,6 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STGoalExchangeByRebirthReachedTester:
       result = goal_exchange_by_rebirth_reached_tester_has_solution(si);
-      break;
-
-    case STGoalAnyReachedTester:
-      result = goal_any_reached_tester_has_solution(si);
       break;
 
     case STGoalProofgameReachedTester:

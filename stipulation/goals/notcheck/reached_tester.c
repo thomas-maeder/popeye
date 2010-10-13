@@ -16,7 +16,6 @@ slice_index alloc_goal_notcheck_reached_tester_slice(void)
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",starter_or_adversary);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalNotCheckReachedTester);

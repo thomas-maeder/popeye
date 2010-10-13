@@ -35,7 +35,6 @@ slice_index alloc_goal_exchange_reached_tester_slice(void)
 has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
   square const sq_arrival = move_generation_stack[nbcou].arrival;
   square const sq_diagram = GetDiaRen(spec[sq_arrival]);
   Side const just_moved = advers(slices[si].starter);
@@ -47,12 +46,7 @@ has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
   if (GetDiaRen(spec[sq_diagram])==sq_arrival
       && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_arrival)
-  {
-    if (echecc(nbply,just_moved))
-      result = opponent_self_check;
-    else
-      result = slice_has_solution(next);
-  }
+    result = slice_has_solution(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 
@@ -69,7 +63,6 @@ has_solution_type goal_exchange_reached_tester_has_solution(slice_index si)
 has_solution_type goal_exchange_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
   square const sq_arrival = move_generation_stack[nbcou].arrival;
   square const sq_diagram = GetDiaRen(spec[sq_arrival]);
   Side const just_moved = advers(slices[si].starter);
@@ -81,12 +74,7 @@ has_solution_type goal_exchange_reached_tester_solve(slice_index si)
   if (GetDiaRen(spec[sq_diagram])==sq_arrival
       && (just_moved==White ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_arrival)
-  {
-    if (echecc(nbply,just_moved))
-      result = opponent_self_check;
-    else
-      result = slice_solve(next);
-  }
+    result = slice_solve(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 

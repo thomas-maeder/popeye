@@ -40,19 +40,13 @@ has_solution_type goal_target_reached_tester_has_solution(slice_index si)
   has_solution_type result;
   Side const just_moved = advers(slices[si].starter);
   square const target = slices[si].u.goal_target_reached_tester.target;
-  slice_index const next = slices[si].u.goal_target_reached_tester.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (move_generation_stack[nbcou].arrival==target)
-  {
-    if (echecc(nbply,just_moved))
-      result = opponent_self_check;
-    else
-      result = slice_has_solution(next);
-  }
+    result = slice_has_solution(slices[si].u.goal_target_reached_tester.next);
   else
     result = has_no_solution;
 
@@ -71,19 +65,13 @@ has_solution_type goal_target_reached_tester_solve(slice_index si)
   has_solution_type result;
   Side const just_moved = advers(slices[si].starter);
   square const target = slices[si].u.goal_target_reached_tester.target;
-  slice_index const next = slices[si].u.goal_target_reached_tester.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (move_generation_stack[nbcou].arrival==target)
-  {
-    if (echecc(nbply,just_moved))
-      result = opponent_self_check;
-    else
-      result = slice_solve(next);
-  }
+    result = slice_solve(slices[si].u.goal_target_reached_tester.next);
   else
     result = has_no_solution;
 

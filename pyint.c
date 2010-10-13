@@ -2683,10 +2683,26 @@ static void goal_to_be_reached_goal_non_target(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void goal_to_be_reached_stalemate(slice_index si,
+                                         stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(goal_to_be_reached==no_goal);
+  goal_to_be_reached = goal_stale;
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors const goal_to_be_reached_initialisers[] =
 {
   { STGoalMateReachedTester,      &goal_to_be_reached_goal_non_target },
-  { STGoalStalemateReachedTester, &goal_to_be_reached_goal_non_target },
+  { STGoalNotCheckReachedTester,  &goal_to_be_reached_stalemate       },
   { STGoalProofgameReachedTester, &goal_to_be_reached_goal_non_target },
   { STGoalAToBReachedTester,      &goal_to_be_reached_goal_non_target }
 };

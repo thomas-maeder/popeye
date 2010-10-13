@@ -34,7 +34,6 @@ slice_index alloc_anticirce_circuit_special_slice(void)
 has_solution_type anticirce_circuit_special_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
   square const sq_rebirth = sq_rebirth_capturing[nbply];
 
   TraceFunctionEntry(__func__);
@@ -42,12 +41,7 @@ has_solution_type anticirce_circuit_special_has_solution(slice_index si)
   TraceFunctionParamListEnd();
 
   if (sq_rebirth!=initsquare && GetDiaRen(spec[sq_rebirth])==sq_rebirth)
-  {
-    if (echecc(nbply,advers(slices[si].starter)))
-      result = opponent_self_check;
-    else
-      result = slice_has_solution(next);
-  }
+    result = slice_has_solution(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 
@@ -64,7 +58,6 @@ has_solution_type anticirce_circuit_special_has_solution(slice_index si)
 has_solution_type anticirce_circuit_special_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
   square const sq_rebirth = sq_rebirth_capturing[nbply];
 
   TraceFunctionEntry(__func__);
@@ -72,12 +65,7 @@ has_solution_type anticirce_circuit_special_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (sq_rebirth!=initsquare && GetDiaRen(spec[sq_rebirth])==sq_rebirth)
-  {
-    if (echecc(nbply,advers(slices[si].starter)))
-      result = opponent_self_check;
-    else
-      result = slice_solve(next);
-  }
+    result = slice_solve(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 

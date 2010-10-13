@@ -18,7 +18,7 @@ alloc_paralysing_mate_filter_slice(goal_applies_to_starter_or_adversary starter_
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",goal_applies_to_starter_or_adversary);
+  TraceValue("%u",starter_or_adversary);
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STPiecesParalysingMateFilter);

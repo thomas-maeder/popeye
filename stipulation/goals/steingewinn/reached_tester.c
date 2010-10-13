@@ -42,8 +42,6 @@ has_solution_type goal_steingewinn_reached_tester_has_solution(slice_index si)
 
   if (pprise[nbply]==vide)
     result = has_no_solution;
-  else if (echecc(nbply,advers(slices[si].starter)))
-    result = opponent_self_check;
   else
     result = slice_has_solution(slices[si].u.pipe.next);
 
@@ -67,8 +65,6 @@ has_solution_type goal_steingewinn_reached_tester_solve(slice_index si)
 
   if (pprise[nbply]==vide)
     result = has_no_solution;
-  else if (echecc(nbply,advers(slices[si].starter)))
-    result = opponent_self_check;
   else
     result = slice_solve(slices[si].u.pipe.next);
 

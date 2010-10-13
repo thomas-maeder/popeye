@@ -1362,8 +1362,6 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   stipulation/battle_play/defense_root.h stipulation/help_play/play.h \
   stipulation/help_play/root.h stipulation/series_play/play.h \
   stipulation/series_play/root.h stipulation/goals/mate/reached_tester.h \
-  stipulation/goals/stalemate/reached_tester.h \
-  stipulation/goals/doublestalemate/reached_tester.h \
   stipulation/goals/target/reached_tester.h \
   stipulation/goals/check/reached_tester.h \
   stipulation/goals/capture/reached_tester.h \
@@ -1371,14 +1369,13 @@ pyslice$(OBJ_SUFFIX): pyslice.c pyslice.h py.h boolean.h pyposit.h pyboard.h \
   stipulation/goals/enpassant/reached_tester.h \
   stipulation/goals/doublemate/reached_tester.h \
   stipulation/goals/castling/reached_tester.h \
-  stipulation/goals/autostalemate/reached_tester.h \
   stipulation/goals/circuit/reached_tester.h \
   stipulation/goals/exchange/reached_tester.h \
   stipulation/goals/circuit_by_rebirth/reached_tester.h \
   stipulation/goals/exchange_by_rebirth/reached_tester.h \
-  stipulation/goals/any/reached_tester.h \
   stipulation/goals/proofgame/reached_tester.h \
-  stipulation/goals/immobile/reached_tester.h pybrafrk.h pyquodli.h \
+  stipulation/goals/immobile/reached_tester.h \
+  stipulation/goals/notcheck/reached_tester.h pybrafrk.h pyquodli.h \
   pyrecipr.h pynot.h pymovein.h pyhash.h DHT/dhtbcmem.h pyreflxg.h \
   pyselfgd.h pyselfcg.h pykeepmt.h pypipe.h \
   pieces/attributes/paralysing/mate_filter.h \
@@ -1466,10 +1463,6 @@ stipulation/series_play/root.h:
 
 stipulation/goals/mate/reached_tester.h:
 
-stipulation/goals/stalemate/reached_tester.h:
-
-stipulation/goals/doublestalemate/reached_tester.h:
-
 stipulation/goals/target/reached_tester.h:
 
 stipulation/goals/check/reached_tester.h:
@@ -1484,8 +1477,6 @@ stipulation/goals/doublemate/reached_tester.h:
 
 stipulation/goals/castling/reached_tester.h:
 
-stipulation/goals/autostalemate/reached_tester.h:
-
 stipulation/goals/circuit/reached_tester.h:
 
 stipulation/goals/exchange/reached_tester.h:
@@ -1494,11 +1485,11 @@ stipulation/goals/circuit_by_rebirth/reached_tester.h:
 
 stipulation/goals/exchange_by_rebirth/reached_tester.h:
 
-stipulation/goals/any/reached_tester.h:
-
 stipulation/goals/proofgame/reached_tester.h:
 
 stipulation/goals/immobile/reached_tester.h:
+
+stipulation/goals/notcheck/reached_tester.h:
 
 pybrafrk.h:
 
@@ -1615,7 +1606,8 @@ pydirctg$(OBJ_SUFFIX): pydirctg.c pydirctg.h stipulation/battle_play/attack_play
   pyslice.h stipulation/proxy.h pypipe.h stipulation/goals/goals.h \
   boolean.h py.h pyenum.h stipulation/branch.h pystip.h \
   stipulation/battle_play/attack_move_to_goal.h \
-  stipulation/battle_play/attack_fork.h trace.h
+  stipulation/battle_play/attack_fork.h trace.h py.h boolean.h pyposit.h \
+  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h
 
 pydirctg.h:
 
@@ -1644,6 +1636,22 @@ stipulation/battle_play/attack_move_to_goal.h:
 stipulation/battle_play/attack_fork.h:
 
 trace.h:
+
+py.h:
+
+boolean.h:
+
+pyposit.h:
+
+pyboard.h:
+
+pybitmsk.h:
+
+pypiece.h:
+
+pyenum.h:
+
+pylang.h:
 pyselfgd$(OBJ_SUFFIX): pyselfgd.c pyselfgd.h stipulation/battle_play/attack_play.h \
   pyslice.h stipulation/battle_play/defense_play.h pybrafrk.h pyslice.h \
   py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h \
@@ -2447,17 +2455,13 @@ pydata.h:
 pymsg.h:
 
 trace.h:
-trace$(OBJ_SUFFIX): trace.c trace.h pyproc.h py4.h py.h boolean.h pyposit.h \
-  pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h \
-  stipulation/goals/goals.h boolean.h py.h pyenum.h pydata.h pyhash.h \
-  DHT/dhtbcmem.h stipulation/battle_play/attack_play.h pyslice.h pystip.h \
-  pyoutput.h pytable.h output/plaintext/plaintext.h
+trace$(OBJ_SUFFIX): trace.c trace.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h \
+  pypiece.h pyenum.h pylang.h pyproc.h py4.h stipulation/goals/goals.h \
+  boolean.h py.h pyenum.h pydata.h pyhash.h DHT/dhtbcmem.h \
+  stipulation/battle_play/attack_play.h pyslice.h pystip.h pyoutput.h \
+  pytable.h output/plaintext/plaintext.h
 
 trace.h:
-
-pyproc.h:
-
-py4.h:
 
 py.h:
 
@@ -2474,6 +2478,10 @@ pypiece.h:
 pyenum.h:
 
 pylang.h:
+
+pyproc.h:
+
+py4.h:
 
 stipulation/goals/goals.h:
 

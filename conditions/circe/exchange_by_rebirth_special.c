@@ -46,12 +46,7 @@ has_solution_type circe_exchange_special_has_solution(slice_index si)
       && GetDiaRen(spec[sq_diagram])==sq_rebirth
       && (just_moved==Black ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_rebirth)
-  {
-    if (echecc(nbply,just_moved))
-      result = opponent_self_check;
-    else
-      result = slice_has_solution(slices[si].u.pipe.next);
-  }
+    result = slice_has_solution(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 
@@ -80,12 +75,7 @@ has_solution_type circe_exchange_special_solve(slice_index si)
       && GetDiaRen(spec[sq_diagram])==sq_rebirth
       && (just_moved==Black ? e[sq_diagram]>=roib : e[sq_diagram]<=roin)
       && sq_diagram!=sq_rebirth)
-  {
-    if (echecc(nbply,just_moved))
-      result = opponent_self_check;
-    else
-      result = slice_solve(slices[si].u.pipe.next);
-  }
+    result = slice_solve(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 

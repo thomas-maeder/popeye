@@ -35,7 +35,6 @@ slice_index alloc_goal_enpassant_reached_tester_slice(void)
 has_solution_type goal_enpassant_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -43,12 +42,7 @@ has_solution_type goal_enpassant_reached_tester_has_solution(slice_index si)
 
   if (move_generation_stack[nbcou].arrival!=move_generation_stack[nbcou].capture
       && is_pawn(pjoue[nbply]))
-  {
-    if (echecc(nbply,advers(slices[si].starter)))
-      result = opponent_self_check;
-    else
-      result = slice_has_solution(next);
-  }
+    result = slice_has_solution(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 
@@ -65,7 +59,6 @@ has_solution_type goal_enpassant_reached_tester_has_solution(slice_index si)
 has_solution_type goal_enpassant_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
-  slice_index const next = slices[si].u.pipe.next;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -73,12 +66,7 @@ has_solution_type goal_enpassant_reached_tester_solve(slice_index si)
 
   if (move_generation_stack[nbcou].arrival!=move_generation_stack[nbcou].capture
       && is_pawn(pjoue[nbply]))
-  {
-    if (echecc(nbply,advers(slices[si].starter)))
-      result = opponent_self_check;
-    else
-      result = slice_solve(next);
-  }
+    result = slice_solve(slices[si].u.pipe.next);
   else
     result = has_no_solution;
 
