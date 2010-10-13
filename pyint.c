@@ -2717,8 +2717,10 @@ static void goal_to_be_reached_mate(slice_index si,
 
 static structure_traversers_visitors const goal_to_be_reached_initialisers[] =
 {
-  { STGoalCheckReachedTester,     &goal_to_be_reached_mate            },
-  { STGoalNotCheckReachedTester,  &goal_to_be_reached_stalemate       },
+//  { STGoalCheckReachedTester,     &goal_to_be_reached_mate            },
+//  { STGoalNotCheckReachedTester,  &goal_to_be_reached_stalemate       },
+  { STGoalMateReachedTester,      &goal_to_be_reached_goal_non_target },
+  { STGoalStalemateReachedTester, &goal_to_be_reached_goal_non_target },
   { STGoalProofgameReachedTester, &goal_to_be_reached_goal_non_target },
   { STGoalAToBReachedTester,      &goal_to_be_reached_goal_non_target }
 };
@@ -3199,7 +3201,6 @@ boolean IntelligentHelp(slice_index si, stip_length_type n)
   current_start_slice = si;
 
   init_moves_left(si,n,full_length);
-  init_goal_to_be_reached(si);
 
   MatesMax = 0;
 
@@ -3256,7 +3257,6 @@ boolean IntelligentSeries(slice_index si, stip_length_type n)
   current_start_slice = si;
 
   init_moves_left(si,n,full_length);
-  init_goal_to_be_reached(si);
 
   MatesMax = 0;
 
@@ -3493,12 +3493,16 @@ boolean init_intelligent_mode(slice_index si)
     case intelligent_not_active_by_default:
       result = true;
       if (OptFlag[intelligent])
+      {
         stip_insert_intelligent_guards(si);
+        init_goal_to_be_reached(si);
+      }
       break;
 
     case intelligent_active_by_default:
       result = true;
       stip_insert_intelligent_guards(si);
+      init_goal_to_be_reached(si);
       break;
 
     default:
