@@ -43,9 +43,7 @@ has_solution_type goal_autostalemate_reached_tester_has_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,starter))
-    result = has_no_solution;
-  else if (echecc(nbply,just_moved))
+  if (echecc(nbply,just_moved))
     result = opponent_self_check;
   else
     result = slice_has_solution(next);
@@ -71,9 +69,7 @@ has_solution_type goal_autostalemate_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,starter))
-    result = has_no_solution;
-  else if (echecc(nbply,just_moved))
+  if (echecc(nbply,just_moved))
     result = opponent_self_check;
   else
     result = slice_solve(next);

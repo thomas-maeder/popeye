@@ -121,6 +121,7 @@ static void flesh_out_auto_stalemate_tester(slice_index si,
 
   stip_traverse_structure_children(si,st);
   pipe_append(si,alloc_goal_immobile_reached_tester_slice(goal_applies_to_adversary));
+  pipe_append(si,alloc_goal_notcheck_reached_tester_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
