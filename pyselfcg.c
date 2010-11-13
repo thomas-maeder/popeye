@@ -440,7 +440,7 @@ has_solution_type selfcheck_guard_root_solve(slice_index si)
   if (echecc(nbply,advers(slices[si].starter)))
   {
     ErrorMsg(KingCapture);
-    result = false;
+    result = opponent_self_check;
   }
   else
     result = slice_solve(slices[si].u.pipe.next);
