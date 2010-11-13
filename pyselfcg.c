@@ -7,7 +7,6 @@
 #include "stipulation/series_play/play.h"
 #include "pyproc.h"
 #include "pydata.h"
-#include "pymsg.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -438,10 +437,7 @@ has_solution_type selfcheck_guard_root_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (echecc(nbply,advers(slices[si].starter)))
-  {
-    ErrorMsg(KingCapture);
     result = opponent_self_check;
-  }
   else
     result = slice_solve(slices[si].u.pipe.next);
 

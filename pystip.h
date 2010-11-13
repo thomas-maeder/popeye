@@ -181,6 +181,7 @@
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
     ENUMERATOR(STPiecesKamikazeTargetSquareFilter), /* target square not reached because of capture by Kamikaze piece? */ \
     /* output slices */                                                 \
+    ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
     ENUMERATOR(STContinuationWriter), /* writes battle play continuations */ \

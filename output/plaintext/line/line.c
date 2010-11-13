@@ -2,6 +2,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"
+#include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
@@ -134,15 +135,29 @@ static void instrument_series_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_illegal_selfcheck_writer_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,                     &instrument_series_fork                    },
-  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester     },
-  { STLeaf,                           &instrument_leaf                           },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter                  },
-  { STMoveInverterSolvableFilter,     &instrument_move_inverter                  },
-  { STHelpRoot,                       &instrument_root                           },
-  { STSeriesRoot,                     &instrument_root                           }
+  { STSeriesFork,                       &instrument_series_fork                },
+  { STGoalTargetReachedTester,          &instrument_goal_target_reached_tester },
+  { STLeaf,                             &instrument_leaf                       },
+  { STMoveInverterRootSolvableFilter,   &instrument_move_inverter              },
+  { STMoveInverterSolvableFilter,       &instrument_move_inverter              },
+  { STHelpRoot,                         &instrument_root                       },
+  { STSeriesRoot,                       &instrument_root                       },
+  { STSelfCheckGuardRootSolvableFilter, &prepend_illegal_selfcheck_writer      }
 };
 
 enum

@@ -4,6 +4,7 @@
 #include "pypipe.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
+#include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/tree/continuation_writer.h"
@@ -345,25 +346,39 @@ static void instrument_setplay_fork(slice_index si, stip_structure_traversal *st
   TraceFunctionResultEnd();
 }
 
+static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(slices[si].prev,alloc_illegal_selfcheck_writer_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors tree_slice_inserters[] =
 {
-  { STSetplayFork,                    &instrument_setplay_fork                   },
-  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester     },
-  { STLeaf,                           &instrument_leaf                           },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter                  },
-  { STMoveInverterSolvableFilter,     &instrument_move_inverter                  },
-  { STAttackMovePlayed,               &instrument_attack_move_played             },
-  { STDefenseRoot,                    &instrument_defense_root                   },
-  { STContinuationSolver,             &instrument_continuation_solver            },
-  { STTrySolver,                      &instrument_try_solver                     },
-  { STThreatSolver,                   &instrument_threat_solver                  },
-  { STDefenseMoveFiltered,            &instrument_defense_move_filtered          },
-  { STRefutationsCollector,           &instrument_refutations_collector          },
-  { STSeriesRoot,                     &stip_structure_visitor_noop               },
-  { STDefenseDealtWith,               &instrument_ready_for_attack               },
-  { STAttackDealtWith,                &instrument_ready_for_defense              },
-  { STSolutionSolver,                 &activate_output                           },
-  { STPostKeyPlaySuppressor,          &suppress_output                           }
+  { STSetplayFork,                      &instrument_setplay_fork               },
+  { STGoalTargetReachedTester,          &instrument_goal_target_reached_tester },
+  { STLeaf,                             &instrument_leaf                       },
+  { STMoveInverterRootSolvableFilter,   &instrument_move_inverter              },
+  { STMoveInverterSolvableFilter,       &instrument_move_inverter              },
+  { STAttackMovePlayed,                 &instrument_attack_move_played         },
+  { STDefenseRoot,                      &instrument_defense_root               },
+  { STContinuationSolver,               &instrument_continuation_solver        },
+  { STTrySolver,                        &instrument_try_solver                 },
+  { STThreatSolver,                     &instrument_threat_solver              },
+  { STDefenseMoveFiltered,              &instrument_defense_move_filtered      },
+  { STRefutationsCollector,             &instrument_refutations_collector      },
+  { STSeriesRoot,                       &stip_structure_visitor_noop           },
+  { STDefenseDealtWith,                 &instrument_ready_for_attack           },
+  { STAttackDealtWith,                  &instrument_ready_for_defense          },
+  { STSolutionSolver,                   &activate_output                       },
+  { STPostKeyPlaySuppressor,            &suppress_output                       },
+  { STSelfCheckGuardRootSolvableFilter, &prepend_illegal_selfcheck_writer      }
 };
 
 enum

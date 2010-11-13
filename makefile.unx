@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.137 2010/10/13 07:01:24 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.138 2010/11/13 11:05:05 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -250,7 +250,7 @@ NESTEDLIBDIRS = . DHT \
 		optimisations/goals/castling optimisations/goals/enpassant \
 		optimisations/killer_move \
 		options/no_short_variations \
-		output/plaintext output/plaintext/tree output/plaintext/line \
+		output/plaintext/tree output/plaintext/line output/plaintext \
 		platform platform/$(PLATFORM)
 
 STRFILES=       py-fran.str py-deut.str py-engl.str

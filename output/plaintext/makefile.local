@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 #
 
-CFILES = plaintext.c end_of_phase_writer.c
+CFILES = plaintext.c end_of_phase_writer.c illegal_selfcheck_writer.c
 
-INCLUDES = plaintext.h end_of_phase_writer.h
+INCLUDES = plaintext.h end_of_phase_writer.h illegal_selfcheck_writer.h
 
 include makefile.rules $(CURRPWD)depend
