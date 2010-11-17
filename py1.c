@@ -132,7 +132,7 @@ void finply()
 void InitCond(void) {
   square const *bnp;
   square i, j;
-  piece p;
+  PieNam p;
 
   flag_madrasi= false;
   wh_exact= wh_ultra= bl_exact= bl_ultra= false;
@@ -159,7 +159,7 @@ void InitCond(void) {
   rex_protean_ex = false;
   calctransmute= false;
 
-  for (p= vide; p < PieceCount; p++)
+  for (p = Empty; p<PieceCount; ++p)
     NextChamCircePiece[p]= p;
   InitChamCirce= true;
 
