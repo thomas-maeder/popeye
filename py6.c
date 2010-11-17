@@ -1499,18 +1499,21 @@ static boolean verify_position(slice_index si)
 
   tp = 0;
   op = 0;
-  for (p = roib; p <= derbla; p++) {
-    if (exist[p] && p != dummyb && p != hamstb)
-    {
-      if (whitenormaltranspieces)
-        whitetransmpieces[tp] = p;
-      if (blacknormaltranspieces)
-        blacktransmpieces[tp] = p;
-      tp++;
-      if (p != Orphan
-          && p != Friend
-          && (exist[Orphan] || exist[Friend]))
-        orphanpieces[op++] = p;
+  {
+    PieNam p;
+    for (p = King; p<PieceCount; ++p) {
+      if (exist[p] && p!=Dummy && p!=Hamster)
+      {
+        if (whitenormaltranspieces)
+          whitetransmpieces[tp] = p;
+        if (blacknormaltranspieces)
+          blacktransmpieces[tp] = p;
+        tp++;
+        if (p!=Orphan
+            && p!=Friend
+            && (exist[Orphan] || exist[Friend]))
+          orphanpieces[op++] = p;
+      }
     }
   }
 
