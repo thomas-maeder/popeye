@@ -4,6 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
+#include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "trace.h"
 
