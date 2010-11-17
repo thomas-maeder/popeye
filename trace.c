@@ -414,6 +414,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STGoalAnyReachedTester:
       case STGoalProofgameReachedTester:
       case STGoalNotCheckReachedTester:
+      case STIllegalSelfcheckWriter:
       case STOutputPlaintextTreeMoveInversionCounter:
       case STOutputPlaintextLineMoveInversionCounter:
       case STOutputPlaintextLineEndOfIntroSeriesMarker:
