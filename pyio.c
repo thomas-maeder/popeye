@@ -450,31 +450,31 @@ static void WriteConditions(int alignment)
       }
     }
 
-  if ( cond == whvault_king || cond == vault_king)
-  {
-      if (whitetransmpieces[0] != EquiHopper || whitetransmpieces[1] != vide)
-        WritePieces(whitetransmpieces, CondLine);
-      if (calc_whtrans_king)
-      {
-        char LocalBuf[4];
-        sprintf(LocalBuf, " -%c",
-        UPCASE(PieceTab[King][0]));
-        strcat(CondLine, LocalBuf);
-      }
-  }
+    if ( cond == whvault_king || cond == vault_king)
+    {
+        if (whitetransmpieces[0] != equib || whitetransmpieces[1] != vide)
+          WritePieces(whitetransmpieces, CondLine);
+        if (calc_whtrans_king)
+        {
+          char LocalBuf[4];
+          sprintf(LocalBuf, " -%c",
+          UPCASE(PieceTab[King][0]));
+          strcat(CondLine, LocalBuf);
+        }
+    }
 
-  if ( cond == blvault_king )
-  {
-      if (blacktransmpieces[0] != EquiHopper || blacktransmpieces[1] != vide)
-        WritePieces(blacktransmpieces, CondLine);
-      if (calc_bltrans_king)
-      {
-        char LocalBuf[4];
-        sprintf(LocalBuf, " -%c",
-        UPCASE(PieceTab[King][0]));
-        strcat(CondLine, LocalBuf);
-      }
-  }
+    if ( cond == blvault_king )
+    {
+        if (blacktransmpieces[0] != equib || blacktransmpieces[1] != vide)
+          WritePieces(blacktransmpieces, CondLine);
+        if (calc_bltrans_king)
+        {
+          char LocalBuf[4];
+          sprintf(LocalBuf, " -%c",
+          UPCASE(PieceTab[King][0]));
+          strcat(CondLine, LocalBuf);
+        }
+    }
 
     if (cond == promotiononly) {
       /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
@@ -1428,8 +1428,8 @@ static char *ParseLaTeXPieces(char *tok) {
   return tok;
 }
 
-static char *LaTeXPiece(piece Name) {
-  Name= abs(Name);
+static char *LaTeXPiece(piece p) {
+  PieNam const Name= abs(p);
 
   if (Name > Bishop) {
     if (LaTeXPiecesAbbr[Name] == NULL) {
@@ -1486,7 +1486,7 @@ static char *ParseSquareList(char *tok,
         }
         if (e[Square] == vide)
           StdChar(echo);
-        WriteSpec(Spec, Name!=vide);
+        WriteSpec(Spec, Name!=Empty);
         WritePiece(Name);
         WriteSquare(Square);
         StdChar(' ');
@@ -1628,7 +1628,6 @@ static square SetSquare(square sq, piece p, boolean bw, boolean *neut)
 
 static char *ParseForsyth(boolean output)
 {
-  piece pc;
   int num;
   square sq = square_a8;
   square const *bnp;
@@ -1662,7 +1661,7 @@ static char *ParseForsyth(boolean output)
     }
     else if (isalpha((int)*tok))
     {
-      pc= GetPieNamIndex(tolower(*tok),' ');
+      PieNam const pc= GetPieNamIndex(tolower(*tok),' ');
       if (pc>=King) {
         sq= SetSquare(sq,
                       pc,
@@ -1681,17 +1680,19 @@ static char *ParseForsyth(boolean output)
         NeutralFlag= true;
         tok++;
       }
-      pc= GetPieNamIndex(tolower(*(tok+1)), tolower(*(tok+2)));
-      if (pc>=King)
       {
-        sq= SetSquare(sq,
-                      pc,
-                      islower((int)InputLine[(tok+1-TokenLine)]),
-                      &NeutralFlag);
-        if (NeutralFlag)
-          SETFLAG(PieSpExFlags,Neutral);
+        PieNam const pc= GetPieNamIndex(tolower(*(tok+1)), tolower(*(tok+2)));
+        if (pc>=King)
+        {
+          sq= SetSquare(sq,
+                        pc,
+                        islower((int)InputLine[(tok+1-TokenLine)]),
+                        &NeutralFlag);
+          if (NeutralFlag)
+            SETFLAG(PieSpExFlags,Neutral);
+        }
+        tok += 3;
       }
-      tok += 3;
     }
     else if (*tok == '=')
     {
@@ -4092,7 +4093,7 @@ static char *ReadChameleonCirceSequence(void)
 
   old_piece= vide;
 
-  for (new_piece= vide; new_piece < PieceCount; new_piece++) {
+  for (new_piece= vide; new_piece < derbla; new_piece++) {
     NextChamCircePiece[new_piece]= new_piece;
   }
   ChameleonSequence[0]= '\0';
@@ -6180,7 +6181,7 @@ void WritePosition() {
         }
       }
 
-      if ((pp= abs(p= e[square])) < King)
+      if ((pp= abs(p= e[square])) < roib)
       {
         if (p == -obs)
         {
@@ -6199,7 +6200,7 @@ void WritePosition() {
         if (TSTFLAG(spec[square], sp))
           AddSquare(ListSpec[sp], square);
 
-      if (pp<Hunter0 || pp >= (Hunter0 + maxnrhuntertypes))
+      if (pp<hunter0b || pp >= (hunter0b + maxnrhuntertypes))
       {
         if ((*h1= PieceTab[pp][1]) != ' ')
         {
@@ -6636,7 +6637,7 @@ void LaTeXBeginDiagram(void)
 
   fprintf(LaTeXFile, " \\pieces{");
 
-  for (p= vide; p < PieceCount; p++)
+  for (p= vide; p < derbla; p++)
     CLEARFL(remspec[p]);
 
   for (bnp= boardnum; *bnp; bnp++) {
@@ -6664,7 +6665,7 @@ void LaTeXBeginDiagram(void)
       if (e[*bnp] == -obs) {
         e[*bnp]= vide;
       }
-      else if ((p > Bishop) && (LaTeXPiecesAbbr[abs(p)] != NULL)) {
+      else if (p>fb && (LaTeXPiecesAbbr[abs(p)] != NULL)) {
         fairypieces= true;
 
         if (TSTFLAG(spec[*bnp], Neutral)) {
@@ -6816,7 +6817,7 @@ void LaTeXBeginDiagram(void)
     boolean firstline= true;
 
     fprintf(LaTeXFile, " \\remark{");
-    for (p= Bishop+1; p < PieceCount; p++) {
+    for (p= fb+1; p < derbla; p++) {
       int q;
       if (!remspec[p])
         continue;
@@ -6869,16 +6870,16 @@ void LaTeXBeginDiagram(void)
 
 void WritePiece(piece p) {
   char p1;
+  PieNam const pnam = abs(p);
 
-  p= abs(p);
-  if (p<Hunter0 || p >= (Hunter0 + maxnrhuntertypes)) {
-    StdChar(UPCASE(PieceTab[p][0]));
-    if ((p1= PieceTab[p][1]) != ' ') {
+  if (pnam<Hunter0 || pnam >= (Hunter0 + maxnrhuntertypes)) {
+    StdChar(UPCASE(PieceTab[pnam][0]));
+    if ((p1= PieceTab[pnam][1]) != ' ') {
       StdChar(UPCASE(p1));
     }
   }
   else {
-    unsigned int const i = p-Hunter0;
+    unsigned int const i = pnam-Hunter0;
     assert(i<maxnrhuntertypes);
     WritePiece(huntertypes[i].away);
     StdChar('/');

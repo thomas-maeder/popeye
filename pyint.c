@@ -139,18 +139,18 @@ static boolean IllegalCheck(Side camp)
     int nrChecks= 0;
     numvec k;
     for (k = vec_rook_start; k<=vec_rook_end; k++)
-      if (e[rn+vec[k]]==Rook || e[rn+vec[k]]==Queen)
+      if (e[rn+vec[k]]==tb || e[rn+vec[k]]==db)
         nrChecks++;
 
     for (k = vec_bishop_start; k<=vec_bishop_end; k++)
-      if (e[rn+vec[k]]==Bishop || e[rn+vec[k]]==Queen)
+      if (e[rn+vec[k]]==fb || e[rn+vec[k]]==db)
         nrChecks++;
 
     for (k = vec_knight_start; k<=vec_knight_end; k++)
-      if (e[rn+vec[k]] == Knight)
+      if (e[rn+vec[k]] == cb)
         nrChecks++;
 
-    if (e[rn+dir_down+dir_right]==Pawn || e[rn+dir_down+dir_left]==Pawn)
+    if (e[rn+dir_down+dir_right]==pb || e[rn+dir_down+dir_left]==pb)
       nrChecks++;
 
     return (nrChecks > (goal_to_be_reached==goal_stale ? 0: 1));
@@ -204,10 +204,10 @@ static int FroTo(piece f_p,
   {
     if (genchk)
     {
-      if (f_p == Pawn)
+      if (f_p == pb)
         return maxply+1;
 
-      if (f_p == Knight)
+      if (f_p == cb)
         return 2;
 
       /* it's a rider */
@@ -247,7 +247,7 @@ static int FroTo(piece f_p,
     int minmoves= FroToKing(f_sq, t_sq);
     /* castling */
     if (testcastling) {
-      if (f_p == King) {
+      if (f_p == roib) {
         /* white king */
         if (f_sq == square_e1) {
           if (TSTFLAGMASK(castling_flag[nbply],ra1_cancastle&no_castling)) {
@@ -944,12 +944,12 @@ static void PinBlPiece(
   diagonal= SquareCol(sq) == SquareCol(rn);
   while (e[sq+=dir] == vide) {
     for (i= 1; i < MaxPiece[White]; i++) {
-      if (!white[i].used && (f_p= white[i].p) != Knight) {
-        if (f_p == (diagonal ? Rook : Bishop)) {
+      if (!white[i].used && (f_p= white[i].p) != cb) {
+        if (f_p == (diagonal ? tb : fb)) {
           continue;
         }
         white[i].used= true;
-        if (f_p == Pawn) {
+        if (f_p == pb) {
           if (diagonal) {
             time= FroTo(f_p,
                         white[i].sq, Bishop, sq, false);
@@ -1035,12 +1035,12 @@ static void ImmobilizeByPin(
   sq= topin;
   while (e[sq+=dir] == vide) {
     for (i= 1; i < MaxPiece[White]; i++) {
-      if (!white[i].used && ((f_p= white[i].p) != Knight)) {
-        if (f_p == (diagonal ? Rook : Bishop))
+      if (!white[i].used && ((f_p= white[i].p) != cb)) {
+        if (f_p == (diagonal ? tb : fb))
           continue;
 
         white[i].used= true;
-        if (f_p == Pawn) {
+        if (f_p == pb) {
           if (diagonal) {
             time=
               FroTo(f_p, white[i].sq, Bishop, sq, false);
@@ -1328,7 +1328,7 @@ static void ImmobilizeByWhBlock(
 
     f_p= white[i].p;
     white[i].used= true;
-    if (f_p == Pawn) {
+    if (f_p == pb) {
       /* A rough check whether it is worth thinking about
          promotions.
       */
@@ -1447,8 +1447,8 @@ void Immobilize(int blmoves,
   /* determine number of white pinning pieces available */
   for (i = 1; i<MaxPiece[White] && nopinpossible; i++)
     nopinpossible = (white[i].used
-                     || white[i].p==Knight
-                     || (white[i].p==Pawn && whmoves<moves_to_prom[i]));
+                     || white[i].p==cb
+                     || (white[i].p==pb && whmoves<moves_to_prom[i]));
 
   for (bnp = boardnum; *bnp; bnp++)
     toblock[*bnp] = 0;
@@ -1820,7 +1820,7 @@ void WhitePieceTo(
     p= white[actpwh].p;
     white[actpwh].used= true;
 
-    if (p != Pawn || sq < 360) {
+    if (p != pb || sq < 360) {
       time= FroTo(p, white[actpwh].sq, p, sq, false);
       if (time <= whmoves) {
         Flags sp= white[actpwh].sp;
@@ -1828,7 +1828,7 @@ void WhitePieceTo(
         if (IllegalCheck(Black)) {
           continue;
         }
-        if (p == Pawn) {
+        if (p == pb) {
           int diffcol= white[actpwh].sq%onerow - sq%onerow;
           if (diffcol < 0) {
             diffcol= -diffcol;
@@ -1845,7 +1845,7 @@ void WhitePieceTo(
     }
 
     /* pawn promotions */
-    if (p == Pawn) {
+    if (p == pb) {
       /* A rough check whether it is worth thinking about
          promotions.
       */
@@ -1861,7 +1861,7 @@ void WhitePieceTo(
         while (pp != vide) {
           int diffcol;
           time= FroTo(p, white[actpwh].sq, pp, sq, false);
-          if (pp == Bishop
+          if (pp == fb
               && SquareCol(sq)
               == SquareCol(white[actpwh].sq%onerow+192))
           {
@@ -2263,7 +2263,7 @@ static void GenerateGuarding(
         }
         SetPiece(p, *bnp, sp);
         if (!IllegalCheck(Black)) {
-          if (p == Pawn) {
+          if (p == pb) {
             int diffcol= sq % onerow - *bnp % onerow;
             GenerateGuarding(actpwh+1, whmoves-time,
                              blmoves, whcaptures+abs(diffcol), n);
@@ -2275,7 +2275,7 @@ static void GenerateGuarding(
         }
       }
       /* pawn promotions */
-      if (p == Pawn) {
+      if (p == pb) {
         /* A rough check whether it is worth thinking about
            promotions.
         */
@@ -2345,7 +2345,7 @@ static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
         SetPiece(p, sq, sp);
         piecechecking= p;
         squarechecking= sq;
-        if (p == Pawn) {
+        if (p == pb) {
           int diffcol= white[j].sq % onerow - sq % onerow;
           GenerateGuarding(0,
                            whmoves-time, blmoves, abs(diffcol), n);
@@ -2355,7 +2355,7 @@ static void GenerateChecking(int whmoves, int blmoves, stip_length_type n)
         }
       }
       /* pawn promotions */
-      if (p == Pawn) {
+      if (p == pb) {
         /* A rough check whether it is worth thinking about
            promotions.
         */
@@ -2472,7 +2472,7 @@ static void IntelligentRegulargoal_types(stip_length_type n)
       white[MaxPiece[White]].sp= spec[*bnp];
       white[MaxPiece[White]].sq= *bnp;
       white[MaxPiece[White]].used= false;
-      if (e[*bnp] == Pawn) {
+      if (e[*bnp] == pb) {
         int moves= 15 - *bnp / onerow;
         square  sq= *bnp;
         if (moves > 5)
@@ -2487,10 +2487,10 @@ static void IntelligentRegulargoal_types(stip_length_type n)
         /* a black pawn that needs a white sacrifice to move away */
         else if (MovesLeft[White] < 7
                  && sq<=square_h2
-                 && e[sq+dir_left] <= King && e[sq+dir_right] <= King
-                 && (e[sq+dir_up] == -Pawn
-                     || (e[sq+dir_up+dir_left] <= King
-                         && e[sq+dir_up+dir_right] <= King
+                 && e[sq+dir_left] <= roib && e[sq+dir_right] <= roib
+                 && (e[sq+dir_up] == pn
+                     || (e[sq+dir_up+dir_left] <= roib
+                         && e[sq+dir_up+dir_right] <= roib
                          && (ep[1] != sq+dir_up+dir_left)
                          && (ep[1] != sq+dir_up+dir_right)
                          && e[sq+2*dir_up] == -Pawn)))
@@ -2525,7 +2525,7 @@ static void IntelligentRegulargoal_types(stip_length_type n)
     }
   }
 
-  for (p= King; p <= Bishop; p++) {
+  for (p= roib; p <= fb; p++) {
     nbpiece[-p]= nbpiece[p]= 2;
   }
 
