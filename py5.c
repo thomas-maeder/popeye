@@ -501,18 +501,17 @@ square rennormal(ply ply_id,
   square  Result;
   int col, ran;
   Side  cou;
+  PieNam pnam_captured = abs(p_captured);
 
   col = sq_capture % onerow;
   ran = sq_capture / onerow;
 
-  p_captured= abs(p_captured);
-
   if (CondFlag[circemalefiquevertical]) {
     col= onerow-1 - col;
-    if (p_captured == db)
-      p_captured= roib;
-    else if (p_captured == roib)
-      p_captured= db;
+    if (pnam_captured==Queen)
+      pnam_captured = King;
+    else if (pnam_captured==King)
+      pnam_captured = Queen;
   }
 
   if ((ran&1) != (col&1))
@@ -521,17 +520,17 @@ square rennormal(ply ply_id,
     cou = Black;
 
   if (CondFlag[cavaliermajeur])
-    if (p_captured == nb)
-      p_captured = cb;
+    if (pnam_captured==NightRider)
+      pnam_captured = Knight;
 
   /* Below is the reason for the define problems. What a "hack" ! */
-  if (CondFlag[leofamily] &&
-      (p_captured > Bishop) && (Vao >= p_captured))
-    p_captured-= 4;
+  if (CondFlag[leofamily]
+      && pnam_captured>=Leo && Vao>=pnam_captured)
+    pnam_captured -= 4;
 
   if (capturer == Black)
   {
-    if (is_pawn(p_captured))
+    if (is_pawn(pnam_captured))
       Result= col + (nr_of_slack_rows_below_board+1)*onerow;
     else {
       if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf)) {
@@ -542,20 +541,20 @@ square rennormal(ply ply_id,
                       : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
       }
       else
-        switch(p_captured) {
-        case roib:
+        switch(pnam_captured) {
+        case King:
           Result= square_e1;
           break;
-        case cb:
+        case Knight:
           Result= cou == White ? square_b1 : square_g1;
           break;
-        case tb:
+        case Rook:
           Result= cou == White ? square_h1 : square_a1;
           break;
-        case db:
+        case Queen:
           Result= square_d1;
           break;
-        case fb:
+        case Bishop:
           Result= cou == White ? square_f1 : square_c1;
           break;
         default: /* fairy piece */
@@ -569,7 +568,7 @@ square rennormal(ply ply_id,
   }
   else
   {
-    if (is_pawn(p_captured))
+    if (is_pawn(pnam_captured))
       Result= col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else {
       if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf)) {
@@ -580,20 +579,20 @@ square rennormal(ply ply_id,
                       : nr_of_slack_rows_below_board)));
       }
       else
-        switch(p_captured) {
-        case fb:
+        switch(pnam_captured) {
+        case Bishop:
           Result= cou == White ? square_c8 : square_f8;
           break;
-        case db:
+        case Queen:
           Result= square_d8;
           break;
-        case tb:
+        case Rook:
           Result= cou == White ? square_a8 : square_h8;
           break;
-        case cb:
+        case Knight:
           Result= cou == White ? square_g8 : square_b8;
           break;
-        case roib:
+        case King:
           Result= square_e8;
           break;
         default: /* fairy piece */
@@ -2932,8 +2931,8 @@ boolean jouecoup(ply ply_id, joue_type jt)
         rn= sq_rebirth;
 
       if (castling_supported) {
-        piece abspja= abs(pi_arriving);
-        if (abspja == King) {
+        PieNam const abspja= abs(pi_arriving);
+        if (abspja==King) {
           if (TSTFLAG(spec_pi_moving, White)
               && sq_rebirth == square_e1
               && (!CondFlag[dynasty] || nbpiece[roib]==1)) {
@@ -2947,7 +2946,7 @@ boolean jouecoup(ply ply_id, joue_type jt)
             SETFLAGMASK(castling_flag[ply_id],ke8_cancastle);
           }
         }
-        else if (abspja == Rook) {
+        else if (abspja==Rook) {
           if (TSTFLAG(spec_pi_moving, White)) {
             /* new white/neutral rook */
             if (sq_rebirth == square_h1) {
