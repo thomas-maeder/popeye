@@ -7,22 +7,22 @@
  * whether a side is not in check
  */
 
-/* Allocate a STGoalNonCheckReachedTester slice.
+/* Allocate a STGoalNotCheckReachedTester slice.
  * @return index of allocated slice
  */
-slice_index alloc_goal_noncheck_reached_tester_slice(void);
+slice_index alloc_goal_notcheck_reached_tester_slice(void);
 
 /* Determine whether a slice has just been solved with the move
  * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_noncheck_reached_tester_has_solution(slice_index si);
+has_solution_type goal_notcheck_reached_tester_has_solution(slice_index si);
 
 /* Solve a slice
  * @param si slice index
  * @return whether there is a solution and (to some extent) why not
  */
-has_solution_type goal_noncheck_reached_tester_solve(slice_index si);
+has_solution_type goal_notcheck_reached_tester_solve(slice_index si);
 
 #endif
