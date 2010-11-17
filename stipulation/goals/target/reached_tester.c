@@ -38,7 +38,6 @@ slice_index alloc_goal_target_reached_tester_slice(square target)
 has_solution_type goal_target_reached_tester_has_solution(slice_index si)
 {
   has_solution_type result;
-  Side const just_moved = advers(slices[si].starter);
   square const target = slices[si].u.goal_target_reached_tester.target;
 
   TraceFunctionEntry(__func__);
@@ -63,7 +62,6 @@ has_solution_type goal_target_reached_tester_has_solution(slice_index si)
 has_solution_type goal_target_reached_tester_solve(slice_index si)
 {
   has_solution_type result;
-  Side const just_moved = advers(slices[si].starter);
   square const target = slices[si].u.goal_target_reached_tester.target;
 
   TraceFunctionEntry(__func__);
