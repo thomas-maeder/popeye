@@ -1217,12 +1217,6 @@ static boolean sncmp(char *a, char *b)
   return true;
 }
 
-enum
-{
-  unrecognised_delta = 0,
-  ambiguous_delta = 1
-};
-
 static unsigned int GetIndex(unsigned int index, unsigned int limit,
                              char **list, char *tok)
 {
@@ -1232,22 +1226,22 @@ static unsigned int GetIndex(unsigned int index, unsigned int limit,
     else
       ++index;
 
-  return limit+unrecognised_delta;
+  return limit;
 }
 
 static unsigned int GetUniqIndex(unsigned int limit, char **list, char *tok)
 {
   unsigned int const index = GetIndex(0,limit,list,tok);
-  if (index==limit+unrecognised_delta)
+  if (index==limit)
     return index;
   else
   {
     if (strlen(tok)==strlen(list[index]))
       return index;
-    else if (GetIndex(index+1,limit,list,tok)==limit+unrecognised_delta)
+    else if (GetIndex(index+1,limit,list,tok)==limit)
       return index;
     else
-      return limit+ambiguous_delta;
+      return limit+1;
   }
 }
 
@@ -1727,9 +1721,9 @@ static char *ParsePieSpec(char echo)
     while (true)
     {
       PieSpec const ps = GetUniqIndex(PieSpCount,PieSpTab,tok);
-      if (ps==PieSpCount+unrecognised_delta)
+      if (ps==PieSpCount)
         break;
-      else if (ps==PieSpCount+ambiguous_delta)
+      else if (ps>PieSpCount)
         IoErrorMsg(PieSpecNotUniq,0);
       else
       {
@@ -2941,9 +2935,9 @@ Side ParseStructuredStip_starter(char *tok)
   /* We don't make any unsafe assumptions here; PieSpec enumerators
    * are initialised in terms of nr_sides */
   ps = GetUniqIndex(nr_sides,PieSpTab,tok);
-  if (ps==nr_sides+ambiguous_delta)
+  if ((Side)ps>nr_sides)
     IoErrorMsg(PieSpecNotUniq,0);
-  else if (ps<nr_sides)
+  else if ((Side)ps<nr_sides)
     result = (Side)ps;
 
   TraceFunctionExit(__func__);
@@ -3767,10 +3761,10 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
   {
     VariantType type = GetUniqIndex(VariantTypeCount,VariantTypeTab,tok);
 
-    if (type==VariantTypeCount+unrecognised_delta)
+    if (type==VariantTypeCount)
       break;
 
-    if (type==VariantTypeCount+ambiguous_delta)
+    if (type>VariantTypeCount)
       IoErrorMsg(CondNotUniq,0);
     else if (type==TypeB && group==gpType)
       *is_variant_set= true;
@@ -4142,10 +4136,10 @@ static char *ParseCond(void) {
   while (true)
   {
     Cond const indexx = GetUniqIndex(CondCount,CondTab,tok);
-    if (indexx==CondCount+unrecognised_delta)
+    if (indexx==CondCount)
     {
       ExtraCond extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
-      if (extra==ExtraCondCount+unrecognised_delta)
+      if (extra==ExtraCondCount)
         break;
       else
       {
@@ -4163,20 +4157,20 @@ static char *ParseCond(void) {
             CondCnt++;
             break;
 
-          case ExtraCondCount+ambiguous_delta:
-            IoErrorMsg(CondNotUniq,0);
-            tok = ReadNextTokStr();
+          case ExtraCondCount:
+            IoErrorMsg(UnrecCondition,0);
             break;
 
           default:
-            IoErrorMsg(UnrecCondition,0);
+            IoErrorMsg(CondNotUniq,0);
+            tok = ReadNextTokStr();
             break;
         }
         continue;
       }
     }
 
-    if (indexx==CondCount+ambiguous_delta)
+    if (indexx>CondCount)
     {
       IoErrorMsg(CondNotUniq,0);
       tok = ReadNextTokStr();
@@ -4894,10 +4888,10 @@ static char *ParseOpt(slice_index root_slice_hook)
 
   tok = ReadNextTokStr();
   for (indexx = GetUniqIndex(OptCount,OptTab,tok);
-       indexx<OptCount+unrecognised_delta;
+       indexx<OptCount;
        indexx = GetUniqIndex(OptCount,OptTab,tok))
   {
-    if (indexx==OptCount+ambiguous_delta)
+    if (indexx>OptCount)
     {
       IoErrorMsg(OptNotUniq,0);
       continue;
@@ -5194,7 +5188,7 @@ static char *ParseTwinningMirror(void)
   char *tok = ReadNextTokStr();
   TwinningType indexx= GetUniqIndex(TwinningCount,TwinningTab,tok);
 
-  if (indexx==TwinningCount+ambiguous_delta)
+  if (indexx>TwinningCount)
     IoErrorMsg(OptNotUniq,0);
   else
   {
@@ -5652,31 +5646,33 @@ static char *ParseTwinning(slice_index root_slice_hook)
     }
 
     twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
-    switch (twinning)
+    if (twinning>TwinningCount)
     {
-      case TwinningCount+ambiguous_delta:
-        IoErrorMsg(OptNotUniq,0);
-        tok = ReadNextTokStr();
-        continue;
-
-      case TwinningCount+unrecognised_delta:
-        IoErrorMsg(ComNotKnown,0);
-        tok = ReadNextTokStr();
-        continue;
-
-      case TwinningContinued:
-        if (TwinningRead == true) {
-          Message(ContinuedFirst);
-        }
-        else {
-          continued= true;
-        }
-        tok = ReadNextTokStr();
-        continue;
-
-      default:
-        break;
+      IoErrorMsg(OptNotUniq,0);
+      tok = ReadNextTokStr();
+      continue;
     }
+    else
+      switch (twinning)
+      {
+        case TwinningCount:
+          IoErrorMsg(ComNotKnown,0);
+          tok = ReadNextTokStr();
+          continue;
+
+        case TwinningContinued:
+          if (TwinningRead == true) {
+            Message(ContinuedFirst);
+          }
+          else {
+            continued= true;
+          }
+          tok = ReadNextTokStr();
+          continue;
+
+        default:
+          break;
+      }
 
     if (!TwinningRead)
     {
@@ -5866,39 +5862,40 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
     while (true)
     {
       tk = StringToToken(tok);
-      switch (tk)
+      if (tk>TokenCount)
       {
-        case TokenCount+ambiguous_delta:
-          IoErrorMsg(ComNotUniq,0);
-          tok = ReadNextTokStr();
-          break;
-
-        case TwinProblem:
-          if (slices[root_slice_hook].u.pipe.next!=no_slice)
-            return tk;
-          else
-          {
-            IoErrorMsg(NoStipulation,0);
-            tok = ReadNextTokStr();
-            break;
-          }
-
-        case NextProblem:
-        case EndProblem:
-          if (root_slice_hook!=no_slice)
-            return tk;
-          else
-          {
-            IoErrorMsg(NoStipulation,0);
-            tok = ReadNextTokStr();
-            break;
-          }
-
-        default:
-          IoErrorMsg(ComNotKnown,0);
-          tok = ReadNextTokStr();
-          break;
+        IoErrorMsg(ComNotUniq,0);
+        tok = ReadNextTokStr();
       }
+      else
+        switch (tk)
+        {
+          case TwinProblem:
+            if (slices[root_slice_hook].u.pipe.next!=no_slice)
+              return tk;
+            else
+            {
+              IoErrorMsg(NoStipulation,0);
+              tok = ReadNextTokStr();
+              break;
+            }
+
+          case NextProblem:
+          case EndProblem:
+            if (root_slice_hook!=no_slice)
+              return tk;
+            else
+            {
+              IoErrorMsg(NoStipulation,0);
+              tok = ReadNextTokStr();
+              break;
+            }
+
+          default:
+            IoErrorMsg(ComNotKnown,0);
+            tok = ReadNextTokStr();
+            break;
+        }
     }
   }
   else
@@ -5908,191 +5905,192 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
     while (true)
     {
       tk = StringToToken(tok);
-      switch (tk)
+      if (tk>TokenCount)
       {
-        case TokenCount+ambiguous_delta:
-          IoErrorMsg(ComNotUniq,0);
-          tok = ReadNextTokStr();
-          break;
-
-        case TokenCount+unrecognised_delta:
-          IoErrorMsg(ComNotKnown,0);
-          tok = ReadNextTokStr();
-          break;
-
-        case BeginProblem:
-          tok = ReadNextTokStr();
-          break;
-
-        case TwinProblem:
-          if (TwinNumber==1)
-            TwinStorePosition();
-
-          if (slices[root_slice_hook].u.pipe.next!=no_slice)
-            return tk;
-          else
-          {
-            IoErrorMsg(NoStipulation,0);
+        IoErrorMsg(ComNotUniq,0);
+        tok = ReadNextTokStr();
+      }
+      else
+        switch (tk)
+        {
+          case TokenCount:
+            IoErrorMsg(ComNotKnown,0);
             tok = ReadNextTokStr();
             break;
-          }
 
-        case NextProblem:
-        case EndProblem:
-          if (slices[root_slice_hook].u.pipe.next!=no_slice)
-            return tk;
-          else
-          {
-            IoErrorMsg(NoStipulation,0);
+          case BeginProblem:
             tok = ReadNextTokStr();
             break;
-          }
 
-        case ZeroPosition:
-          return tk;
+          case TwinProblem:
+            if (TwinNumber==1)
+              TwinStorePosition();
 
-        case StipToken:
-          *AlphaStip='\0';
-          tok = ParseStip(root_slice_hook);
-          break;
-
-        case StructStipToken:
-          *AlphaStip='\0';
-          tok = ParseStructuredStip(root_slice_hook);
-          break;
-
-        case Author:
-          strcat(ActAuthor,ReadToEndOfLine());
-          strcat(ActAuthor,"\n");
-          tok = ReadNextTokStr();
-          break;
-
-        case Award:
-          strcpy(ActAward,ReadToEndOfLine());
-          strcat(ActAward, "\n");
-          tok = ReadNextTokStr();
-          break;
-
-        case Origin:
-          strcat(ActOrigin,ReadToEndOfLine());
-          strcat(ActOrigin,"\n");
-          tok = ReadNextTokStr();
-          break;
-
-        case TitleToken:
-          strcat(ActTitle,ReadToEndOfLine());
-          strcat(ActTitle,"\n");
-          tok = ReadNextTokStr();
-          break;
-
-        case PieceToken:
-          tok = ParsePieSpec('\0');
-          break;
-
-        case CondToken:
-          tok = ParseCond();
-          break;
-
-        case OptToken:
-          tok = ParseOpt(root_slice_hook);
-          break;
-
-        case RemToken:
-          if (LastChar != '\n')
-          {
-            ReadToEndOfLine();
-            if (TraceFile!=NULL)
+            if (slices[root_slice_hook].u.pipe.next!=no_slice)
+              return tk;
+            else
             {
-              fputs(InputLine, TraceFile);
+              IoErrorMsg(NoStipulation,0);
+              tok = ReadNextTokStr();
+              break;
+            }
+
+          case NextProblem:
+          case EndProblem:
+            if (slices[root_slice_hook].u.pipe.next!=no_slice)
+              return tk;
+            else
+            {
+              IoErrorMsg(NoStipulation,0);
+              tok = ReadNextTokStr();
+              break;
+            }
+
+          case ZeroPosition:
+            return tk;
+
+          case StipToken:
+            *AlphaStip='\0';
+            tok = ParseStip(root_slice_hook);
+            break;
+
+          case StructStipToken:
+            *AlphaStip='\0';
+            tok = ParseStructuredStip(root_slice_hook);
+            break;
+
+          case Author:
+            strcat(ActAuthor,ReadToEndOfLine());
+            strcat(ActAuthor,"\n");
+            tok = ReadNextTokStr();
+            break;
+
+          case Award:
+            strcpy(ActAward,ReadToEndOfLine());
+            strcat(ActAward, "\n");
+            tok = ReadNextTokStr();
+            break;
+
+          case Origin:
+            strcat(ActOrigin,ReadToEndOfLine());
+            strcat(ActOrigin,"\n");
+            tok = ReadNextTokStr();
+            break;
+
+          case TitleToken:
+            strcat(ActTitle,ReadToEndOfLine());
+            strcat(ActTitle,"\n");
+            tok = ReadNextTokStr();
+            break;
+
+          case PieceToken:
+            tok = ParsePieSpec('\0');
+            break;
+
+          case CondToken:
+            tok = ParseCond();
+            break;
+
+          case OptToken:
+            tok = ParseOpt(root_slice_hook);
+            break;
+
+          case RemToken:
+            if (LastChar != '\n')
+            {
+              ReadToEndOfLine();
+              if (TraceFile!=NULL)
+              {
+                fputs(InputLine, TraceFile);
+                fflush(TraceFile);
+              }
+              Message(NewLine);
+            }
+            tok = ReadNextTokStr();
+            break;
+
+          case InputToken:
+            PushInput(ReadToEndOfLine());
+            tok = ReadNextTokStr();
+            break;
+
+          case TraceToken:
+            if (TraceFile!=NULL)
+              fclose(TraceFile);
+
+            TraceFile = fopen(ReadToEndOfLine(),open_mode);
+            if (TraceFile==NULL)
+              IoErrorMsg(WrOpenError,0);
+            else if (!flag_regression)
+            {
+              fputs(versionString,TraceFile);
+              fputs(maxmemString(),TraceFile);
               fflush(TraceFile);
             }
-            Message(NewLine);
-          }
-          tok = ReadNextTokStr();
-          break;
+            tok = ReadNextTokStr();
+            break;
 
-        case InputToken:
-          PushInput(ReadToEndOfLine());
-          tok = ReadNextTokStr();
-          break;
-
-        case TraceToken:
-          if (TraceFile!=NULL)
-            fclose(TraceFile);
-
-          TraceFile = fopen(ReadToEndOfLine(),open_mode);
-          if (TraceFile==NULL)
-            IoErrorMsg(WrOpenError,0);
-          else if (!flag_regression)
-          {
-            fputs(versionString,TraceFile);
-            fputs(maxmemString(),TraceFile);
-            fflush(TraceFile);
-          }
-          tok = ReadNextTokStr();
-          break;
-
-        case LaTeXPieces:
-          tok = ParseLaTeXPieces(ReadNextTokStr());
-          break;
-
-        case LaTeXToken:
-          LaTeXout = true;
-          if (LaTeXFile!=NULL)
-          {
-            LaTeXClose();
-            fclose(LaTeXFile);
-          }
-
-          LaTeXFile= fopen(ReadToEndOfLine(),open_mode);
-          if (LaTeXFile==NULL)
-          {
-            IoErrorMsg(WrOpenError,0);
-            LaTeXout= false;
-          }
-          else
-            LaTeXOpen();
-
-          if (SolFile!=NULL)
-            fclose(SolFile);
-
-          SolFile = tmpfile();
-          if (SolFile==NULL)
-            IoErrorMsg(WrOpenError,0);
-          else
+          case LaTeXPieces:
             tok = ParseLaTeXPieces(ReadNextTokStr());
-          break;
+            break;
 
-        case SepToken:
-          tok = ReadNextTokStr();
-          break;
-
-        case Array:
-          tok = ReadNextTokStr();
-          {
-            int i;
-            for (i = 0; i<nr_squares_on_board; i++)
+          case LaTeXToken:
+            LaTeXout = true;
+            if (LaTeXFile!=NULL)
             {
-              piece const p = PAS[i];
-              e[boardnum[i]] = PAS[i];
-              CLEARFL(spec[boardnum[i]]);
-              if (p >= roib)
-                SETFLAG(spec[boardnum[i]], White);
-              else if (p <= roin)
-                SETFLAG(spec[boardnum[i]], Black);
+              LaTeXClose();
+              fclose(LaTeXFile);
             }
-            rb = square_e1;
-            rn = square_e8;
-          }
-          break;
 
-        case Forsyth:
-          tok = ParseForsyth(false);
-          break;
+            LaTeXFile= fopen(ReadToEndOfLine(),open_mode);
+            if (LaTeXFile==NULL)
+            {
+              IoErrorMsg(WrOpenError,0);
+              LaTeXout= false;
+            }
+            else
+              LaTeXOpen();
 
-        default:
-          FtlMsg(InternalError);
-      }
+            if (SolFile!=NULL)
+              fclose(SolFile);
+
+            SolFile = tmpfile();
+            if (SolFile==NULL)
+              IoErrorMsg(WrOpenError,0);
+            else
+              tok = ParseLaTeXPieces(ReadNextTokStr());
+            break;
+
+          case SepToken:
+            tok = ReadNextTokStr();
+            break;
+
+          case Array:
+            tok = ReadNextTokStr();
+            {
+              int i;
+              for (i = 0; i<nr_squares_on_board; i++)
+              {
+                piece const p = PAS[i];
+                e[boardnum[i]] = PAS[i];
+                CLEARFL(spec[boardnum[i]]);
+                if (p >= roib)
+                  SETFLAG(spec[boardnum[i]], White);
+                else if (p <= roin)
+                  SETFLAG(spec[boardnum[i]], Black);
+              }
+              rb = square_e1;
+              rn = square_e8;
+            }
+            break;
+
+          case Forsyth:
+            tok = ParseForsyth(false);
+            break;
+
+          default:
+            FtlMsg(InternalError);
+        }
     } /* while */
   }
 }
