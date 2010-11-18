@@ -839,29 +839,27 @@ stip_length_type get_max_nr_moves(slice_index si)
   return result;
 }
 
-enum
+typedef struct
 {
-  no_unique_goal = nr_goals+1
-};
+  Goal unique_goal;
+  boolean is_unique;
+} find_unique_goal_state;
 
 static
 void find_unique_goal_goal_non_target_tester(slice_index si,
                                              stip_structure_traversal *st)
 {
-  Goal * const found = st->param;
+  find_unique_goal_state * const state = st->param;
   goal_type const goal = goal_mate+(slices[si].type-STGoalMateReachedTester);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (found->type==no_goal)
-    found->type = goal;
-  else if (found->type!=no_unique_goal)
-  {
-    if (found->type!=goal)
-      found->type = no_unique_goal;
-  }
+  if (state->unique_goal.type==no_goal)
+    state->unique_goal.type = goal;
+  else if (state->is_unique && state->unique_goal.type!=goal)
+    state->is_unique = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -870,21 +868,22 @@ void find_unique_goal_goal_non_target_tester(slice_index si,
 static void find_unique_goal_goal_target_tester(slice_index si,
                                                 stip_structure_traversal *st)
 {
-  Goal * const found = st->param;
+  find_unique_goal_state * const state = st->param;
   square const target = slices[si].u.goal_target_reached_tester.target;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (found->type==no_goal)
+  if (state->unique_goal.type==no_goal)
   {
-    found->type = goal_target;
-    found->target = target;
+    state->unique_goal.type = goal_target;
+    state->unique_goal.target = target;
   }
-  else if (found->type!=no_unique_goal
-           && (found->type!=goal_target || found->target!=target))
-    found->type = no_unique_goal;
+  else if (state->is_unique
+           && (state->unique_goal.type!=goal_target
+               || state->unique_goal.target!=target))
+    state->is_unique = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -900,7 +899,7 @@ Goal find_unique_goal(slice_index si)
 {
   stip_structure_traversal st;
   SliceType type;
-  Goal result = { no_goal, initsquare };
+  find_unique_goal_state result = { { no_goal, initsquare }, true };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -921,13 +920,13 @@ Goal find_unique_goal(slice_index si)
 
   stip_traverse_structure(si,&st);
 
-  if (result.type==no_unique_goal)
-    result.type = no_goal;
+  if (!result.is_unique)
+    result.unique_goal.type = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result.type);
   TraceFunctionResultEnd();
-  return result;
+  return result.unique_goal;
 }
 
 /* Auxiliary data structor for deep_copy: remembers slice copies
