@@ -924,7 +924,7 @@ Goal find_unique_goal(slice_index si)
     result.unique_goal.type = no_goal;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result.type);
+  TraceFunctionResult("%u",result.unique_goal.type);
   TraceFunctionResultEnd();
   return result.unique_goal;
 }
@@ -1292,6 +1292,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackDealtWith,                  &move_to_postkey_play                          },
   { STReadyForDefense,                  &move_to_postkey_play                          },
   { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                        },
+  { STSelfCheckGuardSolvableFilter,     &trash_for_postkey_play                        },
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                        },
   { STDefenseMoveFiltered,              &trash_for_postkey_play                        },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play     },
