@@ -357,4 +357,15 @@ option postkey variation threat 1
 pieces white ke2 ra1h5 bc5f5 sg3
        black ke8 ra4 ba5 pa3b3b7c7e5f7g7
 
+next
+
+title no variations, but tries
+author Didier Innocenti
+origin Ph\'enix 2001
+pieces white Kd1 Qa4 Ra6 Sd2
+       black Ke3 Qg8 Rc2 Pd4
+stipulation r#2
+condition ghostchess
+option try
+
 end

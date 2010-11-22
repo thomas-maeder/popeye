@@ -1712,3 +1712,49 @@ solution finished.
 solution finished. 
 
 
+
+           Didier Innocenti
+            Ph\'enix 2001
+       no variations, but tries
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -Q   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   R   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   Q   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -K   .   .   .   3
+|                                   |
+2   .   .  -R   S   .   .   .   .   2
+|                                   |
+1   .   .   .   K   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  r#2                         4 + 4
+             Uncapturable
+              GhostChess
+
+   1.Qa4*c2 ?
+    but
+      1...Ke3-f4 !
+
+   1.Qa4*d4 + ?
+    but
+      1...Ke3*d4 !
+          2.Sd2-f3 #
+
+   1.Kd1*c2 !
+
+              empile:       79588
+            jouecoup:       40364
+        orig_rbechec:       33623
+        orig_rnechec:       14969
+solution finished. 
+
+
