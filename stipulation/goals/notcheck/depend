@@ -1,7 +1,7 @@
-stipulation/goals/notcheck/reached_tester$(OBJ_SUFFIX):  \
+stipulation/goals/notcheck/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/notcheck/reached_tester.c \
-  stipulation/goals/notcheck/reached_tester.h pypipe.h pyproc.h pydata.h \
-  trace.h
+ stipulation/goals/notcheck/reached_tester.h pypipe.h pyproc.h pydata.h \
+ trace.h
 
 stipulation/goals/notcheck/reached_tester.h:
 
