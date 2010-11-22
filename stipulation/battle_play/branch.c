@@ -72,12 +72,15 @@ slice_index alloc_defense_branch(stip_length_type length,
                                                length-1,min_length-1);
     slice_index const ddealt = alloc_branch(STDefenseDealtWith,
                                             length-1,min_length-1);
+    slice_index const aready = alloc_ready_for_attack_slice(length-1,
+                                                            min_length-1);
     pipe_link(dready,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
     pipe_link(dshoehorned,dchecked);
     pipe_link(dchecked,dfiltered);
     pipe_link(dfiltered,ddealt);
+    pipe_link(ddealt,aready);
 
     result = dready;
   }

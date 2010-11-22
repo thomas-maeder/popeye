@@ -98,12 +98,7 @@
     ENUMERATOR(STNot),             /* logical NOT */                    \
     /* auxiliary slices */                                              \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
-    ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardAttackerFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardSeriesFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
     ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
@@ -198,6 +193,7 @@
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
+    ENUMERATOR(STOutputPlaintextTreeReflexAttackWriter), /* write forced attack after reflex-specific refutation */  \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types),                \
     ASSIGNED_ENUMERATOR(first_goal_tester_slice_type = STGoalMateReachedTester), \

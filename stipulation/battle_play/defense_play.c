@@ -102,7 +102,7 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = ready_for_defense_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STSelfCheckGuardDefenderFilter:
+    case STSelfCheckGuard:
       result = selfcheck_guard_defend_in_n(si,n,n_max_unsolvable);
       break;
 
@@ -292,7 +292,7 @@ stip_length_type defense_can_defend_in_n(slice_index si,
       result = reflex_defender_filter_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STSelfCheckGuardDefenderFilter:
+    case STSelfCheckGuard:
       result = selfcheck_guard_can_defend_in_n(si,n,n_max_unsolvable);
       break;
 

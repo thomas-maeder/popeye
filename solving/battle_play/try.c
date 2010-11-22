@@ -111,21 +111,24 @@ stip_length_type try_solver_defend_in_n(slice_index si,
                                         stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.branch.next;
+  stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
-  
+
   if (table_length(refutations)>0)
   {
-    result = defense_defend_in_n(next,n,n_max_unsolvable);
+    defense_defend_in_n(next,n,n_max_unsolvable);
 
     are_we_solving_refutations = true;
     defense_can_defend_in_n(next,n,n_max_unsolvable);
     are_we_solving_refutations = false;
+
+    result = length+2;
   }
   else
     result = defense_defend_in_n(next,n,n_max_unsolvable);
@@ -154,7 +157,7 @@ stip_length_type try_solver_can_defend_in_n(slice_index si,
                                             stip_length_type n_max_unsolvable)
 {
   stip_length_type result;
-  slice_index const next = slices[si].u.pipe.next;
+  slice_index const next = slices[si].u.branch.next;
   stip_length_type length = slices[si].u.branch.length;
 
   TraceFunctionEntry(__func__);

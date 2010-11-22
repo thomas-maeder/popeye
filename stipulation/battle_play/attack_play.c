@@ -38,6 +38,7 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
+#include "output/plaintext/tree/reflex_attack_writer.h"
 #include "trace.h"
 
 #include <assert.h>
@@ -117,7 +118,6 @@ stip_length_type attack_has_solution_in_n(slice_index si,
     case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
-    case STSelfCheckGuardSeriesFilter:
     {
       stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
       stip_length_type const nr_moves_needed = series_has_solution_in_n(si,
@@ -143,8 +143,8 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = reflex_attacker_filter_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STSelfCheckGuardAttackerFilter:
-      result = selfcheck_guard_direct_has_solution_in_n(si,n,n_max_unsolvable);
+    case STSelfCheckGuard:
+      result = selfcheck_guard_attack_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKeepMatingGuardAttackerFilter:
@@ -197,6 +197,10 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = output_plaintext_tree_goal_writer_has_solution_in_n(si,
                                                                    n,
                                                                    n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeReflexAttackWriter:
+      result = reflex_attack_writer_has_solution_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:
@@ -352,7 +356,6 @@ stip_length_type attack_solve_in_n(slice_index si,
     case STSeriesMove:
     case STSeriesHashed:
     case STSeriesFork:
-    case STSelfCheckGuardSeriesFilter:
     {
       stip_length_type const n_ser = n+slack_length_series-slack_length_battle;
       stip_length_type nr_moves_needed = series_solve_in_n(si,n_ser);
@@ -377,8 +380,8 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = reflex_attacker_filter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STSelfCheckGuardAttackerFilter:
-      result = selfcheck_guard_solve_in_n(si,n,n_max_unsolvable);
+    case STSelfCheckGuard:
+      result = selfcheck_guard_attack_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKeepMatingGuardAttackerFilter:
@@ -419,6 +422,10 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = output_plaintext_tree_goal_writer_solve_in_n(si,
                                                             n,
                                                             n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeReflexAttackWriter:
+      result = reflex_attack_writer_solve_in_n(si,n,n_max_unsolvable);
       break;
 
     case STKillerMoveCollector:

@@ -162,7 +162,6 @@ has_solution_type slice_solve(slice_index si)
     case STAttackMoveToGoal:
     case STAttackHashed:
     case STSelfDefense:
-    case STSelfCheckGuardAttackerFilter:
     case STRefutingVariationWriter:
     case STReflexAttackerFilter:
     case STDegenerateTree:
@@ -180,7 +179,6 @@ has_solution_type slice_solve(slice_index si)
       result = defense_root_solve(si);
       break;
 
-    case STSelfCheckGuardDefenderFilter:
     case STSolutionSolver:
     case STContinuationSolver:
     case STTrySolver:
@@ -208,7 +206,6 @@ has_solution_type slice_solve(slice_index si)
     case STHelpMoveToGoal:
     case STHelpFork:
     case STHelpHashed:
-    case STSelfCheckGuardHelpFilter:
     case STStopOnShortSolutionsHelpFilter:
     case STCounterMateHelpFilter:
     case STDoubleMateHelpFilter:
@@ -221,7 +218,6 @@ has_solution_type slice_solve(slice_index si)
       result = series_root_solve(si);
       break;
 
-    case STSelfCheckGuardSeriesFilter:
     case STSeriesMove:
     case STSeriesMoveToGoal:
     case STSeriesFork:
@@ -256,11 +252,7 @@ has_solution_type slice_solve(slice_index si)
       result = move_inverter_solve(si);
       break;
 
-    case STSelfCheckGuardRootSolvableFilter:
-      result = selfcheck_guard_root_solve(si);
-      break;
-
-    case STSelfCheckGuardSolvableFilter:
+    case STSelfCheckGuard:
       result = selfcheck_guard_solve(si);
       break;
 
@@ -483,7 +475,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STTrySolver:
     case STReadyForDefense:
     case STDefenseMove:
-    case STSelfCheckGuardDefenderFilter:
     case STEnPassantDefenderFilter:
       result = defense_can_defend(si) ? has_no_solution : has_solution;
       break;
@@ -491,7 +482,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STHelpRoot:
     case STHelpMove:
     case STHelpMoveToGoal:
-    case STSelfCheckGuardHelpFilter:
     case STHelpHashed:
     case STCounterMateHelpFilter:
     case STDoubleMateHelpFilter:
@@ -518,8 +508,7 @@ has_solution_type slice_has_solution(slice_index si)
       result = branch_fork_has_solution(si);
       break;
 
-    case STSelfCheckGuardRootSolvableFilter:
-    case STSelfCheckGuardSolvableFilter:
+    case STSelfCheckGuard:
       result = selfcheck_guard_has_solution(si);
       break;
 

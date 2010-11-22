@@ -130,12 +130,7 @@
     ENUMERATOR(STQuodlibet),       /* logical OR */                     \
     ENUMERATOR(STNot),             /* logical NOT */                    \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
-    ENUMERATOR(STSelfCheckGuardRootSolvableFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardSolvableFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardAttackerFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardDefenderFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardHelpFilter),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STSelfCheckGuardSeriesFilter),  /* stop when a side exposes its king */ \
+    ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
     ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
@@ -225,6 +220,7 @@
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
+    ENUMERATOR(STOutputPlaintextTreeReflexAttackWriter), /* write forced attack after reflex-specific refutation */  \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -341,12 +337,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_binary, /* STQuodlibet */
   slice_structure_pipe,   /* STCheckDetector */
   slice_structure_pipe,   /* STNot */
-  slice_structure_pipe,   /* STSelfCheckGuardRootSolvableFilter */
-  slice_structure_pipe,   /* STSelfCheckGuardSolvableFilter */
-  slice_structure_branch, /* STSelfCheckGuardAttackerFilter */
-  slice_structure_branch, /* STSelfCheckGuardDefenderFilter */
-  slice_structure_branch, /* STSelfCheckGuardHelpFilter */
-  slice_structure_branch, /* STSelfCheckGuardSeriesFilter */
+  slice_structure_pipe,   /* STSelfCheckGuard */
   slice_structure_pipe,   /* STMoveInverterRootSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
@@ -435,7 +426,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOutputPlaintextTreeGoalWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeMoveInversionCounter */
   slice_structure_pipe,   /* STOutputPlaintextLineMoveInversionCounter */
-  slice_structure_pipe    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  slice_structure_pipe,   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  slice_structure_pipe    /* STOutputPlaintextTreeReflexAttackWriter */
 };
 
 /* Determine whether a slice is of some structural type
@@ -1291,8 +1283,7 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STAttackMoveFiltered,               &move_to_postkey_play                          },
   { STAttackDealtWith,                  &move_to_postkey_play                          },
   { STReadyForDefense,                  &move_to_postkey_play                          },
-  { STSelfCheckGuardRootSolvableFilter, &trash_for_postkey_play                        },
-  { STSelfCheckGuardSolvableFilter,     &trash_for_postkey_play                        },
+  { STSelfCheckGuard,                   &trash_for_postkey_play                        },
   { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                        },
   { STDefenseMoveFiltered,              &trash_for_postkey_play                        },
   { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play     },
@@ -1370,7 +1361,6 @@ static structure_traversers_visitors setplay_makers[] =
   { STHelpMoveLegalityChecked,  &ready_for_help_move_make_setplay_slice          },
   { STHelpShortcut,             &stip_traverse_structure_pipe                    },
   { STSeriesFork,               &series_fork_make_setplay                        },
-  { STSelfCheckGuardHelpFilter, &selfcheck_guard_help_make_setplay_slice         },
   { STReflexDefenderFilter,     &reflex_guard_defender_filter_make_setplay_slice }
 };
 
@@ -2014,12 +2004,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_binary,          /* STQuodlibet */
   &stip_traverse_structure_pipe,            /* STCheckDetector */
   &stip_traverse_structure_pipe,            /* STNot */
-  &stip_traverse_structure_pipe,            /* STSelfCheckGuardRootSolvableFilter */
-  &stip_traverse_structure_pipe,            /* STSelfCheckGuardSolvableFilter */
-  &stip_traverse_structure_pipe,            /* STSelfCheckGuardAttackerFilter */
-  &stip_traverse_structure_pipe,            /* STSelfCheckGuardDefenderFilter */
-  &stip_traverse_structure_pipe,            /* STSelfCheckGuardHelpFilter */
-  &stip_traverse_structure_pipe,            /* STSelfCheckGuardSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
   &stip_traverse_structure_pipe,            /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSeriesFilter */
@@ -2108,7 +2093,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeMoveInversionCounter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineMoveInversionCounter */
-  &stip_traverse_structure_pipe            /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  &stip_traverse_structure_pipe,            /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+  &stip_traverse_structure_pipe             /* STOutputPlaintextTreeReflexAttackWriter */
 };
 
 /* Initialise a structure traversal structure with default visitors
@@ -2264,12 +2250,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_binary,                /* STQuodlibet */
     &stip_traverse_moves_pipe,                  /* STCheckDetector */
     &stip_traverse_moves_pipe,                  /* STNot */
-    &stip_traverse_moves_pipe,                  /* STSelfCheckGuardRootSolvableFilter */
-    &stip_traverse_moves_pipe,                  /* STSelfCheckGuardSolvableFilter */
-    &stip_traverse_moves_pipe,                  /* STSelfCheckGuardAttackerFilter */
-    &stip_traverse_moves_pipe,                  /* STSelfCheckGuardDefenderFilter */
-    &stip_traverse_moves_pipe,                  /* STSelfCheckGuardHelpFilter */
-    &stip_traverse_moves_pipe,                  /* STSelfCheckGuardSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STSelfCheckGuard */
     &stip_traverse_moves_pipe,                  /* STMoveInverterRootSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSeriesFilter */
@@ -2358,7 +2339,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeGoalWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeMoveInversionCounter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineMoveInversionCounter */
-    &stip_traverse_moves_pipe                   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+    &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
+    &stip_traverse_moves_pipe                   /* STOutputPlaintextTreeReflexAttackWriter */
   }
 };
 

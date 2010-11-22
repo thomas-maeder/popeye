@@ -1,8 +1,8 @@
 stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
-  stipulation/goals/goals.h pystip.h pypipe.h pydata.h pyselfcg.h \
-  stipulation/goals/immobile/reached_tester.h \
-  stipulation/goals/check/reached_tester.h \
-  stipulation/goals/notcheck/reached_tester.h trace.h pyenum.h
+ stipulation/goals/goals.h pystip.h pypipe.h pydata.h pyselfcg.h \
+ stipulation/goals/immobile/reached_tester.h \
+ stipulation/goals/check/reached_tester.h \
+ stipulation/goals/notcheck/reached_tester.h trace.h pyenum.h
 
 stipulation/goals/goals.h:
 
@@ -23,15 +23,15 @@ stipulation/goals/notcheck/reached_tester.h:
 trace.h:
 
 pyenum.h:
-stipulation/goals/prerequisite_guards$(OBJ_SUFFIX):  \
+stipulation/goals/prerequisite_guards$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_guards.c \
-  stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \
-  stipulation/branch.h stipulation/goals/countermate/attacker_filter.h \
-  stipulation/goals/countermate/help_filter.h \
-  stipulation/goals/countermate/series_filter.h \
-  stipulation/goals/doublemate/attacker_filter.h \
-  stipulation/goals/doublemate/help_filter.h \
-  stipulation/goals/doublemate/series_filter.h trace.h
+ stipulation/goals/prerequisite_guards.h pystip.h pypipe.h \
+ stipulation/branch.h stipulation/goals/countermate/attacker_filter.h \
+ stipulation/goals/countermate/help_filter.h \
+ stipulation/goals/countermate/series_filter.h \
+ stipulation/goals/doublemate/attacker_filter.h \
+ stipulation/goals/doublemate/help_filter.h \
+ stipulation/goals/doublemate/series_filter.h trace.h
 
 stipulation/goals/prerequisite_guards.h:
 

@@ -2062,7 +2062,6 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
     case STHelpMove:
     case STHelpMoveToGoal:
     case STHelpMovePlayed:
-    case STSelfCheckGuardHelpFilter:
     case STHelpMoveLegalityChecked:
     case STHelpMoveDealtWith:
     case STMoveInverterSolvableFilter:

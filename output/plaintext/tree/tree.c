@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -16,6 +17,7 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
+#include "output/plaintext/tree/reflex_attack_writer.h"
 #include "platform/beep.h"
 #include "trace.h"
 
@@ -31,6 +33,12 @@ typedef enum
   output_included
 } output_state_type;
 
+typedef enum
+{
+  tries_suppressed,
+  tries_included
+} tries_state_type;
+
 /* Do we have to insert an STEndOfSolutionWriter slice?
  */
 typedef enum
@@ -39,11 +47,19 @@ typedef enum
   end_of_solution_writer_inserted
 } end_of_solution_writer_insertion_state_type;
 
+typedef enum
+{
+  illegal_selfcheck_writer_not_inserted,
+  illegal_selfcheck_writer_inserted
+} illegal_selfcheck_writer_insertion_state;
+
 typedef struct
 {
     Goal reached_goal;
     output_state_type output_state;
+    tries_state_type tries_state;
     end_of_solution_writer_insertion_state_type end_state;
+    illegal_selfcheck_writer_insertion_state selfcheck_writer_state;
 } instrumentation_state;
 
 static
@@ -113,8 +129,9 @@ static void instrument_ready_for_attack(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (state->output_state!=output_suppressed
-      && state->reached_goal.type==no_goal)
+  if ((state->output_state!=output_suppressed
+       || state->tries_state==tries_included)
+       && state->reached_goal.type==no_goal)
     pipe_append(slices[si].prev,
                 alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length));
 
@@ -183,6 +200,8 @@ static void instrument_defense_move_filtered(slice_index si,
       pipe_append(si,alloc_refuting_variation_writer_slice(length,min_length));
     pipe_append(si,alloc_variation_writer_slice(length,min_length));
   }
+  else if (state->tries_state==tries_included)
+    pipe_append(si,alloc_variation_writer_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -208,11 +227,16 @@ static void instrument_continuation_solver(slice_index si,
 
 static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
 {
+  instrumentation_state * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  state->tries_state = tries_included;
   stip_traverse_structure_children(si,st);
+  state->tries_state = tries_suppressed;
+
   pipe_append(si,alloc_try_writer());
 
   TraceFunctionExit(__func__);
@@ -348,12 +372,48 @@ static void instrument_setplay_fork(slice_index si, stip_structure_traversal *st
 
 static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_traversal *st)
 {
+  instrumentation_state * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->selfcheck_writer_state==illegal_selfcheck_writer_inserted)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    state->selfcheck_writer_state = illegal_selfcheck_writer_inserted;
+    stip_traverse_structure_children(si,st);
+    state->selfcheck_writer_state = illegal_selfcheck_writer_not_inserted;
+
+    pipe_append(slices[si].prev,alloc_illegal_selfcheck_writer_slice());
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void prepend_reflex_attack_writer(slice_index si, stip_structure_traversal *st)
+{
+  instrumentation_state * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,alloc_illegal_selfcheck_writer_slice());
+
+  if (state->tries_state==tries_included)
+  {
+    slice_index const filter = branch_find_slice(STReflexAttackerFilter,si);
+    if (filter!=no_slice)
+    {
+      /* we do need output machinery in the avoided branch
+       * (cf. tree_slice_inserters) */
+      stip_traverse_structure(slices[filter].u.reflex_guard.avoided,st);
+      pipe_append(slices[si].prev,alloc_reflex_attack_writer(filter));
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -361,24 +421,28 @@ static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_trav
 
 static structure_traversers_visitors tree_slice_inserters[] =
 {
-  { STSetplayFork,                      &instrument_setplay_fork               },
-  { STGoalTargetReachedTester,          &instrument_goal_target_reached_tester },
-  { STLeaf,                             &instrument_leaf                       },
-  { STMoveInverterRootSolvableFilter,   &instrument_move_inverter              },
-  { STMoveInverterSolvableFilter,       &instrument_move_inverter              },
-  { STAttackMovePlayed,                 &instrument_attack_move_played         },
-  { STDefenseRoot,                      &instrument_defense_root               },
-  { STContinuationSolver,               &instrument_continuation_solver        },
-  { STTrySolver,                        &instrument_try_solver                 },
-  { STThreatSolver,                     &instrument_threat_solver              },
-  { STDefenseMoveFiltered,              &instrument_defense_move_filtered      },
-  { STRefutationsCollector,             &instrument_refutations_collector      },
-  { STSeriesRoot,                       &stip_structure_visitor_noop           },
-  { STDefenseDealtWith,                 &instrument_ready_for_attack           },
-  { STAttackDealtWith,                  &instrument_ready_for_defense          },
-  { STSolutionSolver,                   &activate_output                       },
-  { STPostKeyPlaySuppressor,            &suppress_output                       },
-  { STSelfCheckGuardRootSolvableFilter, &prepend_illegal_selfcheck_writer      }
+  { STSetplayFork,                    &instrument_setplay_fork               },
+  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester },
+  { STLeaf,                           &instrument_leaf                       },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter              },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter              },
+  { STAttackMovePlayed,               &instrument_attack_move_played         },
+  { STDefenseRoot,                    &instrument_defense_root               },
+  { STContinuationSolver,             &instrument_continuation_solver        },
+  { STTrySolver,                      &instrument_try_solver                 },
+  { STThreatSolver,                   &instrument_threat_solver              },
+  { STDefenseMoveFiltered,            &instrument_defense_move_filtered      },
+  { STRefutationsCollector,           &instrument_refutations_collector      },
+  { STSeriesRoot,                     &stip_structure_visitor_noop           },
+  { STDefenseDealtWith,               &instrument_ready_for_attack           },
+  { STAttackDealtWith,                &instrument_ready_for_defense          },
+  { STSolutionSolver,                 &activate_output                       },
+  { STPostKeyPlaySuppressor,          &suppress_output                       },
+  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer      },
+  { STReadyForAttack,                 &prepend_reflex_attack_writer          },
+  /* we only need output machinery in the avoided branch if we may have to
+   * write forced moves after refutations (cf. prepend_reflex_attack_writer) */
+  { STReflexAttackerFilter,           &stip_traverse_structure_pipe          }
 };
 
 enum
@@ -398,7 +462,9 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   instrumentation_state state =
       { { no_goal, initsquare },
         output_suppressed,
-        end_of_solution_writer_not_inserted
+        tries_suppressed,
+        end_of_solution_writer_not_inserted,
+        illegal_selfcheck_writer_not_inserted
       };
 
   TraceFunctionEntry(__func__);

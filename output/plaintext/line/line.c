@@ -10,10 +10,17 @@
 
 #include <assert.h>
 
+typedef enum
+{
+  illegal_selfcheck_writer_not_inserted,
+  illegal_selfcheck_writer_inserted
+} illegal_selfcheck_writer_insertion_state;
+
 typedef struct
 {
     slice_index root_slice;
     Goal goal;
+    illegal_selfcheck_writer_insertion_state selfcheck_writer_state;
 } line_slices_insertion_state;
 
 static void instrument_leaf(slice_index si, stip_structure_traversal *st)
@@ -137,12 +144,22 @@ static void instrument_series_fork(slice_index si,
 
 static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_traversal *st)
 {
+  line_slices_insertion_state * const state = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,alloc_illegal_selfcheck_writer_slice());
+  if (state->selfcheck_writer_state==illegal_selfcheck_writer_inserted)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    state->selfcheck_writer_state = illegal_selfcheck_writer_inserted;
+    stip_traverse_structure_children(si,st);
+    state->selfcheck_writer_state = illegal_selfcheck_writer_not_inserted;
+
+    pipe_append(slices[si].prev,alloc_illegal_selfcheck_writer_slice());
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -150,14 +167,14 @@ static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_trav
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,                       &instrument_series_fork                },
-  { STGoalTargetReachedTester,          &instrument_goal_target_reached_tester },
-  { STLeaf,                             &instrument_leaf                       },
-  { STMoveInverterRootSolvableFilter,   &instrument_move_inverter              },
-  { STMoveInverterSolvableFilter,       &instrument_move_inverter              },
-  { STHelpRoot,                         &instrument_root                       },
-  { STSeriesRoot,                       &instrument_root                       },
-  { STSelfCheckGuardRootSolvableFilter, &prepend_illegal_selfcheck_writer      }
+  { STSeriesFork,                     &instrument_series_fork                },
+  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester },
+  { STLeaf,                           &instrument_leaf                       },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter              },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter              },
+  { STHelpRoot,                       &instrument_root                       },
+  { STSeriesRoot,                     &instrument_root                       },
+  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer      }
 };
 
 enum
@@ -174,7 +191,10 @@ void stip_insert_output_plaintext_line_slices(slice_index si)
 {
   stip_structure_traversal st;
   SliceType type;
-  line_slices_insertion_state state = { no_slice, { no_goal, initsquare } };
+  line_slices_insertion_state state = { no_slice,
+                                        { no_goal, initsquare },
+                                        illegal_selfcheck_writer_not_inserted
+                                      };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

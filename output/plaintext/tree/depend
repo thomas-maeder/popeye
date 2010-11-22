@@ -1,6 +1,7 @@
 output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/tree.h pydata.h pymsg.h pypipe.h \
- output/plaintext/plaintext.h output/plaintext/end_of_phase_writer.h \
+ stipulation/branch.h output/plaintext/plaintext.h \
+ output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/check_writer.h \
@@ -11,7 +12,8 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/goal_writer.h \
- output/plaintext/tree/move_inversion_counter.h platform/beep.h trace.h
+ output/plaintext/tree/move_inversion_counter.h \
+ output/plaintext/tree/reflex_attack_writer.h platform/beep.h trace.h
 
 output/plaintext/tree/tree.h:
 
@@ -20,6 +22,8 @@ pydata.h:
 pymsg.h:
 
 pypipe.h:
+
+stipulation/branch.h:
 
 output/plaintext/plaintext.h:
 
@@ -48,6 +52,8 @@ output/plaintext/tree/refutation_writer.h:
 output/plaintext/tree/goal_writer.h:
 
 output/plaintext/tree/move_inversion_counter.h:
+
+output/plaintext/tree/reflex_attack_writer.h:
 
 platform/beep.h:
 
@@ -298,5 +304,17 @@ output/plaintext/tree/move_inversion_counter.h:
 pypipe.h:
 
 pyoutput.h:
+
+trace.h:
+output/plaintext/tree/reflex_attack_writer$(OBJ_SUFFIX): \
+ output/plaintext/tree/reflex_attack_writer.c \
+ output/plaintext/tree/reflex_attack_writer.h pybrafrk.h \
+ stipulation/battle_play/try.h trace.h
+
+output/plaintext/tree/reflex_attack_writer.h:
+
+pybrafrk.h:
+
+stipulation/battle_play/try.h:
 
 trace.h:

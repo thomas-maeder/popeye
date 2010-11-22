@@ -438,7 +438,7 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 
     {
       stip_length_type const min_length = slices[si].u.branch.min_length;
-      slice_index const enforcer = branch_find_slice(STDefenseDealtWith,si);
+      slice_index const enforcer = branch_find_slice(STReadyForAttack,si);
       assert(enforcer!=no_slice);
       pipe_append(si,alloc_threat_solver_slice(length,min_length,enforcer));
     }

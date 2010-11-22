@@ -61,7 +61,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
     case STSeriesFork:
     case STSeriesMove:
     case STSeriesHashed:
-    case STSelfCheckGuardSeriesFilter:
     {
       stip_length_type const n_series = n-slack_length_help+slack_length_series;
       stip_length_type const length = series_solve_in_n(si,n_series);
@@ -83,7 +82,6 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
     case STVariationWriter:
     case STSelfDefense:
     case STReflexAttackerFilter:
-    case STSelfCheckGuardAttackerFilter:
     case STKillerMoveCollector:
     {
       stip_length_type const nbattle = n+slack_length_battle-slack_length_help;
@@ -137,7 +135,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
       result = goalreachable_guard_help_solve_in_n(si,n);
       break;
 
-    case STSelfCheckGuardHelpFilter:
+    case STSelfCheckGuard:
       result = selfcheck_guard_help_solve_in_n(si,n);
       break;
 
@@ -172,7 +170,7 @@ stip_length_type help_solve_in_n(slice_index si, stip_length_type n)
     case STCastlingHelpFilter:
       result = castling_help_filter_solve_in_n(si,n);
       break;
-      
+
     default:
       assert(n=slack_length_help);
       switch (slice_solve(si))
@@ -289,7 +287,7 @@ stip_length_type help_has_solution_in_n(slice_index si, stip_length_type n)
       result = goalreachable_guard_help_has_solution_in_n(si,n);
       break;
 
-    case STSelfCheckGuardHelpFilter:
+    case STSelfCheckGuard:
       result = selfcheck_guard_help_has_solution_in_n(si,n);
       break;
 

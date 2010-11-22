@@ -277,10 +277,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STKillerMoveCollector:
       case STKillerMoveFinalDefenseMove:
       case STRefutationsCollector:
-      case STSelfCheckGuardAttackerFilter:
-      case STSelfCheckGuardDefenderFilter:
-      case STSelfCheckGuardHelpFilter:
-      case STSelfCheckGuardSeriesFilter:
       case STVariationWriter:
       case STRefutingVariationWriter:
       case STAttackHashed:
@@ -350,8 +346,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
                                   done_slices);
         break;
 
-      case STSelfCheckGuardRootSolvableFilter:
-      case STSelfCheckGuardSolvableFilter:
+      case STSelfCheckGuard:
       case STProxy:
       case STMoveInverterRootSolvableFilter:
       case STMoveInverterSolvableFilter:
@@ -467,6 +462,7 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReflexSeriesFilter:
       case STReflexAttackerFilter:
       case STReflexDefenderFilter:
+      case STOutputPlaintextTreeReflexAttackWriter:
         Trace_branch(si);
         Trace_link("avoided:",slices[si].u.reflex_guard.avoided,"");
         fprintf(stdout,"\n");
