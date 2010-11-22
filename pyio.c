@@ -5040,11 +5040,6 @@ static char *ParseOpt(slice_index root_slice_hook)
         OptFlag[solvariantes]= true;
         break;
 
-      case quodlibet:
-        if (!transform_to_quodlibet(root_slice_hook))
-          Message(QuodlibetNotApplicable);
-        break;
-
       case nocastling:
         no_castling= bl_castlings|wh_castlings;
         ReadSquares(ReadNoCastlingSquares);

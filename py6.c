@@ -2714,6 +2714,9 @@ static Token iterate_twins(Token prev_token)
 
     if (prev_template!=slices[template_slice_hook].u.pipe.next)
     {
+      if (OptFlag[quodlibet] && !transform_to_quodlibet(template_slice_hook))
+        Message(QuodlibetNotApplicable);
+
       if (OptFlag[whitetoplay] && !apply_whitetoplay(template_slice_hook))
         Message(WhiteToPlayNotApplicable);
 
