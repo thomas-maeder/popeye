@@ -568,6 +568,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.
  stipulation/battle_play/continuation.h stipulation/battle_play/try.h \
  pytable.h stipulation/series_play/branch.h \
  stipulation/series_play/move.h stipulation/series_play/parry_fork.h \
+ stipulation/battle_play/ready_for_attack.h \
  stipulation/help_play/branch.h conditions/republican.h pyproc.h \
  optimisations/maxsolutions/maxsolutions.h \
  optimisations/stoponshortsolutions/stoponshortsolutions.h \
@@ -728,6 +729,8 @@ stipulation/series_play/branch.h:
 stipulation/series_play/move.h:
 
 stipulation/series_play/parry_fork.h:
+
+stipulation/battle_play/ready_for_attack.h:
 
 stipulation/help_play/branch.h:
 

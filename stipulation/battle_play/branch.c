@@ -45,16 +45,19 @@ slice_index alloc_attack_branch(stip_length_type length,
 /* Allocate a branch consisting mainly of an defense move
  * @param  length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
+ * @param next identifies slice where the defense branch leads to
  * @return index of entry slice to allocated branch
  */
 slice_index alloc_defense_branch(stip_length_type length,
-                                 stip_length_type min_length)
+                                 stip_length_type min_length,
+                                 slice_index next)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",length);
   TraceFunctionParam("%u",min_length);
+  TraceFunctionParam("%u",next);
   TraceFunctionParamListEnd();
 
   {
@@ -72,15 +75,13 @@ slice_index alloc_defense_branch(stip_length_type length,
                                                length-1,min_length-1);
     slice_index const ddealt = alloc_branch(STDefenseDealtWith,
                                             length-1,min_length-1);
-    slice_index const aready = alloc_ready_for_attack_slice(length-1,
-                                                            min_length-1);
     pipe_link(dready,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
     pipe_link(dshoehorned,dchecked);
     pipe_link(dchecked,dfiltered);
     pipe_link(dfiltered,ddealt);
-    pipe_link(ddealt,aready);
+    pipe_link(ddealt,next);
 
     result = dready;
   }
