@@ -35,3 +35,14 @@ stipulation/setplay_fork.h:
 pybrafrk.h:
 
 trace.h:
+stipulation/reflex_attack_solver$(OBJ_SUFFIX): stipulation/reflex_attack_solver.c \
+ stipulation/reflex_attack_solver.h pybrafrk.h \
+ stipulation/battle_play/try.h trace.h
+
+stipulation/reflex_attack_solver.h:
+
+pybrafrk.h:
+
+stipulation/battle_play/try.h:
+
+trace.h:

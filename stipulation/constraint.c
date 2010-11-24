@@ -1,5 +1,6 @@
 #include "pyreflxg.h"
 #include "stipulation/branch.h"
+#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/branch.h"
@@ -116,27 +117,11 @@ static slice_index alloc_reflex_attacker_filter(stip_length_type length,
 void reflex_attacker_filter_make_root(slice_index si,
                                       stip_structure_traversal *st)
 {
-  root_insertion_state_type * const state = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index guard;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(avoided,st);
-  guard = alloc_reflex_root_filter(state->result);
-
   stip_traverse_structure_pipe(si,st);
-  pipe_link(guard,state->result);
-  state->result = guard;
-
-  if (slices[si].u.pipe.next==no_slice)
-  {
-    if (slices[si].prev!=no_slice)
-      pipe_unlink(slices[si].prev);
-    dealloc_slice(si);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -827,9 +812,10 @@ static void reflex_guards_inserter_attack(slice_index si,
   {
     stip_length_type const idx = (length-slack_length_battle-1)%2;
     slice_index const proxy_to_avoided = param->to_be_avoided[idx];
-    pipe_append(si,
-                alloc_reflex_attacker_filter(length,min_length,
-                                             proxy_to_avoided));
+    slice_index const filter = alloc_reflex_attacker_filter(length,min_length,
+                                                            proxy_to_avoided);
+    pipe_append(si,filter);
+    pipe_append(slices[si].prev,alloc_reflex_attack_solver(proxy_to_avoided));
   }
 
   TraceFunctionExit(__func__);

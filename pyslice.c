@@ -3,6 +3,7 @@
 #include "trace.h"
 #include "stipulation/leaf.h"
 #include "stipulation/setplay_fork.h"
+#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/attack_root.h"
 #include "stipulation/battle_play/defense_play.h"
@@ -244,6 +245,10 @@ has_solution_type slice_solve(slice_index si)
       result = reflex_root_filter_solve(si);
       break;
 
+    case STStipulationReflexAttackSolver:
+      result = reflex_attack_solver_solve(si);
+      break;
+
     case STMoveInverterRootSolvableFilter:
       result = move_inverter_root_solve(si);
       break;
@@ -447,6 +452,10 @@ has_solution_type slice_has_solution(slice_index si)
 
     case STNot:
       result = not_has_solution(si);
+      break;
+
+    case STStipulationReflexAttackSolver:
+      result = reflex_attack_solver_has_solution(si);
       break;
 
     case STAttackRoot:

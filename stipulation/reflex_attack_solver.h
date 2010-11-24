@@ -1,16 +1,38 @@
-#if !defined(OUTPUT_PLAINTEXT_TREE_REFLEX_ATTACK_WRITER_H)
-#define OUTPUT_PLAINTEXT_TREE_REFLEX_ATTACK_WRITER_H
+#if !defined(STIPULATION_REFLEX_ATTACK_SOLVER_H)
+#define STIPULATION_REFLEX_ATTACK_SOLVER_H
 
-/* In reflex stipulations, write attacks forced by reflex-specific refutations.
+/* In reflex stipulations, find forced (in the diagram or by reflex-specific
+ * refutations) attacks
  */
 
+#include "pyslice.h"
 #include "stipulation/battle_play/attack_play.h"
 
-/* Allocate a STOutputPlaintextTreeReflexAttackWriter slice
+/* Allocate a STStipulationReflexAttackSolver slice
  * @param avoided prototype of slice that must not be solvable
  * @return index of allocated slice
  */
-slice_index alloc_reflex_attack_writer(slice_index avoided);
+slice_index alloc_reflex_attack_solver(slice_index avoided);
+
+/* Find the first postkey slice and deallocate unused slices on the
+ * way to it
+ * @param si slice index
+ * @param st address of structure capturing traversal state
+ */
+void reflex_attack_solver_reduce_to_postkey_play(slice_index si,
+                                                 stip_structure_traversal *st);
+
+/* Solve a slice
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type reflex_attack_solver_solve(slice_index si);
+
+/* Determine whether a slice has a solution
+ * @param si slice index
+ * @return whether there is a solution and (to some extent) why not
+ */
+has_solution_type reflex_attack_solver_has_solution(slice_index si);
 
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
@@ -23,7 +45,7 @@ slice_index alloc_reflex_attack_writer(slice_index avoided);
  *            n+2 no solution found
  */
 stip_length_type
-reflex_attack_writer_solve_in_n(slice_index si,
+reflex_attack_solver_solve_in_n(slice_index si,
                                 stip_length_type n,
                                 stip_length_type n_max_unsolvable);
 
@@ -38,7 +60,7 @@ reflex_attack_writer_solve_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-reflex_attack_writer_has_solution_in_n(slice_index si,
+reflex_attack_solver_has_solution_in_n(slice_index si,
                                        stip_length_type n,
                                        stip_length_type n_max_unsolvable);
 

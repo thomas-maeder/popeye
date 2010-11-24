@@ -18,6 +18,7 @@
 #include "stipulation/leaf.h"
 #include "stipulation/branch.h"
 #include "stipulation/setplay_fork.h"
+#include "stipulation/reflex_attack_solver.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/fork.h"
 #include "stipulation/battle_play/defense_move.h"
@@ -134,6 +135,7 @@
     ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
+    ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
     ENUMERATOR(STSolutionSolver), /* solves battle play solutions */ \
@@ -220,7 +222,6 @@
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
-    ENUMERATOR(STOutputPlaintextTreeReflexAttackWriter), /* write forced attack after reflex-specific refutation */  \
     ENUMERATOR(nr_slice_types),                                         \
     ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
@@ -341,6 +342,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STMoveInverterRootSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
+  slice_structure_fork,   /* STStipulationReflexAttackSolver */
   slice_structure_branch, /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
   slice_structure_branch, /* STSolutionSolver */
@@ -426,8 +428,7 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STOutputPlaintextTreeGoalWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeMoveInversionCounter */
   slice_structure_pipe,   /* STOutputPlaintextLineMoveInversionCounter */
-  slice_structure_pipe,   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-  slice_structure_pipe    /* STOutputPlaintextTreeReflexAttackWriter */
+  slice_structure_pipe    /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Determine whether a slice is of some structural type
@@ -1273,22 +1274,23 @@ static void move_to_postkey_play(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors to_postkey_play_reducers[] =
 {
-  { STDefenseMove,                      &defense_move_reduce_to_postkey_play           },
-  { STReadyForAttack,                   &trash_for_postkey_play                        },
-  { STRootAttackFork,                   &root_attack_fork_reduce_to_postkey_play       },
-  { STAttackRoot,                       &trash_for_postkey_play                        },
-  { STAttackMovePlayed,                 &trash_for_postkey_play                        },
-  { STAttackMoveShoeHorningDone,        &trash_for_postkey_play                        },
-  { STAttackMoveLegalityChecked,        &move_to_postkey_play                          },
-  { STAttackMoveFiltered,               &move_to_postkey_play                          },
-  { STAttackDealtWith,                  &move_to_postkey_play                          },
-  { STReadyForDefense,                  &move_to_postkey_play                          },
-  { STSelfCheckGuard,                   &trash_for_postkey_play                        },
-  { STDefenseMoveLegalityChecked,       &trash_for_postkey_play                        },
-  { STDefenseMoveFiltered,              &trash_for_postkey_play                        },
-  { STReflexRootFilter,                 &reflex_root_filter_reduce_to_postkey_play     },
-  { STReflexDefenderFilter,             &reflex_defender_filter_reduce_to_postkey_play },
-  { STDefenseDealtWith,                 &ready_for_attack_reduce_to_postkey_play       }
+  { STDefenseMove,                           &defense_move_reduce_to_postkey_play           },
+  { STReadyForAttack,                        &trash_for_postkey_play                        },
+  { STRootAttackFork,                        &root_attack_fork_reduce_to_postkey_play       },
+  { STAttackRoot,                            &trash_for_postkey_play                        },
+  { STAttackMovePlayed,                      &trash_for_postkey_play                        },
+  { STAttackMoveShoeHorningDone,             &trash_for_postkey_play                        },
+  { STAttackMoveLegalityChecked,             &move_to_postkey_play                          },
+  { STAttackMoveFiltered,                    &move_to_postkey_play                          },
+  { STAttackDealtWith,                       &move_to_postkey_play                          },
+  { STReadyForDefense,                       &move_to_postkey_play                          },
+  { STSelfCheckGuard,                        &trash_for_postkey_play                        },
+  { STDefenseMoveLegalityChecked,            &trash_for_postkey_play                        },
+  { STDefenseMoveFiltered,                   &trash_for_postkey_play                        },
+  { STStipulationReflexAttackSolver,         &reflex_attack_solver_reduce_to_postkey_play   },
+  { STReflexRootFilter,                      &reflex_root_filter_reduce_to_postkey_play     },
+  { STReflexDefenderFilter,                  &reflex_defender_filter_reduce_to_postkey_play },
+  { STDefenseDealtWith,                      &ready_for_attack_reduce_to_postkey_play       }
 };
 
 enum
@@ -2008,6 +2010,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSeriesFilter */
+  &stip_traverse_structure_pipe,            /* STStipulationReflexAttackSolver */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
   &stip_traverse_structure_pipe,            /* STSolutionSolver */
@@ -2093,8 +2096,7 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeMoveInversionCounter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineMoveInversionCounter */
-  &stip_traverse_structure_pipe,            /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-  &stip_traverse_structure_pipe             /* STOutputPlaintextTreeReflexAttackWriter */
+  &stip_traverse_structure_pipe             /* STOutputPlaintextLineEndOfIntroSeriesMarker */
 };
 
 /* Initialise a structure traversal structure with default visitors
@@ -2254,6 +2256,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STMoveInverterRootSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSeriesFilter */
+    &stip_traverse_moves_pipe,                  /* STStipulationReflexAttackSolver */
     &stip_traverse_moves_pipe,                  /* STTrySolver */
     &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */
     &stip_traverse_moves_pipe,                  /* STSolutionSolver */
@@ -2339,8 +2342,7 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeGoalWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeMoveInversionCounter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineMoveInversionCounter */
-    &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineEndOfIntroSeriesMarker */
-    &stip_traverse_moves_pipe                   /* STOutputPlaintextTreeReflexAttackWriter */
+    &stip_traverse_moves_pipe                   /* STOutputPlaintextLineEndOfIntroSeriesMarker */
   }
 };
 

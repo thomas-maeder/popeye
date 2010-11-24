@@ -462,11 +462,16 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReflexSeriesFilter:
       case STReflexAttackerFilter:
       case STReflexDefenderFilter:
-      case STOutputPlaintextTreeReflexAttackWriter:
         Trace_branch(si);
         Trace_link("avoided:",slices[si].u.reflex_guard.avoided,"");
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.reflex_guard.avoided,done_slices);
+        TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
+        break;
+
+      case STStipulationReflexAttackSolver:
+        Trace_pipe(si);
+        fprintf(stdout,"avoided:%u\n",slices[si].u.reflex_guard.avoided);
         TraceStipulationRecursive(slices[si].u.reflex_guard.next,done_slices);
         break;
 

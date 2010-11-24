@@ -17,7 +17,6 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/goal_writer.h"
 #include "output/plaintext/tree/move_inversion_counter.h"
-#include "output/plaintext/tree/reflex_attack_writer.h"
 #include "platform/beep.h"
 #include "trace.h"
 
@@ -393,32 +392,6 @@ static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_trav
   TraceFunctionResultEnd();
 }
 
-static void prepend_reflex_attack_writer(slice_index si, stip_structure_traversal *st)
-{
-  instrumentation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (state->tries_state==tries_included)
-  {
-    slice_index const filter = branch_find_slice(STReflexAttackerFilter,si);
-    if (filter!=no_slice)
-    {
-      /* we do need output machinery in the avoided branch
-       * (cf. tree_slice_inserters) */
-      stip_traverse_structure(slices[filter].u.reflex_guard.avoided,st);
-      pipe_append(slices[si].prev,alloc_reflex_attack_writer(filter));
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors tree_slice_inserters[] =
 {
   { STSetplayFork,                    &instrument_setplay_fork               },
@@ -438,11 +411,7 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STAttackDealtWith,                &instrument_ready_for_defense          },
   { STSolutionSolver,                 &activate_output                       },
   { STPostKeyPlaySuppressor,          &suppress_output                       },
-  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer      },
-  { STReadyForAttack,                 &prepend_reflex_attack_writer          },
-  /* we only need output machinery in the avoided branch if we may have to
-   * write forced moves after refutations (cf. prepend_reflex_attack_writer) */
-  { STReflexAttackerFilter,           &stip_traverse_structure_pipe          }
+  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer      }
 };
 
 enum
