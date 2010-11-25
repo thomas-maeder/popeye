@@ -21,31 +21,6 @@
 /* **************** Initialisation ***************
  */
 
-/* Allocate a STReflexRootFilter slice
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @param proxy_to_goal identifies slice that leads towards goal from
- *                      the branch
- * @param proxy_to_avoided prototype of slice that must not be solvable
- * @return index of allocated slice
- */
-static slice_index alloc_reflex_root_filter(slice_index proxy_to_avoided)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",proxy_to_avoided);
-  TraceFunctionParamListEnd();
-
-  /* ab(use) the fact that .avoided and .towards_goal are collocated */
-  result = alloc_branch_fork(STReflexRootFilter,0,0,proxy_to_avoided);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STReflexHelpFilter slice
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
@@ -200,31 +175,6 @@ reflex_attacker_filter_has_solution_in_n(slice_index si,
   return result;
 }
 
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-has_solution_type reflex_root_filter_solve(slice_index si)
-{
-  has_solution_type result;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index const next = slices[si].u.pipe.next;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (slice_solve(avoided)==has_solution)
-    result = slice_solve(next);
-  else
-    result = has_no_solution;
-
-  TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -275,45 +225,6 @@ reflex_attacker_filter_solve_in_n(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
-void reflex_root_filter_reduce_to_postkey_play(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  slice_index *postkey_slice = st->param;
-  slice_index const avoided = slices[si].u.reflex_guard.avoided;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_pipe(si,st);
-
-  if (*postkey_slice!=no_slice)
-  {
-    dealloc_slices(avoided);
-    dealloc_slice(si);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Traverse the moves beyond a reflex root filter
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_moves_reflex_root_filter(slice_index si,
-                                            stip_moves_traversal *st)
-{
-  stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves(slices[si].u.reflex_guard.avoided,st);
-}
-
 
 /* **************** Implementation of interface defender_filter **********
  */
@@ -531,17 +442,17 @@ void reflex_help_filter_make_root(slice_index si, stip_structure_traversal *st)
 {
   root_insertion_state_type * const state = st->param;
   slice_index const avoided = slices[si].u.reflex_guard.avoided;
-  slice_index guard;
+  slice_index solver;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  guard = alloc_reflex_root_filter(avoided);
+  solver = alloc_reflex_attack_solver(avoided);
 
   stip_traverse_structure_pipe(si,st);
-  pipe_link(guard,state->result);
-  state->result = guard;
+  pipe_link(solver,state->result);
+  state->result = solver;
 
   if (slices[si].u.pipe.next==no_slice)
   {
@@ -675,9 +586,9 @@ void reflex_series_filter_make_root(slice_index si,
   stip_traverse_structure_pipe(si,st);
 
   {
-    slice_index const guard = alloc_reflex_root_filter(avoided);
-    pipe_link(guard,state->result);
-    state->result = guard;
+    slice_index const solver = alloc_reflex_attack_solver(avoided);
+    pipe_link(solver,state->result);
+    state->result = solver;
   }
 
   if (slices[si].u.pipe.next==no_slice)

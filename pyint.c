@@ -3386,7 +3386,6 @@ static structure_traversers_visitors intelligent_mode_support_detectors[] =
   { STAttackRoot,                       &intelligent_mode_support_none                                },
   { STThreatEnforcer,                   &intelligent_mode_support_none                                },
   { STRefutationsCollector,             &intelligent_mode_support_none                                },
-  { STReflexRootFilter,                 &intelligent_mode_support_none                                },
   { STReflexHelpFilter,                 &intelligent_mode_support_none                                },
   { STReflexSeriesFilter,               &intelligent_mode_support_none                                },
   { STSelfDefense,                      &intelligent_mode_support_none                                },

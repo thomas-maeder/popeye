@@ -105,7 +105,7 @@ static void output_mode_binary(slice_index si, stip_structure_traversal *st)
   mode2 = *mode;
 
   *mode = mode2==output_mode_none ? mode1 : mode2;
-  
+
   TraceEnumerator(output_mode,*mode,"\n");
 
   TraceFunctionExit(__func__);
@@ -138,7 +138,6 @@ static structure_traversers_visitors output_mode_detectors[] =
   { STQuodlibet,                      &output_mode_binary           },
   { STAttackRoot,                     &output_mode_treemode         },
   { STDefenseRoot,                    &output_mode_treemode         },
-  { STReflexRootFilter,               &stip_traverse_structure_pipe },
   { STReflexHelpFilter,               &stip_traverse_structure_pipe },
   { STReflexSeriesFilter,             &stip_traverse_structure_pipe },
   { STReflexAttackerFilter,           &output_mode_treemode         },

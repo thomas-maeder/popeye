@@ -62,7 +62,6 @@
     ENUMERATOR(STAttackFindShortest),                                   \
     ENUMERATOR(STDefenseRoot),      /* root defense level of battle play */ \
     ENUMERATOR(STDefenseMove),                                          \
-    ENUMERATOR(STReflexRootFilter),/* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexAttackerFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STReflexDefenderFilter),  /* stop when wrong side can reach goal */ \
     ENUMERATOR(STSelfDefense),     /* self play, just played defense */ \
@@ -269,7 +268,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STAttackFindShortest */
   slice_structure_branch, /* STDefenseRoot */
   slice_structure_branch, /* STDefenseMove */
-  slice_structure_fork,   /* STReflexRootFilter */
   slice_structure_fork,   /* STReflexAttackerFilter */
   slice_structure_fork,   /* STReflexDefenderFilter */
   slice_structure_fork,   /* STSelfDefense */
@@ -1288,7 +1286,6 @@ static structure_traversers_visitors to_postkey_play_reducers[] =
   { STDefenseMoveLegalityChecked,            &trash_for_postkey_play                        },
   { STDefenseMoveFiltered,                   &trash_for_postkey_play                        },
   { STStipulationReflexAttackSolver,         &reflex_attack_solver_reduce_to_postkey_play   },
-  { STReflexRootFilter,                      &reflex_root_filter_reduce_to_postkey_play     },
   { STReflexDefenderFilter,                  &reflex_defender_filter_reduce_to_postkey_play },
   { STDefenseDealtWith,                      &ready_for_attack_reduce_to_postkey_play       }
 };
@@ -1937,7 +1934,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STAttackFindShortest */
   &stip_traverse_structure_pipe,            /* STDefenseRoot */
   &stip_traverse_structure_pipe,            /* STDefenseMove */
-  &stip_traverse_structure_reflex_filter,   /* STReflexRootFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexAttackerFilter */
   &stip_traverse_structure_reflex_filter,   /* STReflexDefenderFilter */
   &stip_traverse_structure_battle_fork,     /* STSelfDefense */
@@ -2183,7 +2179,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_branch_slice,          /* STAttackFindShortest */
     &stip_traverse_moves_branch_slice,          /* STDefenseRoot */
     &stip_traverse_moves_move_slice,            /* STDefenseMove */
-    &stip_traverse_moves_reflex_root_filter,    /* STReflexRootFilter */
     &stip_traverse_moves_reflex_attack_filter,  /* STReflexAttackerFilter */
     &stip_traverse_moves_battle_fork,           /* STReflexDefenderFilter */
     &stip_traverse_moves_battle_fork,           /* STSelfDefense */

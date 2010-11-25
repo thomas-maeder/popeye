@@ -9,12 +9,6 @@
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 
-/* Solve a slice
- * @param si slice index
- * @return true iff >=1 solution was found
- */
-has_solution_type reflex_root_filter_solve(slice_index si);
-
 /* Try to solve in n half-moves after a defense.
  * @param si slice index
  * @param n maximum number of half moves until goal
@@ -145,26 +139,11 @@ void reflex_defender_filter_apply_setplay(slice_index si,
  * @param si slice index
  * @param st address of structure capturing traversal state
  */
-void reflex_root_filter_reduce_to_postkey_play(slice_index si,
-                                               stip_structure_traversal *st);
-
-/* Traverse the moves beyond a reflex root filter
- * @param branch root slice of subtree
- * @param st address of structure defining traversal
- */
-void stip_traverse_moves_reflex_root_filter(slice_index branch,
-                                            stip_moves_traversal *st);
-
-/* Find the first postkey slice and deallocate unused slices on the
- * way to it
- * @param si slice index
- * @param st address of structure capturing traversal state
- */
 void reflex_defender_filter_reduce_to_postkey_play(slice_index si,
                                                    stip_structure_traversal *st);
 
 /* Instrument a branch with STReflex* slices for a (non-semi)
- * reflex stipulation 
+ * reflex stipulation
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided_attack identifies branch that the
  *                                attacker attempts to avoid
@@ -176,7 +155,7 @@ void slice_insert_reflex_filters(slice_index si,
                                  slice_index proxy_to_avoided_defense);
 
 /* Instrument a branch with STReflexGuard slices for a semi-reflex
- * stipulation 
+ * stipulation
  * @param si root of branch to be instrumented
  * @param proxy_to_avoided identifies what branch needs to be guarded from
  */
@@ -190,7 +169,7 @@ void slice_insert_reflex_filters_semi(slice_index si,
 void reflex_attacker_filter_make_root(slice_index si,
                                       stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a reflex attacker filter slice 
+/* Traversal of the moves beyond a reflex attacker filter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
@@ -211,7 +190,7 @@ void reflex_help_filter_make_root(slice_index si,
 void reflex_series_filter_make_root(slice_index si,
                                       stip_structure_traversal *st);
 
-/* Traversal of the moves beyond a reflex attacker filter slice 
+/* Traversal of the moves beyond a reflex attacker filter slice
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */

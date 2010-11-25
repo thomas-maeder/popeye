@@ -457,7 +457,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.binary.op2,done_slices);
         break;
 
-      case STReflexRootFilter:
       case STReflexHelpFilter:
       case STReflexSeriesFilter:
       case STReflexAttackerFilter:

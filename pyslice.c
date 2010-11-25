@@ -241,10 +241,6 @@ has_solution_type slice_solve(slice_index si)
       result = not_solve(si);
       break;
 
-    case STReflexRootFilter:
-      result = reflex_root_filter_solve(si);
-      break;
-
     case STStipulationReflexAttackSolver:
       result = reflex_attack_solver_solve(si);
       break;
