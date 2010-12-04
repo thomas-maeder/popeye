@@ -2729,8 +2729,6 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
 
-      stip_insert_selfcheck_guards(template_slice_hook);
-
       stip_insert_continuation_handlers(template_slice_hook);
 
       stip_insert_check_detectors(template_slice_hook);
@@ -2795,12 +2793,6 @@ static Token iterate_twins(Token prev_token)
       Side const starter = slices[template].starter;
       stip_impose_starter(root_slice,starter);
 
-      /* Only now - the behavior of some output slices depends on the
-       * starter of the root slice. Initialising them here allows them
-       * to store a reference.
-       */
-      stip_insert_output_slices(root_slice);
-
       /* only now that we can find out which side's pieces to keep */
       if (OptFlag[keepmating])
         stip_insert_keepmating_guards(root_slice);
@@ -2837,6 +2829,10 @@ static Token iterate_twins(Token prev_token)
       stip_insert_goal_optimisation_guards(root_slice);
 
       stip_flesh_out_goal_testers(root_slice);
+
+      stip_insert_selfcheck_guards(root_slice);
+
+      stip_insert_output_slices(root_slice);
 
       resolve_proxies(&root_slice);
 

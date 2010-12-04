@@ -7,6 +7,101 @@
 
 #include <assert.h>
 
+/* Order in which the slice types dealing with help moves appear
+ * STHelpFork is not mentioned because it has a variable rank.
+ */
+static slice_index const help_slice_rank_order[] =
+{
+  STReadyForHelpMove,
+  STHelpHashed,
+  STEnPassantHelpFilter,
+  STCastlingHelpFilter,
+  STHelpMove,
+  STHelpMoveToGoal,
+  STMaxTimeHelpFilter,
+  STMaxSolutionsHelpFilter,
+  STStopOnShortSolutionsHelpFilter,
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STCirceSteingewinnFilter,
+  STGoalReachableGuardHelpFilter,
+  STHelpMovePlayed,
+  STSelfCheckGuard,
+  STHelpMoveLegalityChecked,
+  STHelpMoveDealtWith
+};
+
+enum
+{
+  nr_help_slice_rank_order_elmts = (sizeof help_slice_rank_order
+                                    / sizeof help_slice_rank_order[0])
+};
+
+/* Determine the rank of a help slice type
+ * @param type help slice type
+ * @return rank of type; nr_help_slice_rank_order_elmts if the rank can't
+ *         be determined
+ */
+static unsigned int get_help_slice_rank(SliceType type)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  if (type==STHelpFork)
+    result = 0;
+  else
+    for (result = 0; result!=nr_help_slice_rank_order_elmts; ++result)
+      if (help_slice_rank_order[result]==type)
+        break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine the position where to insert a slice into an help branch.
+ * @param si entry slice of help branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_help_slice_insertion_pos(slice_index si, SliceType type)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank_type = get_help_slice_rank(type);
+    assert(rank_type!=nr_help_slice_rank_order_elmts);
+    while (true)
+    {
+      unsigned int const rank = get_help_slice_rank(slices[si].type);
+      if (rank==nr_help_slice_rank_order_elmts)
+        break;
+      else if (rank>rank_type)
+      {
+        result = si;
+        break;
+      }
+      else
+        si = slices[si].u.pipe.next;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Shorten a help slice by 2 half moves
  * @param si identifies slice to be shortened
  */

@@ -42,4 +42,12 @@ void help_branch_set_next_slice(slice_index si,
                                 stip_length_type n,
                                 slice_index next);
 
+/* Determine the position where to insert a slice into an help branch.
+ * @param si entry slice of help branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_help_slice_insertion_pos(slice_index si, SliceType type);
+
 #endif

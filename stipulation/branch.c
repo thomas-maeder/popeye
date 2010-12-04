@@ -3,6 +3,203 @@
 #include "pypipe.h"
 #include "trace.h"
 
+#include <assert.h>
+
+/* Order in which the slice types at the root appear
+ */
+static slice_index const root_slice_rank_order[] =
+{
+  STProxy,
+  STSetplayFork,
+  STMoveInverterRootSolvableFilter,
+  STMoveInverterSolvableFilter,
+  STReflexAttackerFilter,
+  STReflexDefenderFilter,
+  STReadyForAttack,
+  STReadyForDefense,
+  STReadyForHelpMove,
+  STReadyForSeriesMove,
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STCirceSteingewinnFilter,
+  STSelfCheckGuard,
+  STAttackMoveLegalityChecked,
+  STDefenseMoveLegalityChecked,
+  STHelpMoveLegalityChecked,
+  STSeriesMoveLegalityChecked
+};
+
+enum
+{
+  nr_root_slice_rank_order_elmts = (sizeof root_slice_rank_order
+                                    / sizeof root_slice_rank_order[0])
+};
+
+/* Determine the rank of a slice type
+ * @param type defense slice type
+ * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
+ *         be determined
+ */
+static unsigned int get_root_slice_rank(SliceType type)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  for (result = 0; result!=nr_root_slice_rank_order_elmts; ++result)
+    if (root_slice_rank_order[result]==type)
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine the position where to insert a slice from the root.
+ * @param si entry slice of defense branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_root_slice_insertion_pos(slice_index si, SliceType type)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank_type = get_root_slice_rank(type);
+    assert(rank_type!=nr_root_slice_rank_order_elmts);
+    while (true)
+    {
+      unsigned int const rank = get_root_slice_rank(slices[si].type);
+      if (rank==nr_root_slice_rank_order_elmts)
+        break;
+      else if (rank>rank_type)
+      {
+        result = si;
+        break;
+      }
+      else
+        si = slices[si].u.pipe.next;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Order in which the slice types dealing with goals appear
+ */
+static slice_index const leaf_slice_rank_order[] =
+{
+  STProxy,
+  STGoalMateReachedTester,
+  STGoalStalemateReachedTester,
+  STGoalDoubleStalemateReachedTester,
+  STGoalTargetReachedTester,
+  STGoalCaptureReachedTester,
+  STGoalSteingewinnReachedTester,
+  STGoalEnpassantReachedTester,
+  STGoalDoubleMateReachedTester,
+  STGoalCounterMateReachedTester,
+  STGoalCastlingReachedTester,
+  STGoalAutoStalemateReachedTester,
+  STGoalCircuitReachedTester,
+  STGoalExchangeReachedTester,
+  STGoalCircuitByRebirthReachedTester,
+  STGoalExchangeByRebirthReachedTester,
+  STGoalAnyReachedTester,
+  STGoalProofgameReachedTester,
+  STGoalAToBReachedTester,
+  STGoalMateOrStalemateReachedTester,
+  STGoalCheckReachedTester,
+  STSelfCheckGuard,
+  STGoalNotCheckReachedTester,
+  STGoalImmobileReachedTester,
+  STGoalReachedTested,
+  STDefenseMoveLegalityChecked,
+  STHelpMoveLegalityChecked,
+  STSeriesMoveLegalityChecked,
+  STLeaf
+};
+
+enum
+{
+  nr_leaf_slice_rank_order_elmts = (sizeof leaf_slice_rank_order
+                                    / sizeof leaf_slice_rank_order[0])
+};
+
+/* Determine the rank of a slice type
+ * @param type defense slice type
+ * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
+ *         be determined
+ */
+static unsigned int get_leaf_slice_rank(SliceType type)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  for (result = 0; result!=nr_leaf_slice_rank_order_elmts; ++result)
+    if (leaf_slice_rank_order[result]==type)
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine the position where to insert a slice into an defense branch.
+ * @param si entry slice of defense branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_leaf_slice_insertion_pos(slice_index si, SliceType type)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank_type = get_leaf_slice_rank(type);
+    assert(rank_type!=nr_leaf_slice_rank_order_elmts);
+    while (true)
+    {
+      unsigned int const rank = get_leaf_slice_rank(slices[si].type);
+      if (rank==nr_leaf_slice_rank_order_elmts)
+        break;
+      else if (rank>rank_type)
+      {
+        result = si;
+        break;
+      }
+      else
+        si = slices[si].u.pipe.next;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a new branch slice
  * @param type which slice type
  * @param length maximum number of half moves until end of slice

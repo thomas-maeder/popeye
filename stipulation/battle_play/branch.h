@@ -38,4 +38,20 @@ slice_index alloc_battle_branch(stip_length_type length,
  */
 void battle_branch_shorten_slice(slice_index si);
 
+/* Determine the position where to insert a slice into an defense branch.
+ * @param si entry slice of defense branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_defense_slice_insertion_pos(slice_index si, SliceType type);
+
+/* Determine the position where to insert a slice into an attack branch.
+ * @param si entry slice of attack branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_attack_slice_insertion_pos(slice_index si, SliceType type);
+
 #endif

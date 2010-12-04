@@ -1,9 +1,13 @@
 #include "pyselfcg.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/play.h"
+#include "stipulation/help_play/branch.h"
 #include "stipulation/series_play/play.h"
+#include "stipulation/series_play/branch.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "trace.h"
@@ -341,15 +345,173 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
   return result;
 }
 
-static void insert_selfcheck_guard_solvable_filter(slice_index si,
-                                                   stip_structure_traversal *st)
+typedef struct
+{
+  boolean provided[max_nr_slices];
+} selfcheck_guard_insertion_state_type;
+
+static
+void insert_selfcheck_guard_attacker_filter(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  selfcheck_guard_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const pos = find_defense_slice_insertion_pos(si,
+                                                             STSelfCheckGuard);
+    if (pos!=no_slice && !state->provided[pos])
+    {
+      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
+      state->provided[pos] = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static
+void insert_selfcheck_guard_defender_filter(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  selfcheck_guard_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const pos = find_attack_slice_insertion_pos(si,
+                                                            STSelfCheckGuard);
+    if (pos!=no_slice && !state->provided[pos])
+    {
+      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
+      state->provided[pos] = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_selfcheck_guard_help_filter(slice_index si,
+                                               stip_structure_traversal *st)
+{
+  selfcheck_guard_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const pos = find_help_slice_insertion_pos(si,STSelfCheckGuard);
+    if (pos!=no_slice && !state->provided[pos])
+    {
+      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
+      state->provided[pos] = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_selfcheck_guard_series_filter(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  selfcheck_guard_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const pos = find_series_slice_insertion_pos(si,STSelfCheckGuard);
+    if (pos!=no_slice && !state->provided[pos])
+    {
+      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
+      state->provided[pos] = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_selfcheck_guard_leaf(slice_index si,
+                                        stip_structure_traversal *st)
+{
+  selfcheck_guard_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const pos = find_leaf_slice_insertion_pos(si,STSelfCheckGuard);
+    if (pos!=no_slice && !state->provided[pos])
+    {
+      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
+      state->provided[pos] = true;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_selfcheck_guard_root(slice_index si, stip_structure_traversal *st)
+{
+  selfcheck_guard_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const pos = find_root_slice_insertion_pos(si,STSelfCheckGuard);
+    if (pos!=no_slice && !state->provided[pos])
+      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_selfcheck_guard_setplay_fork(slice_index si,
+                                                stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(slices[si].prev,alloc_selfcheck_guard_solvable_filter());
+  insert_selfcheck_guard_root(slices[si].u.branch_fork.towards_goal,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void append_selfcheck_guard(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  pipe_append(si,alloc_selfcheck_guard_solvable_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -357,10 +519,14 @@ static void insert_selfcheck_guard_solvable_filter(slice_index si,
 
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
-  { STAttackMoveLegalityChecked,  &insert_selfcheck_guard_solvable_filter },
-  { STDefenseMoveLegalityChecked, &insert_selfcheck_guard_solvable_filter },
-  { STHelpMoveLegalityChecked,    &insert_selfcheck_guard_solvable_filter },
-  { STSeriesMoveLegalityChecked,  &insert_selfcheck_guard_solvable_filter }
+  { STSetplayFork,              &insert_selfcheck_guard_setplay_fork    },
+  { STAttackMove,               &insert_selfcheck_guard_defender_filter },
+  { STAttackRoot,               &insert_selfcheck_guard_defender_filter },
+  { STDefenseMove,              &insert_selfcheck_guard_attacker_filter },
+  { STHelpMove,                 &insert_selfcheck_guard_help_filter     },
+  { STSeriesMove,               &insert_selfcheck_guard_series_filter   },
+  { STParryFork,                &stip_traverse_structure_pipe           },
+  { STMoveInverterSeriesFilter, &append_selfcheck_guard                 }
 };
 
 enum
@@ -369,13 +535,24 @@ enum
                                    / sizeof selfcheck_guards_inserters[0])
 };
 
+goal_type goals_ignoring_selfcheck[] = {
+  goal_doublemate,
+  goal_countermate
+};
+
+enum
+{
+  nr_goals_ignoring_selfcheck = (sizeof goals_ignoring_selfcheck
+                                 / sizeof goals_ignoring_selfcheck[0])
+};
+
 /* Instrument a stipulation with slices dealing with selfcheck detection
  * @param si root of branch to be instrumented
  */
 void stip_insert_selfcheck_guards(slice_index si)
 {
   stip_structure_traversal st;
-  SliceType type;
+  selfcheck_guard_insertion_state_type state = { { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -383,19 +560,36 @@ void stip_insert_selfcheck_guards(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&state);
 
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &stip_structure_visitor_noop);
+  {
+    SliceType type;
+    for (type = first_goal_tester_slice_type;
+         type<=last_goal_tester_slice_type;
+         ++type)
+      stip_structure_traversal_override_single(&st,
+                                               type,
+                                               &insert_selfcheck_guard_leaf);
+  }
+
+  {
+    unsigned int i;
+    for (i = 0; i!=nr_goals_ignoring_selfcheck; ++i)
+    {
+      SliceType const tester_type = (first_goal_tester_slice_type
+                                     +goals_ignoring_selfcheck[i]);
+      stip_structure_traversal_override_single(&st,
+                                               tester_type,
+                                               &stip_structure_visitor_noop);
+    }
+  }
 
   stip_structure_traversal_override(&st,
                                     selfcheck_guards_inserters,
                                     nr_selfcheck_guards_inserters);
   stip_traverse_structure(si,&st);
+
+  insert_selfcheck_guard_root(si,&st);
 
   TraceStipulation(si);
 

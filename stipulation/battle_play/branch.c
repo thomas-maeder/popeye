@@ -13,6 +13,221 @@
 
 #include <assert.h>
 
+/* Order in which the slice types dealing with defense moves appear
+ * STDefenseFork and STRootDefenseFork are not mentioned because they have
+ * variable ranks.
+ */
+static slice_index const defense_slice_rank_order[] =
+{
+  STReflexDefenderFilter,
+  STReadyForDefense,
+  STThreatSolver,
+  STDefenseMove,
+  STDefenseMovePlayed,
+  STSeriesMovePlayed,
+  STMaxNrNonTrivialCounter,
+  STRefutationsCollector,
+  STDefenseMoveShoeHorningDone,
+  STKillerMoveCollector,
+  STSelfDefense,
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STCirceSteingewinnFilter,
+  STSelfCheckGuard,
+  STDefenseMoveLegalityChecked,
+  STSeriesMoveLegalityChecked,
+  STNoShortVariations,
+  STAttackHashed,
+  STThreatEnforcer,
+  STDefenseMoveFiltered,
+  STVariationWriter,
+  STRefutingVariationWriter,
+  STOutputPlaintextTreeCheckWriterAttackerFilter,
+  STDefenseDealtWith,
+  STReflexAttackerFilter
+};
+
+enum
+{
+  nr_defense_slice_rank_order_elmts = (sizeof defense_slice_rank_order
+                                       / sizeof defense_slice_rank_order[0])
+};
+
+/* Determine the rank of a defense slice type
+ * @param type defense slice type
+ * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
+ *         be determined
+ */
+static unsigned int get_defense_slice_rank(SliceType type)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  if (type==STDefenseFork)
+    result = 0;
+  else
+    for (result = 0; result!=nr_defense_slice_rank_order_elmts; ++result)
+      if (defense_slice_rank_order[result]==type)
+        break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine the position where to insert a slice into an defense branch.
+ * @param si entry slice of defense branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_defense_slice_insertion_pos(slice_index si, SliceType type)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank_type = get_defense_slice_rank(type);
+    assert(rank_type!=nr_defense_slice_rank_order_elmts);
+    while (true)
+    {
+      unsigned int const rank = get_defense_slice_rank(slices[si].type);
+      if (rank==nr_defense_slice_rank_order_elmts)
+        break;
+      else if (rank>rank_type)
+      {
+        result = si;
+        break;
+      }
+      else
+        si = slices[si].u.pipe.next;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Order in which the slice types dealing with attack moves appear
+ * STAttackFork and STRootAttackFork are not mentioned because they have
+ * variable ranks.
+ */
+static slice_index const attack_slice_rank_order[] =
+{
+  STReflexAttackerFilter,
+  STReadyForAttack,
+  STDegenerateTree,
+  STAttackFindShortest,
+  STAttackRoot,
+  STAttackMove,
+  STRestartGuardRootDefenderFilter,
+  STAttackMovePlayed,
+  STEndOfSolutionWriter,
+  STThreatCollector,
+  STAttackMoveShoeHorningDone,
+  STKillerMoveCollector,
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STCirceSteingewinnFilter,
+  STSelfCheckGuard,
+  STAttackMoveLegalityChecked,
+  STMaxNrNonTrivial,
+  STAttackMoveFiltered,
+  STKeepMatingGuardDefenderFilter,
+  STSolutionSolver,
+  STKeyWriter,
+  STTrySolver,
+  STContinuationSolver,
+  STContinuationWriter,
+  STCheckDetector,
+  STAttackDealtWith,
+  STOutputPlaintextTreeCheckWriterDefenderFilter,
+  STMaxThreatLength,
+  STReflexDefenderFilter
+};
+
+enum
+{
+  nr_attack_slice_rank_order_elmts = (sizeof attack_slice_rank_order
+                                      / sizeof attack_slice_rank_order[0])
+};
+
+/* Determine the rank of a attack slice type
+ * @param type attack slice type
+ * @return rank of type; nr_attack_slice_rank_order_elmts if the rank can't
+ *         be determined
+ */
+static unsigned int get_attack_slice_rank(SliceType type)
+{
+  unsigned int result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  if (type==STRootAttackFork || type==STAttackFork)
+    result = 0;
+  else
+    for (result = 0; result!=nr_attack_slice_rank_order_elmts; ++result)
+      if (attack_slice_rank_order[result]==type)
+        break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine the position where to insert a slice into an attack branch.
+ * @param si entry slice of attack branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_attack_slice_insertion_pos(slice_index si, SliceType type)
+{
+  slice_index result = no_slice;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParamListEnd();
+
+  {
+    unsigned int const rank_type = get_attack_slice_rank(type);
+    assert(rank_type!=nr_attack_slice_rank_order_elmts);
+    do
+    {
+      unsigned int const rank = get_attack_slice_rank(slices[si].type);
+      if (rank==nr_attack_slice_rank_order_elmts)
+        break;
+      else if (rank>rank_type)
+      {
+        result = si;
+        break;
+      }
+      else
+        si = slices[si].u.pipe.next;
+    }
+    while (si!=no_slice);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Allocate a branch consisting mainly of an attack move
  * @param  length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)

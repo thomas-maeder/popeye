@@ -38,13 +38,18 @@ static void prepend_circuit_by_rebirth_filter(slice_index si,
     slice_index const proxy_special = alloc_proxy_slice();
     slice_index const special = alloc_circe_circuit_special_slice();
     slice_index const proxy_regular = alloc_proxy_slice();
+    slice_index const proxy_tested = alloc_proxy_slice();
 
     assert(tested!=no_slice);
+    pipe_append(slices[tested].prev,proxy_tested);
+
     pipe_link(slices[si].prev,
               alloc_quodlibet_slice(proxy_regular,proxy_special));
-    pipe_link(proxy_special,special);
-    pipe_link(special,tested);
+
     pipe_link(proxy_regular,si);
+
+    pipe_link(proxy_special,special);
+    pipe_link(special,proxy_tested);
   }
 
   TraceFunctionExit(__func__);
@@ -65,13 +70,18 @@ static void prepend_exchange_by_rebirth_filter(slice_index si,
     slice_index const proxy_special = alloc_proxy_slice();
     slice_index const special = alloc_circe_exchange_special_slice();
     slice_index const proxy_regular = alloc_proxy_slice();
+    slice_index const proxy_tested = alloc_proxy_slice();
 
     assert(tested!=no_slice);
+    pipe_append(slices[tested].prev,proxy_tested);
+
     pipe_link(slices[si].prev,
               alloc_quodlibet_slice(proxy_regular,proxy_special));
-    pipe_link(proxy_special,special);
-    pipe_link(special,tested);
+
     pipe_link(proxy_regular,si);
+
+    pipe_link(proxy_special,special);
+    pipe_link(special,proxy_tested);
   }
 
   TraceFunctionExit(__func__);

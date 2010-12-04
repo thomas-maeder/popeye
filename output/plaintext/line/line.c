@@ -31,6 +31,7 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",state->goal.type);
   if (state->goal.type!=no_goal)
   {
     assert(state->root_slice!=no_slice);
@@ -47,15 +48,19 @@ void instrument_goal_non_target_reached_tester(slice_index si,
                                                stip_structure_traversal *st)
 {
   line_slices_insertion_state * const state = st->param;
-  Goal const save_goal = state->goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
-  stip_traverse_structure_children(si,st);
-  state->goal = save_goal;
+  if (state->goal.type==no_goal)
+  {
+    state->goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
+    stip_traverse_structure_children(si,st);
+    state->goal.type = no_goal;
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -71,6 +76,7 @@ static void instrument_goal_target_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(state->goal.type==no_goal);
   state->goal.type = goal_target;
   state->goal.target = slices[si].u.goal_target_reached_tester.target;
   stip_traverse_structure_children(si,st);

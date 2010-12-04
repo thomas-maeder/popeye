@@ -39,4 +39,12 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal);
  */
 void series_branch_set_next_slice(slice_index si, slice_index next);
 
+/* Determine the position where to insert a slice into an series branch.
+ * @param si entry slice of series branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_series_slice_insertion_pos(slice_index si, SliceType type);
+
 #endif

@@ -58,4 +58,20 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st);
  */
 void link_to_branch(slice_index pipe, slice_index entry);
 
+/* Determine the position where to insert a slice from the root.
+ * @param si entry slice of defense branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_root_slice_insertion_pos(slice_index si, SliceType type);
+
+/* Determine the position where to insert a slice into an defense branch.
+ * @param si entry slice of defense branch
+ * @param type type of slice to be inserted
+ * @return identifier of slice before which to insert; no_slice if no
+ *         suitable position could be found
+ */
+slice_index find_leaf_slice_insertion_pos(slice_index si, SliceType type);
+
 #endif

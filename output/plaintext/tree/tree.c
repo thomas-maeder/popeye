@@ -72,9 +72,14 @@ void instrument_goal_non_target_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->reached_goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
-  stip_traverse_structure_children(si,st);
-  state->reached_goal = save_reached_goal;
+  if (state->reached_goal.type==no_goal)
+  {
+    state->reached_goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
+    stip_traverse_structure_children(si,st);
+    state->reached_goal = save_reached_goal;
+  }
+  else
+    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -90,6 +95,7 @@ static void instrument_goal_target_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(state->reached_goal.type==no_goal);
   state->reached_goal.type = goal_target;
   state->reached_goal.target = slices[si].u.goal_target_reached_tester.target;
   stip_traverse_structure_children(si,st);
