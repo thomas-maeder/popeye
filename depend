@@ -1724,9 +1724,9 @@ pyreflxg$(OBJ_SUFFIX): pyreflxg.c pyreflxg.h stipulation/battle_play/attack_play
  stipulation/reflex_attack_solver.h stipulation/battle_play/attack_play.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  stipulation/series_play/branch.h py.h stipulation/series_play/play.h \
- stipulation/proxy.h pypipe.h pypipe.h pystip.h stipulation/goals/goals.h \
- pyenum.h py.h boolean.h pyposit.h pyboard.h pybitmsk.h pypiece.h \
- pyenum.h pylang.h pyslice.h pybrafrk.h pydata.h pyproc.h py4.h trace.h
+ pypipe.h pystip.h stipulation/goals/goals.h pyenum.h py.h boolean.h \
+ pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h \
+ pybrafrk.h pydata.h pyproc.h py4.h stipulation/proxy.h pypipe.h trace.h
 
 pyreflxg.h:
 
@@ -1757,10 +1757,6 @@ stipulation/series_play/branch.h:
 py.h:
 
 stipulation/series_play/play.h:
-
-stipulation/proxy.h:
-
-pypipe.h:
 
 pypipe.h:
 
@@ -1795,6 +1791,10 @@ pydata.h:
 pyproc.h:
 
 py4.h:
+
+stipulation/proxy.h:
+
+pypipe.h:
 
 trace.h:
 pybrafrk$(OBJ_SUFFIX): pybrafrk.c pybrafrk.h pyslice.h py.h boolean.h pyposit.h \
@@ -1905,8 +1905,10 @@ pyselfcg$(OBJ_SUFFIX): pyselfcg.c pyselfcg.h stipulation/battle_play/attack_play
  pyslice.h stipulation/battle_play/defense_play.h \
  stipulation/help_play/play.h boolean.h pystip.h pyslice.h py.h boolean.h \
  pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pystip.h \
- stipulation/goals/goals.h py.h pyenum.h pypipe.h \
- stipulation/series_play/play.h pyproc.h py4.h pydata.h trace.h
+ stipulation/goals/goals.h py.h pyenum.h pypipe.h stipulation/branch.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ stipulation/series_play/play.h stipulation/series_play/branch.h pyproc.h \
+ py4.h pydata.h trace.h
 
 pyselfcg.h:
 
@@ -1950,7 +1952,15 @@ pyenum.h:
 
 pypipe.h:
 
+stipulation/branch.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/help_play/branch.h:
+
 stipulation/series_play/play.h:
+
+stipulation/series_play/branch.h:
 
 pyproc.h:
 
