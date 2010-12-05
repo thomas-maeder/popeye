@@ -242,7 +242,8 @@ static slice_index const attack_slice_rank_order[] =
   STVariationWriter,
   STRefutingVariationWriter,
   STOutputPlaintextTreeCheckWriterAttackerFilter,
-  STDefenseDealtWith
+  STDefenseDealtWith,
+  STStipulationReflexAttackSolver
 };
 
 enum
@@ -277,44 +278,72 @@ static unsigned int get_attack_slice_rank(SliceType type)
   return result;
 }
 
-/* Determine the position where to insert a slice into an attack branch.
- * @param si entry slice of attack branch
- * @param type type of slice to be inserted
- * @return identifier of slice before which to insert; no_slice if no
- *         suitable position could be found
- */
-slice_index find_attack_slice_insertion_pos(slice_index si, SliceType type)
+static void insert_attack_slices_recursive(slice_index si,
+                                           slice_index const prototypes[],
+                                           unsigned int nr_prototypes)
 {
-  slice_index result = no_slice;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const rank_type = get_attack_slice_rank(type);
-    assert(rank_type!=nr_attack_slice_rank_order_elmts);
-    do
+    SliceType const prototype_type = slices[prototypes[0]].type;
+    unsigned int const prototype_rank = get_attack_slice_rank(prototype_type);
+    assert(prototype_rank!=nr_attack_slice_rank_order_elmts);
+
+    while (slices[si].type!=prototype_type)
     {
-      unsigned int const rank = get_attack_slice_rank(slices[si].type);
-      if (rank==nr_attack_slice_rank_order_elmts)
-        break;
-      else if (rank>rank_type)
-      {
-        result = si;
-        break;
-      }
-      else
+      if (slices[si].type==STProxy)
         si = slices[si].u.pipe.next;
+      else
+      {
+        unsigned int const rank_si = get_attack_slice_rank(slices[si].type);
+        if (rank_si==nr_attack_slice_rank_order_elmts)
+          break;
+        else if (rank_si>prototype_rank)
+        {
+          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+          if (nr_prototypes>1)
+            insert_attack_slices_recursive(si,prototypes+1,nr_prototypes-1);
+          break;
+        }
+        else
+          si = slices[si].u.pipe.next;
+      }
     }
-    while (si!=no_slice);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Insert slices into a branch starting at a defense slice.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by insert_slices_defense_branch().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void insert_slices_attack_branch(slice_index si,
+                                 slice_index const prototypes[],
+                                 unsigned int nr_prototypes)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  insert_attack_slices_recursive(si,prototypes,nr_prototypes);
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a branch consisting mainly of an attack move

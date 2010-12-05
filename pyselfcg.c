@@ -373,8 +373,6 @@ static
 void insert_selfcheck_guard_defender_filter(slice_index si,
                                             stip_structure_traversal *st)
 {
-  selfcheck_guard_insertion_state_type * const state = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -382,13 +380,8 @@ void insert_selfcheck_guard_defender_filter(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const pos = find_attack_slice_insertion_pos(si,
-                                                            STSelfCheckGuard);
-    if (pos!=no_slice && !state->provided[pos])
-    {
-      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
-      state->provided[pos] = true;
-    }
+    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    insert_slices_attack_branch(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
