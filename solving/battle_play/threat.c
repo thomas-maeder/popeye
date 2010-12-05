@@ -403,152 +403,45 @@ threat_solver_can_defend_in_n(slice_index si,
   return result;
 }
 
-
-/* The following enumeration type represents the state of threat
- * handler insertion; this helps us avoiding unnecessary threat
- * handler slices (e.g. we only need a threat collector slice if we
- * have already inserted a threat writer and a threat enforcer slice).
- */
-typedef enum
-{
-  threat_handler_inserted_none,
-  threat_handler_inserted_solver,
-  threat_handler_inserted_enforcer,
-  threat_handler_inserted_collector
-} threat_handler_insertion_state;
-
 /* Prepend a threat writer slice to a defense move slice
  * @param si identifies slice around which to insert threat handlers
  * @param st address of structure defining traversal
  */
 static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 {
-  threat_handler_insertion_state * const state = st->param;
-  threat_handler_insertion_state const save_state = *state;
   stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
 
   if (length>slack_length_battle+1)
   {
-    *state = threat_handler_inserted_solver;
-    stip_traverse_structure_children(si,st);
+    slice_index const ready = branch_find_slice(STReadyForAttack,si);
 
+    slice_index const prototypes[] =
     {
-      stip_length_type const min_length = slices[si].u.branch.min_length;
-      slice_index const enforcer = branch_find_slice(STReadyForAttack,si);
-      assert(enforcer!=no_slice);
-      pipe_append(si,alloc_threat_solver_slice(length,min_length,enforcer));
-    }
+      alloc_threat_solver_slice(length,min_length,ready),
+      alloc_threat_enforcer_slice(),
+      alloc_threat_collector_slice()
+    };
 
-    *state = save_state;
-  }
-  else
-    stip_traverse_structure_children(si,st);
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+    assert(ready!=no_slice);
 
-/* Append a threat collector slice to an attack move slice
- * @param si identifies slice around which to insert threat handlers
- * @param st address of structure defining traversal
- */
-static void append_threat_enforcer(slice_index si,
-                                   stip_structure_traversal *st)
-{
-  threat_handler_insertion_state * const state = st->param;
-  threat_handler_insertion_state const save_state = *state;
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length>slack_length_battle
-      && *state==threat_handler_inserted_solver)
-  {
-    pipe_append(si,alloc_threat_enforcer_slice());
-    *state = threat_handler_inserted_enforcer;
+    insert_slices_defense_branch(si,prototypes,nr_prototypes);
   }
 
-  stip_traverse_structure_children(si,st);
-
-  *state = save_state;
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Append a threat collector slice to an attack move slice
- * @param si identifies slice around which to insert threat handlers
- * @param st address of structure defining traversal
- */
-static void append_threat_collector(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  threat_handler_insertion_state * const state = st->param;
-  threat_handler_insertion_state const save_state = *state;
-  stip_length_type const length = slices[si].u.branch.length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (length>=slack_length_battle
-      && *state==threat_handler_inserted_enforcer)
-  {
-    pipe_append(si,alloc_threat_collector_slice());
-    *state = threat_handler_inserted_collector;
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  *state = save_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Reset the threat handler insertaion state for the subsequent slices
- * @param si identifies slice around which to insert threat handlers
- * @param st address of structure defining traversal
- */
-static void threat_handler_reset_insertion_state(slice_index si,
-                                                 stip_structure_traversal *st)
-{
-  threat_handler_insertion_state * const state = st->param;
-  threat_handler_insertion_state const save_state = *state;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *state = threat_handler_inserted_none;
-  stip_traverse_structure_children(si,st);
-  *state = save_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors threat_handler_inserters[] =
-{
-  { STAttackMovePlayed,           &append_threat_collector              },
-  { STReadyForDefense,            &append_threat_solver                 },
-  { STDefenseMoveLegalityChecked, &append_threat_enforcer               },
-  { STHelpRoot,                   &stip_structure_visitor_noop          },
-  { STSeriesRoot,                 &stip_structure_visitor_noop          },
-  { STNot,                        &threat_handler_reset_insertion_state }
-};
-
-enum
-{
-  nr_threat_handler_inserters = (sizeof threat_handler_inserters
-                                 / sizeof threat_handler_inserters[0])
-};
 
 /* Instrument the stipulation representation so that it can deal with
  * threats
@@ -558,7 +451,6 @@ void stip_insert_threat_handlers(slice_index si)
 {
   stip_structure_traversal st;
   SliceType type;
-  threat_handler_insertion_state state = { threat_handler_inserted_none };
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -567,7 +459,7 @@ void stip_insert_threat_handlers(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,0);
 
   for (type = first_goal_tester_slice_type;
        type<=last_goal_tester_slice_type;
@@ -576,9 +468,10 @@ void stip_insert_threat_handlers(slice_index si)
                                              type,
                                              &stip_structure_visitor_noop);
 
-  stip_structure_traversal_override(&st,
-                                    threat_handler_inserters,
-                                    nr_threat_handler_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STReadyForDefense,
+                                           &append_threat_solver);
+
   stip_traverse_structure(si,&st);
 
   for (i = 0; i<=maxply; ++i)
