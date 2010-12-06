@@ -65,6 +65,7 @@ static slice_index const defense_slice_rank_order[] =
   STSelfCheckGuard,
   STAttackMoveLegalityChecked,
   STMaxNrNonTrivial,
+  STMaxNrNonChecks,
   STAttackMoveFiltered,
   STKeepMatingGuardDefenderFilter,
   STSolutionSolver,
@@ -75,7 +76,7 @@ static slice_index const defense_slice_rank_order[] =
   STCheckDetector,
   STAttackDealtWith,
   STOutputPlaintextTreeCheckWriterDefenderFilter,
-  STMaxThreatLength,
+  STMaxThreatLength
 };
 
 enum
@@ -84,25 +85,27 @@ enum
                                        / sizeof defense_slice_rank_order[0])
 };
 
-/* Determine the rank of a defense slice type
+/* Determine the rank of a defense slice type, relative to some base rank
  * @param type defense slice type
- * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
- *         be determined
+ * @param base base rank value
+ * @return rank of type (>=base)
+ *         base+nr_defense_slice_rank_order_elmts if the rank can't be determined
  */
-static unsigned int get_defense_slice_rank(SliceType type)
+static unsigned int get_defense_slice_rank(SliceType type, unsigned int base)
 {
   unsigned int result;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  if (type==STDefenseFork)
-    result = 0;
-  else
-    for (result = 0; result!=nr_defense_slice_rank_order_elmts; ++result)
-      if (defense_slice_rank_order[result]==type)
-        break;
+  for (i = 0; i!=nr_defense_slice_rank_order_elmts; ++i)
+    if (defense_slice_rank_order[(i+base)%nr_defense_slice_rank_order_elmts]==type)
+      break;
+
+  result = i+base;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -110,45 +113,59 @@ static unsigned int get_defense_slice_rank(SliceType type)
   return result;
 }
 
-static void insert_defense_slices_recursive(slice_index si,
+static void insert_defense_slices_recursive(slice_index si_start,
                                             slice_index const prototypes[],
-                                            unsigned int nr_prototypes)
+                                            unsigned int nr_prototypes,
+                                            unsigned int base)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",si_start);
   TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   {
+    slice_index si = si_start;
     SliceType const prototype_type = slices[prototypes[0]].type;
-    unsigned int const prototype_rank = get_defense_slice_rank(prototype_type);
+    unsigned int prototype_rank = get_defense_slice_rank(prototype_type,base);
     assert(prototype_rank!=nr_defense_slice_rank_order_elmts);
 
-    while (slices[si].type!=prototype_type)
+    do
     {
       if (slices[si].type==STProxy)
         si = slices[si].u.pipe.next;
+      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
+      {
+        insert_defense_slices_recursive(slices[si].u.binary.op1,
+                                        prototypes,nr_prototypes,
+                                        base);
+        insert_defense_slices_recursive(slices[si].u.binary.op2,
+                                        prototypes,nr_prototypes,
+                                        base);
+        break;
+      }
       else
       {
-        unsigned int const rank_si = get_defense_slice_rank(slices[si].type);
-        if (rank_si==nr_defense_slice_rank_order_elmts)
-          break;
-        else if (rank_si>prototype_rank)
+        unsigned int const rank_si = get_defense_slice_rank(slices[si].type,base);
+        if (rank_si>prototype_rank)
         {
           pipe_append(slices[si].prev,copy_slice(prototypes[0]));
           if (nr_prototypes>1)
-            insert_defense_slices_recursive(si,prototypes+1,nr_prototypes-1);
+            insert_defense_slices_recursive(si,
+                                            prototypes+1,nr_prototypes-1,
+                                            base);
           break;
         }
         else
         {
           if (slices[si].type==STAttackFork)
             insert_defense_slices_recursive(slices[si].u.branch_fork.towards_goal,
-                                            prototypes,nr_prototypes);
+                                            prototypes,nr_prototypes,
+                                            base);
           si = slices[si].u.pipe.next;
         }
       }
-    }
+    } while (si!=si_start && prototype_type!=slices[si].type);
   }
 
   TraceFunctionExit(__func__);
@@ -168,13 +185,15 @@ void insert_slices_defense_branch(slice_index si,
                                   unsigned int nr_prototypes)
 {
   unsigned int i;
+  unsigned int base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  insert_defense_slices_recursive(si,prototypes,nr_prototypes);
+  base = get_defense_slice_rank(slices[si].type,0);
+  insert_defense_slices_recursive(si,prototypes,nr_prototypes,base);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);
@@ -278,30 +297,37 @@ static unsigned int get_attack_slice_rank(SliceType type)
   return result;
 }
 
-static void insert_attack_slices_recursive(slice_index si,
+static void insert_attack_slices_recursive(slice_index si_start,
                                            slice_index const prototypes[],
                                            unsigned int nr_prototypes)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",si_start);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
   {
+    slice_index si = si_start;
     SliceType const prototype_type = slices[prototypes[0]].type;
     unsigned int const prototype_rank = get_attack_slice_rank(prototype_type);
     assert(prototype_rank!=nr_attack_slice_rank_order_elmts);
 
-    while (slices[si].type!=prototype_type)
+    do
     {
       if (slices[si].type==STProxy)
         si = slices[si].u.pipe.next;
+      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
+      {
+        insert_attack_slices_recursive(slices[si].u.binary.op1,
+                                       prototypes,nr_prototypes);
+        insert_attack_slices_recursive(slices[si].u.binary.op2,
+                                       prototypes,nr_prototypes);
+        break;
+      }
       else
       {
         unsigned int const rank_si = get_attack_slice_rank(slices[si].type);
-        if (rank_si==nr_attack_slice_rank_order_elmts)
-          break;
-        else if (rank_si>prototype_rank)
+        if (rank_si>prototype_rank)
         {
           pipe_append(slices[si].prev,copy_slice(prototypes[0]));
           if (nr_prototypes>1)
@@ -311,7 +337,7 @@ static void insert_attack_slices_recursive(slice_index si,
         else
           si = slices[si].u.pipe.next;
       }
-    }
+    } while (si!=si_start);
   }
 
   TraceFunctionExit(__func__);

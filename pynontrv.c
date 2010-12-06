@@ -14,7 +14,7 @@
 static stip_length_type min_length_nontrivial;
 unsigned int max_nr_nontrivial;
 
-/* Lengths of threats of the various move levels 
+/* Lengths of threats of the various move levels
  */
 static unsigned int non_trivial_count[maxply+1];
 
@@ -144,7 +144,7 @@ static unsigned int count_noncheck_defenses(slice_index si, stip_length_type n)
 {
   unsigned int result = 0;
   unsigned int const nr_nonchecks_allowed = max_nr_nontrivial+1;
-  Side const attacker = slices[si].starter; 
+  Side const attacker = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -514,7 +514,10 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
   if (slices[si].u.branch.length>slack_length_battle)
   {
     if (min_length_nontrivial<=slack_length_battle+1)
-      pipe_append(slices[si].prev,alloc_max_nr_noncheck_guard());
+    {
+      slice_index const prototype = alloc_max_nr_noncheck_guard();
+      insert_slices_defense_branch(si,&prototype,1);
+    }
     else
     {
       stip_length_type const length = slices[si].u.branch.length;
@@ -529,55 +532,28 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
       slice_index const dealt_root = branch_find_slice(STAttackDealtWith,si);
       slice_index const dealt_loop = branch_find_slice(STAttackDealtWith,
                                                        dealt_root);
+
+      slice_index const prototypes[] =
+      {
+        alloc_max_nr_nontrivial_guard(length,min_length,dealt_loop),
+        alloc_max_nr_nontrivial_counter()
+      };
+
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+
       assert(dealt_root!=no_slice);
       assert(dealt_loop!=no_slice);
-      pipe_append(slices[si].prev,
-                  alloc_max_nr_nontrivial_guard(length,min_length,dealt_loop));
+
+      insert_slices_defense_branch(si,prototypes,nr_prototypes);
     }
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static void append_nontrivial_counter(slice_index si,
-                                      stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if (min_length_nontrivial>slack_length_battle+1)
-  {
-    slice_index const next = slices[si].u.pipe.next;
-    slice_index const next_prev = slices[next].prev;
-    if (next_prev==si)
-      pipe_append(si,alloc_max_nr_nontrivial_counter());
-    else
-    {
-      assert(slices[next_prev].type==STMaxNrNonTrivialCounter);
-      pipe_set_successor(si,next_prev);
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors max_nr_nontrivial_guards_inserters[] =
-{
-  { STDefenseMovePlayed,  &append_nontrivial_counter             },
-  { STAttackMoveFiltered, &nontrivial_guard_inserter_attack_move }
-};
-
-enum
-{
-  nr_max_nr_nontrivial_guards_inserters =
-  (sizeof max_nr_nontrivial_guards_inserters
-   / sizeof max_nr_nontrivial_guards_inserters[0])
-};
 
 /* Instrument stipulation with STMaxNrNonTrivial slices
  * @param si identifies slice where to start
@@ -593,9 +569,9 @@ void stip_insert_max_nr_nontrivial_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    max_nr_nontrivial_guards_inserters,
-                                    nr_max_nr_nontrivial_guards_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STAttackMovePlayed,
+                                           &nontrivial_guard_inserter_attack_move);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
