@@ -174,15 +174,15 @@ static void insert_defense_slices_recursive(slice_index si_start,
 
 /* Insert slices into a branch starting at a defense slice.
  * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by insert_slices_defense_branch().
+ * prototypes are deallocated by battle_branch_insert_slices().
  * Each slice is inserted at a position that corresponds to its predefined rank.
  * @param si identifies starting point of insertion
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
  */
-void insert_slices_defense_branch(slice_index si,
-                                  slice_index const prototypes[],
-                                  unsigned int nr_prototypes)
+void battle_branch_insert_slices(slice_index si,
+                                 slice_index const prototypes[],
+                                 unsigned int nr_prototypes)
 {
   unsigned int i;
   unsigned int base;
@@ -194,176 +194,6 @@ void insert_slices_defense_branch(slice_index si,
 
   base = get_defense_slice_rank(slices[si].type,0);
   insert_defense_slices_recursive(si,prototypes,nr_prototypes,base);
-
-  for (i = 0; i!=nr_prototypes; ++i)
-    dealloc_slice(prototypes[i]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Order in which the slice types dealing with attack moves appear
- * STAttackFork and STRootAttackFork are not mentioned because they have
- * variable ranks.
- */
-static slice_index const attack_slice_rank_order[] =
-{
-  STReadyForAttack,
-  STReflexAttackerFilter,
-  STDegenerateTree,
-  STAttackFindShortest,
-  STAttackRoot,
-  STAttackMove,
-  STRestartGuardRootDefenderFilter,
-  STAttackMovePlayed,
-  STEndOfSolutionWriter,
-  STThreatCollector,
-  STAttackMoveShoeHorningDone,
-  STKillerMoveCollector,
-  STAmuMateFilter,
-  STUltraschachzwangGoalFilter,
-  STCirceSteingewinnFilter,
-  STSelfCheckGuard,
-  STAttackMoveLegalityChecked,
-  STMaxNrNonTrivial,
-  STAttackMoveFiltered,
-  STKeepMatingGuardDefenderFilter,
-  STSolutionSolver,
-  STKeyWriter,
-  STTrySolver,
-  STContinuationSolver,
-  STContinuationWriter,
-  STCheckDetector,
-  STAttackDealtWith,
-  STOutputPlaintextTreeCheckWriterDefenderFilter,
-  STMaxThreatLength,
-  STReflexDefenderFilter,
-  STReadyForDefense,
-  STThreatSolver,
-  STDefenseMove,
-  STDefenseMovePlayed,
-  STSeriesMovePlayed,
-  STMaxNrNonTrivialCounter,
-  STRefutationsCollector,
-  STDefenseMoveShoeHorningDone,
-  STKillerMoveCollector,
-  STSelfDefense,
-  STAmuMateFilter,
-  STUltraschachzwangGoalFilter,
-  STCirceSteingewinnFilter,
-  STSelfCheckGuard,
-  STDefenseMoveLegalityChecked,
-  STSeriesMoveLegalityChecked,
-  STNoShortVariations,
-  STAttackHashed,
-  STThreatEnforcer,
-  STDefenseMoveFiltered,
-  STVariationWriter,
-  STRefutingVariationWriter,
-  STOutputPlaintextTreeCheckWriterAttackerFilter,
-  STDefenseDealtWith,
-  STStipulationReflexAttackSolver
-};
-
-enum
-{
-  nr_attack_slice_rank_order_elmts = (sizeof attack_slice_rank_order
-                                      / sizeof attack_slice_rank_order[0])
-};
-
-/* Determine the rank of a attack slice type
- * @param type attack slice type
- * @return rank of type; nr_attack_slice_rank_order_elmts if the rank can't
- *         be determined
- */
-static unsigned int get_attack_slice_rank(SliceType type)
-{
-  unsigned int result;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(SliceType,type,"");
-  TraceFunctionParamListEnd();
-
-  if (type==STRootAttackFork || type==STAttackFork)
-    result = 0;
-  else
-    for (result = 0; result!=nr_attack_slice_rank_order_elmts; ++result)
-      if (attack_slice_rank_order[result]==type)
-        break;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void insert_attack_slices_recursive(slice_index si_start,
-                                           slice_index const prototypes[],
-                                           unsigned int nr_prototypes)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si_start);
-  TraceFunctionParam("%u",nr_prototypes);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index si = si_start;
-    SliceType const prototype_type = slices[prototypes[0]].type;
-    unsigned int const prototype_rank = get_attack_slice_rank(prototype_type);
-    assert(prototype_rank!=nr_attack_slice_rank_order_elmts);
-
-    do
-    {
-      if (slices[si].type==STProxy)
-        si = slices[si].u.pipe.next;
-      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
-      {
-        insert_attack_slices_recursive(slices[si].u.binary.op1,
-                                       prototypes,nr_prototypes);
-        insert_attack_slices_recursive(slices[si].u.binary.op2,
-                                       prototypes,nr_prototypes);
-        break;
-      }
-      else
-      {
-        unsigned int const rank_si = get_attack_slice_rank(slices[si].type);
-        if (rank_si>prototype_rank)
-        {
-          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
-          if (nr_prototypes>1)
-            insert_attack_slices_recursive(si,prototypes+1,nr_prototypes-1);
-          break;
-        }
-        else
-          si = slices[si].u.pipe.next;
-      }
-    } while (si!=si_start);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Insert slices into a branch starting at a defense slice.
- * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by insert_slices_defense_branch().
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void insert_slices_attack_branch(slice_index si,
-                                 slice_index const prototypes[],
-                                 unsigned int nr_prototypes)
-{
-  unsigned int i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",nr_prototypes);
-  TraceFunctionParamListEnd();
-
-  insert_attack_slices_recursive(si,prototypes,nr_prototypes);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);

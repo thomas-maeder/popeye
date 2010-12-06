@@ -362,7 +362,7 @@ void insert_selfcheck_guard_attacker_filter(slice_index si,
 
   {
     slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
-    insert_slices_defense_branch(si,&prototype,1);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -381,7 +381,7 @@ void insert_selfcheck_guard_defender_filter(slice_index si,
 
   {
     slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
-    insert_slices_attack_branch(si,&prototype,1);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

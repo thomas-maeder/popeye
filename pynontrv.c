@@ -516,7 +516,7 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
     if (min_length_nontrivial<=slack_length_battle+1)
     {
       slice_index const prototype = alloc_max_nr_noncheck_guard();
-      insert_slices_defense_branch(si,&prototype,1);
+      battle_branch_insert_slices(si,&prototype,1);
     }
     else
     {
@@ -547,7 +547,7 @@ static void nontrivial_guard_inserter_attack_move(slice_index si,
       assert(dealt_root!=no_slice);
       assert(dealt_loop!=no_slice);
 
-      insert_slices_defense_branch(si,prototypes,nr_prototypes);
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
 

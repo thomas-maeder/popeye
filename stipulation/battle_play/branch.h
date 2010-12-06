@@ -40,25 +40,13 @@ void battle_branch_shorten_slice(slice_index si);
 
 /* Insert slices into a branch starting at a defense slice.
  * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by insert_slices_defense_branch().
+ * prototypes are deallocated by battle_branch_insert_slices().
  * Each slice is inserted at a position that corresponds to its predefined rank.
  * @param si identifies starting point of insertion
  * @param prototypes contains the prototypes whose copies are inserted
  * @param nr_prototypes number of elements of array prototypes
  */
-void insert_slices_defense_branch(slice_index si,
-                                  slice_index const prototypes[],
-                                  unsigned int nr_prototypes);
-
-/* Insert slices into a branch starting at a defense slice.
- * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by insert_slices_defense_branch().
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void insert_slices_attack_branch(slice_index si,
+void battle_branch_insert_slices(slice_index si,
                                  slice_index const prototypes[],
                                  unsigned int nr_prototypes);
 

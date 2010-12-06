@@ -436,7 +436,7 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 
     assert(ready!=no_slice);
 
-    insert_slices_defense_branch(si,prototypes,nr_prototypes);
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
