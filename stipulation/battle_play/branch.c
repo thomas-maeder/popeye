@@ -13,11 +13,10 @@
 
 #include <assert.h>
 
-/* Order in which the slice types dealing with defense moves appear
- * STDefenseFork and STRootDefenseFork are not mentioned because they have
- * variable ranks.
+/* Order in which the slice types appear in battle branches
+ * some types are not mentioned because they have variable ranks.
  */
-static slice_index const defense_slice_rank_order[] =
+static slice_index const slice_rank_order[] =
 {
   STReflexDefenderFilter,
   STReadyForDefense,
@@ -81,17 +80,17 @@ static slice_index const defense_slice_rank_order[] =
 
 enum
 {
-  nr_defense_slice_rank_order_elmts = (sizeof defense_slice_rank_order
-                                       / sizeof defense_slice_rank_order[0])
+  nr_slice_rank_order_elmts = (sizeof slice_rank_order
+                               / sizeof slice_rank_order[0])
 };
 
 /* Determine the rank of a defense slice type, relative to some base rank
  * @param type defense slice type
  * @param base base rank value
  * @return rank of type (>=base)
- *         base+nr_defense_slice_rank_order_elmts if the rank can't be determined
+ *         base+nr_slice_rank_order_elmts if the rank can't be determined
  */
-static unsigned int get_defense_slice_rank(SliceType type, unsigned int base)
+static unsigned int get_slice_rank(SliceType type, unsigned int base)
 {
   unsigned int result;
   unsigned int i;
@@ -101,8 +100,8 @@ static unsigned int get_defense_slice_rank(SliceType type, unsigned int base)
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=nr_defense_slice_rank_order_elmts; ++i)
-    if (defense_slice_rank_order[(i+base)%nr_defense_slice_rank_order_elmts]==type)
+  for (i = 0; i!=nr_slice_rank_order_elmts; ++i)
+    if (slice_rank_order[(i+base)%nr_slice_rank_order_elmts]==type)
       break;
 
   result = i+base;
@@ -113,7 +112,7 @@ static unsigned int get_defense_slice_rank(SliceType type, unsigned int base)
   return result;
 }
 
-static void insert_defense_slices_recursive(slice_index si_start,
+static void battle_branch_insert_slices_recursive(slice_index si_start,
                                             slice_index const prototypes[],
                                             unsigned int nr_prototypes,
                                             unsigned int base)
@@ -127,8 +126,8 @@ static void insert_defense_slices_recursive(slice_index si_start,
   {
     slice_index si = si_start;
     SliceType const prototype_type = slices[prototypes[0]].type;
-    unsigned int prototype_rank = get_defense_slice_rank(prototype_type,base);
-    assert(prototype_rank!=nr_defense_slice_rank_order_elmts);
+    unsigned int prototype_rank = get_slice_rank(prototype_type,base);
+    assert(prototype_rank!=nr_slice_rank_order_elmts);
 
     do
     {
@@ -136,32 +135,32 @@ static void insert_defense_slices_recursive(slice_index si_start,
         si = slices[si].u.pipe.next;
       else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
       {
-        insert_defense_slices_recursive(slices[si].u.binary.op1,
-                                        prototypes,nr_prototypes,
-                                        base);
-        insert_defense_slices_recursive(slices[si].u.binary.op2,
-                                        prototypes,nr_prototypes,
-                                        base);
+        battle_branch_insert_slices_recursive(slices[si].u.binary.op1,
+                                              prototypes,nr_prototypes,
+                                              base);
+        battle_branch_insert_slices_recursive(slices[si].u.binary.op2,
+                                              prototypes,nr_prototypes,
+                                              base);
         break;
       }
       else
       {
-        unsigned int const rank_si = get_defense_slice_rank(slices[si].type,base);
+        unsigned int const rank_si = get_slice_rank(slices[si].type,base);
         if (rank_si>prototype_rank)
         {
           pipe_append(slices[si].prev,copy_slice(prototypes[0]));
           if (nr_prototypes>1)
-            insert_defense_slices_recursive(si,
-                                            prototypes+1,nr_prototypes-1,
-                                            base);
+            battle_branch_insert_slices_recursive(si,
+                                                  prototypes+1,nr_prototypes-1,
+                                                  base);
           break;
         }
         else
         {
           if (slices[si].type==STAttackFork)
-            insert_defense_slices_recursive(slices[si].u.branch_fork.towards_goal,
-                                            prototypes,nr_prototypes,
-                                            base);
+            battle_branch_insert_slices_recursive(slices[si].u.branch_fork.towards_goal,
+                                                  prototypes,nr_prototypes,
+                                                  base);
           si = slices[si].u.pipe.next;
         }
       }
@@ -192,8 +191,8 @@ void battle_branch_insert_slices(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  base = get_defense_slice_rank(slices[si].type,0);
-  insert_defense_slices_recursive(si,prototypes,nr_prototypes,base);
+  base = get_slice_rank(slices[si].type,0);
+  battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);
