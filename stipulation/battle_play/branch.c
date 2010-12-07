@@ -113,9 +113,9 @@ static unsigned int get_slice_rank(SliceType type, unsigned int base)
 }
 
 static void battle_branch_insert_slices_recursive(slice_index si_start,
-                                            slice_index const prototypes[],
-                                            unsigned int nr_prototypes,
-                                            unsigned int base)
+                                                  slice_index const prototypes[],
+                                                  unsigned int nr_prototypes,
+                                                  unsigned int base)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si_start);
@@ -143,6 +143,13 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
                                               base);
         break;
       }
+      else if (slices[si].type==STAttackFork)
+      {
+        battle_branch_insert_slices_recursive(slices[si].u.branch_fork.towards_goal,
+                                              prototypes,nr_prototypes,
+                                              base);
+        si = slices[si].u.pipe.next;
+      }
       else
       {
         unsigned int const rank_si = get_slice_rank(slices[si].type,base);
@@ -156,13 +163,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           break;
         }
         else
-        {
-          if (slices[si].type==STAttackFork)
-            battle_branch_insert_slices_recursive(slices[si].u.branch_fork.towards_goal,
-                                                  prototypes,nr_prototypes,
-                                                  base);
           si = slices[si].u.pipe.next;
-        }
       }
     } while (si!=si_start && prototype_type!=slices[si].type);
   }
