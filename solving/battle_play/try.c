@@ -3,6 +3,7 @@
 #include "pypipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "trace.h"
 
@@ -300,53 +301,13 @@ refutations_collector_solve_in_n(slice_index si,
   return result;
 }
 
-typedef enum
-{
-  try_handler_inserted_none,
-  try_handler_inserted_solver,
-  try_handler_inserted_collector
-} try_handler_insertion_state;
-
-typedef struct
-{
-    boolean inserted;
-    try_handler_insertion_state state;
-} traversal_state;
-
-/* Append refutations collector
- * @param si identifies slice where to append
- * @param st address of structure defining traversal
- */
-static void append_collector(slice_index si, stip_structure_traversal *st)
-{
-  traversal_state * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->state==try_handler_inserted_solver)
-  {
-    state->state = try_handler_inserted_collector;
-    stip_traverse_structure_children(si,st);
-    state->state = try_handler_inserted_solver;
-
-    pipe_append(si,alloc_refutations_collector_slice(length,min_length));
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Prepend a try writer to the solution writer
+/* Insert try handler slices into the stipulation
  * @param si identifies slice to be replaced
  * @param st address of structure defining traversal
  */
-static void append_try_solver(slice_index si, stip_structure_traversal *st)
+static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
 {
-  traversal_state * const state = st->param;
+  boolean * const inserted = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -354,39 +315,31 @@ static void append_try_solver(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle)
-  {
-    state->state = try_handler_inserted_solver;
-    stip_traverse_structure_children(si,st);
-    state->state = try_handler_inserted_none;
+  stip_traverse_structure_children(si,st);
 
-    pipe_append(si,alloc_try_solver(length,min_length));
-    state->inserted = true;
+  if (length>slack_length_battle) /* in #1, tries don't make sense */
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_try_solver(length,min_length),
+      alloc_refutations_collector_slice(length-1,min_length-1)
+    };
+
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+
+    *inserted = true;
   }
-  else
-    stip_traverse_structure_children(si,st);
 
   pipe_replace(si,alloc_branch(STSolutionSolver,length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static structure_traversers_visitors try_handler_inserters[] =
-{
-  { STDefenseRoot,        &stip_structure_visitor_noop },
-  { STSolutionSolver,     &append_try_solver           },
-  { STDefenseMovePlayed,  &append_collector            },
-  { STHelpRoot,           &stip_structure_visitor_noop },
-  { STSeriesRoot,         &stip_structure_visitor_noop },
-  { STNot,                &stip_structure_visitor_noop }
-};
-
-enum
-{
-  nr_try_handler_inserters = (sizeof try_handler_inserters
-                              / sizeof try_handler_inserters[0])
-};
 
 /* Instrument the stipulation representation so that it can deal with
  * tries
@@ -396,7 +349,7 @@ enum
  */
 boolean stip_insert_try_handlers(slice_index si)
 {
-  traversal_state state = { false, try_handler_inserted_none };
+  boolean result = false;
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -405,14 +358,14 @@ boolean stip_insert_try_handlers(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override(&st,
-                                    try_handler_inserters,
-                                    nr_try_handler_inserters);
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,
+                                           STSolutionSolver,
+                                           &insert_try_handlers);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",state.inserted);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return state.inserted;
+  return result;
 }
