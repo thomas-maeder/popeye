@@ -32,7 +32,6 @@ static slice_index const series_slice_rank_order[] =
   STMaxTimeSeriesFilter,
   STMaxSolutionsSeriesFilter,
   STStopOnShortSolutionsSeriesFilter,
-  STAmuMateFilter,
   STUltraschachzwangGoalFilter,
   STCirceSteingewinnFilter,
   STGoalReachableGuardSeriesFilter,

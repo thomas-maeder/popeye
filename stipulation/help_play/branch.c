@@ -22,7 +22,6 @@ static slice_index const help_slice_rank_order[] =
   STMaxTimeHelpFilter,
   STMaxSolutionsHelpFilter,
   STStopOnShortSolutionsHelpFilter,
-  STAmuMateFilter,
   STUltraschachzwangGoalFilter,
   STCirceSteingewinnFilter,
   STGoalReachableGuardHelpFilter,
