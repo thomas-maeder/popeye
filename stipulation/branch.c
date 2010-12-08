@@ -20,7 +20,6 @@ static slice_index const root_slice_rank_order[] =
   STReadyForHelpMove,
   STReadyForSeriesMove,
   STAmuMateFilter,
-  STUltraschachzwangGoalFilter,
   STCirceSteingewinnFilter,
   STSelfCheckGuard,
   STAttackMoveLegalityChecked,
@@ -139,6 +138,7 @@ void root_branch_insert_slices(slice_index si,
 static slice_index const leaf_slice_rank_order[] =
 {
   STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
   STGoalMateReachedTester,
   STGoalStalemateReachedTester,
   STGoalDoubleStalemateReachedTester,
