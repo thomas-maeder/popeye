@@ -58,43 +58,80 @@ static unsigned int get_root_slice_rank(SliceType type)
   return result;
 }
 
-/* Determine the position where to insert a slice from the root.
- * @param si entry slice of defense branch
- * @param type type of slice to be inserted
- * @return identifier of slice before which to insert; no_slice if no
- *         suitable position could be found
- */
-slice_index find_root_slice_insertion_pos(slice_index si, SliceType type)
+static void root_branch_insert_slices_recursive(slice_index si,
+                                                slice_index const prototypes[],
+                                                unsigned int nr_prototypes)
 {
-  slice_index result = no_slice;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const rank_type = get_root_slice_rank(type);
-    assert(rank_type!=nr_root_slice_rank_order_elmts);
-    while (true)
+    SliceType const prototype_type = slices[prototypes[0]].type;
+    unsigned int prototype_rank = get_root_slice_rank(prototype_type);
+
+    do
     {
-      unsigned int const rank = get_root_slice_rank(slices[si].type);
-      if (rank==nr_root_slice_rank_order_elmts)
-        break;
-      else if (rank>rank_type)
+      if (slices[si].type==STProxy)
+        si = slices[si].u.pipe.next;
+      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
       {
-        result = si;
+        root_branch_insert_slices_recursive(slices[si].u.binary.op1,
+                                            prototypes,nr_prototypes);
+        root_branch_insert_slices_recursive(slices[si].u.binary.op2,
+                                            prototypes,nr_prototypes);
         break;
       }
       else
-        si = slices[si].u.pipe.next;
-    }
+      {
+        unsigned int const rank_si = get_root_slice_rank(slices[si].type);
+        if (rank_si==nr_root_slice_rank_order_elmts)
+          break;
+        else if (rank_si>prototype_rank)
+        {
+          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+          if (nr_prototypes>1)
+            root_branch_insert_slices_recursive(si,
+                                                prototypes+1,nr_prototypes-1);
+          break;
+        }
+        else
+          si = slices[si].u.pipe.next;
+      }
+    } while (prototype_type!=slices[si].type);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Insert slices into a root branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by root_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void root_branch_insert_slices(slice_index si,
+                               slice_index const prototypes[],
+                               unsigned int nr_prototypes)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  root_branch_insert_slices_recursive(si,prototypes,nr_prototypes);
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Order in which the slice types dealing with goals appear
@@ -161,43 +198,80 @@ static unsigned int get_leaf_slice_rank(SliceType type)
   return result;
 }
 
-/* Determine the position where to insert a slice into an defense branch.
- * @param si entry slice of defense branch
- * @param type type of slice to be inserted
- * @return identifier of slice before which to insert; no_slice if no
- *         suitable position could be found
- */
-slice_index find_leaf_slice_insertion_pos(slice_index si, SliceType type)
+static void leaf_branch_insert_slices_recursive(slice_index si,
+                                                slice_index const prototypes[],
+                                                unsigned int nr_prototypes)
 {
-  slice_index result = no_slice;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const rank_type = get_leaf_slice_rank(type);
-    assert(rank_type!=nr_leaf_slice_rank_order_elmts);
-    while (true)
+    SliceType const prototype_type = slices[prototypes[0]].type;
+    unsigned int prototype_rank = get_leaf_slice_rank(prototype_type);
+
+    do
     {
-      unsigned int const rank = get_leaf_slice_rank(slices[si].type);
-      if (rank==nr_leaf_slice_rank_order_elmts)
-        break;
-      else if (rank>rank_type)
+      if (slices[si].type==STProxy)
+        si = slices[si].u.pipe.next;
+      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
       {
-        result = si;
+        leaf_branch_insert_slices_recursive(slices[si].u.binary.op1,
+                                            prototypes,nr_prototypes);
+        leaf_branch_insert_slices_recursive(slices[si].u.binary.op2,
+                                            prototypes,nr_prototypes);
         break;
       }
       else
-        si = slices[si].u.pipe.next;
-    }
+      {
+        unsigned int const rank_si = get_leaf_slice_rank(slices[si].type);
+        if (rank_si==nr_leaf_slice_rank_order_elmts)
+          break;
+        else if (rank_si>prototype_rank)
+        {
+          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+          if (nr_prototypes>1)
+            leaf_branch_insert_slices_recursive(si,
+                                                prototypes+1,nr_prototypes-1);
+          break;
+        }
+        else
+          si = slices[si].u.pipe.next;
+      }
+    } while (prototype_type!=slices[si].type);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Insert slices into a leaf branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by leaf_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void leaf_branch_insert_slices(slice_index si,
+                               slice_index const prototypes[],
+                               unsigned int nr_prototypes)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  leaf_branch_insert_slices_recursive(si,prototypes,nr_prototypes);
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a new branch slice

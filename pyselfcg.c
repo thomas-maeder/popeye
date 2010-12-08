@@ -345,11 +345,6 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
   return result;
 }
 
-typedef struct
-{
-  boolean provided[max_nr_slices];
-} selfcheck_guard_insertion_state_type;
-
 static
 void insert_selfcheck_guard_attacker_filter(slice_index si,
                                             stip_structure_traversal *st)
@@ -427,19 +422,13 @@ static void insert_selfcheck_guard_series_filter(slice_index si,
 static void insert_selfcheck_guard_leaf(slice_index si,
                                         stip_structure_traversal *st)
 {
-  selfcheck_guard_insertion_state_type * const state = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
-    slice_index const pos = find_leaf_slice_insertion_pos(si,STSelfCheckGuard);
-    if (pos!=no_slice && !state->provided[pos])
-    {
-      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
-      state->provided[pos] = true;
-    }
+    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    leaf_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -448,16 +437,13 @@ static void insert_selfcheck_guard_leaf(slice_index si,
 
 static void insert_selfcheck_guard_root(slice_index si, stip_structure_traversal *st)
 {
-  selfcheck_guard_insertion_state_type * const state = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
-    slice_index const pos = find_root_slice_insertion_pos(si,STSelfCheckGuard);
-    if (pos!=no_slice && !state->provided[pos])
-      pipe_append(slices[pos].prev,alloc_selfcheck_guard_solvable_filter());
+    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
+    root_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -526,7 +512,6 @@ enum
 void stip_insert_selfcheck_guards(slice_index si)
 {
   stip_structure_traversal st;
-  selfcheck_guard_insertion_state_type state = { { false } };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -534,7 +519,7 @@ void stip_insert_selfcheck_guards(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,0);
 
   {
     SliceType type;

@@ -58,20 +58,28 @@ void stip_traverse_moves_branch(slice_index si, stip_moves_traversal *st);
  */
 void link_to_branch(slice_index pipe, slice_index entry);
 
-/* Determine the position where to insert a slice from the root.
- * @param si entry slice of defense branch
- * @param type type of slice to be inserted
- * @return identifier of slice before which to insert; no_slice if no
- *         suitable position could be found
+/* Insert slices into a root branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by root_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
  */
-slice_index find_root_slice_insertion_pos(slice_index si, SliceType type);
+void root_branch_insert_slices(slice_index si,
+                               slice_index const prototypes[],
+                               unsigned int nr_prototypes);
 
-/* Determine the position where to insert a slice into an defense branch.
- * @param si entry slice of defense branch
- * @param type type of slice to be inserted
- * @return identifier of slice before which to insert; no_slice if no
- *         suitable position could be found
+/* Insert slices into a leaf branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by leaf_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
  */
-slice_index find_leaf_slice_insertion_pos(slice_index si, SliceType type);
+void leaf_branch_insert_slices(slice_index si,
+                               slice_index const prototypes[],
+                               unsigned int nr_prototypes);
 
 #endif
