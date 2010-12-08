@@ -140,7 +140,7 @@ stip_length_type defense_defend_in_n(slice_index si,
                                                              n_max_unsolvable);
       break;
 
-    case STRestartGuardRootDefenderFilter:
+    case STRestartGuard:
       result = restart_guard_defend_in_n(si,n,n_max_unsolvable);
       break;
 

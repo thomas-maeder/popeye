@@ -81,53 +81,17 @@ static void IncrementMoveNbr(slice_index si)
   ++MoveNbr;
 }
 
-/* Allocate a STRestartGuardRootDefenderFilter slice
- * @return allocated slice
- */
-static slice_index alloc_restart_guard_root_defender_filter(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STRestartGuardRootDefenderFilter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STRestartGuardHelpFilter slice
- * @return allocated slice
- */
-static slice_index alloc_restart_guard_help_filter(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STRestartGuardHelpFilter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STRestartGuard slice
  * @return allocated slice
  */
-static slice_index alloc_restart_guard_series_filter(void)
+static slice_index alloc_restart_guard(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRestartGuardSeriesFilter);
+  result = alloc_pipe(STRestartGuard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -250,7 +214,7 @@ static void restart_guards_inserter_attack_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(si,alloc_restart_guard_root_defender_filter());
+  pipe_append(si,alloc_restart_guard());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -263,7 +227,7 @@ static void restart_guards_inserter_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(si,alloc_restart_guard_help_filter());
+  pipe_append(si,alloc_restart_guard());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -276,7 +240,7 @@ static void restart_guards_inserter_series(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(si,alloc_restart_guard_series_filter());
+  pipe_append(si,alloc_restart_guard());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

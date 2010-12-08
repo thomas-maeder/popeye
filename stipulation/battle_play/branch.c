@@ -50,7 +50,7 @@ static slice_index const slice_rank_order[] =
   STAttackRoot,
   STAttackMove,
   STAttackMoveToGoal,
-  STRestartGuardRootDefenderFilter,
+  STRestartGuard,
   STAttackMovePlayed,
   STEndOfSolutionWriter,
   STThreatCollector,

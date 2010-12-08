@@ -120,9 +120,7 @@
     ENUMERATOR(STCounterMateSeriesFilter),  /* enforces precondition for counter-mate */ \
     /* slices implementing user options */                              \
     ENUMERATOR(STNoShortVariations), /* filters out short variations */ \
-    ENUMERATOR(STRestartGuardRootDefenderFilter),    /* write move numbers */ \
-    ENUMERATOR(STRestartGuardHelpFilter),    /* write move numbers */ \
-    ENUMERATOR(STRestartGuardSeriesFilter),    /* write move numbers */ \
+    ENUMERATOR(STRestartGuard),    /* write move numbers */             \
     /* slices implementing optimisations */                             \
     ENUMERATOR(STAttackMoveToGoal),                                     \
     ENUMERATOR(STKillerMoveCollector), /* remember killer moves */      \

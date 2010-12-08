@@ -34,7 +34,7 @@ static slice_index const series_slice_rank_order[] =
   STStopOnShortSolutionsSeriesFilter,
   STGoalReachableGuardSeriesFilter,
   STPiecesParalysingMateFilter,
-  STRestartGuardSeriesFilter,
+  STRestartGuard,
   STSeriesMovePlayed,
   STSelfCheckGuard,
   STSeriesMoveLegalityChecked,
