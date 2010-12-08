@@ -76,7 +76,8 @@ static slice_index const slice_rank_order[] =
   STCheckDetector,
   STAttackDealtWith,
   STOutputPlaintextTreeCheckWriterDefenderFilter,
-  STMaxThreatLength
+  STMaxThreatLength,
+  STPostKeyPlaySuppressor
 };
 
 enum
@@ -133,33 +134,35 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
 
     do
     {
-      if (slices[si].type==STProxy)
-        si = slices[si].u.pipe.next;
-      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
+      slice_index const next = slices[si].u.pipe.next;
+      if (slices[next].type==STProxy)
+        si = next;
+      else if (slices[next].type==STQuodlibet
+               || slices[next].type==STReciprocal)
       {
-        battle_branch_insert_slices_recursive(slices[si].u.binary.op1,
+        battle_branch_insert_slices_recursive(slices[next].u.binary.op1,
                                               prototypes,nr_prototypes,
                                               base);
-        battle_branch_insert_slices_recursive(slices[si].u.binary.op2,
+        battle_branch_insert_slices_recursive(slices[next].u.binary.op2,
                                               prototypes,nr_prototypes,
                                               base);
         break;
       }
-      else if (slices[si].type==STAttackFork)
+      else if (slices[next].type==STAttackFork)
       {
-        battle_branch_insert_slices_recursive(slices[si].u.branch_fork.towards_goal,
+        battle_branch_insert_slices_recursive(slices[next].u.branch_fork.towards_goal,
                                               prototypes,nr_prototypes,
                                               base);
-        si = slices[si].u.pipe.next;
+        si = next;
       }
       else
       {
-        unsigned int const rank_si = get_slice_rank(slices[si].type,base);
-        if (rank_si==no_battle_branch_slice_type)
+        unsigned int const rank_next = get_slice_rank(slices[next].type,base);
+        if (rank_next==no_battle_branch_slice_type)
           break;
-        else if (rank_si>prototype_rank)
+        else if (rank_next>prototype_rank)
         {
-          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+          pipe_append(si,copy_slice(prototypes[0]));
           if (nr_prototypes>1)
             battle_branch_insert_slices_recursive(si,
                                                   prototypes+1,nr_prototypes-1,
@@ -167,7 +170,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           break;
         }
         else
-          si = slices[si].u.pipe.next;
+          si = next;
       }
     } while (si!=si_start && prototype_type!=slices[si].type);
   }
