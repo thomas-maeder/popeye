@@ -162,18 +162,6 @@ static void degenerate_tree_inserter_attack_move(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors degenerate_tree_guards_inserters[] =
-{
-  { STAttackFindShortest, &degenerate_tree_inserter_attack_move }
-};
-
-enum
-{
-  nr_degenerate_tree_guards_inserters =
-  (sizeof degenerate_tree_guards_inserters
-   / sizeof degenerate_tree_guards_inserters[0])
-};
-
 /* Instrument stipulation with STDegenerateTree slices
  * @param si identifies slice where to start
  */
@@ -186,9 +174,9 @@ void stip_insert_degenerate_tree_guards(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    degenerate_tree_guards_inserters,
-                                    nr_degenerate_tree_guards_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STAttackFindShortest,
+                                           &degenerate_tree_inserter_attack_move);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
