@@ -1,5 +1,5 @@
 conditions/amu/mate_filter$(OBJ_SUFFIX): conditions/amu/mate_filter.c \
-  conditions/amu/mate_filter.h pypipe.h pydata.h trace.h
+ conditions/amu/mate_filter.h pypipe.h pydata.h trace.h
 
 conditions/amu/mate_filter.h:
 
