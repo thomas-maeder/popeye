@@ -493,7 +493,7 @@ stipulation/battle_play/attack_play.h:
 trace.h:
 stipulation/battle_play/try$(OBJ_SUFFIX): stipulation/battle_play/try.c \
  stipulation/battle_play/try.h pydata.h pypipe.h stipulation/branch.h \
- stipulation/battle_play/defense_play.h \
+ stipulation/battle_play/defense_play.h stipulation/battle_play/branch.h \
  stipulation/battle_play/attack_play.h trace.h
 
 stipulation/battle_play/try.h:
@@ -505,6 +505,8 @@ pypipe.h:
 stipulation/branch.h:
 
 stipulation/battle_play/defense_play.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/battle_play/attack_play.h:
 

@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "trace.h"
@@ -174,7 +175,7 @@ killer_move_collector_can_defend_in_n(slice_index si,
   return result;
 }
 
-static void append_collector(slice_index si, stip_structure_traversal *st)
+static void insert_collector(slice_index si, stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
@@ -184,16 +185,20 @@ static void append_collector(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_killer_move_collector_slice(length,min_length));
-  
+
+  {
+    slice_index const prototype = alloc_killer_move_collector_slice(length,min_length);
+    battle_branch_insert_slices(si,&prototype,1);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
 static structure_traversers_visitors killer_move_collector_inserters[] =
 {
-  { STAttackMoveShoeHorningDone,  &append_collector },
-  { STDefenseMoveShoeHorningDone, &append_collector }
+  { STAttackMovePlayed,  &insert_collector },
+  { STDefenseMovePlayed, &insert_collector }
 };
 
 enum
