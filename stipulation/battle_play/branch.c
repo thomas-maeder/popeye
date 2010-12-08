@@ -12,6 +12,7 @@
 #include "trace.h"
 
 #include <assert.h>
+#include <limits.h>
 
 /* Order in which the slice types appear in battle branches
  * some types are not mentioned because they have variable ranks.
@@ -81,7 +82,8 @@ static slice_index const slice_rank_order[] =
 enum
 {
   nr_slice_rank_order_elmts = (sizeof slice_rank_order
-                               / sizeof slice_rank_order[0])
+                               / sizeof slice_rank_order[0]),
+  no_battle_branch_slice_type = INT_MAX
 };
 
 /* Determine the rank of a defense slice type, relative to some base rank
@@ -92,7 +94,7 @@ enum
  */
 static unsigned int get_slice_rank(SliceType type, unsigned int base)
 {
-  unsigned int result;
+  unsigned int result = no_battle_branch_slice_type;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -102,9 +104,10 @@ static unsigned int get_slice_rank(SliceType type, unsigned int base)
 
   for (i = 0; i!=nr_slice_rank_order_elmts; ++i)
     if (slice_rank_order[(i+base)%nr_slice_rank_order_elmts]==type)
+    {
+      result = i+base;
       break;
-
-  result = i+base;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -127,7 +130,6 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
     slice_index si = si_start;
     SliceType const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_slice_rank(prototype_type,base);
-    assert(prototype_rank!=nr_slice_rank_order_elmts);
 
     do
     {
@@ -153,7 +155,9 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
       else
       {
         unsigned int const rank_si = get_slice_rank(slices[si].type,base);
-        if (rank_si>prototype_rank)
+        if (rank_si==no_battle_branch_slice_type)
+          break;
+        else if (rank_si>prototype_rank)
         {
           pipe_append(slices[si].prev,copy_slice(prototypes[0]));
           if (nr_prototypes>1)
@@ -172,7 +176,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
   TraceFunctionResultEnd();
 }
 
-/* Insert slices into a branch starting at a defense slice.
+/* Insert slices into a battle branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by battle_branch_insert_slices().
  * Each slice is inserted at a position that corresponds to its predefined rank.
@@ -193,6 +197,8 @@ void battle_branch_insert_slices(slice_index si,
   TraceFunctionParamListEnd();
 
   base = get_slice_rank(slices[si].type,0);
+  assert(base!=no_battle_branch_slice_type);
+
   battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
 
   for (i = 0; i!=nr_prototypes; ++i)

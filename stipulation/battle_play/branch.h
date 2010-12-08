@@ -38,7 +38,7 @@ slice_index alloc_battle_branch(stip_length_type length,
  */
 void battle_branch_shorten_slice(slice_index si);
 
-/* Insert slices into a branch starting at a defense slice.
+/* Insert slices into a battle branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by battle_branch_insert_slices().
  * Each slice is inserted at a position that corresponds to its predefined rank.

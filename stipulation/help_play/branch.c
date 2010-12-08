@@ -6,6 +6,7 @@
 #include "trace.h"
 
 #include <assert.h>
+#include <limits.h>
 
 /* Order in which the slice types dealing with help moves appear
  * STHelpFork is not mentioned because it has a variable rank.
@@ -34,28 +35,32 @@ static slice_index const help_slice_rank_order[] =
 enum
 {
   nr_help_slice_rank_order_elmts = (sizeof help_slice_rank_order
-                                    / sizeof help_slice_rank_order[0])
+                                    / sizeof help_slice_rank_order[0]),
+  no_help_slice_type = INT_MAX
 };
 
 /* Determine the rank of a help slice type
  * @param type help slice type
+ * @param base base rank value
  * @return rank of type; nr_help_slice_rank_order_elmts if the rank can't
  *         be determined
  */
-static unsigned int get_help_slice_rank(SliceType type)
+static unsigned int get_slice_rank(SliceType type, unsigned int base)
 {
-  unsigned int result;
+  unsigned int result = no_help_slice_type;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  if (type==STHelpFork)
-    result = 0;
-  else
-    for (result = 0; result!=nr_help_slice_rank_order_elmts; ++result)
-      if (help_slice_rank_order[result]==type)
-        break;
+  for (i = 0; i!=nr_help_slice_rank_order_elmts; ++i)
+    if (help_slice_rank_order[(i+base)%nr_help_slice_rank_order_elmts]==type)
+    {
+      result = i+base;
+      break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -63,43 +68,90 @@ static unsigned int get_help_slice_rank(SliceType type)
   return result;
 }
 
-/* Determine the position where to insert a slice into an help branch.
- * @param si entry slice of help branch
- * @param type type of slice to be inserted
- * @return identifier of slice before which to insert; no_slice if no
- *         suitable position could be found
- */
-slice_index find_help_slice_insertion_pos(slice_index si, SliceType type)
+static void help_branch_insert_slices_recursive(slice_index si_start,
+                                                slice_index const prototypes[],
+                                                unsigned int nr_prototypes,
+                                                unsigned int base)
 {
-  slice_index result = no_slice;
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",si_start);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   {
-    unsigned int const rank_type = get_help_slice_rank(type);
-    assert(rank_type!=nr_help_slice_rank_order_elmts);
-    while (true)
+    slice_index si = si_start;
+    SliceType const prototype_type = slices[prototypes[0]].type;
+    unsigned int prototype_rank = get_slice_rank(prototype_type,base);
+
+    do
     {
-      unsigned int const rank = get_help_slice_rank(slices[si].type);
-      if (rank==nr_help_slice_rank_order_elmts)
-        break;
-      else if (rank>rank_type)
+      if (slices[si].type==STProxy)
+        si = slices[si].u.pipe.next;
+      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
       {
-        result = si;
+        help_branch_insert_slices_recursive(slices[si].u.binary.op1,
+                                            prototypes,nr_prototypes,
+                                            base);
+        help_branch_insert_slices_recursive(slices[si].u.binary.op2,
+                                            prototypes,nr_prototypes,
+                                            base);
         break;
       }
       else
-        si = slices[si].u.pipe.next;
-    }
+      {
+        unsigned int const rank_si = get_slice_rank(slices[si].type,base);
+        if (rank_si==no_help_slice_type)
+          break;
+        else if (rank_si>prototype_rank)
+        {
+          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+          if (nr_prototypes>1)
+            help_branch_insert_slices_recursive(si,
+                                                prototypes+1,nr_prototypes-1,
+                                                base);
+          break;
+        }
+        else
+          si = slices[si].u.pipe.next;
+      }
+    } while (si!=si_start && prototype_type!=slices[si].type);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Insert slices into a help branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by help_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void help_branch_insert_slices(slice_index si,
+                               slice_index const prototypes[],
+                               unsigned int nr_prototypes)
+{
+  unsigned int i;
+  unsigned int base;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  base = get_slice_rank(slices[si].type,0);
+  assert(base!=no_help_slice_type);
+
+  help_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+
+  for (i = 0; i!=nr_prototypes; ++i)
+    dealloc_slice(prototypes[i]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Shorten a help slice by 2 half moves
