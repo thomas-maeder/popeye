@@ -21,7 +21,6 @@ static slice_index const series_slice_rank_order[] =
 {
   STReadyForSeriesMove,
   STParryFork,
-  STMoveInverterSeriesFilter,
   STSeriesHashed,
   STDoubleMateSeriesFilter,
   STCounterMateSeriesFilter,
@@ -42,7 +41,9 @@ static slice_index const series_slice_rank_order[] =
   STSeriesMovePlayed,
   STSelfCheckGuard,
   STSeriesMoveLegalityChecked,
-  STSeriesMoveDealtWith
+  STSeriesMoveDealtWith,
+  STMoveInverterSeriesFilter,
+  STSeriesMovePlayed
 };
 
 enum

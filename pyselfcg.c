@@ -346,8 +346,8 @@ has_solution_type selfcheck_guard_has_solution(slice_index si)
 }
 
 static
-void insert_selfcheck_guard_attacker_filter(slice_index si,
-                                            stip_structure_traversal *st)
+void insert_selfcheck_guard_battle_branch(slice_index si,
+                                          stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -364,26 +364,7 @@ void insert_selfcheck_guard_attacker_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static
-void insert_selfcheck_guard_defender_filter(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_selfcheck_guard_solvable_filter();
-    battle_branch_insert_slices(si,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_selfcheck_guard_help_filter(slice_index si,
+static void insert_selfcheck_guard_help_branch(slice_index si,
                                                stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -401,7 +382,7 @@ static void insert_selfcheck_guard_help_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_selfcheck_guard_series_filter(slice_index si,
+static void insert_selfcheck_guard_series_branch(slice_index si,
                                                  stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -464,29 +445,18 @@ static void insert_selfcheck_guard_setplay_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void append_selfcheck_guard(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_append(si,alloc_selfcheck_guard_solvable_filter());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitors selfcheck_guards_inserters[] =
 {
-  { STSetplayFork,              &insert_selfcheck_guard_setplay_fork    },
-  { STAttackMove,               &insert_selfcheck_guard_defender_filter },
-  { STAttackRoot,               &insert_selfcheck_guard_defender_filter },
-  { STDefenseMove,              &insert_selfcheck_guard_attacker_filter },
-  { STHelpMove,                 &insert_selfcheck_guard_help_filter     },
-  { STSeriesMove,               &insert_selfcheck_guard_series_filter   },
-  { STParryFork,                &stip_traverse_structure_pipe           },
-  { STMoveInverterSeriesFilter, &append_selfcheck_guard                 }
+  { STAttackMove,               &insert_selfcheck_guard_battle_branch },
+  { STAttackRoot,               &insert_selfcheck_guard_battle_branch },
+  { STDefenseMove,              &insert_selfcheck_guard_battle_branch },
+  { STHelpMove,                 &insert_selfcheck_guard_help_branch   },
+  { STSeriesMove,               &insert_selfcheck_guard_series_branch },
+  { STMoveInverterSeriesFilter, &insert_selfcheck_guard_series_branch },
+  /* make sure that the set play is instumented */
+  { STSetplayFork,              &insert_selfcheck_guard_setplay_fork  },
+  /* parry fork already tests for check */
+  { STParryFork,                &stip_traverse_structure_pipe         }
 };
 
 enum
