@@ -207,55 +207,14 @@ stip_length_type restart_guard_series_solve_in_n(slice_index si,
   return result;
 }
 
-static void restart_guards_inserter_attack_root(slice_index si,
-                                                stip_structure_traversal *st)
+static void restart_guards_inserter(slice_index si,
+                                    stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   pipe_append(si,alloc_restart_guard());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void restart_guards_inserter_help(slice_index si,
-                                         stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(si,alloc_restart_guard());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void restart_guards_inserter_series(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(si,alloc_restart_guard());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void restart_guards_inserter_quodlibet(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* this hack prevents move numbers from being printed for the set
-   * play */
-  stip_traverse_structure(slices[si].u.binary.op2,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -263,17 +222,16 @@ static void restart_guards_inserter_quodlibet(slice_index si,
 
 static structure_traversers_visitors restart_guards_inserters[] =
 {
-  { STHelpMove,         &restart_guards_inserter_help        },
-  { STHelpMoveToGoal,   &restart_guards_inserter_help        },
-  { STHelpFork,         &stip_structure_visitor_noop         },
-  { STSeriesMove,       &restart_guards_inserter_series      },
-  { STSeriesMoveToGoal, &restart_guards_inserter_series      },
-  { STQuodlibet,        &restart_guards_inserter_quodlibet   },
-  { STNot,              &stip_structure_visitor_noop         },
-  { STAttackRoot,       &restart_guards_inserter_attack_root },
-  { STDefenseRoot,      &stip_structure_visitor_noop         },
-  { STHelpShortcut,     &stip_traverse_structure_pipe        },
-  { STSeriesShortcut,   &stip_traverse_structure_pipe        }
+  { STHelpMove,         &restart_guards_inserter      },
+  { STHelpMoveToGoal,   &restart_guards_inserter      },
+  { STHelpFork,         &stip_structure_visitor_noop  },
+  { STSeriesMove,       &restart_guards_inserter      },
+  { STSeriesMoveToGoal, &restart_guards_inserter      },
+  { STNot,              &stip_structure_visitor_noop  },
+  { STAttackRoot,       &restart_guards_inserter      },
+  { STDefenseRoot,      &stip_structure_visitor_noop  },
+  { STHelpShortcut,     &stip_traverse_structure_pipe },
+  { STSeriesShortcut,   &stip_traverse_structure_pipe }
 };
 
 enum
