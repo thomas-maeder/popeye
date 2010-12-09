@@ -2410,7 +2410,7 @@ pymovenb$(OBJ_SUFFIX): pymovenb.c pymovenb.h stipulation/battle_play/defense_pla
  pyslice.h stipulation/help_play/play.h boolean.h pystip.h pypipe.h \
  pystip.h stipulation/goals/goals.h py.h pyenum.h py.h boolean.h \
  pyposit.h pyboard.h pybitmsk.h pypiece.h pyenum.h pylang.h pyslice.h \
- stipulation/series_play/play.h pyoutput.h pytable.h \
+ stipulation/branch.h stipulation/series_play/play.h pyoutput.h pytable.h \
  output/plaintext/plaintext.h pyproc.h py4.h pydata.h pymsg.h trace.h
 
 pymovenb.h:
@@ -2452,6 +2452,8 @@ pyenum.h:
 pylang.h:
 
 pyslice.h:
+
+stipulation/branch.h:
 
 stipulation/series_play/play.h:
 

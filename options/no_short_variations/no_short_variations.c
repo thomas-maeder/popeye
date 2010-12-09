@@ -9,8 +9,6 @@
 static void append_no_short_variations(slice_index si,
                                        stip_structure_traversal *st)
 {
-  boolean const * const nested = st->param;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();

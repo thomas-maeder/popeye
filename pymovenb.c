@@ -1,5 +1,6 @@
 #include "pymovenb.h"
 #include "pypipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -212,8 +213,6 @@ stip_length_type restart_guard_series_solve_in_n(slice_index si,
  */
 void stip_insert_restart_guards(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
