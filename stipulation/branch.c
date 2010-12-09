@@ -9,7 +9,6 @@
  */
 static slice_index const root_slice_rank_order[] =
 {
-  STProxy,
   STSetplayFork,
   STMoveInverterRootSolvableFilter,
   STMoveInverterSolvableFilter,
@@ -23,7 +22,30 @@ static slice_index const root_slice_rank_order[] =
   STAttackMoveLegalityChecked,
   STDefenseMoveLegalityChecked,
   STHelpMoveLegalityChecked,
-  STSeriesMoveLegalityChecked
+  STSeriesMoveLegalityChecked,
+  STDefenseMoveFiltered,
+  STDefenseDealtWith,
+  STHelpMoveDealtWith,
+  STSeriesMoveDealtWith,
+  STStipulationReflexAttackSolver,
+  STReadyForAttack,
+  STReadyForHelpMove,
+  STRootAttackFork,
+  STAttackRoot,
+  STHelpRoot,
+  STSeriesRoot,
+  STIntelligentHelpFilter,
+  STIntelligentSeriesFilter,
+  STHelpShortcut,
+  STSeriesShortcut,
+  STHelpMove,
+  STSeriesMove,
+  STRestartGuard,
+  STGoalReachableGuardHelpFilter,
+  STGoalReachableGuardSeriesFilter,
+  STAttackMovePlayed,
+  STHelpMovePlayed,
+  STSeriesMovePlayed
 };
 
 enum
@@ -70,31 +92,32 @@ static void root_branch_insert_slices_recursive(slice_index si,
 
     do
     {
-      if (slices[si].type==STProxy)
-        si = slices[si].u.pipe.next;
-      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
+      slice_index const next = slices[si].u.pipe.next;
+      if (slices[next].type==STProxy)
+        si = next;
+      else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
-        root_branch_insert_slices_recursive(slices[si].u.binary.op1,
+        root_branch_insert_slices_recursive(slices[next].u.binary.op1,
                                             prototypes,nr_prototypes);
-        root_branch_insert_slices_recursive(slices[si].u.binary.op2,
+        root_branch_insert_slices_recursive(slices[next].u.binary.op2,
                                             prototypes,nr_prototypes);
         break;
       }
       else
       {
-        unsigned int const rank_si = get_root_slice_rank(slices[si].type);
-        if (rank_si==nr_root_slice_rank_order_elmts)
+        unsigned int const rank_next = get_root_slice_rank(slices[next].type);
+        if (rank_next==nr_root_slice_rank_order_elmts)
           break;
-        else if (rank_si>prototype_rank)
+        else if (rank_next>prototype_rank)
         {
-          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+          pipe_append(si,copy_slice(prototypes[0]));
           if (nr_prototypes>1)
             root_branch_insert_slices_recursive(si,
                                                 prototypes+1,nr_prototypes-1);
           break;
         }
         else
-          si = slices[si].u.pipe.next;
+          si = next;
       }
     } while (prototype_type!=slices[si].type);
   }

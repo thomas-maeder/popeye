@@ -207,39 +207,6 @@ stip_length_type restart_guard_series_solve_in_n(slice_index si,
   return result;
 }
 
-static void restart_guards_inserter(slice_index si,
-                                    stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_append(si,alloc_restart_guard());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static structure_traversers_visitors restart_guards_inserters[] =
-{
-  { STHelpMove,         &restart_guards_inserter      },
-  { STHelpMoveToGoal,   &restart_guards_inserter      },
-  { STHelpFork,         &stip_structure_visitor_noop  },
-  { STSeriesMove,       &restart_guards_inserter      },
-  { STSeriesMoveToGoal, &restart_guards_inserter      },
-  { STNot,              &stip_structure_visitor_noop  },
-  { STAttackRoot,       &restart_guards_inserter      },
-  { STDefenseRoot,      &stip_structure_visitor_noop  },
-  { STHelpShortcut,     &stip_traverse_structure_pipe },
-  { STSeriesShortcut,   &stip_traverse_structure_pipe }
-};
-
-enum
-{
-  nr_restart_guards_inserters = (sizeof restart_guards_inserters
-                                 / sizeof restart_guards_inserters[0])
-};
-
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start
  */
@@ -251,11 +218,10 @@ void stip_insert_restart_guards(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    restart_guards_inserters,
-                                    nr_restart_guards_inserters);
-  stip_traverse_structure(si,&st);
+  {
+    slice_index const prototype = alloc_restart_guard();
+    root_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
