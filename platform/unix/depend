@@ -2,7 +2,7 @@ platform/unix/maxmem$(OBJ_SUFFIX): platform/unix/maxmem.c platform/maxmem.h
 
 platform/maxmem.h:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
-  boolean.h pymsg.h py.h pydata.h pyhash.h
+ boolean.h pymsg.h py.h pydata.h pyhash.h
 
 platform/maxtime_impl.h:
 
@@ -22,7 +22,7 @@ platform/unix/priority$(OBJ_SUFFIX): platform/unix/priority.c platform/priority.
 
 platform/priority.h:
 platform/unix/beep$(OBJ_SUFFIX): platform/unix/beep.c platform/beep.h \
-  platform/beep_impl.h
+ platform/beep_impl.h
 
 platform/beep.h:
 

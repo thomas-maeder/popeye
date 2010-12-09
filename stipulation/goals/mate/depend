@@ -1,6 +1,6 @@
-stipulation/goals/mate/reached_tester$(OBJ_SUFFIX):  \
+stipulation/goals/mate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/mate/reached_tester.c \
-  stipulation/goals/mate/reached_tester.h pypipe.h trace.h
+ stipulation/goals/mate/reached_tester.h pypipe.h trace.h
 
 stipulation/goals/mate/reached_tester.h:
 

@@ -10,7 +10,7 @@ DHT/dht.h:
 
 trace.h:
 DHT/dhtcmem$(OBJ_SUFFIX): DHT/dhtcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtcmem.h \
-  DHT/dht.h
+ DHT/dht.h
 
 DHT/dhtvalue.h:
 
@@ -20,7 +20,7 @@ DHT/dhtcmem.h:
 
 DHT/dht.h:
 DHT/dhtmem$(OBJ_SUFFIX): DHT/dhtmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtmem.h \
-  DHT/dht.h
+ DHT/dht.h
 
 DHT/dhtvalue.h:
 
@@ -49,7 +49,7 @@ DHT/fxf.h:
 
 DHT/dht.h:
 DHT/dhtbcmem$(OBJ_SUFFIX): DHT/dhtbcmem.c DHT/dhtvalue.h DHT/fxf.h DHT/dhtbcmem.h \
-  DHT/dht.h
+ DHT/dht.h
 
 DHT/dhtvalue.h:
 

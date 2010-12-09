@@ -1,5 +1,5 @@
 stipulation/operators/binary$(OBJ_SUFFIX): stipulation/operators/binary.c \
-  stipulation/operators/binary.h stipulation/proxy.h trace.h
+ stipulation/operators/binary.h stipulation/proxy.h trace.h
 
 stipulation/operators/binary.h:
 
