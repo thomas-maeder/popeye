@@ -335,8 +335,6 @@ static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
     *inserted = true;
   }
 
-  pipe_replace(si,alloc_branch(STSolutionSolver,length,min_length));
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
