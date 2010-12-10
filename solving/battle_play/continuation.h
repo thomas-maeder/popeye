@@ -51,6 +51,6 @@ continuation_solver_can_defend_in_n(slice_index si,
  * continuations
  * @param si identifies slice where to start
  */
-void stip_insert_continuation_handlers(slice_index si);
+void stip_substitute_solution_solvers(slice_index si);
 
 #endif

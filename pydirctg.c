@@ -121,12 +121,16 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
     slice_index const filtered = alloc_branch(STAttackMoveFiltered,
                                               slack_length_battle,
                                               slack_length_battle-1);
+    slice_index const solver = alloc_branch(STContinuationSolver,
+                                            slack_length_battle,
+                                            slack_length_battle-1);
     slice_index const dealt = alloc_branch(STAttackDealtWith,
                                            slack_length_battle,
                                            slack_length_battle-1);
 
     pipe_link(dealt,slices[si].u.pipe.next);
-    pipe_link(filtered,dealt);
+    pipe_link(filtered,solver);
+    pipe_link(solver,dealt);
     pipe_link(checked,filtered);
     pipe_link(si,checked);
   }

@@ -2729,7 +2729,7 @@ static Token iterate_twins(Token prev_token)
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
 
-      stip_insert_continuation_handlers(template_slice_hook);
+      stip_substitute_solution_solvers(template_slice_hook);
 
       stip_insert_check_detectors(template_slice_hook);
 

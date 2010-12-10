@@ -154,16 +154,15 @@ static void traverse_nested(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Append a continuation solver if none has been inserted before
+/* Substitute a STSolutionSolver slice for a STContinuationSolver slice if this
+ * substitution hasn't happend before.
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void solver_prepend(slice_index si,
-                                        stip_structure_traversal *st)
+static void substitute_solution_solver(slice_index si,
+                                       stip_structure_traversal *st)
 {
   insertion_state_type const * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -171,16 +170,14 @@ static void solver_prepend(slice_index si,
 
   if (*state==insertion_root)
   {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
     traverse_nested(si,st);
-    pipe_append(slices[si].prev,
+    pipe_replace(si,
                 alloc_solution_solver_slice(length,min_length));
   }
   else
-  {
     stip_traverse_structure_children(si,st);
-    pipe_append(slices[si].prev,
-                alloc_continuation_solver_slice(length,min_length));
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -188,10 +185,10 @@ static void solver_prepend(slice_index si,
 
 static structure_traversers_visitors continuation_handler_inserters[] =
 {
-  { STNot,             &traverse_nested             },
-  { STAttackDealtWith, &solver_prepend              },
-  { STHelpRoot,        &stip_structure_visitor_noop },
-  { STSeriesRoot,      &stip_structure_visitor_noop }
+  { STNot,                &traverse_nested             },
+  { STContinuationSolver, &substitute_solution_solver  },
+  { STHelpRoot,           &stip_structure_visitor_noop },
+  { STSeriesRoot,         &stip_structure_visitor_noop }
 };
 
 enum
@@ -205,7 +202,7 @@ enum
  * continuations
  * @param si identifies slice where to start
  */
-void stip_insert_continuation_handlers(slice_index si)
+void stip_substitute_solution_solvers(slice_index si)
 {
   stip_structure_traversal st;
   insertion_state_type state = insertion_root;
