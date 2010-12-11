@@ -113,9 +113,7 @@ static void check_detector_prepend(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (length>slack_length_battle)
-    pipe_append(slices[si].prev,
-                alloc_check_detector_slice(length,min_length));
+  pipe_append(slices[si].prev,alloc_check_detector_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

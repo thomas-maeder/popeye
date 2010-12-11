@@ -191,6 +191,7 @@ stipulation/battle_play/attack_play$(OBJ_SUFFIX): \
  optimisations/killer_move/collector.h \
  optimisations/stoponshortsolutions/root_solvable_filter.h \
  output/plaintext/tree/check_writer.h \
+ output/plaintext/tree/decoration_writer.h \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/variation_writer.h \
  output/plaintext/tree/refutation_writer.h \
@@ -264,6 +265,8 @@ optimisations/killer_move/collector.h:
 optimisations/stoponshortsolutions/root_solvable_filter.h:
 
 output/plaintext/tree/check_writer.h:
+
+output/plaintext/tree/decoration_writer.h:
 
 output/plaintext/tree/zugzwang_writer.h:
 
@@ -353,8 +356,9 @@ stipulation/battle_play/defense_play$(OBJ_SUFFIX): \
  optimisations/maxtime/root_defender_filter.h \
  optimisations/maxtime/defender_filter.h \
  optimisations/goals/enpassant/defender_filter.h \
- output/plaintext/tree/check_writer.h output/plaintext/tree/key_writer.h \
- output/plaintext/tree/try_writer.h \
+ output/plaintext/tree/check_writer.h \
+ output/plaintext/tree/decoration_writer.h \
+ output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/end_of_solution_writer.h \
  output/plaintext/tree/continuation_writer.h \
  output/plaintext/tree/goal_writer.h trace.h
@@ -412,6 +416,8 @@ optimisations/maxtime/defender_filter.h:
 optimisations/goals/enpassant/defender_filter.h:
 
 output/plaintext/tree/check_writer.h:
+
+output/plaintext/tree/decoration_writer.h:
 
 output/plaintext/tree/key_writer.h:
 

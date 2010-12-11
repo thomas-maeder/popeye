@@ -749,3 +749,98 @@ only example of double mate with neutral king
 solution finished. 
 
 
+
+checks weren't indicated on the moving reaching a goal
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ep2                         2 + 3
+           BlackMaximummer
+
+   1.e4*d5 ! zugzwang.
+      1...c7-c5
+          2.d5*c6 ep. +
+
+              empile:         101
+            jouecoup:          30
+        orig_rbechec:           0
+        orig_rnechec:          25
+solution finished. 
+
+
+
+checks weren't indicated on the moving reaching a goal
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                       2 + 1
+
+Initial (Black ->):
+
+checks weren't indicated on the moving reaching a goal
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -K   .   8
+|                                   |
+7   .   .  -P   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                       2 + 2
+
+  1.c7-c5 d5*c6 ep. + a=>b 
+  1.c7-c6 d5*c6 + a=>b 
+
+              empile:          17
+            jouecoup:          21
+        orig_rbechec:           0
+        orig_rnechec:           2
+solution finished. 
+
+

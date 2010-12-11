@@ -87,6 +87,7 @@ static slice_index const root_slice_rank_order[] =
   STSelfCheckGuard,
   STGoalNotCheckReachedTester,
   STGoalImmobileReachedTester,
+  STPiecesParalysingMateFilter,
   STGoalReachedTested,
   STAttackMoveLegalityChecked,
   STAttackMoveFiltered,
@@ -94,6 +95,7 @@ static slice_index const root_slice_rank_order[] =
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
+  STCheckDetector,
   STAttackDealtWith
 };
 
@@ -240,13 +242,23 @@ static slice_index const leaf_slice_rank_order[] =
   STDefenseMoveLegalityChecked,
   STHelpMoveLegalityChecked,
   STSeriesMoveLegalityChecked,
+  STDefenseMoveFiltered,
+  STVariationWriter,
+  STRefutingVariationWriter,
+  STDefenseDealtWith,
+  STOutputPlaintextTreeCheckWriterAttackerFilter,
+  STOutputPlaintextTreeCheckWriterDefenderFilter,
+  STOutputPlaintextTreeGoalWriter,
+  STOutputPlaintextTreeDecorationWriterAttackerFilter,
+  STOutputPlaintextTreeDecorationWriterDefenderFilter,
   STLeaf
 };
 
 enum
 {
   nr_leaf_slice_rank_order_elmts = (sizeof leaf_slice_rank_order
-                                    / sizeof leaf_slice_rank_order[0])
+                                    / sizeof leaf_slice_rank_order[0]),
+  no_leaf_slice_type = INT_MAX
 };
 
 /* Determine the rank of a slice type
@@ -256,15 +268,19 @@ enum
  */
 static unsigned int get_leaf_slice_rank(SliceType type)
 {
-  unsigned int result;
+  unsigned int result = no_leaf_slice_type;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(SliceType,type,"");
   TraceFunctionParamListEnd();
 
-  for (result = 0; result!=nr_leaf_slice_rank_order_elmts; ++result)
-    if (leaf_slice_rank_order[result]==type)
+  for (i = 0; i!=nr_leaf_slice_rank_order_elmts; ++i)
+    if (leaf_slice_rank_order[i]==type)
+    {
+      result = i;
       break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -284,36 +300,42 @@ static void leaf_branch_insert_slices_recursive(slice_index si,
   {
     SliceType const prototype_type = slices[prototypes[0]].type;
     unsigned int prototype_rank = get_leaf_slice_rank(prototype_type);
-
-    do
+    if (prototype_rank==no_leaf_slice_type)
     {
-      if (slices[si].type==STProxy)
-        si = slices[si].u.pipe.next;
-      else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
+      if (nr_prototypes>1)
+        leaf_branch_insert_slices_recursive(si,
+                                            prototypes+1,nr_prototypes-1);
+    }
+    else
+      do
       {
-        leaf_branch_insert_slices_recursive(slices[si].u.binary.op1,
-                                            prototypes,nr_prototypes);
-        leaf_branch_insert_slices_recursive(slices[si].u.binary.op2,
-                                            prototypes,nr_prototypes);
-        break;
-      }
-      else
-      {
-        unsigned int const rank_si = get_leaf_slice_rank(slices[si].type);
-        if (rank_si==nr_leaf_slice_rank_order_elmts)
-          break;
-        else if (rank_si>prototype_rank)
+        if (slices[si].type==STProxy)
+          si = slices[si].u.pipe.next;
+        else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
         {
-          pipe_append(slices[si].prev,copy_slice(prototypes[0]));
-          if (nr_prototypes>1)
-            leaf_branch_insert_slices_recursive(si,
-                                                prototypes+1,nr_prototypes-1);
+          leaf_branch_insert_slices_recursive(slices[si].u.binary.op1,
+                                              prototypes,nr_prototypes);
+          leaf_branch_insert_slices_recursive(slices[si].u.binary.op2,
+                                              prototypes,nr_prototypes);
           break;
         }
         else
-          si = slices[si].u.pipe.next;
-      }
-    } while (prototype_type!=slices[si].type);
+        {
+          unsigned int const rank_si = get_leaf_slice_rank(slices[si].type);
+          if (rank_si==nr_leaf_slice_rank_order_elmts)
+            break;
+          else if (rank_si>prototype_rank)
+          {
+            pipe_append(slices[si].prev,copy_slice(prototypes[0]));
+            if (nr_prototypes>1)
+              leaf_branch_insert_slices_recursive(si,
+                                                  prototypes+1,nr_prototypes-1);
+            break;
+          }
+          else
+            si = slices[si].u.pipe.next;
+        }
+      } while (prototype_type!=slices[si].type);
   }
 
   TraceFunctionExit(__func__);

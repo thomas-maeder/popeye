@@ -465,29 +465,13 @@ enum
                                    / sizeof selfcheck_guards_inserters[0])
 };
 
-goal_type goals_ignoring_selfcheck[] = {
-  goal_doublemate,
-  goal_countermate
-};
-
-enum
-{
-  nr_goals_ignoring_selfcheck = (sizeof goals_ignoring_selfcheck
-                                 / sizeof goals_ignoring_selfcheck[0])
-};
-
-/* Instrument a stipulation with slices dealing with selfcheck detection
- * @param si root of branch to be instrumented
- */
-void stip_insert_selfcheck_guards(slice_index si)
+static void insert_guards(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
 
@@ -501,6 +485,77 @@ void stip_insert_selfcheck_guards(slice_index si)
                                                &insert_selfcheck_guard_leaf);
   }
 
+  stip_structure_traversal_override(&st,
+                                    selfcheck_guards_inserters,
+                                    nr_selfcheck_guards_inserters);
+  stip_traverse_structure(si,&st);
+
+  insert_selfcheck_guard_root(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_to_ignore(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const ignore = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *ignore = true;
+  stip_traverse_structure_children(si,st);
+  *ignore = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remove_if_ignored(slice_index si, stip_structure_traversal *st)
+{
+  boolean const * const ignore = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (*ignore)
+    pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+goal_type goals_ignoring_selfcheck[] = {
+  goal_doublemate,
+  goal_countermate
+};
+
+enum
+{
+  nr_goals_ignoring_selfcheck = (sizeof goals_ignoring_selfcheck
+                                 / sizeof goals_ignoring_selfcheck[0])
+};
+
+/* Remove selfcheck guard slices if we are checking for a goal that ignores
+ * selfcheck
+ * @param si identifies the slice where to start looking for selfcheck guard
+ *           slices to be removed
+ */
+static void remove_guards_after_selfcheck_ignoring_goals(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean ignore = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&ignore);
+
   {
     unsigned int i;
     for (i = 0; i!=nr_goals_ignoring_selfcheck; ++i)
@@ -509,17 +564,33 @@ void stip_insert_selfcheck_guards(slice_index si)
                                      +goals_ignoring_selfcheck[i]);
       stip_structure_traversal_override_single(&st,
                                                tester_type,
-                                               &stip_structure_visitor_noop);
+                                               &remember_to_ignore);
     }
+
+    stip_structure_traversal_override_single(&st,
+                                             STSelfCheckGuard,
+                                             &remove_if_ignored);
   }
 
-  stip_structure_traversal_override(&st,
-                                    selfcheck_guards_inserters,
-                                    nr_selfcheck_guards_inserters);
   stip_traverse_structure(si,&st);
 
-  insert_selfcheck_guard_root(si,&st);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
+/* Instrument a stipulation with slices dealing with selfcheck detection
+ * @param si root of branch to be instrumented
+ */
+void stip_insert_selfcheck_guards(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  insert_guards(si);
+  remove_guards_after_selfcheck_ignoring_goals(si);
   TraceStipulation(si);
 
   TraceFunctionExit(__func__);

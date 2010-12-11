@@ -71,10 +71,8 @@ has_solution_type goal_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  StdString(goal_end_marker[goal.type]);
   result = slice_solve(next);
-
-  if (result==has_solution)
-    StdString(goal_end_marker[goal.type]);
 
   TraceFunctionExit(__func__);
   TraceEnumerator(has_solution_type,result,"");
@@ -109,13 +107,8 @@ output_plaintext_tree_goal_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  StdString(goal_end_marker[goal.type]);
   result = defense_defend_in_n(next,n,n_max_unsolvable);
-
-  if (result<=n)
-  {
-    StdString(goal_end_marker[goal.type]);
-    output_plaintext_tree_write_pending_move_decoration();
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -180,13 +173,8 @@ output_plaintext_tree_goal_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
+  StdString(goal_end_marker[goal.type]);
   result = attack_solve_in_n(next,n,n_max_unsolvable);
-
-  if (result<=n)
-  {
-    StdString(goal_end_marker[goal.type]);
-    output_plaintext_tree_write_pending_move_decoration();
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -219,6 +207,41 @@ output_plaintext_tree_goal_writer_has_solution_in_n(slice_index si,
   TraceFunctionParamListEnd();
 
   result = attack_has_solution_in_n(next,n,n_max_unsolvable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Determine whether a goal writer slice should replace the check writer slice
+ * which would normally following the possible check deliverd by the move just
+ * played (i.e. if both a possible check and the symbol for the reached goal
+ * should be written).
+ * @param goal goal written by goal writer
+ * @return true iff the check writer should be replaced by the goal writer
+ */
+boolean output_plaintext_tree_goal_writer_replace_check_writer(Goal goal)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
+
+  switch (goal.type)
+  {
+    case goal_mate:
+    case goal_check:
+    case goal_doublemate:
+    case goal_countermate:
+      result = true;
+      break;
+
+    default:
+      result = false;
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

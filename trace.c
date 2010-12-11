@@ -304,6 +304,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STStopOnShortSolutionsSeriesFilter:
       case STOutputPlaintextTreeCheckWriterAttackerFilter:
       case STOutputPlaintextTreeCheckWriterDefenderFilter:
+      case STOutputPlaintextTreeDecorationWriterAttackerFilter:
+      case STOutputPlaintextTreeDecorationWriterDefenderFilter:
       case STContinuationWriter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)

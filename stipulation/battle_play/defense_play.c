@@ -25,6 +25,7 @@
 #include "optimisations/maxtime/defender_filter.h"
 #include "optimisations/goals/enpassant/defender_filter.h"
 #include "output/plaintext/tree/check_writer.h"
+#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
@@ -162,6 +163,12 @@ stip_length_type defense_defend_in_n(slice_index si,
       result = output_plaintext_tree_check_writer_defend_in_n(si,
                                                                 n,
                                                                 n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeDecorationWriterDefenderFilter:
+      result = output_plaintext_tree_decoration_writer_defend_in_n(si,
+                                                                   n,
+                                                                   n_max_unsolvable);
       break;
 
     case STKeyWriter:
@@ -340,6 +347,11 @@ stip_length_type defense_can_defend_in_n(slice_index si,
     case STOutputPlaintextTreeCheckWriterDefenderFilter:
       result = output_plaintext_tree_check_writer_can_defend_in_n(si,
                                                                   n,n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeDecorationWriterDefenderFilter:
+      result = output_plaintext_tree_decoration_writer_can_defend_in_n(si,
+                                                                       n,n_max_unsolvable);
       break;
 
     case STEnPassantDefenderFilter:

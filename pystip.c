@@ -212,8 +212,10 @@
     ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckWriterAttackerFilter), /* plain text output, tree mode: detect checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckWriterDefenderFilter), /* plain text output, tree mode: detect checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckWriterAttackerFilter), /* plain text output, tree mode: write checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckWriterDefenderFilter), /* plain text output, tree mode: write checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeDecorationWriterAttackerFilter), /* plain text output, tree mode: write checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeDecorationWriterDefenderFilter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
@@ -418,6 +420,8 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_branch, /* STRefutationWriter */
   slice_structure_branch, /* STOutputPlaintextTreeCheckWriterAttackerFilter */
   slice_structure_branch, /* STOutputPlaintextTreeCheckWriterDefenderFilter */
+  slice_structure_branch, /* STOutputPlaintextTreeDecorationWriterAttackerFilter */
+  slice_structure_branch, /* STOutputPlaintextTreeDecorationWriterDefenderFilter */
   slice_structure_pipe,   /* STOutputPlaintextLineLineWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeGoalWriter */
   slice_structure_pipe,   /* STOutputPlaintextTreeMoveInversionCounter */
@@ -2082,6 +2086,8 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STRefutationWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeCheckWriterAttackerFilter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeCheckWriterDefenderFilter */
+  &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeDecorationWriterAttackerFilter */
+  &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeDecorationWriterDefenderFilter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextLineLineWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeGoalWriter */
   &stip_traverse_structure_pipe,            /* STOutputPlaintextTreeMoveInversionCounter */
@@ -2325,6 +2331,8 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STRefutationWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeCheckWriterAttackerFilter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeCheckWriterDefenderFilter */
+    &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeDecorationWriterAttackerFilter */
+    &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeDecorationWriterDefenderFilter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextLineLineWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeGoalWriter */
     &stip_traverse_moves_pipe,                  /* STOutputPlaintextTreeMoveInversionCounter */

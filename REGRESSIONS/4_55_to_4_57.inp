@@ -160,4 +160,23 @@ pieces white qa3 pb2c4
        neutral ka5
 stipulation h##0.5
 
+next
+
+title checks weren't indicated on the moving reaching a goal
+pieces white ba2 pe4
+       black kg8 pc7d5
+stipulation ep2
+condition blackmax
+option vari nowk
+
+next
+
+title checks weren't indicated on the moving reaching a goal
+pieces white ba2 pd5
+       black kg8 pc7
+stipulation a=>b1
+pieces white ba2 pc6
+       black kg8
+option nowk
+
 end

@@ -27,19 +27,52 @@ static slice_index const slice_rank_order[] =
   STSeriesMovePlayed,
   STMaxNrNonTrivialCounter,
   STRefutationsCollector,
+  STRefutationWriter,
   STDefenseMoveShoeHorningDone,
   STKillerMoveCollector,
   STSelfDefense,
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STGoalMateReachedTester,
+  STGoalStalemateReachedTester,
+  STGoalDoubleStalemateReachedTester,
+  STAnticirceTargetSquareFilter,
+  STGoalTargetReachedTester,
+  STGoalCaptureReachedTester,
+  STCirceSteingewinnFilter,
+  STGoalSteingewinnReachedTester,
+  STGoalEnpassantReachedTester,
+  STGoalDoubleMateReachedTester,
+  STGoalCounterMateReachedTester,
+  STGoalCastlingReachedTester,
+  STGoalAutoStalemateReachedTester,
+  STGoalCircuitReachedTester,
+  STGoalExchangeReachedTester,
+  STCirceCircuitSpecial,
+  STGoalCircuitByRebirthReachedTester,
+  STCirceExchangeSpecial,
+  STGoalExchangeByRebirthReachedTester,
+  STGoalAnyReachedTester,
+  STGoalProofgameReachedTester,
+  STGoalAToBReachedTester,
+  STGoalMateOrStalemateReachedTester,
+  STGoalCheckReachedTester,
   STSelfCheckGuard,
+  STGoalNotCheckReachedTester,
+  STGoalImmobileReachedTester,
+  STGoalReachedTested,
   STDefenseMoveLegalityChecked,
   STSeriesMoveLegalityChecked,
   STNoShortVariations,
   STAttackHashed,
   STThreatEnforcer,
+  STKeepMatingGuardAttackerFilter,
   STDefenseMoveFiltered,
   STVariationWriter,
   STRefutingVariationWriter,
   STOutputPlaintextTreeCheckWriterAttackerFilter,
+  STOutputPlaintextTreeGoalWriter,
+  STOutputPlaintextTreeDecorationWriterAttackerFilter,
   STDefenseDealtWith,
   STStipulationReflexAttackSolver,
   STReadyForAttack,
@@ -53,13 +86,44 @@ static slice_index const slice_rank_order[] =
   STAttackRoot,
   STAttackMove,
   STAttackMoveToGoal,
+  STMaxSolutionsRootDefenderFilter,
   STRestartGuard,
   STAttackMovePlayed,
   STEndOfSolutionWriter,
   STThreatCollector,
   STKillerMoveCollector,
   STAttackMoveShoeHorningDone,
+  STAmuMateFilter,
+  STUltraschachzwangGoalFilter,
+  STGoalMateReachedTester,
+  STGoalStalemateReachedTester,
+  STGoalDoubleStalemateReachedTester,
+  STAnticirceTargetSquareFilter,
+  STGoalTargetReachedTester,
+  STGoalCaptureReachedTester,
+  STCirceSteingewinnFilter,
+  STGoalSteingewinnReachedTester,
+  STGoalEnpassantReachedTester,
+  STGoalDoubleMateReachedTester,
+  STGoalCounterMateReachedTester,
+  STGoalCastlingReachedTester,
+  STGoalAutoStalemateReachedTester,
+  STGoalCircuitReachedTester,
+  STGoalExchangeReachedTester,
+  STCirceCircuitSpecial,
+  STGoalCircuitByRebirthReachedTester,
+  STCirceExchangeSpecial,
+  STGoalExchangeByRebirthReachedTester,
+  STGoalAnyReachedTester,
+  STGoalProofgameReachedTester,
+  STGoalAToBReachedTester,
+  STGoalMateOrStalemateReachedTester,
+  STGoalCheckReachedTester,
   STSelfCheckGuard,
+  STGoalNotCheckReachedTester,
+  STGoalImmobileReachedTester,
+  STPiecesParalysingMateFilter,
+  STGoalReachedTested,
   STAttackMoveLegalityChecked,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
@@ -69,10 +133,16 @@ static slice_index const slice_rank_order[] =
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
+  STTryWriter,
   STContinuationWriter,
+  STDefenseRoot,
   STCheckDetector,
+  STMaxFlightsquares,
   STAttackDealtWith,
   STOutputPlaintextTreeCheckWriterDefenderFilter,
+  STOutputPlaintextTreeGoalWriter,
+  STOutputPlaintextTreeDecorationWriterDefenderFilter,
+  STLeaf,
   STMaxThreatLength,
   STPostKeyPlaySuppressor
 };
@@ -176,6 +246,36 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
   TraceFunctionResultEnd();
 }
 
+static void battle_branch_insert_slices_base(slice_index si,
+                                             slice_index const prototypes[],
+                                             unsigned int nr_prototypes)
+{
+  switch (slices[si].type)
+  {
+    case STProxy:
+    case STNot:
+      battle_branch_insert_slices_base(slices[si].u.pipe.next,
+                                       prototypes,nr_prototypes);
+      break;
+
+    case STQuodlibet:
+    case STReciprocal:
+      battle_branch_insert_slices_base(slices[si].u.binary.op1,
+                                       prototypes,nr_prototypes);
+      battle_branch_insert_slices_base(slices[si].u.binary.op2,
+                                       prototypes,nr_prototypes);
+      break;
+
+    default:
+    {
+      unsigned int const base = get_slice_rank(slices[si].type,0);
+      assert(base!=no_battle_branch_slice_type);
+      battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+      break;
+    }
+  }
+}
+
 /* Insert slices into a battle branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by battle_branch_insert_slices().
@@ -189,17 +289,13 @@ void battle_branch_insert_slices(slice_index si,
                                  unsigned int nr_prototypes)
 {
   unsigned int i;
-  unsigned int base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  base = get_slice_rank(slices[si].type,0);
-  assert(base!=no_battle_branch_slice_type);
-
-  battle_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
+  battle_branch_insert_slices_base(si,prototypes,nr_prototypes);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);

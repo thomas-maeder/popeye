@@ -1,18 +1,17 @@
-#include "output/plaintext/tree/check_writer.h"
+#include "output/plaintext/tree/decoration_writer.h"
 #include "stipulation/branch.h"
-#include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
-/* Allocate a STOutputPlaintextTreeCheckWriterAttackerFilter slice.
+/* Allocate a STOutputPlaintextTreeDecorationWriterAttackerFilter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
 slice_index
-alloc_output_plaintext_tree_check_writer_attacker_filter_slice(stip_length_type length,
+alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(stip_length_type length,
                                                                stip_length_type min_length)
 {
   slice_index result;
@@ -22,7 +21,7 @@ alloc_output_plaintext_tree_check_writer_attacker_filter_slice(stip_length_type 
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STOutputPlaintextTreeCheckWriterAttackerFilter,
+  result = alloc_branch(STOutputPlaintextTreeDecorationWriterAttackerFilter,
                         length,
                         min_length);
 
@@ -43,7 +42,7 @@ alloc_output_plaintext_tree_check_writer_attacker_filter_slice(stip_length_type 
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_check_writer_has_solution_in_n(slice_index si,
+output_plaintext_tree_decoration_writer_has_solution_in_n(slice_index si,
                                                      stip_length_type n,
                                                      stip_length_type n_max_unsolvable)
 {
@@ -75,7 +74,7 @@ output_plaintext_tree_check_writer_has_solution_in_n(slice_index si,
  *            n+2 no solution found
  */
 stip_length_type
-output_plaintext_tree_check_writer_solve_in_n(slice_index si,
+output_plaintext_tree_decoration_writer_solve_in_n(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable)
 {
@@ -88,8 +87,7 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (echecc(nbply,slices[si].starter))
-    StdString(" +");
+  output_plaintext_tree_write_pending_move_decoration();
   result = attack_solve_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);
@@ -98,13 +96,13 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
   return result;
 }
 
-/* Allocate a STOutputPlaintextTreeCheckWriterDefenderFilter slice.
+/* Allocate a STOutputPlaintextTreeDecorationWriterDefenderFilter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
 slice_index
-alloc_output_plaintext_tree_check_writer_defender_filter_slice(stip_length_type length,
+alloc_output_plaintext_tree_decoration_writer_defender_filter_slice(stip_length_type length,
                                                                stip_length_type min_length)
 {
   slice_index result;
@@ -114,7 +112,7 @@ alloc_output_plaintext_tree_check_writer_defender_filter_slice(stip_length_type 
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STOutputPlaintextTreeCheckWriterDefenderFilter,
+  result = alloc_branch(STOutputPlaintextTreeDecorationWriterDefenderFilter,
                         length,
                         min_length);
 
@@ -135,7 +133,7 @@ alloc_output_plaintext_tree_check_writer_defender_filter_slice(stip_length_type 
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_check_writer_can_defend_in_n(slice_index si,
+output_plaintext_tree_decoration_writer_can_defend_in_n(slice_index si,
                                                    stip_length_type n,
                                                    stip_length_type n_max_unsolvable)
 {
@@ -169,7 +167,7 @@ output_plaintext_tree_check_writer_can_defend_in_n(slice_index si,
  *         n+4 refuted - >acceptable number of refutations found
  */
 stip_length_type
-output_plaintext_tree_check_writer_defend_in_n(slice_index si,
+output_plaintext_tree_decoration_writer_defend_in_n(slice_index si,
                                                stip_length_type n,
                                                stip_length_type n_max_unsolvable)
 {
@@ -182,8 +180,7 @@ output_plaintext_tree_check_writer_defend_in_n(slice_index si,
   TraceFunctionParam("%u",n_max_unsolvable);
   TraceFunctionParamListEnd();
 
-  if (attack_gives_check[nbply])
-    StdString(" +");
+  output_plaintext_tree_write_pending_move_decoration();
   result = defense_defend_in_n(next,n,n_max_unsolvable);
 
   TraceFunctionExit(__func__);

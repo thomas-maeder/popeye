@@ -283,7 +283,7 @@ solution finished.
               empile:        1613
             jouecoup:         780
         orig_rbechec:         327
-        orig_rnechec:         736
+        orig_rnechec:         737
 solution finished. 
 
 
@@ -769,7 +769,7 @@ solution finished.
 
               empile:          18
             jouecoup:          18
-        orig_rbechec:          10
+        orig_rbechec:          11
         orig_rnechec:          10
 solution finished. 
 

@@ -34,6 +34,7 @@
 #include "optimisations/killer_move/collector.h"
 #include "optimisations/stoponshortsolutions/root_solvable_filter.h"
 #include "output/plaintext/tree/check_writer.h"
+#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
@@ -165,6 +166,12 @@ stip_length_type attack_has_solution_in_n(slice_index si,
       result = output_plaintext_tree_check_writer_has_solution_in_n(si,
                                                                       n,
                                                                       n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeDecorationWriterAttackerFilter:
+      result = output_plaintext_tree_decoration_writer_has_solution_in_n(si,
+                                                                         n,
+                                                                         n_max_unsolvable);
       break;
 
     case STRefutationWriter:
@@ -396,6 +403,12 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = output_plaintext_tree_check_writer_solve_in_n(si,
                                                                n,
                                                                n_max_unsolvable);
+      break;
+
+    case STOutputPlaintextTreeDecorationWriterAttackerFilter:
+      result = output_plaintext_tree_decoration_writer_solve_in_n(si,
+                                                                  n,
+                                                                  n_max_unsolvable);
       break;
 
     case STRefutationWriter:

@@ -3,11 +3,13 @@
 #include "pymsg.h"
 #include "pypipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
+#include "output/plaintext/tree/decoration_writer.h"
 #include "output/plaintext/tree/continuation_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/key_writer.h"
@@ -54,95 +56,11 @@ typedef enum
 
 typedef struct
 {
-    Goal reached_goal;
     output_state_type output_state;
     tries_state_type tries_state;
     end_of_solution_writer_insertion_state_type end_state;
     illegal_selfcheck_writer_insertion_state selfcheck_writer_state;
-} instrumentation_state;
-
-static
-void instrument_goal_non_target_reached_tester(slice_index si,
-                                               stip_structure_traversal *st)
-{
-  instrumentation_state * const state = st->param;
-  Goal const save_reached_goal = state->reached_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->reached_goal.type==no_goal)
-  {
-    state->reached_goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
-    stip_traverse_structure_children(si,st);
-    state->reached_goal = save_reached_goal;
-  }
-  else
-    stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_goal_target_reached_tester(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  instrumentation_state * const state = st->param;
-  Goal const save_reached_goal = state->reached_goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(state->reached_goal.type==no_goal);
-  state->reached_goal.type = goal_target;
-  state->reached_goal.target = slices[si].u.goal_target_reached_tester.target;
-  stip_traverse_structure_children(si,st);
-  state->reached_goal = save_reached_goal;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_leaf(slice_index si, stip_structure_traversal *st)
-{
-  instrumentation_state const * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->reached_goal.type!=no_goal)
-    pipe_append(slices[si].prev,alloc_goal_writer_slice(state->reached_goal));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_ready_for_attack(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  instrumentation_state const * const state = st->param;
-
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if ((state->output_state!=output_suppressed
-       || state->tries_state==tries_included)
-       && state->reached_goal.type==no_goal)
-    pipe_append(slices[si].prev,
-                alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
+} non_goal_instrumentation_state;
 
 static void instrument_threat_solver(slice_index si,
                                      stip_structure_traversal *st)
@@ -164,10 +82,9 @@ static void instrument_threat_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_ready_for_defense(slice_index si,
-                                         stip_structure_traversal *st)
+static void instrument_attack_move(slice_index si, stip_structure_traversal *st)
 {
-  instrumentation_state const * const state = st->param;
+  non_goal_instrumentation_state const * const state = st->param;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
 
@@ -175,38 +92,130 @@ static void instrument_ready_for_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
+
   if (state->output_state!=output_suppressed
       && length>slack_length_battle)
-    pipe_append(si,
-                alloc_output_plaintext_tree_check_writer_defender_filter_slice(length,min_length));
+  {
+    slice_index const prototypes[2] =
+    {
+      alloc_output_plaintext_tree_check_writer_defender_filter_slice(length-1,
+                                                                     min_length-1),
+      alloc_output_plaintext_tree_decoration_writer_defender_filter_slice(length-1,
+                                                                          min_length-1)
+    };
+    battle_branch_insert_slices(si,prototypes,2);
+  }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_variation_writers(non_goal_instrumentation_state state,
+                                     slice_index si,
+                                     stip_length_type length,
+                                     stip_length_type min_length)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  if (state.output_state!=output_suppressed)
+  {
+    if (state.output_state==output_postkeyplay_exclusively)
+    {
+      slice_index const prototypes[4] =
+      {
+        alloc_variation_writer_slice(length,min_length),
+        alloc_refuting_variation_writer_slice(length,min_length),
+        alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length),
+        alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(length,min_length)
+      };
+      battle_branch_insert_slices(si,prototypes,4);
+    }
+    else
+    {
+      slice_index const prototypes[3] =
+      {
+        alloc_variation_writer_slice(length,min_length),
+        alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length),
+        alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(length,min_length)
+      };
+      battle_branch_insert_slices(si,prototypes,3);
+    }
+  }
+  else if (state.tries_state==tries_included)
+  {
+    slice_index const prototypes[3] =
+    {
+      alloc_variation_writer_slice(length,min_length),
+      alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length),
+      alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(length,min_length)
+    };
+    battle_branch_insert_slices(si,prototypes,3);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_defense_move(slice_index si,
+                                    stip_structure_traversal *st)
+{
+  non_goal_instrumentation_state const * const state = st->param;
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  insert_variation_writers(*state,
+                           slices[si].u.pipe.next,
+                           length-1,min_length-1);
   stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void instrument_defense_move_filtered(slice_index si,
-                                             stip_structure_traversal *st)
+static void instrument_self_defense(slice_index si,
+                                    stip_structure_traversal *st)
 {
-  instrumentation_state const * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  non_goal_instrumentation_state const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  insert_variation_writers(*state,
+                           slices[si].u.branch_fork.towards_goal,
+                           2,0);
   stip_traverse_structure_children(si,st);
 
-  if (state->output_state!=output_suppressed)
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_reflex_attack_branch(slice_index si,
+                                            stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   {
-    if (state->output_state==output_postkeyplay_exclusively)
-      pipe_append(si,alloc_refuting_variation_writer_slice(length,min_length));
-    pipe_append(si,alloc_variation_writer_slice(length,min_length));
+    slice_index const prototypes[1] =
+    {
+      alloc_output_plaintext_tree_check_writer_defender_filter_slice(2,0)
+    };
+    battle_branch_insert_slices(slices[si].u.branch_fork.towards_goal,
+                                prototypes,1);
   }
-  else if (state->tries_state==tries_included)
-    pipe_append(si,alloc_variation_writer_slice(length,min_length));
+
+  stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -232,7 +241,7 @@ static void instrument_continuation_solver(slice_index si,
 
 static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
 {
-  instrumentation_state * const state = st->param;
+  non_goal_instrumentation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -251,7 +260,7 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
 static void instrument_attack_move_played(slice_index si,
                                           stip_structure_traversal *st)
 {
-  instrumentation_state * const state = st->param;
+  non_goal_instrumentation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -276,7 +285,7 @@ static void instrument_attack_move_played(slice_index si,
 static void instrument_defense_root(slice_index si,
                                     stip_structure_traversal *st)
 {
-  instrumentation_state * const state = st->param;
+  non_goal_instrumentation_state * const state = st->param;
   output_state_type const save_output_state = state->output_state;
 
   TraceFunctionEntry(__func__);
@@ -288,6 +297,18 @@ static void instrument_defense_root(slice_index si,
   state->output_state = output_postkeyplay_exclusively;
   stip_traverse_structure_children(si,st);
   state->output_state = save_output_state;
+
+  {
+    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const min_length = slices[si].u.branch.min_length;
+
+    slice_index const prototypes[1] =
+    {
+      alloc_output_plaintext_tree_check_writer_defender_filter_slice(length,
+                                                                     min_length)
+    };
+    battle_branch_insert_slices(si,prototypes,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -323,7 +344,7 @@ static void instrument_move_inverter(slice_index si,
 
 static void activate_output(slice_index si, stip_structure_traversal *st)
 {
-  instrumentation_state * const state = st->param;
+  non_goal_instrumentation_state * const state = st->param;
   output_state_type const save_output_state = state->output_state;
 
   TraceFunctionEntry(__func__);
@@ -340,7 +361,7 @@ static void activate_output(slice_index si, stip_structure_traversal *st)
 
 static void suppress_output(slice_index si, stip_structure_traversal *st)
 {
-  instrumentation_state * const state = st->param;
+  non_goal_instrumentation_state * const state = st->param;
   output_state_type const save_output_state = state->output_state;
 
   TraceFunctionEntry(__func__);
@@ -375,7 +396,7 @@ static void instrument_setplay_fork(slice_index si, stip_structure_traversal *st
 
 static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_traversal *st)
 {
-  instrumentation_state * const state = st->param;
+  non_goal_instrumentation_state * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -415,25 +436,26 @@ static void instrument_root_attack_fork(slice_index si, stip_structure_traversal
 
 static structure_traversers_visitors tree_slice_inserters[] =
 {
-  { STSetplayFork,                    &instrument_setplay_fork               },
-  { STRootAttackFork,                 &instrument_root_attack_fork           },
-  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester },
-  { STLeaf,                           &instrument_leaf                       },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter              },
-  { STMoveInverterSolvableFilter,     &instrument_move_inverter              },
-  { STAttackMovePlayed,               &instrument_attack_move_played         },
-  { STDefenseRoot,                    &instrument_defense_root               },
-  { STContinuationSolver,             &instrument_continuation_solver        },
-  { STTrySolver,                      &instrument_try_solver                 },
-  { STThreatSolver,                   &instrument_threat_solver              },
-  { STDefenseMoveFiltered,            &instrument_defense_move_filtered      },
-  { STRefutationsCollector,           &instrument_refutations_collector      },
-  { STSeriesRoot,                     &stip_structure_visitor_noop           },
-  { STDefenseDealtWith,               &instrument_ready_for_attack           },
-  { STAttackDealtWith,                &instrument_ready_for_defense          },
-  { STSolutionSolver,                 &activate_output                       },
-  { STPostKeyPlaySuppressor,          &suppress_output                       },
-  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer      }
+  { STSetplayFork,                    &instrument_setplay_fork          },
+  { STRootAttackFork,                 &instrument_root_attack_fork      },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter         },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter         },
+  { STAttackMovePlayed,               &instrument_attack_move_played    },
+  { STDefenseRoot,                    &instrument_defense_root          },
+  { STContinuationSolver,             &instrument_continuation_solver   },
+  { STTrySolver,                      &instrument_try_solver            },
+  { STThreatSolver,                   &instrument_threat_solver         },
+  { STDefenseMove,                    &instrument_defense_move          },
+  { STSelfDefense,                    &instrument_self_defense          },
+  { STRefutationsCollector,           &instrument_refutations_collector },
+  { STSeriesRoot,                     &stip_structure_visitor_noop      },
+  { STAttackRoot,                     &instrument_attack_move           },
+  { STAttackMove,                     &instrument_attack_move           },
+  { STAttackMoveToGoal,               &instrument_attack_move           },
+  { STSolutionSolver,                 &activate_output                  },
+  { STPostKeyPlaySuppressor,          &suppress_output                  },
+  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer },
+  { STStipulationReflexAttackSolver,  &instrument_reflex_attack_branch  }
 };
 
 enum
@@ -442,21 +464,120 @@ enum
                              / sizeof tree_slice_inserters[0])
 };
 
-/* Instrument the stipulation structure with slices that implement
- * plaintext tree mode output.
- * @param si identifies slice where to start
- */
-void stip_insert_output_plaintext_tree_slices(slice_index si)
+static void insert_non_goal_slices(slice_index si)
+{
+  stip_structure_traversal st;
+  non_goal_instrumentation_state state =
+  {
+    output_included,
+    tries_suppressed,
+    end_of_solution_writer_not_inserted,
+    illegal_selfcheck_writer_not_inserted
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_override(&st,
+                                    tree_slice_inserters,
+                                    nr_tree_slice_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_goal_non_target(slice_index si,
+                                     stip_structure_traversal *st)
+{
+  Goal * const goal = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (goal->type==no_goal)
+  {
+    Goal const save_goal = *goal;
+    goal->type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
+    stip_traverse_structure_children(si,st);
+    *goal = save_goal;
+  }
+  else
+    stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_goal_target(slice_index si, stip_structure_traversal *st)
+{
+  Goal * const goal = st->param;
+  Goal const save_goal = *goal;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(goal->type==no_goal);
+  goal->type = goal_target;
+  goal->target = slices[si].u.goal_target_reached_tester.target;
+  stip_traverse_structure_children(si,st);
+  *goal = save_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remove_unused_check_detector(slice_index si,
+                                         stip_structure_traversal *st)
+{
+  Goal const * const goal = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (goal->type!=no_goal
+      && output_plaintext_tree_goal_writer_replace_check_writer(*goal))
+    pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
+{
+  Goal const * const goal = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (goal->type!=no_goal)
+  {
+    slice_index const writer = alloc_goal_writer_slice(*goal);
+    if (output_plaintext_tree_goal_writer_replace_check_writer(*goal))
+      pipe_replace(si,writer);
+    else
+      pipe_append(si,writer);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_goal_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
   SliceType type;
-  instrumentation_state state =
-      { { no_goal, initsquare },
-        output_suppressed,
-        tries_suppressed,
-        end_of_solution_writer_not_inserted,
-        illegal_selfcheck_writer_not_inserted
-      };
+  Goal goal = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -464,19 +585,48 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,&state);
+  stip_structure_traversal_init(&st,&goal);
 
   for (type = first_goal_tester_slice_type;
        type<=last_goal_tester_slice_type;
        ++type)
     stip_structure_traversal_override_single(&st,
                                              type,
-                                             &instrument_goal_non_target_reached_tester);
+                                             &remember_goal_non_target);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalTargetReachedTester,
+                                           &remember_goal_target);
 
-  stip_structure_traversal_override(&st,
-                                    tree_slice_inserters,
-                                    nr_tree_slice_inserters);
+  stip_structure_traversal_override_single(&st,
+                                           STCheckDetector,
+                                           &remove_unused_check_detector);
+
+  stip_structure_traversal_override_single(&st,
+                                           STOutputPlaintextTreeCheckWriterAttackerFilter,
+                                           &insert_goal_writer);
+  stip_structure_traversal_override_single(&st,
+                                           STOutputPlaintextTreeCheckWriterDefenderFilter,
+                                           &insert_goal_writer);
+
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with slices that implement
+ * plaintext tree mode output.
+ * @param si identifies slice where to start
+ */
+void stip_insert_output_plaintext_tree_slices(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+  insert_non_goal_slices(si);
+  insert_goal_writer_slices(si);
 
   {
     slice_index const prototype = alloc_key_writer();

@@ -14,7 +14,7 @@
 slice_index alloc_goal_writer_slice(Goal goal);
 
 /* Determine whether a slice has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */
@@ -87,5 +87,14 @@ stip_length_type
 output_plaintext_tree_goal_writer_has_solution_in_n(slice_index si,
                                                     stip_length_type n,
                                                     stip_length_type n_max_unsolvable);
+
+/* Determine whether a goal writer slice should replace the check writer slice
+ * which would normally following the possible check deliverd by the move just
+ * played (i.e. if both a possible check and the symbol for the reached goal
+ * should be written).
+ * @param goal goal written by goal writer
+ * @return true iff the check writer should be replaced by the goal writer
+ */
+boolean output_plaintext_tree_goal_writer_replace_check_writer(Goal goal);
 
 #endif
