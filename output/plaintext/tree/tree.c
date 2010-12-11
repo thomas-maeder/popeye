@@ -334,8 +334,6 @@ static void activate_output(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
   state->output_state = save_output_state;
 
-  pipe_append(si,alloc_key_writer());
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -398,9 +396,27 @@ static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_trav
   TraceFunctionResultEnd();
 }
 
+static void instrument_root_attack_fork(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_key_writer();
+    root_branch_insert_slices(slices[si].u.branch_fork.towards_goal,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitors tree_slice_inserters[] =
 {
   { STSetplayFork,                    &instrument_setplay_fork               },
+  { STRootAttackFork,                 &instrument_root_attack_fork           },
   { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester },
   { STLeaf,                           &instrument_leaf                       },
   { STMoveInverterRootSolvableFilter, &instrument_move_inverter              },
@@ -461,6 +477,11 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
                                     tree_slice_inserters,
                                     nr_tree_slice_inserters);
   stip_traverse_structure(si,&st);
+
+  {
+    slice_index const prototype = alloc_key_writer();
+    root_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
