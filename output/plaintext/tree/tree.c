@@ -99,10 +99,8 @@ static void instrument_attack_move(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[2] =
     {
-      alloc_output_plaintext_tree_check_writer_defender_filter_slice(length-1,
-                                                                     min_length-1),
-      alloc_output_plaintext_tree_decoration_writer_defender_filter_slice(length-1,
-                                                                          min_length-1)
+      alloc_output_plaintext_tree_check_writer_slice(length-1,min_length-1),
+      alloc_output_plaintext_tree_decoration_writer_slice(length-1,min_length-1)
     };
     battle_branch_insert_slices(si,prototypes,2);
   }
@@ -130,8 +128,8 @@ static void insert_variation_writers(non_goal_instrumentation_state state,
       {
         alloc_variation_writer_slice(length,min_length),
         alloc_refuting_variation_writer_slice(length,min_length),
-        alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length),
-        alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(length,min_length)
+        alloc_output_plaintext_tree_check_writer_slice(length,min_length),
+        alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
       };
       battle_branch_insert_slices(si,prototypes,4);
     }
@@ -140,8 +138,8 @@ static void insert_variation_writers(non_goal_instrumentation_state state,
       slice_index const prototypes[3] =
       {
         alloc_variation_writer_slice(length,min_length),
-        alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length),
-        alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(length,min_length)
+        alloc_output_plaintext_tree_check_writer_slice(length,min_length),
+        alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
       };
       battle_branch_insert_slices(si,prototypes,3);
     }
@@ -151,8 +149,8 @@ static void insert_variation_writers(non_goal_instrumentation_state state,
     slice_index const prototypes[3] =
     {
       alloc_variation_writer_slice(length,min_length),
-      alloc_output_plaintext_tree_check_writer_attacker_filter_slice(length,min_length),
-      alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(length,min_length)
+      alloc_output_plaintext_tree_check_writer_slice(length,min_length),
+      alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
     };
     battle_branch_insert_slices(si,prototypes,3);
   }
@@ -207,9 +205,11 @@ static void instrument_reflex_attack_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   {
+    stip_length_type const length = 2;
+    stip_length_type const min_length = 0;
     slice_index const prototypes[1] =
     {
-      alloc_output_plaintext_tree_check_writer_defender_filter_slice(2,0)
+      alloc_output_plaintext_tree_check_writer_slice(length,min_length)
     };
     battle_branch_insert_slices(slices[si].u.branch_fork.towards_goal,
                                 prototypes,1);
@@ -304,8 +304,7 @@ static void instrument_defense_root(slice_index si,
 
     slice_index const prototypes[1] =
     {
-      alloc_output_plaintext_tree_check_writer_defender_filter_slice(length,
-                                                                     min_length)
+      alloc_output_plaintext_tree_check_writer_slice(length,min_length)
     };
     battle_branch_insert_slices(si,prototypes,1);
   }

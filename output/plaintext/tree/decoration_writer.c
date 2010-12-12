@@ -11,8 +11,8 @@
  * @return index of allocated slice
  */
 slice_index
-alloc_output_plaintext_tree_decoration_writer_attacker_filter_slice(stip_length_type length,
-                                                               stip_length_type min_length)
+alloc_output_plaintext_tree_decoration_writer_slice(stip_length_type length,
+                                                    stip_length_type min_length)
 {
   slice_index result;
 
@@ -88,31 +88,6 @@ output_plaintext_tree_decoration_writer_solve_in_n(slice_index si,
 
   output_plaintext_tree_write_pending_move_decoration();
   result = attack_solve_in_n(next,n,n_max_unsolvable);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Allocate a STOutputPlaintextTreeDecorationWriter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-slice_index
-alloc_output_plaintext_tree_decoration_writer_defender_filter_slice(stip_length_type length,
-                                                               stip_length_type min_length)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
-  TraceFunctionParamListEnd();
-
-  result = alloc_branch(STOutputPlaintextTreeDecorationWriter,
-                        length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

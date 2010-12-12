@@ -11,8 +11,8 @@
  * @return index of allocated slice
  */
 slice_index
-alloc_output_plaintext_tree_check_writer_attacker_filter_slice(stip_length_type length,
-                                                               stip_length_type min_length);
+alloc_output_plaintext_tree_check_writer_slice(stip_length_type length,
+                                               stip_length_type min_length);
 
 /* Determine whether there is a solution in n half moves.
  * @param si slice index
@@ -43,15 +43,6 @@ stip_length_type
 output_plaintext_tree_check_writer_solve_in_n(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable);
-
-/* Allocate a STOutputPlaintextTreeCheckWriter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-slice_index
-alloc_output_plaintext_tree_check_writer_defender_filter_slice(stip_length_type length,
-                                                               stip_length_type min_length);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index
