@@ -7,6 +7,7 @@
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/line/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
+#include "output/plaintext/plaintext.h"
 #include "platform/beep.h"
 #ifdef _SE_
 #include "se.h"
@@ -27,7 +28,7 @@ static void write_line(Side starting_side, goal_type goal)
 
   if (OptFlag[beep])
     produce_beep();
-      
+
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,starting_side,"");
   TraceFunctionParam("%u",goal);
@@ -88,8 +89,13 @@ static void write_line(Side starting_side, goal_type goal)
     initneutre(advers(trait[current_ply]));
     jouecoup_no_test(current_ply);
     output_plaintext_write_move(current_ply);
-    if (nbply==current_ply)
+    if (current_ply==nbply)
+    {
+      if (!output_plaintext_goal_writer_replaces_check_writer(goal)
+          && echecc(current_ply,advers(trait[current_ply])))
+        StdString(" +");
       StdString(goal_end_marker[goal]);
+    }
     else if (echecc(current_ply,advers(trait[current_ply])))
       StdString(" +");
     StdChar(blank);
@@ -131,7 +137,7 @@ slice_index alloc_line_writer_slice(slice_index root_slice, Goal goal)
 }
 
 /* Determine whether a slice.has just been solved with the move
- * by the non-starter 
+ * by the non-starter
  * @param si slice identifier
  * @return whether there is a solution and (to some extent) why not
  */

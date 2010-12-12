@@ -105,12 +105,12 @@ used to take several minutes in releases 4.37 to 4.43
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b12                  2 + 2
 
-  1.Ke1-d1   2.Kd1-c1   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Bf2-e1 a=>b 
+  1.Ke1-d1   2.Kd1-c1   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Bf2-e1 + a=>b 
 
               empile:       22696
             jouecoup:       22708
         orig_rbechec:       15677
-        orig_rnechec:       13928
+        orig_rnechec:       13929
 solution finished. 
 
 
@@ -161,12 +161,12 @@ Initial (White ->):
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b11                  2 + 2
 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 a=>b 
+  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 + a=>b 
 
               empile:       11074
             jouecoup:       11085
         orig_rbechec:        6356
-        orig_rnechec:        5463
+        orig_rnechec:        5464
 solution finished. 
 
 
@@ -218,12 +218,12 @@ Initial (White ->):
 +---a---b---c---d---e---f---g---h---+
   ser-a=>b12                  2 + 2
 
-  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 a=>b 
+  1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 + a=>b 
 
               empile:       11074
             jouecoup:       11085
         orig_rbechec:        6356
-        orig_rnechec:        5463
+        orig_rnechec:        5464
 solving interrupted. 
 
 

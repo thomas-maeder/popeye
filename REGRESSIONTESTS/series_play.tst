@@ -124,7 +124,7 @@ solution finished.
               empile:        1105
             jouecoup:         410
         orig_rbechec:         491
-        orig_rnechec:         367
+        orig_rnechec:         368
 solution finished. 
 
 

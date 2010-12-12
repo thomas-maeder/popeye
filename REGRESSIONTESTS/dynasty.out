@@ -62,7 +62,7 @@ Thomas Maeder, Popeye test problem for promotion into black king
               empile:          22
             jouecoup:          10
         orig_rbechec:           0
-        orig_rnechec:           6
+        orig_rnechec:           7
 Loesung beendet. 
 
 
@@ -91,12 +91,12 @@ Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
   hza11                       1 + 2
            KoenigsDynastie
 
-  1.BBa2-b1=K Ta8*a1 z 
+  1.BBa2-b1=K Ta8*a1 + z 
 
               empile:          43
             jouecoup:          10
         orig_rbechec:           0
-        orig_rnechec:           6
+        orig_rnechec:           7
 Loesung beendet. 
 
 

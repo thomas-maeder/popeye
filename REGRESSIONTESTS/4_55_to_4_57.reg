@@ -68,7 +68,7 @@ solving interrupted.
               empile:          20
             jouecoup:          21
         orig_rbechec:           1
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -101,7 +101,7 @@ solution finished.
               empile:          20
             jouecoup:          21
         orig_rbechec:           1
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -134,7 +134,7 @@ solution finished.
               empile:          20
             jouecoup:          21
         orig_rbechec:           1
-        orig_rnechec:           1
+        orig_rnechec:           2
 solution finished. 
 
 
@@ -580,7 +580,7 @@ solution finished.
 
               empile:         224
             jouecoup:         237
-        orig_rbechec:           9
+        orig_rbechec:          14
         orig_rnechec:          18
 solution finished. 
 
@@ -644,7 +644,7 @@ Initial (Black ->):
               empile:         224
             jouecoup:         237
         orig_rbechec:          18
-        orig_rnechec:           9
+        orig_rnechec:          14
 solution finished. 
 
 
@@ -840,7 +840,7 @@ checks weren't indicated on the moving reaching a goal
               empile:          17
             jouecoup:          21
         orig_rbechec:           0
-        orig_rnechec:           2
+        orig_rnechec:           4
 solution finished. 
 
 

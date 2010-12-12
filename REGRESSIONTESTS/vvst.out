@@ -30,7 +30,7 @@
               empile:       15987
             jouecoup:        6101
         orig_rbechec:        7682
-        orig_rnechec:        7082
+        orig_rnechec:        7083
 Loesung beendet. 
 
 
@@ -102,7 +102,7 @@ Loesung beendet.
               empile:       15496
             jouecoup:        7925
         orig_rbechec:        8493
-        orig_rnechec:        9900
+        orig_rnechec:        9901
 Loesung beendet. 
 
 
@@ -138,7 +138,7 @@ Loesung beendet.
               empile:      107604
             jouecoup:       36464
         orig_rbechec:       62640
-        orig_rnechec:       50678
+        orig_rnechec:       50679
 Loesung beendet. 
 
 
@@ -277,8 +277,8 @@ Loesung beendet.
 
               empile:     1968734
             jouecoup:      587831
-        orig_rbechec:      522873
-        orig_rnechec:      173210
+        orig_rbechec:      522878
+        orig_rnechec:      173212
 Loesung beendet. 
 
 
@@ -316,25 +316,25 @@ Loesung beendet.
   1.Kc8-b8   2.Kb8-c7 a7*b6 x 
   1.Kc8-c7   2.Kc7-c8 a7*b6 x 
   1.Kc8-c7   2.Kc7-b7 a7*b6 x 
-  1.Kc8-c7   2.Kc7-c6 a7*b6 x 
+  1.Kc8-c7   2.Kc7-c6 a7*b6 + x 
   1.Kc8-c7   2.Kc7-b8 a7*b6 x 
   1.Kc8-c7   2.Kc7-d6 a7*b6 x 
   1.Kc8-b7   2.Kb7-c7 a7*b6 x 
   1.Kc8-b7   2.Kb7-b8 a7*b6 x 
   1.Kc8-b7   2.Kb7-c8 a7*b6 x 
-  1.Kc8-b7   2.Kb7-c6 a7*b6 x 
-  1.Kc8-b7   2.Kb7-a6 a7*b6 x 
+  1.Kc8-b7   2.Kb7-c6 a7*b6 + x 
+  1.Kc8-b7   2.Kb7-a6 a7*b6 + x 
   1.Kc8-b8   2.Kb8-c8   3.Kc8-b8 a7*b6 x 
   1.Kc8-b8   2.Kb8-c8   3.Kc8-c7 a7*b6 x 
   1.Kc8-b8   2.Kb8-c8   3.Kc8-b7 a7*b6 x 
   1.Kc8-b8   2.Kb8-b7   3.Kb7-c7 a7*b6 x 
   1.Kc8-b8   2.Kb8-b7   3.Kb7-b8 a7*b6 x 
   1.Kc8-b8   2.Kb8-b7   3.Kb7-c8 a7*b6 x 
-  1.Kc8-b8   2.Kb8-b7   3.Kb7-c6 a7*b6 x 
-  1.Kc8-b8   2.Kb8-b7   3.Kb7-a6 a7*b6 x 
+  1.Kc8-b8   2.Kb8-b7   3.Kb7-c6 a7*b6 + x 
+  1.Kc8-b8   2.Kb8-b7   3.Kb7-a6 a7*b6 + x 
   1.Kc8-b8   2.Kb8-c7   3.Kc7-c8 a7*b6 x 
   1.Kc8-b8   2.Kb8-c7   3.Kc7-b7 a7*b6 x 
-  1.Kc8-b8   2.Kb8-c7   3.Kc7-c6 a7*b6 x 
+  1.Kc8-b8   2.Kb8-c7   3.Kc7-c6 a7*b6 + x 
   1.Kc8-b8   2.Kb8-c7   3.Kc7-b8 a7*b6 x 
   1.Kc8-b8   2.Kb8-c7   3.Kc7-d6 a7*b6 x 
   1.Kc8-c7   2.Kc7-c8   3.Kc8-b8 a7*b6 x 
@@ -343,8 +343,8 @@ Loesung beendet.
   1.Kc8-c7   2.Kc7-b7   3.Kb7-c7 a7*b6 x 
   1.Kc8-c7   2.Kc7-b7   3.Kb7-b8 a7*b6 x 
   1.Kc8-c7   2.Kc7-b7   3.Kb7-c8 a7*b6 x 
-  1.Kc8-c7   2.Kc7-b7   3.Kb7-c6 a7*b6 x 
-  1.Kc8-c7   2.Kc7-b7   3.Kb7-a6 a7*b6 x 
+  1.Kc8-c7   2.Kc7-b7   3.Kb7-c6 a7*b6 + x 
+  1.Kc8-c7   2.Kc7-b7   3.Kb7-a6 a7*b6 + x 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-d6 a7*b6 x 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-c7 a7*b6 x 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-c5 a7*b6 x 
@@ -355,14 +355,14 @@ Loesung beendet.
   1.Kc8-c7   2.Kc7-b8   3.Kb8-b7 a7*b6 x 
   1.Kc8-c7   2.Kc7-b8   3.Kb8-c7 a7*b6 x 
   1.Kc8-c7   2.Kc7-d6   3.Kd6-e6 a7*b6 x 
-  1.Kc8-c7   2.Kc7-d6   3.Kd6-c6 a7*b6 x 
+  1.Kc8-c7   2.Kc7-d6   3.Kd6-c6 a7*b6 + x 
   1.Kc8-c7   2.Kc7-d6   3.Kd6-d5 a7*b6 x 
   1.Kc8-c7   2.Kc7-d6   3.Kd6-c7 a7*b6 x 
   1.Kc8-c7   2.Kc7-d6   3.Kd6-e5 a7*b6 x 
   1.Kc8-c7   2.Kc7-d6   3.Kd6-c5 a7*b6 x 
   1.Kc8-b7   2.Kb7-c7   3.Kc7-c8 a7*b6 x 
   1.Kc8-b7   2.Kb7-c7   3.Kc7-b7 a7*b6 x 
-  1.Kc8-b7   2.Kb7-c7   3.Kc7-c6 a7*b6 x 
+  1.Kc8-b7   2.Kb7-c7   3.Kc7-c6 a7*b6 + x 
   1.Kc8-b7   2.Kb7-c7   3.Kc7-b8 a7*b6 x 
   1.Kc8-b7   2.Kb7-c7   3.Kc7-d6 a7*b6 x 
   1.Kc8-b7   2.Kb7-b8   3.Kb8-c8 a7*b6 x 
@@ -385,7 +385,7 @@ Loesung beendet.
 
               empile:        2510
             jouecoup:         548
-        orig_rbechec:         197
+        orig_rbechec:         271
         orig_rnechec:         307
 Loesung beendet. 
 

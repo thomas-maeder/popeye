@@ -49,11 +49,11 @@ Initial (Weiss ->):
 +---a---b---c---d---e---f---g---h---+
   a=>b6                       4 + 3
 
-  1.Tb6-h6 La6-f1   2.Te8-e2 Tg3-g6   3.Kb3-c4 Kc7-b6   4.Kc4-d5 Kb6-b5   5.Te2-e5 Tg6-g4   6.Th6-d6 Lf1-c4 a=>b 
+  1.Tb6-h6 La6-f1   2.Te8-e2 Tg3-g6   3.Kb3-c4 Kc7-b6   4.Kc4-d5 Kb6-b5   5.Te2-e5 Tg6-g4   6.Th6-d6 Lf1-c4 + a=>b 
 
               empile:      673876
             jouecoup:      673888
-        orig_rbechec:       49835
+        orig_rbechec:       49836
         orig_rnechec:       60386
 Loesung beendet. 
 
@@ -127,7 +127,7 @@ Initial (Weiss ->):
 
               empile:      929250
             jouecoup:      997160
-        orig_rbechec:       55068
+        orig_rbechec:       55069
         orig_rnechec:       38836
 Loesung beendet. 
 
@@ -203,7 +203,7 @@ Initial (Schwarz ->):
 
               empile:    11425135
             jouecoup:    13185102
-        orig_rbechec:      935674
+        orig_rbechec:      935675
         orig_rnechec:      604415
 Loesung beendet. 
 
@@ -265,7 +265,7 @@ Initial (Schwarz ->):
 
               empile:          90
             jouecoup:          99
-        orig_rbechec:          14
+        orig_rbechec:          15
         orig_rnechec:          19
 Loesung beendet. 
 
@@ -331,7 +331,7 @@ Initial (Schwarz ->):
               empile:   174804969
             jouecoup:   189032060
         orig_rbechec:      761406
-        orig_rnechec:     9956529
+        orig_rnechec:     9956535
 Loesung beendet. 
 
 

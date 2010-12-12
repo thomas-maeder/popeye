@@ -534,7 +534,7 @@ static void remove_check_detector_if_unused(slice_index si,
   stip_traverse_structure_children(si,st);
 
   if (goal->type!=no_goal
-      && output_plaintext_tree_goal_writer_replace_check_writer(*goal))
+      && output_plaintext_goal_writer_replaces_check_writer(goal->type))
     pipe_remove(si);
 
   TraceFunctionExit(__func__);
@@ -556,7 +556,7 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
   if (goal->type!=no_goal)
   {
     slice_index const writer = alloc_goal_writer_slice(*goal);
-    if (output_plaintext_tree_goal_writer_replace_check_writer(*goal))
+    if (output_plaintext_goal_writer_replaces_check_writer(goal->type))
       pipe_replace(si,writer);
     else
       pipe_append(si,writer);

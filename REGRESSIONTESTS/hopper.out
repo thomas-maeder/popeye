@@ -187,7 +187,7 @@ Loesung beendet.
               empile:     2016626
             jouecoup:     1214312
         orig_rbechec:      781132
-        orig_rnechec:     1173523
+        orig_rnechec:     1173524
 Loesung beendet. 
 
 
@@ -453,7 +453,7 @@ b) wKGf7-->c7
               empile:     1349335
             jouecoup:      465977
         orig_rbechec:           0
-        orig_rnechec:      441317
+        orig_rnechec:      441318
 +f) wKGe6-->a2
 
   1.Kd5-d4 Sd6-c4   2.Kd4-c3 Sc4-d2   3.Kc3-b2 KGa2-c2   4.Kb2-a1 KGc2-e2 = 
@@ -461,7 +461,7 @@ b) wKGf7-->c7
               empile:      249853
             jouecoup:       94379
         orig_rbechec:           0
-        orig_rnechec:       86498
+        orig_rnechec:       86499
 +g) wSd6-->b3
 
   1.Kd5-e4 KGa2-d5   2.Ke4-f3 Sb3-d4 +   3.Kf3-g2 KGd5-d2   4.Kg2-h1 Sd4-e2 = 
@@ -469,7 +469,7 @@ b) wKGf7-->c7
               empile:      762397
             jouecoup:      272376
         orig_rbechec:           0
-        orig_rnechec:      257285
+        orig_rnechec:      257286
 +h) wKGa2-->a5
 
   1.Kd5-c6 Sb3-c5   2.Kc6-b6 KGa5-c7   3.Kb6-a7 Sc5-d7   4.Ka7-a8 KGc7-e7 = 
@@ -477,7 +477,7 @@ b) wKGf7-->c7
               empile:      360574
             jouecoup:      128039
         orig_rbechec:           0
-        orig_rnechec:      120501
+        orig_rnechec:      120502
 Loesung beendet. 
 
 

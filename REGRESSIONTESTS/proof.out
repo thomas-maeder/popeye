@@ -27,7 +27,7 @@
 
               empile:       52143
             jouecoup:       52151
-        orig_rbechec:         535
+        orig_rbechec:         536
         orig_rnechec:        2821
 Loesung beendet. 
 
@@ -62,7 +62,7 @@ Loesung beendet.
 
               empile:        4412
             jouecoup:        4420
-        orig_rbechec:          37
+        orig_rbechec:          38
         orig_rnechec:         237
 Loesung beendet. 
 
@@ -97,7 +97,7 @@ Loesung beendet.
 
               empile:        2665
             jouecoup:        1852
-        orig_rbechec:         135
+        orig_rbechec:         136
         orig_rnechec:         110
 Loesung beendet. 
 
@@ -151,7 +151,7 @@ Loesung beendet.
 
               empile:      160019
             jouecoup:      160031
-        orig_rbechec:        6201
+        orig_rbechec:        6202
         orig_rnechec:       10502
 Loesung beendet. 
 
@@ -207,7 +207,7 @@ a)
 
               empile:      261425
             jouecoup:      261604
-        orig_rbechec:       23305
+        orig_rbechec:       23306
         orig_rnechec:        9980
 b) dia7.5
 
@@ -236,7 +236,7 @@ b) dia7.5
               empile:      827640
             jouecoup:      827820
         orig_rbechec:       71804
-        orig_rnechec:       27313
+        orig_rnechec:       27314
 Loesung beendet. 
 
 
@@ -273,7 +273,7 @@ Loesung beendet.
   6  (f2-f3 )
   7  (e2-e4 )
   8  (e2-e3 )
-  1.e2-e3 g7-g6   2.Ke1-e2 Lf8-g7   3.Ke2-f3 Lg7-e5   4.Kf3-g4 Sg8-f6 +   5.Kg4-g5 Th8-f8   6.Kg5-h6 Le5-f4 +   7.Kh6-g7 Sf6-g8   8.Kg7-h8 Lf4-h6   9.f2-f4 Sg8-f6 dia 
+  1.e2-e3 g7-g6   2.Ke1-e2 Lf8-g7   3.Ke2-f3 Lg7-e5   4.Kf3-g4 Sg8-f6 +   5.Kg4-g5 Th8-f8   6.Kg5-h6 Le5-f4 +   7.Kh6-g7 Sf6-g8   8.Kg7-h8 Lf4-h6   9.f2-f4 Sg8-f6 + dia 
   9  (d2-d4 )
  10  (d2-d3 )
  11  (c2-c4 )
@@ -289,7 +289,7 @@ Loesung beendet.
 
               empile:      147253
             jouecoup:      147271
-        orig_rbechec:        5665
+        orig_rbechec:        5666
         orig_rnechec:       10748
 Loesung beendet. 
 
@@ -324,10 +324,10 @@ Loesung beendet.
   3  (g2-g4 )
   4  (g2-g3 )
   5  (f2-f4 )
-  1.f2-f4 f7-f6   2.Ke1-f2 Ke8-f7   3.Kf2-g3 Kf7-e6   4.Kg3-h4 Ke6-d5   5.e2-e4 + Kd5-d6   6.Lf1-e2 Kd6-e6   7.Le2-g4 + Ke6-f7   8.Lg4-h3 Kf7-e8   9.Dd1-h5 dia 
+  1.f2-f4 f7-f6   2.Ke1-f2 Ke8-f7   3.Kf2-g3 Kf7-e6   4.Kg3-h4 Ke6-d5   5.e2-e4 + Kd5-d6   6.Lf1-e2 Kd6-e6   7.Le2-g4 + Ke6-f7   8.Lg4-h3 Kf7-e8   9.Dd1-h5 + dia 
   6  (f2-f3 )
   7  (e2-e4 )
-  1.e2-e4 f7-f6   2.Lf1-e2 Ke8-f7   3.Le2-g4 Kf7-g6   4.Lg4-h3 Kg6-g5   5.f2-f4 + Kg5-h6   6.Ke1-f2 Kh6-g6   7.Kf2-g3 Kg6-f7   8.Kg3-h4 Kf7-e8   9.Dd1-h5 dia 
+  1.e2-e4 f7-f6   2.Lf1-e2 Ke8-f7   3.Le2-g4 Kf7-g6   4.Lg4-h3 Kg6-g5   5.f2-f4 + Kg5-h6   6.Ke1-f2 Kh6-g6   7.Kf2-g3 Kg6-f7   8.Kg3-h4 Kf7-e8   9.Dd1-h5 + dia 
   8  (e2-e3 )
   9  (d2-d4 )
  10  (d2-d3 )
@@ -345,7 +345,7 @@ Loesung beendet.
               empile:      180626
             jouecoup:      180660
         orig_rbechec:        7810
-        orig_rnechec:       14527
+        orig_rnechec:       14529
 Loesung beendet. 
 
 
@@ -398,7 +398,7 @@ Loesung beendet.
 
               empile:       25266
             jouecoup:       25286
-        orig_rbechec:        1342
+        orig_rbechec:        1343
         orig_rnechec:        1032
 Loesung beendet. 
 
@@ -454,7 +454,7 @@ Loesung beendet.
               empile:    12706233
             jouecoup:    12706264
         orig_rbechec:      496844
-        orig_rnechec:      491213
+        orig_rnechec:      491214
 Loesung beendet. 
 
 
@@ -488,7 +488,7 @@ Loesung beendet.
               empile:       33701
             jouecoup:       33708
         orig_rbechec:        2035
-        orig_rnechec:        2113
+        orig_rnechec:        2114
 Loesung beendet. 
 
 
@@ -521,7 +521,7 @@ Loesung beendet.
 
               empile:       59852
             jouecoup:       59860
-        orig_rbechec:        3262
+        orig_rbechec:        3263
         orig_rnechec:        3318
 Loesung beendet. 
 

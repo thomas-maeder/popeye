@@ -341,11 +341,11 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   pser-hdia10               14 + 14
 
-  1.f2-f4   2.f4-f5   3.f5-f6   4.f6*e7   5.e7*f8=R + Ke8-e7   6.Rf8-e8 + Ke7-f6   7.Re8-e6 + Kf6-f5   8.g2-g4 + Kf5*g4   9.Re6-e4 + Kg4-h5  10.Re4-h4 + Qd8*h4 dia 
+  1.f2-f4   2.f4-f5   3.f5-f6   4.f6*e7   5.e7*f8=R + Ke8-e7   6.Rf8-e8 + Ke7-f6   7.Re8-e6 + Kf6-f5   8.g2-g4 + Kf5*g4   9.Re6-e4 + Kg4-h5  10.Re4-h4 + Qd8*h4 + dia 
 
               empile:      213211
             jouecoup:      213287
-        orig_rbechec:       92492
+        orig_rbechec:       92493
         orig_rnechec:       87539
 solution finished. 
 
@@ -391,7 +391,7 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
 
               empile:    15033800
             jouecoup:     4798799
-        orig_rbechec:     4198278
+        orig_rbechec:     4198279
         orig_rnechec:     3306630
 solution finished. 
 
@@ -479,7 +479,7 @@ StrateGems 47, 2009, no. 12 (last 4 moves of a pser-h=18)
               empile:     8597176
             jouecoup:     4736888
         orig_rbechec:     1621336
-        orig_rnechec:     4467960
+        orig_rnechec:     4467961
 solution finished. 
 
 
