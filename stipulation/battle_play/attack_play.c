@@ -162,13 +162,13 @@ stip_length_type attack_has_solution_in_n(slice_index si,
                                                            n,n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckWriterAttackerFilter:
+    case STOutputPlaintextTreeCheckWriter:
       result = output_plaintext_tree_check_writer_has_solution_in_n(si,
                                                                       n,
                                                                       n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeDecorationWriterAttackerFilter:
+    case STOutputPlaintextTreeDecorationWriter:
       result = output_plaintext_tree_decoration_writer_has_solution_in_n(si,
                                                                          n,
                                                                          n_max_unsolvable);
@@ -399,13 +399,13 @@ stip_length_type attack_solve_in_n(slice_index si,
       result = max_nr_nontrivial_counter_solve_in_n(si,n,n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckWriterAttackerFilter:
+    case STOutputPlaintextTreeCheckWriter:
       result = output_plaintext_tree_check_writer_solve_in_n(si,
                                                                n,
                                                                n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeDecorationWriterAttackerFilter:
+    case STOutputPlaintextTreeDecorationWriter:
       result = output_plaintext_tree_decoration_writer_solve_in_n(si,
                                                                   n,
                                                                   n_max_unsolvable);

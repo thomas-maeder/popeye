@@ -167,7 +167,6 @@ has_solution_type slice_solve(slice_index si)
     case STReflexAttackerFilter:
     case STDegenerateTree:
     case STVariationWriter:
-    case STOutputPlaintextTreeCheckWriterAttackerFilter:
     case STDoubleMateAttackerFilter:
     case STEnPassantAttackerFilter:
     case STCastlingAttackerFilter:
@@ -183,7 +182,6 @@ has_solution_type slice_solve(slice_index si)
     case STSolutionSolver:
     case STContinuationSolver:
     case STTrySolver:
-    case STOutputPlaintextTreeCheckWriterDefenderFilter:
     case STReadyForDefense:
     case STDefenseMove:
     case STReflexDefenderFilter:
@@ -468,7 +466,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STDegenerateTree:
     case STAttackHashed:
     case STVariationWriter:
-    case STOutputPlaintextTreeCheckWriterAttackerFilter:
     case STDoubleMateAttackerFilter:
     case STEnPassantAttackerFilter:
     case STCastlingAttackerFilter:

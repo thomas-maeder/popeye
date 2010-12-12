@@ -569,10 +569,9 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors goal_writer_slice_inserters[] =
 {
-  { STGoalTargetReachedTester,                      &remember_goal_target            },
-  { STCheckDetector,                                &remove_check_detector_if_unused },
-  { STOutputPlaintextTreeCheckWriterAttackerFilter, &insert_goal_writer              },
-  { STOutputPlaintextTreeCheckWriterDefenderFilter, &insert_goal_writer              }
+  { STGoalTargetReachedTester,        &remember_goal_target            },
+  { STCheckDetector,                  &remove_check_detector_if_unused },
+  { STOutputPlaintextTreeCheckWriter, &insert_goal_writer              }
 };
 
 enum

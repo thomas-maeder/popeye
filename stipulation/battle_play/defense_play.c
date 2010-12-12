@@ -159,13 +159,13 @@ stip_length_type defense_defend_in_n(slice_index si,
                                                              n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckWriterDefenderFilter:
+    case STOutputPlaintextTreeCheckWriter:
       result = output_plaintext_tree_check_writer_defend_in_n(si,
                                                                 n,
                                                                 n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeDecorationWriterDefenderFilter:
+    case STOutputPlaintextTreeDecorationWriter:
       result = output_plaintext_tree_decoration_writer_defend_in_n(si,
                                                                    n,
                                                                    n_max_unsolvable);
@@ -344,12 +344,12 @@ stip_length_type defense_can_defend_in_n(slice_index si,
                                                                  n,n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeCheckWriterDefenderFilter:
+    case STOutputPlaintextTreeCheckWriter:
       result = output_plaintext_tree_check_writer_can_defend_in_n(si,
                                                                   n,n_max_unsolvable);
       break;
 
-    case STOutputPlaintextTreeDecorationWriterDefenderFilter:
+    case STOutputPlaintextTreeDecorationWriter:
       result = output_plaintext_tree_decoration_writer_can_defend_in_n(si,
                                                                        n,n_max_unsolvable);
       break;

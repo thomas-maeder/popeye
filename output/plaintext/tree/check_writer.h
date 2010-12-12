@@ -5,7 +5,7 @@
 #include "pystip.h"
 #include "pyslice.h"
 
-/* Allocate a STOutputPlaintextTreeCheckWriterAttackerFilter slice.
+/* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
@@ -44,7 +44,7 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
                                               stip_length_type n,
                                               stip_length_type n_max_unsolvable);
 
-/* Allocate a STOutputPlaintextTreeCheckWriterDefenderFilter slice.
+/* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice

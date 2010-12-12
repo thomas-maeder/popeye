@@ -6,7 +6,7 @@
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
-/* Allocate a STOutputPlaintextTreeCheckWriterAttackerFilter slice.
+/* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
@@ -22,9 +22,7 @@ alloc_output_plaintext_tree_check_writer_attacker_filter_slice(stip_length_type 
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STOutputPlaintextTreeCheckWriterAttackerFilter,
-                        length,
-                        min_length);
+  result = alloc_branch(STOutputPlaintextTreeCheckWriter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,7 +96,7 @@ output_plaintext_tree_check_writer_solve_in_n(slice_index si,
   return result;
 }
 
-/* Allocate a STOutputPlaintextTreeCheckWriterDefenderFilter slice.
+/* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @param length maximum number of half-moves of slice (+ slack)
  * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
@@ -114,9 +112,7 @@ alloc_output_plaintext_tree_check_writer_defender_filter_slice(stip_length_type 
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STOutputPlaintextTreeCheckWriterDefenderFilter,
-                        length,
-                        min_length);
+  result = alloc_branch(STOutputPlaintextTreeCheckWriter,length,min_length);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -246,11 +246,10 @@ static slice_index const leaf_slice_rank_order[] =
   STVariationWriter,
   STRefutingVariationWriter,
   STDefenseDealtWith,
-  STOutputPlaintextTreeCheckWriterAttackerFilter,
-  STOutputPlaintextTreeCheckWriterDefenderFilter,
+  STOutputPlaintextTreeCheckWriter,
+  STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
-  STOutputPlaintextTreeDecorationWriterAttackerFilter,
-  STOutputPlaintextTreeDecorationWriterDefenderFilter,
+  STOutputPlaintextTreeDecorationWriter,
   STLeaf
 };
 

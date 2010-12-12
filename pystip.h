@@ -184,10 +184,8 @@
     ENUMERATOR(STVariationWriter), /* writes variations */              \
     ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STRefutationWriter), /* writes refutations */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckWriterAttackerFilter), /* plain text output, tree mode: write checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextTreeCheckWriterDefenderFilter), /* plain text output, tree mode: write checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextTreeDecorationWriterAttackerFilter), /* plain text output, tree mode: write checks by the previous move */  \
-    ENUMERATOR(STOutputPlaintextTreeDecorationWriterDefenderFilter), /* plain text output, tree mode: write checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
+    ENUMERATOR(STOutputPlaintextTreeDecorationWriter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
     ENUMERATOR(STOutputPlaintextTreeGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextTreeMoveInversionCounter), /* plain text output, tree mode: count move inversions */  \
