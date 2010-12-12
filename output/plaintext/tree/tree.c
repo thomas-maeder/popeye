@@ -342,23 +342,6 @@ static void instrument_move_inverter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void activate_output(slice_index si, stip_structure_traversal *st)
-{
-  non_goal_instrumentation_state * const state = st->param;
-  output_state_type const save_output_state = state->output_state;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->output_state = output_included;
-  stip_traverse_structure_children(si,st);
-  state->output_state = save_output_state;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void suppress_output(slice_index si, stip_structure_traversal *st)
 {
   non_goal_instrumentation_state * const state = st->param;
@@ -452,7 +435,6 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STAttackRoot,                     &instrument_attack_move           },
   { STAttackMove,                     &instrument_attack_move           },
   { STAttackMoveToGoal,               &instrument_attack_move           },
-  { STSolutionSolver,                 &activate_output                  },
   { STPostKeyPlaySuppressor,          &suppress_output                  },
   { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer },
   { STStipulationReflexAttackSolver,  &instrument_reflex_attack_branch  }
@@ -464,6 +446,9 @@ enum
                              / sizeof tree_slice_inserters[0])
 };
 
+/* Insert the slices that are not related to a goal
+ * @param si identifies slice where to start
+ */
 static void insert_non_goal_slices(slice_index si)
 {
   stip_structure_traversal st;
@@ -489,6 +474,8 @@ static void insert_non_goal_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Remember that we are about to deal with a non-target goal (and which one)
+ */
 static void remember_goal_non_target(slice_index si,
                                      stip_structure_traversal *st)
 {
@@ -498,6 +485,7 @@ static void remember_goal_non_target(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  /* we are only interested in the first goal checker slice of a branch */
   if (goal->type==no_goal)
   {
     Goal const save_goal = *goal;
@@ -512,6 +500,8 @@ static void remember_goal_non_target(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Remember that we are about to deal with a target goal
+ */
 static void remember_goal_target(slice_index si, stip_structure_traversal *st)
 {
   Goal * const goal = st->param;
@@ -531,8 +521,10 @@ static void remember_goal_target(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void remove_unused_check_detector(slice_index si,
-                                         stip_structure_traversal *st)
+/* Remove an unused check detector
+ */
+static void remove_check_detector_if_unused(slice_index si,
+                                            stip_structure_traversal *st)
 {
   Goal const * const goal = st->param;
 
@@ -550,6 +542,8 @@ static void remove_unused_check_detector(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Insert a goal writer (by replacing a check writer if appropriate)
+ */
 static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 {
   Goal const * const goal = st->param;
@@ -573,6 +567,23 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static structure_traversers_visitors goal_writer_slice_inserters[] =
+{
+  { STGoalTargetReachedTester,                      &remember_goal_target            },
+  { STCheckDetector,                                &remove_check_detector_if_unused },
+  { STOutputPlaintextTreeCheckWriterAttackerFilter, &insert_goal_writer              },
+  { STOutputPlaintextTreeCheckWriterDefenderFilter, &insert_goal_writer              }
+};
+
+enum
+{
+  nr_goal_writer_slice_inserters = (sizeof goal_writer_slice_inserters
+                                    / sizeof goal_writer_slice_inserters[0])
+};
+
+/* Insert the slices that are related to a goal
+ * @param si identifies slice where to start
+ */
 static void insert_goal_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
@@ -593,20 +604,10 @@ static void insert_goal_writer_slices(slice_index si)
     stip_structure_traversal_override_single(&st,
                                              type,
                                              &remember_goal_non_target);
-  stip_structure_traversal_override_single(&st,
-                                           STGoalTargetReachedTester,
-                                           &remember_goal_target);
 
-  stip_structure_traversal_override_single(&st,
-                                           STCheckDetector,
-                                           &remove_unused_check_detector);
-
-  stip_structure_traversal_override_single(&st,
-                                           STOutputPlaintextTreeCheckWriterAttackerFilter,
-                                           &insert_goal_writer);
-  stip_structure_traversal_override_single(&st,
-                                           STOutputPlaintextTreeCheckWriterDefenderFilter,
-                                           &insert_goal_writer);
+  stip_structure_traversal_override(&st,
+                                    goal_writer_slice_inserters,
+                                    nr_goal_writer_slice_inserters);
 
   stip_traverse_structure(si,&st);
 
