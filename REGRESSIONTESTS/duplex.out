@@ -458,7 +458,7 @@ a)
 
               empile:           3
             jouecoup:           3
-        orig_rbechec:           4
+        orig_rbechec:           5
         orig_rnechec:           2
 b) exact-=2
 
@@ -468,7 +468,7 @@ b) exact-=2
 
               empile:           9
             jouecoup:           8
-        orig_rbechec:           8
+        orig_rbechec:           9
         orig_rnechec:           6
 c) exact-=3
 
@@ -480,7 +480,7 @@ c) exact-=3
 
               empile:          17
             jouecoup:          19
-        orig_rbechec:          12
+        orig_rbechec:          13
         orig_rnechec:          14
 Loesung beendet. 
 
