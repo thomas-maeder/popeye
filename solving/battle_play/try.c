@@ -315,14 +315,12 @@ static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  if (length>slack_length_battle) /* in #1, tries don't make sense */
+  if (length>slack_length_battle+1) /* in (s)#1, tries don't make sense */
   {
     slice_index const prototypes[] =
     {
-      alloc_try_solver(length,min_length),
-      alloc_refutations_collector_slice(length-1,min_length-1)
+      alloc_try_solver(length-1,min_length-1),
+      alloc_refutations_collector_slice(length-2,min_length-2)
     };
 
     enum
@@ -330,7 +328,7 @@ static void insert_try_handlers(slice_index si, stip_structure_traversal *st)
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
 
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
 
     *inserted = true;
   }
@@ -358,7 +356,7 @@ boolean stip_insert_try_handlers(slice_index si)
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_single(&st,
-                                           STSolutionSolver,
+                                           STAttackRoot,
                                            &insert_try_handlers);
   stip_traverse_structure(si,&st);
 

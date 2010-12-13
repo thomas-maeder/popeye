@@ -9,6 +9,7 @@
  */
 static slice_index const root_slice_rank_order[] =
 {
+  STProxy,
   STSetplayFork,
   STMoveInverterRootSolvableFilter,
   STMoveInverterSolvableFilter,
@@ -91,12 +92,24 @@ static slice_index const root_slice_rank_order[] =
   STGoalReachedTested,
   STAttackMoveLegalityChecked,
   STAttackMoveFiltered,
-  STSolutionSolver,
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
   STCheckDetector,
-  STAttackDealtWith
+  STAttackDealtWith,
+  STOutputPlaintextTreeCheckWriter,
+  STOutputPlaintextTreeGoalWriter,
+  STOutputPlaintextTreeDecorationWriter,
+  STLeaf,
+  STMaxThreatLength,
+  STPostKeyPlaySuppressor,
+  STReflexDefenderFilter,
+  STReadyForDefense,
+  STThreatSolver,
+  STDefenseMove,
+  STDefenseMovePlayed,
+  STRefutationsCollector,
+  STDefenseMoveShoeHorningDone
 };
 
 enum
@@ -110,15 +123,16 @@ enum
  * @return rank of type; nr_defense_slice_rank_order_elmts if the rank can't
  *         be determined
  */
-static unsigned int get_root_slice_rank(SliceType type)
+static unsigned int get_root_slice_rank(SliceType type, unsigned int base)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(SliceType,type,"");
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  for (result = 0; result!=nr_root_slice_rank_order_elmts; ++result)
+  for (result = base; result!=nr_root_slice_rank_order_elmts; ++result)
     if (root_slice_rank_order[result]==type)
       break;
 
@@ -130,16 +144,18 @@ static unsigned int get_root_slice_rank(SliceType type)
 
 static void root_branch_insert_slices_recursive(slice_index si,
                                                 slice_index const prototypes[],
-                                                unsigned int nr_prototypes)
+                                                unsigned int nr_prototypes,
+                                                unsigned int base)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
   {
     SliceType const prototype_type = slices[prototypes[0]].type;
-    unsigned int prototype_rank = get_root_slice_rank(prototype_type);
+    unsigned int prototype_rank = get_root_slice_rank(prototype_type,base);
 
     do
     {
@@ -149,14 +165,17 @@ static void root_branch_insert_slices_recursive(slice_index si,
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
         root_branch_insert_slices_recursive(slices[next].u.binary.op1,
-                                            prototypes,nr_prototypes);
+                                            prototypes,nr_prototypes,
+                                            base);
         root_branch_insert_slices_recursive(slices[next].u.binary.op2,
-                                            prototypes,nr_prototypes);
+                                            prototypes,nr_prototypes,
+                                            base);
         break;
       }
       else
       {
-        unsigned int const rank_next = get_root_slice_rank(slices[next].type);
+        unsigned int const rank_next = get_root_slice_rank(slices[next].type,
+                                                           base);
         if (rank_next==nr_root_slice_rank_order_elmts)
           break;
         else if (rank_next>prototype_rank)
@@ -164,7 +183,8 @@ static void root_branch_insert_slices_recursive(slice_index si,
           pipe_append(si,copy_slice(prototypes[0]));
           if (nr_prototypes>1)
             root_branch_insert_slices_recursive(si,
-                                                prototypes+1,nr_prototypes-1);
+                                                prototypes+1,nr_prototypes-1,
+                                                base);
           break;
         }
         else
@@ -190,13 +210,15 @@ void root_branch_insert_slices(slice_index si,
                                unsigned int nr_prototypes)
 {
   unsigned int i;
+  unsigned int base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  root_branch_insert_slices_recursive(si,prototypes,nr_prototypes);
+  base = get_root_slice_rank(slices[si].type,0);
+  root_branch_insert_slices_recursive(si,prototypes,nr_prototypes,base);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);
@@ -225,6 +247,7 @@ static slice_index const leaf_slice_rank_order[] =
   STGoalCastlingReachedTester,
   STGoalAutoStalemateReachedTester,
   STGoalCircuitReachedTester,
+  STAnticirceExchangeFilter,
   STGoalExchangeReachedTester,
   STCirceCircuitSpecial,
   STGoalCircuitByRebirthReachedTester,

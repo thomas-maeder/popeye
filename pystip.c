@@ -137,7 +137,6 @@
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
-    ENUMERATOR(STSolutionSolver), /* solves battle play solutions */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \
@@ -341,7 +340,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_fork,   /* STStipulationReflexAttackSolver */
   slice_structure_branch, /* STTrySolver */
   slice_structure_branch, /* STPostKeyPlaySuppressor */
-  slice_structure_branch, /* STSolutionSolver */
   slice_structure_branch, /* STContinuationSolver */
   slice_structure_fork,   /* STThreatSolver */
   slice_structure_branch, /* STThreatEnforcer */
@@ -2005,7 +2003,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STStipulationReflexAttackSolver */
   &stip_traverse_structure_pipe,            /* STTrySolver */
   &stip_traverse_structure_pipe,            /* STPostKeyPlaySuppressor */
-  &stip_traverse_structure_pipe,            /* STSolutionSolver */
   &stip_traverse_structure_pipe,            /* STContinuationSolver */
   &stip_traverse_structure_battle_fork,     /* STThreatSolver */
   &stip_traverse_structure_pipe,            /* STThreatEnforcer */
@@ -2248,7 +2245,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STStipulationReflexAttackSolver */
     &stip_traverse_moves_pipe,                  /* STTrySolver */
     &stip_traverse_moves_pipe,                  /* STPostKeyPlaySuppressor */
-    &stip_traverse_moves_pipe,                  /* STSolutionSolver */
     &stip_traverse_moves_pipe,                  /* STContinuationSolver */
     &stip_traverse_moves_pipe,                  /* STThreatSolver */
     &stip_traverse_moves_pipe,                  /* STThreatEnforcer */

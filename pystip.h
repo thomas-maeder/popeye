@@ -105,7 +105,6 @@
     /* solver slices */                                                 \
     ENUMERATOR(STTrySolver), /* find battle play solutions */           \
     ENUMERATOR(STPostKeyPlaySuppressor), /* suppresses output of post key play */ \
-    ENUMERATOR(STSolutionSolver), /* solves battle play solutions */ \
     ENUMERATOR(STContinuationSolver), /* solves battle play continuations */ \
     ENUMERATOR(STThreatSolver), /* solves threats */                    \
     ENUMERATOR(STThreatEnforcer), /* filters out defense that don't defend against the threat(s) */ \

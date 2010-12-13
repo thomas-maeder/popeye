@@ -29,7 +29,7 @@
               empile:   154165116
             jouecoup:    11847456
         orig_rbechec:    16023138
-        orig_rnechec:    11568333
+        orig_rnechec:    11568335
 Loesung beendet. 
 
 
@@ -1633,7 +1633,7 @@ Loesung beendet.
               empile:  2407924858
             jouecoup:   387838998
         orig_rbechec:           0
-        orig_rnechec:   320424676
+        orig_rnechec:   320424678
 Loesung beendet. 
 
 
@@ -1669,7 +1669,7 @@ Loesung beendet.
               empile:  1051029880
             jouecoup:   128020533
         orig_rbechec:   193923497
-        orig_rnechec:   167832648
+        orig_rnechec:   167832650
 Loesung beendet. 
 
 
@@ -1717,7 +1717,7 @@ Loesung beendet.
               empile:  1222651319
             jouecoup:   209475167
         orig_rbechec:   291849371
-        orig_rnechec:   237841607
+        orig_rnechec:   237841608
 Loesung beendet. 
 
 
@@ -1766,7 +1766,7 @@ Loesung beendet.
               empile:   874964728
             jouecoup:   106180388
         orig_rbechec:   162325259
-        orig_rnechec:   148480047
+        orig_rnechec:   148480048
 Loesung beendet. 
 
 
@@ -1840,7 +1840,7 @@ Loesung beendet.
               empile:  2262522078
             jouecoup:   257015475
         orig_rbechec:   396457649
-        orig_rnechec:   334014239
+        orig_rnechec:   334014264
 Loesung beendet. 
 
 
@@ -1887,7 +1887,7 @@ Loesung beendet.
               empile:  3828790718
             jouecoup:   475880700
         orig_rbechec:   708134647
-        orig_rnechec:   661587033
+        orig_rnechec:   661587037
 Loesung beendet. 
 
 
@@ -2119,10 +2119,10 @@ b) sBc4-->c3
  35  (Sb4-c6[Ih8] )
  36  (Sb4-a6[If8] )
  37  (Tg2-g1[Ig5] + )
-              empile:   174339100
-            jouecoup:    70070336
-        orig_rbechec:    69660439
-        orig_rnechec:    34156940
+              empile:   175368569
+            jouecoup:    70493501
+        orig_rbechec:    70081719
+        orig_rnechec:    34366709
 c) sBb3-->c3
 
  38  (g7-g8=D[Ig7] )
@@ -2156,10 +2156,10 @@ c) sBb3-->c3
  53  (Sb4-c6[Ih8] )
  54  (Sb4-a6[If8] )
  55  (Tg2-g1[Ig5] + )
-              empile:   161269431
-            jouecoup:    64813662
-        orig_rbechec:    64475873
-        orig_rnechec:    32121307
+              empile:   161879925
+            jouecoup:    65049849
+        orig_rbechec:    64710576
+        orig_rnechec:    32233007
 Loesung beendet. 
 
 
@@ -2214,7 +2214,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) Ankuendigung
 
               empile:  2266262723
             jouecoup:  2266266480
-        orig_rbechec:  1562992794
+        orig_rbechec:  1562992795
         orig_rnechec:   965454164
 Loesung beendet. 
 
@@ -2440,10 +2440,10 @@ Loesung beendet.
  55  (Tb1-b2 )
  56  (Tb1-d1 )
  57  (Tb1-c1 )
-              empile: 11105799145
-            jouecoup:  3453713597
-        orig_rbechec:  3453713605
-        orig_rnechec:  2331070974
+              empile: 39156531253
+            jouecoup: 12426750975
+        orig_rbechec: 12426750983
+        orig_rnechec:  8508958848
 Loesung beendet. 
 
 
@@ -2544,3 +2544,11 @@ Initial (Weiss ->):
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   weiss 14dda=>b              5 + 5
+
+              empile:         210
+            jouecoup:         220
+        orig_rbechec:          41
+        orig_rnechec:         177
+Loesung beendet. 
+
+

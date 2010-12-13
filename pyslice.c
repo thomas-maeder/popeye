@@ -179,7 +179,6 @@ has_solution_type slice_solve(slice_index si)
       result = defense_root_solve(si);
       break;
 
-    case STSolutionSolver:
     case STContinuationSolver:
     case STTrySolver:
     case STReadyForDefense:

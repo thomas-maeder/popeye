@@ -127,7 +127,6 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/try.h"
 #include "stipulation/battle_play/postkeyplay.h"
-#include "stipulation/battle_play/continuation.h"
 #include "stipulation/battle_play/check_detector.h"
 #include "stipulation/battle_play/threat.h"
 #include "stipulation/battle_play/attack_move_to_goal.h"
@@ -2728,8 +2727,6 @@ static Token iterate_twins(Token prev_token)
 
       if (OptFlag[postkeyplay] && !stip_apply_postkeyplay(template_slice_hook))
         Message(PostKeyPlayNotApplicable);
-
-      stip_substitute_solution_solvers(template_slice_hook);
 
       stip_insert_check_detectors(template_slice_hook);
 

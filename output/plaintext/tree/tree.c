@@ -82,6 +82,51 @@ static void instrument_threat_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_root_slices(slice_index si,
+                               stip_length_type length,
+                               stip_length_type min_length)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",length);
+  TraceFunctionParam("%u",min_length);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_end_of_solution_writer_slice(),
+      alloc_key_writer(),
+      alloc_output_plaintext_tree_check_writer_slice(length,min_length),
+      alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_attack_root(slice_index si, stip_structure_traversal *st)
+{
+  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const min_length = slices[si].u.branch.min_length;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+  insert_root_slices(si,length-1,min_length-1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void instrument_attack_move(slice_index si, stip_structure_traversal *st)
 {
   non_goal_instrumentation_state const * const state = st->param;
@@ -97,12 +142,17 @@ static void instrument_attack_move(slice_index si, stip_structure_traversal *st)
   if (state->output_state!=output_suppressed
       && length>slack_length_battle)
   {
-    slice_index const prototypes[2] =
+    slice_index const prototypes[] =
     {
+      alloc_continuation_writer_slice(length-1,min_length-1),
       alloc_output_plaintext_tree_check_writer_slice(length-1,min_length-1),
       alloc_output_plaintext_tree_decoration_writer_slice(length-1,min_length-1)
     };
-    battle_branch_insert_slices(si,prototypes,2);
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -124,35 +174,47 @@ static void insert_variation_writers(non_goal_instrumentation_state state,
   {
     if (state.output_state==output_postkeyplay_exclusively)
     {
-      slice_index const prototypes[4] =
+      slice_index const prototypes[] =
       {
         alloc_variation_writer_slice(length,min_length),
         alloc_refuting_variation_writer_slice(length,min_length),
         alloc_output_plaintext_tree_check_writer_slice(length,min_length),
         alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
       };
-      battle_branch_insert_slices(si,prototypes,4);
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
     else
     {
-      slice_index const prototypes[3] =
+      slice_index const prototypes[] =
       {
         alloc_variation_writer_slice(length,min_length),
         alloc_output_plaintext_tree_check_writer_slice(length,min_length),
         alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
       };
-      battle_branch_insert_slices(si,prototypes,3);
+      enum
+      {
+        nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+      };
+      battle_branch_insert_slices(si,prototypes,nr_prototypes);
     }
   }
   else if (state.tries_state==tries_included)
   {
-    slice_index const prototypes[3] =
+    slice_index const prototypes[] =
     {
       alloc_variation_writer_slice(length,min_length),
       alloc_output_plaintext_tree_check_writer_slice(length,min_length),
       alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
     };
-    battle_branch_insert_slices(si,prototypes,3);
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -207,33 +269,20 @@ static void instrument_reflex_attack_branch(slice_index si,
   {
     stip_length_type const length = 2;
     stip_length_type const min_length = 0;
-    slice_index const prototypes[1] =
+    slice_index const prototypes[] =
     {
+      alloc_continuation_writer_slice(length,min_length),
       alloc_output_plaintext_tree_check_writer_slice(length,min_length)
     };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
     battle_branch_insert_slices(slices[si].u.branch_fork.towards_goal,
-                                prototypes,1);
+                                prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_continuation_solver(slice_index si,
-                                           stip_structure_traversal *st)
-{
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  pipe_append(si,alloc_continuation_writer_slice(length,min_length));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -252,31 +301,6 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
   state->tries_state = tries_suppressed;
 
   pipe_append(si,alloc_try_writer());
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_attack_move_played(slice_index si,
-                                          stip_structure_traversal *st)
-{
-  non_goal_instrumentation_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->end_state==end_of_solution_writer_not_inserted
-      && state->output_state!=output_postkeyplay_exclusively)
-  {
-    state->end_state = end_of_solution_writer_inserted;
-    stip_traverse_structure_children(si,st);
-    state->end_state = end_of_solution_writer_not_inserted;
-
-    pipe_append(si,alloc_end_of_solution_writer_slice());
-  }
-  else
-    stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -302,11 +326,15 @@ static void instrument_defense_root(slice_index si,
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
 
-    slice_index const prototypes[1] =
+    slice_index const prototypes[] =
     {
       alloc_output_plaintext_tree_check_writer_slice(length,min_length)
     };
-    battle_branch_insert_slices(si,prototypes,1);
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    battle_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -405,11 +433,13 @@ static void instrument_root_attack_fork(slice_index si, stip_structure_traversal
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  stip_traverse_structure_pipe(si,st);
 
   {
-    slice_index const prototype = alloc_key_writer();
-    root_branch_insert_slices(slices[si].u.branch_fork.towards_goal,&prototype,1);
+    stip_length_type const length = 2;
+    stip_length_type const min_length = 0;
+    insert_root_slices(slices[si].u.branch_fork.towards_goal,
+                       length,min_length);
   }
 
   TraceFunctionExit(__func__);
@@ -422,16 +452,14 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STRootAttackFork,                 &instrument_root_attack_fork      },
   { STMoveInverterRootSolvableFilter, &instrument_move_inverter         },
   { STMoveInverterSolvableFilter,     &instrument_move_inverter         },
-  { STAttackMovePlayed,               &instrument_attack_move_played    },
   { STDefenseRoot,                    &instrument_defense_root          },
-  { STContinuationSolver,             &instrument_continuation_solver   },
   { STTrySolver,                      &instrument_try_solver            },
   { STThreatSolver,                   &instrument_threat_solver         },
   { STDefenseMove,                    &instrument_defense_move          },
   { STSelfDefense,                    &instrument_self_defense          },
   { STRefutationsCollector,           &instrument_refutations_collector },
   { STSeriesRoot,                     &stip_structure_visitor_noop      },
-  { STAttackRoot,                     &instrument_attack_move           },
+  { STAttackRoot,                     &instrument_attack_root           },
   { STAttackMove,                     &instrument_attack_move           },
   { STAttackMoveToGoal,               &instrument_attack_move           },
   { STPostKeyPlaySuppressor,          &suppress_output                  },
@@ -626,11 +654,6 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   TraceStipulation(si);
   insert_non_goal_slices(si);
   insert_goal_writer_slices(si);
-
-  {
-    slice_index const prototype = alloc_key_writer();
-    root_branch_insert_slices(si,&prototype,1);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
