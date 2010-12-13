@@ -22,6 +22,7 @@ static slice_index const slice_rank_order[] =
   STReflexDefenderFilter,
   STReadyForDefense,
   STThreatSolver,
+  STDefenseFork,
   STDefenseMove,
   STDefenseMovePlayed,
   STSeriesMovePlayed,
@@ -235,7 +236,7 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           if (nr_prototypes>1)
             battle_branch_insert_slices_recursive(si,
                                                   prototypes+1,nr_prototypes-1,
-                                                  base);
+                                                  prototype_rank);
           break;
         }
         else

@@ -107,7 +107,7 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
           if (nr_prototypes>1)
             help_branch_insert_slices_recursive(si,
                                                 prototypes+1,nr_prototypes-1,
-                                                base);
+                                                prototype_rank);
           break;
         }
         else
