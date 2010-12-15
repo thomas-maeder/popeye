@@ -59,31 +59,6 @@ char const *goal_end_marker[nr_goals] =
   , " #="
 };
 
-/* Extract the goal from a STGoal*ReachedTester slice
- * @param si identifies STGoal*ReachedTester slice
- * @return goal that si tests for
- */
-Goal extractGoalFromTester(slice_index si)
-{
-  Goal result = { (goal_type)(slices[si].type-first_goal_tester_slice_type),
-                  initsquare };
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(slices[si].type>=first_goal_tester_slice_type);
-  assert(slices[si].type<=last_goal_tester_slice_type);
-
-  if (result.type==goal_target)
-    result.target = slices[si].u.goal_target_reached_tester.target;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result.type);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void flesh_out_mate_reached_tester(slice_index si,
                                           stip_structure_traversal *st)
 {

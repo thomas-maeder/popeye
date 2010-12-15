@@ -450,7 +450,6 @@ static void append_threat_solver(slice_index si, stip_structure_traversal *st)
 void stip_insert_threat_handlers(slice_index si)
 {
   stip_structure_traversal st;
-  SliceType type;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -460,18 +459,12 @@ void stip_insert_threat_handlers(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &stip_structure_visitor_noop);
-
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTesting,
+                                           &stip_structure_visitor_noop);
   stip_structure_traversal_override_single(&st,
                                            STReadyForDefense,
                                            &append_threat_solver);
-
   stip_traverse_structure(si,&st);
 
   for (i = 0; i<=maxply; ++i)

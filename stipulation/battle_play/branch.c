@@ -96,43 +96,12 @@ static slice_index const slice_rank_order[] =
   STThreatCollector,
   STKillerMoveCollector,
   STAttackMoveShoeHorningDone,
-  STAmuMateFilter,
-  STUltraschachzwangGoalFilter,
-  STGoalMateReachedTester,
-  STGoalStalemateReachedTester,
-  STGoalDoubleStalemateReachedTester,
-  STAnticirceTargetSquareFilter,
-  STGoalTargetReachedTester,
-  STGoalCaptureReachedTester,
-  STCirceSteingewinnFilter,
-  STGoalSteingewinnReachedTester,
-  STGoalEnpassantReachedTester,
-  STGoalDoubleMateReachedTester,
-  STGoalCounterMateReachedTester,
-  STGoalCastlingReachedTester,
-  STGoalAutoStalemateReachedTester,
-  STGoalCircuitReachedTester,
-  STAnticirceExchangeFilter,
-  STGoalExchangeReachedTester,
-  STCirceCircuitSpecial,
-  STGoalCircuitByRebirthReachedTester,
-  STCirceExchangeSpecial,
-  STGoalExchangeByRebirthReachedTester,
-  STGoalAnyReachedTester,
-  STGoalProofgameReachedTester,
-  STGoalAToBReachedTester,
-  STGoalMateOrStalemateReachedTester,
-  STGoalCheckReachedTester,
   STSelfCheckGuard,
-  STGoalNotCheckReachedTester,
-  STGoalImmobileReachedTester,
-  STPiecesParalysingMateFilter,
-  STGoalReachedTested,
   STAttackMoveLegalityChecked,
   STMaxNrNonTrivial,
   STMaxNrNonChecks,
-  STAttackMoveFiltered,
   STKeepMatingGuardDefenderFilter,
+  STAttackMoveFiltered,
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
@@ -145,7 +114,6 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
-  STLeaf,
   STMaxThreatLength,
   STPostKeyPlaySuppressor
 };
@@ -205,7 +173,12 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
     do
     {
       slice_index const next = slices[si].u.pipe.next;
-      if (slices[next].type==STProxy)
+      if (slices[next].type==STGoalReachedTesting)
+      {
+        leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+        break;
+      }
+      else if (slices[next].type==STProxy)
         si = next;
       else if (slices[next].type==STQuodlibet
                || slices[next].type==STReciprocal)
@@ -240,7 +213,10 @@ static void battle_branch_insert_slices_recursive(slice_index si_start,
           break;
         }
         else
+        {
+          base = rank_next;
           si = next;
+        }
       }
     } while (si!=si_start && prototype_type!=slices[si].type);
   }
@@ -267,6 +243,10 @@ static void battle_branch_insert_slices_base(slice_index si,
                                        prototypes,nr_prototypes);
       battle_branch_insert_slices_base(slices[si].u.binary.op2,
                                        prototypes,nr_prototypes);
+      break;
+
+    case STGoalReachedTesting:
+      leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
       break;
 
     default:

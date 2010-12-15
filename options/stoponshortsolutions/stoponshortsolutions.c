@@ -208,7 +208,8 @@ static structure_traversers_visitors stoponshortsolutions_filter_inserters[] =
   { STSeriesMoveToGoal,                 &insert_stoponshortsolutions_series_move },
   { STStopOnShortSolutionsRootSolvableFilter, &stip_structure_visitor_noop  },
   { STStopOnShortSolutionsHelpFilter,         &stip_structure_visitor_noop  },
-  { STStopOnShortSolutionsSeriesFilter,       &stip_structure_visitor_noop  }
+  { STStopOnShortSolutionsSeriesFilter,       &stip_structure_visitor_noop  },
+  { STGoalReachedTesting,                     &stip_structure_visitor_noop  }
 };
 
 enum
@@ -225,24 +226,14 @@ enum
 static void insert_filters(slice_index si)
 {
   stip_structure_traversal st;
-  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &stip_structure_visitor_noop);
-
   stip_structure_traversal_override(&st,
                                     stoponshortsolutions_filter_inserters,
                                     nr_stoponshortsolutions_filter_inserters);
-
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

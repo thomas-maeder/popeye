@@ -1704,6 +1704,45 @@ unsigned long allochash(unsigned long nr_kilos)
     return nr_kilos;
 }
 
+static void proof_goal_found(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean is_proofgame(slice_index si)
+{
+  boolean result = false;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalProofgameReachedTester,
+                                           &proof_goal_found);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalAToBReachedTester,
+                                           &proof_goal_found);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether the hash table has been successfully allocated
  * @return true iff the hashtable has been allocated
  */
@@ -1765,7 +1804,7 @@ void inithash(slice_index si)
 
     bytes_per_piece= one_byte_hash ? 1 : 1+bytes_per_spec;
 
-    if (stip_ends_in(si,goal_proofgame) || stip_ends_in(si,goal_atob))
+    if (is_proofgame(si))
     {
       encode = ProofEncode;
       if (hashtable_kilos>0 && MaxPositions==0)

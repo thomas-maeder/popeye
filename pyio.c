@@ -1904,14 +1904,28 @@ static goalInputConfig_t const *detectGoalType(char *tok)
   return gic;
 }
 
-static void attachGoalBranch(slice_index proxy, slice_index tester)
+static void attachGoalBranch(slice_index proxy, slice_index tester, Goal goal)
 {
-  slice_index const leaf = alloc_leaf_slice();
-  slice_index const tested = alloc_pipe(STGoalReachedTested);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",proxy);
+  TraceFunctionParam("%u",tester);
+  TraceFunctionParam("%u",goal.type);
+  TraceFunctionParamListEnd();
 
-  pipe_link(proxy,tester);
-  pipe_link(tester,tested);
-  pipe_link(tested,leaf);
+  {
+    slice_index const leaf = alloc_leaf_slice();
+    slice_index const tested = alloc_pipe(STGoalReachedTested);
+    slice_index const testing = alloc_pipe(STGoalReachedTesting);
+    slices[testing].u.goal_writer.goal = goal;
+
+    pipe_link(proxy,testing);
+    pipe_link(testing,tester);
+    pipe_link(tester,tested);
+    pipe_link(tested,leaf);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static char *ParseGoal(char *tok, slice_index proxy)
@@ -1930,6 +1944,7 @@ static char *ParseGoal(char *tok, slice_index proxy)
   }
   else
   {
+    Goal goal = { gic->goal, initsquare };
     tok += strlen(gic->inputText);
     TraceValue("%s",gic->inputText);
     TraceValue("%s\n",tok);
@@ -1938,9 +1953,9 @@ static char *ParseGoal(char *tok, slice_index proxy)
     {
       case goal_target:
       {
-        square const target = SquareNum(tok[0],tok[1]);
+        goal.target = SquareNum(tok[0],tok[1]);
 
-        if (target==initsquare)
+        if (goal.target==initsquare)
         {
           IoErrorMsg(MissngSquareList, 0);
           tok = 0;
@@ -1948,8 +1963,8 @@ static char *ParseGoal(char *tok, slice_index proxy)
         else
         {
           slice_index const
-            tester = alloc_goal_target_reached_tester_slice(target);
-          attachGoalBranch(proxy,tester);
+            tester = alloc_goal_target_reached_tester_slice(goal.target);
+          attachGoalBranch(proxy,tester,goal);
           tok += 2; /* skip over target square indication */
         }
         break;
@@ -1960,20 +1975,27 @@ static char *ParseGoal(char *tok, slice_index proxy)
         slice_index const leaf_mate = alloc_leaf_slice();
         slice_index const tester_mate = alloc_goal_mate_reached_tester_slice();
         slice_index const tested_mate = alloc_pipe(STGoalReachedTested);
+        slice_index const testing_mate = alloc_pipe(STGoalReachedTesting);
         slice_index const proxy_mate = alloc_proxy_slice();
 
         slice_index const leaf_stale = alloc_leaf_slice();
         slice_index const tester_stale = alloc_goal_stalemate_reached_tester_slice();
         slice_index const tested_stale = alloc_pipe(STGoalReachedTested);
+        slice_index const testing_stalemate = alloc_pipe(STGoalReachedTesting);
         slice_index const proxy_stale = alloc_proxy_slice();
 
         slice_index const quod = alloc_quodlibet_slice(proxy_mate,proxy_stale);
 
-        pipe_link(proxy_mate,tester_mate);
+        slices[testing_mate].u.goal_writer.goal.type = goal_mate;
+        slices[testing_stalemate].u.goal_writer.goal.type = goal_stale;
+
+        pipe_link(proxy_mate,testing_mate);
+        pipe_link(testing_mate,tester_mate);
         pipe_link(tester_mate,tested_mate);
         pipe_link(tested_mate,leaf_mate);
 
-        pipe_link(proxy_stale,tester_stale);
+        pipe_link(proxy_stale,testing_stalemate);
+        pipe_link(testing_stalemate,tester_stale);
         pipe_link(tester_stale,tested_stale);
         pipe_link(tested_stale,leaf_stale);
 
@@ -1982,76 +2004,76 @@ static char *ParseGoal(char *tok, slice_index proxy)
       }
 
       case goal_mate:
-        attachGoalBranch(proxy,alloc_goal_mate_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_mate_reached_tester_slice(),goal);
         break;
 
       case goal_stale:
-        attachGoalBranch(proxy,alloc_goal_stalemate_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_stalemate_reached_tester_slice(),goal);
         break;
 
       case goal_dblstale:
-        attachGoalBranch(proxy,alloc_goal_doublestalemate_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_doublestalemate_reached_tester_slice(),goal);
         break;
 
       case goal_check:
-        attachGoalBranch(proxy,alloc_goal_check_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_check_reached_tester_slice(),goal);
         break;
 
       case goal_capture:
-        attachGoalBranch(proxy,alloc_goal_capture_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_capture_reached_tester_slice(),goal);
         break;
 
       case goal_steingewinn:
-        attachGoalBranch(proxy,alloc_goal_steingewinn_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_steingewinn_reached_tester_slice(),goal);
         break;
 
       case goal_ep:
-        attachGoalBranch(proxy,alloc_goal_enpassant_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_enpassant_reached_tester_slice(),goal);
         break;
 
       case goal_doublemate:
-        attachGoalBranch(proxy,alloc_goal_doublemate_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_doublemate_reached_tester_slice(),goal);
         break;
 
       case goal_countermate:
-        attachGoalBranch(proxy,alloc_goal_countermate_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_countermate_reached_tester_slice(),goal);
         break;
 
       case goal_castling:
-        attachGoalBranch(proxy,alloc_goal_castling_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_castling_reached_tester_slice(),goal);
         break;
 
       case goal_autostale:
-        attachGoalBranch(proxy,alloc_goal_autostalemate_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_autostalemate_reached_tester_slice(),goal);
         break;
 
       case goal_circuit:
-        attachGoalBranch(proxy,alloc_goal_circuit_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_circuit_reached_tester_slice(),goal);
         break;
 
       case goal_exchange:
-        attachGoalBranch(proxy,alloc_goal_exchange_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_exchange_reached_tester_slice(),goal);
         break;
 
       case goal_circuit_by_rebirth:
-        attachGoalBranch(proxy,alloc_goal_circuit_by_rebirth_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_circuit_by_rebirth_reached_tester_slice(),goal);
         break;
 
       case goal_exchange_by_rebirth:
-        attachGoalBranch(proxy,alloc_goal_exchange_by_rebirth_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_exchange_by_rebirth_reached_tester_slice(),goal);
         break;
 
       case goal_any:
-        attachGoalBranch(proxy,alloc_goal_any_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_any_reached_tester_slice(),goal);
         break;
 
       case goal_proofgame:
-        attachGoalBranch(proxy,alloc_goal_proofgame_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_proofgame_reached_tester_slice(),goal);
         break;
 
       case goal_atob:
       {
-        attachGoalBranch(proxy,alloc_goal_atob_reached_tester_slice());
+        attachGoalBranch(proxy,alloc_goal_atob_reached_tester_slice(),goal);
 
         ProofSaveStartPosition();
 
@@ -2154,13 +2176,16 @@ static char *ParseReciGoal(char *tok,
     if (result!=NULL)
     {
       slice_index const leaf = alloc_leaf_slice();
-      slice_index const nonreci_tester = slices[proxy_to_nonreci].u.pipe.next;
+      slice_index const nonreci_testing = slices[proxy_to_nonreci].u.pipe.next;
+      slice_index const nonreci_tester = slices[nonreci_testing].u.pipe.next;
+      slice_index const reci_testing = copy_slice(nonreci_testing);
       slice_index const reci_tester = copy_slice(nonreci_tester);
       slice_index const reci_tested = alloc_pipe(STGoalReachedTested);
       slice_index const proxy_to_reci = alloc_proxy_slice();
+      pipe_link(proxy_to_reci,reci_testing);
+      pipe_link(reci_testing,reci_tester);
       pipe_link(reci_tester,reci_tested);
       pipe_link(reci_tested,leaf);
-      pipe_link(proxy_to_reci,reci_tester);
       alloc_reci_end(proxy_nonreci,proxy_reci,
                      proxy_to_nonreci,proxy_to_reci);
       slices[nonreci_tester].starter = Black;
@@ -2436,7 +2461,8 @@ static char *ParsePlay(char *tok,
         result = ParseSerH(tok,proxy,proxy_next);
         if (result!=0)
         {
-          if (slices[next].type==STGoalProofgameReachedTester)
+          assert(slices[next].type==STGoalReachedTesting);
+          if (slices[next].u.goal_writer.goal.type==goal_proofgame)
             stip_impose_starter(proxy_next,Black);
           else
             stip_impose_starter(proxy_next,White);

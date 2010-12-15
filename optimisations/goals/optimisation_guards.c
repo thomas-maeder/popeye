@@ -396,9 +396,8 @@ static
  * @param si identifies root of subtree
  * @param st address of structure representing traversal
  */
-static
-void insert_goal_optimisation_guards_goal_non_target(slice_index si,
-                                                     stip_moves_traversal *st)
+static void insert_goal_optimisation_guards_goal(slice_index si,
+                                                 stip_moves_traversal *st)
 {
   optimisation_guards_insertion_state * const state = st->param;
 
@@ -406,28 +405,7 @@ void insert_goal_optimisation_guards_goal_non_target(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
-  TraceValue("->%u\n",state->goal.type);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the stipulation structure with goal optimisation guards.
- * @param si identifies root of subtree
- * @param st address of structure representing traversal
- */
-static void insert_goal_optimisation_guards_goal_target(slice_index si,
-                                                        stip_moves_traversal *st)
-{
-  optimisation_guards_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  state->goal.type = goal_target;
-  state->goal.target = slices[si].u.goal_target_reached_tester.target;
+  state->goal = slices[si].u.goal_writer.goal;
   TraceValue("->%u\n",state->goal.type);
 
   TraceFunctionExit(__func__);
@@ -436,15 +414,15 @@ static void insert_goal_optimisation_guards_goal_target(slice_index si,
 
 static moves_traversers_visitors const optimisation_guard_inserters[] =
 {
-  { STDefenseFork,                      &insert_goal_optimisation_guards_defense_fork      },
-  { STKillerMoveFinalDefenseMove,       &insert_goal_optimisation_guards_killer_defense    },
-  { STDefenseMove,                      &insert_goal_optimisation_guards_defense           },
-  { STAttackMoveToGoal,                 &insert_goal_optimisation_guards_attack_to_goal    },
-  { STGoalTargetReachedTester,          &insert_goal_optimisation_guards_goal_target       },
-  { STHelpFork,                         &insert_goal_optimisation_guards_help_fork         },
-  { STHelpMove,                         &insert_goal_optimisation_guards_help_move         },
-  { STHelpMoveToGoal,                   &insert_goal_optimisation_guards_help_move_to_goal },
-  { STSeriesMoveToGoal,                 &insert_goal_optimisation_guards_series_move       }
+  { STDefenseFork,                &insert_goal_optimisation_guards_defense_fork      },
+  { STKillerMoveFinalDefenseMove, &insert_goal_optimisation_guards_killer_defense    },
+  { STDefenseMove,                &insert_goal_optimisation_guards_defense           },
+  { STAttackMoveToGoal,           &insert_goal_optimisation_guards_attack_to_goal    },
+  { STGoalReachedTesting,         &insert_goal_optimisation_guards_goal              },
+  { STHelpFork,                   &insert_goal_optimisation_guards_help_fork         },
+  { STHelpMove,                   &insert_goal_optimisation_guards_help_move         },
+  { STHelpMoveToGoal,             &insert_goal_optimisation_guards_help_move_to_goal },
+  { STSeriesMoveToGoal,           &insert_goal_optimisation_guards_series_move       }
 };
 
 enum
@@ -463,7 +441,6 @@ enum
 void stip_insert_goal_optimisation_guards(slice_index si)
 {
   stip_moves_traversal st;
-  SliceType type;
   optimisation_guards_insertion_state state = { { no_goal, initsquare },
                                                 { false } };
 
@@ -474,14 +451,6 @@ void stip_insert_goal_optimisation_guards(slice_index si)
   TraceStipulation(si);
 
   stip_moves_traversal_init(&st,&state);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_moves_traversal_override_single(&st,
-                                         type,
-                                         &insert_goal_optimisation_guards_goal_non_target);
-
   stip_moves_traversal_override(&st,
                                 optimisation_guard_inserters,
                                 nr_optimisation_guard_inserters);

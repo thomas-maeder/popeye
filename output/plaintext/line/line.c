@@ -32,55 +32,29 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",state->goal.type);
-  if (state->goal.type!=no_goal)
-  {
-    assert(state->root_slice!=no_slice);
-    pipe_append(slices[si].prev,
-                alloc_line_writer_slice(state->root_slice,state->goal));
-  }
+  assert(state->goal.type!=no_goal);
+  assert(state->root_slice!=no_slice);
+  pipe_append(slices[si].prev,
+              alloc_line_writer_slice(state->root_slice,state->goal));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static
-void instrument_goal_non_target_reached_tester(slice_index si,
-                                               stip_structure_traversal *st)
+static void instrument_goal_reached_testing(slice_index si,
+                                            stip_structure_traversal *st)
 {
   line_slices_insertion_state * const state = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (state->goal.type==no_goal)
-  {
-    state->goal.type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
-    stip_traverse_structure_children(si,st);
-    state->goal.type = no_goal;
-  }
-  else
-    stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void instrument_goal_target_reached_tester(slice_index si,
-                                                  stip_structure_traversal *st)
-{
-  line_slices_insertion_state * const state = st->param;
-  Goal const save_goal = state->goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   assert(state->goal.type==no_goal);
-  state->goal.type = goal_target;
-  state->goal.target = slices[si].u.goal_target_reached_tester.target;
+  state->goal = slices[si].u.goal_writer.goal;
+  TraceValue("%u\n",state->goal.type);
   stip_traverse_structure_children(si,st);
-  state->goal = save_goal;
+  state->goal.type = no_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -173,14 +147,14 @@ static void prepend_illegal_selfcheck_writer(slice_index si, stip_structure_trav
 
 static structure_traversers_visitors line_slice_inserters[] =
 {
-  { STSeriesFork,                     &instrument_series_fork                },
-  { STGoalTargetReachedTester,        &instrument_goal_target_reached_tester },
-  { STLeaf,                           &instrument_leaf                       },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter              },
-  { STMoveInverterSolvableFilter,     &instrument_move_inverter              },
-  { STHelpRoot,                       &instrument_root                       },
-  { STSeriesRoot,                     &instrument_root                       },
-  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer      }
+  { STSeriesFork,                     &instrument_series_fork           },
+  { STGoalReachedTesting,             &instrument_goal_reached_testing  },
+  { STLeaf,                           &instrument_leaf                  },
+  { STMoveInverterRootSolvableFilter, &instrument_move_inverter         },
+  { STMoveInverterSolvableFilter,     &instrument_move_inverter         },
+  { STHelpRoot,                       &instrument_root                  },
+  { STSeriesRoot,                     &instrument_root                  },
+  { STSelfCheckGuard,                 &prepend_illegal_selfcheck_writer }
 };
 
 enum
@@ -196,7 +170,6 @@ enum
 void stip_insert_output_plaintext_line_slices(slice_index si)
 {
   stip_structure_traversal st;
-  SliceType type;
   line_slices_insertion_state state = { no_slice,
                                         { no_goal, initsquare },
                                         illegal_selfcheck_writer_not_inserted
@@ -208,14 +181,6 @@ void stip_insert_output_plaintext_line_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &instrument_goal_non_target_reached_tester);
-
   stip_structure_traversal_override(&st,
                                     line_slice_inserters,
                                     nr_line_slice_inserters);

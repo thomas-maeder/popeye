@@ -690,7 +690,6 @@ void stip_insert_keepmating_guards(slice_index si)
 {
   keepmatingguard_insertion_state_type state = { { false, false }, 0};
   stip_structure_traversal st;
-  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -699,14 +698,9 @@ void stip_insert_keepmating_guards(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &keepmating_guards_inserter_goal);
-
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTesting,
+                                           &keepmating_guards_inserter_goal);
   stip_structure_traversal_override(&st,
                                     keepmating_guards_inserters,
                                     nr_keepmating_guards_inserters);

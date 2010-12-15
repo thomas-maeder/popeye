@@ -84,7 +84,12 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
     do
     {
       slice_index const next = slices[si].u.pipe.next;
-      if (slices[next].type==STProxy)
+      if (slices[next].type==STGoalReachedTesting)
+      {
+        leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+        break;
+      }
+      else if (slices[next].type==STProxy)
         si = next;
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
@@ -111,7 +116,10 @@ static void help_branch_insert_slices_recursive(slice_index si_start,
           break;
         }
         else
+        {
+          base = rank_next;
           si = next;
+        }
       }
     } while (si!=si_start && prototype_type!=slices[si].type);
   }
@@ -356,15 +364,17 @@ slice_index alloc_help_branch(stip_length_type length,
 }
 
 /* Insert a the appropriate proxy slices before each
- * STGoal*ReachedTester slice
+ * STGoalReachedTesting slice
  * @param si identifies slice
  * @param st address of structure representing the traversal
  */
-static void instrument_tester(slice_index si, stip_structure_traversal *st)
+static void instrument_testing(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
 
   {
     slice_index const ready = alloc_branch(STReadyForHelpMove,
@@ -375,16 +385,35 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
     slice_index const played = alloc_branch(STHelpMovePlayed,
                                             slack_length_help,
                                             slack_length_help);
+    pipe_append(slices[si].prev,ready);
+    pipe_append(ready,move);
+    pipe_append(move,played);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert a the appropriate proxy slices after each
+ * STGoalReachedTested slice
+ * @param si identifies slice
+ * @param st address of structure representing the traversal
+ */
+static void instrument_tested(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
     slice_index const checked = alloc_branch(STHelpMoveLegalityChecked,
                                              slack_length_help,
                                              slack_length_help);
     slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
                                            slack_length_help,
                                            slack_length_help);
-    pipe_append(slices[si].prev,ready);
-    pipe_append(ready,move);
-    pipe_append(move,played);
-
     pipe_append(si,checked);
     pipe_append(checked,dealt);
   }
@@ -399,19 +428,18 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
 void stip_make_help_goal_branch(slice_index si)
 {
   stip_structure_traversal st;
-  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,type,&instrument_tester);
-
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTesting,
+                                           &instrument_testing);
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTested,
+                                           &instrument_tested);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

@@ -67,6 +67,7 @@
     ENUMERATOR(STReflexSeriesFilter),     /* stop when wrong side can reach goal */ \
     /* other structural slices */                                       \
     ENUMERATOR(STSetplayFork),                                          \
+    ENUMERATOR(STGoalReachedTesting), /* proxy slice marking the start of goal testing */ \
     ENUMERATOR(STGoalMateReachedTester), /* tests whether a mate goal has been reached */ \
     ENUMERATOR(STGoalStalemateReachedTester), /* tests whether a stalemate goal has been reached */ \
     ENUMERATOR(STGoalDoubleStalemateReachedTester), /* tests whether a double stalemate goal has been reached */ \
@@ -191,9 +192,7 @@
     ENUMERATOR(STOutputPlaintextLineMoveInversionCounter), /* plain text output, line mode: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
     ENUMERATOR(nr_slice_types),                                         \
-    ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types),                \
-    ASSIGNED_ENUMERATOR(first_goal_tester_slice_type = STGoalMateReachedTester), \
-    ASSIGNED_ENUMERATOR(last_goal_tester_slice_type = STGoalReachedTested-1)
+    ASSIGNED_ENUMERATOR(no_slice_type = nr_slice_types)
 
 #define ENUMERATION_DECLARE
 
@@ -327,7 +326,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 300,
+  max_nr_slices = 400,
   no_slice = max_nr_slices
 };
 

@@ -60,6 +60,7 @@ static slice_index const root_slice_rank_order[] =
   STEndOfSolutionWriter,
   STKillerMoveCollector,
   STAttackMoveShoeHorningDone,
+  STGoalReachedTesting,
   STAmuMateFilter,
   STUltraschachzwangGoalFilter,
   STGoalMateReachedTester,
@@ -233,6 +234,7 @@ void root_branch_insert_slices(slice_index si,
  */
 static slice_index const leaf_slice_rank_order[] =
 {
+  STGoalReachedTesting,
   STAmuMateFilter,
   STUltraschachzwangGoalFilter,
   STGoalMateReachedTester,
@@ -251,9 +253,11 @@ static slice_index const leaf_slice_rank_order[] =
   STGoalCircuitReachedTester,
   STAnticirceExchangeFilter,
   STGoalExchangeReachedTester,
+  STAnticirceCircuitSpecial,
   STCirceCircuitSpecial,
   STGoalCircuitByRebirthReachedTester,
   STCirceExchangeSpecial,
+  STAnticirceExchangeSpecial,
   STGoalExchangeByRebirthReachedTester,
   STGoalAnyReachedTester,
   STGoalProofgameReachedTester,
@@ -263,14 +267,22 @@ static slice_index const leaf_slice_rank_order[] =
   STSelfCheckGuard,
   STGoalNotCheckReachedTester,
   STGoalImmobileReachedTester,
+  STPiecesParalysingMateFilter,
   STGoalReachedTested,
+  STAttackMoveLegalityChecked,
   STDefenseMoveLegalityChecked,
   STHelpMoveLegalityChecked,
   STSeriesMoveLegalityChecked,
+  STAttackMoveFiltered,
   STDefenseMoveFiltered,
+  STContinuationSolver,
+  STKeyWriter,
+  STContinuationWriter,
   STVariationWriter,
   STRefutingVariationWriter,
   STDefenseDealtWith,
+  STCheckDetector,
+  STAttackDealtWith,
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
@@ -312,9 +324,16 @@ static unsigned int get_leaf_slice_rank(SliceType type)
   return result;
 }
 
-static void leaf_branch_insert_slices_recursive(slice_index si,
-                                                slice_index const prototypes[],
-                                                unsigned int nr_prototypes)
+/* Insert slices into a leaf branch.
+ * The inserted slices are copies of the elements of prototypes).
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void leaf_branch_insert_slices_nested(slice_index si,
+                                         slice_index const prototypes[],
+                                         unsigned int nr_prototypes)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -327,8 +346,7 @@ static void leaf_branch_insert_slices_recursive(slice_index si,
     if (prototype_rank==no_leaf_slice_type)
     {
       if (nr_prototypes>1)
-        leaf_branch_insert_slices_recursive(si,
-                                            prototypes+1,nr_prototypes-1);
+        leaf_branch_insert_slices_nested(si,prototypes+1,nr_prototypes-1);
     }
     else
       do
@@ -337,10 +355,10 @@ static void leaf_branch_insert_slices_recursive(slice_index si,
           si = slices[si].u.pipe.next;
         else if (slices[si].type==STQuodlibet || slices[si].type==STReciprocal)
         {
-          leaf_branch_insert_slices_recursive(slices[si].u.binary.op1,
-                                              prototypes,nr_prototypes);
-          leaf_branch_insert_slices_recursive(slices[si].u.binary.op2,
-                                              prototypes,nr_prototypes);
+          leaf_branch_insert_slices_nested(slices[si].u.binary.op1,
+                                           prototypes,nr_prototypes);
+          leaf_branch_insert_slices_nested(slices[si].u.binary.op2,
+                                           prototypes,nr_prototypes);
           break;
         }
         else
@@ -352,8 +370,7 @@ static void leaf_branch_insert_slices_recursive(slice_index si,
           {
             pipe_append(slices[si].prev,copy_slice(prototypes[0]));
             if (nr_prototypes>1)
-              leaf_branch_insert_slices_recursive(si,
-                                                  prototypes+1,nr_prototypes-1);
+              leaf_branch_insert_slices_nested(si,prototypes+1,nr_prototypes-1);
             break;
           }
           else
@@ -385,7 +402,7 @@ void leaf_branch_insert_slices(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  leaf_branch_insert_slices_recursive(si,prototypes,nr_prototypes);
+  leaf_branch_insert_slices_nested(si,prototypes,nr_prototypes);
 
   for (i = 0; i!=nr_prototypes; ++i)
     dealloc_slice(prototypes[i]);

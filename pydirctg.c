@@ -76,7 +76,7 @@ void slice_insert_direct_guards(slice_index si, slice_index proxy_to_goal)
  * @param si identifies STGoal*ReachedTester slice
  * @param st address of structure representing the traversal
  */
-static void instrument_tester(slice_index si, stip_structure_traversal *st)
+static void instrument_testing(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -85,7 +85,7 @@ static void instrument_tester(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    Goal const goal = extractGoalFromTester(si);
+    Goal const goal = slices[si].u.goal_writer.goal;
     slice_index const move = alloc_attack_move_to_goal_slice(goal);
     slice_index const played = alloc_branch(STAttackMovePlayed,
                                             slack_length_battle,
@@ -145,19 +145,15 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
 void slice_make_direct_goal_branch(slice_index si)
 {
   stip_structure_traversal st;
-  SliceType type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,type,&instrument_tester);
-
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTesting,
+                                           &instrument_testing);
   stip_structure_traversal_override_single(&st,
                                            STGoalReachedTested,
                                            &instrument_tested);

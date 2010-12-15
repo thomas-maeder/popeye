@@ -400,7 +400,7 @@ static void insert_selfcheck_guard_series_branch(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_selfcheck_guard_leaf(slice_index si,
+static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -474,17 +474,9 @@ static void insert_guards(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-
-  {
-    SliceType type;
-    for (type = first_goal_tester_slice_type;
-         type<=last_goal_tester_slice_type;
-         ++type)
-      stip_structure_traversal_override_single(&st,
-                                               type,
-                                               &insert_selfcheck_guard_leaf);
-  }
-
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTesting,
+                                           &insert_selfcheck_guard_goal);
   stip_structure_traversal_override(&st,
                                     selfcheck_guards_inserters,
                                     nr_selfcheck_guards_inserters);
@@ -529,9 +521,10 @@ static void remove_if_ignored(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-goal_type goals_ignoring_selfcheck[] = {
-  goal_doublemate,
-  goal_countermate
+SliceType const goals_ignoring_selfcheck[] =
+{
+  STGoalDoubleMateReachedTester,
+  STGoalCounterMateReachedTester
 };
 
 enum
@@ -559,13 +552,9 @@ static void remove_guards_after_selfcheck_ignoring_goals(slice_index si)
   {
     unsigned int i;
     for (i = 0; i!=nr_goals_ignoring_selfcheck; ++i)
-    {
-      SliceType const tester_type = (first_goal_tester_slice_type
-                                     +goals_ignoring_selfcheck[i]);
       stip_structure_traversal_override_single(&st,
-                                               tester_type,
+                                               goals_ignoring_selfcheck[i],
                                                &remember_to_ignore);
-    }
 
     stip_structure_traversal_override_single(&st,
                                              STSelfCheckGuard,

@@ -397,8 +397,7 @@ static void insert_non_goal_slices(slice_index si)
 
 /* Remember that we are about to deal with a non-target goal (and which one)
  */
-static void remember_goal_non_target(slice_index si,
-                                     stip_structure_traversal *st)
+static void remember_goal(slice_index si, stip_structure_traversal *st)
 {
   Goal * const goal = st->param;
 
@@ -410,33 +409,12 @@ static void remember_goal_non_target(slice_index si,
   if (goal->type==no_goal)
   {
     Goal const save_goal = *goal;
-    goal->type = goal_mate+(slices[si].type-first_goal_tester_slice_type);
+    *goal = slices[si].u.goal_writer.goal;
     stip_traverse_structure_children(si,st);
     *goal = save_goal;
   }
   else
     stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Remember that we are about to deal with a target goal
- */
-static void remember_goal_target(slice_index si, stip_structure_traversal *st)
-{
-  Goal * const goal = st->param;
-  Goal const save_goal = *goal;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(goal->type==no_goal);
-  goal->type = goal_target;
-  goal->target = slices[si].u.goal_target_reached_tester.target;
-  stip_traverse_structure_children(si,st);
-  *goal = save_goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -490,7 +468,7 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors goal_writer_slice_inserters[] =
 {
-  { STGoalTargetReachedTester,        &remember_goal_target            },
+  { STGoalReachedTesting,             &remember_goal                   },
   { STCheckDetector,                  &remove_check_detector_if_unused },
   { STOutputPlaintextTreeCheckWriter, &insert_goal_writer              }
 };
@@ -507,7 +485,6 @@ enum
 static void insert_goal_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
-  SliceType type;
   Goal goal = { no_goal, initsquare };
 
   TraceFunctionEntry(__func__);
@@ -517,18 +494,9 @@ static void insert_goal_writer_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&goal);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &remember_goal_non_target);
-
   stip_structure_traversal_override(&st,
                                     goal_writer_slice_inserters,
                                     nr_goal_writer_slice_inserters);
-
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

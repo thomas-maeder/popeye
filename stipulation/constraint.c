@@ -807,7 +807,6 @@ void slice_insert_reflex_filters(slice_index si,
                                  slice_index proxy_to_avoided_defense)
 {
   stip_structure_traversal st;
-  SliceType type;
   init_param param = { { proxy_to_avoided_defense, proxy_to_avoided_attack } };
 
   TraceFunctionEntry(__func__);
@@ -822,14 +821,9 @@ void slice_insert_reflex_filters(slice_index si,
   assert(slices[proxy_to_avoided_defense].type==STProxy);
 
   stip_structure_traversal_init(&st,&param);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &stip_structure_visitor_noop);
-
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTesting,
+                                           &stip_structure_visitor_noop);
   stip_structure_traversal_override(&st,
                                     reflex_guards_inserters,
                                     nr_reflex_guards_inserters);
@@ -945,7 +939,6 @@ void slice_insert_reflex_filters_semi(slice_index si,
                                       slice_index proxy_to_avoided)
 {
   stip_structure_traversal st;
-  SliceType type;
   init_param param;
 
   TraceFunctionEntry(__func__);
@@ -961,14 +954,9 @@ void slice_insert_reflex_filters_semi(slice_index si,
   param.to_be_avoided[1] = no_slice;
 
   stip_structure_traversal_init(&st,&param);
-
-  for (type = first_goal_tester_slice_type;
-       type<=last_goal_tester_slice_type;
-       ++type)
-    stip_structure_traversal_override_single(&st,
-                                             type,
-                                             &stip_structure_visitor_noop);
-
+  stip_structure_traversal_override_single(&st,
+                                           STGoalReachedTesting,
+                                           &stip_structure_visitor_noop);
   stip_structure_traversal_override(&st,
                                     reflex_guards_inserters_semi,
                                     nr_reflex_guards_inserters_semi);

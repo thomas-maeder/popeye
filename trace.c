@@ -417,6 +417,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
         break;
 
+      case STGoalReachedTesting:
+        Trace_pipe(si);
+        TraceValue("%u",slices[si].u.goal_writer.goal.type);
+        fprintf(stdout,"\n");
+        TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
+        break;
+
       case STPiecesParalysingMateFilter:
       case STPiecesParalysingStalemateSpecial:
       case STGoalImmobileReachedTester:
