@@ -26,8 +26,7 @@ static slice_index const root_slice_rank_order[] =
   STDefenseMoveLegalityChecked,
   STHelpMoveLegalityChecked,
   STSeriesMoveLegalityChecked,
-  STMaxNrNonTrivial,
-  STMaxNrNonChecks,
+  STAttackMoveFiltered,
   STDefenseMoveFiltered,
   STDefenseDealtWith,
   STHelpMoveDealtWith,
@@ -60,49 +59,22 @@ static slice_index const root_slice_rank_order[] =
   STEndOfSolutionWriter,
   STKillerMoveCollector,
   STAttackMoveShoeHorningDone,
-  STGoalReachedTesting,
-  STAmuMateFilter,
-  STUltraschachzwangGoalFilter,
-  STGoalMateReachedTester,
-  STGoalStalemateReachedTester,
-  STGoalDoubleStalemateReachedTester,
-  STAnticirceTargetSquareFilter,
-  STGoalTargetReachedTester,
-  STGoalCaptureReachedTester,
-  STCirceSteingewinnFilter,
-  STGoalSteingewinnReachedTester,
-  STGoalEnpassantReachedTester,
-  STGoalDoubleMateReachedTester,
-  STGoalCounterMateReachedTester,
-  STGoalCastlingReachedTester,
-  STGoalAutoStalemateReachedTester,
-  STGoalCircuitReachedTester,
-  STGoalExchangeReachedTester,
-  STCirceCircuitSpecial,
-  STGoalCircuitByRebirthReachedTester,
-  STCirceExchangeSpecial,
-  STGoalExchangeByRebirthReachedTester,
-  STGoalAnyReachedTester,
-  STGoalProofgameReachedTester,
-  STGoalAToBReachedTester,
-  STGoalMateOrStalemateReachedTester,
-  STGoalCheckReachedTester,
   STSelfCheckGuard,
-  STGoalNotCheckReachedTester,
-  STGoalImmobileReachedTester,
-  STPiecesParalysingMateFilter,
-  STGoalReachedTested,
   STAttackMoveLegalityChecked,
+  STMaxNrNonTrivial,
+  STMaxNrNonChecks,
   STAttackMoveFiltered,
   STContinuationSolver,
   STKeyWriter,
   STTrySolver,
+  STTryWriter,
+  STEndOfPhaseWriter,
+  STDefenseRoot,
   STCheckDetector,
+  STMaxFlightsquares,
   STAttackDealtWith,
   STOutputPlaintextTreeCheckWriter,
-  STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,
-  STLeaf,
   STMaxThreatLength,
   STPostKeyPlaySuppressor,
   STReflexDefenderFilter,
@@ -112,13 +84,27 @@ static slice_index const root_slice_rank_order[] =
   STDefenseMove,
   STDefenseMovePlayed,
   STRefutationsCollector,
-  STDefenseMoveShoeHorningDone
+  STRefutationWriter,
+  STDefenseMoveShoeHorningDone,
+  STKillerMoveCollector,
+  STSelfCheckGuard,
+  STDefenseMoveLegalityChecked,
+  STAttackHashed,
+  STThreatEnforcer,
+  STDefenseMoveFiltered,
+  STVariationWriter,
+  STRefutingVariationWriter,
+  STOutputPlaintextTreeCheckWriter,
+  STOutputPlaintextTreeDecorationWriter,
+  STDefenseDealtWith,
+  STStipulationReflexAttackSolver
 };
 
 enum
 {
   nr_root_slice_rank_order_elmts = (sizeof root_slice_rank_order
-                                    / sizeof root_slice_rank_order[0])
+                                    / sizeof root_slice_rank_order[0]),
+                                    no_root_branch_slice_type = INT_MAX
 };
 
 /* Determine the rank of a slice type
@@ -128,16 +114,20 @@ enum
  */
 static unsigned int get_root_slice_rank(SliceType type, unsigned int base)
 {
-  unsigned int result;
+  unsigned int result = no_root_branch_slice_type;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(SliceType,type,"");
   TraceFunctionParam("%u",base);
   TraceFunctionParamListEnd();
 
-  for (result = base; result!=nr_root_slice_rank_order_elmts; ++result)
-    if (root_slice_rank_order[result]==type)
+  for (i = base; i!=nr_root_slice_rank_order_elmts; ++i)
+    if (root_slice_rank_order[i]==type)
+    {
+      result = i;
       break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -163,7 +153,12 @@ static void root_branch_insert_slices_recursive(slice_index si,
     do
     {
       slice_index const next = slices[si].u.pipe.next;
-      if (slices[next].type==STProxy)
+      if (slices[next].type==STGoalReachedTesting)
+      {
+        leaf_branch_insert_slices_nested(next,prototypes,nr_prototypes);
+        break;
+      }
+      else if (slices[next].type==STProxy)
         si = next;
       else if (slices[next].type==STQuodlibet || slices[next].type==STReciprocal)
       {
@@ -179,7 +174,7 @@ static void root_branch_insert_slices_recursive(slice_index si,
       {
         unsigned int const rank_next = get_root_slice_rank(slices[next].type,
                                                            base);
-        if (rank_next==nr_root_slice_rank_order_elmts)
+        if (rank_next==no_root_branch_slice_type)
           break;
         else if (rank_next>prototype_rank)
         {
@@ -191,7 +186,10 @@ static void root_branch_insert_slices_recursive(slice_index si,
           break;
         }
         else
+        {
+          base = rank_next;
           si = next;
+        }
       }
     } while (prototype_type!=slices[si].type);
   }
@@ -283,7 +281,6 @@ static slice_index const leaf_slice_rank_order[] =
   STDefenseDealtWith,
   STCheckDetector,
   STAttackDealtWith,
-  STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeCheckWriter,
   STOutputPlaintextTreeGoalWriter,
   STOutputPlaintextTreeDecorationWriter,

@@ -66,7 +66,7 @@ static void insert_root_slices(slice_index si,
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -220,6 +220,7 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
 
     slice_index const prototypes[] =
     {
+      alloc_try_writer(),
       alloc_refutation_writer_slice(),
       alloc_variation_writer_slice(length-1,min_length-1),
       alloc_output_plaintext_tree_check_writer_slice(length-1,min_length-1),
@@ -229,12 +230,10 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+    root_branch_insert_slices(si,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children(si,st);
-
-  pipe_append(si,alloc_try_writer());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -247,8 +246,6 @@ static void instrument_defense_root(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,alloc_end_of_phase_writer_slice());
-
   stip_traverse_structure_children(si,st);
 
   {
@@ -257,6 +254,7 @@ static void instrument_defense_root(slice_index si,
 
     slice_index const prototypes[] =
     {
+      alloc_end_of_phase_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice(length,min_length),
       alloc_refuting_variation_writer_slice(length-1,min_length-1)
     };
@@ -264,7 +262,10 @@ static void instrument_defense_root(slice_index si,
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    battle_branch_insert_slices(si,prototypes,nr_prototypes);
+
+    /* start at predecessor - end of phase writer is inserted before defense
+     * root*/
+    root_branch_insert_slices(slices[si].prev,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
