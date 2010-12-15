@@ -1725,7 +1725,6 @@ static boolean is_proofgame(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
