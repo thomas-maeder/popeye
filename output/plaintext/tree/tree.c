@@ -335,7 +335,7 @@ static void instrument_root_attack_fork(slice_index si, stip_structure_traversal
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_pipe(si,st);
+  stip_traverse_structure_children(si,st);
 
   {
     stip_length_type const length = 2;
@@ -348,7 +348,31 @@ static void instrument_root_attack_fork(slice_index si, stip_structure_traversal
   TraceFunctionResultEnd();
 }
 
-static structure_traversers_visitors tree_slice_inserters[] =
+static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] =
+    {
+      alloc_goal_writer_slice(slices[si].u.goal_writer.goal)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    leaf_branch_insert_slices(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitors writer_inserters[] =
 {
   { STSetplayFork,                    &instrument_setplay_fork          },
   { STRootAttackFork,                 &instrument_root_attack_fork      },
@@ -364,19 +388,19 @@ static structure_traversers_visitors tree_slice_inserters[] =
   { STAttackMove,                     &insert_continuation_writers      },
   { STAttackMoveToGoal,               &insert_continuation_writers      },
   { STPostKeyPlaySuppressor,          &stip_structure_visitor_noop      },
-  { STStipulationReflexAttackSolver,  &instrument_reflex_attack_branch  }
+  { STStipulationReflexAttackSolver,  &instrument_reflex_attack_branch  },
+  { STGoalReachedTesting,             &insert_goal_writer               }
 };
 
 enum
 {
-  nr_tree_slice_inserters = (sizeof tree_slice_inserters
-                             / sizeof tree_slice_inserters[0])
+  nr_writer_inserters = sizeof writer_inserters / sizeof writer_inserters[0]
 };
 
-/* Insert the slices that are not related to a goal
+/* Insert the writer slices
  * @param si identifies slice where to start
  */
-static void insert_non_goal_slices(slice_index si)
+static void insert_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -385,9 +409,7 @@ static void insert_non_goal_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override(&st,
-                                    tree_slice_inserters,
-                                    nr_tree_slice_inserters);
+  stip_structure_traversal_override(&st,writer_inserters,nr_writer_inserters);
   stip_traverse_structure(si,&st);
 
   insert_illegal_selfcheck_writer(si);
@@ -396,23 +418,47 @@ static void insert_non_goal_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Remember that we are about to deal with a non-target goal (and which one)
+typedef struct
+{
+  Goal goal;
+  boolean branch_has_key_writer;
+} leaf_optimisation_state_structure;
+
+/* Remember that we are about to deal with a goal (and which one)
  */
 static void remember_goal(slice_index si, stip_structure_traversal *st)
 {
-  Goal * const goal = st->param;
+  leaf_optimisation_state_structure * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* we are only interested in the first goal checker slice of a branch */
-  if (goal->type==no_goal)
+  assert(state->goal.type==no_goal);
+
+  state->goal = slices[si].u.goal_writer.goal;
+  stip_traverse_structure_children(si,st);
+  state->goal.type = no_goal;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember that the current branch has a key writer
+ */
+static void remember_key_writer(slice_index si, stip_structure_traversal *st)
+{
+  leaf_optimisation_state_structure * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (state->goal.type!=no_goal)
   {
-    Goal const save_goal = *goal;
-    *goal = slices[si].u.goal_writer.goal;
+    state->branch_has_key_writer = true;
     stip_traverse_structure_children(si,st);
-    *goal = save_goal;
+    state->branch_has_key_writer = false;
   }
   else
     stip_traverse_structure_children(si,st);
@@ -421,12 +467,11 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Remove an unused check detector
+/* Remove an unused slice dealing with a check that we don't intend to write
  */
-static void remove_check_detector_if_unused(slice_index si,
-                                            stip_structure_traversal *st)
+static void remove_check_handler_if_unused(slice_index si, stip_structure_traversal *st)
 {
-  Goal const * const goal = st->param;
+  leaf_optimisation_state_structure const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -434,19 +479,21 @@ static void remove_check_detector_if_unused(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (goal->type!=no_goal
-      && output_plaintext_goal_writer_replaces_check_writer(goal->type))
+  if (state->goal.type!=no_goal
+      && output_plaintext_goal_writer_replaces_check_writer(state->goal.type))
     pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Insert a goal writer (by replacing a check writer if appropriate)
+/* Remove a continuation writer in a leaf branch where we already have a key
+ * writer
  */
-static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
+static void remove_continuation_writer_if_unused(slice_index si,
+                                                 stip_structure_traversal *st)
 {
-  Goal const * const goal = st->param;
+  leaf_optimisation_state_structure const * const state = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -454,14 +501,8 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (goal->type!=no_goal)
-  {
-    slice_index const writer = alloc_goal_writer_slice(*goal);
-    if (output_plaintext_goal_writer_replaces_check_writer(goal->type))
-      pipe_replace(si,writer);
-    else
-      pipe_append(si,writer);
-  }
+  if (state->branch_has_key_writer)
+    pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -469,9 +510,11 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitors goal_writer_slice_inserters[] =
 {
-  { STGoalReachedTesting,             &remember_goal                   },
-  { STCheckDetector,                  &remove_check_detector_if_unused },
-  { STOutputPlaintextTreeCheckWriter, &insert_goal_writer              }
+  { STGoalReachedTesting,             &remember_goal                        },
+  { STKeyWriter,                      &remember_key_writer                  },
+  { STContinuationWriter,             &remove_continuation_writer_if_unused },
+  { STCheckDetector,                  &remove_check_handler_if_unused       },
+  { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
 };
 
 enum
@@ -480,21 +523,19 @@ enum
                                     / sizeof goal_writer_slice_inserters[0])
 };
 
-/* Insert the slices that are related to a goal
+/* Optimise away superfluous slices in leaf branches
  * @param si identifies slice where to start
  */
-static void insert_goal_writer_slices(slice_index si)
+static void optimise_leaf_slices(slice_index si)
 {
   stip_structure_traversal st;
-  Goal goal = { no_goal, initsquare };
+  leaf_optimisation_state_structure state = { { no_goal, initsquare }, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(si);
-
-  stip_structure_traversal_init(&st,&goal);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override(&st,
                                     goal_writer_slice_inserters,
                                     nr_goal_writer_slice_inserters);
@@ -515,8 +556,8 @@ void stip_insert_output_plaintext_tree_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
-  insert_non_goal_slices(si);
-  insert_goal_writer_slices(si);
+  insert_writer_slices(si);
+  optimise_leaf_slices(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
