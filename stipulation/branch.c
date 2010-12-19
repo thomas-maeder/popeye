@@ -11,7 +11,6 @@ static slice_index const root_slice_rank_order[] =
 {
   STProxy,
   STSetplayFork,
-  STMoveInverterRootSolvableFilter,
   STMoveInverterSolvableFilter,
   STOutputPlaintextTreeMoveInversionCounter,
   STReflexAttackerFilter,

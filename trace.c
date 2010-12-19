@@ -319,7 +319,6 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
 
       case STSelfCheckGuard:
       case STProxy:
-      case STMoveInverterRootSolvableFilter:
       case STMoveInverterSolvableFilter:
       case STMoveInverterSeriesFilter:
       case STNot:

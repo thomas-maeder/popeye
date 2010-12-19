@@ -150,7 +150,6 @@ static structure_traversers_visitors line_slice_inserters[] =
   { STSeriesFork,                     &instrument_series_fork           },
   { STGoalReachedTesting,             &instrument_goal_reached_testing  },
   { STLeaf,                           &instrument_leaf                  },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter         },
   { STMoveInverterSolvableFilter,     &instrument_move_inverter         },
   { STHelpRoot,                       &instrument_root                  },
   { STSeriesRoot,                     &instrument_root                  },

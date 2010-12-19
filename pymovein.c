@@ -9,24 +9,6 @@
 
 #include <assert.h>
 
-/* Allocate a STMoveInverterRootSolvableFilter slice.
- * @return index of allocated slice
- */
-slice_index alloc_move_inverter_root_solvable_filter(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STMoveInverterRootSolvableFilter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Allocate a STMoveInverterSolvableFilter slice.
  * @return index of allocated slice
  */

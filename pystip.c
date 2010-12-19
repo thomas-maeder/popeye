@@ -132,7 +132,6 @@
     ENUMERATOR(STNot),             /* logical NOT */                    \
     ENUMERATOR(STCheckDetector), /* detect check delivered by previous move */ \
     ENUMERATOR(STSelfCheckGuard),  /* stop when a side exposes its king */ \
-    ENUMERATOR(STMoveInverterRootSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSolvableFilter),    /* inverts side to move */ \
     ENUMERATOR(STMoveInverterSeriesFilter),    /* inverts side to move */ \
     ENUMERATOR(STStipulationReflexAttackSolver), /* solve forced attack after reflex-specific refutation */  \
@@ -336,7 +335,6 @@ static slice_structural_type highest_structural_type[nr_slice_types] =
   slice_structure_pipe,   /* STCheckDetector */
   slice_structure_pipe,   /* STNot */
   slice_structure_pipe,   /* STSelfCheckGuard */
-  slice_structure_pipe,   /* STMoveInverterRootSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSolvableFilter */
   slice_structure_pipe,   /* STMoveInverterSeriesFilter */
   slice_structure_fork,   /* STStipulationReflexAttackSolver */
@@ -1259,7 +1257,7 @@ static void install_postkey_slice(slice_index si, slice_index postkey_slice)
   TraceFunctionParam("%u",postkey_slice);
   TraceFunctionParamListEnd();
 
-  inverter = alloc_move_inverter_root_solvable_filter();
+  inverter = alloc_move_inverter_solvable_filter();
   pipe_link(inverter,postkey_slice);
   pipe_link(si,inverter);
 
@@ -1597,7 +1595,6 @@ static structure_traversers_visitors starter_detectors[] =
   { STSeriesMoveToGoal,               &series_move_detect_starter   },
   { STReciprocal,                     &reci_detect_starter          },
   { STQuodlibet,                      &quodlibet_detect_starter     },
-  { STMoveInverterRootSolvableFilter, &move_inverter_detect_starter },
   { STMoveInverterSolvableFilter,     &move_inverter_detect_starter },
   { STMoveInverterSeriesFilter,       &move_inverter_detect_starter },
   { STHelpShortcut,                   &pipe_detect_starter          },
@@ -1708,7 +1705,6 @@ static SliceType starter_inverters[] =
   STHelpMoveToGoal,
   STSeriesMove,
   STSeriesMoveToGoal,
-  STMoveInverterRootSolvableFilter,
   STMoveInverterSolvableFilter,
   STMoveInverterSeriesFilter
 };
@@ -1917,7 +1913,6 @@ static stip_structure_visitor structure_children_traversers[] =
   &stip_traverse_structure_pipe,            /* STCheckDetector */
   &stip_traverse_structure_pipe,            /* STNot */
   &stip_traverse_structure_pipe,            /* STSelfCheckGuard */
-  &stip_traverse_structure_pipe,            /* STMoveInverterRootSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSolvableFilter */
   &stip_traverse_structure_pipe,            /* STMoveInverterSeriesFilter */
   &stip_traverse_structure_battle_fork,     /* STStipulationReflexAttackSolver */
@@ -2160,7 +2155,6 @@ static moves_visitor_map_type const moves_children_traversers =
     &stip_traverse_moves_pipe,                  /* STCheckDetector */
     &stip_traverse_moves_pipe,                  /* STNot */
     &stip_traverse_moves_pipe,                  /* STSelfCheckGuard */
-    &stip_traverse_moves_pipe,                  /* STMoveInverterRootSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSolvableFilter */
     &stip_traverse_moves_pipe,                  /* STMoveInverterSeriesFilter */
     &stip_traverse_moves_pipe,                  /* STStipulationReflexAttackSolver */

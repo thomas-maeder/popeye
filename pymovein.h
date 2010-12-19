@@ -8,11 +8,6 @@
 /* This module provides functionality dealing with move inverter slice
  */
 
-/* Allocate a STMoveInverterRootSolvableFilter slice.
- * @return index of allocated slice
- */
-slice_index alloc_move_inverter_root_solvable_filter(void);
-
 /* Allocate a STMoveInverterSolvableFilter slice.
  * @return index of allocated slice
  */

@@ -392,7 +392,6 @@ static structure_traversers_visitors writer_inserters[] =
 {
   { STSetplayFork,                    &instrument_setplay_fork          },
   { STRootAttackFork,                 &instrument_root_attack_fork      },
-  { STMoveInverterRootSolvableFilter, &instrument_move_inverter         },
   { STMoveInverterSolvableFilter,     &instrument_move_inverter         },
   { STDefenseRoot,                    &instrument_defense_root          },
   { STTrySolver,                      &instrument_try_solver            },
