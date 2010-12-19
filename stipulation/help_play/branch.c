@@ -231,25 +231,21 @@ static slice_index alloc_help_branch_odd(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const checked1 = alloc_branch(STHelpMoveLegalityChecked,
-                                              length,min_length);
+    slice_index const checked1 = alloc_pipe(STHelpMoveLegalityChecked);
     slice_index const dealt1 = alloc_branch(STHelpMoveDealtWith,
                                             length,min_length);
     slice_index const ready1 = alloc_branch(STReadyForHelpMove,
                                             length,min_length);
     slice_index const move1 = alloc_help_move_slice(length,min_length);
-    slice_index const played1 = alloc_branch(STHelpMovePlayed,
-                                             length-1,min_length-1);
-    slice_index const checked2 = alloc_branch(STHelpMoveLegalityChecked,
-                                              length-1,min_length-1);
+    slice_index const played1 = alloc_pipe(STHelpMovePlayed);
+    slice_index const checked2 = alloc_pipe(STHelpMoveLegalityChecked);
     slice_index const dealt2 = alloc_branch(STHelpMoveDealtWith,
                                             length-1,min_length-1);
 
     slice_index const ready2 = alloc_branch(STReadyForHelpMove,
                                             length-1,min_length-1);
     slice_index const move2 = alloc_help_move_slice(length-1,min_length-1);
-    slice_index const played2 = alloc_branch(STHelpMovePlayed,
-                                             length-2,min_length-2);
+    slice_index const played2 = alloc_pipe(STHelpMovePlayed);
 
     pipe_link(ready1,move1);
     pipe_link(move1,played1);
@@ -382,9 +378,7 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
                                             slack_length_help+1);
     slice_index const move = alloc_help_move_slice(slack_length_help+1,
                                                    slack_length_help+1);
-    slice_index const played = alloc_branch(STHelpMovePlayed,
-                                            slack_length_help,
-                                            slack_length_help);
+    slice_index const played = alloc_pipe(STHelpMovePlayed);
     pipe_append(slices[si].prev,ready);
     pipe_append(ready,move);
     pipe_append(move,played);
@@ -408,9 +402,7 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const checked = alloc_branch(STHelpMoveLegalityChecked,
-                                             slack_length_help,
-                                             slack_length_help);
+    slice_index const checked = alloc_pipe(STHelpMoveLegalityChecked);
     slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
                                            slack_length_help,
                                            slack_length_help);

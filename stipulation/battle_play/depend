@@ -520,11 +520,14 @@ trace.h:
 stipulation/battle_play/postkeyplay$(OBJ_SUFFIX): \
  stipulation/battle_play/postkeyplay.c \
  stipulation/battle_play/postkeyplay.h pypipe.h \
- stipulation/battle_play/defense_root.h trace.h
+ stipulation/battle_play/branch.h stipulation/battle_play/defense_root.h \
+ trace.h
 
 stipulation/battle_play/postkeyplay.h:
 
 pypipe.h:
+
+stipulation/battle_play/branch.h:
 
 stipulation/battle_play/defense_root.h:
 

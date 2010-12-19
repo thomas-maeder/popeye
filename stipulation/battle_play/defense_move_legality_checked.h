@@ -8,13 +8,9 @@
  */
 
 /* Allocate a STDefenseMoveLegalityChecked defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index
-alloc_defense_move_legality_checked_slice(stip_length_type length,
-                                          stip_length_type min_length);
+slice_index alloc_defense_move_legality_checked_slice(void);
 
 /* Create the root slices sequence for a battle play branch; shorten
  * the non-root slices by the moves represented by the root slices

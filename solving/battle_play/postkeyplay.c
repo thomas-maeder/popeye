@@ -1,5 +1,6 @@
 #include "stipulation/battle_play/postkeyplay.h"
 #include "pypipe.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_root.h"
 #include "trace.h"
 
@@ -149,7 +150,7 @@ void stip_insert_postkey_handlers(slice_index si)
  * @param si identifies slice around which to insert try handlers
  * @param st address of structure defining traversal
  */
-static void append_postkeyplay_suppressor(slice_index si,
+static void insert_postkeyplay_suppressor(slice_index si,
                                           stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
@@ -158,8 +159,11 @@ static void append_postkeyplay_suppressor(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (length>slack_length_battle)
-    pipe_append(si,alloc_postkeyplay_suppressor_slice());
+  if (length>slack_length_battle+1)
+  {
+    slice_index const prototype = alloc_postkeyplay_suppressor_slice();
+    battle_branch_insert_slices(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -167,9 +171,9 @@ static void append_postkeyplay_suppressor(slice_index si,
 
 static structure_traversers_visitors postkey_suppressor_inserters[] =
 {
-  { STAttackDealtWith, &append_postkeyplay_suppressor },
-  { STHelpRoot,        &stip_structure_visitor_noop   },
-  { STSeriesRoot,      &stip_structure_visitor_noop   }
+  { STReadyForAttack, &insert_postkeyplay_suppressor },
+  { STHelpRoot,       &stip_structure_visitor_noop   },
+  { STSeriesRoot,     &stip_structure_visitor_noop   }
 };
 
 enum

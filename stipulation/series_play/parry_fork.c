@@ -74,19 +74,15 @@ stip_length_type parry_fork_has_solution_in_n(slice_index si,
  * @param parrying identifies slice responsible for parrying
  * @return allocated slice
  */
-static slice_index alloc_parry_fork(stip_length_type length,
-                                    stip_length_type min_length,
-                                    slice_index non_parrying)
+static slice_index alloc_parry_fork(slice_index non_parrying)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",non_parrying);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STParryFork,length,min_length);
+  result = alloc_pipe(STParryFork);
   slices[result].u.parry_fork.non_parrying = non_parrying;
 
   TraceFunctionExit(__func__);
@@ -113,10 +109,7 @@ void convert_to_parry_series_branch(slice_index si, slice_index parrying)
                                                    si);
     slice_index const dealt = branch_find_slice(STSeriesMoveDealtWith,
                                                 inverter);
-    stip_length_type const length = slices[dealt].u.branch.length;
-    stip_length_type const min_length = slices[dealt].u.branch.min_length;
-    slice_index const parry_fork = alloc_parry_fork(length,min_length,
-                                                    inverter);
+    slice_index const parry_fork = alloc_parry_fork(inverter);
 
     assert(inverter!=no_slice);
     assert(dealt!=no_slice);

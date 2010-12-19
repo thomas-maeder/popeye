@@ -1,28 +1,21 @@
 #include "output/plaintext/tree/decoration_writer.h"
-#include "stipulation/branch.h"
+#include "pypipe.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/battle_play/defense_play.h"
 #include "output/plaintext/tree/tree.h"
 #include "trace.h"
 
 /* Allocate a STOutputPlaintextTreeDecorationWriter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index
-alloc_output_plaintext_tree_decoration_writer_slice(stip_length_type length,
-                                                    stip_length_type min_length)
+slice_index alloc_output_plaintext_tree_decoration_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STOutputPlaintextTreeDecorationWriter,
-                        length,min_length);
+  result = alloc_pipe(STOutputPlaintextTreeDecorationWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

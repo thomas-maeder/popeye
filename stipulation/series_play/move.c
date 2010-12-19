@@ -264,13 +264,12 @@ void series_move_legality_checked_make_root(slice_index si,
 
   pipe_make_root(si,st);
 
-  while (true)
+  si = slices[si].u.pipe.next;
+
+  while (slices[si].type!=STSeriesMove)
   {
     shorten_series_pipe(si);
-    if (slices[si].type==STSeriesMove)
-      break;
-    else
-      si = slices[si].u.pipe.next;
+    si = slices[si].u.pipe.next;
   }
 
   TraceFunctionExit(__func__);

@@ -249,61 +249,39 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STEnPassantAttackerFilter:
       case STEnPassantDefenderFilter:
       case STEnPassantHelpFilter:
-      case STCastlingAttackerFilter:
       case STCastlingHelpFilter:
       case STCastlingSeriesFilter:
       case STAttackRoot:
       case STDefenseRoot:
-      case STDefenseDealtWith:
       case STAttackFindShortest:
       case STAttackMove:
       case STAttackMoveToGoal:
       case STReadyForAttack:
-      case STAttackMovePlayed:
-      case STAttackMoveShoeHorningDone:
-      case STAttackMoveLegalityChecked:
-      case STAttackMoveFiltered:
       case STReadyForDefense:
       case STContinuationSolver:
       case STCheckDetector:
       case STTrySolver:
-      case STAttackDealtWith:
       case STDefenseMove:
       case STDefenseMovePlayed:
-      case STDefenseMoveShoeHorningDone:
-      case STDefenseMoveLegalityChecked:
-      case STDefenseMoveFiltered:
       case STKillerMoveCollector:
       case STKillerMoveFinalDefenseMove:
       case STRefutationsCollector:
-      case STVariationWriter:
-      case STRefutingVariationWriter:
       case STAttackHashed:
       case STHelpRoot:
       case STHelpMove:
       case STHelpMoveToGoal:
       case STReadyForHelpMove:
-      case STHelpMovePlayed:
-      case STHelpMoveLegalityChecked:
       case STHelpMoveDealtWith:
       case STSeriesRoot:
       case STSeriesMove:
       case STSeriesMoveToGoal:
       case STReadyForSeriesMove:
       case STSeriesMovePlayed:
-      case STSeriesMoveLegalityChecked:
       case STSeriesMoveDealtWith:
       case STHelpHashed:
       case STSeriesHashed:
-      case STIntelligentHelpFilter:
-      case STIntelligentSeriesFilter:
-      case STGoalReachableGuardHelpFilter:
-      case STGoalReachableGuardSeriesFilter:
       case STStopOnShortSolutionsHelpFilter:
       case STStopOnShortSolutionsSeriesFilter:
-      case STOutputPlaintextTreeCheckWriter:
-      case STOutputPlaintextTreeDecorationWriter:
-      case STContinuationWriter:
         Trace_branch(si);
         if (slices[si].u.branch.imminent_goal.type!=no_goal)
         {
@@ -352,6 +330,18 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STMoveInverterSeriesFilter:
       case STNot:
       case STGoalReachedTested:
+      case STAttackMovePlayed:
+      case STAttackMoveShoeHorningDone:
+      case STAttackMoveFiltered:
+      case STAttackMoveLegalityChecked:
+      case STAttackDealtWith:
+      case STDefenseMoveShoeHorningDone:
+      case STDefenseMoveLegalityChecked:
+      case STDefenseMoveFiltered:
+      case STDefenseDealtWith:
+      case STHelpMovePlayed:
+      case STHelpMoveLegalityChecked:
+      case STSeriesMoveLegalityChecked:
       case STPostKeyPlaySuppressor:
       case STKeyWriter:
       case STTryWriter:
@@ -387,7 +377,10 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STAnticirceExchangeSpecial:
       case STEndOfPhaseWriter:
       case STEndOfSolutionWriter:
+      case STContinuationWriter:
+      case STVariationWriter:
       case STRefutationWriter:
+      case STRefutingVariationWriter:
       case STGoalMateReachedTester:
       case STGoalStalemateReachedTester:
       case STGoalDoubleStalemateReachedTester:
@@ -412,6 +405,13 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STOutputPlaintextTreeMoveInversionCounter:
       case STOutputPlaintextLineMoveInversionCounter:
       case STOutputPlaintextLineEndOfIntroSeriesMarker:
+      case STOutputPlaintextTreeCheckWriter:
+      case STOutputPlaintextTreeDecorationWriter:
+      case STGoalReachableGuardSeriesFilter:
+      case STGoalReachableGuardHelpFilter:
+      case STIntelligentSeriesFilter:
+      case STIntelligentHelpFilter:
+      case STCastlingAttackerFilter:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);

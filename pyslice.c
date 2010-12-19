@@ -161,9 +161,7 @@ has_solution_type slice_solve(slice_index si)
     case STAttackFindShortest:
     case STAttackMove:
     case STAttackMoveToGoal:
-    case STAttackHashed:
     case STSelfDefense:
-    case STRefutingVariationWriter:
     case STReflexAttackerFilter:
     case STDegenerateTree:
     case STVariationWriter:
@@ -180,7 +178,6 @@ has_solution_type slice_solve(slice_index si)
       break;
 
     case STContinuationSolver:
-    case STTrySolver:
     case STReadyForDefense:
     case STDefenseMove:
     case STReflexDefenderFilter:
@@ -463,7 +460,6 @@ has_solution_type slice_has_solution(slice_index si)
     case STKeepMatingGuardHelpFilter:
     case STKeepMatingGuardSeriesFilter:
     case STDegenerateTree:
-    case STAttackHashed:
     case STVariationWriter:
     case STDoubleMateAttackerFilter:
     case STEnPassantAttackerFilter:
@@ -473,7 +469,6 @@ has_solution_type slice_has_solution(slice_index si)
       break;
 
     case STContinuationSolver:
-    case STTrySolver:
     case STReadyForDefense:
     case STDefenseMove:
     case STEnPassantDefenderFilter:

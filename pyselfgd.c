@@ -159,11 +159,12 @@ static void self_guards_inserter_defense_move(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-
     slice_index const * const proxy_to_goal = st->param;
-    pipe_append(si,alloc_self_defense(length,min_length,*proxy_to_goal));
+    stip_length_type const length = slices[si].u.branch.length-1;
+    stip_length_type const min_length = slices[si].u.branch.min_length-1;
+    slice_index const prototype = alloc_self_defense(length,min_length,
+                                                     *proxy_to_goal);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -172,7 +173,7 @@ static void self_guards_inserter_defense_move(slice_index si,
 
 static structure_traversers_visitors self_guards_inserters[] =
 {
-  { STDefenseMoveShoeHorningDone, &self_guards_inserter_defense_move }
+  { STReadyForDefense, &self_guards_inserter_defense_move }
 };
 
 enum
@@ -217,15 +218,9 @@ static void instrument_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
-              alloc_defense_move_legality_checked_slice(slack_length_battle,
-                                                        slack_length_battle-1));
-  pipe_append(slices[si].prev,
-              alloc_branch(STDefenseMoveFiltered,
-                           slack_length_battle,slack_length_battle-1));
-  pipe_append(slices[si].prev,
-              alloc_branch(STDefenseDealtWith,
-                           slack_length_battle,slack_length_battle-1));
+  pipe_append(slices[si].prev,alloc_defense_move_legality_checked_slice());
+  pipe_append(slices[si].prev,alloc_pipe(STDefenseMoveFiltered));
+  pipe_append(slices[si].prev,alloc_pipe(STDefenseDealtWith));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

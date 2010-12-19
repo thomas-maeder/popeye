@@ -277,7 +277,7 @@ output/plaintext/tree/tree.h:
 trace.h:
 output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/check_writer.c \
- output/plaintext/tree/check_writer.h stipulation/branch.h \
+ output/plaintext/tree/check_writer.h pypipe.h \
  stipulation/battle_play/check_detector.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h output/plaintext/tree/tree.h \
@@ -285,7 +285,7 @@ output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
 
 output/plaintext/tree/check_writer.h:
 
-stipulation/branch.h:
+pypipe.h:
 
 stipulation/battle_play/check_detector.h:
 
@@ -298,14 +298,14 @@ output/plaintext/tree/tree.h:
 trace.h:
 output/plaintext/tree/decoration_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/decoration_writer.c \
- output/plaintext/tree/decoration_writer.h stipulation/branch.h \
+ output/plaintext/tree/decoration_writer.h pypipe.h \
  stipulation/battle_play/attack_play.h \
  stipulation/battle_play/defense_play.h output/plaintext/tree/tree.h \
  trace.h
 
 output/plaintext/tree/decoration_writer.h:
 
-stipulation/branch.h:
+pypipe.h:
 
 stipulation/battle_play/attack_play.h:
 

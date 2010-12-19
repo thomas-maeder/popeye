@@ -2712,18 +2712,14 @@ static void init_goal_to_be_reached(slice_index si)
 /* Initialise a STGoalReachableGuardHelpFilter slice
  * @return identifier of allocated slice
  */
-static
-slice_index alloc_goalreachable_guard_help_filter(stip_length_type length,
-                                                  stip_length_type min_length)
+static slice_index alloc_goalreachable_guard_help_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STGoalReachableGuardHelpFilter,length,min_length);
+  result = alloc_pipe(STGoalReachableGuardHelpFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2734,18 +2730,14 @@ slice_index alloc_goalreachable_guard_help_filter(stip_length_type length,
 /* Initialise a STGoalReachableGuardSeriesFilter slice
  * @return identifier of allocated slice
  */
-static
-slice_index alloc_goalreachable_guard_series_filter(stip_length_type length,
-                                                    stip_length_type min_length)
+static slice_index alloc_goalreachable_guard_series_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STGoalReachableGuardSeriesFilter,length,min_length);
+  result = alloc_pipe(STGoalReachableGuardSeriesFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2919,8 +2911,6 @@ void intelligent_guards_inserter_branch_help(slice_index si,
                                              stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2931,7 +2921,7 @@ void intelligent_guards_inserter_branch_help(slice_index si,
   {
     slice_index next_prev = slices[next].prev;
     if (next_prev==si)
-      pipe_append(si,alloc_goalreachable_guard_help_filter(length,min_length));
+      pipe_append(si,alloc_goalreachable_guard_help_filter());
     else
     {
       while (slices[next_prev].type==STProxy)
@@ -2950,8 +2940,6 @@ void intelligent_guards_inserter_series_move(slice_index si,
                                              stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2962,8 +2950,7 @@ void intelligent_guards_inserter_series_move(slice_index si,
   {
     slice_index const next_prev = slices[next].prev;
     if (next_prev==si)
-      pipe_append(si,
-                  alloc_goalreachable_guard_series_filter(length,min_length));
+      pipe_append(si,alloc_goalreachable_guard_series_filter());
     else
     {
       assert(slices[next_prev].type==STGoalReachableGuardSeriesFilter);
@@ -2981,8 +2968,6 @@ intelligent_guards_inserter_series_move_to_goal(slice_index si,
                                                 stip_structure_traversal *st)
 {
   slice_index const next = slices[si].u.pipe.next;
-  stip_length_type const length = slack_length_series+1;
-  stip_length_type const min_length = slack_length_series+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2991,7 +2976,7 @@ intelligent_guards_inserter_series_move_to_goal(slice_index si,
   stip_traverse_structure_children(si,st);
 
   assert(slices[next].prev==si);
-  pipe_append(si,alloc_goalreachable_guard_series_filter(length,min_length));
+  pipe_append(si,alloc_goalreachable_guard_series_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3009,10 +2994,7 @@ void intelligent_guards_inserter_parry_fork(slice_index si,
 
   {
     slice_index const inverter = slices[si].u.parry_fork.non_parrying;
-    stip_length_type const length = slack_length_series+1;
-    stip_length_type const min_length = slack_length_series+1;
-    pipe_append(inverter,
-                alloc_goalreachable_guard_series_filter(length,min_length));
+    pipe_append(inverter,alloc_goalreachable_guard_series_filter());
   }
 
   TraceFunctionExit(__func__);
@@ -3028,12 +3010,7 @@ void intelligent_guards_inserter_help_root(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_intelligent_help_filter(length,min_length));
-  }
+  pipe_append(si,alloc_intelligent_help_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -3048,12 +3025,7 @@ void intelligent_guards_inserter_series_root(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_intelligent_series_filter(length,min_length));
-  }
+  pipe_append(si,alloc_intelligent_series_filter());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

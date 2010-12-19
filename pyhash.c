@@ -101,7 +101,7 @@
 #include "DHT/dht.h"
 #include "pyproof.h"
 #include "pystip.h"
-#include "stipulation/branch.h"
+#include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/attack_play.h"
 #include "stipulation/help_play/play.h"
 #include "stipulation/series_play/play.h"
@@ -2001,9 +2001,6 @@ static void insert_series_hashed_slice(slice_index si,
 static void insert_hash_element_attack_move(slice_index si,
                                             stip_moves_traversal *st)
 {
-  branch_level * const level = st->param;
-  branch_level const save_level = *level;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -2012,17 +2009,15 @@ static void insert_hash_element_attack_move(slice_index si,
 
   TraceValue("%u",st->remaining);
   TraceValue("%u\n",st->full_length);
-  if (st->remaining<st->full_length
-      && slices[slices[si].u.pipe.next].type!=STAttackHashed)
+  if (st->remaining<st->full_length && st->remaining>slack_length_battle)
   {
     stip_length_type const length = slices[si].u.branch.length;
     stip_length_type const min_length = slices[si].u.branch.min_length;
-    pipe_append(si,alloc_attack_hashed_slice(length,min_length));
+    slice_index const prototype = alloc_attack_hashed_slice(length-1,min_length-1);
+    battle_branch_insert_slices(si,&prototype,1);
   }
 
-  *level = nested_branch;
   stip_traverse_moves_move_slice(si,st);
-  *level = save_level;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -2156,18 +2151,18 @@ static void insert_hash_element_series_move_to_goal(slice_index si,
 static moves_traversers_visitors const hash_element_inserters[] =
 {
   /* no need to hash the introductory move of the set play */
-  { STSetplayFork,                &stip_traverse_moves_pipe                },
-  { STDefenseMoveLegalityChecked, &insert_hash_element_attack_move         },
-  { STHelpMove,                   &insert_hash_element_help_move           },
-  { STHelpMoveToGoal,             &insert_hash_element_help_move_to_goal   },
-  { STSeriesMove,                 &insert_hash_element_series_move         },
-  { STSeriesMoveToGoal,           &insert_hash_element_series_move_to_goal }
+  { STSetplayFork,      &stip_traverse_moves_pipe                },
+  { STDefenseMove,      &insert_hash_element_attack_move         },
+  { STHelpMove,         &insert_hash_element_help_move           },
+  { STHelpMoveToGoal,   &insert_hash_element_help_move_to_goal   },
+  { STSeriesMove,       &insert_hash_element_series_move         },
+  { STSeriesMoveToGoal, &insert_hash_element_series_move_to_goal }
 };
 
 enum
 {
   nr_hash_element_inserters
-  = (sizeof hash_element_inserters / sizeof hash_element_inserters[0])
+  = sizeof hash_element_inserters / sizeof hash_element_inserters[0]
 };
 
 /* Instrument stipulation with hashing slices
@@ -2176,7 +2171,6 @@ enum
 void stip_insert_hash_slices(slice_index si)
 {
   stip_moves_traversal st;
-  branch_level level = toplevel_branch;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2184,7 +2178,7 @@ void stip_insert_hash_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_moves_traversal_init(&st,&level);
+  stip_moves_traversal_init(&st,0);
   stip_moves_traversal_override(&st,
                                 hash_element_inserters,
                                 nr_hash_element_inserters);

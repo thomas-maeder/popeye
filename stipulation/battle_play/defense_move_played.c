@@ -49,15 +49,13 @@ void defense_move_played_make_setplay_slice(slice_index si,
   {
     stip_length_type const length_h = (length+1-slack_length_battle
                                        +slack_length_help);
-    slice_index const checked = alloc_branch(STHelpMoveLegalityChecked,
-                                             length_h,length_h-1);
+    slice_index const checked = alloc_pipe(STHelpMoveLegalityChecked);
     slice_index const dealt = alloc_branch(STHelpMoveDealtWith,
                                            length_h,length_h-1);
     slice_index const ready = alloc_branch(STReadyForHelpMove,
                                            length_h,length_h-1);
     slice_index const move = alloc_help_move_slice(length_h,length_h-1);
-    slice_index const played = alloc_branch(STHelpMovePlayed,
-                                            length_h-1,length_h-2);
+    slice_index const played = alloc_pipe(STHelpMovePlayed);
 
     *result = checked;
 

@@ -234,9 +234,7 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const checked = alloc_branch(STSeriesMoveLegalityChecked,
-                                             slack_length_series,
-                                             slack_length_series);
+    slice_index const checked = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const dealt = alloc_branch(STSeriesMoveDealtWith,
                                            slack_length_series,
                                            slack_length_series);
@@ -289,8 +287,7 @@ slice_index alloc_series_branch(stip_length_type length,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const checked2 = alloc_branch(STSeriesMoveLegalityChecked,
-                                              length,min_length);
+    slice_index const checked2 = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const dealt2 = alloc_branch(STSeriesMoveDealtWith,
                                             length,min_length);
     slice_index const ready = alloc_branch(STReadyForSeriesMove,
@@ -298,8 +295,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const move = alloc_series_move_slice(length,min_length);
     slice_index const played1 = alloc_branch(STSeriesMovePlayed,
                                              length-1,min_length-1);
-    slice_index const checked1 = alloc_branch(STSeriesMoveLegalityChecked,
-                                              length-1,min_length-1);
+    slice_index const checked1 = alloc_pipe(STSeriesMoveLegalityChecked);
     slice_index const dealt1 = alloc_branch(STSeriesMoveDealtWith,
                                             length-1,min_length-1);
     slice_index const inverter = alloc_move_inverter_series_filter();
@@ -332,9 +328,6 @@ slice_index alloc_series_branch(stip_length_type length,
  */
 void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",to_goal);
@@ -344,6 +337,8 @@ void series_branch_set_goal_slice(slice_index si, slice_index to_goal)
 
   {
     slice_index const ready = branch_find_slice(STReadyForSeriesMove,si);
+    stip_length_type const length = slices[ready].u.branch.length;
+    stip_length_type const min_length = slices[ready].u.branch.min_length;
     assert(ready!=no_slice);
     pipe_append(ready,alloc_series_fork_slice(length,min_length,to_goal));
   }

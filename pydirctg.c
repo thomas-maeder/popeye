@@ -87,12 +87,8 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   {
     Goal const goal = slices[si].u.goal_writer.goal;
     slice_index const move = alloc_attack_move_to_goal_slice(goal);
-    slice_index const played = alloc_branch(STAttackMovePlayed,
-                                            slack_length_battle,
-                                            slack_length_battle-1);
-    slice_index const shoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                                slack_length_battle,
-                                                slack_length_battle-1);
+    slice_index const played = alloc_pipe(STAttackMovePlayed);
+    slice_index const shoehorned = alloc_pipe(STAttackMoveShoeHorningDone);
 
     pipe_link(slices[si].prev,move);
     pipe_link(move,played);
@@ -115,18 +111,12 @@ static void instrument_tested(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const checked = alloc_branch(STAttackMoveLegalityChecked,
-                                             slack_length_battle,
-                                             slack_length_battle-1);
-    slice_index const filtered = alloc_branch(STAttackMoveFiltered,
-                                              slack_length_battle,
-                                              slack_length_battle-1);
+    slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
+    slice_index const filtered = alloc_pipe(STAttackMoveFiltered);
     slice_index const solver = alloc_branch(STContinuationSolver,
                                             slack_length_battle,
                                             slack_length_battle-1);
-    slice_index const dealt = alloc_branch(STAttackDealtWith,
-                                           slack_length_battle,
-                                           slack_length_battle-1);
+    slice_index const dealt = alloc_pipe(STAttackDealtWith);
 
     pipe_link(dealt,slices[si].u.pipe.next);
     pipe_link(filtered,solver);

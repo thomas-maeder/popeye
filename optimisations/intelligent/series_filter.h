@@ -10,12 +10,9 @@
  */
 
 /* Allocate a STIntelligentSeriesFilter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-slice_index alloc_intelligent_series_filter(stip_length_type length,
-                                            stip_length_type min_length);
+slice_index alloc_intelligent_series_filter(void);
 
 /* Determine and write the solution(s) in a series stipulation
  * @param si slice index of slice being solved

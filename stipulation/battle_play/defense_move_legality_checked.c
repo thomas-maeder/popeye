@@ -7,22 +7,16 @@
 #include <assert.h>
 
 /* Allocate a STDefenseMoveLegalityChecked defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index
-alloc_defense_move_legality_checked_slice(stip_length_type length,
-                                          stip_length_type min_length)
+slice_index alloc_defense_move_legality_checked_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STDefenseMoveLegalityChecked,length,min_length);
+  result = alloc_pipe(STDefenseMoveLegalityChecked);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -44,13 +38,12 @@ void defense_move_legality_checked_make_root(slice_index si,
 
   pipe_make_root(si,st);
 
-  while (true)
+  si = slices[si].u.pipe.next;
+
+  while (slices[si].type!=STDefenseMoveShoeHorningDone)
   {
     battle_branch_shorten_slice(si);
-    if (slices[si].type==STDefenseMoveShoeHorningDone)
-      break;
-    else
-      si = slices[si].u.pipe.next;
+    si = slices[si].u.pipe.next;
   }
 
   TraceFunctionExit(__func__);

@@ -50,6 +50,7 @@ static slice_index const slice_rank_order[] =
   STStipulationReflexAttackSolver,
   STReadyForAttack,
   STReflexAttackerFilter,
+  STRootAttackFork,
   STAttackFork,
   STDegenerateTree,
   STAttackFindShortest,
@@ -314,12 +315,9 @@ slice_index alloc_defense_branch(stip_length_type length,
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length-1,min_length-1);
     slice_index const
-      dchecked = alloc_defense_move_legality_checked_slice(length-1,
-                                                           min_length-1);
-    slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
-                                               length-1,min_length-1);
-    slice_index const ddealt = alloc_branch(STDefenseDealtWith,
-                                            length-1,min_length-1);
+      dchecked = alloc_defense_move_legality_checked_slice();
+    slice_index const dfiltered = alloc_pipe(STDefenseMoveFiltered);
+    slice_index const ddealt = alloc_pipe(STDefenseDealtWith);
     pipe_link(dready,defense);
     pipe_link(defense,dplayed);
     pipe_link(dplayed,dshoehorned);
@@ -359,29 +357,21 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const dshoehorned = alloc_branch(STDefenseMoveShoeHorningDone,
                                                  length,min_length);
     slice_index const
-      dchecked = alloc_defense_move_legality_checked_slice(length,
-                                                           min_length);
-    slice_index const dfiltered = alloc_branch(STDefenseMoveFiltered,
-                                               length,min_length);
-    slice_index const ddealt = alloc_branch(STDefenseDealtWith,
-                                            length,min_length);
+      dchecked = alloc_defense_move_legality_checked_slice();
+    slice_index const dfiltered = alloc_pipe(STDefenseMoveFiltered);
+    slice_index const ddealt = alloc_pipe(STDefenseDealtWith);
     slice_index const aready = alloc_ready_for_attack_slice(length,min_length);
     slice_index const shortest = alloc_attack_find_shortest_slice(length,
                                                                   min_length);
 
     slice_index const attack = alloc_attack_move_slice(length,min_length);
-    slice_index const aplayed = alloc_branch(STAttackMovePlayed,
-                                             length-1,min_length-1);
-    slice_index const ashoehorned = alloc_branch(STAttackMoveShoeHorningDone,
-                                                 length-1,min_length-1);
-    slice_index const checked = alloc_branch(STAttackMoveLegalityChecked,
-                                             length-1,min_length-1);
-    slice_index const afiltered = alloc_branch(STAttackMoveFiltered,
-                                               length-1,min_length-1);
+    slice_index const aplayed = alloc_pipe(STAttackMovePlayed);
+    slice_index const ashoehorned = alloc_pipe(STAttackMoveShoeHorningDone);
+    slice_index const checked = alloc_pipe(STAttackMoveLegalityChecked);
+    slice_index const afiltered = alloc_pipe(STAttackMoveFiltered);
     slice_index const solver = alloc_branch(STContinuationSolver,
                                             length-1,min_length-1);
-    slice_index const adealt = alloc_branch(STAttackDealtWith,
-                                            length-1,min_length-1);
+    slice_index const adealt = alloc_pipe(STAttackDealtWith);
     slice_index const dready = alloc_ready_for_defense_slice(length-1,
                                                              min_length-1);
     slice_index const defense = alloc_defense_move_slice(length-1,

@@ -44,14 +44,10 @@ static void instrument_threat_solver(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_root_slices(slice_index si,
-                               stip_length_type length,
-                               stip_length_type min_length)
+static void insert_root_slices(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
   {
@@ -59,8 +55,8 @@ static void insert_root_slices(slice_index si,
     {
       alloc_end_of_solution_writer_slice(),
       alloc_key_writer(),
-      alloc_output_plaintext_tree_check_writer_slice(length,min_length),
-      alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
+      alloc_output_plaintext_tree_check_writer_slice(),
+      alloc_output_plaintext_tree_decoration_writer_slice()
     };
     enum
     {
@@ -75,15 +71,12 @@ static void insert_root_slices(slice_index si,
 
 static void instrument_attack_root(slice_index si, stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  insert_root_slices(si,length-1,min_length-1);
+  insert_root_slices(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -93,7 +86,6 @@ static void insert_continuation_writers(slice_index si,
                                         stip_structure_traversal *st)
 {
   stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -105,9 +97,9 @@ static void insert_continuation_writers(slice_index si,
   {
     slice_index const prototypes[] =
     {
-      alloc_continuation_writer_slice(length-1,min_length-1),
-      alloc_output_plaintext_tree_check_writer_slice(length-1,min_length-1),
-      alloc_output_plaintext_tree_decoration_writer_slice(length-1,min_length-1)
+      alloc_continuation_writer_slice(),
+      alloc_output_plaintext_tree_check_writer_slice(),
+      alloc_output_plaintext_tree_decoration_writer_slice()
     };
     enum
     {
@@ -134,8 +126,8 @@ static void insert_variation_writers(slice_index si,
     slice_index const prototypes[] =
     {
       alloc_variation_writer_slice(length,min_length),
-      alloc_output_plaintext_tree_check_writer_slice(length,min_length),
-      alloc_output_plaintext_tree_decoration_writer_slice(length,min_length)
+      alloc_output_plaintext_tree_check_writer_slice(),
+      alloc_output_plaintext_tree_decoration_writer_slice()
     };
     enum
     {
@@ -187,12 +179,10 @@ static void instrument_reflex_attack_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    stip_length_type const length = 2;
-    stip_length_type const min_length = 0;
     slice_index const prototypes[] =
     {
-      alloc_continuation_writer_slice(length,min_length),
-      alloc_output_plaintext_tree_check_writer_slice(length,min_length)
+      alloc_continuation_writer_slice(),
+      alloc_output_plaintext_tree_check_writer_slice()
     };
     enum
     {
@@ -223,8 +213,8 @@ static void instrument_try_solver(slice_index si, stip_structure_traversal *st)
       alloc_try_writer(),
       alloc_refutation_writer_slice(),
       alloc_variation_writer_slice(length-1,min_length-1),
-      alloc_output_plaintext_tree_check_writer_slice(length-1,min_length-1),
-      alloc_output_plaintext_tree_decoration_writer_slice(length-1,min_length-1)
+      alloc_output_plaintext_tree_check_writer_slice(),
+      alloc_output_plaintext_tree_decoration_writer_slice()
     };
     enum
     {
@@ -249,14 +239,11 @@ static void instrument_defense_root(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
-
     slice_index const prototypes[] =
     {
       alloc_end_of_phase_writer_slice(),
-      alloc_output_plaintext_tree_check_writer_slice(length,min_length),
-      alloc_refuting_variation_writer_slice(length-1,min_length-1)
+      alloc_output_plaintext_tree_check_writer_slice(),
+      alloc_refuting_variation_writer_slice()
     };
     enum
     {
@@ -329,20 +316,15 @@ static void instrument_setplay_fork(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void instrument_root_attack_fork(slice_index si, stip_structure_traversal *st)
+static void instrument_root_attack_fork(slice_index si,
+                                        stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-
-  {
-    stip_length_type const length = 2;
-    stip_length_type const min_length = 0;
-    insert_root_slices(slices[si].u.branch_fork.towards_goal,
-                       length,min_length);
-  }
+  insert_root_slices(slices[si].u.branch_fork.towards_goal);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -247,8 +247,7 @@ void help_move_apply_setplay(slice_index si, stip_structure_traversal *st)
  * @param si slice index
  * @param st state of traversal
  */
-void ready_for_help_move_make_setplay_slice(slice_index si,
-                                            stip_structure_traversal *st)
+void help_move_make_setplay_slice(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const result = st->param;
 

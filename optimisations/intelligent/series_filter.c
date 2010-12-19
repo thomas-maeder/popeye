@@ -1,27 +1,22 @@
 #include "optimisations/intelligent/series_filter.h"
 #include "pyint.h"
+#include "pypipe.h"
 #include "stipulation/series_play/play.h"
-#include "stipulation/branch.h"
 #include "trace.h"
 
 #include <assert.h>
 
 /* Allocate a STIntelligentSeriesFilter slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return allocated slice
  */
-slice_index alloc_intelligent_series_filter(stip_length_type length,
-                                            stip_length_type min_length)
+slice_index alloc_intelligent_series_filter(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",length);
-  TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STIntelligentSeriesFilter,length,min_length); 
+  result = alloc_pipe(STIntelligentSeriesFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

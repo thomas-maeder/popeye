@@ -6,12 +6,9 @@
 #include "pyslice.h"
 
 /* Allocate a STContinuationWriter defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
  * @return index of allocated slice
  */
-slice_index alloc_continuation_writer_slice(stip_length_type length,
-                                            stip_length_type min_length);
+slice_index alloc_continuation_writer_slice(void);
 
 /* Determine whether there are defenses after an attacking move
  * @param si slice index

@@ -10,14 +10,6 @@
  * Exposed for read-only access only */
 extern boolean attack_gives_check[maxply+1];
 
-/* Allocate a STContinuationSolver defender slice.
- * @param length maximum number of half-moves of slice (+ slack)
- * @param min_length minimum number of half-moves of slice (+ slack)
- * @return index of allocated slice
- */
-slice_index alloc_check_detector_slice(stip_length_type length,
-                                            stip_length_type min_length);
-
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
  * solve in less than n half moves.
