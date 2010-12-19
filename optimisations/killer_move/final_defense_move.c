@@ -229,7 +229,7 @@ static boolean iterate_killer_first(slice_index next,
   Side const defender = slices[next].starter;
   Side const attacker = advers(defender);
   boolean result = false;
-    
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",next);
   TraceSquare(killer_pos);
@@ -268,7 +268,7 @@ static boolean iterate_killer_first(slice_index next,
   }
 
   result = result || iterate_non_killer(next,defender,killer_pos);
-  
+
   finply();
 
   TraceFunctionExit(__func__);

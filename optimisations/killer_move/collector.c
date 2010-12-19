@@ -25,7 +25,7 @@ static slice_index alloc_killer_move_collector_slice(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_branch(STKillerMoveCollector,0,0);
+  result = alloc_pipe(STKillerMoveCollector);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

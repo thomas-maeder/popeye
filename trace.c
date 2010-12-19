@@ -259,10 +259,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STReadyForAttack:
       case STReadyForDefense:
       case STContinuationSolver:
-      case STCheckDetector:
       case STDefenseMove:
       case STDefenseMovePlayed:
-      case STKillerMoveCollector:
       case STKillerMoveFinalDefenseMove:
       case STAttackHashed:
       case STHelpRoot:
@@ -412,6 +410,8 @@ static void TraceStipulationRecursive(slice_index si, boolean done_slices[])
       case STIntelligentSeriesFilter:
       case STIntelligentHelpFilter:
       case STCastlingAttackerFilter:
+      case STCheckDetector:
+      case STKillerMoveCollector:
         Trace_pipe(si);
         fprintf(stdout,"\n");
         TraceStipulationRecursive(slices[si].u.pipe.next,done_slices);
